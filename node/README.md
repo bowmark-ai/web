@@ -1,11 +1,12 @@
 # @bowmark/web
 
-> **Status:** publishable, 2026-08-05 · `private` is gone and the two-hop release is
-> wired (Phase 6 of
-> [`docs/plans/public-types-package.md`](../../../docs/plans/public-types-package.md)).
-> Nothing above `0.0.0` is on npm until release-please bumps `package.json` and the
-> mirror's `publish.yml` sees the change. **What would make this doc wrong:** a build
-> step appearing, or the declarations moving out into a second package.
+> **Status:** PUBLISHED · `@bowmark/web@1.0.0` on npm, 2026-08-06, alongside
+> `bowmark-web` and `bowmark-web-stubs` on PyPI at the same version. The plan that built it
+> is deleted; the reasoning is in the four
+> [`docs/decisions/2026-08-06-*`](../../../docs/decisions/) records and the enforceable half
+> is [`.claude/rules/public-types.md`](../../../.claude/rules/public-types.md).
+> **What would make this doc wrong:** a build step appearing, the declarations moving out
+> into a second package, or a runtime dependency landing in `package.json`.
 
 ```sh
 npm i @bowmark/web

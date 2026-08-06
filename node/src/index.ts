@@ -7,8 +7,7 @@
 // imported. An `import` of them would make them a module and every global below
 // would stop resolving. They ship INSIDE this package rather than beside it —
 // `npm i @bowmark/web` and nothing else is the promise, and it is what the
-// acceptance criteria are written against (`docs/plans/public-types-package.md`
-// → One package, not two).
+// acceptance criteria are written against (`docs/decisions/2026-08-06-the-public-client-is-one-manifest-two-languages.md`).
 //
 // ── The same declarations describe TWO implementations, deliberately ──
 //
