@@ -140,5 +140,7 @@ package that cannot be tested without installing something is one whose tests do
 
 `bowmark_web/_validators.json` and `python-stubs/bowmark_web-stubs/__init__.pyi` are
 **GENERATED** by `pnpm run gen:public-types` in the monorepo, from the same library
-manifest as the TypeScript `.d.ts`. Never edit them by hand; `gate:public-types` fails a
-PR whose copies are stale, and asserts the two languages type the same functions.
+manifest as the TypeScript `.d.ts`. Never edit them by hand. `gate:public-types` asserts
+the two languages type the same functions and fails a PR that breaks it; a stale copy is
+warned rather than failed, because every unit that lands anywhere staleens it and no
+branch can keep it true — `regen-public-types.yml` repairs that on `main`.

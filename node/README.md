@@ -204,9 +204,15 @@ for all 253 typed parameters.
 ## Regenerating
 
 ```bash
-pnpm run gen:public-types   # writes src/generated/{library.d.ts,validators.ts}
-pnpm run gate:public-types  # fails if either committed file is stale, or leaks
+pnpm run gen:public-types         # writes src/generated/{library.d.ts,validators.ts}
+pnpm run gate:public-types        # fails on a leak, a new refusal, a wire-impossible type
+pnpm run gate:public-types:drift  # …and on the committed copy being stale
 ```
+
+**Only the middle one runs on your PR, and staleness is deliberately not fatal there.**
+The committed copy goes stale every time any unit anywhere lands a function, which is not
+something your branch can keep true — `regen-public-types.yml` repairs it on `main`. See
+`.claude/rules/public-types.md` § The gate is SPLIT.
 
 **`skipLibCheck: false` in this package's `tsconfig.json` is load-bearing**, and the base
 config sets the opposite. That flag skips type checking of every `.d.ts`, and this
