@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/Metroxe/bowmark/compare/bowmark-web-v1.0.0...bowmark-web-v1.1.0) (2026-08-06)
+
+
+### Features
+
+* **providers:** chriscraft — Sportster 25 sterndrive builder ([#6506](https://github.com/Metroxe/bowmark/issues/6506)) ([7d7ba50](https://github.com/Metroxe/bowmark/commit/7d7ba50a0ec25b99e8cb0d41313a71fcdaf1d59f))
+
 ## 1.0.0 (2026-08-06)
 
 
