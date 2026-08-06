@@ -1,0 +1,200 @@
+name: publish
+
+# Publishes @bowmark/web to npm whenever the monorepo mirror-sync lands a new
+# version.
+#
+# This file lives at packages/bowmark-web/.github/workflows/publish.yml in
+# Metroxe/bowmark (INERT there — GitHub only runs workflows at a repo root) and
+# rides the mirror sync (release-bowmark-web.yml's
+# `cp -R monorepo/.mirror-build/bowmark-web/. mirror/`) into
+# github.com/bowmark-ai/web, where it lands at .github/workflows/publish.yml and
+# becomes a real, live workflow that fires on the sync's push to main.
+#
+# Publishing runs HERE, not in the monorepo, on purpose: npm Trusted Publishing
+# (OIDC) validates against package.json's `repository.url`, which points at this
+# public mirror, and provenance attestation additionally requires the source repo
+# to be public. Metroxe/bowmark is never public, so a publish job there would fail
+# regardless of what `repository.url` says.
+#
+# Versioning lives UPSTREAM: release-please bumping node/package.json in the
+# monorepo IS the release action, and this workflow only executes it once the bump
+# reaches here. The job diffs the local version against the LIVE registry, so a
+# sync with no bump — and a re-run — is a green no-op. It never republishes, which
+# npm forbids anyway: a version, once published, can never be published again.
+#
+# `ubuntu-latest` IS LOAD-BEARING. Every workflow in the monorepo runs on
+# [self-hosted, bowmark-runner], and npm's OIDC REJECTS self-hosted runners.
+# Copying the house style here is the one mistake that breaks this file, and it
+# breaks it at publish time with an authentication error that reads like a
+# misconfigured trust policy. GitHub-hosted runners are free on a public repo.
+#
+# Auth: OIDC Trusted Publishing on npmjs.com, configured to trust THIS repo +
+# workflow (npmjs.com → Publishing → GitHub → owner bowmark-ai, repo web, workflow
+# publish.yml, no environment). No token secrets.
+#
+# ── The PyPI jobs, and why they read node/package.json for their version ──
+#
+# `bowmark-web` and `bowmark-web-stubs` ship at the SAME version as `@bowmark/web`,
+# always. They are one client in two languages plus its stubs, interchangeable by
+# contract, so a skew means one ecosystem is on an older contract with nothing
+# saying so.
+#
+# release-please owns that version and it owns it in ONE place — `node/package.json`
+# — because its `extra-files` cannot write across packages (it rejects `..` in a
+# path). So the two `pyproject.toml` files carry the literal placeholder `0.0.0` and
+# the jobs below STAMP the real version in before building, the same way
+# `release-mcp.yml` rewrites `server.json`. `tests/unit/bowmark-web-python.test.ts`
+# holds the placeholder to `0.0.0` in both files, so it can never quietly become a
+# real number that this stamp then contradicts.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: node
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Decide whether to publish
+        id: decide
+        run: |
+          set -euo pipefail
+          LOCAL=$(node -p "require('./package.json').version")
+          LIVE=$(npm view @bowmark/web version 2>/dev/null || echo "none")
+          echo "local=$LOCAL live=$LIVE"
+          if [ "$LOCAL" = "$LIVE" ]; then
+            echo "Version $LOCAL is already on npm — nothing to publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The package has ZERO runtime dependencies and ships TypeScript source
+      # directly (`main`/`types` both point at src/index.ts, and there is no build
+      # step anywhere in this project). So there is nothing to install and nothing
+      # to compile before packing — which is also why `files` names `src` rather
+      # than a `dist` that would never exist.
+      - name: Publish to npm
+        if: steps.decide.outputs.publish == 'true'
+        run: |
+          set -euo pipefail
+          # Trusted publishing needs npm >= 11.5.1; Node 22 bundles npm 10.
+          npm install -g npm
+          # No token / .npmrc: npm exchanges the job's GitHub OIDC token with the
+          # registry. `--access public` because a scoped package is private by
+          # default and the first publish is what fixes that forever.
+          npm publish --access public
+
+  # `python/` — the runtime client. Zero dependencies, so there is nothing to
+  # install and nothing to compile; `uv build` reads the stamped pyproject and
+  # produces the sdist + wheel.
+  pypi:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: python
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Decide whether to publish
+        id: decide
+        run: |
+          set -euo pipefail
+          LOCAL=$(node -p "require('../node/package.json').version")
+          LIVE=$(curl -s https://pypi.org/pypi/bowmark-web/json | python3 -c 'import json,sys; print(json.load(sys.stdin)["info"]["version"])' 2>/dev/null || echo "none")
+          echo "local=$LOCAL live=$LIVE"
+          echo "version=$LOCAL" >> "$GITHUB_OUTPUT"
+          if [ "$LOCAL" = "$LIVE" ]; then
+            echo "Version $LOCAL is already on PyPI — nothing to publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stamp the version release-please chose
+        if: steps.decide.outputs.publish == 'true'
+        env:
+          VERSION: ${{ steps.decide.outputs.version }}
+        run: |
+          set -euo pipefail
+          # Anchored on the placeholder, so a pyproject that already carried a real
+          # version fails here rather than being silently rewritten.
+          grep -q '^version = "0.0.0"$' pyproject.toml
+          sed -i "s/^version = \"0.0.0\"$/version = \"$VERSION\"/" pyproject.toml
+          grep '^version' pyproject.toml
+
+      - name: Build and publish
+        if: steps.decide.outputs.publish == 'true'
+        run: |
+          set -euo pipefail
+          command -v uv >/dev/null || curl -LsSf https://astral.sh/uv/install.sh | sh
+          export PATH="$HOME/.local/bin:$PATH"
+          uv build
+          # No token: uv exchanges the job's GitHub OIDC token with PyPI. Trusted
+          # publishing is configured per PROJECT on pypi.org, for owner bowmark-ai,
+          # repo web, workflow publish.yml.
+          uv publish
+
+  # `python-stubs/` — the PEP 561 stub distribution. A SEPARATE job rather than a
+  # step in the one above, because the two are separate PyPI projects with separate
+  # trusted-publisher configurations, and a single job that published one and then
+  # failed would leave the pair skewed with a green half.
+  pypi-stubs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: python-stubs
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Decide whether to publish
+        id: decide
+        run: |
+          set -euo pipefail
+          LOCAL=$(node -p "require('../node/package.json').version")
+          LIVE=$(curl -s https://pypi.org/pypi/bowmark-web-stubs/json | python3 -c 'import json,sys; print(json.load(sys.stdin)["info"]["version"])' 2>/dev/null || echo "none")
+          echo "local=$LOCAL live=$LIVE"
+          echo "version=$LOCAL" >> "$GITHUB_OUTPUT"
+          if [ "$LOCAL" = "$LIVE" ]; then
+            echo "Version $LOCAL is already on PyPI — nothing to publish."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stamp the version release-please chose
+        if: steps.decide.outputs.publish == 'true'
+        env:
+          VERSION: ${{ steps.decide.outputs.version }}
+        run: |
+          set -euo pipefail
+          grep -q '^version = "0.0.0"$' pyproject.toml
+          sed -i "s/^version = \"0.0.0\"$/version = \"$VERSION\"/" pyproject.toml
+          grep '^version' pyproject.toml
+
+      - name: Build and publish
+        if: steps.decide.outputs.publish == 'true'
+        run: |
+          set -euo pipefail
+          command -v uv >/dev/null || curl -LsSf https://astral.sh/uv/install.sh | sh
+          export PATH="$HOME/.local/bin:$PATH"
+          uv build
+          uv publish

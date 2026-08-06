@@ -1,0 +1,40 @@
+[project]
+# MANDATED, not chosen. PEP 561: "The name of the stub package MUST follow the scheme
+# `foopkg-stubs`". PyPI has no rename, alias or redirect mechanism, so a wrong name
+# here is permanent.
+name = "bowmark-web-stubs"
+version = "0.0.0"
+description = "PEP 561 type stubs for bowmark-web — the full typed Bowmark capability surface, generated from the same library manifest as the TypeScript declarations."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Bowmark AI", email = "christopher@bowmark.ai" }]
+keywords = ["bowmark", "stubs", "typing", "pep561", "agent", "capability"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Typing :: Stubs Only",
+]
+# NOT a dependency on `bowmark-web`, deliberately. PEP 561 stub distributions are
+# installed alongside the runtime, and a hard requirement here would mean a caller who
+# only wants types (a CI type-check job, a library declaring an optional integration)
+# has to install the client too. The two are released together and version-matched by
+# the pipeline, which is the real coupling.
+dependencies = []
+
+[project.urls]
+Homepage = "https://bowmark.ai"
+Documentation = "https://bowmark.ai/install"
+Repository = "https://github.com/bowmark-ai/web"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# The directory name is the PEP 561 contract and is not a Python identifier, so
+# hatchling cannot infer it from the project name.
+[tool.hatch.build.targets.wheel]
+packages = ["bowmark_web-stubs"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"bowmark_web-stubs/py.typed" = "bowmark_web-stubs/py.typed"

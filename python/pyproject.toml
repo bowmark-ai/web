@@ -1,0 +1,40 @@
+[project]
+name = "bowmark-web"
+version = "0.0.0"
+description = "The Python client for the Bowmark capability library — the whole bowmark.* surface, with no Bowmark source on your disk. ZERO runtime dependencies, deliberately and permanently."
+readme = "README.md"
+# 3.11 is the floor because the generated stubs use `typing.NotRequired`, which
+# landed there. 3.10 went EOL in October 2026; targeting `typing_extensions` instead
+# would put a runtime dependency on the STUBS package to save a version nobody is on.
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Bowmark AI", email = "christopher@bowmark.ai" }]
+keywords = ["bowmark", "agent", "capability", "browser-automation", "web-automation"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Typing :: Typed",
+]
+# EMPTY, and it is the product rather than an omission. `urllib.request` and `json`
+# are the whole transport; adding `httpx` would make every consumer's dependency
+# review a conversation about us.
+dependencies = []
+
+[project.urls]
+Homepage = "https://bowmark.ai"
+Documentation = "https://bowmark.ai/install"
+Repository = "https://github.com/bowmark-ai/web"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["bowmark_web"]
+
+# `py.typed` and the generated validator table are DATA, and hatchling ships neither
+# by default — a wheel without them installs a client that cannot validate an
+# argument and a package a type checker treats as untyped, both silently.
+[tool.hatch.build.targets.wheel.force-include]
+"bowmark_web/py.typed" = "bowmark_web/py.typed"
+"bowmark_web/_validators.json" = "bowmark_web/_validators.json"
