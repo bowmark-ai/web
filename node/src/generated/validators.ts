@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f5800ce1b32bab70e47d10acdfdc561ee2a242f65b2af263ba4dd9fe109e55e9
-// 199 checked, 20 unchecked.
+// Manifest version: 11b1a109d7e69ffbbcccb30182dd5333770aeb23ab75946f15d55d7f7d84a7bf
+// 202 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f5800ce1b32bab70e47d10acdfdc561ee2a242f65b2af263ba4dd9fe109e55e9",
+  "version": "11b1a109d7e69ffbbcccb30182dd5333770aeb23ab75946f15d55d7f7d84a7bf",
   "units": {
     "cars": {
       "defs": {
@@ -1984,6 +1984,93 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KayakCarQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.chriscraft": {
+      "defs": {
+        "ChriscraftBoatType": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "STERNDRIVE"
+            },
+            {
+              "k": "literal",
+              "v": "OUTBOARD"
+            },
+            {
+              "k": "literal",
+              "v": "SURF"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchModels": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getConfigurator": [
+          {
+            "name": "modelId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "boatType",
+            "schema": {
+              "k": "ref",
+              "name": "ChriscraftBoatType"
+            },
+            "optional": false
+          }
+        ],
+        "priceConfiguration": [
+          {
+            "name": "modelId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "boatType",
+            "schema": {
+              "k": "ref",
+              "name": "ChriscraftBoatType"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              }
             },
             "optional": false
           }

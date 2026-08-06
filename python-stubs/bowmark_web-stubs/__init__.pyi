@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f5800ce1b32bab70e47d10acdfdc561ee2a242f65b2af263ba4dd9fe109e55e9
-# 8 capabilities, 67 providers, 199 typed functions, 20 refused.
+# Manifest version: 11b1a109d7e69ffbbcccb30182dd5333770aeb23ab75946f15d55d7f7d84a7bf
+# 8 capabilities, 68 providers, 202 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1083,6 +1083,54 @@ class Prv_cheapflights_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Prv_chriscraft_ChriscraftModelSummary_Out(TypedDict):
+    modelId: str
+    boatType: Literal["STERNDRIVE"] | Literal["OUTBOARD"] | Literal["SURF"]
+    name: str
+    url: str
+
+class Prv_chriscraft_ChriscraftConfigurator_Out(TypedDict):
+    modelId: str
+    boatType: Literal["STERNDRIVE"] | Literal["OUTBOARD"] | Literal["SURF"]
+    name: str
+    url: str
+    groups: list[Prv_chriscraft_ChriscraftOptionGroup_Out]
+
+class Prv_chriscraft_ChriscraftOptionGroup_Out(TypedDict):
+    category: str
+    group: str
+    required: bool
+    maxSelections: float | None
+    choices: list[Prv_chriscraft_ChriscraftOptionChoice_Out]
+
+class Prv_chriscraft_ChriscraftOptionChoice_Out(TypedDict):
+    id: str
+    name: str
+    price: float
+    priceFormatted: str
+    discountPercentage: float
+    yourPrice: float
+    yourPriceFormatted: str
+    isDefault: bool
+
+class Prv_chriscraft_ChriscraftPriceResult_Out(TypedDict):
+    modelId: str
+    boatType: Literal["STERNDRIVE"] | Literal["OUTBOARD"] | Literal["SURF"]
+    msrpTotal: float
+    msrpTotalFormatted: str
+    yourPriceTotal: float
+    yourPriceTotalFormatted: str
+    breakdown: list[Prv_chriscraft_ChriscraftPriceLine_Out]
+    unmatched: list[str]
+    unresolvedGroups: list[str]
+    handoffUrl: str
+
+class Prv_chriscraft_ChriscraftPriceLine_Out(TypedDict):
+    group: str
+    choice: str
+    price: float
+    yourPrice: float
 
 class Prv_classpass_ClasspassScheduleOptions_In(TypedDict):
     date: NotRequired[str]
@@ -5761,6 +5809,45 @@ class Prv_cheapflights(Protocol):
         the site's own three-phase supplier poll completes.
         """
 
+class Prv_chriscraft(Protocol):
+    """Chris-Craft's runabout 'Build Your Own' product builder — list every current model and
+    boat type, read one build's full option tree (edition, engine, hull/stripe/vinyl colors,
+    ~29 named accessories, cover, flooring and more, each choice's exact MSRP and discounted
+    Your Price), and price a specific build against the site's own live pricing rather than
+    a researched estimate.
+    """
+
+    async def searchModels(self, query: str | None = None, /) -> list[Prv_chriscraft_ChriscraftModelSummary_Out]:
+        """Lists every current Chris-Craft model+boat-type combination from the public "Build Your
+        Own" gallery — model id, boat type (STERNDRIVE/OUTBOARD/SURF), name and its
+        build.chriscraft.com builder URL. `query` (optional) narrows the list by a
+        case-insensitive substring match on the name, e.g. "sportster". The `modelId`/`boatType`
+        pair on each row is what getConfigurator and priceConfiguration take.
+        """
+
+    async def getConfigurator(self, modelId: str, boatType: Literal["STERNDRIVE"] | Literal["OUTBOARD"] | Literal["SURF"], /) -> Prv_chriscraft_ChriscraftConfigurator_Out:
+        """Reads one model+boat-type's whole builder: every option group (Edition Selection, Top
+        Option, Engine Type, Hull Color, Stripe Color, Cockpit Vinyl colors, Contrast Stitching,
+        Additional Options and more — the exact set varies by model) with each choice's exact
+        name, MSRP, discounted Your Price, whether the group is required, how many choices it
+        allows, and whether a choice is the default. THROWS on an unknown (modelId, boatType)
+        pair, naming searchModels() as the way to find current ones.
+        """
+
+    async def priceConfiguration(self, modelId: str, boatType: Literal["STERNDRIVE"] | Literal["OUTBOARD"] | Literal["SURF"], selections: Mapping[str, str | Sequence[str]], /) -> Prv_chriscraft_ChriscraftPriceResult_Out:
+        """Prices ONE specific build — selections keyed by option group (case-insensitive), a
+        single choice name or, for a multi-select group like "Additional Options", an array of
+        choice names, e.g. { "Edition Selection": "Standard Edition", "Engine Type": "Volvo V8
+        5.3L (300HP) DP FWC EVC", "Additional Options": ["Bow Filler Cushion"] } — against the
+        model's live builder and returns the MSRP total, the discounted Your Price total, the
+        per-group breakdown, and the model's own builder URL (Chris-Craft publishes no shareable
+        URL for a configured state, and the aggregate "View My Build" total sits behind a
+        lead-capture form this function never submits). `unresolvedGroups` names any REQUIRED
+        group with neither a caller pick nor a site default (Edition Selection, Engine Type) —
+        both totals are a FLOOR until those are chosen. `unmatched` names any selection that
+        matched no real group or choice, rather than silently mispricing.
+        """
+
 class Prv_classpass(Protocol):
     """ClassPass — fitness, wellness and beauty classes across gyms, studios, spas and salons.
     `getSchedule` reads one studio's bookable timetable for a day or a week: every session
@@ -8641,6 +8728,7 @@ class BowmarkProviders(Protocol):
     bmwusa: Prv_bmwusa
     cars: Prv_cars
     cheapflights: Prv_cheapflights
+    chriscraft: Prv_chriscraft
     classpass: Prv_classpass
     cloudflare: Prv_cloudflare
     dickssportinggoods: Prv_dickssportinggoods

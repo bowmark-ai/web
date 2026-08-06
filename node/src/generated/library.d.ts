@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f5800ce1b32bab70e47d10acdfdc561ee2a242f65b2af263ba4dd9fe109e55e9
-// 8 capabilities, 67 providers, 199 typed functions, 20 refused.
+// Manifest version: 11b1a109d7e69ffbbcccb30182dd5333770aeb23ab75946f15d55d7f7d84a7bf
+// 8 capabilities, 68 providers, 202 typed functions, 20 refused.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -1677,6 +1677,100 @@ interface KayakCar {
      * site's own three-phase supplier poll completes.
      */
     searchCars(query: KayakCarQuery): Promise<KayakCar[]>;
+  }
+}
+
+declare namespace BowmarkProvider_chriscraft {
+  // ── Chris-Craft — the unit's own declarations, verbatim ──
+// Chris-Craft's OWN shapes — not a capability contract.
+
+type ChriscraftBoatType = "STERNDRIVE" | "OUTBOARD" | "SURF";
+
+interface ChriscraftModelSummary { modelId: string; boatType: ChriscraftBoatType; name: string; url: string }
+
+interface ChriscraftOptionChoice {
+  id: string;               // the site's own guid
+  name: string;
+  price: number;            // MSRP delta, 0 for a no-charge default
+  priceFormatted: string;
+  discountPercentage: number;
+  yourPrice: number;         // discounted price, ROUNDED per choice (matches the site's own display)
+  yourPriceFormatted: string;
+  isDefault: boolean;        // true if the page loads with this choice already picked
+}
+
+interface ChriscraftOptionGroup {
+  category: string;          // broader section, e.g. "Edition Selection", "Paint"
+  group: string;             // the key priceConfiguration's selections are matched against
+  required: boolean;         // true for a mandatory group (Edition Selection, Engine Type)
+  maxSelections: number | null; // 1 = single-select, null = unlimited multi-select (e.g. Additional Options)
+  choices: ChriscraftOptionChoice[];
+}
+
+interface ChriscraftConfigurator {
+  modelId: string;
+  boatType: ChriscraftBoatType;
+  name: string;
+  url: string;
+  groups: ChriscraftOptionGroup[];
+}
+
+interface ChriscraftPriceLine { group: string; choice: string; price: number; yourPrice: number }
+
+interface ChriscraftPriceResult {
+  modelId: string;
+  boatType: ChriscraftBoatType;
+  msrpTotal: number;
+  msrpTotalFormatted: string;
+  yourPriceTotal: number;
+  yourPriceTotalFormatted: string;
+  breakdown: ChriscraftPriceLine[];  // one line per group — the caller's pick(s), or the site's own default
+  unmatched: string[];               // a caller selection that matched no real group/choice
+  unresolvedGroups: string[];        // a REQUIRED group with no pick and no default (e.g. Edition Selection, Engine Type) — totals are a FLOOR until these are picked
+  handoffUrl: string;                // the model's own builder page — no shareable configured-state URL exists to build, and the aggregate total is behind a lead-capture form never submitted here
+}
+
+  /**
+   * Chris-Craft's runabout 'Build Your Own' product builder — list every current model and boat
+   * type, read one build's full option tree (edition, engine, hull/stripe/vinyl colors, ~29
+   * named accessories, cover, flooring and more, each choice's exact MSRP and discounted Your
+   * Price), and price a specific build against the site's own live pricing rather than a
+   * researched estimate.
+   */
+  interface Unit {
+    /**
+     * Lists every current Chris-Craft model+boat-type combination from the public "Build Your Own"
+     * gallery — model id, boat type (STERNDRIVE/OUTBOARD/SURF), name and its build.chriscraft.com
+     * builder URL. `query` (optional) narrows the list by a case-insensitive substring match on
+     * the name, e.g. "sportster". The `modelId`/`boatType` pair on each row is what
+     * getConfigurator and priceConfiguration take.
+     */
+    searchModels(query?: string): Promise<ChriscraftModelSummary[]>;
+
+    /**
+     * Reads one model+boat-type's whole builder: every option group (Edition Selection, Top
+     * Option, Engine Type, Hull Color, Stripe Color, Cockpit Vinyl colors, Contrast Stitching,
+     * Additional Options and more — the exact set varies by model) with each choice's exact name,
+     * MSRP, discounted Your Price, whether the group is required, how many choices it allows, and
+     * whether a choice is the default. THROWS on an unknown (modelId, boatType) pair, naming
+     * searchModels() as the way to find current ones.
+     */
+    getConfigurator(modelId: string, boatType: ChriscraftBoatType): Promise<ChriscraftConfigurator>;
+
+    /**
+     * Prices ONE specific build — selections keyed by option group (case-insensitive), a single
+     * choice name or, for a multi-select group like "Additional Options", an array of choice
+     * names, e.g. { "Edition Selection": "Standard Edition", "Engine Type": "Volvo V8 5.3L (300HP)
+     * DP FWC EVC", "Additional Options": ["Bow Filler Cushion"] } — against the model's live
+     * builder and returns the MSRP total, the discounted Your Price total, the per-group
+     * breakdown, and the model's own builder URL (Chris-Craft publishes no shareable URL for a
+     * configured state, and the aggregate "View My Build" total sits behind a lead-capture form
+     * this function never submits). `unresolvedGroups` names any REQUIRED group with neither a
+     * caller pick nor a site default (Edition Selection, Engine Type) — both totals are a FLOOR
+     * until those are chosen. `unmatched` names any selection that matched no real group or
+     * choice, rather than silently mispricing.
+     */
+    priceConfiguration(modelId: string, boatType: ChriscraftBoatType, selections: Record<string, string | string[]>): Promise<ChriscraftPriceResult>;
   }
 }
 
@@ -10318,6 +10412,7 @@ interface BowmarkProviders {
   bmwusa: BowmarkProvider_bmwusa.Unit;
   cars: BowmarkProvider_cars.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
+  chriscraft: BowmarkProvider_chriscraft.Unit;
   classpass: BowmarkProvider_classpass.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
