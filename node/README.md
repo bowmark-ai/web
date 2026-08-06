@@ -187,12 +187,19 @@ message.
 
 **What it fails CLOSED on, and the two things it must not.** A known unit with an
 unknown FUNCTION is refused — the table is authoritative about a unit it carries. An
-unknown UNIT passes straight through, because a Shopify family MEMBER
-(`providers.gymshark`) is absent from every manifest **by design** — `listProviders()`
-excludes members and always will — so refusing an unknown unit would refuse the largest
-part of the library. A function with no readable argument shape is an EXPLICIT `null` in
-the table rather than an absence, and passes through; that distinction is what makes the
+unknown UNIT passes straight through, because a family MEMBER (`providers.gymshark`) is
+absent from the RUNTIME validator table **by design** — `listProviders()` excludes
+members and always will — so refusing an unknown unit would refuse the largest part of
+the library. A function with no readable argument shape is an EXPLICIT `null` in the
+table rather than an absence, and passes through; that distinction is what makes the
 first rule safe at all.
+
+Note the deliberate asymmetry with the TYPES: since 2026-08-06 a member IS declared in
+`library.d.ts`, so `providers.gymshark.search(…)` completes and type-checks. The two
+answer different questions. Types are a build-time artifact and can afford one line per
+member; the validator table is loaded into every client process at runtime, where 51,711
+entries would be a cost paid on every call to buy nothing — the family's arguments are
+already checked by the shared interface the compiler saw.
 
 **A parameter may not offer a type the wire cannot carry.** Every argument crosses as
 JSON on every surface, so `requestedTime?: string | Date` has an arm refused 100% of the
