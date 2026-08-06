@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/Metroxe/bowmark/compare/bowmark-web-v1.1.0...bowmark-web-v1.2.0) (2026-08-06)
+
+
+### Features
+
+* **bowmark-web:** a family member is typed — one interface, one line each ([#6616](https://github.com/Metroxe/bowmark/issues/6616)) ([b105b6c](https://github.com/Metroxe/bowmark/commit/b105b6c02c6e3a1f0dc2300a6e1aab05ac4d09e0))
+
+
+### Bug Fixes
+
+* **ci:** shared-change: a generated artifact cannot gate the branch that staled it ([#6600](https://github.com/Metroxe/bowmark/issues/6600)) ([7456959](https://github.com/Metroxe/bowmark/commit/7456959cf3b7c1d3e10a1bea90e449dc852f20f1))
+
 ## [1.1.0](https://github.com/Metroxe/bowmark/compare/bowmark-web-v1.0.0...bowmark-web-v1.1.0) (2026-08-06)
 
 
