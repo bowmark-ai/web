@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 80346d8cf36c785e2b7fe0a77a87e5a51fa97ceb04ea11c951c71a9f7f75ad8e
-# 8 capabilities, 71 providers, 208 typed functions, 20 refused.
+# Manifest version: 6368edcbec9d9ee7ceb3fd590c7054ade0542a93e43a39f4f88dc6167c0e36da
+# 8 capabilities, 74 providers, 227 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -345,6 +345,61 @@ class Cap_flights_BookingOption_Out(TypedDict):
     currency: str
     deepLink: str | None
 
+class Cap_flights_FlightStatusQuery_In(TypedDict):
+    airline: str
+    date: str
+    flightNumber: NotRequired[str]
+    origin: NotRequired[str]
+    destination: NotRequired[str]
+
+class Cap_flights_FlightStatusResult_Out(TypedDict):
+    date: str
+    flightNumber: str | None
+    origin: str | None
+    destination: str | None
+    flights: list[Cap_flights_FlightStatusLeg_Out]
+    warnings: list[str]
+
+class Cap_flights_FlightStatusLeg_Out(TypedDict):
+    flightNumber: str
+    airlineCode: str
+    flightStatus: str | None
+    flightStatusKey: str | None
+    flightStatusColor: str | None
+    canceled: bool
+    diverted: bool
+    inFlight: bool
+    landed: bool
+    departure: Cap_flights_FlightStatusAirport_Out
+    arrival: Cap_flights_FlightStatusAirport_Out
+    equipment: Cap_flights_FlightStatusLeg_Out_equipment_Out
+    disruptionMessage: str | None
+    codeShare: bool
+    operatedBy: str | None
+    marketingCarrier: str | None
+    wifiAvailable: bool | None
+    powerPortAvailable: bool | None
+
+class Cap_flights_FlightStatusAirport_Out(TypedDict):
+    airportCode: str
+    cityName: str | None
+    gate: str | None
+    terminal: str | None
+    state: str | None
+    country: str | None
+    baggageClaim: str | None
+    scheduledTime: str | None
+    estimatedTime: str | None
+    actualTime: str | None
+    scheduledBoardingTime: str | None
+    estimatedBoardingTime: str | None
+
+class Cap_flights_FlightStatusLeg_Out_equipment_Out(TypedDict):
+    tailNumber: str | None
+    equipmentCode: str | None
+    iataName: str | None
+    displayName: str | None
+
 class Cap_hotels_HotelQuery_In(TypedDict):
     location: str
     checkIn: str
@@ -441,6 +496,20 @@ class Cap_insurance_CarrierLicense_Out(TypedDict):
     licensed: bool
     status: str
     insuranceTypes: list[str]
+
+class Cap_insurance_ReferralCarrierQuery_In(TypedDict):
+    line: NotRequired[str]
+
+class Cap_insurance_ReferralCarrierListResult_Out(TypedDict):
+    carriers: list[Cap_insurance_ReferralCarrier_Out]
+    warnings: list[str]
+
+class Cap_insurance_ReferralCarrier_Out(TypedDict):
+    source: str
+    name: str
+    lines: list[str]
+    url: str | None
+    ownedBySource: bool | None
 
 class Cap_music_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -557,6 +626,43 @@ class Cap_read_ReadResult_Out_wall_u0_Out(TypedDict):
     vendor: str
     cleared: bool
 
+class Prv_aa_aaRetrieveBookingArgs_In(TypedDict):
+    recordLocator: str
+    lastName: str
+
+class Prv_aa_aaReservation_Out(TypedDict):
+    recordLocator: str
+    status: str | None
+    bookingTime: str | None
+    passengers: list[Prv_aa_aaReservationPassenger_Out]
+    itinerary: list[Prv_aa_aaReservationSlice_Out]
+
+class Prv_aa_aaReservationPassenger_Out(TypedDict):
+    firstName: str | None
+    lastName: str | None
+    passengerID: str | None
+    paxType: str | None
+    loyaltyNumber: str | None
+    ticketNumbers: list[str]
+
+class Prv_aa_aaReservationSlice_Out(TypedDict):
+    segments: list[Prv_aa_aaReservationSegment_Out]
+
+class Prv_aa_aaReservationSegment_Out(TypedDict):
+    flightNumber: str | None
+    marketingCarrierCode: str | None
+    operatingCarrierCode: str | None
+    cabinType: str | None
+    bookingCode: str | None
+    departureDateTime: str | None
+    legs: list[Prv_aa_aaReservationLeg_Out]
+
+class Prv_aa_aaReservationLeg_Out(TypedDict):
+    originAirportCode: str | None
+    originCity: str | None
+    destinationAirportCode: str | None
+    destinationCity: str | None
+
 class Prv_abercrombie_abercrombieProductQuery_In(TypedDict):
     url: NotRequired[str]
     id: NotRequired[str]
@@ -628,6 +734,51 @@ class Prv_abercrombie_abercrombieStoreHours_Out(TypedDict):
     day: Literal["Sunday"] | Literal["Monday"] | Literal["Tuesday"] | Literal["Wednesday"] | Literal["Thursday"] | Literal["Friday"] | Literal["Saturday"]
     open: str | None
     close: str | None
+
+class Prv_abercrombie_abercrombieStockQuery_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+    size: NotRequired[str]
+    sizePrimary: NotRequired[str]
+    sizeSecondary: NotRequired[str]
+    sku: NotRequired[str]
+    zip: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
+    radiusMiles: NotRequired[float]
+    maxStores: NotRequired[float]
+    brand: NotRequired[Literal["adult"] | Literal["kids"] | Literal["both"]]
+
+class Prv_abercrombie_abercrombieStock_Out(TypedDict):
+    productId: str
+    sku: str
+    productName: str | None
+    color: str | None
+    url: str
+    sizeLabel: str
+    sizePrimary: str | None
+    sizeSecondary: str | None
+    primaryDimension: str | None
+    secondaryDimension: str | None
+    inStockOnline: bool
+    onlineQuantity: float
+    onlineStatus: str
+    preorderEligible: bool
+    price: float | None
+    listPrice: float | None
+    onSale: bool
+    currency: str
+    findInStoreEligible: bool
+    pickupEligible: bool
+    stores: list[Prv_abercrombie_abercrombieStoreStock_Out] | None
+
+class Prv_abercrombie_abercrombieStoreStock_Out(TypedDict):
+    store: Prv_abercrombie_abercrombieStore_Out
+    inventoryStatus: str
+    availableQuantity: float
+    inStock: bool
+    availableFrom: str | None
+    availableFromLabel: str | None
 
 class Prv_abercrombie_abercrombieSearchQuery_In(TypedDict):
     query: NotRequired[str]
@@ -953,6 +1104,22 @@ class Prv_bmwusa_BmwusaCpoDealer_Out(TypedDict):
     postalCode: str
     distance: float
 
+class Prv_cancer_findCancerCenters_args_In(TypedDict):
+    state: NotRequired[str]
+
+class Prv_cancer_cancerCentersResult_Out(TypedDict):
+    total: float
+    centers: list[Prv_cancer_cancerCenterRow_Out]
+
+class Prv_cancer_cancerCenterRow_Out(TypedDict):
+    name: str
+    url: str
+    state: str
+    location: str
+    locationNote: NotRequired[str]
+    hostInstitution: NotRequired[str]
+    designation: Literal["Comprehensive Cancer Center"] | Literal["Clinical Cancer Center"] | Literal["Basic Laboratory Cancer Center"]
+
 class Prv_cars_carsListing_Out(TypedDict):
     id: str
     vin: str | None
@@ -1055,6 +1222,31 @@ class Prv_cheapflights_KayakBookingOption_Out(TypedDict):
     freeCancellation: bool | None
     seatsRemaining: float | None
 
+class Prv_cheapflights_KayakHotelQuery_In(TypedDict):
+    location: str
+    checkIn: str
+    checkOut: str
+    adults: NotRequired[float]
+    rooms: NotRequired[float]
+
+class Prv_cheapflights_KayakHotel_Out(TypedDict):
+    id: str
+    name: str
+    price: float | None
+    totalPrice: float | None
+    currency: str
+    seller: str
+    sellerCount: float | None
+    stars: float | None
+    score: float | None
+    reviewCount: float | None
+    propertyType: str
+    neighborhood: str | None
+    city: str | None
+    distance: str | None
+    distanceFrom: str | None
+    url: str
+
 class Prv_cheapflights_KayakCarQuery_In(TypedDict):
     pickup: str
     dropoff: NotRequired[str]
@@ -1131,6 +1323,46 @@ class Prv_chriscraft_ChriscraftPriceLine_Out(TypedDict):
     choice: str
     price: float
     yourPrice: float
+
+class Prv_classpass_ClasspassStudio_Out(TypedDict):
+    id: float
+    alias: str
+    name: str
+    subtitle: str | None
+    timeZone: str | None
+    street: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    latitude: float | None
+    longitude: float | None
+    activities: list[str]
+    amenities: list[str]
+    ratingAverage: float | None
+    ratingCount: float | None
+    country: str | None
+    neighborhood: str | None
+    metroArea: str | None
+    description: str | None
+    website: str | None
+    phone: str | None
+    instagram: str | None
+    facebook: str | None
+    twitter: str | None
+    photos: list[str]
+    logo: str | None
+    inclusivity: list[str]
+    bookingWindow: str | None
+    whenToArrive: str | None
+    whatToBring: str | None
+    howToGetThere: str | None
+    proTip: str | None
+    cancellationPolicy: str | None
+    lateCancellation: str | None
+    demandSignals: list[str]
+    averageDiscount: float | None
+    outOfNetwork: bool
+    spots: float | None
 
 class Prv_classpass_ClasspassScheduleOptions_In(TypedDict):
     date: NotRequired[str]
@@ -1299,6 +1531,33 @@ class Prv_dillards_dillardsStockResult_Out(TypedDict):
     carriedByStore: bool
     onHand: float
     inStoreStock: bool
+    shipsOnline: bool
+
+class Prv_dillards_dillardsGetProductQuery_In(TypedDict):
+    url: str
+
+class Prv_dillards_dillardsProduct_Out(TypedDict):
+    id: str
+    catentryId: str
+    name: str
+    brand: str | None
+    url: str
+    description: str | None
+    image: str | None
+    images: list[str]
+    priceLow: float | None
+    priceHigh: float | None
+    listPrice: float | None
+    onSale: bool
+    rating: float | None
+    reviewCount: float
+    colorCount: float
+    variants: list[Prv_dillards_dillardsProductVariant_Out]
+
+class Prv_dillards_dillardsProductVariant_Out(TypedDict):
+    sku: str
+    color: str
+    size: str | None
     shipsOnline: bool
 
 class Prv_dillards_dillardsRegistrySearchQuery_In(TypedDict):
@@ -2996,6 +3255,99 @@ class Prv_lufthansa_LufthansaBaggageFee_Out(TypedDict):
     description: str
     priceUSD: float | None
 
+class Prv_lululemon_search_query_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_lululemon_LululemonSearch_Out(TypedDict):
+    query: str
+    products: list[Prv_lululemon_LululemonRow_Out]
+    matched: float
+    warnings: list[str]
+
+class Prv_lululemon_LululemonRow_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    priceLow: float | None
+    priceHigh: float | None
+    colorCount: float | None
+    inStock: bool | None
+    priced: bool
+
+class Prv_lululemon_getProduct_query_In(TypedDict):
+    productId: str
+
+class Prv_lululemon_LululemonProduct_Out(TypedDict):
+    id: str
+    title: str
+    brand: str
+    url: str
+    gender: str | None
+    rating: float | None
+    reviewCount: float | None
+    inStock: bool
+    priceLow: float | None
+    priceHigh: float | None
+    colorways: list[Prv_lululemon_LululemonColorway_Out]
+    sizeTypes: list[Prv_lululemon_LululemonSizeType_Out]
+
+class Prv_lululemon_LululemonColorway_Out(TypedDict):
+    colorId: str
+    color: str
+    colorFamily: str | None
+    price: float | None
+    salePrice: float | None
+    promoMessage: str | None
+    url: str
+    swatchImage: str | None
+    images: list[str]
+    inStock: bool
+    optionGroups: list[Prv_lululemon_LululemonOptionGroup_Out]
+    variants: list[Prv_lululemon_LululemonVariant_Out]
+
+class Prv_lululemon_LululemonOptionGroup_Out(TypedDict):
+    type: str
+    label: str
+    options: list[Prv_lululemon_LululemonOptionGroup_Out_options_item_Out]
+
+class Prv_lululemon_LululemonOptionGroup_Out_options_item_Out(TypedDict):
+    value: str
+    label: str
+
+class Prv_lululemon_LululemonVariant_Out(TypedDict):
+    sku: str
+    options: Mapping[str, str]
+    available: bool
+    price: float | None
+    salePrice: float | None
+
+class Prv_lululemon_LululemonSizeType_Out(TypedDict):
+    productId: str
+    size: str
+    selected: bool
+
+class Prv_lululemon_getSimilarProducts_query_In(TypedDict):
+    productId: str
+    limit: NotRequired[float]
+
+class Prv_lululemon_LululemonSimilarProducts_Out(TypedDict):
+    seedProductId: str
+    products: list[Prv_lululemon_LululemonRow_Out]
+    totalRanked: float | None
+    warnings: list[str]
+
+class Prv_marriott_findHotels_args_In(TypedDict):
+    place: str
+    query: NotRequired[str]
+
+class Prv_marriott_MarriottHotelListing_Out(TypedDict):
+    id: str
+    name: str
+    brand: str
+    url: str
+    place: str
+
 class Prv_medicare_medicareCostsInfo_Out(TypedDict):
     year: float
     partA: Prv_medicare_medicarePartCosts_Out
@@ -3162,6 +3514,103 @@ class Prv_medicare_medicareClinicianAffiliation_Out(TypedDict):
     facilityType: str
     ccn: str
     name: str | None
+
+class Prv_medicare_medicareMedigapQuery_In(TypedDict):
+    zip: str
+    planType: NotRequired[str]
+    county: NotRequired[str]
+
+class Prv_medicare_medicareMedigapSearch_Out(TypedDict):
+    zip: str
+    state: str
+    county: Prv_medicare_medicareCounty_Out
+    countiesConsidered: list[Prv_medicare_medicareCounty_Out]
+    planTypes: list[Prv_medicare_medicareMedigapPlanType_Out]
+
+class Prv_medicare_medicareCounty_Out(TypedDict):
+    name: str
+    fips: str
+    state: str
+
+class Prv_medicare_medicareMedigapPlanType_Out(TypedDict):
+    planType: str
+    monthlyRateMin: float | None
+    monthlyRateMax: float | None
+    householdDiscountStandard: Prv_medicare_medicareMedigapDiscountRange_Out | None
+    householdDiscountRoommate: Prv_medicare_medicareMedigapDiscountRange_Out | None
+    policies: list[Prv_medicare_medicareMedigapPolicy_Out]
+
+class Prv_medicare_medicareMedigapDiscountRange_Out(TypedDict):
+    min: float
+    max: float
+
+class Prv_medicare_medicareMedigapPolicy_Out(TypedDict):
+    company: str
+    ratingMethod: Literal["attainedAge"] | Literal["issueAge"] | Literal["communityRated"] | Literal["unknown"]
+    ratingMethodRaw: str | None
+    monthlyRateMin: float
+    monthlyRateMax: float
+    address: str
+    phoneNumber: str
+    website: str | None
+    householdDiscountStandard: Prv_medicare_medicareMedigapDiscountRange_Out | None
+    householdDiscountRoommate: Prv_medicare_medicareMedigapDiscountRange_Out | None
+
+class Prv_medicare_medicareHospitalQuery_In(TypedDict):
+    zip: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    radiusMiles: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_medicare_medicareHospitalSearch_Out(TypedDict):
+    origin: Prv_medicare_medicareHospitalSearch_Out_origin_Out
+    radiusMiles: float
+    zipsInRadius: float
+    zipsSearched: float
+    radiusFullyScanned: bool
+    matchesInSearchedZips: float
+    dataAsOf: str | None
+    hospitals: list[Prv_medicare_medicareHospital_Out]
+
+class Prv_medicare_medicareHospitalSearch_Out_origin_Out(TypedDict):
+    zip: str | None
+    latitude: float
+    longitude: float
+    source: Literal["zcta-centroid"] | Literal["caller"]
+
+class Prv_medicare_medicareHospital_Out(TypedDict):
+    ccn: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str | None
+    county: str | None
+    distanceMiles: float
+    hospitalType: str
+    ownershipType: str | None
+    emergencyServices: bool
+    birthingFriendly: bool
+    overallRating: float | None
+    overallRatingFootnote: str | None
+    measureGroups: Prv_medicare_medicareHospital_Out_measureGroups_Out
+
+class Prv_medicare_medicareHospital_Out_measureGroups_Out(TypedDict):
+    mortality: Prv_medicare_medicareHospitalMeasureGroup_Out
+    safety: Prv_medicare_medicareHospitalMeasureGroup_Out
+    readmission: Prv_medicare_medicareHospitalMeasureGroup_Out
+    patientExperience: Prv_medicare_medicareHospitalMeasureGroup_Out
+    timelyAndEffectiveCare: Prv_medicare_medicareHospitalMeasureGroup_Out
+
+class Prv_medicare_medicareHospitalMeasureGroup_Out(TypedDict):
+    measuresInGroup: float | None
+    measuresReported: float | None
+    better: float | None
+    noDifferent: float | None
+    worse: float | None
+    footnote: str | None
 
 class Prv_microcenter_StoreOffer_Out(TypedDict):
     title: str
@@ -3621,6 +4070,42 @@ class Prv_otto_ottoProduct_Out_colors_item_Out(TypedDict):
     available: bool
     image: str | None
 
+class Prv_otto_ottoSearchQuery_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_otto_ottoSearchResult_Out(TypedDict):
+    productId: str
+    variationId: str
+    articleNumber: str
+    url: str
+    name: str
+    brand: str
+    price: Prv_otto_ottoSearchPrice_Out
+    availability: Prv_otto_ottoSearchResult_Out_availability_Out
+    thumbnail: str | None
+    rating: Prv_otto_ottoSearchResult_Out_rating_u0_Out | None
+    matchType: str
+    totalCount: float
+
+class Prv_otto_ottoSearchPrice_Out(TypedDict):
+    currentAmount: float
+    currentDisplay: str
+    suggestedRetailAmount: float | None
+    suggestedRetailDisplay: str | None
+    comparativeAmount: float | None
+    comparativeDisplay: str | None
+    onSale: bool
+    isStartingPrice: bool
+
+class Prv_otto_ottoSearchResult_Out_availability_Out(TypedDict):
+    state: str
+    detail: str
+
+class Prv_otto_ottoSearchResult_Out_rating_u0_Out(TypedDict):
+    value: float
+    count: float
+
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
     width: float
@@ -3768,6 +4253,54 @@ class Prv_pizzahut_PizzahutPricedOrder_Out_promotions_item_Out(TypedDict):
     name: str
     code: str | None
     amountCents: float
+
+class Prv_pizzahut_getMenuItem_args_In(TypedDict):
+    storeNumber: str
+    item: str
+    category: NotRequired[str]
+
+class Prv_pizzahut_PizzahutMenuItem_Out(TypedDict):
+    storeNumber: str
+    productCode: str
+    name: str | None
+    description: str | None
+    category: str | None
+    currency: str
+    variants: list[Prv_pizzahut_PizzahutMenuItemVariant_Out]
+
+class Prv_pizzahut_PizzahutMenuItemVariant_Out(TypedDict):
+    variantCode: str
+    name: str | None
+    priceCents: float
+    attributes: list[str]
+    slots: list[Prv_pizzahut_PizzahutMenuItemSlot_Out]
+    servingSize: Prv_pizzahut_PizzahutMenuItemVariant_Out_servingSize_u0_Out | None
+    allergens: list[Prv_pizzahut_PizzahutMenuItemVariant_Out_allergens_item_Out]
+
+class Prv_pizzahut_PizzahutMenuItemSlot_Out(TypedDict):
+    slotCode: str
+    name: str | None
+    minAllowedSelections: float
+    maxAllowedSelections: float | None
+    modifiers: list[Prv_pizzahut_PizzahutMenuItemModifier_Out]
+
+class Prv_pizzahut_PizzahutMenuItemModifier_Out(TypedDict):
+    modifierCode: str
+    name: str | None
+    weights: list[Prv_pizzahut_PizzahutMenuItemWeight_Out]
+
+class Prv_pizzahut_PizzahutMenuItemWeight_Out(TypedDict):
+    modifierWeightCode: str
+    name: str | None
+    priceCents: float
+
+class Prv_pizzahut_PizzahutMenuItemVariant_Out_servingSize_u0_Out(TypedDict):
+    quantity: float
+    unit: str
+
+class Prv_pizzahut_PizzahutMenuItemVariant_Out_allergens_item_Out(TypedDict):
+    allergen: str
+    presence: str
 
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
@@ -4484,6 +5017,31 @@ class Prv_sears_SearsSearchPrice_Out(TypedDict):
     regularAmount: float | None
     regularDisplay: str | None
     onSale: bool
+
+class Prv_sears_getProduct_opts_In(TypedDict):
+    zipCode: NotRequired[str]
+
+class Prv_sears_SearsProduct_Out(TypedDict):
+    productId: str
+    url: str
+    name: str
+    brand: str | None
+    price: Prv_sears_SearsProductPrice_Out
+    inStock: bool
+    images: list[str]
+    description: str | None
+    specifications: list[Prv_sears_SearsProductSpecification_Out]
+
+class Prv_sears_SearsProductPrice_Out(TypedDict):
+    currentAmount: float
+    currentDisplay: str
+    regularAmount: float | None
+    regularDisplay: str | None
+    onSale: bool
+
+class Prv_sears_SearsProductSpecification_Out(TypedDict):
+    label: str
+    attributes: list[str]
 
 class Prv_selectblinds_SelectBlindsStyle_Out(TypedDict):
     handle: str
@@ -5202,6 +5760,25 @@ class Prv_visible_VisiblePhoneFlashSale_Out(TypedDict):
     enabledBySite: bool
     active: bool | None
 
+class Prv_walmart_search_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_walmart_walmartSearchResult_Out(TypedDict):
+    itemId: str
+    name: str
+    brand: str | None
+    url: str
+    image: str | None
+    price: float | None
+    wasPrice: float | None
+    priceRangeMin: float | None
+    inStock: bool
+    rating: float | None
+    reviewCount: float
+    sponsored: bool
+    totalMatches: float
+
 class Prv_walmart_findStores_args_In(TypedDict):
     zip: str
 
@@ -5295,6 +5872,35 @@ class Prv_wellfound_wellfoundCompanyRow_Out_highlightedRoles_item_Out(TypedDict)
     url: str
     locations: list[str]
 
+class Prv_wellfound_getJob_args_In(TypedDict):
+    url: str
+
+class Prv_wellfound_wellfoundJobDetail_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    descriptionHtml: str
+    employmentType: str | None
+    experienceLevel: str | None
+    remote: bool
+    locations: list[str]
+    remoteLocations: list[str]
+    compensationRaw: str | None
+    salaryMin: float | None
+    salaryMax: float | None
+    salaryCurrency: Literal["USD"] | None
+    equityMin: float | None
+    equityMax: float | None
+    datePosted: str | None
+    company: Prv_wellfound_wellfoundJobDetail_Out_company_Out
+
+class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
+    name: str
+    slug: str | None
+    url: str | None
+    website: str | None
+    logoUrl: str | None
+
 
 class Cap_cars(Protocol):
     """Search car hire at an airport for a date range and get back normalized offers, cheapest
@@ -5382,6 +5988,24 @@ class Cap_flights(Protocol):
         always present and names what the list does NOT contain: fields the site left
         unreported, and the other sites this same flight was found on, whose sellers are not
         included.
+        """
+
+    async def getFlightStatus(self, query: Cap_flights_FlightStatusQuery_In, options: Cap_flights_CallOptions_In | None = None, /) -> Cap_flights_FlightStatusResult_Out:
+        """A flight's live status, checked directly with the airline that flies it. Pass `airline`
+        (an IATA carrier code, e.g. "AA") plus `date` (the flight's ORIGIN date, ISO
+        "2026-08-04") and EITHER `flightNumber` OR both `origin` and `destination` (IATA airport
+        codes) to get every nonstop that airline flies on that route that day. Each returned leg
+        carries the airline's own status wording and a stable status key to branch on, the
+        canceled/diverted/inFlight/landed booleans, scheduled/estimated/actual times at both
+        ends as ISO strings with each airport's own UTC offset, gate, terminal and baggage
+        claim, the aircraft, codeshare and operating carrier, and the airline's passenger-facing
+        disruption message. THROWS for an `airline` no provider behind this capability
+        implements, naming which ones can answer — there is no default carrier to guess, unlike
+        `search`, which has no caller-supplied identity to route on in the first place. An empty
+        `flights` array is a real answer: that airline flies no such flight that day, not a
+        failure. `warnings` is always present, same contract as every other function here,
+        though today it can only ever report a clamped `timeoutMs` — a single-carrier route has
+        no fan-out to go thin.
         """
 
 class Cap_hotels(Protocol):
@@ -5478,6 +6102,25 @@ class Cap_insurance(Protocol):
         30000).
         """
 
+    async def listReferralCarriers(self, query: Cap_insurance_ReferralCarrierQuery_In | None = None, options: Cap_insurance_CallOptions_In | None = None, /) -> Cap_insurance_ReferralCarrierListResult_Out:
+        """Lists the carriers a referral/marketplace program actually places business with — the
+        fact a quote row never states on its face. Reads Progressive's own published directory
+        of outside property carriers (homeowners, renters, condo, dwelling-fire,
+        manufactured-home) today. Call with no argument for the whole directory (16 carriers
+        currently) or `{ line: "homeowners" }` to narrow to one line — `line` is NOT a closed
+        enum; an unrecognized value THROWS naming the lines the directory actually publishes,
+        because inventing a fixed list here would silently drop a line the site adds later. Each
+        row carries every line that carrier is listed under (`lines`) and `ownedBySource` — true
+        ONLY when the row is the referral program's own paper, derived from the directory's own
+        linking rather than from name matching, and null when the directory linked nothing for
+        that row. NEVER returns an empty list from a source that answered: this is a published
+        directory with no legitimate empty case, so a missing section or a changed page throws
+        at the provider rather than under-reporting who underwrites the policy. `warnings` is
+        always present and names a source that timed out or failed — with one source today, read
+        it before trusting a short list is the whole directory. `options.timeoutMs` sets the
+        per-source budget (default 30000).
+        """
+
 class Cap_music(Protocol):
     """Search a music catalogue by artist, title, genre or mood and get back normalized tracks
     — artist, public URL, duration and play count — ranked by popularity, or read one track
@@ -5554,14 +6197,31 @@ class Cap_read(Protocol):
 
 class Prv_aa(Protocol):
     """American Airlines' own site — its published fares and award availability, flight status,
-    reservation lookup, seat maps, baggage allowance and fee schedules. Flight status is
-    live and browserless; the rest are declared stubs.
+    reservation lookup, seat maps, baggage allowance and fee schedules. Flight status and
+    reservation lookup are live and browserless; the rest are declared stubs.
     """
 
     # UNTYPED, DELIBERATELY OMITTED — `getFlightStatus` declares no types for its
     # argument, so there is no honest signature to emit.
     # It is CALLABLE at runtime; `bowmark.providers.aa.getFlightStatus` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
+
+    async def retrieveBooking(self, arg0: Prv_aa_aaRetrieveBookingArgs_In, /) -> Prv_aa_aaReservation_Out:
+        """Reads an existing American Airlines reservation by its six-letter record locator (PNR)
+        and the passenger's last name — nothing is signed into, and both are the caller's own
+        details, passed at call time. Returns the record locator, American's own status string,
+        when the booking was made, every passenger (name, passenger id, fare type, loyalty
+        number, ticket numbers), and the itinerary as slices of flown segments (flight number,
+        marketing and operating carrier codes, cabin, booking class, departure time, and each
+        leg's origin/destination airport and city). Throws when the locator and last name do not
+        both match a real reservation — American validates the pair together, so a real locator
+        paired with the wrong last name answers exactly like one that does not exist at all;
+        there is no way to tell those two cases apart from the outside. HONEST LIMIT: the
+        not-found path is live-verified; the success shape above is reconstructed from
+        American's own client code and has not been observed on the wire, since no consenting
+        real booking was available to test it — see `retrieve-booking.ts` for what that means
+        for field accuracy.
+        """
 
 class Prv_abercrombie(Protocol):
     """Abercrombie & Fitch's own storefront — product search, product detail, size/store stock,
@@ -5601,6 +6261,29 @@ class Prv_abercrombie(Protocol):
         to a point with a keyless third-party geocoder before calling it — a city with multiple
         zips is resolved to their centroid, not to whichever zip a lookup happens to list first.
         An empty result is a genuine "nothing within radius", never an error.
+        """
+
+    async def checkStock(self, query: Prv_abercrombie_abercrombieStockQuery_In, /) -> Prv_abercrombie_abercrombieStock_Out:
+        """Answers whether ONE size of ONE colourway is buyable RIGHT NOW — online, and at the
+        stores near a place you name. Identify the product with `url` or `id`, then the size
+        with either `size` (the site's own label, e.g. "32 X Regular" or "M"), or
+        `sizePrimary`+`sizeSecondary`, or a `sku` you already hold. Add `zip` OR `city`+`state`
+        to also get per-store stock; omit all three and `stores` comes back `null` — "you did
+        not ask", which is deliberately distinct from `[]`, "asked, and no store nearby carries
+        it". Returns the resolved `sku`, the size and its dimension names, the online answer
+        (`inStockOnline`, a real `onlineQuantity` — the site publishes counts like 305, not a
+        flag — the site's own `onlineStatus` word, `preorderEligible`, price/listPrice/onSale),
+        whether the colourway is eligible for the site's find-in-store and pick-up-in-store
+        journeys at all, and one row per nearby store carrying that store's full record plus its
+        `inventoryStatus`, `availableQuantity`, `inStock` and the date it expects the item.
+        **`inStock` is the strict question and is NOT `status !== "Unavailable"`**: the site's
+        commonest store answer is `Backorderable` with quantity 0, which means "we will order it
+        for you", not "it is on the shelf" — so `inStock` is true only for `Available` WITH a
+        quantity above zero. **An ambiguous size THROWS rather than guessing**: "26" names three
+        lengths on a jean, and answering for one of them would be a wrong answer on a 200. A
+        `sku` is looked up across the whole style and answers for the colourway it really
+        belongs to, not the one in the url. This is the per-SIZE, per-STORE question;
+        `getProduct` answers the different one of what sizes and colours a style comes in.
         """
 
     async def search(self, query: Prv_abercrombie_abercrombieSearchQuery_In, /) -> list[Prv_abercrombie_abercrombieSearchResult_Out]:
@@ -5825,6 +6508,28 @@ class Prv_bmwusa(Protocol):
         numbers, so this filters honestly rather than guessing bucket boundaries).
         """
 
+class Prv_cancer(Protocol):
+    """The US National Cancer Institute: PDQ cancer information, the clinical-trial register,
+    cancer drugs, NCI-designated cancer centers and the cancer dictionaries. The
+    NCI-Designated Cancer Center directory (`findCancerCenters`) is callable now — every
+    center's name, designation type, location and host institution, optionally filtered by
+    state; the other twelve declared functions are still stubs.
+    """
+
+    async def findCancerCenters(self, args: Prv_cancer_findCancerCenters_args_In | None = None, /) -> Prv_cancer_cancerCentersResult_Out:
+        """The NCI-Designated Cancer Centers — the institutions NCI itself certifies as meeting its
+        standards for cancer research and care — each with its name, its designation type
+        (Comprehensive, Clinical, or Basic Laboratory), its city and state, its parent
+        university or health system when it has one, and the link to its own cancer.gov detail
+        page. `state` (NCI's own state name, e.g. "California", "Hawai'i", "District of
+        Columbia", matched case-insensitively but exactly — no fuzzy matching) filters to that
+        state; omitted, every center is returned. A center that operates comprehensive
+        facilities in more than one state (Mayo Clinic Cancer Center) is cross-listed under
+        each, with `locationNote` naming its other locations. This is the whole directory in one
+        document — NCI does not filter it server-side — so `total` and `centers.length` are
+        always equal.
+        """
+
 class Prv_cars(Protocol):
     """Cars.com — the US new/used/certified car marketplace: for-sale inventory with dealer
     asking prices, one listing's full detail, a valuation for a car you already own, and
@@ -5865,6 +6570,12 @@ class Prv_cheapflights(Protocol):
         gets answered. Pass the row itself, not its id. THROWS rather than returning [] when the
         itinerary is no longer offered, so a sold-out fare is never reported as "nobody sells
         this".
+        """
+
+    async def searchHotels(self, query: Prv_cheapflights_KayakHotelQuery_In, /) -> list[Prv_cheapflights_KayakHotel_Out]:
+        """Runs the stays search on cheapflights.com and returns priced properties for a
+        destination and date range, cheapest TOTAL first. Interaction-gated: the prices only
+        exist after the site's own multi-phase supplier poll completes.
         """
 
     async def searchCars(self, query: Prv_cheapflights_KayakCarQuery_In, /) -> list[Prv_cheapflights_KayakCar_Out]:
@@ -5914,11 +6625,33 @@ class Prv_chriscraft(Protocol):
 
 class Prv_classpass(Protocol):
     """ClassPass — fitness, wellness and beauty classes across gyms, studios, spas and salons.
-    `getSchedule` reads one studio's bookable timetable for a day or a week: every session
+    `getStudio` reads one studio's whole profile in a single request: what it does, where it
+    is, its rating, amenities, photos, contact routes and the practical booking prose.
+    `getSchedule` reads that studio's bookable timetable for a day or a week: every session
     with its start time, instructor, duration, credit price and whether it is still open.
-    Studio and class search, the studio profile, per-slot availability and membership
-    pricing are declared but not built yet.
+    Studio and class search, per-slot availability and membership pricing are declared but
+    not built yet.
     """
+
+    async def getStudio(self, studio: float | str, /) -> Prv_classpass_ClasspassStudio_Out:
+        """Reads ONE ClassPass studio's whole profile in a single request — the page a person reads
+        to decide whether a result is worth booking. `studio` is a ClassPass venue id (74359),
+        the alias in its public URL ("barrys-charlotte"), or the studio URL itself; all three
+        are accepted. Returns identity and branch (a chain's locations differ only by
+        `subtitle`), the full address with coordinates, IANA time zone, neighbourhood and metro
+        area, the studio's own description, what it actually does (`activities`), amenities and
+        the inclusivity attributes it asserts, its rating and how many reviews back it, real
+        photographs (ClassPass's generic `fallback.jpg` placeholders are dropped rather than
+        passed off as the studio), its own website, phone and socials, and the practical prose a
+        booker needs — booking window, when to arrive, what to bring, how to get there, and the
+        cancellation policies. NOTE ON PRICE: this record carries NO credit figure, measured
+        across four venues — the only price-ish field ClassPass publishes here is
+        `averageDiscount`, its own undocumented fraction, returned under its own name rather
+        than relabelled as a saving. What a class COSTS is per-session and comes from
+        `getSchedule`'s `credits`, which is both exact and free of a second request. A studio
+        that has left ClassPass throws a caller-fixable error quoting the site's own reason
+        ("Venue disabled") rather than returning a hollow profile.
+        """
 
     async def getSchedule(self, studio: float | str, options: Prv_classpass_ClasspassScheduleOptions_In | None = None, /) -> Prv_classpass_ClasspassSchedule_Out:
         """Reads ONE ClassPass studio's bookable timetable — what a person can actually book there,
@@ -6067,6 +6800,18 @@ class Prv_dillards(Protocol):
         recognise** — measured 2026-08-04, dillards.com's inventory endpoint answers an unknown
         store id with the identical all-zero shape it gives a real, non-stocking one, so a
         caller must already have a genuine Dillard's store number.
+        """
+
+    async def getProduct(self, query: Prv_dillards_dillardsGetProductQuery_In, /) -> Prv_dillards_dillardsProduct_Out:
+        """Reads one product's own page — full name, brand, description, primary image plus every
+        gallery shot, current price range, pre-markdown `listPrice` and the site's own `onSale`
+        flag, star rating and review count (both null/0 when the product has no reviews yet —
+        the site omits the field entirely rather than publishing a zero), `colorCount` (distinct
+        colourways), and `variants[]`, every size/color combination the page lists with its own
+        sku and `shipsOnline` flag. Pass `url` exactly as `search` returns it in a row's own
+        `url`. **This is a summary, not a store check** — `variants[].shipsOnline` is the
+        product's own online-availability flag, independent of any physical store; whether ONE
+        exact size/color is in stock at a named store is `checkStock`'s job, not this one's.
         """
 
     async def searchRegistry(self, query: Prv_dillards_dillardsRegistrySearchQuery_In, /) -> list[Prv_dillards_dillardsRegistry_Out]:
@@ -7382,6 +8127,41 @@ class Prv_lufthansa(Protocol):
         fare, independent of any specific booking or the caller's own frequent-flyer status.
         """
 
+class Prv_lululemon(Protocol):
+    """lululemon's athletic apparel catalogue — search it, and read one product's full
+    configurator: every colourway with its own price and images, the size options, and which
+    exact SKUs are buyable right now.
+    """
+
+    async def search(self, query: Prv_lululemon_search_query_In, /) -> Prv_lululemon_LululemonSearch_Out:
+        """Searches lululemon's catalogue by free text and returns matching product rows, closest
+        match first — id, title, URL, price range, how many colours the style comes in, and
+        whether it is in stock. Ranks over the site's own published product index, then reads
+        the price and colour count per row. A match the pricing catalogue does not carry still
+        comes back, with `priced: false` and null prices; `matched` says how many matched before
+        the row cap so a caller can raise `limit` (default 8, max 24).
+        """
+
+    async def getProduct(self, query: Prv_lululemon_getProduct_query_In, /) -> Prv_lululemon_LululemonProduct_Out:
+        """Reads one product's full configurator the way its product page presents it — every
+        colourway with its own price, sale price, promo message, swatch, image set and URL; the
+        size picker listing the sizes that colourway can CURRENTLY SELL; and one entry per
+        sellable SKU with the store's own id, so a caller can answer 'which colours can I get in
+        a 6 right now'. This feed expresses sold-out by OMISSION rather than by a flag —
+        measured across all three captured fixtures, the picker and the SKU list are the same
+        set in all 61 colourways and `available` is true on 363 of 363 SKUs — so presence is the
+        stock signal and `available` is passed through rather than relied on.
+        """
+
+    async def getSimilarProducts(self, query: Prv_lululemon_getSimilarProducts_query_In, /) -> Prv_lululemon_LululemonSimilarProducts_Out:
+        """Returns the products lululemon's own product pages recommend alongside one product — the
+        'You may also like' rail — as priced rows in the store's own ranked order, de-duplicated
+        to one row per style. It is the store's ranking, not ours, and it does NOT reliably
+        surface the same garment in another length: measured on the Align 25" pant, none of the
+        six recommended rows was a sibling inseam even though the sitemap carries them, so
+        reaching another length is a `search`.
+        """
+
 class Prv_mailchimp(Protocol):
     """Mailchimp's own marketing plan pricing: what Free, Essentials, Standard and Premium cost
     per month at a given contact-list size, what each band includes (contact ceiling,
@@ -7393,6 +8173,18 @@ class Prv_mailchimp(Protocol):
     # argument, so there is no honest signature to emit.
     # It is CALLABLE at runtime; `bowmark.providers.mailchimp.getPlanPricing` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
+
+class Prv_marriott(Protocol):
+    """Marriott Bonvoy hotel search, award availability, reservations and property details."""
+
+    async def findHotels(self, args: Prv_marriott_findHotels_args_In, /) -> list[Prv_marriott_MarriottHotelListing_Out]:
+        """Lists Marriott-family properties published on the site's own hotel-sitemap directory for
+        one US state or country (`place`, e.g. "Maryland", "France" — never a bare city or
+        landmark, which this directory does not index per property). `query` (optional) narrows
+        the list by a case-insensitive substring match against each property's own display name,
+        which often but not always carries a city. Returns each property's marsha id, name,
+        brand and overview URL.
+        """
 
 class Prv_mcdonalds(Protocol):
     """McDonald's — the fast-food chain. Restaurant locator, national menu by category, and one
@@ -7420,12 +8212,15 @@ class Prv_medicare(Protocol):
     search with real drug-cost estimates, the Care Compare directory of doctors, hospitals,
     nursing homes, home health, hospice and dialysis providers with CMS quality ratings, the
     A-to-Z coverage database, and what Medicare itself costs this year. Part D drug-plan
-    search, the doctor-and-clinician directory (specialties, group practice, hospital
-    affiliations by name, and whether they accept Medicare assignment), the nursing-home
-    directory with CMS's full Five-Star record (component ratings, staffing hours, fines,
-    payment denials and Special Focus status), and the Medicare cost reference (premiums,
-    deductibles, coinsurance tiers and the Part B/Part D income brackets) are callable now;
-    the other fifteen declared functions are still stubs.
+    search, Medigap plan search (every insurer selling each plan type, with its rating
+    method and any household discount), the doctor-and-clinician directory (specialties,
+    group practice, hospital affiliations by name, and whether they accept Medicare
+    assignment), the nursing-home directory with CMS's full Five-Star record (component
+    ratings, staffing hours, fines, payment denials and Special Focus status), the hospital
+    directory with CMS's overall rating AND the five measure groups behind it (mortality,
+    safety, readmission, patient experience, timely and effective care), and the Medicare
+    cost reference (premiums, deductibles, coinsurance tiers and the Part B/Part D income
+    brackets) are callable now; the other thirteen declared functions are still stubs.
     """
 
     # UNTYPED, DELIBERATELY OMITTED — `searchDrugPlans` declares no types for its
@@ -7482,6 +8277,43 @@ class Prv_medicare(Protocol):
         `matchesInSearchedZips` counts practice-location records rather than distinct
         clinicians. `dataAsOf` carries CMS's own publication date — this is a periodic extract,
         not a live read.
+        """
+
+    async def searchMedigapPlans(self, arg0: Prv_medicare_medicareMedigapQuery_In, /) -> Prv_medicare_medicareMedigapSearch_Out:
+        """The Medigap (Medicare Supplement) plan types sold in a ZIP's state, each with the
+        insurers selling it, their premium range, their RATING METHOD (attained-age — rises with
+        age; issue-age or community-rated — does not) and any household discount. `zip` is a
+        5-digit US ZIP; `county` disambiguates the rare ZIP that crosses a STATE line (Medigap
+        is priced by state, not region), the same shape as `searchDrugPlans`'s own `county`.
+        Omit `planType` to fetch every plan type the state offers (Minnesota and Wisconsin price
+        under their own federal waiver — `MN_BASIC`, `WI_HIGH_DEDUCTIBLE`, etc. — rather than
+        the national letters, and this function returns exactly what the state offers); pass a
+        result's own `planType` (e.g. `'G'`, `'HIGH_F'`) to fetch just that one, one call
+        instead of every letter's. NOTE the field the manifest exists for: two policies can
+        share the same letter (which by law means identical coverage) and today's premium, and
+        still diverge by hundreds of dollars a year within a decade purely because one is
+        `attainedAge` and the other is not — never rank or recommend a Medigap policy on premium
+        alone without surfacing `ratingMethod`.
+        """
+
+    async def findHospitals(self, query: Prv_medicare_medicareHospitalQuery_In, /) -> Prv_medicare_medicareHospitalSearch_Out:
+        """The Medicare-registered hospitals near a place, nearest first, each with CMS's overall
+        star rating AND the five measure groups behind it (mortality, safety, readmission,
+        patient experience, timely and effective care — each with how many measures the hospital
+        reported and, for the first three, how many beat/matched/trailed the national average),
+        the hospital type (acute care, critical access, psychiatric, children's, rural
+        emergency, VA, DoD — never the long-term/rehab types
+        `findRehabAndLongTermCareFacilities` covers), ownership, whether it offers emergency
+        services, and CMS's birthing-friendly designation. Pass a 5-digit `zip` (placed via the
+        Census Bureau's ZCTA centroid) or a `latitude`/`longitude` pair; `radiusMiles` defaults
+        to 25 (max 100) and `limit` to 20. NOTE the two things that make this answer honest. (1)
+        `overallRating` is null for roughly 40% of hospitals nationally — mostly small or
+        non-reporting facilities, not poor performers — and is never the whole story: read it
+        alongside `measureGroups`, since a hospital can report zero of a group's measures and
+        still carry an overall star from the groups it does report. (2) `distanceMiles` is to
+        the centroid of the hospital's own ZIP, not its street address — this dataset carries no
+        coordinates — so `radiusFullyScanned` and `matchesInSearchedZips` carry the same
+        walked-radius honesty split `findDoctors` uses, for the identical reason.
         """
 
 class Prv_microcenter(Protocol):
@@ -7809,6 +8641,19 @@ class Prv_otto(Protocol):
         retired listing).
         """
 
+    async def search(self, query: Prv_otto_ottoSearchQuery_In, /) -> list[Prv_otto_ottoSearchResult_Out]:
+        """Searches OTTO's catalog for a free-text keyword the way the site's own search bar does,
+        across its whole marketplace (OTTO's own catalog and third-party sellers) and returns
+        matching rows: price (current + UVP + the site's own comparison price when it publishes
+        one), availability, brand, rating and a thumbnail. `matchType` on each row is the site's
+        own retrieval-type token ("hybrid" for a real keyword match, "semantic" when nothing
+        matched literally and the site is showing similar items instead — OTTO's engine almost
+        never returns a hard empty result). Returns one page (up to ~150 rows); `totalCount` on
+        each row is the site's own total match count across every page. `url` feeds `getProduct`
+        directly for OTTO's own catalog rows; a third-party marketplace row's URL does not match
+        `getProduct`'s current `-C<id>/` pattern.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -7829,10 +8674,12 @@ class Prv_pirateship(Protocol):
 class Prv_pizzahut(Protocol):
     """Pizza Hut's US ordering site. `findStores` returns the stores serving any US address or
     ZIP, nearest first, with each one's number, hours, distance, phone and the terms of the
-    carryout and delivery it offers. `priceOrder` then prices a basket at one of those
-    stores WITHOUT placing it — line items, subtotal, sales tax, delivery fee and the real
-    total Pizza Hut would charge, for carryout or to a delivery address, anonymously.
-    Reading the store menu and the current deals are declared and still stubs.
+    carryout and delivery it offers. `getMenuItem` reads one item's full store-level
+    configuration by name — every size/crust, and every optional topping/sauce/cheese slot
+    with what each choice costs on THAT variant. `priceOrder` then prices a basket at one of
+    those stores WITHOUT placing it — line items, subtotal, sales tax, delivery fee and the
+    real total Pizza Hut would charge, for carryout or to a delivery address, anonymously.
+    Browsing the full menu list and reading the current deals are still stubs.
     """
 
     async def findStores(self, where: str | Prv_pizzahut_findStores_where_u1_In, options: Prv_pizzahut_findStores_options_In | None = None, /) -> list[Prv_pizzahut_PizzahutStore_Out]:
@@ -7880,6 +8727,26 @@ class Prv_pizzahut(Protocol):
         the boundary rather than a failure. Wholly anonymous: no account, no sign-in, no name,
         no phone, no email and no date of birth is sent or needed, and every call opens its own
         fresh guest cart so totals never accumulate across calls.
+        """
+
+    async def getMenuItem(self, args: Prv_pizzahut_getMenuItem_args_In, /) -> Prv_pizzahut_PizzahutMenuItem_Out:
+        """Reads one menu item in full for a store — every size/crust it comes in, each one's own
+        starting price, and every optional slot (sauce, cheese, toppings, seasoning, cut) with
+        what each choice costs ON THAT VARIANT, plus nutrition serving size and allergens where
+        the site publishes them. `storeNumber` comes from `findStores`. `getMenu` (the sibling
+        function that would normally hand out a `productCode` to browse by) is still a stub, so
+        `item` is a NAME instead — "Pepperoni Pizza" — matched first as an exact `productCode`
+        if you already have one, then an exact case-insensitive name, then a substring;
+        `category` (a code like "pizza" or a display name like "Pizza") narrows the search when
+        a name alone is ambiguous. Zero matches or more than one both throw as caller-fixable,
+        the second one listing every candidate's name, category and `productCode` so a retry can
+        pick one exactly. **Configuration prices are per VARIANT, not per product** — measured
+        2026-08-06 on the same Pepperoni Pizza, Extra Cheese is +$0.50 on a Personal Pan, +$2.89
+        on a Medium, +$3.39 on a Large, so this returns each variant's own priced slot tree
+        rather than one flat add-on price for the whole item. A `variantCode` plus a
+        `slotCode`/`modifierCode`/`modifierWeightCode` triple read here is exactly what
+        `priceOrder` takes to price a configured basket. Wholly anonymous, same guest-token read
+        `priceOrder` uses — no account, no session, nothing identifying.
         """
 
 class Prv_progressive(Protocol):
@@ -8321,6 +9188,15 @@ class Prv_sears(Protocol):
         not an error. `zipCode` narrows price/availability the way the site's own zip cookie
         does; omit it for the site's own default (New York, 10101). Returns one page (up to 48
         rows); the site publishes no further paging parameter this function reaches.
+        """
+
+    async def getProduct(self, idOrUrl: str, opts: Prv_sears_getProduct_opts_In | None = None, /) -> Prv_sears_SearsProduct_Out:
+        """Reads one Sears product in full: name, brand, current and regular price, whether it's in
+        stock, every image and the site's own full labelled spec sheet (dimensions, features,
+        overview). Takes the product id or full URL from Sears's own "/p-<id>" pattern —
+        `search` returns both, so the ordinary path is a `search` row's `id` or `url`. `zipCode`
+        narrows price/availability the way the site's own zip cookie does; omit it for the
+        site's own default (New York, 10101). THROWS on an id the site does not recognise.
         """
 
 class Prv_selectblinds(Protocol):
@@ -8819,9 +9695,18 @@ class Prv_visible(Protocol):
 
 class Prv_walmart(Protocol):
     """Walmart.com — product search, product detail, store-level stock, store locator and more.
-    One function built: finding nearby stores by ZIP, with address, hours, phone and
-    department availability.
+    Two functions built: keyword search across the catalog, and finding nearby stores by ZIP
+    with address, hours, phone and department availability.
     """
+
+    async def search(self, args: Prv_walmart_search_args_In, /) -> list[Prv_walmart_walmartSearchResult_Out]:
+        """Searches walmart.com's catalog for a keyword and returns matching products — item id,
+        name, brand, price (plus the pre-markdown price and the cheapest OTHER purchase option's
+        price when the site names a range), image, in-stock flag, rating, review count and
+        whether the row is a sponsored placement — the way the site's own search bar does.
+        Returns the site's own first results page (organic rows only, its own trending/related
+        carousels excluded) in the site's own default relevance order.
+        """
 
     async def findStores(self, args: Prv_walmart_findStores_args_In, /) -> list[Prv_walmart_walmartStore_Out]:
         """Finds nearby Walmart stores for a 5-digit US ZIP code — address, phone, hours,
@@ -8852,6 +9737,14 @@ class Prv_wellfound(Protocol):
         `activelyHiringOnly` are client-side filters over the fields the search itself returns.
         """
 
+    async def getJob(self, args: Prv_wellfound_getJob_args_In, /) -> Prv_wellfound_wellfoundJobDetail_Out:
+        """Reads one job posting in full the way its own detail page does — takes the `url` a
+        `searchJobs`/`searchCompanies` row already carries (a bare id 404s, measured 2026-08-06)
+        — returning the full description, salary band, equity range (both parsed off the header
+        chip; equity has no structured-data field on this site), location, remote policy, the
+        site's own experience-requirement text and the hiring startup.
+        """
+
 class BowmarkProviders(Protocol):
     """Every provider, under `bowmark.providers.<id>`. Flat, and snake_case on the
     wire — the id in the manifest, the trace, the namespace and a script are one
@@ -8865,6 +9758,7 @@ class BowmarkProviders(Protocol):
     bhphoto: Prv_bhphoto
     blenderseyewear: Prv_blenderseyewear
     bmwusa: Prv_bmwusa
+    cancer: Prv_cancer
     cars: Prv_cars
     cheapflights: Prv_cheapflights
     chriscraft: Prv_chriscraft
@@ -8896,7 +9790,9 @@ class BowmarkProviders(Protocol):
     liquiddeath: Prv_liquiddeath
     lonelyplanet: Prv_lonelyplanet
     lufthansa: Prv_lufthansa
+    lululemon: Prv_lululemon
     mailchimp: Prv_mailchimp
+    marriott: Prv_marriott
     mcdonalds: Prv_mcdonalds
     medicare: Prv_medicare
     microcenter: Prv_microcenter

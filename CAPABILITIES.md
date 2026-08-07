@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 19 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 20 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -11,8 +11,9 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |
 | `cars.searchCars` | Planned — declared behind this capability, not built yet. | 1 | ⚪ |
 | `email.findDomain` | Turns a company NAME into the domain it sends mail from — findDomain("Basecamp LLC")… | 1 | 🟢 |
-| `flights.getBookingOptions` | Every seller on offer for ONE result — pass the whole row from `search()`, not its id. | 4 | 🟢 |
-| `flights.search` | Searches for flights matching the query and returns `{ flights, warnings }`. `flights`… | 4 | 🟢 |
+| `flights.getBookingOptions` | Every seller on offer for ONE result — pass the whole row from `search()`, not its id. | 5 | 🟢 |
+| `flights.getFlightStatus` | A flight's live status, checked directly with the airline that flies it. | 5 | 🟢 |
+| `flights.search` | Searches for flights matching the query and returns `{ flights, warnings }`. `flights`… | 5 | 🟢 |
 | `hotels.search` | Searches stays for a place and a date range — `{ location: "SFO", checkIn… | 1 | 🟢 |
 | `hotels.searchHotels` | Planned — declared behind this capability, not built yet. | 1 | ⚪ |
 | `insurance.findAgent` | Finds an insurance agent or agency to actually call, across the two carriers this… | 3 | 🟢 |

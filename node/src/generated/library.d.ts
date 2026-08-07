@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 80346d8cf36c785e2b7fe0a77a87e5a51fa97ceb04ea11c951c71a9f7f75ad8e
-// 8 capabilities, 71 providers, 214 typed functions, 20 refused.
-// 51,711 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: 6368edcbec9d9ee7ceb3fd590c7054ade0542a93e43a39f4f88dc6167c0e36da
+// 8 capabilities, 74 providers, 233 typed functions, 20 refused.
+// 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -232,6 +232,71 @@ type BookingOptionsResult = {
                             // sellers are not in here. Empty means nothing dropped.
 }
 
+// Give EITHER flightNumber OR both origin and destination, plus date and airline.
+type FlightStatusQuery = {
+  airline: string          // IATA carrier code, e.g. "AA" — routes to the airline
+                            // that flies it; there is no default to guess
+  date: string              // the flight's ORIGIN date, ISO "2026-08-04"
+  flightNumber?: string     // "100", "2005", or "AA2005"
+  origin?: string           // IATA code — with destination, returns every NONSTOP
+  destination?: string      // that airline flies on the route that day
+}
+
+// One leg's status, at one end of the flight.
+type FlightStatusAirport = {
+  airportCode: string
+  cityName: string | null
+  gate: string | null        // null is UNKNOWN, not "no gate" — normal for a flight
+                              // weeks out
+  terminal: string | null
+  state: string | null
+  country: string | null
+  baggageClaim: string | null   // arrival end only
+  scheduledTime: string | null  // ISO 8601 WITH the airport's own UTC offset
+  estimatedTime: string | null
+  actualTime: string | null     // what happened, once it has; null before the event
+  scheduledBoardingTime: string | null   // departure end only
+  estimatedBoardingTime: string | null
+}
+
+type FlightStatusLeg = {
+  flightNumber: string
+  airlineCode: string
+  flightStatus: string | null      // the airline's own wording, verbatim
+  flightStatusKey: string | null   // a stable key behind the wording — branch on
+                                    // this, not the display string
+  flightStatusColor: string | null   // the airline's own severity colour, where
+                                      // it publishes one (GREEN, ORANGE, RED, ...)
+  canceled: boolean
+  diverted: boolean
+  inFlight: boolean
+  landed: boolean
+  departure: FlightStatusAirport
+  arrival: FlightStatusAirport
+  equipment: {
+    tailNumber: string | null
+    equipmentCode: string | null
+    iataName: string | null
+    displayName: string | null    // e.g. "Airbus A321neo"
+  }
+  disruptionMessage: string | null   // the airline's own passenger-facing prose
+  codeShare: boolean
+  operatedBy: string | null
+  marketingCarrier: string | null
+  wifiAvailable: boolean | null
+  powerPortAvailable: boolean | null
+}
+
+type FlightStatusResult = {
+  date: string                  // echoed back, "YYYY-MM-DD"
+  flightNumber: string | null   // null in route mode
+  origin: string | null
+  destination: string | null
+  flights: FlightStatusLeg[]    // EMPTY IS AN ANSWER: no such flight that day
+  warnings: string[]            // always present, same contract as every other
+                                 // function on this capability
+}
+
   /**
    * Search flights with one call and get back normalized, price-sorted results (the same
    * physical flight appears once). Each result carries the site it came from (`site`) and every
@@ -270,6 +335,24 @@ type BookingOptionsResult = {
      * on, whose sellers are not included.
      */
     getBookingOptions(flight: FlightResult, options?: CallOptions): Promise<BookingOptionsResult>;
+
+    /**
+     * A flight's live status, checked directly with the airline that flies it. Pass `airline` (an
+     * IATA carrier code, e.g. "AA") plus `date` (the flight's ORIGIN date, ISO "2026-08-04") and
+     * EITHER `flightNumber` OR both `origin` and `destination` (IATA airport codes) to get every
+     * nonstop that airline flies on that route that day. Each returned leg carries the airline's
+     * own status wording and a stable status key to branch on, the
+     * canceled/diverted/inFlight/landed booleans, scheduled/estimated/actual times at both ends as
+     * ISO strings with each airport's own UTC offset, gate, terminal and baggage claim, the
+     * aircraft, codeshare and operating carrier, and the airline's passenger-facing disruption
+     * message. THROWS for an `airline` no provider behind this capability implements, naming which
+     * ones can answer — there is no default carrier to guess, unlike `search`, which has no
+     * caller-supplied identity to route on in the first place. An empty `flights` array is a real
+     * answer: that airline flies no such flight that day, not a failure. `warnings` is always
+     * present, same contract as every other function here, though today it can only ever report a
+     * clamped `timeoutMs` — a single-carrier route has no fan-out to go thin.
+     */
+    getFlightStatus(query: FlightStatusQuery, options?: CallOptions): Promise<FlightStatusResult>;
   }
 }
 
@@ -446,6 +529,29 @@ type CarrierLicensing = {
   warnings: string[]         // always present; a timeoutMs clamp notice today
 }
 
+// listReferralCarriers: whose paper a referral/marketplace program's quote
+// actually places — a fact the quote row itself never states.
+type ReferralCarrierQuery = {
+  line?: string  // narrow to one property line, e.g. "homeowners" — NOT a closed
+                 // enum; an unmatched value throws, naming the lines the
+                 // directory actually publishes. Omit for the whole directory.
+}
+type ReferralCarrier = {
+  source: string             // which referral program this came from
+  name: string                // as the directory writes it
+  lines: string[]             // every property line this carrier is listed under
+  url: string | null          // the directory's own link for this carrier
+  ownedBySource: boolean | null  // true only for the referral program's OWN
+                                  // paper; null when the directory linked
+                                  // nothing for this row, so it said nothing
+                                  // to derive an answer from
+}
+type ReferralCarrierListResult = {
+  carriers: ReferralCarrier[]  // alphabetical by name
+  warnings: string[]           // always present; names a source that timed
+                               // out or failed
+}
+
 type CallOptions = {
   timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
                        // A provider slower than this is DROPPED from the results and
@@ -516,6 +622,25 @@ type CallOptions = {
      * result to hand back. `options.timeoutMs` sets the budget (default 30000).
      */
     getLicensing(naicCode: string, options?: CallOptions): Promise<CarrierLicensing>;
+
+    /**
+     * Lists the carriers a referral/marketplace program actually places business with — the fact a
+     * quote row never states on its face. Reads Progressive's own published directory of outside
+     * property carriers (homeowners, renters, condo, dwelling-fire, manufactured-home) today. Call
+     * with no argument for the whole directory (16 carriers currently) or `{ line: "homeowners" }`
+     * to narrow to one line — `line` is NOT a closed enum; an unrecognized value THROWS naming the
+     * lines the directory actually publishes, because inventing a fixed list here would silently
+     * drop a line the site adds later. Each row carries every line that carrier is listed under
+     * (`lines`) and `ownedBySource` — true ONLY when the row is the referral program's own paper,
+     * derived from the directory's own linking rather than from name matching, and null when the
+     * directory linked nothing for that row. NEVER returns an empty list from a source that
+     * answered: this is a published directory with no legitimate empty case, so a missing section
+     * or a changed page throws at the provider rather than under-reporting who underwrites the
+     * policy. `warnings` is always present and names a source that timed out or failed — with one
+     * source today, read it before trusting a short list is the whole directory.
+     * `options.timeoutMs` sets the per-source budget (default 30000).
+     */
+    listReferralCarriers(query?: ReferralCarrierQuery, options?: CallOptions): Promise<ReferralCarrierListResult>;
   }
 }
 
@@ -789,18 +914,78 @@ interface aaFlightStatusResult {
   flights: aaFlight[];
 }
 
+interface aaReservation {
+  recordLocator: string;
+  status: string | null;
+  bookingTime: string | null;
+  passengers: aaReservationPassenger[];
+  itinerary: aaReservationSlice[];
+}
+
+interface aaReservationPassenger {
+  firstName: string | null;
+  lastName: string | null;
+  passengerID: string | null;
+  paxType: string | null;
+  loyaltyNumber: string | null;
+  ticketNumbers: string[];
+}
+
+interface aaReservationSlice {
+  segments: aaReservationSegment[];
+}
+
+interface aaReservationSegment {
+  flightNumber: string | null;
+  marketingCarrierCode: string | null;
+  operatingCarrierCode: string | null;
+  cabinType: string | null;
+  bookingCode: string | null;
+  departureDateTime: string | null;
+  legs: aaReservationLeg[];
+}
+
+interface aaReservationLeg {
+  originAirportCode: string | null;
+  originCity: string | null;
+  destinationAirportCode: string | null;
+  destinationCity: string | null;
+}
+
+interface aaRetrieveBookingArgs {
+  /** Exactly six letters — American's own record-locator format. */
+  recordLocator: string;
+  /** The passenger's last name, exactly as it appears on the reservation. */
+  lastName: string;
+}
+
   /**
    * American Airlines' own site — its published fares and award availability, flight status,
-   * reservation lookup, seat maps, baggage allowance and fee schedules. Flight status is live
-   * and browserless; the rest are declared stubs.
+   * reservation lookup, seat maps, baggage allowance and fee schedules. Flight status and
+   * reservation lookup are live and browserless; the rest are declared stubs.
    */
   interface Unit {
-    // NO TYPED SURFACE — every function this unit declares is refused above.
-    // The unit is real and callable at runtime; nothing here can say so in types.
     // UNTYPED, DELIBERATELY OMITTED — `getFlightStatus({ date, flightNumber, origin, destination })` declares no types for
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.aa.getFlightStatus` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+
+    /**
+     * Reads an existing American Airlines reservation by its six-letter record locator (PNR) and
+     * the passenger's last name — nothing is signed into, and both are the caller's own details,
+     * passed at call time. Returns the record locator, American's own status string, when the
+     * booking was made, every passenger (name, passenger id, fare type, loyalty number, ticket
+     * numbers), and the itinerary as slices of flown segments (flight number, marketing and
+     * operating carrier codes, cabin, booking class, departure time, and each leg's
+     * origin/destination airport and city). Throws when the locator and last name do not both
+     * match a real reservation — American validates the pair together, so a real locator paired
+     * with the wrong last name answers exactly like one that does not exist at all; there is no
+     * way to tell those two cases apart from the outside. HONEST LIMIT: the not-found path is
+     * live-verified; the success shape above is reconstructed from American's own client code and
+     * has not been observed on the wire, since no consenting real booking was available to test it
+     * — see `retrieve-booking.ts` for what that means for field accuracy.
+     */
+    retrieveBooking(arg0: aaRetrieveBookingArgs): Promise<aaReservation>;
   }
 }
 
@@ -902,6 +1087,54 @@ interface abercrombieSearchQuery {
   maxItems?: number;
 }
 
+interface abercrombieStoreStock {
+  store: abercrombieStore;
+  inventoryStatus: string;
+  availableQuantity: number;
+  inStock: boolean;
+  availableFrom: string | null;
+  availableFromLabel: string | null;
+}
+
+interface abercrombieStock {
+  productId: string;
+  sku: string;
+  productName: string | null;
+  color: string | null;
+  url: string;
+  sizeLabel: string;
+  sizePrimary: string | null;
+  sizeSecondary: string | null;
+  primaryDimension: string | null;
+  secondaryDimension: string | null;
+  inStockOnline: boolean;
+  onlineQuantity: number;
+  onlineStatus: string;
+  preorderEligible: boolean;
+  price: number | null;
+  listPrice: number | null;
+  onSale: boolean;
+  currency: string;
+  findInStoreEligible: boolean;
+  pickupEligible: boolean;
+  stores: abercrombieStoreStock[] | null;
+}
+
+interface abercrombieStockQuery {
+  url?: string;
+  id?: string;
+  size?: string;
+  sizePrimary?: string;
+  sizeSecondary?: string;
+  sku?: string;
+  zip?: string;
+  city?: string;
+  state?: string;
+  radiusMiles?: number;
+  maxStores?: number;
+  brand?: "adult" | "kids" | "both";
+}
+
   /**
    * Abercrombie & Fitch's own storefront — product search, product detail, size/store stock,
    * store locator, current deals and gift card balance.
@@ -942,6 +1175,29 @@ interface abercrombieSearchQuery {
      * radius", never an error.
      */
     findStores(query: abercrombieStoreQuery): Promise<abercrombieStore[]>;
+
+    /**
+     * Answers whether ONE size of ONE colourway is buyable RIGHT NOW — online, and at the stores
+     * near a place you name. Identify the product with `url` or `id`, then the size with either
+     * `size` (the site's own label, e.g. "32 X Regular" or "M"), or `sizePrimary`+`sizeSecondary`,
+     * or a `sku` you already hold. Add `zip` OR `city`+`state` to also get per-store stock; omit
+     * all three and `stores` comes back `null` — "you did not ask", which is deliberately distinct
+     * from `[]`, "asked, and no store nearby carries it". Returns the resolved `sku`, the size and
+     * its dimension names, the online answer (`inStockOnline`, a real `onlineQuantity` — the site
+     * publishes counts like 305, not a flag — the site's own `onlineStatus` word,
+     * `preorderEligible`, price/listPrice/onSale), whether the colourway is eligible for the
+     * site's find-in-store and pick-up-in-store journeys at all, and one row per nearby store
+     * carrying that store's full record plus its `inventoryStatus`, `availableQuantity`, `inStock`
+     * and the date it expects the item. **`inStock` is the strict question and is NOT `status !==
+     * "Unavailable"`**: the site's commonest store answer is `Backorderable` with quantity 0,
+     * which means "we will order it for you", not "it is on the shelf" — so `inStock` is true only
+     * for `Available` WITH a quantity above zero. **An ambiguous size THROWS rather than
+     * guessing**: "26" names three lengths on a jean, and answering for one of them would be a
+     * wrong answer on a 200. A `sku` is looked up across the whole style and answers for the
+     * colourway it really belongs to, not the one in the url. This is the per-SIZE, per-STORE
+     * question; `getProduct` answers the different one of what sizes and colours a style comes in.
+     */
+    checkStock(query: abercrombieStockQuery): Promise<abercrombieStock>;
 
     /**
      * Searches or browses Abercrombie's live catalog the way the site's own search bar and
@@ -1513,6 +1769,64 @@ interface BmwusaCpoSearchOptions {
   }
 }
 
+declare namespace BowmarkProvider_cancer {
+  // ── National Cancer Institute (cancer.gov) — the unit's own declarations, verbatim ──
+type cancerCenterDesignation =
+  | "Comprehensive Cancer Center"
+  | "Clinical Cancer Center"
+  | "Basic Laboratory Cancer Center";
+
+interface cancerCenterRow {
+  name: string;
+  /** The center's own detail page on cancer.gov. */
+  url: string;
+  /** NCI's own state grouping — the authoritative field to filter on. */
+  state: string;
+  /** The "City, State" line the page publishes, verbatim. */
+  location: string;
+  /** A second location aside the page publishes for a few centers, e.g.
+   * "(in addition to facilities in Florida and Minnesota)" — present on a
+   * center that operates comprehensive facilities in more than one state and
+   * is cross-listed under each. */
+  locationNote?: string;
+  /** The parent university or health system, when distinct from the center's
+   * own name. Absent for freestanding centers (their own name IS the
+   * institution). */
+  hostInstitution?: string;
+  designation: cancerCenterDesignation;
+}
+
+interface cancerCentersResult {
+  /** Every center when no `state` filter is given; only the matching ones
+   * otherwise. */
+  total: number;
+  centers: cancerCenterRow[];
+}
+
+  /**
+   * The US National Cancer Institute: PDQ cancer information, the clinical-trial register,
+   * cancer drugs, NCI-designated cancer centers and the cancer dictionaries. The NCI-Designated
+   * Cancer Center directory (`findCancerCenters`) is callable now — every center's name,
+   * designation type, location and host institution, optionally filtered by state; the other
+   * twelve declared functions are still stubs.
+   */
+  interface Unit {
+    /**
+     * The NCI-Designated Cancer Centers — the institutions NCI itself certifies as meeting its
+     * standards for cancer research and care — each with its name, its designation type
+     * (Comprehensive, Clinical, or Basic Laboratory), its city and state, its parent university or
+     * health system when it has one, and the link to its own cancer.gov detail page. `state`
+     * (NCI's own state name, e.g. "California", "Hawai'i", "District of Columbia", matched
+     * case-insensitively but exactly — no fuzzy matching) filters to that state; omitted, every
+     * center is returned. A center that operates comprehensive facilities in more than one state
+     * (Mayo Clinic Cancer Center) is cross-listed under each, with `locationNote` naming its other
+     * locations. This is the whole directory in one document — NCI does not filter it server-side
+     * — so `total` and `centers.length` are always equal.
+     */
+    findCancerCenters(args?: { state?: string }): Promise<cancerCentersResult>;
+  }
+}
+
 declare namespace BowmarkProvider_cars {
   // ── Cars.com — the unit's own declarations, verbatim ──
 interface carsListing {
@@ -1616,6 +1930,34 @@ interface KayakBookingOption {
   seatsRemaining: number | null;
 }
 
+interface KayakHotelQuery {
+  location: string;   // IATA airport code, e.g. "SFO", or a resolvable city
+  checkIn: string;    // YYYY-MM-DD
+  checkOut: string;   // YYYY-MM-DD
+  adults?: number;    // default 2
+  rooms?: number;     // default 1
+}
+
+// Cheapflights's OWN row shape for stays.
+interface KayakHotel {
+  id: string;
+  name: string;
+  price: number | null;        // per NIGHT, cheapest seller (normalized, see below)
+  totalPrice: number | null;   // the WHOLE stay — what rows are sorted on
+  currency: string;
+  seller: string;              // who sells that rate ("Priceline")
+  sellerCount: number | null;  // how many sellers quoted this property
+  stars: number | null;        // property stars, 1-5
+  score: number | null;        // guest score out of 10
+  reviewCount: number | null;
+  propertyType: string;        // "Hotel", "Motel", "Apartment"
+  neighborhood: string | null;
+  city: string | null;
+  distance: string | null;     // "11.7 mi", as the site renders it
+  distanceFrom: string | null; // what that distance is measured from
+  url: string;                 // deep link to the property
+}
+
 interface KayakCarQuery {
   pickup: string;          // IATA airport code, e.g. "SFO"
   dropoff?: string;        // defaults to pickup
@@ -1671,6 +2013,13 @@ interface KayakCar {
      * so a sold-out fare is never reported as "nobody sells this".
      */
     getBookingOptions(flight: KayakFlight): Promise<KayakBookingOption[]>;
+
+    /**
+     * Runs the stays search on cheapflights.com and returns priced properties for a destination
+     * and date range, cheapest TOTAL first. Interaction-gated: the prices only exist after the
+     * site's own multi-phase supplier poll completes.
+     */
+    searchHotels(query: KayakHotelQuery): Promise<KayakHotel[]>;
 
     /**
      * Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup
@@ -1777,6 +2126,49 @@ interface ChriscraftPriceResult {
 
 declare namespace BowmarkProvider_classpass {
   // ── ClassPass — the unit's own declarations, verbatim ──
+/** Everything /v2/venues publishes about one studio — a superset of
+ *  ClasspassVenue, so anything holding one can hold the other. */
+interface ClasspassStudio extends ClasspassVenue {
+  /** What the studio does. On THIS function it comes from the venue record's own
+   *  tag block, so it is correct even on a day the studio publishes no classes. */
+  activities: string[];
+  /** ISO-3166 alpha-2, e.g. "US", "GB". */
+  country: string | null;
+  /** The site's neighbourhood label ("South Charlotte"). Null where it publishes none. */
+  neighborhood: string | null;
+  /** The metro area the studio is sold in ("Charlotte Metro", "London Metro"). */
+  metroArea: string | null;
+  description: string | null;
+  /** The studio's OWN site, not its ClassPass page. Null where it publishes none. */
+  website: string | null;
+  phone: string | null;
+  instagram: string | null;
+  facebook: string | null;
+  twitter: string | null;
+  /** Real photographs, largest first. ClassPass's generic fallback placeholders are
+   *  dropped — a placeholder passed off as the studio is worse than nothing. */
+  photos: string[];
+  logo: string | null;
+  /** Only the attributes the studio asserts, e.g. ["lgbtq_friendly",
+   *  "wheelchair_accessible"]. A false flag means "not claimed" and is dropped. */
+  inclusivity: string[];
+  bookingWindow: string | null;
+  whenToArrive: string | null;
+  whatToBring: string | null;
+  howToGetThere: string | null;
+  proTip: string | null;
+  cancellationPolicy: string | null;
+  /** null where the site holds no policy (it sends the sentinel "UNKNOWN"). */
+  lateCancellation: string | null;
+  demandSignals: string[];
+  /** ClassPass's own published fraction (0-1). Returned under the site's own name
+   *  and NOT relabelled a saving — the site does not document its basis. There is
+   *  no credit price on this record; per-class cost is getSchedule's `credits`. */
+  averageDiscount: number | null;
+  outOfNetwork: boolean;
+  spots: number | null;
+}
+
 interface ClasspassSchedule {
   venue: ClasspassVenue;
   /** Dates covered, YYYY-MM-DD in the venue's zone, ascending. A day with no
@@ -1842,12 +2234,33 @@ interface ClasspassScheduleOptions {
 
   /**
    * ClassPass — fitness, wellness and beauty classes across gyms, studios, spas and salons.
-   * `getSchedule` reads one studio's bookable timetable for a day or a week: every session with
-   * its start time, instructor, duration, credit price and whether it is still open. Studio and
-   * class search, the studio profile, per-slot availability and membership pricing are declared
-   * but not built yet.
+   * `getStudio` reads one studio's whole profile in a single request: what it does, where it is,
+   * its rating, amenities, photos, contact routes and the practical booking prose. `getSchedule`
+   * reads that studio's bookable timetable for a day or a week: every session with its start
+   * time, instructor, duration, credit price and whether it is still open. Studio and class
+   * search, per-slot availability and membership pricing are declared but not built yet.
    */
   interface Unit {
+    /**
+     * Reads ONE ClassPass studio's whole profile in a single request — the page a person reads to
+     * decide whether a result is worth booking. `studio` is a ClassPass venue id (74359), the
+     * alias in its public URL ("barrys-charlotte"), or the studio URL itself; all three are
+     * accepted. Returns identity and branch (a chain's locations differ only by `subtitle`), the
+     * full address with coordinates, IANA time zone, neighbourhood and metro area, the studio's
+     * own description, what it actually does (`activities`), amenities and the inclusivity
+     * attributes it asserts, its rating and how many reviews back it, real photographs
+     * (ClassPass's generic `fallback.jpg` placeholders are dropped rather than passed off as the
+     * studio), its own website, phone and socials, and the practical prose a booker needs —
+     * booking window, when to arrive, what to bring, how to get there, and the cancellation
+     * policies. NOTE ON PRICE: this record carries NO credit figure, measured across four venues —
+     * the only price-ish field ClassPass publishes here is `averageDiscount`, its own undocumented
+     * fraction, returned under its own name rather than relabelled as a saving. What a class COSTS
+     * is per-session and comes from `getSchedule`'s `credits`, which is both exact and free of a
+     * second request. A studio that has left ClassPass throws a caller-fixable error quoting the
+     * site's own reason ("Venue disabled") rather than returning a hollow profile.
+     */
+    getStudio(studio: number | string): Promise<ClasspassStudio>;
+
     /**
      * Reads ONE ClassPass studio's bookable timetable — what a person can actually book there, and
      * when. `studio` is a ClassPass venue id (74359), the alias in its public URL
@@ -2212,6 +2625,36 @@ interface dillardsRegistry {
   items: dillardsRegistryItem[];
 }
 
+interface dillardsGetProductQuery {
+  url: string;
+}
+
+interface dillardsProductVariant {
+  sku: string;
+  color: string;
+  size: string | null;
+  shipsOnline: boolean;
+}
+
+interface dillardsProduct {
+  id: string;
+  catentryId: string;
+  name: string;
+  brand: string | null;
+  url: string;
+  description: string | null;
+  image: string | null;
+  images: string[];
+  priceLow: number | null;
+  priceHigh: number | null;
+  listPrice: number | null;
+  onSale: boolean;
+  rating: number | null;
+  reviewCount: number;
+  colorCount: number;
+  variants: dillardsProductVariant[];
+}
+
   /**
    * Dillard's department store catalog, store-level stock, store locator and wedding/gift
    * registry search.
@@ -2256,6 +2699,19 @@ interface dillardsRegistry {
      * real, non-stocking one, so a caller must already have a genuine Dillard's store number.
      */
     checkStock(query: dillardsCheckStockQuery): Promise<dillardsStockResult>;
+
+    /**
+     * Reads one product's own page — full name, brand, description, primary image plus every
+     * gallery shot, current price range, pre-markdown `listPrice` and the site's own `onSale`
+     * flag, star rating and review count (both null/0 when the product has no reviews yet — the
+     * site omits the field entirely rather than publishing a zero), `colorCount` (distinct
+     * colourways), and `variants[]`, every size/color combination the page lists with its own sku
+     * and `shipsOnline` flag. Pass `url` exactly as `search` returns it in a row's own `url`.
+     * **This is a summary, not a store check** — `variants[].shipsOnline` is the product's own
+     * online-availability flag, independent of any physical store; whether ONE exact size/color is
+     * in stock at a named store is `checkStock`'s job, not this one's.
+     */
+    getProduct(query: dillardsGetProductQuery): Promise<dillardsProduct>;
 
     /**
      * Searches Dillard's wedding/gift registry (dillards.com/registry) — a distinctive Dillard's
@@ -6161,6 +6617,132 @@ interface LufthansaBaggageAllowance {
   }
 }
 
+declare namespace BowmarkProvider_lululemon {
+  // ── lululemon — the unit's own declarations, verbatim ──
+interface LululemonVariant {
+  /** The identifier lululemon's own checkout uses, e.g. "us_117376359". */
+  sku: string;
+  /** Which option each dimension is set to, e.g. { size: "4" }. */
+  options: Record<string, string>;
+  /** The store's own availability flag for this exact SKU. */
+  available: boolean;
+  price: number | null;
+  salePrice: number | null;
+}
+interface LululemonOptionGroup {
+  /** The machine name. "size" on every lululemon product measured. */
+  type: string;
+  /** The site's own label for the picker, e.g. "Size". */
+  label: string;
+  options: { value: string; label: string }[];
+}
+interface LululemonColorway {
+  /** lululemon's own colour code, e.g. "TRUE-NAVY". */
+  colorId: string;
+  color: string;
+  colorFamily: string | null;
+  price: number | null;
+  /** Set only when this colourway is marked down. */
+  salePrice: number | null;
+  promoMessage: string | null;
+  /** The product URL pinned to this colour, as the store publishes it. */
+  url: string;
+  swatchImage: string | null;
+  images: string[];
+  inStock: boolean;
+  optionGroups: LululemonOptionGroup[];
+  /** What can be BOUGHT in this colour right now — not the full size run. */
+  variants: LululemonVariant[];
+}
+interface LululemonSizeType {
+  /** A sibling product that is the same style in another length. */
+  productId: string;
+  size: string;
+  selected: boolean;
+}
+interface LululemonProduct {
+  id: string;
+  title: string;
+  brand: string;
+  url: string;
+  /** The store's own audience attribute, e.g. "women". */
+  gender: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  inStock: boolean;
+  priceLow: number | null;
+  priceHigh: number | null;
+  colorways: LululemonColorway[];
+  /** Other lengths of the same style. Empty on every product measured — on this
+   * site an inseam is its OWN product, not an option. */
+  sizeTypes: LululemonSizeType[];
+}
+interface LululemonRow {
+  id: string;
+  title: string;
+  url: string;
+  priceLow: number | null;
+  priceHigh: number | null;
+  colorCount: number | null;
+  inStock: boolean | null;
+  /** False when the row came from the site's product index and the catalogue
+   * behind the prices does not carry it. id and url still work. */
+  priced: boolean;
+}
+interface LululemonSearch {
+  query: string;
+  products: LululemonRow[];
+  /** How many entries matched before the row cap. */
+  matched: number;
+  warnings: string[];
+}
+interface LululemonSimilarProducts {
+  seedProductId: string;
+  products: LululemonRow[];
+  totalRanked: number | null;
+  warnings: string[];
+}
+
+  /**
+   * lululemon's athletic apparel catalogue — search it, and read one product's full
+   * configurator: every colourway with its own price and images, the size options, and which
+   * exact SKUs are buyable right now.
+   */
+  interface Unit {
+    /**
+     * Searches lululemon's catalogue by free text and returns matching product rows, closest match
+     * first — id, title, URL, price range, how many colours the style comes in, and whether it is
+     * in stock. Ranks over the site's own published product index, then reads the price and colour
+     * count per row. A match the pricing catalogue does not carry still comes back, with `priced:
+     * false` and null prices; `matched` says how many matched before the row cap so a caller can
+     * raise `limit` (default 8, max 24).
+     */
+    search(query: { query: string; limit?: number }): Promise<LululemonSearch>;
+
+    /**
+     * Reads one product's full configurator the way its product page presents it — every colourway
+     * with its own price, sale price, promo message, swatch, image set and URL; the size picker
+     * listing the sizes that colourway can CURRENTLY SELL; and one entry per sellable SKU with the
+     * store's own id, so a caller can answer 'which colours can I get in a 6 right now'. This feed
+     * expresses sold-out by OMISSION rather than by a flag — measured across all three captured
+     * fixtures, the picker and the SKU list are the same set in all 61 colourways and `available`
+     * is true on 363 of 363 SKUs — so presence is the stock signal and `available` is passed
+     * through rather than relied on.
+     */
+    getProduct(query: { productId: string }): Promise<LululemonProduct>;
+
+    /**
+     * Returns the products lululemon's own product pages recommend alongside one product — the
+     * 'You may also like' rail — as priced rows in the store's own ranked order, de-duplicated to
+     * one row per style. It is the store's ranking, not ours, and it does NOT reliably surface the
+     * same garment in another length: measured on the Align 25" pant, none of the six recommended
+     * rows was a sibling inseam even though the sitemap carries them, so reaching another length
+     * is a `search`.
+     */
+    getSimilarProducts(query: { productId: string; limit?: number }): Promise<LululemonSimilarProducts>;
+  }
+}
+
 declare namespace BowmarkProvider_mailchimp {
   // ── Mailchimp — the unit's own declarations, verbatim ──
 interface mailchimpPlanTier {
@@ -6203,6 +6785,29 @@ interface mailchimpPlanPricing {
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.mailchimp.getPlanPricing` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+  }
+}
+
+declare namespace BowmarkProvider_marriott {
+  // ── Marriott — the unit's own declarations, verbatim ──
+interface MarriottHotelListing {
+  id: string;      // marsha code
+  name: string;
+  brand: string;
+  url: string;
+  place: string;    // the resolved place slug, e.g. "usa-maryland"
+}
+
+  /** Marriott Bonvoy hotel search, award availability, reservations and property details. */
+  interface Unit {
+    /**
+     * Lists Marriott-family properties published on the site's own hotel-sitemap directory for one
+     * US state or country (`place`, e.g. "Maryland", "France" — never a bare city or landmark,
+     * which this directory does not index per property). `query` (optional) narrows the list by a
+     * case-insensitive substring match against each property's own display name, which often but
+     * not always carries a city. Returns each property's marsha id, name, brand and overview URL.
+     */
+    findHotels(args: { place: string; query?: string }): Promise<MarriottHotelListing[]>;
   }
 }
 
@@ -6538,6 +7143,101 @@ interface medicareNursingHomeSearch {
   homes: medicareNursingHome[];
 }
 
+interface medicareHospitalMeasureGroup {
+  /** How many measures CMS defines for this group nationally. */
+  measuresInGroup: number | null;
+  /** How many of them THIS hospital actually reported — can be fewer than
+   * `measuresInGroup`; the gap is itself informative. */
+  measuresReported: number | null;
+  /** Null for `patientExperience`/`timelyAndEffectiveCare` — CMS publishes no
+   * national-average comparison for those two groups, only a rate. */
+  better: number | null;
+  noDifferent: number | null;
+  worse: number | null;
+  /** CMS's own footnote code(s), verbatim — occasionally more than one,
+   * comma-separated. */
+  footnote: string | null;
+}
+
+interface medicareHospital {
+  /** CMS Certification Number — the same id `findNursingHomes` and
+   * `findDoctors`'s hospital affiliations key on. */
+  ccn: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string | null;
+  county: string | null;
+  /** Straight-line miles to the CENTROID OF THIS HOSPITAL'S OWN ZIP, not its
+   * street address — this dataset carries no coordinates at all, the same gap
+   * `findDoctors`'s clinician file has. Everyone sharing a ZIP shares a
+   * distance, and a large rural ZIP carries real slack. */
+  distanceMiles: number;
+  /** e.g. "Acute Care Hospitals", "Critical Access Hospitals", "Psychiatric",
+   * "Childrens", "Rural Emergency Hospital". Never "Long-term" — that type
+   * belongs to `findRehabAndLongTermCareFacilities`. */
+  hospitalType: string;
+  ownershipType: string | null;
+  emergencyServices: boolean;
+  birthingFriendly: boolean;
+  /** 1-5, or null when CMS publishes none — about 40% of hospitals nationally
+   * carry no overall rating, mostly because they don't participate in the
+   * reporting programs this rating requires, not because they scored poorly.
+   * A null is NOT a bad rating; read it with `overallRatingFootnote`. */
+  overallRating: number | null;
+  /** Can be present even alongside a real star rating — always surface it. */
+  overallRatingFootnote: string | null;
+  /** The measure GROUPS behind the star, not just the rollup. */
+  measureGroups: {
+    mortality: medicareHospitalMeasureGroup;
+    safety: medicareHospitalMeasureGroup;
+    readmission: medicareHospitalMeasureGroup;
+    patientExperience: medicareHospitalMeasureGroup;
+    timelyAndEffectiveCare: medicareHospitalMeasureGroup;
+  };
+}
+
+interface medicareHospitalQuery {
+  /** 5-digit US ZIP, placed via the Census Bureau's ZCTA centroid. Either this
+   * or a `latitude`/`longitude` pair is required. */
+  zip?: string;
+  latitude?: number;
+  longitude?: number;
+  /** Straight-line miles, default 25, max 100. */
+  radiusMiles?: number;
+  /** Max hospitals returned, default 20. `matchesInSearchedZips` reports the
+   * unlimited-by-`limit` count for the ZIPs actually searched. */
+  limit?: number;
+}
+
+interface medicareHospitalSearch {
+  origin: {
+    zip: string | null;
+    latitude: number;
+    longitude: number;
+    source: "zcta-centroid" | "caller";
+  };
+  radiusMiles: number;
+  /** ZIP Code Tabulation Areas the Census Bureau places inside the radius. */
+  zipsInRadius: number;
+  /** How many of them this call actually queried, nearest-batch-first. */
+  zipsSearched: number;
+  /** FALSE when the walk stopped before every ranked ZIP was queried —
+   * normally because `limit` was already satisfied. Read it before describing
+   * the result as "every hospital in the radius". */
+  radiusFullyScanned: boolean;
+  /** Hospitals found in the ZIPs actually searched, before `limit` — NOT a
+   * radius-wide total when `radiusFullyScanned` is false. */
+  matchesInSearchedZips: number;
+  /** CMS's own publication date for this extract. Not "today" — CMS refreshes
+   * quarterly. */
+  dataAsOf: string | null;
+  /** Nearest first. */
+  hospitals: medicareHospital[];
+}
+
 /** Whether a clinician takes Medicare's approved amount as payment in full.
  * NOT a boolean, and that is load-bearing: CMS's `ind_assgn` is only ever "Y"
  * or "M" — never "N" — so "does not take Medicare" is not a state this data can
@@ -6663,17 +7363,98 @@ interface medicareClinicianSearch {
   clinicians: medicareClinician[];
 }
 
+interface medicareMedigapDiscountRange {
+  min: number;
+  max: number;
+}
+
+/** How the premium changes with the buyer's age. Attained-age premiums RISE with
+ * age; issue-age and community-rated do not (community additionally moves with
+ * inflation for everyone at once, regardless of age). "unknown" is a real,
+ * intended value — see `ratingMethodRaw` on the policy it appears on — never a
+ * parse failure. */
+type medicareMedigapRatingMethod = "attainedAge" | "issueAge" | "communityRated" | "unknown";
+
+interface medicareMedigapPolicy {
+  /** The insurer, exactly as CMS lists it. A parenthetical suffix like
+   * "(Standard I)" is the SAME company selling this plan type under more than one
+   * underwriting tier, each priced separately — do not dedupe by a company name
+   * with the parenthetical stripped. */
+  company: string;
+  ratingMethod: medicareMedigapRatingMethod;
+  /** CMS's raw rate-type string, kept ONLY when `ratingMethod` is "unknown" — a
+   * value CMS started publishing after this mapping was written. Null whenever
+   * `ratingMethod` is one of the three known values. */
+  ratingMethodRaw: string | null;
+  monthlyRateMin: number;
+  monthlyRateMax: number;
+  address: string;
+  phoneNumber: string;
+  website: string | null;
+  /** A married/related-household discount, when this insurer offers one. Priced
+   * SEPARATELY from `householdDiscountRoommate` — one existing does not imply
+   * the other does. */
+  householdDiscountStandard: medicareMedigapDiscountRange | null;
+  /** An unrelated-adults-sharing-a-residence discount, priced separately from
+   * `householdDiscountStandard` and frequently absent when that one is present. */
+  householdDiscountRoommate: medicareMedigapDiscountRange | null;
+}
+
+interface medicareMedigapPlanType {
+  /** CMS's discriminator minus its "MEDIGAP_PLAN_TYPE_" prefix — "A", "HIGH_F", or
+   * a Minnesota/Wisconsin waiver type ("MN_BASIC", "WI_HIGH_DEDUCTIBLE", …). Pass
+   * this back as `searchMedigapPlans`'s `planType` argument to re-fetch just
+   * this one type. */
+  planType: string;
+  /** The range Medicare.gov reports ACROSS every insurer selling this plan type
+   * here, before picking one. Null means the `planType` filter named a type the
+   * overview did not list as offered here — `policies` is then reliably empty
+   * too, and null is the honest value rather than a fabricated 0. */
+  monthlyRateMin: number | null;
+  monthlyRateMax: number | null;
+  householdDiscountStandard: medicareMedigapDiscountRange | null;
+  householdDiscountRoommate: medicareMedigapDiscountRange | null;
+  /** Every insurer selling this plan type here. */
+  policies: medicareMedigapPolicy[];
+}
+
+interface medicareMedigapQuery {
+  /** 5-digit US ZIP. */
+  zip: string;
+  /** Omit to fetch every plan type the state offers. A result's own `planType`
+   * (`'G'`, `'HIGH_F'`, or a waiver state's `'MN_BASIC'`) fetches just that one. */
+  planType?: string;
+  /** Only needed for the rare ZIP that crosses a STATE line — Medigap is priced
+   * by state, so the wrong side returns a different market, not an error. */
+  county?: string;
+}
+
+interface medicareMedigapSearch {
+  zip: string;
+  /** Resolved from the ZIP, never taken from the caller — Medigap is priced by
+   * state and a wrong one silently returns an empty result rather than an error. */
+  state: string;
+  county: medicareCounty;
+  countiesConsidered: medicareCounty[];
+  /** Empty is a real, honest answer for a state/ZIP CMS reports no Medigap market
+   * data for — never a sign this call failed. */
+  planTypes: medicareMedigapPlanType[];
+}
+
   /**
    * The US government's own Medicare site — Medicare Advantage, Part D and Medigap plan search
    * with real drug-cost estimates, the Care Compare directory of doctors, hospitals, nursing
    * homes, home health, hospice and dialysis providers with CMS quality ratings, the A-to-Z
-   * coverage database, and what Medicare itself costs this year. Part D drug-plan search, the
-   * doctor-and-clinician directory (specialties, group practice, hospital affiliations by name,
-   * and whether they accept Medicare assignment), the nursing-home directory with CMS's full
-   * Five-Star record (component ratings, staffing hours, fines, payment denials and Special
-   * Focus status), and the Medicare cost reference (premiums, deductibles, coinsurance tiers and
-   * the Part B/Part D income brackets) are callable now; the other fifteen declared functions
-   * are still stubs.
+   * coverage database, and what Medicare itself costs this year. Part D drug-plan search,
+   * Medigap plan search (every insurer selling each plan type, with its rating method and any
+   * household discount), the doctor-and-clinician directory (specialties, group practice,
+   * hospital affiliations by name, and whether they accept Medicare assignment), the
+   * nursing-home directory with CMS's full Five-Star record (component ratings, staffing hours,
+   * fines, payment denials and Special Focus status), the hospital directory with CMS's overall
+   * rating AND the five measure groups behind it (mortality, safety, readmission, patient
+   * experience, timely and effective care), and the Medicare cost reference (premiums,
+   * deductibles, coinsurance tiers and the Part B/Part D income brackets) are callable now; the
+   * other thirteen declared functions are still stubs.
    */
   interface Unit {
     // UNTYPED, DELIBERATELY OMITTED — `searchDrugPlans({ zip, year, county, limit })` declares no types for
@@ -6730,6 +7511,43 @@ interface medicareClinicianSearch {
      * `dataAsOf` carries CMS's own publication date — this is a periodic extract, not a live read.
      */
     findDoctors(query: medicareClinicianQuery): Promise<medicareClinicianSearch>;
+
+    /**
+     * The Medigap (Medicare Supplement) plan types sold in a ZIP's state, each with the insurers
+     * selling it, their premium range, their RATING METHOD (attained-age — rises with age;
+     * issue-age or community-rated — does not) and any household discount. `zip` is a 5-digit US
+     * ZIP; `county` disambiguates the rare ZIP that crosses a STATE line (Medigap is priced by
+     * state, not region), the same shape as `searchDrugPlans`'s own `county`. Omit `planType` to
+     * fetch every plan type the state offers (Minnesota and Wisconsin price under their own
+     * federal waiver — `MN_BASIC`, `WI_HIGH_DEDUCTIBLE`, etc. — rather than the national letters,
+     * and this function returns exactly what the state offers); pass a result's own `planType`
+     * (e.g. `'G'`, `'HIGH_F'`) to fetch just that one, one call instead of every letter's. NOTE
+     * the field the manifest exists for: two policies can share the same letter (which by law
+     * means identical coverage) and today's premium, and still diverge by hundreds of dollars a
+     * year within a decade purely because one is `attainedAge` and the other is not — never rank
+     * or recommend a Medigap policy on premium alone without surfacing `ratingMethod`.
+     */
+    searchMedigapPlans(arg0: medicareMedigapQuery): Promise<medicareMedigapSearch>;
+
+    /**
+     * The Medicare-registered hospitals near a place, nearest first, each with CMS's overall star
+     * rating AND the five measure groups behind it (mortality, safety, readmission, patient
+     * experience, timely and effective care — each with how many measures the hospital reported
+     * and, for the first three, how many beat/matched/trailed the national average), the hospital
+     * type (acute care, critical access, psychiatric, children's, rural emergency, VA, DoD — never
+     * the long-term/rehab types `findRehabAndLongTermCareFacilities` covers), ownership, whether
+     * it offers emergency services, and CMS's birthing-friendly designation. Pass a 5-digit `zip`
+     * (placed via the Census Bureau's ZCTA centroid) or a `latitude`/`longitude` pair;
+     * `radiusMiles` defaults to 25 (max 100) and `limit` to 20. NOTE the two things that make this
+     * answer honest. (1) `overallRating` is null for roughly 40% of hospitals nationally — mostly
+     * small or non-reporting facilities, not poor performers — and is never the whole story: read
+     * it alongside `measureGroups`, since a hospital can report zero of a group's measures and
+     * still carry an overall star from the groups it does report. (2) `distanceMiles` is to the
+     * centroid of the hospital's own ZIP, not its street address — this dataset carries no
+     * coordinates — so `radiusFullyScanned` and `matchesInSearchedZips` carry the same
+     * walked-radius honesty split `findDoctors` uses, for the identical reason.
+     */
+    findHospitals(query: medicareHospitalQuery): Promise<medicareHospitalSearch>;
   }
 }
 
@@ -7598,6 +8416,34 @@ interface ottoProduct {
   sizes: { label: string; selected: boolean; available: boolean }[];
   colors: { label: string; selected: boolean; available: boolean; image: string | null }[];
 }
+interface ottoSearchPrice {
+  currentAmount: number;
+  currentDisplay: string;
+  suggestedRetailAmount: number | null;
+  suggestedRetailDisplay: string | null;
+  comparativeAmount: number | null;
+  comparativeDisplay: string | null;
+  onSale: boolean;
+  isStartingPrice: boolean;
+}
+interface ottoSearchResult {
+  productId: string;
+  variationId: string;
+  articleNumber: string;
+  url: string;
+  name: string;
+  brand: string;
+  price: ottoSearchPrice;
+  availability: { state: string; detail: string };
+  thumbnail: string | null;
+  rating: { value: number; count: number } | null;
+  matchType: string;
+  totalCount: number;
+}
+interface ottoSearchQuery {
+  query: string;
+  limit?: number;
+}
 
   /** German online marketplace — fashion, furniture, electronics and more. */
   interface Unit {
@@ -7609,6 +8455,20 @@ interface ottoProduct {
      * retired listing).
      */
     getProduct(url: string): Promise<ottoProduct>;
+
+    /**
+     * Searches OTTO's catalog for a free-text keyword the way the site's own search bar does,
+     * across its whole marketplace (OTTO's own catalog and third-party sellers) and returns
+     * matching rows: price (current + UVP + the site's own comparison price when it publishes
+     * one), availability, brand, rating and a thumbnail. `matchType` on each row is the site's own
+     * retrieval-type token ("hybrid" for a real keyword match, "semantic" when nothing matched
+     * literally and the site is showing similar items instead — OTTO's engine almost never returns
+     * a hard empty result). Returns one page (up to ~150 rows); `totalCount` on each row is the
+     * site's own total match count across every page. `url` feeds `getProduct` directly for OTTO's
+     * own catalog rows; a third-party marketplace row's URL does not match `getProduct`'s current
+     * `-C<id>/` pattern.
+     */
+    search(query: ottoSearchQuery): Promise<ottoSearchResult[]>;
   }
 }
 
@@ -7751,13 +8611,56 @@ interface PizzahutPricedLineItem {
   specialInstructions: string | null;
 }
 
+// ── getMenuItem ───────────────────────────────────────────────────────────
+interface PizzahutMenuItem {
+  storeNumber: string;
+  productCode: string;   // pass this + a variantCode below to priceOrder
+  name: string | null;
+  description: string | null;
+  category: string | null;
+  currency: string;
+  variants: PizzahutMenuItemVariant[];
+}
+
+interface PizzahutMenuItemVariant {
+  variantCode: string;   // the priced configuration — size and crust are IN this code
+  name: string | null;
+  priceCents: number;    // this variant's OWN starting price
+  attributes: string[];  // e.g. ["Original Pan® Pizza", "Personal Pan"]
+  slots: PizzahutMenuItemSlot[];
+  servingSize: { quantity: number; unit: string } | null;
+  allergens: { allergen: string; presence: string }[];
+}
+
+interface PizzahutMenuItemSlot {
+  slotCode: string;                    // e.g. "slot_pizza_cheese", "slot_toppings"
+  name: string | null;
+  minAllowedSelections: number;
+  maxAllowedSelections: number | null; // null = no cap the site publishes
+  modifiers: PizzahutMenuItemModifier[];
+}
+
+interface PizzahutMenuItemModifier {
+  modifierCode: string;
+  name: string | null;
+  weights: PizzahutMenuItemWeight[];   // portion/intensity choices for this modifier
+}
+
+interface PizzahutMenuItemWeight {
+  modifierWeightCode: string;  // pass slotCode + modifierCode + this to priceOrder's modifiers
+  name: string | null;         // e.g. "Light", "Regular", "Extra"
+  priceCents: number;          // what THIS option costs on THIS variant — varies by size
+}
+
   /**
    * Pizza Hut's US ordering site. `findStores` returns the stores serving any US address or ZIP,
    * nearest first, with each one's number, hours, distance, phone and the terms of the carryout
-   * and delivery it offers. `priceOrder` then prices a basket at one of those stores WITHOUT
+   * and delivery it offers. `getMenuItem` reads one item's full store-level configuration by
+   * name — every size/crust, and every optional topping/sauce/cheese slot with what each choice
+   * costs on THAT variant. `priceOrder` then prices a basket at one of those stores WITHOUT
    * placing it — line items, subtotal, sales tax, delivery fee and the real total Pizza Hut
-   * would charge, for carryout or to a delivery address, anonymously. Reading the store menu and
-   * the current deals are declared and still stubs.
+   * would charge, for carryout or to a delivery address, anonymously. Browsing the full menu
+   * list and reading the current deals are still stubs.
    */
   interface Unit {
     /**
@@ -7806,6 +8709,27 @@ interface PizzahutPricedLineItem {
      * cart so totals never accumulate across calls.
      */
     priceOrder(order: { storeNumber: string; items: { productCode: string; variantCode: string; quantity?: number; modifiers?: { slotCode: string; modifierCode: string; modifierWeightCode: string }[]; specialInstructions?: string }[]; fulfillment?: "carryout" | "delivery"; deliveryAddress?: { address: string; address2?: string; city: string; state: string; zip: string; deliveryInstructions?: string; phone?: string }; requestedTime?: string; promoCode?: string }): Promise<PizzahutPricedOrder>;
+
+    /**
+     * Reads one menu item in full for a store — every size/crust it comes in, each one's own
+     * starting price, and every optional slot (sauce, cheese, toppings, seasoning, cut) with what
+     * each choice costs ON THAT VARIANT, plus nutrition serving size and allergens where the site
+     * publishes them. `storeNumber` comes from `findStores`. `getMenu` (the sibling function that
+     * would normally hand out a `productCode` to browse by) is still a stub, so `item` is a NAME
+     * instead — "Pepperoni Pizza" — matched first as an exact `productCode` if you already have
+     * one, then an exact case-insensitive name, then a substring; `category` (a code like "pizza"
+     * or a display name like "Pizza") narrows the search when a name alone is ambiguous. Zero
+     * matches or more than one both throw as caller-fixable, the second one listing every
+     * candidate's name, category and `productCode` so a retry can pick one exactly.
+     * **Configuration prices are per VARIANT, not per product** — measured 2026-08-06 on the same
+     * Pepperoni Pizza, Extra Cheese is +$0.50 on a Personal Pan, +$2.89 on a Medium, +$3.39 on a
+     * Large, so this returns each variant's own priced slot tree rather than one flat add-on price
+     * for the whole item. A `variantCode` plus a `slotCode`/`modifierCode`/`modifierWeightCode`
+     * triple read here is exactly what `priceOrder` takes to price a configured basket. Wholly
+     * anonymous, same guest-token read `priceOrder` uses — no account, no session, nothing
+     * identifying.
+     */
+    getMenuItem(args: { storeNumber: string; item: string; category?: string }): Promise<PizzahutMenuItem>;
   }
 }
 
@@ -9029,6 +9953,28 @@ interface SearsSearchQuery {
   zipCode?: string;
   limit?: number;
 }
+interface SearsProductPrice {
+  currentAmount: number;
+  currentDisplay: string;
+  regularAmount: number | null;
+  regularDisplay: string | null;
+  onSale: boolean;
+}
+interface SearsProductSpecification {
+  label: string;
+  attributes: string[];
+}
+interface SearsProduct {
+  productId: string;
+  url: string;
+  name: string;
+  brand: string | null;
+  price: SearsProductPrice;
+  inStock: boolean;
+  images: string[];
+  description: string | null;
+  specifications: SearsProductSpecification[];
+}
 
   /** Sears' own storefront — product search, product detail, fulfillment/stock and store locator. */
   interface Unit {
@@ -9042,6 +9988,16 @@ interface SearsSearchQuery {
      * further paging parameter this function reaches.
      */
     search(query: SearsSearchQuery): Promise<SearsSearchResult[]>;
+
+    /**
+     * Reads one Sears product in full: name, brand, current and regular price, whether it's in
+     * stock, every image and the site's own full labelled spec sheet (dimensions, features,
+     * overview). Takes the product id or full URL from Sears's own "/p-<id>" pattern — `search`
+     * returns both, so the ordinary path is a `search` row's `id` or `url`. `zipCode` narrows
+     * price/availability the way the site's own zip cookie does; omit it for the site's own
+     * default (New York, 10101). THROWS on an id the site does not recognise.
+     */
+    getProduct(idOrUrl: string, opts?: { zipCode?: string }): Promise<SearsProduct>;
   }
 }
 
@@ -10480,12 +11436,38 @@ interface walmartStore {
   services: Array<{ name: string; displayName: string; phone: string | null }>;
 }
 
+interface walmartSearchResult {
+  itemId: string;
+  name: string;
+  brand: string | null;
+  url: string;
+  image: string | null;
+  price: number | null;
+  wasPrice: number | null;
+  priceRangeMin: number | null;
+  inStock: boolean;
+  rating: number | null;
+  reviewCount: number;
+  sponsored: boolean;
+  totalMatches: number;
+}
+
   /**
-   * Walmart.com — product search, product detail, store-level stock, store locator and more. One
-   * function built: finding nearby stores by ZIP, with address, hours, phone and department
-   * availability.
+   * Walmart.com — product search, product detail, store-level stock, store locator and more. Two
+   * functions built: keyword search across the catalog, and finding nearby stores by ZIP with
+   * address, hours, phone and department availability.
    */
   interface Unit {
+    /**
+     * Searches walmart.com's catalog for a keyword and returns matching products — item id, name,
+     * brand, price (plus the pre-markdown price and the cheapest OTHER purchase option's price
+     * when the site names a range), image, in-stock flag, rating, review count and whether the row
+     * is a sponsored placement — the way the site's own search bar does. Returns the site's own
+     * first results page (organic rows only, its own trending/related carousels excluded) in the
+     * site's own default relevance order.
+     */
+    search(args: { query: string; limit?: number }): Promise<walmartSearchResult[]>;
+
     /**
      * Finds nearby Walmart stores for a 5-digit US ZIP code — address, phone, hours,
      * geo-coordinates, distance, which fulfilment methods each store supports (curbside pickup,
@@ -10514,6 +11496,26 @@ interface wellfoundRow {
   salaryCurrency: "USD" | null;
   equityMin: number | null;
   equityMax: number | null;
+}
+
+interface wellfoundJobDetail {
+  id: string;
+  title: string;
+  url: string;
+  descriptionHtml: string;
+  employmentType: string | null;
+  experienceLevel: string | null;
+  remote: boolean;
+  locations: string[];
+  remoteLocations: string[];
+  compensationRaw: string | null;
+  salaryMin: number | null;
+  salaryMax: number | null;
+  salaryCurrency: "USD" | null;
+  equityMin: number | null;
+  equityMax: number | null;
+  datePosted: string | null;
+  company: { name: string; slug: string | null; url: string | null; website: string | null; logoUrl: string | null };
 }
 
 interface wellfoundCompanyRow {
@@ -10556,6 +11558,15 @@ interface wellfoundCompanyRow {
      * filters over the fields the search itself returns.
      */
     searchCompanies(args: object): Promise<wellfoundCompanyRow[]>;
+
+    /**
+     * Reads one job posting in full the way its own detail page does — takes the `url` a
+     * `searchJobs`/`searchCompanies` row already carries (a bare id 404s, measured 2026-08-06) —
+     * returning the full description, salary band, equity range (both parsed off the header chip;
+     * equity has no structured-data field on this site), location, remote policy, the site's own
+     * experience-requirement text and the hiring startup.
+     */
+    getJob(args: { url: string }): Promise<wellfoundJobDetail>;
   }
 }
 
@@ -10734,6 +11745,7 @@ interface BowmarkProviders {
   bhphoto: BowmarkProvider_bhphoto.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
+  cancer: BowmarkProvider_cancer.Unit;
   cars: BowmarkProvider_cars.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;
@@ -10765,7 +11777,9 @@ interface BowmarkProviders {
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
   lufthansa: BowmarkProvider_lufthansa.Unit;
+  lululemon: BowmarkProvider_lululemon.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;
+  marriott: BowmarkProvider_marriott.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
   medicare: BowmarkProvider_medicare.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
@@ -17598,6 +18612,7 @@ interface BowmarkProviders {
   beyondthemeatsuit: BowmarkFamily_shopify_store.Unit;
   beyondthenotes: BowmarkFamily_shopify_store.Unit;
   beyondtheshimmer: BowmarkFamily_shopify_store.Unit;
+  beyondyoga: BowmarkFamily_shopify_store.Unit;
   beyourstheme: BowmarkFamily_shopify_store.Unit;
   beyoursthemeclothing: BowmarkFamily_shopify_store.Unit;
   beyoursthemefashion: BowmarkFamily_shopify_store.Unit;

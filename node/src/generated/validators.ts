@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 80346d8cf36c785e2b7fe0a77a87e5a51fa97ceb04ea11c951c71a9f7f75ad8e
-// 208 checked, 20 unchecked.
+// Manifest version: 6368edcbec9d9ee7ceb3fd590c7054ade0542a93e43a39f4f88dc6167c0e36da
+// 227 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "80346d8cf36c785e2b7fe0a77a87e5a51fa97ceb04ea11c951c71a9f7f75ad8e",
+  "version": "6368edcbec9d9ee7ceb3fd590c7054ade0542a93e43a39f4f88dc6167c0e36da",
   "units": {
     "cars": {
       "defs": {
@@ -379,6 +379,46 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "FlightStatusQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "airline",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "flightNumber",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "origin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -406,6 +446,24 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FlightResult"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getFlightStatus": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "FlightStatusQuery"
             },
             "optional": false
           },
@@ -592,6 +650,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ReferralCarrierQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "line",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -652,6 +722,24 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listReferralCarriers": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "ReferralCarrierQuery"
+            },
+            "optional": true
           },
           {
             "name": "options",
@@ -1036,9 +1124,39 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.aa": {
-      "defs": {},
+      "defs": {
+        "aaRetrieveBookingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "recordLocator",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
-        "getFlightStatus": null
+        "getFlightStatus": null,
+        "retrieveBooking": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "aaRetrieveBookingArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.abercrombie": {
@@ -1083,6 +1201,109 @@ export const VALIDATORS: ValidatorTable = {
               "name": "maxItems",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "abercrombieStockQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sizePrimary",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sizeSecondary",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sku",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxStores",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "brand",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "adult"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "kids"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "both"
+                  }
+                ]
               },
               "optional": true
             }
@@ -1167,6 +1388,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "abercrombieStoreQuery"
+            },
+            "optional": false
+          }
+        ],
+        "checkStock": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "abercrombieStockQuery"
             },
             "optional": false
           }
@@ -1671,6 +1902,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.cancer": {
+      "defs": {},
+      "functions": {
+        "findCancerCenters": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.cars": {
       "defs": {},
       "functions": {
@@ -1877,6 +2131,46 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "KayakHotelQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "KayakQuery": {
           "k": "object",
           "props": [
@@ -1974,6 +2268,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KayakFlight"
+            },
+            "optional": false
+          }
+        ],
+        "searchHotels": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "KayakHotelQuery"
             },
             "optional": false
           }
@@ -2100,6 +2404,23 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
+        "getStudio": [
+          {
+            "name": "studio",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getSchedule": [
           {
             "name": "studio",
@@ -2261,6 +2582,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "dillardsGetProductQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "dillardsRegistrySearchQuery": {
           "k": "object",
           "props": [
@@ -2331,6 +2664,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "dillardsCheckStockQuery"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "dillardsGetProductQuery"
             },
             "optional": false
           }
@@ -5043,10 +5386,113 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.lululemon": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getSimilarProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.mailchimp": {
       "defs": {},
       "functions": {
         "getPlanPricing": null
+      }
+    },
+    "providers.marriott": {
+      "defs": {},
+      "functions": {
+        "findHotels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "place",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.mcdonalds": {
@@ -5127,6 +5573,72 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "medicareHospitalQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "medicareMedigapQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "planType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "county",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "medicareNursingHomeQuery": {
           "k": "object",
           "props": [
@@ -5187,6 +5699,26 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "medicareClinicianQuery"
+            },
+            "optional": false
+          }
+        ],
+        "searchMedigapPlans": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "medicareMedigapQuery"
+            },
+            "optional": false
+          }
+        ],
+        "findHospitals": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "medicareHospitalQuery"
             },
             "optional": false
           }
@@ -5924,13 +6456,43 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.otto": {
-      "defs": {},
+      "defs": {
+        "ottoSearchQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "getProduct": [
           {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "ottoSearchQuery"
             },
             "optional": false
           }
@@ -6281,6 +6843,38 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "promoCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getMenuItem": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "storeNumber",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "item",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "category",
                   "schema": {
                     "k": "string"
                   },
@@ -9144,6 +9738,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getProduct": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zipCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -10526,6 +11145,31 @@ export const VALIDATORS: ValidatorTable = {
     "providers.walmart": {
       "defs": {},
       "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "findStores": [
           {
             "name": "args",
@@ -10563,6 +11207,24 @@ export const VALIDATORS: ValidatorTable = {
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "getJob": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

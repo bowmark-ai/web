@@ -370,7 +370,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.listCategory` | shop.lululemon.com | Browses one category the way the site's own navigation does — Women's Leggings, Men's… | ⚪ |
 | `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
 | `mailchimp.getPlanPricing` | mailchimp.com | Reads mailchimp.com/pricing/marketing/'s own plan lineup (Free, Essentials, Standard… | 🟢 |
-| `marriott.findHotels` | marriott.com | Finds Marriott-family properties near a city, region, or landmark — the site's own… | ⚪ |
+| `marriott.findHotels` | marriott.com | Lists Marriott-family properties published on the site's own hotel-sitemap directory… | 🟢 |
 | `marriott.getAwardAvailability` | marriott.com | Searches Marriott's live award (Marriott Bonvoy points) availability for a property… | ⚪ |
 | `marriott.getDeals` | marriott.com | Reads Marriott's currently published promotions and offers — the site's own "Deals"… | ⚪ |
 | `marriott.getHotelDetails` | marriott.com | Reads one Marriott-family property in full — full address, phone number, brand… | ⚪ |
