@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f77b6cccf53a3b0cfe90533b1348ece1a56ff687a56099dd4d4df118702f2469
-// 251 checked, 20 unchecked.
+// Manifest version: a25af2d9654586a142577ab1ba37be8fc97d10ce439e4dbb3eac3b8866cfed21
+// 252 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f77b6cccf53a3b0cfe90533b1348ece1a56ff687a56099dd4d4df118702f2469",
+  "version": "a25af2d9654586a142577ab1ba37be8fc97d10ce439e4dbb3eac3b8866cfed21",
   "units": {
     "cars": {
       "defs": {
@@ -6843,6 +6843,26 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "PaypalGetFeesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "audience",
+              "schema": {
+                "k": "literal",
+                "v": "consumer"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -6852,6 +6872,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "PaypalEstimateFeeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getFees": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PaypalGetFeesArgs"
             },
             "optional": false
           }

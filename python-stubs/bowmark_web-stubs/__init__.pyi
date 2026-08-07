@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f77b6cccf53a3b0cfe90533b1348ece1a56ff687a56099dd4d4df118702f2469
-# 8 capabilities, 79 providers, 251 typed functions, 20 refused.
+# Manifest version: a25af2d9654586a142577ab1ba37be8fc97d10ce439e4dbb3eac3b8866cfed21
+# 8 capabilities, 79 providers, 252 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4532,6 +4532,38 @@ class Prv_paypal_PaypalFeeCitation_Out(TypedDict):
     documentId: str
     feeDataKey: str
     internalName: str
+
+class Prv_paypal_PaypalGetFeesArgs_In(TypedDict):
+    audience: NotRequired[Literal["consumer"]]
+    country: NotRequired[str]
+
+class Prv_paypal_PaypalFeeSchedule_Out(TypedDict):
+    audience: Literal["consumer"]
+    country: str
+    sourceUrl: str
+    tables: list[Prv_paypal_PaypalFeeTable_Out]
+
+class Prv_paypal_PaypalFeeTable_Out(TypedDict):
+    documentId: str
+    caption: str
+    rows: list[Prv_paypal_PaypalFeeRow_Out]
+
+class Prv_paypal_PaypalFeeRow_Out(TypedDict):
+    labels: list[str]
+    tokens: list[Prv_paypal_PaypalFeeToken_Out]
+    cells: list[str]
+    noFee: bool
+    citations: list[Prv_paypal_PaypalFeeCitation_Out]
+
+class Prv_paypal_PaypalFeeToken_Out(TypedDict):
+    feeDataKey: str
+    internalName: str
+    percent: float | None
+    amount: Prv_paypal_PaypalFeeToken_Out_amount_u0_Out | None
+
+class Prv_paypal_PaypalFeeToken_Out_amount_u0_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
@@ -9402,8 +9434,8 @@ class Prv_paypal(Protocol):
     the fee on one concrete personal (friends-and-family) transaction, currency-conversion
     quotes and the spread PayPal adds, Pay Later instalment plans, PayPal.Me handle lookup,
     Help Center search and articles, the binding policy documents, PayPal Shopping cashback
-    offers, crypto prices, and invoice payer-view reads. One function callable today —
-    estimateFee.
+    offers, crypto prices, and invoice payer-view reads. Two functions callable today —
+    estimateFee, getFees.
     """
 
     async def estimateFee(self, args: Prv_paypal_PaypalEstimateFeeArgs_In, /) -> Prv_paypal_PaypalFeeEstimate_Out:
@@ -9412,6 +9444,14 @@ class Prv_paypal(Protocol):
         estimateFee({ amount: 100, currency: "USD", crossBorder: false, fundingSource: "card" })
         -> { fee: 3.2, net: 96.8, citations: [...] }. Does not (yet) cover
         goods-and-services/merchant transactions, a separate page nobody has walked.
+        """
+
+    async def getFees(self, args: Prv_paypal_PaypalGetFeesArgs_In, /) -> Prv_paypal_PaypalFeeSchedule_Out:
+        """Reads PayPal's published fee schedule for one audience / country pair and returns every
+        fee table on the page — every row, every published feeDataKey, with documentId-level
+        citations — so a caller can inspect the schedule itself rather than asking about one
+        amount. Currently consumer / us only; merchant is on a separate unverified page and
+        other countries have not been fetched.
         """
 
 class Prv_pirateship(Protocol):

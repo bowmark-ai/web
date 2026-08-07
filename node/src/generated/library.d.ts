@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f77b6cccf53a3b0cfe90533b1348ece1a56ff687a56099dd4d4df118702f2469
-// 8 capabilities, 79 providers, 257 typed functions, 20 refused.
+// Manifest version: a25af2d9654586a142577ab1ba37be8fc97d10ce439e4dbb3eac3b8866cfed21
+// 8 capabilities, 79 providers, 258 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9164,13 +9164,41 @@ interface PaypalFeeEstimate {
   net: number;                  // amount - fee
   citations: PaypalFeeCitation[];
 }
+interface PaypalGetFeesArgs {
+  audience?: "consumer";        // defaults to "consumer"; merchant is a separate, unverified page
+  country?: string;             // ISO 3166-1 alpha-2, defaults to "us"; only "us" is verified end-to-end
+}
+interface PaypalFeeToken {
+  feeDataKey: string;           // the exact published value, e.g. "2.90%" or "0.30 USD"
+  internalName: string;
+  percent: number | null;       // 0.029 when "2.90%", else null
+  amount: { amount: number; currency: string } | null;  // when "0.30 USD", else null
+}
+interface PaypalFeeRow {
+  labels: string[];             // plain-text label cells, in cell order
+  tokens: PaypalFeeToken[];     // every published fee token on the row, across all columns
+  cells: string[];              // plain-text rendering of each cell, in cell order
+  noFee: boolean;               // true iff the row carries no fee token (PayPal's "No fee" rows)
+  citations: PaypalFeeCitation[];
+}
+interface PaypalFeeTable {
+  documentId: string;           // the CMS fee-table id, e.g. "FEETB20"
+  caption: string;              // PayPal's own caption, e.g. "Sending domestic personal transactions"
+  rows: PaypalFeeRow[];
+}
+interface PaypalFeeSchedule {
+  audience: "consumer";
+  country: string;              // lowercased to match PayPal's URL path, e.g. "us"
+  sourceUrl: string;
+  tables: PaypalFeeTable[];
+}
 
   /**
    * PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules, the
    * fee on one concrete personal (friends-and-family) transaction, currency-conversion quotes
    * and the spread PayPal adds, Pay Later instalment plans, PayPal.Me handle lookup, Help Center
    * search and articles, the binding policy documents, PayPal Shopping cashback offers, crypto
-   * prices, and invoice payer-view reads. One function callable today — estimateFee.
+   * prices, and invoice payer-view reads. Two functions callable today — estimateFee, getFees.
    */
   interface Unit {
     /**
@@ -9181,6 +9209,15 @@ interface PaypalFeeEstimate {
      * transactions, a separate page nobody has walked.
      */
     estimateFee(args: PaypalEstimateFeeArgs): Promise<PaypalFeeEstimate>;
+
+    /**
+     * Reads PayPal's published fee schedule for one audience / country pair and returns every fee
+     * table on the page — every row, every published feeDataKey, with documentId-level citations —
+     * so a caller can inspect the schedule itself rather than asking about one amount. Currently
+     * consumer / us only; merchant is on a separate unverified page and other countries have not
+     * been fetched.
+     */
+    getFees(args: PaypalGetFeesArgs): Promise<PaypalFeeSchedule>;
   }
 }
 
