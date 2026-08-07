@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d6be47f70eb59a769018c119aac158705c5ac742e194c37ff851255c3c93707a
-# 8 capabilities, 78 providers, 248 typed functions, 20 refused.
+# Manifest version: 235c0006a71680fbe88c5f54ce33bf71c34423ac46f905dcf4424b7cb0aba52e
+# 8 capabilities, 78 providers, 249 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2438,6 +2438,19 @@ class Prv_google_flights_GooglePricePoint_Out(TypedDict):
     returnDate: str | None
     price: float | None
     currency: str
+
+class Prv_grainger_graingerSearchRow_Out(TypedDict):
+    itemNumber: str
+    name: str
+    url: str
+    brand: str | None
+    price: Prv_grainger_graingerSearchRow_Out_price_u0_Out | None
+    thumbnail: str | None
+
+class Prv_grainger_graingerSearchRow_Out_price_u0_Out(TypedDict):
+    amount: float
+    currency: str
+    perUnit: str
 
 class Prv_grainger_graingerBranchRow_Out(TypedDict):
     branchNumber: str
@@ -7882,11 +7895,20 @@ class Prv_google_flights(Protocol):
 
 class Prv_grainger(Protocol):
     """Grainger's industrial MRO catalog, product detail, and branch/stock availability —
-    findBranch (nationwide branch directory), getProduct (price, pack size, spec table,
-    availability by item number or URL) and checkStock (shipping-to-zip and
-    pickup-at-nearest-branch fulfillment estimates) are live; catalog search is still a
-    stub.
+    search (keyword/category catalog search returning name, item number, brand, price and
+    thumbnail), findBranch (nationwide branch directory), getProduct (price, pack size, spec
+    table, availability by item number or URL) and checkStock (shipping-to-zip and
+    pickup-at-nearest-branch fulfillment estimates) are all live.
     """
+
+    async def search(self, args: Any, /) -> list[Prv_grainger_graingerSearchRow_Out]:
+        """Searches Grainger's industrial MRO catalog by keyword, returning matching products —
+        item number, name, brand, list price and thumbnail. Takes `query` (free text, e.g.
+        "antistatic gloves"). A SPECIFIC query resolves to Grainger's own matching leaf category
+        and returns its real products; a broad query (e.g. "gloves" alone) can resolve to a
+        category-of-categories browse page one or more levels above any actual product and
+        throws rather than returning an empty array — narrow the query if that happens.
+        """
 
     async def findBranch(self, args: Any, /) -> list[Prv_grainger_graingerBranchRow_Out]:
         """Finds Grainger's own U.S. branches near a ZIP, city or state — address, phone, hours and

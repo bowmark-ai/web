@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d6be47f70eb59a769018c119aac158705c5ac742e194c37ff851255c3c93707a
-// 248 checked, 20 unchecked.
+// Manifest version: 235c0006a71680fbe88c5f54ce33bf71c34423ac46f905dcf4424b7cb0aba52e
+// 249 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d6be47f70eb59a769018c119aac158705c5ac742e194c37ff851255c3c93707a",
+  "version": "235c0006a71680fbe88c5f54ce33bf71c34423ac46f905dcf4424b7cb0aba52e",
   "units": {
     "cars": {
       "defs": {
@@ -3725,6 +3725,15 @@ export const VALIDATORS: ValidatorTable = {
     "providers.grainger": {
       "defs": {},
       "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
         "findBranch": [
           {
             "name": "args",

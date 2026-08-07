@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d6be47f70eb59a769018c119aac158705c5ac742e194c37ff851255c3c93707a
-// 8 capabilities, 78 providers, 254 typed functions, 20 refused.
+// Manifest version: 235c0006a71680fbe88c5f54ce33bf71c34423ac46f905dcf4424b7cb0aba52e
+// 8 capabilities, 78 providers, 255 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4510,6 +4510,15 @@ interface graingerRow {
   id: string;
 }
 
+interface graingerSearchRow {
+  itemNumber: string;
+  name: string;
+  url: string;
+  brand: string | null;
+  price: { amount: number; currency: string; perUnit: string } | null;
+  thumbnail: string | null;
+}
+
 interface graingerBranchRow {
   branchNumber: string;
   name: string;
@@ -4552,12 +4561,23 @@ interface graingerStockRow {
 }
 
   /**
-   * Grainger's industrial MRO catalog, product detail, and branch/stock availability —
+   * Grainger's industrial MRO catalog, product detail, and branch/stock availability — search
+   * (keyword/category catalog search returning name, item number, brand, price and thumbnail),
    * findBranch (nationwide branch directory), getProduct (price, pack size, spec table,
    * availability by item number or URL) and checkStock (shipping-to-zip and
-   * pickup-at-nearest-branch fulfillment estimates) are live; catalog search is still a stub.
+   * pickup-at-nearest-branch fulfillment estimates) are all live.
    */
   interface Unit {
+    /**
+     * Searches Grainger's industrial MRO catalog by keyword, returning matching products — item
+     * number, name, brand, list price and thumbnail. Takes `query` (free text, e.g. "antistatic
+     * gloves"). A SPECIFIC query resolves to Grainger's own matching leaf category and returns its
+     * real products; a broad query (e.g. "gloves" alone) can resolve to a category-of-categories
+     * browse page one or more levels above any actual product and throws rather than returning an
+     * empty array — narrow the query if that happens.
+     */
+    search(args: object): Promise<graingerSearchRow[]>;
+
     /**
      * Finds Grainger's own U.S. branches near a ZIP, city or state — address, phone, hours and
      * curbside-pickup availability, off the site's own nationwide directory. `zip` matches by its
