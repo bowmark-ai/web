@@ -6,6 +6,18 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.4.0 (2026-08-07)
+
+**Capabilities**
+
+- Added `flights.getFlightStatus`
+
+**Providers**
+
+- `marriott.findHotels` is now live (it was planned)
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.3.0 (2026-08-07)
 
 **Capabilities**
