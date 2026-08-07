@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d45217ee8e2fb0de81dff836be80454ae1ceeec7548987ffa4109a764bab2d13
-// 8 capabilities, 74 providers, 234 typed functions, 20 refused.
+// Manifest version: 8064f4aab6450ca4dbf3f9da72ea4189ef1e7d1cae078520a33001404611de63
+// 8 capabilities, 74 providers, 237 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1761,6 +1761,53 @@ interface BmwusaModel {
   trims: BmwusaModelTrim[];
 }
 
+interface BmwusaOfferTier {
+  apr: number;
+  months: number;
+}
+
+interface BmwusaLeaseOffer {
+  code: string;
+  description: string;
+  monthlyPayment: number;
+  term: number;
+  msrp: number;
+  downPayment: number;
+  acquisitionFee: number;
+  dueAtSigningExceptNy: number | null;
+  loyaltyCredit: number | null;
+  dealerContribution: string | null;
+  allowedMiles: number | null;
+  chargePerExcessMile: number | null;
+  endOfTermPurchaseOption: number | null;
+  startDate: string;
+  endDate: string;
+}
+
+interface BmwusaFinanceOffer {
+  code: string;
+  description: string;
+  tiers: BmwusaOfferTier[];
+  loyaltyCredit: number | null;
+  startDate: string;
+  endDate: string;
+}
+
+interface BmwusaOffer {
+  modelCode: string;
+  modelName: string;
+  series: string;
+  bodyStyle: string;
+  msrp: number;
+  lease: BmwusaLeaseOffer | null;
+  finance: BmwusaFinanceOffer | null;
+}
+
+interface BmwusaOffersResult {
+  region: string;
+  offers: BmwusaOffer[];
+}
+
   /**
    * BMW US car shopping: the Build Your Own configurator and its option pricing, live VIN-level
    * new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with trims and
@@ -1798,6 +1845,15 @@ interface BmwusaModel {
      * or MPGe) and seating capacity.
      */
     getModel(path: string): Promise<BmwusaModel>;
+
+    /**
+     * Lists BMW's current US lease and finance offers for a 5-digit ZIP code (resolved server-side
+     * to a sales region, since the site's own offer objects carry per-region eligibility) — every
+     * model with an active offer, each with its own lease (monthly payment, term, MSRP, down
+     * payment, due-at-signing, allowed miles, loyalty credit) and/or finance (APR tiers, loyalty
+     * credit) terms, exactly as bmwusa.com's own /special-offers.html widget resolves them.
+     */
+    listOffers(zip: string): Promise<BmwusaOffersResult>;
   }
 }
 
@@ -3320,21 +3376,67 @@ interface fordNameplateDirectory {
   nameplates: fordNameplate[];
 }
 
+interface fordOfferProgram {
+  id: string;
+  name: string;
+  /** Ford's own program type, verbatim — "Cash", "APR", and whatever else
+   * Ford introduces. */
+  type: string;
+  /** Whole USD, negative for a discount. null when this program is not a
+   * flat-amount one. */
+  amount: number | null;
+  /** null when this program is not a financing offer. Ford sends one term or
+   * several (e.g. 36/48/60/72/84-month options on the same program). */
+  aprTerms: { apr: number; termMonths: number }[] | null;
+  startDate: string | null;
+  endDate: string | null;
+  disclaimer: string | null;
+  /** Ford's own machine code, e.g. "PC_STANDALONE_APR", "DEALER_CASH". */
+  programType: string | null;
+  /** "Retail" (public), "Private" (military/loyalty/first-responder —
+   * eligibility this function cannot itself verify), "Campaign", or
+   * whatever else Ford uses. */
+  category: string | null;
+  /** True when Ford Motor Credit finances the program. */
+  financeCompany: boolean;
+  /** Ford's own flag for "eligibility depends on something beyond make/model/
+   * ZIP" (military status, trade-in, loyalty). */
+  conditional: boolean;
+}
+
+interface fordTrimOffers {
+  trim: string;
+  programs: fordOfferProgram[];
+}
+
+interface fordOffers {
+  /** The inventory slug this was resolved from, e.g. "f150". */
+  nameplate: string;
+  modelYear: number;
+  /** The ZIP that was searched — incentives are regional. */
+  postalCode: string;
+  /** Ford's own dealer-region code for that ZIP (e.g. "F48B"), when it sends
+   * one. Opaque outside Ford. */
+  region: string | null;
+  trims: fordTrimOffers[];
+}
+
   /**
    * Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
    * VIN, the model/trim directory and its paint palette, the build-and-price configurator, model
-   * specs and MSRP, current incentives, the dealer locator, and recall lookup by VIN. Two
+   * specs and MSRP, current incentives, the dealer locator, and recall lookup by VIN. Three
    * functions are callable now. The dealer locator returns Ford dealers near a US ZIP with full
    * address, phone, coordinates, per-day sales and service hours, Ford's own capability flags
    * (EV-certified, commercial fleet, pickup-and-delivery) and links to the dealer's own site and
    * inventory. The nameplate directory returns every Ford model inventory can be searched by —
    * slug, display name, aliases, body style, model years and trims — and resolves a person's own
-   * words ("F-150", "mach e", "Super Duty") to the slug the other inventory endpoints take. The
-   * other seven declared functions are still stubs.
+   * words ("F-150", "mach e", "Super Duty") to the slug the other inventory endpoints take.
+   * `getOffers` returns Ford's live, ZIP-regional incentives for a model — cash back, APR
+   * financing (with every term Ford offers, not just the headline one) and any lease programs,
+   * each with its own dates, disclaimer and eligibility category, broken out per trim. The other
+   * six declared functions are still stubs.
    */
   interface Unit {
-    // NO TYPED SURFACE — every function this unit declares is refused above.
-    // The unit is real and callable at runtime; nothing here can say so in types.
     // UNTYPED, DELIBERATELY OMITTED — `findDealers({ near, radiusMiles, limit })` declares no types for
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.ford.findDealers` is a compile error here on purpose.
@@ -3344,6 +3446,22 @@ interface fordNameplateDirectory {
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.ford.listNameplates` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+
+    /**
+     * Ford's current incentives for one model near a US ZIP — cash back, APR financing (every term
+     * Ford offers on a program, e.g. 36/48/60/72/84-month options, not just the headline rate) and
+     * any lease programs — broken out per trim, each with its start/end date, Ford's own
+     * disclaimer text, its machine program code, and a `category` ("Retail" public vs. "Private"
+     * military/loyalty/first-responder) so a caller can tell a program anyone qualifies for from
+     * one that needs proof this function cannot itself check. `nameplate` is the slug
+     * `listNameplates` returns ("f150", "bronco-sport"); a handful of commercial-chassis
+     * nameplates the inventory API lists have no incentives page at all and are refused by name,
+     * measured rather than guessed. `postalCode` is required — incentives are regional, and the
+     * SAME model/year at two ZIPs 2,000 miles apart returns genuinely different programs. `year`
+     * defaults to the newest model year Ford is currently running incentives on for that
+     * nameplate.
+     */
+    getOffers(args: { nameplate: string; postalCode: string; year?: number }): Promise<fordOffers>;
   }
 }
 
@@ -11407,15 +11525,38 @@ interface VisibleGetPhoneResult {
   flashSale: VisiblePhoneFlashSale | null;
 }
 
+interface VisibleCoveragePoint {
+  matchedAddress: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  latitude: number;
+  longitude: number;
+}
+
+interface VisibleCheckCoverageResult {
+  input: string;
+  point: VisibleCoveragePoint;
+  tier: "5gUltraWideband" | "5gNationwide" | "4gLte" | "none";
+  fiveGUltraWideband: boolean;
+  fiveGNationwide: boolean;
+  fourGLte: boolean;
+  /** The site's own one-word verdict, forwarded verbatim. Measured to disagree
+   * with the tier flags on a real point — trust the flags over this. */
+  summary: string;
+}
+
   /**
    * Visible (Verizon's prepaid brand): the promotions running right now — the offer grid with
    * its promo codes and fine print, plus the standing referral, trade-in, payback, Stack'em and
-   * Fios home-internet bundle programmes — and one phone in full from its catalogue slug or URL,
+   * Fios home-internet bundle programmes — one phone in full from its catalogue slug or URL,
    * every storage/colour SKU with its own price, monthly financing terms and live stock,
-   * alongside the specs, images, device-protection plans and eSIM/5G support. Also declared, not
-   * yet built: plan pricing, network coverage by address, bring-your-own-device compatibility,
-   * phone SEARCH across the catalogue, per-device trade-in values, international rates, the
-   * wearable catalogue and the support estate.
+   * alongside the specs, images, device-protection plans and eSIM/5G support — and Verizon's
+   * real network coverage at a caller-supplied US address or ZIP, broken down by 5G Ultra
+   * Wideband / 5G Nationwide / 4G LTE rather than a single yes/no. Also declared, not yet built:
+   * plan pricing, bring-your-own-device compatibility, phone SEARCH across the catalogue,
+   * per-device trade-in values, international rates, the wearable catalogue and the support
+   * estate.
    */
   interface Unit {
     /**
@@ -11441,6 +11582,19 @@ interface VisibleGetPhoneResult {
      * that ended months ago.
      */
     getPhone(slugOrUrl: string, options?: { preOwned?: boolean }): Promise<VisibleGetPhoneResult>;
+
+    /**
+     * Returns Verizon's real network coverage — the tier that actually determines usable speed (5G
+     * Ultra Wideband, 5G Nationwide, or 4G LTE) — at a caller-supplied US street address or
+     * 5-digit ZIP, straight from the same point-level lookup Verizon's own coverage map (embedded
+     * in visible.com/plans/coverage) queries. Geocodes the input first — a full address via the US
+     * Census Bureau's public geocoder, a bare ZIP via a ZIP-centroid lookup — then reads the tiers
+     * at that exact point, never a national or per-ZIP summary standing in for an address-level
+     * answer. Also returns the site's own one-word verdict ("Best"/"Good"/"Moderate"/"No
+     * Coverage") as `summary`, measured to sometimes DISAGREE with the tier flags — the flags are
+     * the ones to trust.
+     */
+    checkCoverage(addressOrZip: string): Promise<VisibleCheckCoverageResult>;
   }
 }
 

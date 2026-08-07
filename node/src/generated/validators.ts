@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d45217ee8e2fb0de81dff836be80454ae1ceeec7548987ffa4109a764bab2d13
-// 228 checked, 20 unchecked.
+// Manifest version: 8064f4aab6450ca4dbf3f9da72ea4189ef1e7d1cae078520a33001404611de63
+// 231 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d45217ee8e2fb0de81dff836be80454ae1ceeec7548987ffa4109a764bab2d13",
+  "version": "8064f4aab6450ca4dbf3f9da72ea4189ef1e7d1cae078520a33001404611de63",
   "units": {
     "cars": {
       "defs": {
@@ -1908,6 +1908,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listOffers": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -2905,7 +2914,39 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "findDealers": null,
-        "listNameplates": null
+        "listNameplates": null,
+        "getOffers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "nameplate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "postalCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "year",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.framebridge": {
@@ -11147,6 +11188,15 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "checkCoverage": [
+          {
+            "name": "addressOrZip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

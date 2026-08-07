@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d45217ee8e2fb0de81dff836be80454ae1ceeec7548987ffa4109a764bab2d13
-# 8 capabilities, 74 providers, 228 typed functions, 20 refused.
+# Manifest version: 8064f4aab6450ca4dbf3f9da72ea4189ef1e7d1cae078520a33001404611de63
+# 8 capabilities, 74 providers, 231 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1129,6 +1129,48 @@ class Prv_bmwusa_BmwusaModelTrim_Out_fuelEfficiency_u0_Out(TypedDict):
     combined: float | None
     unit: str
 
+class Prv_bmwusa_BmwusaOffersResult_Out(TypedDict):
+    region: str
+    offers: list[Prv_bmwusa_BmwusaOffer_Out]
+
+class Prv_bmwusa_BmwusaOffer_Out(TypedDict):
+    modelCode: str
+    modelName: str
+    series: str
+    bodyStyle: str
+    msrp: float
+    lease: Prv_bmwusa_BmwusaLeaseOffer_Out | None
+    finance: Prv_bmwusa_BmwusaFinanceOffer_Out | None
+
+class Prv_bmwusa_BmwusaLeaseOffer_Out(TypedDict):
+    code: str
+    description: str
+    monthlyPayment: float
+    term: float
+    msrp: float
+    downPayment: float
+    acquisitionFee: float
+    dueAtSigningExceptNy: float | None
+    loyaltyCredit: float | None
+    dealerContribution: str | None
+    allowedMiles: float | None
+    chargePerExcessMile: float | None
+    endOfTermPurchaseOption: float | None
+    startDate: str
+    endDate: str
+
+class Prv_bmwusa_BmwusaFinanceOffer_Out(TypedDict):
+    code: str
+    description: str
+    tiers: list[Prv_bmwusa_BmwusaOfferTier_Out]
+    loyaltyCredit: float | None
+    startDate: str
+    endDate: str
+
+class Prv_bmwusa_BmwusaOfferTier_Out(TypedDict):
+    apr: float
+    months: float
+
 class Prv_cancer_findCancerCenters_args_In(TypedDict):
     state: NotRequired[str]
 
@@ -1843,6 +1885,40 @@ class Prv_extraspace_ExtraspaceNearbyFacility_Out(TypedDict):
     number: float | None
     name: str
     distanceMiles: float | None
+
+class Prv_ford_getOffers_args_In(TypedDict):
+    nameplate: str
+    postalCode: str
+    year: NotRequired[float]
+
+class Prv_ford_fordOffers_Out(TypedDict):
+    nameplate: str
+    modelYear: float
+    postalCode: str
+    region: str | None
+    trims: list[Prv_ford_fordTrimOffers_Out]
+
+class Prv_ford_fordTrimOffers_Out(TypedDict):
+    trim: str
+    programs: list[Prv_ford_fordOfferProgram_Out]
+
+class Prv_ford_fordOfferProgram_Out(TypedDict):
+    id: str
+    name: str
+    type: str
+    amount: float | None
+    aprTerms: list[Prv_ford_fordOfferProgram_Out_aprTerms_u0_item_Out] | None
+    startDate: str | None
+    endDate: str | None
+    disclaimer: str | None
+    programType: str | None
+    category: str | None
+    financeCompany: bool
+    conditional: bool
+
+class Prv_ford_fordOfferProgram_Out_aprTerms_u0_item_Out(TypedDict):
+    apr: float
+    termMonths: float
 
 class Prv_framebridge_FramebridgeFrameStyle_Out(TypedDict):
     productId: str
@@ -5785,6 +5861,23 @@ class Prv_visible_VisiblePhoneFlashSale_Out(TypedDict):
     enabledBySite: bool
     active: bool | None
 
+class Prv_visible_VisibleCheckCoverageResult_Out(TypedDict):
+    input: str
+    point: Prv_visible_VisibleCoveragePoint_Out
+    tier: Literal["5gUltraWideband"] | Literal["5gNationwide"] | Literal["4gLte"] | Literal["none"]
+    fiveGUltraWideband: bool
+    fiveGNationwide: bool
+    fourGLte: bool
+    summary: str
+
+class Prv_visible_VisibleCoveragePoint_Out(TypedDict):
+    matchedAddress: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    latitude: float
+    longitude: float
+
 class Prv_walmart_search_args_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -6543,6 +6636,15 @@ class Prv_bmwusa(Protocol):
         efficiency (MPG or MPGe) and seating capacity.
         """
 
+    async def listOffers(self, zip: str, /) -> Prv_bmwusa_BmwusaOffersResult_Out:
+        """Lists BMW's current US lease and finance offers for a 5-digit ZIP code (resolved
+        server-side to a sales region, since the site's own offer objects carry per-region
+        eligibility) — every model with an active offer, each with its own lease (monthly
+        payment, term, MSRP, down payment, due-at-signing, allowed miles, loyalty credit) and/or
+        finance (APR tiers, loyalty credit) terms, exactly as bmwusa.com's own
+        /special-offers.html widget resolves them.
+        """
+
 class Prv_cancer(Protocol):
     """The US National Cancer Institute: PDQ cancer information, the clinical-trial register,
     cancer drugs, NCI-designated cancer centers and the cancer dictionaries. The
@@ -6991,13 +7093,17 @@ class Prv_ford(Protocol):
     """Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
     VIN, the model/trim directory and its paint palette, the build-and-price configurator,
     model specs and MSRP, current incentives, the dealer locator, and recall lookup by VIN.
-    Two functions are callable now. The dealer locator returns Ford dealers near a US ZIP
+    Three functions are callable now. The dealer locator returns Ford dealers near a US ZIP
     with full address, phone, coordinates, per-day sales and service hours, Ford's own
     capability flags (EV-certified, commercial fleet, pickup-and-delivery) and links to the
     dealer's own site and inventory. The nameplate directory returns every Ford model
     inventory can be searched by — slug, display name, aliases, body style, model years and
     trims — and resolves a person's own words ("F-150", "mach e", "Super Duty") to the slug
-    the other inventory endpoints take. The other seven declared functions are still stubs.
+    the other inventory endpoints take. `getOffers` returns Ford's live, ZIP-regional
+    incentives for a model — cash back, APR financing (with every term Ford offers, not just
+    the headline one) and any lease programs, each with its own dates, disclaimer and
+    eligibility category, broken out per trim. The other six declared functions are still
+    stubs.
     """
 
     # UNTYPED, DELIBERATELY OMITTED — `findDealers` declares no types for its
@@ -7009,6 +7115,21 @@ class Prv_ford(Protocol):
     # argument, so there is no honest signature to emit.
     # It is CALLABLE at runtime; `bowmark.providers.ford.listNameplates` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
+
+    async def getOffers(self, args: Prv_ford_getOffers_args_In, /) -> Prv_ford_fordOffers_Out:
+        """Ford's current incentives for one model near a US ZIP — cash back, APR financing (every
+        term Ford offers on a program, e.g. 36/48/60/72/84-month options, not just the headline
+        rate) and any lease programs — broken out per trim, each with its start/end date, Ford's
+        own disclaimer text, its machine program code, and a `category` ("Retail" public vs.
+        "Private" military/loyalty/first-responder) so a caller can tell a program anyone
+        qualifies for from one that needs proof this function cannot itself check. `nameplate`
+        is the slug `listNameplates` returns ("f150", "bronco-sport"); a handful of
+        commercial-chassis nameplates the inventory API lists have no incentives page at all and
+        are refused by name, measured rather than guessed. `postalCode` is required — incentives
+        are regional, and the SAME model/year at two ZIPs 2,000 miles apart returns genuinely
+        different programs. `year` defaults to the newest model year Ford is currently running
+        incentives on for that nameplate.
+        """
 
 class Prv_framebridge(Protocol):
     """Framebridge's real custom picture-framing catalog and CPQ pricing engine — search real
@@ -9698,12 +9819,14 @@ class Prv_ulrichlifestyle(Protocol):
 class Prv_visible(Protocol):
     """Visible (Verizon's prepaid brand): the promotions running right now — the offer grid
     with its promo codes and fine print, plus the standing referral, trade-in, payback,
-    Stack'em and Fios home-internet bundle programmes — and one phone in full from its
-    catalogue slug or URL, every storage/colour SKU with its own price, monthly financing
-    terms and live stock, alongside the specs, images, device-protection plans and eSIM/5G
-    support. Also declared, not yet built: plan pricing, network coverage by address,
-    bring-your-own-device compatibility, phone SEARCH across the catalogue, per-device
-    trade-in values, international rates, the wearable catalogue and the support estate.
+    Stack'em and Fios home-internet bundle programmes — one phone in full from its catalogue
+    slug or URL, every storage/colour SKU with its own price, monthly financing terms and
+    live stock, alongside the specs, images, device-protection plans and eSIM/5G support —
+    and Verizon's real network coverage at a caller-supplied US address or ZIP, broken down
+    by 5G Ultra Wideband / 5G Nationwide / 4G LTE rather than a single yes/no. Also
+    declared, not yet built: plan pricing, bring-your-own-device compatibility, phone SEARCH
+    across the catalogue, per-device trade-in values, international rates, the wearable
+    catalogue and the support estate.
     """
 
     async def listDeals(self, options: Prv_visible_listDeals_options_In | None = None, /) -> Prv_visible_VisibleListDealsResult_Out:
@@ -9726,6 +9849,18 @@ class Prv_visible(Protocol):
         visible.com product URL. Any time-boxed offer on the device is returned with its window
         AND a computed `active` flag, because the site's own `isFlashSaleEnabled` reads `true`
         on sales that ended months ago.
+        """
+
+    async def checkCoverage(self, addressOrZip: str, /) -> Prv_visible_VisibleCheckCoverageResult_Out:
+        """Returns Verizon's real network coverage — the tier that actually determines usable speed
+        (5G Ultra Wideband, 5G Nationwide, or 4G LTE) — at a caller-supplied US street address
+        or 5-digit ZIP, straight from the same point-level lookup Verizon's own coverage map
+        (embedded in visible.com/plans/coverage) queries. Geocodes the input first — a full
+        address via the US Census Bureau's public geocoder, a bare ZIP via a ZIP-centroid lookup
+        — then reads the tiers at that exact point, never a national or per-ZIP summary standing
+        in for an address-level answer. Also returns the site's own one-word verdict
+        ("Best"/"Good"/"Moderate"/"No Coverage") as `summary`, measured to sometimes DISAGREE
+        with the tier flags — the flags are the ones to trust.
         """
 
 class Prv_walmart(Protocol):
