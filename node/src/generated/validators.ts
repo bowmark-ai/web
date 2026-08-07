@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 11b1a109d7e69ffbbcccb30182dd5333770aeb23ab75946f15d55d7f7d84a7bf
-// 202 checked, 20 unchecked.
+// Manifest version: bcc647d5f6fac5ad0974b7a407383b2a0d80005e4b30b7883d662313ae5085d2
+// 206 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "11b1a109d7e69ffbbcccb30182dd5333770aeb23ab75946f15d55d7f7d84a7bf",
+  "version": "bcc647d5f6fac5ad0974b7a407383b2a0d80005e4b30b7883d662313ae5085d2",
   "units": {
     "cars": {
       "defs": {
@@ -2137,6 +2137,83 @@ export const VALIDATORS: ValidatorTable = {
             "name": "domain",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.decked": {
+      "defs": {
+        "DeckedCabSideOption": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "Cab-side Gap"
+            },
+            {
+              "k": "literal",
+              "v": "Load Floor"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchFits": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getVehicleClass": [
+          {
+            "name": "vehicleClass",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "resolveFitment": [
+          {
+            "name": "vehicleQuery",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "bedLength",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "priceCabSideOption": [
+          {
+            "name": "vehicleQuery",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "bedLength",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "option",
+            "schema": {
+              "k": "ref",
+              "name": "DeckedCabSideOption"
             },
             "optional": false
           }

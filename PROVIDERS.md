@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 619 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 623 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -102,6 +102,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cloudflare.compareTeamsPlans` | cloudflare.com | Compares Cloudflare's Zero Trust / Cloudflare One team plans — Free (up to 50 users)… | 🟢 |
 | `cloudflare.getDomainPricing` | cloudflare.com | Reads Cloudflare Registrar's at-cost, no-markup registration and renewal pricing… | ⚪ |
 | `cloudflare.searchDomainAvailability` | cloudflare.com | Checks whether a given domain name is available to register through Cloudflare… | 🟢 |
+| `decked.getVehicleClass` | decked.com | Reads one vehicle class's complete fit list — every model it fits, each with its own… | 🟢 |
+| `decked.priceCabSideOption` | decked.com | Prices the Load Floor vs Cab-side Gap 8'-bed accessory-pack option for one vehicle +… | 🟢 |
+| `decked.resolveFitment` | decked.com | Resolves a free-text vehicle to its real fitted SKU and live price, mirroring the… | 🟢 |
+| `decked.searchFits` | decked.com | Lists every real DECKED vehicle fit across all six vehicle classes (SUV, Full-Size… | 🟢 |
 | `dice.getCompany` | dice.com | Returns one technology employer's Dice profile from its `/company-profile/<uuid>` URL… | ⚪ |
 | `dice.getJob` | dice.com | Returns one Dice posting in full from its `/job-detail/<uuid>` URL or its posting id —… | ⚪ |
 | `dice.listCompanyJobs` | dice.com | Returns the open technology roles a single named employer is currently advertising on… | ⚪ |

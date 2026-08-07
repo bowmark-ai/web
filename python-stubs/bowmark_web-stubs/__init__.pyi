@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 11b1a109d7e69ffbbcccb30182dd5333770aeb23ab75946f15d55d7f7d84a7bf
-# 8 capabilities, 68 providers, 202 typed functions, 20 refused.
+# Manifest version: bcc647d5f6fac5ad0974b7a407383b2a0d80005e4b30b7883d662313ae5085d2
+# 8 capabilities, 69 providers, 206 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1228,6 +1228,41 @@ class Prv_cloudflare_CloudflareDomainSuggestion_Out(TypedDict):
     price: float | None
     renewal: float | None
     promotional: bool
+
+class Prv_decked_DeckedFit_Out(TypedDict):
+    vehicleClass: str
+    vehicleClassTitle: str
+    model: str
+    fitOption: str | None
+    sku: str
+    price: float
+    priceFormatted: str
+    available: bool
+    url: str
+
+class Prv_decked_DeckedVehicleClass_Out(TypedDict):
+    handle: str
+    title: str
+    url: str
+    secondOption: str | None
+    fits: list[Prv_decked_DeckedFit_Out]
+
+class Prv_decked_DeckedFitmentResult_Out(TypedDict):
+    query: str
+    bedLength: str | None
+    matched: bool
+    fit: Prv_decked_DeckedFit_Out | None
+    candidates: list[Prv_decked_DeckedFit_Out]
+    message: str
+
+class Prv_decked_DeckedCabSideOptionResult_Out(TypedDict):
+    query: str
+    bedLength: str
+    option: Literal["Cab-side Gap"] | Literal["Load Floor"]
+    compatible: bool
+    fit: Prv_decked_DeckedFit_Out | None
+    reason: str | None
+    baseFit: Prv_decked_DeckedFit_Out | None
 
 class Prv_dillards_dillardsSearchQuery_In(TypedDict):
     query: str
@@ -5902,6 +5937,52 @@ class Prv_cloudflare(Protocol):
         suggestions across other TLDs.
         """
 
+class Prv_decked(Protocol):
+    """DECKED's truck-bed/SUV/cargo-van Drawer System vehicle-fitment catalog — list every
+    vehicle class and model DECKED fits, read one class's full fit list (model, bed
+    length/wheel base, exact SKU and live price), resolve a free-text vehicle to its real
+    fitted SKU and price, and price the Load Floor vs Cab-side Gap 8'-bed accessory-pack
+    option (including a real fitment rejection when a vehicle has no matching SKU), all off
+    the storefront's own live catalog rather than a researched estimate.
+    """
+
+    async def searchFits(self, query: str | None = None, /) -> list[Prv_decked_DeckedFit_Out]:
+        """Lists every real DECKED vehicle fit across all six vehicle classes (SUV, Full-Size,
+        Midsize, Cargo Van, Service Body, RamBox) from the storefront's own live catalog —
+        model, bed length/wheel base (where the class has one), exact SKU, live price and
+        availability. `query` (optional) narrows the list by a fuzzy match on the vehicle
+        make/model text, e.g. "4runner" or "f150". Excludes the generic /products/drawers
+        "Style: Trucks" decoy, which carries no real per-vehicle fitment.
+        """
+
+    async def getVehicleClass(self, vehicleClass: str, /) -> Prv_decked_DeckedVehicleClass_Out:
+        """Reads one vehicle class's complete fit list — a handle (e.g. "drawers-fullsize") or a
+        shopper-shaped name (e.g. "Full-Size", "SUV", "Cargo Van") — every model it fits, each
+        with its own bed lengths / wheel bases, SKUs, live prices and availability. THROWS on an
+        unrecognized class, naming searchFits() as the way to find current ones.
+        """
+
+    async def resolveFitment(self, vehicleQuery: str, bedLength: str | None = None, /) -> Prv_decked_DeckedFitmentResult_Out:
+        """Resolves a free-text vehicle (e.g. "Toyota 4Runner 2023", "Ford F-150 2015") to its real
+        fitted SKU and live price, mirroring the on-page widget's own Make/Model/Year -> Bed
+        Length narrowing flow. `matched: true` with a populated `fit` means exactly one real fit
+        narrowed to; otherwise `candidates` lists every real fit that DID match the vehicle
+        (pass `bedLength` to narrow a class that needs one, or read `fitOption` off a
+        candidate). Never throws for an ambiguous or zero-bed-length match — an unmatched
+        vehicle name is the one case this DOES treat as a caller error (throws, naming
+        searchFits()).
+        """
+
+    async def priceCabSideOption(self, vehicleQuery: str, bedLength: str, option: Literal["Cab-side Gap"] | Literal["Load Floor"], /) -> Prv_decked_DeckedCabSideOptionResult_Out:
+        """Prices DECKED's 8'-bed cab-side accessory-pack option — "Cab-side Gap" or "Load Floor" —
+        for one vehicle + bed length, against the two real accessory-pack product handles the
+        site publishes. `compatible: false` + a `reason` is a REAL, expected answer (not an
+        error) for a vehicle whose class has no 8'-bed SKU in that product line — e.g. an SUV,
+        which has no Bed Length option at all. `baseFit` (when resolvable) is the "Cab-side Gap"
+        fit at the same vehicle + bed length — DECKED's standard 8' option — so a caller can
+        read the real dollar delta the Load Floor upgrade costs.
+        """
+
 class Prv_dickssportinggoods(Protocol):
     """DICK'S Sporting Goods' own storefront — product search, product detail, store-level
     stock and store locator. The store locator is callable now: it finds stores near a ZIP
@@ -8731,6 +8812,7 @@ class BowmarkProviders(Protocol):
     chriscraft: Prv_chriscraft
     classpass: Prv_classpass
     cloudflare: Prv_cloudflare
+    decked: Prv_decked
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
     discounttire: Prv_discounttire

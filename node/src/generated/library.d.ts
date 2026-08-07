@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 11b1a109d7e69ffbbcccb30182dd5333770aeb23ab75946f15d55d7f7d84a7bf
-// 8 capabilities, 68 providers, 208 typed functions, 20 refused.
+// Manifest version: bcc647d5f6fac5ad0974b7a407383b2a0d80005e4b30b7883d662313ae5085d2
+// 8 capabilities, 69 providers, 212 typed functions, 20 refused.
 // 51,711 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1962,6 +1962,102 @@ interface CloudflareSearchDomainAvailabilityResult {
      * across other TLDs.
      */
     searchDomainAvailability(domain: string): Promise<CloudflareSearchDomainAvailabilityResult>;
+  }
+}
+
+declare namespace BowmarkProvider_decked {
+  // ── DECKED — the unit's own declarations, verbatim ──
+// DECKED's OWN shapes — not a capability contract.
+
+type DeckedCabSideOption = "Cab-side Gap" | "Load Floor";
+
+interface DeckedFit {
+  vehicleClass: string;       // the site's own product handle, e.g. "drawers-fullsize"
+  vehicleClassTitle: string;
+  model: string;               // e.g. "Ford F150 (2004-2014)"
+  fitOption: string | null;    // a bed length or wheel base — null for a class with only "Model" (SUV, Service Body)
+  sku: string;
+  price: number;
+  priceFormatted: string;
+  available: boolean;
+  url: string;                 // the class's product page, preselecting this exact variant
+}
+
+interface DeckedVehicleClass {
+  handle: string;
+  title: string;
+  url: string;
+  secondOption: string | null; // "Bed Length" | "Wheel Base" | null
+  fits: DeckedFit[];
+}
+
+interface DeckedFitmentResult {
+  query: string;
+  bedLength: string | null;
+  matched: boolean;
+  fit: DeckedFit | null;
+  candidates: DeckedFit[];     // populated when not narrowed to exactly one real fit
+  message: string;
+}
+
+interface DeckedCabSideOptionResult {
+  query: string;
+  bedLength: string;
+  option: DeckedCabSideOption;
+  compatible: boolean;         // false is a real, expected "does not fit" answer — not an error
+  fit: DeckedFit | null;
+  reason: string | null;
+  baseFit: DeckedFit | null;   // the "Cab-side Gap" fit at the same vehicle + bed length (DECKED's standard option), for the price delta
+}
+
+  /**
+   * DECKED's truck-bed/SUV/cargo-van Drawer System vehicle-fitment catalog — list every vehicle
+   * class and model DECKED fits, read one class's full fit list (model, bed length/wheel base,
+   * exact SKU and live price), resolve a free-text vehicle to its real fitted SKU and price, and
+   * price the Load Floor vs Cab-side Gap 8'-bed accessory-pack option (including a real fitment
+   * rejection when a vehicle has no matching SKU), all off the storefront's own live catalog
+   * rather than a researched estimate.
+   */
+  interface Unit {
+    /**
+     * Lists every real DECKED vehicle fit across all six vehicle classes (SUV, Full-Size, Midsize,
+     * Cargo Van, Service Body, RamBox) from the storefront's own live catalog — model, bed
+     * length/wheel base (where the class has one), exact SKU, live price and availability. `query`
+     * (optional) narrows the list by a fuzzy match on the vehicle make/model text, e.g. "4runner"
+     * or "f150". Excludes the generic /products/drawers "Style: Trucks" decoy, which carries no
+     * real per-vehicle fitment.
+     */
+    searchFits(query?: string): Promise<DeckedFit[]>;
+
+    /**
+     * Reads one vehicle class's complete fit list — a handle (e.g. "drawers-fullsize") or a
+     * shopper-shaped name (e.g. "Full-Size", "SUV", "Cargo Van") — every model it fits, each with
+     * its own bed lengths / wheel bases, SKUs, live prices and availability. THROWS on an
+     * unrecognized class, naming searchFits() as the way to find current ones.
+     */
+    getVehicleClass(vehicleClass: string): Promise<DeckedVehicleClass>;
+
+    /**
+     * Resolves a free-text vehicle (e.g. "Toyota 4Runner 2023", "Ford F-150 2015") to its real
+     * fitted SKU and live price, mirroring the on-page widget's own Make/Model/Year -> Bed Length
+     * narrowing flow. `matched: true` with a populated `fit` means exactly one real fit narrowed
+     * to; otherwise `candidates` lists every real fit that DID match the vehicle (pass `bedLength`
+     * to narrow a class that needs one, or read `fitOption` off a candidate). Never throws for an
+     * ambiguous or zero-bed-length match — an unmatched vehicle name is the one case this DOES
+     * treat as a caller error (throws, naming searchFits()).
+     */
+    resolveFitment(vehicleQuery: string, bedLength?: string): Promise<DeckedFitmentResult>;
+
+    /**
+     * Prices DECKED's 8'-bed cab-side accessory-pack option — "Cab-side Gap" or "Load Floor" — for
+     * one vehicle + bed length, against the two real accessory-pack product handles the site
+     * publishes. `compatible: false` + a `reason` is a REAL, expected answer (not an error) for a
+     * vehicle whose class has no 8'-bed SKU in that product line — e.g. an SUV, which has no Bed
+     * Length option at all. `baseFit` (when resolvable) is the "Cab-side Gap" fit at the same
+     * vehicle + bed length — DECKED's standard 8' option — so a caller can read the real dollar
+     * delta the Load Floor upgrade costs.
+     */
+    priceCabSideOption(vehicleQuery: string, bedLength: string, option: DeckedCabSideOption): Promise<DeckedCabSideOptionResult>;
   }
 }
 
@@ -10577,6 +10673,7 @@ interface BowmarkProviders {
   chriscraft: BowmarkProvider_chriscraft.Unit;
   classpass: BowmarkProvider_classpass.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
+  decked: BowmarkProvider_decked.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
