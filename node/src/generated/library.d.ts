@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8ab8f73a01982e6f4d199aba7027c238146812a63baf95690e9ac930b4cce1c3
-// 8 capabilities, 77 providers, 248 typed functions, 20 refused.
+// Manifest version: d6be47f70eb59a769018c119aac158705c5ac742e194c37ff851255c3c93707a
+// 8 capabilities, 78 providers, 254 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3424,14 +3424,38 @@ interface ExtraspaceNearbyFacility {
   distanceMiles: number | null;
 }
 
+interface ExtraspaceAvailabilityResult {
+  storeId: number;
+  /** Normalized the way search's unitSize option is, e.g. "10x10". */
+  unitSize: string;
+  /** Every unit CLASS matching the requested size; empty if the facility carries none. */
+  matches: ExtraspaceUnitAvailability[];
+}
+
+interface ExtraspaceUnitAvailability {
+  sizeDisplay: string;
+  sizeClass: string;
+  widthFeet: number | null;
+  depthFeet: number | null;
+  squareFeet: number | null;
+  /** Whether the site is currently offering THIS class for rent. */
+  available: boolean;
+  unitsAvailable: number | null;
+  streetRate: number | null;
+  webRate: number | null;
+  promotions: string[];
+  features: string[];
+}
+
   /**
    * Extra Space Storage — self-storage facility search and detail. `search` takes a US city or
    * ZIP and returns the nearby facilities its own locator would, nearest first, each with its
    * address, distance, amenities and the real monthly price of the cheapest unit in every size
    * it carries. `getFacility` reads one of them in full: street address, both phone lines,
    * office and gate-access hours, what its units offer, starting prices, rating, driving
-   * directions and the nearby facilities. Per-size availability and published deals are declared
-   * but not built yet.
+   * directions and the nearby facilities. `checkAvailability` checks one specific unit size at
+   * one facility and returns every unit class that matches it, each with its own live
+   * availability and price. Published deals are declared but not built yet.
    */
   interface Unit {
     /**
@@ -3471,6 +3495,26 @@ interface ExtraspaceNearbyFacility {
      * caller-fixable error rather than returning an empty-looking result.
      */
     getFacility(storeId: number | string): Promise<ExtraspaceFacilityDetail>;
+
+    /**
+     * Checks current availability and price for one unit SIZE (e.g. "10x10", "5x15" — width x
+     * depth, in feet) at one Extra Space Storage facility. `storeId` is the same id
+     * `search`/`getFacility` take. Returns every unit CLASS at that facility whose dimensions
+     * match the requested size — a facility routinely lists more than one class of the same
+     * nominal size (a live capture of facility 300125 carries four separate `10' x 10'` classes
+     * with different availability), so this never collapses them to one "best" answer the way
+     * `search`'s roll-up does. Each match reports whether the site is CURRENTLY offering it
+     * (`available`), how many units of that class are free (`unitsAvailable`), both the
+     * struck-through "street" rate and the real "web" rate, any active move-in promotion, and the
+     * class's own features. An empty `matches` array means the facility does not carry that size
+     * at all — a coming-soon facility with zero listed unit classes returns `matches: []` for any
+     * size, with no error, exactly like a fully-open facility that simply does not offer it.
+     * `unitSize` outside `width x depth` form (e.g. "12x40", which nothing in this fixture
+     * carries) is not refused as invalid — it is a value the site may or may not stock, so it is
+     * looked up and answered with an empty array like any other size the facility does not have;
+     * only a string that cannot be PARSED as `<number>x<number>` is a caller error.
+     */
+    checkAvailability(storeId: number | string, unitSize: string): Promise<ExtraspaceAvailabilityResult>;
   }
 }
 
@@ -3685,10 +3729,71 @@ interface fordOffers {
   trims: fordTrimOffers[];
 }
 
+interface fordVehicleImage {
+  url: string;
+  /** "primary", "exterior" or "interior" — search results carry "primary"
+   * only; this endpoint returns the full set. */
+  role: string;
+  width: number | null;
+  height: number | null;
+}
+
+interface fordVehiclePricing {
+  msrp: number;
+  /** null when Ford has no net figure for this vehicle. */
+  netPriceAfterIncentives: number | null;
+  currency: string;
+  /** Ford's own required legal text — show it alongside any displayed price. */
+  disclaimer: string;
+}
+
+interface fordVehicleAvailability {
+  /** "in_stock", "in_transit", or a new value Ford introduces. */
+  status: string;
+  asOf: string;
+}
+
+interface fordVehicleDealer {
+  name: string;
+  city: string;
+  state: string;
+  distanceMiles: number;
+  phone: string | null;
+  address: string | null;
+  websiteUrl: string | null;
+}
+
+interface fordVehicleOptionPackage {
+  name: string;
+  /** null when Ford prices the package into the vehicle's MSRP rather than
+   * itemizing it. */
+  msrp: number | null;
+}
+
+interface fordVehicle {
+  vin: string;
+  /** The slug `listNameplates` returns, e.g. "f150", "explorer". */
+  nameplate: string;
+  displayName: string;
+  year: number;
+  trim: string;
+  bodyStyle: string | null;
+  powertrain: string | null;
+  drivetrain: string | null;
+  exteriorColor: string | null;
+  pricing: fordVehiclePricing;
+  availability: fordVehicleAvailability;
+  dealer: fordVehicleDealer;
+  images: fordVehicleImage[];
+  /** Canonical detail page — link every vehicle mention here. */
+  vdpUrl: string;
+  optionPackages: fordVehicleOptionPackage[];
+}
+
   /**
    * Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
    * VIN, the model/trim directory and its paint palette, the build-and-price configurator, model
-   * specs and MSRP, current incentives, the dealer locator, and recall lookup by VIN. Three
+   * specs and MSRP, current incentives, the dealer locator, and recall lookup by VIN. Four
    * functions are callable now. The dealer locator returns Ford dealers near a US ZIP with full
    * address, phone, coordinates, per-day sales and service hours, Ford's own capability flags
    * (EV-certified, commercial fleet, pickup-and-delivery) and links to the dealer's own site and
@@ -3697,8 +3802,13 @@ interface fordOffers {
    * words ("F-150", "mach e", "Super Duty") to the slug the other inventory endpoints take.
    * `getOffers` returns Ford's live, ZIP-regional incentives for a model — cash back, APR
    * financing (with every term Ford offers, not just the headline one) and any lease programs,
-   * each with its own dates, disclaimer and eligibility category, broken out per trim. The other
-   * six declared functions are still stubs.
+   * each with its own dates, disclaimer and eligibility category, broken out per trim.
+   * `getVehicle` reads one specific vehicle by VIN — full trim, pricing with Ford's required
+   * disclaimer, availability, the holding dealer's contact details, the FULL image set (exterior
+   * AND interior, not just the one card image a search result carries) and every option package
+   * — and returns `null` rather than throwing when Ford reports the vehicle sold or removed,
+   * which its own docs call a real, non-retryable answer. The other five declared functions are
+   * still stubs.
    */
   interface Unit {
     // UNTYPED, DELIBERATELY OMITTED — `findDealers({ near, radiusMiles, limit })` declares no types for
@@ -3726,6 +3836,19 @@ interface fordOffers {
      * nameplate.
      */
     getOffers(args: { nameplate: string; postalCode: string; year?: number }): Promise<fordOffers>;
+
+    /**
+     * Reads one specific vehicle by its 17-character VIN — full trim, exterior color, complete
+     * pricing with Ford's required disclaimer, live availability, the holding dealer's
+     * name/address/phone/website, the FULL image set (`primary`, `exterior` AND `interior` — a
+     * `searchInventory` result carries `primary` only), every option package, and the canonical
+     * `vdpUrl` Ford's own docs say to link on any mention. `vin` is a required argument, matching
+     * Ford's own pattern (17 characters, excluding I/O/Q) and checked locally before spending a
+     * request. Returns `null` — not an error — when Ford answers `VEHICLE_NOT_FOUND`: Ford's own
+     * docs call a 404 here "sold or removed... not a retryable error", so a vehicle that sold
+     * between search and read is a real, unsurprising answer rather than a failure.
+     */
+    getVehicle(vin: string): Promise<fordVehicle | null>;
   }
 }
 
@@ -10544,6 +10667,38 @@ interface SearsProduct {
   description: string | null;
   specifications: SearsProductSpecification[];
 }
+interface SearsShippingAvailability {
+  available: boolean;
+  availableQuantity: number | null;
+  ffmType: string | null;
+  shipModes: string[];
+  dcUnitId: string | null;
+  promiseDate: string | null;
+  autoUpgrade: boolean;
+  freeShipping: boolean;
+  freeEligible: boolean;
+  freeQualified: boolean;
+}
+interface SearsStockStore {
+  unitId: string | null;
+  storeName: string | null;
+  storeBrand: string | null;
+  storeAddress: string | null;
+  promiseDate: string | null;
+  ffmType: string | null;
+}
+interface SearsPickupAvailability {
+  available: boolean;
+  stores: SearsStockStore[];
+  message: string | null;
+}
+interface SearsStock {
+  productId: string;
+  zipCode: string;
+  quantity: number;
+  shipping: SearsShippingAvailability | null;
+  pickup: SearsPickupAvailability;
+}
 
   /** Sears' own storefront — product search, product detail, fulfillment/stock and store locator. */
   interface Unit {
@@ -10567,6 +10722,18 @@ interface SearsProduct {
      * default (New York, 10101). THROWS on an id the site does not recognise.
      */
     getProduct(idOrUrl: string, opts?: { zipCode?: string }): Promise<SearsProduct>;
+
+    /**
+     * Answers whether a Sears product is buyable right now — for shipping/delivery AND for
+     * in-store/curbside pickup — the way the product page's own fulfillment panel does, in one
+     * call. `shipping` carries the site's own available quantity, ship modes and promise date.
+     * `pickup.stores` is the stores the site found able to fulfil it near `zipCode` — routinely
+     * empty (Sears' physical footprint has shrunk sharply), which is a real, common answer, not an
+     * error; `pickup.message` carries the site's own explanation when it is. `zipCode` narrows the
+     * search the way the site's own zip cookie does; omit it for the site's own default (New York,
+     * 10101). Takes the product id or URL from `search`/`getProduct` — same as `getProduct`.
+     */
+    checkStock(idOrUrl: string, opts?: { zipCode?: string; quantity?: number }): Promise<SearsStock>;
   }
 }
 
@@ -11158,6 +11325,70 @@ interface StatefarmBusinessCoverage {
      * farm-and-ranch.
      */
     getBusinessQuote(query: StatefarmBusinessQuoteQuery): Promise<StatefarmBusinessQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_sunhomesaunas {
+  // ── Sun Home Saunas — the unit's own declarations, verbatim ──
+// Sun Home Saunas' OWN shapes — not a capability contract.
+
+interface SunHomeSaunasQuizOption {
+  id: string;
+  label: string;
+}
+
+interface SunHomeSaunasQuizQuestion {
+  id: string;          // pass back as answers[].questionId
+  title: string;
+  type: string;        // the site's own node type, e.g. "SIMPLE_MULTI"
+  options: SunHomeSaunasQuizOption[];  // option.id -> answers[].optionIds
+}
+
+interface SunHomeSaunasMatch {
+  handle: string;       // the key addSaunaToCart takes
+  title: string;
+  price: number;        // dollars — real live Shopify price
+  matchScore: number;   // e.g. 5
+  matchOutOf: number;   // e.g. 5 -> the site's own "5/5 match"
+}
+
+interface SunHomeSaunasCartResult {
+  handle: string;
+  title: string;
+  variantId: number;
+  linePrice: number;      // dollars, for the quantity added
+  quantity: number;
+  cartItemCount: number;  // the live cart's total items AFTER this add
+  cartTotal: number;      // dollars — the live cart's total price after this add
+}
+
+  /**
+   * Sun Home Saunas' real Perfect Product Finder quiz — the site's own 5-question buyer quiz,
+   * its real server-computed ranked product matches with live prices, and a real Shopify cart
+   * write for the winning match — no login, no dealer routing.
+   */
+  interface Unit {
+    /**
+     * Reads Sun Home Saunas' real, live Perfect Product Finder quiz straight off its quiz vendor's
+     * own API — the current 5 questions and every real option, with the real ids
+     * getPersonalizedSaunaMatches() needs to answer them.
+     */
+    getSaunaFinderQuestions(): Promise<SunHomeSaunasQuizQuestion[]>;
+
+    /**
+     * Submits real answers (from getSaunaFinderQuestions()) through the same quiz session flow the
+     * site's own UI uses, and returns the site's own SERVER-COMPUTED ranked product matches with
+     * real live prices and a real match score — the exact personalized result a real buyer would
+     * see, never a guess from general knowledge.
+     */
+    getPersonalizedSaunaMatches(answers: {questionId: string, optionIds: string[]}[]): Promise<SunHomeSaunasMatch[]>;
+
+    /**
+     * Adds one real matched sauna (a handle from getPersonalizedSaunaMatches()) to a real Shopify
+     * cart at Sun Home Saunas' own real live price, and reads the cart back to confirm the write
+     * landed. THROWS if the product is currently out of stock.
+     */
+    addSaunaToCart(handle: string, quantity?: number): Promise<SunHomeSaunasCartResult>;
   }
 }
 
@@ -12412,6 +12643,7 @@ interface BowmarkProviders {
   semihandmade: BowmarkProvider_semihandmade.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
+  sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   tentree: BowmarkProvider_tentree.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;

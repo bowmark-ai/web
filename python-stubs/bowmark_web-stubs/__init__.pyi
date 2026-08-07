@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8ab8f73a01982e6f4d199aba7027c238146812a63baf95690e9ac930b4cce1c3
-# 8 capabilities, 77 providers, 242 typed functions, 20 refused.
+# Manifest version: d6be47f70eb59a769018c119aac158705c5ac742e194c37ff851255c3c93707a
+# 8 capabilities, 78 providers, 248 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2025,6 +2025,24 @@ class Prv_extraspace_ExtraspaceNearbyFacility_Out(TypedDict):
     name: str
     distanceMiles: float | None
 
+class Prv_extraspace_ExtraspaceAvailabilityResult_Out(TypedDict):
+    storeId: float
+    unitSize: str
+    matches: list[Prv_extraspace_ExtraspaceUnitAvailability_Out]
+
+class Prv_extraspace_ExtraspaceUnitAvailability_Out(TypedDict):
+    sizeDisplay: str
+    sizeClass: str
+    widthFeet: float | None
+    depthFeet: float | None
+    squareFeet: float | None
+    available: bool
+    unitsAvailable: float | None
+    streetRate: float | None
+    webRate: float | None
+    promotions: list[str]
+    features: list[str]
+
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
     postalCode: str
@@ -2058,6 +2076,52 @@ class Prv_ford_fordOfferProgram_Out(TypedDict):
 class Prv_ford_fordOfferProgram_Out_aprTerms_u0_item_Out(TypedDict):
     apr: float
     termMonths: float
+
+class Prv_ford_fordVehicle_Out(TypedDict):
+    vin: str
+    nameplate: str
+    displayName: str
+    year: float
+    trim: str
+    bodyStyle: str | None
+    powertrain: str | None
+    drivetrain: str | None
+    exteriorColor: str | None
+    pricing: Prv_ford_fordVehiclePricing_Out
+    availability: Prv_ford_fordVehicleAvailability_Out
+    dealer: Prv_ford_fordVehicleDealer_Out
+    images: list[Prv_ford_fordVehicleImage_Out]
+    vdpUrl: str
+    optionPackages: list[Prv_ford_fordVehicleOptionPackage_Out]
+
+class Prv_ford_fordVehiclePricing_Out(TypedDict):
+    msrp: float
+    netPriceAfterIncentives: float | None
+    currency: str
+    disclaimer: str
+
+class Prv_ford_fordVehicleAvailability_Out(TypedDict):
+    status: str
+    asOf: str
+
+class Prv_ford_fordVehicleDealer_Out(TypedDict):
+    name: str
+    city: str
+    state: str
+    distanceMiles: float
+    phone: str | None
+    address: str | None
+    websiteUrl: str | None
+
+class Prv_ford_fordVehicleImage_Out(TypedDict):
+    url: str
+    role: str
+    width: float | None
+    height: float | None
+
+class Prv_ford_fordVehicleOptionPackage_Out(TypedDict):
+    name: str
+    msrp: float | None
 
 class Prv_framebridge_FramebridgeFrameStyle_Out(TypedDict):
     productId: str
@@ -5393,6 +5457,42 @@ class Prv_sears_SearsProductSpecification_Out(TypedDict):
     label: str
     attributes: list[str]
 
+class Prv_sears_checkStock_opts_In(TypedDict):
+    zipCode: NotRequired[str]
+    quantity: NotRequired[float]
+
+class Prv_sears_SearsStock_Out(TypedDict):
+    productId: str
+    zipCode: str
+    quantity: float
+    shipping: Prv_sears_SearsShippingAvailability_Out | None
+    pickup: Prv_sears_SearsPickupAvailability_Out
+
+class Prv_sears_SearsShippingAvailability_Out(TypedDict):
+    available: bool
+    availableQuantity: float | None
+    ffmType: str | None
+    shipModes: list[str]
+    dcUnitId: str | None
+    promiseDate: str | None
+    autoUpgrade: bool
+    freeShipping: bool
+    freeEligible: bool
+    freeQualified: bool
+
+class Prv_sears_SearsPickupAvailability_Out(TypedDict):
+    available: bool
+    stores: list[Prv_sears_SearsStockStore_Out]
+    message: str | None
+
+class Prv_sears_SearsStockStore_Out(TypedDict):
+    unitId: str | None
+    storeName: str | None
+    storeBrand: str | None
+    storeAddress: str | None
+    promiseDate: str | None
+    ffmType: str | None
+
 class Prv_selectblinds_SelectBlindsStyle_Out(TypedDict):
     handle: str
     title: str
@@ -5657,6 +5757,36 @@ class Prv_statefarm_StatefarmBusinessCoverage_Out(TypedDict):
     category: str
     selected: bool
     required: bool
+
+class Prv_sunhomesaunas_SunHomeSaunasQuizQuestion_Out(TypedDict):
+    id: str
+    title: str
+    type: str
+    options: list[Prv_sunhomesaunas_SunHomeSaunasQuizOption_Out]
+
+class Prv_sunhomesaunas_SunHomeSaunasQuizOption_Out(TypedDict):
+    id: str
+    label: str
+
+class Prv_sunhomesaunas_getPersonalizedSaunaMatches_answers_item_In(TypedDict):
+    questionId: str
+    optionIds: Sequence[str]
+
+class Prv_sunhomesaunas_SunHomeSaunasMatch_Out(TypedDict):
+    handle: str
+    title: str
+    price: float
+    matchScore: float
+    matchOutOf: float
+
+class Prv_sunhomesaunas_SunHomeSaunasCartResult_Out(TypedDict):
+    handle: str
+    title: str
+    variantId: float
+    linePrice: float
+    quantity: float
+    cartItemCount: float
+    cartTotal: float
 
 class Prv_tentree_searchProducts_opts_In(TypedDict):
     productType: NotRequired[str]
@@ -7365,8 +7495,10 @@ class Prv_extraspace(Protocol):
     its address, distance, amenities and the real monthly price of the cheapest unit in
     every size it carries. `getFacility` reads one of them in full: street address, both
     phone lines, office and gate-access hours, what its units offer, starting prices,
-    rating, driving directions and the nearby facilities. Per-size availability and
-    published deals are declared but not built yet.
+    rating, driving directions and the nearby facilities. `checkAvailability` checks one
+    specific unit size at one facility and returns every unit class that matches it, each
+    with its own live availability and price. Published deals are declared but not built
+    yet.
     """
 
     async def search(self, query: str, options: Prv_extraspace_ExtraspaceSearchOptions_In | None = None, /) -> Prv_extraspace_ExtraspaceSearchResult_Out:
@@ -7407,6 +7539,26 @@ class Prv_extraspace(Protocol):
         than returning an empty-looking result.
         """
 
+    async def checkAvailability(self, storeId: float | str, unitSize: str, /) -> Prv_extraspace_ExtraspaceAvailabilityResult_Out:
+        """Checks current availability and price for one unit SIZE (e.g. "10x10", "5x15" — width x
+        depth, in feet) at one Extra Space Storage facility. `storeId` is the same id
+        `search`/`getFacility` take. Returns every unit CLASS at that facility whose dimensions
+        match the requested size — a facility routinely lists more than one class of the same
+        nominal size (a live capture of facility 300125 carries four separate `10' x 10'`
+        classes with different availability), so this never collapses them to one "best" answer
+        the way `search`'s roll-up does. Each match reports whether the site is CURRENTLY
+        offering it (`available`), how many units of that class are free (`unitsAvailable`),
+        both the struck-through "street" rate and the real "web" rate, any active move-in
+        promotion, and the class's own features. An empty `matches` array means the facility
+        does not carry that size at all — a coming-soon facility with zero listed unit classes
+        returns `matches: []` for any size, with no error, exactly like a fully-open facility
+        that simply does not offer it. `unitSize` outside `width x depth` form (e.g. "12x40",
+        which nothing in this fixture carries) is not refused as invalid — it is a value the
+        site may or may not stock, so it is looked up and answered with an empty array like any
+        other size the facility does not have; only a string that cannot be PARSED as
+        `<number>x<number>` is a caller error.
+        """
+
 class Prv_flightradar24(Protocol):
     """Live flight tracking: where a given flight number, callsign or tail registration is
     right now, every aircraft airborne inside a map box, an airport's arrivals and
@@ -7431,7 +7583,7 @@ class Prv_ford(Protocol):
     """Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
     VIN, the model/trim directory and its paint palette, the build-and-price configurator,
     model specs and MSRP, current incentives, the dealer locator, and recall lookup by VIN.
-    Three functions are callable now. The dealer locator returns Ford dealers near a US ZIP
+    Four functions are callable now. The dealer locator returns Ford dealers near a US ZIP
     with full address, phone, coordinates, per-day sales and service hours, Ford's own
     capability flags (EV-certified, commercial fleet, pickup-and-delivery) and links to the
     dealer's own site and inventory. The nameplate directory returns every Ford model
@@ -7440,8 +7592,12 @@ class Prv_ford(Protocol):
     the other inventory endpoints take. `getOffers` returns Ford's live, ZIP-regional
     incentives for a model — cash back, APR financing (with every term Ford offers, not just
     the headline one) and any lease programs, each with its own dates, disclaimer and
-    eligibility category, broken out per trim. The other six declared functions are still
-    stubs.
+    eligibility category, broken out per trim. `getVehicle` reads one specific vehicle by
+    VIN — full trim, pricing with Ford's required disclaimer, availability, the holding
+    dealer's contact details, the FULL image set (exterior AND interior, not just the one
+    card image a search result carries) and every option package — and returns `null` rather
+    than throwing when Ford reports the vehicle sold or removed, which its own docs call a
+    real, non-retryable answer. The other five declared functions are still stubs.
     """
 
     # UNTYPED, DELIBERATELY OMITTED — `findDealers` declares no types for its
@@ -7467,6 +7623,19 @@ class Prv_ford(Protocol):
         are regional, and the SAME model/year at two ZIPs 2,000 miles apart returns genuinely
         different programs. `year` defaults to the newest model year Ford is currently running
         incentives on for that nameplate.
+        """
+
+    async def getVehicle(self, vin: str, /) -> Prv_ford_fordVehicle_Out | None:
+        """Reads one specific vehicle by its 17-character VIN — full trim, exterior color, complete
+        pricing with Ford's required disclaimer, live availability, the holding dealer's
+        name/address/phone/website, the FULL image set (`primary`, `exterior` AND `interior` — a
+        `searchInventory` result carries `primary` only), every option package, and the
+        canonical `vdpUrl` Ford's own docs say to link on any mention. `vin` is a required
+        argument, matching Ford's own pattern (17 characters, excluding I/O/Q) and checked
+        locally before spending a request. Returns `null` — not an error — when Ford answers
+        `VEHICLE_NOT_FOUND`: Ford's own docs call a 404 here "sold or removed... not a retryable
+        error", so a vehicle that sold between search and read is a real, unsurprising answer
+        rather than a failure.
         """
 
 class Prv_framebridge(Protocol):
@@ -9756,6 +9925,18 @@ class Prv_sears(Protocol):
         site's own default (New York, 10101). THROWS on an id the site does not recognise.
         """
 
+    async def checkStock(self, idOrUrl: str, opts: Prv_sears_checkStock_opts_In | None = None, /) -> Prv_sears_SearsStock_Out:
+        """Answers whether a Sears product is buyable right now — for shipping/delivery AND for
+        in-store/curbside pickup — the way the product page's own fulfillment panel does, in one
+        call. `shipping` carries the site's own available quantity, ship modes and promise date.
+        `pickup.stores` is the stores the site found able to fulfil it near `zipCode` —
+        routinely empty (Sears' physical footprint has shrunk sharply), which is a real, common
+        answer, not an error; `pickup.message` carries the site's own explanation when it is.
+        `zipCode` narrows the search the way the site's own zip cookie does; omit it for the
+        site's own default (New York, 10101). Takes the product id or URL from
+        `search`/`getProduct` — same as `getProduct`.
+        """
+
 class Prv_selectblinds(Protocol):
     """SelectBlinds' real made-to-measure blinds/shades catalog and its real live 'HD Pricing'
     engine — search real buyable styles, read one style's real configurator (mount type,
@@ -9953,6 +10134,31 @@ class Prv_statefarm(Protocol):
         auto and workers' compensation are NOT this function: State Farm's own application
         router sends commercial auto to a no-quote page and publishes no online application for
         workers' comp, contractors or farm-and-ranch.
+        """
+
+class Prv_sunhomesaunas(Protocol):
+    """Sun Home Saunas' real Perfect Product Finder quiz — the site's own 5-question buyer
+    quiz, its real server-computed ranked product matches with live prices, and a real
+    Shopify cart write for the winning match — no login, no dealer routing.
+    """
+
+    async def getSaunaFinderQuestions(self, /) -> list[Prv_sunhomesaunas_SunHomeSaunasQuizQuestion_Out]:
+        """Reads Sun Home Saunas' real, live Perfect Product Finder quiz straight off its quiz
+        vendor's own API — the current 5 questions and every real option, with the real ids
+        getPersonalizedSaunaMatches() needs to answer them.
+        """
+
+    async def getPersonalizedSaunaMatches(self, answers: Sequence[Prv_sunhomesaunas_getPersonalizedSaunaMatches_answers_item_In], /) -> list[Prv_sunhomesaunas_SunHomeSaunasMatch_Out]:
+        """Submits real answers (from getSaunaFinderQuestions()) through the same quiz session flow
+        the site's own UI uses, and returns the site's own SERVER-COMPUTED ranked product
+        matches with real live prices and a real match score — the exact personalized result a
+        real buyer would see, never a guess from general knowledge.
+        """
+
+    async def addSaunaToCart(self, handle: str, quantity: float | None = None, /) -> Prv_sunhomesaunas_SunHomeSaunasCartResult_Out:
+        """Adds one real matched sauna (a handle from getPersonalizedSaunaMatches()) to a real
+        Shopify cart at Sun Home Saunas' own real live price, and reads the cart back to confirm
+        the write landed. THROWS if the product is currently out of stock.
         """
 
 class Prv_tentree(Protocol):
@@ -10391,6 +10597,7 @@ class BowmarkProviders(Protocol):
     semihandmade: Prv_semihandmade
     soundcloud: Prv_soundcloud
     statefarm: Prv_statefarm
+    sunhomesaunas: Prv_sunhomesaunas
     tentree: Prv_tentree
     thezebra: Prv_thezebra
     trektravel: Prv_trektravel

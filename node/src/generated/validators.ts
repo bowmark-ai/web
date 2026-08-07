@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8ab8f73a01982e6f4d199aba7027c238146812a63baf95690e9ac930b4cce1c3
-// 242 checked, 20 unchecked.
+// Manifest version: d6be47f70eb59a769018c119aac158705c5ac742e194c37ff851255c3c93707a
+// 248 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8ab8f73a01982e6f4d199aba7027c238146812a63baf95690e9ac930b4cce1c3",
+  "version": "d6be47f70eb59a769018c119aac158705c5ac742e194c37ff851255c3c93707a",
   "units": {
     "cars": {
       "defs": {
@@ -3012,6 +3012,30 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "checkAvailability": [
+          {
+            "name": "storeId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "unitSize",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -3055,6 +3079,15 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getVehicle": [
+          {
+            "name": "vin",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -10080,6 +10113,38 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "checkStock": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zipCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -10898,6 +10963,59 @@ export const VALIDATORS: ValidatorTable = {
               "name": "StatefarmBusinessQuoteQuery"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.sunhomesaunas": {
+      "defs": {},
+      "functions": {
+        "getSaunaFinderQuestions": [],
+        "getPersonalizedSaunaMatches": [
+          {
+            "name": "answers",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "questionId",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "optionIds",
+                    "schema": {
+                      "k": "array",
+                      "of": {
+                        "k": "string"
+                      }
+                    },
+                    "optional": false
+                  }
+                ]
+              }
+            },
+            "optional": false
+          }
+        ],
+        "addSaunaToCart": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "quantity",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }
