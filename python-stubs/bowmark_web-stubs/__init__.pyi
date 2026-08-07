@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 235c0006a71680fbe88c5f54ce33bf71c34423ac46f905dcf4424b7cb0aba52e
-# 8 capabilities, 78 providers, 249 typed functions, 20 refused.
+# Manifest version: f77b6cccf53a3b0cfe90533b1348ece1a56ff687a56099dd4d4df118702f2469
+# 8 capabilities, 79 providers, 251 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6156,6 +6156,18 @@ class Prv_ulrichlifestyle_UlrichPriceLine_Out(TypedDict):
     description: str
     price: float
 
+class Prv_viewrail_ViewrailMaterial_Out(TypedDict):
+    slug: str
+    title: str
+    metal: bool
+    defaultFinish: str | None
+    finishes: list[str]
+
+class Prv_viewrail_ViewrailMountingStyle_Out(TypedDict):
+    slug: str
+    title: str
+    availableMaterials: list[str]
+
 class Prv_visible_listDeals_options_In(TypedDict):
     includePrograms: NotRequired[bool]
 
@@ -10445,6 +10457,26 @@ class Prv_ulrichlifestyle(Protocol):
         the priced total; see this provider's file-top note.
         """
 
+class Prv_viewrail(Protocol):
+    """Cable railing / floating-stair manufacturer — the material and mounting-style catalog
+    behind Victor, Viewrail's own draw-and-quote design app (victor.viewrail.com).
+    listMaterials and listMountingStyles are live; the rest of Victor's option set (infill,
+    posts, handrails, newels) are stubs.
+    """
+
+    async def listMaterials(self, /) -> list[Prv_viewrail_ViewrailMaterial_Out]:
+        """Lists the metal and metal-look composite families Victor's cable railing configurator
+        offers (304/316/2205 stainless steel, aluminum, wood-grain aluminum, …), each with
+        whether it's a true metal, its default finish, and every finish slug it supports — off
+        Victor's own materials-config API.
+        """
+
+    async def listMountingStyles(self, /) -> list[Prv_viewrail_ViewrailMountingStyle_Out]:
+        """Lists Victor's post-mounting styles (Surface Mount, Side Mount, SLIM Side Mount, Bump
+        Out Side Mount, Core Drill, …) and which material families each is available in — the
+        first choice Victor's own design flow asks a user to make before drawing a run.
+        """
+
 class Prv_visible(Protocol):
     """Visible (Verizon's prepaid brand): the promotions running right now — the offer grid
     with its promo codes and fine print, plus the standing referral, trade-in, payback,
@@ -10624,6 +10656,7 @@ class BowmarkProviders(Protocol):
     thezebra: Prv_thezebra
     trektravel: Prv_trektravel
     ulrichlifestyle: Prv_ulrichlifestyle
+    viewrail: Prv_viewrail
     visible: Prv_visible
     walmart: Prv_walmart
     wellfound: Prv_wellfound

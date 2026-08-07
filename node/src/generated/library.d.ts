@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 235c0006a71680fbe88c5f54ce33bf71c34423ac46f905dcf4424b7cb0aba52e
-// 8 capabilities, 78 providers, 255 typed functions, 20 refused.
+// Manifest version: f77b6cccf53a3b0cfe90533b1348ece1a56ff687a56099dd4d4df118702f2469
+// 8 capabilities, 79 providers, 257 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12091,6 +12091,46 @@ interface UlrichPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_viewrail {
+  // ── Viewrail — the unit's own declarations, verbatim ──
+interface ViewrailMaterial {
+  slug: string;
+  title: string;
+  metal: boolean;
+  defaultFinish: string | null;
+  finishes: string[];
+}
+
+interface ViewrailMountingStyle {
+  slug: string;
+  title: string;
+  availableMaterials: string[];
+}
+
+  /**
+   * Cable railing / floating-stair manufacturer — the material and mounting-style catalog behind
+   * Victor, Viewrail's own draw-and-quote design app (victor.viewrail.com). listMaterials and
+   * listMountingStyles are live; the rest of Victor's option set (infill, posts, handrails,
+   * newels) are stubs.
+   */
+  interface Unit {
+    /**
+     * Lists the metal and metal-look composite families Victor's cable railing configurator offers
+     * (304/316/2205 stainless steel, aluminum, wood-grain aluminum, …), each with whether it's a
+     * true metal, its default finish, and every finish slug it supports — off Victor's own
+     * materials-config API.
+     */
+    listMaterials(): Promise<ViewrailMaterial[]>;
+
+    /**
+     * Lists Victor's post-mounting styles (Surface Mount, Side Mount, SLIM Side Mount, Bump Out
+     * Side Mount, Core Drill, …) and which material families each is available in — the first
+     * choice Victor's own design flow asks a user to make before drawing a run.
+     */
+    listMountingStyles(): Promise<ViewrailMountingStyle[]>;
+  }
+}
+
 declare namespace BowmarkProvider_visible {
   // ── Visible — the unit's own declarations, verbatim ──
 interface VisibleDealOffer {
@@ -12668,6 +12708,7 @@ interface BowmarkProviders {
   thezebra: BowmarkProvider_thezebra.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
+  viewrail: BowmarkProvider_viewrail.Unit;
   visible: BowmarkProvider_visible.Unit;
   walmart: BowmarkProvider_walmart.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
