@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8064f4aab6450ca4dbf3f9da72ea4189ef1e7d1cae078520a33001404611de63
-# 8 capabilities, 74 providers, 231 typed functions, 20 refused.
+# Manifest version: ed44c2b018fc36080f712ab9aa6fada087c25bbdc886940161887729834e398b
+# 8 capabilities, 76 providers, 240 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -626,6 +626,63 @@ class Cap_read_ReadResult_Out_wall_u0_Out(TypedDict):
     vendor: str
     cleared: bool
 
+class Prv_aa_aaBaggageAllowanceArgs_In(TypedDict):
+    origin: str
+    destination: str
+
+class Prv_aa_aaBaggageAllowance_Out(TypedDict):
+    origin: Prv_aa_aaBaggageEndpoint_Out
+    destination: Prv_aa_aaBaggageEndpoint_Out
+    feeRegion: Prv_aa_aaBaggageAllowance_Out_feeRegion_Out
+    checkedBagFees: list[Prv_aa_aaCheckedBagFee_Out]
+    checkedBagLimits: Prv_aa_aaCheckedBagLimits_Out
+    carryOn: Prv_aa_aaCarryOnAllowance_Out
+    freeCheckedBags: list[Prv_aa_aaFreeCheckedBagRule_Out]
+    maxCheckedBags: float | None
+    maxCheckedBagsRules: list[Prv_aa_aaMaxCheckedBagsRule_Out]
+    footnotes: list[str]
+    sources: list[str]
+
+class Prv_aa_aaBaggageEndpoint_Out(TypedDict):
+    input: str
+    countryCode: str
+    countryName: str
+    region: str | None
+
+class Prv_aa_aaBaggageAllowance_Out_feeRegion_Out(TypedDict):
+    label: str
+    matchedOn: Literal["country"] | Literal["region"] | Literal["region-members"]
+    matchedEndpoint: Literal["origin"] | Literal["destination"]
+
+class Prv_aa_aaCheckedBagFee_Out(TypedDict):
+    bag: str
+    display: str
+    amountsUsd: list[float]
+    footnoteMarkers: list[str]
+
+class Prv_aa_aaCheckedBagLimits_Out(TypedDict):
+    maxLinearInches: float | None
+    maxLinearCm: float | None
+    maxWeightPounds: float | None
+    maxWeightKilos: float | None
+    notes: list[str]
+
+class Prv_aa_aaCarryOnAllowance_Out(TypedDict):
+    carryOnBags: float
+    personalItems: float
+    carryOnMaxInches: list[float]
+    carryOnMaxCm: list[float]
+    personalItemMaxInches: list[float]
+    personalItemMaxCm: list[float]
+
+class Prv_aa_aaFreeCheckedBagRule_Out(TypedDict):
+    bags: float
+    qualifiers: list[str]
+
+class Prv_aa_aaMaxCheckedBagsRule_Out(TypedDict):
+    count: float
+    applies: list[str]
+
 class Prv_aa_aaRetrieveBookingArgs_In(TypedDict):
     recordLocator: str
     lastName: str
@@ -1187,6 +1244,22 @@ class Prv_cancer_cancerCenterRow_Out(TypedDict):
     hostInstitution: NotRequired[str]
     designation: Literal["Comprehensive Cancer Center"] | Literal["Clinical Cancer Center"] | Literal["Basic Laboratory Cancer Center"]
 
+class Prv_cancer_getCancerInfoSummary_args_In(TypedDict):
+    topic: str
+    audience: NotRequired[Literal["patient"] | Literal["healthProfessional"]]
+
+class Prv_cancer_cancerInfoSummaryResult_Out(TypedDict):
+    topic: str
+    audience: Literal["patient"] | Literal["healthProfessional"]
+    title: str
+    url: str
+    revisionDate: str
+    sections: list[Prv_cancer_cancerInfoSection_Out]
+
+class Prv_cancer_cancerInfoSection_Out(TypedDict):
+    heading: str
+    text: str
+
 class Prv_cars_carsListing_Out(TypedDict):
     id: str
     vin: str | None
@@ -1527,6 +1600,50 @@ class Prv_cloudflare_CloudflareDomainSuggestion_Out(TypedDict):
     price: float | None
     renewal: float | None
     promotional: bool
+
+class Prv_cyberpowerpc_CyberpowerpcConfigurator_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    price: str | None
+    priceValue: float | None
+    listPrice: str | None
+    listPriceValue: float | None
+    baselineSpecs: list[str]
+
+class Prv_cyberpowerpc_CyberpowerpcCatalog_Out(TypedDict):
+    slug: str
+    title: str
+    basePrice: float
+    sections: list[Prv_cyberpowerpc_CyberpowerpcSection_Out]
+
+class Prv_cyberpowerpc_CyberpowerpcSection_Out(TypedDict):
+    code: str
+    label: str
+    category: Literal["Core Components"] | Literal["Accessories"] | Literal["Software & Service"]
+    required: bool
+    defaultOptionId: str | None
+    options: list[Prv_cyberpowerpc_CyberpowerpcOption_Out]
+
+class Prv_cyberpowerpc_CyberpowerpcOption_Out(TypedDict):
+    id: str
+    name: str
+    sku: str | None
+    priceDifference: float
+    isDefault: bool
+
+class Prv_cyberpowerpc_CyberpowerpcPriceResult_Out(TypedDict):
+    slug: str
+    basePrice: float
+    totalPrice: float
+    lines: list[Prv_cyberpowerpc_CyberpowerpcPriceResult_Out_lines_item_Out]
+
+class Prv_cyberpowerpc_CyberpowerpcPriceResult_Out_lines_item_Out(TypedDict):
+    sectionCode: str
+    sectionLabel: str
+    optionId: str
+    optionName: str
+    priceDifference: float
 
 class Prv_decked_DeckedFit_Out(TypedDict):
     vehicleClass: str
@@ -2018,6 +2135,44 @@ class Prv_fred_fredSeries_Out(TypedDict):
     popularity: float | None
     notes: str | None
 
+Prv_fred_getSeriesObservations_args_u1_In = TypedDict(
+    "Prv_fred_getSeriesObservations_args_u1_In",
+    {
+    "seriesId": str,
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    "units": NotRequired[str],
+    "frequency": NotRequired[str],
+    "aggregationMethod": NotRequired[str],
+    },
+)
+
+class Prv_fred_fredObservations_Out(TypedDict):
+    seriesId: str
+    units: str
+    observationStart: str
+    observationEnd: str
+    realtimeStart: str
+    realtimeEnd: str
+    count: float
+    observations: list[Prv_fred_fredObservation_Out]
+
+class Prv_fred_fredObservation_Out(TypedDict):
+    date: str
+    value: float | None
+
+class Prv_fred_fredCategory_Out(TypedDict):
+    id: float
+    name: str
+    parentId: float
+    children: list[Prv_fred_fredCategoryRow_Out]
+    series: list[Prv_fred_fredSeries_Out]
+
+class Prv_fred_fredCategoryRow_Out(TypedDict):
+    id: float
+    name: str
+    parentId: float
+
 class Prv_geico_RentersQuoteArgs_In(TypedDict):
     address: Prv_geico_RentersQuoteArgs_In_address_In
     identity: Prv_geico_QuoteIdentity_In
@@ -2217,6 +2372,27 @@ class Prv_grainger_graingerBranchRow_Out_address_Out(TypedDict):
 class Prv_grainger_graingerBranchRow_Out_hours_item_Out(TypedDict):
     day: str
     hours: str
+
+class Prv_grainger_graingerProductRow_Out(TypedDict):
+    itemNumber: str
+    manufacturerModel: str | None
+    name: str
+    description: str | None
+    brand: str | None
+    url: str
+    images: list[str]
+    price: Prv_grainger_graingerProductRow_Out_price_u0_Out | None
+    specs: list[Prv_grainger_graingerProductRow_Out_specs_item_Out]
+    availabilitySummary: str | None
+
+class Prv_grainger_graingerProductRow_Out_price_u0_Out(TypedDict):
+    amount: float
+    currency: str
+    perUnit: str
+
+class Prv_grainger_graingerProductRow_Out_specs_item_Out(TypedDict):
+    name: str
+    value: str
 
 class Prv_healthcare_gov_healthcare_govEnrollmentQuery_In(TypedDict):
     zip: str
@@ -4206,6 +4382,26 @@ class Prv_otto_ottoSearchResult_Out_availability_Out(TypedDict):
 class Prv_otto_ottoSearchResult_Out_rating_u0_Out(TypedDict):
     value: float
     count: float
+
+class Prv_paypal_PaypalEstimateFeeArgs_In(TypedDict):
+    amount: float
+    currency: str
+    crossBorder: bool
+    fundingSource: Literal["balance"] | Literal["bank"] | Literal["card"] | Literal["amexSend"]
+
+class Prv_paypal_PaypalFeeEstimate_Out(TypedDict):
+    amount: float
+    currency: str
+    crossBorder: bool
+    fundingSource: Literal["balance"] | Literal["bank"] | Literal["card"] | Literal["amexSend"]
+    fee: float
+    net: float
+    citations: list[Prv_paypal_PaypalFeeCitation_Out]
+
+class Prv_paypal_PaypalFeeCitation_Out(TypedDict):
+    documentId: str
+    feeDataKey: str
+    internalName: str
 
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
@@ -6315,14 +6511,39 @@ class Cap_read(Protocol):
 
 class Prv_aa(Protocol):
     """American Airlines' own site — its published fares and award availability, flight status,
-    reservation lookup, seat maps, baggage allowance and fee schedules. Flight status and
-    reservation lookup are live and browserless; the rest are declared stubs.
+    reservation lookup, seat maps, baggage allowance and fee schedules. Flight status,
+    reservation lookup and the published baggage allowance for a route are live and
+    browserless; the rest are declared stubs.
     """
 
     # UNTYPED, DELIBERATELY OMITTED — `getFlightStatus` declares no types for its
     # argument, so there is no honest signature to emit.
     # It is CALLABLE at runtime; `bowmark.providers.aa.getFlightStatus` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
+
+    async def getBaggageAllowance(self, arg0: Prv_aa_aaBaggageAllowanceArgs_In, /) -> Prv_aa_aaBaggageAllowance_Out:
+        """American Airlines' published baggage allowance and fees for a ROUTE. `origin` and
+        `destination` are COUNTRIES — an ISO-3166 alpha-2 code ("US", "GB") or a country name
+        ("United Kingdom"), matched against American's own country list — because American
+        prices bags by REGION and publishes its regions as lists of countries ("Bag fees are
+        based on these regions"). An IATA airport code is refused with a message saying so
+        rather than guessed at. Returns the fee row American's own table lands that trip on
+        (which region, and whether it matched on the country or its region), the first, second,
+        third and fourth-bag prices with every dollar figure printed in each cell plus its
+        footnote markers, the checked-bag weight and size limits (50 lbs / 23 kgs, 62 in / 158
+        cm at the time of writing, with First/Business and Australia/New Zealand qualifications
+        in `notes`), the carry-on and personal-item dimensions, the free-checked-bag
+        entitlements by AAdvantage status, cabin and cardholder rule, how many bags American
+        will accept on that trip at all, and the table's own footnotes verbatim. HONEST LIMITS,
+        because they decide what this can be used for: a cell like "$0 / $85*" is TWO published
+        prices and the footnotes say which of them a given fare and status pays — this function
+        returns both rather than picking, since American's public pages do not price an
+        individual ticket and no open surface on aa.com does either. It throws rather than guess
+        for a trip where neither end is in American's domestic band (every row of the table
+        describes the other end of such a trip), and for Cuba, which American prices from two
+        separate direction-of-travel tables this function deliberately does not read as if they
+        were the same one.
+        """
 
     async def retrieveBooking(self, arg0: Prv_aa_aaRetrieveBookingArgs_In, /) -> Prv_aa_aaReservation_Out:
         """Reads an existing American Airlines reservation by its six-letter record locator (PNR)
@@ -6647,10 +6868,12 @@ class Prv_bmwusa(Protocol):
 
 class Prv_cancer(Protocol):
     """The US National Cancer Institute: PDQ cancer information, the clinical-trial register,
-    cancer drugs, NCI-designated cancer centers and the cancer dictionaries. The
-    NCI-Designated Cancer Center directory (`findCancerCenters`) is callable now — every
-    center's name, designation type, location and host institution, optionally filtered by
-    state; the other twelve declared functions are still stubs.
+    cancer drugs, NCI-designated cancer centers and the cancer dictionaries. Callable now:
+    the NCI-Designated Cancer Center directory (`findCancerCenters`) — every center's name,
+    designation type, location and host institution, optionally filtered by state — and
+    `getCancerInfoSummary` — NCI's own PDQ information summary for a cancer topic, patient
+    or health-professional version, with its own revision date. The other eleven declared
+    functions are still stubs.
     """
 
     async def findCancerCenters(self, args: Prv_cancer_findCancerCenters_args_In | None = None, /) -> Prv_cancer_cancerCentersResult_Out:
@@ -6665,6 +6888,29 @@ class Prv_cancer(Protocol):
         each, with `locationNote` naming its other locations. This is the whole directory in one
         document — NCI does not filter it server-side — so `total` and `centers.length` are
         always equal.
+        """
+
+    async def getCancerInfoSummary(self, args: Prv_cancer_getCancerInfoSummary_args_In, /) -> Prv_cancer_cancerInfoSummaryResult_Out:
+        """NCI's own PDQ information summary for one cancer topic — what the cancer is, its
+        symptoms and risk factors, how it is diagnosed and staged, the treatment options by
+        stage, and the prognosis — split into the site's own headed sections, each with its
+        heading and text. `topic` is cancer.gov's own `/types` path segment (e.g. "breast",
+        "lung", "prostate"). `audience` (default `"patient"`) selects the patient-facing version
+        or the more technical health-professional one NCI maintains separately; both carry the
+        same `document-dates` revision block when the topic publishes one. `revisionDate` (ISO
+        8601) is the PDQ Editorial Board's own "Updated" date for the exact document returned —
+        PDQ is continuously revised, so this is not decoration. English only: the Spanish path
+        for the same topic uses different words, not a parameter substitution on the English
+        slug (breast's HP Spanish page is `/espanol/tipos/seno/pro/tratamiento-seno-pdq`, not a
+        `breast`/`hp` swap), and reaching it needs its own resolver over the Spanish
+        `/espanol/tipos` index — unbuilt. Two ways this throws instead of guessing:
+        `CancerInfoSummaryNotPublishedError` when the topic+audience has no single consolidated
+        document (NCI is mid-redesign — breast's patient content was migrated to a task-based
+        hub with no one document or date; its health-professional content is unaffected), and
+        `CancerInfoSummaryAmbiguousTopicError` when the topic's own index entry covers more than
+        one genuinely distinct disease, each with its own summary (lung: non-small-cell and
+        small-cell are both filed under `/types/lung`) — the error names every option's own URL
+        rather than silently answering for the wrong one.
         """
 
 class Prv_cars(Protocol):
@@ -6834,6 +7080,32 @@ class Prv_cloudflare(Protocol):
         search, driven live. Returns the exact-match answer (available,
         registration/renewal/transfer/redemption fees) plus the same search's related
         suggestions across other TLDs.
+        """
+
+class Prv_cyberpowerpc(Protocol):
+    """Reads and prices CyberPowerPC's real gaming-PC configurators — every component, every
+    option's exact price.
+    """
+
+    async def listConfigurators(self, /) -> list[Prv_cyberpowerpc_CyberpowerpcConfigurator_Out]:
+        """Lists every base gaming-PC configurator CyberPowerPC currently sells — AMD and Intel,
+        Mainstream through Extreme — with its slug, current starting price, list price and stock
+        CPU/GPU/memory/motherboard/storage lines. Takes nothing. The slug it returns is what
+        getConfigurator and priceBuild take.
+        """
+
+    async def getConfigurator(self, slug: str, /) -> Prv_cyberpowerpc_CyberpowerpcCatalog_Out:
+        """Reads one base configurator's whole component tree — every section (CPU, GPU, memory,
+        chassis, storage, ...), every option's exact label, SKU and signed price difference
+        versus that section's default. The section codes and option ids it returns are what
+        priceBuild takes.
+        """
+
+    async def priceBuild(self, slug: str, selections: Mapping[str, str], /) -> Prv_cyberpowerpc_CyberpowerpcPriceResult_Out:
+        """Prices an exact build for one configurator given a caller's part selections (one option
+        id per section code; any section left out uses its own default). Returns the real live
+        total the site's own configurator computes, plus a per-section breakdown of what each
+        pick added.
         """
 
 class Prv_decked(Protocol):
@@ -7161,8 +7433,8 @@ class Prv_framebridge(Protocol):
         """
 
 class Prv_fred(Protocol):
-    """US economic data releases and their publication calendar, and the agencies FRED
-    republishes data from, off the St. Louis Fed's FRED.
+    """US economic data releases and their publication calendar, the agencies FRED republishes
+    data from, series metadata, and FRED's own category tree, off the St. Louis Fed's FRED.
     """
 
     async def listReleases(self, args: Prv_fred_listReleases_args_In | None = None, /) -> list[Prv_fred_fredRelease_Out]:
@@ -7194,6 +7466,32 @@ class Prv_fred(Protocol):
         FRED's own — GDPC1 (real GDP), UNRATE (unemployment rate), CPIAUCSL (CPI) — and an id
         FRED does not publish comes back as a caller-fixable error naming the problem rather
         than as an empty result.
+        """
+
+    async def getSeriesObservations(self, args: str | Prv_fred_getSeriesObservations_args_u1_In, /) -> Prv_fred_fredObservations_Out:
+        """Reads the actual numbers for a FRED series — the dated observations themselves, oldest
+        first, with a missing period returned as `value: null` rather than as a `NaN` or a
+        silently dropped row. Called bare (`getSeriesObservations("GDPC1")`) it returns the
+        series' full history; `from`/`to` (ISO yyyy-mm-dd) narrow the window. It also runs
+        FRED's own transforms server-side so a caller never has to recompute one: `units`
+        converts the level to a change (`pc1` percent change from a year ago — the usual way to
+        read inflation off CPIAUCSL — plus `pch`, `chg`, `log` and the rest of FRED's ten
+        codes), and `frequency` with `aggregationMethod` collapses a series to a coarser period
+        (`{ frequency: "a", aggregationMethod: "avg" }` turns the monthly unemployment rate into
+        annual averages). The result carries the transform FRED reports having applied and the
+        vintage it served, so a caller can tell what they actually got. This is the function to
+        call once `searchSeries`/`getSeriesInfo` has identified the right series id — e.g.
+        A191RL1Q225SBEA for the US real GDP growth rate.
+        """
+
+    async def browseCategory(self, categoryId: float | None = None, /) -> Prv_fred_fredCategory_Out:
+        """Browses FRED's category tree the way fred.stlouisfed.org/categories does — the category
+        itself (id/name/parent), its immediate child categories, and the series filed directly
+        under it (the same shape getSeriesInfo returns per series, so a caller can read
+        units/frequency/lastUpdated off a browsed result with no second call). Called bare it
+        starts at the root (id 0). FRED organizes its ~800,000 series into a real hierarchy, so
+        this is how a caller explores 'what's available in this area' before knowing a series id
+        to look up directly. An unknown category id comes back as a caller-fixable error.
         """
 
 class Prv_geico(Protocol):
@@ -7349,8 +7647,9 @@ class Prv_google_flights(Protocol):
 
 class Prv_grainger(Protocol):
     """Grainger's industrial MRO catalog, product detail, and branch/stock availability —
-    findBranch is live (nationwide branch directory, address/phone/hours); catalog, product
-    detail and stock checks are still stubs.
+    findBranch (nationwide branch directory) and getProduct (price, pack size, spec table,
+    availability by item number or URL) are live; catalog search and stock checks are still
+    stubs.
     """
 
     async def findBranch(self, args: Any, /) -> list[Prv_grainger_graingerBranchRow_Out]:
@@ -7360,6 +7659,14 @@ class Prv_grainger(Protocol):
         side to compute true distance). Needs at least one of `zip`, `city`, `state`, and a
         match set above 10 branches (e.g. a whole large state) asks the caller to narrow rather
         than silently truncating.
+        """
+
+    async def getProduct(self, args: Any, /) -> Prv_grainger_graingerProductRow_Out:
+        """Reads one Grainger product page in full — price and pack size/unit of measure, the full
+        spec table, the manufacturer's own part number, and a shipping/pickup availability
+        summary. Takes `itemNumber` (Grainger's own catalog id, e.g. "26K909" — resolves
+        directly, no descriptive slug needed) or `url` (a full grainger.com product URL). Throws
+        if the item number doesn't exist (a clean 404) rather than returning an empty row.
         """
 
 class Prv_healthcare_gov(Protocol):
@@ -8810,6 +9117,23 @@ class Prv_otto(Protocol):
         `getProduct`'s current `-C<id>/` pattern.
         """
 
+class Prv_paypal(Protocol):
+    """PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules,
+    the fee on one concrete personal (friends-and-family) transaction, currency-conversion
+    quotes and the spread PayPal adds, Pay Later instalment plans, PayPal.Me handle lookup,
+    Help Center search and articles, the binding policy documents, PayPal Shopping cashback
+    offers, crypto prices, and invoice payer-view reads. One function callable today —
+    estimateFee.
+    """
+
+    async def estimateFee(self, args: Prv_paypal_PaypalEstimateFeeArgs_In, /) -> Prv_paypal_PaypalFeeEstimate_Out:
+        """Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — domestic
+        or cross-border, by funding source — off PayPal's own published fee schedule, e.g.
+        estimateFee({ amount: 100, currency: "USD", crossBorder: false, fundingSource: "card" })
+        -> { fee: 3.2, net: 96.8, citations: [...] }. Does not (yet) cover
+        goods-and-services/merchant transactions, a separate page nobody has walked.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -9934,6 +10258,7 @@ class BowmarkProviders(Protocol):
     chriscraft: Prv_chriscraft
     classpass: Prv_classpass
     cloudflare: Prv_cloudflare
+    cyberpowerpc: Prv_cyberpowerpc
     decked: Prv_decked
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
@@ -9975,6 +10300,7 @@ class BowmarkProviders(Protocol):
     newegg: Prv_newegg
     oanda: Prv_oanda
     otto: Prv_otto
+    paypal: Prv_paypal
     pirateship: Prv_pirateship
     pizzahut: Prv_pizzahut
     progressive: Prv_progressive

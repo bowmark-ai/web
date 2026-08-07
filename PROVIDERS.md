@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 633 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 636 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -9,7 +9,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | Function | Site | What it does | Status |
 |---|---|---|---|
 | `aa.getAirportInfo` | aa.com | Reads what American publishes about an airport it serves — which terminal it operates… | ⚪ |
-| `aa.getBaggageAllowance` | aa.com | Reads the checked and carry-on baggage allowance and fees for a route, fare class and… | ⚪ |
+| `aa.getBaggageAllowance` | aa.com | American's published baggage allowance and fees for a ROUTE, keyed on the two… | 🟢 |
 | `aa.getFlightStatus` | aa.com | Looks up an American Airlines flight's real-time status by flight number and date, or… | 🟢 |
 | `aa.getSeatMap` | aa.com | Reads the seat map for a specific flight — the cabin layout, which seats are free… | ⚪ |
 | `aa.getServiceFees` | aa.com | Reads American's optional-service fee schedule — seat selection, change and… | ⚪ |
@@ -63,7 +63,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
 | `cancer.findCancerCenters` | cancer.gov | Returns the NCI-Designated Cancer Centers — the institutions NCI itself certifies as… | 🟢 |
-| `cancer.getCancerInfoSummary` | cancer.gov | Returns NCI's own PDQ information summary for one cancer type or topic — what the… | ⚪ |
+| `cancer.getCancerInfoSummary` | cancer.gov | Returns NCI's own PDQ information summary for one cancer type or topic — what the… | 🟢 |
 | `cancer.getCancerStatistics` | cancer.gov | Returns NCI's published statistics for a cancer type — new cases and deaths per year… | ⚪ |
 | `cancer.getClinicalTrial` | cancer.gov | Returns the full detail for one cancer clinical trial by its NCT identifier — the… | ⚪ |
 | `cancer.getDrugInfo` | cancer.gov | Returns NCI's drug-information page for one cancer drug — what it is used for and… | ⚪ |
@@ -102,6 +102,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cloudflare.compareTeamsPlans` | cloudflare.com | Compares Cloudflare's Zero Trust / Cloudflare One team plans — Free (up to 50 users)… | 🟢 |
 | `cloudflare.getDomainPricing` | cloudflare.com | Reads Cloudflare Registrar's at-cost, no-markup registration and renewal pricing… | ⚪ |
 | `cloudflare.searchDomainAvailability` | cloudflare.com | Checks whether a given domain name is available to register through Cloudflare… | 🟢 |
+| `cyberpowerpc.getConfigurator` | cyberpowerpc.com | Reads one base configurator's whole component tree — every section (CPU, GPU, memory… | 🟢 |
+| `cyberpowerpc.listConfigurators` | cyberpowerpc.com | Lists every base gaming-PC configurator on the site — AMD and Intel, every tier from… | 🟢 |
+| `cyberpowerpc.priceBuild` | cyberpowerpc.com | Prices an exact build for one configurator given a caller's part selections (one part… | 🟢 |
 | `decked.getVehicleClass` | decked.com | Reads one vehicle class's complete fit list — every model it fits, each with its own… | 🟢 |
 | `decked.priceCabSideOption` | decked.com | Prices the Load Floor vs Cab-side Gap 8'-bed accessory-pack option for one vehicle +… | 🟢 |
 | `decked.resolveFitment` | decked.com | Resolves a free-text vehicle to its real fitted SKU and live price, mirroring the… | 🟢 |
@@ -184,10 +187,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `framebridge.getConfigurator` | framebridge.com | Reads one frame style's real live configurator inputs: every Size x Conveyance variant… | 🟢 |
 | `framebridge.listFrameStyles` | framebridge.com | Searches Framebridge's real custom-framing catalog via the site's own Shopify… | 🟢 |
 | `framebridge.priceConfiguration` | framebridge.com | Prices one exact build (frame style + size + conveyance + up to a primary and accent… | 🟢 |
-| `fred.browseCategory` | fred.stlouisfed.org | Browses FRED's category tree the way fred.stlouisfed.org/categories does — given a… | ⚪ |
+| `fred.browseCategory` | fred.stlouisfed.org | Browses FRED's category tree the way fred.stlouisfed.org/categories does — given a… | 🟢 |
 | `fred.getRegionalData` | fred.stlouisfed.org | Reads geographic/regional breakdowns of a series — e.g. unemployment rate by U.S.… | ⚪ |
 | `fred.getSeriesInfo` | fred.stlouisfed.org | Reads the metadata for one known series id — its full title, units (e.g. 'Percent'… | 🟢 |
-| `fred.getSeriesObservations` | fred.stlouisfed.org | Reads the actual time-series data points for a series — date/value pairs over a range… | ⚪ |
+| `fred.getSeriesObservations` | fred.stlouisfed.org | Reads the actual numbers for a FRED series — the dated observations themselves, oldest… | 🟢 |
 | `fred.listReleases` | fred.stlouisfed.org | Lists FRED's economic data releases — the named publications data comes from (e.g.… | 🟢 |
 | `fred.listSources` | fred.stlouisfed.org | Lists the agencies and organizations that originate FRED's data — the Bureau of Labor… | 🟢 |
 | `fred.searchSeries` | fred.stlouisfed.org | Finds the economic data series that match a search text — GDP, CPI, unemployment rate… | ⚪ |
@@ -233,7 +236,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
 | `grainger.checkStock` | grainger.com | Answers whether a product (by item number) is available for delivery to a ZIP or for… | ⚪ |
 | `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟢 |
-| `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | ⚪ |
+| `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟢 |
 | `grainger.search` | grainger.com | Searches or browses Grainger's industrial MRO (maintenance, repair, operations)… | ⚪ |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
 | `healthcare_gov.checkDrugCoverage` | healthcare.gov | Which of a household's available ACA Marketplace plans cover a specific prescription… | 🟢 |
@@ -448,7 +451,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `otto.getReviews` | otto.de | Reads the customer reviews on one OTTO product — rating, review text… | ⚪ |
 | `otto.search` | otto.de | Searches OTTO's catalog for a keyword the way the site's own search bar does, across… | 🟢 |
 | `otto.trackOrder` | otto.de | Looks up shipment/delivery status for an OTTO order by order number plus the account… | ⚪ |
-| `paypal.estimateFee` | paypal.com | Computes what PayPal would actually charge for ONE concrete transaction — an amount in… | ⚪ |
+| `paypal.estimateFee` | paypal.com | Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — an… | 🟢 |
 | `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | ⚪ |
 | `paypal.getCryptoPrices` | paypal.com | Reads the buy and sell prices PayPal itself quotes for the cryptocurrencies it… | ⚪ |
 | `paypal.getCurrencyConversionQuote` | paypal.com | Quotes what PayPal would give on a currency conversion — the rate it would apply to a… | ⚪ |

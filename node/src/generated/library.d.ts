@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8064f4aab6450ca4dbf3f9da72ea4189ef1e7d1cae078520a33001404611de63
-// 8 capabilities, 74 providers, 237 typed functions, 20 refused.
+// Manifest version: ed44c2b018fc36080f712ab9aa6fada087c25bbdc886940161887729834e398b
+// 8 capabilities, 76 providers, 246 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -959,16 +959,117 @@ interface aaRetrieveBookingArgs {
   lastName: string;
 }
 
+interface aaBaggageAllowanceArgs {
+  /** The country flown FROM — an ISO-3166 alpha-2 code ("US", "GB") or a country
+   * name in any capitalisation. Not an airport code: American publishes bag fees
+   * by region and its regions are lists of countries, and no surface on its
+   * estate resolves an airport to one. */
+  origin: string;
+  /** The country flown TO, same forms. */
+  destination: string;
+}
+
+interface aaBaggageAllowance {
+  origin: aaBaggageEndpoint;
+  destination: aaBaggageEndpoint;
+  /** Which row of American's fee table this trip landed on, and how. */
+  feeRegion: {
+    label: string;
+    matchedOn: "country" | "region" | "region-members";
+    matchedEndpoint: "origin" | "destination";
+  };
+  checkedBagFees: aaCheckedBagFee[];
+  checkedBagLimits: aaCheckedBagLimits;
+  carryOn: aaCarryOnAllowance;
+  freeCheckedBags: aaFreeCheckedBagRule[];
+  /** Null when American's own bag-count rule names neither end of the trip. */
+  maxCheckedBags: number | null;
+  maxCheckedBagsRules: aaMaxCheckedBagsRule[];
+  footnotes: string[];
+  sources: string[];
+}
+
+interface aaBaggageEndpoint {
+  input: string;
+  countryCode: string;
+  countryName: string;
+  /** Null for a country American files under no bag region — Mexico is the live
+   * case, and the fee table names it directly instead. */
+  region: string | null;
+}
+
+interface aaCheckedBagFee {
+  /** "1", "2", "3", "4+". */
+  bag: string;
+  /** The cell verbatim, e.g. "$0 / $85*". */
+  display: string;
+  /** Every dollar figure in the cell, in the order printed. */
+  amountsUsd: number[];
+  footnoteMarkers: string[];
+}
+
+interface aaCheckedBagLimits {
+  maxLinearInches: number | null;
+  maxLinearCm: number | null;
+  maxWeightPounds: number | null;
+  maxWeightKilos: number | null;
+  notes: string[];
+}
+
+interface aaCarryOnAllowance {
+  carryOnBags: number;
+  personalItems: number;
+  carryOnMaxInches: number[];
+  carryOnMaxCm: number[];
+  personalItemMaxInches: number[];
+  personalItemMaxCm: number[];
+}
+
+interface aaFreeCheckedBagRule {
+  bags: number;
+  qualifiers: string[];
+}
+
+interface aaMaxCheckedBagsRule {
+  count: number;
+  applies: string[];
+}
+
   /**
    * American Airlines' own site — its published fares and award availability, flight status,
-   * reservation lookup, seat maps, baggage allowance and fee schedules. Flight status and
-   * reservation lookup are live and browserless; the rest are declared stubs.
+   * reservation lookup, seat maps, baggage allowance and fee schedules. Flight status,
+   * reservation lookup and the published baggage allowance for a route are live and browserless;
+   * the rest are declared stubs.
    */
   interface Unit {
     // UNTYPED, DELIBERATELY OMITTED — `getFlightStatus({ date, flightNumber, origin, destination })` declares no types for
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.aa.getFlightStatus` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+
+    /**
+     * American Airlines' published baggage allowance and fees for a ROUTE. `origin` and
+     * `destination` are COUNTRIES — an ISO-3166 alpha-2 code ("US", "GB") or a country name
+     * ("United Kingdom"), matched against American's own country list — because American prices
+     * bags by REGION and publishes its regions as lists of countries ("Bag fees are based on these
+     * regions"). An IATA airport code is refused with a message saying so rather than guessed at.
+     * Returns the fee row American's own table lands that trip on (which region, and whether it
+     * matched on the country or its region), the first, second, third and fourth-bag prices with
+     * every dollar figure printed in each cell plus its footnote markers, the checked-bag weight
+     * and size limits (50 lbs / 23 kgs, 62 in / 158 cm at the time of writing, with First/Business
+     * and Australia/New Zealand qualifications in `notes`), the carry-on and personal-item
+     * dimensions, the free-checked-bag entitlements by AAdvantage status, cabin and cardholder
+     * rule, how many bags American will accept on that trip at all, and the table's own footnotes
+     * verbatim. HONEST LIMITS, because they decide what this can be used for: a cell like "$0 /
+     * $85*" is TWO published prices and the footnotes say which of them a given fare and status
+     * pays — this function returns both rather than picking, since American's public pages do not
+     * price an individual ticket and no open surface on aa.com does either. It throws rather than
+     * guess for a trip where neither end is in American's domestic band (every row of the table
+     * describes the other end of such a trip), and for Cuba, which American prices from two
+     * separate direction-of-travel tables this function deliberately does not read as if they were
+     * the same one.
+     */
+    getBaggageAllowance(arg0: aaBaggageAllowanceArgs): Promise<aaBaggageAllowance>;
 
     /**
      * Reads an existing American Airlines reservation by its six-letter record locator (PNR) and
@@ -1891,12 +1992,38 @@ interface cancerCentersResult {
   centers: cancerCenterRow[];
 }
 
+type cancerInfoAudience = "patient" | "healthProfessional";
+
+interface cancerInfoSection {
+  /** The PDQ document's own heading, verbatim, e.g. "Stage Information for
+   * Breast Cancer". */
+  heading: string;
+  /** The section's own text, whitespace-normalized. */
+  text: string;
+}
+
+interface cancerInfoSummaryResult {
+  topic: string;
+  audience: cancerInfoAudience;
+  /** The PDQ document's own title, verbatim. */
+  title: string;
+  /** The summary's own page on cancer.gov. */
+  url: string;
+  /** ISO 8601 — the PDQ Editorial Board's own "Updated" date for this exact
+   * document. PDQ is a living, continuously revised document; there is no
+   * honest way to use this text without it. */
+  revisionDate: string;
+  sections: cancerInfoSection[];
+}
+
   /**
    * The US National Cancer Institute: PDQ cancer information, the clinical-trial register,
-   * cancer drugs, NCI-designated cancer centers and the cancer dictionaries. The NCI-Designated
-   * Cancer Center directory (`findCancerCenters`) is callable now — every center's name,
-   * designation type, location and host institution, optionally filtered by state; the other
-   * twelve declared functions are still stubs.
+   * cancer drugs, NCI-designated cancer centers and the cancer dictionaries. Callable now: the
+   * NCI-Designated Cancer Center directory (`findCancerCenters`) — every center's name,
+   * designation type, location and host institution, optionally filtered by state — and
+   * `getCancerInfoSummary` — NCI's own PDQ information summary for a cancer topic, patient or
+   * health-professional version, with its own revision date. The other eleven declared functions
+   * are still stubs.
    */
   interface Unit {
     /**
@@ -1912,6 +2039,29 @@ interface cancerCentersResult {
      * — so `total` and `centers.length` are always equal.
      */
     findCancerCenters(args?: { state?: string }): Promise<cancerCentersResult>;
+
+    /**
+     * NCI's own PDQ information summary for one cancer topic — what the cancer is, its symptoms
+     * and risk factors, how it is diagnosed and staged, the treatment options by stage, and the
+     * prognosis — split into the site's own headed sections, each with its heading and text.
+     * `topic` is cancer.gov's own `/types` path segment (e.g. "breast", "lung", "prostate").
+     * `audience` (default `"patient"`) selects the patient-facing version or the more technical
+     * health-professional one NCI maintains separately; both carry the same `document-dates`
+     * revision block when the topic publishes one. `revisionDate` (ISO 8601) is the PDQ Editorial
+     * Board's own "Updated" date for the exact document returned — PDQ is continuously revised, so
+     * this is not decoration. English only: the Spanish path for the same topic uses different
+     * words, not a parameter substitution on the English slug (breast's HP Spanish page is
+     * `/espanol/tipos/seno/pro/tratamiento-seno-pdq`, not a `breast`/`hp` swap), and reaching it
+     * needs its own resolver over the Spanish `/espanol/tipos` index — unbuilt. Two ways this
+     * throws instead of guessing: `CancerInfoSummaryNotPublishedError` when the topic+audience has
+     * no single consolidated document (NCI is mid-redesign — breast's patient content was migrated
+     * to a task-based hub with no one document or date; its health-professional content is
+     * unaffected), and `CancerInfoSummaryAmbiguousTopicError` when the topic's own index entry
+     * covers more than one genuinely distinct disease, each with its own summary (lung:
+     * non-small-cell and small-cell are both filed under `/types/lung`) — the error names every
+     * option's own URL rather than silently answering for the wrong one.
+     */
+    getCancerInfoSummary(args: { topic: string; audience?: "patient" | "healthProfessional" }): Promise<cancerInfoSummaryResult>;
   }
 }
 
@@ -2463,6 +2613,76 @@ interface CloudflareSearchDomainAvailabilityResult {
      * across other TLDs.
      */
     searchDomainAvailability(domain: string): Promise<CloudflareSearchDomainAvailabilityResult>;
+  }
+}
+
+declare namespace BowmarkProvider_cyberpowerpc {
+  // ── CyberPowerPC — the unit's own declarations, verbatim ──
+interface CyberpowerpcConfigurator {
+  slug: string;
+  name: string;
+  url: string;
+  price: string | null;
+  priceValue: number | null;
+  listPrice: string | null;
+  listPriceValue: number | null;
+  baselineSpecs: string[];
+}
+interface CyberpowerpcOption {
+  id: string;
+  name: string;
+  sku: string | null;
+  priceDifference: number;
+  isDefault: boolean;
+}
+interface CyberpowerpcSection {
+  code: string;
+  label: string;
+  category: "Core Components" | "Accessories" | "Software & Service";
+  required: boolean;
+  defaultOptionId: string | null;
+  options: CyberpowerpcOption[];
+}
+interface CyberpowerpcCatalog {
+  slug: string;
+  title: string;
+  basePrice: number;
+  sections: CyberpowerpcSection[];
+}
+interface CyberpowerpcPriceResult {
+  slug: string;
+  basePrice: number;
+  totalPrice: number;
+  lines: { sectionCode: string; sectionLabel: string; optionId: string; optionName: string; priceDifference: number }[];
+}
+
+  /**
+   * Reads and prices CyberPowerPC's real gaming-PC configurators — every component, every
+   * option's exact price.
+   */
+  interface Unit {
+    /**
+     * Lists every base gaming-PC configurator CyberPowerPC currently sells — AMD and Intel,
+     * Mainstream through Extreme — with its slug, current starting price, list price and stock
+     * CPU/GPU/memory/motherboard/storage lines. Takes nothing. The slug it returns is what
+     * getConfigurator and priceBuild take.
+     */
+    listConfigurators(): Promise<CyberpowerpcConfigurator[]>;
+
+    /**
+     * Reads one base configurator's whole component tree — every section (CPU, GPU, memory,
+     * chassis, storage, ...), every option's exact label, SKU and signed price difference versus
+     * that section's default. The section codes and option ids it returns are what priceBuild
+     * takes.
+     */
+    getConfigurator(slug: string): Promise<CyberpowerpcCatalog>;
+
+    /**
+     * Prices an exact build for one configurator given a caller's part selections (one option id
+     * per section code; any section left out uses its own default). Returns the real live total
+     * the site's own configurator computes, plus a per-section breakdown of what each pick added.
+     */
+    priceBuild(slug: string, selections: Record<string, string>): Promise<CyberpowerpcPriceResult>;
   }
 }
 
@@ -3586,9 +3806,42 @@ interface fredSeries {
   notes: string | null;
 }
 
+interface fredCategoryRow {
+  id: number;
+  name: string;
+  parentId: number;
+}
+
+interface fredCategory {
+  id: number;
+  name: string;
+  parentId: number;
+  children: fredCategoryRow[];
+  series: fredSeries[];
+}
+
+interface fredObservation {
+  date: string;
+  /** null where FRED holds no observation for that period — a market holiday in a
+   * daily series, or the first year of a year-over-year transform. */
+  value: number | null;
+}
+
+interface fredObservations {
+  seriesId: string;
+  /** The transform FRED reports having applied: "lin" (none), "pc1", "pch", … */
+  units: string;
+  observationStart: string;
+  observationEnd: string;
+  realtimeStart: string;
+  realtimeEnd: string;
+  count: number;
+  observations: fredObservation[];
+}
+
   /**
-   * US economic data releases and their publication calendar, and the agencies FRED republishes
-   * data from, off the St. Louis Fed's FRED.
+   * US economic data releases and their publication calendar, the agencies FRED republishes data
+   * from, series metadata, and FRED's own category tree, off the St. Louis Fed's FRED.
    */
   interface Unit {
     /**
@@ -3622,6 +3875,34 @@ interface fredSeries {
      * back as a caller-fixable error naming the problem rather than as an empty result.
      */
     getSeriesInfo(seriesId: string): Promise<fredSeries>;
+
+    /**
+     * Reads the actual numbers for a FRED series — the dated observations themselves, oldest
+     * first, with a missing period returned as `value: null` rather than as a `NaN` or a silently
+     * dropped row. Called bare (`getSeriesObservations("GDPC1")`) it returns the series' full
+     * history; `from`/`to` (ISO yyyy-mm-dd) narrow the window. It also runs FRED's own transforms
+     * server-side so a caller never has to recompute one: `units` converts the level to a change
+     * (`pc1` percent change from a year ago — the usual way to read inflation off CPIAUCSL — plus
+     * `pch`, `chg`, `log` and the rest of FRED's ten codes), and `frequency` with
+     * `aggregationMethod` collapses a series to a coarser period (`{ frequency: "a",
+     * aggregationMethod: "avg" }` turns the monthly unemployment rate into annual averages). The
+     * result carries the transform FRED reports having applied and the vintage it served, so a
+     * caller can tell what they actually got. This is the function to call once
+     * `searchSeries`/`getSeriesInfo` has identified the right series id — e.g. A191RL1Q225SBEA for
+     * the US real GDP growth rate.
+     */
+    getSeriesObservations(args: string | { seriesId: string; from?: string; to?: string; units?: string; frequency?: string; aggregationMethod?: string }): Promise<fredObservations>;
+
+    /**
+     * Browses FRED's category tree the way fred.stlouisfed.org/categories does — the category
+     * itself (id/name/parent), its immediate child categories, and the series filed directly under
+     * it (the same shape getSeriesInfo returns per series, so a caller can read
+     * units/frequency/lastUpdated off a browsed result with no second call). Called bare it starts
+     * at the root (id 0). FRED organizes its ~800,000 series into a real hierarchy, so this is how
+     * a caller explores 'what's available in this area' before knowing a series id to look up
+     * directly. An unknown category id comes back as a caller-fixable error.
+     */
+    browseCategory(categoryId?: number): Promise<fredCategory>;
   }
 }
 
@@ -4072,10 +4353,24 @@ interface graingerBranchRow {
   hours: { day: string; hours: string }[];
 }
 
+interface graingerProductRow {
+  itemNumber: string;
+  manufacturerModel: string | null;
+  name: string;
+  description: string | null;
+  brand: string | null;
+  url: string;
+  images: string[];
+  price: { amount: number; currency: string; perUnit: string } | null;
+  specs: { name: string; value: string }[];
+  availabilitySummary: string | null;
+}
+
   /**
    * Grainger's industrial MRO catalog, product detail, and branch/stock availability —
-   * findBranch is live (nationwide branch directory, address/phone/hours); catalog, product
-   * detail and stock checks are still stubs.
+   * findBranch (nationwide branch directory) and getProduct (price, pack size, spec table,
+   * availability by item number or URL) are live; catalog search and stock checks are still
+   * stubs.
    */
   interface Unit {
     /**
@@ -4087,6 +4382,15 @@ interface graingerBranchRow {
      * truncating.
      */
     findBranch(args: object): Promise<graingerBranchRow[]>;
+
+    /**
+     * Reads one Grainger product page in full — price and pack size/unit of measure, the full spec
+     * table, the manufacturer's own part number, and a shipping/pickup availability summary. Takes
+     * `itemNumber` (Grainger's own catalog id, e.g. "26K909" — resolves directly, no descriptive
+     * slug needed) or `url` (a full grainger.com product URL). Throws if the item number doesn't
+     * exist (a clean 404) rather than returning an empty row.
+     */
+    getProduct(args: object): Promise<graingerProductRow>;
   }
 }
 
@@ -8622,6 +8926,48 @@ interface ottoSearchQuery {
   }
 }
 
+declare namespace BowmarkProvider_paypal {
+  // ── PayPal — the unit's own declarations, verbatim ──
+interface PaypalEstimateFeeArgs {
+  amount: number;               // > 0, in `currency`
+  currency: string;             // ISO 4217, e.g. "USD"
+  crossBorder: boolean;         // sender and recipient in different countries
+  fundingSource: "balance" | "bank" | "card" | "amexSend";
+}
+interface PaypalFeeCitation {
+  documentId: string;           // the CMS fee-table id this figure came from, e.g. "FEETB20"
+  feeDataKey: string;           // the exact published value used, e.g. "2.90%"
+  internalName: string;
+}
+interface PaypalFeeEstimate {
+  amount: number;
+  currency: string;
+  crossBorder: boolean;
+  fundingSource: "balance" | "bank" | "card" | "amexSend";
+  fee: number;
+  net: number;                  // amount - fee
+  citations: PaypalFeeCitation[];
+}
+
+  /**
+   * PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules, the
+   * fee on one concrete personal (friends-and-family) transaction, currency-conversion quotes
+   * and the spread PayPal adds, Pay Later instalment plans, PayPal.Me handle lookup, Help Center
+   * search and articles, the binding policy documents, PayPal Shopping cashback offers, crypto
+   * prices, and invoice payer-view reads. One function callable today — estimateFee.
+   */
+  interface Unit {
+    /**
+     * Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — domestic or
+     * cross-border, by funding source — off PayPal's own published fee schedule, e.g.
+     * estimateFee({ amount: 100, currency: "USD", crossBorder: false, fundingSource: "card" }) ->
+     * { fee: 3.2, net: 96.8, citations: [...] }. Does not (yet) cover goods-and-services/merchant
+     * transactions, a separate page nobody has walked.
+     */
+    estimateFee(args: PaypalEstimateFeeArgs): Promise<PaypalFeeEstimate>;
+  }
+}
+
 declare namespace BowmarkProvider_pirateship {
   // ── Pirate Ship — the unit's own declarations, verbatim ──
 interface PirateshipDimensions {
@@ -11937,6 +12283,7 @@ interface BowmarkProviders {
   chriscraft: BowmarkProvider_chriscraft.Unit;
   classpass: BowmarkProvider_classpass.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
+  cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   decked: BowmarkProvider_decked.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
@@ -11978,6 +12325,7 @@ interface BowmarkProviders {
   newegg: BowmarkProvider_newegg.Unit;
   oanda: BowmarkProvider_oanda.Unit;
   otto: BowmarkProvider_otto.Unit;
+  paypal: BowmarkProvider_paypal.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
   progressive: BowmarkProvider_progressive.Unit;

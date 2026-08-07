@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8064f4aab6450ca4dbf3f9da72ea4189ef1e7d1cae078520a33001404611de63
-// 231 checked, 20 unchecked.
+// Manifest version: ed44c2b018fc36080f712ab9aa6fada087c25bbdc886940161887729834e398b
+// 240 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8064f4aab6450ca4dbf3f9da72ea4189ef1e7d1cae078520a33001404611de63",
+  "version": "ed44c2b018fc36080f712ab9aa6fada087c25bbdc886940161887729834e398b",
   "units": {
     "cars": {
       "defs": {
@@ -1125,6 +1125,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.aa": {
       "defs": {
+        "aaBaggageAllowanceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "origin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "aaRetrieveBookingArgs": {
           "k": "object",
           "props": [
@@ -1147,6 +1166,16 @@ export const VALIDATORS: ValidatorTable = {
       },
       "functions": {
         "getFlightStatus": null,
+        "getBaggageAllowance": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "aaBaggageAllowanceArgs"
+            },
+            "optional": false
+          }
+        ],
         "retrieveBooking": [
           {
             "name": "arg0",
@@ -1940,6 +1969,41 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getCancerInfoSummary": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "topic",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "audience",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "patient"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "healthProfessional"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -2476,6 +2540,40 @@ export const VALIDATORS: ValidatorTable = {
             "name": "domain",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.cyberpowerpc": {
+      "defs": {},
+      "functions": {
+        "listConfigurators": [],
+        "getConfigurator": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "priceBuild": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "string"
+              }
             },
             "optional": false
           }
@@ -3085,6 +3183,76 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getSeriesObservations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "seriesId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "from",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "to",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "units",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "frequency",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "aggregationMethod",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "browseCategory": [
+          {
+            "name": "categoryId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -3511,6 +3679,15 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "findBranch": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
           {
             "name": "args",
             "schema": {
@@ -6543,6 +6720,73 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ottoSearchQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.paypal": {
+      "defs": {
+        "PaypalEstimateFeeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "amount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "currency",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "crossBorder",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "fundingSource",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "balance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "bank"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "card"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "amexSend"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "estimateFee": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PaypalEstimateFeeArgs"
             },
             "optional": false
           }
