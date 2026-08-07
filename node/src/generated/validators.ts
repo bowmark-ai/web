@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bcc647d5f6fac5ad0974b7a407383b2a0d80005e4b30b7883d662313ae5085d2
-// 206 checked, 20 unchecked.
+// Manifest version: 80346d8cf36c785e2b7fe0a77a87e5a51fa97ceb04ea11c951c71a9f7f75ad8e
+// 208 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bcc647d5f6fac5ad0974b7a407383b2a0d80005e4b30b7883d662313ae5085d2",
+  "version": "80346d8cf36c785e2b7fe0a77a87e5a51fa97ceb04ea11c951c71a9f7f75ad8e",
   "units": {
     "cars": {
       "defs": {
@@ -4978,6 +4978,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.lonelyplanet": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.lufthansa": {
       "defs": {},
       "functions": {
@@ -9089,6 +9103,48 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMembershipPlans": []
+      }
+    },
+    "providers.sears": {
+      "defs": {
+        "SearsSearchQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zipCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "SearsSearchQuery"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.selectblinds": {

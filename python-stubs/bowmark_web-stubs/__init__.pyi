@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bcc647d5f6fac5ad0974b7a407383b2a0d80005e4b30b7883d662313ae5085d2
-# 8 capabilities, 69 providers, 206 typed functions, 20 refused.
+# Manifest version: 80346d8cf36c785e2b7fe0a77a87e5a51fa97ceb04ea11c951c71a9f7f75ad8e
+# 8 capabilities, 71 providers, 208 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2937,6 +2937,12 @@ class Prv_liquiddeath_LiquiddeathLiveCartLine_Out(TypedDict):
     quantity: float
     lineTotal: str
 
+class Prv_lonelyplanet_LonelyPlanetSearchResult_Out(TypedDict):
+    title: str
+    subtitle: str | None
+    collection: str
+    url: str
+
 class Prv_lufthansa_LufthansaFlightStatus_Out(TypedDict):
     airline: str
     flightNumber: str
@@ -4455,6 +4461,29 @@ class Prv_samsclub_SamsclubMembershipBenefit_Out(TypedDict):
     description: str | None
     included: bool
     extraDetails: str | None
+
+class Prv_sears_SearsSearchQuery_In(TypedDict):
+    query: str
+    zipCode: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_sears_SearsSearchResult_Out(TypedDict):
+    productId: str
+    url: str
+    name: str
+    brand: str | None
+    price: Prv_sears_SearsSearchPrice_Out
+    thumbnail: str | None
+    rating: float | None
+    reviewCount: float | None
+    totalCount: float
+
+class Prv_sears_SearsSearchPrice_Out(TypedDict):
+    currentAmount: float
+    currentDisplay: str
+    regularAmount: float | None
+    regularDisplay: str | None
+    onSale: bool
 
 class Prv_selectblinds_SelectBlindsStyle_Out(TypedDict):
     handle: str
@@ -7311,6 +7340,20 @@ class Prv_liquiddeath(Protocol):
         provider does not perform.
         """
 
+class Prv_lonelyplanet(Protocol):
+    """Travel guides: destination guides, site search, Best in Travel picks, curated trips and
+    guidebooks.
+    """
+
+    async def search(self, query: str, /) -> list[Prv_lonelyplanet_LonelyPlanetSearchResult_Out]:
+        """Searches lonelyplanet.com's site-wide index — destinations, articles, curated trip
+        itineraries, guidebooks and points of interest — for a free-text query, the way the
+        site's own search bar does. Returns each match's title, subtitle, its `collection` (the
+        site's own result-type tag, e.g. "destinationAssemblies", "products") and a resolvable
+        url. This is the entry point for a caller who does not yet know which destination page
+        or guide they want.
+        """
+
 class Prv_lufthansa(Protocol):
     """Flight search and fares, flight status, seat maps, baggage allowance and reading an
     existing booking on lufthansa.com.
@@ -8265,6 +8308,21 @@ class Prv_samsclub(Protocol):
         scope.
         """
 
+class Prv_sears(Protocol):
+    """Sears' own storefront — product search, product detail, fulfillment/stock and store
+    locator.
+    """
+
+    async def search(self, query: Prv_sears_SearsSearchQuery_In, /) -> list[Prv_sears_SearsSearchResult_Out]:
+        """Searches Sears' live catalog by free-text keyword the way the site's own search bar
+        does, returning matching product rows: id, name, brand, current and regular price, a
+        thumbnail, rating/review count and the site's own total match count. A query with no
+        matches returns an empty array — Sears not carrying something is a real, common answer,
+        not an error. `zipCode` narrows price/availability the way the site's own zip cookie
+        does; omit it for the site's own default (New York, 10101). Returns one page (up to 48
+        rows); the site publishes no further paging parameter this function reaches.
+        """
+
 class Prv_selectblinds(Protocol):
     """SelectBlinds' real made-to-measure blinds/shades catalog and its real live 'HD Pricing'
     engine — search real buyable styles, read one style's real configurator (mount type,
@@ -8836,6 +8894,7 @@ class BowmarkProviders(Protocol):
     labcorp: Prv_labcorp
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
+    lonelyplanet: Prv_lonelyplanet
     lufthansa: Prv_lufthansa
     mailchimp: Prv_mailchimp
     mcdonalds: Prv_mcdonalds
@@ -8857,6 +8916,7 @@ class BowmarkProviders(Protocol):
     reddit: Prv_reddit
     ritani: Prv_ritani
     samsclub: Prv_samsclub
+    sears: Prv_sears
     selectblinds: Prv_selectblinds
     semihandmade: Prv_semihandmade
     soundcloud: Prv_soundcloud

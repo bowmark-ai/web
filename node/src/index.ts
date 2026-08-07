@@ -17,12 +17,14 @@
 // the two must stay in sync — see `packages/runtime/src/namespace.ts`.
 
 import { client } from "./session.js";
-import { type ClientOptions, type RunEnvelope, postRun, resolveClient } from "./transport.js";
+import { type ClientOptions, postRun, type RunEnvelope, resolveClient } from "./transport.js";
 
+export { type WireProblem, wireProblem } from "./guard.js";
+export { client, openManagedSession, type SessionHandle, session } from "./session.js";
 export {
+  type AuthNeed,
   BowmarkError,
   BowmarkNeedsUserError,
-  type AuthNeed,
   type CallEnvelope,
   type ClientOptions,
   type ClosedSession,
@@ -31,8 +33,6 @@ export {
   type OpenedSession,
   type RunEnvelope,
 } from "./transport.js";
-export { type WireProblem, wireProblem } from "./guard.js";
-export { type SessionHandle, client, openManagedSession, session } from "./session.js";
 
 /** The whole callable library, typed. `await bowmark.music.search("aphex twin")`.
  *

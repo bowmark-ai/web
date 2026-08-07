@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bcc647d5f6fac5ad0974b7a407383b2a0d80005e4b30b7883d662313ae5085d2
-// 8 capabilities, 69 providers, 212 typed functions, 20 refused.
+// Manifest version: 80346d8cf36c785e2b7fe0a77a87e5a51fa97ceb04ea11c951c71a9f7f75ad8e
+// 8 capabilities, 71 providers, 214 typed functions, 20 refused.
 // 51,711 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6048,6 +6048,31 @@ interface LiquiddeathLiveCart {
   }
 }
 
+declare namespace BowmarkProvider_lonelyplanet {
+  // ── Lonely Planet — the unit's own declarations, verbatim ──
+interface LonelyPlanetSearchResult {
+  title: string;
+  subtitle: string | null;
+  collection: string; // e.g. "destinationAssemblies", "products", "journeysItineraries"
+  url: string;
+}
+
+  /**
+   * Travel guides: destination guides, site search, Best in Travel picks, curated trips and
+   * guidebooks.
+   */
+  interface Unit {
+    /**
+     * Searches lonelyplanet.com's site-wide index — destinations, articles, curated trip
+     * itineraries, guidebooks and points of interest — for a free-text query, the way the site's
+     * own search bar does. Returns each match's title, subtitle, its `collection` (the site's own
+     * result-type tag, e.g. "destinationAssemblies", "products") and a resolvable url. This is the
+     * entry point for a caller who does not yet know which destination page or guide they want.
+     */
+    search(query: string): Promise<LonelyPlanetSearchResult[]>;
+  }
+}
+
 declare namespace BowmarkProvider_lufthansa {
   // ── Lufthansa — the unit's own declarations, verbatim ──
 interface LufthansaFlightLeg {
@@ -8979,6 +9004,47 @@ interface SamsclubMembershipPlan {
   }
 }
 
+declare namespace BowmarkProvider_sears {
+  // ── Sears — the unit's own declarations, verbatim ──
+interface SearsSearchPrice {
+  currentAmount: number;
+  currentDisplay: string;
+  regularAmount: number | null;
+  regularDisplay: string | null;
+  onSale: boolean;
+}
+interface SearsSearchResult {
+  productId: string;
+  url: string;
+  name: string;
+  brand: string | null;
+  price: SearsSearchPrice;
+  thumbnail: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  totalCount: number;
+}
+interface SearsSearchQuery {
+  query: string;
+  zipCode?: string;
+  limit?: number;
+}
+
+  /** Sears' own storefront — product search, product detail, fulfillment/stock and store locator. */
+  interface Unit {
+    /**
+     * Searches Sears' live catalog by free-text keyword the way the site's own search bar does,
+     * returning matching product rows: id, name, brand, current and regular price, a thumbnail,
+     * rating/review count and the site's own total match count. A query with no matches returns an
+     * empty array — Sears not carrying something is a real, common answer, not an error. `zipCode`
+     * narrows price/availability the way the site's own zip cookie does; omit it for the site's
+     * own default (New York, 10101). Returns one page (up to 48 rows); the site publishes no
+     * further paging parameter this function reaches.
+     */
+    search(query: SearsSearchQuery): Promise<SearsSearchResult[]>;
+  }
+}
+
 declare namespace BowmarkProvider_selectblinds {
   // ── SelectBlinds — the unit's own declarations, verbatim ──
 // SelectBlinds' OWN shapes — not a capability contract.
@@ -10697,6 +10763,7 @@ interface BowmarkProviders {
   labcorp: BowmarkProvider_labcorp.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
+  lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
   lufthansa: BowmarkProvider_lufthansa.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
@@ -10718,6 +10785,7 @@ interface BowmarkProviders {
   reddit: BowmarkProvider_reddit.Unit;
   ritani: BowmarkProvider_ritani.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
+  sears: BowmarkProvider_sears.Unit;
   selectblinds: BowmarkProvider_selectblinds.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;

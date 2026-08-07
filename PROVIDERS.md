@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 623 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 633 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -14,11 +14,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aa.getSeatMap` | aa.com | Reads the seat map for a specific flight — the cabin layout, which seats are free… | ⚪ |
 | `aa.getServiceFees` | aa.com | Reads American's optional-service fee schedule — seat selection, change and… | ⚪ |
 | `aa.listLounges` | aa.com | Lists American's Admirals Club and Flagship lounges for an airport — location within… | ⚪ |
-| `aa.retrieveBooking` | aa.com | Reads an existing reservation by its record locator (PNR) and the passenger's last… | ⚪ |
+| `aa.retrieveBooking` | aa.com | Reads an existing American Airlines reservation by its six-letter record locator (PNR)… | 🟢 |
 | `aa.search` | aa.com | Searches American's own fares for an origin/destination/date (and cabin, passenger… | ⚪ |
 | `aa.searchAwardFlights` | aa.com | Searches the same routes priced in AAdvantage miles rather than cash — award… | ⚪ |
 | `abercrombie.checkGiftCardBalance` | abercrombie.com | Checks the remaining balance on an Abercrombie gift card the way the site's own… | ⚪ |
-| `abercrombie.checkStock` | abercrombie.com | Answers whether a specific size/color of a product is buyable right now — online, or… | ⚪ |
+| `abercrombie.checkStock` | abercrombie.com | Answers whether a specific size/color of a product is buyable right now — online, and… | 🟢 |
 | `abercrombie.findStores` | abercrombie.com | Finds physical Abercrombie/abercrombie kids stores near a zip code or city (state) the… | 🟢 |
 | `abercrombie.getDeals` | abercrombie.com | Reads Abercrombie's currently published sales and promotions — the site's own… | ⚪ |
 | `abercrombie.getProduct` | abercrombie.com | Reads one Abercrombie & Fitch product in full the way its own product detail page does… | 🟢 |
@@ -62,7 +62,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.listOffers` | bmwusa.com | Lists BMW's current US lease and finance offers for a ZIP code — the advertised… | ⚪ |
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
-| `cancer.findCancerCenters` | cancer.gov | Returns the NCI-Designated Cancer Centers — the institutions NCI itself certifies as… | ⚪ |
+| `cancer.findCancerCenters` | cancer.gov | Returns the NCI-Designated Cancer Centers — the institutions NCI itself certifies as… | 🟢 |
 | `cancer.getCancerInfoSummary` | cancer.gov | Returns NCI's own PDQ information summary for one cancer type or topic — what the… | ⚪ |
 | `cancer.getCancerStatistics` | cancer.gov | Returns NCI's published statistics for a cancer type — new cases and deaths per year… | ⚪ |
 | `cancer.getClinicalTrial` | cancer.gov | Returns the full detail for one cancer clinical trial by its NCT identifier — the… | ⚪ |
@@ -89,14 +89,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cheapflights.getBookingOptions` | cheapflights.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `cheapflights.search` | cheapflights.com | Runs the itinerary search on cheapflights.com and returns its result rows… | 🟢 |
 | `cheapflights.searchCars` | cheapflights.com | Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup… | 🟢 |
-| `cheapflights.searchHotels` | cheapflights.com | Runs the stays search on cheapflights.com — the site's own second vertical — and… | ⚪ |
+| `cheapflights.searchHotels` | cheapflights.com | Runs the stays search on cheapflights.com — the site's own second vertical — and… | 🟢 |
 | `chriscraft.getConfigurator` | chriscraft.com | Reads one model+boat-type's whole builder off build.chriscraft.com: every option group… | 🟢 |
 | `chriscraft.priceConfiguration` | chriscraft.com | Prices a specific build (a choice, or choices, per option group) against… | 🟢 |
 | `chriscraft.searchModels` | chriscraft.com | Lists every current Chris-Craft model reachable from the public "Build Your Own"… | 🟢 |
 | `classpass.checkAvailability` | classpass.com | Checks whether a specific already-known class or appointment slot still has an open… | ⚪ |
 | `classpass.getPricing` | classpass.com | Returns ClassPass's own membership/credit-plan pricing for a market — the monthly… | ⚪ |
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
-| `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile — name, category… | ⚪ |
+| `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
 | `classpass.search` | classpass.com | Searches fitness, wellness and beauty businesses (gyms, studios, spas and salons) near… | ⚪ |
 | `cloudflare.comparePlans` | cloudflare.com | Compares Cloudflare's website/application plan tiers — Free, Pro, Business and… | 🟢 |
 | `cloudflare.compareTeamsPlans` | cloudflare.com | Compares Cloudflare's Zero Trust / Cloudflare One team plans — Free (up to 50 users)… | 🟢 |
@@ -118,7 +118,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dickssportinggoods.search` | dickssportinggoods.com | Searches dickssportinggoods.com's catalog for a keyword (optionally scoped by sport… | ⚪ |
 | `dillards.checkStock` | dillards.com | Answers whether one exact size/color of a product is available right now — both for… | 🟢 |
 | `dillards.findStores` | dillards.com | Finds nearby Dillard's store locations for a zip code, city or state — address, phone… | ⚪ |
-| `dillards.getProduct` | dillards.com | Reads one product's full page — price, available sizes/colors, images, brand, full… | ⚪ |
+| `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟢 |
 | `dillards.search` | dillards.com | Searches dillards.com's catalog for a keyword and returns the matching products the… | 🟢 |
 | `dillards.searchRegistry` | dillards.com | Searches Dillard's wedding/gift registry (dillards.com/registry) — a distinctive… | 🟢 |
 | `discounttire.checkStock` | discounttire.com | Checks whether a specific tire or wheel is actually gettable near a given place — the… | 🟢 |
@@ -351,7 +351,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `liquiddeath.searchProducts` | liquiddeath.com | Searches the live catalogue and returns matching products with their real variants… | 🟢 |
 | `lonelyplanet.getBestInTravel` | lonelyplanet.com | Reads Lonely Planet's annually curated 'Best in Travel' list — the destinations and… | ⚪ |
 | `lonelyplanet.getDestinationGuide` | lonelyplanet.com | Reads one destination's guide page (e.g. lonelyplanet.com/destinations/italy) — its… | ⚪ |
-| `lonelyplanet.search` | lonelyplanet.com | Searches lonelyplanet.com's site-wide index — destinations, articles and trip guides —… | ⚪ |
+| `lonelyplanet.search` | lonelyplanet.com | Searches lonelyplanet.com's site-wide index — destinations, articles, curated trip… | 🟢 |
 | `lonelyplanet.searchGuidebooks` | lonelyplanet.com | Searches Lonely Planet's guidebook catalog (destination guides, phrasebooks, planning… | ⚪ |
 | `lonelyplanet.searchTrips` | lonelyplanet.com | Browses Lonely Planet's ready-to-book curated multi-day itineraries — trips 'crafted… | ⚪ |
 | `lufthansa.getBaggageAllowance` | lufthansa.com | Reads the checked and carry-on baggage allowance for a fare class and route — bag… | 🟢 |
@@ -359,6 +359,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lufthansa.getSeatMap` | lufthansa.com | Reads the seat map for a specific flight — cabin layout, which seats are open… | ⚪ |
 | `lufthansa.retrieveBooking` | lufthansa.com | Reads an existing reservation by confirmation code (PNR) and the passenger's last name… | ⚪ |
 | `lufthansa.search` | lufthansa.com | Searches flights for an origin/destination/date (and cabin) and returns the available… | ⚪ |
+| `lululemon.addToCart` | shop.lululemon.com | Puts a chosen SKU — one colourway in one size — into a guest cart on lululemon.com… | ⚪ |
+| `lululemon.checkStoreStock` | shop.lululemon.com | Answers whether a specific size and colour is on the shelf at a named lululemon store… | ⚪ |
+| `lululemon.findStores` | shop.lululemon.com | Finds physical lululemon stores near a place the way the site's own store locator… | ⚪ |
+| `lululemon.getCart` | shop.lululemon.com | Reads back what is in the guest cart across several calls — line items, quantities… | ⚪ |
+| `lululemon.getProduct` | shop.lululemon.com | Reads one product's full configurator the way its product page presents it — every… | 🟢 |
+| `lululemon.getReviews` | shop.lululemon.com | Reads the customer reviews on one product — rating, title, body, size-and-fit votes… | ⚪ |
+| `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟢 |
+| `lululemon.getSizeGuide` | shop.lululemon.com | Returns lululemon's size chart for a garment — the body measurements each numeric size… | ⚪ |
+| `lululemon.listCategory` | shop.lululemon.com | Browses one category the way the site's own navigation does — Women's Leggings, Men's… | ⚪ |
+| `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
 | `mailchimp.getPlanPricing` | mailchimp.com | Reads mailchimp.com/pricing/marketing/'s own plan lineup (Free, Essentials, Standard… | 🟢 |
 | `marriott.findHotels` | marriott.com | Finds Marriott-family properties near a city, region, or landmark — the site's own… | ⚪ |
 | `marriott.getAwardAvailability` | marriott.com | Searches Marriott's live award (Marriott Bonvoy points) availability for a property… | ⚪ |
@@ -378,7 +388,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `medicare.findEquipmentSuppliers` | medicare.gov | Returns the suppliers near a ZIP that Medicare will pay for durable medical equipment… | ⚪ |
 | `medicare.findHomeHealthAgencies` | medicare.gov | Returns the Medicare-certified home health agencies serving a ZIP — each with its… | ⚪ |
 | `medicare.findHospices` | medicare.gov | Returns the Medicare-certified hospice providers serving a location — each with its… | ⚪ |
-| `medicare.findHospitals` | medicare.gov | Returns the hospitals near a location with the quality information CMS publishes about… | ⚪ |
+| `medicare.findHospitals` | medicare.gov | Returns the hospitals near a location with the quality information CMS publishes about… | 🟢 |
 | `medicare.findLocalHelp` | medicare.gov | Returns the free, unbiased help available to somebody in their own state — the State… | ⚪ |
 | `medicare.findNursingHomes` | medicare.gov | Returns the Medicare- and Medicaid-certified nursing homes near a location with the… | 🟢 |
 | `medicare.findRehabAndLongTermCareFacilities` | medicare.gov | Returns the inpatient rehabilitation facilities and long-term care hospitals near a… | ⚪ |
@@ -388,7 +398,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `medicare.searchDrugPlans` | medicare.gov | Returns the standalone Medicare Part D prescription drug plans sold in a ZIP's Part D… | 🟢 |
 | `medicare.searchDrugs` | medicare.gov | Searches Medicare's own drug reference by name and returns matching drugs with the… | ⚪ |
 | `medicare.searchHealthPlans` | medicare.gov | Returns the Medicare Advantage (Part C) plans somebody can actually buy for a ZIP and… | ⚪ |
-| `medicare.searchMedigapPlans` | medicare.gov | Returns the Medigap (Medicare Supplement) policies sold in somebody's state and ZIP —… | ⚪ |
+| `medicare.searchMedigapPlans` | medicare.gov | Returns the Medigap (Medicare Supplement) plan TYPES sold in somebody's ZIP's state… | 🟢 |
 | `medicare.searchPharmacies` | medicare.gov | Returns the pharmacies near a ZIP that a given Medicare drug plan works with, and on… | ⚪ |
 | `mercadolibre.getBestSellers` | mercadolibre.com | Reads the site's own "Más vendidos" (best sellers) ranked feed —… | ⚪ |
 | `mercadolibre.getProduct` | mercadolibre.com | Reads one listing in full — price, condition, description, images, seller and… | ⚪ |
@@ -436,7 +446,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `otto.browseCategory` | otto.de | Lists products under one of OTTO's own department/category pages (e.g. Damenmode… | ⚪ |
 | `otto.getProduct` | otto.de | Reads one OTTO product page — price, current availability, delivery-time estimate (the… | 🟢 |
 | `otto.getReviews` | otto.de | Reads the customer reviews on one OTTO product — rating, review text… | ⚪ |
-| `otto.search` | otto.de | Searches OTTO's catalog for a keyword the way the site's own search bar does, across… | ⚪ |
+| `otto.search` | otto.de | Searches OTTO's catalog for a keyword the way the site's own search bar does, across… | 🟢 |
 | `otto.trackOrder` | otto.de | Looks up shipment/delivery status for an OTTO order by order number plus the account… | ⚪ |
 | `paypal.estimateFee` | paypal.com | Computes what PayPal would actually charge for ONE concrete transaction — an amount in… | ⚪ |
 | `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | ⚪ |
@@ -456,7 +466,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pizzahut.findStores` | pizzahut.com | Finds the Pizza Hut stores that serve a given address or ZIP — each store's id, street… | 🟢 |
 | `pizzahut.getDeals` | pizzahut.com | Reads the deals, coupons and bundle offers Pizza Hut is running at a store right now —… | ⚪ |
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | ⚪ |
-| `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store — the sizes, crusts, sauces and toppings it… | ⚪ |
+| `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
 | `pizzahut.priceOrder` | pizzahut.com | Prices a configured basket at a store WITHOUT placing it — line items with their… | 🟢 |
 | `progressive.findAgent` | progressive.com | Finds the independent agents who sell Progressive near a ZIP — name, agency, address… | 🟢 |
 | `progressive.getAtvQuote` | progressive.com | Returns an ATV or UTV insurance quote for the machine and its ZIP — off-road coverage… | ⚪ |
@@ -510,21 +520,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsclub.trackOrder` | samsclub.com | Looks up shipment/delivery status for an order by order number plus the email or zip… | ⚪ |
 | `sears.checkStock` | sears.com | Answers whether a specific product is buyable right now — for delivery or for… | ⚪ |
 | `sears.findStores` | sears.com | Finds physical Sears/Sears Hometown stores near a zip code or city the way the site's… | ⚪ |
-| `sears.getProduct` | sears.com | Reads one product in full the way its own product detail page does — given a URL or… | ⚪ |
-| `sears.search` | sears.com | Searches or browses Sears' live catalog the way the site's own search bar and category… | ⚪ |
+| `sears.getProduct` | sears.com | Reads one product in full the way its own product detail page does — given a URL or… | 🟢 |
+| `sears.search` | sears.com | Searches Sears' live catalog by free-text keyword the way the site's own search bar… | 🟢 |
 | `selectblinds.getConfigurator` | selectblinds.com | Reads one blind style's real live configurator: every feature (Mount Type, Lift Style… | 🟢 |
 | `selectblinds.listBlindStyles` | selectblinds.com | Searches SelectBlinds' real made-to-measure catalog via the site's own Shopify… | 🟢 |
 | `selectblinds.priceConfiguration` | selectblinds.com | Prices one exact build (a blind style + chosen feature option ids + a real… | 🟢 |
 | `semihandmade.getPartOptions` | semihandmade.com | Reads one part's real live size grid: every real size combination with its own real… | 🟢 |
 | `semihandmade.priceConfiguration` | semihandmade.com | Resolves one exact size selection to Semihandmade's own real price, availability and… | 🟢 |
 | `semihandmade.searchParts` | semihandmade.com | Searches Semihandmade's real catalog for one IKEA cabinet system (Sektion, Akurum… | 🟢 |
-| `shopify.addToCart` | shopify.com (51711 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
-| `shopify.getCart` | shopify.com (51711 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
-| `shopify.getProduct` | shopify.com (51711 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
-| `shopify.getShippingRates` | shopify.com (51711 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
-| `shopify.removeFromCart` | shopify.com (51711 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
-| `shopify.search` | shopify.com (51711 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
-| `shopify.searchPolicies` | shopify.com (51711 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
+| `shopify.addToCart` | shopify.com (51712 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
+| `shopify.getCart` | shopify.com (51712 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
+| `shopify.getProduct` | shopify.com (51712 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
+| `shopify.getShippingRates` | shopify.com (51712 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
+| `shopify.removeFromCart` | shopify.com (51712 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
+| `shopify.search` | shopify.com (51712 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
+| `shopify.searchPolicies` | shopify.com (51712 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
@@ -621,10 +631,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getPickupDeliverySlots` | walmart.com | Reads the available pickup or delivery time windows for a store/zip — the scheduling… | ⚪ |
 | `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | ⚪ |
 | `walmart.getWeeklyAd` | walmart.com | Reads the current local weekly ad / rollback & clearance circular for a store or zip —… | ⚪ |
-| `walmart.search` | walmart.com | Searches walmart.com's catalog for a keyword (optionally scoped by category, brand or… | ⚪ |
+| `walmart.search` | walmart.com | Searches walmart.com's catalog for a keyword and returns matching products — item id… | 🟢 |
 | `walmart.trackOrder` | walmart.com | Looks up shipment/delivery status for a guest order by order number plus the email or… | ⚪ |
 | `wellfound.getCompany` | wellfound.com | Reads one startup's Wellfound profile the way `/company/<slug>` does — what the… | ⚪ |
-| `wellfound.getJob` | wellfound.com | Reads one job posting in full the way its own detail page does — given a posting url… | ⚪ |
+| `wellfound.getJob` | wellfound.com | Reads one job posting in full the way its own detail page does — takes the `url` a… | 🟢 |
 | `wellfound.getJobCollection` | wellfound.com | Reads one curated collection's postings the way `/job-collections/<slug>` does — the… | ⚪ |
 | `wellfound.getSalaryBenchmarks` | wellfound.com | Reads Wellfound's own published startup compensation benchmarks — what a given role… | ⚪ |
 | `wellfound.listCompanyJobs` | wellfound.com | Lists the open roles at one startup the way `/company/<slug>/jobs` does — the "is this… | ⚪ |

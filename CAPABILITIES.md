@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 17 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 19 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -17,6 +17,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `hotels.searchHotels` | Planned — declared behind this capability, not built yet. | 1 | ⚪ |
 | `insurance.findAgent` | Finds an insurance agent or agency to actually call, across the two carriers this… | 3 | 🟢 |
 | `insurance.getLicensing` | Reads the regulators' own licensing record for ONE carrier, keyed on the `naicCode`… | 3 | 🟢 |
+| `insurance.listHomeownersCompanies` | Planned — declared behind this capability, not built yet. | 3 | ⚪ |
+| `insurance.listReferralCarriers` | Lists the carriers a referral/marketplace program actually places business with — the… | 3 | 🟢 |
 | `insurance.searchCarriers` | Searches the US insurance regulators' register — `{ name: "GEICO" }`, `{ licensedIn… | 3 | 🟢 |
 | `insurance.searchCompanies` | Planned — declared behind this capability, not built yet. | 3 | ⚪ |
 | `music.getTrack` | Reads ONE track you already have a URL for — a public track link, or a `Track` that… | 1 | 🟢 |
