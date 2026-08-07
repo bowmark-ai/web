@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ed44c2b018fc36080f712ab9aa6fada087c25bbdc886940161887729834e398b
-// 8 capabilities, 76 providers, 246 typed functions, 20 refused.
+// Manifest version: 8ab8f73a01982e6f4d199aba7027c238146812a63baf95690e9ac930b4cce1c3
+// 8 capabilities, 77 providers, 248 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1435,6 +1435,50 @@ interface AshleyFurnitureStore {
      * validity signal), rather than returning its non-matching fallback store.
      */
     findStore(args: AshleyFurnitureFindStoreArgs): Promise<AshleyFurnitureStore[]>;
+  }
+}
+
+declare namespace BowmarkProvider_avis {
+  // ── Avis — the unit's own declarations, verbatim ──
+interface avisRow {
+  id: string;
+}
+
+interface AvisLocationRow {
+  mnemonic: string;
+  name: string;
+  group: string;
+  address: {
+    line1: string;
+    line2: string | null;
+    city: string;
+    stateCode: string | null;
+    postalCode: string | null;
+    countryCode: string | null;
+    countryName: string | null;
+  };
+  phone: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  drivableDistanceMiles: number | null;
+  is24hoursDropOffAvailable: boolean;
+  isKeyDropLocation: boolean;
+  relPath: string | null;
+}
+
+  /**
+   * Car rental — availability search, existing-reservation lookup and location directory on
+   * avis.com. searchLocations is live; the rest are stubs.
+   */
+  interface Unit {
+    /**
+     * Finds Avis rental locations matching a full city name or an airport code (`query`, e.g.
+     * "Chicago" or "ORD" — an exact token match, not a substring or address search) off the site's
+     * own location-search API, optionally narrowed to one US state (`stateCode`). Returns each
+     * match's station code, display name, site grouping (airport, neighbourhood, city dock, …),
+     * address, phone and coordinates. Empty array on no match, never an error.
+     */
+    searchLocations(args: object): Promise<AvisLocationRow[]>;
   }
 }
 
@@ -4366,11 +4410,29 @@ interface graingerProductRow {
   availabilitySummary: string | null;
 }
 
+interface graingerStockRow {
+  itemNumber: string;
+  zip: string;
+  quantity: number;
+  shipping: { message: string | null; fulfillmentCode: string | null; availKey: string | null } | null;
+  pickup: {
+    message: string | null;
+    fulfillmentCode: string | null;
+    availKey: string | null;
+    branch: {
+      branchCode: string;
+      city: string | null;
+      address: { street: string | null; city: string | null; state: string | null; zip: string | null; country: string | null } | null;
+      url: string | null;
+    } | null;
+  } | null;
+}
+
   /**
    * Grainger's industrial MRO catalog, product detail, and branch/stock availability —
-   * findBranch (nationwide branch directory) and getProduct (price, pack size, spec table,
-   * availability by item number or URL) are live; catalog search and stock checks are still
-   * stubs.
+   * findBranch (nationwide branch directory), getProduct (price, pack size, spec table,
+   * availability by item number or URL) and checkStock (shipping-to-zip and
+   * pickup-at-nearest-branch fulfillment estimates) are live; catalog search is still a stub.
    */
   interface Unit {
     /**
@@ -4391,6 +4453,17 @@ interface graingerProductRow {
      * exist (a clean 404) rather than returning an empty row.
      */
     getProduct(args: object): Promise<graingerProductRow>;
+
+    /**
+     * Checks real fulfillment availability for one item (`itemNumber` or `url`, same as
+     * `getProduct`) at a caller-supplied `zip` (required, 5-digit US) — both shipping-to-that-zip
+     * and pickup-at-the-nearest-branch-to-that-zip, in one call. Returns the site's own message
+     * text (an arrival/ready-by estimate, never a literal stock count — the site doesn't publish
+     * one) plus its opaque status codes for each mode, and the ACTUAL branch that answered the
+     * pickup half (nearest-to-point, not necessarily one the caller could have named). Optional
+     * `quantity` (default 1) is forwarded to the site.
+     */
+    checkStock(args: object): Promise<graingerStockRow>;
   }
 }
 
@@ -12272,6 +12345,7 @@ interface BowmarkProviders {
   aa: BowmarkProvider_aa.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
+  avis: BowmarkProvider_avis.Unit;
   azure: BowmarkProvider_azure.Unit;
   barletta: BowmarkProvider_barletta.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;

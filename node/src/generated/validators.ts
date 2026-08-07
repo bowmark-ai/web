@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ed44c2b018fc36080f712ab9aa6fada087c25bbdc886940161887729834e398b
-// 240 checked, 20 unchecked.
+// Manifest version: 8ab8f73a01982e6f4d199aba7027c238146812a63baf95690e9ac930b4cce1c3
+// 242 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ed44c2b018fc36080f712ab9aa6fada087c25bbdc886940161887729834e398b",
+  "version": "8ab8f73a01982e6f4d199aba7027c238146812a63baf95690e9ac930b4cce1c3",
   "units": {
     "cars": {
       "defs": {
@@ -1552,6 +1552,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AshleyFurnitureFindStoreArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.avis": {
+      "defs": {},
+      "functions": {
+        "searchLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
@@ -3688,6 +3702,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "checkStock": [
           {
             "name": "args",
             "schema": {

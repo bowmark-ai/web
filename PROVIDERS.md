@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 636 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 639 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -32,7 +32,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `avis.getLocation` | avis.com | Reads one Avis rental location in full — full address, phone number, opening hours… | ⚪ |
 | `avis.getReservation` | avis.com | Reads an existing Avis reservation the way the site's own "View / Modify / Cancel"… | ⚪ |
 | `avis.search` | avis.com | Searches Avis's live car rental availability the way its own booking widget does —… | ⚪ |
-| `avis.searchLocations` | avis.com | Finds Avis rental locations near a city, airport code, or address — the site's own… | ⚪ |
+| `avis.searchLocations` | avis.com | Finds Avis rental locations matching a full city name or an airport code (`query`… | 🟢 |
 | `azure.checkRegionAvailability` | azure.microsoft.com | Answers whether a given Azure product is actually available in a given region, and in… | ⚪ |
 | `azure.estimateCost` | azure.microsoft.com | Prices a whole proposed deployment rather than one meter: the caller passes line items… | ⚪ |
 | `azure.getServiceHealth` | azure.microsoft.com | Returns the current operational status of Azure services by service and region — which… | ⚪ |
@@ -180,7 +180,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ford.getModelDetails` | ford.com | Reads one Ford model's showroom page — its trims with starting MSRP, key specs… | ⚪ |
 | `ford.getOffers` | ford.com | Returns Ford's current incentives for one model near a US ZIP — cash back, APR… | 🟢 |
 | `ford.getRecalls` | ford.com | Looks up the open safety recalls and field service actions on one specific Ford… | ⚪ |
-| `ford.getVehicle` | ford.com | Reads one specific vehicle by VIN — its full option list, all Ford-approved images… | ⚪ |
+| `ford.getVehicle` | ford.com | Reads one specific vehicle by VIN — its full option list, all Ford-approved images… | 🟢 |
 | `ford.listColors` | ford.com | Lists the exterior paint options actually available for one Ford model near a ZIP code… | ⚪ |
 | `ford.listNameplates` | ford.com | Lists every Ford model the inventory surface can be searched by — slug, display name… | 🟢 |
 | `ford.searchInventory` | ford.com | Searches live VIN-level new-vehicle inventory at Ford dealers near a ZIP code… | ⚪ |
@@ -234,7 +234,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
-| `grainger.checkStock` | grainger.com | Answers whether a product (by item number) is available for delivery to a ZIP or for… | ⚪ |
+| `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🟢 |
 | `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟢 |
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟢 |
 | `grainger.search` | grainger.com | Searches or browses Grainger's industrial MRO (maintenance, repair, operations)… | ⚪ |
@@ -559,6 +559,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `statefarm.getRentalPropertyQuote` | statefarm.com | Returns a landlord insurance quote for a rented-out property — dwelling coverage plus… | ⚪ |
 | `statefarm.getRentersQuote` | statefarm.com | Returns State Farm's own monthly renters insurance estimate for a US ZIP — a low and a… | 🟢 |
 | `statefarm.getUmbrellaQuote` | statefarm.com | Returns a personal umbrella liability quote — the excess liability layer above the… | ⚪ |
+| `sunhomesaunas.addSaunaToCart` | sunhomesaunas.com | Adds one real matched sauna to a real Shopify cart at Sun Home Saunas' own real live… | 🟢 |
+| `sunhomesaunas.getPersonalizedSaunaMatches` | sunhomesaunas.com | Submits real answers through the same quiz session flow (startSession -> addSelection… | 🟢 |
+| `sunhomesaunas.getSaunaFinderQuestions` | sunhomesaunas.com | Reads Sun Home Saunas' real, live Perfect Product Finder quiz (a third-party embed)… | 🟢 |
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | ⚪ |
 | `target.getProduct` | target.com | Reads one product page in full — price, variant/size options, description, images —… | ⚪ |

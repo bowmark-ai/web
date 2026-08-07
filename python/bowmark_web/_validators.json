@@ -1,5 +1,5 @@
 {
-  "version": "ed44c2b018fc36080f712ab9aa6fada087c25bbdc886940161887729834e398b",
+  "version": "8ab8f73a01982e6f4d199aba7027c238146812a63baf95690e9ac930b4cce1c3",
   "units": {
     "cars": {
       "defs": {
@@ -1540,6 +1540,20 @@
             "schema": {
               "k": "ref",
               "name": "AshleyFurnitureFindStoreArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.avis": {
+      "defs": {},
+      "functions": {
+        "searchLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
@@ -3676,6 +3690,15 @@
           }
         ],
         "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "checkStock": [
           {
             "name": "args",
             "schema": {

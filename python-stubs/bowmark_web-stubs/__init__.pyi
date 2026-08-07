@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ed44c2b018fc36080f712ab9aa6fada087c25bbdc886940161887729834e398b
-# 8 capabilities, 76 providers, 240 typed functions, 20 refused.
+# Manifest version: 8ab8f73a01982e6f4d199aba7027c238146812a63baf95690e9ac930b4cce1c3
+# 8 capabilities, 77 providers, 242 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -945,6 +945,28 @@ class Prv_ashleyfurniture_AshleyFurnitureStore_Out_hours_item_Out(TypedDict):
     opensAt: str
     closesAt: str
     state: str
+
+class Prv_avis_AvisLocationRow_Out(TypedDict):
+    mnemonic: str
+    name: str
+    group: str
+    address: Prv_avis_AvisLocationRow_Out_address_Out
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    drivableDistanceMiles: float | None
+    is24hoursDropOffAvailable: bool
+    isKeyDropLocation: bool
+    relPath: str | None
+
+class Prv_avis_AvisLocationRow_Out_address_Out(TypedDict):
+    line1: str
+    line2: str | None
+    city: str
+    stateCode: str | None
+    postalCode: str | None
+    countryCode: str | None
+    countryName: str | None
 
 class Prv_azure_AzurePricingFilters_In(TypedDict):
     serviceName: NotRequired[str]
@@ -2393,6 +2415,37 @@ class Prv_grainger_graingerProductRow_Out_price_u0_Out(TypedDict):
 class Prv_grainger_graingerProductRow_Out_specs_item_Out(TypedDict):
     name: str
     value: str
+
+class Prv_grainger_graingerStockRow_Out(TypedDict):
+    itemNumber: str
+    zip: str
+    quantity: float
+    shipping: Prv_grainger_graingerStockRow_Out_shipping_u0_Out | None
+    pickup: Prv_grainger_graingerStockRow_Out_pickup_u0_Out | None
+
+class Prv_grainger_graingerStockRow_Out_shipping_u0_Out(TypedDict):
+    message: str | None
+    fulfillmentCode: str | None
+    availKey: str | None
+
+class Prv_grainger_graingerStockRow_Out_pickup_u0_Out(TypedDict):
+    message: str | None
+    fulfillmentCode: str | None
+    availKey: str | None
+    branch: Prv_grainger_graingerStockRow_Out_pickup_u0_Out_branch_u0_Out | None
+
+class Prv_grainger_graingerStockRow_Out_pickup_u0_Out_branch_u0_Out(TypedDict):
+    branchCode: str
+    city: str | None
+    address: Prv_grainger_graingerStockRow_Out_pickup_u0_Out_branch_u0_Out_address_u0_Out | None
+    url: str | None
+
+class Prv_grainger_graingerStockRow_Out_pickup_u0_Out_branch_u0_Out_address_u0_Out(TypedDict):
+    street: str | None
+    city: str | None
+    state: str | None
+    zip: str | None
+    country: str | None
 
 class Prv_healthcare_gov_healthcare_govEnrollmentQuery_In(TypedDict):
     zip: str
@@ -6679,6 +6732,19 @@ class Prv_ashleyfurniture(Protocol):
         site's own validity signal), rather than returning its non-matching fallback store.
         """
 
+class Prv_avis(Protocol):
+    """Car rental — availability search, existing-reservation lookup and location directory on
+    avis.com. searchLocations is live; the rest are stubs.
+    """
+
+    async def searchLocations(self, args: Any, /) -> list[Prv_avis_AvisLocationRow_Out]:
+        """Finds Avis rental locations matching a full city name or an airport code (`query`, e.g.
+        "Chicago" or "ORD" — an exact token match, not a substring or address search) off the
+        site's own location-search API, optionally narrowed to one US state (`stateCode`).
+        Returns each match's station code, display name, site grouping (airport, neighbourhood,
+        city dock, …), address, phone and coordinates. Empty array on no match, never an error.
+        """
+
 class Prv_azure(Protocol):
     """Microsoft Azure — the public cloud's own pricing, catalogue and status surfaces. Built:
     retail service pricing and the service catalogue, off Microsoft's own unauthenticated
@@ -7647,9 +7713,10 @@ class Prv_google_flights(Protocol):
 
 class Prv_grainger(Protocol):
     """Grainger's industrial MRO catalog, product detail, and branch/stock availability —
-    findBranch (nationwide branch directory) and getProduct (price, pack size, spec table,
-    availability by item number or URL) are live; catalog search and stock checks are still
-    stubs.
+    findBranch (nationwide branch directory), getProduct (price, pack size, spec table,
+    availability by item number or URL) and checkStock (shipping-to-zip and
+    pickup-at-nearest-branch fulfillment estimates) are live; catalog search is still a
+    stub.
     """
 
     async def findBranch(self, args: Any, /) -> list[Prv_grainger_graingerBranchRow_Out]:
@@ -7667,6 +7734,16 @@ class Prv_grainger(Protocol):
         summary. Takes `itemNumber` (Grainger's own catalog id, e.g. "26K909" — resolves
         directly, no descriptive slug needed) or `url` (a full grainger.com product URL). Throws
         if the item number doesn't exist (a clean 404) rather than returning an empty row.
+        """
+
+    async def checkStock(self, args: Any, /) -> Prv_grainger_graingerStockRow_Out:
+        """Checks real fulfillment availability for one item (`itemNumber` or `url`, same as
+        `getProduct`) at a caller-supplied `zip` (required, 5-digit US) — both
+        shipping-to-that-zip and pickup-at-the-nearest-branch-to-that-zip, in one call. Returns
+        the site's own message text (an arrival/ready-by estimate, never a literal stock count —
+        the site doesn't publish one) plus its opaque status codes for each mode, and the ACTUAL
+        branch that answered the pickup half (nearest-to-point, not necessarily one the caller
+        could have named). Optional `quantity` (default 1) is forwarded to the site.
         """
 
 class Prv_healthcare_gov(Protocol):
@@ -10247,6 +10324,7 @@ class BowmarkProviders(Protocol):
     aa: Prv_aa
     abercrombie: Prv_abercrombie
     ashleyfurniture: Prv_ashleyfurniture
+    avis: Prv_avis
     azure: Prv_azure
     barletta: Prv_barletta
     bhphoto: Prv_bhphoto
