@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6368edcbec9d9ee7ceb3fd590c7054ade0542a93e43a39f4f88dc6167c0e36da
-// 8 capabilities, 74 providers, 233 typed functions, 20 refused.
+// Manifest version: d45217ee8e2fb0de81dff836be80454ae1ceeec7548987ffa4109a764bab2d13
+// 8 capabilities, 74 providers, 234 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1740,6 +1740,27 @@ interface BmwusaCpoSearchOptions {
   maxOdometer?: number;
 }
 
+interface BmwusaModelTrim {
+  name: string;
+  modelCode: string | null;
+  zeroToSixty: number | null;
+  horsepower: number | null;
+  startingMsrp: number | null;
+  engineType: string | null;
+  drivetrain: string | null;
+  transmission: string | null;
+  fuelType: string | null;
+  fuelEfficiency: { city: number | null; highway: number | null; combined: number | null; unit: string } | null;
+  seatingCapacity: number | null;
+}
+
+interface BmwusaModel {
+  name: string;
+  series: string;
+  url: string;
+  trims: BmwusaModelTrim[];
+}
+
   /**
    * BMW US car shopping: the Build Your Own configurator and its option pricing, live VIN-level
    * new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with trims and
@@ -1766,6 +1787,17 @@ interface BmwusaCpoSearchOptions {
      * buckets, not raw numbers, so this filters honestly rather than guessing bucket boundaries).
      */
     searchCertifiedPreOwned(zip: string, options?: { radius?: number; limit?: number; model?: string; minYear?: number; maxYear?: number; maxPrice?: number; maxOdometer?: number }): Promise<BmwusaCpoVehicle[]>;
+
+    /**
+     * Reads one BMW model's body-style page (path is the segment of the site's own
+     * /vehicles/...html URL, e.g. 'x-models/x5', '2-series/coupe' — read off bmwusa.com's own
+     * navigation or sitemap.xml) and returns its series, model name, and every trim BMW currently
+     * sells on that page: each trim's own name, its build-your-own model code (the same code
+     * buildVehicle takes), 0-60 time, horsepower, starting MSRP (null when the site shows '--' —
+     * not yet published), engine type, drivetrain, transmission, fuel type, fuel efficiency (MPG
+     * or MPGe) and seating capacity.
+     */
+    getModel(path: string): Promise<BmwusaModel>;
   }
 }
 

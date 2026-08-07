@@ -1,5 +1,5 @@
 {
-  "version": "6368edcbec9d9ee7ceb3fd590c7054ade0542a93e43a39f4f88dc6167c0e36da",
+  "version": "d45217ee8e2fb0de81dff836be80454ae1ceeec7548987ffa4109a764bab2d13",
   "units": {
     "cars": {
       "defs": {
@@ -1886,6 +1886,15 @@
               ]
             },
             "optional": true
+          }
+        ],
+        "getModel": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

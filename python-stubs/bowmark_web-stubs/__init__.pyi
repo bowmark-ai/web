@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6368edcbec9d9ee7ceb3fd590c7054ade0542a93e43a39f4f88dc6167c0e36da
-# 8 capabilities, 74 providers, 227 typed functions, 20 refused.
+# Manifest version: d45217ee8e2fb0de81dff836be80454ae1ceeec7548987ffa4109a764bab2d13
+# 8 capabilities, 74 providers, 228 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1103,6 +1103,31 @@ class Prv_bmwusa_BmwusaCpoDealer_Out(TypedDict):
     state: str
     postalCode: str
     distance: float
+
+class Prv_bmwusa_BmwusaModel_Out(TypedDict):
+    name: str
+    series: str
+    url: str
+    trims: list[Prv_bmwusa_BmwusaModelTrim_Out]
+
+class Prv_bmwusa_BmwusaModelTrim_Out(TypedDict):
+    name: str
+    modelCode: str | None
+    zeroToSixty: float | None
+    horsepower: float | None
+    startingMsrp: float | None
+    engineType: str | None
+    drivetrain: str | None
+    transmission: str | None
+    fuelType: str | None
+    fuelEfficiency: Prv_bmwusa_BmwusaModelTrim_Out_fuelEfficiency_u0_Out | None
+    seatingCapacity: float | None
+
+class Prv_bmwusa_BmwusaModelTrim_Out_fuelEfficiency_u0_Out(TypedDict):
+    city: float | None
+    highway: float | None
+    combined: float | None
+    unit: str
 
 class Prv_cancer_findCancerCenters_args_In(TypedDict):
     state: NotRequired[str]
@@ -6506,6 +6531,16 @@ class Prv_bmwusa(Protocol):
         `.model`/`.minYear`/`.maxYear`/`.maxPrice`/`.maxOdometer` filter the returned page
         client-side (BMW's own server-side price/mileage facets are pre-set buckets, not raw
         numbers, so this filters honestly rather than guessing bucket boundaries).
+        """
+
+    async def getModel(self, path: str, /) -> Prv_bmwusa_BmwusaModel_Out:
+        """Reads one BMW model's body-style page (path is the segment of the site's own
+        /vehicles/...html URL, e.g. 'x-models/x5', '2-series/coupe' — read off bmwusa.com's own
+        navigation or sitemap.xml) and returns its series, model name, and every trim BMW
+        currently sells on that page: each trim's own name, its build-your-own model code (the
+        same code buildVehicle takes), 0-60 time, horsepower, starting MSRP (null when the site
+        shows '--' — not yet published), engine type, drivetrain, transmission, fuel type, fuel
+        efficiency (MPG or MPGe) and seating capacity.
         """
 
 class Prv_cancer(Protocol):

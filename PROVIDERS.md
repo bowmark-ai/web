@@ -54,7 +54,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.checkRecalls` | bmwusa.com | Checks open safety and emissions recalls for a specific BMW by VIN — each campaign's… | ⚪ |
 | `bmwusa.estimatePayment` | bmwusa.com | Estimates a monthly lease or finance payment for a given BMW at a given price, term… | ⚪ |
 | `bmwusa.findDealers` | bmwusa.com | Finds BMW dealerships near a ZIP code or city — each dealer's name, address, phone… | ⚪ |
-| `bmwusa.getModel` | bmwusa.com | Reads one BMW model in full — its trims, each trim's starting MSRP, engine and… | ⚪ |
+| `bmwusa.getModel` | bmwusa.com | Reads one BMW model's body-style page — its trims, each trim's starting MSRP, engine… | 🟢 |
 | `bmwusa.getOwnersManual` | bmwusa.com | Retrieves the correct owner's manual and vehicle documentation for a specific BMW by… | ⚪ |
 | `bmwusa.getVehicle` | bmwusa.com | Reads one specific new BMW by VIN — its full factory option list with each option's… | ⚪ |
 | `bmwusa.listAccessories` | bmwusa.com | Lists genuine BMW parts and accessories that fit a specific model or VIN — roof racks… | ⚪ |
