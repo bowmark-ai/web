@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a25af2d9654586a142577ab1ba37be8fc97d10ce439e4dbb3eac3b8866cfed21
-// 8 capabilities, 79 providers, 258 typed functions, 20 refused.
+// Manifest version: b786a9678bd020b297f7a25db21257584c555029ed0aae44b22f62d4dc1fa08a
+// 8 capabilities, 80 providers, 260 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11449,6 +11449,60 @@ interface SunHomeSaunasCartResult {
   }
 }
 
+declare namespace BowmarkProvider_teladoc {
+  // ── Teladoc Health — the unit's own declarations, verbatim ──
+interface teladocRow {
+  id: string;
+}
+
+interface teladocPricingRow {
+  service: string;
+  priceUsd: number;
+  unit: "visit" | "review" | null;
+  href: string | null;
+}
+
+interface teladocPricing {
+  source: string;
+  disclaimer: string;
+  services: teladocPricingRow[];
+}
+
+interface teladocInsuranceCoverage {
+  source: string;
+  headline: string;
+  headlinePriceUsd: number;
+  services: string[];
+  disclaimer: string;
+}
+
+  /**
+   * Virtual-care company: searches its public Health Library and self-pay visit pricing. Booking
+   * a visit requires a member login and is out of scope.
+   */
+  interface Unit {
+    /**
+     * Returns Teladoc's published self-pay (no-insurance) visit pricing — the per-visit dollar
+     * amount for each service line (24/7 Urgent Care, Nutrition, Dermatology, Mental Health), the
+     * unit (visit vs review), the page's own eligibility disclaimer, and the source URL. THROWS
+     * when the no-insurance tile renders without a price list (a real re-skin, not a zero-priced
+     * answer).
+     */
+    getPricing(): Promise<teladocPricing>;
+
+    /**
+     * Returns the with-insurance side of /start/no-insurance — the page's own headline figure (a
+     * literal '$0*' on the live page, since the per-plan price lives behind member.teladoc.com and
+     * is out of scope), the services the page promises are 'Included in your coverage*' (Primary
+     * Care, 24/7 Care, Mental Health, And more!), and the same eligibility disclaimer as
+     * `getPricing`. THROWS when the with-insurance tile renders without its service list, so a
+     * re-skin that drops the second tile or rewrites it in a way this parser cannot read surfaces
+     * as an error rather than an empty answer.
+     */
+    getInsurancePricing(): Promise<teladocInsuranceCoverage>;
+  }
+}
+
 declare namespace BowmarkProvider_tentree {
   // ── tentree — the unit's own declarations, verbatim ──
 interface TentreeVariant {
@@ -12741,6 +12795,7 @@ interface BowmarkProviders {
   soundcloud: BowmarkProvider_soundcloud.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
+  teladoc: BowmarkProvider_teladoc.Unit;
   tentree: BowmarkProvider_tentree.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;

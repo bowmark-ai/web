@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a25af2d9654586a142577ab1ba37be8fc97d10ce439e4dbb3eac3b8866cfed21
-// 252 checked, 20 unchecked.
+// Manifest version: b786a9678bd020b297f7a25db21257584c555029ed0aae44b22f62d4dc1fa08a
+// 254 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a25af2d9654586a142577ab1ba37be8fc97d10ce439e4dbb3eac3b8866cfed21",
+  "version": "b786a9678bd020b297f7a25db21257584c555029ed0aae44b22f62d4dc1fa08a",
   "units": {
     "cars": {
       "defs": {
@@ -11057,6 +11057,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      }
+    },
+    "providers.teladoc": {
+      "defs": {},
+      "functions": {
+        "getPricing": [],
+        "getInsurancePricing": []
       }
     },
     "providers.tentree": {

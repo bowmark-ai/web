@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a25af2d9654586a142577ab1ba37be8fc97d10ce439e4dbb3eac3b8866cfed21
-# 8 capabilities, 79 providers, 252 typed functions, 20 refused.
+# Manifest version: b786a9678bd020b297f7a25db21257584c555029ed0aae44b22f62d4dc1fa08a
+# 8 capabilities, 80 providers, 254 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5833,6 +5833,24 @@ class Prv_sunhomesaunas_SunHomeSaunasCartResult_Out(TypedDict):
     cartItemCount: float
     cartTotal: float
 
+class Prv_teladoc_teladocPricing_Out(TypedDict):
+    source: str
+    disclaimer: str
+    services: list[Prv_teladoc_teladocPricingRow_Out]
+
+class Prv_teladoc_teladocPricingRow_Out(TypedDict):
+    service: str
+    priceUsd: float
+    unit: Literal["visit"] | Literal["review"] | None
+    href: str | None
+
+class Prv_teladoc_teladocInsuranceCoverage_Out(TypedDict):
+    source: str
+    headline: str
+    headlinePriceUsd: float
+    services: list[str]
+    disclaimer: str
+
 class Prv_tentree_searchProducts_opts_In(TypedDict):
     productType: NotRequired[str]
     inStockOnly: NotRequired[bool]
@@ -10235,6 +10253,29 @@ class Prv_sunhomesaunas(Protocol):
         the write landed. THROWS if the product is currently out of stock.
         """
 
+class Prv_teladoc(Protocol):
+    """Virtual-care company: searches its public Health Library and self-pay visit pricing.
+    Booking a visit requires a member login and is out of scope.
+    """
+
+    async def getPricing(self, /) -> Prv_teladoc_teladocPricing_Out:
+        """Returns Teladoc's published self-pay (no-insurance) visit pricing — the per-visit dollar
+        amount for each service line (24/7 Urgent Care, Nutrition, Dermatology, Mental Health),
+        the unit (visit vs review), the page's own eligibility disclaimer, and the source URL.
+        THROWS when the no-insurance tile renders without a price list (a real re-skin, not a
+        zero-priced answer).
+        """
+
+    async def getInsurancePricing(self, /) -> Prv_teladoc_teladocInsuranceCoverage_Out:
+        """Returns the with-insurance side of /start/no-insurance — the page's own headline figure
+        (a literal '$0*' on the live page, since the per-plan price lives behind
+        member.teladoc.com and is out of scope), the services the page promises are 'Included in
+        your coverage*' (Primary Care, 24/7 Care, Mental Health, And more!), and the same
+        eligibility disclaimer as `getPricing`. THROWS when the with-insurance tile renders
+        without its service list, so a re-skin that drops the second tile or rewrites it in a
+        way this parser cannot read surfaces as an error rather than an empty answer.
+        """
+
 class Prv_tentree(Protocol):
     """Sustainable apparel storefront — hats, tees, hoodies and outerwear — with a real guest
     cart a caller can fill across several calls.
@@ -10692,6 +10733,7 @@ class BowmarkProviders(Protocol):
     soundcloud: Prv_soundcloud
     statefarm: Prv_statefarm
     sunhomesaunas: Prv_sunhomesaunas
+    teladoc: Prv_teladoc
     tentree: Prv_tentree
     thezebra: Prv_thezebra
     trektravel: Prv_trektravel
