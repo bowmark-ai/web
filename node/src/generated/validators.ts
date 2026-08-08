@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b786a9678bd020b297f7a25db21257584c555029ed0aae44b22f62d4dc1fa08a
-// 254 checked, 20 unchecked.
+// Manifest version: 87b1cb104f85afcfa0874b164b65c1084cda6184a5eddd0848f7db191da528b6
+// 257 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b786a9678bd020b297f7a25db21257584c555029ed0aae44b22f62d4dc1fa08a",
+  "version": "87b1cb104f85afcfa0874b164b65c1084cda6184a5eddd0848f7db191da528b6",
   "units": {
     "cars": {
       "defs": {
@@ -5011,6 +5011,40 @@ export const VALIDATORS: ValidatorTable = {
         "addToCart": [
           {
             "name": "sku",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.joybird": {
+      "defs": {},
+      "functions": {
+        "listConfigurators": [],
+        "getConfigurator": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "priceConfigurator": [
+          {
+            "name": "slug",
             "schema": {
               "k": "string"
             },

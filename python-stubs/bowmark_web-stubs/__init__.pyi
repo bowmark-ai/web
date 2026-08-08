@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b786a9678bd020b297f7a25db21257584c555029ed0aae44b22f62d4dc1fa08a
-# 8 capabilities, 80 providers, 254 typed functions, 20 refused.
+# Manifest version: 87b1cb104f85afcfa0874b164b65c1084cda6184a5eddd0848f7db191da528b6
+# 8 capabilities, 81 providers, 257 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3313,6 +3313,65 @@ class Prv_interiordefine_InteriorDefineCartHandoff_Out(TypedDict):
     totalFormatted: str
     missingRequired: list[str]
     unmatched: list[str]
+
+class Prv_joybird_JoybirdConfigurator_Out(TypedDict):
+    slug: str
+    name: str
+    sku: str
+    type: str
+    family: str
+    url: str
+    finalPrice: float
+    originalPrice: float
+    discountPercent: float
+
+class Prv_joybird_JoybirdCatalog_Out(TypedDict):
+    slug: str
+    name: str
+    sku: str
+    type: str
+    family: str
+    url: str
+    dimensions: str
+    finalPrice: float
+    originalPrice: float
+    discountPercent: float
+    promotionStart: str | None
+    promotionEnd: str | None
+    options: list[Prv_joybird_JoybirdOption_Out]
+
+class Prv_joybird_JoybirdOption_Out(TypedDict):
+    id: float
+    name: str
+    type: str | None
+    values: list[Prv_joybird_JoybirdOptionValue_Out]
+
+class Prv_joybird_JoybirdOptionValue_Out(TypedDict):
+    sku: str
+    value: str
+    cover: str | None
+    color: str | None
+    family: str
+    tier: float
+    petFriendly: bool
+    performanceFabric: bool
+    sustainableFabric: bool
+    popular: bool
+
+class Prv_joybird_JoybirdPriceResult_Out(TypedDict):
+    slug: str
+    sku: str
+    finalPrice: float
+    originalPrice: float
+    discountPercent: float
+    lines: list[Prv_joybird_JoybirdPriceLine_Out]
+
+class Prv_joybird_JoybirdPriceLine_Out(TypedDict):
+    optionId: float
+    optionName: str
+    optionSku: str
+    valueSku: str
+    valueName: str
 
 Prv_kayak_KayakQuery_In = TypedDict(
     "Prv_kayak_KayakQuery_In",
@@ -8668,6 +8727,32 @@ class Prv_interiordefine(Protocol):
         silently mispricing it.
         """
 
+class Prv_joybird(Protocol):
+    """Reads Joybird's real sofa/sectional configurator — every configurable product, every
+    fabric and wood stain, and the live configured price Joybird's own page shows.
+    """
+
+    async def listConfigurators(self, /) -> list[Prv_joybird_JoybirdConfigurator_Out]:
+        """Lists every configurable product Joybird sells — sofas, sectionals, chairs, ottomans,
+        beds, organised by collection — with its slug, name, current displayed price, list price
+        and active discount. Takes nothing. The slug it returns is what getConfigurator and
+        priceConfigurator take.
+        """
+
+    async def getConfigurator(self, slug: str, /) -> Prv_joybird_JoybirdCatalog_Out:
+        """Reads one product's full configurator — its dimensions, current price, active promotion
+        window, and every option slot the product exposes (Fabric, Wood Stain, Orientation, ...)
+        with the site's full swatch list for each. The slot ids and swatch SKUs it returns are
+        what priceConfigurator takes.
+        """
+
+    async def priceConfigurator(self, slug: str, selections: Mapping[str, str], /) -> Prv_joybird_JoybirdPriceResult_Out:
+        """Prices an exact configuration for one product given the caller's swatch picks (one
+        swatch SKU per slot id; any slot left out uses its first available swatch as a
+        documented default). Returns the real live total Joybird's own page shows, plus a
+        per-slot breakdown of what was picked.
+        """
+
 class Prv_kayak(Protocol):
     """Kayak (kayak.com) — metasearch flight results, cheapest-first, read directly from the
     result cards.
@@ -10698,6 +10783,7 @@ class BowmarkProviders(Protocol):
     ibuypower: Prv_ibuypower
     insurify: Prv_insurify
     interiordefine: Prv_interiordefine
+    joybird: Prv_joybird
     kayak: Prv_kayak
     labcorp: Prv_labcorp
     linkedin: Prv_linkedin

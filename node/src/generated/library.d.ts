@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b786a9678bd020b297f7a25db21257584c555029ed0aae44b22f62d4dc1fa08a
-// 8 capabilities, 80 providers, 260 typed functions, 20 refused.
+// Manifest version: 87b1cb104f85afcfa0874b164b65c1084cda6184a5eddd0848f7db191da528b6
+// 8 capabilities, 81 providers, 263 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6649,6 +6649,99 @@ interface InteriorDefineCartHandoff {
   }
 }
 
+declare namespace BowmarkProvider_joybird {
+  // ── Joybird — the unit's own declarations, verbatim ──
+interface JoybirdConfigurator {
+  slug: string;
+  name: string;
+  sku: string;
+  type: string;
+  family: string;
+  url: string;
+  finalPrice: number;
+  originalPrice: number;
+  discountPercent: number;
+}
+interface JoybirdOptionValue {
+  sku: string;
+  value: string;
+  cover: string | null;
+  color: string | null;
+  family: string;
+  tier: number;
+  petFriendly: boolean;
+  performanceFabric: boolean;
+  sustainableFabric: boolean;
+  popular: boolean;
+}
+interface JoybirdOption {
+  id: number;
+  name: string;
+  type: string | null;
+  values: JoybirdOptionValue[];
+}
+interface JoybirdCatalog {
+  slug: string;
+  name: string;
+  sku: string;
+  type: string;
+  family: string;
+  url: string;
+  dimensions: string;
+  finalPrice: number;
+  originalPrice: number;
+  discountPercent: number;
+  promotionStart: string | null;
+  promotionEnd: string | null;
+  options: JoybirdOption[];
+}
+interface JoybirdPriceLine {
+  optionId: number;
+  optionName: string;
+  optionSku: string;
+  valueSku: string;
+  valueName: string;
+}
+interface JoybirdPriceResult {
+  slug: string;
+  sku: string;
+  finalPrice: number;
+  originalPrice: number;
+  discountPercent: number;
+  lines: JoybirdPriceLine[];
+}
+
+  /**
+   * Reads Joybird's real sofa/sectional configurator — every configurable product, every fabric
+   * and wood stain, and the live configured price Joybird's own page shows.
+   */
+  interface Unit {
+    /**
+     * Lists every configurable product Joybird sells — sofas, sectionals, chairs, ottomans, beds,
+     * organised by collection — with its slug, name, current displayed price, list price and
+     * active discount. Takes nothing. The slug it returns is what getConfigurator and
+     * priceConfigurator take.
+     */
+    listConfigurators(): Promise<JoybirdConfigurator[]>;
+
+    /**
+     * Reads one product's full configurator — its dimensions, current price, active promotion
+     * window, and every option slot the product exposes (Fabric, Wood Stain, Orientation, ...)
+     * with the site's full swatch list for each. The slot ids and swatch SKUs it returns are what
+     * priceConfigurator takes.
+     */
+    getConfigurator(slug: string): Promise<JoybirdCatalog>;
+
+    /**
+     * Prices an exact configuration for one product given the caller's swatch picks (one swatch
+     * SKU per slot id; any slot left out uses its first available swatch as a documented default).
+     * Returns the real live total Joybird's own page shows, plus a per-slot breakdown of what was
+     * picked.
+     */
+    priceConfigurator(slug: string, selections: Record<string, string>): Promise<JoybirdPriceResult>;
+  }
+}
+
 declare namespace BowmarkProvider_kayak {
   // ── Kayak — the unit's own declarations, verbatim ──
 interface KayakQuery {
@@ -12760,6 +12853,7 @@ interface BowmarkProviders {
   ibuypower: BowmarkProvider_ibuypower.Unit;
   insurify: BowmarkProvider_insurify.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
+  joybird: BowmarkProvider_joybird.Unit;
   kayak: BowmarkProvider_kayak.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
