@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ae8359e42ed528861a46983e3a1e7a14682931dd20cbda9cf4f41d3af3623cec
-// 8 capabilities, 84 providers, 279 typed functions, 20 refused.
+// Manifest version: eddacbee4ec5ce1feb27d8ff746e5f8c704f4992ad32c378422dd4d6437cfee6
+// 8 capabilities, 84 providers, 280 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2182,12 +2182,31 @@ interface carsModelResearch {
   expertReview: { headline: string; pros: string[]; cons: string[] } | null;
   whatsNew: string | null;
 }
+interface QuoteIdentity {
+  firstName: string;
+  lastName: string;
+  dob: string;
+  email: string;
+  phone: string;
+}
+interface carsVehicleValue {
+  offerCode: string;
+  dealer: { name: string | null; zipCode: string | null } | null;
+  tradeInOffer: number | null;
+  privatePartyValue: number | null;
+  marketLabel: string | null;
+  mileageUsed: number | null;
+  warnings: string[];
+}
 
   /**
    * Cars.com — the US new/used/certified car marketplace: for-sale inventory with dealer asking
    * prices, one listing's full detail, a valuation for a car you already own, and per-model
-   * research (trims, specs, expert and owner reviews). Two functions are built: reading a single
-   * listing in full by its id, and one model year's research overview.
+   * research (trims, specs, expert and owner reviews). Three functions are built: searching the
+   * inventory, reading one listing in full, and reading one year/make/model's research overview.
+   * A fourth — the cash-offer valuation — is built too: callers pass a VIN, a ZIP, and the
+   * caller-supplied identity the 2026-07-31 quote-flow ruling requires, and the function returns
+   * the trade-in offer and private-party value perseus published for the assigned local dealer.
    */
   interface Unit {
     /**
@@ -2212,6 +2231,17 @@ interface carsModelResearch {
      * year — null/absent exactly where cars.com's own page shows nothing for it.
      */
     getModelResearch(args: { make: string; model: string; year: number }): Promise<carsModelResearch>;
+
+    /**
+     * Reads Cars.com's own cash-offer valuation for a car the caller already owns: the trade-in
+     * offer and the private-party value perseus computed for the dealer's assigned ZIP, with the
+     * dealer and mileage the offer was scoped to. Identity is required (caller-supplied, per the
+     * 2026-07-31 quote-flow ruling) so perseus has a person to assign the offer record to. The
+     * function NEVER calls contactDealer, optinDealer, acceptByCode, smsPictureRequest or
+     * media.create — the contact routes the 2026-08-06 standing decision names as the fence for a
+     * cash-offer appraisal.
+     */
+    getVehicleValue(args: { vin: string; identity: QuoteIdentity; postalCode: string; mileage?: number }): Promise<carsVehicleValue>;
   }
 }
 

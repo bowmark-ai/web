@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ae8359e42ed528861a46983e3a1e7a14682931dd20cbda9cf4f41d3af3623cec
-// 273 checked, 20 unchecked.
+// Manifest version: eddacbee4ec5ce1feb27d8ff746e5f8c704f4992ad32c378422dd4d6437cfee6
+// 274 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ae8359e42ed528861a46983e3a1e7a14682931dd20cbda9cf4f41d3af3623cec",
+  "version": "eddacbee4ec5ce1feb27d8ff746e5f8c704f4992ad32c378422dd4d6437cfee6",
   "units": {
     "cars": {
       "defs": {
@@ -2031,7 +2031,48 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.cars": {
-      "defs": {},
+      "defs": {
+        "QuoteIdentity": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "dob",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "search": [
           {
@@ -2170,6 +2211,46 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getVehicleValue": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "vin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "identity",
+                  "schema": {
+                    "k": "ref",
+                    "name": "QuoteIdentity"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "postalCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "mileage",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },

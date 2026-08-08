@@ -58,7 +58,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.getOwnersManual` | bmwusa.com | Retrieves the correct owner's manual and vehicle documentation for a specific BMW by… | ⚪ |
 | `bmwusa.getVehicle` | bmwusa.com | Reads one specific new BMW by VIN — its full factory option list with each option's… | ⚪ |
 | `bmwusa.listAccessories` | bmwusa.com | Lists genuine BMW parts and accessories that fit a specific model or VIN — roof racks… | ⚪ |
-| `bmwusa.listModels` | bmwusa.com | Lists BMW's current US lineup — every series and model on sale, with body style… | ⚪ |
+| `bmwusa.listModels` | bmwusa.com | Lists BMW's current US lineup — every model BMW sells, with its bmwusa.com… | 🟢 |
 | `bmwusa.listOffers` | bmwusa.com | Lists BMW's current US lease and finance offers for a ZIP code (resolved server-side… | 🟢 |
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
@@ -83,7 +83,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cars.getModelResearch` | cars.com | Reads Cars.com's research overview for one year/make/model: MSRP or price range, the… | 🟢 |
 | `cars.getRecalls` | cars.com | Looks up open safety recalls for a specific vehicle on Cars.com's recall surface — by… | ⚪ |
 | `cars.getTrimSpecs` | cars.com | Reads the full specification table for one year/make/model broken out BY TRIM: engine… | ⚪ |
-| `cars.getVehicleValue` | cars.com | Gets Cars.com's own valuation for a car the caller already owns — supply a VIN, or a… | ⚪ |
+| `cars.getVehicleValue` | cars.com | Gets Cars.com's own valuation for a car the caller already owns — supply a VIN, a ZIP… | 🟢 |
 | `cars.search` | cars.com | Searches Cars.com's live for-sale inventory the way its own shopping results page does… | 🟢 |
 | `cars.searchDealers` | cars.com | Finds the car dealerships Cars.com lists near a ZIP — name, full address and distance… | ⚪ |
 | `cheapflights.getBookingOptions` | cheapflights.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |

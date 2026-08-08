@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ae8359e42ed528861a46983e3a1e7a14682931dd20cbda9cf4f41d3af3623cec
-# 8 capabilities, 84 providers, 273 typed functions, 20 refused.
+# Manifest version: eddacbee4ec5ce1feb27d8ff746e5f8c704f4992ad32c378422dd4d6437cfee6
+# 8 capabilities, 84 providers, 274 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1408,6 +1408,32 @@ class Prv_cars_carsModelResearch_Out_expertReview_u0_Out(TypedDict):
     headline: str
     pros: list[str]
     cons: list[str]
+
+class Prv_cars_getVehicleValue_args_In(TypedDict):
+    vin: str
+    identity: Prv_cars_QuoteIdentity_In
+    postalCode: str
+    mileage: NotRequired[float]
+
+class Prv_cars_QuoteIdentity_In(TypedDict):
+    firstName: str
+    lastName: str
+    dob: str
+    email: str
+    phone: str
+
+class Prv_cars_carsVehicleValue_Out(TypedDict):
+    offerCode: str
+    dealer: Prv_cars_carsVehicleValue_Out_dealer_u0_Out | None
+    tradeInOffer: float | None
+    privatePartyValue: float | None
+    marketLabel: str | None
+    mileageUsed: float | None
+    warnings: list[str]
+
+class Prv_cars_carsVehicleValue_Out_dealer_u0_Out(TypedDict):
+    name: str | None
+    zipCode: str | None
 
 Prv_cheapflights_KayakQuery_In = TypedDict(
     "Prv_cheapflights_KayakQuery_In",
@@ -7607,8 +7633,12 @@ class Prv_cancer(Protocol):
 class Prv_cars(Protocol):
     """Cars.com — the US new/used/certified car marketplace: for-sale inventory with dealer
     asking prices, one listing's full detail, a valuation for a car you already own, and
-    per-model research (trims, specs, expert and owner reviews). Two functions are built:
-    reading a single listing in full by its id, and one model year's research overview.
+    per-model research (trims, specs, expert and owner reviews). Three functions are built:
+    searching the inventory, reading one listing in full, and reading one year/make/model's
+    research overview. A fourth — the cash-offer valuation — is built too: callers pass a
+    VIN, a ZIP, and the caller-supplied identity the 2026-07-31 quote-flow ruling requires,
+    and the function returns the trade-in offer and private-party value perseus published
+    for the assigned local dealer.
     """
 
     async def search(self, args: Prv_cars_search_args_In, /) -> Prv_cars_carsSearch_Out:
@@ -7630,6 +7660,16 @@ class Prv_cars(Protocol):
         drivetrain, seating and combined mpg, the trim levels offered, the site's own aggregate
         consumer rating, its expert review's headline/pros/cons, and what changed for that model
         year — null/absent exactly where cars.com's own page shows nothing for it.
+        """
+
+    async def getVehicleValue(self, args: Prv_cars_getVehicleValue_args_In, /) -> Prv_cars_carsVehicleValue_Out:
+        """Reads Cars.com's own cash-offer valuation for a car the caller already owns: the
+        trade-in offer and the private-party value perseus computed for the dealer's assigned
+        ZIP, with the dealer and mileage the offer was scoped to. Identity is required
+        (caller-supplied, per the 2026-07-31 quote-flow ruling) so perseus has a person to
+        assign the offer record to. The function NEVER calls contactDealer, optinDealer,
+        acceptByCode, smsPictureRequest or media.create — the contact routes the 2026-08-06
+        standing decision names as the fence for a cash-offer appraisal.
         """
 
 class Prv_cheapflights(Protocol):
