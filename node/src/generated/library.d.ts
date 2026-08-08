@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ab71ed27440532da81e0c8f70c145415b59d101a2e5f7cca530fc9949dcb88e0
-// 8 capabilities, 84 providers, 277 typed functions, 20 refused.
+// Manifest version: 18ca1675e1143cf2426f5ab127c24a8e0e50f68bf4c2acff2c87a7ae175cb73e
+// 8 capabilities, 84 providers, 278 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2543,6 +2543,32 @@ interface ClasspassScheduleOptions {
   days?: number;
 }
 
+interface ClasspassSearchQuery {
+  /** Centre of the search, decimal degrees. */
+  lat: number;
+  lon: number;
+  /** Search radius (default 1, clamped to 1-50). */
+  radius: number;
+  /** "mi" (default) or "km". */
+  radiusUnits?: "mi" | "km";
+  /** First day, YYYY-MM-DD. Defaults to TODAY (UTC date). */
+  date?: string;
+  /** Opaque page token from a previous result's `cursor`. */
+  cursor?: string;
+}
+
+interface ClasspassSearchResult {
+  results: ClasspassVenue[];
+  /** Opaque page token. Pass back as `query.cursor`; null when the last page is reached. */
+  cursor: string | null;
+  /** The origin's own session id — stable across pages of one search. */
+  searchId: string;
+  /** Always null: the origin does not publish a total. */
+  totalHits: number | null;
+  /** What this function did to the caller's query (defaults applied). */
+  warnings: string[];
+}
+
   /**
    * ClassPass — fitness, wellness and beauty classes across gyms, studios, spas and salons.
    * `getStudio` reads one studio's whole profile in a single request: what it does, where it is,
@@ -2552,6 +2578,28 @@ interface ClasspassScheduleOptions {
    * search, per-slot availability and membership pricing are declared but not built yet.
    */
   interface Unit {
+    /**
+     * ClassPass's own location search — POST lat/lon/radius and read back the venues in range,
+     * with their identity, address, coordinates, IANA time zone, the activities the venue teaches,
+     * amenities, ratings, distance and the practical details a person needs to decide which to
+     * open. `query.lat` and `query.lon` are required (decimal degrees, finite, in range);
+     * `query.radius` defaults to 1 and is clamped to 1-50; `query.radiusUnits` is `mi` (default)
+     * or `km`; `query.date` is `YYYY-MM-DD` and defaults to TODAY (UTC). Pagination: the response
+     * carries `cursor` (the base64 page token) and `searchId`; pass `cursor` back verbatim as
+     * `query.cursor` on the next call — the body's shape is identical. One call returns up to 50
+     * venues; the origin does not publish a total count, so `totalHits` is always `null` and the
+     * caller pages until `cursor` is also null. Returns `warnings` whenever the function did
+     * anything to the caller's query (radius defaulted, date defaulted) so a caller rendering the
+     * result knows exactly what shape their input landed in. Each venue block carries `activities`
+     * populated (the search response's `schedules[].venue.activities` is a comma-joined string the
+     * parser splits), which `getSchedule`'s venue block does NOT have on a day the studio
+     * publishes nothing — a real difference, not an inconsistency. **`query` shape today:** only
+     * lat/lon/radius/radiusUnits/date/cursor are honored. The help center's rich facets (text
+     * search, activity filter, time-of-day, credit-price band, neighbourhood) are DECLARED on
+     * `search` but NOT WIRED — see manifest `notImplemented`.
+     */
+    search(query: ClasspassSearchQuery): Promise<ClasspassSearchResult>;
+
     /**
      * Reads ONE ClassPass studio's whole profile in a single request — the page a person reads to
      * decide whether a result is worth booking. `studio` is a ClassPass venue id (74359), the

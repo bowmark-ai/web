@@ -97,7 +97,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.getPricing` | classpass.com | Returns ClassPass's own membership/credit-plan pricing for a market — the monthly… | ⚪ |
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
-| `classpass.search` | classpass.com | Searches fitness, wellness and beauty businesses (gyms, studios, spas and salons) near… | ⚪ |
+| `classpass.search` | classpass.com | Searches fitness, wellness and beauty businesses (gyms, studios, spas and salons) near… | 🟢 |
 | `cloudflare.comparePlans` | cloudflare.com | Compares Cloudflare's website/application plan tiers — Free, Pro, Business and… | 🟢 |
 | `cloudflare.compareTeamsPlans` | cloudflare.com | Compares Cloudflare's Zero Trust / Cloudflare One team plans — Free (up to 50 users)… | 🟢 |
 | `cloudflare.getDomainPricing` | cloudflare.com | Reads Cloudflare Registrar's at-cost, no-markup registration and renewal pricing… | ⚪ |

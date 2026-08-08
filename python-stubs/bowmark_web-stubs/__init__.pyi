@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ab71ed27440532da81e0c8f70c145415b59d101a2e5f7cca530fc9949dcb88e0
-# 8 capabilities, 84 providers, 271 typed functions, 20 refused.
+# Manifest version: 18ca1675e1143cf2426f5ab127c24a8e0e50f68bf4c2acff2c87a7ae175cb73e
+# 8 capabilities, 84 providers, 272 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1536,6 +1536,38 @@ class Prv_chriscraft_ChriscraftPriceLine_Out(TypedDict):
     price: float
     yourPrice: float
 
+class Prv_classpass_ClasspassSearchQuery_In(TypedDict):
+    lat: float
+    lon: float
+    radius: float
+    radiusUnits: NotRequired[Literal["mi"] | Literal["km"]]
+    date: NotRequired[str]
+    cursor: NotRequired[str]
+
+class Prv_classpass_ClasspassSearchResult_Out(TypedDict):
+    results: list[Prv_classpass_ClasspassVenue_Out]
+    cursor: str | None
+    searchId: str
+    totalHits: float | None
+    warnings: list[str]
+
+class Prv_classpass_ClasspassVenue_Out(TypedDict):
+    id: float
+    alias: str
+    name: str
+    subtitle: str | None
+    timeZone: str | None
+    street: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    latitude: float | None
+    longitude: float | None
+    activities: list[str]
+    amenities: list[str]
+    ratingAverage: float | None
+    ratingCount: float | None
+
 class Prv_classpass_ClasspassStudio_Out(TypedDict):
     id: float
     alias: str
@@ -1584,23 +1616,6 @@ class Prv_classpass_ClasspassSchedule_Out(TypedDict):
     venue: Prv_classpass_ClasspassVenue_Out
     dates: list[str]
     sessions: list[Prv_classpass_ClasspassSession_Out]
-
-class Prv_classpass_ClasspassVenue_Out(TypedDict):
-    id: float
-    alias: str
-    name: str
-    subtitle: str | None
-    timeZone: str | None
-    street: str | None
-    city: str | None
-    state: str | None
-    postalCode: str | None
-    latitude: float | None
-    longitude: float | None
-    activities: list[str]
-    amenities: list[str]
-    ratingAverage: float | None
-    ratingCount: float | None
 
 class Prv_classpass_ClasspassSession_Out(TypedDict):
     id: float
@@ -7665,6 +7680,28 @@ class Prv_classpass(Protocol):
     Studio and class search, per-slot availability and membership pricing are declared but
     not built yet.
     """
+
+    async def search(self, query: Prv_classpass_ClasspassSearchQuery_In, /) -> Prv_classpass_ClasspassSearchResult_Out:
+        """ClassPass's own location search — POST lat/lon/radius and read back the venues in range,
+        with their identity, address, coordinates, IANA time zone, the activities the venue
+        teaches, amenities, ratings, distance and the practical details a person needs to decide
+        which to open. `query.lat` and `query.lon` are required (decimal degrees, finite, in
+        range); `query.radius` defaults to 1 and is clamped to 1-50; `query.radiusUnits` is `mi`
+        (default) or `km`; `query.date` is `YYYY-MM-DD` and defaults to TODAY (UTC). Pagination:
+        the response carries `cursor` (the base64 page token) and `searchId`; pass `cursor` back
+        verbatim as `query.cursor` on the next call — the body's shape is identical. One call
+        returns up to 50 venues; the origin does not publish a total count, so `totalHits` is
+        always `null` and the caller pages until `cursor` is also null. Returns `warnings`
+        whenever the function did anything to the caller's query (radius defaulted, date
+        defaulted) so a caller rendering the result knows exactly what shape their input landed
+        in. Each venue block carries `activities` populated (the search response's
+        `schedules[].venue.activities` is a comma-joined string the parser splits), which
+        `getSchedule`'s venue block does NOT have on a day the studio publishes nothing — a real
+        difference, not an inconsistency. **`query` shape today:** only
+        lat/lon/radius/radiusUnits/date/cursor are honored. The help center's rich facets (text
+        search, activity filter, time-of-day, credit-price band, neighbourhood) are DECLARED on
+        `search` but NOT WIRED — see manifest `notImplemented`.
+        """
 
     async def getStudio(self, studio: float | str, /) -> Prv_classpass_ClasspassStudio_Out:
         """Reads ONE ClassPass studio's whole profile in a single request — the page a person reads

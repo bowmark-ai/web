@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ab71ed27440532da81e0c8f70c145415b59d101a2e5f7cca530fc9949dcb88e0
-// 271 checked, 20 unchecked.
+// Manifest version: 18ca1675e1143cf2426f5ab127c24a8e0e50f68bf4c2acff2c87a7ae175cb73e
+// 272 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ab71ed27440532da81e0c8f70c145415b59d101a2e5f7cca530fc9949dcb88e0",
+  "version": "18ca1675e1143cf2426f5ab127c24a8e0e50f68bf4c2acff2c87a7ae175cb73e",
   "units": {
     "cars": {
       "defs": {
@@ -2506,9 +2506,76 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ClasspassSearchQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lon",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "radius",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "radiusUnits",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "mi"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "km"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "ClasspassSearchQuery"
+            },
+            "optional": false
+          }
+        ],
         "getStudio": [
           {
             "name": "studio",
