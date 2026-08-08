@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cdd372c5baab6f8207f89d3afd3a0cffd0375370125704432a4e92de7a1f6417
-// 8 capabilities, 81 providers, 266 typed functions, 20 refused.
+// Manifest version: d9f82c13c28cf2be560059856f402d5404b802678e8f23e4c3d86f52f739a7c4
+// 8 capabilities, 81 providers, 267 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3007,6 +3007,28 @@ interface dillardsProduct {
   variants: dillardsProductVariant[];
 }
 
+interface dillardsStoreRow {
+  storeNumber: string;
+  name: string;
+  address1: string | null;
+  address2: string | null;
+  city: string;
+  state: string;
+  stateCode: string;
+  zip: string;
+  phone: string;
+  url: string;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+interface dillardsFindStoresQuery {
+  state?: string;
+  city?: string;
+  zip?: string;
+  limit?: number;
+}
+
   /**
    * Dillard's department store catalog, store-level stock, store locator and wedding/gift
    * registry search.
@@ -3087,6 +3109,23 @@ interface dillardsProduct {
      * through to its item page rather than handing back an unusable list.
      */
     searchRegistry(query: dillardsRegistrySearchQuery): Promise<dillardsRegistry[]>;
+
+    /**
+     * Finds nearby Dillard's store locations the way the site's own /stores locator does — every
+     * row carrying its `storeNumber` (the 4-digit id `checkStock` accepts as its `store`
+     * argument), mall/anchor `name`, `address1`/`address2`, `city`, full `state` and 2-letter
+     * `stateCode`, 5-digit `zip`, 10-digit `phone`, the per-store detail `url`, and the site's own
+     * `latitude`/`longitude` (null when the row omits either). Pass AT LEAST ONE of `state` (full
+     * name like "Ohio" or 2-letter code like "OH" — an unknown state THROWS, naming the 30 the
+     * site publishes), `city` (exact, case-insensitive match against the site's own `city` field —
+     * a name that does not match returns `[]`), or `zip` (5-digit US ZIP, exact match — the site
+     * publishes one store per ZIP today, so this is "the store at this ZIP" without needing a
+     * centroid lookup). Multiple filters narrow; a `state`+`city` request is a per-state page plus
+     * a client-side city filter. Pass `limit` to trim. A query with no filters THROWS, naming
+     * every one the site supports — an empty-argument call would otherwise hand back the full
+     * 272-store list with no way to tell whether that was what the caller meant.
+     */
+    findStores(query: dillardsFindStoresQuery): Promise<dillardsStoreRow[]>;
   }
 }
 

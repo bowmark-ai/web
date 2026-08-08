@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cdd372c5baab6f8207f89d3afd3a0cffd0375370125704432a4e92de7a1f6417
-# 8 capabilities, 81 providers, 260 typed functions, 20 refused.
+# Manifest version: d9f82c13c28cf2be560059856f402d5404b802678e8f23e4c3d86f52f739a7c4
+# 8 capabilities, 81 providers, 261 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1792,6 +1792,26 @@ class Prv_dillards_dillardsRegistryItem_Out(TypedDict):
     remainingQty: float | None
     fulfilled: bool | None
     availableOnline: bool
+
+class Prv_dillards_dillardsFindStoresQuery_In(TypedDict):
+    state: NotRequired[str]
+    city: NotRequired[str]
+    zip: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_dillards_dillardsStoreRow_Out(TypedDict):
+    storeNumber: str
+    name: str
+    address1: str | None
+    address2: str | None
+    city: str
+    state: str
+    stateCode: str
+    zip: str
+    phone: str
+    url: str
+    latitude: float | None
+    longitude: float | None
 
 class Prv_discounttire_checkStock_location_u0_In(TypedDict):
     zip: str
@@ -7660,6 +7680,23 @@ class Prv_dillards(Protocol):
         dillards.com itself never auto-resolves a name search to one registry, even when only
         one matches, so this function follows a single match through to its item page rather
         than handing back an unusable list.
+        """
+
+    async def findStores(self, query: Prv_dillards_dillardsFindStoresQuery_In, /) -> list[Prv_dillards_dillardsStoreRow_Out]:
+        """Finds nearby Dillard's store locations the way the site's own /stores locator does —
+        every row carrying its `storeNumber` (the 4-digit id `checkStock` accepts as its `store`
+        argument), mall/anchor `name`, `address1`/`address2`, `city`, full `state` and 2-letter
+        `stateCode`, 5-digit `zip`, 10-digit `phone`, the per-store detail `url`, and the site's
+        own `latitude`/`longitude` (null when the row omits either). Pass AT LEAST ONE of
+        `state` (full name like "Ohio" or 2-letter code like "OH" — an unknown state THROWS,
+        naming the 30 the site publishes), `city` (exact, case-insensitive match against the
+        site's own `city` field — a name that does not match returns `[]`), or `zip` (5-digit US
+        ZIP, exact match — the site publishes one store per ZIP today, so this is "the store at
+        this ZIP" without needing a centroid lookup). Multiple filters narrow; a `state`+`city`
+        request is a per-state page plus a client-side city filter. Pass `limit` to trim. A
+        query with no filters THROWS, naming every one the site supports — an empty-argument
+        call would otherwise hand back the full 272-store list with no way to tell whether that
+        was what the caller meant.
         """
 
 class Prv_discounttire(Protocol):

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cdd372c5baab6f8207f89d3afd3a0cffd0375370125704432a4e92de7a1f6417
-// 260 checked, 20 unchecked.
+// Manifest version: d9f82c13c28cf2be560059856f402d5404b802678e8f23e4c3d86f52f739a7c4
+// 261 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cdd372c5baab6f8207f89d3afd3a0cffd0375370125704432a4e92de7a1f6417",
+  "version": "d9f82c13c28cf2be560059856f402d5404b802678e8f23e4c3d86f52f739a7c4",
   "units": {
     "cars": {
       "defs": {
@@ -2712,6 +2712,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "dillardsFindStoresQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "dillardsGetProductQuery": {
           "k": "object",
           "props": [
@@ -2814,6 +2847,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "dillardsRegistrySearchQuery"
+            },
+            "optional": false
+          }
+        ],
+        "findStores": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "dillardsFindStoresQuery"
             },
             "optional": false
           }
