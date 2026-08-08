@@ -638,7 +638,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `visible.listDeals` | visible.com | Returns the promotions Visible is running right now and what each one is actually… | 🟢 |
 | `visible.listWearables` | visible.com | Returns the smartwatches and connected devices Visible supports and what a line for… | ⚪ |
 | `visible.searchHelp` | visible.com | Searches Visible's support estate and returns the matching articles with their answers… | ⚪ |
-| `visible.searchPhones` | visible.com | Returns the phones Visible currently sells, with the facts a purchase turns on —… | ⚪ |
+| `visible.searchPhones` | visible.com | Returns the phones Visible currently sells, with the facts a purchase turns on —… | 🟢 |
 | `walmart.browseCategory` | walmart.com | Lists products under one of the site's own department/category pages (e.g.… | ⚪ |
 | `walmart.checkStock` | walmart.com | Answers whether a specific item is actually available right now at a given store or… | ⚪ |
 | `walmart.findStores` | walmart.com | Finds nearby Walmart stores for a 5-digit US ZIP code — address, phone, hours… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 87b1cb104f85afcfa0874b164b65c1084cda6184a5eddd0848f7db191da528b6
-// 257 checked, 20 unchecked.
+// Manifest version: d3eb3ad83c1fe37163118322fb461140be0c91c2d12bfaf3ab62520783035fec
+// 258 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "87b1cb104f85afcfa0874b164b65c1084cda6184a5eddd0848f7db191da528b6",
+  "version": "d3eb3ad83c1fe37163118322fb461140be0c91c2d12bfaf3ab62520783035fec",
   "units": {
     "cars": {
       "defs": {
@@ -11654,6 +11654,59 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "preOwned",
                   "schema": {
                     "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchPhones": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "make",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "priceMax",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "supports5G",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "inStock",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "pageSize",
+                  "schema": {
+                    "k": "number"
                   },
                   "optional": true
                 }

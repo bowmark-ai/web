@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 87b1cb104f85afcfa0874b164b65c1084cda6184a5eddd0848f7db191da528b6
-# 8 capabilities, 81 providers, 257 typed functions, 20 refused.
+# Manifest version: d3eb3ad83c1fe37163118322fb461140be0c91c2d12bfaf3ab62520783035fec
+# 8 capabilities, 81 providers, 258 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6374,6 +6374,44 @@ class Prv_visible_VisiblePhoneFlashSale_Out(TypedDict):
     enabledBySite: bool
     active: bool | None
 
+class Prv_visible_searchPhones_options_In(TypedDict):
+    make: NotRequired[str]
+    priceMax: NotRequired[float]
+    supports5G: NotRequired[bool]
+    inStock: NotRequired[bool]
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+
+class Prv_visible_VisibleSearchPhonesResult_Out(TypedDict):
+    source: str
+    totalCatalogueCount: float
+    filteredCount: float
+    page: float
+    pageSize: float
+    hasMore: bool
+    availableMakes: list[str]
+    results: list[Prv_visible_VisibleSearchPhone_Out]
+
+class Prv_visible_VisibleSearchPhone_Out(TypedDict):
+    slug: str
+    name: str
+    make: str
+    deviceOs: str | None
+    listPrice: float | None
+    price: float | None
+    monthlyPrice: float | None
+    financingTermMonths: float | None
+    inStock: bool
+    preOwned: bool
+    fiveG: bool
+    eSIMCompatible: bool
+    comingSoon: bool
+    tradeInEligible: bool
+    visiblePaybackEligible: bool | None
+    imageUrl: str | None
+    source: str
+    flashSale: Prv_visible_VisiblePhoneFlashSale_Out | None
+
 class Prv_visible_VisibleCheckCoverageResult_Out(TypedDict):
     input: str
     point: Prv_visible_VisibleCoveragePoint_Out
@@ -10676,6 +10714,20 @@ class Prv_visible(Protocol):
         visible.com product URL. Any time-boxed offer on the device is returned with its window
         AND a computed `active` flag, because the site's own `isFlashSaleEnabled` reads `true`
         on sales that ended months ago.
+        """
+
+    async def searchPhones(self, options: Prv_visible_searchPhones_options_In | None = None, /) -> Prv_visible_VisibleSearchPhonesResult_Out:
+        """Returns the phones Visible currently sells, with the headline facts a purchase turns on
+        — name, make, OS, list price, current price, financed monthly payment and term, in-stock
+        status, pre-owned vs new, 5G support, eSIM compatibility, trade-in / Payback
+        eligibility, and the catalogue image. Optional filters narrow by make (Apple, Samsung,
+        Google, Motorola, TCL), by a `priceMax` the buyer's actually-going-to-pay price (NOT the
+        strikethrough on a stale flash-sale banner), by 5G support, and by in-stock
+        availability. Pagination is explicit and client-side over the catalogue's bounded 42-row
+        response — the endpoint does NOT paginate server-side; every tried pagination parameter
+        is ignored. Joins naturally with `getPhone`, which takes the same `slug` as its input —
+        `searchPhones` answers "what does Visible sell?", `getPhone` answers "what does this
+        specific device cost across storage and colour?".
         """
 
     async def checkCoverage(self, addressOrZip: str, /) -> Prv_visible_VisibleCheckCoverageResult_Out:

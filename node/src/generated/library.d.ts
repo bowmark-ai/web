@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 87b1cb104f85afcfa0874b164b65c1084cda6184a5eddd0848f7db191da528b6
-// 8 capabilities, 81 providers, 263 typed functions, 20 refused.
+// Manifest version: d3eb3ad83c1fe37163118322fb461140be0c91c2d12bfaf3ab62520783035fec
+// 8 capabilities, 81 providers, 264 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12440,6 +12440,38 @@ interface VisibleCheckCoverageResult {
   summary: string;
 }
 
+interface VisibleSearchPhone {
+  slug: string;
+  name: string;
+  make: string;
+  deviceOs: string | null;
+  listPrice: number | null;
+  price: number | null;
+  monthlyPrice: number | null;
+  financingTermMonths: number | null;
+  inStock: boolean;
+  preOwned: boolean;
+  fiveG: boolean;
+  eSIMCompatible: boolean;
+  comingSoon: boolean;
+  tradeInEligible: boolean;
+  visiblePaybackEligible: boolean | null;
+  imageUrl: string | null;
+  source: string;
+  flashSale: VisiblePhoneFlashSale | null;
+}
+
+interface VisibleSearchPhonesResult {
+  source: string;
+  totalCatalogueCount: number;
+  filteredCount: number;
+  page: number;
+  pageSize: number;
+  hasMore: boolean;
+  availableMakes: string[];
+  results: VisibleSearchPhone[];
+}
+
   /**
    * Visible (Verizon's prepaid brand): the promotions running right now — the offer grid with
    * its promo codes and fine print, plus the standing referral, trade-in, payback, Stack'em and
@@ -12476,6 +12508,21 @@ interface VisibleCheckCoverageResult {
      * that ended months ago.
      */
     getPhone(slugOrUrl: string, options?: { preOwned?: boolean }): Promise<VisibleGetPhoneResult>;
+
+    /**
+     * Returns the phones Visible currently sells, with the headline facts a purchase turns on —
+     * name, make, OS, list price, current price, financed monthly payment and term, in-stock
+     * status, pre-owned vs new, 5G support, eSIM compatibility, trade-in / Payback eligibility,
+     * and the catalogue image. Optional filters narrow by make (Apple, Samsung, Google, Motorola,
+     * TCL), by a `priceMax` the buyer's actually-going-to-pay price (NOT the strikethrough on a
+     * stale flash-sale banner), by 5G support, and by in-stock availability. Pagination is
+     * explicit and client-side over the catalogue's bounded 42-row response — the endpoint does
+     * NOT paginate server-side; every tried pagination parameter is ignored. Joins naturally with
+     * `getPhone`, which takes the same `slug` as its input — `searchPhones` answers "what does
+     * Visible sell?", `getPhone` answers "what does this specific device cost across storage and
+     * colour?".
+     */
+    searchPhones(options?: { make?: string; priceMax?: number; supports5G?: boolean; inStock?: boolean; page?: number; pageSize?: number }): Promise<VisibleSearchPhonesResult>;
 
     /**
      * Returns Verizon's real network coverage — the tier that actually determines usable speed (5G
