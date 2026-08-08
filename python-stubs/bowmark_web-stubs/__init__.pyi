@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7ddf0467c5845a0cd819d9416dd3282acf9a8fc505c25569498b750248dffd58
-# 8 capabilities, 83 providers, 267 typed functions, 20 refused.
+# Manifest version: 3a694380244be9cb9c9afb9e6003dfbb8a3021bfb92e03ff92c4005f8d033ebb
+# 8 capabilities, 84 providers, 268 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1701,6 +1701,12 @@ class Prv_decked_DeckedCabSideOptionResult_Out(TypedDict):
     fit: Prv_decked_DeckedFit_Out | None
     reason: str | None
     baseFit: Prv_decked_DeckedFit_Out | None
+
+class Prv_dice_DiceJobDetails_Out(TypedDict):
+    jobId: str
+    description: str
+    skills: list[str]
+    warnings: list[str]
 
 class Prv_dillards_dillardsSearchQuery_In(TypedDict):
     query: str
@@ -7673,6 +7679,19 @@ class Prv_decked(Protocol):
         read the real dollar delta the Load Floor upgrade costs.
         """
 
+class Prv_dice(Protocol):
+    """Dice — the US technology-only job board. Reaches each posting's full description and
+    skill list through Dice's own keyless MCP server at mcp.dice.com/mcp; declares tech-job
+    search, posting-detail reads, employer profiles and a company's open roles.
+    """
+
+    async def getJob(self, jobId: str, /) -> Prv_dice_DiceJobDetails_Out:
+        """Returns one Dice posting in full — the HTML description (the same document the consumer
+        page renders) and the normalized skills array — by the job id `searchJobs` returns.
+        THROWS on a missing id, on a non-existent posting (MCP returns isError), and on a
+        transport failure, so a caller can distinguish "no such job" from "empty result set".
+        """
+
 class Prv_dickssportinggoods(Protocol):
     """DICK'S Sporting Goods' own storefront — product search, product detail, store-level
     stock and store locator. The store locator is callable now: it finds stores near a ZIP
@@ -11093,6 +11112,7 @@ class BowmarkProviders(Protocol):
     cloudflare: Prv_cloudflare
     cyberpowerpc: Prv_cyberpowerpc
     decked: Prv_decked
+    dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
     discounttire: Prv_discounttire

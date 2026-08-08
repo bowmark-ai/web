@@ -1,5 +1,5 @@
 {
-  "version": "7ddf0467c5845a0cd819d9416dd3282acf9a8fc505c25569498b750248dffd58",
+  "version": "3a694380244be9cb9c9afb9e6003dfbb8a3021bfb92e03ff92c4005f8d033ebb",
   "units": {
     "cars": {
       "defs": {
@@ -2653,6 +2653,20 @@
             "schema": {
               "k": "ref",
               "name": "DeckedCabSideOption"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dice": {
+      "defs": {},
+      "functions": {
+        "getJob": [
+          {
+            "name": "jobId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

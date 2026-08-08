@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7ddf0467c5845a0cd819d9416dd3282acf9a8fc505c25569498b750248dffd58
-// 8 capabilities, 83 providers, 273 typed functions, 20 refused.
+// Manifest version: 3a694380244be9cb9c9afb9e6003dfbb8a3021bfb92e03ff92c4005f8d033ebb
+// 8 capabilities, 84 providers, 274 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2823,6 +2823,34 @@ interface DeckedCabSideOptionResult {
      * delta the Load Floor upgrade costs.
      */
     priceCabSideOption(vehicleQuery: string, bedLength: string, option: DeckedCabSideOption): Promise<DeckedCabSideOptionResult>;
+  }
+}
+
+declare namespace BowmarkProvider_dice {
+  // ── Dice — the unit's own declarations, verbatim ──
+interface DiceJobDetails {
+  jobId: string;
+  description: string;
+  skills: string[];
+  warnings: string[];
+}
+interface diceRow {
+  id: string;
+}
+
+  /**
+   * Dice — the US technology-only job board. Reaches each posting's full description and skill
+   * list through Dice's own keyless MCP server at mcp.dice.com/mcp; declares tech-job search,
+   * posting-detail reads, employer profiles and a company's open roles.
+   */
+  interface Unit {
+    /**
+     * Returns one Dice posting in full — the HTML description (the same document the consumer page
+     * renders) and the normalized skills array — by the job id `searchJobs` returns. THROWS on a
+     * missing id, on a non-existent posting (MCP returns isError), and on a transport failure, so
+     * a caller can distinguish "no such job" from "empty result set".
+     */
+    getJob(jobId: string): Promise<DiceJobDetails>;
   }
 }
 
@@ -13176,6 +13204,7 @@ interface BowmarkProviders {
   cloudflare: BowmarkProvider_cloudflare.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   decked: BowmarkProvider_decked.Unit;
+  dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;

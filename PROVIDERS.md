@@ -110,7 +110,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `decked.resolveFitment` | decked.com | Resolves a free-text vehicle to its real fitted SKU and live price, mirroring the… | 🟢 |
 | `decked.searchFits` | decked.com | Lists every real DECKED vehicle fit across all six vehicle classes (SUV, Full-Size… | 🟢 |
 | `dice.getCompany` | dice.com | Returns one technology employer's Dice profile from its `/company-profile/<uuid>` URL… | ⚪ |
-| `dice.getJob` | dice.com | Returns one Dice posting in full from its `/job-detail/<uuid>` URL or its posting id —… | ⚪ |
+| `dice.getJob` | dice.com | Returns one Dice posting in full from its posting id — the complete HTML description… | 🟢 |
 | `dice.listCompanyJobs` | dice.com | Returns the open technology roles a single named employer is currently advertising on… | ⚪ |
 | `dice.searchCompanies` | dice.com | Finds technology employers on Dice and returns each company's profile — name… | ⚪ |
 | `dice.searchJobs` | dice.com | Searches Dice's tech-only job database and returns the matching postings — title… | ⚪ |

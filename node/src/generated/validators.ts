@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7ddf0467c5845a0cd819d9416dd3282acf9a8fc505c25569498b750248dffd58
-// 267 checked, 20 unchecked.
+// Manifest version: 3a694380244be9cb9c9afb9e6003dfbb8a3021bfb92e03ff92c4005f8d033ebb
+// 268 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7ddf0467c5845a0cd819d9416dd3282acf9a8fc505c25569498b750248dffd58",
+  "version": "3a694380244be9cb9c9afb9e6003dfbb8a3021bfb92e03ff92c4005f8d033ebb",
   "units": {
     "cars": {
       "defs": {
@@ -2665,6 +2665,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "DeckedCabSideOption"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dice": {
+      "defs": {},
+      "functions": {
+        "getJob": [
+          {
+            "name": "jobId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
