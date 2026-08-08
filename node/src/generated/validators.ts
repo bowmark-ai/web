@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cfebedfa6507764c2c96a4c48a4673c1d60bd8522be0e6dc44a557374e17b016
-// 262 checked, 20 unchecked.
+// Manifest version: 1e2a61477243138bb0b5e9eae8f7b6d6143fb88ef1b7a6dcc98c6803278b11aa
+// 265 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cfebedfa6507764c2c96a4c48a4673c1d60bd8522be0e6dc44a557374e17b016",
+  "version": "1e2a61477243138bb0b5e9eae8f7b6d6143fb88ef1b7a6dcc98c6803278b11aa",
   "units": {
     "cars": {
       "defs": {
@@ -3932,6 +3932,37 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.hellotend": {
+      "defs": {},
+      "functions": {
+        "listMarkets": [],
+        "listStudios": [
+          {
+            "name": "market",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "listServices": [
+          {
+            "name": "market",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "studio",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

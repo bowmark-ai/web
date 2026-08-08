@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 647 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 652 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -260,6 +260,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hellofresh.getRecipe` | hellofresh.com | Reads one recipe page in full for a recipe URL or bare id that `getWeeklyMenu` (or the… | 🟢 |
 | `hellofresh.getWeeklyMenu` | hellofresh.com | Reads the meals HelloFresh is offering for one delivery week — each meal's name… | 🟢 |
 | `hellofresh.searchRecipes` | hellofresh.com | Searches HelloFresh's public recipe archive by keyword, ingredient, cuisine or diet… | 🟢 |
+| `hellotend.bookAppointment` | hellotend.com | Submits the patient-info form and holds a Tend appointment for the caller. | ⚪ |
+| `hellotend.listAvailableTimes` | hellotend.com | Returns the real appointment slots a (market, studio, service) triple currently has… | ⚪ |
+| `hellotend.listMarkets` | hellotend.com | Lists every market Tend serves — the 6 metros the booking chain currently offers (New… | 🟢 |
+| `hellotend.listServices` | hellotend.com | Lists the service codes a specific Tend studio offers (Dental Exam CLNCHK, Clear… | 🟢 |
+| `hellotend.listStudios` | hellotend.com | Lists every Tend dental studio across all markets — 33+ locations with name, slug… | 🟢 |
 | `hilton.findHotels` | hilton.com | Finds Hilton-family properties near a city, region, or landmark — the site's own… | ⚪ |
 | `hilton.getAwardAvailability` | hilton.com | Searches Hilton's live award (Hilton Honors points) availability for a property and… | ⚪ |
 | `hilton.getDeals` | hilton.com | Reads Hilton's currently published promotions and offers — the site's own "Offers"… | ⚪ |

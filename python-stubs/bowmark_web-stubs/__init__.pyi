@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cfebedfa6507764c2c96a4c48a4673c1d60bd8522be0e6dc44a557374e17b016
-# 8 capabilities, 81 providers, 262 typed functions, 20 refused.
+# Manifest version: 1e2a61477243138bb0b5e9eae8f7b6d6143fb88ef1b7a6dcc98c6803278b11aa
+# 8 capabilities, 82 providers, 265 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2739,6 +2739,39 @@ class Prv_hellofresh_HellofreshRecipeSearchResult_Out(TypedDict):
     calories: float | None
     averageRating: float | None
     ratingsCount: float | None
+
+class Prv_hellotend_HellotendMarket_Out(TypedDict):
+    slug: str
+    name: str
+    location: Prv_hellotend_HellotendMarket_Out_location_u0_Out | None
+    bookingEnabled: bool
+
+class Prv_hellotend_HellotendMarket_Out_location_u0_Out(TypedDict):
+    lat: float
+    lon: float
+
+class Prv_hellotend_HellotendStudio_Out(TypedDict):
+    slug: str
+    name: str
+    market: str
+    address: str | None
+    location: Prv_hellotend_HellotendStudio_Out_location_u0_Out | None
+    openingDate: str | None
+    serviceCodes: list[str]
+    bookingEnabled: bool
+    familyBookingEnabled: bool
+
+class Prv_hellotend_HellotendStudio_Out_location_u0_Out(TypedDict):
+    lat: float
+    lon: float
+
+class Prv_hellotend_HellotendService_Out(TypedDict):
+    code: str | None
+    name: str
+    longName: str | None
+    description: str | None
+    bookingDescription: str | None
+    duration: str | None
 
 class Prv_hilton_hiltonRoomOffer_Out(TypedDict):
     roomTypeCode: str
@@ -8341,6 +8374,42 @@ class Prv_hellofresh(Protocol):
         answer, not an error.
         """
 
+class Prv_hellotend(Protocol):
+    """Reads Tend Dental's public booking chain — every market, every studio, every service a
+    studio offers — straight from hellotend.com's own Next.js data route, no key, no
+    browser.
+    """
+
+    async def listMarkets(self, /) -> list[Prv_hellotend_HellotendMarket_Out]:
+        """Lists every market Tend serves — the 6 metros the booking chain currently offers (NYC,
+        Washington DC, Atlanta, Boston, Chicago, Nashville), with each market's slug, lat/lon
+        and booking-enabled flag. Takes nothing. The slug it returns is what listStudios and
+        listServices take. THROWS rather than returning [] when the data route answers without
+        its payload or names no markets — Tend operates 6 metros and zero is never an honest
+        answer.
+        """
+
+    async def listStudios(self, market: str | None = None, /) -> list[Prv_hellotend_HellotendStudio_Out]:
+        """Lists every Tend dental studio — 33+ across all markets, with name, slug, market,
+        address, lat/lon, opening date, the service codes that studio accepts, and whether it
+        offers family-booking. The market arg is OPTIONAL: omit it to get the full set across
+        all markets, pass a market slug to filter. THROWS rather than returning [] when the data
+        route answers without its payload or names no studios; surfaces an unknown market slug
+        as a caller-fixable error listing the real ones.
+        """
+
+    async def listServices(self, market: str, studio: str, /) -> list[Prv_hellotend_HellotendService_Out]:
+        """Lists the service codes a specific Tend studio offers (Dental Exam CLNCHK, Clear
+        Aligners INVISALN, Emergency EMGNCY, Sleep Apnea Consult SLPCONS, Cosmetic, Procedures)
+        with each service's display name, code, duration and short description. The CODE is what
+        a real Tend booking needs to advance to the time-picker page. The first four carry a
+        code; the last two (Cosmetic, Procedures) are category-level landing entries that route
+        to sub-flows and are returned with a null code rather than dropped. THROWS rather than
+        returning [] when the data route answers without its payload or names no services;
+        surfaces an unknown studio as a caller-fixable error listing the real ones in that
+        market.
+        """
+
 class Prv_hilton(Protocol):
     """Hilton-family hotel search, award availability, reservation lookup and property details."""
 
@@ -10976,6 +11045,7 @@ class BowmarkProviders(Protocol):
     grainger: Prv_grainger
     healthcare_gov: Prv_healthcare_gov
     hellofresh: Prv_hellofresh
+    hellotend: Prv_hellotend
     hilton: Prv_hilton
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower

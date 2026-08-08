@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cfebedfa6507764c2c96a4c48a4673c1d60bd8522be0e6dc44a557374e17b016
-// 8 capabilities, 81 providers, 268 typed functions, 20 refused.
+// Manifest version: 1e2a61477243138bb0b5e9eae8f7b6d6143fb88ef1b7a6dcc98c6803278b11aa
+// 8 capabilities, 82 providers, 271 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5467,6 +5467,72 @@ interface HellofreshRecipeSearchPage {
      * `total: 0` — a real answer, not an error.
      */
     searchRecipes(query: string, options?: { take?: number; skip?: number }): Promise<HellofreshRecipeSearchPage>;
+  }
+}
+
+declare namespace BowmarkProvider_hellotend {
+  // ── Tend Dental — the unit's own declarations, verbatim ──
+interface HellotendMarket {
+  slug: string;            // e.g. "new-york-city"
+  name: string;            // e.g. "New York City"
+  location: { lat: number; lon: number } | null;
+  bookingEnabled: boolean;
+}
+interface HellotendStudio {
+  slug: string;            // e.g. "hells-kitchen" — what listServices takes
+  name: string;
+  market: string;          // e.g. "new-york-city"
+  address: string | null;
+  location: { lat: number; lon: number } | null;
+  openingDate: string | null;
+  serviceCodes: string[];  // ["CLNCHK","WHTNG",...] — the codes this studio accepts
+  bookingEnabled: boolean;
+  familyBookingEnabled: boolean;
+}
+interface HellotendService {
+  code: string | null;     // e.g. "CLNCHK" — null on category-level entries
+  name: string;            // e.g. "Exam"
+  longName: string | null; // e.g. "Dental Exam"
+  description: string | null;
+  bookingDescription: string | null;
+  duration: string | null; // e.g. "70 minutes or less"
+}
+
+  /**
+   * Reads Tend Dental's public booking chain — every market, every studio, every service a
+   * studio offers — straight from hellotend.com's own Next.js data route, no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Lists every market Tend serves — the 6 metros the booking chain currently offers (NYC,
+     * Washington DC, Atlanta, Boston, Chicago, Nashville), with each market's slug, lat/lon and
+     * booking-enabled flag. Takes nothing. The slug it returns is what listStudios and
+     * listServices take. THROWS rather than returning [] when the data route answers without its
+     * payload or names no markets — Tend operates 6 metros and zero is never an honest answer.
+     */
+    listMarkets(): Promise<HellotendMarket[]>;
+
+    /**
+     * Lists every Tend dental studio — 33+ across all markets, with name, slug, market, address,
+     * lat/lon, opening date, the service codes that studio accepts, and whether it offers
+     * family-booking. The market arg is OPTIONAL: omit it to get the full set across all markets,
+     * pass a market slug to filter. THROWS rather than returning [] when the data route answers
+     * without its payload or names no studios; surfaces an unknown market slug as a caller-fixable
+     * error listing the real ones.
+     */
+    listStudios(market?: string): Promise<HellotendStudio[]>;
+
+    /**
+     * Lists the service codes a specific Tend studio offers (Dental Exam CLNCHK, Clear Aligners
+     * INVISALN, Emergency EMGNCY, Sleep Apnea Consult SLPCONS, Cosmetic, Procedures) with each
+     * service's display name, code, duration and short description. The CODE is what a real Tend
+     * booking needs to advance to the time-picker page. The first four carry a code; the last two
+     * (Cosmetic, Procedures) are category-level landing entries that route to sub-flows and are
+     * returned with a null code rather than dropped. THROWS rather than returning [] when the data
+     * route answers without its payload or names no services; surfaces an unknown studio as a
+     * caller-fixable error listing the real ones in that market.
+     */
+    listServices(market: string, studio: string): Promise<HellotendService[]>;
   }
 }
 
@@ -13050,6 +13116,7 @@ interface BowmarkProviders {
   grainger: BowmarkProvider_grainger.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;
+  hellotend: BowmarkProvider_hellotend.Unit;
   hilton: BowmarkProvider_hilton.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
