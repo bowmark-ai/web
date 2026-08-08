@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d9f82c13c28cf2be560059856f402d5404b802678e8f23e4c3d86f52f739a7c4
-// 261 checked, 20 unchecked.
+// Manifest version: cfebedfa6507764c2c96a4c48a4673c1d60bd8522be0e6dc44a557374e17b016
+// 262 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d9f82c13c28cf2be560059856f402d5404b802678e8f23e4c3d86f52f739a7c4",
+  "version": "cfebedfa6507764c2c96a4c48a4673c1d60bd8522be0e6dc44a557374e17b016",
   "units": {
     "cars": {
       "defs": {
@@ -2866,6 +2866,15 @@ export const VALIDATORS: ValidatorTable = {
     "providers.discounttire": {
       "defs": {},
       "functions": {
+        "getProduct": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "checkStock": [
           {
             "name": "idOrUrl",

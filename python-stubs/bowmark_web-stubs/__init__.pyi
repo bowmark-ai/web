@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d9f82c13c28cf2be560059856f402d5404b802678e8f23e4c3d86f52f739a7c4
-# 8 capabilities, 81 providers, 261 typed functions, 20 refused.
+# Manifest version: cfebedfa6507764c2c96a4c48a4673c1d60bd8522be0e6dc44a557374e17b016
+# 8 capabilities, 81 providers, 262 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1812,6 +1812,20 @@ class Prv_dillards_dillardsStoreRow_Out(TypedDict):
     url: str
     latitude: float | None
     longitude: float | None
+
+class Prv_discounttire_DiscounttireProduct_Out(TypedDict):
+    code: str
+    name: str | None
+    brand: str | None
+    size: str | None
+    productType: str | None
+    url: str | None
+    price: Prv_discounttire_DiscounttireProduct_Out_price_u0_Out | None
+    source: str
+
+class Prv_discounttire_DiscounttireProduct_Out_price_u0_Out(TypedDict):
+    value: float | None
+    formatted: str | None
 
 class Prv_discounttire_checkStock_location_u0_In(TypedDict):
     zip: str
@@ -7702,10 +7716,22 @@ class Prv_dillards(Protocol):
 class Prv_discounttire(Protocol):
     """America's largest independent tire and wheel retailer — which tires and wheels actually
     fit a given vehicle, what they cost, whether they are in stock near a ZIP, when a store
-    can install them, and the rebates running on them. One function is built: `checkStock`
-    answers whether a specific tire or wheel is gettable near a ZIP, store or coordinate,
-    and on what date. The other fourteen are declared stubs.
+    can install them, and the rebates running on them. Two functions are built: `getProduct`
+    reads one tire or wheel by its sku (name, brand, size, product type, price, product
+    URL), and `checkStock` answers whether a specific tire or wheel is gettable near a ZIP,
+    store or coordinate, and on what date. The other thirteen are declared stubs.
     """
+
+    async def getProduct(self, idOrUrl: str, /) -> Prv_discounttire_DiscounttireProduct_Out:
+        """Reads one tire or wheel product by its sku — name, brand, size, product type, product
+        URL, and price (value and formatted string). Takes the numeric sku the site's product
+        URLs end in (/p/<code>), or such a URL. Price is global across stores (verified at three
+        AZ stores on the same sku on the same day, 2026-08-07), so this function takes no
+        storeCode even though the underlying `productByCode` operation requires one — the
+        requirement is a schema compliance constraint, not a per-caller choice. Throws on the
+        site's all-null not-found row, so a delisted sku surfaces as an error rather than as a
+        row whose every field is null.
+        """
 
     async def checkStock(self, idOrUrl: str, location: Prv_discounttire_checkStock_location_u0_In | Prv_discounttire_checkStock_location_u1_In | Prv_discounttire_checkStock_location_u2_In, /) -> Prv_discounttire_DiscounttireStock_Out:
         """Answers whether one specific tire or wheel is actually gettable near a place, and when —

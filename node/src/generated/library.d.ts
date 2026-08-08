@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d9f82c13c28cf2be560059856f402d5404b802678e8f23e4c3d86f52f739a7c4
-// 8 capabilities, 81 providers, 267 typed functions, 20 refused.
+// Manifest version: cfebedfa6507764c2c96a4c48a4673c1d60bd8522be0e6dc44a557374e17b016
+// 8 capabilities, 81 providers, 268 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3142,6 +3142,21 @@ type DiscounttireLocation =
   | { zip: string }
   | { latitude: number; longitude: number };
 
+/** One tire or wheel, as the site's own product read returns it. Price is
+ *  global across stores (verified at three AZ stores on the same sku on the
+ *  same day, 2026-08-07), so `getProduct` takes no storeCode even though
+ *  productByCode itself requires one. */
+interface DiscounttireProduct {
+  code: string;
+  name: string | null;
+  brand: string | null;
+  size: string | null;
+  productType: string | null;
+  url: string | null;
+  price: { value: number | null; formatted: string | null } | null;
+  source: string;
+}
+
 interface DiscounttireStoreRef {
   code: string;
   name: string | null;
@@ -3200,11 +3215,23 @@ interface DiscounttireStock {
   /**
    * America's largest independent tire and wheel retailer — which tires and wheels actually fit
    * a given vehicle, what they cost, whether they are in stock near a ZIP, when a store can
-   * install them, and the rebates running on them. One function is built: `checkStock` answers
-   * whether a specific tire or wheel is gettable near a ZIP, store or coordinate, and on what
-   * date. The other fourteen are declared stubs.
+   * install them, and the rebates running on them. Two functions are built: `getProduct` reads
+   * one tire or wheel by its sku (name, brand, size, product type, price, product URL), and
+   * `checkStock` answers whether a specific tire or wheel is gettable near a ZIP, store or
+   * coordinate, and on what date. The other thirteen are declared stubs.
    */
   interface Unit {
+    /**
+     * Reads one tire or wheel product by its sku — name, brand, size, product type, product URL,
+     * and price (value and formatted string). Takes the numeric sku the site's product URLs end in
+     * (/p/<code>), or such a URL. Price is global across stores (verified at three AZ stores on
+     * the same sku on the same day, 2026-08-07), so this function takes no storeCode even though
+     * the underlying `productByCode` operation requires one — the requirement is a schema
+     * compliance constraint, not a per-caller choice. Throws on the site's all-null not-found row,
+     * so a delisted sku surfaces as an error rather than as a row whose every field is null.
+     */
+    getProduct(idOrUrl: string): Promise<DiscounttireProduct>;
+
     /**
      * Answers whether one specific tire or wheel is actually gettable near a place, and when — the
      * site's own availability sentence for the store it resolves to ("Available as soon as

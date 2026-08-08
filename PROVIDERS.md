@@ -128,7 +128,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.findStores` | discounttire.com | Finds Discount Tire and America's Tire locations near a ZIP, city or coordinate —… | ⚪ |
 | `discounttire.getAppointmentAvailability` | discounttire.com | Reads the installation appointment slots a given store has open — which days and times… | ⚪ |
 | `discounttire.getOrderStatus` | discounttire.com | Reads the status of an existing Discount Tire order from the order number and the… | ⚪ |
-| `discounttire.getProduct` | discounttire.com | Reads one tire or wheel product page — price per unit and per set, the full spec… | ⚪ |
+| `discounttire.getProduct` | discounttire.com | Reads one tire or wheel product page — price per unit and per set, the full spec… | 🟢 |
 | `discounttire.getProductReviews` | discounttire.com | Reads the customer reviews Discount Tire carries for a tire — the rating distribution… | ⚪ |
 | `discounttire.getPromotions` | discounttire.com | Reads the rebates and promotions Discount Tire currently runs — the manufacturer… | ⚪ |
 | `discounttire.getStore` | discounttire.com | Reads one Discount Tire store in full — its address, phone, hours by day including… | ⚪ |
