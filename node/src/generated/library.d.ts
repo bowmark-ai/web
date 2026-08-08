@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3a694380244be9cb9c9afb9e6003dfbb8a3021bfb92e03ff92c4005f8d033ebb
-// 8 capabilities, 84 providers, 274 typed functions, 20 refused.
+// Manifest version: 22f49dc9e9b882587950db15f627f3f575729414afa3b8cc1189f9e0d3a78ffb
+// 8 capabilities, 84 providers, 275 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12986,6 +12986,27 @@ interface wellfoundCompanyRow {
   highlightedRoles: { id: string; title: string; url: string; locations: string[] }[];
 }
 
+interface wellfoundCompanyDetail {
+  id: string;
+  name: string;
+  slug: string;
+  url: string;
+  highConcept: string | null;
+  productDescription: string | null;
+  companySize: string | null;
+  employeesMin: number | null;
+  employeesMax: number | null;
+  markets: string[];
+  stage: string | null;
+  activelyHiring: boolean;
+  badges: { id: string; label: string; tooltip: string | null }[];
+  locations: { slug: string; displayName: string }[];
+  remotePolicy: "remote" | null;
+  companyUrl: string | null;
+  totalRaisedAmount: number | null;
+  logoUrl: string | null;
+}
+
   /**
    * Wellfound (formerly AngelList Talent) — startup job search with salary and equity bands,
    * startup profiles and their open roles.
@@ -13017,6 +13038,15 @@ interface wellfoundCompanyRow {
      * experience-requirement text and the hiring startup.
      */
     getJob(args: { url: string }): Promise<wellfoundJobDetail>;
+
+    /**
+     * Reads one startup's `/company/<slug>` profile — the longer product description (HTML), the
+     * full market tagging, location tags with display names, the explicitly-set Remote policy,
+     * total raised, the company's own website, every badge verbatim, and the same `companySize`
+     * band `searchCompanies` already decodes — the context a candidate weighs a startup on before
+     * applying to it. Takes the `slug` a `searchCompanies` row already carries.
+     */
+    getCompany(args: { slug: string }): Promise<wellfoundCompanyDetail>;
   }
 }
 

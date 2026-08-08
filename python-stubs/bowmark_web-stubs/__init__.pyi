@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3a694380244be9cb9c9afb9e6003dfbb8a3021bfb92e03ff92c4005f8d033ebb
-# 8 capabilities, 84 providers, 268 typed functions, 20 refused.
+# Manifest version: 22f49dc9e9b882587950db15f627f3f575729414afa3b8cc1189f9e0d3a78ffb
+# 8 capabilities, 84 providers, 269 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6727,6 +6727,38 @@ class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
     website: str | None
     logoUrl: str | None
 
+class Prv_wellfound_getCompany_args_In(TypedDict):
+    slug: str
+
+class Prv_wellfound_wellfoundCompanyDetail_Out(TypedDict):
+    id: str
+    name: str
+    slug: str
+    url: str
+    highConcept: str | None
+    productDescription: str | None
+    companySize: str | None
+    employeesMin: float | None
+    employeesMax: float | None
+    markets: list[str]
+    stage: str | None
+    activelyHiring: bool
+    badges: list[Prv_wellfound_wellfoundCompanyDetail_Out_badges_item_Out]
+    locations: list[Prv_wellfound_wellfoundCompanyDetail_Out_locations_item_Out]
+    remotePolicy: Literal["remote"] | None
+    companyUrl: str | None
+    totalRaisedAmount: float | None
+    logoUrl: str | None
+
+class Prv_wellfound_wellfoundCompanyDetail_Out_badges_item_Out(TypedDict):
+    id: str
+    label: str
+    tooltip: str | None
+
+class Prv_wellfound_wellfoundCompanyDetail_Out_locations_item_Out(TypedDict):
+    slug: str
+    displayName: str
+
 
 class Cap_cars(Protocol):
     """Search car hire at an airport for a date range and get back normalized offers, cheapest
@@ -11088,6 +11120,15 @@ class Prv_wellfound(Protocol):
         — returning the full description, salary band, equity range (both parsed off the header
         chip; equity has no structured-data field on this site), location, remote policy, the
         site's own experience-requirement text and the hiring startup.
+        """
+
+    async def getCompany(self, args: Prv_wellfound_getCompany_args_In, /) -> Prv_wellfound_wellfoundCompanyDetail_Out:
+        """Reads one startup's `/company/<slug>` profile — the longer product description (HTML),
+        the full market tagging, location tags with display names, the explicitly-set Remote
+        policy, total raised, the company's own website, every badge verbatim, and the same
+        `companySize` band `searchCompanies` already decodes — the context a candidate weighs a
+        startup on before applying to it. Takes the `slug` a `searchCompanies` row already
+        carries.
         """
 
 class BowmarkProviders(Protocol):

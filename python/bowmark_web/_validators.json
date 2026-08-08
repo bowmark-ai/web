@@ -1,5 +1,5 @@
 {
-  "version": "3a694380244be9cb9c9afb9e6003dfbb8a3021bfb92e03ff92c4005f8d033ebb",
+  "version": "22f49dc9e9b882587950db15f627f3f575729414afa3b8cc1189f9e0d3a78ffb",
   "units": {
     "cars": {
       "defs": {
@@ -11988,6 +11988,24 @@
               "props": [
                 {
                   "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getCompany": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
                   "schema": {
                     "k": "string"
                   },
