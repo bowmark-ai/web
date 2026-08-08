@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3cd61f82ead23c93c273721f8ef1ce2e0b8d352f9e32f98b9398a3e7dfe635f5
-// 8 capabilities, 81 providers, 265 typed functions, 20 refused.
+// Manifest version: cdd372c5baab6f8207f89d3afd3a0cffd0375370125704432a4e92de7a1f6417
+// 8 capabilities, 81 providers, 266 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9494,17 +9494,71 @@ interface PizzahutMenuItemWeight {
   priceCents: number;          // what THIS option costs on THIS variant — varies by size
 }
 
+// ── getMenu ───────────────────────────────────────────────────────────────
+interface PizzahutMenuArgs {
+  storeNumber: string;
+}
+
+interface PizzahutMenuVariant {
+  variantCode: string;
+  name: string | null;
+  priceCents: number;
+  attributes: string[];  // e.g. ["Original Pan® Pizza", "Personal Pan"]
+}
+
+interface PizzahutMenuListItem {
+  productCode: string;
+  name: string | null;
+  description: string | null;
+  categoryCode: string;
+  categoryName: string;
+  currency: string;
+  variants: PizzahutMenuVariant[];
+}
+
+interface PizzahutMenuCategory {
+  categoryCode: string;
+  categoryName: string;
+  items: PizzahutMenuListItem[];
+}
+
+interface PizzahutMenu {
+  storeNumber: string;
+  currency: string;
+  categories: PizzahutMenuCategory[];
+}
+
   /**
    * Pizza Hut's US ordering site. `findStores` returns the stores serving any US address or ZIP,
    * nearest first, with each one's number, hours, distance, phone and the terms of the carryout
-   * and delivery it offers. `getMenuItem` reads one item's full store-level configuration by
-   * name — every size/crust, and every optional topping/sauce/cheese slot with what each choice
-   * costs on THAT variant. `priceOrder` then prices a basket at one of those stores WITHOUT
-   * placing it — line items, subtotal, sales tax, delivery fee and the real total Pizza Hut
-   * would charge, for carryout or to a delivery address, anonymously. Browsing the full menu
-   * list and reading the current deals are still stubs.
+   * and delivery it offers. `getMenu` reads a store's whole menu — every category, every item,
+   * and every variant's price at THAT store. `getMenuItem` reads one item's full store-level
+   * configuration by name — every size/crust, and every optional topping/sauce/cheese slot with
+   * what each choice costs on THAT variant. `priceOrder` then prices a basket at one of those
+   * stores WITHOUT placing it — line items, subtotal, sales tax, delivery fee and the real total
+   * Pizza Hut would charge, for carryout or to a delivery address, anonymously. Reading the
+   * current deals is still a stub.
    */
   interface Unit {
+    /**
+     * Reads a store's whole menu — every category (pizza, wings, pasta, sides, desserts, drinks,
+     * dips, melts, …), every item in each, and each item's variants with their price AT THAT
+     * STORE, all in cents. `storeNumber` comes from `findStores` and is required because Pizza
+     * Hut's prices are store-level — measured 2026-08-07, the same Pepperoni Pizza was $5.50 /
+     * $20.08 at store 026196 (North Hollywood CA) and $6.69 / $12.99 at store 027278 (Plano TX),
+     * all 11 variants differing between the two, so omitting the store would silently return
+     * whatever default the site happens to serve. One GraphQL read returns the whole menu in a
+     * single ~200 KB response (measured 2026-08-07 on store 026196: 20 categories, 138 items, 731
+     * variants, 731/731 with prices), so no fan-out is needed. Bundle items and bare-variant
+     * category items are out of scope — they are not configurable products — same exclusion as
+     * `flattenProductCatalog`. A variant is the priced configuration (size + crust already in
+     * `variantCode`), so a `variantCode` read here plus a `slotCode` / `modifierCode` /
+     * `modifierWeightCode` triple from `getMenuItem` is everything `priceOrder` needs to price a
+     * configured basket. Wholly anonymous: no account, no session, no identity of any kind, same
+     * guest-token read `priceOrder` and `getMenuItem` use.
+     */
+    getMenu(args: { storeNumber: string }): Promise<PizzahutMenu>;
+
     /**
      * Finds the Pizza Hut stores that serve a US location — each store's number, street address,
      * phone, opening hours, straight-line distance, online status, and the terms of every

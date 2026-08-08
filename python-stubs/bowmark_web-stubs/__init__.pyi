@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3cd61f82ead23c93c273721f8ef1ce2e0b8d352f9e32f98b9398a3e7dfe635f5
-# 8 capabilities, 81 providers, 259 typed functions, 20 refused.
+# Manifest version: cdd372c5baab6f8207f89d3afd3a0cffd0375370125704432a4e92de7a1f6417
+# 8 capabilities, 81 providers, 260 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4653,6 +4653,34 @@ class Prv_pirateship_PirateshipRate_Out_carrier_Out(TypedDict):
 class Prv_pirateship_PirateshipRate_Out_surcharges_item_Out(TypedDict):
     title: str
     price: float
+
+class Prv_pizzahut_getMenu_args_In(TypedDict):
+    storeNumber: str
+
+class Prv_pizzahut_PizzahutMenu_Out(TypedDict):
+    storeNumber: str
+    currency: str
+    categories: list[Prv_pizzahut_PizzahutMenuCategory_Out]
+
+class Prv_pizzahut_PizzahutMenuCategory_Out(TypedDict):
+    categoryCode: str
+    categoryName: str
+    items: list[Prv_pizzahut_PizzahutMenuListItem_Out]
+
+class Prv_pizzahut_PizzahutMenuListItem_Out(TypedDict):
+    productCode: str
+    name: str | None
+    description: str | None
+    categoryCode: str
+    categoryName: str
+    currency: str
+    variants: list[Prv_pizzahut_PizzahutMenuVariant_Out]
+
+class Prv_pizzahut_PizzahutMenuVariant_Out(TypedDict):
+    variantCode: str
+    name: str | None
+    priceCents: float
+    attributes: list[str]
 
 class Prv_pizzahut_findStores_where_u1_In(TypedDict):
     address: NotRequired[str]
@@ -9635,13 +9663,33 @@ class Prv_pirateship(Protocol):
 class Prv_pizzahut(Protocol):
     """Pizza Hut's US ordering site. `findStores` returns the stores serving any US address or
     ZIP, nearest first, with each one's number, hours, distance, phone and the terms of the
-    carryout and delivery it offers. `getMenuItem` reads one item's full store-level
-    configuration by name — every size/crust, and every optional topping/sauce/cheese slot
-    with what each choice costs on THAT variant. `priceOrder` then prices a basket at one of
-    those stores WITHOUT placing it — line items, subtotal, sales tax, delivery fee and the
-    real total Pizza Hut would charge, for carryout or to a delivery address, anonymously.
-    Browsing the full menu list and reading the current deals are still stubs.
+    carryout and delivery it offers. `getMenu` reads a store's whole menu — every category,
+    every item, and every variant's price at THAT store. `getMenuItem` reads one item's full
+    store-level configuration by name — every size/crust, and every optional
+    topping/sauce/cheese slot with what each choice costs on THAT variant. `priceOrder` then
+    prices a basket at one of those stores WITHOUT placing it — line items, subtotal, sales
+    tax, delivery fee and the real total Pizza Hut would charge, for carryout or to a
+    delivery address, anonymously. Reading the current deals is still a stub.
     """
+
+    async def getMenu(self, args: Prv_pizzahut_getMenu_args_In, /) -> Prv_pizzahut_PizzahutMenu_Out:
+        """Reads a store's whole menu — every category (pizza, wings, pasta, sides, desserts,
+        drinks, dips, melts, …), every item in each, and each item's variants with their price
+        AT THAT STORE, all in cents. `storeNumber` comes from `findStores` and is required
+        because Pizza Hut's prices are store-level — measured 2026-08-07, the same Pepperoni
+        Pizza was $5.50 / $20.08 at store 026196 (North Hollywood CA) and $6.69 / $12.99 at
+        store 027278 (Plano TX), all 11 variants differing between the two, so omitting the
+        store would silently return whatever default the site happens to serve. One GraphQL read
+        returns the whole menu in a single ~200 KB response (measured 2026-08-07 on store
+        026196: 20 categories, 138 items, 731 variants, 731/731 with prices), so no fan-out is
+        needed. Bundle items and bare-variant category items are out of scope — they are not
+        configurable products — same exclusion as `flattenProductCatalog`. A variant is the
+        priced configuration (size + crust already in `variantCode`), so a `variantCode` read
+        here plus a `slotCode` / `modifierCode` / `modifierWeightCode` triple from `getMenuItem`
+        is everything `priceOrder` needs to price a configured basket. Wholly anonymous: no
+        account, no session, no identity of any kind, same guest-token read `priceOrder` and
+        `getMenuItem` use.
+        """
 
     async def findStores(self, where: str | Prv_pizzahut_findStores_where_u1_In, options: Prv_pizzahut_findStores_options_In | None = None, /) -> list[Prv_pizzahut_PizzahutStore_Out]:
         """Finds the Pizza Hut stores that serve a US location — each store's number, street

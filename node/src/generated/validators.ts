@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3cd61f82ead23c93c273721f8ef1ce2e0b8d352f9e32f98b9398a3e7dfe635f5
-// 259 checked, 20 unchecked.
+// Manifest version: cdd372c5baab6f8207f89d3afd3a0cffd0375370125704432a4e92de7a1f6417
+// 260 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3cd61f82ead23c93c273721f8ef1ce2e0b8d352f9e32f98b9398a3e7dfe635f5",
+  "version": "cdd372c5baab6f8207f89d3afd3a0cffd0375370125704432a4e92de7a1f6417",
   "units": {
     "cars": {
       "defs": {
@@ -6995,6 +6995,24 @@ export const VALIDATORS: ValidatorTable = {
     "providers.pizzahut": {
       "defs": {},
       "functions": {
+        "getMenu": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "storeNumber",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "findStores": [
           {
             "name": "where",
