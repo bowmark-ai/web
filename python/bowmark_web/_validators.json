@@ -1,5 +1,5 @@
 {
-  "version": "22f49dc9e9b882587950db15f627f3f575729414afa3b8cc1189f9e0d3a78ffb",
+  "version": "d9acc5809ab549282c88f27ef4d9e4ee0b049e6d20cc0c818df21e4e291bf36b",
   "units": {
     "cars": {
       "defs": {
@@ -3138,6 +3138,15 @@
           }
         ],
         "getVehicle": [
+          {
+            "name": "vin",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getRecalls": [
           {
             "name": "vin",
             "schema": {

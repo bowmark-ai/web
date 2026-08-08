@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 22f49dc9e9b882587950db15f627f3f575729414afa3b8cc1189f9e0d3a78ffb
-# 8 capabilities, 84 providers, 269 typed functions, 20 refused.
+# Manifest version: d9acc5809ab549282c88f27ef4d9e4ee0b049e6d20cc0c818df21e4e291bf36b
+# 8 capabilities, 84 providers, 270 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2162,6 +2162,38 @@ class Prv_ford_fordVehicleImage_Out(TypedDict):
 class Prv_ford_fordVehicleOptionPackage_Out(TypedDict):
     name: str
     msrp: float | None
+
+class Prv_ford_fordVehicleRecalls_Out(TypedDict):
+    vin: str
+    vehicle: Prv_ford_fordVehicleRecalls_Out_vehicle_Out
+    recalls: list[Prv_ford_fordRecallRecord_Out]
+    customerSatisfactionPrograms: list[Prv_ford_fordRecallRecord_Out]
+    counts: Prv_ford_fordVehicleRecalls_Out_counts_Out
+    noRecalls: bool
+    apiError: bool
+    warnings: list[str]
+
+class Prv_ford_fordVehicleRecalls_Out_vehicle_Out(TypedDict):
+    year: str | None
+    make: str | None
+    model: str | None
+    bodyStyle: str | None
+    fuelType: str | None
+
+class Prv_ford_fordRecallRecord_Out(TypedDict):
+    campaignNumber: str | None
+    title: str | None
+    issueDate: str | None
+    description: str | None
+    safetyRisk: str | None
+    remedy: str | None
+    status: str | None
+    isCustomerSatisfactionProgram: bool
+
+class Prv_ford_fordVehicleRecalls_Out_counts_Out(TypedDict):
+    recallsCount: float
+    cspCount: float
+    totalFsaCount: float
 
 class Prv_framebridge_FramebridgeFrameStyle_Out(TypedDict):
     productId: str
@@ -7986,7 +8018,7 @@ class Prv_ford(Protocol):
     """Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
     VIN, the model/trim directory and its paint palette, the build-and-price configurator,
     model specs and MSRP, current incentives, the dealer locator, and recall lookup by VIN.
-    Four functions are callable now. The dealer locator returns Ford dealers near a US ZIP
+    Five functions are callable now. The dealer locator returns Ford dealers near a US ZIP
     with full address, phone, coordinates, per-day sales and service hours, Ford's own
     capability flags (EV-certified, commercial fleet, pickup-and-delivery) and links to the
     dealer's own site and inventory. The nameplate directory returns every Ford model
@@ -8000,7 +8032,12 @@ class Prv_ford(Protocol):
     dealer's contact details, the FULL image set (exterior AND interior, not just the one
     card image a search result carries) and every option package — and returns `null` rather
     than throwing when Ford reports the vehicle sold or removed, which its own docs call a
-    real, non-retryable answer. The other five declared functions are still stubs.
+    real, non-retryable answer. `getRecalls` returns the open safety recalls and Customer
+    Satisfaction Programs Ford has published against a VIN — campaign number, issue date,
+    description, safety risk and remedy for each — splitting regulator-mandated recalls from
+    Ford's own goodwill FSAs, with `null` for a well-formed VIN Ford has no record of and an
+    empty result (no recalls, no FSAs) for a known VIN with no open actions. The other four
+    declared functions are still stubs.
     """
 
     # UNTYPED, DELIBERATELY OMITTED — `findDealers` declares no types for its
@@ -8039,6 +8076,22 @@ class Prv_ford(Protocol):
         `VEHICLE_NOT_FOUND`: Ford's own docs call a 404 here "sold or removed... not a retryable
         error", so a vehicle that sold between search and read is a real, unsurprising answer
         rather than a failure.
+        """
+
+    async def getRecalls(self, vin: str, /) -> Prv_ford_fordVehicleRecalls_Out | None:
+        """Reads the open safety recalls and Customer Satisfaction Programs (FSAs) Ford has
+        published against one specific VIN, and what each one says to do — the same answer an
+        owner or a used-car buyer gets on Ford's owner-support recalls page. `vin` is required
+        and locally validated against the same 17-character pattern `getVehicle` uses (A-H, J-N,
+        P, R-Z, 0-9). Returns `null` — not an error — when the VIN is well-formed but unknown to
+        Ford (the page sets `isVinInvalid: true`); the call surfaces `noRecalls: true` for a
+        known VIN with no open actions, and the response separates regulator-mandated `recalls`
+        from optional `customerSatisfactionPrograms` (the latter are Ford's free goodwill fixes,
+        NOT safety recalls). Each record carries Ford's own campaign number, issue date, the
+        free-form description, the stated safety risk, the prescribed remedy, and the status
+        Ford reports. When Ford's recall upstream fails, the call returns a successful shape
+        with `apiError: true` and the upstream's own error message in `warnings` — a transient
+        5xx shouldn't kill the caller. No sign-in: the page is public.
         """
 
 class Prv_framebridge(Protocol):

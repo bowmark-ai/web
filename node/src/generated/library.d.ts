@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 22f49dc9e9b882587950db15f627f3f575729414afa3b8cc1189f9e0d3a78ffb
-// 8 capabilities, 84 providers, 275 typed functions, 20 refused.
+// Manifest version: d9acc5809ab549282c88f27ef4d9e4ee0b049e6d20cc0c818df21e4e291bf36b
+// 8 capabilities, 84 providers, 276 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3884,10 +3884,50 @@ interface fordVehicle {
   optionPackages: fordVehicleOptionPackage[];
 }
 
+interface fordRecallRecord {
+  /** Ford's own campaign identifier, e.g. "23S37", "26S48". */
+  campaignNumber: string | null;
+  title: string | null;
+  /** Issue date as Ford stores it. */
+  issueDate: string | null;
+  description: string | null;
+  safetyRisk: string | null;
+  remedy: string | null;
+  status: string | null;
+  /** True when this is a Field Service Action / Customer Satisfaction Program
+   *  (an FSA, NOT a regulator-mandated recall). */
+  isCustomerSatisfactionProgram: boolean;
+}
+
+interface fordVehicleRecalls {
+  vin: string;
+  vehicle: {
+    year: string | null;
+    make: string | null;
+    model: string | null;
+    bodyStyle: string | null;
+    fuelType: string | null;
+  };
+  recalls: fordRecallRecord[];
+  customerSatisfactionPrograms: fordRecallRecord[];
+  counts: {
+    recallsCount: number;
+    cspCount: number;
+    totalFsaCount: number;
+  };
+  /** True when the page acknowledges an empty result for this VIN (no
+   *  recalls, no FSAs) rather than an error. Ford's own empty-state copy. */
+  noRecalls: boolean;
+  /** True when the upstream recall service failed to answer — the page
+   *  surfaces its own API-error message in that case. */
+  apiError: boolean;
+  warnings: string[];
+}
+
   /**
    * Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
    * VIN, the model/trim directory and its paint palette, the build-and-price configurator, model
-   * specs and MSRP, current incentives, the dealer locator, and recall lookup by VIN. Four
+   * specs and MSRP, current incentives, the dealer locator, and recall lookup by VIN. Five
    * functions are callable now. The dealer locator returns Ford dealers near a US ZIP with full
    * address, phone, coordinates, per-day sales and service hours, Ford's own capability flags
    * (EV-certified, commercial fleet, pickup-and-delivery) and links to the dealer's own site and
@@ -3901,8 +3941,12 @@ interface fordVehicle {
    * disclaimer, availability, the holding dealer's contact details, the FULL image set (exterior
    * AND interior, not just the one card image a search result carries) and every option package
    * — and returns `null` rather than throwing when Ford reports the vehicle sold or removed,
-   * which its own docs call a real, non-retryable answer. The other five declared functions are
-   * still stubs.
+   * which its own docs call a real, non-retryable answer. `getRecalls` returns the open safety
+   * recalls and Customer Satisfaction Programs Ford has published against a VIN — campaign
+   * number, issue date, description, safety risk and remedy for each — splitting
+   * regulator-mandated recalls from Ford's own goodwill FSAs, with `null` for a well-formed VIN
+   * Ford has no record of and an empty result (no recalls, no FSAs) for a known VIN with no open
+   * actions. The other four declared functions are still stubs.
    */
   interface Unit {
     // UNTYPED, DELIBERATELY OMITTED — `findDealers({ near, radiusMiles, limit })` declares no types for
@@ -3943,6 +3987,23 @@ interface fordVehicle {
      * between search and read is a real, unsurprising answer rather than a failure.
      */
     getVehicle(vin: string): Promise<fordVehicle | null>;
+
+    /**
+     * Reads the open safety recalls and Customer Satisfaction Programs (FSAs) Ford has published
+     * against one specific VIN, and what each one says to do — the same answer an owner or a
+     * used-car buyer gets on Ford's owner-support recalls page. `vin` is required and locally
+     * validated against the same 17-character pattern `getVehicle` uses (A-H, J-N, P, R-Z, 0-9).
+     * Returns `null` — not an error — when the VIN is well-formed but unknown to Ford (the page
+     * sets `isVinInvalid: true`); the call surfaces `noRecalls: true` for a known VIN with no open
+     * actions, and the response separates regulator-mandated `recalls` from optional
+     * `customerSatisfactionPrograms` (the latter are Ford's free goodwill fixes, NOT safety
+     * recalls). Each record carries Ford's own campaign number, issue date, the free-form
+     * description, the stated safety risk, the prescribed remedy, and the status Ford reports.
+     * When Ford's recall upstream fails, the call returns a successful shape with `apiError: true`
+     * and the upstream's own error message in `warnings` — a transient 5xx shouldn't kill the
+     * caller. No sign-in: the page is public.
+     */
+    getRecalls(vin: string): Promise<fordVehicleRecalls | null>;
   }
 }
 
