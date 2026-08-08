@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d9acc5809ab549282c88f27ef4d9e4ee0b049e6d20cc0c818df21e4e291bf36b
-// 8 capabilities, 84 providers, 276 typed functions, 20 refused.
+// Manifest version: ab71ed27440532da81e0c8f70c145415b59d101a2e5f7cca530fc9949dcb88e0
+// 8 capabilities, 84 providers, 277 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1466,9 +1466,27 @@ interface AvisLocationRow {
   relPath: string | null;
 }
 
+interface AvisLocationDetail extends AvisLocationRow {
+  hoursOfOperation: {
+    dayOfWeek: number;
+    day: "SUNDAY" | "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY";
+    intervals: { openMinute: number; closeMinute: number }[];
+    isClosed: boolean;
+  }[];
+  holidays: { scheduleName: string; date: string }[];
+  associatedLocation: { mnemonic: string | null; name: string | null } | null;
+  isCorporate: boolean;
+  isSelfServiceKiosk: boolean;
+  isFreePickup: boolean;
+  isTruck: boolean;
+  isAvisFirstLocation: boolean;
+  maxLengthOfRental: number | null;
+  locationVehicleCategory: string | null;
+}
+
   /**
    * Car rental — availability search, existing-reservation lookup and location directory on
-   * avis.com. searchLocations is live; the rest are stubs.
+   * avis.com. searchLocations and getLocation are live; the rest are stubs.
    */
   interface Unit {
     /**
@@ -1479,6 +1497,17 @@ interface AvisLocationRow {
      * address, phone and coordinates. Empty array on no match, never an error.
      */
     searchLocations(args: object): Promise<AvisLocationRow[]>;
+
+    /**
+     * Reads one Avis rental location in full off the site's own location-search API for a station
+     * code (`mnemonic`, e.g. "ORD"). For an airport code, `cityName` is optional and the mnemonic
+     * itself is used; for a non-airport mnemonic the caller must pass the city from a prior
+     * `searchLocations` row. Returns the row's address, phone, latitude/longitude, opening hours
+     * per day (with split shifts that wrap midnight), the holiday schedule, the after-hours
+     * sibling (`associatedLocation`), and the full set of service flags (24h drop-off, key drop,
+     * self-service kiosk, corporate, free pickup, truck, Avis First).
+     */
+    getLocation(args: object): Promise<AvisLocationDetail>;
   }
 }
 

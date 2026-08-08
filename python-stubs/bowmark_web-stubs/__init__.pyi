@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d9acc5809ab549282c88f27ef4d9e4ee0b049e6d20cc0c818df21e4e291bf36b
-# 8 capabilities, 84 providers, 270 typed functions, 20 refused.
+# Manifest version: ab71ed27440532da81e0c8f70c145415b59d101a2e5f7cca530fc9949dcb88e0
+# 8 capabilities, 84 providers, 271 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -967,6 +967,56 @@ class Prv_avis_AvisLocationRow_Out_address_Out(TypedDict):
     postalCode: str | None
     countryCode: str | None
     countryName: str | None
+
+class Prv_avis_AvisLocationDetail_Out(TypedDict):
+    mnemonic: str
+    name: str
+    group: str
+    address: Prv_avis_AvisLocationDetail_Out_address_Out
+    phone: str | None
+    latitude: float | None
+    longitude: float | None
+    drivableDistanceMiles: float | None
+    is24hoursDropOffAvailable: bool
+    isKeyDropLocation: bool
+    relPath: str | None
+    hoursOfOperation: list[Prv_avis_AvisLocationDetail_Out_hoursOfOperation_item_Out]
+    holidays: list[Prv_avis_AvisLocationDetail_Out_holidays_item_Out]
+    associatedLocation: Prv_avis_AvisLocationDetail_Out_associatedLocation_u0_Out | None
+    isCorporate: bool
+    isSelfServiceKiosk: bool
+    isFreePickup: bool
+    isTruck: bool
+    isAvisFirstLocation: bool
+    maxLengthOfRental: float | None
+    locationVehicleCategory: str | None
+
+class Prv_avis_AvisLocationDetail_Out_address_Out(TypedDict):
+    line1: str
+    line2: str | None
+    city: str
+    stateCode: str | None
+    postalCode: str | None
+    countryCode: str | None
+    countryName: str | None
+
+class Prv_avis_AvisLocationDetail_Out_hoursOfOperation_item_Out(TypedDict):
+    dayOfWeek: float
+    day: Literal["SUNDAY"] | Literal["MONDAY"] | Literal["TUESDAY"] | Literal["WEDNESDAY"] | Literal["THURSDAY"] | Literal["FRIDAY"] | Literal["SATURDAY"]
+    intervals: list[Prv_avis_AvisLocationDetail_Out_hoursOfOperation_item_Out_intervals_item_Out]
+    isClosed: bool
+
+class Prv_avis_AvisLocationDetail_Out_hoursOfOperation_item_Out_intervals_item_Out(TypedDict):
+    openMinute: float
+    closeMinute: float
+
+class Prv_avis_AvisLocationDetail_Out_holidays_item_Out(TypedDict):
+    scheduleName: str
+    date: str
+
+class Prv_avis_AvisLocationDetail_Out_associatedLocation_u0_Out(TypedDict):
+    mnemonic: str | None
+    name: str | None
 
 class Prv_azure_AzurePricingFilters_In(TypedDict):
     serviceName: NotRequired[str]
@@ -7257,7 +7307,7 @@ class Prv_ashleyfurniture(Protocol):
 
 class Prv_avis(Protocol):
     """Car rental — availability search, existing-reservation lookup and location directory on
-    avis.com. searchLocations is live; the rest are stubs.
+    avis.com. searchLocations and getLocation are live; the rest are stubs.
     """
 
     async def searchLocations(self, args: Any, /) -> list[Prv_avis_AvisLocationRow_Out]:
@@ -7266,6 +7316,17 @@ class Prv_avis(Protocol):
         site's own location-search API, optionally narrowed to one US state (`stateCode`).
         Returns each match's station code, display name, site grouping (airport, neighbourhood,
         city dock, …), address, phone and coordinates. Empty array on no match, never an error.
+        """
+
+    async def getLocation(self, args: Any, /) -> Prv_avis_AvisLocationDetail_Out:
+        """Reads one Avis rental location in full off the site's own location-search API for a
+        station code (`mnemonic`, e.g. "ORD"). For an airport code, `cityName` is optional and
+        the mnemonic itself is used; for a non-airport mnemonic the caller must pass the city
+        from a prior `searchLocations` row. Returns the row's address, phone,
+        latitude/longitude, opening hours per day (with split shifts that wrap midnight), the
+        holiday schedule, the after-hours sibling (`associatedLocation`), and the full set of
+        service flags (24h drop-off, key drop, self-service kiosk, corporate, free pickup,
+        truck, Avis First).
         """
 
 class Prv_azure(Protocol):

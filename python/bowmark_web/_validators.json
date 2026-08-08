@@ -1,5 +1,5 @@
 {
-  "version": "d9acc5809ab549282c88f27ef4d9e4ee0b049e6d20cc0c818df21e4e291bf36b",
+  "version": "ab71ed27440532da81e0c8f70c145415b59d101a2e5f7cca530fc9949dcb88e0",
   "units": {
     "cars": {
       "defs": {
@@ -1550,6 +1550,15 @@
       "defs": {},
       "functions": {
         "searchLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "getLocation": [
           {
             "name": "args",
             "schema": {

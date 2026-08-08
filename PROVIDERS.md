@@ -29,7 +29,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ashleyfurniture.search` | ashleyfurniture.com | Searches or browses Ashley's furniture and home-goods catalog by keyword or category… | 🟢 |
 | `ashleyfurniture.trackOrder` | ashleyfurniture.com | Looks up the status of a placed order (order number plus email or ZIP, no sign-in) —… | ⚪ |
 | `avis.getDeals` | avis.com | Reads Avis's current published promotions and discount codes — the site's own "Deals &… | ⚪ |
-| `avis.getLocation` | avis.com | Reads one Avis rental location in full — full address, phone number, opening hours… | ⚪ |
+| `avis.getLocation` | avis.com | Reads one Avis rental location in full off the site's own location-search API for a… | 🟢 |
 | `avis.getReservation` | avis.com | Reads an existing Avis reservation the way the site's own "View / Modify / Cancel"… | ⚪ |
 | `avis.search` | avis.com | Searches Avis's live car rental availability the way its own booking widget does —… | ⚪ |
 | `avis.searchLocations` | avis.com | Finds Avis rental locations matching a full city name or an airport code (`query`… | 🟢 |
