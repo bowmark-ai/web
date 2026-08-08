@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 18ca1675e1143cf2426f5ab127c24a8e0e50f68bf4c2acff2c87a7ae175cb73e
-# 8 capabilities, 84 providers, 272 typed functions, 20 refused.
+# Manifest version: ae8359e42ed528861a46983e3a1e7a14682931dd20cbda9cf4f41d3af3623cec
+# 8 capabilities, 84 providers, 273 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1331,6 +1331,32 @@ class Prv_cancer_cancerInfoSummaryResult_Out(TypedDict):
 class Prv_cancer_cancerInfoSection_Out(TypedDict):
     heading: str
     text: str
+
+class Prv_cars_search_args_In(TypedDict):
+    zipCode: NotRequired[str]
+    radiusMiles: NotRequired[float]
+    stockType: NotRequired[Literal["new"] | Literal["used"] | Literal["cpo"]]
+    make: NotRequired[str]
+    model: NotRequired[str]
+    maxPrice: NotRequired[str]
+    minPrice: NotRequired[str]
+    maxMileage: NotRequired[str]
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+    sort: NotRequired[str]
+
+class Prv_cars_carsSearch_Out(TypedDict):
+    appliedFilters: list[Prv_cars_carsSearch_Out_appliedFilters_item_Out]
+    totalListings: float
+    totalPages: float
+    page: float
+    pageSize: float
+    sort: str | None
+    listingIds: list[str]
+
+class Prv_cars_carsSearch_Out_appliedFilters_item_Out(TypedDict):
+    filter: str
+    value: str | None
 
 class Prv_cars_carsListing_Out(TypedDict):
     id: str
@@ -7584,6 +7610,13 @@ class Prv_cars(Protocol):
     per-model research (trims, specs, expert and owner reviews). Two functions are built:
     reading a single listing in full by its id, and one model year's research overview.
     """
+
+    async def search(self, args: Prv_cars_search_args_In, /) -> Prv_cars_carsSearch_Out:
+        """Searches Cars.com's live for-sale inventory the way its own shopping results page does —
+        by ZIP and radius, new / used / certified-pre-owned, make, model, price, mileage — and
+        returns the matching listing ids (each one is a getListing argument verbatim), the total
+        match count across all pages, and the filter set the service actually applied.
+        """
 
     async def getListing(self, listingId: str, /) -> Prv_cars_carsListing_Out:
         """Reads one cars.com listing in full by its id (the uuid in a /vehicledetail/<id>/ url):

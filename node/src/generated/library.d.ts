@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 18ca1675e1143cf2426f5ab127c24a8e0e50f68bf4c2acff2c87a7ae175cb73e
-// 8 capabilities, 84 providers, 278 typed functions, 20 refused.
+// Manifest version: ae8359e42ed528861a46983e3a1e7a14682931dd20cbda9cf4f41d3af3623cec
+// 8 capabilities, 84 providers, 279 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2158,6 +2158,15 @@ interface carsListing {
   hotCar: boolean | null;
   dealer: { name: string | null; status: string | null } | null;
 }
+interface carsSearch {
+  appliedFilters: { filter: string; value: string | null }[];
+  totalListings: number;
+  totalPages: number;
+  page: number;
+  pageSize: number;
+  sort: string | null;
+  listingIds: string[];
+}
 interface carsModelResearch {
   year: number;
   make: string;
@@ -2181,6 +2190,14 @@ interface carsModelResearch {
    * listing in full by its id, and one model year's research overview.
    */
   interface Unit {
+    /**
+     * Searches Cars.com's live for-sale inventory the way its own shopping results page does — by
+     * ZIP and radius, new / used / certified-pre-owned, make, model, price, mileage — and returns
+     * the matching listing ids (each one is a getListing argument verbatim), the total match count
+     * across all pages, and the filter set the service actually applied.
+     */
+    search(args: { zipCode?: string; radiusMiles?: number; stockType?: 'new' | 'used' | 'cpo'; make?: string; model?: string; maxPrice?: string; minPrice?: string; maxMileage?: string; page?: number; pageSize?: number; sort?: string }): Promise<carsSearch>;
+
     /**
      * Reads one cars.com listing in full by its id (the uuid in a /vehicledetail/<id>/ url): VIN,
      * asking price, mileage, year/make/model, stock number, CPO status, EPA highway mpg, the
