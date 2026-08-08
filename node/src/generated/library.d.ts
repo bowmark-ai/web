@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: eddacbee4ec5ce1feb27d8ff746e5f8c704f4992ad32c378422dd4d6437cfee6
-// 8 capabilities, 84 providers, 280 typed functions, 20 refused.
+// Manifest version: a3c2bf09e8408f9598506f4c46053f2c0a0661050475c28638059be4e2cd33a4
+// 8 capabilities, 84 providers, 281 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1982,6 +1982,16 @@ interface BmwusaOffersResult {
   offers: BmwusaOffer[];
 }
 
+interface BmwusaModelListing {
+  name: string;
+  url: string;
+  bodyStyle: string | null;
+  powertrain: "electric" | "plugInHybrid" | "performance" | "gasoline" | null;
+  msrpFrom: number | null;
+  msrpTo: number | null;
+  trimCount: number;
+}
+
   /**
    * BMW US car shopping: the Build Your Own configurator and its option pricing, live VIN-level
    * new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with trims and
@@ -2028,6 +2038,17 @@ interface BmwusaOffersResult {
      * credit) terms, exactly as bmwusa.com's own /special-offers.html widget resolves them.
      */
     listOffers(zip: string): Promise<BmwusaOffersResult>;
+
+    /**
+     * Lists BMW's current US lineup — every model BMW sells, with its bmwusa.com model-overview
+     * URL, body style, powertrain category (electric / plug-in hybrid / performance / gasoline)
+     * and starting MSRP band — so an agent can resolve a person's vague 'a BMW SUV under $60k'
+     * into the specific models that exist, with their real prices, before looking up any one of
+     * them. Reads /all-bmws.html for the 49-card catalog, then fans out (concurrency 5) to each
+     * model-overview page for MSRP; pages with no trim table (BMW iX, certain M models) still
+     * appear in the result with null MSRPs and null body style rather than dropping the model.
+     */
+    listModels(): Promise<BmwusaModelListing[]>;
   }
 }
 

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: eddacbee4ec5ce1feb27d8ff746e5f8c704f4992ad32c378422dd4d6437cfee6
-// 274 checked, 20 unchecked.
+// Manifest version: a3c2bf09e8408f9598506f4c46053f2c0a0661050475c28638059be4e2cd33a4
+// 275 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "eddacbee4ec5ce1feb27d8ff746e5f8c704f4992ad32c378422dd4d6437cfee6",
+  "version": "a3c2bf09e8408f9598506f4c46053f2c0a0661050475c28638059be4e2cd33a4",
   "units": {
     "cars": {
       "defs": {
@@ -1969,7 +1969,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listModels": []
       }
     },
     "providers.cancer": {

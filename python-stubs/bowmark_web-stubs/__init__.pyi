@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eddacbee4ec5ce1feb27d8ff746e5f8c704f4992ad32c378422dd4d6437cfee6
-# 8 capabilities, 84 providers, 274 typed functions, 20 refused.
+# Manifest version: a3c2bf09e8408f9598506f4c46053f2c0a0661050475c28638059be4e2cd33a4
+# 8 capabilities, 84 providers, 275 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1299,6 +1299,15 @@ class Prv_bmwusa_BmwusaFinanceOffer_Out(TypedDict):
 class Prv_bmwusa_BmwusaOfferTier_Out(TypedDict):
     apr: float
     months: float
+
+class Prv_bmwusa_BmwusaModelListing_Out(TypedDict):
+    name: str
+    url: str
+    bodyStyle: str | None
+    powertrain: Literal["electric"] | Literal["plugInHybrid"] | Literal["performance"] | Literal["gasoline"] | None
+    msrpFrom: float | None
+    msrpTo: float | None
+    trimCount: float
 
 class Prv_cancer_findCancerCenters_args_In(TypedDict):
     state: NotRequired[str]
@@ -7581,6 +7590,17 @@ class Prv_bmwusa(Protocol):
         payment, term, MSRP, down payment, due-at-signing, allowed miles, loyalty credit) and/or
         finance (APR tiers, loyalty credit) terms, exactly as bmwusa.com's own
         /special-offers.html widget resolves them.
+        """
+
+    async def listModels(self, /) -> list[Prv_bmwusa_BmwusaModelListing_Out]:
+        """Lists BMW's current US lineup — every model BMW sells, with its bmwusa.com
+        model-overview URL, body style, powertrain category (electric / plug-in hybrid /
+        performance / gasoline) and starting MSRP band — so an agent can resolve a person's
+        vague 'a BMW SUV under $60k' into the specific models that exist, with their real
+        prices, before looking up any one of them. Reads /all-bmws.html for the 49-card catalog,
+        then fans out (concurrency 5) to each model-overview page for MSRP; pages with no trim
+        table (BMW iX, certain M models) still appear in the result with null MSRPs and null
+        body style rather than dropping the model.
         """
 
 class Prv_cancer(Protocol):
