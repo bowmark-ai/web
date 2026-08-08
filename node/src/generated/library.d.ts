@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1e2a61477243138bb0b5e9eae8f7b6d6143fb88ef1b7a6dcc98c6803278b11aa
-// 8 capabilities, 82 providers, 271 typed functions, 20 refused.
+// Manifest version: 7ddf0467c5845a0cd819d9416dd3282acf9a8fc505c25569498b750248dffd58
+// 8 capabilities, 83 providers, 273 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11664,6 +11664,80 @@ interface StatefarmBusinessCoverage {
   }
 }
 
+declare namespace BowmarkProvider_stickergiant {
+  // ── StickerGiant — the unit's own declarations, verbatim ──
+// StickerGiant's OWN shape — not a capability contract.
+
+interface StickergiantListArgs {
+  format?: string;              // optional material code filter, e.g. "WHP"
+}
+
+interface StickergiantProduct {
+  url: string;                  // The configurator's own entry URL — durable key
+  name: string;                 // "Individual Stickers (Die Cut) - White"
+  sku: string;                  // The site's own material code, e.g. "WHP"
+  priceUsd: string;             // "$37.90" — per-100 stickers starting price
+  priceValue: number;           // Same number unformatted
+  priceCurrency: string;        // "USD"
+  availability: string;         // Schema.org URL, e.g. "https://schema.org/InStock"
+  imageUrl: string;
+}
+
+interface StickergiantBuild {
+  widthInches: number;          // required, from SITE_SIZES
+  heightInches: number;         // required, from SITE_SIZES
+  lamination: "OGL" | "MAL";    // required — Outdoor Gloss / Matte
+  quantity?: number;            // optional — omit for the full 15-tier ladder back
+}
+
+interface StickergiantQuantityPrice {
+  quantity: number;
+  price: number;                // the pricing engine's own total (not the rendered 'Total')
+  pricePerUnit: number;
+}
+
+interface StickergiantPriceResult {
+  selections: {                 // echoes back what the engine actually priced
+    widthInches: number;
+    heightInches: number;
+    lamination: "OGL" | "MAL";
+    product: string;            // "DCU" — the only product the API honors
+    material: string;           // "WHP" — the only material the API honors
+  };
+  selectedQuantity?: StickergiantQuantityPrice;  // when caller passed quantity
+  quantityPrices: StickergiantQuantityPrice[];   // always: the full 15-tier ladder
+}
+
+  /**
+   * StickerGiant's sticker configurator and its published catalog — every sticker SKU on
+   * /custom-stickers with its real starting price, material code and configurator entry URL.
+   */
+  interface Unit {
+    /**
+     * Lists every sticker SKU the /custom-stickers page publishes — name, the configurator's
+     * material URL, the site's own material code (sku), the per-100-stickers starting price the
+     * page carries in its schema.org Product block, the price currency, availability, and the
+     * page's hero image. Optional { format } restricts to one material code (e.g. 'WHP' for Die
+     * Cut White). THROWS rather than returning [] when the page carries no schema.org Product
+     * blocks or when the format filter names an unknown code — both are honest failure modes and
+     * an empty array would read as 'StickerGiant sells no stickers', which is the
+     * confident-wrong-answer failure this provider exists to avoid.
+     */
+    listStickerProducts(args?: StickergiantListArgs): Promise<StickergiantProduct[]>;
+
+    /**
+     * Prices one exact custom-sticker build against Sticker Giant's own live pricing backend (POST
+     * prod.pricing-backend.service.stickergiant.com/item) and returns the full 15-tier quantity
+     * ladder — each tier's price and price-per-unit. With a `quantity` passed, the response also
+     * carries a `selectedQuantity` with the priced value for that exact qty. The returned `price`
+     * is the pricing engine's own canonical number (not the rendered 'Total' on the page, which
+     * carries a small UI markup). THROWS on a missing lamination or out-of-range width/height —
+     * both are caller-fixable.
+     */
+    priceCustomSticker(build: StickergiantBuild): Promise<StickergiantPriceResult>;
+  }
+}
+
 declare namespace BowmarkProvider_sunhomesaunas {
   // ── Sun Home Saunas — the unit's own declarations, verbatim ──
 // Sun Home Saunas' OWN shapes — not a capability contract.
@@ -13157,6 +13231,7 @@ interface BowmarkProviders {
   semihandmade: BowmarkProvider_semihandmade.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
+  stickergiant: BowmarkProvider_stickergiant.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
   tentree: BowmarkProvider_tentree.Unit;

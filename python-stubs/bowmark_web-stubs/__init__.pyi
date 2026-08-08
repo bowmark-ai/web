@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1e2a61477243138bb0b5e9eae8f7b6d6143fb88ef1b7a6dcc98c6803278b11aa
-# 8 capabilities, 82 providers, 265 typed functions, 20 refused.
+# Manifest version: 7ddf0467c5845a0cd819d9416dd3282acf9a8fc505c25569498b750248dffd58
+# 8 capabilities, 83 providers, 267 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5957,6 +5957,42 @@ class Prv_statefarm_StatefarmBusinessCoverage_Out(TypedDict):
     selected: bool
     required: bool
 
+class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
+    format: NotRequired[str]
+
+class Prv_stickergiant_StickergiantProduct_Out(TypedDict):
+    url: str
+    name: str
+    sku: str
+    priceUsd: str
+    priceValue: float
+    priceCurrency: str
+    availability: str
+    imageUrl: str
+
+class Prv_stickergiant_StickergiantBuild_In(TypedDict):
+    widthInches: float
+    heightInches: float
+    lamination: Literal["OGL"] | Literal["MAL"]
+    quantity: NotRequired[float]
+
+class Prv_stickergiant_StickergiantPriceResult_Out(TypedDict):
+    selections: Prv_stickergiant_StickergiantPriceResult_Out_selections_Out
+    selectedQuantity: NotRequired[Prv_stickergiant_StickergiantQuantityPrice_Out]
+    quantityPrices: list[Prv_stickergiant_StickergiantQuantityPrice_Out]
+
+class Prv_stickergiant_StickergiantPriceResult_Out_selections_Out(TypedDict):
+    widthInches: float
+    heightInches: float
+    lamination: Literal["OGL"] | Literal["MAL"]
+    product: str
+    material: str
+
+class Prv_stickergiant_StickergiantQuantityPrice_Out(TypedDict):
+    quantity: float
+    price: float
+    pricePerUnit: float
+
 class Prv_sunhomesaunas_SunHomeSaunasQuizQuestion_Out(TypedDict):
     id: str
     title: str
@@ -10551,6 +10587,32 @@ class Prv_statefarm(Protocol):
         workers' comp, contractors or farm-and-ranch.
         """
 
+class Prv_stickergiant(Protocol):
+    """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
+    /custom-stickers with its real starting price, material code and configurator entry URL.
+    """
+
+    async def listStickerProducts(self, args: Prv_stickergiant_StickergiantListArgs_In | None = None, /) -> list[Prv_stickergiant_StickergiantProduct_Out]:
+        """Lists every sticker SKU the /custom-stickers page publishes — name, the configurator's
+        material URL, the site's own material code (sku), the per-100-stickers starting price
+        the page carries in its schema.org Product block, the price currency, availability, and
+        the page's hero image. Optional { format } restricts to one material code (e.g. 'WHP'
+        for Die Cut White). THROWS rather than returning [] when the page carries no schema.org
+        Product blocks or when the format filter names an unknown code — both are honest failure
+        modes and an empty array would read as 'StickerGiant sells no stickers', which is the
+        confident-wrong-answer failure this provider exists to avoid.
+        """
+
+    async def priceCustomSticker(self, build: Prv_stickergiant_StickergiantBuild_In, /) -> Prv_stickergiant_StickergiantPriceResult_Out:
+        """Prices one exact custom-sticker build against Sticker Giant's own live pricing backend
+        (POST prod.pricing-backend.service.stickergiant.com/item) and returns the full 15-tier
+        quantity ladder — each tier's price and price-per-unit. With a `quantity` passed, the
+        response also carries a `selectedQuantity` with the priced value for that exact qty. The
+        returned `price` is the pricing engine's own canonical number (not the rendered 'Total'
+        on the page, which carries a small UI markup). THROWS on a missing lamination or
+        out-of-range width/height — both are caller-fixable.
+        """
+
 class Prv_sunhomesaunas(Protocol):
     """Sun Home Saunas' real Perfect Product Finder quiz — the site's own 5-question buyer
     quiz, its real server-computed ranked product matches with live prices, and a real
@@ -11086,6 +11148,7 @@ class BowmarkProviders(Protocol):
     semihandmade: Prv_semihandmade
     soundcloud: Prv_soundcloud
     statefarm: Prv_statefarm
+    stickergiant: Prv_stickergiant
     sunhomesaunas: Prv_sunhomesaunas
     teladoc: Prv_teladoc
     tentree: Prv_tentree

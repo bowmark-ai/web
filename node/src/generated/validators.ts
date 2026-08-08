@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1e2a61477243138bb0b5e9eae8f7b6d6143fb88ef1b7a6dcc98c6803278b11aa
-// 265 checked, 20 unchecked.
+// Manifest version: 7ddf0467c5845a0cd819d9416dd3282acf9a8fc505c25569498b750248dffd58
+// 267 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1e2a61477243138bb0b5e9eae8f7b6d6143fb88ef1b7a6dcc98c6803278b11aa",
+  "version": "7ddf0467c5845a0cd819d9416dd3282acf9a8fc505c25569498b750248dffd58",
   "units": {
     "cars": {
       "defs": {
@@ -11135,6 +11135,87 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "StatefarmBusinessQuoteQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.stickergiant": {
+      "defs": {
+        "StickergiantBuild": {
+          "k": "object",
+          "props": [
+            {
+              "name": "widthInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "heightInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lamination",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "OGL"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "MAL"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "StickergiantListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "format",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listStickerProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "StickergiantListArgs"
+            },
+            "optional": true
+          }
+        ],
+        "priceCustomSticker": [
+          {
+            "name": "build",
+            "schema": {
+              "k": "ref",
+              "name": "StickergiantBuild"
             },
             "optional": false
           }
