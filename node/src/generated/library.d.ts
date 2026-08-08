@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d3eb3ad83c1fe37163118322fb461140be0c91c2d12bfaf3ab62520783035fec
-// 8 capabilities, 81 providers, 264 typed functions, 20 refused.
+// Manifest version: 3cd61f82ead23c93c273721f8ef1ce2e0b8d352f9e32f98b9398a3e7dfe635f5
+// 8 capabilities, 81 providers, 265 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12471,18 +12471,39 @@ interface VisibleSearchPhonesResult {
   availableMakes: string[];
   results: VisibleSearchPhone[];
 }
+interface VisiblePlanFeature {
+  label: string | null;
+  items: string[];
+}
+interface VisiblePlan {
+  name: string;
+  monthlyPrice: number;
+  regularPrice: number | null;
+  promoCode: string | null;
+  promoText: string | null;
+  taxesAndFeesIncluded: boolean | null;
+  badge: string | null;
+  ctaCode: string | null;
+  ctaUrl: string | null;
+  features: VisiblePlanFeature[];
+}
+interface VisibleGetPlansResult {
+  source: string;
+  plans: VisiblePlan[];
+}
 
   /**
    * Visible (Verizon's prepaid brand): the promotions running right now — the offer grid with
    * its promo codes and fine print, plus the standing referral, trade-in, payback, Stack'em and
    * Fios home-internet bundle programmes — one phone in full from its catalogue slug or URL,
    * every storage/colour SKU with its own price, monthly financing terms and live stock,
-   * alongside the specs, images, device-protection plans and eSIM/5G support — and Verizon's
-   * real network coverage at a caller-supplied US address or ZIP, broken down by 5G Ultra
-   * Wideband / 5G Nationwide / 4G LTE rather than a single yes/no. Also declared, not yet built:
-   * plan pricing, bring-your-own-device compatibility, phone SEARCH across the catalogue,
-   * per-device trade-in values, international rates, the wearable catalogue and the support
-   * estate.
+   * alongside the specs, images, device-protection plans and eSIM/5G support — Verizon's real
+   * network coverage at a caller-supplied US address or ZIP, broken down by 5G Ultra Wideband /
+   * 5G Nationwide / 4G LTE rather than a single yes/no — and the three-tier line-up as the plans
+   * page renders it, with each tier's headline price, the running promo and the code that
+   * unlocks it, the marketing badge and the four labelled feature sections. Also declared, not
+   * yet built: bring-your-own-device compatibility, per-device trade-in values, international
+   * rates, the wearable catalogue and the support estate.
    */
   interface Unit {
     /**
@@ -12536,6 +12557,20 @@ interface VisibleSearchPhonesResult {
      * the ones to trust.
      */
     checkCoverage(addressOrZip: string): Promise<VisibleCheckCoverageResult>;
+
+    /**
+     * Returns the three tiers Visible sells today (Visible, Visible+, Visible+ Pro) as the plans
+     * page renders them — each tier's headline monthly price, the regular price the running promo
+     * unlocks (e.g. $19/mo with code SAVE6 unlocking $25/mo), the promo code itself, the "Taxes &
+     * fees included" guarantee, the marketing badge ("Most popular" / "Best value" / "Ultimate
+     * experience"), the CTA button code that pre-fills /shop/plan-selected, and four labelled
+     * feature sections (Network, Mobile Hotspot, International, The Extras) with every bullet the
+     * page shows. Reads the LIVE page only, never the site's own /docs/visible_plans.md, which is
+     * dated 2025-11-12 and answers the same prompt with two stale tiers and no code. Three tiers
+     * is hard — a future fourth tier changes the answer visibly rather than reading as a
+     * half-broken response.
+     */
+    getPlans(): Promise<VisibleGetPlansResult>;
   }
 }
 

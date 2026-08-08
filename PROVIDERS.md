@@ -633,7 +633,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `visible.checkDeviceCompatibility` | visible.com | Takes a caller's device — by IMEI, or by make and model — and answers whether it can… | ⚪ |
 | `visible.getInternationalRates` | visible.com | Returns what calling, texting and using data from abroad costs on Visible — which… | ⚪ |
 | `visible.getPhone` | visible.com | Returns one device Visible sells, in full, from its catalogue URL or product id —… | 🟢 |
-| `visible.getPlans` | visible.com | Returns Visible's current prepaid plan line-up as structured rows — the plan name, the… | ⚪ |
+| `visible.getPlans` | visible.com | Returns Visible's current prepaid plan line-up as structured rows — the plan name, the… | 🟢 |
 | `visible.getTradeInValue` | visible.com | Returns what Visible will credit for a caller's current device against a new one — the… | ⚪ |
 | `visible.listDeals` | visible.com | Returns the promotions Visible is running right now and what each one is actually… | 🟢 |
 | `visible.listWearables` | visible.com | Returns the smartwatches and connected devices Visible supports and what a line for… | ⚪ |
