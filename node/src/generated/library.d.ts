@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c82bf34953f269e67361d0eae70e4ce449cb1f090c330c698b7c94823377e94e
-// 8 capabilities, 86 providers, 289 typed functions, 20 refused.
+// Manifest version: 837865a4a64e33736b3d35cfb5d49e20fed0f8410c3fe5438b2a450b449f16da
+// 8 capabilities, 87 providers, 292 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2207,6 +2207,98 @@ interface cancerInfoSummaryResult {
      * option's own URL rather than silently answering for the wrong one.
      */
     getCancerInfoSummary(args: { topic: string; audience?: "patient" | "healthProfessional" }): Promise<cancerInfoSummaryResult>;
+  }
+}
+
+declare namespace BowmarkProvider_caraway {
+  // ── Caraway Home — the unit's own declarations, verbatim ──
+interface CarawayVariant {
+  /** Shopify's numeric variant id as a string. */
+  id: string;
+  /** The variant's own label, e.g. "Cream" or "Default Title". */
+  title: string;
+  /** String verbatim from the storefront — "50.00" (dollars) on /products.json, "44500" (cents) on /products/<h>.js. */
+  price: string;
+  /** Same scale as price. Null when the product is not on sale. */
+  compareAtPrice: string | null;
+  /** The store's own SKU. Null on a product without one. */
+  sku: string | null;
+  /** Whether the variant is purchasable right now. */
+  available: boolean;
+  options: string[];
+}
+interface CarawayProduct {
+  /** The handle is the only stable identifier across the catalogue. */
+  handle: string;
+  title: string;
+  vendor: string;
+  productType: string;
+  url: string;
+  descriptionHtml: string | null;
+  optionNames: string[];
+  variants: CarawayVariant[];
+  /** Same scale as variants — see CarawayVariant.price. */
+  priceRange: { min: string; max: string } | null;
+  /** True if ANY variant is purchasable. */
+  inStock: boolean;
+  tags: string[];
+  /** Caraway's own images, in the order the storefront publishes them. */
+  images: string[];
+}
+interface CarawayCatalogue {
+  /** All matching products, in-stock first, then by handle. */
+  products: CarawayProduct[];
+  /** What the filter DROPPED, in the same register the rest of the library uses. */
+  warnings: string[];
+}
+interface CarawayQuizArchetype {
+  /** The archetype slug (e.g. new-customer, 90s-baby). */
+  slug: string;
+  /** Caraway's own copy for the archetype. */
+  label: string;
+  /** Caraway's own one-line archetype blurb. */
+  description: string;
+  /** The product handles the quiz route marks as Recommended. */
+  recommendedHandles: string[];
+}
+interface CarawayQuizResult {
+  /** The archetype the quiz terminal page lands on, with the site copy. */
+  archetype: CarawayQuizArchetype;
+  /** The Recommended rail, in stock first. */
+  recommended: CarawayProduct[];
+  /** What the resolver DROPPED, in the same register the rest of the library uses. */
+  warnings: string[];
+}
+
+  /**
+   * Caraway Home product catalogue — every ceramic cookware piece, its variants, real prices and
+   * stock — read off the live Shopify storefront, plus the buyer-archetype rail the Caraway Home
+   * Quiz terminal renders.
+   */
+  interface Unit {
+    /**
+     * Reads the live Caraway catalogue as Caraway publishes it — every product, its handle, title,
+     * vendor, description, tags, images and the per-variant price the storefront is quoting right
+     * now. Returns [] on a transport failure. The catalog page is the line and the parse is the
+     * unit of work.
+     */
+    listCarawayProducts(opts?: { limit?: number }): Promise<CarawayProduct[]>;
+
+    /**
+     * Reads one product by its handle — every variant, its exact price, the image the storefront
+     * is showing and whether that specific variant is purchasable right now. Takes the handle
+     * listCarawayProducts returns. THROWS on an unknown handle (the store answers a real 404).
+     */
+    getCarawayProduct(handle: string): Promise<CarawayProduct>;
+
+    /**
+     * Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended rail
+     * the quiz terminal page renders. The archetype slug comes from the quiz's terminal URL
+     * (new-customer, 90s-baby, etc.) and the rail is the live catalogue filtered to the products
+     * Caraway marks for that buyer. THROWS on an unknown archetype — the supported set is encoded
+     * inside the function and surfaced via the same module that owns the catalogue.
+     */
+    runCarawayQuiz(answers: { archetype: string }): Promise<CarawayQuizResult>;
   }
 }
 
@@ -13706,6 +13798,7 @@ interface BowmarkProviders {
   bluehaven: BowmarkProvider_bluehaven.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
   cancer: BowmarkProvider_cancer.Unit;
+  caraway: BowmarkProvider_caraway.Unit;
   cars: BowmarkProvider_cars.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;

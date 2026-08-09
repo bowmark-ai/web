@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c82bf34953f269e67361d0eae70e4ce449cb1f090c330c698b7c94823377e94e
-// 283 checked, 20 unchecked.
+// Manifest version: 837865a4a64e33736b3d35cfb5d49e20fed0f8410c3fe5438b2a450b449f16da
+// 286 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c82bf34953f269e67361d0eae70e4ce449cb1f090c330c698b7c94823377e94e",
+  "version": "837865a4a64e33736b3d35cfb5d49e20fed0f8410c3fe5438b2a450b449f16da",
   "units": {
     "cars": {
       "defs": {
@@ -2047,6 +2047,56 @@ export const VALIDATORS: ValidatorTable = {
                     ]
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.caraway": {
+      "defs": {},
+      "functions": {
+        "listCarawayProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCarawayProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "runCarawayQuiz": [
+          {
+            "name": "answers",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "archetype",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },

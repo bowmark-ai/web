@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c82bf34953f269e67361d0eae70e4ce449cb1f090c330c698b7c94823377e94e
-# 8 capabilities, 86 providers, 283 typed functions, 20 refused.
+# Manifest version: 837865a4a64e33736b3d35cfb5d49e20fed0f8410c3fe5438b2a450b449f16da
+# 8 capabilities, 87 providers, 286 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1367,6 +1367,50 @@ class Prv_cancer_cancerInfoSummaryResult_Out(TypedDict):
 class Prv_cancer_cancerInfoSection_Out(TypedDict):
     heading: str
     text: str
+
+class Prv_caraway_listCarawayProducts_opts_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_caraway_CarawayProduct_Out(TypedDict):
+    handle: str
+    title: str
+    vendor: str
+    productType: str
+    url: str
+    descriptionHtml: str | None
+    optionNames: list[str]
+    variants: list[Prv_caraway_CarawayVariant_Out]
+    priceRange: Prv_caraway_CarawayProduct_Out_priceRange_u0_Out | None
+    inStock: bool
+    tags: list[str]
+    images: list[str]
+
+class Prv_caraway_CarawayVariant_Out(TypedDict):
+    id: str
+    title: str
+    price: str
+    compareAtPrice: str | None
+    sku: str | None
+    available: bool
+    options: list[str]
+
+class Prv_caraway_CarawayProduct_Out_priceRange_u0_Out(TypedDict):
+    min: str
+    max: str
+
+class Prv_caraway_runCarawayQuiz_answers_In(TypedDict):
+    archetype: str
+
+class Prv_caraway_CarawayQuizResult_Out(TypedDict):
+    archetype: Prv_caraway_CarawayQuizArchetype_Out
+    recommended: list[Prv_caraway_CarawayProduct_Out]
+    warnings: list[str]
+
+class Prv_caraway_CarawayQuizArchetype_Out(TypedDict):
+    slug: str
+    label: str
+    description: str
+    recommendedHandles: list[str]
 
 class Prv_cars_search_args_In(TypedDict):
     zipCode: NotRequired[str]
@@ -7848,6 +7892,35 @@ class Prv_cancer(Protocol):
         rather than silently answering for the wrong one.
         """
 
+class Prv_caraway(Protocol):
+    """Caraway Home product catalogue — every ceramic cookware piece, its variants, real prices
+    and stock — read off the live Shopify storefront, plus the buyer-archetype rail the
+    Caraway Home Quiz terminal renders.
+    """
+
+    async def listCarawayProducts(self, opts: Prv_caraway_listCarawayProducts_opts_In | None = None, /) -> list[Prv_caraway_CarawayProduct_Out]:
+        """Reads the live Caraway catalogue as Caraway publishes it — every product, its handle,
+        title, vendor, description, tags, images and the per-variant price the storefront is
+        quoting right now. Returns [] on a transport failure. The catalog page is the line and
+        the parse is the unit of work.
+        """
+
+    async def getCarawayProduct(self, handle: str, /) -> Prv_caraway_CarawayProduct_Out:
+        """Reads one product by its handle — every variant, its exact price, the image the
+        storefront is showing and whether that specific variant is purchasable right now. Takes
+        the handle listCarawayProducts returns. THROWS on an unknown handle (the store answers a
+        real 404).
+        """
+
+    async def runCarawayQuiz(self, answers: Prv_caraway_runCarawayQuiz_answers_In, /) -> Prv_caraway_CarawayQuizResult_Out:
+        """Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended
+        rail the quiz terminal page renders. The archetype slug comes from the quiz's terminal
+        URL (new-customer, 90s-baby, etc.) and the rail is the live catalogue filtered to the
+        products Caraway marks for that buyer. THROWS on an unknown archetype — the supported
+        set is encoded inside the function and surfaced via the same module that owns the
+        catalogue.
+        """
+
 class Prv_cars(Protocol):
     """Cars.com — the US new/used/certified car marketplace: for-sale inventory with dealer
     asking prices, one listing's full detail, a valuation for a car you already own, and
@@ -11671,6 +11744,7 @@ class BowmarkProviders(Protocol):
     bluehaven: Prv_bluehaven
     bmwusa: Prv_bmwusa
     cancer: Prv_cancer
+    caraway: Prv_caraway
     cars: Prv_cars
     cheapflights: Prv_cheapflights
     chriscraft: Prv_chriscraft
