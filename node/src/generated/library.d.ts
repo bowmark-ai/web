@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 837865a4a64e33736b3d35cfb5d49e20fed0f8410c3fe5438b2a450b449f16da
-// 8 capabilities, 87 providers, 292 typed functions, 20 refused.
+// Manifest version: 025135f90bd62751de140195bd0b1362a616fef50ca04988ea7a3dedddebe3c4
+// 8 capabilities, 87 providers, 293 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10113,16 +10113,45 @@ interface PizzahutMenu {
   categories: PizzahutMenuCategory[];
 }
 
+// ── getDeals ──────────────────────────────────────────────────────────────
+// Mirrors the public types declared at the top of this file (PizzahutDeals,
+// PizzahutDeal, PizzahutDealImage, PizzahutDealScope) — copied here so the
+// rendered get_library blurb and the catalog signature are types the
+// gateway can resolve. The exported shapes are the source of truth.
+type PizzahutDealScopeForRender = "all" | { storeNumbers: string[] };
+
+interface PizzahutDealImageForRender {
+  url: string;
+  title: string | null;
+}
+
+interface PizzahutDealForRender {
+  position: number | null;
+  code: string;
+  name: string;
+  description: string | null;
+  legalText: string | null;
+  appImage: PizzahutDealImageForRender | null;
+  webImage: PizzahutDealImageForRender | null;
+}
+
+interface PizzahutDealsForRender {
+  storeNumber: string;
+  deals: PizzahutDealForRender[];
+  sources: { name: string; scope: PizzahutDealScopeForRender }[];
+}
+
   /**
    * Pizza Hut's US ordering site. `findStores` returns the stores serving any US address or ZIP,
    * nearest first, with each one's number, hours, distance, phone and the terms of the carryout
    * and delivery it offers. `getMenu` reads a store's whole menu — every category, every item,
    * and every variant's price at THAT store. `getMenuItem` reads one item's full store-level
    * configuration by name — every size/crust, and every optional topping/sauce/cheese slot with
-   * what each choice costs on THAT variant. `priceOrder` then prices a basket at one of those
-   * stores WITHOUT placing it — line items, subtotal, sales tax, delivery fee and the real total
-   * Pizza Hut would charge, for carryout or to a delivery address, anonymously. Reading the
-   * current deals is still a stub.
+   * what each choice costs on THAT variant. `getDeals` reads the deals and bundle offers Pizza
+   * Hut is running AT ONE STORE right now, filtered to what is actually redeemable there.
+   * `priceOrder` then prices a basket at one of those stores WITHOUT placing it — line items,
+   * subtotal, sales tax, delivery fee and the real total Pizza Hut would charge, for carryout or
+   * to a delivery address, anonymously.
    */
   interface Unit {
     /**
@@ -10211,6 +10240,26 @@ interface PizzahutMenu {
      * identifying.
      */
     getMenuItem(args: { storeNumber: string; item: string; category?: string }): Promise<PizzahutMenuItem>;
+
+    /**
+     * Reads the deals, coupons and bundle offers Pizza Hut is running AT ONE STORE right now —
+     * every deal that applies there, its bundle code, display name, description and legal text, in
+     * the order the site puts them on the deals page. `storeNumber` comes from `findStores` and is
+     * REQUIRED: Pizza Hut runs national deals AND franchise-local ones, and a deal listed but not
+     * available at the caller's store is the honest-vs-misleading line — the function filters by
+     * `MenuDealPageSortOverride.storesList` (a comma-separated list of stores, or the literal
+     * "ALL") so a caller gets only what is actually redeemable where they asked. The store's deals
+     * page lives on Contentful (NOT the Yum storefront GraphQL the rest of the provider hits): the
+     * deals page's own `__NEXT_DATA__.runtimeConfig` publishes `CONTENTFUL_SPACE_ID` +
+     * `CONTENTFUL_ACCESS_TOKEN` + `CONTENTFUL_ENVIRONMENT` + `CONTENTFUL_BASE_URL`, and this reads
+     * them out of the page rather than asking the caller for them. The bootstrap throws on a
+     * missing payload the way `parsePhdConfig` does — a 200 without the runtimeConfig is the
+     * Canadian site, and serving a caller the wrong country’s deals is worse than no answer. The
+     * list is sorted by `dealPagePosition` (1-based, lower = higher up); positions the site leaves
+     * null fall back to a stable code-order tiebreak rather than being treated as "first". Wholly
+     * anonymous, one Contentful read per call.
+     */
+    getDeals(args: { storeNumber: string }): Promise<PizzahutDealsForRender>;
   }
 }
 

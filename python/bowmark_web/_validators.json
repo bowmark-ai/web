@@ -1,5 +1,5 @@
 {
-  "version": "837865a4a64e33736b3d35cfb5d49e20fed0f8410c3fe5438b2a450b449f16da",
+  "version": "025135f90bd62751de140195bd0b1362a616fef50ca04988ea7a3dedddebe3c4",
   "units": {
     "cars": {
       "defs": {
@@ -7894,6 +7894,24 @@
                     "k": "string"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getDeals": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "storeNumber",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },

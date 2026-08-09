@@ -481,7 +481,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pirateship.validateAddress` | pirateship.com | Validates and standardizes a US shipping address the way Pirate Ship checks an address… | ⚪ |
 | `pizzahut.checkDeliveryAvailability` | pizzahut.com | Answers whether Pizza Hut delivers to a given address, and on what terms — which store… | ⚪ |
 | `pizzahut.findStores` | pizzahut.com | Finds the Pizza Hut stores that serve a given address or ZIP — each store's id, street… | 🟢 |
-| `pizzahut.getDeals` | pizzahut.com | Reads the deals, coupons and bundle offers Pizza Hut is running at a store right now —… | ⚪ |
+| `pizzahut.getDeals` | pizzahut.com | Reads the deals, coupons and bundle offers Pizza Hut is running at a store right now —… | 🟢 |
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | 🟢 |
 | `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
 | `pizzahut.priceOrder` | pizzahut.com | Prices a configured basket at a store WITHOUT placing it — line items with their… | 🟢 |

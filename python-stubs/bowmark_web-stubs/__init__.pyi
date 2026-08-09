@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 837865a4a64e33736b3d35cfb5d49e20fed0f8410c3fe5438b2a450b449f16da
-# 8 capabilities, 87 providers, 286 typed functions, 20 refused.
+# Manifest version: 025135f90bd62751de140195bd0b1362a616fef50ca04988ea7a3dedddebe3c4
+# 8 capabilities, 87 providers, 287 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5221,6 +5221,34 @@ class Prv_pizzahut_PizzahutMenuItemVariant_Out_allergens_item_Out(TypedDict):
     allergen: str
     presence: str
 
+class Prv_pizzahut_getDeals_args_In(TypedDict):
+    storeNumber: str
+
+class Prv_pizzahut_PizzahutDealsForRender_Out(TypedDict):
+    storeNumber: str
+    deals: list[Prv_pizzahut_PizzahutDealForRender_Out]
+    sources: list[Prv_pizzahut_PizzahutDealsForRender_Out_sources_item_Out]
+
+class Prv_pizzahut_PizzahutDealForRender_Out(TypedDict):
+    position: float | None
+    code: str
+    name: str
+    description: str | None
+    legalText: str | None
+    appImage: Prv_pizzahut_PizzahutDealImageForRender_Out | None
+    webImage: Prv_pizzahut_PizzahutDealImageForRender_Out | None
+
+class Prv_pizzahut_PizzahutDealImageForRender_Out(TypedDict):
+    url: str
+    title: str | None
+
+class Prv_pizzahut_PizzahutDealsForRender_Out_sources_item_Out(TypedDict):
+    name: str
+    scope: Literal["all"] | Prv_pizzahut_PizzahutDealScopeForRender_u1_Out
+
+class Prv_pizzahut_PizzahutDealScopeForRender_u1_Out(TypedDict):
+    storeNumbers: list[str]
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -10424,10 +10452,11 @@ class Prv_pizzahut(Protocol):
     carryout and delivery it offers. `getMenu` reads a store's whole menu — every category,
     every item, and every variant's price at THAT store. `getMenuItem` reads one item's full
     store-level configuration by name — every size/crust, and every optional
-    topping/sauce/cheese slot with what each choice costs on THAT variant. `priceOrder` then
-    prices a basket at one of those stores WITHOUT placing it — line items, subtotal, sales
-    tax, delivery fee and the real total Pizza Hut would charge, for carryout or to a
-    delivery address, anonymously. Reading the current deals is still a stub.
+    topping/sauce/cheese slot with what each choice costs on THAT variant. `getDeals` reads
+    the deals and bundle offers Pizza Hut is running AT ONE STORE right now, filtered to
+    what is actually redeemable there. `priceOrder` then prices a basket at one of those
+    stores WITHOUT placing it — line items, subtotal, sales tax, delivery fee and the real
+    total Pizza Hut would charge, for carryout or to a delivery address, anonymously.
     """
 
     async def getMenu(self, args: Prv_pizzahut_getMenu_args_In, /) -> Prv_pizzahut_PizzahutMenu_Out:
@@ -10514,6 +10543,26 @@ class Prv_pizzahut(Protocol):
         `slotCode`/`modifierCode`/`modifierWeightCode` triple read here is exactly what
         `priceOrder` takes to price a configured basket. Wholly anonymous, same guest-token read
         `priceOrder` uses — no account, no session, nothing identifying.
+        """
+
+    async def getDeals(self, args: Prv_pizzahut_getDeals_args_In, /) -> Prv_pizzahut_PizzahutDealsForRender_Out:
+        """Reads the deals, coupons and bundle offers Pizza Hut is running AT ONE STORE right now —
+        every deal that applies there, its bundle code, display name, description and legal
+        text, in the order the site puts them on the deals page. `storeNumber` comes from
+        `findStores` and is REQUIRED: Pizza Hut runs national deals AND franchise-local ones,
+        and a deal listed but not available at the caller's store is the honest-vs-misleading
+        line — the function filters by `MenuDealPageSortOverride.storesList` (a comma-separated
+        list of stores, or the literal "ALL") so a caller gets only what is actually redeemable
+        where they asked. The store's deals page lives on Contentful (NOT the Yum storefront
+        GraphQL the rest of the provider hits): the deals page's own
+        `__NEXT_DATA__.runtimeConfig` publishes `CONTENTFUL_SPACE_ID` +
+        `CONTENTFUL_ACCESS_TOKEN` + `CONTENTFUL_ENVIRONMENT` + `CONTENTFUL_BASE_URL`, and this
+        reads them out of the page rather than asking the caller for them. The bootstrap throws
+        on a missing payload the way `parsePhdConfig` does — a 200 without the runtimeConfig is
+        the Canadian site, and serving a caller the wrong country’s deals is worse than no
+        answer. The list is sorted by `dealPagePosition` (1-based, lower = higher up); positions
+        the site leaves null fall back to a stable code-order tiebreak rather than being treated
+        as "first". Wholly anonymous, one Contentful read per call.
         """
 
 class Prv_progressive(Protocol):
