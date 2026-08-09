@@ -1,5 +1,5 @@
 {
-  "version": "bf74e9e745aafb3faecc770f90190eb6d5a38bf1ab7dae9e2986e7bb20d82d0f",
+  "version": "c82bf34953f269e67361d0eae70e4ce449cb1f090c330c698b7c94823377e94e",
   "units": {
     "cars": {
       "defs": {
@@ -1845,6 +1845,30 @@
             "name": "lensUpgrade",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bluehaven": {
+      "defs": {},
+      "functions": {
+        "listPoolDesigns": [],
+        "checkPoolSiteFeasibility": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "address",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

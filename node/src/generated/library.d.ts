@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bf74e9e745aafb3faecc770f90190eb6d5a38bf1ab7dae9e2986e7bb20d82d0f
-// 8 capabilities, 85 providers, 287 typed functions, 20 refused.
+// Manifest version: c82bf34953f269e67361d0eae70e4ce449cb1f090c330c698b7c94823377e94e
+// 8 capabilities, 86 providers, 289 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1855,6 +1855,57 @@ interface BlendersEyewearPriceResult {
      * exist.
      */
     priceRxConfiguration(handle: string, prescriptionType: string, lensColor: string, lensUpgrade: string): Promise<BlendersEyewearPriceResult>;
+  }
+}
+
+declare namespace BowmarkProvider_bluehaven {
+  // ── Blue Haven Pools & Spas — the unit's own declarations, verbatim ──
+interface BluehavenPoolDesign {
+  id: number;
+  name: string;
+  category: string;
+  subCategory: string | null;
+}
+
+interface BluehavenSiteFeasibility {
+  matchedAddress: string;
+  coordinates: { lat: number; lng: number };
+  apn: string | null;
+  ownerName: string | null;
+  lotAreaSqFt: number | null;
+  existingStructures: unknown[];
+  nearbyUtilityLines: { name: string; features: unknown[] }[];
+  warnings: string[];
+}
+
+  /**
+   * Blue Haven Pools & Spas' own Canibuild site-planning widget — sited lot feasibility for a
+   * real US address (parcel area, existing structures, nearby utility lines) and their live
+   * inground pool design catalog.
+   */
+  interface Unit {
+    /**
+     * Reads Blue Haven's own live inground pool design catalog off their site-planning widget's
+     * API — every design set (e.g. Oasis, Omega, Oval, Pacific, Rectangle) under every
+     * category/subcategory they currently sell (Pool Studios, Blue Haven Pools, Freeform Pools).
+     * Real catalog data, not a marketing page scrape.
+     */
+    listPoolDesigns(): Promise<BluehavenPoolDesign[]>;
+
+    /**
+     * Runs a US street address through Blue Haven's own site-planning tool the way their homepage
+     * widget does — resolves the address, then reads back the parcel's own lot area, APN/owner
+     * (when on file), any structures the site already has recorded on that parcel, and
+     * utility-line hazards (electrical, oil/gas) near it. This is the address-SITED data ChatGPT's
+     * own knowledge cannot produce (confirmed in this packet's ANGLE fit-check: asked to site a
+     * pool at a real address, it asked the user to upload yard photos or offered a rough satellite
+     * guess, and quoted a national price range instead of anything tied to the parcel). Only
+     * addresses that resolve through Blue Haven's own parcel index carry sited data (most US
+     * residential/commercial street addresses do); a handful of well-known landmark addresses
+     * resolve only to a generic map pin and throw `BluehavenBadRequest`, same as an address with
+     * no match at all.
+     */
+    checkPoolSiteFeasibility(args: { address: string }): Promise<BluehavenSiteFeasibility>;
   }
 }
 
@@ -13652,6 +13703,7 @@ interface BowmarkProviders {
   barletta: BowmarkProvider_barletta.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
+  bluehaven: BowmarkProvider_bluehaven.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
   cancer: BowmarkProvider_cancer.Unit;
   cars: BowmarkProvider_cars.Unit;

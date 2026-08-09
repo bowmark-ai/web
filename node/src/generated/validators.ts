@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bf74e9e745aafb3faecc770f90190eb6d5a38bf1ab7dae9e2986e7bb20d82d0f
-// 281 checked, 20 unchecked.
+// Manifest version: c82bf34953f269e67361d0eae70e4ce449cb1f090c330c698b7c94823377e94e
+// 283 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bf74e9e745aafb3faecc770f90190eb6d5a38bf1ab7dae9e2986e7bb20d82d0f",
+  "version": "c82bf34953f269e67361d0eae70e4ce449cb1f090c330c698b7c94823377e94e",
   "units": {
     "cars": {
       "defs": {
@@ -1857,6 +1857,30 @@ export const VALIDATORS: ValidatorTable = {
             "name": "lensUpgrade",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bluehaven": {
+      "defs": {},
+      "functions": {
+        "listPoolDesigns": [],
+        "checkPoolSiteFeasibility": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "address",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

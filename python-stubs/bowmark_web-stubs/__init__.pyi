@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bf74e9e745aafb3faecc770f90190eb6d5a38bf1ab7dae9e2986e7bb20d82d0f
-# 8 capabilities, 85 providers, 281 typed functions, 20 refused.
+# Manifest version: c82bf34953f269e67361d0eae70e4ce449cb1f090c330c698b7c94823377e94e
+# 8 capabilities, 86 providers, 283 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1183,6 +1183,33 @@ class Prv_blenderseyewear_BlendersEyewearPriceResult_Out(TypedDict):
     variantId: float
     price: float
     available: bool
+
+class Prv_bluehaven_BluehavenPoolDesign_Out(TypedDict):
+    id: float
+    name: str
+    category: str
+    subCategory: str | None
+
+class Prv_bluehaven_checkPoolSiteFeasibility_args_In(TypedDict):
+    address: str
+
+class Prv_bluehaven_BluehavenSiteFeasibility_Out(TypedDict):
+    matchedAddress: str
+    coordinates: Prv_bluehaven_BluehavenSiteFeasibility_Out_coordinates_Out
+    apn: str | None
+    ownerName: str | None
+    lotAreaSqFt: float | None
+    existingStructures: list[Any]
+    nearbyUtilityLines: list[Prv_bluehaven_BluehavenSiteFeasibility_Out_nearbyUtilityLines_item_Out]
+    warnings: list[str]
+
+class Prv_bluehaven_BluehavenSiteFeasibility_Out_coordinates_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_bluehaven_BluehavenSiteFeasibility_Out_nearbyUtilityLines_item_Out(TypedDict):
+    name: str
+    features: list[Any]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -7691,6 +7718,33 @@ class Prv_blenderseyewear(Protocol):
         combination doesn't exist.
         """
 
+class Prv_bluehaven(Protocol):
+    """Blue Haven Pools & Spas' own Canibuild site-planning widget — sited lot feasibility for
+    a real US address (parcel area, existing structures, nearby utility lines) and their
+    live inground pool design catalog.
+    """
+
+    async def listPoolDesigns(self, /) -> list[Prv_bluehaven_BluehavenPoolDesign_Out]:
+        """Reads Blue Haven's own live inground pool design catalog off their site-planning
+        widget's API — every design set (e.g. Oasis, Omega, Oval, Pacific, Rectangle) under
+        every category/subcategory they currently sell (Pool Studios, Blue Haven Pools, Freeform
+        Pools). Real catalog data, not a marketing page scrape.
+        """
+
+    async def checkPoolSiteFeasibility(self, args: Prv_bluehaven_checkPoolSiteFeasibility_args_In, /) -> Prv_bluehaven_BluehavenSiteFeasibility_Out:
+        """Runs a US street address through Blue Haven's own site-planning tool the way their
+        homepage widget does — resolves the address, then reads back the parcel's own lot area,
+        APN/owner (when on file), any structures the site already has recorded on that parcel,
+        and utility-line hazards (electrical, oil/gas) near it. This is the address-SITED data
+        ChatGPT's own knowledge cannot produce (confirmed in this packet's ANGLE fit-check:
+        asked to site a pool at a real address, it asked the user to upload yard photos or
+        offered a rough satellite guess, and quoted a national price range instead of anything
+        tied to the parcel). Only addresses that resolve through Blue Haven's own parcel index
+        carry sited data (most US residential/commercial street addresses do); a handful of
+        well-known landmark addresses resolve only to a generic map pin and throw
+        `BluehavenBadRequest`, same as an address with no match at all.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -11614,6 +11668,7 @@ class BowmarkProviders(Protocol):
     barletta: Prv_barletta
     bhphoto: Prv_bhphoto
     blenderseyewear: Prv_blenderseyewear
+    bluehaven: Prv_bluehaven
     bmwusa: Prv_bmwusa
     cancer: Prv_cancer
     cars: Prv_cars
