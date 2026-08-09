@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a3c2bf09e8408f9598506f4c46053f2c0a0661050475c28638059be4e2cd33a4
-// 275 checked, 20 unchecked.
+// Manifest version: d42c0a88752b8942b716821804a48b38e7dbd3f308a61030703c16639ca19040
+// 278 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a3c2bf09e8408f9598506f4c46053f2c0a0661050475c28638059be4e2cd33a4",
+  "version": "d42c0a88752b8942b716821804a48b38e7dbd3f308a61030703c16639ca19040",
   "units": {
     "cars": {
       "defs": {
@@ -11645,6 +11645,73 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getCart": []
+      }
+    },
+    "providers.therabody": {
+      "defs": {},
+      "functions": {
+        "listTheragunProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTheragunProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "recommendTheragun": [
+          {
+            "name": "criteria",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "audience",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "features",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "inStockOnly",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.thezebra": {

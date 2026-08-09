@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a3c2bf09e8408f9598506f4c46053f2c0a0661050475c28638059be4e2cd33a4
-// 8 capabilities, 84 providers, 281 typed functions, 20 refused.
+// Manifest version: d42c0a88752b8942b716821804a48b38e7dbd3f308a61030703c16639ca19040
+// 8 capabilities, 85 providers, 284 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12182,6 +12182,82 @@ interface TentreeCart {
   }
 }
 
+declare namespace BowmarkProvider_therabody {
+  // ── Therabody — the unit's own declarations, verbatim ──
+interface TherabodyVariant {
+  /** Shopify's numeric variant id as a string. The future addToCart entry. */
+  id: string;
+  /** The variant's own label, e.g. "Default Title". */
+  title: string;
+  /** Decimal string exactly as the store publishes it, e.g. "54998" (cents). */
+  price: string;
+  /** Same scale as price. Null when the product is not on sale. */
+  compareAtPrice: string | null;
+  /** The store's own SKU. Null on a product without one. */
+  sku: string | null;
+  /** Whether the variant is purchasable right now. */
+  available: boolean;
+  options: string[];
+}
+interface TherabodyProduct {
+  /** The handle is the only stable identifier across the catalogue. */
+  handle: string;
+  title: string;
+  vendor: string;
+  productType: string;
+  url: string;
+  descriptionHtml: string | null;
+  optionNames: string[];
+  variants: TherabodyVariant[];
+  /**
+   * The store's own price scale per endpoint — see TherabodyVariant.price for
+   * why the two strings may differ. Range keeps the same scale as the input.
+   */
+  priceRange: { min: string; max: string } | null;
+  /** True if ANY variant is purchasable. The "is it in stock?" answer. */
+  inStock: boolean;
+  tags: string[];
+  /** Therabody's own images, in the order the storefront publishes them. */
+  images: string[];
+}
+interface TherabodyRecommendation {
+  /** The matching products, in-stock first, then by handle. */
+  products: TherabodyProduct[];
+  /** What the filter DROPPED, in the same register the rest of the library uses. */
+  warnings: string[];
+}
+
+  /**
+   * Therabody (Theragun) product catalogue — every device, its variants, its prices and what is
+   * in stock — read off the live Shopify storefront.
+   */
+  interface Unit {
+    /**
+     * Reads the live Therabody catalogue as Therabody publishes it — every product, its handle,
+     * title, vendor, description, tags, images and the per-variant price the storefront is quoting
+     * right now. Returns [] on a transport failure (warnings would be on an object envelope; this
+     * is a list). The catalog page is the line and the parse is the unit of work.
+     */
+    listTheragunProducts(opts?: { limit?: number }): Promise<TherabodyProduct[]>;
+
+    /**
+     * Reads one product by its handle — every variant, its exact price, the image the storefront
+     * is showing and whether that specific variant is purchasable right now. Takes the handle
+     * listTheragunProducts returns. THROWS on an unknown handle (the store answers a real 404).
+     */
+    getTheragunProduct(handle: string): Promise<TherabodyProduct>;
+
+    /**
+     * Filters the live catalogue by what a shopper actually needs — device family, audience, and
+     * the features named (percussion, recovery, hot/cold, breath). Returns the matching products
+     * with their real prices, ranked by in-stock first. The storefront does not publish a query or
+     * filter endpoint, so the function is local filtering on the catalogue listTheragunProducts
+     * already returns — the divide is what the function does with the data, not how it gets there.
+     */
+    recommendTheragun(criteria: { audience?: string; features?: string[]; inStockOnly?: boolean }): Promise<TherabodyRecommendation>;
+  }
+}
+
 declare namespace BowmarkProvider_thezebra {
   // ── The Zebra — the unit's own declarations, verbatim ──
 interface thezebraStateRatesQuery {
@@ -13500,6 +13576,7 @@ interface BowmarkProviders {
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
   tentree: BowmarkProvider_tentree.Unit;
+  therabody: BowmarkProvider_therabody.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;

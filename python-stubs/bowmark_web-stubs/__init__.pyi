@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a3c2bf09e8408f9598506f4c46053f2c0a0661050475c28638059be4e2cd33a4
-# 8 capabilities, 84 providers, 275 typed functions, 20 refused.
+# Manifest version: d42c0a88752b8942b716821804a48b38e7dbd3f308a61030703c16639ca19040
+# 8 capabilities, 85 providers, 278 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6259,6 +6259,45 @@ class Prv_tentree_TentreeCartLine_Out(TypedDict):
     lineTotal: str
     url: str
 
+class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_therabody_TherabodyProduct_Out(TypedDict):
+    handle: str
+    title: str
+    vendor: str
+    productType: str
+    url: str
+    descriptionHtml: str | None
+    optionNames: list[str]
+    variants: list[Prv_therabody_TherabodyVariant_Out]
+    priceRange: Prv_therabody_TherabodyProduct_Out_priceRange_u0_Out | None
+    inStock: bool
+    tags: list[str]
+    images: list[str]
+
+class Prv_therabody_TherabodyVariant_Out(TypedDict):
+    id: str
+    title: str
+    price: str
+    compareAtPrice: str | None
+    sku: str | None
+    available: bool
+    options: list[str]
+
+class Prv_therabody_TherabodyProduct_Out_priceRange_u0_Out(TypedDict):
+    min: str
+    max: str
+
+class Prv_therabody_recommendTheragun_criteria_In(TypedDict):
+    audience: NotRequired[str]
+    features: NotRequired[Sequence[str]]
+    inStockOnly: NotRequired[bool]
+
+class Prv_therabody_TherabodyRecommendation_Out(TypedDict):
+    products: list[Prv_therabody_TherabodyProduct_Out]
+    warnings: list[str]
+
 class Prv_thezebra_thezebraStateRatesQuery_In(TypedDict):
     state: str
 
@@ -10991,6 +11030,35 @@ class Prv_tentree(Protocol):
         empty cart is an ordinary answer (itemCount 0), not an error.
         """
 
+class Prv_therabody(Protocol):
+    """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
+    is in stock — read off the live Shopify storefront.
+    """
+
+    async def listTheragunProducts(self, opts: Prv_therabody_listTheragunProducts_opts_In | None = None, /) -> list[Prv_therabody_TherabodyProduct_Out]:
+        """Reads the live Therabody catalogue as Therabody publishes it — every product, its
+        handle, title, vendor, description, tags, images and the per-variant price the
+        storefront is quoting right now. Returns [] on a transport failure (warnings would be on
+        an object envelope; this is a list). The catalog page is the line and the parse is the
+        unit of work.
+        """
+
+    async def getTheragunProduct(self, handle: str, /) -> Prv_therabody_TherabodyProduct_Out:
+        """Reads one product by its handle — every variant, its exact price, the image the
+        storefront is showing and whether that specific variant is purchasable right now. Takes
+        the handle listTheragunProducts returns. THROWS on an unknown handle (the store answers
+        a real 404).
+        """
+
+    async def recommendTheragun(self, criteria: Prv_therabody_recommendTheragun_criteria_In, /) -> Prv_therabody_TherabodyRecommendation_Out:
+        """Filters the live catalogue by what a shopper actually needs — device family, audience,
+        and the features named (percussion, recovery, hot/cold, breath). Returns the matching
+        products with their real prices, ranked by in-stock first. The storefront does not
+        publish a query or filter endpoint, so the function is local filtering on the catalogue
+        listTheragunProducts already returns — the divide is what the function does with the
+        data, not how it gets there.
+        """
+
 class Prv_thezebra(Protocol):
     """US insurance comparison marketplace — side-by-side auto, home and renters rates from
     100+ carriers, plus published rate research by state, city, vehicle, carrier and driver
@@ -11457,6 +11525,7 @@ class BowmarkProviders(Protocol):
     sunhomesaunas: Prv_sunhomesaunas
     teladoc: Prv_teladoc
     tentree: Prv_tentree
+    therabody: Prv_therabody
     thezebra: Prv_thezebra
     trektravel: Prv_trektravel
     ulrichlifestyle: Prv_ulrichlifestyle

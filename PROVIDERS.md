@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 654 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 657 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -587,6 +587,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tentree.getShippingRates` | tentree.com | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
 | `tentree.removeFromCart` | tentree.com | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
 | `tentree.searchProducts` | tentree.com | Searches the live catalogue and returns matching products with their real variants… | 🟢 |
+| `therabody.getTheragunProduct` | therabody.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
+| `therabody.listTheragunProducts` | therabody.com | Reads the live Therabody catalogue as Therabody publishes it — every product, its… | 🟢 |
+| `therabody.recommendTheragun` | therabody.com | Filters the live catalogue by what a shopper actually needs — Theragun device family… | 🟢 |
 | `thezebra.estimateCoverageCost` | thezebra.com | Returns The Zebra's own estimate of what a driver should expect to pay, and what… | ⚪ |
 | `thezebra.getAutoQuotes` | thezebra.com | Returns real side-by-side auto insurance rates from the carriers that will write a… | ⚪ |
 | `thezebra.getCarrierRates` | thezebra.com | Returns what a named insurance company charges relative to its competitors — its own… | 🟢 |
