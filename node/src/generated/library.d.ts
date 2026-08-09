@@ -7,7 +7,7 @@
 //
 // Manifest version: 025135f90bd62751de140195bd0b1362a616fef50ca04988ea7a3dedddebe3c4
 // 8 capabilities, 87 providers, 293 typed functions, 20 refused.
-// 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -19390,6 +19390,7 @@ interface BowmarkProviders {
   avedaisland: BowmarkFamily_shopify_store.Unit;
   avenatheme: BowmarkFamily_shopify_store.Unit;
   avenidabresil: BowmarkFamily_shopify_store.Unit;
+  aventon: BowmarkFamily_shopify_store.Unit;
   aventsbyaugust: BowmarkFamily_shopify_store.Unit;
   aventureextension: BowmarkFamily_shopify_store.Unit;
   avenues3: BowmarkFamily_shopify_store.Unit;
