@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: acbcea1cb461981838d11b67847a7622118893fecbb2c28a16152028bb1d5d26
-// 279 checked, 20 unchecked.
+// Manifest version: e34c31fcb1f57700c10726b3753bee851ec5c703882b868ecb4b8609b65e982b
+// 280 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "acbcea1cb461981838d11b67847a7622118893fecbb2c28a16152028bb1d5d26",
+  "version": "e34c31fcb1f57700c10726b3753bee851ec5c703882b868ecb4b8609b65e982b",
   "units": {
     "cars": {
       "defs": {
@@ -3204,6 +3204,143 @@ export const VALIDATORS: ValidatorTable = {
                       "optional": false
                     }
                   ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchTiresBySize": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "front",
+                  "schema": {
+                    "k": "object",
+                    "props": [
+                      {
+                        "name": "diameter",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": false
+                      },
+                      {
+                        "name": "width",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": false
+                      },
+                      {
+                        "name": "aspectRatio",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": false
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "rear",
+                  "schema": {
+                    "k": "object",
+                    "props": [
+                      {
+                        "name": "diameter",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": false
+                      },
+                      {
+                        "name": "width",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": false
+                      },
+                      {
+                        "name": "aspectRatio",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": false
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "zip",
+                            "schema": {
+                              "k": "string"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      },
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "storeCode",
+                            "schema": {
+                              "k": "string"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      },
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "latitude",
+                            "schema": {
+                              "k": "number"
+                            },
+                            "optional": false
+                          },
+                          {
+                            "name": "longitude",
+                            "schema": {
+                              "k": "number"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "pageNumber",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "pageSize",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
                 }
               ]
             },

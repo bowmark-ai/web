@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: acbcea1cb461981838d11b67847a7622118893fecbb2c28a16152028bb1d5d26
-# 8 capabilities, 85 providers, 279 typed functions, 20 refused.
+# Manifest version: e34c31fcb1f57700c10726b3753bee851ec5c703882b868ecb4b8609b65e982b
+# 8 capabilities, 85 providers, 280 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2012,6 +2012,60 @@ class Prv_discounttire_DiscounttireStock_Out_alsoAt_u0_Out(TypedDict):
     storeCode: str
     streetAddress: str | None
     availability: Prv_discounttire_DiscounttireAvailability_Out
+
+class Prv_discounttire_searchTiresBySize_args_In(TypedDict):
+    front: Prv_discounttire_searchTiresBySize_args_In_front_In
+    rear: NotRequired[Prv_discounttire_searchTiresBySize_args_In_rear_In]
+    location: Prv_discounttire_searchTiresBySize_args_In_location_u0_In | Prv_discounttire_searchTiresBySize_args_In_location_u1_In | Prv_discounttire_searchTiresBySize_args_In_location_u2_In
+    pageNumber: float
+    pageSize: float
+
+class Prv_discounttire_searchTiresBySize_args_In_front_In(TypedDict):
+    diameter: str
+    width: str
+    aspectRatio: str
+
+class Prv_discounttire_searchTiresBySize_args_In_rear_In(TypedDict):
+    diameter: str
+    width: str
+    aspectRatio: str
+
+class Prv_discounttire_searchTiresBySize_args_In_location_u0_In(TypedDict):
+    zip: str
+
+class Prv_discounttire_searchTiresBySize_args_In_location_u1_In(TypedDict):
+    storeCode: str
+
+class Prv_discounttire_searchTiresBySize_args_In_location_u2_In(TypedDict):
+    latitude: float
+    longitude: float
+
+class Prv_discounttire_DiscounttireTireSizeSearch_Out(TypedDict):
+    storeCode: str
+    pagination: Prv_discounttire_DiscounttireTireSizeSearch_Out_pagination_Out
+    facets: list[str]
+    results: list[Prv_discounttire_DiscounttireTireResult_Out]
+    source: str
+
+class Prv_discounttire_DiscounttireTireSizeSearch_Out_pagination_Out(TypedDict):
+    currentPage: float | None
+    numberOfPages: float | None
+    pageSize: float | None
+    totalNumberOfResults: float | None
+
+class Prv_discounttire_DiscounttireTireResult_Out(TypedDict):
+    code: str
+    name: str | None
+    brand: str | None
+    size: str | None
+    productType: str | None
+    url: str | None
+    price: Prv_discounttire_DiscounttireTireResult_Out_price_u0_Out | None
+    averageRating: float | None
+
+class Prv_discounttire_DiscounttireTireResult_Out_price_u0_Out(TypedDict):
+    value: float | None
+    formatted: str | None
 
 class Prv_erieinsurance_ErieAgentQuery_In(TypedDict):
     zip: NotRequired[str]
@@ -8115,10 +8169,12 @@ class Prv_dillards(Protocol):
 class Prv_discounttire(Protocol):
     """America's largest independent tire and wheel retailer — which tires and wheels actually
     fit a given vehicle, what they cost, whether they are in stock near a ZIP, when a store
-    can install them, and the rebates running on them. Two functions are built: `getProduct`
-    reads one tire or wheel by its sku (name, brand, size, product type, price, product
-    URL), and `checkStock` answers whether a specific tire or wheel is gettable near a ZIP,
-    store or coordinate, and on what date. The other thirteen are declared stubs.
+    can install them, and the rebates running on them. Three functions are built:
+    `getProduct` reads one tire or wheel by its sku (name, brand, size, product type, price,
+    product URL), `checkStock` answers whether a specific tire or wheel is gettable near a
+    ZIP, store or coordinate, and on what date, and `searchTiresBySize` searches the tires
+    Discount Tire sells in a given size (or staggered pair) with prices, ratings and the
+    site's pagination. The other twelve are declared stubs.
     """
 
     async def getProduct(self, idOrUrl: str, /) -> Prv_discounttire_DiscounttireProduct_Out:
@@ -8143,6 +8199,21 @@ class Prv_discounttire(Protocol):
         requesting IP's. Availability at Discount Tire is regional rather than per-shelf, so
         read `availability.message` and `availableDate` for "can I get it" and treat
         `storeQuantity` as "on the shelf right now".
+        """
+
+    async def searchTiresBySize(self, args: Prv_discounttire_searchTiresBySize_args_In, /) -> Prv_discounttire_DiscounttireTireSizeSearch_Out:
+        """Searches the tires Discount Tire sells in a given size (or staggered pair — `front` and
+        a different `rear`) and returns what is in stock near a place with prices and star
+        ratings. `front` and `rear` are stamped-on-the-sidewall sizes like `{ diameter: "17",
+        width: "225", aspectRatio: "45" }` for `225/45R17`; the site's schema refuses any
+        unknown field on a `TireSizeInput`, so the function does too. `location` is a 5-digit US
+        zip, an exact store code, or a coordinate — same three forms `checkStock` takes, same
+        resolution path (zip is geocoded to its centroid first, then the resolved store is the
+        one the GraphQL operation is anchored to). `pageNumber` and `pageSize` paginate the
+        result set (pageSize capped at 100). Returns pagination, the site's own facet list, and
+        a list of tire rows. No `vehicleAssemblyId` is needed — unlike the by-vehicle searches
+        here, the by-size operations take `vehicleInfo` as optional and the function never asks
+        for one.
         """
 
 class Prv_erieinsurance(Protocol):

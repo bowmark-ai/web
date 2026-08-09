@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: acbcea1cb461981838d11b67847a7622118893fecbb2c28a16152028bb1d5d26
-// 8 capabilities, 85 providers, 285 typed functions, 20 refused.
+// Manifest version: e34c31fcb1f57700c10726b3753bee851ec5c703882b868ecb4b8609b65e982b
+// 8 capabilities, 85 providers, 286 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3385,13 +3385,55 @@ interface DiscounttireStock {
   source: string;
 }
 
+/** A tire size stamped on the sidewall — `225/45R17`. Strings, because the
+ *  site's schema declares every field as `String!`. */
+type TireSize = {
+  diameter: string;
+  width: string;
+  aspectRatio: string;
+};
+
+/** One tire product row from the size search. Same shape the site's own
+ *  `getProduct` reads back, except price + sku + name + brand, plus the
+ *  site's own star rating. */
+interface DiscounttireTireResult {
+  code: string;
+  name: string | null;
+  brand: string | null;
+  size: string | null;
+  productType: string | null;
+  url: string | null;
+  price: { value: number | null; formatted: string | null } | null;
+  /** `0.0`-`5.0`; null when the line has no reviews. */
+  averageRating: number | null;
+}
+
+/** What `searchTiresBySize` returns. */
+interface DiscounttireTireSizeSearch {
+  /** The storeCode the operation was anchored to (a zip resolves to the
+   *  site's nearest store). */
+  storeCode: string;
+  pagination: {
+    currentPage: number | null;
+    numberOfPages: number | null;
+    pageSize: number | null;
+    totalNumberOfResults: number | null;
+  };
+  /** The site's facet names — `Brands`, `Aspect Ratio`, `Price Range`, … */
+  facets: string[];
+  results: DiscounttireTireResult[];
+  source: string;
+}
+
   /**
    * America's largest independent tire and wheel retailer — which tires and wheels actually fit
    * a given vehicle, what they cost, whether they are in stock near a ZIP, when a store can
-   * install them, and the rebates running on them. Two functions are built: `getProduct` reads
-   * one tire or wheel by its sku (name, brand, size, product type, price, product URL), and
+   * install them, and the rebates running on them. Three functions are built: `getProduct` reads
+   * one tire or wheel by its sku (name, brand, size, product type, price, product URL),
    * `checkStock` answers whether a specific tire or wheel is gettable near a ZIP, store or
-   * coordinate, and on what date. The other thirteen are declared stubs.
+   * coordinate, and on what date, and `searchTiresBySize` searches the tires Discount Tire sells
+   * in a given size (or staggered pair) with prices, ratings and the site's pagination. The
+   * other twelve are declared stubs.
    */
   interface Unit {
     /**
@@ -3418,6 +3460,21 @@ interface DiscounttireStock {
      * "on the shelf right now".
      */
     checkStock(idOrUrl: string, location: { zip: string } | { storeCode: string } | { latitude: number; longitude: number }): Promise<DiscounttireStock>;
+
+    /**
+     * Searches the tires Discount Tire sells in a given size (or staggered pair — `front` and a
+     * different `rear`) and returns what is in stock near a place with prices and star ratings.
+     * `front` and `rear` are stamped-on-the-sidewall sizes like `{ diameter: "17", width: "225",
+     * aspectRatio: "45" }` for `225/45R17`; the site's schema refuses any unknown field on a
+     * `TireSizeInput`, so the function does too. `location` is a 5-digit US zip, an exact store
+     * code, or a coordinate — same three forms `checkStock` takes, same resolution path (zip is
+     * geocoded to its centroid first, then the resolved store is the one the GraphQL operation is
+     * anchored to). `pageNumber` and `pageSize` paginate the result set (pageSize capped at 100).
+     * Returns pagination, the site's own facet list, and a list of tire rows. No
+     * `vehicleAssemblyId` is needed — unlike the by-vehicle searches here, the by-size operations
+     * take `vehicleInfo` as optional and the function never asks for one.
+     */
+    searchTiresBySize(args: { front: { diameter: string; width: string; aspectRatio: string }; rear?: { diameter: string; width: string; aspectRatio: string }; location: { zip: string } | { storeCode: string } | { latitude: number; longitude: number }; pageNumber: number; pageSize: number }): Promise<DiscounttireTireSizeSearch>;
   }
 }
 

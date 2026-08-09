@@ -135,7 +135,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.getTreadwellRecommendation` | discounttire.com | Runs Treadwell, Discount Tire's own tire recommendation engine — vehicle, ZIP, annual… | ⚪ |
 | `discounttire.getVehicleFitment` | discounttire.com | Reads what a given vehicle actually takes, before any product is chosen — the OE and… | ⚪ |
 | `discounttire.searchPackages` | discounttire.com | Searches the pre-built tire-and-wheel packages Discount Tire sells for a vehicle — a… | ⚪ |
-| `discounttire.searchTiresBySize` | discounttire.com | Searches tires by the size stamped on the sidewall — 225/45R17 and the like, including… | ⚪ |
+| `discounttire.searchTiresBySize` | discounttire.com | Searches tires by the size stamped on the sidewall — 225/45R17 and the like, including… | 🟢 |
 | `discounttire.searchTiresByVehicle` | discounttire.com | Searches the tires Discount Tire will actually sell for a specific vehicle — year… | ⚪ |
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
