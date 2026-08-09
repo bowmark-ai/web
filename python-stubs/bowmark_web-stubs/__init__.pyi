@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d42c0a88752b8942b716821804a48b38e7dbd3f308a61030703c16639ca19040
-# 8 capabilities, 85 providers, 278 typed functions, 20 refused.
+# Manifest version: acbcea1cb461981838d11b67847a7622118893fecbb2c28a16152028bb1d5d26
+# 8 capabilities, 85 providers, 279 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3717,6 +3717,23 @@ class Prv_labcorp_LabcorpTestSummary_Out(TypedDict):
     price: float
     priceFormatted: str
     currency: str
+
+class Prv_labcorp_LabcorpTestDetail_Out(TypedDict):
+    sku: str
+    name: str
+    urlKey: str
+    url: str
+    price: float
+    priceFormatted: str
+    currency: str
+    sampleType: str
+    collectionMethod: str
+    turnaroundTime: str
+    ageRange: str
+    metaDescription: str
+    metaTitle: str
+    shortDescriptionHtml: str
+    descriptionHtml: str
 
 class Prv_linkedin_LinkedinJobSearchQuery_In(TypedDict):
     keywords: NotRequired[str]
@@ -9380,6 +9397,13 @@ class Prv_labcorp(Protocol):
         """Searches Labcorp's direct-to-consumer test catalog (Labcorp OnDemand) by keyword — e.g.
         "Lyme disease", "Men's Health" — and returns matching tests with their sku, name and
         price. No doctor's visit required to order.
+        """
+
+    async def getTest(self, sku: str, /) -> Prv_labcorp_LabcorpTestDetail_Out:
+        """Returns the full OnDemand test detail for one sku — price, descriptions, sample type,
+        collection method, turnaround time and acceptable age band. Combines the catalog row
+        (GraphQL) with the specimen/turnaround facts the site renders on the PDP HTML. Pass the
+        sku returned by `search`.
         """
 
 class Prv_linkedin(Protocol):

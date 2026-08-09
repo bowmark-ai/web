@@ -1,5 +1,5 @@
 {
-  "version": "d42c0a88752b8942b716821804a48b38e7dbd3f308a61030703c16639ca19040",
+  "version": "acbcea1cb461981838d11b67847a7622118893fecbb2c28a16152028bb1d5d26",
   "units": {
     "cars": {
       "defs": {
@@ -5746,6 +5746,15 @@
         "search": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTest": [
+          {
+            "name": "sku",
             "schema": {
               "k": "string"
             },

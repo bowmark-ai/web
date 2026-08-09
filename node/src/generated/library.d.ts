@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d42c0a88752b8942b716821804a48b38e7dbd3f308a61030703c16639ca19040
-// 8 capabilities, 85 providers, 284 typed functions, 20 refused.
+// Manifest version: acbcea1cb461981838d11b67847a7622118893fecbb2c28a16152028bb1d5d26
+// 8 capabilities, 85 providers, 285 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7263,6 +7263,17 @@ interface LabcorpTestSummary {
   currency: string;       // "USD"
 }
 
+interface LabcorpTestDetail extends LabcorpTestSummary {
+  sampleType: string;        // "Blood & Urine", "Nasal Swab"
+  collectionMethod: string;  // "In person at a Labcorp location"
+  turnaroundTime: string;    // "1-2 days from when your sample arrives at our lab"
+  ageRange: string;          // "18-100", "" if absent
+  metaDescription: string;
+  metaTitle: string;
+  shortDescriptionHtml: string;
+  descriptionHtml: string;
+}
+
   /** Lab test pricing, PSC location lookup and appointment availability from Labcorp. */
   interface Unit {
     /**
@@ -7271,6 +7282,14 @@ interface LabcorpTestSummary {
      * No doctor's visit required to order.
      */
     search(query: string): Promise<LabcorpTestSummary[]>;
+
+    /**
+     * Returns the full OnDemand test detail for one sku — price, descriptions, sample type,
+     * collection method, turnaround time and acceptable age band. Combines the catalog row
+     * (GraphQL) with the specimen/turnaround facts the site renders on the PDP HTML. Pass the sku
+     * returned by `search`.
+     */
+    getTest(sku: string): Promise<LabcorpTestDetail>;
   }
 }
 

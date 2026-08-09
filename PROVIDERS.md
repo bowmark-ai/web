@@ -336,7 +336,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kayak.searchHotels` | kayak.com | Runs the stays search on kayak.com — the site's own second vertical — and returns… | 🟢 |
 | `labcorp.checkAppointmentAvailability` | labcorp.com | Checks open appointment slots at a given Patient Service Center for a chosen date… | ⚪ |
 | `labcorp.findLocation` | labcorp.com | Finds nearby Labcorp Patient Service Centers (PSCs) by zip code or address, returning… | ⚪ |
-| `labcorp.getTest` | labcorp.com | Returns one OnDemand test in full: price, what it screens for, sample type (blood… | ⚪ |
+| `labcorp.getTest` | labcorp.com | Returns one OnDemand test in full: price, what it screens for, sample type (blood… | 🟢 |
 | `labcorp.search` | labcorp.com | Searches Labcorp's direct-to-consumer test catalog (Labcorp OnDemand) by keyword —… | 🟢 |
 | `labcorp.trackOrder` | labcorp.com | Looks up the status of an existing Labcorp OnDemand order (ordered, kit shipped, kit… | ⚪ |
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | ⚪ |
