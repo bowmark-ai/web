@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e34c31fcb1f57700c10726b3753bee851ec5c703882b868ecb4b8609b65e982b
-# 8 capabilities, 85 providers, 280 typed functions, 20 refused.
+# Manifest version: bf74e9e745aafb3faecc770f90190eb6d5a38bf1ab7dae9e2986e7bb20d82d0f
+# 8 capabilities, 85 providers, 281 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6587,6 +6587,40 @@ class Prv_thezebra_thezebraRentersCoverage_Out(TypedDict):
     value: str
     amount: float | None
 
+class Prv_thezebra_thezebraAutoQuotesQuery_In(TypedDict):
+    driver: Prv_thezebra_thezebraAutoDriver_In
+    vehicle: Prv_thezebra_thezebraAutoVehicle_In
+    state: str
+    zip: str
+    county: str
+
+class Prv_thezebra_thezebraAutoDriver_In(TypedDict):
+    firstName: str
+    lastName: str
+    dob: str
+    email: str
+
+class Prv_thezebra_thezebraAutoVehicle_In(TypedDict):
+    year: float
+    make: str
+    model: str
+
+class Prv_thezebra_thezebraAutoQuotes_Out(TypedDict):
+    quotes: list[Prv_thezebra_thezebraAutoQuote_Out]
+    advertisedCarriers: list[str]
+    warnings: list[str]
+    url: str
+
+class Prv_thezebra_thezebraAutoQuote_Out(TypedDict):
+    carrier: str
+    carrierSlug: str
+    monthlyPremium: float
+    sixMonthPremium: float | None
+    totalPremium: float | None
+    policyLengthMonths: float | None
+    deductible: float | None
+    coverages: list[str]
+
 class Prv_trektravel_TrekTravelSearchFilters_In(TypedDict):
     query: NotRequired[str]
     destination: NotRequired[str]
@@ -11324,6 +11358,35 @@ class Prv_thezebra(Protocol):
         `totalPremium` is the site's own whole-term number and is never divided out of the
         monthly one. Renters is the only line The Zebra actually prices: its homeowners funnel
         reaches the same results page and publishes no premium anywhere on it.
+        """
+
+    async def getAutoQuotes(self, query: Prv_thezebra_thezebraAutoQuotesQuery_In, /) -> Prv_thezebra_thezebraAutoQuotes_Out:
+        """Returns REAL auto insurance quotes for one driver and one vehicle at a US ZIP — each
+        carrier's own monthly and six-month premium, deductible, and the coverage it priced, as
+        The Zebra's auto quote funnel prices them. This is a priced offer for the person asking,
+        NOT the published averages `getStateRates` and its siblings return. Pass `driver`
+        (`firstName`, `lastName`, `dob` ISO YYYY-MM-DD, `email`), one `vehicle` (`year`, `make`,
+        `model` — a model The Zebra does not rate THROWS naming the URL it tried), the 2-letter
+        `state`, a 5-digit `zip`, and `county` (the county the ZIP sits in — The Zebra validates
+        it server-side and a missing or wrong county is bounced). **The write binds, the read
+        does not — yet**: the GraphQL gateway at `graphql-gateway.production.thezebra.com`
+        accepts the auto seed (`LegacyStartInput.start.currentlyInsured` is the only field
+        Apollo currently exposes on that input), but the results route STILL bounces the session
+        to the homepage with the four fields this function sends. The function throws on the
+        bounce with a message naming the gap; the second required field on `LegacyStartInput` is
+        the next attempt's work, and the rejected probes — `helpToday`, `userPurchaseTimeframe`,
+        `hadActiveInsurance`, `residenceOwnership`, `presumedAnswers`, `policyLinkInfo`,
+        `startDate`, `desiredCoverage` — are documented in
+        `agents/capability-engineer/instances/vertical-insurance/tools/zebra-auto-quotes/shape-summary.json`
+        (and the e5 clone) so they don't have to be re-derived. **`advertisedCarriers` is not a
+        quote list and must never be read as one**: the results page would carry paid carrier
+        placements alongside real offers, separated by `data-cy="results-card_ad_<carrier>"`
+        (ad) versus `data-cy="results-card_q2b_<carrier>"` (real offer), and the advertised
+        names are returned in their own field with no price attached. Every premium is USD and
+        `monthlyPremium` is per MONTH — the card's own period is checked rather than assumed,
+        and a card printing any other term THROWS instead of relabelling a figure.
+        `totalPremium` is the site's own whole-term number and is never divided out of the
+        monthly one.
         """
 
 class Prv_trektravel(Protocol):

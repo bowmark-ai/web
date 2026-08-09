@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e34c31fcb1f57700c10726b3753bee851ec5c703882b868ecb4b8609b65e982b
-// 280 checked, 20 unchecked.
+// Manifest version: bf74e9e745aafb3faecc770f90190eb6d5a38bf1ab7dae9e2986e7bb20d82d0f
+// 281 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e34c31fcb1f57700c10726b3753bee851ec5c703882b868ecb4b8609b65e982b",
+  "version": "bf74e9e745aafb3faecc770f90190eb6d5a38bf1ab7dae9e2986e7bb20d82d0f",
   "units": {
     "cars": {
       "defs": {
@@ -11862,6 +11862,107 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.thezebra": {
       "defs": {
+        "thezebraAutoDriver": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "dob",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "thezebraAutoQuotesQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "driver",
+              "schema": {
+                "k": "ref",
+                "name": "thezebraAutoDriver"
+              },
+              "optional": false
+            },
+            {
+              "name": "vehicle",
+              "schema": {
+                "k": "ref",
+                "name": "thezebraAutoVehicle"
+              },
+              "optional": false
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "county",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "thezebraAutoVehicle": {
+          "k": "object",
+          "props": [
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "make",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "thezebraCarrierRatesQuery": {
           "k": "object",
           "props": [
@@ -12120,6 +12221,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "thezebraRentersQuotesQuery"
+            },
+            "optional": false
+          }
+        ],
+        "getAutoQuotes": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "thezebraAutoQuotesQuery"
             },
             "optional": false
           }

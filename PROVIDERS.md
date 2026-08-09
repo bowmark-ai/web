@@ -591,7 +591,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `therabody.listTheragunProducts` | therabody.com | Reads the live Therabody catalogue as Therabody publishes it — every product, its… | 🟢 |
 | `therabody.recommendTheragun` | therabody.com | Filters the live catalogue by what a shopper actually needs — Theragun device family… | 🟢 |
 | `thezebra.estimateCoverageCost` | thezebra.com | Returns The Zebra's own estimate of what a driver should expect to pay, and what… | ⚪ |
-| `thezebra.getAutoQuotes` | thezebra.com | Returns real side-by-side auto insurance rates from the carriers that will write a… | ⚪ |
+| `thezebra.getAutoQuotes` | thezebra.com | Returns real side-by-side auto insurance rates from the carriers that will write a… | 🟢 |
 | `thezebra.getCarrierRates` | thezebra.com | Returns what a named insurance company charges relative to its competitors — its own… | 🟢 |
 | `thezebra.getCityRates` | thezebra.com | Returns car insurance costs for a US city — the average premium there, the per-carrier… | 🟢 |
 | `thezebra.getCommercialAutoQuotes` | thezebra.com | Returns commercial auto rates for a business's vehicles, drivers and use class — the… | ⚪ |

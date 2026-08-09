@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e34c31fcb1f57700c10726b3753bee851ec5c703882b868ecb4b8609b65e982b
-// 8 capabilities, 85 providers, 286 typed functions, 20 refused.
+// Manifest version: bf74e9e745aafb3faecc770f90190eb6d5a38bf1ab7dae9e2986e7bb20d82d0f
+// 8 capabilities, 85 providers, 287 typed functions, 20 refused.
 // 51,712 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12598,6 +12598,47 @@ interface thezebraRentersQuotes {
   url: string
 }
 
+interface thezebraAutoDriver {
+  firstName: string
+  lastName: string
+  dob: string     // ISO YYYY-MM-DD — carriers rate on the DATE, not on an age
+  email: string
+}
+
+interface thezebraAutoVehicle {
+  year: number    // 4-digit; a model year The Zebra does not rate THROWS
+  make: string    // "Toyota", "Tesla"
+  model: string   // "Camry", "Model 3" — a TRIM is not a page
+}
+
+interface thezebraAutoQuotesQuery {
+  driver: thezebraAutoDriver
+  vehicle: thezebraAutoVehicle
+  state: string   // 2-letter postal code
+  zip: string     // 5 digits
+  county: string  // the county the ZIP sits in — the gateway validates server-side
+}
+
+interface thezebraAutoQuote {
+  carrier: string                       // e.g. "Progressive"
+  carrierSlug: string                   // the site's own slug, e.g. "progressive"
+  monthlyPremium: number                // USD per MONTH; the card's period is asserted
+  sixMonthPremium: number | null        // USD per 6-month policy, where the card publishes one
+  totalPremium: number | null           // USD for the whole term, never derived
+  policyLengthMonths: number | null
+  deductible: number | null
+  coverages: string[]                   // every coverage the card lists, verbatim
+}
+
+interface thezebraAutoQuotes {
+  quotes: thezebraAutoQuote[]           // cheapest monthly premium first; [] is a real answer
+  // The carriers ADVERTISED beside the quotes — paid placements with no price.
+  // Returned under their own name so they can never be read as offers.
+  advertisedCarriers: string[]
+  warnings: string[]                    // names every dropped source / what the gateway refused
+  url: string
+}
+
   /**
    * US insurance comparison marketplace — side-by-side auto, home and renters rates from 100+
    * carriers, plus published rate research by state, city, vehicle, carrier and driver history.
@@ -12771,6 +12812,34 @@ interface thezebraRentersQuotes {
      * homeowners funnel reaches the same results page and publishes no premium anywhere on it.
      */
     getRentersQuotes(query: thezebraRentersQuotesQuery): Promise<thezebraRentersQuotes>;
+
+    /**
+     * Returns REAL auto insurance quotes for one driver and one vehicle at a US ZIP — each
+     * carrier's own monthly and six-month premium, deductible, and the coverage it priced, as The
+     * Zebra's auto quote funnel prices them. This is a priced offer for the person asking, NOT the
+     * published averages `getStateRates` and its siblings return. Pass `driver` (`firstName`,
+     * `lastName`, `dob` ISO YYYY-MM-DD, `email`), one `vehicle` (`year`, `make`, `model` — a model
+     * The Zebra does not rate THROWS naming the URL it tried), the 2-letter `state`, a 5-digit
+     * `zip`, and `county` (the county the ZIP sits in — The Zebra validates it server-side and a
+     * missing or wrong county is bounced). **The write binds, the read does not — yet**: the
+     * GraphQL gateway at `graphql-gateway.production.thezebra.com` accepts the auto seed
+     * (`LegacyStartInput.start.currentlyInsured` is the only field Apollo currently exposes on
+     * that input), but the results route STILL bounces the session to the homepage with the four
+     * fields this function sends. The function throws on the bounce with a message naming the gap;
+     * the second required field on `LegacyStartInput` is the next attempt's work, and the rejected
+     * probes — `helpToday`, `userPurchaseTimeframe`, `hadActiveInsurance`, `residenceOwnership`,
+     * `presumedAnswers`, `policyLinkInfo`, `startDate`, `desiredCoverage` — are documented in
+     * `agents/capability-engineer/instances/vertical-insurance/tools/zebra-auto-quotes/shape-summary.json`
+     * (and the e5 clone) so they don't have to be re-derived. **`advertisedCarriers` is not a
+     * quote list and must never be read as one**: the results page would carry paid carrier
+     * placements alongside real offers, separated by `data-cy="results-card_ad_<carrier>"` (ad)
+     * versus `data-cy="results-card_q2b_<carrier>"` (real offer), and the advertised names are
+     * returned in their own field with no price attached. Every premium is USD and
+     * `monthlyPremium` is per MONTH — the card's own period is checked rather than assumed, and a
+     * card printing any other term THROWS instead of relabelling a figure. `totalPremium` is the
+     * site's own whole-term number and is never divided out of the monthly one.
+     */
+    getAutoQuotes(query: thezebraAutoQuotesQuery): Promise<thezebraAutoQuotes>;
   }
 }
 
