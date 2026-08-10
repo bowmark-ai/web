@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ff68a5741fac3adb94bff8559e1608bc610a91a9a7b5c84fe2256e0b36c139f9
-# 8 capabilities, 88 providers, 290 typed functions, 20 refused.
+# Manifest version: 23bfae6c2d11cb27f28b67246c61b380cca19a8f6bcd069f99306918432b0b4a
+# 8 capabilities, 89 providers, 293 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2846,6 +2846,62 @@ class Prv_grainger_graingerStockRow_Out_pickup_u0_Out_branch_u0_Out_address_u0_O
     state: str | None
     zip: str | None
     country: str | None
+
+class Prv_hauslabs_listHauslabsProducts_opts_In(TypedDict):
+    limit: NotRequired[float]
+    productType: NotRequired[str]
+
+class Prv_hauslabs_HauslabsProduct_Out(TypedDict):
+    handle: str
+    title: str
+    vendor: str
+    productType: str
+    url: str
+    descriptionHtml: str | None
+    optionNames: list[str]
+    variants: list[Prv_hauslabs_HauslabsVariant_Out]
+    priceRange: Prv_hauslabs_HauslabsProduct_Out_priceRange_u0_Out | None
+    inStock: bool
+    tags: list[str]
+    images: list[str]
+
+class Prv_hauslabs_HauslabsVariant_Out(TypedDict):
+    id: str
+    title: str
+    price: str
+    compareAtPrice: str | None
+    sku: str | None
+    available: bool
+    options: list[str]
+
+class Prv_hauslabs_HauslabsProduct_Out_priceRange_u0_Out(TypedDict):
+    min: str
+    max: str
+
+class Prv_hauslabs_runFoundationShadeFinder_input_In(TypedDict):
+    family: Literal["Deep"] | Literal["Medium Deep"] | Literal["Medium"] | Literal["Light Medium"] | Literal["Light"] | Literal["Fair"]
+    depth: Literal["deeper"] | Literal["medium"] | Literal["lighter"]
+    undertone: Literal["warm"] | Literal["cool"] | Literal["neutral"] | Literal["rosy"] | Literal["golden"]
+    hasAddOne: NotRequired[bool]
+
+class Prv_hauslabs_HauslabsShadeMatch_Out(TypedDict):
+    quiz: Prv_hauslabs_HauslabsShadeMatch_Out_quiz_Out
+    variant: Prv_hauslabs_HauslabsShadeMatch_Out_variant_Out
+    product: Prv_hauslabs_HauslabsProduct_Out
+    warnings: list[str]
+
+class Prv_hauslabs_HauslabsShadeMatch_Out_quiz_Out(TypedDict):
+    family: str
+    depth: str
+    undertone: str
+    hasAddOne: bool
+
+class Prv_hauslabs_HauslabsShadeMatch_Out_variant_Out(TypedDict):
+    number: float
+    family: str
+    sku: str | None
+    price: str
+    available: bool
 
 class Prv_healthcare_gov_healthcare_govEnrollmentQuery_In(TypedDict):
     zip: str
@@ -9005,6 +9061,39 @@ class Prv_grainger(Protocol):
         could have named). Optional `quantity` (default 1) is forwarded to the site.
         """
 
+class Prv_hauslabs(Protocol):
+    """Haus Labs by Lady Gaga product catalogue — every clean-beauty SKU, its variants, its
+    prices and what is in stock — read off the live Shopify Plus storefront. The Foundation
+    Shade Finder is the broadcast wedge: a multi-step quiz ChatGPT cannot operate, mapped
+    locally to one specific priced shade with the buy-page handoff.
+    """
+
+    async def listHauslabsProducts(self, opts: Prv_hauslabs_listHauslabsProducts_opts_In | None = None, /) -> list[Prv_hauslabs_HauslabsProduct_Out]:
+        """Reads the live Haus Labs catalogue as the storefront publishes it — every product, its
+        handle, title, vendor, description, tags, images and the per-variant price the
+        storefront is quoting right now. Optional productType narrows to FACE / LIPS / EYES /
+        SETS / etc. before the limit. Returns [] on a transport failure (warnings would be on an
+        object envelope; this is a list). The catalog page is the line and the parse is the unit
+        of work.
+        """
+
+    async def getHauslabsProduct(self, handle: str, /) -> Prv_hauslabs_HauslabsProduct_Out:
+        """Reads one product by its handle — every variant, its exact price, the image the
+        storefront is showing and whether that specific variant is purchasable right now. Takes
+        the handle listHauslabsProducts returns. THROWS on an unknown handle (the store answers
+        a real 404).
+        """
+
+    async def runFoundationShadeFinder(self, input: Prv_hauslabs_runFoundationShadeFinder_input_In, /) -> Prv_hauslabs_HauslabsShadeMatch_Out:
+        """Resolves a buyer's Foundation Lab quiz answers to ONE specific shade: the variant title,
+        the SKU, the real price, the availability, the buy-page URL. Mirrors the quiz's
+        `shadeLogic` decision tree natively against Cartful Solutions' published `pd.json`
+        (keyless, browserless) and resolves the matching variant through /products/<handle>.js
+        for live price and stock. The quiz is a 5-step Shopify section ChatGPT cannot operate on
+        the buyer's behalf; this function returns the single shade the quiz's terminal page
+        renders for the same inputs.
+        """
+
 class Prv_healthcare_gov(Protocol):
     """The federal ACA Marketplace: the health and dental plans a household can actually buy
     for its ZIP and income, with premiums both before and after the premium tax credit, plus
@@ -11973,6 +12062,7 @@ class BowmarkProviders(Protocol):
     geico: Prv_geico
     google_flights: Prv_google_flights
     grainger: Prv_grainger
+    hauslabs: Prv_hauslabs
     healthcare_gov: Prv_healthcare_gov
     hellofresh: Prv_hellofresh
     hellotend: Prv_hellotend

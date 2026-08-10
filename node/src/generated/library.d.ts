@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ff68a5741fac3adb94bff8559e1608bc610a91a9a7b5c84fe2256e0b36c139f9
-// 8 capabilities, 88 providers, 296 typed functions, 20 refused.
+// Manifest version: 23bfae6c2d11cb27f28b67246c61b380cca19a8f6bcd069f99306918432b0b4a
+// 8 capabilities, 89 providers, 299 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5107,6 +5107,79 @@ interface graingerStockRow {
      * `quantity` (default 1) is forwarded to the site.
      */
     checkStock(args: object): Promise<graingerStockRow>;
+  }
+}
+
+declare namespace BowmarkProvider_hauslabs {
+  // ── Haus Labs by Lady Gaga — the unit's own declarations, verbatim ──
+interface HauslabsVariant {
+  id: string;
+  title: string;
+  price: string;
+  compareAtPrice: string | null;
+  sku: string | null;
+  available: boolean;
+  options: string[];
+}
+interface HauslabsProduct {
+  handle: string;
+  title: string;
+  vendor: string;
+  productType: string;
+  url: string;
+  descriptionHtml: string | null;
+  optionNames: string[];
+  variants: HauslabsVariant[];
+  priceRange: { min: string; max: string } | null;
+  inStock: boolean;
+  tags: string[];
+  images: string[];
+}
+interface HauslabsShadeMatch {
+  quiz: { family: string; depth: string; undertone: string; hasAddOne: boolean };
+  variant: {
+    number: number;
+    family: string;
+    sku: string | null;
+    price: string;
+    available: boolean;
+  };
+  product: HauslabsProduct;
+  warnings: string[];
+}
+
+  /**
+   * Haus Labs by Lady Gaga product catalogue — every clean-beauty SKU, its variants, its prices
+   * and what is in stock — read off the live Shopify Plus storefront. The Foundation Shade
+   * Finder is the broadcast wedge: a multi-step quiz ChatGPT cannot operate, mapped locally to
+   * one specific priced shade with the buy-page handoff.
+   */
+  interface Unit {
+    /**
+     * Reads the live Haus Labs catalogue as the storefront publishes it — every product, its
+     * handle, title, vendor, description, tags, images and the per-variant price the storefront is
+     * quoting right now. Optional productType narrows to FACE / LIPS / EYES / SETS / etc. before
+     * the limit. Returns [] on a transport failure (warnings would be on an object envelope; this
+     * is a list). The catalog page is the line and the parse is the unit of work.
+     */
+    listHauslabsProducts(opts?: { limit?: number; productType?: string }): Promise<HauslabsProduct[]>;
+
+    /**
+     * Reads one product by its handle — every variant, its exact price, the image the storefront
+     * is showing and whether that specific variant is purchasable right now. Takes the handle
+     * listHauslabsProducts returns. THROWS on an unknown handle (the store answers a real 404).
+     */
+    getHauslabsProduct(handle: string): Promise<HauslabsProduct>;
+
+    /**
+     * Resolves a buyer's Foundation Lab quiz answers to ONE specific shade: the variant title, the
+     * SKU, the real price, the availability, the buy-page URL. Mirrors the quiz's `shadeLogic`
+     * decision tree natively against Cartful Solutions' published `pd.json` (keyless, browserless)
+     * and resolves the matching variant through /products/<handle>.js for live price and stock.
+     * The quiz is a 5-step Shopify section ChatGPT cannot operate on the buyer's behalf; this
+     * function returns the single shade the quiz's terminal page renders for the same inputs.
+     */
+    runFoundationShadeFinder(input: { family: 'Deep' | 'Medium Deep' | 'Medium' | 'Light Medium' | 'Light' | 'Fair'; depth: 'deeper' | 'medium' | 'lighter'; undertone: 'warm' | 'cool' | 'neutral' | 'rosy' | 'golden'; hasAddOne?: boolean }): Promise<HauslabsShadeMatch>;
   }
 }
 
@@ -14061,6 +14134,7 @@ interface BowmarkProviders {
   geico: BowmarkProvider_geico.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   grainger: BowmarkProvider_grainger.Unit;
+  hauslabs: BowmarkProvider_hauslabs.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;
   hellotend: BowmarkProvider_hellotend.Unit;

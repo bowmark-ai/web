@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ff68a5741fac3adb94bff8559e1608bc610a91a9a7b5c84fe2256e0b36c139f9
-// 290 checked, 20 unchecked.
+// Manifest version: 23bfae6c2d11cb27f28b67246c61b380cca19a8f6bcd069f99306918432b0b4a
+// 293 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ff68a5741fac3adb94bff8559e1608bc610a91a9a7b5c84fe2256e0b36c139f9",
+  "version": "23bfae6c2d11cb27f28b67246c61b380cca19a8f6bcd069f99306918432b0b4a",
   "units": {
     "cars": {
       "defs": {
@@ -4303,6 +4303,146 @@ export const VALIDATORS: ValidatorTable = {
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.hauslabs": {
+      "defs": {},
+      "functions": {
+        "listHauslabsProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "productType",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getHauslabsProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "runFoundationShadeFinder": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "family",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "Deep"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "Medium Deep"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "Medium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "Light Medium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "Light"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "Fair"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "depth",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "deeper"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "medium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "lighter"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "undertone",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "warm"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "cool"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "neutral"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "rosy"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "golden"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "hasAddOne",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
