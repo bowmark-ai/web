@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 025135f90bd62751de140195bd0b1362a616fef50ca04988ea7a3dedddebe3c4
-// 287 checked, 20 unchecked.
+// Manifest version: 75ed32aa210bc375ea259fb61276ab65363d6b123ba60e63283bdfa36a58a3d5
+// 288 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "025135f90bd62751de140195bd0b1362a616fef50ca04988ea7a3dedddebe3c4",
+  "version": "75ed32aa210bc375ea259fb61276ab65363d6b123ba60e63283bdfa36a58a3d5",
   "units": {
     "cars": {
       "defs": {
@@ -6485,6 +6485,78 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "medicareGetPlanQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "planType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "pdp"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ma"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mapd"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "snp"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "contractId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "planId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "segmentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "year",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "county",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "medicareHospitalQuery": {
           "k": "object",
           "props": [
@@ -6631,6 +6703,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "medicareHospitalQuery"
+            },
+            "optional": false
+          }
+        ],
+        "getPlan": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "medicareGetPlanQuery"
             },
             "optional": false
           }

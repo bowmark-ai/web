@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 025135f90bd62751de140195bd0b1362a616fef50ca04988ea7a3dedddebe3c4
-// 8 capabilities, 87 providers, 293 typed functions, 20 refused.
+// Manifest version: 75ed32aa210bc375ea259fb61276ab65363d6b123ba60e63283bdfa36a58a3d5
+// 8 capabilities, 87 providers, 294 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8789,6 +8789,96 @@ interface medicareMedigapSearch {
   planTypes: medicareMedigapPlanType[];
 }
 
+interface medicarePlanDetail {
+  /** CMS's contract-plan-segment triple joined by '-', e.g. "S5884-103-0". */
+  id: string;
+  name: string;
+  nameSpanish: string | null;
+  organization: string;
+  contractId: string;
+  planId: string;
+  segmentId: string;
+  year: number;
+  /** CMS's own category string: "Medicare Advantage" / "Medicare Advantage with
+   * Prescription Drug Coverage" / "Medicare Prescription Drug Plan" /
+   * "Special Needs Plan". */
+  category: string;
+  planType: "PLAN_TYPE_PDP" | "PLAN_TYPE_MA" | "PLAN_TYPE_MAPD" | "PLAN_TYPE_SNP";
+  carrierUrl: string | null;
+  contractYear: string;
+  partcPremium: number;
+  partdPremium: number;
+  partbPremiumReduction: number;
+  /** Annual drug deductible in dollars; 0 means none. PDP only. */
+  drugPlanDeductible: number | null;
+  /** Annual in-network OOP maximum, verbatim. Empty when not published. */
+  maximumOopc: string;
+  /** Per-visit cost strings, verbatim. Empty when CMS publishes no figure —
+   * "$0" (a real benefit) and "" (not published) are deliberately distinct. */
+  primaryDoctorVisitCost: string;
+  specialistDoctorVisitCost: string;
+  emergencyCareCost: string;
+  /** MA/MAPD only — null on PDP, which has no primary/specialist visits. */
+  primaryDoctorCostSharing: string | null;
+  specialistDoctorCostSharing: string | null;
+  /** 1-5 in half steps, or null when CMS publishes none (with starRatingNote
+   * naming the reason — e.g. "too new to be rated"). */
+  starRating: number | null;
+  starRatingNote: string | null;
+  lowPerforming: boolean;
+  highPerforming: boolean;
+  /** All false on a PDP — supplemental benefits live on the Part C side. */
+  supplementalBenefits: {
+    silverSneakers: boolean;
+    transportation: boolean;
+    telehealth: boolean;
+    otcDrugs: boolean;
+    homeSafetyDevices: boolean;
+    inHomeSupport: boolean;
+    supportForCaregivers: boolean;
+    healthEducation: boolean;
+    counselingServices: boolean;
+    emergencyResponseDevice: boolean;
+    worldwideEmergency: boolean;
+  };
+  providerCoverage: {
+    /** False on plans with no network (e.g. PFFS); providers is then reliably empty. */
+    hasProviderCoverageData: boolean;
+    providerCount: number;
+  };
+  /** Extra Help / Low-Income Subsidy dollar amounts at each LIS band. */
+  lis: {
+    level100: number;
+    level75: number;
+    level50: number;
+    level25: number;
+  };
+  snpType: string;
+  dsnpIntegrationLevel: string;
+  /** When CMS marks the plan as terminated for the search year. */
+  terminatedWithoutCrosswalk: string | null;
+  /** Empty when the plan is published in full; the SPA hides fields CMS marks
+   * for redaction and the same fields arrive here. */
+  redactions: string[];
+}
+
+interface medicareGetPlanQuery {
+  /** "pdp" | "ma" | "mapd" | "snp" — the caller's MUST match the row they
+   * have in hand. The same (contractId, planId, segmentId) triple does NOT
+   * exist across plan types by design. */
+  planType: "pdp" | "ma" | "mapd" | "snp";
+  /** CMS's contract id (e.g. "S5884" for Part D, "H1234" for Part C). */
+  contractId: string;
+  planId: string;
+  segmentId: string;
+  /** Defaults to the current calendar year — CMS renumbers every January. */
+  year?: number;
+  /** 5-digit US ZIP. Required because the API is keyed on (fips, zip). */
+  zip: string;
+  /** Needed only for the rare ZIP that crosses a state line. */
+  county?: string;
+}
+
   /**
    * The US government's own Medicare site — Medicare Advantage, Part D and Medigap plan search
    * with real drug-cost estimates, the Care Compare directory of doctors, hospitals, nursing
@@ -8896,6 +8986,26 @@ interface medicareMedigapSearch {
      * walked-radius honesty split `findDoctors` uses, for the identical reason.
      */
     findHospitals(query: medicareHospitalQuery): Promise<medicareHospitalSearch>;
+
+    /**
+     * The full detail of one Part D / MA / MAPD / SNP plan, identified by its CMS
+     * contract-plan-segment triple (e.g. `S5884-103-0` for Part D, `Hxxxx-yyyy-0` for Part C).
+     * Returns the per-visit and per-event cost strings verbatim ('$0', '$20 copay', '20%', or
+     * empty when CMS publishes none), the annual in-network OOP maximum, the supplemental benefits
+     * (dental, fitness, telehealth, OTC drugs, transportation, worldwide emergency — PDPs set them
+     * all to false because the supplemental benefit half is a Part C thing), the CMS star rating
+     * with the explicit reason when none is published (e.g. 'too new to be rated' rather than
+     * rendering a null as a middling rating), the Extra Help / LIS dollar amounts at each band,
+     * the provider-coverage summary, and the carrier's own CMS-published page. `planType` must be
+     * the same discriminator `searchDrugPlans` / a future health-plan search used to find the
+     * triple — the same `(contractId, planId, segmentId)` does NOT exist across plan types by
+     * design, so the wrong one throws. `zip` is required because the API is keyed on (fips, zip),
+     * not on the plan id alone — without it there is no region to ask about. `year` defaults to
+     * the current calendar year. NOTE: the per-visit cost strings are verbatim and the difference
+     * between '$0' (a real zero-cost benefit) and '' (not published) is load-bearing — never
+     * coerce an empty string to 0.
+     */
+    getPlan(arg0: medicareGetPlanQuery): Promise<medicarePlanDetail>;
   }
 }
 

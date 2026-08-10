@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 025135f90bd62751de140195bd0b1362a616fef50ca04988ea7a3dedddebe3c4
-# 8 capabilities, 87 providers, 287 typed functions, 20 refused.
+# Manifest version: 75ed32aa210bc375ea259fb61276ab65363d6b123ba60e63283bdfa36a58a3d5
+# 8 capabilities, 87 providers, 288 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4450,6 +4450,73 @@ class Prv_medicare_medicareHospitalMeasureGroup_Out(TypedDict):
     noDifferent: float | None
     worse: float | None
     footnote: str | None
+
+class Prv_medicare_medicareGetPlanQuery_In(TypedDict):
+    planType: Literal["pdp"] | Literal["ma"] | Literal["mapd"] | Literal["snp"]
+    contractId: str
+    planId: str
+    segmentId: str
+    year: NotRequired[float]
+    zip: str
+    county: NotRequired[str]
+
+class Prv_medicare_medicarePlanDetail_Out(TypedDict):
+    id: str
+    name: str
+    nameSpanish: str | None
+    organization: str
+    contractId: str
+    planId: str
+    segmentId: str
+    year: float
+    category: str
+    planType: Literal["PLAN_TYPE_PDP"] | Literal["PLAN_TYPE_MA"] | Literal["PLAN_TYPE_MAPD"] | Literal["PLAN_TYPE_SNP"]
+    carrierUrl: str | None
+    contractYear: str
+    partcPremium: float
+    partdPremium: float
+    partbPremiumReduction: float
+    drugPlanDeductible: float | None
+    maximumOopc: str
+    primaryDoctorVisitCost: str
+    specialistDoctorVisitCost: str
+    emergencyCareCost: str
+    primaryDoctorCostSharing: str | None
+    specialistDoctorCostSharing: str | None
+    starRating: float | None
+    starRatingNote: str | None
+    lowPerforming: bool
+    highPerforming: bool
+    supplementalBenefits: Prv_medicare_medicarePlanDetail_Out_supplementalBenefits_Out
+    providerCoverage: Prv_medicare_medicarePlanDetail_Out_providerCoverage_Out
+    lis: Prv_medicare_medicarePlanDetail_Out_lis_Out
+    snpType: str
+    dsnpIntegrationLevel: str
+    terminatedWithoutCrosswalk: str | None
+    redactions: list[str]
+
+class Prv_medicare_medicarePlanDetail_Out_supplementalBenefits_Out(TypedDict):
+    silverSneakers: bool
+    transportation: bool
+    telehealth: bool
+    otcDrugs: bool
+    homeSafetyDevices: bool
+    inHomeSupport: bool
+    supportForCaregivers: bool
+    healthEducation: bool
+    counselingServices: bool
+    emergencyResponseDevice: bool
+    worldwideEmergency: bool
+
+class Prv_medicare_medicarePlanDetail_Out_providerCoverage_Out(TypedDict):
+    hasProviderCoverageData: bool
+    providerCount: float
+
+class Prv_medicare_medicarePlanDetail_Out_lis_Out(TypedDict):
+    level100: float
+    level75: float
+    level50: float
+    level25: float
 
 class Prv_microcenter_StoreOffer_Out(TypedDict):
     title: str
@@ -10064,6 +10131,25 @@ class Prv_medicare(Protocol):
         the centroid of the hospital's own ZIP, not its street address — this dataset carries no
         coordinates — so `radiusFullyScanned` and `matchesInSearchedZips` carry the same
         walked-radius honesty split `findDoctors` uses, for the identical reason.
+        """
+
+    async def getPlan(self, arg0: Prv_medicare_medicareGetPlanQuery_In, /) -> Prv_medicare_medicarePlanDetail_Out:
+        """The full detail of one Part D / MA / MAPD / SNP plan, identified by its CMS
+        contract-plan-segment triple (e.g. `S5884-103-0` for Part D, `Hxxxx-yyyy-0` for Part C).
+        Returns the per-visit and per-event cost strings verbatim ('$0', '$20 copay', '20%', or
+        empty when CMS publishes none), the annual in-network OOP maximum, the supplemental
+        benefits (dental, fitness, telehealth, OTC drugs, transportation, worldwide emergency —
+        PDPs set them all to false because the supplemental benefit half is a Part C thing), the
+        CMS star rating with the explicit reason when none is published (e.g. 'too new to be
+        rated' rather than rendering a null as a middling rating), the Extra Help / LIS dollar
+        amounts at each band, the provider-coverage summary, and the carrier's own CMS-published
+        page. `planType` must be the same discriminator `searchDrugPlans` / a future health-plan
+        search used to find the triple — the same `(contractId, planId, segmentId)` does NOT
+        exist across plan types by design, so the wrong one throws. `zip` is required because
+        the API is keyed on (fips, zip), not on the plan id alone — without it there is no
+        region to ask about. `year` defaults to the current calendar year. NOTE: the per-visit
+        cost strings are verbatim and the difference between '$0' (a real zero-cost benefit) and
+        '' (not published) is load-bearing — never coerce an empty string to 0.
         """
 
 class Prv_microcenter(Protocol):

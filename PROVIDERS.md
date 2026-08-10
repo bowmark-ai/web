@@ -411,7 +411,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `medicare.findRehabAndLongTermCareFacilities` | medicare.gov | Returns the inpatient rehabilitation facilities and long-term care hospitals near a… | ⚪ |
 | `medicare.getCosts` | medicare.gov | Returns what Medicare itself costs in a given year — the Part A premium (and who pays… | 🟢 |
 | `medicare.getEnrollmentPeriods` | medicare.gov | Returns when somebody can actually enrol in or change Medicare coverage, and what… | ⚪ |
-| `medicare.getPlan` | medicare.gov | Returns the full detail for one Medicare plan by its CMS contract/plan identifier —… | ⚪ |
+| `medicare.getPlan` | medicare.gov | Returns the full detail for one Medicare plan by its CMS contract/plan identifier —… | 🟢 |
 | `medicare.searchDrugPlans` | medicare.gov | Returns the standalone Medicare Part D prescription drug plans sold in a ZIP's Part D… | 🟢 |
 | `medicare.searchDrugs` | medicare.gov | Searches Medicare's own drug reference by name and returns matching drugs with the… | ⚪ |
 | `medicare.searchHealthPlans` | medicare.gov | Returns the Medicare Advantage (Part C) plans somebody can actually buy for a ZIP and… | ⚪ |
