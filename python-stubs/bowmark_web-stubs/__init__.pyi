@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 75ed32aa210bc375ea259fb61276ab65363d6b123ba60e63283bdfa36a58a3d5
-# 8 capabilities, 87 providers, 288 typed functions, 20 refused.
+# Manifest version: 9b61ee7d37d486b5d4ea20974cd691ef27203c68edbb514ddaafa969f62fc8e5
+# 8 capabilities, 87 providers, 289 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5063,6 +5063,24 @@ class Prv_paypal_PaypalFeeToken_Out(TypedDict):
 class Prv_paypal_PaypalFeeToken_Out_amount_u0_Out(TypedDict):
     amount: float
     currency: str
+
+class Prv_paypal_PaypalGetCurrencyConversionQuoteArgs_In(TypedDict):
+    kind: NotRequired[Literal["goodsOrServices"] | Literal["personal"] | Literal["payouts"] | Literal["other"]]
+    audience: NotRequired[Literal["consumer"]]
+    country: NotRequired[str]
+
+class Prv_paypal_PaypalCurrencyConversionQuote_Out(TypedDict):
+    kind: Literal["goodsOrServices"] | Literal["personal"] | Literal["payouts"] | Literal["other"]
+    paypalSpread: float
+    citations: Prv_paypal_PaypalCurrencyConversionQuote_Out_citations_Out
+
+class Prv_paypal_PaypalCurrencyConversionQuote_Out_citations_Out(TypedDict):
+    paypal: Prv_paypal_PaypalCurrencyConversionCitation_Out
+
+class Prv_paypal_PaypalCurrencyConversionCitation_Out(TypedDict):
+    documentId: str
+    feeDataKey: str
+    internalName: str
 
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
@@ -10492,11 +10510,11 @@ class Prv_otto(Protocol):
 
 class Prv_paypal(Protocol):
     """PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules,
-    the fee on one concrete personal (friends-and-family) transaction, currency-conversion
-    quotes and the spread PayPal adds, Pay Later instalment plans, PayPal.Me handle lookup,
-    Help Center search and articles, the binding policy documents, PayPal Shopping cashback
-    offers, crypto prices, and invoice payer-view reads. Two functions callable today —
-    estimateFee, getFees.
+    the fee on one concrete personal (friends-and-family) transaction, the spread PayPal
+    adds on a currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help
+    Center search and articles, the binding policy documents, PayPal Shopping cashback
+    offers, crypto prices, and invoice payer-view reads. Three functions callable today —
+    estimateFee, getFees, getCurrencyConversionQuote.
     """
 
     async def estimateFee(self, args: Prv_paypal_PaypalEstimateFeeArgs_In, /) -> Prv_paypal_PaypalFeeEstimate_Out:
@@ -10513,6 +10531,17 @@ class Prv_paypal(Protocol):
         citations — so a caller can inspect the schedule itself rather than asking about one
         amount. Currently consumer / us only; merchant is on a separate unverified page and
         other countries have not been fetched.
+        """
+
+    async def getCurrencyConversionQuote(self, args: Prv_paypal_PaypalGetCurrencyConversionQuoteArgs_In, /) -> Prv_paypal_PaypalCurrencyConversionQuote_Out:
+        """Reads PayPal's published currency-conversion spread — the half of its fee it DOES
+        disclose — off the same fees page (FEETB26, 4.00% for goodsOrServices/personal/payouts,
+        3.00% for "other"), e.g. getCurrencyConversionQuote({ kind: "goodsOrServices" }) -> {
+        kind: "goodsOrServices", paypalSpread: 0.04, citations: { paypal: { documentId:
+        "FEETB26", feeDataKey: "4.00%", internalName: "..." } } }. PayPal does NOT publish the
+        wholesale base rate, so this function returns only the spread; combining it with a base
+        rate from another provider (e.g. bowmark.providers.oanda.convertCurrency) is the
+        capability tier's job, not a single provider's. consumer / us only today.
         """
 
 class Prv_pirateship(Protocol):

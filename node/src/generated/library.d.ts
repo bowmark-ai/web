@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 75ed32aa210bc375ea259fb61276ab65363d6b123ba60e63283bdfa36a58a3d5
-// 8 capabilities, 87 providers, 294 typed functions, 20 refused.
+// Manifest version: 9b61ee7d37d486b5d4ea20974cd691ef27203c68edbb514ddaafa969f62fc8e5
+// 8 capabilities, 87 providers, 295 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9980,13 +9980,30 @@ interface PaypalFeeSchedule {
   sourceUrl: string;
   tables: PaypalFeeTable[];
 }
+type PaypalConversionKind = "goodsOrServices" | "personal" | "payouts" | "other";
+interface PaypalCurrencyConversionCitation {
+  documentId: string;           // the CMS table id this figure came from, e.g. "FEETB26"
+  feeDataKey: string;           // the exact published value used, e.g. "4.00%"
+  internalName: string;
+}
+interface PaypalGetCurrencyConversionQuoteArgs {
+  kind?: PaypalConversionKind;  // "goodsOrServices" | "personal" | "payouts" | "other"
+  audience?: "consumer";        // defaults to "consumer"; merchant is a separate, unverified page
+  country?: string;             // ISO 3166-1 alpha-2, defaults to "us"; only "us" is verified end-to-end
+}
+interface PaypalCurrencyConversionQuote {
+  kind: PaypalConversionKind;   // which PayPal-conversion context the spread applies to
+  paypalSpread: number;         // 0.04 for goodsOrServices/personal/payouts; 0.03 for "other"
+  citations: { paypal: PaypalCurrencyConversionCitation };
+}
 
   /**
    * PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules, the
-   * fee on one concrete personal (friends-and-family) transaction, currency-conversion quotes
-   * and the spread PayPal adds, Pay Later instalment plans, PayPal.Me handle lookup, Help Center
-   * search and articles, the binding policy documents, PayPal Shopping cashback offers, crypto
-   * prices, and invoice payer-view reads. Two functions callable today — estimateFee, getFees.
+   * fee on one concrete personal (friends-and-family) transaction, the spread PayPal adds on a
+   * currency conversion, Pay Later instalment plans, PayPal.Me handle lookup, Help Center search
+   * and articles, the binding policy documents, PayPal Shopping cashback offers, crypto prices,
+   * and invoice payer-view reads. Three functions callable today — estimateFee, getFees,
+   * getCurrencyConversionQuote.
    */
   interface Unit {
     /**
@@ -10006,6 +10023,18 @@ interface PaypalFeeSchedule {
      * been fetched.
      */
     getFees(args: PaypalGetFeesArgs): Promise<PaypalFeeSchedule>;
+
+    /**
+     * Reads PayPal's published currency-conversion spread — the half of its fee it DOES disclose —
+     * off the same fees page (FEETB26, 4.00% for goodsOrServices/personal/payouts, 3.00% for
+     * "other"), e.g. getCurrencyConversionQuote({ kind: "goodsOrServices" }) -> { kind:
+     * "goodsOrServices", paypalSpread: 0.04, citations: { paypal: { documentId: "FEETB26",
+     * feeDataKey: "4.00%", internalName: "..." } } }. PayPal does NOT publish the wholesale base
+     * rate, so this function returns only the spread; combining it with a base rate from another
+     * provider (e.g. bowmark.providers.oanda.convertCurrency) is the capability tier's job, not a
+     * single provider's. consumer / us only today.
+     */
+    getCurrencyConversionQuote(args: PaypalGetCurrencyConversionQuoteArgs): Promise<PaypalCurrencyConversionQuote>;
   }
 }
 

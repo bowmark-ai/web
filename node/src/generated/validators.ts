@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 75ed32aa210bc375ea259fb61276ab65363d6b123ba60e63283bdfa36a58a3d5
-// 288 checked, 20 unchecked.
+// Manifest version: 9b61ee7d37d486b5d4ea20974cd691ef27203c68edbb514ddaafa969f62fc8e5
+// 289 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "75ed32aa210bc375ea259fb61276ab65363d6b123ba60e63283bdfa36a58a3d5",
+  "version": "9b61ee7d37d486b5d4ea20974cd691ef27203c68edbb514ddaafa969f62fc8e5",
   "units": {
     "cars": {
       "defs": {
@@ -7495,6 +7495,27 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.paypal": {
       "defs": {
+        "PaypalConversionKind": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "goodsOrServices"
+            },
+            {
+              "k": "literal",
+              "v": "personal"
+            },
+            {
+              "k": "literal",
+              "v": "payouts"
+            },
+            {
+              "k": "literal",
+              "v": "other"
+            }
+          ]
+        },
         "PaypalEstimateFeeArgs": {
           "k": "object",
           "props": [
@@ -7546,6 +7567,34 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "PaypalGetCurrencyConversionQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "kind",
+              "schema": {
+                "k": "ref",
+                "name": "PaypalConversionKind"
+              },
+              "optional": true
+            },
+            {
+              "name": "audience",
+              "schema": {
+                "k": "literal",
+                "v": "consumer"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "PaypalGetFeesArgs": {
           "k": "object",
           "props": [
@@ -7584,6 +7633,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "PaypalGetFeesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCurrencyConversionQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PaypalGetCurrencyConversionQuoteArgs"
             },
             "optional": false
           }
