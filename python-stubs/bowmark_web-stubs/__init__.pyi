@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9b61ee7d37d486b5d4ea20974cd691ef27203c68edbb514ddaafa969f62fc8e5
-# 8 capabilities, 87 providers, 289 typed functions, 20 refused.
+# Manifest version: ff68a5741fac3adb94bff8559e1608bc610a91a9a7b5c84fe2256e0b36c139f9
+# 8 capabilities, 88 providers, 290 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6442,6 +6442,39 @@ class Prv_sunhomesaunas_SunHomeSaunasCartResult_Out(TypedDict):
     cartItemCount: float
     cartTotal: float
 
+class Prv_target_findStore_args_In(TypedDict):
+    query: str
+
+class Prv_target_TargetStoreSearch_Out(TypedDict):
+    query: str
+    stores: list[Prv_target_TargetStore_Out]
+    warnings: list[str]
+
+class Prv_target_TargetStore_Out(TypedDict):
+    id: str
+    slug: str
+    name: str
+    address: str
+    phone: str | None
+    geoSpec: Prv_target_TargetStoreGeoSpec_Out | None
+    weeklyHours: list[Prv_target_TargetStoreHoursDay_Out]
+
+class Prv_target_TargetStoreGeoSpec_Out(TypedDict):
+    iso_time_zone_code: str
+    time_zone_code: str
+    time_zone_utc_offset_name: str
+
+class Prv_target_TargetStoreHoursDay_Out(TypedDict):
+    is_open: bool
+    date: str
+    day_name: str
+    hours: list[Prv_target_TargetStoreHoursInterval_Out]
+
+class Prv_target_TargetStoreHoursInterval_Out(TypedDict):
+    begin_time: str
+    end_date: str
+    end_time: str
+
 class Prv_teladoc_teladocPricing_Out(TypedDict):
     source: str
     disclaimer: str
@@ -11392,6 +11425,17 @@ class Prv_sunhomesaunas(Protocol):
         the write landed. THROWS if the product is currently out of stock.
         """
 
+class Prv_target(Protocol):
+    """Big-box general merchandise — search, product detail, store stock and store lookup on
+    target.com.
+    """
+
+    async def findStore(self, args: Prv_target_findStore_args_In, /) -> Prv_target_TargetStoreSearch_Out:
+        """Searches the store-locator for nearby Targets by ZIP, partial ZIP, city, or street+city,
+        and returns each store's id, slug, name, address, phone, time-zone and 14-day weekly
+        hours.
+        """
+
 class Prv_teladoc(Protocol):
     """Virtual-care company: searches its public Health Library and self-pay visit pricing.
     Booking a visit requires a member login and is out of scope.
@@ -11974,6 +12018,7 @@ class BowmarkProviders(Protocol):
     statefarm: Prv_statefarm
     stickergiant: Prv_stickergiant
     sunhomesaunas: Prv_sunhomesaunas
+    target: Prv_target
     teladoc: Prv_teladoc
     tentree: Prv_tentree
     therabody: Prv_therabody

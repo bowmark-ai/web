@@ -579,7 +579,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sunhomesaunas.getPersonalizedSaunaMatches` | sunhomesaunas.com | Submits real answers through the same quiz session flow (startSession -> addSelection… | 🟢 |
 | `sunhomesaunas.getSaunaFinderQuestions` | sunhomesaunas.com | Reads Sun Home Saunas' real, live Perfect Product Finder quiz (a third-party embed)… | 🟢 |
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | ⚪ |
-| `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | ⚪ |
+| `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getProduct` | target.com | Reads one product page in full — price, variant/size options, description, images —… | ⚪ |
 | `target.search` | target.com | Searches or browses Target's catalog by keyword or category, returning matching… | ⚪ |
 | `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |

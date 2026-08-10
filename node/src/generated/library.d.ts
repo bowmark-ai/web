@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9b61ee7d37d486b5d4ea20974cd691ef27203c68edbb514ddaafa969f62fc8e5
-// 8 capabilities, 87 providers, 295 typed functions, 20 refused.
+// Manifest version: ff68a5741fac3adb94bff8559e1608bc610a91a9a7b5c84fe2256e0b36c139f9
+// 8 capabilities, 88 providers, 296 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12443,6 +12443,60 @@ interface SunHomeSaunasCartResult {
   }
 }
 
+declare namespace BowmarkProvider_target {
+  // ── Target — the unit's own declarations, verbatim ──
+interface targetRow {
+  id: string;
+}
+
+interface TargetStoreHoursInterval {
+  begin_time: string;
+  end_date: string;
+  end_time: string;
+}
+
+interface TargetStoreHoursDay {
+  is_open: boolean;
+  date: string;
+  day_name: string;
+  hours: TargetStoreHoursInterval[];
+}
+
+interface TargetStoreGeoSpec {
+  iso_time_zone_code: string;
+  time_zone_code: string;
+  time_zone_utc_offset_name: string;
+}
+
+interface TargetStore {
+  id: string;
+  slug: string;
+  name: string;
+  address: string;
+  phone: string | null;
+  geoSpec: TargetStoreGeoSpec | null;
+  weeklyHours: TargetStoreHoursDay[];
+}
+
+interface TargetStoreSearch {
+  query: string;
+  stores: TargetStore[];
+  warnings: string[];
+}
+
+  /**
+   * Big-box general merchandise — search, product detail, store stock and store lookup on
+   * target.com.
+   */
+  interface Unit {
+    /**
+     * Searches the store-locator for nearby Targets by ZIP, partial ZIP, city, or street+city, and
+     * returns each store's id, slug, name, address, phone, time-zone and 14-day weekly hours.
+     */
+    findStore(args: { query: string }): Promise<TargetStoreSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_teladoc {
   // ── Teladoc Health — the unit's own declarations, verbatim ──
 interface teladocRow {
@@ -14052,6 +14106,7 @@ interface BowmarkProviders {
   statefarm: BowmarkProvider_statefarm.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
+  target: BowmarkProvider_target.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
   tentree: BowmarkProvider_tentree.Unit;
   therabody: BowmarkProvider_therabody.Unit;
