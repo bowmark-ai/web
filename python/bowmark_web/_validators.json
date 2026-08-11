@@ -1,5 +1,5 @@
 {
-  "version": "74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30",
+  "version": "d7bbccd12508d47aa852538a5c280b5bd3ee1156b5e4910deadc0b4c54e4b546",
   "units": {
     "cars": {
       "defs": {
@@ -1983,6 +1983,38 @@
           }
         ],
         "listModels": []
+      }
+    },
+    "providers.bykoket": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.cancer": {
@@ -6085,38 +6117,6 @@
             "schema": {
               "k": "ref",
               "name": "KayakCarQuery"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.koket": {
-      "defs": {},
-      "functions": {
-        "searchProducts": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getProduct": [
-          {
-            "name": "idOrUrl",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "addToCart": [
-          {
-            "name": "idOrUrl",
-            "schema": {
-              "k": "string"
             },
             "optional": false
           }

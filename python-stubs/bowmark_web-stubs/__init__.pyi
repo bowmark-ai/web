@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30
+# Manifest version: d7bbccd12508d47aa852538a5c280b5bd3ee1156b5e4910deadc0b4c54e4b546
 # 8 capabilities, 92 providers, 297 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -1335,6 +1335,39 @@ class Prv_bmwusa_BmwusaModelListing_Out(TypedDict):
     msrpFrom: float | None
     msrpTo: float | None
     trimCount: float
+
+class Prv_bykoket_KoketProductSummary_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    price: float
+    currency: str
+    inStock: bool
+
+class Prv_bykoket_KoketProduct_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    reference: str
+    price: float
+    priceFormatted: str
+    listPrice: float
+    onSale: bool
+    currency: str
+    inStock: bool
+    quantityLeft: float | None
+    availabilityMessage: str
+    description: str
+    images: list[str]
+
+class Prv_bykoket_KoketAddToCartHandoff_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    price: float
+    currency: str
+    inStock: bool
+    note: str
 
 class Prv_cancer_findCancerCenters_args_In(TypedDict):
     state: NotRequired[str]
@@ -3889,39 +3922,6 @@ class Prv_kayak_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
-
-class Prv_koket_KoketProductSummary_Out(TypedDict):
-    id: str
-    name: str
-    url: str
-    price: float
-    currency: str
-    inStock: bool
-
-class Prv_koket_KoketProduct_Out(TypedDict):
-    id: str
-    name: str
-    url: str
-    reference: str
-    price: float
-    priceFormatted: str
-    listPrice: float
-    onSale: bool
-    currency: str
-    inStock: bool
-    quantityLeft: float | None
-    availabilityMessage: str
-    description: str
-    images: list[str]
-
-class Prv_koket_KoketAddToCartHandoff_Out(TypedDict):
-    id: str
-    name: str
-    url: str
-    price: float
-    currency: str
-    inStock: bool
-    note: str
 
 class Prv_labcorp_LabcorpTestSummary_Out(TypedDict):
     sku: str
@@ -8156,6 +8156,28 @@ class Prv_bmwusa(Protocol):
         body style rather than dropping the model.
         """
 
+class Prv_bykoket(Protocol):
+    """Reads KOKET's public furniture, lighting and textiles storefront (bykoket.com/shop) —
+    search the catalog, read a product's live price, stock and description, and get the
+    handoff to add it to cart on the real site.
+    """
+
+    async def searchProducts(self, query: str, /) -> list[Prv_bykoket_KoketProductSummary_Out]:
+        """Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each
+        match's id, name, product URL, price and stock status.
+        """
+
+    async def getProduct(self, idOrUrl: str, /) -> Prv_bykoket_KoketProduct_Out:
+        """Reads one KOKET product's live page — price (list and current, since KOKET runs
+        promotions), stock count, availability message, description and images.
+        """
+
+    async def addToCart(self, idOrUrl: str, /) -> Prv_bykoket_KoketAddToCartHandoff_Out:
+        """Hands back the shopper's own KOKET product page — the exact Add to cart button for this
+        product — since the site's cart requires a per-session token nobody but the shopper can
+        supply. Writes nothing.
+        """
+
 class Prv_cancer(Protocol):
     """The US National Cancer Institute: PDQ cancer information, the clinical-trial register,
     cancer drugs, NCI-designated cancer centers and the cancer dictionaries. Callable now:
@@ -9964,28 +9986,6 @@ class Prv_kayak(Protocol):
         """Runs the car-hire search on kayak.com and returns priced vehicles for a pickup location
         and date range, cheapest-first. Interaction-gated: the prices only exist after the
         site's own three-phase supplier poll completes.
-        """
-
-class Prv_koket(Protocol):
-    """Reads KOKET's public furniture, lighting and textiles storefront (bykoket.com/shop) —
-    search the catalog, read a product's live price, stock and description, and get the
-    handoff to add it to cart on the real site.
-    """
-
-    async def searchProducts(self, query: str, /) -> list[Prv_koket_KoketProductSummary_Out]:
-        """Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each
-        match's id, name, product URL, price and stock status.
-        """
-
-    async def getProduct(self, idOrUrl: str, /) -> Prv_koket_KoketProduct_Out:
-        """Reads one KOKET product's live page — price (list and current, since KOKET runs
-        promotions), stock count, availability message, description and images.
-        """
-
-    async def addToCart(self, idOrUrl: str, /) -> Prv_koket_KoketAddToCartHandoff_Out:
-        """Hands back the shopper's own KOKET product page — the exact Add to cart button for this
-        product — since the site's cart requires a per-session token nobody but the shopper can
-        supply. Writes nothing.
         """
 
 class Prv_labcorp(Protocol):
@@ -12192,6 +12192,7 @@ class BowmarkProviders(Protocol):
     blenderseyewear: Prv_blenderseyewear
     bluehaven: Prv_bluehaven
     bmwusa: Prv_bmwusa
+    bykoket: Prv_bykoket
     cancer: Prv_cancer
     caraway: Prv_caraway
     cars: Prv_cars
@@ -12225,7 +12226,6 @@ class BowmarkProviders(Protocol):
     interiordefine: Prv_interiordefine
     joybird: Prv_joybird
     kayak: Prv_kayak
-    koket: Prv_koket
     labcorp: Prv_labcorp
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath

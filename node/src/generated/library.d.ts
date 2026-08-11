@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30
+// Manifest version: d7bbccd12508d47aa852538a5c280b5bd3ee1156b5e4910deadc0b4c54e4b546
 // 8 capabilities, 92 providers, 307 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2100,6 +2100,71 @@ interface BmwusaModelListing {
      * appear in the result with null MSRPs and null body style rather than dropping the model.
      */
     listModels(): Promise<BmwusaModelListing[]>;
+  }
+}
+
+declare namespace BowmarkProvider_bykoket {
+  // ── KOKET — the unit's own declarations, verbatim ──
+interface KoketProductSummary {
+  id: string;
+  name: string;
+  url: string;
+  price: number;
+  currency: string;
+  inStock: boolean;
+}
+
+interface KoketProduct {
+  id: string;
+  name: string;
+  url: string;
+  reference: string;
+  price: number;
+  priceFormatted: string;
+  listPrice: number;
+  onSale: boolean;
+  currency: string;
+  inStock: boolean;
+  quantityLeft: number | null;
+  availabilityMessage: string;
+  description: string;
+  images: string[];
+}
+
+interface KoketAddToCartHandoff {
+  id: string;
+  name: string;
+  url: string;
+  price: number;
+  currency: string;
+  inStock: boolean;
+  note: string;
+}
+
+  /**
+   * Reads KOKET's public furniture, lighting and textiles storefront (bykoket.com/shop) — search
+   * the catalog, read a product's live price, stock and description, and get the handoff to add
+   * it to cart on the real site.
+   */
+  interface Unit {
+    /**
+     * Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each
+     * match's id, name, product URL, price and stock status.
+     */
+    searchProducts(query: string): Promise<KoketProductSummary[]>;
+
+    /**
+     * Reads one KOKET product's live page — price (list and current, since KOKET runs promotions),
+     * stock count, availability message, description and images.
+     */
+    getProduct(idOrUrl: string): Promise<KoketProduct>;
+
+    /**
+     * Hands back the shopper's own KOKET product page — the exact Add to cart button for this
+     * product — since the site's cart requires a per-session token nobody but the shopper can
+     * supply. Writes nothing.
+     */
+    addToCart(idOrUrl: string): Promise<KoketAddToCartHandoff>;
   }
 }
 
@@ -7521,71 +7586,6 @@ interface KayakCar {
      * three-phase supplier poll completes.
      */
     searchCars(query: KayakCarQuery): Promise<KayakCar[]>;
-  }
-}
-
-declare namespace BowmarkProvider_koket {
-  // ── KOKET — the unit's own declarations, verbatim ──
-interface KoketProductSummary {
-  id: string;
-  name: string;
-  url: string;
-  price: number;
-  currency: string;
-  inStock: boolean;
-}
-
-interface KoketProduct {
-  id: string;
-  name: string;
-  url: string;
-  reference: string;
-  price: number;
-  priceFormatted: string;
-  listPrice: number;
-  onSale: boolean;
-  currency: string;
-  inStock: boolean;
-  quantityLeft: number | null;
-  availabilityMessage: string;
-  description: string;
-  images: string[];
-}
-
-interface KoketAddToCartHandoff {
-  id: string;
-  name: string;
-  url: string;
-  price: number;
-  currency: string;
-  inStock: boolean;
-  note: string;
-}
-
-  /**
-   * Reads KOKET's public furniture, lighting and textiles storefront (bykoket.com/shop) — search
-   * the catalog, read a product's live price, stock and description, and get the handoff to add
-   * it to cart on the real site.
-   */
-  interface Unit {
-    /**
-     * Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each
-     * match's id, name, product URL, price and stock status.
-     */
-    searchProducts(query: string): Promise<KoketProductSummary[]>;
-
-    /**
-     * Reads one KOKET product's live page — price (list and current, since KOKET runs promotions),
-     * stock count, availability message, description and images.
-     */
-    getProduct(idOrUrl: string): Promise<KoketProduct>;
-
-    /**
-     * Hands back the shopper's own KOKET product page — the exact Add to cart button for this
-     * product — since the site's cart requires a per-session token nobody but the shopper can
-     * supply. Writes nothing.
-     */
-    addToCart(idOrUrl: string): Promise<KoketAddToCartHandoff>;
   }
 }
 
@@ -14605,6 +14605,7 @@ interface BowmarkProviders {
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
   bluehaven: BowmarkProvider_bluehaven.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
+  bykoket: BowmarkProvider_bykoket.Unit;
   cancer: BowmarkProvider_cancer.Unit;
   caraway: BowmarkProvider_caraway.Unit;
   cars: BowmarkProvider_cars.Unit;
@@ -14638,7 +14639,6 @@ interface BowmarkProviders {
   interiordefine: BowmarkProvider_interiordefine.Unit;
   joybird: BowmarkProvider_joybird.Unit;
   kayak: BowmarkProvider_kayak.Unit;
-  koket: BowmarkProvider_koket.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;

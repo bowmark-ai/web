@@ -65,6 +65,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.listOffers` | bmwusa.com | Lists BMW's current US lease and finance offers for a ZIP code (resolved server-side… | 🟢 |
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
+| `bykoket.addToCart` | bykoket.com | Hands back the shopper's own KOKET product page — the exact Add to cart button for… | 🟢 |
+| `bykoket.getProduct` | bykoket.com | Reads one KOKET product's live page — price (list and current, since KOKET runs… | 🟢 |
+| `bykoket.searchProducts` | bykoket.com | Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each… | 🟢 |
 | `cancer.findCancerCenters` | cancer.gov | Returns the NCI-Designated Cancer Centers — the institutions NCI itself certifies as… | 🟢 |
 | `cancer.getCancerInfoSummary` | cancer.gov | Returns NCI's own PDQ information summary for one cancer type or topic — what the… | 🟢 |
 | `cancer.getCancerStatistics` | cancer.gov | Returns NCI's published statistics for a cancer type — new cases and deaths per year… | ⚪ |
@@ -343,9 +346,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kayak.search` | kayak.com | Runs the itinerary search on kayak.com and returns its result rows price-ascending. | 🟢 |
 | `kayak.searchCars` | kayak.com | Runs the car-hire search on kayak.com and returns priced vehicles for a pickup… | 🟢 |
 | `kayak.searchHotels` | kayak.com | Runs the stays search on kayak.com — the site's own second vertical — and returns… | 🟢 |
-| `koket.addToCart` | bykoket.com | Hands back the shopper's own KOKET product page — the exact Add to cart button for… | 🟢 |
-| `koket.getProduct` | bykoket.com | Reads one KOKET product's live page — price (list and current, since KOKET runs… | 🟢 |
-| `koket.searchProducts` | bykoket.com | Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each… | 🟢 |
 | `labcorp.checkAppointmentAvailability` | labcorp.com | Checks open appointment slots at a given Patient Service Center for a chosen date… | ⚪ |
 | `labcorp.findLocation` | labcorp.com | Finds nearby Labcorp Patient Service Centers (PSCs) by zip code or address, returning… | ⚪ |
 | `labcorp.getTest` | labcorp.com | Returns one OnDemand test in full: price, what it screens for, sample type (blood… | 🟢 |

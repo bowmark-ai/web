@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30
+// Manifest version: d7bbccd12508d47aa852538a5c280b5bd3ee1156b5e4910deadc0b4c54e4b546
 // 297 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30",
+  "version": "d7bbccd12508d47aa852538a5c280b5bd3ee1156b5e4910deadc0b4c54e4b546",
   "units": {
     "cars": {
       "defs": {
@@ -1995,6 +1995,38 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listModels": []
+      }
+    },
+    "providers.bykoket": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.cancer": {
@@ -6097,38 +6129,6 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KayakCarQuery"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.koket": {
-      "defs": {},
-      "functions": {
-        "searchProducts": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getProduct": [
-          {
-            "name": "idOrUrl",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "addToCart": [
-          {
-            "name": "idOrUrl",
-            "schema": {
-              "k": "string"
             },
             "optional": false
           }
