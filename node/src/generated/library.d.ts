@@ -6,7 +6,7 @@
 // turn it into a module and every declaration below would stop being global.
 //
 // Manifest version: 74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30
-// 8 capabilities, 92 providers, 303 typed functions, 20 refused.
+// 8 capabilities, 92 providers, 307 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14295,6 +14295,30 @@ interface ShopifyCartLine {
   lineTotal: string;
   url: string;
 }
+/** One collection the store publishes — its own merchandised grouping, and the
+ * ONE place either yoga retailer states a set. Membership in a collection the
+ * retailer NAMED "Matching Sets" is a published fact and is admissible as set
+ * evidence; two products being adjacent inside it is NOT, because a position in
+ * a list is not a statement. */
+interface ShopifyCollection {
+  handle: string;
+  title: string;
+  url: string;
+  descriptionHtml: string | null;
+  /** True when the retailer's OWN title or handle names this a set, a matching
+   * piece or a look. Never inferred from what is inside it. */
+  setLike: boolean;
+  productCount: number | null;
+  updatedAt: string | null;
+}
+interface ShopifyCollectionProducts {
+  handle: string;
+  url: string;
+  /** In the RETAILER's own order. Curated collections are merchandised
+   * top-then-bottom; reading a pairing out of that order is the caller's
+   * inference, never this provider's claim. [] is an ordinary answer. */
+  products: ShopifyProduct[];
+}
 interface ShopifyCart {
   /** The store's own cart token — a bearer credential, so treat it like one. */
   token: string;
@@ -14325,6 +14349,20 @@ interface ShopifyCart {
      * specific size or colour is purchasable right now.
      */
     getProduct(handle: string): Promise<ShopifyProduct>;
+
+    /**
+     * Lists the store's own merchandised collections. THIS is where a retailer states a SET: a
+     * collection the store itself named "Matching Sets" or "Activewear Sets" carries setLike:
+     * true, and membership in one is published evidence that two garments are sold together.
+     */
+    listCollections(opts?: { limit?: number }): Promise<ShopifyCollection[]>;
+
+    /**
+     * Reads one collection's products in the retailer's own merchandised order, as full product
+     * rows. An empty list is an ordinary answer — several named 'look' collections publish no
+     * products through this door.
+     */
+    getCollection(handle: string, opts?: { limit?: number }): Promise<ShopifyCollectionProducts>;
 
     /**
      * Puts variants into THIS run's own cart on the store and returns the cart the store reports
@@ -14480,6 +14518,30 @@ interface ShopifyCartLine {
   lineTotal: string;
   url: string;
 }
+/** One collection the store publishes — its own merchandised grouping, and the
+ * ONE place either yoga retailer states a set. Membership in a collection the
+ * retailer NAMED "Matching Sets" is a published fact and is admissible as set
+ * evidence; two products being adjacent inside it is NOT, because a position in
+ * a list is not a statement. */
+interface ShopifyCollection {
+  handle: string;
+  title: string;
+  url: string;
+  descriptionHtml: string | null;
+  /** True when the retailer's OWN title or handle names this a set, a matching
+   * piece or a look. Never inferred from what is inside it. */
+  setLike: boolean;
+  productCount: number | null;
+  updatedAt: string | null;
+}
+interface ShopifyCollectionProducts {
+  handle: string;
+  url: string;
+  /** In the RETAILER's own order. Curated collections are merchandised
+   * top-then-bottom; reading a pairing out of that order is the caller's
+   * inference, never this provider's claim. [] is an ordinary answer. */
+  products: ShopifyProduct[];
+}
 interface ShopifyCart {
   /** The store's own cart token — a bearer credential, so treat it like one. */
   token: string;
@@ -14510,6 +14572,20 @@ interface ShopifyCart {
      * specific size or colour is purchasable right now.
      */
     getProduct(handle: string): Promise<ShopifyProduct>;
+
+    /**
+     * Lists the store's own merchandised collections. THIS is where a retailer states a SET: a
+     * collection the store itself named "Matching Sets" or "Activewear Sets" carries setLike:
+     * true, and membership in one is published evidence that two garments are sold together.
+     */
+    listCollections(opts?: { limit?: number }): Promise<ShopifyCollection[]>;
+
+    /**
+     * Reads one collection's products in the retailer's own merchandised order, as full product
+     * rows. An empty list is an ordinary answer — several named 'look' collections publish no
+     * products through this door.
+     */
+    getCollection(handle: string, opts?: { limit?: number }): Promise<ShopifyCollectionProducts>;
   }
 }
 
