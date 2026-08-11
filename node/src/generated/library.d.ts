@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 726f971170ac88864d5bb06121ba17dd7109531dcfc6244da45fe615e6369699
-// 8 capabilities, 90 providers, 301 typed functions, 20 refused.
+// Manifest version: 0b71fedc0eab6a892c3c97c929373e85fd8ebc33b4c6b334bcc6068f232376c0
+// 8 capabilities, 91 providers, 302 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11936,6 +11936,55 @@ interface SearsStock {
   }
 }
 
+declare namespace BowmarkProvider_seegarsfence {
+  // ── Seegars Fence Company — the unit's own declarations, verbatim ──
+interface SeegarsBranch {
+  id: number;
+  name: string;
+  address1: string;
+  city: string;
+  state: string;
+  zip: string;
+  salesEmail: string;
+  salesPhone: string;
+  webSite: string;
+  outsideServiceAreaText: string;
+  serviceArea: string;
+}
+
+interface SeegarsGeocodedAddress {
+  address1: string;
+  city: string;
+  state: string;
+  zip: string;
+  displayName: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface CheckServiceAreaResult {
+  address: SeegarsGeocodedAddress;
+  inServiceArea: boolean;
+  branch: SeegarsBranch;
+}
+
+  /**
+   * Fence/gate installer (Carolinas). checkServiceArea is live — geocodes an address and reports
+   * whether it's inside Seegars' service area, plus the branch that would handle it.
+   * estimateFencePrice (the actual priced estimate) is a stub — see its notImplemented reason.
+   */
+  interface Unit {
+    /**
+     * Geocodes a free-text address (`address`, e.g. "301 Fayetteville St, Raleigh, NC 27601")
+     * against Seegars Fence's own address-lookup API, then checks it against the branch's
+     * published service-area polygon — the same check the site's own Fence Price Estimator Tool
+     * performs before it will show any pricing. Returns the normalized address, whether it falls
+     * inside the service area, and the branch (name, phone, email, address) that would handle it.
+     */
+    checkServiceArea(args: object): Promise<CheckServiceAreaResult>;
+  }
+}
+
 declare namespace BowmarkProvider_selectblinds {
   // ── SelectBlinds — the unit's own declarations, verbatim ──
 // SelectBlinds' OWN shapes — not a capability contract.
@@ -14509,6 +14558,7 @@ interface BowmarkProviders {
   ritani: BowmarkProvider_ritani.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
   sears: BowmarkProvider_sears.Unit;
+  seegarsfence: BowmarkProvider_seegarsfence.Unit;
   selectblinds: BowmarkProvider_selectblinds.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 726f971170ac88864d5bb06121ba17dd7109531dcfc6244da45fe615e6369699
-// 295 checked, 20 unchecked.
+// Manifest version: 0b71fedc0eab6a892c3c97c929373e85fd8ebc33b4c6b334bcc6068f232376c0
+// 296 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "726f971170ac88864d5bb06121ba17dd7109531dcfc6244da45fe615e6369699",
+  "version": "0b71fedc0eab6a892c3c97c929373e85fd8ebc33b4c6b334bcc6068f232376c0",
   "units": {
     "cars": {
       "defs": {
@@ -11152,6 +11152,20 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.seegarsfence": {
+      "defs": {},
+      "functions": {
+        "checkServiceArea": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
           }
         ]
       }

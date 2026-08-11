@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 726f971170ac88864d5bb06121ba17dd7109531dcfc6244da45fe615e6369699
-# 8 capabilities, 90 providers, 295 typed functions, 20 refused.
+# Manifest version: 0b71fedc0eab6a892c3c97c929373e85fd8ebc33b4c6b334bcc6068f232376c0
+# 8 capabilities, 91 providers, 296 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6267,6 +6267,33 @@ class Prv_sears_SearsStockStore_Out(TypedDict):
     promiseDate: str | None
     ffmType: str | None
 
+class Prv_seegarsfence_CheckServiceAreaResult_Out(TypedDict):
+    address: Prv_seegarsfence_SeegarsGeocodedAddress_Out
+    inServiceArea: bool
+    branch: Prv_seegarsfence_SeegarsBranch_Out
+
+class Prv_seegarsfence_SeegarsGeocodedAddress_Out(TypedDict):
+    address1: str
+    city: str
+    state: str
+    zip: str
+    displayName: str
+    latitude: float
+    longitude: float
+
+class Prv_seegarsfence_SeegarsBranch_Out(TypedDict):
+    id: float
+    name: str
+    address1: str
+    city: str
+    state: str
+    zip: str
+    salesEmail: str
+    salesPhone: str
+    webSite: str
+    outsideServiceAreaText: str
+    serviceArea: str
+
 class Prv_selectblinds_SelectBlindsStyle_Out(TypedDict):
     handle: str
     title: str
@@ -11354,6 +11381,22 @@ class Prv_sears(Protocol):
         `search`/`getProduct` — same as `getProduct`.
         """
 
+class Prv_seegarsfence(Protocol):
+    """Fence/gate installer (Carolinas). checkServiceArea is live — geocodes an address and
+    reports whether it's inside Seegars' service area, plus the branch that would handle it.
+    estimateFencePrice (the actual priced estimate) is a stub — see its notImplemented
+    reason.
+    """
+
+    async def checkServiceArea(self, args: Any, /) -> Prv_seegarsfence_CheckServiceAreaResult_Out:
+        """Geocodes a free-text address (`address`, e.g. "301 Fayetteville St, Raleigh, NC 27601")
+        against Seegars Fence's own address-lookup API, then checks it against the branch's
+        published service-area polygon — the same check the site's own Fence Price Estimator
+        Tool performs before it will show any pricing. Returns the normalized address, whether
+        it falls inside the service area, and the branch (name, phone, email, address) that
+        would handle it.
+        """
+
 class Prv_selectblinds(Protocol):
     """SelectBlinds' real made-to-measure blinds/shades catalog and its real live 'HD Pricing'
     engine — search real buyable styles, read one style's real configurator (mount type,
@@ -12184,6 +12227,7 @@ class BowmarkProviders(Protocol):
     ritani: Prv_ritani
     samsclub: Prv_samsclub
     sears: Prv_sears
+    seegarsfence: Prv_seegarsfence
     selectblinds: Prv_selectblinds
     semihandmade: Prv_semihandmade
     soundcloud: Prv_soundcloud
