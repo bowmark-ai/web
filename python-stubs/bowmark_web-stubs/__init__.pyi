@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0b71fedc0eab6a892c3c97c929373e85fd8ebc33b4c6b334bcc6068f232376c0
-# 8 capabilities, 91 providers, 296 typed functions, 20 refused.
+# Manifest version: 74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30
+# 8 capabilities, 92 providers, 297 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7021,6 +7021,20 @@ class Prv_thezebra_thezebraAutoQuote_Out(TypedDict):
     deductible: float | None
     coverages: list[str]
 
+class Prv_topviewtix_topviewtixPackageDetails_Out(TypedDict):
+    id: float
+    slug: str
+    name: str
+    description: str
+    url: str
+    adultsPrice: float | None
+    kidsPrice: float | None
+    isAdultOnly: bool
+    availableDates: list[str]
+    blockedDates: list[str]
+    soldOutDates: list[str]
+    availableUntil: str | None
+
 class Prv_trektravel_TrekTravelSearchFilters_In(TypedDict):
     query: NotRequired[str]
     destination: NotRequired[str]
@@ -11946,6 +11960,20 @@ class Prv_thezebra(Protocol):
         monthly one.
         """
 
+class Prv_topviewtix(Protocol):
+    """TopView's NYC hop-on-hop-off bus, Statue of Liberty cruise and bike/walking tour
+    packages — getPackageDetails reads one package's live price and its own real-time
+    booking calendar (available/blocked/sold-out dates) off topviewtix.com/new-york/<slug>.
+    """
+
+    async def getPackageDetails(self, args: Any, /) -> Prv_topviewtix_topviewtixPackageDetails_Out:
+        """Reads one TopView tour package in full — name, description, adult/kid price, and the
+        site's OWN live booking calendar (which dates are open, blocked, or sold out, and how
+        far out the calendar reaches). Takes `slug`, the package's own URL slug off
+        topviewtix.com/new-york/<slug> (e.g. "hop-on-hop-off-pass"). Throws if the slug doesn't
+        resolve to a real package (a clean 404) rather than returning an empty row.
+        """
+
 class Prv_trektravel(Protocol):
     """Trek Travel's guided cycling and hiking tour catalog — search by destination, activity,
     activity level and price, then read one trip's real scheduled departure dates with each
@@ -12239,6 +12267,7 @@ class BowmarkProviders(Protocol):
     tentree: Prv_tentree
     therabody: Prv_therabody
     thezebra: Prv_thezebra
+    topviewtix: Prv_topviewtix
     trektravel: Prv_trektravel
     ulrichlifestyle: Prv_ulrichlifestyle
     viewrail: Prv_viewrail

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 671 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 674 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -627,6 +627,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ticketmaster.search` | ticketmaster.com | Searches live events — concerts, sports, arts & theater, family — by keyword, location… | ⚪ |
 | `ticketmaster.searchAttractions` | ticketmaster.com | Finds attractions — artists, sports teams and other performers — by name and returns… | ⚪ |
 | `ticketmaster.searchVenues` | ticketmaster.com | Finds venues by name or location (city/state/postal or geo radius) and returns each… | ⚪ |
+| `topviewtix.getPackageDetails` | topviewtix.com | Reads one TopView tour package in full — name, description, adult/kid price, and the… | 🟢 |
+| `topviewtix.listPackages` | topviewtix.com | Would list every tour package TopView currently sells (name, slug, starting price)… | ⚪ |
+| `topviewtix.reserve` | topviewtix.com | Would pick a date, ticket quantity and seating tier for a package and hand back a… | ⚪ |
 | `travelocity.getReservation` | travelocity.com | Reads an existing Travelocity trip the way the site's own "Find My Trip" page does —… | ⚪ |
 | `travelocity.search` | travelocity.com | Searches Travelocity's live flight fares the way its own booking widget does — origin… | ⚪ |
 | `travelocity.searchActivities` | travelocity.com | Searches Travelocity's live "Things to Do" activities and tours the way its own… | ⚪ |

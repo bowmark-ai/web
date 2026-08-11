@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0b71fedc0eab6a892c3c97c929373e85fd8ebc33b4c6b334bcc6068f232376c0
-// 296 checked, 20 unchecked.
+// Manifest version: 74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30
+// 297 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0b71fedc0eab6a892c3c97c929373e85fd8ebc33b4c6b334bcc6068f232376c0",
+  "version": "74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30",
   "units": {
     "cars": {
       "defs": {
@@ -12673,6 +12673,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "thezebraAutoQuotesQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.topviewtix": {
+      "defs": {},
+      "functions": {
+        "getPackageDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }

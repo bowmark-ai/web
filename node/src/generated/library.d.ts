@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0b71fedc0eab6a892c3c97c929373e85fd8ebc33b4c6b334bcc6068f232376c0
-// 8 capabilities, 91 providers, 302 typed functions, 20 refused.
+// Manifest version: 74e74e91f6a7f3fae57908d992d2c8cb5613b2119c89b92a9589dbbdc26ebf30
+// 8 capabilities, 92 providers, 303 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13499,6 +13499,40 @@ interface thezebraAutoQuotes {
   }
 }
 
+declare namespace BowmarkProvider_topviewtix {
+  // ── TopView Sightseeing — the unit's own declarations, verbatim ──
+interface topviewtixPackageDetails {
+  id: number;
+  slug: string;
+  name: string;
+  description: string;
+  url: string;
+  adultsPrice: number | null;
+  kidsPrice: number | null;
+  isAdultOnly: boolean;
+  availableDates: string[];
+  blockedDates: string[];
+  soldOutDates: string[];
+  availableUntil: string | null;
+}
+
+  /**
+   * TopView's NYC hop-on-hop-off bus, Statue of Liberty cruise and bike/walking tour packages —
+   * getPackageDetails reads one package's live price and its own real-time booking calendar
+   * (available/blocked/sold-out dates) off topviewtix.com/new-york/<slug>.
+   */
+  interface Unit {
+    /**
+     * Reads one TopView tour package in full — name, description, adult/kid price, and the site's
+     * OWN live booking calendar (which dates are open, blocked, or sold out, and how far out the
+     * calendar reaches). Takes `slug`, the package's own URL slug off
+     * topviewtix.com/new-york/<slug> (e.g. "hop-on-hop-off-pass"). Throws if the slug doesn't
+     * resolve to a real package (a clean 404) rather than returning an empty row.
+     */
+    getPackageDetails(args: object): Promise<topviewtixPackageDetails>;
+  }
+}
+
 declare namespace BowmarkProvider_trektravel {
   // ── Trek Travel — the unit's own declarations, verbatim ──
 // Trek Travel's OWN shapes — not a capability contract.
@@ -14570,6 +14604,7 @@ interface BowmarkProviders {
   tentree: BowmarkProvider_tentree.Unit;
   therabody: BowmarkProvider_therabody.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
+  topviewtix: BowmarkProvider_topviewtix.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;
