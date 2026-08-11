@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bc77435dc6b6979e8a915936694c390e7214c8609ed6758f237f90e23e46a043
-// 292 checked, 20 unchecked.
+// Manifest version: 726f971170ac88864d5bb06121ba17dd7109531dcfc6244da45fe615e6369699
+// 295 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bc77435dc6b6979e8a915936694c390e7214c8609ed6758f237f90e23e46a043",
+  "version": "726f971170ac88864d5bb06121ba17dd7109531dcfc6244da45fe615e6369699",
   "units": {
     "cars": {
       "defs": {
@@ -6097,6 +6097,38 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KayakCarQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.koket": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

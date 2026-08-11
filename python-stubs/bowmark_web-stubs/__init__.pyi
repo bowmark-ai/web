@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bc77435dc6b6979e8a915936694c390e7214c8609ed6758f237f90e23e46a043
-# 8 capabilities, 89 providers, 292 typed functions, 20 refused.
+# Manifest version: 726f971170ac88864d5bb06121ba17dd7109531dcfc6244da45fe615e6369699
+# 8 capabilities, 90 providers, 295 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3889,6 +3889,39 @@ class Prv_kayak_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Prv_koket_KoketProductSummary_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    price: float
+    currency: str
+    inStock: bool
+
+class Prv_koket_KoketProduct_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    reference: str
+    price: float
+    priceFormatted: str
+    listPrice: float
+    onSale: bool
+    currency: str
+    inStock: bool
+    quantityLeft: float | None
+    availabilityMessage: str
+    description: str
+    images: list[str]
+
+class Prv_koket_KoketAddToCartHandoff_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    price: float
+    currency: str
+    inStock: bool
+    note: str
 
 class Prv_labcorp_LabcorpTestSummary_Out(TypedDict):
     sku: str
@@ -9892,6 +9925,28 @@ class Prv_kayak(Protocol):
         site's own three-phase supplier poll completes.
         """
 
+class Prv_koket(Protocol):
+    """Reads KOKET's public furniture, lighting and textiles storefront (bykoket.com/shop) —
+    search the catalog, read a product's live price, stock and description, and get the
+    handoff to add it to cart on the real site.
+    """
+
+    async def searchProducts(self, query: str, /) -> list[Prv_koket_KoketProductSummary_Out]:
+        """Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each
+        match's id, name, product URL, price and stock status.
+        """
+
+    async def getProduct(self, idOrUrl: str, /) -> Prv_koket_KoketProduct_Out:
+        """Reads one KOKET product's live page — price (list and current, since KOKET runs
+        promotions), stock count, availability message, description and images.
+        """
+
+    async def addToCart(self, idOrUrl: str, /) -> Prv_koket_KoketAddToCartHandoff_Out:
+        """Hands back the shopper's own KOKET product page — the exact Add to cart button for this
+        product — since the site's cart requires a per-session token nobody but the shopper can
+        supply. Writes nothing.
+        """
+
 class Prv_labcorp(Protocol):
     """Lab test pricing, PSC location lookup and appointment availability from Labcorp."""
 
@@ -12099,6 +12154,7 @@ class BowmarkProviders(Protocol):
     interiordefine: Prv_interiordefine
     joybird: Prv_joybird
     kayak: Prv_kayak
+    koket: Prv_koket
     labcorp: Prv_labcorp
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
