@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 23bfae6c2d11cb27f28b67246c61b380cca19a8f6bcd069f99306918432b0b4a
-// 8 capabilities, 89 providers, 299 typed functions, 20 refused.
+// Manifest version: bc77435dc6b6979e8a915936694c390e7214c8609ed6758f237f90e23e46a043
+// 8 capabilities, 89 providers, 298 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8049,6 +8049,80 @@ interface LululemonVariant {
   available: boolean;
   price: number | null;
   salePrice: number | null;
+  /** Why this SKU's price is, or is not, a markdown. Derived from price and
+   * salePrice, so it can never disagree with them. */
+  sale: SaleEvidence;
+}
+interface SaleEvidence {
+  /** True only with retailer evidence. NEVER from a low price or a title. */
+  onSale: boolean;
+  currentPrice: number | null;
+  /** The list price, when the markdown is against one. */
+  originalPrice: number | null;
+  /** ISO 4217, or null. ALWAYS null here: this feed publishes bare numbers with
+   * no currency code anywhere in the payload. */
+  currency: string | null;
+  promotionMessage: string | null;
+  evidenceType: "compare_at_price" | "sale_price" | "retailer_sale_badge" | "published_promotion" | "none";
+  /** The retailer text or field the classification rests on, verbatim. */
+  evidenceText: string | null;
+}
+interface ProductImage {
+  /** Absolute HTTPS url. */
+  url: string;
+  altText: string | null;
+  /** The colourway's own colour — sound because lululemon publishes its image
+   * list PER COLOURWAY, so every picture in it is that colour by construction. */
+  color: string | null;
+  colorId: string | null;
+  /** Always [] here: this feed links a picture to a COLOUR, never to a size. */
+  variantIds: string[];
+}
+/** The retailer's own labels. On this door that is audience and nothing else —
+ * the HPDP feed publishes no description, tags, fabric, collection or category.
+ * Every other field is null or [], honestly. */
+interface PublishedProductAttributes {
+  audience: string | null;
+  garmentType: "sports_bra" | "tank" | "crop_top" | "leggings" | "shorts" | "other" | null;
+  categories: string[];
+  collections: string[];
+  fabrics: string[];
+  materials: string[];
+  color: string | null;
+  colorFamily: string | null;
+  pattern: string | null;
+  styleTags: string[];
+  neckline: string | null;
+  strapWidth: string | null;
+  backDesign: string | null;
+  sleeveLength: string | null;
+  rise: string | null;
+  waistband: string | null;
+  inseam: string | null;
+  legShape: string | null;
+  fit: string | null;
+  coverage: string | null;
+}
+/** Shared colour and family — what makes two pieces PLAUSIBLY coordinate. None
+ * of it establishes a set. */
+interface CoordinationMetadata {
+  collectionNames: string[];
+  fabricNames: string[];
+  colorName: string | null;
+  colorId: string | null;
+  colorFamily: string | null;
+  productFamily: string | null;
+}
+/** An EXPLICIT retailer-published relationship. ALWAYS [] on this door: the feed's
+ * only product-to-product relation is the ALGORITHMIC similarity rail, which is
+ * getSimilarProducts. Reading that as a set would turn "the recommender put these
+ * near each other" into "lululemon sells these together". */
+interface RetailerSetEvidence {
+  evidenceType: "official_set" | "shop_the_set" | "complete_the_look" | "matching_piece";
+  evidenceText: string | null;
+  sourceUrl: string | null;
+  setId: string | null;
+  relatedProducts: Array<{ productId: string | null; handle: string | null; title: string | null; url: string | null }>;
 }
 interface LululemonOptionGroup {
   /** The machine name. "size" on every lululemon product measured. */
@@ -8070,6 +8144,13 @@ interface LululemonColorway {
   url: string;
   swatchImage: string | null;
   images: string[];
+  /** The SAME pictures as images, carrying this colourway's colour and colorId.
+   * images stays a bare string[] for existing callers; this is the additive half. */
+  imageAssets: ProductImage[];
+  sale: SaleEvidence;
+  coordination: CoordinationMetadata;
+  /** ISO 4217, or null. Always null — see SaleEvidence.currency. */
+  currency: string | null;
   inStock: boolean;
   optionGroups: LululemonOptionGroup[];
   /** What can be BOUGHT in this colour right now — not the full size run. */
@@ -8097,6 +8178,9 @@ interface LululemonProduct {
   /** Other lengths of the same style. Empty on every product measured — on this
    * site an inseam is its OWN product, not an option. */
   sizeTypes: LululemonSizeType[];
+  attributes: PublishedProductAttributes;
+  coordination: CoordinationMetadata;
+  retailerSetEvidence: RetailerSetEvidence[];
 }
 interface LululemonRow {
   id: string;
@@ -13923,15 +14007,6 @@ interface wellfoundCompanyDetail {
      * experience-requirement text and the hiring startup.
      */
     getJob(args: { url: string }): Promise<wellfoundJobDetail>;
-
-    /**
-     * Reads one startup's `/company/<slug>` profile — the longer product description (HTML), the
-     * full market tagging, location tags with display names, the explicitly-set Remote policy,
-     * total raised, the company's own website, every badge verbatim, and the same `companySize`
-     * band `searchCompanies` already decodes — the context a candidate weighs a startup on before
-     * applying to it. Takes the `slug` a `searchCompanies` row already carries.
-     */
-    getCompany(args: { slug: string }): Promise<wellfoundCompanyDetail>;
   }
 }
 
@@ -13949,6 +14024,95 @@ interface ShopifyVariant {
   /** The store's own per-variant stock flag. */
   available: boolean;
   options: string[];
+  /** The same values keyed by the option's own NAME — { Color: "Black", Size: "S" }.
+   * Read THIS to filter by size; options[1] is only the size on a store that
+   * happens to order it second. {} when the two lists cannot be reconciled. */
+  selectedOptions: Record<string, string>;
+  /** The image the STORE linked to this variant. Usually NULL — most storefronts
+   * publish no image-to-variant link at all, and null says so rather than
+   * handing back the first product picture. */
+  image: ProductImage | null;
+  /** Why this price is, or is not, a markdown. */
+  sale: SaleEvidence;
+}
+interface ProductImage {
+  /** Absolute HTTPS url, at the largest rendition the CDN serves. */
+  url: string;
+  /** The retailer's own alt text, or null. */
+  altText: string | null;
+  /** The retailer's colour name for this picture. Set when the store links it,
+   * or when the whole product is ONE colourway (which is how both yoga
+   * retailers publish: one colour per product). Null otherwise. */
+  color: string | null;
+  colorId: string | null;
+  /** Variant ids the STORE linked. [] means it published no link — NOT that the
+   * image belongs to every variant. */
+  variantIds: string[];
+}
+interface SaleEvidence {
+  /** True only with retailer evidence. NEVER set from a low price or from the
+   * word "sale" in a title. */
+  onSale: boolean;
+  currentPrice: string | null;
+  /** The published "was" price. Strictly greater than currentPrice when
+   * evidenceType is "compare_at_price". Null when nothing published one. */
+  originalPrice: string | null;
+  /** ISO 4217, or null. Null on the REST catalogue door, which publishes no
+   * currency — reported honestly rather than assumed to be USD. */
+  currency: string | null;
+  promotionMessage: string | null;
+  /** How it was decided. "compare_at_price" is a struck-through price;
+   * "retailer_sale_badge" is a published sale tag; "none" is not on sale. */
+  evidenceType: "compare_at_price" | "sale_price" | "retailer_sale_badge" | "published_promotion" | "none";
+  /** The retailer text or field the classification rests on, verbatim. */
+  evidenceText: string | null;
+}
+/** The retailer's own labels, read off its published tags, category and options.
+ * NEVER inferred from the title or from an image. Null or [] when unpublished,
+ * which is common and is an honest answer. */
+interface PublishedProductAttributes {
+  audience: string | null;
+  garmentType: "sports_bra" | "tank" | "crop_top" | "leggings" | "shorts" | "other" | null;
+  categories: string[];
+  collections: string[];
+  fabrics: string[];
+  materials: string[];
+  color: string | null;
+  colorFamily: string | null;
+  pattern: string | null;
+  styleTags: string[];
+  neckline: string | null;
+  strapWidth: string | null;
+  backDesign: string | null;
+  sleeveLength: string | null;
+  rise: string | null;
+  waistband: string | null;
+  inseam: string | null;
+  legShape: string | null;
+  fit: string | null;
+  coverage: string | null;
+}
+/** Shared colour, fabric, collection and style family — what makes two garments
+ * PLAUSIBLY coordinate. None of it establishes a set. */
+interface CoordinationMetadata {
+  collectionNames: string[];
+  fabricNames: string[];
+  colorName: string | null;
+  colorId: string | null;
+  colorFamily: string | null;
+  /** The store's own grouping key for one style across its colourways. Two
+   * products sharing it are the same garment in two colours. */
+  productFamily: string | null;
+}
+/** An EXPLICIT retailer-published relationship. Shared colour, fabric,
+ * collection or family is NOT this — that is CoordinationMetadata. Usually [];
+ * the catalogue door carries no set tags on any store measured. */
+interface RetailerSetEvidence {
+  evidenceType: "official_set" | "shop_the_set" | "complete_the_look" | "matching_piece";
+  evidenceText: string | null;
+  sourceUrl: string | null;
+  setId: string | null;
+  relatedProducts: Array<{ productId: string | null; handle: string | null; title: string | null; url: string | null }>;
 }
 interface ShopifyProduct {
   handle: string;
@@ -13962,6 +14126,14 @@ interface ShopifyProduct {
   inStock: boolean;
   tags: string[];
   descriptionHtml: string | null;
+  /** The same copy with its markup removed. */
+  descriptionText: string | null;
+  currency: string | null;
+  /** Every image the door published, deduplicated, in the store's own order. */
+  images: ProductImage[];
+  attributes: PublishedProductAttributes;
+  coordination: CoordinationMetadata;
+  retailerSetEvidence: RetailerSetEvidence[];
 }
 interface ShopifyCartLine {
   /** Shopify's own line key, which its cart-change endpoints address a line by. */
@@ -14037,6 +14209,95 @@ interface ShopifyVariant {
   /** The store's own per-variant stock flag. */
   available: boolean;
   options: string[];
+  /** The same values keyed by the option's own NAME — { Color: "Black", Size: "S" }.
+   * Read THIS to filter by size; options[1] is only the size on a store that
+   * happens to order it second. {} when the two lists cannot be reconciled. */
+  selectedOptions: Record<string, string>;
+  /** The image the STORE linked to this variant. Usually NULL — most storefronts
+   * publish no image-to-variant link at all, and null says so rather than
+   * handing back the first product picture. */
+  image: ProductImage | null;
+  /** Why this price is, or is not, a markdown. */
+  sale: SaleEvidence;
+}
+interface ProductImage {
+  /** Absolute HTTPS url, at the largest rendition the CDN serves. */
+  url: string;
+  /** The retailer's own alt text, or null. */
+  altText: string | null;
+  /** The retailer's colour name for this picture. Set when the store links it,
+   * or when the whole product is ONE colourway (which is how both yoga
+   * retailers publish: one colour per product). Null otherwise. */
+  color: string | null;
+  colorId: string | null;
+  /** Variant ids the STORE linked. [] means it published no link — NOT that the
+   * image belongs to every variant. */
+  variantIds: string[];
+}
+interface SaleEvidence {
+  /** True only with retailer evidence. NEVER set from a low price or from the
+   * word "sale" in a title. */
+  onSale: boolean;
+  currentPrice: string | null;
+  /** The published "was" price. Strictly greater than currentPrice when
+   * evidenceType is "compare_at_price". Null when nothing published one. */
+  originalPrice: string | null;
+  /** ISO 4217, or null. Null on the REST catalogue door, which publishes no
+   * currency — reported honestly rather than assumed to be USD. */
+  currency: string | null;
+  promotionMessage: string | null;
+  /** How it was decided. "compare_at_price" is a struck-through price;
+   * "retailer_sale_badge" is a published sale tag; "none" is not on sale. */
+  evidenceType: "compare_at_price" | "sale_price" | "retailer_sale_badge" | "published_promotion" | "none";
+  /** The retailer text or field the classification rests on, verbatim. */
+  evidenceText: string | null;
+}
+/** The retailer's own labels, read off its published tags, category and options.
+ * NEVER inferred from the title or from an image. Null or [] when unpublished,
+ * which is common and is an honest answer. */
+interface PublishedProductAttributes {
+  audience: string | null;
+  garmentType: "sports_bra" | "tank" | "crop_top" | "leggings" | "shorts" | "other" | null;
+  categories: string[];
+  collections: string[];
+  fabrics: string[];
+  materials: string[];
+  color: string | null;
+  colorFamily: string | null;
+  pattern: string | null;
+  styleTags: string[];
+  neckline: string | null;
+  strapWidth: string | null;
+  backDesign: string | null;
+  sleeveLength: string | null;
+  rise: string | null;
+  waistband: string | null;
+  inseam: string | null;
+  legShape: string | null;
+  fit: string | null;
+  coverage: string | null;
+}
+/** Shared colour, fabric, collection and style family — what makes two garments
+ * PLAUSIBLY coordinate. None of it establishes a set. */
+interface CoordinationMetadata {
+  collectionNames: string[];
+  fabricNames: string[];
+  colorName: string | null;
+  colorId: string | null;
+  colorFamily: string | null;
+  /** The store's own grouping key for one style across its colourways. Two
+   * products sharing it are the same garment in two colours. */
+  productFamily: string | null;
+}
+/** An EXPLICIT retailer-published relationship. Shared colour, fabric,
+ * collection or family is NOT this — that is CoordinationMetadata. Usually [];
+ * the catalogue door carries no set tags on any store measured. */
+interface RetailerSetEvidence {
+  evidenceType: "official_set" | "shop_the_set" | "complete_the_look" | "matching_piece";
+  evidenceText: string | null;
+  sourceUrl: string | null;
+  setId: string | null;
+  relatedProducts: Array<{ productId: string | null; handle: string | null; title: string | null; url: string | null }>;
 }
 interface ShopifyProduct {
   handle: string;
@@ -14050,6 +14311,14 @@ interface ShopifyProduct {
   inStock: boolean;
   tags: string[];
   descriptionHtml: string | null;
+  /** The same copy with its markup removed. */
+  descriptionText: string | null;
+  currency: string | null;
+  /** Every image the door published, deduplicated, in the store's own order. */
+  images: ProductImage[];
+  attributes: PublishedProductAttributes;
+  coordination: CoordinationMetadata;
+  retailerSetEvidence: RetailerSetEvidence[];
 }
 interface ShopifyCartLine {
   /** Shopify's own line key, which its cart-change endpoints address a line by. */

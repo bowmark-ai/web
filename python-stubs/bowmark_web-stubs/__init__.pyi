@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 23bfae6c2d11cb27f28b67246c61b380cca19a8f6bcd069f99306918432b0b4a
-# 8 capabilities, 89 providers, 293 typed functions, 20 refused.
+# Manifest version: bc77435dc6b6979e8a915936694c390e7214c8609ed6758f237f90e23e46a043
+# 8 capabilities, 89 providers, 292 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4186,6 +4186,9 @@ class Prv_lululemon_LululemonProduct_Out(TypedDict):
     priceHigh: float | None
     colorways: list[Prv_lululemon_LululemonColorway_Out]
     sizeTypes: list[Prv_lululemon_LululemonSizeType_Out]
+    attributes: Prv_lululemon_PublishedProductAttributes_Out
+    coordination: Prv_lululemon_CoordinationMetadata_Out
+    retailerSetEvidence: list[Prv_lululemon_RetailerSetEvidence_Out]
 
 class Prv_lululemon_LululemonColorway_Out(TypedDict):
     colorId: str
@@ -4197,9 +4200,37 @@ class Prv_lululemon_LululemonColorway_Out(TypedDict):
     url: str
     swatchImage: str | None
     images: list[str]
+    imageAssets: list[Prv_lululemon_ProductImage_Out]
+    sale: Prv_lululemon_SaleEvidence_Out
+    coordination: Prv_lululemon_CoordinationMetadata_Out
+    currency: str | None
     inStock: bool
     optionGroups: list[Prv_lululemon_LululemonOptionGroup_Out]
     variants: list[Prv_lululemon_LululemonVariant_Out]
+
+class Prv_lululemon_ProductImage_Out(TypedDict):
+    url: str
+    altText: str | None
+    color: str | None
+    colorId: str | None
+    variantIds: list[str]
+
+class Prv_lululemon_SaleEvidence_Out(TypedDict):
+    onSale: bool
+    currentPrice: float | None
+    originalPrice: float | None
+    currency: str | None
+    promotionMessage: str | None
+    evidenceType: Literal["compare_at_price"] | Literal["sale_price"] | Literal["retailer_sale_badge"] | Literal["published_promotion"] | Literal["none"]
+    evidenceText: str | None
+
+class Prv_lululemon_CoordinationMetadata_Out(TypedDict):
+    collectionNames: list[str]
+    fabricNames: list[str]
+    colorName: str | None
+    colorId: str | None
+    colorFamily: str | None
+    productFamily: str | None
 
 class Prv_lululemon_LululemonOptionGroup_Out(TypedDict):
     type: str
@@ -4216,11 +4247,47 @@ class Prv_lululemon_LululemonVariant_Out(TypedDict):
     available: bool
     price: float | None
     salePrice: float | None
+    sale: Prv_lululemon_SaleEvidence_Out
 
 class Prv_lululemon_LululemonSizeType_Out(TypedDict):
     productId: str
     size: str
     selected: bool
+
+class Prv_lululemon_PublishedProductAttributes_Out(TypedDict):
+    audience: str | None
+    garmentType: Literal["sports_bra"] | Literal["tank"] | Literal["crop_top"] | Literal["leggings"] | Literal["shorts"] | Literal["other"] | None
+    categories: list[str]
+    collections: list[str]
+    fabrics: list[str]
+    materials: list[str]
+    color: str | None
+    colorFamily: str | None
+    pattern: str | None
+    styleTags: list[str]
+    neckline: str | None
+    strapWidth: str | None
+    backDesign: str | None
+    sleeveLength: str | None
+    rise: str | None
+    waistband: str | None
+    inseam: str | None
+    legShape: str | None
+    fit: str | None
+    coverage: str | None
+
+class Prv_lululemon_RetailerSetEvidence_Out(TypedDict):
+    evidenceType: Literal["official_set"] | Literal["shop_the_set"] | Literal["complete_the_look"] | Literal["matching_piece"]
+    evidenceText: str | None
+    sourceUrl: str | None
+    setId: str | None
+    relatedProducts: list[Prv_lululemon_RetailerSetEvidence_Out_relatedProducts_item_Out]
+
+class Prv_lululemon_RetailerSetEvidence_Out_relatedProducts_item_Out(TypedDict):
+    productId: str | None
+    handle: str | None
+    title: str | None
+    url: str | None
 
 class Prv_lululemon_getSimilarProducts_query_In(TypedDict):
     productId: str
@@ -7301,38 +7368,6 @@ class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
     url: str | None
     website: str | None
     logoUrl: str | None
-
-class Prv_wellfound_getCompany_args_In(TypedDict):
-    slug: str
-
-class Prv_wellfound_wellfoundCompanyDetail_Out(TypedDict):
-    id: str
-    name: str
-    slug: str
-    url: str
-    highConcept: str | None
-    productDescription: str | None
-    companySize: str | None
-    employeesMin: float | None
-    employeesMax: float | None
-    markets: list[str]
-    stage: str | None
-    activelyHiring: bool
-    badges: list[Prv_wellfound_wellfoundCompanyDetail_Out_badges_item_Out]
-    locations: list[Prv_wellfound_wellfoundCompanyDetail_Out_locations_item_Out]
-    remotePolicy: Literal["remote"] | None
-    companyUrl: str | None
-    totalRaisedAmount: float | None
-    logoUrl: str | None
-
-class Prv_wellfound_wellfoundCompanyDetail_Out_badges_item_Out(TypedDict):
-    id: str
-    label: str
-    tooltip: str | None
-
-class Prv_wellfound_wellfoundCompanyDetail_Out_locations_item_Out(TypedDict):
-    slug: str
-    displayName: str
 
 
 class Cap_cars(Protocol):
@@ -12014,15 +12049,6 @@ class Prv_wellfound(Protocol):
         — returning the full description, salary band, equity range (both parsed off the header
         chip; equity has no structured-data field on this site), location, remote policy, the
         site's own experience-requirement text and the hiring startup.
-        """
-
-    async def getCompany(self, args: Prv_wellfound_getCompany_args_In, /) -> Prv_wellfound_wellfoundCompanyDetail_Out:
-        """Reads one startup's `/company/<slug>` profile — the longer product description (HTML),
-        the full market tagging, location tags with display names, the explicitly-set Remote
-        policy, total raised, the company's own website, every badge verbatim, and the same
-        `companySize` band `searchCompanies` already decodes — the context a candidate weighs a
-        startup on before applying to it. Takes the `slug` a `searchCompanies` row already
-        carries.
         """
 
 class BowmarkProviders(Protocol):

@@ -666,7 +666,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getWeeklyAd` | walmart.com | Reads the current local weekly ad / rollback & clearance circular for a store or zip —… | ⚪ |
 | `walmart.search` | walmart.com | Searches walmart.com's catalog for a keyword and returns matching products — item id… | 🟢 |
 | `walmart.trackOrder` | walmart.com | Looks up shipment/delivery status for a guest order by order number plus the email or… | ⚪ |
-| `wellfound.getCompany` | wellfound.com | Reads one startup's Wellfound profile the way `/company/<slug>` does — what the… | 🟢 |
+| `wellfound.getCompany` | wellfound.com | Reads one startup's `/company/<slug>` profile — the longer product description (HTML)… | ⚪ |
 | `wellfound.getJob` | wellfound.com | Reads one job posting in full the way its own detail page does — takes the `url` a… | 🟢 |
 | `wellfound.getJobCollection` | wellfound.com | Reads one curated collection's postings the way `/job-collections/<slug>` does — the… | ⚪ |
 | `wellfound.getSalaryBenchmarks` | wellfound.com | Reads Wellfound's own published startup compensation benchmarks — what a given role… | ⚪ |
