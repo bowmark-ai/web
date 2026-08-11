@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d7bbccd12508d47aa852538a5c280b5bd3ee1156b5e4910deadc0b4c54e4b546
-// 8 capabilities, 92 providers, 307 typed functions, 20 refused.
+// Manifest version: 5aa549fa0214e1d65a9a1d25095e71ed713bb4c47571a452cfcc212f6ec7ff3b
+// 8 capabilities, 93 providers, 310 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8313,6 +8313,82 @@ interface LululemonSimilarProducts {
   }
 }
 
+declare namespace BowmarkProvider_maidenhome {
+  // ── Maiden Home — the unit's own declarations, verbatim ──
+// Maiden Home's OWN shapes — not a capability contract.
+
+interface MaidenHomeVariant {
+  productHandle: string;
+  productTitle: string;
+  productType: string;      // e.g. "Sofa", "Modular Component", "Dining Table"
+  size: string;              // e.g. "85\" Width", or a non-numeric value like "Right-Facing Chaise"
+  woodFinish: string;        // e.g. "Driftwood Ash"
+  sku: string;
+  price: number;
+  priceFormatted: string;
+  available: boolean;
+  url: string;               // the product page, preselecting this exact variant
+}
+
+interface MaidenHomeConfiguratorProduct {
+  handle: string;
+  title: string;
+  productType: string;
+  url: string;
+  sizeOptions: string[];
+  woodFinishOptions: string[];
+  priceRange: { min: number; max: number };
+  variants: MaidenHomeVariant[];
+}
+
+interface MaidenHomeVariantResolution {
+  productQuery: string;
+  size: string;
+  woodFinish: string;
+  matched: boolean;
+  variant: MaidenHomeVariant | null;
+  candidates: MaidenHomeVariant[]; // populated when not narrowed to exactly one real variant
+  message: string;
+}
+
+  /**
+   * Maiden Home's Size x Wood Finish product configurator (sofas, sectionals/modular components,
+   * tables) — list every configurable product, read one product's complete priced variant grid,
+   * and resolve a free-text product + size + wood finish to the exact live price and SKU, off
+   * the storefront's own live catalog rather than a researched estimate or a hedged price range.
+   */
+  interface Unit {
+    /**
+     * Lists every Maiden Home product configurable by Size x Wood Finish (sofas,
+     * sectionals/modular components, tables) from the storefront's own live catalog — every size
+     * and wood-finish option, its live price range and variant count. `query` (optional) narrows
+     * the list by a fuzzy match on the product title or product type, e.g. "chelsea" or "dining
+     * table".
+     */
+    searchConfigurations(query?: string): Promise<MaidenHomeConfiguratorProduct[]>;
+
+    /**
+     * Reads one configurator product's complete Size x Wood Finish variant grid — a handle, e.g.
+     * "the-chelsea-sofa-heritage-belgian-linen-lake" — every size x finish combination, each with
+     * its own exact live price, SKU and availability. THROWS on an unrecognized handle, naming
+     * searchConfigurations() as the way to find current ones.
+     */
+    getProduct(handle: string): Promise<MaidenHomeConfiguratorProduct>;
+
+    /**
+     * Resolves a free-text product (e.g. "Chelsea Sofa Heritage Belgian Linen Lake"), size (e.g.
+     * "85\"") and wood finish (e.g. "Driftwood Ash") to the exact priced variant and its product
+     * URL, mirroring the on-page configurator's own selection flow. `matched: true` with a
+     * populated `variant` means exactly one real variant narrowed to; otherwise `candidates` lists
+     * every real variant the product query DID match, so a caller can narrow with an exact
+     * size/finish rather than guessing again. Never throws for an ambiguous or zero match — an
+     * unmatched product name is the one case this DOES treat as a caller error (throws, naming
+     * searchConfigurations()).
+     */
+    resolveVariant(productQuery: string, size: string, woodFinish: string): Promise<MaidenHomeVariantResolution>;
+  }
+}
+
 declare namespace BowmarkProvider_mailchimp {
   // ── Mailchimp — the unit's own declarations, verbatim ──
 interface mailchimpPlanTier {
@@ -14645,6 +14721,7 @@ interface BowmarkProviders {
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
   lufthansa: BowmarkProvider_lufthansa.Unit;
   lululemon: BowmarkProvider_lululemon.Unit;
+  maidenhome: BowmarkProvider_maidenhome.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;
   marriott: BowmarkProvider_marriott.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;

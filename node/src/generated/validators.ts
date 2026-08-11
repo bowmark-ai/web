@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d7bbccd12508d47aa852538a5c280b5bd3ee1156b5e4910deadc0b4c54e4b546
-// 297 checked, 20 unchecked.
+// Manifest version: 5aa549fa0214e1d65a9a1d25095e71ed713bb4c47571a452cfcc212f6ec7ff3b
+// 300 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d7bbccd12508d47aa852538a5c280b5bd3ee1156b5e4910deadc0b4c54e4b546",
+  "version": "5aa549fa0214e1d65a9a1d25095e71ed713bb4c47571a452cfcc212f6ec7ff3b",
   "units": {
     "cars": {
       "defs": {
@@ -6537,6 +6537,52 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.maidenhome": {
+      "defs": {},
+      "functions": {
+        "searchConfigurations": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "resolveVariant": [
+          {
+            "name": "productQuery",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "size",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "woodFinish",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

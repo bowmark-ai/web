@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d7bbccd12508d47aa852538a5c280b5bd3ee1156b5e4910deadc0b4c54e4b546
-# 8 capabilities, 92 providers, 297 typed functions, 20 refused.
+# Manifest version: 5aa549fa0214e1d65a9a1d25095e71ed713bb4c47571a452cfcc212f6ec7ff3b
+# 8 capabilities, 93 providers, 300 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4331,6 +4331,41 @@ class Prv_lululemon_LululemonSimilarProducts_Out(TypedDict):
     products: list[Prv_lululemon_LululemonRow_Out]
     totalRanked: float | None
     warnings: list[str]
+
+class Prv_maidenhome_MaidenHomeConfiguratorProduct_Out(TypedDict):
+    handle: str
+    title: str
+    productType: str
+    url: str
+    sizeOptions: list[str]
+    woodFinishOptions: list[str]
+    priceRange: Prv_maidenhome_MaidenHomeConfiguratorProduct_Out_priceRange_Out
+    variants: list[Prv_maidenhome_MaidenHomeVariant_Out]
+
+class Prv_maidenhome_MaidenHomeConfiguratorProduct_Out_priceRange_Out(TypedDict):
+    min: float
+    max: float
+
+class Prv_maidenhome_MaidenHomeVariant_Out(TypedDict):
+    productHandle: str
+    productTitle: str
+    productType: str
+    size: str
+    woodFinish: str
+    sku: str
+    price: float
+    priceFormatted: str
+    available: bool
+    url: str
+
+class Prv_maidenhome_MaidenHomeVariantResolution_Out(TypedDict):
+    productQuery: str
+    size: str
+    woodFinish: str
+    matched: bool
+    variant: Prv_maidenhome_MaidenHomeVariant_Out | None
+    candidates: list[Prv_maidenhome_MaidenHomeVariant_Out]
+    message: str
 
 class Prv_marriott_findHotels_args_In(TypedDict):
     place: str
@@ -10250,6 +10285,40 @@ class Prv_lululemon(Protocol):
         reaching another length is a `search`.
         """
 
+class Prv_maidenhome(Protocol):
+    """Maiden Home's Size x Wood Finish product configurator (sofas, sectionals/modular
+    components, tables) — list every configurable product, read one product's complete
+    priced variant grid, and resolve a free-text product + size + wood finish to the exact
+    live price and SKU, off the storefront's own live catalog rather than a researched
+    estimate or a hedged price range.
+    """
+
+    async def searchConfigurations(self, query: str | None = None, /) -> list[Prv_maidenhome_MaidenHomeConfiguratorProduct_Out]:
+        """Lists every Maiden Home product configurable by Size x Wood Finish (sofas,
+        sectionals/modular components, tables) from the storefront's own live catalog — every
+        size and wood-finish option, its live price range and variant count. `query` (optional)
+        narrows the list by a fuzzy match on the product title or product type, e.g. "chelsea"
+        or "dining table".
+        """
+
+    async def getProduct(self, handle: str, /) -> Prv_maidenhome_MaidenHomeConfiguratorProduct_Out:
+        """Reads one configurator product's complete Size x Wood Finish variant grid — a handle,
+        e.g. "the-chelsea-sofa-heritage-belgian-linen-lake" — every size x finish combination,
+        each with its own exact live price, SKU and availability. THROWS on an unrecognized
+        handle, naming searchConfigurations() as the way to find current ones.
+        """
+
+    async def resolveVariant(self, productQuery: str, size: str, woodFinish: str, /) -> Prv_maidenhome_MaidenHomeVariantResolution_Out:
+        """Resolves a free-text product (e.g. "Chelsea Sofa Heritage Belgian Linen Lake"), size
+        (e.g. "85\\"") and wood finish (e.g. "Driftwood Ash") to the exact priced variant and
+        its product URL, mirroring the on-page configurator's own selection flow. `matched:
+        true` with a populated `variant` means exactly one real variant narrowed to; otherwise
+        `candidates` lists every real variant the product query DID match, so a caller can
+        narrow with an exact size/finish rather than guessing again. Never throws for an
+        ambiguous or zero match — an unmatched product name is the one case this DOES treat as a
+        caller error (throws, naming searchConfigurations()).
+        """
+
 class Prv_mailchimp(Protocol):
     """Mailchimp's own marketing plan pricing: what Free, Essentials, Standard and Premium cost
     per month at a given contact-list size, what each band includes (contact ceiling,
@@ -12232,6 +12301,7 @@ class BowmarkProviders(Protocol):
     lonelyplanet: Prv_lonelyplanet
     lufthansa: Prv_lufthansa
     lululemon: Prv_lululemon
+    maidenhome: Prv_maidenhome
     mailchimp: Prv_mailchimp
     marriott: Prv_marriott
     mcdonalds: Prv_mcdonalds
