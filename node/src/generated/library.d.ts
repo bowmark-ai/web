@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1cf7e9f8d253ef6b4c9472694e83f2e9f83d2314cc9a4324fdad17f3def86146
-// 8 capabilities, 94 providers, 312 typed functions, 20 refused.
+// Manifest version: b8a7f436989c6f073f3f7127f2b4f18adaae58fb6a42f2777d422dfa2bb4a2b0
+// 8 capabilities, 94 providers, 313 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8291,6 +8291,34 @@ interface LululemonProduct {
   coordination: CoordinationMetadata;
   retailerSetEvidence: RetailerSetEvidence[];
 }
+/** One published product-detail block from the page, verbatim. */
+interface LululemonFeature {
+  heading: string;
+  body: string;
+}
+/** What lululemon's OWN product page publishes about a garment, which the
+ * third-party pricing door does not carry at all. */
+interface LululemonProductAttributes {
+  productId: string;
+  url: string;
+  title: string;
+  /** The site's own ProductGroup category, e.g. "Leggings". */
+  category: string | null;
+  description: string | null;
+  /** Trademarked fabric names off the detail accordion, e.g. ["Nulu"]. */
+  fabrics: string[];
+  fit: string | null;
+  /** "High-Rise" / "Mid-Rise" / "Low-Rise", as the title spells it. */
+  rise: string | null;
+  /** Every detail block, unmapped and in page order. */
+  features: LululemonFeature[];
+  /** The site's own aggregate — the honest one. The pricing door reports 0
+   * reviews on products whose live page shows 22,748. */
+  ratingValue: number | null;
+  reviewCount: number | null;
+  /** What could not be reached. Non-empty means the page refused. */
+  warnings: string[];
+}
 interface LululemonRow {
   id: string;
   title: string;
@@ -8344,6 +8372,19 @@ interface LululemonSimilarProducts {
      * through rather than relied on.
      */
     getProduct(query: { productId: string }): Promise<LululemonProduct>;
+
+    /**
+     * Reads what lululemon's OWN product page publishes about a garment and the third-party
+     * pricing door does not carry at all: the category the site files it under, the collection
+     * description, the trademarked fabric it is cut from, the fit and the rise, its real review
+     * aggregate, and every product-detail block verbatim. This is the expensive door on this
+     * provider — a headed Google Chrome, ~10-20x the latency of `getProduct` — so call it when the
+     * ATTRIBUTES are the answer and `getProduct` when the price, colourways and sizes are. It
+     * never throws on a refused page: a page that will not render comes back with every field
+     * empty and a `warnings` entry naming it, so an empty `fabrics` is distinguishable from an
+     * unread one.
+     */
+    getProductAttributes(query: { productId: string }): Promise<LululemonProductAttributes>;
 
     /**
      * Returns the products lululemon's own product pages recommend alongside one product — the

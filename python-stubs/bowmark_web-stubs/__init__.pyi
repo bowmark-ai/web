@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1cf7e9f8d253ef6b4c9472694e83f2e9f83d2314cc9a4324fdad17f3def86146
-# 8 capabilities, 94 providers, 302 typed functions, 20 refused.
+# Manifest version: b8a7f436989c6f073f3f7127f2b4f18adaae58fb6a42f2777d422dfa2bb4a2b0
+# 8 capabilities, 94 providers, 303 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4343,6 +4343,27 @@ class Prv_lululemon_RetailerSetEvidence_Out_relatedProducts_item_Out(TypedDict):
     handle: str | None
     title: str | None
     url: str | None
+
+class Prv_lululemon_getProductAttributes_query_In(TypedDict):
+    productId: str
+
+class Prv_lululemon_LululemonProductAttributes_Out(TypedDict):
+    productId: str
+    url: str
+    title: str
+    category: str | None
+    description: str | None
+    fabrics: list[str]
+    fit: str | None
+    rise: str | None
+    features: list[Prv_lululemon_LululemonFeature_Out]
+    ratingValue: float | None
+    reviewCount: float | None
+    warnings: list[str]
+
+class Prv_lululemon_LululemonFeature_Out(TypedDict):
+    heading: str
+    body: str
 
 class Prv_lululemon_getSimilarProducts_query_In(TypedDict):
     productId: str
@@ -10311,6 +10332,18 @@ class Prv_lululemon(Protocol):
         measured across all three captured fixtures, the picker and the SKU list are the same
         set in all 61 colourways and `available` is true on 363 of 363 SKUs — so presence is the
         stock signal and `available` is passed through rather than relied on.
+        """
+
+    async def getProductAttributes(self, query: Prv_lululemon_getProductAttributes_query_In, /) -> Prv_lululemon_LululemonProductAttributes_Out:
+        """Reads what lululemon's OWN product page publishes about a garment and the third-party
+        pricing door does not carry at all: the category the site files it under, the collection
+        description, the trademarked fabric it is cut from, the fit and the rise, its real
+        review aggregate, and every product-detail block verbatim. This is the expensive door on
+        this provider — a headed Google Chrome, ~10-20x the latency of `getProduct` — so call it
+        when the ATTRIBUTES are the answer and `getProduct` when the price, colourways and sizes
+        are. It never throws on a refused page: a page that will not render comes back with
+        every field empty and a `warnings` entry naming it, so an empty `fabrics` is
+        distinguishable from an unread one.
         """
 
     async def getSimilarProducts(self, query: Prv_lululemon_getSimilarProducts_query_In, /) -> Prv_lululemon_LululemonSimilarProducts_Out:
