@@ -6,6 +6,26 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.6.0 (2026-08-12)
+
+**Providers**
+
+- New provider **bykoket.com** (3 functions): `bykoket.addToCart`, `bykoket.getProduct`, `bykoket.searchProducts`
+- New provider **1stdibs.com** (2 functions): `firstdibs.getListing`, `firstdibs.search`
+- New provider **hauslabs.com** (3 functions): `hauslabs.getHauslabsProduct`, `hauslabs.listHauslabsProducts`, `hauslabs.runFoundationShadeFinder`
+- New provider **maidenhome.com** (3 functions): `maidenhome.getProduct`, `maidenhome.resolveVariant`, `maidenhome.searchConfigurations`
+- New provider **premierbuildings.us** (3 functions): `premierbuildings.findDealers`, `premierbuildings.listBuildingStyles`, `premierbuildings.priceBuilding`
+- New provider **seegarsfence.com** (1 of 2 functions live, the rest planned): `seegarsfence.checkServiceArea`, `seegarsfence.estimateFencePrice`
+- New provider **topviewtix.com** (1 of 3 functions live, the rest planned): `topviewtix.getPackageDetails`, `topviewtix.listPackages`, `topviewtix.reserve`
+- Added `lululemon.getProductAttributes`
+- Added `shopify.getCollection`
+- Added `shopify.listCollections`
+- `paypal.getCurrencyConversionQuote` is now live (it was planned)
+- `target.findStore` is now live (it was planned)
+- `wellfound.getCompany` is back to planned
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.5.0 (2026-08-10)
 
 **Providers**
