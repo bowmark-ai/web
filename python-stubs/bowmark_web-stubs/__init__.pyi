@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 401e1c5675057bfd2cc152fb9593e0ca3aeccdc00c4c4d8fb3c10156341ed4ec
+# Manifest version: b41530a668deee96c2c69ca89597e2c4bc216a44cc5a63ed399b6ed787354b16
 # 8 capabilities, 99 providers, 315 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -2996,6 +2996,7 @@ class Prv_hauslabs_HauslabsShadeMatch_Out_quiz_Out(TypedDict):
 class Prv_hauslabs_HauslabsShadeMatch_Out_variant_Out(TypedDict):
     number: float
     family: str
+    id: str
     sku: str | None
     price: str
     available: bool

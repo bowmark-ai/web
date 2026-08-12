@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 401e1c5675057bfd2cc152fb9593e0ca3aeccdc00c4c4d8fb3c10156341ed4ec
+// Manifest version: b41530a668deee96c2c69ca89597e2c4bc216a44cc5a63ed399b6ed787354b16
 // 8 capabilities, 99 providers, 325 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -5348,6 +5348,7 @@ interface HauslabsShadeMatch {
   variant: {
     number: number;
     family: string;
+    id: string;
     sku: string | null;
     price: string;
     available: boolean;
