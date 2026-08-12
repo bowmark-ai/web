@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 687 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 690 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -148,6 +148,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.searchTiresByVehicle` | discounttire.com | Searches the tires Discount Tire will actually sell for a specific vehicle — year… | ⚪ |
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
+| `embroker.getBusinessInsuranceQuote` | embroker.com | Returns a priced business-insurance coverage package for a company's profile… | ⚪ |
+| `embroker.getQuoteEntryPoint` | embroker.com | Returns the live entry URL for Embroker's self-serve quote wizard for one coverage… | 🟢 |
+| `embroker.listCoverageLines` | embroker.com | Returns the real list of commercial-insurance coverage lines and policy product types… | 🟢 |
 | `erieinsurance.findAgent` | erieinsurance.com | Finds ERIE independent agents near a ZIP or city+state — agency name, the named agent… | 🟢 |
 | `erieinsurance.findRepairShop` | erieinsurance.com | Finds ERIE-network auto body repair shops near a ZIP or address for a policyholder… | ⚪ |
 | `erieinsurance.getAutoQuote` | erieinsurance.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP — the… | ⚪ |

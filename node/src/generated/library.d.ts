@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 49b2a32b48dac85ffda0159379d024b6bc52e0fa13f2c7e628b2ab7302f63cb6
-// 8 capabilities, 96 providers, 317 typed functions, 20 refused.
+// Manifest version: 2deca35c75d83da1fa0d2f5464771966b79ae21a5be3f7cb958b872432daf01b
+// 8 capabilities, 97 providers, 319 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3683,6 +3683,36 @@ interface DiscounttireTireSizeSearch {
      * take `vehicleInfo` as optional and the function never asks for one.
      */
     searchTiresBySize(args: { front: { diameter: string; width: string; aspectRatio: string }; rear?: { diameter: string; width: string; aspectRatio: string }; location: { zip: string } | { storeCode: string } | { latitude: number; longitude: number }; pageNumber: number; pageSize: number }): Promise<DiscounttireTireSizeSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_embroker {
+  // ── Embroker — the unit's own declarations, verbatim ──
+interface EmbrokerCoverageCatalog {
+  coverageLines: string[];
+  productTypes: string[];
+}
+
+interface EmbrokerQuoteEntryPoint {
+  product: string;
+  productLabel: string;
+  url: string;
+  reachable: boolean;
+}
+
+  /**
+   * Embroker's own coverage catalog and live self-serve quote-wizard entry points for
+   * tech/startup, law firm, cyber, BOP, crime and professional-liability business insurance.
+   */
+  interface Unit {
+    /** Returns Embroker's real coverage-line and policy-product-type catalog. */
+    listCoverageLines(): Promise<EmbrokerCoverageCatalog>;
+
+    /**
+     * Returns the live, confirmed-reachable entry URL for one of Embroker's self-serve
+     * quote-wizard products.
+     */
+    getQuoteEntryPoint(args: { product: string }): Promise<EmbrokerQuoteEntryPoint>;
   }
 }
 
@@ -14900,6 +14930,7 @@ interface BowmarkProviders {
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
+  embroker: BowmarkProvider_embroker.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;

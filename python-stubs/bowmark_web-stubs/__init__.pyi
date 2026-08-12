@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 49b2a32b48dac85ffda0159379d024b6bc52e0fa13f2c7e628b2ab7302f63cb6
-# 8 capabilities, 96 providers, 307 typed functions, 20 refused.
+# Manifest version: 2deca35c75d83da1fa0d2f5464771966b79ae21a5be3f7cb958b872432daf01b
+# 8 capabilities, 97 providers, 309 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2170,6 +2170,19 @@ class Prv_discounttire_DiscounttireTireResult_Out(TypedDict):
 class Prv_discounttire_DiscounttireTireResult_Out_price_u0_Out(TypedDict):
     value: float | None
     formatted: str | None
+
+class Prv_embroker_EmbrokerCoverageCatalog_Out(TypedDict):
+    coverageLines: list[str]
+    productTypes: list[str]
+
+class Prv_embroker_getQuoteEntryPoint_args_In(TypedDict):
+    product: str
+
+class Prv_embroker_EmbrokerQuoteEntryPoint_Out(TypedDict):
+    product: str
+    productLabel: str
+    url: str
+    reachable: bool
 
 class Prv_erieinsurance_ErieAgentQuery_In(TypedDict):
     zip: NotRequired[str]
@@ -8851,6 +8864,19 @@ class Prv_discounttire(Protocol):
         for one.
         """
 
+class Prv_embroker(Protocol):
+    """Embroker's own coverage catalog and live self-serve quote-wizard entry points for
+    tech/startup, law firm, cyber, BOP, crime and professional-liability business insurance.
+    """
+
+    async def listCoverageLines(self, /) -> Prv_embroker_EmbrokerCoverageCatalog_Out:
+        """Returns Embroker's real coverage-line and policy-product-type catalog."""
+
+    async def getQuoteEntryPoint(self, args: Prv_embroker_getQuoteEntryPoint_args_In, /) -> Prv_embroker_EmbrokerQuoteEntryPoint_Out:
+        """Returns the live, confirmed-reachable entry URL for one of Embroker's self-serve
+        quote-wizard products.
+        """
+
 class Prv_erieinsurance(Protocol):
     """ERIE Insurance — agent-distributed auto/home/life/business carrier; quotes, agent +
     repair-shop lookup, claim status.
@@ -12454,6 +12480,7 @@ class BowmarkProviders(Protocol):
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
     discounttire: Prv_discounttire
+    embroker: Prv_embroker
     erieinsurance: Prv_erieinsurance
     extraspace: Prv_extraspace
     firstdibs: Prv_firstdibs
