@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b8a7f436989c6f073f3f7127f2b4f18adaae58fb6a42f2777d422dfa2bb4a2b0
-// 8 capabilities, 94 providers, 313 typed functions, 20 refused.
+// Manifest version: 5426792a92faf41fd663aa77ef068ec2f38bcc28d33426a6a565458c7a3b4c42
+// 8 capabilities, 95 providers, 316 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10785,6 +10785,71 @@ interface PizzahutDealsForRender {
   }
 }
 
+declare namespace BowmarkProvider_premierbuildings {
+  // ── Premier Portable Buildings — the unit's own declarations, verbatim ──
+interface PremierbuildingsStyle {
+  key: string;
+  label: string;
+  sidingOptions: string[];
+  sizes: { sizeKey: string; width: number; length: number }[];
+}
+interface PremierbuildingsPrice {
+  styleKey: string;
+  model: string;
+  sizeKey: string;
+  width: number;
+  length: number;
+  sidingKey: string;
+  zip: string;
+  region: string;
+  basePrice: number;
+  sidingSurcharge: number;
+  total: number;
+  currency: "USD";
+}
+interface PremierbuildingsDealer {
+  key: string;
+  name: string;
+  city: string;
+  state: string;
+  zip: string;
+  phoneNumber: string;
+  dealerURL: string;
+}
+
+  /**
+   * Reads Premier Portable Buildings' own ShedView 3D configurator pricing catalogue — building
+   * styles, real available sizes, and region-exact siding surcharges — plus its real dealer
+   * directory.
+   */
+  interface Unit {
+    /**
+     * Lists every real building style Premier's ShedView configurator offers (Lofted Barn,
+     * Utility, Cabin, Garage, ...) with its real siding options and every real buildable size
+     * (width x length), read straight from the configurator's own live catalogue.
+     */
+    listBuildingStyles(): Promise<PremierbuildingsStyle[]>;
+
+    /**
+     * Prices one real Premier building configuration exactly the way ShedView itself does: the
+     * base price for `styleKey` + `sizeKey` in the pricing region `zip` falls under, plus the
+     * EXACT siding surcharge Premier's own rules add for `sidingKey` at that width and region (0
+     * for the default "urethane-siding"; a real dollar amount, never a guess, for an alternative
+     * like "metal" — the surcharge genuinely varies by both region and building width).
+     * `sidingKey` defaults to "urethane-siding" (Premier's standard siding) when omitted.
+     */
+    priceBuilding(styleKey: string, sizeKey: string, sidingKey: string | undefined, zip: string): Promise<PremierbuildingsPrice>;
+
+    /**
+     * Looks up Premier's real dealer locations in one US state or Canadian province (accepts
+     * either a full name like "Tennessee" or an abbreviation like "TN") — name, city, phone, and
+     * the dealer's own ShedView URL, straight from Premier's live dealer directory, for handing a
+     * priced configuration off to order.
+     */
+    findDealers(state: string): Promise<PremierbuildingsDealer[]>;
+  }
+}
+
 declare namespace BowmarkProvider_progressive {
   // ── Progressive — the unit's own declarations, verbatim ──
 // Progressive's OWN shapes — not a capability contract.
@@ -14825,6 +14890,7 @@ interface BowmarkProviders {
   paypal: BowmarkProvider_paypal.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
+  premierbuildings: BowmarkProvider_premierbuildings.Unit;
   progressive: BowmarkProvider_progressive.Unit;
   prose: BowmarkProvider_prose.Unit;
   reddit: BowmarkProvider_reddit.Unit;

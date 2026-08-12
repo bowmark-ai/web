@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b8a7f436989c6f073f3f7127f2b4f18adaae58fb6a42f2777d422dfa2bb4a2b0
-// 303 checked, 20 unchecked.
+// Manifest version: 5426792a92faf41fd663aa77ef068ec2f38bcc28d33426a6a565458c7a3b4c42
+// 306 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b8a7f436989c6f073f3f7127f2b4f18adaae58fb6a42f2777d422dfa2bb4a2b0",
+  "version": "5426792a92faf41fd663aa77ef068ec2f38bcc28d33426a6a565458c7a3b4c42",
   "units": {
     "cars": {
       "defs": {
@@ -8326,6 +8326,59 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.premierbuildings": {
+      "defs": {},
+      "functions": {
+        "listBuildingStyles": [],
+        "priceBuilding": [
+          {
+            "name": "styleKey",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "sizeKey",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "sidingKey",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "undefined"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "findDealers": [
+          {
+            "name": "state",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

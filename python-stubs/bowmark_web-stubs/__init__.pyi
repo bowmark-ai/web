@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b8a7f436989c6f073f3f7127f2b4f18adaae58fb6a42f2777d422dfa2bb4a2b0
-# 8 capabilities, 94 providers, 303 typed functions, 20 refused.
+# Manifest version: 5426792a92faf41fd663aa77ef068ec2f38bcc28d33426a6a565458c7a3b4c42
+# 8 capabilities, 95 providers, 306 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5568,6 +5568,40 @@ class Prv_pizzahut_PizzahutDealsForRender_Out_sources_item_Out(TypedDict):
 class Prv_pizzahut_PizzahutDealScopeForRender_u1_Out(TypedDict):
     storeNumbers: list[str]
 
+class Prv_premierbuildings_PremierbuildingsStyle_Out(TypedDict):
+    key: str
+    label: str
+    sidingOptions: list[str]
+    sizes: list[Prv_premierbuildings_PremierbuildingsStyle_Out_sizes_item_Out]
+
+class Prv_premierbuildings_PremierbuildingsStyle_Out_sizes_item_Out(TypedDict):
+    sizeKey: str
+    width: float
+    length: float
+
+class Prv_premierbuildings_PremierbuildingsPrice_Out(TypedDict):
+    styleKey: str
+    model: str
+    sizeKey: str
+    width: float
+    length: float
+    sidingKey: str
+    zip: str
+    region: str
+    basePrice: float
+    sidingSurcharge: float
+    total: float
+    currency: Literal["USD"]
+
+class Prv_premierbuildings_PremierbuildingsDealer_Out(TypedDict):
+    key: str
+    name: str
+    city: str
+    state: str
+    zip: str
+    phoneNumber: str
+    dealerURL: str
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -11072,6 +11106,35 @@ class Prv_pizzahut(Protocol):
         as "first". Wholly anonymous, one Contentful read per call.
         """
 
+class Prv_premierbuildings(Protocol):
+    """Reads Premier Portable Buildings' own ShedView 3D configurator pricing catalogue —
+    building styles, real available sizes, and region-exact siding surcharges — plus its
+    real dealer directory.
+    """
+
+    async def listBuildingStyles(self, /) -> list[Prv_premierbuildings_PremierbuildingsStyle_Out]:
+        """Lists every real building style Premier's ShedView configurator offers (Lofted Barn,
+        Utility, Cabin, Garage, ...) with its real siding options and every real buildable size
+        (width x length), read straight from the configurator's own live catalogue.
+        """
+
+    async def priceBuilding(self, styleKey: str, sizeKey: str, sidingKey: str | None, zip: str, /) -> Prv_premierbuildings_PremierbuildingsPrice_Out:
+        """Prices one real Premier building configuration exactly the way ShedView itself does: the
+        base price for `styleKey` + `sizeKey` in the pricing region `zip` falls under, plus the
+        EXACT siding surcharge Premier's own rules add for `sidingKey` at that width and region
+        (0 for the default "urethane-siding"; a real dollar amount, never a guess, for an
+        alternative like "metal" — the surcharge genuinely varies by both region and building
+        width). `sidingKey` defaults to "urethane-siding" (Premier's standard siding) when
+        omitted.
+        """
+
+    async def findDealers(self, state: str, /) -> list[Prv_premierbuildings_PremierbuildingsDealer_Out]:
+        """Looks up Premier's real dealer locations in one US state or Canadian province (accepts
+        either a full name like "Tennessee" or an abbreviation like "TN") — name, city, phone,
+        and the dealer's own ShedView URL, straight from Premier's live dealer directory, for
+        handing a priced configuration off to order.
+        """
+
 class Prv_progressive(Protocol):
     """Quotes from the second-largest US auto insurer across every line it publishes — auto,
     the specialty vehicle band (motorcycle, boat, RV, ATV, snowmobile, golf cart, PWC,
@@ -12390,6 +12453,7 @@ class BowmarkProviders(Protocol):
     paypal: Prv_paypal
     pirateship: Prv_pirateship
     pizzahut: Prv_pizzahut
+    premierbuildings: Prv_premierbuildings
     progressive: Prv_progressive
     prose: Prv_prose
     reddit: Prv_reddit

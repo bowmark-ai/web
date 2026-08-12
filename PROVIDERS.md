@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 682 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 685 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -497,6 +497,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | 🟢 |
 | `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
 | `pizzahut.priceOrder` | pizzahut.com | Prices a configured basket at a store WITHOUT placing it — line items with their… | 🟢 |
+| `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
+| `premierbuildings.listBuildingStyles` | premierbuildings.us | Lists every real building style Premier's ShedView configurator offers (Lofted Barn… | 🟢 |
+| `premierbuildings.priceBuilding` | premierbuildings.us | Prices one real Premier building configuration exactly the way ShedView itself does… | 🟢 |
 | `progressive.findAgent` | progressive.com | Finds the independent agents who sell Progressive near a ZIP — name, agency, address… | 🟢 |
 | `progressive.getAtvQuote` | progressive.com | Returns an ATV or UTV insurance quote for the machine and its ZIP — off-road coverage… | ⚪ |
 | `progressive.getAutoQuote` | progressive.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP —… | ⚪ |
