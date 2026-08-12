@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a335959ff42c65d56dd33afa1ff8f77379cc44f987854256cbc076899a7823a5
-# 8 capabilities, 100 providers, 317 typed functions, 20 refused.
+# Manifest version: f2b4dd673b3dee8e0f35f0f4d7ffec6a8aa75d609594f42f3d85839ef1382ef1
+# 8 capabilities, 101 providers, 319 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2943,6 +2943,35 @@ class Prv_grainger_graingerStockRow_Out_pickup_u0_Out_branch_u0_Out_address_u0_O
     state: str | None
     zip: str | None
     country: str | None
+
+class Prv_handypro_HandyproServiceArea_Out(TypedDict):
+    covered: bool
+    message: NotRequired[str]
+    franchiseeName: NotRequired[str]
+    phone: NotRequired[str]
+    city: NotRequired[str]
+    state: NotRequired[str]
+    formattedAddress: NotRequired[str]
+    hourlyRates: NotRequired[list[Prv_handypro_HandyproHourlyRate_Out]]
+
+class Prv_handypro_HandyproHourlyRate_Out(TypedDict):
+    fromHours: float
+    toHours: float
+    pricePerHour: float
+
+class Prv_handypro_HandyproCategorySearch_Out(TypedDict):
+    zipcode: str
+    covered: bool
+    message: NotRequired[str]
+    categories: list[Prv_handypro_HandyproCategoryPrice_Out]
+
+class Prv_handypro_HandyproCategoryPrice_Out(TypedDict):
+    categoryId: str
+    categoryName: str
+    parentCategoryName: str
+    pricingKind: Literal["estimate"] | Literal["fixedJob"] | Literal["unpriced"]
+    price: float | None
+    whatsIncluded: str
 
 class Prv_hauslabs_listHauslabsProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -9488,6 +9517,27 @@ class Prv_grainger(Protocol):
         could have named). Optional `quantity` (default 1) is forwarded to the site.
         """
 
+class Prv_handypro(Protocol):
+    """HandyPro's real service-area coverage and per-category job pricing — checks whether a
+    ZIP is served by a real local franchisee (with its own live hourly rate table) and
+    prices HandyPro's actual handyman/home-modification categories (grab bars, appliance
+    install, TV mounting, painting, and more) for that ZIP, rather than a researched
+    nationwide estimate.
+    """
+
+    async def checkServiceArea(self, zipcode: str, /) -> Prv_handypro_HandyproServiceArea_Out:
+        """Checks whether a ZIP is served by a real local HandyPro franchisee and returns that
+        franchisee's own real hourly rate table. covered is false with a message for a ZIP
+        outside HandyPro's online booking area — an honest, ordinary answer, not an error.
+        """
+
+    async def searchServiceCategories(self, zipcode: str, query: str | None = None, /) -> Prv_handypro_HandyproCategorySearch_Out:
+        """Lists HandyPro's real service categories priced for one ZIP's franchisee (a free
+        estimate or a real fixed job price, and what's included), optionally narrowed by a
+        free-text query (e.g. "grab bar"). covered is false with a message for a ZIP outside the
+        service area.
+        """
+
 class Prv_hauslabs(Protocol):
     """Haus Labs by Lady Gaga product catalogue — every clean-beauty SKU, its variants, its
     prices and what is in stock — read off the live Shopify Plus storefront. The Foundation
@@ -12652,6 +12702,7 @@ class BowmarkProviders(Protocol):
     geico: Prv_geico
     google_flights: Prv_google_flights
     grainger: Prv_grainger
+    handypro: Prv_handypro
     hauslabs: Prv_hauslabs
     healthcare_gov: Prv_healthcare_gov
     hellofresh: Prv_hellofresh

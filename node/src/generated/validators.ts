@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a335959ff42c65d56dd33afa1ff8f77379cc44f987854256cbc076899a7823a5
-// 317 checked, 20 unchecked.
+// Manifest version: f2b4dd673b3dee8e0f35f0f4d7ffec6a8aa75d609594f42f3d85839ef1382ef1
+// 319 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a335959ff42c65d56dd33afa1ff8f77379cc44f987854256cbc076899a7823a5",
+  "version": "f2b4dd673b3dee8e0f35f0f4d7ffec6a8aa75d609594f42f3d85839ef1382ef1",
   "units": {
     "cars": {
       "defs": {
@@ -4423,6 +4423,36 @@ export const VALIDATORS: ValidatorTable = {
               "k": "any"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.handypro": {
+      "defs": {},
+      "functions": {
+        "checkServiceArea": [
+          {
+            "name": "zipcode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchServiceCategories": [
+          {
+            "name": "zipcode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }

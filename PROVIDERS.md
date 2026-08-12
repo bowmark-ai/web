@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 698 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 702 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -256,6 +256,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟢 |
 | `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟢 |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
+| `handypro.checkServiceArea` | handypro.com | Checks whether a ZIP is served by a real local HandyPro franchisee and returns that… | 🟢 |
+| `handypro.checkTechnicianAvailability` | handypro.com | Would find the next available technician slot for a category + ZIP via… | ⚪ |
+| `handypro.createBooking` | handypro.com | Would confirm a HandyPro appointment and take Stripe payment via… | ⚪ |
+| `handypro.searchServiceCategories` | handypro.com | Lists HandyPro's real service categories (grab bars, appliance install, TV mounting… | 🟢 |
 | `hauslabs.getHauslabsProduct` | hauslabs.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `hauslabs.listHauslabsProducts` | hauslabs.com | Reads the live Haus Labs catalogue as the storefront publishes it — every product, its… | 🟢 |
 | `hauslabs.runFoundationShadeFinder` | hauslabs.com | Resolves a buyer's Foundation Lab quiz answers to ONE specific shade: the variant… | 🟢 |

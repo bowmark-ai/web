@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a335959ff42c65d56dd33afa1ff8f77379cc44f987854256cbc076899a7823a5
-// 8 capabilities, 100 providers, 327 typed functions, 20 refused.
+// Manifest version: f2b4dd673b3dee8e0f35f0f4d7ffec6a8aa75d609594f42f3d85839ef1382ef1
+// 8 capabilities, 101 providers, 329 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5315,6 +5315,62 @@ interface graingerStockRow {
      * `quantity` (default 1) is forwarded to the site.
      */
     checkStock(args: object): Promise<graingerStockRow>;
+  }
+}
+
+declare namespace BowmarkProvider_handypro {
+  // ── HandyPro — the unit's own declarations, verbatim ──
+// HandyPro's OWN shapes — not a capability contract.
+
+interface HandyproHourlyRate { fromHours: number; toHours: number; pricePerHour: number }
+
+interface HandyproServiceArea {
+  covered: boolean;
+  message?: string;         // present only when covered is false
+  franchiseeName?: string;
+  phone?: string;
+  city?: string;
+  state?: string;
+  formattedAddress?: string;
+  hourlyRates?: HandyproHourlyRate[];
+}
+
+interface HandyproCategoryPrice {
+  categoryId: string;
+  categoryName: string;
+  parentCategoryName: string;
+  pricingKind: "estimate" | "fixedJob" | "unpriced";
+  price: number | null;     // dollars
+  whatsIncluded: string;
+}
+
+interface HandyproCategorySearch {
+  zipcode: string;
+  covered: boolean;
+  message?: string;         // present only when covered is false
+  categories: HandyproCategoryPrice[];
+}
+
+  /**
+   * HandyPro's real service-area coverage and per-category job pricing — checks whether a ZIP is
+   * served by a real local franchisee (with its own live hourly rate table) and prices
+   * HandyPro's actual handyman/home-modification categories (grab bars, appliance install, TV
+   * mounting, painting, and more) for that ZIP, rather than a researched nationwide estimate.
+   */
+  interface Unit {
+    /**
+     * Checks whether a ZIP is served by a real local HandyPro franchisee and returns that
+     * franchisee's own real hourly rate table. covered is false with a message for a ZIP outside
+     * HandyPro's online booking area — an honest, ordinary answer, not an error.
+     */
+    checkServiceArea(zipcode: string): Promise<HandyproServiceArea>;
+
+    /**
+     * Lists HandyPro's real service categories priced for one ZIP's franchisee (a free estimate or
+     * a real fixed job price, and what's included), optionally narrowed by a free-text query (e.g.
+     * "grab bar"). covered is false with a message for a ZIP outside the service area.
+     */
+    searchServiceCategories(zipcode: string, query?: string): Promise<HandyproCategorySearch>;
   }
 }
 
@@ -15124,6 +15180,7 @@ interface BowmarkProviders {
   geico: BowmarkProvider_geico.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   grainger: BowmarkProvider_grainger.Unit;
+  handypro: BowmarkProvider_handypro.Unit;
   hauslabs: BowmarkProvider_hauslabs.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;
