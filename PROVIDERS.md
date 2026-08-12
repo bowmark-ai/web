@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 685 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 687 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -379,6 +379,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lonelyplanet.search` | lonelyplanet.com | Searches lonelyplanet.com's site-wide index — destinations, articles, curated trip… | 🟢 |
 | `lonelyplanet.searchGuidebooks` | lonelyplanet.com | Searches Lonely Planet's guidebook catalog (destination guides, phrasebooks, planning… | ⚪ |
 | `lonelyplanet.searchTrips` | lonelyplanet.com | Browses Lonely Planet's ready-to-book curated multi-day itineraries — trips 'crafted… | ⚪ |
+| `louvershop.findLocalDealer` | louvershop.com | Looks up the Louver Shop dealer/branch that covers a US ZIP — the same ZIP-gate lookup… | 🟢 |
+| `louvershop.requestConsultation` | louvershop.com | Would submit the site's actual 'Free, No-Obligation In-Home Design Consultation'… | ⚪ |
 | `lufthansa.getBaggageAllowance` | lufthansa.com | Reads the checked and carry-on baggage allowance for a fare class and route — bag… | 🟢 |
 | `lufthansa.getFlightStatus` | lufthansa.com | Looks up a flight's real-time status by flight number and date — scheduled vs.… | 🟢 |
 | `lufthansa.getSeatMap` | lufthansa.com | Reads the seat map for a specific flight — cabin layout, which seats are open… | ⚪ |

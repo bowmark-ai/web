@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5426792a92faf41fd663aa77ef068ec2f38bcc28d33426a6a565458c7a3b4c42
-// 8 capabilities, 95 providers, 316 typed functions, 20 refused.
+// Manifest version: 49b2a32b48dac85ffda0159379d024b6bc52e0fa13f2c7e628b2ab7302f63cb6
+// 8 capabilities, 96 providers, 317 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8059,6 +8059,61 @@ interface LonelyPlanetSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_louvershop {
+  // ── Louver Shop Shutters — the unit's own declarations, verbatim ──
+interface LouvershopBranch {
+  id: number;
+  name: string;
+  link: string;
+  tel: string;
+}
+
+interface LouvershopLocalArea {
+  zip: string;
+  city: string;
+  state: string;
+  stateCode: string;
+}
+
+interface LouvershopConsultant {
+  id: number;
+  name: string;
+  link: string;
+}
+
+interface LouvershopAvailability {
+  exteriorDecorative: boolean;
+  exteriorSecurity: boolean;
+}
+
+interface FindLocalDealerResult {
+  zip: string;
+  inServiceArea: boolean;
+  branch: LouvershopBranch | null;
+  area: LouvershopLocalArea | null;
+  consultants: LouvershopConsultant[];
+  availability: LouvershopAvailability | null;
+}
+
+  /**
+   * Window treatments (interior/exterior shutters, blinds, shades) dealer network.
+   * findLocalDealer is live — the same lookup the site's own free-quote/consultant-locator forms
+   * run before showing a booking path, given a ZIP. requestConsultation (submitting the actual
+   * in-home consultation request) is a stub — see its notImplemented reason.
+   */
+  interface Unit {
+    /**
+     * Looks up the Louver Shop dealer/branch that covers a US ZIP (`zip`, a 4-5 digit string, e.g.
+     * "30301") — the same lookup the site's own "Free In-Home Design Consultation" form and "Find
+     * a Consultant" locator both run before offering a booking path. Returns whether the ZIP is in
+     * the dealer network, the matched branch (name, phone, page slug), the normalized local area,
+     * the branch's assigned consultants (deduplicated), and per-branch exterior-shutter
+     * availability flags. Recovered from the locator widget's own backend, not guessed at.
+     */
+    findLocalDealer(args: object): Promise<FindLocalDealerResult>;
+  }
+}
+
 declare namespace BowmarkProvider_lufthansa {
   // ── Lufthansa — the unit's own declarations, verbatim ──
 interface LufthansaFlightLeg {
@@ -14870,6 +14925,7 @@ interface BowmarkProviders {
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
+  louvershop: BowmarkProvider_louvershop.Unit;
   lufthansa: BowmarkProvider_lufthansa.Unit;
   lululemon: BowmarkProvider_lululemon.Unit;
   maidenhome: BowmarkProvider_maidenhome.Unit;

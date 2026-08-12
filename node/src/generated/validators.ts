@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5426792a92faf41fd663aa77ef068ec2f38bcc28d33426a6a565458c7a3b4c42
-// 306 checked, 20 unchecked.
+// Manifest version: 49b2a32b48dac85ffda0159379d024b6bc52e0fa13f2c7e628b2ab7302f63cb6
+// 307 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5426792a92faf41fd663aa77ef068ec2f38bcc28d33426a6a565458c7a3b4c42",
+  "version": "49b2a32b48dac85ffda0159379d024b6bc52e0fa13f2c7e628b2ab7302f63cb6",
   "units": {
     "cars": {
       "defs": {
@@ -6436,6 +6436,20 @@ export const VALIDATORS: ValidatorTable = {
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.louvershop": {
+      "defs": {},
+      "functions": {
+        "findLocalDealer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }

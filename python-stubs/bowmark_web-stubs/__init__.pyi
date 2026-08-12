@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5426792a92faf41fd663aa77ef068ec2f38bcc28d33426a6a565458c7a3b4c42
-# 8 capabilities, 95 providers, 306 typed functions, 20 refused.
+# Manifest version: 49b2a32b48dac85ffda0159379d024b6bc52e0fa13f2c7e628b2ab7302f63cb6
+# 8 capabilities, 96 providers, 307 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4151,6 +4151,35 @@ class Prv_lonelyplanet_LonelyPlanetSearchResult_Out(TypedDict):
     subtitle: str | None
     collection: str
     url: str
+
+class Prv_louvershop_FindLocalDealerResult_Out(TypedDict):
+    zip: str
+    inServiceArea: bool
+    branch: Prv_louvershop_LouvershopBranch_Out | None
+    area: Prv_louvershop_LouvershopLocalArea_Out | None
+    consultants: list[Prv_louvershop_LouvershopConsultant_Out]
+    availability: Prv_louvershop_LouvershopAvailability_Out | None
+
+class Prv_louvershop_LouvershopBranch_Out(TypedDict):
+    id: float
+    name: str
+    link: str
+    tel: str
+
+class Prv_louvershop_LouvershopLocalArea_Out(TypedDict):
+    zip: str
+    city: str
+    state: str
+    stateCode: str
+
+class Prv_louvershop_LouvershopConsultant_Out(TypedDict):
+    id: float
+    name: str
+    link: str
+
+class Prv_louvershop_LouvershopAvailability_Out(TypedDict):
+    exteriorDecorative: bool
+    exteriorSecurity: bool
 
 class Prv_lufthansa_LufthansaFlightStatus_Out(TypedDict):
     airline: str
@@ -10314,6 +10343,23 @@ class Prv_lonelyplanet(Protocol):
         or guide they want.
         """
 
+class Prv_louvershop(Protocol):
+    """Window treatments (interior/exterior shutters, blinds, shades) dealer network.
+    findLocalDealer is live — the same lookup the site's own free-quote/consultant-locator
+    forms run before showing a booking path, given a ZIP. requestConsultation (submitting
+    the actual in-home consultation request) is a stub — see its notImplemented reason.
+    """
+
+    async def findLocalDealer(self, args: Any, /) -> Prv_louvershop_FindLocalDealerResult_Out:
+        """Looks up the Louver Shop dealer/branch that covers a US ZIP (`zip`, a 4-5 digit string,
+        e.g. "30301") — the same lookup the site's own "Free In-Home Design Consultation" form
+        and "Find a Consultant" locator both run before offering a booking path. Returns whether
+        the ZIP is in the dealer network, the matched branch (name, phone, page slug), the
+        normalized local area, the branch's assigned consultants (deduplicated), and per-branch
+        exterior-shutter availability flags. Recovered from the locator widget's own backend,
+        not guessed at.
+        """
+
 class Prv_lufthansa(Protocol):
     """Flight search and fares, flight status, seat maps, baggage allowance and reading an
     existing booking on lufthansa.com.
@@ -12433,6 +12479,7 @@ class BowmarkProviders(Protocol):
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
     lonelyplanet: Prv_lonelyplanet
+    louvershop: Prv_louvershop
     lufthansa: Prv_lufthansa
     lululemon: Prv_lululemon
     maidenhome: Prv_maidenhome
