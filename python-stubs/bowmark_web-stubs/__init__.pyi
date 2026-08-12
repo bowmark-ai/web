@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b41530a668deee96c2c69ca89597e2c4bc216a44cc5a63ed399b6ed787354b16
-# 8 capabilities, 99 providers, 315 typed functions, 20 refused.
+# Manifest version: a335959ff42c65d56dd33afa1ff8f77379cc44f987854256cbc076899a7823a5
+# 8 capabilities, 100 providers, 317 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4029,6 +4029,21 @@ class Prv_kayak_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Prv_kitchentuneup_KitchentuneupCabinetStyle_Out(TypedDict):
+    featureDefinitionId: float
+    name: str
+    group: str | None
+    thumbnailUrl: str | None
+
+class Prv_kitchentuneup_visualizeKitchen_args_In(TypedDict):
+    photoBase64: str
+    photoFileName: NotRequired[str]
+    featureDefinitionIds: Sequence[float]
+
+class Prv_kitchentuneup_KitchentuneupVisualization_Out(TypedDict):
+    resultImageUrl: str
+    appliedFeatureIds: list[float]
 
 class Prv_labcorp_LabcorpTestSummary_Out(TypedDict):
     sku: str
@@ -10292,6 +10307,29 @@ class Prv_kayak(Protocol):
         site's own three-phase supplier poll completes.
         """
 
+class Prv_kitchentuneup(Protocol):
+    """Kitchen Tune-Up's own AI Design Tool — the live cabinet door/color/finish catalog, and
+    photo-in/AI-visualization-out generation, run the way kitchentuneup.com/design-tool/
+    does.
+    """
+
+    async def listCabinetStyles(self, /) -> list[Prv_kitchentuneup_KitchentuneupCabinetStyle_Out]:
+        """Reads Kitchen Tune-Up's own AI Design Tool catalog off its visualizer vendor's API —
+        every cabinet door style / color / finish feature currently enabled for the kitchen
+        visualizer, with the featureDefinitionId visualizeKitchen needs to apply it. Real
+        catalog data, not a marketing page scrape.
+        """
+
+    async def visualizeKitchen(self, args: Prv_kitchentuneup_visualizeKitchen_args_In, /) -> Prv_kitchentuneup_KitchentuneupVisualization_Out:
+        """Runs a photo through Kitchen Tune-Up's own AI Design Tool the way
+        kitchentuneup.com/design-tool/ does — uploads the photo plus one or more chosen cabinet
+        features (from listCabinetStyles) to their visualizer vendor's AI image pipeline and
+        returns the generated visualization image URL. This is the exact functional gap this
+        packet's ANGLE fit-check recorded: ChatGPT knows the AI Design Tool exists but
+        explicitly refuses to operate it ('I can't operate Kitchen Tune-Up's website on your
+        behalf') and bounces the user back to the site.
+        """
+
 class Prv_labcorp(Protocol):
     """Lab test pricing, PSC location lookup and appointment availability from Labcorp."""
 
@@ -12626,6 +12664,7 @@ class BowmarkProviders(Protocol):
     interiordefine: Prv_interiordefine
     joybird: Prv_joybird
     kayak: Prv_kayak
+    kitchentuneup: Prv_kitchentuneup
     labcorp: Prv_labcorp
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b41530a668deee96c2c69ca89597e2c4bc216a44cc5a63ed399b6ed787354b16
-// 8 capabilities, 99 providers, 325 typed functions, 20 refused.
+// Manifest version: a335959ff42c65d56dd33afa1ff8f77379cc44f987854256cbc076899a7823a5
+// 8 capabilities, 100 providers, 327 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7805,6 +7805,46 @@ interface KayakCar {
   }
 }
 
+declare namespace BowmarkProvider_kitchentuneup {
+  // ── Kitchen Tune-Up — the unit's own declarations, verbatim ──
+interface KitchentuneupCabinetStyle {
+  featureDefinitionId: number;
+  name: string;
+  group: string | null;
+  thumbnailUrl: string | null;
+}
+
+interface KitchentuneupVisualization {
+  resultImageUrl: string;
+  appliedFeatureIds: number[];
+}
+
+  /**
+   * Kitchen Tune-Up's own AI Design Tool — the live cabinet door/color/finish catalog, and
+   * photo-in/AI-visualization-out generation, run the way kitchentuneup.com/design-tool/ does.
+   */
+  interface Unit {
+    /**
+     * Reads Kitchen Tune-Up's own AI Design Tool catalog off its visualizer vendor's API — every
+     * cabinet door style / color / finish feature currently enabled for the kitchen visualizer,
+     * with the featureDefinitionId visualizeKitchen needs to apply it. Real catalog data, not a
+     * marketing page scrape.
+     */
+    listCabinetStyles(): Promise<KitchentuneupCabinetStyle[]>;
+
+    /**
+     * Runs a photo through Kitchen Tune-Up's own AI Design Tool the way
+     * kitchentuneup.com/design-tool/ does — uploads the photo plus one or more chosen cabinet
+     * features (from listCabinetStyles) to their visualizer vendor's AI image pipeline and returns
+     * the generated visualization image URL. This is the exact functional gap this packet's ANGLE
+     * fit-check recorded: ChatGPT knows the AI Design Tool exists but explicitly refuses to
+     * operate it ('I can't operate Kitchen Tune-Up's website on your behalf') and bounces the user
+     * back to the site.
+     */
+    visualizeKitchen(args: { photoBase64: string, photoFileName?: string, featureDefinitionIds: number[] }): Promise<KitchentuneupVisualization>;
+  }
+}
+
 declare namespace BowmarkProvider_labcorp {
   // ── Labcorp — the unit's own declarations, verbatim ──
 interface LabcorpTestSummary {
@@ -15096,6 +15136,7 @@ interface BowmarkProviders {
   interiordefine: BowmarkProvider_interiordefine.Unit;
   joybird: BowmarkProvider_joybird.Unit;
   kayak: BowmarkProvider_kayak.Unit;
+  kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;

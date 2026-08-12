@@ -1,5 +1,5 @@
 {
-  "version": "b41530a668deee96c2c69ca89597e2c4bc216a44cc5a63ed399b6ed787354b16",
+  "version": "a335959ff42c65d56dd33afa1ff8f77379cc44f987854256cbc076899a7823a5",
   "units": {
     "cars": {
       "defs": {
@@ -6249,6 +6249,47 @@
             "schema": {
               "k": "ref",
               "name": "KayakCarQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.kitchentuneup": {
+      "defs": {},
+      "functions": {
+        "listCabinetStyles": [],
+        "visualizeKitchen": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "photoBase64",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "photoFileName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "featureDefinitionIds",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "number"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
