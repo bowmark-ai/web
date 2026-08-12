@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2deca35c75d83da1fa0d2f5464771966b79ae21a5be3f7cb958b872432daf01b
-// 8 capabilities, 97 providers, 319 typed functions, 20 refused.
+// Manifest version: 42e64af378f884eda7f789bd25b092406553981a6db26567a6cdc1811468b18d
+// 8 capabilities, 98 providers, 322 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2708,6 +2708,75 @@ interface ChriscraftPriceResult {
      * choice, rather than silently mispricing.
      */
     priceConfiguration(modelId: string, boatType: ChriscraftBoatType, selections: Record<string, string | string[]>): Promise<ChriscraftPriceResult>;
+  }
+}
+
+declare namespace BowmarkProvider_classichome {
+  // ── Classic Home — the unit's own declarations, verbatim ──
+// Classic Home's OWN shapes — not a capability contract.
+
+interface ClassicHomeProduct {
+  handle: string;        // the key getProduct/addToCart take
+  title: string;
+  url: string;
+  priceMin: number;      // dollars — the cheapest real fabric/leather choice
+  priceMax: number;      // dollars — the most expensive (usually top-grain leather)
+  variantCount: number;  // >1 means a real fabric/leather choice exists
+}
+
+interface ClassicHomeVariant {
+  optionValue: string;   // e.g. "Soft Olive", "Dawn-Flax", "ElPaso-Saddle"
+  sku: string;
+  price: number;         // dollars — this exact fabric/leather's own real price
+  available: boolean;
+}
+
+interface ClassicHomeProductDetail {
+  handle: string;
+  title: string;
+  url: string;
+  optionName: string;      // usually "Color" (fabric/leather); "Title" if no real picker
+  variants: ClassicHomeVariant[];
+}
+
+interface ClassicHomeCartHandoff {
+  handle: string;
+  optionValue: string;
+  sku: string;
+  price: number;         // dollars — the real price for this exact fabric/leather
+  available: boolean;
+  productUrl: string;    // finish add-to-cart/checkout on the real product page
+}
+
+  /**
+   * Classic Home's real Made-to-Order fabric/leather catalog and its real, material-specific
+   * Shopify pricing — search real MTO products (sofas, chairs, ottomans), read one product's
+   * real fabric/leather picker, and resolve one exact fabric or leather choice to its real SKU,
+   * price and availability.
+   */
+  interface Unit {
+    /**
+     * Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the site's
+     * own Shopify collection JSON, optionally filtered by a free-text query against the product
+     * title. Returns real products with a real price range read off their own fabric/leather
+     * variants.
+     */
+    searchProducts(query?: string): Promise<ClassicHomeProduct[]>;
+
+    /**
+     * Reads one product's real live fabric/leather picker: every real color/material choice with
+     * its own real price and availability, keyed by the site's own option name. THROWS on an
+     * unknown handle, naming searchProducts() as the way to find current ones.
+     */
+    getProduct(handle: string): Promise<ClassicHomeProductDetail>;
+
+    /**
+     * Resolves ONE exact fabric/leather choice (optionValue from getProduct's own variant list,
+     * e.g. "Soft Olive") to Classic Home's own real price, availability and SKU, plus the product
+     * page to finish add-to-cart/checkout on the site itself. Writes nothing — classichome.com's
+     * robots.txt disallows automated /cart access.
+     */
+    addToCart(handle: string, optionValue: string): Promise<ClassicHomeCartHandoff>;
   }
 }
 
@@ -14922,6 +14991,7 @@ interface BowmarkProviders {
   cars: BowmarkProvider_cars.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;
+  classichome: BowmarkProvider_classichome.Unit;
   classpass: BowmarkProvider_classpass.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;

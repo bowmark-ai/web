@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2deca35c75d83da1fa0d2f5464771966b79ae21a5be3f7cb958b872432daf01b
-// 309 checked, 20 unchecked.
+// Manifest version: 42e64af378f884eda7f789bd25b092406553981a6db26567a6cdc1811468b18d
+// 312 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2deca35c75d83da1fa0d2f5464771966b79ae21a5be3f7cb958b872432daf01b",
+  "version": "42e64af378f884eda7f789bd25b092406553981a6db26567a6cdc1811468b18d",
   "units": {
     "cars": {
       "defs": {
@@ -2770,6 +2770,45 @@ export const VALIDATORS: ValidatorTable = {
                   }
                 ]
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.classichome": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "optionValue",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
