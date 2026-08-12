@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 42e64af378f884eda7f789bd25b092406553981a6db26567a6cdc1811468b18d
-# 8 capabilities, 98 providers, 312 typed functions, 20 refused.
+# Manifest version: 401e1c5675057bfd2cc152fb9593e0ca3aeccdc00c4c4d8fb3c10156341ed4ec
+# 8 capabilities, 99 providers, 315 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3225,6 +3225,48 @@ class Prv_hilton_hiltonRoomOffer_Out(TypedDict):
     currencyCode: str
     nightlyRate: str
     totalRate: str
+
+class Prv_hobie_HobieModelSummary_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+
+class Prv_hobie_HobieModelColors_Out(TypedDict):
+    slug: str
+    name: str
+    defaultColor: str
+    colors: list[Prv_hobie_HobieModelColor_Out]
+
+class Prv_hobie_HobieModelColor_Out(TypedDict):
+    color: str
+    upc: str
+
+class Prv_hobie_HobieLocalAvailability_Out(TypedDict):
+    slug: str
+    modelName: str
+    color: str
+    upc: str
+    zip: str
+    dealers: list[Prv_hobie_HobieDealer_Out]
+    dealersCarryingExactColor: float
+    dealersCarryingModel: float
+
+class Prv_hobie_HobieDealer_Out(TypedDict):
+    storeId: float
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phoneNumber: str
+    latitude: float
+    longitude: float
+    distanceMiles: float
+    carriesExactColor: bool
+    carriesModel: bool
+    carriesBrand: bool
+    stockStatus: str
+    stockDisclaimer: str
 
 class Prv_hunter_hunterDomainMatch_Out(TypedDict):
     query: str
@@ -9646,6 +9688,29 @@ class Prv_hilton(Protocol):
         error rather than a wrong or empty result. See manifest.json's `reach.why`.
         """
 
+class Prv_hobie(Protocol):
+    """Reads Hobie Cat Company's own real-time 'Find it Locally' dealer-inventory widget
+    directly — which real dealer near a zip has a specific kayak model, IN A SPECIFIC COLOR,
+    in stock right now. Kayaks are dealer-distribution only; there is no first-party
+    checkout.
+    """
+
+    async def listModels(self, /) -> list[Prv_hobie_HobieModelSummary_Out]:
+        """Lists every real kayak model Hobie currently sells (slug, display name, its own
+        hobie.com URL), read straight from the live /kayaks/ index.
+        """
+
+    async def listModelColors(self, slug: str, /) -> Prv_hobie_HobieModelColors_Out:
+        """Reads one model's real buildable colors, each paired with the exact UPC the
+        local-inventory widget is keyed on, plus the site's own default color.
+        """
+
+    async def checkLocalAvailability(self, slug: str, color: str | None, zip: str, /) -> Prv_hobie_HobieLocalAvailability_Out:
+        """Runs Hobie's own real-time 'Find it Locally' widget for one model + color near a US zip
+        and returns real nearby dealers with Hobie's own exact-color / model / brand carrying
+        flags. `color` defaults to the site's own default color when omitted.
+        """
+
 class Prv_hunter(Protocol):
     """Work email addresses: the people at a given company and how to reach them, the address
     of one named person at one employer, whether an address will actually accept mail, the
@@ -12553,6 +12618,7 @@ class BowmarkProviders(Protocol):
     hellofresh: Prv_hellofresh
     hellotend: Prv_hellotend
     hilton: Prv_hilton
+    hobie: Prv_hobie
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
     insurify: Prv_insurify

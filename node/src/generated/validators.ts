@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 42e64af378f884eda7f789bd25b092406553981a6db26567a6cdc1811468b18d
-// 312 checked, 20 unchecked.
+// Manifest version: 401e1c5675057bfd2cc152fb9593e0ca3aeccdc00c4c4d8fb3c10156341ed4ec
+// 315 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "42e64af378f884eda7f789bd25b092406553981a6db26567a6cdc1811468b18d",
+  "version": "401e1c5675057bfd2cc152fb9593e0ca3aeccdc00c4c4d8fb3c10156341ed4ec",
   "units": {
     "cars": {
       "defs": {
@@ -4727,6 +4727,52 @@ export const VALIDATORS: ValidatorTable = {
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.hobie": {
+      "defs": {},
+      "functions": {
+        "listModels": [],
+        "listModelColors": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "checkLocalAvailability": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "color",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "undefined"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

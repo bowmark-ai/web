@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 42e64af378f884eda7f789bd25b092406553981a6db26567a6cdc1811468b18d
-// 8 capabilities, 98 providers, 322 typed functions, 20 refused.
+// Manifest version: 401e1c5675057bfd2cc152fb9593e0ca3aeccdc00c4c4d8fb3c10156341ed4ec
+// 8 capabilities, 99 providers, 325 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6277,6 +6277,78 @@ interface hiltonRoomOffer {
      * empty result. See manifest.json's `reach.why`.
      */
     search(args: object): Promise<hiltonRoomOffer[]>;
+  }
+}
+
+declare namespace BowmarkProvider_hobie {
+  // ── Hobie Cat Company — the unit's own declarations, verbatim ──
+interface HobieModelSummary {
+  slug: string;
+  name: string;
+  url: string;
+}
+interface HobieModelColor {
+  color: string;
+  upc: string;
+}
+interface HobieModelColors {
+  slug: string;
+  name: string;
+  defaultColor: string;
+  colors: HobieModelColor[];
+}
+interface HobieDealer {
+  storeId: number;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phoneNumber: string;
+  latitude: number;
+  longitude: number;
+  distanceMiles: number;
+  carriesExactColor: boolean;
+  carriesModel: boolean;
+  carriesBrand: boolean;
+  stockStatus: string;
+  stockDisclaimer: string;
+}
+interface HobieLocalAvailability {
+  slug: string;
+  modelName: string;
+  color: string;
+  upc: string;
+  zip: string;
+  dealers: HobieDealer[];
+  dealersCarryingExactColor: number;
+  dealersCarryingModel: number;
+}
+
+  /**
+   * Reads Hobie Cat Company's own real-time 'Find it Locally' dealer-inventory widget directly —
+   * which real dealer near a zip has a specific kayak model, IN A SPECIFIC COLOR, in stock right
+   * now. Kayaks are dealer-distribution only; there is no first-party checkout.
+   */
+  interface Unit {
+    /**
+     * Lists every real kayak model Hobie currently sells (slug, display name, its own hobie.com
+     * URL), read straight from the live /kayaks/ index.
+     */
+    listModels(): Promise<HobieModelSummary[]>;
+
+    /**
+     * Reads one model's real buildable colors, each paired with the exact UPC the local-inventory
+     * widget is keyed on, plus the site's own default color.
+     */
+    listModelColors(slug: string): Promise<HobieModelColors>;
+
+    /**
+     * Runs Hobie's own real-time 'Find it Locally' widget for one model + color near a US zip and
+     * returns real nearby dealers with Hobie's own exact-color / model / brand carrying flags.
+     * `color` defaults to the site's own default color when omitted.
+     */
+    checkLocalAvailability(slug: string, color: string | undefined, zip: string): Promise<HobieLocalAvailability>;
   }
 }
 
@@ -15016,6 +15088,7 @@ interface BowmarkProviders {
   hellofresh: BowmarkProvider_hellofresh.Unit;
   hellotend: BowmarkProvider_hellotend.Unit;
   hilton: BowmarkProvider_hilton.Unit;
+  hobie: BowmarkProvider_hobie.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
   insurify: BowmarkProvider_insurify.Unit;
