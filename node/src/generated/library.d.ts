@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5aa549fa0214e1d65a9a1d25095e71ed713bb4c47571a452cfcc212f6ec7ff3b
-// 8 capabilities, 93 providers, 310 typed functions, 20 refused.
+// Manifest version: 1cf7e9f8d253ef6b4c9472694e83f2e9f83d2314cc9a4324fdad17f3def86146
+// 8 capabilities, 94 providers, 312 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4019,6 +4019,50 @@ interface ExtraspaceUnitAvailability {
      * only a string that cannot be PARSED as `<number>x<number>` is a caller error.
      */
     checkAvailability(storeId: number | string, unitSize: string): Promise<ExtraspaceAvailabilityResult>;
+  }
+}
+
+declare namespace BowmarkProvider_firstdibs {
+  // ── 1stDibs — the unit's own declarations, verbatim ──
+interface FirstdibsSearchResult {
+  name: string;
+  url: string;
+  price: number;
+  priceCurrency: string;
+  availability: string;
+  image: string | null;
+}
+interface FirstdibsCompletingAction {
+  makeOffer: boolean;
+  contactSeller: boolean;
+  purchase: false;
+}
+interface FirstdibsListing {
+  name: string;
+  url: string;
+  description: string;
+  brand: string | null;
+  price: number;
+  priceCurrency: string;
+  completingAction: FirstdibsCompletingAction;
+}
+
+  /**
+   * Search 1stDibs' luxury/vintage marketplace and read a listing's real price plus its concrete
+   * completing action (Make an Offer / Contact Seller) — no login.
+   */
+  interface Unit {
+    /**
+     * Runs 1stDibs' keyword search (or a category-facet URL) and returns real listings with real
+     * price, currency, availability and url.
+     */
+    search(query: string): Promise<FirstdibsSearchResult[]>;
+
+    /**
+     * Reads one listing's real price and its concrete completing action(s) — Make an Offer and/or
+     * Contact Seller, whichever this seller has enabled.
+     */
+    getListing(url: string): Promise<FirstdibsListing>;
   }
 }
 
@@ -14697,6 +14741,7 @@ interface BowmarkProviders {
   discounttire: BowmarkProvider_discounttire.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
+  firstdibs: BowmarkProvider_firstdibs.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;
   ford: BowmarkProvider_ford.Unit;
   framebridge: BowmarkProvider_framebridge.Unit;

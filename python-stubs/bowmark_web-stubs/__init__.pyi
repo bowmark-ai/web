@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5aa549fa0214e1d65a9a1d25095e71ed713bb4c47571a452cfcc212f6ec7ff3b
-# 8 capabilities, 93 providers, 300 typed functions, 20 refused.
+# Manifest version: 1cf7e9f8d253ef6b4c9472694e83f2e9f83d2314cc9a4324fdad17f3def86146
+# 8 capabilities, 94 providers, 302 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2366,6 +2366,28 @@ class Prv_extraspace_ExtraspaceUnitAvailability_Out(TypedDict):
     webRate: float | None
     promotions: list[str]
     features: list[str]
+
+class Prv_firstdibs_FirstdibsSearchResult_Out(TypedDict):
+    name: str
+    url: str
+    price: float
+    priceCurrency: str
+    availability: str
+    image: str | None
+
+class Prv_firstdibs_FirstdibsListing_Out(TypedDict):
+    name: str
+    url: str
+    description: str
+    brand: str | None
+    price: float
+    priceCurrency: str
+    completingAction: Prv_firstdibs_FirstdibsCompletingAction_Out
+
+class Prv_firstdibs_FirstdibsCompletingAction_Out(TypedDict):
+    makeOffer: bool
+    contactSeller: bool
+    purchase: Literal[False]
 
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
@@ -8841,6 +8863,21 @@ class Prv_extraspace(Protocol):
         `<number>x<number>` is a caller error.
         """
 
+class Prv_firstdibs(Protocol):
+    """Search 1stDibs' luxury/vintage marketplace and read a listing's real price plus its
+    concrete completing action (Make an Offer / Contact Seller) — no login.
+    """
+
+    async def search(self, query: str, /) -> list[Prv_firstdibs_FirstdibsSearchResult_Out]:
+        """Runs 1stDibs' keyword search (or a category-facet URL) and returns real listings with
+        real price, currency, availability and url.
+        """
+
+    async def getListing(self, url: str, /) -> Prv_firstdibs_FirstdibsListing_Out:
+        """Reads one listing's real price and its concrete completing action(s) — Make an Offer
+        and/or Contact Seller, whichever this seller has enabled.
+        """
+
 class Prv_flightradar24(Protocol):
     """Live flight tracking: where a given flight number, callsign or tail registration is
     right now, every aircraft airborne inside a map box, an airport's arrivals and
@@ -12277,6 +12314,7 @@ class BowmarkProviders(Protocol):
     discounttire: Prv_discounttire
     erieinsurance: Prv_erieinsurance
     extraspace: Prv_extraspace
+    firstdibs: Prv_firstdibs
     flightradar24: Prv_flightradar24
     ford: Prv_ford
     framebridge: Prv_framebridge
