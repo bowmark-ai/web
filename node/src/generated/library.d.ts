@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2699d0291fc033fed441d608a10da6c56ba22978fbafcab16efd64c62379ff74
-// 8 capabilities, 106 providers, 342 typed functions, 20 refused.
+// Manifest version: 4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c
+// 8 capabilities, 107 providers, 344 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15032,6 +15032,57 @@ interface wellfoundCompanyDetail {
   }
 }
 
+declare namespace BowmarkProvider_yourarborhome {
+  // ── Arbor Homes — the unit's own declarations, verbatim ──
+interface ArborHome {
+  uniqueName: string;
+  headline: string;
+  status: string;
+  price: number | null;
+  beds: number | null;
+  bathsFull: number | null;
+  bathsHalf: number | null;
+  sqft: number | null;
+  stories: number | null;
+  moveInDate: string | null;
+  address: { street: string; city: string; state: string; postalCode: string };
+  detailUrl: string | null;
+  selfTourUrl: string | null;
+}
+interface SearchHomesFilters {
+  city?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minBeds?: number;
+  minBaths?: number;
+  minSqft?: number;
+  status?: string;
+}
+
+  /**
+   * Arbor Homes — Indiana/Ohio/Kentucky new-construction homebuilder (Clayton Properties Group).
+   * searchHomes reads its live quick-move-in inventory (price, beds/baths/sqft, status,
+   * availability); getHome reads one listing by id. Both return the site's own NterNow
+   * self-guided-tour booking link where the listing has it enabled.
+   */
+  interface Unit {
+    /**
+     * Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and returns rows
+     * matching the optional filters (city, price range, min beds/baths/sqft, status) — real price,
+     * beds/baths, square footage, an availability date and, where the listing has it enabled,
+     * Arbor's own NterNow self-guided-tour booking link.
+     */
+    searchHomes(filters?: SearchHomesFilters): Promise<ArborHome[]>;
+
+    /**
+     * Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same row,
+     * for a caller that already picked a home and wants its detail-page URL and self-tour link
+     * without re-filtering the whole search.
+     */
+    getHome(uniqueName: string): Promise<ArborHome>;
+  }
+}
+
 declare namespace BowmarkFamily_shopify_store {
   // ── Shopify storefronts — the unit's own declarations, verbatim ──
 interface ShopifyVariant {
@@ -15685,6 +15736,7 @@ interface BowmarkProviders {
   visible: BowmarkProvider_visible.Unit;
   walmart: BowmarkProvider_walmart.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
+  yourarborhome: BowmarkProvider_yourarborhome.Unit;
   "000de82": BowmarkFamily_shopify_store.Unit;
   "001r3iv0": BowmarkFamily_shopify_store.Unit;
   "00246d8e": BowmarkFamily_shopify_store.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2699d0291fc033fed441d608a10da6c56ba22978fbafcab16efd64c62379ff74
-// 330 checked, 20 unchecked.
+// Manifest version: 4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c
+// 332 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2699d0291fc033fed441d608a10da6c56ba22978fbafcab16efd64c62379ff74",
+  "version": "4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c",
   "units": {
     "cars": {
       "defs": {
@@ -13779,6 +13779,85 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.yourarborhome": {
+      "defs": {
+        "SearchHomesFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBeds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBaths",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minSqft",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "status",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchHomes": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "SearchHomesFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getHome": [
+          {
+            "name": "uniqueName",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2699d0291fc033fed441d608a10da6c56ba22978fbafcab16efd64c62379ff74
-# 8 capabilities, 106 providers, 330 typed functions, 20 refused.
+# Manifest version: 4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c
+# 8 capabilities, 107 providers, 332 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7909,6 +7909,36 @@ class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
     website: str | None
     logoUrl: str | None
 
+class Prv_yourarborhome_SearchHomesFilters_In(TypedDict):
+    city: NotRequired[str]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minBeds: NotRequired[float]
+    minBaths: NotRequired[float]
+    minSqft: NotRequired[float]
+    status: NotRequired[str]
+
+class Prv_yourarborhome_ArborHome_Out(TypedDict):
+    uniqueName: str
+    headline: str
+    status: str
+    price: float | None
+    beds: float | None
+    bathsFull: float | None
+    bathsHalf: float | None
+    sqft: float | None
+    stories: float | None
+    moveInDate: str | None
+    address: Prv_yourarborhome_ArborHome_Out_address_Out
+    detailUrl: str | None
+    selfTourUrl: str | None
+
+class Prv_yourarborhome_ArborHome_Out_address_Out(TypedDict):
+    street: str
+    city: str
+    state: str
+    postalCode: str
+
 
 class Cap_cars(Protocol):
     """Search car hire at an airport for a date range and get back normalized offers, cheapest
@@ -12960,6 +12990,26 @@ class Prv_wellfound(Protocol):
         site's own experience-requirement text and the hiring startup.
         """
 
+class Prv_yourarborhome(Protocol):
+    """Arbor Homes — Indiana/Ohio/Kentucky new-construction homebuilder (Clayton Properties
+    Group). searchHomes reads its live quick-move-in inventory (price, beds/baths/sqft,
+    status, availability); getHome reads one listing by id. Both return the site's own
+    NterNow self-guided-tour booking link where the listing has it enabled.
+    """
+
+    async def searchHomes(self, filters: Prv_yourarborhome_SearchHomesFilters_In | None = None, /) -> list[Prv_yourarborhome_ArborHome_Out]:
+        """Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and returns
+        rows matching the optional filters (city, price range, min beds/baths/sqft, status) —
+        real price, beds/baths, square footage, an availability date and, where the listing has
+        it enabled, Arbor's own NterNow self-guided-tour booking link.
+        """
+
+    async def getHome(self, uniqueName: str, /) -> Prv_yourarborhome_ArborHome_Out:
+        """Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same
+        row, for a caller that already picked a home and wants its detail-page URL and self-tour
+        link without re-filtering the whole search.
+        """
+
 class BowmarkProviders(Protocol):
     """Every provider, under `bowmark.providers.<id>`. Flat, and snake_case on the
     wire — the id in the manifest, the trace, the namespace and a script are one
@@ -13071,6 +13121,7 @@ class BowmarkProviders(Protocol):
     visible: Prv_visible
     walmart: Prv_walmart
     wellfound: Prv_wellfound
+    yourarborhome: Prv_yourarborhome
 
 
 class Bowmark(Protocol):
