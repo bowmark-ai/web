@@ -6,6 +6,36 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.7.0 (2026-08-13)
+
+**Capabilities**
+
+- New capability **sheds** (3 functions): `sheds.findDealers`, `sheds.listStyles`, `sheds.quote`
+
+**Providers**
+
+- New provider **aiper.store** (2 functions): `aiper.listPoolChooserQuestions`, `aiper.recommendPoolCleaner`
+- New provider **ajmadison.com** (1 function): `ajmadison.search`
+- New provider **atlasseniorliving.com** (1 function): `atlasseniorliving.searchCommunities`
+- New provider **classichome.com** (3 functions): `classichome.addToCart`, `classichome.getProduct`, `classichome.searchProducts`
+- New provider **embroker.com** (2 functions): `embroker.getQuoteEntryPoint`, `embroker.listCoverageLines`
+- New provider **gotchacovered.com** (2 functions): `gotchacovered.getDesignStyleQuizQuestions`, `gotchacovered.takeDesignStyleQuiz`
+- New provider **handypro.com** (2 functions): `handypro.checkServiceArea`, `handypro.searchServiceCategories`
+- New provider **harmar.com** (4 functions): `harmar.findCompatibleLifts`, `harmar.getCompatibleLifts`, `harmar.searchChairModels`, `harmar.searchVehicleModels`
+- New provider **hobie.com** (3 functions): `hobie.checkLocalAvailability`, `hobie.listModelColors`, `hobie.listModels`
+- New provider **islllc.com** (1 function): `islllc.searchCommunities`
+- New provider **kitchentuneup.com** (2 functions): `kitchentuneup.listCabinetStyles`, `kitchentuneup.visualizeKitchen`
+- New provider **kompan.com** (2 functions): `kompan.getSparePartsDocuments`, `kompan.searchProduct`
+- New provider **louvershop.com** (1 function): `louvershop.findLocalDealer`
+- New provider **yourarborhome.com** (2 functions): `yourarborhome.getHome`, `yourarborhome.searchHomes`
+- Added `lululemon.getProducts`
+- Added `shopify.getProducts`
+- Added `shopify.getSetEvidence`
+- Added `shopify.listProducts`
+- Added `shopify.resolveProductUrl`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.6.0 (2026-08-12)
 
 **Providers**
