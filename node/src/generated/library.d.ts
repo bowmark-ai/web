@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e4d69c007d45b93da3197875c33cb4113209d8e4d9033eef4058bd83515b956f
-// 8 capabilities, 102 providers, 333 typed functions, 20 refused.
+// Manifest version: c27def1cb48cdec7987633343d5d1f1a8a615c716422b3a54476e5e3b7f31040
+// 8 capabilities, 103 providers, 335 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7971,6 +7971,66 @@ interface KitchentuneupVisualization {
   }
 }
 
+declare namespace BowmarkProvider_kompan {
+  // ── KOMPAN Master — the unit's own declarations, verbatim ──
+// KOMPAN Master's OWN shapes — not a capability contract.
+
+type KompanRegion = "region_america" | "region_europe_middleeast" | "region_asia_newzealand" | "region_australia";
+
+interface KompanVariant {
+  id: string;         // pass to getSparePartsDocuments()
+  title: string;       // e.g. "PCM157-0205 | UNIVERSAL CAROUSEL"
+}
+
+interface KompanSearchResult {
+  productNo: string;
+  region: KompanRegion;
+  found: boolean;       // false is a real "no such product number in this region" answer
+  image: string | null;
+  variants: KompanVariant[];
+}
+
+interface KompanDocument {
+  section: string;      // the site's own heading, e.g. "Layout Drawing", "Installation Instruction"
+  label: string;
+  url: string;
+}
+
+interface KompanSparePartsDocuments {
+  variantId: string;
+  purchaseDate: string;
+  title: string | null;
+  documents: KompanDocument[];
+  fullPackageUrl: string | null;   // generated on fetch by the site — the URL to fetch, not a static file
+}
+
+  /**
+   * KOMPAN's own spare-parts / TÜV-certificate / maintenance-manual lookup (KOMPAN Master) —
+   * search a KOMPAN playground product number for its real installed variants, then read the
+   * exact layout drawing, installation instruction, general instruction, on-demand full-package
+   * PDF and language-specific inspection checklists / maintenance manuals for one variant +
+   * purchase date, off the site's own live tool rather than a researched guess.
+   */
+  interface Unit {
+    /**
+     * Searches KOMPAN Master for a product number (e.g. "PCM157") in one region (default
+     * "region_america") and lists every real installed variant of it — each with the internal item
+     * id getSparePartsDocuments() takes. `found: false` is a real, expected answer for a product
+     * number with no record in that region, not an error.
+     */
+    searchProduct(productNo: string, region?: KompanRegion): Promise<KompanSearchResult>;
+
+    /**
+     * Reads the real spare-parts / TÜV-certificate / maintenance-manual documents KOMPAN Master
+     * publishes for one variant (an id from searchProduct()) at one purchase date ("YYYY-MM-DD",
+     * since the site keys the applicable document revision off it) — layout drawing, installation
+     * instruction, general instruction, additional checklists/manuals, and the on-demand "full
+     * package" PDF URL.
+     */
+    getSparePartsDocuments(variantId: string, purchaseDate: string): Promise<KompanSparePartsDocuments>;
+  }
+}
+
 declare namespace BowmarkProvider_labcorp {
   // ── Labcorp — the unit's own declarations, verbatim ──
 interface LabcorpTestSummary {
@@ -15265,6 +15325,7 @@ interface BowmarkProviders {
   joybird: BowmarkProvider_joybird.Unit;
   kayak: BowmarkProvider_kayak.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
+  kompan: BowmarkProvider_kompan.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e4d69c007d45b93da3197875c33cb4113209d8e4d9033eef4058bd83515b956f
-# 8 capabilities, 102 providers, 323 typed functions, 20 refused.
+# Manifest version: c27def1cb48cdec7987633343d5d1f1a8a615c716422b3a54476e5e3b7f31040
+# 8 capabilities, 103 providers, 325 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4129,6 +4129,29 @@ class Prv_kitchentuneup_visualizeKitchen_args_In(TypedDict):
 class Prv_kitchentuneup_KitchentuneupVisualization_Out(TypedDict):
     resultImageUrl: str
     appliedFeatureIds: list[float]
+
+class Prv_kompan_KompanSearchResult_Out(TypedDict):
+    productNo: str
+    region: Literal["region_america"] | Literal["region_europe_middleeast"] | Literal["region_asia_newzealand"] | Literal["region_australia"]
+    found: bool
+    image: str | None
+    variants: list[Prv_kompan_KompanVariant_Out]
+
+class Prv_kompan_KompanVariant_Out(TypedDict):
+    id: str
+    title: str
+
+class Prv_kompan_KompanSparePartsDocuments_Out(TypedDict):
+    variantId: str
+    purchaseDate: str
+    title: str | None
+    documents: list[Prv_kompan_KompanDocument_Out]
+    fullPackageUrl: str | None
+
+class Prv_kompan_KompanDocument_Out(TypedDict):
+    section: str
+    label: str
+    url: str
 
 class Prv_labcorp_LabcorpTestSummary_Out(TypedDict):
     sku: str
@@ -10461,6 +10484,30 @@ class Prv_kitchentuneup(Protocol):
         behalf') and bounces the user back to the site.
         """
 
+class Prv_kompan(Protocol):
+    """KOMPAN's own spare-parts / TÜV-certificate / maintenance-manual lookup (KOMPAN Master) —
+    search a KOMPAN playground product number for its real installed variants, then read the
+    exact layout drawing, installation instruction, general instruction, on-demand
+    full-package PDF and language-specific inspection checklists / maintenance manuals for
+    one variant + purchase date, off the site's own live tool rather than a researched
+    guess.
+    """
+
+    async def searchProduct(self, productNo: str, region: Literal["region_america"] | Literal["region_europe_middleeast"] | Literal["region_asia_newzealand"] | Literal["region_australia"] | None = None, /) -> Prv_kompan_KompanSearchResult_Out:
+        """Searches KOMPAN Master for a product number (e.g. "PCM157") in one region (default
+        "region_america") and lists every real installed variant of it — each with the internal
+        item id getSparePartsDocuments() takes. `found: false` is a real, expected answer for a
+        product number with no record in that region, not an error.
+        """
+
+    async def getSparePartsDocuments(self, variantId: str, purchaseDate: str, /) -> Prv_kompan_KompanSparePartsDocuments_Out:
+        """Reads the real spare-parts / TÜV-certificate / maintenance-manual documents KOMPAN
+        Master publishes for one variant (an id from searchProduct()) at one purchase date
+        ("YYYY-MM-DD", since the site keys the applicable document revision off it) — layout
+        drawing, installation instruction, general instruction, additional checklists/manuals,
+        and the on-demand "full package" PDF URL.
+        """
+
 class Prv_labcorp(Protocol):
     """Lab test pricing, PSC location lookup and appointment availability from Labcorp."""
 
@@ -12798,6 +12845,7 @@ class BowmarkProviders(Protocol):
     joybird: Prv_joybird
     kayak: Prv_kayak
     kitchentuneup: Prv_kitchentuneup
+    kompan: Prv_kompan
     labcorp: Prv_labcorp
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath

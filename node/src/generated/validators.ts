@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e4d69c007d45b93da3197875c33cb4113209d8e4d9033eef4058bd83515b956f
-// 323 checked, 20 unchecked.
+// Manifest version: c27def1cb48cdec7987633343d5d1f1a8a615c716422b3a54476e5e3b7f31040
+// 325 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e4d69c007d45b93da3197875c33cb4113209d8e4d9033eef4058bd83515b956f",
+  "version": "c27def1cb48cdec7987633343d5d1f1a8a615c716422b3a54476e5e3b7f31040",
   "units": {
     "cars": {
       "defs": {
@@ -6451,6 +6451,66 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.kompan": {
+      "defs": {
+        "KompanRegion": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "region_america"
+            },
+            {
+              "k": "literal",
+              "v": "region_europe_middleeast"
+            },
+            {
+              "k": "literal",
+              "v": "region_asia_newzealand"
+            },
+            {
+              "k": "literal",
+              "v": "region_australia"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProduct": [
+          {
+            "name": "productNo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "region",
+            "schema": {
+              "k": "ref",
+              "name": "KompanRegion"
+            },
+            "optional": true
+          }
+        ],
+        "getSparePartsDocuments": [
+          {
+            "name": "variantId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "purchaseDate",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
