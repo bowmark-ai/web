@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 702 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 706 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -260,6 +260,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `handypro.checkTechnicianAvailability` | handypro.com | Would find the next available technician slot for a category + ZIP via… | ⚪ |
 | `handypro.createBooking` | handypro.com | Would confirm a HandyPro appointment and take Stripe payment via… | ⚪ |
 | `handypro.searchServiceCategories` | handypro.com | Lists HandyPro's real service categories (grab bars, appliance install, TV mounting… | 🟢 |
+| `harmar.findCompatibleLifts` | harmar.com | The whole goal-flow in one call: takes a plain vehicle year/make/model and… | 🟢 |
+| `harmar.getCompatibleLifts` | harmar.com | Runs the calculator's actual 'Lift Lookup' — given a model year, the calculator's own… | 🟢 |
+| `harmar.searchChairModels` | harmar.com | Looks up every wheelchair/scooter model the calculator has data for under a given… | 🟢 |
+| `harmar.searchVehicleModels` | harmar.com | Looks up every vehicle (make + model, with the calculator's own internal model id)… | 🟢 |
 | `hauslabs.getHauslabsProduct` | hauslabs.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `hauslabs.listHauslabsProducts` | hauslabs.com | Reads the live Haus Labs catalogue as the storefront publishes it — every product, its… | 🟢 |
 | `hauslabs.runFoundationShadeFinder` | hauslabs.com | Resolves a buyer's Foundation Lab quiz answers to ONE specific shade: the variant… | 🟢 |

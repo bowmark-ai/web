@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f2b4dd673b3dee8e0f35f0f4d7ffec6a8aa75d609594f42f3d85839ef1382ef1
-# 8 capabilities, 101 providers, 319 typed functions, 20 refused.
+# Manifest version: e4d69c007d45b93da3197875c33cb4113209d8e4d9033eef4058bd83515b956f
+# 8 capabilities, 102 providers, 323 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2972,6 +2972,62 @@ class Prv_handypro_HandyproCategoryPrice_Out(TypedDict):
     pricingKind: Literal["estimate"] | Literal["fixedJob"] | Literal["unpriced"]
     price: float | None
     whatsIncluded: str
+
+class Prv_harmar_searchVehicleModels_arg_In(TypedDict):
+    year: str
+
+class Prv_harmar_HarmarVehicleModel_Out(TypedDict):
+    make: str
+    modelId: str
+    model: str
+
+class Prv_harmar_searchChairModels_arg_In(TypedDict):
+    make: str
+
+class Prv_harmar_HarmarChairModel_Out(TypedDict):
+    chairId: str
+    model: str
+
+class Prv_harmar_getCompatibleLifts_arg_In(TypedDict):
+    year: str
+    vehicleId: str
+    chairId: str
+
+class Prv_harmar_HarmarCompatibleLiftsResult_Out(TypedDict):
+    year: str
+    vehicleId: str
+    chairId: str
+    lifts: list[Prv_harmar_HarmarCompatibleLift_Out]
+
+class Prv_harmar_HarmarCompatibleLift_Out(TypedDict):
+    liftId: str
+    productCode: str
+    name: str
+    requiredAccessories: list[Prv_harmar_HarmarLiftOption_Out]
+    optionalAccessories: list[Prv_harmar_HarmarLiftOption_Out]
+
+class Prv_harmar_HarmarLiftOption_Out(TypedDict):
+    code: str
+    name: str
+    description: str
+    required: bool
+
+class Prv_harmar_findCompatibleLifts_arg_In(TypedDict):
+    year: str
+    vehicleMake: str
+    vehicleModel: str
+    chairMake: str
+    chairModel: str
+
+class Prv_harmar_HarmarFindCompatibleLiftsResult_Out(TypedDict):
+    year: str
+    vehicleId: str
+    chairId: str
+    lifts: list[Prv_harmar_HarmarCompatibleLift_Out]
+    vehicleMake: str
+    vehicleModel: str
+    chairMake: str
+    chairModel: str
 
 class Prv_hauslabs_listHauslabsProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -9538,6 +9594,31 @@ class Prv_handypro(Protocol):
         service area.
         """
 
+class Prv_harmar(Protocol):
+    """Harmar's Vehicle Compatibility Calculator (calculator.harmar.com) — given a vehicle and
+    a wheelchair/scooter, returns the real Harmar vehicle lifts that fit that combination.
+    """
+
+    async def searchVehicleModels(self, arg: Prv_harmar_searchVehicleModels_arg_In, /) -> list[Prv_harmar_HarmarVehicleModel_Out]:
+        """Every vehicle (make + calculator's own model id) the compatibility calculator has data
+        for in a given model year.
+        """
+
+    async def searchChairModels(self, arg: Prv_harmar_searchChairModels_arg_In, /) -> list[Prv_harmar_HarmarChairModel_Out]:
+        """Every wheelchair/scooter model the calculator has data for under a given manufacturer
+        make.
+        """
+
+    async def getCompatibleLifts(self, arg: Prv_harmar_getCompatibleLifts_arg_In, /) -> Prv_harmar_HarmarCompatibleLiftsResult_Out:
+        """Runs the calculator's own 'Lift Lookup' against its internal vehicle/chair ids and
+        returns the compatible Harmar lifts.
+        """
+
+    async def findCompatibleLifts(self, arg: Prv_harmar_findCompatibleLifts_arg_In, /) -> Prv_harmar_HarmarFindCompatibleLiftsResult_Out:
+        """The whole goal-flow in one call: plain vehicle year/make/model + chair make/model,
+        resolved to the calculator's own ids and run through the real Lift Lookup.
+        """
+
 class Prv_hauslabs(Protocol):
     """Haus Labs by Lady Gaga product catalogue — every clean-beauty SKU, its variants, its
     prices and what is in stock — read off the live Shopify Plus storefront. The Foundation
@@ -12703,6 +12784,7 @@ class BowmarkProviders(Protocol):
     google_flights: Prv_google_flights
     grainger: Prv_grainger
     handypro: Prv_handypro
+    harmar: Prv_harmar
     hauslabs: Prv_hauslabs
     healthcare_gov: Prv_healthcare_gov
     hellofresh: Prv_hellofresh

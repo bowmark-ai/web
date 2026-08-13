@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f2b4dd673b3dee8e0f35f0f4d7ffec6a8aa75d609594f42f3d85839ef1382ef1
-// 8 capabilities, 101 providers, 329 typed functions, 20 refused.
+// Manifest version: e4d69c007d45b93da3197875c33cb4113209d8e4d9033eef4058bd83515b956f
+// 8 capabilities, 102 providers, 333 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5371,6 +5371,76 @@ interface HandyproCategorySearch {
      * "grab bar"). covered is false with a message for a ZIP outside the service area.
      */
     searchServiceCategories(zipcode: string, query?: string): Promise<HandyproCategorySearch>;
+  }
+}
+
+declare namespace BowmarkProvider_harmar {
+  // ── Harmar Mobility — the unit's own declarations, verbatim ──
+interface HarmarVehicleModel {
+  make: string;
+  modelId: string;
+  model: string;
+}
+
+interface HarmarChairModel {
+  chairId: string;
+  model: string;
+}
+
+interface HarmarLiftOption {
+  code: string;
+  name: string;
+  description: string;
+  required: boolean;
+}
+
+interface HarmarCompatibleLift {
+  liftId: string;
+  productCode: string;
+  name: string;
+  requiredAccessories: HarmarLiftOption[];
+  optionalAccessories: HarmarLiftOption[];
+}
+
+interface HarmarCompatibleLiftsResult {
+  year: string;
+  vehicleId: string;
+  chairId: string;
+  lifts: HarmarCompatibleLift[];
+}
+
+interface HarmarFindCompatibleLiftsResult extends HarmarCompatibleLiftsResult {
+  vehicleMake: string;
+  vehicleModel: string;
+  chairMake: string;
+  chairModel: string;
+}
+
+  /**
+   * Harmar's Vehicle Compatibility Calculator (calculator.harmar.com) — given a vehicle and a
+   * wheelchair/scooter, returns the real Harmar vehicle lifts that fit that combination.
+   */
+  interface Unit {
+    /**
+     * Every vehicle (make + calculator's own model id) the compatibility calculator has data for
+     * in a given model year.
+     */
+    searchVehicleModels(arg: { year: string }): Promise<HarmarVehicleModel[]>;
+
+    /** Every wheelchair/scooter model the calculator has data for under a given manufacturer make. */
+    searchChairModels(arg: { make: string }): Promise<HarmarChairModel[]>;
+
+    /**
+     * Runs the calculator's own 'Lift Lookup' against its internal vehicle/chair ids and returns
+     * the compatible Harmar lifts.
+     */
+    getCompatibleLifts(arg: { year: string, vehicleId: string, chairId: string }): Promise<HarmarCompatibleLiftsResult>;
+
+    /**
+     * The whole goal-flow in one call: plain vehicle year/make/model + chair make/model, resolved
+     * to the calculator's own ids and run through the real Lift Lookup.
+     */
+    findCompatibleLifts(arg: { year: string, vehicleMake: string, vehicleModel: string, chairMake: string, chairModel: string }): Promise<HarmarFindCompatibleLiftsResult>;
   }
 }
 
@@ -15181,6 +15251,7 @@ interface BowmarkProviders {
   google_flights: BowmarkProvider_google_flights.Unit;
   grainger: BowmarkProvider_grainger.Unit;
   handypro: BowmarkProvider_handypro.Unit;
+  harmar: BowmarkProvider_harmar.Unit;
   hauslabs: BowmarkProvider_hauslabs.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;
