@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 45dc78ab98986198160fc6766275f2170f78c6cf53caa13939b897913d309f36
-# 8 capabilities, 105 providers, 328 typed functions, 20 refused.
+# Manifest version: 2699d0291fc033fed441d608a10da6c56ba22978fbafcab16efd64c62379ff74
+# 8 capabilities, 106 providers, 330 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -850,6 +850,39 @@ class Prv_abercrombie_abercrombieSearchResult_Out(TypedDict):
     listPrice: float | None
     onSale: bool
     thumbnail: str | None
+
+class Prv_aiper_AiperPoolQuestion_Out(TypedDict):
+    id: str
+    problemName: str
+    multiSelect: bool
+    options: list[Prv_aiper_AiperPoolOption_Out]
+
+class Prv_aiper_AiperPoolOption_Out(TypedDict):
+    id: str
+    label: str
+
+class Prv_aiper_AiperPoolAnswerInput_In(TypedDict):
+    question: str
+    choice: str | Sequence[str]
+
+class Prv_aiper_AiperPoolRecommendation_Out(TypedDict):
+    products: list[Prv_aiper_AiperRecommendedProduct_Out]
+    answers: list[Prv_aiper_AiperPoolAnswerInput_Out]
+    warnings: list[str]
+
+class Prv_aiper_AiperRecommendedProduct_Out(TypedDict):
+    productId: str
+    slug: str
+    name: str
+    sku: str
+    price: float
+    regularPrice: float
+    url: str
+    image: str | None
+
+class Prv_aiper_AiperPoolAnswerInput_Out(TypedDict):
+    question: str
+    choice: str | list[str]
 
 class Prv_ashleyfurniture_AshleyFurnitureSearchArgs_In(TypedDict):
     query: str
@@ -8302,6 +8335,27 @@ class Prv_abercrombie(Protocol):
         "zero results".
         """
 
+class Prv_aiper(Protocol):
+    """Aiper's Help Me Choose robotic-pool-cleaner finder, run for real — the quiz's own
+    computed recommendation (model, SKU, real current price, PDP link) for a buyer's pool
+    answers, off the site's own undocumented API.
+    """
+
+    async def listPoolChooserQuestions(self, /) -> list[Prv_aiper_AiperPoolQuestion_Out]:
+        """Reads the Help Me Choose quiz's live question list — every question in order, with its
+        option ids and labels. The entry point: recommendPoolCleaner takes answers keyed off
+        these labels, so a caller normally reads this first (or already knows the labels from a
+        prior call).
+        """
+
+    async def recommendPoolCleaner(self, answers: Sequence[Prv_aiper_AiperPoolAnswerInput_In], /) -> Prv_aiper_AiperPoolRecommendation_Out:
+        """Runs the Help Me Choose quiz's real backend computation for a buyer's answers (given as
+        question/choice LABELS, matched case-insensitively against listPoolChooserQuestions) and
+        returns the same computed recommendation the quiz's own terminal page renders: model
+        name, SKU, real current price, list price, and a PDP URL. THROWS if a question or choice
+        label doesn't match, or if the site's computed result carries no product list.
+        """
+
 class Prv_ashleyfurniture(Protocol):
     """Ashley's furniture and home-goods catalog, search, product detail, store/delivery
     availability, and store locator. search, checkStock and getProduct all read the site's
@@ -12913,6 +12967,7 @@ class BowmarkProviders(Protocol):
 
     aa: Prv_aa
     abercrombie: Prv_abercrombie
+    aiper: Prv_aiper
     ashleyfurniture: Prv_ashleyfurniture
     atlasseniorliving: Prv_atlasseniorliving
     avis: Prv_avis

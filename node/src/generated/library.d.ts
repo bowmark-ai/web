@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 45dc78ab98986198160fc6766275f2170f78c6cf53caa13939b897913d309f36
-// 8 capabilities, 105 providers, 340 typed functions, 20 refused.
+// Manifest version: 2699d0291fc033fed441d608a10da6c56ba22978fbafcab16efd64c62379ff74
+// 8 capabilities, 106 providers, 342 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1315,6 +1315,63 @@ interface abercrombieStockQuery {
      * does on `getProduct` — it is not a valid "zero results".
      */
     search(query: abercrombieSearchQuery): Promise<abercrombieSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_aiper {
+  // ── Aiper — the unit's own declarations, verbatim ──
+interface AiperPoolOption {
+  id: string;
+  label: string;
+}
+interface AiperPoolQuestion {
+  id: string;
+  problemName: string;
+  multiSelect: boolean;
+  options: AiperPoolOption[];
+}
+interface AiperPoolAnswerInput {
+  question: string;
+  choice: string | string[];
+}
+interface AiperRecommendedProduct {
+  productId: string;
+  slug: string;
+  name: string;
+  sku: string;
+  price: number;
+  regularPrice: number;
+  url: string;
+  image: string | null;
+}
+interface AiperPoolRecommendation {
+  products: AiperRecommendedProduct[];
+  answers: AiperPoolAnswerInput[];
+  warnings: string[];
+}
+
+  /**
+   * Aiper's Help Me Choose robotic-pool-cleaner finder, run for real — the quiz's own computed
+   * recommendation (model, SKU, real current price, PDP link) for a buyer's pool answers, off
+   * the site's own undocumented API.
+   */
+  interface Unit {
+    /**
+     * Reads the Help Me Choose quiz's live question list — every question in order, with its
+     * option ids and labels. The entry point: recommendPoolCleaner takes answers keyed off these
+     * labels, so a caller normally reads this first (or already knows the labels from a prior
+     * call).
+     */
+    listPoolChooserQuestions(): Promise<AiperPoolQuestion[]>;
+
+    /**
+     * Runs the Help Me Choose quiz's real backend computation for a buyer's answers (given as
+     * question/choice LABELS, matched case-insensitively against listPoolChooserQuestions) and
+     * returns the same computed recommendation the quiz's own terminal page renders: model name,
+     * SKU, real current price, list price, and a PDP URL. THROWS if a question or choice label
+     * doesn't match, or if the site's computed result carries no product list.
+     */
+    recommendPoolCleaner(answers: AiperPoolAnswerInput[]): Promise<AiperPoolRecommendation>;
   }
 }
 
@@ -15524,6 +15581,7 @@ interface ShopifyCart {
 interface BowmarkProviders {
   aa: BowmarkProvider_aa.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
+  aiper: BowmarkProvider_aiper.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
   avis: BowmarkProvider_avis.Unit;

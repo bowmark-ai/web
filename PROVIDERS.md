@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 712 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 714 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -23,6 +23,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `abercrombie.getDeals` | abercrombie.com | Reads Abercrombie's currently published sales and promotions — the site's own… | ⚪ |
 | `abercrombie.getProduct` | abercrombie.com | Reads one Abercrombie & Fitch product in full the way its own product detail page does… | 🟢 |
 | `abercrombie.search` | abercrombie.com | Searches or browses Abercrombie's live catalog the way the site's own search bar and… | 🟢 |
+| `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
+| `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
 | `ashleyfurniture.checkStock` | ashleyfurniture.com | Answers whether a product (by SKU) is available for delivery to a ZIP — the function… | 🟢 |
 | `ashleyfurniture.findStore` | ashleyfurniture.com | Finds nearby Ashley HomeStore locations for a ZIP or address — hours, phone, and… | 🟢 |
 | `ashleyfurniture.getProduct` | ashleyfurniture.com | Reads one product page in full — price, dimensions, fabric/finish/size options… | 🟢 |

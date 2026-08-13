@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 45dc78ab98986198160fc6766275f2170f78c6cf53caa13939b897913d309f36
-// 328 checked, 20 unchecked.
+// Manifest version: 2699d0291fc033fed441d608a10da6c56ba22978fbafcab16efd64c62379ff74
+// 330 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "45dc78ab98986198160fc6766275f2170f78c6cf53caa13939b897913d309f36",
+  "version": "2699d0291fc033fed441d608a10da6c56ba22978fbafcab16efd64c62379ff74",
   "units": {
     "cars": {
       "defs": {
@@ -1437,6 +1437,56 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "abercrombieSearchQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.aiper": {
+      "defs": {
+        "AiperPoolAnswerInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "question",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "choice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listPoolChooserQuestions": [],
+        "recommendPoolCleaner": [
+          {
+            "name": "answers",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "ref",
+                "name": "AiperPoolAnswerInput"
+              }
             },
             "optional": false
           }
