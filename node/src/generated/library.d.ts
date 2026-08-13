@@ -15422,6 +15422,10 @@ interface ShopifySetEvidence {
    * similarity returns the nearest product and the nearest thing to a baby
    * monitor is another baby monitor. [] when includeAlgorithmic was false. */
   recommendations: RecommendedProduct[];
+  /** Non-empty when the store returned a FULL page for an intent, which cannot be
+   * told apart from a longer list cut off at the cap. A merchandiser's pairing is
+   * a statement, so a partial one must not read as the whole. */
+  warnings: string[];
 }
 /** One recommended product, with the store's own label for who chose it. */
 interface RecommendedProduct {
@@ -15831,6 +15835,10 @@ interface ShopifySetEvidence {
    * similarity returns the nearest product and the nearest thing to a baby
    * monitor is another baby monitor. [] when includeAlgorithmic was false. */
   recommendations: RecommendedProduct[];
+  /** Non-empty when the store returned a FULL page for an intent, which cannot be
+   * told apart from a longer list cut off at the cap. A merchandiser's pairing is
+   * a statement, so a partial one must not read as the whole. */
+  warnings: string[];
 }
 /** One recommended product, with the store's own label for who chose it. */
 interface RecommendedProduct {
