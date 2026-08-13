@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 708 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 710 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -413,6 +413,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.getCart` | shop.lululemon.com | Reads back what is in the guest cart across several calls — line items, quantities… | ⚪ |
 | `lululemon.getProduct` | shop.lululemon.com | Reads one product's full configurator the way its product page presents it — every… | 🟢 |
 | `lululemon.getProductAttributes` | shop.lululemon.com | Reads what lululemon's OWN product page publishes about a garment and the third-party… | 🟢 |
+| `lululemon.getProducts` | shop.lululemon.com | Reads the full configurator for MANY products in one call — the shape for ranking a… | 🟢 |
 | `lululemon.getReviews` | shop.lululemon.com | Reads the customer reviews on one product — rating, title, body, size-and-fit votes… | ⚪ |
 | `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟢 |
 | `lululemon.getSizeGuide` | shop.lululemon.com | Returns lululemon's size chart for a garment — the body measurements each numeric size… | ⚪ |
@@ -589,6 +590,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shopify.getCart` | shopify.com (51713 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
 | `shopify.getCollection` | shopify.com (51713 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
 | `shopify.getProduct` | shopify.com (51713 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
+| `shopify.getProducts` | shopify.com (51713 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
 | `shopify.getShippingRates` | shopify.com (51713 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
 | `shopify.listCollections` | shopify.com (51713 stores) | Lists the store's own merchandised collections. | 🟢 |
 | `shopify.removeFromCart` | shopify.com (51713 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |

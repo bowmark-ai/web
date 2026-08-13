@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c27def1cb48cdec7987633343d5d1f1a8a615c716422b3a54476e5e3b7f31040
-// 8 capabilities, 103 providers, 335 typed functions, 20 refused.
+// Manifest version: 5387fc8544670aa0ffd5ab238137a1bada224755718e9cfbab28a48ab2500e14
+// 8 capabilities, 103 providers, 338 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8769,7 +8769,52 @@ interface LululemonProductAttributes {
    * reviews on products whose live page shows 22,748. */
   ratingValue: number | null;
   reviewCount: number | null;
+  /** Per-FIELD origin for the eight facts above, keyed by the same names. THIS
+   * is how a refused read is told apart from a garment with nothing published:
+   * fabrics [] beside status "absent" is lululemon saying it names no fabric,
+   * and fabrics [] beside status "unreachable" is the page refusing us. Ranking
+   * that treats the two alike silently prefers whichever candidates loaded. */
+  provenance: Record<string, FieldProvenance>;
+  /** The roll-up. On a refused page ratio is 0 and unreachableFields names all
+   * eight — the machine-readable form of the sentence in warnings. */
+  completeness: Completeness;
   /** What could not be reached. Non-empty means the page refused. */
+  warnings: string[];
+}
+/** Where one field's value came from, and the retailer text behind it. */
+interface FieldProvenance {
+  /** "published" — lululemon stated it. "absent" — the page rendered and said
+   * nothing about this field. "unreachable" — the page refused, so UNKNOWN. */
+  status: "published" | "absent" | "unreachable";
+  /** Which door: "lululemon_pdp_ldjson", "lululemon_pdp_accordion" or
+   * "lululemon_pdp_title". Null when nothing filled it. */
+  source: string | null;
+  /** The retailer's own words the value rests on, for a field derived from
+   * prose. Null for a field the site published as a typed value. */
+  evidence: string | null;
+  /** On "unreachable" only: what was refused. */
+  detail?: string;
+}
+interface Completeness {
+  fields: number;
+  published: number;
+  absent: number;
+  unreachable: number;
+  /** published / fields, to 3dp. */
+  ratio: number;
+  /** The fields that are UNKNOWN rather than known-empty. */
+  unreachableFields: string[];
+  sourcesUsed: string[];
+}
+/** What getProducts returns. PARTIAL by construction — the pricing catalogue
+ * holds ~39% of the ids in lululemon's own sitemap, so ids it does not carry are
+ * NAMED rather than silently dropped or thrown over. */
+interface LululemonProductBatch {
+  /** In the order the ids were passed, not the order they finished. */
+  products: LululemonProduct[];
+  /** Every id that did not read, with the catalogue's own sentence. */
+  missing: Array<{ productId: string; detail: string }>;
+  requested: number;
   warnings: string[];
 }
 interface LululemonRow {
@@ -8825,6 +8870,17 @@ interface LululemonSimilarProducts {
      * through rather than relied on.
      */
     getProduct(query: { productId: string }): Promise<LululemonProduct>;
+
+    /**
+     * Reads the full configurator for MANY products in one call — the shape to use when ranking a
+     * candidate set, because a `search` row carries a price range and a colour count but not the
+     * per-colourway sizes, markdown evidence or images a ranking turns on. Returns `products` in
+     * the order the ids were passed. PARTIAL is the normal answer: the pricing catalogue holds
+     * roughly 39% of the ids in lululemon's own sitemap, so ids it does not carry come back in
+     * `missing` with the catalogue's own sentence, and one of them never costs the other rows. At
+     * most 24 ids — the same cap `search` returns — so one full search page is always one batch.
+     */
+    getProducts(query: { productIds: string[] }): Promise<LululemonProductBatch>;
 
     /**
      * Reads what lululemon's OWN product page publishes about a garment and the third-party
@@ -14959,8 +15015,53 @@ interface ShopifyProduct {
   /** Every image the door published, deduplicated, in the store's own order. */
   images: ProductImage[];
   attributes: PublishedProductAttributes;
+  /** Per-FIELD origin for `attributes` — keyed by the same field names. Read it
+   * before ranking on a null: "absent" is the store publishing nothing, and is
+   * the store's own answer; "unreachable" is a door we could not read, and means
+   * UNKNOWN. On this store both doors are one request that either answered or
+   * threw, so nothing here is ever "unreachable" — the status exists because the
+   * same vocabulary is used by providers whose page can refuse mid-answer. */
+  attributeProvenance: Record<string, FieldProvenance>;
+  attributeCompleteness: Completeness;
   coordination: CoordinationMetadata;
   retailerSetEvidence: RetailerSetEvidence[];
+}
+/** Where one attribute value came from, and the retailer text behind it. */
+interface FieldProvenance {
+  /** "published" — the retailer stated it. "absent" — every door was silent.
+   * "unreachable" — a door that would carry it was refused, so it is UNKNOWN. */
+  status: "published" | "absent" | "unreachable";
+  /** Which door: "shopify_tags", "shopify_product_type", "shopify_color_option"
+   * or "shopify_product_copy". Null when nothing filled it. */
+  source: string | null;
+  /** The retailer's own words the value rests on, verbatim — the tag, or the
+   * sentence out of the description. Null when nothing filled it. */
+  evidence: string | null;
+  /** On "unreachable" only: what was refused. */
+  detail?: string;
+}
+/** The roll-up over one product's attributeProvenance. */
+interface Completeness {
+  fields: number;
+  published: number;
+  absent: number;
+  unreachable: number;
+  /** published / fields, to 3dp. */
+  ratio: number;
+  /** The fields whose value is UNKNOWN rather than known-empty. Read this before
+   * comparing two rows: a row with entries here was not fully looked at. */
+  unreachableFields: string[];
+  sourcesUsed: string[];
+}
+/** What getProducts returns. PARTIAL by design: one handle the store will not
+ * serve costs that row and nothing else, where getProduct throws. */
+interface ShopifyProductBatch {
+  /** In the order the handles were passed, not the order they finished. */
+  products: ShopifyProduct[];
+  /** Every handle the store did not serve, with what it said. */
+  missing: Array<{ handle: string; detail: string }>;
+  requested: number;
+  warnings: string[];
 }
 interface ShopifyCartLine {
   /** Shopify's own line key, which its cart-change endpoints address a line by. */
@@ -15028,6 +15129,16 @@ interface ShopifyCart {
      * specific size or colour is purchasable right now.
      */
     getProduct(handle: string): Promise<ShopifyProduct>;
+
+    /**
+     * Reads FULL detail for many products in one call — the shape for ranking a candidate set,
+     * since a search row carries neither the description copy nor the per-variant stock a ranking
+     * turns on. PARTIAL by construction: a search row's handle may 404 on the Ajax product door
+     * (measured 2026-08-05, 2 of 10 sampled members), so one bad handle is named in `missing` and
+     * costs that row alone, where `getProduct` throws and takes the whole set with it. Capped at
+     * 50 handles because each one is a request to the store.
+     */
+    getProducts(handles: string[]): Promise<ShopifyProductBatch>;
 
     /**
      * Lists the store's own merchandised collections. THIS is where a retailer states a SET: a
@@ -15182,8 +15293,53 @@ interface ShopifyProduct {
   /** Every image the door published, deduplicated, in the store's own order. */
   images: ProductImage[];
   attributes: PublishedProductAttributes;
+  /** Per-FIELD origin for `attributes` — keyed by the same field names. Read it
+   * before ranking on a null: "absent" is the store publishing nothing, and is
+   * the store's own answer; "unreachable" is a door we could not read, and means
+   * UNKNOWN. On this store both doors are one request that either answered or
+   * threw, so nothing here is ever "unreachable" — the status exists because the
+   * same vocabulary is used by providers whose page can refuse mid-answer. */
+  attributeProvenance: Record<string, FieldProvenance>;
+  attributeCompleteness: Completeness;
   coordination: CoordinationMetadata;
   retailerSetEvidence: RetailerSetEvidence[];
+}
+/** Where one attribute value came from, and the retailer text behind it. */
+interface FieldProvenance {
+  /** "published" — the retailer stated it. "absent" — every door was silent.
+   * "unreachable" — a door that would carry it was refused, so it is UNKNOWN. */
+  status: "published" | "absent" | "unreachable";
+  /** Which door: "shopify_tags", "shopify_product_type", "shopify_color_option"
+   * or "shopify_product_copy". Null when nothing filled it. */
+  source: string | null;
+  /** The retailer's own words the value rests on, verbatim — the tag, or the
+   * sentence out of the description. Null when nothing filled it. */
+  evidence: string | null;
+  /** On "unreachable" only: what was refused. */
+  detail?: string;
+}
+/** The roll-up over one product's attributeProvenance. */
+interface Completeness {
+  fields: number;
+  published: number;
+  absent: number;
+  unreachable: number;
+  /** published / fields, to 3dp. */
+  ratio: number;
+  /** The fields whose value is UNKNOWN rather than known-empty. Read this before
+   * comparing two rows: a row with entries here was not fully looked at. */
+  unreachableFields: string[];
+  sourcesUsed: string[];
+}
+/** What getProducts returns. PARTIAL by design: one handle the store will not
+ * serve costs that row and nothing else, where getProduct throws. */
+interface ShopifyProductBatch {
+  /** In the order the handles were passed, not the order they finished. */
+  products: ShopifyProduct[];
+  /** Every handle the store did not serve, with what it said. */
+  missing: Array<{ handle: string; detail: string }>;
+  requested: number;
+  warnings: string[];
 }
 interface ShopifyCartLine {
   /** Shopify's own line key, which its cart-change endpoints address a line by. */
@@ -15251,6 +15407,16 @@ interface ShopifyCart {
      * specific size or colour is purchasable right now.
      */
     getProduct(handle: string): Promise<ShopifyProduct>;
+
+    /**
+     * Reads FULL detail for many products in one call — the shape for ranking a candidate set,
+     * since a search row carries neither the description copy nor the per-variant stock a ranking
+     * turns on. PARTIAL by construction: a search row's handle may 404 on the Ajax product door
+     * (measured 2026-08-05, 2 of 10 sampled members), so one bad handle is named in `missing` and
+     * costs that row alone, where `getProduct` throws and takes the whole set with it. Capped at
+     * 50 handles because each one is a request to the store.
+     */
+    getProducts(handles: string[]): Promise<ShopifyProductBatch>;
 
     /**
      * Lists the store's own merchandised collections. THIS is where a retailer states a SET: a

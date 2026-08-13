@@ -1,5 +1,5 @@
 {
-  "version": "c27def1cb48cdec7987633343d5d1f1a8a615c716422b3a54476e5e3b7f31040",
+  "version": "5387fc8544670aa0ffd5ab238137a1bada224755718e9cfbab28a48ab2500e14",
   "units": {
     "cars": {
       "defs": {
@@ -6892,6 +6892,27 @@
                   "name": "productId",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productIds",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
                   },
                   "optional": false
                 }

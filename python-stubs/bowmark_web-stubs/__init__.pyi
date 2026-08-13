@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c27def1cb48cdec7987633343d5d1f1a8a615c716422b3a54476e5e3b7f31040
-# 8 capabilities, 103 providers, 325 typed functions, 20 refused.
+# Manifest version: 5387fc8544670aa0ffd5ab238137a1bada224755718e9cfbab28a48ab2500e14
+# 8 capabilities, 103 providers, 326 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4581,6 +4581,19 @@ class Prv_lululemon_RetailerSetEvidence_Out_relatedProducts_item_Out(TypedDict):
     title: str | None
     url: str | None
 
+class Prv_lululemon_getProducts_query_In(TypedDict):
+    productIds: Sequence[str]
+
+class Prv_lululemon_LululemonProductBatch_Out(TypedDict):
+    products: list[Prv_lululemon_LululemonProduct_Out]
+    missing: list[Prv_lululemon_LululemonProductBatch_Out_missing_item_Out]
+    requested: float
+    warnings: list[str]
+
+class Prv_lululemon_LululemonProductBatch_Out_missing_item_Out(TypedDict):
+    productId: str
+    detail: str
+
 class Prv_lululemon_getProductAttributes_query_In(TypedDict):
     productId: str
 
@@ -4596,11 +4609,28 @@ class Prv_lululemon_LululemonProductAttributes_Out(TypedDict):
     features: list[Prv_lululemon_LululemonFeature_Out]
     ratingValue: float | None
     reviewCount: float | None
+    provenance: Mapping[str, Prv_lululemon_FieldProvenance_Out]
+    completeness: Prv_lululemon_Completeness_Out
     warnings: list[str]
 
 class Prv_lululemon_LululemonFeature_Out(TypedDict):
     heading: str
     body: str
+
+class Prv_lululemon_FieldProvenance_Out(TypedDict):
+    status: Literal["published"] | Literal["absent"] | Literal["unreachable"]
+    source: str | None
+    evidence: str | None
+    detail: NotRequired[str]
+
+class Prv_lululemon_Completeness_Out(TypedDict):
+    fields: float
+    published: float
+    absent: float
+    unreachable: float
+    ratio: float
+    unreachableFields: list[str]
+    sourcesUsed: list[str]
 
 class Prv_lululemon_getSimilarProducts_query_In(TypedDict):
     productId: str
@@ -10776,6 +10806,17 @@ class Prv_lululemon(Protocol):
         measured across all three captured fixtures, the picker and the SKU list are the same
         set in all 61 colourways and `available` is true on 363 of 363 SKUs — so presence is the
         stock signal and `available` is passed through rather than relied on.
+        """
+
+    async def getProducts(self, query: Prv_lululemon_getProducts_query_In, /) -> Prv_lululemon_LululemonProductBatch_Out:
+        """Reads the full configurator for MANY products in one call — the shape to use when
+        ranking a candidate set, because a `search` row carries a price range and a colour count
+        but not the per-colourway sizes, markdown evidence or images a ranking turns on. Returns
+        `products` in the order the ids were passed. PARTIAL is the normal answer: the pricing
+        catalogue holds roughly 39% of the ids in lululemon's own sitemap, so ids it does not
+        carry come back in `missing` with the catalogue's own sentence, and one of them never
+        costs the other rows. At most 24 ids — the same cap `search` returns — so one full
+        search page is always one batch.
         """
 
     async def getProductAttributes(self, query: Prv_lululemon_getProductAttributes_query_In, /) -> Prv_lululemon_LululemonProductAttributes_Out:
