@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5387fc8544670aa0ffd5ab238137a1bada224755718e9cfbab28a48ab2500e14
-// 326 checked, 20 unchecked.
+// Manifest version: a84edc3f15a88045ee78372632749217db0c5796bcb638cbc77b2573d63646de
+// 327 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5387fc8544670aa0ffd5ab238137a1bada224755718e9cfbab28a48ab2500e14",
+  "version": "a84edc3f15a88045ee78372632749217db0c5796bcb638cbc77b2573d63646de",
   "units": {
     "cars": {
       "defs": {
@@ -1552,6 +1552,76 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AshleyFurnitureFindStoreArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.atlasseniorliving": {
+      "defs": {
+        "AtlasCareType": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "assisted_living"
+            },
+            {
+              "k": "literal",
+              "v": "independent_living"
+            },
+            {
+              "k": "literal",
+              "v": "memory_care"
+            },
+            {
+              "k": "literal",
+              "v": "respite_care"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchCommunities": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "careTypes",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "AtlasCareType"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "radiusMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxResults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }

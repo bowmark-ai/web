@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5387fc8544670aa0ffd5ab238137a1bada224755718e9cfbab28a48ab2500e14
-# 8 capabilities, 103 providers, 326 typed functions, 20 refused.
+# Manifest version: a84edc3f15a88045ee78372632749217db0c5796bcb638cbc77b2573d63646de
+# 8 capabilities, 104 providers, 327 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -945,6 +945,33 @@ class Prv_ashleyfurniture_AshleyFurnitureStore_Out_hours_item_Out(TypedDict):
     opensAt: str
     closesAt: str
     state: str
+
+class Prv_atlasseniorliving_searchCommunities_arg_In(TypedDict):
+    location: str
+    careTypes: NotRequired[Sequence[Literal["assisted_living"] | Literal["independent_living"] | Literal["memory_care"] | Literal["respite_care"]]]
+    radiusMiles: NotRequired[float]
+    maxResults: NotRequired[float]
+
+class Prv_atlasseniorliving_AtlasSearchCommunitiesResult_Out(TypedDict):
+    location: str
+    geocodedLat: float
+    geocodedLng: float
+    careTypes: list[Literal["assisted_living"] | Literal["independent_living"] | Literal["memory_care"] | Literal["respite_care"]]
+    radiusMiles: float
+    communities: list[Prv_atlasseniorliving_AtlasCommunity_Out]
+
+class Prv_atlasseniorliving_AtlasCommunity_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str
+    distanceMiles: float
+    lat: float
+    lng: float
+    url: str
 
 class Prv_avis_AvisLocationRow_Out(TypedDict):
     mnemonic: str
@@ -8286,6 +8313,17 @@ class Prv_ashleyfurniture(Protocol):
         site's own validity signal), rather than returning its non-matching fallback store.
         """
 
+class Prv_atlasseniorliving(Protocol):
+    """Atlas Senior Living's own community search (atlasseniorliving.com/our-communities/) —
+    given a US city/state or ZIP, plus optional care type(s) and radius, returns the real,
+    distance-sorted set of matching Atlas communities.
+    """
+
+    async def searchCommunities(self, arg: Prv_atlasseniorliving_searchCommunities_arg_In, /) -> Prv_atlasseniorliving_AtlasSearchCommunitiesResult_Out:
+        """Runs the site's own community search: a US location + optional care type(s) and radius,
+        returns the real, distance-sorted matching Atlas communities.
+        """
+
 class Prv_avis(Protocol):
     """Car rental — availability search, existing-reservation lookup and location directory on
     avis.com. searchLocations and getLocation are live; the rest are stubs.
@@ -12838,6 +12876,7 @@ class BowmarkProviders(Protocol):
     aa: Prv_aa
     abercrombie: Prv_abercrombie
     ashleyfurniture: Prv_ashleyfurniture
+    atlasseniorliving: Prv_atlasseniorliving
     avis: Prv_avis
     azure: Prv_azure
     barletta: Prv_barletta

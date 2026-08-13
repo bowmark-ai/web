@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5387fc8544670aa0ffd5ab238137a1bada224755718e9cfbab28a48ab2500e14
-// 8 capabilities, 103 providers, 338 typed functions, 20 refused.
+// Manifest version: a84edc3f15a88045ee78372632749217db0c5796bcb638cbc77b2573d63646de
+// 8 capabilities, 104 providers, 339 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1435,6 +1435,47 @@ interface AshleyFurnitureStore {
      * validity signal), rather than returning its non-matching fallback store.
      */
     findStore(args: AshleyFurnitureFindStoreArgs): Promise<AshleyFurnitureStore[]>;
+  }
+}
+
+declare namespace BowmarkProvider_atlasseniorliving {
+  // ── Atlas Senior Living — the unit's own declarations, verbatim ──
+type AtlasCareType = "assisted_living" | "independent_living" | "memory_care" | "respite_care";
+
+interface AtlasCommunity {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+  distanceMiles: number;
+  lat: number;
+  lng: number;
+  url: string;
+}
+
+interface AtlasSearchCommunitiesResult {
+  location: string;
+  geocodedLat: number;
+  geocodedLng: number;
+  careTypes: AtlasCareType[];
+  radiusMiles: number;
+  communities: AtlasCommunity[];
+}
+
+  /**
+   * Atlas Senior Living's own community search (atlasseniorliving.com/our-communities/) — given
+   * a US city/state or ZIP, plus optional care type(s) and radius, returns the real,
+   * distance-sorted set of matching Atlas communities.
+   */
+  interface Unit {
+    /**
+     * Runs the site's own community search: a US location + optional care type(s) and radius,
+     * returns the real, distance-sorted matching Atlas communities.
+     */
+    searchCommunities(arg: { location: string, careTypes?: AtlasCareType[], radiusMiles?: number, maxResults?: number }): Promise<AtlasSearchCommunitiesResult>;
   }
 }
 
@@ -15443,6 +15484,7 @@ interface BowmarkProviders {
   aa: BowmarkProvider_aa.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
+  atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
   avis: BowmarkProvider_avis.Unit;
   azure: BowmarkProvider_azure.Unit;
   barletta: BowmarkProvider_barletta.Unit;
