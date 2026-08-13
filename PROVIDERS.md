@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 717 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 719 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -597,7 +597,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shopify.getProducts` | shopify.com (51714 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
 | `shopify.getShippingRates` | shopify.com (51714 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
 | `shopify.listCollections` | shopify.com (51714 stores) | Lists the store's own merchandised collections. | 🟢 |
+| `shopify.listProducts` | shopify.com (51714 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
 | `shopify.removeFromCart` | shopify.com (51714 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
+| `shopify.resolveProductUrl` | shopify.com (51714 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
 | `shopify.search` | shopify.com (51714 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
 | `shopify.searchPolicies` | shopify.com (51714 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
