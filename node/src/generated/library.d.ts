@@ -6,7 +6,7 @@
 // turn it into a module and every declaration below would stop being global.
 //
 // Manifest version: a400421498212bf60bfaab4808ff698bd8edb4febae1ba86fda5cb9ebc232c1b
-// 9 capabilities, 109 providers, 354 typed functions, 20 refused.
+// 9 capabilities, 109 providers, 356 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15387,14 +15387,58 @@ interface CoordinationMetadata {
   productFamily: string | null;
 }
 /** An EXPLICIT retailer-published relationship. Shared colour, fabric,
- * collection or family is NOT this — that is CoordinationMetadata. Usually [];
- * the catalogue door carries no set tags on any store measured. */
+ * collection or family is NOT this — that is CoordinationMetadata. Usually [].
+ *
+ * Two doors fill it. On a PRODUCT row it comes from the store's tags, and no
+ * store measured publishes a set tag, so it is [] there. getSetEvidence() reads
+ * the other one: the complementary products a MERCHANDISER pinned by hand,
+ * admitted only for rows the store marks pr_prod_strat=pinned. The algorithmic
+ * "related products" feed is never read into this — that is a recommendation
+ * engine's output, not the retailer stating a pairing. */
 interface RetailerSetEvidence {
   evidenceType: "official_set" | "shop_the_set" | "complete_the_look" | "matching_piece";
   evidenceText: string | null;
   sourceUrl: string | null;
   setId: string | null;
   relatedProducts: Array<{ productId: string | null; handle: string | null; title: string | null; url: string | null }>;
+}
+/** What getSetEvidence returns. An OBJECT rather than a bare array so the
+ * healthy EMPTY answer is still probeable: productId and sourceUrl exist only
+ * when BOTH hops answered, where an empty evidence list is the ordinary case. */
+interface ShopifySetEvidence {
+  handle: string;
+  /** Shopify's numeric PRODUCT id — the only key the recommendations door takes,
+   * and published by no other function here. */
+  productId: string;
+  /** The product page the pairing is published on. */
+  sourceUrl: string;
+  /** ONLY the rows a merchandiser pinned by hand. [] when they pinned nothing,
+   * which is the common case and is the STORE's answer. At most one entry — one
+   * statement, N related products. Read this for "what did the retailer SAY". */
+  evidence: RetailerSetEvidence[];
+  /** EVERY row the store recommends, pinned AND algorithmic, deduplicated, each
+   * labelled. Read source.by before treating one as the retailer's decision —
+   * the algorithmic rows are usually SUBSTITUTES rather than companions, since
+   * similarity returns the nearest product and the nearest thing to a baby
+   * monitor is another baby monitor. [] when includeAlgorithmic was false. */
+  recommendations: RecommendedProduct[];
+}
+/** One recommended product, with the store's own label for who chose it. */
+interface RecommendedProduct {
+  productId: string | null;
+  handle: string | null;
+  title: string | null;
+  url: string | null;
+  source: RecommendationSource;
+}
+interface RecommendationSource {
+  /** "retailer" when a merchandiser pinned it; "algorithm" otherwise, INCLUDING
+   * a row the store labelled with nothing — an unknown provenance must never
+   * read as a person's decision. */
+  by: "retailer" | "algorithm";
+  /** The store's own token, verbatim and unmapped — "pinned", "jac" (Jaccard),
+   * "e" (embedding), "collection_fallback". Null when the row carried none. */
+  strategy: string | null;
 }
 interface ShopifyProduct {
   handle: string;
@@ -15625,6 +15669,17 @@ interface ShopifyCart {
     getCollection(handle: string, opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyCollectionProducts>;
 
     /**
+     * Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the order
+     * they typed it — an explicit retailer statement, and [] on most products, which is the
+     * retailer's own answer. `recommendations` is EVERY row the store returns including the
+     * algorithmic ones, each carrying source.by (retailer | algorithm) and the store's own
+     * strategy token, so a caller can use them without either field lying. The algorithmic rows
+     * are usually SUBSTITUTES rather than companions. Pass includeAlgorithmic: false to skip the
+     * second request.
+     */
+    getSetEvidence(handle: string, opts?: { includeAlgorithmic?: boolean }): Promise<ShopifySetEvidence>;
+
+    /**
      * Puts variants into THIS run's own cart on the store and returns the cart the store reports
      * back. A real write: the cart exists on the store from the first call and belongs to this
      * run's cookie jar. Buys nothing — checkoutUrl is where a shopper would pay. Absent on a
@@ -15741,14 +15796,58 @@ interface CoordinationMetadata {
   productFamily: string | null;
 }
 /** An EXPLICIT retailer-published relationship. Shared colour, fabric,
- * collection or family is NOT this — that is CoordinationMetadata. Usually [];
- * the catalogue door carries no set tags on any store measured. */
+ * collection or family is NOT this — that is CoordinationMetadata. Usually [].
+ *
+ * Two doors fill it. On a PRODUCT row it comes from the store's tags, and no
+ * store measured publishes a set tag, so it is [] there. getSetEvidence() reads
+ * the other one: the complementary products a MERCHANDISER pinned by hand,
+ * admitted only for rows the store marks pr_prod_strat=pinned. The algorithmic
+ * "related products" feed is never read into this — that is a recommendation
+ * engine's output, not the retailer stating a pairing. */
 interface RetailerSetEvidence {
   evidenceType: "official_set" | "shop_the_set" | "complete_the_look" | "matching_piece";
   evidenceText: string | null;
   sourceUrl: string | null;
   setId: string | null;
   relatedProducts: Array<{ productId: string | null; handle: string | null; title: string | null; url: string | null }>;
+}
+/** What getSetEvidence returns. An OBJECT rather than a bare array so the
+ * healthy EMPTY answer is still probeable: productId and sourceUrl exist only
+ * when BOTH hops answered, where an empty evidence list is the ordinary case. */
+interface ShopifySetEvidence {
+  handle: string;
+  /** Shopify's numeric PRODUCT id — the only key the recommendations door takes,
+   * and published by no other function here. */
+  productId: string;
+  /** The product page the pairing is published on. */
+  sourceUrl: string;
+  /** ONLY the rows a merchandiser pinned by hand. [] when they pinned nothing,
+   * which is the common case and is the STORE's answer. At most one entry — one
+   * statement, N related products. Read this for "what did the retailer SAY". */
+  evidence: RetailerSetEvidence[];
+  /** EVERY row the store recommends, pinned AND algorithmic, deduplicated, each
+   * labelled. Read source.by before treating one as the retailer's decision —
+   * the algorithmic rows are usually SUBSTITUTES rather than companions, since
+   * similarity returns the nearest product and the nearest thing to a baby
+   * monitor is another baby monitor. [] when includeAlgorithmic was false. */
+  recommendations: RecommendedProduct[];
+}
+/** One recommended product, with the store's own label for who chose it. */
+interface RecommendedProduct {
+  productId: string | null;
+  handle: string | null;
+  title: string | null;
+  url: string | null;
+  source: RecommendationSource;
+}
+interface RecommendationSource {
+  /** "retailer" when a merchandiser pinned it; "algorithm" otherwise, INCLUDING
+   * a row the store labelled with nothing — an unknown provenance must never
+   * read as a person's decision. */
+  by: "retailer" | "algorithm";
+  /** The store's own token, verbatim and unmapped — "pinned", "jac" (Jaccard),
+   * "e" (embedding), "collection_fallback". Null when the row carried none. */
+  strategy: string | null;
 }
 interface ShopifyProduct {
   handle: string;
@@ -15977,6 +16076,17 @@ interface ShopifyCart {
      * products through this door.
      */
     getCollection(handle: string, opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyCollectionProducts>;
+
+    /**
+     * Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the order
+     * they typed it — an explicit retailer statement, and [] on most products, which is the
+     * retailer's own answer. `recommendations` is EVERY row the store returns including the
+     * algorithmic ones, each carrying source.by (retailer | algorithm) and the store's own
+     * strategy token, so a caller can use them without either field lying. The algorithmic rows
+     * are usually SUBSTITUTES rather than companions. Pass includeAlgorithmic: false to skip the
+     * second request.
+     */
+    getSetEvidence(handle: string, opts?: { includeAlgorithmic?: boolean }): Promise<ShopifySetEvidence>;
   }
 }
 

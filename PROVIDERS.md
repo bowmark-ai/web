@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 723 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 724 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -599,6 +599,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shopify.getCollection` | shopify.com (51714 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
 | `shopify.getProduct` | shopify.com (51714 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
 | `shopify.getProducts` | shopify.com (51714 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
+| `shopify.getSetEvidence` | shopify.com (51714 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
 | `shopify.getShippingRates` | shopify.com (51714 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
 | `shopify.listCollections` | shopify.com (51714 stores) | Lists the store's own merchandised collections. | 🟢 |
 | `shopify.listProducts` | shopify.com (51714 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
