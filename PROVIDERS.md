@@ -590,16 +590,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `semihandmade.getPartOptions` | semihandmade.com | Reads one part's real live size grid: every real size combination with its own real… | 🟢 |
 | `semihandmade.priceConfiguration` | semihandmade.com | Resolves one exact size selection to Semihandmade's own real price, availability and… | 🟢 |
 | `semihandmade.searchParts` | semihandmade.com | Searches Semihandmade's real catalog for one IKEA cabinet system (Sektion, Akurum… | 🟢 |
-| `shopify.addToCart` | shopify.com (51713 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
-| `shopify.getCart` | shopify.com (51713 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
-| `shopify.getCollection` | shopify.com (51713 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
-| `shopify.getProduct` | shopify.com (51713 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
-| `shopify.getProducts` | shopify.com (51713 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
-| `shopify.getShippingRates` | shopify.com (51713 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
-| `shopify.listCollections` | shopify.com (51713 stores) | Lists the store's own merchandised collections. | 🟢 |
-| `shopify.removeFromCart` | shopify.com (51713 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
-| `shopify.search` | shopify.com (51713 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
-| `shopify.searchPolicies` | shopify.com (51713 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
+| `shopify.addToCart` | shopify.com (51714 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
+| `shopify.getCart` | shopify.com (51714 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
+| `shopify.getCollection` | shopify.com (51714 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
+| `shopify.getProduct` | shopify.com (51714 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
+| `shopify.getProducts` | shopify.com (51714 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
+| `shopify.getShippingRates` | shopify.com (51714 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
+| `shopify.listCollections` | shopify.com (51714 stores) | Lists the store's own merchandised collections. | 🟢 |
+| `shopify.removeFromCart` | shopify.com (51714 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
+| `shopify.search` | shopify.com (51714 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
+| `shopify.searchPolicies` | shopify.com (51714 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |

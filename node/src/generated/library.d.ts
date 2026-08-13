@@ -7,7 +7,7 @@
 //
 // Manifest version: 4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c
 // 8 capabilities, 107 providers, 344 typed functions, 20 refused.
-// 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -52767,6 +52767,7 @@ interface BowmarkProviders {
   santabarbaraforgeandiron: BowmarkFamily_shopify_store.Unit;
   santabarbaranutrients: BowmarkFamily_shopify_store.Unit;
   santaclararealtorstore: BowmarkFamily_shopify_store.Unit;
+  santacruzbicycles: BowmarkFamily_shopify_store.Unit;
   santacruzmountainsclothing: BowmarkFamily_shopify_store.Unit;
   santafesoapranch: BowmarkFamily_shopify_store.Unit;
   santafewineandchilefiesta: BowmarkFamily_shopify_store.Unit;
