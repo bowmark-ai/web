@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c
-// 8 capabilities, 107 providers, 348 typed functions, 20 refused.
+// Manifest version: 7a8c4213ef8472ed647a1fb8189555261a1fccc877763fe9ad6ee1f3ceaddc62
+// 9 capabilities, 107 providers, 351 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -858,6 +858,126 @@ type ReadResult = {
      * set.
      */
     pages(urls: string[], options?: ReadOptions): Promise<ReadResult[]>;
+  }
+}
+
+declare namespace BowmarkCapability_sheds {
+  // ── Sheds and portable buildings (configure and price) — the unit's own declarations, verbatim ──
+type ShedSize = {
+  sizeKey: string             // the maker's own key; opaque, meaningful only to source
+  widthFt: number             // FEET, always — the maker's own units are converted away
+  lengthFt: number
+}
+type ShedStyle = {
+  source: string              // which maker — a provider id
+  brand: string               // the maker's brand name, for an answer that names who builds it
+  key: string                 // the maker's own style key
+  label: string               // the style as a customer sees it ("Lofted Barn")
+  sidingOptions: string[]     // siding keys; the first is the maker's standard
+  sizes: ShedSize[]
+  imageUrl: string | null     // a real product image from the maker's own catalogue
+  roofStyle: string | null    // "gable", "gambrel", ...
+  roofing: string | null      // "metal", ...
+  wallHeight: string | null   // the maker's own spec, verbatim, e.g. "left-78-right-78-eave-72"
+}
+type ShedStylesResult = {
+  styles: ShedStyle[]
+  warnings: string[]          // always present; a maker named here returned NOTHING
+}
+
+type ShedQuoteRequest = {
+  widthFt: number             // in feet, as a person says it — "a 12 by 20"
+  lengthFt: number
+  zip: string                 // required; every maker prices regionally
+  style?: string              // style key OR its customer-facing name, matched loosely.
+                              // Omit to price EVERY style that builds the size
+  siding?: string             // omit for the maker's standard siding
+}
+type ShedQuote = {
+  source: string
+  brand: string
+  styleKey: string
+  style: string               // "Lofted Barn"
+  model: string | null        // the maker's model name, where it has one
+  widthFt: number
+  lengthFt: number
+  siding: string              // the siding key this was priced in
+  zip: string
+  region: string              // the maker's own pricing region that zip fell under
+  basePrice: number
+  sidingSurcharge: number     // what the siding added, by the maker's rules; 0 for standard
+  total: number               // basePrice + sidingSurcharge, the maker's own arithmetic
+  currency: string
+  imageUrl: string | null     // what the building looks like, from the maker's catalogue
+  roofStyle: string | null    // "gable", "gambrel", ...
+  roofing: string | null      // "metal", ...
+  wallHeight: string | null   // the maker's own spec, verbatim
+  orderUrl: string            // where to go order THIS build, always present
+}
+type ShedQuoteResult = {
+  quotes: ShedQuote[]         // cheapest first, across every maker that builds the size
+  warnings: string[]          // always present; names a dropped maker, a style that does
+                              // not build the size, and a capped fan
+}
+
+type ShedDealer = {
+  source: string
+  brand: string
+  name: string
+  city: string
+  state: string
+  zip: string
+  phone: string | null        // null when the directory lists none (never "")
+  url: string
+}
+type ShedDealerResult = {
+  dealers: ShedDealer[]
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Price a portable building the way its maker's own 3D configurator does — give a size in feet
+   * and a zip and get the real regional price for every style that builds it, the exact siding
+   * surcharge rather than a guessed range, a real product image and spec for each one, and the
+   * link to go order it. Plus the maker's real dealer locations by state.
+   */
+  interface Unit {
+    /**
+     * Prices a building at a real size for a real zip, exactly the way the maker's own
+     * configurator does — the regional base price plus the EXACT siding surcharge its rules apply
+     * at that width and region, never a national range or a guessed upcharge. Sizes are in FEET ({
+     * widthFt: 12, lengthFt: 20 }), and both orientations count. Omit `style` to price every style
+     * that builds the size, cheapest first; name it loosely ("lofted barn") when you want one.
+     * `zip` is required because every maker prices regionally. Each quote DESCRIBES the building
+     * as well as costing it — a real product image, the roof line and roofing material, the
+     * maker's own wall-height spec — and carries `orderUrl`, their own page to go order that
+     * build. `warnings` is always present and names a maker that failed, styles that do not build
+     * the size, and a capped fan. `options.timeoutMs` sets the per-maker budget (default 30000).
+     */
+    quote(request: ShedQuoteRequest, options?: CallOptions): Promise<ShedQuoteResult>;
+
+    /**
+     * Lists every building style each maker actually offers — its customer-facing name, the siding
+     * it can be built in, every real buildable size in FEET, and what the building IS (a real
+     * product image, the roof line and roofing material, the maker's own wall-height spec). Use it
+     * to see what exists before pricing, or to answer "what sizes do they even make". `warnings`
+     * names any maker that returned nothing, which is not the same as a maker with no styles.
+     */
+    listStyles(options?: CallOptions): Promise<ShedStylesResult>;
+
+    /**
+     * Looks up the real places that sell a maker's buildings in one US state or Canadian province
+     * — full name ("Tennessee") or abbreviation ("TN") — with name, city, phone and the dealer's
+     * own page, for handing a priced configuration to somebody who can actually build it. `phone`
+     * is null when the directory lists none, never an empty string.
+     */
+    findDealers(state: string, options?: CallOptions): Promise<ShedDealerResult>;
   }
 }
 
@@ -11440,6 +11560,10 @@ interface PremierbuildingsStyle {
   label: string;
   sidingOptions: string[];
   sizes: { sizeKey: string; width: number; length: number }[];
+  imageUrl: string | null;   // a real product image from Premier's own catalogue
+  roofStyle: string | null;  // "gable", "gambrel", ...
+  roofing: string | null;    // "metal", ...
+  wallHeight: string | null; // Premier's own encoding in inches, e.g. "left-78-right-78-eave-72"
 }
 interface PremierbuildingsPrice {
   styleKey: string;
@@ -11473,8 +11597,10 @@ interface PremierbuildingsDealer {
   interface Unit {
     /**
      * Lists every real building style Premier's ShedView configurator offers (Lofted Barn,
-     * Utility, Cabin, Garage, ...) with its real siding options and every real buildable size
-     * (width x length), read straight from the configurator's own live catalogue.
+     * Utility, Cabin, Garage, ...) with its real siding options, every real buildable size (width
+     * x length), and what the building actually IS — a real product image, the roof line and
+     * roofing material, and Premier's own wall-height spec — read straight from the configurator's
+     * own live catalogue.
      */
     listBuildingStyles(): Promise<PremierbuildingsStyle[]>;
 
@@ -67607,5 +67733,6 @@ interface BowmarkLibrary {
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
   read: BowmarkCapability_read.Unit;
+  sheds: BowmarkCapability_sheds.Unit;
   providers: BowmarkProviders;
 }

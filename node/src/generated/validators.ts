@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c
-// 332 checked, 20 unchecked.
+// Manifest version: 7a8c4213ef8472ed647a1fb8189555261a1fccc877763fe9ad6ee1f3ceaddc62
+// 335 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c",
+  "version": "7a8c4213ef8472ed647a1fb8189555261a1fccc877763fe9ad6ee1f3ceaddc62",
   "units": {
     "cars": {
       "defs": {
@@ -1117,6 +1117,109 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ReadOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "sheds": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ShedQuoteRequest": {
+          "k": "object",
+          "props": [
+            {
+              "name": "widthFt",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lengthFt",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "style",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "siding",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "quote": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "ShedQuoteRequest"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listStyles": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ],
+        "findDealers": [
+          {
+            "name": "state",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
             },
             "optional": true
           }

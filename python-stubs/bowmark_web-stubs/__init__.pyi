@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c
-# 8 capabilities, 107 providers, 332 typed functions, 20 refused.
+# Manifest version: 7a8c4213ef8472ed647a1fb8189555261a1fccc877763fe9ad6ee1f3ceaddc62
+# 9 capabilities, 107 providers, 335 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -625,6 +625,76 @@ class Cap_read_ReadResult_Out(TypedDict):
 class Cap_read_ReadResult_Out_wall_u0_Out(TypedDict):
     vendor: str
     cleared: bool
+
+class Cap_sheds_ShedQuoteRequest_In(TypedDict):
+    widthFt: float
+    lengthFt: float
+    zip: str
+    style: NotRequired[str]
+    siding: NotRequired[str]
+
+class Cap_sheds_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_sheds_ShedQuoteResult_Out(TypedDict):
+    quotes: list[Cap_sheds_ShedQuote_Out]
+    warnings: list[str]
+
+class Cap_sheds_ShedQuote_Out(TypedDict):
+    source: str
+    brand: str
+    styleKey: str
+    style: str
+    model: str | None
+    widthFt: float
+    lengthFt: float
+    siding: str
+    zip: str
+    region: str
+    basePrice: float
+    sidingSurcharge: float
+    total: float
+    currency: str
+    imageUrl: str | None
+    roofStyle: str | None
+    roofing: str | None
+    wallHeight: str | None
+    orderUrl: str
+
+class Cap_sheds_ShedStylesResult_Out(TypedDict):
+    styles: list[Cap_sheds_ShedStyle_Out]
+    warnings: list[str]
+
+class Cap_sheds_ShedStyle_Out(TypedDict):
+    source: str
+    brand: str
+    key: str
+    label: str
+    sidingOptions: list[str]
+    sizes: list[Cap_sheds_ShedSize_Out]
+    imageUrl: str | None
+    roofStyle: str | None
+    roofing: str | None
+    wallHeight: str | None
+
+class Cap_sheds_ShedSize_Out(TypedDict):
+    sizeKey: str
+    widthFt: float
+    lengthFt: float
+
+class Cap_sheds_ShedDealerResult_Out(TypedDict):
+    dealers: list[Cap_sheds_ShedDealer_Out]
+    warnings: list[str]
+
+class Cap_sheds_ShedDealer_Out(TypedDict):
+    source: str
+    brand: str
+    name: str
+    city: str
+    state: str
+    zip: str
+    phone: str | None
+    url: str
 
 class Prv_aa_aaBaggageAllowanceArgs_In(TypedDict):
     origin: str
@@ -5927,6 +5997,10 @@ class Prv_premierbuildings_PremierbuildingsStyle_Out(TypedDict):
     label: str
     sidingOptions: list[str]
     sizes: list[Prv_premierbuildings_PremierbuildingsStyle_Out_sizes_item_Out]
+    imageUrl: str | None
+    roofStyle: str | None
+    roofing: str | None
+    wallHeight: str | None
 
 class Prv_premierbuildings_PremierbuildingsStyle_Out_sizes_item_Out(TypedDict):
     sizeKey: str
@@ -8231,6 +8305,43 @@ class Cap_read(Protocol):
         """The same read over many urls, six in flight at a time, results in the order the urls
         were given. One dead url never costs you the others — it comes back with `ok: false` and
         `error` set.
+        """
+
+class Cap_sheds(Protocol):
+    """Price a portable building the way its maker's own 3D configurator does — give a size in
+    feet and a zip and get the real regional price for every style that builds it, the exact
+    siding surcharge rather than a guessed range, a real product image and spec for each
+    one, and the link to go order it. Plus the maker's real dealer locations by state.
+    """
+
+    async def quote(self, request: Cap_sheds_ShedQuoteRequest_In, options: Cap_sheds_CallOptions_In | None = None, /) -> Cap_sheds_ShedQuoteResult_Out:
+        """Prices a building at a real size for a real zip, exactly the way the maker's own
+        configurator does — the regional base price plus the EXACT siding surcharge its rules
+        apply at that width and region, never a national range or a guessed upcharge. Sizes are
+        in FEET ({ widthFt: 12, lengthFt: 20 }), and both orientations count. Omit `style` to
+        price every style that builds the size, cheapest first; name it loosely ("lofted barn")
+        when you want one. `zip` is required because every maker prices regionally. Each quote
+        DESCRIBES the building as well as costing it — a real product image, the roof line and
+        roofing material, the maker's own wall-height spec — and carries `orderUrl`, their own
+        page to go order that build. `warnings` is always present and names a maker that failed,
+        styles that do not build the size, and a capped fan. `options.timeoutMs` sets the
+        per-maker budget (default 30000).
+        """
+
+    async def listStyles(self, options: Cap_sheds_CallOptions_In | None = None, /) -> Cap_sheds_ShedStylesResult_Out:
+        """Lists every building style each maker actually offers — its customer-facing name, the
+        siding it can be built in, every real buildable size in FEET, and what the building IS
+        (a real product image, the roof line and roofing material, the maker's own wall-height
+        spec). Use it to see what exists before pricing, or to answer "what sizes do they even
+        make". `warnings` names any maker that returned nothing, which is not the same as a
+        maker with no styles.
+        """
+
+    async def findDealers(self, state: str, options: Cap_sheds_CallOptions_In | None = None, /) -> Cap_sheds_ShedDealerResult_Out:
+        """Looks up the real places that sell a maker's buildings in one US state or Canadian
+        province — full name ("Tennessee") or abbreviation ("TN") — with name, city, phone and
+        the dealer's own page, for handing a priced configuration to somebody who can actually
+        build it. `phone` is null when the directory lists none, never an empty string.
         """
 
 class Prv_aa(Protocol):
@@ -11725,8 +11836,10 @@ class Prv_premierbuildings(Protocol):
 
     async def listBuildingStyles(self, /) -> list[Prv_premierbuildings_PremierbuildingsStyle_Out]:
         """Lists every real building style Premier's ShedView configurator offers (Lofted Barn,
-        Utility, Cabin, Garage, ...) with its real siding options and every real buildable size
-        (width x length), read straight from the configurator's own live catalogue.
+        Utility, Cabin, Garage, ...) with its real siding options, every real buildable size
+        (width x length), and what the building actually IS — a real product image, the roof
+        line and roofing material, and Premier's own wall-height spec — read straight from the
+        configurator's own live catalogue.
         """
 
     async def priceBuilding(self, styleKey: str, sizeKey: str, sidingKey: str | None, zip: str, /) -> Prv_premierbuildings_PremierbuildingsPrice_Out:
@@ -13139,4 +13252,5 @@ class Bowmark(Protocol):
     music: Cap_music
     pcparts: Cap_pcparts
     read: Cap_read
+    sheds: Cap_sheds
     providers: BowmarkProviders
