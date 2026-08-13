@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a84edc3f15a88045ee78372632749217db0c5796bcb638cbc77b2573d63646de
-// 8 capabilities, 104 providers, 339 typed functions, 20 refused.
+// Manifest version: 45dc78ab98986198160fc6766275f2170f78c6cf53caa13939b897913d309f36
+// 8 capabilities, 105 providers, 340 typed functions, 20 refused.
 // 51,713 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7733,6 +7733,47 @@ interface InteriorDefineCartHandoff {
      * matched nothing and were therefore left out of the URL rather than silently mispricing it.
      */
     addToCart(sku: string, selections: Record<string, string>): Promise<InteriorDefineCartHandoff>;
+  }
+}
+
+declare namespace BowmarkProvider_islllc {
+  // ── Integral Senior Living — the unit's own declarations, verbatim ──
+type IsllcCareType = "assisted_living" | "independent_living" | "memory_care" | "respite_care";
+
+interface IsllcCommunity {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+  careTypes: string;
+  lat: number;
+  lng: number;
+  url: string;
+}
+
+interface IsllcSearchCommunitiesResult {
+  location: string;
+  geocodedLat: number;
+  geocodedLng: number;
+  careTypes: IsllcCareType[];
+  radiusMiles: number;
+  communities: IsllcCommunity[];
+}
+
+  /**
+   * Integral Senior Living's own community locator (islllc.com/communities/) — given a US
+   * city/state or ZIP, plus optional care type(s) and radius, returns the real, nearest-first
+   * set of matching ISL communities.
+   */
+  interface Unit {
+    /**
+     * Runs the site's own community locator: a US location + optional care type(s) and radius,
+     * returns the real, nearest-first matching ISL communities.
+     */
+    searchCommunities(arg: { location: string, careTypes?: IsllcCareType[], radiusMiles?: number, maxResults?: number }): Promise<IsllcSearchCommunitiesResult>;
   }
 }
 
@@ -15530,6 +15571,7 @@ interface BowmarkProviders {
   ibuypower: BowmarkProvider_ibuypower.Unit;
   insurify: BowmarkProvider_insurify.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
+  islllc: BowmarkProvider_islllc.Unit;
   joybird: BowmarkProvider_joybird.Unit;
   kayak: BowmarkProvider_kayak.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;

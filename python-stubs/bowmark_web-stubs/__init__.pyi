@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a84edc3f15a88045ee78372632749217db0c5796bcb638cbc77b2573d63646de
-# 8 capabilities, 104 providers, 327 typed functions, 20 refused.
+# Manifest version: 45dc78ab98986198160fc6766275f2170f78c6cf53caa13939b897913d309f36
+# 8 capabilities, 105 providers, 328 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3977,6 +3977,33 @@ class Prv_interiordefine_InteriorDefineCartHandoff_Out(TypedDict):
     totalFormatted: str
     missingRequired: list[str]
     unmatched: list[str]
+
+class Prv_islllc_searchCommunities_arg_In(TypedDict):
+    location: str
+    careTypes: NotRequired[Sequence[Literal["assisted_living"] | Literal["independent_living"] | Literal["memory_care"] | Literal["respite_care"]]]
+    radiusMiles: NotRequired[float]
+    maxResults: NotRequired[float]
+
+class Prv_islllc_IsllcSearchCommunitiesResult_Out(TypedDict):
+    location: str
+    geocodedLat: float
+    geocodedLng: float
+    careTypes: list[Literal["assisted_living"] | Literal["independent_living"] | Literal["memory_care"] | Literal["respite_care"]]
+    radiusMiles: float
+    communities: list[Prv_islllc_IsllcCommunity_Out]
+
+class Prv_islllc_IsllcCommunity_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str
+    careTypes: str
+    lat: float
+    lng: float
+    url: str
 
 class Prv_joybird_JoybirdConfigurator_Out(TypedDict):
     slug: str
@@ -10471,6 +10498,17 @@ class Prv_interiordefine(Protocol):
         silently mispricing it.
         """
 
+class Prv_islllc(Protocol):
+    """Integral Senior Living's own community locator (islllc.com/communities/) — given a US
+    city/state or ZIP, plus optional care type(s) and radius, returns the real,
+    nearest-first set of matching ISL communities.
+    """
+
+    async def searchCommunities(self, arg: Prv_islllc_searchCommunities_arg_In, /) -> Prv_islllc_IsllcSearchCommunitiesResult_Out:
+        """Runs the site's own community locator: a US location + optional care type(s) and radius,
+        returns the real, nearest-first matching ISL communities.
+        """
+
 class Prv_joybird(Protocol):
     """Reads Joybird's real sofa/sectional configurator — every configurable product, every
     fabric and wood stain, and the live configured price Joybird's own page shows.
@@ -12922,6 +12960,7 @@ class BowmarkProviders(Protocol):
     ibuypower: Prv_ibuypower
     insurify: Prv_insurify
     interiordefine: Prv_interiordefine
+    islllc: Prv_islllc
     joybird: Prv_joybird
     kayak: Prv_kayak
     kitchentuneup: Prv_kitchentuneup

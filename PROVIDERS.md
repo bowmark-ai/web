@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 711 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 712 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -359,6 +359,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `interiordefine.getConfigurator` | interiordefine.com | Reads one product's whole customizer: every option category (fabric color, leg finish… | 🟢 |
 | `interiordefine.priceConfiguration` | interiordefine.com | Prices a specific configuration (a choice per option category) against… | 🟢 |
 | `interiordefine.searchProducts` | interiordefine.com | Searches Interior Define's custom-furniture catalog (sofas, sectionals, chairs) by… | 🟢 |
+| `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
 | `joybird.getConfigurator` | joybird.com | Reads one product's full configurator — its dimensions, current price, active… | 🟢 |
 | `joybird.listConfigurators` | joybird.com | Lists every configurable product Joybird currently sells — sofas, sectionals, chairs… | 🟢 |
 | `joybird.priceConfigurator` | joybird.com | Prices an exact configuration for one product given the caller's swatch picks (one… | 🟢 |

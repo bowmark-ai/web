@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a84edc3f15a88045ee78372632749217db0c5796bcb638cbc77b2573d63646de
-// 327 checked, 20 unchecked.
+// Manifest version: 45dc78ab98986198160fc6766275f2170f78c6cf53caa13939b897913d309f36
+// 328 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a84edc3f15a88045ee78372632749217db0c5796bcb638cbc77b2573d63646de",
+  "version": "45dc78ab98986198160fc6766275f2170f78c6cf53caa13939b897913d309f36",
   "units": {
     "cars": {
       "defs": {
@@ -6123,6 +6123,76 @@ export const VALIDATORS: ValidatorTable = {
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.islllc": {
+      "defs": {
+        "IsllcCareType": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "assisted_living"
+            },
+            {
+              "k": "literal",
+              "v": "independent_living"
+            },
+            {
+              "k": "literal",
+              "v": "memory_care"
+            },
+            {
+              "k": "literal",
+              "v": "respite_care"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchCommunities": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "careTypes",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "IsllcCareType"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "radiusMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxResults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
