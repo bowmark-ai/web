@@ -15493,7 +15493,9 @@ interface ShopifyCart {
 
     /**
      * Reads one product by handle — every variant, its exact price, its SKU and whether that
-     * specific size or colour is purchasable right now.
+     * specific size or colour is purchasable right now. Pass { withReviews: true } to ALSO get the
+     * star rating and review count from whichever review app the merchant installed; it is off by
+     * default because it costs a second origin and usually the rendered product page too.
      */
     getProduct(handle: string): Promise<ShopifyProduct>;
 
@@ -15502,7 +15504,9 @@ interface ShopifyCart {
      * link arrives from a search result, a page or a person. Takes the whole url — origin, market
      * prefix, ?variant= and #fragment — so nothing has to be stripped down to a bare handle first,
      * and the variant the url named comes back beside the product instead of being lost. THROWS,
-     * naming the domain, on a url belonging to another storefront.
+     * naming the domain, on a url belonging to another storefront. Takes the same { withReviews:
+     * true } option as getProduct, on the same default: a url is another way of naming one
+     * product, so holding a link rather than a handle must not cost a caller the rating.
      */
     resolveProductUrl(url: string): Promise<ShopifyProductFromUrl>;
 
@@ -15512,7 +15516,9 @@ interface ShopifyCart {
      * turns on. PARTIAL by construction: a search row's handle may 404 on the Ajax product door
      * (measured 2026-08-05, 2 of 10 sampled members), so one bad handle is named in `missing` and
      * costs that row alone, where `getProduct` throws and takes the whole set with it. Capped at
-     * 50 handles because each one is a request to the store.
+     * 50 handles because each one is a request to the store. Takes the same { withReviews: true }
+     * option, and is the shape to use for it: the review app's key is learned from the first pages
+     * and reused, so ratings for twenty handles cost a handful of page fetches rather than twenty.
      */
     getProducts(handles: string[]): Promise<ShopifyProductBatch>;
 
@@ -15841,7 +15847,9 @@ interface ShopifyCart {
 
     /**
      * Reads one product by handle — every variant, its exact price, its SKU and whether that
-     * specific size or colour is purchasable right now.
+     * specific size or colour is purchasable right now. Pass { withReviews: true } to ALSO get the
+     * star rating and review count from whichever review app the merchant installed; it is off by
+     * default because it costs a second origin and usually the rendered product page too.
      */
     getProduct(handle: string): Promise<ShopifyProduct>;
 
@@ -15850,7 +15858,9 @@ interface ShopifyCart {
      * link arrives from a search result, a page or a person. Takes the whole url — origin, market
      * prefix, ?variant= and #fragment — so nothing has to be stripped down to a bare handle first,
      * and the variant the url named comes back beside the product instead of being lost. THROWS,
-     * naming the domain, on a url belonging to another storefront.
+     * naming the domain, on a url belonging to another storefront. Takes the same { withReviews:
+     * true } option as getProduct, on the same default: a url is another way of naming one
+     * product, so holding a link rather than a handle must not cost a caller the rating.
      */
     resolveProductUrl(url: string): Promise<ShopifyProductFromUrl>;
 
@@ -15860,7 +15870,9 @@ interface ShopifyCart {
      * turns on. PARTIAL by construction: a search row's handle may 404 on the Ajax product door
      * (measured 2026-08-05, 2 of 10 sampled members), so one bad handle is named in `missing` and
      * costs that row alone, where `getProduct` throws and takes the whole set with it. Capped at
-     * 50 handles because each one is a request to the store.
+     * 50 handles because each one is a request to the store. Takes the same { withReviews: true }
+     * option, and is the shape to use for it: the review app's key is learned from the first pages
+     * and reused, so ratings for twenty handles cost a handful of page fetches rather than twenty.
      */
     getProducts(handles: string[]): Promise<ShopifyProductBatch>;
 
