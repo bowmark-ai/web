@@ -15130,8 +15130,8 @@ interface SaleEvidence {
   /** The published "was" price. Strictly greater than currentPrice when
    * evidenceType is "compare_at_price". Null when nothing published one. */
   originalPrice: string | null;
-  /** ISO 4217, or null. Null on the REST catalogue door, which publishes no
-   * currency — reported honestly rather than assumed to be USD. */
+  /** ISO 4217, from the storefront's own /meta.json. Null only when that read
+   * failed — never defaulted to "USD", which is wrong on every non-US store. */
   currency: string | null;
   promotionMessage: string | null;
   /** How it was decided. "compare_at_price" is a struck-through price;
@@ -15160,6 +15160,11 @@ interface PublishedProductAttributes {
   sleeveLength: string | null;
   rise: string | null;
   waistband: string | null;
+  /** How long the GARMENT is — "Cropped", "Midi". What every store's own
+   * `length::` tag fills, on a top exactly as on a bottom. */
+  garmentLength: string | null;
+  /** The inside leg seam and only that. NULL on a top — a tank has no inseam,
+   * and its length is `garmentLength`. */
   inseam: string | null;
   legShape: string | null;
   fit: string | null;
@@ -15201,6 +15206,7 @@ interface ShopifyProduct {
   descriptionHtml: string | null;
   /** The same copy with its markup removed. */
   descriptionText: string | null;
+  /** ISO 4217, read once per store from its own /meta.json. */
   currency: string | null;
   /** Every image the door published, deduplicated, in the store's own order. */
   images: ProductImage[];
@@ -15408,8 +15414,8 @@ interface SaleEvidence {
   /** The published "was" price. Strictly greater than currentPrice when
    * evidenceType is "compare_at_price". Null when nothing published one. */
   originalPrice: string | null;
-  /** ISO 4217, or null. Null on the REST catalogue door, which publishes no
-   * currency — reported honestly rather than assumed to be USD. */
+  /** ISO 4217, from the storefront's own /meta.json. Null only when that read
+   * failed — never defaulted to "USD", which is wrong on every non-US store. */
   currency: string | null;
   promotionMessage: string | null;
   /** How it was decided. "compare_at_price" is a struck-through price;
@@ -15438,6 +15444,11 @@ interface PublishedProductAttributes {
   sleeveLength: string | null;
   rise: string | null;
   waistband: string | null;
+  /** How long the GARMENT is — "Cropped", "Midi". What every store's own
+   * `length::` tag fills, on a top exactly as on a bottom. */
+  garmentLength: string | null;
+  /** The inside leg seam and only that. NULL on a top — a tank has no inseam,
+   * and its length is `garmentLength`. */
   inseam: string | null;
   legShape: string | null;
   fit: string | null;
@@ -15479,6 +15490,7 @@ interface ShopifyProduct {
   descriptionHtml: string | null;
   /** The same copy with its markup removed. */
   descriptionText: string | null;
+  /** ISO 4217, read once per store from its own /meta.json. */
   currency: string | null;
   /** Every image the door published, deduplicated, in the store's own order. */
   images: ProductImage[];
