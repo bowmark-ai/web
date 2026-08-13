@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7a8c4213ef8472ed647a1fb8189555261a1fccc877763fe9ad6ee1f3ceaddc62
-// 9 capabilities, 107 providers, 351 typed functions, 20 refused.
+// Manifest version: 25bf5a60da52033b0827a606f56b73cf42d857317a73c9538716035474e0bc62
+// 9 capabilities, 108 providers, 352 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1492,6 +1492,37 @@ interface AiperPoolRecommendation {
      * doesn't match, or if the site's computed result carries no product list.
      */
     recommendPoolCleaner(answers: AiperPoolAnswerInput[]): Promise<AiperPoolRecommendation>;
+  }
+}
+
+declare namespace BowmarkProvider_ajmadison {
+  // ── AJ Madison — the unit's own declarations, verbatim ──
+interface AjmadisonSearchArgs {
+  category: string;              // the site's own category slug, e.g. "refrigerators"
+  filters?: Record<string, string>; // the site's own facet query params, verbatim
+  limit?: number;                 // default 25, clamped to [1, 60]
+}
+
+interface AjmadisonSearchResult {
+  sku: string;
+  name: string;
+  price: number;             // real, current selling price
+  wasPrice: number | null;   // the crossed-out "was" price, when shown
+  url: string;                // this product's own AJ Madison URL
+}
+
+  /**
+   * AJ Madison's real appliance catalog — search runs the site's own category + facet filter
+   * (brand, size/capacity, price band, style, availability) and returns real, currently-listed
+   * products with their live selling price and the product's own AJ Madison URL.
+   */
+  interface Unit {
+    /**
+     * Runs AJ Madison's own category + facet filter and returns real, currently-listed products
+     * (name, real current price, the crossed-out 'was' price when shown, the product's own AJ
+     * Madison URL). Read-only — never adds to cart or checks out.
+     */
+    search(args: AjmadisonSearchArgs): Promise<AjmadisonSearchResult[]>;
   }
 }
 
@@ -15911,6 +15942,7 @@ interface BowmarkProviders {
   aa: BowmarkProvider_aa.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
   aiper: BowmarkProvider_aiper.Unit;
+  ajmadison: BowmarkProvider_ajmadison.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
   avis: BowmarkProvider_avis.Unit;

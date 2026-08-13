@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7a8c4213ef8472ed647a1fb8189555261a1fccc877763fe9ad6ee1f3ceaddc62
-// 335 checked, 20 unchecked.
+// Manifest version: 25bf5a60da52033b0827a606f56b73cf42d857317a73c9538716035474e0bc62
+// 336 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7a8c4213ef8472ed647a1fb8189555261a1fccc877763fe9ad6ee1f3ceaddc62",
+  "version": "25bf5a60da52033b0827a606f56b73cf42d857317a73c9538716035474e0bc62",
   "units": {
     "cars": {
       "defs": {
@@ -1590,6 +1590,51 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "ref",
                 "name": "AiperPoolAnswerInput"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ajmadison": {
+      "defs": {
+        "AjmadisonSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "filters",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AjmadisonSearchArgs"
             },
             "optional": false
           }

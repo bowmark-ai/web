@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7a8c4213ef8472ed647a1fb8189555261a1fccc877763fe9ad6ee1f3ceaddc62
-# 9 capabilities, 107 providers, 335 typed functions, 20 refused.
+# Manifest version: 25bf5a60da52033b0827a606f56b73cf42d857317a73c9538716035474e0bc62
+# 9 capabilities, 108 providers, 336 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -953,6 +953,18 @@ class Prv_aiper_AiperRecommendedProduct_Out(TypedDict):
 class Prv_aiper_AiperPoolAnswerInput_Out(TypedDict):
     question: str
     choice: str | list[str]
+
+class Prv_ajmadison_AjmadisonSearchArgs_In(TypedDict):
+    category: str
+    filters: NotRequired[Mapping[str, str]]
+    limit: NotRequired[float]
+
+class Prv_ajmadison_AjmadisonSearchResult_Out(TypedDict):
+    sku: str
+    name: str
+    price: float
+    wasPrice: float | None
+    url: str
 
 class Prv_ashleyfurniture_AshleyFurnitureSearchArgs_In(TypedDict):
     query: str
@@ -8497,6 +8509,19 @@ class Prv_aiper(Protocol):
         label doesn't match, or if the site's computed result carries no product list.
         """
 
+class Prv_ajmadison(Protocol):
+    """AJ Madison's real appliance catalog — search runs the site's own category + facet filter
+    (brand, size/capacity, price band, style, availability) and returns real,
+    currently-listed products with their live selling price and the product's own AJ Madison
+    URL.
+    """
+
+    async def search(self, args: Prv_ajmadison_AjmadisonSearchArgs_In, /) -> list[Prv_ajmadison_AjmadisonSearchResult_Out]:
+        """Runs AJ Madison's own category + facet filter and returns real, currently-listed
+        products (name, real current price, the crossed-out 'was' price when shown, the
+        product's own AJ Madison URL). Read-only — never adds to cart or checks out.
+        """
+
 class Prv_ashleyfurniture(Protocol):
     """Ashley's furniture and home-goods catalog, search, product detail, store/delivery
     availability, and store locator. search, checkStock and getProduct all read the site's
@@ -13131,6 +13156,7 @@ class BowmarkProviders(Protocol):
     aa: Prv_aa
     abercrombie: Prv_abercrombie
     aiper: Prv_aiper
+    ajmadison: Prv_ajmadison
     ashleyfurniture: Prv_ashleyfurniture
     atlasseniorliving: Prv_atlasseniorliving
     avis: Prv_avis
