@@ -6,7 +6,7 @@
 // turn it into a module and every declaration below would stop being global.
 //
 // Manifest version: 4efc9701eded3984eeb4bf42076788068aaa6672f9eadb56db9235bff891ee6c
-// 8 capabilities, 107 providers, 344 typed functions, 20 refused.
+// 8 capabilities, 107 providers, 348 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15208,6 +15208,11 @@ interface ShopifyProduct {
   descriptionText: string | null;
   /** ISO 4217, read once per store from its own /meta.json. */
   currency: string | null;
+  /** When the store's door ANSWERED this row, ISO 8601 UTC. Every field here is
+   * a live fact with a shelf life — the price, the markdown, the per-variant
+   * stock flag — so read it before treating a cached row as current. Stamped per
+   * REQUEST: a getProducts batch carries one stamp per handle, not one per call. */
+  fetchedAt: string;
   /** Every image the door published, deduplicated, in the store's own order. */
   images: ProductImage[];
   attributes: PublishedProductAttributes;
@@ -15294,6 +15299,46 @@ interface ShopifyCollectionProducts {
    * top-then-bottom; reading a pairing out of that order is the caller's
    * inference, never this provider's claim. [] is an ordinary answer. */
   products: ShopifyProduct[];
+  /** Pass back as opts.cursor for the next page, or NULL when this is the last
+   * one. A collection bigger than one page is reachable only through this. */
+  cursor: string | null;
+  /** Empty on an ordinary page. One entry when the walk hit the store platform's
+   * 25,000-row ceiling with the collection unfinished — a TRUNCATION, which a
+   * null cursor on its own would read as the end of the list. */
+  warnings: string[];
+}
+/** One page of a whole-catalogue walk. Advance it with the cursor; there is
+ * deliberately no "fetch everything" call, because every row is a request
+ * against the store and only the caller knows how many candidates it needs. */
+interface ShopifyProductPage {
+  /** In the store's own MERCHANDISED order — not id, not date. The store may
+   * re-merchandise mid-walk, so key on handle rather than assuming pages are
+   * disjoint. */
+  products: ShopifyProduct[];
+  /** Pass back as opts.cursor for the next page. NULL when the store answered a
+   * short page, which is what the end of the catalogue looks like. */
+  cursor: string | null;
+  /** How many rows this page asked the store for. */
+  limit: number;
+  /** Empty on an ordinary page. One entry when the walk stopped at the 25,000-row
+   * ceiling with the catalogue unfinished. */
+  warnings: string[];
+}
+/** What resolveProductUrl hands back — the product a url names, and the variant
+ * its own ?variant= selected. */
+interface ShopifyProductFromUrl {
+  product: ShopifyProduct;
+  /** The variant ?variant= named, or NULL when the url named none — the ordinary
+   * case for a link off a collection page. Also null when it named one the store
+   * no longer publishes, which warnings says. NEVER the first variant instead:
+   * that answers "is my size in stock" about a different size. */
+  variant: ShopifyVariant | null;
+  /** The ?variant= value exactly as the url carried it, kept even when it
+   * matched nothing — a stale link is a fact about the link. */
+  variantIdInUrl: string | null;
+  /** Empty on a clean resolve. One entry when the url named a variant the store
+   * no longer publishes. */
+  warnings: string[];
 }
 interface ShopifyCart {
   /** The store's own cart token — a bearer credential, so treat it like one. */
@@ -15327,6 +15372,15 @@ interface ShopifyCart {
     getProduct(handle: string): Promise<ShopifyProduct>;
 
     /**
+     * Turns a product URL into the product, which is the address a caller actually holds when a
+     * link arrives from a search result, a page or a person. Takes the whole url — origin, market
+     * prefix, ?variant= and #fragment — so nothing has to be stripped down to a bare handle first,
+     * and the variant the url named comes back beside the product instead of being lost. THROWS,
+     * naming the domain, on a url belonging to another storefront.
+     */
+    resolveProductUrl(url: string): Promise<ShopifyProductFromUrl>;
+
+    /**
      * Reads FULL detail for many products in one call — the shape for ranking a candidate set,
      * since a search row carries neither the description copy nor the per-variant stock a ranking
      * turns on. PARTIAL by construction: a search row's handle may 404 on the Ajax product door
@@ -15335,6 +15389,16 @@ interface ShopifyCart {
      * 50 handles because each one is a request to the store.
      */
     getProducts(handles: string[]): Promise<ShopifyProductBatch>;
+
+    /**
+     * Walks the store's WHOLE catalogue a page at a time, in its own merchandised order — the
+     * shape that makes a realistic candidate set reachable at all, since search ranks against a
+     * query and returns one slice. The caller advances a cursor and stops on its own budget or on
+     * a null cursor. There is deliberately no fetch-everything call: every row is a request
+     * against a stranger's storefront, and how many candidates a ranking needs is the caller's
+     * decision rather than one taken once, inside the library, on behalf of every member.
+     */
+    listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
 
     /**
      * Lists the store's own merchandised collections. THIS is where a retailer states a SET: a
@@ -15348,7 +15412,7 @@ interface ShopifyCart {
      * rows. An empty list is an ordinary answer — several named 'look' collections publish no
      * products through this door.
      */
-    getCollection(handle: string, opts?: { limit?: number }): Promise<ShopifyCollectionProducts>;
+    getCollection(handle: string, opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyCollectionProducts>;
 
     /**
      * Puts variants into THIS run's own cart on the store and returns the cart the store reports
@@ -15492,6 +15556,11 @@ interface ShopifyProduct {
   descriptionText: string | null;
   /** ISO 4217, read once per store from its own /meta.json. */
   currency: string | null;
+  /** When the store's door ANSWERED this row, ISO 8601 UTC. Every field here is
+   * a live fact with a shelf life — the price, the markdown, the per-variant
+   * stock flag — so read it before treating a cached row as current. Stamped per
+   * REQUEST: a getProducts batch carries one stamp per handle, not one per call. */
+  fetchedAt: string;
   /** Every image the door published, deduplicated, in the store's own order. */
   images: ProductImage[];
   attributes: PublishedProductAttributes;
@@ -15578,6 +15647,46 @@ interface ShopifyCollectionProducts {
    * top-then-bottom; reading a pairing out of that order is the caller's
    * inference, never this provider's claim. [] is an ordinary answer. */
   products: ShopifyProduct[];
+  /** Pass back as opts.cursor for the next page, or NULL when this is the last
+   * one. A collection bigger than one page is reachable only through this. */
+  cursor: string | null;
+  /** Empty on an ordinary page. One entry when the walk hit the store platform's
+   * 25,000-row ceiling with the collection unfinished — a TRUNCATION, which a
+   * null cursor on its own would read as the end of the list. */
+  warnings: string[];
+}
+/** One page of a whole-catalogue walk. Advance it with the cursor; there is
+ * deliberately no "fetch everything" call, because every row is a request
+ * against the store and only the caller knows how many candidates it needs. */
+interface ShopifyProductPage {
+  /** In the store's own MERCHANDISED order — not id, not date. The store may
+   * re-merchandise mid-walk, so key on handle rather than assuming pages are
+   * disjoint. */
+  products: ShopifyProduct[];
+  /** Pass back as opts.cursor for the next page. NULL when the store answered a
+   * short page, which is what the end of the catalogue looks like. */
+  cursor: string | null;
+  /** How many rows this page asked the store for. */
+  limit: number;
+  /** Empty on an ordinary page. One entry when the walk stopped at the 25,000-row
+   * ceiling with the catalogue unfinished. */
+  warnings: string[];
+}
+/** What resolveProductUrl hands back — the product a url names, and the variant
+ * its own ?variant= selected. */
+interface ShopifyProductFromUrl {
+  product: ShopifyProduct;
+  /** The variant ?variant= named, or NULL when the url named none — the ordinary
+   * case for a link off a collection page. Also null when it named one the store
+   * no longer publishes, which warnings says. NEVER the first variant instead:
+   * that answers "is my size in stock" about a different size. */
+  variant: ShopifyVariant | null;
+  /** The ?variant= value exactly as the url carried it, kept even when it
+   * matched nothing — a stale link is a fact about the link. */
+  variantIdInUrl: string | null;
+  /** Empty on a clean resolve. One entry when the url named a variant the store
+   * no longer publishes. */
+  warnings: string[];
 }
 interface ShopifyCart {
   /** The store's own cart token — a bearer credential, so treat it like one. */
@@ -15611,6 +15720,15 @@ interface ShopifyCart {
     getProduct(handle: string): Promise<ShopifyProduct>;
 
     /**
+     * Turns a product URL into the product, which is the address a caller actually holds when a
+     * link arrives from a search result, a page or a person. Takes the whole url — origin, market
+     * prefix, ?variant= and #fragment — so nothing has to be stripped down to a bare handle first,
+     * and the variant the url named comes back beside the product instead of being lost. THROWS,
+     * naming the domain, on a url belonging to another storefront.
+     */
+    resolveProductUrl(url: string): Promise<ShopifyProductFromUrl>;
+
+    /**
      * Reads FULL detail for many products in one call — the shape for ranking a candidate set,
      * since a search row carries neither the description copy nor the per-variant stock a ranking
      * turns on. PARTIAL by construction: a search row's handle may 404 on the Ajax product door
@@ -15619,6 +15737,16 @@ interface ShopifyCart {
      * 50 handles because each one is a request to the store.
      */
     getProducts(handles: string[]): Promise<ShopifyProductBatch>;
+
+    /**
+     * Walks the store's WHOLE catalogue a page at a time, in its own merchandised order — the
+     * shape that makes a realistic candidate set reachable at all, since search ranks against a
+     * query and returns one slice. The caller advances a cursor and stops on its own budget or on
+     * a null cursor. There is deliberately no fetch-everything call: every row is a request
+     * against a stranger's storefront, and how many candidates a ranking needs is the caller's
+     * decision rather than one taken once, inside the library, on behalf of every member.
+     */
+    listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
 
     /**
      * Lists the store's own merchandised collections. THIS is where a retailer states a SET: a
@@ -15632,7 +15760,7 @@ interface ShopifyCart {
      * rows. An empty list is an ordinary answer — several named 'look' collections publish no
      * products through this door.
      */
-    getCollection(handle: string, opts?: { limit?: number }): Promise<ShopifyCollectionProducts>;
+    getCollection(handle: string, opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyCollectionProducts>;
   }
 }
 
