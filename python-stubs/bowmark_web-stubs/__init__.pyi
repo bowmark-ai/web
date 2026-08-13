@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 25bf5a60da52033b0827a606f56b73cf42d857317a73c9538716035474e0bc62
-# 9 capabilities, 108 providers, 336 typed functions, 20 refused.
+# Manifest version: a400421498212bf60bfaab4808ff698bd8edb4febae1ba86fda5cb9ebc232c1b
+# 9 capabilities, 109 providers, 338 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3000,6 +3000,32 @@ class Prv_google_flights_GooglePricePoint_Out(TypedDict):
     returnDate: str | None
     price: float | None
     currency: str
+
+class Prv_gotchacovered_GotchaCoveredQuizQuestions_Out(TypedDict):
+    questions: list[Prv_gotchacovered_GotchaCoveredQuizQuestion_Out]
+
+class Prv_gotchacovered_GotchaCoveredQuizQuestion_Out(TypedDict):
+    step: float
+    prompt: str
+    options: list[Prv_gotchacovered_GotchaCoveredQuizOption_Out]
+
+class Prv_gotchacovered_GotchaCoveredQuizOption_Out(TypedDict):
+    label: str
+    imageUrl: str | None
+
+class Prv_gotchacovered_GotchaCoveredQuizAnswers_In(TypedDict):
+    colorScheme: str
+    pattern: str
+    imageChoice: float | str
+    destination: str
+    material: str
+    item: str
+
+class Prv_gotchacovered_GotchaCoveredQuizResult_Out(TypedDict):
+    styleName: str
+    description: str
+    recommendedProducts: str | None
+    url: str
 
 class Prv_grainger_graingerSearchRow_Out(TypedDict):
     itemNumber: str
@@ -9867,6 +9893,21 @@ class Prv_google_flights(Protocol):
         it.
         """
 
+class Prv_gotchacovered(Protocol):
+    """Reads and answers Gotcha Covered's own 'What Design Style Am I?' window-treatment style
+    quiz, returning the site's real computed match.
+    """
+
+    async def getDesignStyleQuizQuestions(self, /) -> Prv_gotchacovered_GotchaCoveredQuizQuestions_Out:
+        """Reads the live 'What Design Style Am I?' quiz's real 6 questions and option lists."""
+
+    async def takeDesignStyleQuiz(self, answers: Prv_gotchacovered_GotchaCoveredQuizAnswers_In, /) -> Prv_gotchacovered_GotchaCoveredQuizResult_Out:
+        """Answers all 6 questions of Gotcha Covered's Design Style Quiz (e.g. { colorScheme:
+        "Metallics Color Scheme", pattern: "Eclectic Pattern", imageChoice: 1, destination:
+        "Spain Destination", material: "Wood Material", item: "Graphic Rug Item" }) and returns
+        the site's real computed style match.
+        """
+
 class Prv_grainger(Protocol):
     """Grainger's industrial MRO catalog, product detail, and branch/stock availability —
     search (keyword/category catalog search returning name, item number, brand, price and
@@ -13191,6 +13232,7 @@ class BowmarkProviders(Protocol):
     fred: Prv_fred
     geico: Prv_geico
     google_flights: Prv_google_flights
+    gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger
     handypro: Prv_handypro
     harmar: Prv_harmar

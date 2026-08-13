@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 25bf5a60da52033b0827a606f56b73cf42d857317a73c9538716035474e0bc62
-// 336 checked, 20 unchecked.
+// Manifest version: a400421498212bf60bfaab4808ff698bd8edb4febae1ba86fda5cb9ebc232c1b
+// 338 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "25bf5a60da52033b0827a606f56b73cf42d857317a73c9538716035474e0bc62",
+  "version": "a400421498212bf60bfaab4808ff698bd8edb4febae1ba86fda5cb9ebc232c1b",
   "units": {
     "cars": {
       "defs": {
@@ -4648,6 +4648,78 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GoogleFlightQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.gotchacovered": {
+      "defs": {
+        "GotchaCoveredQuizAnswers": {
+          "k": "object",
+          "props": [
+            {
+              "name": "colorScheme",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "pattern",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "imageChoice",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "material",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "item",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getDesignStyleQuizQuestions": [],
+        "takeDesignStyleQuiz": [
+          {
+            "name": "answers",
+            "schema": {
+              "k": "ref",
+              "name": "GotchaCoveredQuizAnswers"
             },
             "optional": false
           }

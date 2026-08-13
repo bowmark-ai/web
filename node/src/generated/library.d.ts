@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 25bf5a60da52033b0827a606f56b73cf42d857317a73c9538716035474e0bc62
-// 9 capabilities, 108 providers, 352 typed functions, 20 refused.
+// Manifest version: a400421498212bf60bfaab4808ff698bd8edb4febae1ba86fda5cb9ebc232c1b
+// 9 capabilities, 109 providers, 354 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5458,6 +5458,53 @@ interface GooglePriceGraph {
      * fixed-length stay, so each column carries the return date priced with it.
      */
     getPriceGraph(query: GoogleFlightQuery): Promise<GooglePriceGraph>;
+  }
+}
+
+declare namespace BowmarkProvider_gotchacovered {
+  // ── Gotcha Covered — the unit's own declarations, verbatim ──
+interface GotchaCoveredQuizOption {
+  label: string;
+  imageUrl: string | null;
+}
+interface GotchaCoveredQuizQuestion {
+  step: number;
+  prompt: string;
+  options: GotchaCoveredQuizOption[];
+}
+interface GotchaCoveredQuizQuestions {
+  questions: GotchaCoveredQuizQuestion[];
+}
+interface GotchaCoveredQuizAnswers {
+  colorScheme: string;
+  pattern: string;
+  imageChoice: number | string;
+  destination: string;
+  material: string;
+  item: string;
+}
+interface GotchaCoveredQuizResult {
+  styleName: string;
+  description: string;
+  recommendedProducts: string | null;
+  url: string;
+}
+
+  /**
+   * Reads and answers Gotcha Covered's own 'What Design Style Am I?' window-treatment style
+   * quiz, returning the site's real computed match.
+   */
+  interface Unit {
+    /** Reads the live 'What Design Style Am I?' quiz's real 6 questions and option lists. */
+    getDesignStyleQuizQuestions(): Promise<GotchaCoveredQuizQuestions>;
+
+    /**
+     * Answers all 6 questions of Gotcha Covered's Design Style Quiz (e.g. { colorScheme:
+     * "Metallics Color Scheme", pattern: "Eclectic Pattern", imageChoice: 1, destination: "Spain
+     * Destination", material: "Wood Material", item: "Graphic Rug Item" }) and returns the site's
+     * real computed style match.
+     */
+    takeDesignStyleQuiz(answers: GotchaCoveredQuizAnswers): Promise<GotchaCoveredQuizResult>;
   }
 }
 
@@ -15977,6 +16024,7 @@ interface BowmarkProviders {
   fred: BowmarkProvider_fred.Unit;
   geico: BowmarkProvider_geico.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
+  gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;
   handypro: BowmarkProvider_handypro.Unit;
   harmar: BowmarkProvider_harmar.Unit;
