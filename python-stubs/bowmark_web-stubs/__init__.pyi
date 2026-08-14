@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: be5aa0c5d4c7dcc326a5b958bf40abdbbc9df098efaf95f4704a02649ca5b1ff
-# 9 capabilities, 117 providers, 352 typed functions, 20 refused.
+# Manifest version: 00dc59bc5fd2a3af90c086d6b3ade10ea71f48be21775a7bf0fb599f26624f6c
+# 9 capabilities, 118 providers, 355 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7775,6 +7775,59 @@ class Prv_trektravel_TrekTravelDeparture_Out(TypedDict):
     hotels: list[str]
     bookingUrl: str
 
+class Prv_twiddy_searchRentals_options_In(TypedDict):
+    town: NotRequired[str]
+    minBedrooms: NotRequired[float]
+
+class Prv_twiddy_TwiddyRentalRow_Out(TypedDict):
+    propertyId: float
+    propertyNumber: str
+    name: str
+    url: str
+    town: str
+    distanceToBeach: str
+    bedrooms: float | None
+    priceFromUsd: float | None
+    priceFromFormatted: str | None
+    ratingValue: float | None
+    isAvailable: bool
+
+class Prv_twiddy_TwiddyRentalDetail_Out(TypedDict):
+    propertyId: float
+    name: str
+    identifier: str
+    description: str
+    streetAddress: str
+    town: str
+    petsAllowed: bool
+    amenities: list[str]
+    numberOfBedrooms: float | None
+    numberOfBathrooms: float | None
+    images: list[str]
+    url: str
+
+class Prv_twiddy_getRentalQuote_options_In(TypedDict):
+    checkin: str
+    nights: NotRequired[float]
+
+class Prv_twiddy_TwiddyQuote_u0_Out(TypedDict):
+    available: Literal[True]
+    propertyId: float
+    checkin: str
+    nights: float
+    currency: Literal["USD"]
+    rentalFeeUsd: float
+    discountUsd: float
+    taxUsd: float
+    totalUsd: float
+    checkoutUrl: str
+
+class Prv_twiddy_TwiddyQuote_u1_Out(TypedDict):
+    available: Literal[False]
+    propertyId: float
+    checkin: str
+    nights: float
+
 class Prv_ulrichlifestyle_UlrichModel_Out(TypedDict):
     code: str
     name: str
@@ -13282,6 +13335,33 @@ class Prv_trektravel(Protocol):
         find current ones.
         """
 
+class Prv_twiddy(Protocol):
+    """Twiddy & Company's own Outer Banks vacation rental search and real-time weekly
+    pricing/booking-handoff engine — a regional owner-operator's own 1,000+ property
+    inventory, live availability and price, not a stale catalog.
+    """
+
+    async def searchRentals(self, options: Prv_twiddy_searchRentals_options_In | None = None, /) -> list[Prv_twiddy_TwiddyRentalRow_Out]:
+        """Runs Twiddy's own portfolio-wide search (all 1,000+ managed Outer Banks properties in
+        one call), optionally filtered to one of the six towns ("Corolla", "Duck", "4x4",
+        "Southern Shores", "Kitty Hawk", "Kill Devil Hills", "Nags Head") and/or a minimum
+        bedroom count, and returns the live matching listings — name, url, town, distance to
+        beach, bed count, an "as low as" headline price, rating.
+        """
+
+    async def getRentalDetail(self, propertyUrl: str, /) -> Prv_twiddy_TwiddyRentalDetail_Out:
+        """Reads one rental in full — description, address, pets-allowed flag, amenities, bed/bath
+        counts, photos, and the internal numeric propertyId getRentalQuote needs — from the
+        propertyUrl a search result carries (a twiddy.com/outer-banks/... path or full URL).
+        """
+
+    async def getRentalQuote(self, propertyId: float, options: Prv_twiddy_getRentalQuote_options_In, /) -> Prv_twiddy_TwiddyQuote_u0_Out | Prv_twiddy_TwiddyQuote_u1_Out:
+        """Runs the site's own real-time weekly pricing engine for one property and a check-in date
+        ("YYYY-MM-DD", default 7 nights) — rental fee, discount, tax, total — and returns the
+        exact booking/checkout URL for that week. `available: false` means the site checked and
+        the property has no live rate for that week, an ordinary answer.
+        """
+
 class Prv_ulrichlifestyle(Protocol):
     """Ulrich Lifestyle Structures' 3D shed/cabin configurator — list the model catalog, read
     one model's default configurator (dimensions, wall height, siding, each with its live
@@ -13671,6 +13751,7 @@ class BowmarkProviders(Protocol):
     thezebra: Prv_thezebra
     topviewtix: Prv_topviewtix
     trektravel: Prv_trektravel
+    twiddy: Prv_twiddy
     ulrichlifestyle: Prv_ulrichlifestyle
     vervecoffee: Prv_vervecoffee
     viewrail: Prv_viewrail

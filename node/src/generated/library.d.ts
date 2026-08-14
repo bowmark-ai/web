@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: be5aa0c5d4c7dcc326a5b958bf40abdbbc9df098efaf95f4704a02649ca5b1ff
-// 9 capabilities, 117 providers, 370 typed functions, 20 refused.
+// Manifest version: 00dc59bc5fd2a3af90c086d6b3ade10ea71f48be21775a7bf0fb599f26624f6c
+// 9 capabilities, 118 providers, 373 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14875,6 +14875,72 @@ interface TrekTravelSearchFilters {
   }
 }
 
+declare namespace BowmarkProvider_twiddy {
+  // ── Twiddy & Company Realtors — the unit's own declarations, verbatim ──
+interface TwiddyRentalRow {
+  propertyId: number;
+  propertyNumber: string;
+  name: string;
+  url: string;
+  town: string;
+  distanceToBeach: string;
+  bedrooms: number | null;
+  priceFromUsd: number | null;
+  priceFromFormatted: string | null;
+  ratingValue: number | null;
+  isAvailable: boolean;
+}
+interface TwiddyRentalDetail {
+  propertyId: number;
+  name: string;
+  identifier: string;
+  description: string;
+  streetAddress: string;
+  town: string;
+  petsAllowed: boolean;
+  amenities: string[];
+  numberOfBedrooms: number | null;
+  numberOfBathrooms: number | null;
+  images: string[];
+  url: string;
+}
+type TwiddyQuote =
+  | { available: true; propertyId: number; checkin: string; nights: number; currency: "USD";
+      rentalFeeUsd: number; discountUsd: number; taxUsd: number; totalUsd: number; checkoutUrl: string }
+  | { available: false; propertyId: number; checkin: string; nights: number };
+
+  /**
+   * Twiddy & Company's own Outer Banks vacation rental search and real-time weekly
+   * pricing/booking-handoff engine — a regional owner-operator's own 1,000+ property inventory,
+   * live availability and price, not a stale catalog.
+   */
+  interface Unit {
+    /**
+     * Runs Twiddy's own portfolio-wide search (all 1,000+ managed Outer Banks properties in one
+     * call), optionally filtered to one of the six towns ("Corolla", "Duck", "4x4", "Southern
+     * Shores", "Kitty Hawk", "Kill Devil Hills", "Nags Head") and/or a minimum bedroom count, and
+     * returns the live matching listings — name, url, town, distance to beach, bed count, an "as
+     * low as" headline price, rating.
+     */
+    searchRentals(options?: { town?: string; minBedrooms?: number }): Promise<TwiddyRentalRow[]>;
+
+    /**
+     * Reads one rental in full — description, address, pets-allowed flag, amenities, bed/bath
+     * counts, photos, and the internal numeric propertyId getRentalQuote needs — from the
+     * propertyUrl a search result carries (a twiddy.com/outer-banks/... path or full URL).
+     */
+    getRentalDetail(propertyUrl: string): Promise<TwiddyRentalDetail>;
+
+    /**
+     * Runs the site's own real-time weekly pricing engine for one property and a check-in date
+     * ("YYYY-MM-DD", default 7 nights) — rental fee, discount, tax, total — and returns the exact
+     * booking/checkout URL for that week. `available: false` means the site checked and the
+     * property has no live rate for that week, an ordinary answer.
+     */
+    getRentalQuote(propertyId: number, options: { checkin: string; nights?: number }): Promise<TwiddyQuote>;
+  }
+}
+
 declare namespace BowmarkProvider_ulrichlifestyle {
   // ── Ulrich Lifestyle Structures — the unit's own declarations, verbatim ──
 // Ulrich Lifestyle Structures' OWN shapes — not a capability contract.
@@ -16580,6 +16646,7 @@ interface BowmarkProviders {
   thezebra: BowmarkProvider_thezebra.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
+  twiddy: BowmarkProvider_twiddy.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   vervecoffee: BowmarkProvider_vervecoffee.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;
