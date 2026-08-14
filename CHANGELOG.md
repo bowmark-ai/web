@@ -6,6 +6,27 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.8.0 (2026-08-14)
+
+**Providers**
+
+- New provider **bigrentz.com** (3 functions): `bigrentz.getEquipment`, `bigrentz.listCategories`, `bigrentz.search`
+- New provider **boydsleep.com** (2 functions): `boydsleep.calibrateSixZoneSupportNumber`, `boydsleep.calibrateSupportNumber`
+- New provider **eventsource.com** (3 functions): `eventsource.getShowroom`, `eventsource.getShowroomInquiryContact`, `eventsource.getShowroomVenue`
+- New provider **grandwelcome.com** (3 functions): `grandwelcome.getRentalDetail`, `grandwelcome.getRentalQuote`, `grandwelcome.searchRentals`
+- New provider **jennikayne.com** (2 functions): `jennikayne.buildGiftCardLink`, `jennikayne.getGiftCardOptions`
+- New provider **roofmaxx.com** (2 functions): `roofmaxx.estimateRoofReplacementCost`, `roofmaxx.getCalculatorSettings`
+- New provider **tamarackidaho.com** (1 function): `tamarackidaho.searchLodging`
+- New provider **tatcha.com** (2 functions): `tatcha.getPersonalizedRitual`, `tatcha.getRitualQuizOptions`
+- New provider **twiddy.com** (3 functions): `twiddy.getRentalDetail`, `twiddy.getRentalQuote`, `twiddy.searchRentals`
+- New provider **vervecoffee.com** (2 functions): `vervecoffee.listRoastersChoiceSubscriptions`, `vervecoffee.matchCoffeeSubscription`
+- New provider **villagerealtyobx.com** (2 functions): `villagerealtyobx.getQuote`, `villagerealtyobx.searchRentals`
+- New provider **voluspa.com** (1 function): `voluspa.getFragranceQuizIntro`
+- New provider **xpresswellnessurgentcare.com** (2 functions): `xpresswellnessurgentcare.checkWaitTime`, `xpresswellnessurgentcare.listFacilities`
+- Removed **tentree**
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.7.0 (2026-08-13)
 
 **Capabilities**
