@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 741 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 743 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -583,6 +583,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reddit.searchSubreddits` | reddit.com | Finds communities by topic — a query goes in, matching subreddits come out with their… | 🟢 |
 | `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟢 |
 | `ritani.priceConfiguration` | ritani.com | Prices one exact custom-ring build against Ritani's own live Ring Studio pricing… | 🟢 |
+| `roofmaxx.estimateRoofReplacementCost` | roofmaxx.com | Runs Roof Maxx's own Roof Replacement Cost Calculator — given a home's square footage… | 🟢 |
+| `roofmaxx.getCalculatorSettings` | roofmaxx.com | The Roof Replacement Cost Calculator's own admin-configured title and description… | 🟢 |
 | `samsclub.browseCategory` | samsclub.com | Reads the current live grid (~50 rows) for one of samsclub.com's own… | 🟢 |
 | `samsclub.checkStock` | samsclub.com | Answers whether one item is in stock right now, and at what price, at a SPECIFIC club… | 🟢 |
 | `samsclub.findClubs` | samsclub.com | Finds nearby Sam's Club warehouse locations for a 5-digit US zip — address, phone… | 🟢 |

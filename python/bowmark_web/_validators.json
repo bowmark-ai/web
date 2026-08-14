@@ -1,5 +1,5 @@
 {
-  "version": "00dc59bc5fd2a3af90c086d6b3ade10ea71f48be21775a7bf0fb599f26624f6c",
+  "version": "d20287a3fb56455c9670559644b31d15ee10f1c8ebfbde0cd31aeb27b39a1f44",
   "units": {
     "cars": {
       "defs": {
@@ -12156,6 +12156,168 @@
             "schema": {
               "k": "ref",
               "name": "RitaniSelections"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.roofmaxx": {
+      "defs": {
+        "RoofmaxxCostEstimateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "squareFootage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "region",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "new-england"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "middle-atlantic"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "east-north-central"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "west-north-central"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "south-atlantic"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "east-south-central"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "west-south-central"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mountain"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pacific"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "roofType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asphalt"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "metal"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "clay"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "wood"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "roofSlope",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "walkable"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "semiWalkable"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nonWalkable"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "numOfLevels",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "1"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "2"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "3"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "garageType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nogarage"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "1car"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "2car"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getCalculatorSettings": [],
+        "estimateRoofReplacementCost": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "ref",
+              "name": "RoofmaxxCostEstimateArgs"
             },
             "optional": false
           }

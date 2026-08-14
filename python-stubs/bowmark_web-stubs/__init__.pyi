@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 00dc59bc5fd2a3af90c086d6b3ade10ea71f48be21775a7bf0fb599f26624f6c
-# 9 capabilities, 118 providers, 355 typed functions, 20 refused.
+# Manifest version: d20287a3fb56455c9670559644b31d15ee10f1c8ebfbde0cd31aeb27b39a1f44
+# 9 capabilities, 119 providers, 357 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6801,6 +6801,23 @@ class Prv_ritani_RitaniPriceResult_Out_selections_Out(TypedDict):
     shankStyle: str
     shankMetal: str
 
+class Prv_roofmaxx_RoofmaxxCalculatorSettings_Out(TypedDict):
+    title: str
+    description: str
+
+class Prv_roofmaxx_RoofmaxxCostEstimateArgs_In(TypedDict):
+    squareFootage: float
+    region: Literal["new-england"] | Literal["middle-atlantic"] | Literal["east-north-central"] | Literal["west-north-central"] | Literal["south-atlantic"] | Literal["east-south-central"] | Literal["west-south-central"] | Literal["mountain"] | Literal["pacific"]
+    roofType: Literal["asphalt"] | Literal["metal"] | Literal["clay"] | Literal["wood"]
+    roofSlope: Literal["walkable"] | Literal["semiWalkable"] | Literal["nonWalkable"]
+    numOfLevels: Literal["1"] | Literal["2"] | Literal["3"]
+    garageType: Literal["nogarage"] | Literal["1car"] | Literal["2car"]
+
+class Prv_roofmaxx_RoofmaxxCostEstimate_Out(TypedDict):
+    low: float
+    mid: float
+    high: float
+
 class Prv_samsclub_SamsclubCategoryItem_Out(TypedDict):
     id: str
     name: str
@@ -12628,6 +12645,21 @@ class Prv_ritani(Protocol):
         current ones.
         """
 
+class Prv_roofmaxx(Protocol):
+    """Roof Maxx's own Roof Replacement Cost Calculator (roofmaxx.com/learning-hub) — given a
+    home's size, location and roof details, returns the site's real server-computed
+    low/mid/high full-replacement-cost estimate.
+    """
+
+    async def getCalculatorSettings(self, /) -> Prv_roofmaxx_RoofmaxxCalculatorSettings_Out:
+        """The Roof Replacement Cost Calculator's own admin-configured title and description."""
+
+    async def estimateRoofReplacementCost(self, arg: Prv_roofmaxx_RoofmaxxCostEstimateArgs_In, /) -> Prv_roofmaxx_RoofmaxxCostEstimate_Out:
+        """Runs the real calculator: given square footage, region, roof type, roof slope, garage
+        size and building levels, returns Roof Maxx's own server-computed low/mid/high
+        full-replacement-cost tiers.
+        """
+
 class Prv_samsclub(Protocol):
     """Sam's Club (samsclub.com) — club-priced product search, product detail, club-level
     stock, club locator, membership plans and more. search reads the site's own live catalog
@@ -13735,6 +13767,7 @@ class BowmarkProviders(Protocol):
     prose: Prv_prose
     reddit: Prv_reddit
     ritani: Prv_ritani
+    roofmaxx: Prv_roofmaxx
     samsclub: Prv_samsclub
     sears: Prv_sears
     seegarsfence: Prv_seegarsfence

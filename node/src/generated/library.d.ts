@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 00dc59bc5fd2a3af90c086d6b3ade10ea71f48be21775a7bf0fb599f26624f6c
-// 9 capabilities, 118 providers, 373 typed functions, 20 refused.
+// Manifest version: d20287a3fb56455c9670559644b31d15ee10f1c8ebfbde0cd31aeb27b39a1f44
+// 9 capabilities, 119 providers, 375 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12939,6 +12939,47 @@ interface RitaniPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_roofmaxx {
+  // ── Roof Maxx — the unit's own declarations, verbatim ──
+interface RoofmaxxCalculatorSettings {
+  title: string;
+  description: string;
+}
+
+interface RoofmaxxCostEstimateArgs {
+  squareFootage: number;
+  region: "new-england" | "middle-atlantic" | "east-north-central" | "west-north-central" |
+    "south-atlantic" | "east-south-central" | "west-south-central" | "mountain" | "pacific";
+  roofType: "asphalt" | "metal" | "clay" | "wood";
+  roofSlope: "walkable" | "semiWalkable" | "nonWalkable";
+  numOfLevels: "1" | "2" | "3";
+  garageType: "nogarage" | "1car" | "2car";
+}
+
+interface RoofmaxxCostEstimate {
+  low: number;
+  mid: number;
+  high: number;
+}
+
+  /**
+   * Roof Maxx's own Roof Replacement Cost Calculator (roofmaxx.com/learning-hub) — given a
+   * home's size, location and roof details, returns the site's real server-computed low/mid/high
+   * full-replacement-cost estimate.
+   */
+  interface Unit {
+    /** The Roof Replacement Cost Calculator's own admin-configured title and description. */
+    getCalculatorSettings(): Promise<RoofmaxxCalculatorSettings>;
+
+    /**
+     * Runs the real calculator: given square footage, region, roof type, roof slope, garage size
+     * and building levels, returns Roof Maxx's own server-computed low/mid/high
+     * full-replacement-cost tiers.
+     */
+    estimateRoofReplacementCost(arg: RoofmaxxCostEstimateArgs): Promise<RoofmaxxCostEstimate>;
+  }
+}
+
 declare namespace BowmarkProvider_samsclub {
   // ── Sam's Club — the unit's own declarations, verbatim ──
 interface SamsclubInstantSavingsItem {
@@ -16630,6 +16671,7 @@ interface BowmarkProviders {
   prose: BowmarkProvider_prose.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   ritani: BowmarkProvider_ritani.Unit;
+  roofmaxx: BowmarkProvider_roofmaxx.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
   sears: BowmarkProvider_sears.Unit;
   seegarsfence: BowmarkProvider_seegarsfence.Unit;
