@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 31756965c647a0d3e53aa2bedb7069f7778f5da4ed484749ff99a4a0b1a449a0
-// 9 capabilities, 110 providers, 356 typed functions, 20 refused.
+// Manifest version: 8c80e50eac1e4767fc396706a0eeaa8a753c254cf789f788569467efe329b3a4
+// 9 capabilities, 111 providers, 357 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13852,6 +13852,52 @@ interface SunHomeSaunasCartResult {
   }
 }
 
+declare namespace BowmarkProvider_tamarackidaho {
+  // ── Tamarack Resort — the unit's own declarations, verbatim ──
+interface tamarackidahoSearchArgs {
+  arrivalDate: string;
+  departureDate: string;
+  adultCount: number;
+  childCount?: number;
+}
+
+interface tamarackidahoSearchResult {
+  arrivalDate: string;
+  departureDate: string;
+  adultCount: number;
+  childCount: number;
+  units: tamarackidahoUnit[];
+}
+
+interface tamarackidahoUnit {
+  supplierId: string;
+  supplierName: string;
+  productId: string;
+  unitName: string;
+  totalPrice: number;
+}
+
+  /**
+   * Tamarack Resort's own direct-managed lodging booking engine (Inntopia RTP) — real
+   * availability and price per unit type for a date range and party size, straight from the
+   * site's own search widget, browserless.
+   */
+  interface Unit {
+    /**
+     * Searches Tamarack Resort's own direct-managed lodging (the Lodge at Osprey Meadows, the
+     * Village at Tamarack Resort, and Tamarack Homes and Cottages — not the golf tee-time flow, a
+     * different vendor) for a stay and party size. `arrivalDate`/`departureDate` are "MM/DD/YYYY"
+     * strings (the widget's own format), `adultCount` is required and positive, `childCount`
+     * defaults to 0. Returns every unit type Tamarack's own booking engine (Inntopia RTP)
+     * currently prices as AVAILABLE for that exact query — each with its supplier (property), unit
+     * name, and `totalPrice` in USD for the whole queried stay (not nightly) — genuinely computed
+     * per call, not a cached listing. An empty `units` array is a real answer: Tamarack has
+     * nothing available for that stay, not a failure.
+     */
+    searchLodging(args: tamarackidahoSearchArgs): Promise<tamarackidahoSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_target {
   // ── Target — the unit's own declarations, verbatim ──
 interface targetRow {
@@ -16225,6 +16271,7 @@ interface BowmarkProviders {
   statefarm: BowmarkProvider_statefarm.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
+  tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
   target: BowmarkProvider_target.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
   therabody: BowmarkProvider_therabody.Unit;

@@ -1,5 +1,5 @@
 {
-  "version": "31756965c647a0d3e53aa2bedb7069f7778f5da4ed484749ff99a4a0b1a449a0",
+  "version": "8c80e50eac1e4767fc396706a0eeaa8a753c254cf789f788569467efe329b3a4",
   "units": {
     "cars": {
       "defs": {
@@ -13115,6 +13115,55 @@
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.tamarackidaho": {
+      "defs": {
+        "tamarackidahoSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "arrivalDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "departureDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adultCount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "childCount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLodging": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "tamarackidahoSearchArgs"
+            },
+            "optional": false
           }
         ]
       }

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 722 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 723 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -635,6 +635,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sunhomesaunas.addSaunaToCart` | sunhomesaunas.com | Adds one real matched sauna to a real Shopify cart at Sun Home Saunas' own real live… | 🟢 |
 | `sunhomesaunas.getPersonalizedSaunaMatches` | sunhomesaunas.com | Submits real answers through the same quiz session flow (startSession -> addSelection… | 🟢 |
 | `sunhomesaunas.getSaunaFinderQuestions` | sunhomesaunas.com | Reads Sun Home Saunas' real, live Perfect Product Finder quiz (a third-party embed)… | 🟢 |
+| `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getProduct` | target.com | Reads one product page in full — price, variant/size options, description, images —… | ⚪ |

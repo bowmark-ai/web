@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 31756965c647a0d3e53aa2bedb7069f7778f5da4ed484749ff99a4a0b1a449a0
-// 338 checked, 20 unchecked.
+// Manifest version: 8c80e50eac1e4767fc396706a0eeaa8a753c254cf789f788569467efe329b3a4
+// 339 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "31756965c647a0d3e53aa2bedb7069f7778f5da4ed484749ff99a4a0b1a449a0",
+  "version": "8c80e50eac1e4767fc396706a0eeaa8a753c254cf789f788569467efe329b3a4",
   "units": {
     "cars": {
       "defs": {
@@ -13127,6 +13127,55 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.tamarackidaho": {
+      "defs": {
+        "tamarackidahoSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "arrivalDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "departureDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adultCount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "childCount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLodging": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "tamarackidahoSearchArgs"
+            },
+            "optional": false
           }
         ]
       }
