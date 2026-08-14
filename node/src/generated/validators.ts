@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b8a096c12aa83cb061862aa365dde031342de02e353ded81b4a1411130d1eea5
-// 345 checked, 20 unchecked.
+// Manifest version: 9c5bc5e165838458129a65013226e832f1a178f61f708a7c268191ec3800fc18
+// 347 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b8a096c12aa83cb061862aa365dde031342de02e353ded81b4a1411130d1eea5",
+  "version": "9c5bc5e165838458129a65013226e832f1a178f61f708a7c268191ec3800fc18",
   "units": {
     "cars": {
       "defs": {
@@ -14235,6 +14235,21 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.xpresswellnessurgentcare": {
+      "defs": {},
+      "functions": {
+        "listFacilities": [],
+        "checkWaitTime": [
+          {
+            "name": "facilityId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

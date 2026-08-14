@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b8a096c12aa83cb061862aa365dde031342de02e353ded81b4a1411130d1eea5
-# 9 capabilities, 113 providers, 345 typed functions, 20 refused.
+# Manifest version: 9c5bc5e165838458129a65013226e832f1a178f61f708a7c268191ec3800fc18
+# 9 capabilities, 114 providers, 347 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8157,6 +8157,23 @@ class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
     website: str | None
     logoUrl: str | None
 
+class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
+    facilityId: str
+    name: str
+    address: str | None
+    phone: str | None
+    detailsUrl: str | None
+    checkinUrl: str
+
+class Prv_xpresswellnessurgentcare_XpressWaitTime_Out(TypedDict):
+    facilityId: str
+    facilityName: str
+    address: str | None
+    phone: str | None
+    waitTimeText: str
+    hoursText: str | None
+    url: str
+
 class Prv_yourarborhome_SearchHomesFilters_In(TypedDict):
     city: NotRequired[str]
     minPrice: NotRequired[float]
@@ -13386,6 +13403,28 @@ class Prv_wellfound(Protocol):
         site's own experience-requirement text and the hiring startup.
         """
 
+class Prv_xpresswellnessurgentcare(Protocol):
+    """Reads Xpress Wellness Urgent Care's clinic roster and each clinic's live healow
+    wait-time / check-in widget — no key, no browser.
+    """
+
+    async def listFacilities(self, /) -> list[Prv_xpresswellnessurgentcare_XpressFacility_Out]:
+        """Lists every Xpress Wellness Urgent Care clinic — 40 locations across Oklahoma, Kansas
+        and one Texas site — with name, address, phone, the clinic's own detail page and the
+        healow check-in widget URL + facility_id. Takes nothing. The facilityId it returns is
+        what checkWaitTime takes. THROWS rather than returning [] when the roster page answers
+        with no clinics — the roster is never honestly empty.
+        """
+
+    async def checkWaitTime(self, facilityId: str, /) -> Prv_xpresswellnessurgentcare_XpressWaitTime_Out:
+        """Reads one clinic's live estimated wait time, hours-today status and confirmed identity
+        straight off its healow openaccess widget. facilityId is the numeric id listFacilities
+        returns (e.g. "10"). Confirms the facility resolved by cross-checking the widget's own
+        embedded facility name before returning a reading; THROWS with the caller-facing
+        facility_id named if the widget carries no name (an unknown id) or no wait-time reading
+        (the widget's markup changed).
+        """
+
 class Prv_yourarborhome(Protocol):
     """Arbor Homes — Indiana/Ohio/Kentucky new-construction homebuilder (Clayton Properties
     Group). searchHomes reads its live quick-move-in inventory (price, beds/baths/sqft,
@@ -13523,6 +13562,7 @@ class BowmarkProviders(Protocol):
     visible: Prv_visible
     walmart: Prv_walmart
     wellfound: Prv_wellfound
+    xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     yourarborhome: Prv_yourarborhome
 
 

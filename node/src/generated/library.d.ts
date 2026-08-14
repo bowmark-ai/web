@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b8a096c12aa83cb061862aa365dde031342de02e353ded81b4a1411130d1eea5
-// 9 capabilities, 113 providers, 363 typed functions, 20 refused.
+// Manifest version: 9c5bc5e165838458129a65013226e832f1a178f61f708a7c268191ec3800fc18
+// 9 capabilities, 114 providers, 365 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15424,6 +15424,52 @@ interface wellfoundCompanyDetail {
   }
 }
 
+declare namespace BowmarkProvider_xpresswellnessurgentcare {
+  // ── Xpress Wellness Urgent Care — the unit's own declarations, verbatim ──
+interface XpressFacility {
+  facilityId: string;       // healow facility_id — what checkWaitTime takes
+  name: string;              // e.g. "Manhattan, KS"
+  address: string | null;
+  phone: string | null;
+  detailsUrl: string | null; // the clinic's own page on the marketing site
+  checkinUrl: string;        // the healow openaccess widget URL
+}
+interface XpressWaitTime {
+  facilityId: string;
+  facilityName: string;      // confirmed by the widget's own dataLayer, not assumed
+  address: string | null;
+  phone: string | null;
+  waitTimeText: string;      // the site's own bucketed phrase, e.g. "Under 30 mins"
+  hoursText: string | null;  // e.g. "OPEN - Until 8 PM"
+  url: string;
+}
+
+  /**
+   * Reads Xpress Wellness Urgent Care's clinic roster and each clinic's live healow wait-time /
+   * check-in widget — no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Lists every Xpress Wellness Urgent Care clinic — 40 locations across Oklahoma, Kansas and
+     * one Texas site — with name, address, phone, the clinic's own detail page and the healow
+     * check-in widget URL + facility_id. Takes nothing. The facilityId it returns is what
+     * checkWaitTime takes. THROWS rather than returning [] when the roster page answers with no
+     * clinics — the roster is never honestly empty.
+     */
+    listFacilities(): Promise<XpressFacility[]>;
+
+    /**
+     * Reads one clinic's live estimated wait time, hours-today status and confirmed identity
+     * straight off its healow openaccess widget. facilityId is the numeric id listFacilities
+     * returns (e.g. "10"). Confirms the facility resolved by cross-checking the widget's own
+     * embedded facility name before returning a reading; THROWS with the caller-facing facility_id
+     * named if the widget carries no name (an unknown id) or no wait-time reading (the widget's
+     * markup changed).
+     */
+    checkWaitTime(facilityId: string): Promise<XpressWaitTime>;
+  }
+}
+
 declare namespace BowmarkProvider_yourarborhome {
   // ── Arbor Homes — the unit's own declarations, verbatim ──
 interface ArborHome {
@@ -16404,6 +16450,7 @@ interface BowmarkProviders {
   visible: BowmarkProvider_visible.Unit;
   walmart: BowmarkProvider_walmart.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
+  xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yourarborhome: BowmarkProvider_yourarborhome.Unit;
   "000de82": BowmarkFamily_shopify_store.Unit;
   "001r3iv0": BowmarkFamily_shopify_store.Unit;

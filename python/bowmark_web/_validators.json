@@ -1,5 +1,5 @@
 {
-  "version": "b8a096c12aa83cb061862aa365dde031342de02e353ded81b4a1411130d1eea5",
+  "version": "9c5bc5e165838458129a65013226e832f1a178f61f708a7c268191ec3800fc18",
   "units": {
     "cars": {
       "defs": {
@@ -14223,6 +14223,21 @@
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.xpresswellnessurgentcare": {
+      "defs": {},
+      "functions": {
+        "listFacilities": [],
+        "checkWaitTime": [
+          {
+            "name": "facilityId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
