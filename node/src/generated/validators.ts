@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c7bf95173b2aadafd891d87b3d2e54b5a6efd4c6a6c6cfba959e149d5cceb904
-// 336 checked, 20 unchecked.
+// Manifest version: 31756965c647a0d3e53aa2bedb7069f7778f5da4ed484749ff99a4a0b1a449a0
+// 338 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c7bf95173b2aadafd891d87b3d2e54b5a6efd4c6a6c6cfba959e149d5cceb904",
+  "version": "31756965c647a0d3e53aa2bedb7069f7778f5da4ed484749ff99a4a0b1a449a0",
   "units": {
     "cars": {
       "defs": {
@@ -13785,6 +13785,99 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listMaterials": [],
         "listMountingStyles": []
+      }
+    },
+    "providers.villagerealtyobx": {
+      "defs": {},
+      "functions": {
+        "searchRentals": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "town",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "bedrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "amenities",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "checkin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "checkout",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "propertyID",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkout",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.visible": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c7bf95173b2aadafd891d87b3d2e54b5a6efd4c6a6c6cfba959e149d5cceb904
-# 9 capabilities, 109 providers, 336 typed functions, 20 refused.
+# Manifest version: 31756965c647a0d3e53aa2bedb7069f7778f5da4ed484749ff99a4a0b1a449a0
+# 9 capabilities, 110 providers, 338 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7683,6 +7683,42 @@ class Prv_viewrail_ViewrailMountingStyle_Out(TypedDict):
     title: str
     availableMaterials: list[str]
 
+class Prv_villagerealtyobx_searchRentals_args_In(TypedDict):
+    town: NotRequired[str]
+    bedrooms: NotRequired[float]
+    amenities: NotRequired[Sequence[str]]
+    checkin: NotRequired[str]
+    checkout: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_villagerealtyobx_VillagerealtyobxListing_Out(TypedDict):
+    propertyID: str
+    seoName: str
+    name: str
+    town: str
+    address: str | None
+    bedrooms: float | None
+    maxGuests: float | None
+    photoUrl: str | None
+    url: str
+
+class Prv_villagerealtyobx_getQuote_args_In(TypedDict):
+    propertyID: str
+    checkin: str
+    checkout: str
+
+class Prv_villagerealtyobx_VillagerealtyobxQuote_Out(TypedDict):
+    propertyID: str
+    checkin: str
+    checkout: str
+    available: bool
+    rent: float | None
+    taxes: float | None
+    total: float | None
+    currency: str
+    bookNowURL: str | None
+    message: str | None
+
 class Prv_visible_listDeals_options_In(TypedDict):
     includePrograms: NotRequired[bool]
 
@@ -13006,6 +13042,31 @@ class Prv_viewrail(Protocol):
         first choice Victor's own design flow asks a user to make before drawing a run.
         """
 
+class Prv_villagerealtyobx(Protocol):
+    """Village Realty's own Outer Banks vacation-rental search and real-time property quote
+    (rent, taxes, total, book-now link) — the same live pricing their own site computes, no
+    login required.
+    """
+
+    async def searchRentals(self, args: Prv_villagerealtyobx_searchRentals_args_In | None = None, /) -> list[Prv_villagerealtyobx_VillagerealtyobxListing_Out]:
+        """Searches Village Realty's own 900+ Outer Banks rental listings the way
+        villagerealtyobx.com/outer-banks-vacation-rentals does — filter by town (e.g. "Corolla",
+        "Nags Head"), exact bedroom count, amenities (e.g. "Private Pool", "Elevator"), and
+        optionally a date range — returning each matching property's id, name, town, address,
+        bedroom count, max guests and detail-page URL. Call getQuote with a result's propertyID
+        for a real priced quote.
+        """
+
+    async def getQuote(self, args: Prv_villagerealtyobx_getQuote_args_In, /) -> Prv_villagerealtyobx_VillagerealtyobxQuote_Out:
+        """Gets a real-time price quote for one Village Realty property and date range — the exact
+        server-computed rent, taxes and total the rental detail page shows after picking dates,
+        plus the book-now URL. `checkin`/`checkout` are `MM/DD/YYYY`. `available: false` is a
+        genuine site answer (e.g. the dates fail the property's minimum-night-stay rule), not an
+        error — this is the flow ChatGPT itself cannot operate today: asked to price a Village
+        Realty stay it answers "I can't complete the booking or take payment for you" and
+        recommends competitor sites instead of quoting Village Realty's own live price.
+        """
+
 class Prv_visible(Protocol):
     """Visible (Verizon's prepaid brand): the promotions running right now — the offer grid
     with its promo codes and fine print, plus the standing referral, trade-in, payback,
@@ -13264,6 +13325,7 @@ class BowmarkProviders(Protocol):
     trektravel: Prv_trektravel
     ulrichlifestyle: Prv_ulrichlifestyle
     viewrail: Prv_viewrail
+    villagerealtyobx: Prv_villagerealtyobx
     visible: Prv_visible
     walmart: Prv_walmart
     wellfound: Prv_wellfound

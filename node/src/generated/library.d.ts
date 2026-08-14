@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c7bf95173b2aadafd891d87b3d2e54b5a6efd4c6a6c6cfba959e149d5cceb904
-// 9 capabilities, 109 providers, 354 typed functions, 20 refused.
+// Manifest version: 31756965c647a0d3e53aa2bedb7069f7778f5da4ed484749ff99a4a0b1a449a0
+// 9 capabilities, 110 providers, 356 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14766,6 +14766,62 @@ interface ViewrailMountingStyle {
   }
 }
 
+declare namespace BowmarkProvider_villagerealtyobx {
+  // ── Village Realty — the unit's own declarations, verbatim ──
+interface VillagerealtyobxListing {
+  propertyID: string;
+  seoName: string;
+  name: string;
+  town: string;
+  address: string | null;
+  bedrooms: number | null;
+  maxGuests: number | null;
+  photoUrl: string | null;
+  url: string;
+}
+
+interface VillagerealtyobxQuote {
+  propertyID: string;
+  checkin: string;
+  checkout: string;
+  available: boolean;
+  rent: number | null;
+  taxes: number | null;
+  total: number | null;
+  currency: string;
+  bookNowURL: string | null;
+  message: string | null;
+}
+
+  /**
+   * Village Realty's own Outer Banks vacation-rental search and real-time property quote (rent,
+   * taxes, total, book-now link) — the same live pricing their own site computes, no login
+   * required.
+   */
+  interface Unit {
+    /**
+     * Searches Village Realty's own 900+ Outer Banks rental listings the way
+     * villagerealtyobx.com/outer-banks-vacation-rentals does — filter by town (e.g. "Corolla",
+     * "Nags Head"), exact bedroom count, amenities (e.g. "Private Pool", "Elevator"), and
+     * optionally a date range — returning each matching property's id, name, town, address,
+     * bedroom count, max guests and detail-page URL. Call getQuote with a result's propertyID for
+     * a real priced quote.
+     */
+    searchRentals(args?: { town?: string, bedrooms?: number, amenities?: string[], checkin?: string, checkout?: string, page?: number }): Promise<VillagerealtyobxListing[]>;
+
+    /**
+     * Gets a real-time price quote for one Village Realty property and date range — the exact
+     * server-computed rent, taxes and total the rental detail page shows after picking dates, plus
+     * the book-now URL. `checkin`/`checkout` are `MM/DD/YYYY`. `available: false` is a genuine
+     * site answer (e.g. the dates fail the property's minimum-night-stay rule), not an error —
+     * this is the flow ChatGPT itself cannot operate today: asked to price a Village Realty stay
+     * it answers "I can't complete the booking or take payment for you" and recommends competitor
+     * sites instead of quoting Village Realty's own live price.
+     */
+    getQuote(args: { propertyID: string, checkin: string, checkout: string }): Promise<VillagerealtyobxQuote>;
+  }
+}
+
 declare namespace BowmarkProvider_visible {
   // ── Visible — the unit's own declarations, verbatim ──
 interface VisibleDealOffer {
@@ -16177,6 +16233,7 @@ interface BowmarkProviders {
   trektravel: BowmarkProvider_trektravel.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;
+  villagerealtyobx: BowmarkProvider_villagerealtyobx.Unit;
   visible: BowmarkProvider_visible.Unit;
   walmart: BowmarkProvider_walmart.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
