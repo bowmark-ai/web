@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9ea4e2b6a4b1ff68fa3854b93799e4b23ed6ed25058567eca76161a03c75e6f1
-// 350 checked, 20 unchecked.
+// Manifest version: be5aa0c5d4c7dcc326a5b958bf40abdbbc9df098efaf95f4704a02649ca5b1ff
+// 352 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9ea4e2b6a4b1ff68fa3854b93799e4b23ed6ed25058567eca76161a03c75e6f1",
+  "version": "be5aa0c5d4c7dcc326a5b958bf40abdbbc9df098efaf95f4704a02649ca5b1ff",
   "units": {
     "cars": {
       "defs": {
@@ -2304,6 +2304,105 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listModels": []
+      }
+    },
+    "providers.boydsleep": {
+      "defs": {
+        "BoydsleepCalibrationInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "gender",
+              "schema": {
+                "k": "ref",
+                "name": "BoydsleepGender"
+              },
+              "optional": false
+            },
+            {
+              "name": "heightInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "weightLbs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "sleepPosition",
+              "schema": {
+                "k": "ref",
+                "name": "BoydsleepSleepPosition"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "BoydsleepGender": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "Male"
+            },
+            {
+              "k": "literal",
+              "v": "Female"
+            },
+            {
+              "k": "literal",
+              "v": "Non Binary"
+            }
+          ]
+        },
+        "BoydsleepSleepPosition": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "Side"
+            },
+            {
+              "k": "literal",
+              "v": "Back"
+            },
+            {
+              "k": "literal",
+              "v": "Stomach"
+            },
+            {
+              "k": "literal",
+              "v": "Multi"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "calibrateSupportNumber": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "BoydsleepCalibrationInput"
+            },
+            "optional": false
+          }
+        ],
+        "calibrateSixZoneSupportNumber": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "BoydsleepCalibrationInput"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.bykoket": {

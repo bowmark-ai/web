@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9ea4e2b6a4b1ff68fa3854b93799e4b23ed6ed25058567eca76161a03c75e6f1
-// 9 capabilities, 116 providers, 368 typed functions, 20 refused.
+// Manifest version: be5aa0c5d4c7dcc326a5b958bf40abdbbc9df098efaf95f4704a02649ca5b1ff
+// 9 capabilities, 117 providers, 370 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2401,6 +2401,62 @@ interface BmwusaModelListing {
      * appear in the result with null MSRPs and null body style rather than dropping the model.
      */
     listModels(): Promise<BmwusaModelListing[]>;
+  }
+}
+
+declare namespace BowmarkProvider_boydsleep {
+  // ── Boyd Sleep — the unit's own declarations, verbatim ──
+// Boyd Sleep's OWN shapes — not a capability contract.
+
+type BoydsleepGender = "Male" | "Female" | "Non Binary";
+type BoydsleepSleepPosition = "Side" | "Back" | "Stomach" | "Multi";
+
+interface BoydsleepCalibrationInput {
+  gender: BoydsleepGender;
+  heightInches: number;   // snapped to the site's own height band
+  weightLbs: number;      // snapped to the site's own weight band
+  sleepPosition: BoydsleepSleepPosition;
+}
+
+interface Boydsleep2ZoneResult {
+  supportIndex: number;       // 0-100
+  heightBandInches: number;
+  weightBandLbs: number;
+  setupGuideUrl: string;      // the real next step — no checkout exists on this domain
+  calibratorUrl: string;
+}
+
+interface Boydsleep6ZoneResult {
+  headFoot: number;
+  center: number;
+  heightBandInches: number;
+  weightBandLbs: number;
+  setupGuideUrl: string;
+  calibratorUrl: string;
+}
+
+  /**
+   * Boyd Sleep's own 'Smart Support Number' calibrator for a Nautica Home Smart Zone air bed —
+   * the real personalized 0-100 Support Index (2-zone) or Head/Foot + Center numbers (6-zone),
+   * computed exactly as the site computes them, plus the site's own setup guide as the real next
+   * step (Boyd sells through retail/franchise partners, so there is no DTC checkout on this
+   * domain to route to).
+   */
+  interface Unit {
+    /**
+     * Runs Boyd's own 2-zone Smart Support Number calculation for a Nautica Home Smart Zone air
+     * bed — a real, personalized 0-100 Support Index computed exactly as the site's own calculator
+     * computes it, no estimate. `setupGuideUrl` is the real next step; Boyd sells through
+     * retail/franchise partners, so there is no cart to route to on this domain.
+     */
+    calibrateSupportNumber(input: BoydsleepCalibrationInput): Promise<Boydsleep2ZoneResult>;
+
+    /**
+     * Runs Boyd's own 6-zone Smart Support Number calculation — same inputs as the 2-zone tool,
+     * returns a separate Head/Foot number and a Center (lumbar) number for the 6-zone Nautica Home
+     * Smart Zone bed.
+     */
+    calibrateSixZoneSupportNumber(input: BoydsleepCalibrationInput): Promise<Boydsleep6ZoneResult>;
   }
 }
 
@@ -16431,6 +16487,7 @@ interface BowmarkProviders {
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
   bluehaven: BowmarkProvider_bluehaven.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
+  boydsleep: BowmarkProvider_boydsleep.Unit;
   bykoket: BowmarkProvider_bykoket.Unit;
   cancer: BowmarkProvider_cancer.Unit;
   caraway: BowmarkProvider_caraway.Unit;

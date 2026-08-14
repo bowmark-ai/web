@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9ea4e2b6a4b1ff68fa3854b93799e4b23ed6ed25058567eca76161a03c75e6f1
-# 9 capabilities, 116 providers, 350 typed functions, 20 refused.
+# Manifest version: be5aa0c5d4c7dcc326a5b958bf40abdbbc9df098efaf95f4704a02649ca5b1ff
+# 9 capabilities, 117 providers, 352 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1529,6 +1529,27 @@ class Prv_bmwusa_BmwusaModelListing_Out(TypedDict):
     msrpFrom: float | None
     msrpTo: float | None
     trimCount: float
+
+class Prv_boydsleep_BoydsleepCalibrationInput_In(TypedDict):
+    gender: Literal["Male"] | Literal["Female"] | Literal["Non Binary"]
+    heightInches: float
+    weightLbs: float
+    sleepPosition: Literal["Side"] | Literal["Back"] | Literal["Stomach"] | Literal["Multi"]
+
+class Prv_boydsleep_Boydsleep2ZoneResult_Out(TypedDict):
+    supportIndex: float
+    heightBandInches: float
+    weightBandLbs: float
+    setupGuideUrl: str
+    calibratorUrl: str
+
+class Prv_boydsleep_Boydsleep6ZoneResult_Out(TypedDict):
+    headFoot: float
+    center: float
+    heightBandInches: float
+    weightBandLbs: float
+    setupGuideUrl: str
+    calibratorUrl: str
 
 class Prv_bykoket_KoketProductSummary_Out(TypedDict):
     id: str
@@ -9061,6 +9082,27 @@ class Prv_bmwusa(Protocol):
         body style rather than dropping the model.
         """
 
+class Prv_boydsleep(Protocol):
+    """Boyd Sleep's own 'Smart Support Number' calibrator for a Nautica Home Smart Zone air bed
+    — the real personalized 0-100 Support Index (2-zone) or Head/Foot + Center numbers
+    (6-zone), computed exactly as the site computes them, plus the site's own setup guide as
+    the real next step (Boyd sells through retail/franchise partners, so there is no DTC
+    checkout on this domain to route to).
+    """
+
+    async def calibrateSupportNumber(self, input: Prv_boydsleep_BoydsleepCalibrationInput_In, /) -> Prv_boydsleep_Boydsleep2ZoneResult_Out:
+        """Runs Boyd's own 2-zone Smart Support Number calculation for a Nautica Home Smart Zone
+        air bed — a real, personalized 0-100 Support Index computed exactly as the site's own
+        calculator computes it, no estimate. `setupGuideUrl` is the real next step; Boyd sells
+        through retail/franchise partners, so there is no cart to route to on this domain.
+        """
+
+    async def calibrateSixZoneSupportNumber(self, input: Prv_boydsleep_BoydsleepCalibrationInput_In, /) -> Prv_boydsleep_Boydsleep6ZoneResult_Out:
+        """Runs Boyd's own 6-zone Smart Support Number calculation — same inputs as the 2-zone
+        tool, returns a separate Head/Foot number and a Center (lumbar) number for the 6-zone
+        Nautica Home Smart Zone bed.
+        """
+
 class Prv_bykoket(Protocol):
     """Reads KOKET's public furniture, lighting and textiles storefront (bykoket.com/shop) —
     search the catalog, read a product's live price, stock and description, and get the
@@ -13536,6 +13578,7 @@ class BowmarkProviders(Protocol):
     blenderseyewear: Prv_blenderseyewear
     bluehaven: Prv_bluehaven
     bmwusa: Prv_bmwusa
+    boydsleep: Prv_boydsleep
     bykoket: Prv_bykoket
     cancer: Prv_cancer
     caraway: Prv_caraway
