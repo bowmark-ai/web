@@ -15664,8 +15664,8 @@ interface ShopifyCart {
 
   /**
    * OSMUND OLSEN — Every Shopify storefront, reached by its own name. One engine over the
-   * platform's two published surfaces — the store's own MCP server at /api/mcp for search, and
-   * the keyless Ajax storefront JSON for products and the cart.
+   * platform's two published surfaces — the store's own UCP MCP server at /api/ucp/mcp for
+   * search, and the keyless Ajax storefront JSON for products and the cart.
    */
   interface Unit {
     /**
@@ -16077,8 +16077,8 @@ interface ShopifyCart {
 
   /**
    * friedrikdev — Every Shopify storefront, reached by its own name. One engine over the
-   * platform's two published surfaces — the store's own MCP server at /api/mcp for search, and
-   * the keyless Ajax storefront JSON for products and the cart.
+   * platform's two published surfaces — the store's own UCP MCP server at /api/ucp/mcp for
+   * search, and the keyless Ajax storefront JSON for products and the cart.
    */
   interface Unit {
     /**
