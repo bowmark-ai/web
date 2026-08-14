@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2057e31933cbe9b20d7cea0bb910b435d6092e11daed63c7c59bd907dc0f63a7
+// Manifest version: e02cd75dd53c13bad8c7fc5c63cc01fec02a364bdd3a3d4d3ab01a7872682c49
 // 9 capabilities, 123 providers, 385 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -9514,8 +9514,16 @@ interface LululemonRow {
 interface LululemonSearch {
   query: string;
   products: LululemonRow[];
-  /** How many entries matched before the row cap. */
+  /** How many entries matched IN TOTAL, before the row cap — the size of the
+   * thing you are paging through, not of this page. */
   matched: number;
+  /** Where in the ranked match list this page started. */
+  offset: number;
+  /** The offset that reads the NEXT page, or null at the end of the list. Pass
+   * it back verbatim — it is NOT offset + products.length, because a row that
+   * was reached for and lost is dropped from products and named in warnings, so
+   * a page of 24 can hand back 22 rows. */
+  nextOffset: number | null;
   warnings: string[];
 }
 interface LululemonSimilarProducts {
@@ -9536,10 +9544,16 @@ interface LululemonSimilarProducts {
      * first — id, title, URL, price range, how many colours the style comes in, and whether it is
      * in stock. Ranks over the site's own published product index, then reads the price and colour
      * count per row. A match the pricing catalogue does not carry still comes back, with `priced:
-     * false` and null prices; `matched` says how many matched before the row cap so a caller can
-     * raise `limit` (default 8, max 24).
+     * false` and null prices. PAGED: `matched` is the total match count and `nextOffset` is the
+     * offset that reads the next page, or null at the end — pass it back verbatim rather than
+     * adding `products.length`, since a lost row is dropped from `products` and named in
+     * `warnings`. `limit` is rows per page (default 8, max 24, and each row costs one third-party
+     * read), `offset` where the page starts (default 0). An offset past the end is an empty page,
+     * not an error. A category is just a query — the site's own URL segments (`womens-leggings`,
+     * `men-joggers`) are ranked over, so `{ query: "womens leggings", offset }` walks that
+     * category.
      */
-    search(query: { query: string; limit?: number }): Promise<LululemonSearch>;
+    search(query: { query: string; limit?: number; offset?: number }): Promise<LululemonSearch>;
 
     /**
      * Reads one product's full configurator the way its product page presents it — every colourway

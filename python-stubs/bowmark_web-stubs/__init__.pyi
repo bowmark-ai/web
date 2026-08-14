@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2057e31933cbe9b20d7cea0bb910b435d6092e11daed63c7c59bd907dc0f63a7
+# Manifest version: e02cd75dd53c13bad8c7fc5c63cc01fec02a364bdd3a3d4d3ab01a7872682c49
 # 9 capabilities, 123 providers, 367 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -4865,11 +4865,14 @@ class Prv_lufthansa_LufthansaBaggageFee_Out(TypedDict):
 class Prv_lululemon_search_query_In(TypedDict):
     query: str
     limit: NotRequired[float]
+    offset: NotRequired[float]
 
 class Prv_lululemon_LululemonSearch_Out(TypedDict):
     query: str
     products: list[Prv_lululemon_LululemonRow_Out]
     matched: float
+    offset: float
+    nextOffset: float | None
     warnings: list[str]
 
 class Prv_lululemon_LululemonRow_Out(TypedDict):
@@ -11670,8 +11673,14 @@ class Prv_lululemon(Protocol):
         match first — id, title, URL, price range, how many colours the style comes in, and
         whether it is in stock. Ranks over the site's own published product index, then reads
         the price and colour count per row. A match the pricing catalogue does not carry still
-        comes back, with `priced: false` and null prices; `matched` says how many matched before
-        the row cap so a caller can raise `limit` (default 8, max 24).
+        comes back, with `priced: false` and null prices. PAGED: `matched` is the total match
+        count and `nextOffset` is the offset that reads the next page, or null at the end — pass
+        it back verbatim rather than adding `products.length`, since a lost row is dropped from
+        `products` and named in `warnings`. `limit` is rows per page (default 8, max 24, and
+        each row costs one third-party read), `offset` where the page starts (default 0). An
+        offset past the end is an empty page, not an error. A category is just a query — the
+        site's own URL segments (`womens-leggings`, `men-joggers`) are ranked over, so `{ query:
+        "womens leggings", offset }` walks that category.
         """
 
     async def getProduct(self, query: Prv_lululemon_getProduct_query_In, /) -> Prv_lululemon_LululemonProduct_Out:
