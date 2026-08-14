@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9eb824349ca7434a02a1c5aa2122b857d95a3611c852fdd41df9d41e25d641e9
-// 360 checked, 20 unchecked.
+// Manifest version: b71c060db620c119ab92eac724aab2d9670d3d22f342f754075e353929634db2
+// 362 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9eb824349ca7434a02a1c5aa2122b857d95a3611c852fdd41df9d41e25d641e9",
+  "version": "b71c060db620c119ab92eac724aab2d9670d3d22f342f754075e353929634db2",
   "units": {
     "cars": {
       "defs": {
@@ -13618,6 +13618,58 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tatcha": {
+      "defs": {},
+      "functions": {
+        "getRitualQuizOptions": [],
+        "getPersonalizedRitual": [
+          {
+            "name": "skinType",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "benefits",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "eyeConcerns",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": true
+          },
+          {
+            "name": "sensitive",
+            "schema": {
+              "k": "boolean"
+            },
+            "optional": true
+          },
+          {
+            "name": "owned",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": true
           }
         ]
       }

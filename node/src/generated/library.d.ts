@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9eb824349ca7434a02a1c5aa2122b857d95a3611c852fdd41df9d41e25d641e9
-// 9 capabilities, 120 providers, 378 typed functions, 20 refused.
+// Manifest version: b71c060db620c119ab92eac724aab2d9670d3d22f342f754075e353929634db2
+// 9 capabilities, 121 providers, 380 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14225,6 +14225,55 @@ interface TargetStoreSearch {
   }
 }
 
+declare namespace BowmarkProvider_tatcha {
+  // ── Tatcha — the unit's own declarations, verbatim ──
+interface TatchaQuizOption {
+  value: string;
+  label: string;
+}
+
+interface TatchaRitualQuizOptions {
+  skinTypes: TatchaQuizOption[];
+  benefits: TatchaQuizOption[];
+  eyeConcerns: TatchaQuizOption[];
+}
+
+interface TatchaRitualProduct {
+  step: string;
+  sku: string;
+  name: string;
+  secondaryName: string;
+  price: string;
+  handle: string;
+  url: string;
+  image: string;
+  usageTime: "AM" | "PM" | "both";
+  description: string;
+  inStock: boolean;
+}
+
+interface TatchaRitual {
+  summary: string;
+  products: TatchaRitualProduct[];
+  handoffUrl: string;
+}
+
+  /**
+   * Runs Tatcha's real "Ritual Finder" skincare quiz — the site's own product-matching backend,
+   * not a generic routine.
+   */
+  interface Unit {
+    /** Reads the live Ritual Finder quiz's real skin-type, benefit and eye-concern menus. */
+    getRitualQuizOptions(): Promise<TatchaRitualQuizOptions>;
+
+    /**
+     * Runs real quiz answers through Tatcha's own personalization backend and returns the real
+     * AM/PM product ritual it recommends.
+     */
+    getPersonalizedRitual(skinType: string, benefits: string[], eyeConcerns?: string[], sensitive?: boolean, owned?: string[]): Promise<TatchaRitual>;
+  }
+}
+
 declare namespace BowmarkProvider_teladoc {
   // ── Teladoc Health — the unit's own declarations, verbatim ──
 interface teladocRow {
@@ -16742,6 +16791,7 @@ interface BowmarkProviders {
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
   target: BowmarkProvider_target.Unit;
+  tatcha: BowmarkProvider_tatcha.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
   therabody: BowmarkProvider_therabody.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;

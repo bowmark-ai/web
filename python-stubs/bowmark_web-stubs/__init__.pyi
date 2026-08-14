@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9eb824349ca7434a02a1c5aa2122b857d95a3611c852fdd41df9d41e25d641e9
-# 9 capabilities, 120 providers, 360 typed functions, 20 refused.
+# Manifest version: b71c060db620c119ab92eac724aab2d9670d3d22f342f754075e353929634db2
+# 9 capabilities, 121 providers, 362 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7470,6 +7470,33 @@ class Prv_target_TargetStoreHoursInterval_Out(TypedDict):
     end_date: str
     end_time: str
 
+class Prv_tatcha_TatchaRitualQuizOptions_Out(TypedDict):
+    skinTypes: list[Prv_tatcha_TatchaQuizOption_Out]
+    benefits: list[Prv_tatcha_TatchaQuizOption_Out]
+    eyeConcerns: list[Prv_tatcha_TatchaQuizOption_Out]
+
+class Prv_tatcha_TatchaQuizOption_Out(TypedDict):
+    value: str
+    label: str
+
+class Prv_tatcha_TatchaRitual_Out(TypedDict):
+    summary: str
+    products: list[Prv_tatcha_TatchaRitualProduct_Out]
+    handoffUrl: str
+
+class Prv_tatcha_TatchaRitualProduct_Out(TypedDict):
+    step: str
+    sku: str
+    name: str
+    secondaryName: str
+    price: str
+    handle: str
+    url: str
+    image: str
+    usageTime: Literal["AM"] | Literal["PM"] | Literal["both"]
+    description: str
+    inStock: bool
+
 class Prv_teladoc_teladocPricing_Out(TypedDict):
     source: str
     disclaimer: str
@@ -13133,6 +13160,19 @@ class Prv_target(Protocol):
         hours.
         """
 
+class Prv_tatcha(Protocol):
+    """Runs Tatcha's real "Ritual Finder" skincare quiz — the site's own product-matching
+    backend, not a generic routine.
+    """
+
+    async def getRitualQuizOptions(self, /) -> Prv_tatcha_TatchaRitualQuizOptions_Out:
+        """Reads the live Ritual Finder quiz's real skin-type, benefit and eye-concern menus."""
+
+    async def getPersonalizedRitual(self, skinType: str, benefits: Sequence[str], eyeConcerns: Sequence[str] | None = None, sensitive: bool | None = None, owned: Sequence[str] | None = None, /) -> Prv_tatcha_TatchaRitual_Out:
+        """Runs real quiz answers through Tatcha's own personalization backend and returns the real
+        AM/PM product ritual it recommends.
+        """
+
 class Prv_teladoc(Protocol):
     """Virtual-care company: searches its public Health Library and self-pay visit pricing.
     Booking a visit requires a member login and is out of scope.
@@ -13838,6 +13878,7 @@ class BowmarkProviders(Protocol):
     sunhomesaunas: Prv_sunhomesaunas
     tamarackidaho: Prv_tamarackidaho
     target: Prv_target
+    tatcha: Prv_tatcha
     teladoc: Prv_teladoc
     therabody: Prv_therabody
     thezebra: Prv_thezebra
