@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6e28b7f7b8d5c322f45ef2f2698be3754b6f6f4695ad40e4b034bbc3f054b5d1
-// 365 checked, 20 unchecked.
+// Manifest version: 2057e31933cbe9b20d7cea0bb910b435d6092e11daed63c7c59bd907dc0f63a7
+// 367 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6e28b7f7b8d5c322f45ef2f2698be3754b6f6f4695ad40e4b034bbc3f054b5d1",
+  "version": "2057e31933cbe9b20d7cea0bb910b435d6092e11daed63c7c59bd907dc0f63a7",
   "units": {
     "cars": {
       "defs": {
@@ -2768,6 +2768,66 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.chantecaille": {
+      "defs": {
+        "FoundationSelections": {
+          "k": "object",
+          "props": [
+            {
+              "name": "undertone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "skinTone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "skinLook",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "benefits",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "coverage",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getFoundationQuizTaxonomy": [],
+        "matchFoundation": [
+          {
+            "name": "selections",
+            "schema": {
+              "k": "ref",
+              "name": "FoundationSelections"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6e28b7f7b8d5c322f45ef2f2698be3754b6f6f4695ad40e4b034bbc3f054b5d1
-# 9 capabilities, 122 providers, 365 typed functions, 20 refused.
+# Manifest version: 2057e31933cbe9b20d7cea0bb910b435d6092e11daed63c7c59bd907dc0f63a7
+# 9 capabilities, 123 providers, 367 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1762,6 +1762,34 @@ class Prv_cars_carsVehicleValue_Out(TypedDict):
 class Prv_cars_carsVehicleValue_Out_dealer_u0_Out(TypedDict):
     name: str | None
     zipCode: str | None
+
+class Prv_chantecaille_QuizQuestion_Out(TypedDict):
+    id: str
+    code: str
+    name: str
+    question: str
+    answers: list[Prv_chantecaille_QuizQuestion_Out_answers_item_Out]
+
+class Prv_chantecaille_QuizQuestion_Out_answers_item_Out(TypedDict):
+    id: str
+    code: str
+    name: str
+
+class Prv_chantecaille_FoundationSelections_In(TypedDict):
+    undertone: str
+    skinTone: str
+    skinLook: str
+    benefits: Sequence[str]
+    coverage: str
+
+class Prv_chantecaille_FoundationMatch_Out(TypedDict):
+    name: str
+    score: float
+    price: str
+    displayPrice: str
+    productUrl: str
+    productImageUrl: str
+    description: str
 
 Prv_cheapflights_KayakQuery_In = TypedDict(
     "Prv_cheapflights_KayakQuery_In",
@@ -9412,6 +9440,25 @@ class Prv_cars(Protocol):
         standing decision names as the fence for a cash-offer appraisal.
         """
 
+class Prv_chantecaille(Protocol):
+    """Chantecaille's own Foundation Shade Match Quiz, reimplemented over its real Cartful
+    Solutions scoring engine: read the real live question taxonomy, and get real ranked
+    foundation matches — name, price, product page — computed by the site's own engine for a
+    stated undertone, skin tone, finish, skincare benefits and coverage.
+    """
+
+    async def getFoundationQuizTaxonomy(self, /) -> list[Prv_chantecaille_QuizQuestion_Out]:
+        """Reads Chantecaille's real, live Foundation Shade Match Quiz question and answer taxonomy
+        off its own Cartful Solutions bundle — the real option names to pass to matchFoundation.
+        """
+
+    async def matchFoundation(self, selections: Prv_chantecaille_FoundationSelections_In, /) -> list[Prv_chantecaille_FoundationMatch_Out]:
+        """Chantecaille's own Foundation Shade Match Quiz, run for real: posts the caller's
+        selections to the site's own scoring engine and returns the real ranked foundation
+        matches, highest score first. THROWS naming the real options when a selection does not
+        match the live taxonomy.
+        """
+
 class Prv_cheapflights(Protocol):
     """Cheapflights (cheapflights.com) — metasearch flight results, cheapest-first, read
     directly from the result cards.
@@ -13849,6 +13896,7 @@ class BowmarkProviders(Protocol):
     cancer: Prv_cancer
     caraway: Prv_caraway
     cars: Prv_cars
+    chantecaille: Prv_chantecaille
     cheapflights: Prv_cheapflights
     chriscraft: Prv_chriscraft
     classichome: Prv_classichome

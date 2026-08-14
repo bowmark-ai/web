@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6e28b7f7b8d5c322f45ef2f2698be3754b6f6f4695ad40e4b034bbc3f054b5d1
-// 9 capabilities, 122 providers, 383 typed functions, 20 refused.
+// Manifest version: 2057e31933cbe9b20d7cea0bb910b435d6092e11daed63c7c59bd907dc0f63a7
+// 9 capabilities, 123 providers, 385 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2828,6 +2828,59 @@ interface carsVehicleValue {
      * cash-offer appraisal.
      */
     getVehicleValue(args: { vin: string; identity: QuoteIdentity; postalCode: string; mileage?: number }): Promise<carsVehicleValue>;
+  }
+}
+
+declare namespace BowmarkProvider_chantecaille {
+  // ── Chantecaille — the unit's own declarations, verbatim ──
+// Chantecaille's OWN shapes — not a capability contract.
+
+interface QuizQuestion {
+  id: string;
+  code: string;          // e.g. "undertone", "tone", "look", "benefits", "coverage"
+  name: string;           // e.g. "Undertone"
+  question: string;       // the site's own prompt text
+  answers: { id: string; code: string; name: string }[];
+}
+
+interface FoundationSelections {
+  undertone: string;      // e.g. "Cool" — code or name, from getFoundationQuizTaxonomy()
+  skinTone: string;       // e.g. "Medium Deep"
+  skinLook: string;       // e.g. "Smooth and flawless"
+  benefits: string[];     // e.g. ["Hydration"] — [] answers the site's own "Skip"
+  coverage: string;       // e.g. "Light" | "Medium" | "Full"
+}
+
+interface FoundationMatch {
+  name: string;            // e.g. "Future Skin - Maple"
+  score: number;           // the site's own computed match score
+  price: string;
+  displayPrice: string;    // e.g. "$95.00"
+  productUrl: string;      // real product page, this exact shade preselected
+  productImageUrl: string;
+  description: string;
+}
+
+  /**
+   * Chantecaille's own Foundation Shade Match Quiz, reimplemented over its real Cartful
+   * Solutions scoring engine: read the real live question taxonomy, and get real ranked
+   * foundation matches — name, price, product page — computed by the site's own engine for a
+   * stated undertone, skin tone, finish, skincare benefits and coverage.
+   */
+  interface Unit {
+    /**
+     * Reads Chantecaille's real, live Foundation Shade Match Quiz question and answer taxonomy off
+     * its own Cartful Solutions bundle — the real option names to pass to matchFoundation.
+     */
+    getFoundationQuizTaxonomy(): Promise<QuizQuestion[]>;
+
+    /**
+     * Chantecaille's own Foundation Shade Match Quiz, run for real: posts the caller's selections
+     * to the site's own scoring engine and returns the real ranked foundation matches, highest
+     * score first. THROWS naming the real options when a selection does not match the live
+     * taxonomy.
+     */
+    matchFoundation(selections: FoundationSelections): Promise<FoundationMatch[]>;
   }
 }
 
@@ -16768,6 +16821,7 @@ interface BowmarkProviders {
   cancer: BowmarkProvider_cancer.Unit;
   caraway: BowmarkProvider_caraway.Unit;
   cars: BowmarkProvider_cars.Unit;
+  chantecaille: BowmarkProvider_chantecaille.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;
   classichome: BowmarkProvider_classichome.Unit;
