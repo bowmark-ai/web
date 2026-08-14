@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a400421498212bf60bfaab4808ff698bd8edb4febae1ba86fda5cb9ebc232c1b
-# 9 capabilities, 109 providers, 338 typed functions, 20 refused.
+# Manifest version: c18af68141b88a3c8eebd3ac2a6fca3d2737b34b6e55ca41e98f268d36d4ec4b
+# 9 capabilities, 110 providers, 340 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4145,6 +4145,37 @@ class Prv_islllc_IsllcCommunity_Out(TypedDict):
     lat: float
     lng: float
     url: str
+
+class Prv_jennikayne_GiftCardOptions_Out(TypedDict):
+    productUrl: str
+    denominations: list[Prv_jennikayne_GiftCardDenomination_Out]
+    timezones: list[str]
+
+class Prv_jennikayne_GiftCardDenomination_Out(TypedDict):
+    variantId: str
+    amount: str
+    available: bool
+
+class Prv_jennikayne_GiftCardConfig_In(TypedDict):
+    amount: str
+    recipientName: str
+    recipientEmail: str
+    giftMessage: NotRequired[str]
+    deliveryDate: str
+    deliveryTimezone: str
+
+class Prv_jennikayne_GiftCardLink_Out(TypedDict):
+    amount: str
+    variantId: str
+    recipientName: str
+    recipientEmail: str
+    giftMessage: str | None
+    deliveryDate: str
+    deliveryTimezone: str
+    available: bool
+    cartUrl: str
+    checkoutUrl: str
+    deliveryTimeLeftToShopper: Literal[True]
 
 class Prv_joybird_JoybirdConfigurator_Out(TypedDict):
     slug: str
@@ -10770,6 +10801,27 @@ class Prv_islllc(Protocol):
         returns the real, nearest-first matching ISL communities.
         """
 
+class Prv_jennikayne(Protocol):
+    """Jenni Kayne's live gift-card product: read the real denominations and hand the shopper a
+    checkout link pre-filled with the recipient, message and scheduled delivery
+    date/timezone.
+    """
+
+    async def getGiftCardOptions(self, /) -> Prv_jennikayne_GiftCardOptions_Out:
+        """Reads the live Jenni Kayne digital gift-card product — every denomination from $50 to
+        $1,000 with its real variant id and current stock, plus the exact timezone strings the
+        checkout form accepts. Call this first to know what buildGiftCardLink will accept.
+        """
+
+    async def buildGiftCardLink(self, config: Prv_jennikayne_GiftCardConfig_In, /) -> Prv_jennikayne_GiftCardLink_Out:
+        """Configures a Jenni Kayne digital gift card — amount, recipient name/email, an optional
+        message, and a scheduled delivery date + timezone — and returns a checkout link with
+        every one of those fields already filled in, so the shopper only has to pick a delivery
+        TIME and pay. THROWS on an unknown amount, an invalid email, a malformed date, or a
+        timezone the store does not offer — call getGiftCardOptions first to see the live
+        choices. Builds the link only; nothing is purchased or charged here.
+        """
+
 class Prv_joybird(Protocol):
     """Reads Joybird's real sofa/sectional configurator — every configurable product, every
     fabric and wood stain, and the live configured price Joybird's own page shows.
@@ -13247,6 +13299,7 @@ class BowmarkProviders(Protocol):
     insurify: Prv_insurify
     interiordefine: Prv_interiordefine
     islllc: Prv_islllc
+    jennikayne: Prv_jennikayne
     joybird: Prv_joybird
     kayak: Prv_kayak
     kitchentuneup: Prv_kitchentuneup

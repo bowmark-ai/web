@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a400421498212bf60bfaab4808ff698bd8edb4febae1ba86fda5cb9ebc232c1b
-// 9 capabilities, 109 providers, 356 typed functions, 20 refused.
+// Manifest version: c18af68141b88a3c8eebd3ac2a6fca3d2737b34b6e55ca41e98f268d36d4ec4b
+// 9 capabilities, 110 providers, 358 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8029,6 +8029,64 @@ interface IsllcSearchCommunitiesResult {
      * returns the real, nearest-first matching ISL communities.
      */
     searchCommunities(arg: { location: string, careTypes?: IsllcCareType[], radiusMiles?: number, maxResults?: number }): Promise<IsllcSearchCommunitiesResult>;
+  }
+}
+
+declare namespace BowmarkProvider_jennikayne {
+  // ── Jenni Kayne — the unit's own declarations, verbatim ──
+interface GiftCardDenomination {
+  variantId: string;
+  amount: string;
+  available: boolean;
+}
+interface GiftCardOptions {
+  productUrl: string;
+  denominations: GiftCardDenomination[];
+  timezones: string[];
+}
+interface GiftCardConfig {
+  amount: string;
+  recipientName: string;
+  recipientEmail: string;
+  giftMessage?: string;
+  deliveryDate: string;
+  deliveryTimezone: string;
+}
+interface GiftCardLink {
+  amount: string;
+  variantId: string;
+  recipientName: string;
+  recipientEmail: string;
+  giftMessage: string | null;
+  deliveryDate: string;
+  deliveryTimezone: string;
+  available: boolean;
+  cartUrl: string;
+  checkoutUrl: string;
+  deliveryTimeLeftToShopper: true;
+}
+
+  /**
+   * Jenni Kayne's live gift-card product: read the real denominations and hand the shopper a
+   * checkout link pre-filled with the recipient, message and scheduled delivery date/timezone.
+   */
+  interface Unit {
+    /**
+     * Reads the live Jenni Kayne digital gift-card product — every denomination from $50 to $1,000
+     * with its real variant id and current stock, plus the exact timezone strings the checkout
+     * form accepts. Call this first to know what buildGiftCardLink will accept.
+     */
+    getGiftCardOptions(): Promise<GiftCardOptions>;
+
+    /**
+     * Configures a Jenni Kayne digital gift card — amount, recipient name/email, an optional
+     * message, and a scheduled delivery date + timezone — and returns a checkout link with every
+     * one of those fields already filled in, so the shopper only has to pick a delivery TIME and
+     * pay. THROWS on an unknown amount, an invalid email, a malformed date, or a timezone the
+     * store does not offer — call getGiftCardOptions first to see the live choices. Builds the
+     * link only; nothing is purchased or charged here.
+     */
+    buildGiftCardLink(config: GiftCardConfig): Promise<GiftCardLink>;
   }
 }
 
@@ -16157,6 +16215,7 @@ interface BowmarkProviders {
   insurify: BowmarkProvider_insurify.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
   islllc: BowmarkProvider_islllc.Unit;
+  jennikayne: BowmarkProvider_jennikayne.Unit;
   joybird: BowmarkProvider_joybird.Unit;
   kayak: BowmarkProvider_kayak.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;

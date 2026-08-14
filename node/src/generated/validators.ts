@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a400421498212bf60bfaab4808ff698bd8edb4febae1ba86fda5cb9ebc232c1b
-// 338 checked, 20 unchecked.
+// Manifest version: c18af68141b88a3c8eebd3ac2a6fca3d2737b34b6e55ca41e98f268d36d4ec4b
+// 340 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a400421498212bf60bfaab4808ff698bd8edb4febae1ba86fda5cb9ebc232c1b",
+  "version": "c18af68141b88a3c8eebd3ac2a6fca3d2737b34b6e55ca41e98f268d36d4ec4b",
   "units": {
     "cars": {
       "defs": {
@@ -6463,6 +6463,70 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.jennikayne": {
+      "defs": {
+        "GiftCardConfig": {
+          "k": "object",
+          "props": [
+            {
+              "name": "amount",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "recipientName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "recipientEmail",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "giftMessage",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "deliveryDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "deliveryTimezone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getGiftCardOptions": [],
+        "buildGiftCardLink": [
+          {
+            "name": "config",
+            "schema": {
+              "k": "ref",
+              "name": "GiftCardConfig"
             },
             "optional": false
           }
