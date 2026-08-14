@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b71c060db620c119ab92eac724aab2d9670d3d22f342f754075e353929634db2
-// 9 capabilities, 121 providers, 380 typed functions, 20 refused.
+// Manifest version: 6e28b7f7b8d5c322f45ef2f2698be3754b6f6f4695ad40e4b034bbc3f054b5d1
+// 9 capabilities, 122 providers, 383 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13038,6 +13038,68 @@ interface RoofmaxxCostEstimate {
   }
 }
 
+declare namespace BowmarkProvider_saltandstone {
+  // ── Salt & Stone — the unit's own declarations, verbatim ──
+// Salt & Stone's OWN shapes — not a capability contract.
+
+interface ScentFamily {
+  handle: string;
+  name: string;             // e.g. "Santal & Vetiver"
+  description: string;      // the site's own mood copy
+  notes: { top: string[]; heart: string[]; base: string[] }; // real fragrance notes
+  url: string;
+}
+
+interface ScentMatch {
+  handle: string;
+  name: string;
+  score: number;            // 0-1 — how much of the caller's preference matched this family's real notes/copy
+  matchedTerms: string[];   // which of the caller's own words matched, and why
+  url: string;
+}
+
+interface ScentProduct {
+  handle: string;           // "body-wash" | "body-mist" | "body-lotion" | "natural-deodorant" | "hand-cream" | "candle"
+  title: string;
+  productType: string;
+  variantId: string;
+  variantTitle: string;
+  price: number;            // dollars, real Shopify variant price
+  compareAtPrice: number | null;
+  available: boolean;       // real live stock flag
+  url: string;              // real product page, this exact variant preselected
+}
+
+  /**
+   * Salt & Stone's own Scent Quiz, reimplemented over its real six named scent families: list
+   * every family's real fragrance notes, compute a real ranked match against a free-text
+   * preference, and shop the real core products (body wash, mist, lotion, deodorant, hand cream,
+   * candle) in the matched scent with real price and availability.
+   */
+  interface Unit {
+    /**
+     * Lists Salt & Stone's real six named scent families, each with its own real top/heart/base
+     * fragrance notes and mood description, read off the site's own collection pages.
+     */
+    listScentFamilies(): Promise<ScentFamily[]>;
+
+    /**
+     * Salt & Stone's own Scent Quiz, reimplemented: computes a real ranked match across all six
+     * scent families by scoring the preference's terms against each family's own published
+     * fragrance notes and description.
+     */
+    matchScent(preferences: string): Promise<ScentMatch[]>;
+
+    /**
+     * Lists the real core products (body wash, body mist, body lotion, deodorant, hand cream,
+     * candle) available in one named scent family, with each one's real price, availability and
+     * product page. THROWS on an unknown family name, naming listScentFamilies() as the way to
+     * find current ones.
+     */
+    getScentProducts(familyName: string): Promise<ScentProduct[]>;
+  }
+}
+
 declare namespace BowmarkProvider_samsclub {
   // ── Sam's Club — the unit's own declarations, verbatim ──
 interface SamsclubInstantSavingsItem {
@@ -16780,6 +16842,7 @@ interface BowmarkProviders {
   reddit: BowmarkProvider_reddit.Unit;
   ritani: BowmarkProvider_ritani.Unit;
   roofmaxx: BowmarkProvider_roofmaxx.Unit;
+  saltandstone: BowmarkProvider_saltandstone.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
   sears: BowmarkProvider_sears.Unit;
   seegarsfence: BowmarkProvider_seegarsfence.Unit;

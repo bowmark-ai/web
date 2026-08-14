@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b71c060db620c119ab92eac724aab2d9670d3d22f342f754075e353929634db2
-# 9 capabilities, 121 providers, 362 typed functions, 20 refused.
+# Manifest version: 6e28b7f7b8d5c322f45ef2f2698be3754b6f6f4695ad40e4b034bbc3f054b5d1
+# 9 capabilities, 122 providers, 365 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6860,6 +6860,36 @@ class Prv_roofmaxx_RoofmaxxCostEstimate_Out(TypedDict):
     mid: float
     high: float
 
+class Prv_saltandstone_ScentFamily_Out(TypedDict):
+    handle: str
+    name: str
+    description: str
+    notes: Prv_saltandstone_ScentFamily_Out_notes_Out
+    url: str
+
+class Prv_saltandstone_ScentFamily_Out_notes_Out(TypedDict):
+    top: list[str]
+    heart: list[str]
+    base: list[str]
+
+class Prv_saltandstone_ScentMatch_Out(TypedDict):
+    handle: str
+    name: str
+    score: float
+    matchedTerms: list[str]
+    url: str
+
+class Prv_saltandstone_ScentProduct_Out(TypedDict):
+    handle: str
+    title: str
+    productType: str
+    variantId: str
+    variantTitle: str
+    price: float
+    compareAtPrice: float | None
+    available: bool
+    url: str
+
 class Prv_samsclub_SamsclubCategoryItem_Out(TypedDict):
     id: str
     name: str
@@ -12745,6 +12775,32 @@ class Prv_roofmaxx(Protocol):
         full-replacement-cost tiers.
         """
 
+class Prv_saltandstone(Protocol):
+    """Salt & Stone's own Scent Quiz, reimplemented over its real six named scent families:
+    list every family's real fragrance notes, compute a real ranked match against a
+    free-text preference, and shop the real core products (body wash, mist, lotion,
+    deodorant, hand cream, candle) in the matched scent with real price and availability.
+    """
+
+    async def listScentFamilies(self, /) -> list[Prv_saltandstone_ScentFamily_Out]:
+        """Lists Salt & Stone's real six named scent families, each with its own real
+        top/heart/base fragrance notes and mood description, read off the site's own collection
+        pages.
+        """
+
+    async def matchScent(self, preferences: str, /) -> list[Prv_saltandstone_ScentMatch_Out]:
+        """Salt & Stone's own Scent Quiz, reimplemented: computes a real ranked match across all
+        six scent families by scoring the preference's terms against each family's own published
+        fragrance notes and description.
+        """
+
+    async def getScentProducts(self, familyName: str, /) -> list[Prv_saltandstone_ScentProduct_Out]:
+        """Lists the real core products (body wash, body mist, body lotion, deodorant, hand cream,
+        candle) available in one named scent family, with each one's real price, availability
+        and product page. THROWS on an unknown family name, naming listScentFamilies() as the
+        way to find current ones.
+        """
+
 class Prv_samsclub(Protocol):
     """Sam's Club (samsclub.com) — club-priced product search, product detail, club-level
     stock, club locator, membership plans and more. search reads the site's own live catalog
@@ -13867,6 +13923,7 @@ class BowmarkProviders(Protocol):
     reddit: Prv_reddit
     ritani: Prv_ritani
     roofmaxx: Prv_roofmaxx
+    saltandstone: Prv_saltandstone
     samsclub: Prv_samsclub
     sears: Prv_sears
     seegarsfence: Prv_seegarsfence

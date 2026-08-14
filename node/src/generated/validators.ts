@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b71c060db620c119ab92eac724aab2d9670d3d22f342f754075e353929634db2
-// 362 checked, 20 unchecked.
+// Manifest version: 6e28b7f7b8d5c322f45ef2f2698be3754b6f6f4695ad40e4b034bbc3f054b5d1
+// 365 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b71c060db620c119ab92eac724aab2d9670d3d22f342f754075e353929634db2",
+  "version": "6e28b7f7b8d5c322f45ef2f2698be3754b6f6f4695ad40e4b034bbc3f054b5d1",
   "units": {
     "cars": {
       "defs": {
@@ -12376,6 +12376,30 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "RoofmaxxCostEstimateArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.saltandstone": {
+      "defs": {},
+      "functions": {
+        "listScentFamilies": [],
+        "matchScent": [
+          {
+            "name": "preferences",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getScentProducts": [
+          {
+            "name": "familyName",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
