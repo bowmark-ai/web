@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 732 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 734 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -703,6 +703,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `urbanoutfitters.getReviews` | urbanoutfitters.com | Reads the customer reviews on one Urban Outfitters product — the star rating and its… | ⚪ |
 | `urbanoutfitters.search` | urbanoutfitters.com | Searches Urban Outfitters' live catalogue the way the site's own search bar does and… | ⚪ |
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
+| `vervecoffee.listRoastersChoiceSubscriptions` | vervecoffee.com | Lists Verve's five real Roaster's Choice coffee subscription products (single origin… | 🟢 |
+| `vervecoffee.matchCoffeeSubscription` | vervecoffee.com | Runs Verve's real 'Find Your Coffee Match' quiz end to end — the same 5 questions… | 🟢 |
 | `viewrail.getDesignEstimate` | viewrail.com | Submits a drawn Victor layout (posts, runs, materials, mounting style) and returns the… | ⚪ |
 | `viewrail.listInfillOptions` | viewrail.com | Lists Victor's infill choices for a run — stainless cable, rod, or glass panel — with… | ⚪ |
 | `viewrail.listMaterials` | viewrail.com | Lists the metal and metal-look composite families Victor's cable railing configurator… | 🟢 |

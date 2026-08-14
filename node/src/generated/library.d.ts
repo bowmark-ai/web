@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9c5bc5e165838458129a65013226e832f1a178f61f708a7c268191ec3800fc18
-// 9 capabilities, 114 providers, 365 typed functions, 20 refused.
+// Manifest version: 4fb48479e0263006d1118248bb0cdadda335f27229e93cc38d58a1a7939f2c61
+// 9 capabilities, 115 providers, 367 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14890,6 +14890,58 @@ interface UlrichPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_vervecoffee {
+  // ── Verve Coffee Roasters — the unit's own declarations, verbatim ──
+interface VervecoffeeSubscription {
+  id: string;
+  handle: string;
+  title: string;
+  priceFormatted: string;
+  url: string;
+}
+interface VervecoffeeCoffeeMatch {
+  id: string;
+  title: string;
+  descriptionHtml: string;
+  startingPriceFormatted: string;
+  url: string;
+  subscriptionPlans: Array<{ name: string; deliveryInterval: string; priceWithDiscount: string }>;
+}
+interface VervecoffeeCoffeeMatchResult {
+  recommendedProducts: VervecoffeeCoffeeMatch[];
+}
+interface CoffeeQuizAnswers {
+  journeyStage: "coffee_curious" | "casual_coffee_lover" | "coffee_connoisseur" | "barista";
+  brewMethod: "pourover" | "coffee_maker" | "espresso" | "french_press" | "aeropress";
+  coffeeStyle: "black" | "milk_or_cream" | "sugar_or_sweetener";
+  roastPreference: "light" | "medium" | "dark" | "not_sure";
+  tastingNote: "chocolate" | "citrus" | "fruits" | "sweet" | "floral" | "nuts";
+}
+
+  /**
+   * Verve Coffee Roasters' Roaster's Choice subscription catalog and its real 'Find Your Coffee
+   * Match' quiz (Octane AI-powered) — drives the same 5 questions the live site asks and returns
+   * the actual subscription it recommends, priced, with a buy link.
+   */
+  interface Unit {
+    /**
+     * Lists Verve's five real Roaster's Choice coffee subscription products (single origin, blend,
+     * espresso, Africa, Latin America) with their live USD price, read off the storefront's own
+     * /products.json catalog.
+     */
+    listRoastersChoiceSubscriptions(): Promise<VervecoffeeSubscription[]>;
+
+    /**
+     * Runs Verve's real 'Find Your Coffee Match' quiz end to end — the same 5 questions the live
+     * Octane AI-powered quiz at /pages/quiz asks every visitor — and returns the actual Roaster's
+     * Choice subscription(s) it recommends, with real USD price and a buy-page link. THROWS if
+     * Verve's quiz has been reconfigured and one of the 5 answer labels no longer matches (see the
+     * error for the live option set).
+     */
+    matchCoffeeSubscription(answers: CoffeeQuizAnswers): Promise<VervecoffeeCoffeeMatchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_viewrail {
   // ── Viewrail — the unit's own declarations, verbatim ──
 interface ViewrailMaterial {
@@ -16445,6 +16497,7 @@ interface BowmarkProviders {
   topviewtix: BowmarkProvider_topviewtix.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
+  vervecoffee: BowmarkProvider_vervecoffee.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;
   villagerealtyobx: BowmarkProvider_villagerealtyobx.Unit;
   visible: BowmarkProvider_visible.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9c5bc5e165838458129a65013226e832f1a178f61f708a7c268191ec3800fc18
-# 9 capabilities, 114 providers, 347 typed functions, 20 refused.
+# Manifest version: 4fb48479e0263006d1118248bb0cdadda335f27229e93cc38d58a1a7939f2c61
+# 9 capabilities, 115 providers, 349 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7796,6 +7796,36 @@ class Prv_ulrichlifestyle_UlrichPriceLine_Out(TypedDict):
     description: str
     price: float
 
+class Prv_vervecoffee_VervecoffeeSubscription_Out(TypedDict):
+    id: str
+    handle: str
+    title: str
+    priceFormatted: str
+    url: str
+
+class Prv_vervecoffee_CoffeeQuizAnswers_In(TypedDict):
+    journeyStage: Literal["coffee_curious"] | Literal["casual_coffee_lover"] | Literal["coffee_connoisseur"] | Literal["barista"]
+    brewMethod: Literal["pourover"] | Literal["coffee_maker"] | Literal["espresso"] | Literal["french_press"] | Literal["aeropress"]
+    coffeeStyle: Literal["black"] | Literal["milk_or_cream"] | Literal["sugar_or_sweetener"]
+    roastPreference: Literal["light"] | Literal["medium"] | Literal["dark"] | Literal["not_sure"]
+    tastingNote: Literal["chocolate"] | Literal["citrus"] | Literal["fruits"] | Literal["sweet"] | Literal["floral"] | Literal["nuts"]
+
+class Prv_vervecoffee_VervecoffeeCoffeeMatchResult_Out(TypedDict):
+    recommendedProducts: list[Prv_vervecoffee_VervecoffeeCoffeeMatch_Out]
+
+class Prv_vervecoffee_VervecoffeeCoffeeMatch_Out(TypedDict):
+    id: str
+    title: str
+    descriptionHtml: str
+    startingPriceFormatted: str
+    url: str
+    subscriptionPlans: list[Prv_vervecoffee_VervecoffeeCoffeeMatch_Out_subscriptionPlans_item_Out]
+
+class Prv_vervecoffee_VervecoffeeCoffeeMatch_Out_subscriptionPlans_item_Out(TypedDict):
+    name: str
+    deliveryInterval: str
+    priceWithDiscount: str
+
 class Prv_viewrail_ViewrailMaterial_Out(TypedDict):
     slug: str
     title: str
@@ -13230,6 +13260,26 @@ class Prv_ulrichlifestyle(Protocol):
         the priced total; see this provider's file-top note.
         """
 
+class Prv_vervecoffee(Protocol):
+    """Verve Coffee Roasters' Roaster's Choice subscription catalog and its real 'Find Your
+    Coffee Match' quiz (Octane AI-powered) — drives the same 5 questions the live site asks
+    and returns the actual subscription it recommends, priced, with a buy link.
+    """
+
+    async def listRoastersChoiceSubscriptions(self, /) -> list[Prv_vervecoffee_VervecoffeeSubscription_Out]:
+        """Lists Verve's five real Roaster's Choice coffee subscription products (single origin,
+        blend, espresso, Africa, Latin America) with their live USD price, read off the
+        storefront's own /products.json catalog.
+        """
+
+    async def matchCoffeeSubscription(self, answers: Prv_vervecoffee_CoffeeQuizAnswers_In, /) -> Prv_vervecoffee_VervecoffeeCoffeeMatchResult_Out:
+        """Runs Verve's real 'Find Your Coffee Match' quiz end to end — the same 5 questions the
+        live Octane AI-powered quiz at /pages/quiz asks every visitor — and returns the actual
+        Roaster's Choice subscription(s) it recommends, with real USD price and a buy-page link.
+        THROWS if Verve's quiz has been reconfigured and one of the 5 answer labels no longer
+        matches (see the error for the live option set).
+        """
+
 class Prv_viewrail(Protocol):
     """Cable railing / floating-stair manufacturer — the material and mounting-style catalog
     behind Victor, Viewrail's own draw-and-quote design app (victor.viewrail.com).
@@ -13557,6 +13607,7 @@ class BowmarkProviders(Protocol):
     topviewtix: Prv_topviewtix
     trektravel: Prv_trektravel
     ulrichlifestyle: Prv_ulrichlifestyle
+    vervecoffee: Prv_vervecoffee
     viewrail: Prv_viewrail
     villagerealtyobx: Prv_villagerealtyobx
     visible: Prv_visible

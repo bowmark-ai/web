@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9c5bc5e165838458129a65013226e832f1a178f61f708a7c268191ec3800fc18
-// 347 checked, 20 unchecked.
+// Manifest version: 4fb48479e0263006d1118248bb0cdadda335f27229e93cc38d58a1a7939f2c61
+// 349 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9c5bc5e165838458129a65013226e832f1a178f61f708a7c268191ec3800fc18",
+  "version": "4fb48479e0263006d1118248bb0cdadda335f27229e93cc38d58a1a7939f2c61",
   "units": {
     "cars": {
       "defs": {
@@ -13935,6 +13935,161 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.vervecoffee": {
+      "defs": {
+        "CoffeeQuizAnswers": {
+          "k": "object",
+          "props": [
+            {
+              "name": "journeyStage",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "coffee_curious"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "casual_coffee_lover"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "coffee_connoisseur"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "barista"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "brewMethod",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "pourover"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "coffee_maker"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "espresso"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "french_press"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "aeropress"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "coffeeStyle",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "black"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "milk_or_cream"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sugar_or_sweetener"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "roastPreference",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "light"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "medium"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "dark"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "not_sure"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "tastingNote",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "chocolate"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "citrus"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fruits"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sweet"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "floral"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nuts"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listRoastersChoiceSubscriptions": [],
+        "matchCoffeeSubscription": [
+          {
+            "name": "answers",
+            "schema": {
+              "k": "ref",
+              "name": "CoffeeQuizAnswers"
             },
             "optional": false
           }
