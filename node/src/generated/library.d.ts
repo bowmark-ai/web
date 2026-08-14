@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 07f439161911e4c3d6d8f5e4187d7554f1913fed0a67e148802b2ddef519acfd
+// Manifest version: c7bf95173b2aadafd891d87b3d2e54b5a6efd4c6a6c6cfba959e149d5cceb904
 // 9 capabilities, 109 providers, 354 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -8760,9 +8760,9 @@ interface LiquiddeathCart {
 interface LiquiddeathLiveCartLine {
   lineId: string;
   variantId: string;
-  variantTitle: string | null;
-  productTitle: string;
+  title: string;
   quantity: number;
+  unitPrice: string;
   lineTotal: string;
 }
 interface LiquiddeathLiveCart {
@@ -8773,9 +8773,7 @@ interface LiquiddeathLiveCart {
   total: string;
   currency: string;
   checkoutUrl: string;
-  countryCode: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
+  expiresAt: string | null;
 }
 
   /**
@@ -8811,15 +8809,19 @@ interface LiquiddeathLiveCart {
     addToCart(items: LiquiddeathCartItem[]): Promise<LiquiddeathCart>;
 
     /**
-     * Reads a cart the shopper already has, by its id — line items, quantities, per-line and order
-     * totals, and the real checkout URL to hand back. The id is a bearer credential the SHOPPER
-     * holds, and it is the one their cart or checkout LINK carries
-     * (liquiddeath.com/cart/c/<token>?key=<key>), NOT the store's `cart` cookie or /cart.js token
-     * — those are a separate Ajax id space this endpoint answers 'Cart does not exist' for. There
-     * is no way to list or search carts, so a caller without an id cannot get one. Accepts the id
-     * with or without the `?key=` suffix. THROWS when the cart does not exist or has expired —
-     * Shopify drops an unused cart within 30 days and deletes it at checkout — because an empty
-     * cart and a dead link are opposite answers. Does not return shipping options or discounts:
+     * Reads a cart the shopper already has, by its id — line items, quantities, per-unit and
+     * per-line prices, order subtotal and total, the cart's currency and expiry, and the real
+     * checkout URL to hand back. The id is a bearer credential the SHOPPER holds, and it is the
+     * one their cart or checkout LINK carries (liquiddeath.com/cart/c/<token>?key=<key>), NOT the
+     * store's `cart` cookie or /cart.js token — those are a separate Ajax id space this endpoint
+     * answers 'The requested cart does not exist' for. There is no way to list or search carts, so
+     * a caller without an id cannot get one. THE WHOLE id IS REQUIRED, `?key=` included: the store
+     * checks the key's value, so a bare token comes back as a cart that does not exist rather than
+     * as a missing credential, and this refuses it here instead. THROWS when the cart does not
+     * exist or has expired — Shopify drops an unused cart within 30 days and deletes it at
+     * checkout — because an empty cart and a dead link are opposite answers. Each line carries the
+     * store's own joined product-and-variant `title` ("Death Western Hat - Cream/Green"); this
+     * door publishes no separate product title. Does not return shipping options or discounts:
      * both require setting an address on the cart, which is a write this provider does not
      * perform.
      */

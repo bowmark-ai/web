@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 07f439161911e4c3d6d8f5e4187d7554f1913fed0a67e148802b2ddef519acfd
+# Manifest version: c7bf95173b2aadafd891d87b3d2e54b5a6efd4c6a6c6cfba959e149d5cceb904
 # 9 capabilities, 109 providers, 336 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -4568,16 +4568,14 @@ class Prv_liquiddeath_LiquiddeathLiveCart_Out(TypedDict):
     total: str
     currency: str
     checkoutUrl: str
-    countryCode: str | None
-    createdAt: str | None
-    updatedAt: str | None
+    expiresAt: str | None
 
 class Prv_liquiddeath_LiquiddeathLiveCartLine_Out(TypedDict):
     lineId: str
     variantId: str
-    variantTitle: str | None
-    productTitle: str
+    title: str
     quantity: float
+    unitPrice: str
     lineTotal: str
 
 class Prv_lonelyplanet_LonelyPlanetSearchResult_Out(TypedDict):
@@ -11045,17 +11043,21 @@ class Prv_liquiddeath(Protocol):
         """
 
     async def getCart(self, cartId: str, /) -> Prv_liquiddeath_LiquiddeathLiveCart_Out:
-        """Reads a cart the shopper already has, by its id — line items, quantities, per-line and
-        order totals, and the real checkout URL to hand back. The id is a bearer credential the
-        SHOPPER holds, and it is the one their cart or checkout LINK carries
-        (liquiddeath.com/cart/c/<token>?key=<key>), NOT the store's `cart` cookie or /cart.js
-        token — those are a separate Ajax id space this endpoint answers 'Cart does not exist'
-        for. There is no way to list or search carts, so a caller without an id cannot get one.
-        Accepts the id with or without the `?key=` suffix. THROWS when the cart does not exist
-        or has expired — Shopify drops an unused cart within 30 days and deletes it at checkout
-        — because an empty cart and a dead link are opposite answers. Does not return shipping
-        options or discounts: both require setting an address on the cart, which is a write this
-        provider does not perform.
+        """Reads a cart the shopper already has, by its id — line items, quantities, per-unit and
+        per-line prices, order subtotal and total, the cart's currency and expiry, and the real
+        checkout URL to hand back. The id is a bearer credential the SHOPPER holds, and it is
+        the one their cart or checkout LINK carries (liquiddeath.com/cart/c/<token>?key=<key>),
+        NOT the store's `cart` cookie or /cart.js token — those are a separate Ajax id space
+        this endpoint answers 'The requested cart does not exist' for. There is no way to list
+        or search carts, so a caller without an id cannot get one. THE WHOLE id IS REQUIRED,
+        `?key=` included: the store checks the key's value, so a bare token comes back as a cart
+        that does not exist rather than as a missing credential, and this refuses it here
+        instead. THROWS when the cart does not exist or has expired — Shopify drops an unused
+        cart within 30 days and deletes it at checkout — because an empty cart and a dead link
+        are opposite answers. Each line carries the store's own joined product-and-variant
+        `title` ("Death Western Hat - Cream/Green"); this door publishes no separate product
+        title. Does not return shipping options or discounts: both require setting an address on
+        the cart, which is a write this provider does not perform.
         """
 
 class Prv_lonelyplanet(Protocol):
