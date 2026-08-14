@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d20287a3fb56455c9670559644b31d15ee10f1c8ebfbde0cd31aeb27b39a1f44
-// 9 capabilities, 119 providers, 375 typed functions, 20 refused.
+// Manifest version: 9eb824349ca7434a02a1c5aa2122b857d95a3611c852fdd41df9d41e25d641e9
+// 9 capabilities, 120 providers, 378 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4227,6 +4227,64 @@ interface ErieAgent {
      * that is never an error.
      */
     findAgent(query: ErieAgentQuery, limit?: number): Promise<ErieAgentSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_eventsource {
+  // ── Event Source — the unit's own declarations, verbatim ──
+interface EventSourceDesign {
+  designId: number;
+  visionBoardId: number;
+  roomId: number;
+  designName: string;
+  roomName: string;
+  venueName: string;
+  hasLayouts: boolean;
+  hasTemplates: boolean;
+}
+interface EventSourceShowroom {
+  accessCode: string;
+  showroomName: string;
+  ownerName: string;
+  branded: boolean;
+  underConstruction: boolean;
+  logoUrl: string;
+  eventId: number;
+  venueIds: number[];
+  designs: EventSourceDesign[];
+}
+interface EventSourceVenue {
+  venueId: number;
+  businessName: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  market: string;
+  primaryImageUrl: string;
+  rooms: Array<{ roomId: number; roomName: string; primaryImageUrl: string; active: boolean }>;
+}
+interface EventSourceInquiryContact {
+  inquiryRequestEmail: string;
+  ownerName: string;
+  ownerLogoUrl: string;
+}
+
+  /**
+   * Reads a public Event Source Virtual Design Center showroom (design, venue, inquiry contact)
+   * by its access code — no login.
+   */
+  interface Unit {
+    /**
+     * Reads a public Virtual Design Center showroom by its access code — its design(s), venue and
+     * branding.
+     */
+    getShowroom(code: string): Promise<EventSourceShowroom>;
+
+    /** Reads the real venue/room a showroom's design is staged in. */
+    getShowroomVenue(eventId: number, venueId: number, code: string): Promise<EventSourceVenue>;
+
+    /** Reads who a showroom's Send Inquiry button emails, without submitting anything. */
+    getShowroomInquiryContact(code: string): Promise<EventSourceInquiryContact>;
   }
 }
 
@@ -16612,6 +16670,7 @@ interface BowmarkProviders {
   discounttire: BowmarkProvider_discounttire.Unit;
   embroker: BowmarkProvider_embroker.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
+  eventsource: BowmarkProvider_eventsource.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d20287a3fb56455c9670559644b31d15ee10f1c8ebfbde0cd31aeb27b39a1f44
-// 357 checked, 20 unchecked.
+// Manifest version: 9eb824349ca7434a02a1c5aa2122b857d95a3611c852fdd41df9d41e25d641e9
+// 360 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d20287a3fb56455c9670559644b31d15ee10f1c8ebfbde0cd31aeb27b39a1f44",
+  "version": "9eb824349ca7434a02a1c5aa2122b857d95a3611c852fdd41df9d41e25d641e9",
   "units": {
     "cars": {
       "defs": {
@@ -3971,6 +3971,52 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.eventsource": {
+      "defs": {},
+      "functions": {
+        "getShowroom": [
+          {
+            "name": "code",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getShowroomVenue": [
+          {
+            "name": "eventId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "venueId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "code",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getShowroomInquiryContact": [
+          {
+            "name": "code",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

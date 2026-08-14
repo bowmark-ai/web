@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d20287a3fb56455c9670559644b31d15ee10f1c8ebfbde0cd31aeb27b39a1f44
-# 9 capabilities, 119 providers, 357 typed functions, 20 refused.
+# Manifest version: 9eb824349ca7434a02a1c5aa2122b857d95a3611c852fdd41df9d41e25d641e9
+# 9 capabilities, 120 providers, 360 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2465,6 +2465,48 @@ class Prv_erieinsurance_ErieAgent_Out(TypedDict):
     linesOfBusinessWritten: str | None
     hours: list[str]
     photoDataUri: str | None
+
+class Prv_eventsource_EventSourceShowroom_Out(TypedDict):
+    accessCode: str
+    showroomName: str
+    ownerName: str
+    branded: bool
+    underConstruction: bool
+    logoUrl: str
+    eventId: float
+    venueIds: list[float]
+    designs: list[Prv_eventsource_EventSourceDesign_Out]
+
+class Prv_eventsource_EventSourceDesign_Out(TypedDict):
+    designId: float
+    visionBoardId: float
+    roomId: float
+    designName: str
+    roomName: str
+    venueName: str
+    hasLayouts: bool
+    hasTemplates: bool
+
+class Prv_eventsource_EventSourceVenue_Out(TypedDict):
+    venueId: float
+    businessName: str
+    city: str
+    state: str
+    zipCode: str
+    market: str
+    primaryImageUrl: str
+    rooms: list[Prv_eventsource_EventSourceVenue_Out_rooms_item_Out]
+
+class Prv_eventsource_EventSourceVenue_Out_rooms_item_Out(TypedDict):
+    roomId: float
+    roomName: str
+    primaryImageUrl: str
+    active: bool
+
+class Prv_eventsource_EventSourceInquiryContact_Out(TypedDict):
+    inquiryRequestEmail: str
+    ownerName: str
+    ownerLogoUrl: str
 
 class Prv_extraspace_ExtraspaceSearchOptions_In(TypedDict):
     climateControlled: NotRequired[bool]
@@ -9793,6 +9835,22 @@ class Prv_erieinsurance(Protocol):
         error.
         """
 
+class Prv_eventsource(Protocol):
+    """Reads a public Event Source Virtual Design Center showroom (design, venue, inquiry
+    contact) by its access code — no login.
+    """
+
+    async def getShowroom(self, code: str, /) -> Prv_eventsource_EventSourceShowroom_Out:
+        """Reads a public Virtual Design Center showroom by its access code — its design(s), venue
+        and branding.
+        """
+
+    async def getShowroomVenue(self, eventId: float, venueId: float, code: str, /) -> Prv_eventsource_EventSourceVenue_Out:
+        """Reads the real venue/room a showroom's design is staged in."""
+
+    async def getShowroomInquiryContact(self, code: str, /) -> Prv_eventsource_EventSourceInquiryContact_Out:
+        """Reads who a showroom's Send Inquiry button emails, without submitting anything."""
+
 class Prv_extraspace(Protocol):
     """Extra Space Storage — self-storage facility search and detail. `search` takes a US city
     or ZIP and returns the nearby facilities its own locator would, nearest first, each with
@@ -13708,6 +13766,7 @@ class BowmarkProviders(Protocol):
     discounttire: Prv_discounttire
     embroker: Prv_embroker
     erieinsurance: Prv_erieinsurance
+    eventsource: Prv_eventsource
     extraspace: Prv_extraspace
     firstdibs: Prv_firstdibs
     flightradar24: Prv_flightradar24
