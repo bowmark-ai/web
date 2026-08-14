@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8c80e50eac1e4767fc396706a0eeaa8a753c254cf789f788569467efe329b3a4
-// 9 capabilities, 111 providers, 357 typed functions, 20 refused.
+// Manifest version: 4233925a8c1872e17a1ea1007d021a0e676bdf0b6ea652c7b9f5a7114e33ebbc
+// 9 capabilities, 112 providers, 360 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2026,6 +2026,58 @@ interface StoreStock {
      * "out of stock" when the page does not render, so a block is never mistaken for bad news.
      */
     checkStock(url: string): Promise<StoreStock>;
+  }
+}
+
+declare namespace BowmarkProvider_bigrentz {
+  // ── BigRentz — the unit's own declarations, verbatim ──
+interface BigrentzEquipmentRow {
+  id: number;
+  name: string;
+  slug: string;
+  permalink: string;
+  categories: { id: number; name: string; slug: string }[];
+  images: { src: string; alt: string }[];
+  inStock: boolean;
+  priced: false;
+  priceNote: string;
+}
+interface BigrentzEquipmentDetail extends BigrentzEquipmentRow {
+  description: string;
+  specSheetUrls: string[];
+}
+interface BigrentzCategoryRow {
+  id: number;
+  name: string;
+  slug: string;
+  count: number;
+  permalink: string;
+}
+
+  /**
+   * BigRentz's own equipment catalog — search, category browse and per-item detail, real data
+   * from their WooCommerce Store API. Live rental pricing is not yet built (site gates it behind
+   * a location + date picker); see getRentalPricing.
+   */
+  interface Unit {
+    /**
+     * Searches BigRentz's equipment catalog by free text (e.g. "boom lift", "40 ft boom lift") and
+     * returns matching rows. Real catalog data — id, name, slug, permalink, category, stock flag,
+     * images — but NOT a real price (see `priceNote` on each row).
+     */
+    search(query: string): Promise<BigrentzEquipmentRow[]>;
+
+    /**
+     * Reads one piece of equipment in full by the slug `search` or `listCategories` returned —
+     * description, spec-sheet PDF links, category and stock flag.
+     */
+    getEquipment(slug: string): Promise<BigrentzEquipmentDetail>;
+
+    /**
+     * Lists BigRentz's equipment categories — id, name, slug, live listing count, category page
+     * URL. Pass `parentSlug` to list a category's children.
+     */
+    listCategories(options?: { parentSlug?: string }): Promise<BigrentzCategoryRow[]>;
   }
 }
 
@@ -16184,6 +16236,7 @@ interface BowmarkProviders {
   azure: BowmarkProvider_azure.Unit;
   barletta: BowmarkProvider_barletta.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;
+  bigrentz: BowmarkProvider_bigrentz.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
   bluehaven: BowmarkProvider_bluehaven.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;

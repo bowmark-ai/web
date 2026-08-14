@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8c80e50eac1e4767fc396706a0eeaa8a753c254cf789f788569467efe329b3a4
-# 9 capabilities, 111 providers, 339 typed functions, 20 refused.
+# Manifest version: 4233925a8c1872e17a1ea1007d021a0e676bdf0b6ea652c7b9f5a7114e33ebbc
+# 9 capabilities, 112 providers, 342 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1290,6 +1290,58 @@ class Prv_bhphoto_StoreStock_Out(TypedDict):
     price: float | None
     currency: str
     checkedAt: str
+
+class Prv_bigrentz_BigrentzEquipmentRow_Out(TypedDict):
+    id: float
+    name: str
+    slug: str
+    permalink: str
+    categories: list[Prv_bigrentz_BigrentzEquipmentRow_Out_categories_item_Out]
+    images: list[Prv_bigrentz_BigrentzEquipmentRow_Out_images_item_Out]
+    inStock: bool
+    priced: Literal[False]
+    priceNote: str
+
+class Prv_bigrentz_BigrentzEquipmentRow_Out_categories_item_Out(TypedDict):
+    id: float
+    name: str
+    slug: str
+
+class Prv_bigrentz_BigrentzEquipmentRow_Out_images_item_Out(TypedDict):
+    src: str
+    alt: str
+
+class Prv_bigrentz_BigrentzEquipmentDetail_Out(TypedDict):
+    id: float
+    name: str
+    slug: str
+    permalink: str
+    categories: list[Prv_bigrentz_BigrentzEquipmentDetail_Out_categories_item_Out]
+    images: list[Prv_bigrentz_BigrentzEquipmentDetail_Out_images_item_Out]
+    inStock: bool
+    priced: Literal[False]
+    priceNote: str
+    description: str
+    specSheetUrls: list[str]
+
+class Prv_bigrentz_BigrentzEquipmentDetail_Out_categories_item_Out(TypedDict):
+    id: float
+    name: str
+    slug: str
+
+class Prv_bigrentz_BigrentzEquipmentDetail_Out_images_item_Out(TypedDict):
+    src: str
+    alt: str
+
+class Prv_bigrentz_listCategories_options_In(TypedDict):
+    parentSlug: NotRequired[str]
+
+class Prv_bigrentz_BigrentzCategoryRow_Out(TypedDict):
+    id: float
+    name: str
+    slug: str
+    count: float
+    permalink: str
 
 class Prv_blenderseyewear_BlendersEyewearStyle_Out(TypedDict):
     handle: str
@@ -8765,6 +8817,28 @@ class Prv_bhphoto(Protocol):
         mistaken for bad news.
         """
 
+class Prv_bigrentz(Protocol):
+    """BigRentz's own equipment catalog — search, category browse and per-item detail, real
+    data from their WooCommerce Store API. Live rental pricing is not yet built (site gates
+    it behind a location + date picker); see getRentalPricing.
+    """
+
+    async def search(self, query: str, /) -> list[Prv_bigrentz_BigrentzEquipmentRow_Out]:
+        """Searches BigRentz's equipment catalog by free text (e.g. "boom lift", "40 ft boom lift")
+        and returns matching rows. Real catalog data — id, name, slug, permalink, category,
+        stock flag, images — but NOT a real price (see `priceNote` on each row).
+        """
+
+    async def getEquipment(self, slug: str, /) -> Prv_bigrentz_BigrentzEquipmentDetail_Out:
+        """Reads one piece of equipment in full by the slug `search` or `listCategories` returned —
+        description, spec-sheet PDF links, category and stock flag.
+        """
+
+    async def listCategories(self, options: Prv_bigrentz_listCategories_options_In | None = None, /) -> list[Prv_bigrentz_BigrentzCategoryRow_Out]:
+        """Lists BigRentz's equipment categories — id, name, slug, live listing count, category
+        page URL. Pass `parentSlug` to list a category's children.
+        """
+
 class Prv_blenderseyewear(Protocol):
     """Blenders Eyewear's real prescription (Rx) frame catalog and its real Shopify-priced
     configurator — search real Rx styles, read one style's real option tree (prescription
@@ -13268,6 +13342,7 @@ class BowmarkProviders(Protocol):
     azure: Prv_azure
     barletta: Prv_barletta
     bhphoto: Prv_bhphoto
+    bigrentz: Prv_bigrentz
     blenderseyewear: Prv_blenderseyewear
     bluehaven: Prv_bluehaven
     bmwusa: Prv_bmwusa

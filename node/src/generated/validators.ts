@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8c80e50eac1e4767fc396706a0eeaa8a753c254cf789f788569467efe329b3a4
-// 339 checked, 20 unchecked.
+// Manifest version: 4233925a8c1872e17a1ea1007d021a0e676bdf0b6ea652c7b9f5a7114e33ebbc
+// 342 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8c80e50eac1e4767fc396706a0eeaa8a753c254cf789f788569467efe329b3a4",
+  "version": "4233925a8c1872e17a1ea1007d021a0e676bdf0b6ea652c7b9f5a7114e33ebbc",
   "units": {
     "cars": {
       "defs": {
@@ -2074,6 +2074,47 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bigrentz": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getEquipment": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "parentSlug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
