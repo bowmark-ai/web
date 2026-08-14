@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c18af68141b88a3c8eebd3ac2a6fca3d2737b34b6e55ca41e98f268d36d4ec4b
-# 9 capabilities, 110 providers, 340 typed functions, 20 refused.
+# Manifest version: 07f439161911e4c3d6d8f5e4187d7554f1913fed0a67e148802b2ddef519acfd
+# 9 capabilities, 109 providers, 336 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7285,60 +7285,6 @@ class Prv_teladoc_teladocInsuranceCoverage_Out(TypedDict):
     services: list[str]
     disclaimer: str
 
-class Prv_tentree_searchProducts_opts_In(TypedDict):
-    productType: NotRequired[str]
-    inStockOnly: NotRequired[bool]
-    limit: NotRequired[float]
-
-class Prv_tentree_TentreeProduct_Out(TypedDict):
-    handle: str
-    title: str
-    productType: str
-    vendor: str
-    url: str
-    optionNames: list[str]
-    variants: list[Prv_tentree_TentreeVariant_Out]
-    priceRange: Prv_tentree_TentreeProduct_Out_priceRange_u0_Out | None
-    inStock: bool
-    tags: list[str]
-    descriptionHtml: str | None
-
-class Prv_tentree_TentreeVariant_Out(TypedDict):
-    id: str
-    title: str
-    price: str
-    compareAtPrice: str | None
-    sku: str | None
-    available: bool
-    options: list[str]
-
-class Prv_tentree_TentreeProduct_Out_priceRange_u0_Out(TypedDict):
-    min: str
-    max: str
-
-class Prv_tentree_addToCart_items_item_In(TypedDict):
-    variantId: str
-    quantity: NotRequired[float]
-
-class Prv_tentree_TentreeCart_Out(TypedDict):
-    token: str
-    lines: list[Prv_tentree_TentreeCartLine_Out]
-    itemCount: float
-    subtotal: str
-    currency: str
-    cartUrl: str
-    checkoutUrl: str
-
-class Prv_tentree_TentreeCartLine_Out(TypedDict):
-    lineKey: str
-    variantId: str
-    productTitle: str
-    variantTitle: str | None
-    quantity: float
-    price: str
-    lineTotal: str
-    url: str
-
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -12739,41 +12685,6 @@ class Prv_teladoc(Protocol):
         way this parser cannot read surfaces as an error rather than an empty answer.
         """
 
-class Prv_tentree(Protocol):
-    """Sustainable apparel storefront — hats, tees, hoodies and outerwear — with a real guest
-    cart a caller can fill across several calls.
-    """
-
-    async def searchProducts(self, query: str, opts: Prv_tentree_searchProducts_opts_In | None = None, /) -> list[Prv_tentree_TentreeProduct_Out]:
-        """Searches tentree's live catalogue and returns matching products with their real
-        variants, current prices and per-variant stock. Matches whole words, so 'tee' finds tees
-        and not 'steel'. Returns [] when nothing matches, which is an ordinary answer rather
-        than an error.
-        """
-
-    async def getProduct(self, handle: str, /) -> Prv_tentree_TentreeProduct_Out:
-        """Reads one product by its handle — every variant, its exact price and whether that
-        specific size or colour is purchasable right now. Takes the handle searchProducts
-        returns, and its variants[].id is what addToCart takes. THROWS on an unknown handle (the
-        store answers a real 404).
-        """
-
-    async def addToCart(self, items: Sequence[Prv_tentree_addToCart_items_item_In], /) -> Prv_tentree_TentreeCart_Out:
-        """Puts variants into THIS run's own cart on the store and returns the cart as the store
-        reports it. Really writes — the cart exists on tentree.com from the first call, and it
-        belongs to this run's cookie jar. Call it several times inside one bowmark.session() and
-        the lines accumulate; call it across two separate runs and the second cart does not
-        contain the first's lines. Takes VARIANT ids (getProduct().variants[].id), never
-        handles. Nothing is bought: checkoutUrl is where a shopper would pay.
-        """
-
-    async def getCart(self, /) -> Prv_tentree_TentreeCart_Out:
-        """Reads THIS run's cart back from the store — lines, quantities, per-line and order
-        totals, and the real cart and checkout URLs. Takes no id: the cart is the one this run's
-        cookie jar holds, so a fresh run reads an empty cart rather than somebody else's. An
-        empty cart is an ordinary answer (itemCount 0), not an error.
-        """
-
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -13345,7 +13256,6 @@ class BowmarkProviders(Protocol):
     sunhomesaunas: Prv_sunhomesaunas
     target: Prv_target
     teladoc: Prv_teladoc
-    tentree: Prv_tentree
     therabody: Prv_therabody
     thezebra: Prv_thezebra
     topviewtix: Prv_topviewtix

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c18af68141b88a3c8eebd3ac2a6fca3d2737b34b6e55ca41e98f268d36d4ec4b
-// 340 checked, 20 unchecked.
+// Manifest version: 07f439161911e4c3d6d8f5e4187d7554f1913fed0a67e148802b2ddef519acfd
+// 336 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c18af68141b88a3c8eebd3ac2a6fca3d2737b34b6e55ca41e98f268d36d4ec4b",
+  "version": "07f439161911e4c3d6d8f5e4187d7554f1913fed0a67e148802b2ddef519acfd",
   "units": {
     "cars": {
       "defs": {
@@ -13159,88 +13159,6 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getPricing": [],
         "getInsurancePricing": []
-      }
-    },
-    "providers.tentree": {
-      "defs": {},
-      "functions": {
-        "searchProducts": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "productType",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "inStockOnly",
-                  "schema": {
-                    "k": "boolean"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "limit",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            "optional": true
-          }
-        ],
-        "getProduct": [
-          {
-            "name": "handle",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "addToCart": [
-          {
-            "name": "items",
-            "schema": {
-              "k": "array",
-              "of": {
-                "k": "object",
-                "props": [
-                  {
-                    "name": "variantId",
-                    "schema": {
-                      "k": "string"
-                    },
-                    "optional": false
-                  },
-                  {
-                    "name": "quantity",
-                    "schema": {
-                      "k": "number"
-                    },
-                    "optional": true
-                  }
-                ]
-              }
-            },
-            "optional": false
-          }
-        ],
-        "getCart": []
       }
     },
     "providers.therabody": {

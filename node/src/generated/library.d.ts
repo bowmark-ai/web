@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c18af68141b88a3c8eebd3ac2a6fca3d2737b34b6e55ca41e98f268d36d4ec4b
-// 9 capabilities, 110 providers, 358 typed functions, 20 refused.
-// 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: 07f439161911e4c3d6d8f5e4187d7554f1913fed0a67e148802b2ddef519acfd
+// 9 capabilities, 109 providers, 354 typed functions, 20 refused.
+// 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -13958,98 +13958,6 @@ interface teladocInsuranceCoverage {
   }
 }
 
-declare namespace BowmarkProvider_tentree {
-  // ── tentree — the unit's own declarations, verbatim ──
-interface TentreeVariant {
-  /** Shopify's numeric variant id as a string. What addToCart takes. */
-  id: string;
-  /** The variant's own label, e.g. "ASHWOOD METEORITE BLACK / ONE". */
-  title: string;
-  /** Decimal string exactly as the store publishes it, e.g. "45.00". */
-  price: string;
-  compareAtPrice: string | null;
-  sku: string | null;
-  /** The store's own per-variant stock flag. */
-  available: boolean;
-  options: string[];
-}
-interface TentreeProduct {
-  handle: string;
-  title: string;
-  productType: string;
-  vendor: string;
-  url: string;
-  optionNames: string[];
-  variants: TentreeVariant[];
-  priceRange: { min: string; max: string } | null;
-  inStock: boolean;
-  tags: string[];
-  descriptionHtml: string | null;
-}
-interface TentreeCartLine {
-  /** Shopify's own line key, which its cart-change endpoints address a line by. */
-  lineKey: string;
-  variantId: string;
-  productTitle: string;
-  /** Null on a single-variant product. */
-  variantTitle: string | null;
-  quantity: number;
-  price: string;
-  lineTotal: string;
-  url: string;
-}
-interface TentreeCart {
-  /** The store's own cart token — a bearer credential, so treat it like one. */
-  token: string;
-  lines: TentreeCartLine[];
-  /** Units, NOT lines: two of one variant is one line and two items. */
-  itemCount: number;
-  subtotal: string;
-  currency: string;
-  cartUrl: string;
-  checkoutUrl: string;
-}
-
-  /**
-   * Sustainable apparel storefront — hats, tees, hoodies and outerwear — with a real guest cart
-   * a caller can fill across several calls.
-   */
-  interface Unit {
-    /**
-     * Searches tentree's live catalogue and returns matching products with their real variants,
-     * current prices and per-variant stock. Matches whole words, so 'tee' finds tees and not
-     * 'steel'. Returns [] when nothing matches, which is an ordinary answer rather than an error.
-     */
-    searchProducts(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number }): Promise<TentreeProduct[]>;
-
-    /**
-     * Reads one product by its handle — every variant, its exact price and whether that specific
-     * size or colour is purchasable right now. Takes the handle searchProducts returns, and its
-     * variants[].id is what addToCart takes. THROWS on an unknown handle (the store answers a real
-     * 404).
-     */
-    getProduct(handle: string): Promise<TentreeProduct>;
-
-    /**
-     * Puts variants into THIS run's own cart on the store and returns the cart as the store
-     * reports it. Really writes — the cart exists on tentree.com from the first call, and it
-     * belongs to this run's cookie jar. Call it several times inside one bowmark.session() and the
-     * lines accumulate; call it across two separate runs and the second cart does not contain the
-     * first's lines. Takes VARIANT ids (getProduct().variants[].id), never handles. Nothing is
-     * bought: checkoutUrl is where a shopper would pay.
-     */
-    addToCart(items: Array<{ variantId: string; quantity?: number }>): Promise<TentreeCart>;
-
-    /**
-     * Reads THIS run's cart back from the store — lines, quantities, per-line and order totals,
-     * and the real cart and checkout URLs. Takes no id: the cart is the one this run's cookie jar
-     * holds, so a fresh run reads an empty cart rather than somebody else's. An empty cart is an
-     * ordinary answer (itemCount 0), not an error.
-     */
-    getCart(): Promise<TentreeCart>;
-  }
-}
-
 declare namespace BowmarkProvider_therabody {
   // ── Therabody — the unit's own declarations, verbatim ──
 interface TherabodyVariant {
@@ -16261,7 +16169,6 @@ interface BowmarkProviders {
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   target: BowmarkProvider_target.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
-  tentree: BowmarkProvider_tentree.Unit;
   therabody: BowmarkProvider_therabody.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
@@ -58192,6 +58099,7 @@ interface BowmarkProviders {
   tentarte: BowmarkFamily_shopify_store.Unit;
   tenthavenuenorthshop: BowmarkFamily_shopify_store.Unit;
   tenthpine: BowmarkFamily_shopify_store.Unit;
+  tentree: BowmarkFamily_shopify_store.Unit;
   teoapparel: BowmarkFamily_shopify_store.Unit;
   teopanzolcobarcelonnette: BowmarkFamily_shopify_store.Unit;
   tepawines: BowmarkFamily_shopify_store.Unit;
