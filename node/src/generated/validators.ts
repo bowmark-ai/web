@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4233925a8c1872e17a1ea1007d021a0e676bdf0b6ea652c7b9f5a7114e33ebbc
-// 342 checked, 20 unchecked.
+// Manifest version: b8a096c12aa83cb061862aa365dde031342de02e353ded81b4a1411130d1eea5
+// 345 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4233925a8c1872e17a1ea1007d021a0e676bdf0b6ea652c7b9f5a7114e33ebbc",
+  "version": "b8a096c12aa83cb061862aa365dde031342de02e353ded81b4a1411130d1eea5",
   "units": {
     "cars": {
       "defs": {
@@ -4802,6 +4802,77 @@ export const VALIDATORS: ValidatorTable = {
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.grandwelcome": {
+      "defs": {},
+      "functions": {
+        "searchRentals": [
+          {
+            "name": "destinationSlug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bedrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getRentalDetail": [
+          {
+            "name": "rentalId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getRentalQuote": [
+          {
+            "name": "propertyId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "checkin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkout",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

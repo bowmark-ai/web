@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4233925a8c1872e17a1ea1007d021a0e676bdf0b6ea652c7b9f5a7114e33ebbc
-// 9 capabilities, 112 providers, 360 typed functions, 20 refused.
+// Manifest version: b8a096c12aa83cb061862aa365dde031342de02e353ded81b4a1411130d1eea5
+// 9 capabilities, 113 providers, 363 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5663,6 +5663,72 @@ interface graingerStockRow {
      * `quantity` (default 1) is forwarded to the site.
      */
     checkStock(args: object): Promise<graingerStockRow>;
+  }
+}
+
+declare namespace BowmarkProvider_grandwelcome {
+  // ── Grand Welcome — the unit's own declarations, verbatim ──
+interface GrandwelcomeRentalRow {
+  rentalId: string;
+  name: string;
+  url: string;
+  location: string;
+  propertyType: string;
+  petFriendly: boolean;
+  priceFromUsd: number | null;
+  priceFromFormatted: string | null;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  guests: number | null;
+  ratingValue: number | null;
+  ratingCount: number | null;
+}
+interface GrandwelcomeRentalDetail {
+  rentalId: string;
+  propertyId: string;
+  name: string;
+  description: string;
+  images: string[];
+  url: string;
+}
+interface GrandwelcomeQuoteFee {
+  label: string;
+  amountUsd: number;
+}
+type GrandwelcomeQuote =
+  | { available: true; propertyId: string; checkin: string; checkout: string; currency: "USD";
+      rentUsd: number; fees: GrandwelcomeQuoteFee[]; feesTotalUsd: number; taxUsd: number;
+      totalUsd: number; bookNowUrl: string }
+  | { available: false; propertyId: string; checkin: string; checkout: string };
+
+  /**
+   * Grand Welcome's own vacation rental search, listing detail, and real-time dated
+   * pricing/booking-link engine — a national franchise's own inventory, live availability and
+   * price, not a stale catalog.
+   */
+  interface Unit {
+    /**
+     * Runs Grand Welcome's own destination search (a market slug like "california-sea-ranch", from
+     * a rental's own page or the destination directory), optionally filtered to a bedroom count,
+     * and returns the live matching listings — name, url, location, type, pet-friendly flag,
+     * advertised "as low as" price, bed/bath/guest counts, rating.
+     */
+    searchRentals(destinationSlug: string, options?: { bedrooms?: number }): Promise<GrandwelcomeRentalRow[]>;
+
+    /**
+     * Reads one rental in full — name, description, photos, and the internal numeric propertyId
+     * getRentalQuote needs — from the rentalId a search result or a grandwelcome.com/rentals/<id>
+     * URL carries.
+     */
+    getRentalDetail(rentalId: string): Promise<GrandwelcomeRentalDetail>;
+
+    /**
+     * Runs the site's own real-time pricing engine for one property and a date range
+     * ("YYYY-MM-DD") — rent, fees, tax, total — and returns the exact Book Now checkout URL for
+     * those dates. `available: false` means the site checked and the property is not free for
+     * those dates, an ordinary answer.
+     */
+    getRentalQuote(propertyId: string, options: { checkin: string; checkout: string }): Promise<GrandwelcomeQuote>;
   }
 }
 
@@ -16267,6 +16333,7 @@ interface BowmarkProviders {
   google_flights: BowmarkProvider_google_flights.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;
+  grandwelcome: BowmarkProvider_grandwelcome.Unit;
   handypro: BowmarkProvider_handypro.Unit;
   harmar: BowmarkProvider_harmar.Unit;
   hauslabs: BowmarkProvider_hauslabs.Unit;

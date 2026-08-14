@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4233925a8c1872e17a1ea1007d021a0e676bdf0b6ea652c7b9f5a7114e33ebbc
-# 9 capabilities, 112 providers, 342 typed functions, 20 refused.
+# Manifest version: b8a096c12aa83cb061862aa365dde031342de02e353ded81b4a1411130d1eea5
+# 9 capabilities, 113 providers, 345 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3163,6 +3163,59 @@ class Prv_grainger_graingerStockRow_Out_pickup_u0_Out_branch_u0_Out_address_u0_O
     state: str | None
     zip: str | None
     country: str | None
+
+class Prv_grandwelcome_searchRentals_options_In(TypedDict):
+    bedrooms: NotRequired[float]
+
+class Prv_grandwelcome_GrandwelcomeRentalRow_Out(TypedDict):
+    rentalId: str
+    name: str
+    url: str
+    location: str
+    propertyType: str
+    petFriendly: bool
+    priceFromUsd: float | None
+    priceFromFormatted: str | None
+    bedrooms: float | None
+    bathrooms: float | None
+    guests: float | None
+    ratingValue: float | None
+    ratingCount: float | None
+
+class Prv_grandwelcome_GrandwelcomeRentalDetail_Out(TypedDict):
+    rentalId: str
+    propertyId: str
+    name: str
+    description: str
+    images: list[str]
+    url: str
+
+class Prv_grandwelcome_getRentalQuote_options_In(TypedDict):
+    checkin: str
+    checkout: str
+
+class Prv_grandwelcome_GrandwelcomeQuote_u0_Out(TypedDict):
+    available: Literal[True]
+    propertyId: str
+    checkin: str
+    checkout: str
+    currency: Literal["USD"]
+    rentUsd: float
+    fees: list[Prv_grandwelcome_GrandwelcomeQuoteFee_Out]
+    feesTotalUsd: float
+    taxUsd: float
+    totalUsd: float
+    bookNowUrl: str
+
+class Prv_grandwelcome_GrandwelcomeQuoteFee_Out(TypedDict):
+    label: str
+    amountUsd: float
+
+class Prv_grandwelcome_GrandwelcomeQuote_u1_Out(TypedDict):
+    available: Literal[False]
+    propertyId: str
+    checkin: str
+    checkout: str
 
 class Prv_handypro_HandyproServiceArea_Out(TypedDict):
     covered: bool
@@ -10057,6 +10110,32 @@ class Prv_grainger(Protocol):
         could have named). Optional `quantity` (default 1) is forwarded to the site.
         """
 
+class Prv_grandwelcome(Protocol):
+    """Grand Welcome's own vacation rental search, listing detail, and real-time dated
+    pricing/booking-link engine — a national franchise's own inventory, live availability
+    and price, not a stale catalog.
+    """
+
+    async def searchRentals(self, destinationSlug: str, options: Prv_grandwelcome_searchRentals_options_In | None = None, /) -> list[Prv_grandwelcome_GrandwelcomeRentalRow_Out]:
+        """Runs Grand Welcome's own destination search (a market slug like "california-sea-ranch",
+        from a rental's own page or the destination directory), optionally filtered to a bedroom
+        count, and returns the live matching listings — name, url, location, type, pet-friendly
+        flag, advertised "as low as" price, bed/bath/guest counts, rating.
+        """
+
+    async def getRentalDetail(self, rentalId: str, /) -> Prv_grandwelcome_GrandwelcomeRentalDetail_Out:
+        """Reads one rental in full — name, description, photos, and the internal numeric
+        propertyId getRentalQuote needs — from the rentalId a search result or a
+        grandwelcome.com/rentals/<id> URL carries.
+        """
+
+    async def getRentalQuote(self, propertyId: str, options: Prv_grandwelcome_getRentalQuote_options_In, /) -> Prv_grandwelcome_GrandwelcomeQuote_u0_Out | Prv_grandwelcome_GrandwelcomeQuote_u1_Out:
+        """Runs the site's own real-time pricing engine for one property and a date range
+        ("YYYY-MM-DD") — rent, fees, tax, total — and returns the exact Book Now checkout URL
+        for those dates. `available: false` means the site checked and the property is not free
+        for those dates, an ordinary answer.
+        """
+
 class Prv_handypro(Protocol):
     """HandyPro's real service-area coverage and per-category job pricing — checks whether a
     ZIP is served by a real local franchisee (with its own live hourly rate table) and
@@ -13373,6 +13452,7 @@ class BowmarkProviders(Protocol):
     google_flights: Prv_google_flights
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger
+    grandwelcome: Prv_grandwelcome
     handypro: Prv_handypro
     harmar: Prv_harmar
     hauslabs: Prv_hauslabs
