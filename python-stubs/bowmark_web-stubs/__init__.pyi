@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4fb48479e0263006d1118248bb0cdadda335f27229e93cc38d58a1a7939f2c61
-# 9 capabilities, 115 providers, 349 typed functions, 20 refused.
+# Manifest version: 9ea4e2b6a4b1ff68fa3854b93799e4b23ed6ed25058567eca76161a03c75e6f1
+# 9 capabilities, 116 providers, 350 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8046,6 +8046,16 @@ class Prv_visible_VisiblePlanFeature_Out(TypedDict):
     label: str | None
     items: list[str]
 
+class Prv_voluspa_VoluspaQuizIntro_Out(TypedDict):
+    paths: list[Prv_voluspa_VoluspaQuizButton_Out]
+    firstQuestionOptions: list[Prv_voluspa_VoluspaQuizButton_Out]
+
+class Prv_voluspa_VoluspaQuizButton_Out(TypedDict):
+    text: str
+    action: str
+    url: NotRequired[str]
+    selectedValue: NotRequired[str]
+
 class Prv_walmart_search_args_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -13401,6 +13411,18 @@ class Prv_visible(Protocol):
         changes the answer visibly rather than reading as a half-broken response.
         """
 
+class Prv_voluspa(Protocol):
+    """Voluspa's own "Find Your Fragrance" quiz suite — reads the branching quiz's entry paths
+    and first-question scent-family options straight from the quiz vendor's config.
+    """
+
+    async def getFragranceQuizIntro(self, pathIndex: float | None = None, /) -> Prv_voluspa_VoluspaQuizIntro_Out:
+        """Reads the fragrance quiz's entry screen — its two branching paths and the FIRST
+        question's scent-family options for one of them (0 = home fragrance, 1 = personal
+        fragrance/EDP, as the splash screen lists them; default 0) — decoded from Digioh's own
+        campaign config.
+        """
+
 class Prv_walmart(Protocol):
     """Walmart.com — product search, product detail, store-level stock, store locator and more.
     Two functions built: keyword search across the catalog, and finding nearby stores by ZIP
@@ -13611,6 +13633,7 @@ class BowmarkProviders(Protocol):
     viewrail: Prv_viewrail
     villagerealtyobx: Prv_villagerealtyobx
     visible: Prv_visible
+    voluspa: Prv_voluspa
     walmart: Prv_walmart
     wellfound: Prv_wellfound
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare

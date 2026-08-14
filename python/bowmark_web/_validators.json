@@ -1,5 +1,5 @@
 {
-  "version": "4fb48479e0263006d1118248bb0cdadda335f27229e93cc38d58a1a7939f2c61",
+  "version": "9ea4e2b6a4b1ff68fa3854b93799e4b23ed6ed25058567eca76161a03c75e6f1",
   "units": {
     "cars": {
       "defs": {
@@ -14293,6 +14293,20 @@
           }
         ],
         "getPlans": []
+      }
+    },
+    "providers.voluspa": {
+      "defs": {},
+      "functions": {
+        "getFragranceQuizIntro": [
+          {
+            "name": "pathIndex",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.walmart": {

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4fb48479e0263006d1118248bb0cdadda335f27229e93cc38d58a1a7939f2c61
-// 9 capabilities, 115 providers, 367 typed functions, 20 refused.
+// Manifest version: 9ea4e2b6a4b1ff68fa3854b93799e4b23ed6ed25058567eca76161a03c75e6f1
+// 9 capabilities, 116 providers, 368 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15297,6 +15297,33 @@ interface VisibleGetPlansResult {
   }
 }
 
+declare namespace BowmarkProvider_voluspa {
+  // ── Voluspa — the unit's own declarations, verbatim ──
+interface VoluspaQuizButton {
+  text: string;
+  action: string;
+  url?: string;
+  selectedValue?: string;
+}
+interface VoluspaQuizIntro {
+  paths: VoluspaQuizButton[];
+  firstQuestionOptions: VoluspaQuizButton[];
+}
+
+  /**
+   * Voluspa's own "Find Your Fragrance" quiz suite — reads the branching quiz's entry paths and
+   * first-question scent-family options straight from the quiz vendor's config.
+   */
+  interface Unit {
+    /**
+     * Reads the fragrance quiz's entry screen — its two branching paths and the FIRST question's
+     * scent-family options for one of them (0 = home fragrance, 1 = personal fragrance/EDP, as the
+     * splash screen lists them; default 0) — decoded from Digioh's own campaign config.
+     */
+    getFragranceQuizIntro(pathIndex?: number): Promise<VoluspaQuizIntro>;
+  }
+}
+
 declare namespace BowmarkProvider_walmart {
   // ── Walmart — the unit's own declarations, verbatim ──
 interface walmartStore {
@@ -16501,6 +16528,7 @@ interface BowmarkProviders {
   viewrail: BowmarkProvider_viewrail.Unit;
   villagerealtyobx: BowmarkProvider_villagerealtyobx.Unit;
   visible: BowmarkProvider_visible.Unit;
+  voluspa: BowmarkProvider_voluspa.Unit;
   walmart: BowmarkProvider_walmart.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
