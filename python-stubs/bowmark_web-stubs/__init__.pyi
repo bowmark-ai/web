@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e02cd75dd53c13bad8c7fc5c63cc01fec02a364bdd3a3d4d3ab01a7872682c49
-# 9 capabilities, 123 providers, 367 typed functions, 20 refused.
+# Manifest version: c6f27587b7c786eae1a5ecb1abf2b576dbc628fb0b7e1a017e45ad47468376ce
+# 9 capabilities, 124 providers, 369 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7867,6 +7867,46 @@ class Prv_thezebra_thezebraAutoQuote_Out(TypedDict):
     deductible: float | None
     coverages: list[str]
 
+class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
+    id: float
+    name: str
+    displayName: str | None
+    bed: float | None
+    bath: float | None
+    size: float | None
+    cost: float | None
+    defaultElevationId: float | None
+
+class Prv_tilsonhomes_TilsonhomesElevationDetails_Out(TypedDict):
+    id: float
+    planName: str | None
+    caption: str | None
+    thumb: str | None
+    bed: float | None
+    bedMin: float | None
+    bedMax: float | None
+    bath: float | None
+    bathMin: float | None
+    bathMax: float | None
+    size: float | None
+    sizeMin: float | None
+    sizeMax: float | None
+    cost: float | None
+    costMin: float | None
+    costMax: float | None
+    description: str | None
+    finishes: list[Prv_tilsonhomes_TilsonhomesFinishOption_Out]
+
+class Prv_tilsonhomes_TilsonhomesFinishOption_Out(TypedDict):
+    category: str | None
+    name: str | None
+    displayName: str | None
+    swatches: list[Prv_tilsonhomes_TilsonhomesFinishOption_Out_swatches_item_Out]
+
+class Prv_tilsonhomes_TilsonhomesFinishOption_Out_swatches_item_Out(TypedDict):
+    id: float
+    name: str | None
+
 class Prv_topviewtix_topviewtixPackageDetails_Out(TypedDict):
     id: float
     slug: str
@@ -13538,6 +13578,25 @@ class Prv_thezebra(Protocol):
         monthly one.
         """
 
+class Prv_tilsonhomes(Protocol):
+    """Reads Tilson Homes' Build-On-Your-Land floor plan catalog and each plan's Anewgo-powered
+    customizer — bed/bath/size range and exterior finish options — the way the live site's
+    interactive floorplan tool would show them.
+    """
+
+    async def listPlans(self, activeOnly: bool | None = None, /) -> list[Prv_tilsonhomes_TilsonhomesPlan_Out]:
+        """Lists Tilson Homes' Build-On-Your-Land floor plans — model name, bed/bath/size and the
+        default elevation id `getElevationDetails` reads. The entry point: every plan links to a
+        customizer instance.
+        """
+
+    async def getElevationDetails(self, elevationId: float | str, /) -> Prv_tilsonhomes_TilsonhomesElevationDetails_Out:
+        """Reads one plan's elevation — the exterior style's customization range (how far
+        bed/bath/size can be pushed by the site's own add-a-room options) and its exterior
+        finish categories (roof, trim, body, accent) with the swatch currently assigned to each.
+        The read behind 'add a covered porch and a 4th bedroom, show me the finishes'.
+        """
+
 class Prv_topviewtix(Protocol):
     """TopView's NYC hop-on-hop-off bus, Statue of Liberty cruise and bike/walking tour
     packages — getPackageDetails reads one package's live price and its own real-time
@@ -13996,6 +14055,7 @@ class BowmarkProviders(Protocol):
     teladoc: Prv_teladoc
     therabody: Prv_therabody
     thezebra: Prv_thezebra
+    tilsonhomes: Prv_tilsonhomes
     topviewtix: Prv_topviewtix
     trektravel: Prv_trektravel
     twiddy: Prv_twiddy

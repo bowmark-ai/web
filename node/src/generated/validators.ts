@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e02cd75dd53c13bad8c7fc5c63cc01fec02a364bdd3a3d4d3ab01a7872682c49
-// 367 checked, 20 unchecked.
+// Manifest version: c6f27587b7c786eae1a5ecb1abf2b576dbc628fb0b7e1a017e45ad47468376ce
+// 369 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e02cd75dd53c13bad8c7fc5c63cc01fec02a364bdd3a3d4d3ab01a7872682c49",
+  "version": "c6f27587b7c786eae1a5ecb1abf2b576dbc628fb0b7e1a017e45ad47468376ce",
   "units": {
     "cars": {
       "defs": {
@@ -14210,6 +14210,37 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "thezebraAutoQuotesQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tilsonhomes": {
+      "defs": {},
+      "functions": {
+        "listPlans": [
+          {
+            "name": "activeOnly",
+            "schema": {
+              "k": "boolean"
+            },
+            "optional": true
+          }
+        ],
+        "getElevationDetails": [
+          {
+            "name": "elevationId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "number"
+                },
+                {
+                  "k": "string"
+                }
+              ]
             },
             "optional": false
           }

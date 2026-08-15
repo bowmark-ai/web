@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e02cd75dd53c13bad8c7fc5c63cc01fec02a364bdd3a3d4d3ab01a7872682c49
-// 9 capabilities, 123 providers, 385 typed functions, 20 refused.
+// Manifest version: c6f27587b7c786eae1a5ecb1abf2b576dbc628fb0b7e1a017e45ad47468376ce
+// 9 capabilities, 124 providers, 387 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15042,6 +15042,70 @@ interface thezebraAutoQuotes {
   }
 }
 
+declare namespace BowmarkProvider_tilsonhomes {
+  // ── Tilson Homes — the unit's own declarations, verbatim ──
+interface TilsonhomesPlan {
+  id: number;
+  name: string;
+  displayName: string | null;
+  bed: number | null;
+  bath: number | null;
+  size: number | null;
+  cost: number | null;
+  defaultElevationId: number | null;
+}
+
+interface TilsonhomesElevationDetails {
+  id: number;
+  planName: string | null;
+  caption: string | null;
+  thumb: string | null;
+  bed: number | null;
+  bedMin: number | null;
+  bedMax: number | null;
+  bath: number | null;
+  bathMin: number | null;
+  bathMax: number | null;
+  size: number | null;
+  sizeMin: number | null;
+  sizeMax: number | null;
+  cost: number | null;
+  costMin: number | null;
+  costMax: number | null;
+  description: string | null;
+  finishes: TilsonhomesFinishOption[];
+}
+
+interface TilsonhomesFinishOption {
+  category: string | null;
+  name: string | null;
+  displayName: string | null;
+  swatches: { id: number; name: string | null }[];
+}
+
+  /**
+   * Reads Tilson Homes' Build-On-Your-Land floor plan catalog and each plan's Anewgo-powered
+   * customizer — bed/bath/size range and exterior finish options — the way the live site's
+   * interactive floorplan tool would show them.
+   */
+  interface Unit {
+    /**
+     * Lists Tilson Homes' Build-On-Your-Land floor plans — model name, bed/bath/size and the
+     * default elevation id `getElevationDetails` reads. The entry point: every plan links to a
+     * customizer instance.
+     */
+    listPlans(activeOnly?: boolean): Promise<TilsonhomesPlan[]>;
+
+    /**
+     * Reads one plan's elevation — the exterior style's customization range (how far bed/bath/size
+     * can be pushed by the site's own add-a-room options) and its exterior finish categories
+     * (roof, trim, body, accent) with the swatch currently assigned to each. The read behind 'add
+     * a covered porch and a 4th bedroom, show me the finishes'.
+     */
+    getElevationDetails(elevationId: number | string): Promise<TilsonhomesElevationDetails>;
+  }
+}
+
 declare namespace BowmarkProvider_topviewtix {
   // ── TopView Sightseeing — the unit's own declarations, verbatim ──
 interface topviewtixPackageDetails {
@@ -16926,6 +16990,7 @@ interface BowmarkProviders {
   teladoc: BowmarkProvider_teladoc.Unit;
   therabody: BowmarkProvider_therabody.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
+  tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
