@@ -1,5 +1,5 @@
 {
-  "version": "31a3f40d07094661ec5706335ea7d033739126d4ed81862c950501fd3007de0a",
+  "version": "9000b770c7a6efc9464c3da0b2eb36bc6aaf6c8a781b120a3bd8702d8c3feaea",
   "units": {
     "cars": {
       "defs": {
@@ -14701,6 +14701,48 @@
                   "k": "string"
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.titlenine": {
+      "defs": {
+        "TitlenineBraMeasurements": {
+          "k": "object",
+          "props": [
+            {
+              "name": "chestInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "bustInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "belowBustInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "calculateBraSize": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "TitlenineBraMeasurements"
             },
             "optional": false
           }

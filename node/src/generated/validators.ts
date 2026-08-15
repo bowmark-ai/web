@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 31a3f40d07094661ec5706335ea7d033739126d4ed81862c950501fd3007de0a
-// 385 checked, 20 unchecked.
+// Manifest version: 9000b770c7a6efc9464c3da0b2eb36bc6aaf6c8a781b120a3bd8702d8c3feaea
+// 386 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "31a3f40d07094661ec5706335ea7d033739126d4ed81862c950501fd3007de0a",
+  "version": "9000b770c7a6efc9464c3da0b2eb36bc6aaf6c8a781b120a3bd8702d8c3feaea",
   "units": {
     "cars": {
       "defs": {
@@ -14713,6 +14713,48 @@ export const VALIDATORS: ValidatorTable = {
                   "k": "string"
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.titlenine": {
+      "defs": {
+        "TitlenineBraMeasurements": {
+          "k": "object",
+          "props": [
+            {
+              "name": "chestInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "bustInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "belowBustInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "calculateBraSize": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "TitlenineBraMeasurements"
             },
             "optional": false
           }

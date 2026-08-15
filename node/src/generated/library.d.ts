@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 31a3f40d07094661ec5706335ea7d033739126d4ed81862c950501fd3007de0a
-// 9 capabilities, 132 providers, 403 typed functions, 20 refused.
+// Manifest version: 9000b770c7a6efc9464c3da0b2eb36bc6aaf6c8a781b120a3bd8702d8c3feaea
+// 9 capabilities, 133 providers, 404 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15594,6 +15594,44 @@ interface TilsonhomesFinishOption {
   }
 }
 
+declare namespace BowmarkProvider_titlenine {
+  // ── Title Nine — the unit's own declarations, verbatim ──
+// Title Nine's OWN shapes — not a capability contract.
+
+interface TitlenineBraMeasurements {
+  chestInches: number;      // site's calculatable range: 30-46
+  bustInches: number;
+  belowBustInches: number;  // site requires >= 24
+}
+
+interface TitlenineBraSizeResult {
+  bandSize: number;
+  cupCode: string;             // the site's own raw catalog query param, e.g. "DD%2B"
+  cupLabel: string;            // the label shown to the customer, e.g. "M (11D)"
+  sizeLabel: string;           // "<bandSize><cupLabel>", e.g. "40M (11D)"
+  inStock: boolean;            // false for the extended range (n2 >= 9)
+  shopUrl: string | null;      // pre-filtered catalog link, only when inStock
+  unavailableMessage: string | null;
+  calculatorUrl: string;
+}
+
+  /**
+   * Title Nine's own bra-size calculator — real band + cup math off three measurements, computed
+   * exactly as the site computes it, including the extended cup range (up to "M (11D)") that
+   * generic AI knowledge gets wrong — plus the exact 'Shop <size>' catalog link when the size is
+   * in stock.
+   */
+  interface Unit {
+    /**
+     * Runs Title Nine's own bra-size calculator — chest/bust/under-bust in, a real band + cup size
+     * out computed exactly as the site computes it, including Title Nine's own extended cup
+     * labeling past DDD (up to "M (11D)") that generic AI knowledge gets wrong. Returns the exact
+     * 'Shop <size>' catalog link when the size is currently carried online.
+     */
+    calculateBraSize(input: TitlenineBraMeasurements): Promise<TitlenineBraSizeResult>;
+  }
+}
+
 declare namespace BowmarkProvider_topviewtix {
   // ── TopView Sightseeing — the unit's own declarations, verbatim ──
 interface topviewtixPackageDetails {
@@ -17487,6 +17525,7 @@ interface BowmarkProviders {
   therabody: BowmarkProvider_therabody.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
+  titlenine: BowmarkProvider_titlenine.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;

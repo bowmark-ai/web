@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 31a3f40d07094661ec5706335ea7d033739126d4ed81862c950501fd3007de0a
-# 9 capabilities, 132 providers, 385 typed functions, 20 refused.
+# Manifest version: 9000b770c7a6efc9464c3da0b2eb36bc6aaf6c8a781b120a3bd8702d8c3feaea
+# 9 capabilities, 133 providers, 386 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8219,6 +8219,21 @@ class Prv_tilsonhomes_TilsonhomesFinishOption_Out_swatches_item_Out(TypedDict):
     id: float
     name: str | None
 
+class Prv_titlenine_TitlenineBraMeasurements_In(TypedDict):
+    chestInches: float
+    bustInches: float
+    belowBustInches: float
+
+class Prv_titlenine_TitlenineBraSizeResult_Out(TypedDict):
+    bandSize: float
+    cupCode: str
+    cupLabel: str
+    sizeLabel: str
+    inStock: bool
+    shopUrl: str | None
+    unavailableMessage: str | None
+    calculatorUrl: str
+
 class Prv_topviewtix_topviewtixPackageDetails_Out(TypedDict):
     id: float
     slug: str
@@ -14094,6 +14109,20 @@ class Prv_tilsonhomes(Protocol):
         The read behind 'add a covered porch and a 4th bedroom, show me the finishes'.
         """
 
+class Prv_titlenine(Protocol):
+    """Title Nine's own bra-size calculator — real band + cup math off three measurements,
+    computed exactly as the site computes it, including the extended cup range (up to "M
+    (11D)") that generic AI knowledge gets wrong — plus the exact 'Shop <size>' catalog link
+    when the size is in stock.
+    """
+
+    async def calculateBraSize(self, input: Prv_titlenine_TitlenineBraMeasurements_In, /) -> Prv_titlenine_TitlenineBraSizeResult_Out:
+        """Runs Title Nine's own bra-size calculator — chest/bust/under-bust in, a real band + cup
+        size out computed exactly as the site computes it, including Title Nine's own extended
+        cup labeling past DDD (up to "M (11D)") that generic AI knowledge gets wrong. Returns
+        the exact 'Shop <size>' catalog link when the size is currently carried online.
+        """
+
 class Prv_topviewtix(Protocol):
     """TopView's NYC hop-on-hop-off bus, Statue of Liberty cruise and bike/walking tour
     packages — getPackageDetails reads one package's live price and its own real-time
@@ -14561,6 +14590,7 @@ class BowmarkProviders(Protocol):
     therabody: Prv_therabody
     thezebra: Prv_thezebra
     tilsonhomes: Prv_tilsonhomes
+    titlenine: Prv_titlenine
     topviewtix: Prv_topviewtix
     trektravel: Prv_trektravel
     twiddy: Prv_twiddy
