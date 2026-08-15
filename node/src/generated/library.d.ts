@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: df6389e99c897c232cc295a191dbf503e0a78d923a07bc2c323f52c19de9fda6
-// 9 capabilities, 128 providers, 395 typed functions, 20 refused.
+// Manifest version: a715bb2c9bfc1f2ccc928ff2b1139d6b148793e47f8d89fa67e1fe84412fd559
+// 9 capabilities, 129 providers, 396 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6134,6 +6134,43 @@ interface HandyproCategorySearch {
      * "grab bar"). covered is false with a message for a ZIP outside the service area.
      */
     searchServiceCategories(zipcode: string, query?: string): Promise<HandyproCategorySearch>;
+  }
+}
+
+declare namespace BowmarkProvider_hansons {
+  // ── Hansons — the unit's own declarations, verbatim ──
+interface HansonsSlot {
+  timeSlotID: number;
+  appointmentDate: string;
+  timeSlot: string;
+  virtual: boolean;
+}
+
+interface CheckAvailabilityResult {
+  inServiceArea: boolean;
+  showInHomeFlow: boolean;
+  showVirtualFlow: boolean;
+  message: string;
+  slots: HansonsSlot[];
+}
+
+  /**
+   * Regional home-exterior remodeler (windows/roofing/siding/gutters/bath). checkAvailability is
+   * live — checks a ZIP against Hansons' real Free Estimate scheduler and returns the actual
+   * bookable at-home/virtual slots. bookEstimate (the final booking submit) is a stub — see its
+   * notImplemented reason.
+   */
+  interface Unit {
+    /**
+     * Checks a 5-digit US ZIP (`zipcode`, e.g. "48104") against Hansons' real Free Estimate
+     * scheduler and returns the actual open appointment slots for an at-home or virtual
+     * consultation — the same ZIP-gated availability check the site's own scheduler performs
+     * before it will show a single bookable date. Pass `virtual: true`/`false` to filter to one
+     * consultation type; omit it to get both. Returns whether the ZIP is even in Hansons' service
+     * area, whether each consultation type is currently offered, the site's own status message,
+     * and the slot list (date, display time, and the site's own slot id).
+     */
+    checkAvailability(args: object): Promise<CheckAvailabilityResult>;
   }
 }
 
@@ -17144,6 +17181,7 @@ interface BowmarkProviders {
   grainger: BowmarkProvider_grainger.Unit;
   grandwelcome: BowmarkProvider_grandwelcome.Unit;
   handypro: BowmarkProvider_handypro.Unit;
+  hansons: BowmarkProvider_hansons.Unit;
   harmar: BowmarkProvider_harmar.Unit;
   hauslabs: BowmarkProvider_hauslabs.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;

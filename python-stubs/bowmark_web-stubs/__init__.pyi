@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: df6389e99c897c232cc295a191dbf503e0a78d923a07bc2c323f52c19de9fda6
-# 9 capabilities, 128 providers, 377 typed functions, 20 refused.
+# Manifest version: a715bb2c9bfc1f2ccc928ff2b1139d6b148793e47f8d89fa67e1fe84412fd559
+# 9 capabilities, 129 providers, 378 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3461,6 +3461,19 @@ class Prv_handypro_HandyproCategoryPrice_Out(TypedDict):
     pricingKind: Literal["estimate"] | Literal["fixedJob"] | Literal["unpriced"]
     price: float | None
     whatsIncluded: str
+
+class Prv_hansons_CheckAvailabilityResult_Out(TypedDict):
+    inServiceArea: bool
+    showInHomeFlow: bool
+    showVirtualFlow: bool
+    message: str
+    slots: list[Prv_hansons_HansonsSlot_Out]
+
+class Prv_hansons_HansonsSlot_Out(TypedDict):
+    timeSlotID: float
+    appointmentDate: str
+    timeSlot: str
+    virtual: bool
 
 class Prv_harmar_searchVehicleModels_arg_In(TypedDict):
     year: str
@@ -10739,6 +10752,23 @@ class Prv_handypro(Protocol):
         service area.
         """
 
+class Prv_hansons(Protocol):
+    """Regional home-exterior remodeler (windows/roofing/siding/gutters/bath).
+    checkAvailability is live — checks a ZIP against Hansons' real Free Estimate scheduler
+    and returns the actual bookable at-home/virtual slots. bookEstimate (the final booking
+    submit) is a stub — see its notImplemented reason.
+    """
+
+    async def checkAvailability(self, args: Any, /) -> Prv_hansons_CheckAvailabilityResult_Out:
+        """Checks a 5-digit US ZIP (`zipcode`, e.g. "48104") against Hansons' real Free Estimate
+        scheduler and returns the actual open appointment slots for an at-home or virtual
+        consultation — the same ZIP-gated availability check the site's own scheduler performs
+        before it will show a single bookable date. Pass `virtual: true`/`false` to filter to
+        one consultation type; omit it to get both. Returns whether the ZIP is even in Hansons'
+        service area, whether each consultation type is currently offered, the site's own status
+        message, and the slot list (date, display time, and the site's own slot id).
+        """
+
 class Prv_harmar(Protocol):
     """Harmar's Vehicle Compatibility Calculator (calculator.harmar.com) — given a vehicle and
     a wheelchair/scooter, returns the real Harmar vehicle lifts that fit that combination.
@@ -14223,6 +14253,7 @@ class BowmarkProviders(Protocol):
     grainger: Prv_grainger
     grandwelcome: Prv_grandwelcome
     handypro: Prv_handypro
+    hansons: Prv_hansons
     harmar: Prv_harmar
     hauslabs: Prv_hauslabs
     healthcare_gov: Prv_healthcare_gov

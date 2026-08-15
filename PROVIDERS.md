@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 764 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 766 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -288,6 +288,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `handypro.checkTechnicianAvailability` | handypro.com | Would find the next available technician slot for a category + ZIP via… | ⚪ |
 | `handypro.createBooking` | handypro.com | Would confirm a HandyPro appointment and take Stripe payment via… | ⚪ |
 | `handypro.searchServiceCategories` | handypro.com | Lists HandyPro's real service categories (grab bars, appliance install, TV mounting… | 🟢 |
+| `hansons.bookEstimate` | hansons.com | Would submit the final booking (name/phone/email/address + chosen slot) and return the… | ⚪ |
+| `hansons.checkAvailability` | hansons.com | Checks a ZIP code against Hansons' real Free Estimate scheduler and returns the actual… | 🟢 |
 | `harmar.findCompatibleLifts` | harmar.com | The whole goal-flow in one call: takes a plain vehicle year/make/model and… | 🟢 |
 | `harmar.getCompatibleLifts` | harmar.com | Runs the calculator's actual 'Lift Lookup' — given a model year, the calculator's own… | 🟢 |
 | `harmar.searchChairModels` | harmar.com | Looks up every wheelchair/scooter model the calculator has data for under a given… | 🟢 |
