@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 13c0ec5ba5df5dc0ea5800ab5d7f94a923abd5ea5553f55e1bf572a645742b4f
-# 9 capabilities, 127 providers, 376 typed functions, 20 refused.
+# Manifest version: df6389e99c897c232cc295a191dbf503e0a78d923a07bc2c323f52c19de9fda6
+# 9 capabilities, 128 providers, 377 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4661,6 +4661,13 @@ class Prv_kayak_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Prv_kingsdown_kingsdownBedmatchResult_Out(TypedDict):
+    zoneName: Literal["Gold"] | Literal["Green"] | Literal["Blue"] | Literal["Red"]
+    zoneColor: str
+    scalar: float
+    findDealerUrl: str
+    buyUrl: str
 
 class Prv_kitchentuneup_KitchentuneupCabinetStyle_Out(TypedDict):
     featureDefinitionId: float
@@ -11608,6 +11615,27 @@ class Prv_kayak(Protocol):
         site's own three-phase supplier poll completes.
         """
 
+class Prv_kingsdown(Protocol):
+    """Kingsdown's own bedMATCH mattress-fit diagnostic (kingsdown.com/bedmatch/) —
+    getBedMatchResult runs the real questionnaire and returns the live computed
+    support-color classification (Gold/Green/Blue/Red) plus find-a-dealer and buy-direct
+    handoff URLs.
+    """
+
+    async def getBedMatchResult(self, profile: Any, /) -> Prv_kingsdown_kingsdownBedmatchResult_Out:
+        """Runs Kingsdown's live bedMATCH diagnostic for one sleeper profile and returns the real
+        computed support-color classification (`zoneName`: "Gold" | "Green" | "Blue" | "Red",
+        with the raw fit `scalar` behind it), plus Kingsdown's own `findDealerUrl` and `buyUrl`
+        handoffs. Pass `{ name, ageBand, gender, position, heightBand, weightBand, pantBand,
+        shirtBand, painAreas? }` — every numeric field is the SITE'S OWN bucket code (its
+        radio-button values), not a raw age/height/weight, because bedMATCH itself only ever
+        rates a band. `ageBand` ∈ {20, 33, 48, 63, 85}; `gender` ∈ {"F","M","N"}; `position` ∈
+        {1 Back, 2 Side, 3 Stomach}; `heightBand` ∈ {50, 57.5, 63.5, 69, 75.5, 78};
+        `weightBand`/`pantBand`/`shirtBand` are small integer bucket codes (1-8 / 1-6 / 1-6).
+        Read-only and account-free — the site's own quiz asks for nothing but this
+        questionnaire, and this function submits nothing beyond it (no email, no purchase).
+        """
+
 class Prv_kitchentuneup(Protocol):
     """Kitchen Tune-Up's own AI Design Tool — the live cabinet door/color/finish catalog, and
     photo-in/AI-visualization-out generation, run the way kitchentuneup.com/design-tool/
@@ -14210,6 +14238,7 @@ class BowmarkProviders(Protocol):
     jennikayne: Prv_jennikayne
     joybird: Prv_joybird
     kayak: Prv_kayak
+    kingsdown: Prv_kingsdown
     kitchentuneup: Prv_kitchentuneup
     kompan: Prv_kompan
     labcorp: Prv_labcorp

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 13c0ec5ba5df5dc0ea5800ab5d7f94a923abd5ea5553f55e1bf572a645742b4f
-// 9 capabilities, 127 providers, 394 typed functions, 20 refused.
+// Manifest version: df6389e99c897c232cc295a191dbf503e0a78d923a07bc2c323f52c19de9fda6
+// 9 capabilities, 128 providers, 395 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8793,6 +8793,39 @@ interface KayakCar {
   }
 }
 
+declare namespace BowmarkProvider_kingsdown {
+  // ── Kingsdown — the unit's own declarations, verbatim ──
+interface kingsdownBedmatchResult {
+  zoneName: "Gold" | "Green" | "Blue" | "Red";
+  zoneColor: string;
+  scalar: number;
+  findDealerUrl: string;
+  buyUrl: string;
+}
+
+  /**
+   * Kingsdown's own bedMATCH mattress-fit diagnostic (kingsdown.com/bedmatch/) —
+   * getBedMatchResult runs the real questionnaire and returns the live computed support-color
+   * classification (Gold/Green/Blue/Red) plus find-a-dealer and buy-direct handoff URLs.
+   */
+  interface Unit {
+    /**
+     * Runs Kingsdown's live bedMATCH diagnostic for one sleeper profile and returns the real
+     * computed support-color classification (`zoneName`: "Gold" | "Green" | "Blue" | "Red", with
+     * the raw fit `scalar` behind it), plus Kingsdown's own `findDealerUrl` and `buyUrl` handoffs.
+     * Pass `{ name, ageBand, gender, position, heightBand, weightBand, pantBand, shirtBand,
+     * painAreas? }` — every numeric field is the SITE'S OWN bucket code (its radio-button values),
+     * not a raw age/height/weight, because bedMATCH itself only ever rates a band. `ageBand` ∈
+     * {20, 33, 48, 63, 85}; `gender` ∈ {"F","M","N"}; `position` ∈ {1 Back, 2 Side, 3 Stomach};
+     * `heightBand` ∈ {50, 57.5, 63.5, 69, 75.5, 78}; `weightBand`/`pantBand`/`shirtBand` are small
+     * integer bucket codes (1-8 / 1-6 / 1-6). Read-only and account-free — the site's own quiz
+     * asks for nothing but this questionnaire, and this function submits nothing beyond it (no
+     * email, no purchase).
+     */
+    getBedMatchResult(profile: object): Promise<kingsdownBedmatchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_kitchentuneup {
   // ── Kitchen Tune-Up — the unit's own declarations, verbatim ──
 interface KitchentuneupCabinetStyle {
@@ -17126,6 +17159,7 @@ interface BowmarkProviders {
   jennikayne: BowmarkProvider_jennikayne.Unit;
   joybird: BowmarkProvider_joybird.Unit;
   kayak: BowmarkProvider_kayak.Unit;
+  kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
   kompan: BowmarkProvider_kompan.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;

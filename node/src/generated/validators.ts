@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 13c0ec5ba5df5dc0ea5800ab5d7f94a923abd5ea5553f55e1bf572a645742b4f
-// 376 checked, 20 unchecked.
+// Manifest version: df6389e99c897c232cc295a191dbf503e0a78d923a07bc2c323f52c19de9fda6
+// 377 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "13c0ec5ba5df5dc0ea5800ab5d7f94a923abd5ea5553f55e1bf572a645742b4f",
+  "version": "df6389e99c897c232cc295a191dbf503e0a78d923a07bc2c323f52c19de9fda6",
   "units": {
     "cars": {
       "defs": {
@@ -7373,6 +7373,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KayakCarQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.kingsdown": {
+      "defs": {},
+      "functions": {
+        "getBedMatchResult": [
+          {
+            "name": "profile",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
