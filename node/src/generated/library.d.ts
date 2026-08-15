@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a715bb2c9bfc1f2ccc928ff2b1139d6b148793e47f8d89fa67e1fe84412fd559
-// 9 capabilities, 129 providers, 396 typed functions, 20 refused.
+// Manifest version: 656967bce90cdcb4c85f03a28fc4880dacb0cedd0a9208d95cb12f9d1b928ac5
+// 9 capabilities, 130 providers, 400 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3633,6 +3633,120 @@ interface CyberpowerpcPriceResult {
      * the site's own configurator computes, plus a per-section breakdown of what each pick added.
      */
     priceBuild(slug: string, selections: Record<string, string>): Promise<CyberpowerpcPriceResult>;
+  }
+}
+
+declare namespace BowmarkProvider_davidsonhomes {
+  // ── Davidson Homes — the unit's own declarations, verbatim ──
+// Davidson Homes' OWN shapes — not a capability contract.
+
+interface DavidsonhomesRange { lowest: number | null; highest: number | null }
+
+interface DavidsonhomesRegionSummary {
+  id: string;
+  title: string;
+  path: string;               // the key getRegion takes
+  state: string;
+  homesCount: number;
+  communitiesCount: number;
+  priceRange: DavidsonhomesRange;
+}
+
+interface DavidsonhomesCommunitySummary {
+  id: string;
+  title: string;
+  path: string;               // the key getCommunity takes
+  city: string;
+  state: string;
+  status: string;             // e.g. "Move-In Ready Homes", "Now Selling"
+  bedRange: DavidsonhomesRange;
+  priceRange: DavidsonhomesRange;
+  sqftRange: DavidsonhomesRange;
+  homesCount: number;
+  plansCount: number;
+}
+
+interface DavidsonhomesRegionDetail {
+  title: string;
+  path: string;
+  state: string;               // this region's URL grouping, per the site's own nav
+  stateAbbreviation: string;
+  communities: DavidsonhomesCommunitySummary[];
+}
+
+interface DavidsonhomesHomeSummary {
+  id: string;
+  title: string;               // real street address, e.g. "28 Aurora Circle"
+  path: string;                // the key getHome takes
+  price: number;
+  oldPrice: number | null;
+  sqft: number;
+  beds: number;
+  baths: number;
+  halfBaths: number;
+  status: string;              // e.g. "Active", "Pending"
+  estCompletionMonth: string | null;
+  floorPlanName: string | null;
+}
+
+interface DavidsonhomesCommunityDetail {
+  title: string;
+  path: string;
+  status: string;
+  priceRange: DavidsonhomesRange;
+  sqftRange: DavidsonhomesRange;
+  phone: string | null;
+  plansCount: number;
+  availableHomes: DavidsonhomesHomeSummary[];
+}
+
+interface DavidsonhomesHomeDetail extends DavidsonhomesHomeSummary {
+  description: string | null;
+  garage: number | null;
+  coordinates: { lat: number; lng: number } | null;
+  communityTitle: string;
+  communityPath: string;       // the key getCommunity takes
+}
+
+  /**
+   * Reads Davidson Homes' own 'Find Your Home' search — all live market regions, one region's
+   * communities with real price/bed/sqft ranges and availability status, one community's actual
+   * move-in-ready homes with real street addresses and prices, and one home's full listing
+   * detail — the way the live site's own search would show it.
+   */
+  interface Unit {
+    /**
+     * Lists every market region Davidson Homes currently builds in (state/metro area), each with
+     * its own live homes count, communities count and starting price. The entry point: every
+     * region's `path` is what `getRegion` takes.
+     */
+    listRegions(): Promise<DavidsonhomesRegionSummary[]>;
+
+    /**
+     * Reads one region's own page: every community in it with a real live price/bed/sqft range and
+     * status ("Move-In Ready Homes", "Now Selling", etc). `path` comes from `listRegions()`, e.g.
+     * "states/alabama/huntsville-market-area". THROWS on an unknown path, naming `listRegions()`
+     * as the way to find current ones.
+     */
+    getRegion(path: string): Promise<DavidsonhomesRegionDetail>;
+
+    /**
+     * Reads one community's own page: its ACTUAL available homes right now, each with a real
+     * street address, real price, real sqft/bed/bath count and per-home status ("Active",
+     * "Pending") — never a floor-plan brochure. `path` comes from `getRegion()`, e.g.
+     * "states/alabama/huntsville-market-area/fayetteville/bailey-park". THROWS on an unknown path,
+     * naming `getRegion()` as the way to find current ones.
+     */
+    getCommunity(path: string): Promise<DavidsonhomesCommunityDetail>;
+
+    /**
+     * Reads one specific home's own listing page: address, price, sqft, bed/bath count, status,
+     * garage, coordinates and the site's own listing description. `path` comes from
+     * `getCommunity()` or `getRegion()`'s community list, e.g.
+     * "…/bailey-park/available-homes/28-aurora-circle". THROWS on an unknown path, naming
+     * `getCommunity()` as the way to find current ones.
+     */
+    getHome(path: string): Promise<DavidsonhomesHomeDetail>;
   }
 }
 
@@ -17159,6 +17273,7 @@ interface BowmarkProviders {
   classpass: BowmarkProvider_classpass.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
+  davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   decked: BowmarkProvider_decked.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;

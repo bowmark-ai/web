@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a715bb2c9bfc1f2ccc928ff2b1139d6b148793e47f8d89fa67e1fe84412fd559
-# 9 capabilities, 129 providers, 378 typed functions, 20 refused.
+# Manifest version: 656967bce90cdcb4c85f03a28fc4880dacb0cedd0a9208d95cb12f9d1b928ac5
+# 9 capabilities, 130 providers, 382 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2225,6 +2225,86 @@ class Prv_cyberpowerpc_CyberpowerpcPriceResult_Out_lines_item_Out(TypedDict):
     optionId: str
     optionName: str
     priceDifference: float
+
+class Prv_davidsonhomes_DavidsonhomesRegionSummary_Out(TypedDict):
+    id: str
+    title: str
+    path: str
+    state: str
+    homesCount: float
+    communitiesCount: float
+    priceRange: Prv_davidsonhomes_DavidsonhomesRange_Out
+
+class Prv_davidsonhomes_DavidsonhomesRange_Out(TypedDict):
+    lowest: float | None
+    highest: float | None
+
+class Prv_davidsonhomes_DavidsonhomesRegionDetail_Out(TypedDict):
+    title: str
+    path: str
+    state: str
+    stateAbbreviation: str
+    communities: list[Prv_davidsonhomes_DavidsonhomesCommunitySummary_Out]
+
+class Prv_davidsonhomes_DavidsonhomesCommunitySummary_Out(TypedDict):
+    id: str
+    title: str
+    path: str
+    city: str
+    state: str
+    status: str
+    bedRange: Prv_davidsonhomes_DavidsonhomesRange_Out
+    priceRange: Prv_davidsonhomes_DavidsonhomesRange_Out
+    sqftRange: Prv_davidsonhomes_DavidsonhomesRange_Out
+    homesCount: float
+    plansCount: float
+
+class Prv_davidsonhomes_DavidsonhomesCommunityDetail_Out(TypedDict):
+    title: str
+    path: str
+    status: str
+    priceRange: Prv_davidsonhomes_DavidsonhomesRange_Out
+    sqftRange: Prv_davidsonhomes_DavidsonhomesRange_Out
+    phone: str | None
+    plansCount: float
+    availableHomes: list[Prv_davidsonhomes_DavidsonhomesHomeSummary_Out]
+
+class Prv_davidsonhomes_DavidsonhomesHomeSummary_Out(TypedDict):
+    id: str
+    title: str
+    path: str
+    price: float
+    oldPrice: float | None
+    sqft: float
+    beds: float
+    baths: float
+    halfBaths: float
+    status: str
+    estCompletionMonth: str | None
+    floorPlanName: str | None
+
+class Prv_davidsonhomes_DavidsonhomesHomeDetail_Out(TypedDict):
+    id: str
+    title: str
+    path: str
+    price: float
+    oldPrice: float | None
+    sqft: float
+    beds: float
+    baths: float
+    halfBaths: float
+    status: str
+    estCompletionMonth: str | None
+    floorPlanName: str | None
+    description: str | None
+    garage: float | None
+    coordinates: Prv_davidsonhomes_DavidsonhomesHomeDetail_Out_coordinates_u0_Out | None
+    communityTitle: str
+    communityPath: str
+
+class Prv_davidsonhomes_DavidsonhomesHomeDetail_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
 
 class Prv_decked_DeckedFit_Out(TypedDict):
     vehicleClass: str
@@ -9899,6 +9979,42 @@ class Prv_cyberpowerpc(Protocol):
         pick added.
         """
 
+class Prv_davidsonhomes(Protocol):
+    """Reads Davidson Homes' own 'Find Your Home' search — all live market regions, one
+    region's communities with real price/bed/sqft ranges and availability status, one
+    community's actual move-in-ready homes with real street addresses and prices, and one
+    home's full listing detail — the way the live site's own search would show it.
+    """
+
+    async def listRegions(self, /) -> list[Prv_davidsonhomes_DavidsonhomesRegionSummary_Out]:
+        """Lists every market region Davidson Homes currently builds in (state/metro area), each
+        with its own live homes count, communities count and starting price. The entry point:
+        every region's `path` is what `getRegion` takes.
+        """
+
+    async def getRegion(self, path: str, /) -> Prv_davidsonhomes_DavidsonhomesRegionDetail_Out:
+        """Reads one region's own page: every community in it with a real live price/bed/sqft range
+        and status ("Move-In Ready Homes", "Now Selling", etc). `path` comes from
+        `listRegions()`, e.g. "states/alabama/huntsville-market-area". THROWS on an unknown
+        path, naming `listRegions()` as the way to find current ones.
+        """
+
+    async def getCommunity(self, path: str, /) -> Prv_davidsonhomes_DavidsonhomesCommunityDetail_Out:
+        """Reads one community's own page: its ACTUAL available homes right now, each with a real
+        street address, real price, real sqft/bed/bath count and per-home status ("Active",
+        "Pending") — never a floor-plan brochure. `path` comes from `getRegion()`, e.g.
+        "states/alabama/huntsville-market-area/fayetteville/bailey-park". THROWS on an unknown
+        path, naming `getRegion()` as the way to find current ones.
+        """
+
+    async def getHome(self, path: str, /) -> Prv_davidsonhomes_DavidsonhomesHomeDetail_Out:
+        """Reads one specific home's own listing page: address, price, sqft, bed/bath count,
+        status, garage, coordinates and the site's own listing description. `path` comes from
+        `getCommunity()` or `getRegion()`'s community list, e.g.
+        "…/bailey-park/available-homes/28-aurora-circle". THROWS on an unknown path, naming
+        `getCommunity()` as the way to find current ones.
+        """
+
 class Prv_decked(Protocol):
     """DECKED's truck-bed/SUV/cargo-van Drawer System vehicle-fitment catalog — list every
     vehicle class and model DECKED fits, read one class's full fit list (model, bed
@@ -14231,6 +14347,7 @@ class BowmarkProviders(Protocol):
     classpass: Prv_classpass
     cloudflare: Prv_cloudflare
     cyberpowerpc: Prv_cyberpowerpc
+    davidsonhomes: Prv_davidsonhomes
     decked: Prv_decked
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods

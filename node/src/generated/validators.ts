@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a715bb2c9bfc1f2ccc928ff2b1139d6b148793e47f8d89fa67e1fe84412fd559
-// 378 checked, 20 unchecked.
+// Manifest version: 656967bce90cdcb4c85f03a28fc4880dacb0cedd0a9208d95cb12f9d1b928ac5
+// 382 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a715bb2c9bfc1f2ccc928ff2b1139d6b148793e47f8d89fa67e1fe84412fd559",
+  "version": "656967bce90cdcb4c85f03a28fc4880dacb0cedd0a9208d95cb12f9d1b928ac5",
   "units": {
     "cars": {
       "defs": {
@@ -3542,6 +3542,39 @@ export const VALIDATORS: ValidatorTable = {
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.davidsonhomes": {
+      "defs": {},
+      "functions": {
+        "listRegions": [],
+        "getRegion": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getCommunity": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getHome": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

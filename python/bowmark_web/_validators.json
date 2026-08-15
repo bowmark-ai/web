@@ -1,5 +1,5 @@
 {
-  "version": "a715bb2c9bfc1f2ccc928ff2b1139d6b148793e47f8d89fa67e1fe84412fd559",
+  "version": "656967bce90cdcb4c85f03a28fc4880dacb0cedd0a9208d95cb12f9d1b928ac5",
   "units": {
     "cars": {
       "defs": {
@@ -3530,6 +3530,39 @@
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.davidsonhomes": {
+      "defs": {},
+      "functions": {
+        "listRegions": [],
+        "getRegion": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getCommunity": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getHome": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
