@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e3c5d8d25e4eef2d958a5f91540655f1f585d79109789ec29a815658f982febf
-// 371 checked, 20 unchecked.
+// Manifest version: ef6d7e1e1f9d70c3acde16c02adc9af80e7c002849fc5e8d20241c509816a631
+// 373 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e3c5d8d25e4eef2d958a5f91540655f1f585d79109789ec29a815658f982febf",
+  "version": "ef6d7e1e1f9d70c3acde16c02adc9af80e7c002849fc5e8d20241c509816a631",
   "units": {
     "cars": {
       "defs": {
@@ -1750,6 +1750,87 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AshleyFurnitureFindStoreArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.atlasoceanvoyages": {
+      "defs": {},
+      "functions": {
+        "searchVoyages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "destination",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "ship",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minDurationNights",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxDurationNights",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "departAfter",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "departBefore",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getVoyage": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

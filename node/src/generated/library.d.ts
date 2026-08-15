@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e3c5d8d25e4eef2d958a5f91540655f1f585d79109789ec29a815658f982febf
-// 9 capabilities, 125 providers, 389 typed functions, 20 refused.
+// Manifest version: ef6d7e1e1f9d70c3acde16c02adc9af80e7c002849fc5e8d20241c509816a631
+// 9 capabilities, 126 providers, 391 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1643,6 +1643,80 @@ interface AshleyFurnitureStore {
      * validity signal), rather than returning its non-matching fallback store.
      */
     findStore(args: AshleyFurnitureFindStoreArgs): Promise<AshleyFurnitureStore[]>;
+  }
+}
+
+declare namespace BowmarkProvider_atlasoceanvoyages {
+  // ── Atlas Ocean Voyages — the unit's own declarations, verbatim ──
+// Atlas Ocean Voyages' OWN shapes — not a capability contract.
+
+interface AtlasVoyageSummary {
+  code: string;              // the site's own itinerary code, e.g. "WVO260815"
+  slug: string;               // the key getVoyage takes
+  title: string;
+  destinations: string[];
+  ship: string;
+  durationNights: number;
+  departDate: string;         // "2026-08-15"
+  endDate: string;
+  startingPrice: number | null;       // null = call-for-fares, not a read failure
+  startingPriceFormatted: string | null;
+  detailUrl: string;
+}
+
+interface AtlasVoyageSearchResult { voyages: AtlasVoyageSummary[]; totalMatched: number }
+
+interface AtlasPortStop { name: string; code: string; arriving: string | null; departing: string | null; atSea: boolean }
+
+interface AtlasCabinPrice { code: string; name: string; totalPrice: number; totalPriceFormatted: string }
+
+interface AtlasVoyageDetail {
+  code: string;
+  slug: string;
+  title: string;
+  heroTitle: string | null;
+  summary: string | null;
+  ship: string;
+  durationNights: number;
+  departDate: string;
+  endDate: string;
+  ports: AtlasPortStop[];
+  cabinPrices: AtlasCabinPrice[];     // only the categories THIS sailing has live pricing for
+  startingPrice: number | null;
+  startingPriceFormatted: string | null;
+  bookingUrl: string;                 // bookings.atlasoceanvoyages.com — the real handoff
+  detailUrl: string;
+}
+
+  /**
+   * Luxury expedition cruise voyage search from Atlas Ocean Voyages — filter the site's own 180
+   * live itineraries by destination, ship, duration and departure date with real starting
+   * prices, then read one voyage's full port-by-port day itinerary, every cabin category the
+   * site has actually priced for that sailing, and the itinerary-code-keyed handoff URL into the
+   * real booking engine.
+   */
+  interface Unit {
+    /**
+     * Runs the /search voyage finder over all 180 currently-published itineraries, filtered by
+     * destination (substring, e.g. "Antarctica"), ship (substring, e.g. "World Voyager"), duration
+     * bounds, departure-date bounds and a free-text title match, sorted by departure date. Takes
+     * no argument for the full unfiltered list (capped at `limit`, default 20, max 50).
+     * `totalMatched` is the count BEFORE the cap, so a caller can tell "20 of 20" from "20 of 61".
+     * `startingPrice` is null on a genuine call-for-fares sailing, never omitted — filter on it
+     * explicitly rather than assuming presence.
+     */
+    searchVoyages(args?: { destination?: string; ship?: string; minDurationNights?: number; maxDurationNights?: number; departAfter?: string; departBefore?: string; query?: string; limit?: number }): Promise<AtlasVoyageSearchResult>;
+
+    /**
+     * Reads one voyage's full detail page: the port-by-port day-by-day schedule (arrival/departure
+     * times, or `atSea: true` for a scenic-cruising leg with no landing), every cabin category the
+     * site has ACTUALLY priced for this specific sailing — never the ship's full rate card, since
+     * a sailing sells out of most categories long before departure — and `bookingUrl`, the
+     * itinerary-code-keyed handoff into bookings.atlasoceanvoyages.com where a caller actually
+     * holds or pays for a cabin. `slug` comes from searchVoyages(). THROWS on an unknown slug,
+     * naming searchVoyages() as the way to find current ones.
+     */
+    getVoyage(slug: string): Promise<AtlasVoyageDetail>;
   }
 }
 
@@ -16921,6 +16995,7 @@ interface BowmarkProviders {
   aiper: BowmarkProvider_aiper.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
+  atlasoceanvoyages: BowmarkProvider_atlasoceanvoyages.Unit;
   atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
   avis: BowmarkProvider_avis.Unit;
   azure: BowmarkProvider_azure.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e3c5d8d25e4eef2d958a5f91540655f1f585d79109789ec29a815658f982febf
-# 9 capabilities, 125 providers, 371 typed functions, 20 refused.
+# Manifest version: ef6d7e1e1f9d70c3acde16c02adc9af80e7c002849fc5e8d20241c509816a631
+# 9 capabilities, 126 providers, 373 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1060,6 +1060,63 @@ class Prv_ashleyfurniture_AshleyFurnitureStore_Out_hours_item_Out(TypedDict):
     opensAt: str
     closesAt: str
     state: str
+
+class Prv_atlasoceanvoyages_searchVoyages_args_In(TypedDict):
+    destination: NotRequired[str]
+    ship: NotRequired[str]
+    minDurationNights: NotRequired[float]
+    maxDurationNights: NotRequired[float]
+    departAfter: NotRequired[str]
+    departBefore: NotRequired[str]
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_atlasoceanvoyages_AtlasVoyageSearchResult_Out(TypedDict):
+    voyages: list[Prv_atlasoceanvoyages_AtlasVoyageSummary_Out]
+    totalMatched: float
+
+class Prv_atlasoceanvoyages_AtlasVoyageSummary_Out(TypedDict):
+    code: str
+    slug: str
+    title: str
+    destinations: list[str]
+    ship: str
+    durationNights: float
+    departDate: str
+    endDate: str
+    startingPrice: float | None
+    startingPriceFormatted: str | None
+    detailUrl: str
+
+class Prv_atlasoceanvoyages_AtlasVoyageDetail_Out(TypedDict):
+    code: str
+    slug: str
+    title: str
+    heroTitle: str | None
+    summary: str | None
+    ship: str
+    durationNights: float
+    departDate: str
+    endDate: str
+    ports: list[Prv_atlasoceanvoyages_AtlasPortStop_Out]
+    cabinPrices: list[Prv_atlasoceanvoyages_AtlasCabinPrice_Out]
+    startingPrice: float | None
+    startingPriceFormatted: str | None
+    bookingUrl: str
+    detailUrl: str
+
+class Prv_atlasoceanvoyages_AtlasPortStop_Out(TypedDict):
+    name: str
+    code: str
+    arriving: str | None
+    departing: str | None
+    atSea: bool
+
+class Prv_atlasoceanvoyages_AtlasCabinPrice_Out(TypedDict):
+    code: str
+    name: str
+    totalPrice: float
+    totalPriceFormatted: str
 
 class Prv_atlasseniorliving_searchCommunities_arg_In(TypedDict):
     location: str
@@ -9071,6 +9128,35 @@ class Prv_ashleyfurniture(Protocol):
         site's own validity signal), rather than returning its non-matching fallback store.
         """
 
+class Prv_atlasoceanvoyages(Protocol):
+    """Luxury expedition cruise voyage search from Atlas Ocean Voyages — filter the site's own
+    180 live itineraries by destination, ship, duration and departure date with real
+    starting prices, then read one voyage's full port-by-port day itinerary, every cabin
+    category the site has actually priced for that sailing, and the itinerary-code-keyed
+    handoff URL into the real booking engine.
+    """
+
+    async def searchVoyages(self, args: Prv_atlasoceanvoyages_searchVoyages_args_In | None = None, /) -> Prv_atlasoceanvoyages_AtlasVoyageSearchResult_Out:
+        """Runs the /search voyage finder over all 180 currently-published itineraries, filtered by
+        destination (substring, e.g. "Antarctica"), ship (substring, e.g. "World Voyager"),
+        duration bounds, departure-date bounds and a free-text title match, sorted by departure
+        date. Takes no argument for the full unfiltered list (capped at `limit`, default 20, max
+        50). `totalMatched` is the count BEFORE the cap, so a caller can tell "20 of 20" from
+        "20 of 61". `startingPrice` is null on a genuine call-for-fares sailing, never omitted —
+        filter on it explicitly rather than assuming presence.
+        """
+
+    async def getVoyage(self, slug: str, /) -> Prv_atlasoceanvoyages_AtlasVoyageDetail_Out:
+        """Reads one voyage's full detail page: the port-by-port day-by-day schedule
+        (arrival/departure times, or `atSea: true` for a scenic-cruising leg with no landing),
+        every cabin category the site has ACTUALLY priced for this specific sailing — never the
+        ship's full rate card, since a sailing sells out of most categories long before
+        departure — and `bookingUrl`, the itinerary-code-keyed handoff into
+        bookings.atlasoceanvoyages.com where a caller actually holds or pays for a cabin. `slug`
+        comes from searchVoyages(). THROWS on an unknown slug, naming searchVoyages() as the way
+        to find current ones.
+        """
+
 class Prv_atlasseniorliving(Protocol):
     """Atlas Senior Living's own community search (atlasseniorliving.com/our-communities/) —
     given a US city/state or ZIP, plus optional care type(s) and radius, returns the real,
@@ -14001,6 +14087,7 @@ class BowmarkProviders(Protocol):
     aiper: Prv_aiper
     ajmadison: Prv_ajmadison
     ashleyfurniture: Prv_ashleyfurniture
+    atlasoceanvoyages: Prv_atlasoceanvoyages
     atlasseniorliving: Prv_atlasseniorliving
     avis: Prv_avis
     azure: Prv_azure
