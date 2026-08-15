@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 45fca5e4179708a010976b18c032432f55f1e66af537669d7dc78a2f32028d44
-// 9 capabilities, 131 providers, 401 typed functions, 20 refused.
+// Manifest version: 31a3f40d07094661ec5706335ea7d033739126d4ed81862c950501fd3007de0a
+// 9 capabilities, 132 providers, 403 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13422,6 +13422,67 @@ interface RedditThread {
   }
 }
 
+declare namespace BowmarkProvider_rishitea {
+  // ── Rishi Tea & Botanicals — the unit's own declarations, verbatim ──
+interface TeaFinderQuestion {
+  id: string;
+  profileQuestionId: string;
+  text: string;
+  selectionType: "single" | "multi";
+  options: string[];
+  minSelections?: number;
+  maxSelections?: number;
+}
+interface TeaFinderQuiz {
+  quizId: string;
+  channelQuizId: string;
+  questions: TeaFinderQuestion[];
+}
+interface TeaFinderAnswerInput {
+  questionId: string;       // a TeaFinderQuestion.id
+  answer: string | string[]; // string for selectionType "single", string[] for "multi"
+}
+interface TeaFinderProduct {
+  name: string;
+  url: string;
+  description: string;
+  imageUrl: string;
+  averageRating: number | null;
+  approvedReviewsCount: number;
+  price: number | null;
+  currencyCode: string | null;
+}
+interface TeaFinderResult {
+  quizResponseId: string;
+  title: string;
+  subtitle: string | null;
+  products: TeaFinderProduct[];
+  runnerUpProducts: TeaFinderProduct[];
+}
+
+  /**
+   * Rishi Tea's own "Tea Finder" quiz (Okendo Quizzes) — reads the real question set and submits
+   * real answers to get back the site's own personalized tea recommendation.
+   */
+  interface Unit {
+    /**
+     * Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API — every
+     * question's text, whether it takes one answer or several, and its exact option strings. Call
+     * this first: `matchTeaFinderQuiz` needs the caller's answers keyed on each question's own
+     * `id`.
+     */
+    getTeaFinderQuiz(): Promise<TeaFinderQuiz>;
+
+    /**
+     * Submits a full set of answers (one per question `getTeaFinderQuiz` returned) to Okendo's
+     * quiz engine and returns the SAME personalized recommendation the live widget shows — a
+     * title/subtitle and the real recommended products (name, buy link, description, rating,
+     * price) pulled from Rishi's actual catalog, plus a runner-up list.
+     */
+    matchTeaFinderQuiz(quiz: TeaFinderQuiz, answers: TeaFinderAnswerInput[]): Promise<TeaFinderResult>;
+  }
+}
+
 declare namespace BowmarkProvider_ritani {
   // ── Ritani — the unit's own declarations, verbatim ──
 // Ritani's OWN shapes — not a capability contract.
@@ -17406,6 +17467,7 @@ interface BowmarkProviders {
   progressive: BowmarkProvider_progressive.Unit;
   prose: BowmarkProvider_prose.Unit;
   reddit: BowmarkProvider_reddit.Unit;
+  rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
   roofmaxx: BowmarkProvider_roofmaxx.Unit;
   saltandstone: BowmarkProvider_saltandstone.Unit;

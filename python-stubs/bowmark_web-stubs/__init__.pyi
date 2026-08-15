@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 45fca5e4179708a010976b18c032432f55f1e66af537669d7dc78a2f32028d44
-# 9 capabilities, 131 providers, 383 typed functions, 20 refused.
+# Manifest version: 31a3f40d07094661ec5706335ea7d033739126d4ed81862c950501fd3007de0a
+# 9 capabilities, 132 providers, 385 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7099,6 +7099,55 @@ class Prv_reddit_RedditComment_Out(TypedDict):
     permalink: str
     createdAt: str
 
+class Prv_rishitea_TeaFinderQuiz_Out(TypedDict):
+    quizId: str
+    channelQuizId: str
+    questions: list[Prv_rishitea_TeaFinderQuestion_Out]
+
+class Prv_rishitea_TeaFinderQuestion_Out(TypedDict):
+    id: str
+    profileQuestionId: str
+    text: str
+    selectionType: Literal["single"] | Literal["multi"]
+    options: list[str]
+    minSelections: NotRequired[float]
+    maxSelections: NotRequired[float]
+
+class Prv_rishitea_TeaFinderQuiz_In(TypedDict):
+    quizId: str
+    channelQuizId: str
+    questions: Sequence[Prv_rishitea_TeaFinderQuestion_In]
+
+class Prv_rishitea_TeaFinderQuestion_In(TypedDict):
+    id: str
+    profileQuestionId: str
+    text: str
+    selectionType: Literal["single"] | Literal["multi"]
+    options: Sequence[str]
+    minSelections: NotRequired[float]
+    maxSelections: NotRequired[float]
+
+class Prv_rishitea_TeaFinderAnswerInput_In(TypedDict):
+    questionId: str
+    answer: str | Sequence[str]
+
+class Prv_rishitea_TeaFinderResult_Out(TypedDict):
+    quizResponseId: str
+    title: str
+    subtitle: str | None
+    products: list[Prv_rishitea_TeaFinderProduct_Out]
+    runnerUpProducts: list[Prv_rishitea_TeaFinderProduct_Out]
+
+class Prv_rishitea_TeaFinderProduct_Out(TypedDict):
+    name: str
+    url: str
+    description: str
+    imageUrl: str
+    averageRating: float | None
+    approvedReviewsCount: float
+    price: float | None
+    currencyCode: str | None
+
 class Prv_ritani_RitaniConfigurator_Out(TypedDict):
     centerStoneShapes: list[Prv_ritani_RitaniOption_Out]
     headStyles: list[Prv_ritani_RitaniOption_Out]
@@ -13264,6 +13313,25 @@ class Prv_reddit(Protocol):
         "nobody replied" and "we could not read it" are opposite answers.
         """
 
+class Prv_rishitea(Protocol):
+    """Rishi Tea's own "Tea Finder" quiz (Okendo Quizzes) — reads the real question set and
+    submits real answers to get back the site's own personalized tea recommendation.
+    """
+
+    async def getTeaFinderQuiz(self, /) -> Prv_rishitea_TeaFinderQuiz_Out:
+        """Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —
+        every question's text, whether it takes one answer or several, and its exact option
+        strings. Call this first: `matchTeaFinderQuiz` needs the caller's answers keyed on each
+        question's own `id`.
+        """
+
+    async def matchTeaFinderQuiz(self, quiz: Prv_rishitea_TeaFinderQuiz_In, answers: Sequence[Prv_rishitea_TeaFinderAnswerInput_In], /) -> Prv_rishitea_TeaFinderResult_Out:
+        """Submits a full set of answers (one per question `getTeaFinderQuiz` returned) to Okendo's
+        quiz engine and returns the SAME personalized recommendation the live widget shows — a
+        title/subtitle and the real recommended products (name, buy link, description, rating,
+        price) pulled from Rishi's actual catalog, plus a runner-up list.
+        """
+
 class Prv_ritani(Protocol):
     """Ritani's real Ring Studio custom-engagement-ring configurator — read the live option
     catalog (diamond shape, head/setting style, metal, band style and metal) and price an
@@ -14473,6 +14541,7 @@ class BowmarkProviders(Protocol):
     progressive: Prv_progressive
     prose: Prv_prose
     reddit: Prv_reddit
+    rishitea: Prv_rishitea
     ritani: Prv_ritani
     roofmaxx: Prv_roofmaxx
     saltandstone: Prv_saltandstone

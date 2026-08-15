@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 45fca5e4179708a010976b18c032432f55f1e66af537669d7dc78a2f32028d44
-// 383 checked, 20 unchecked.
+// Manifest version: 31a3f40d07094661ec5706335ea7d033739126d4ed81862c950501fd3007de0a
+// 385 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "45fca5e4179708a010976b18c032432f55f1e66af537669d7dc78a2f32028d44",
+  "version": "31a3f40d07094661ec5706335ea7d033739126d4ed81862c950501fd3007de0a",
   "units": {
     "cars": {
       "defs": {
@@ -12534,6 +12534,161 @@ export const VALIDATORS: ValidatorTable = {
             "name": "ref",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.rishitea": {
+      "defs": {
+        "TeaFinderAnswerInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "questionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "answer",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "TeaFinderQuestion": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "profileQuestionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "selectionType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "single"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "multi"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "options",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "minSelections",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxSelections",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TeaFinderQuiz": {
+          "k": "object",
+          "props": [
+            {
+              "name": "quizId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "channelQuizId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "questions",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "TeaFinderQuestion"
+                }
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getTeaFinderQuiz": [],
+        "matchTeaFinderQuiz": [
+          {
+            "name": "quiz",
+            "schema": {
+              "k": "ref",
+              "name": "TeaFinderQuiz"
+            },
+            "optional": false
+          },
+          {
+            "name": "answers",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "ref",
+                "name": "TeaFinderAnswerInput"
+              }
             },
             "optional": false
           }
