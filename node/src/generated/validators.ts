@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c6f27587b7c786eae1a5ecb1abf2b576dbc628fb0b7e1a017e45ad47468376ce
-// 369 checked, 20 unchecked.
+// Manifest version: e3c5d8d25e4eef2d958a5f91540655f1f585d79109789ec29a815658f982febf
+// 371 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c6f27587b7c786eae1a5ecb1abf2b576dbc628fb0b7e1a017e45ad47468376ce",
+  "version": "e3c5d8d25e4eef2d958a5f91540655f1f585d79109789ec29a815658f982febf",
   "units": {
     "cars": {
       "defs": {
@@ -4073,6 +4073,42 @@ export const VALIDATORS: ValidatorTable = {
         "getShowroomInquiryContact": [
           {
             "name": "code",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.evolutionofsmooth": {
+      "defs": {},
+      "functions": {
+        "startShadeQuiz": [],
+        "answerShadeQuizQuestion": [
+          {
+            "name": "quizResponseId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "questionPageId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "questionId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "optionId",
             "schema": {
               "k": "string"
             },

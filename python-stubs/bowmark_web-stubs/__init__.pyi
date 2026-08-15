@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c6f27587b7c786eae1a5ecb1abf2b576dbc628fb0b7e1a017e45ad47468376ce
-# 9 capabilities, 124 providers, 369 typed functions, 20 refused.
+# Manifest version: e3c5d8d25e4eef2d958a5f91540655f1f585d79109789ec29a815658f982febf
+# 9 capabilities, 125 providers, 371 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2535,6 +2535,37 @@ class Prv_eventsource_EventSourceInquiryContact_Out(TypedDict):
     inquiryRequestEmail: str
     ownerName: str
     ownerLogoUrl: str
+
+class Prv_evolutionofsmooth_startShadeQuiz_return_Out(TypedDict):
+    quizResponseId: str
+    question: Prv_evolutionofsmooth_ShadeQuizQuestion_Out
+
+class Prv_evolutionofsmooth_ShadeQuizQuestion_Out(TypedDict):
+    questionPageId: str
+    questionId: str
+    title: str
+    options: list[Prv_evolutionofsmooth_ShadeQuizOption_Out]
+
+class Prv_evolutionofsmooth_ShadeQuizOption_Out(TypedDict):
+    optionId: str
+    text: str
+
+class Prv_evolutionofsmooth_ShadeQuizAnswerResult_u0_Out(TypedDict):
+    done: Literal[False]
+    question: Prv_evolutionofsmooth_ShadeQuizQuestion_Out
+
+class Prv_evolutionofsmooth_ShadeQuizAnswerResult_u1_Out(TypedDict):
+    done: Literal[True]
+    result: Prv_evolutionofsmooth_ShadeResult_Out
+
+class Prv_evolutionofsmooth_ShadeResult_Out(TypedDict):
+    shadeName: str
+    price: float
+    priceFormatted: str
+    productUrl: str
+    productId: str
+    variantId: str
+    description: str
 
 class Prv_extraspace_ExtraspaceSearchOptions_In(TypedDict):
     climateControlled: NotRequired[bool]
@@ -9998,6 +10029,26 @@ class Prv_eventsource(Protocol):
     async def getShowroomInquiryContact(self, code: str, /) -> Prv_eventsource_EventSourceInquiryContact_Out:
         """Reads who a showroom's Send Inquiry button emails, without submitting anything."""
 
+class Prv_evolutionofsmooth(Protocol):
+    """eos's Dewy Lip Shine Shade Finder quiz (Octane AI) — walks the site's real 5-question
+    quiz and returns the personalized shade result: name, Shopify product/variant id, price
+    and product URL, ready for a cart handoff.
+    """
+
+    async def startShadeQuiz(self, /) -> Prv_evolutionofsmooth_startShadeQuiz_return_Out:
+        """Starts eos's Dewy Lip Shine Shade Finder quiz (walking past the site's own unanswerable
+        intro page automatically) and returns the first real question, with the `quizResponseId`
+        every following `answerShadeQuizQuestion` call takes.
+        """
+
+    async def answerShadeQuizQuestion(self, quizResponseId: str, questionPageId: str, questionId: str, optionId: str, /) -> Prv_evolutionofsmooth_ShadeQuizAnswerResult_u0_Out | Prv_evolutionofsmooth_ShadeQuizAnswerResult_u1_Out:
+        """Submits one answer (the `questionPageId`/`questionId` from the question just answered,
+        and the `optionId` of the chosen option) and returns either the next question, or — once
+        all 5 real questions are answered — `{ done: true, result }` with the personalized Dewy
+        Lip Shine shade: name, Shopify product/variant id, price and product URL. The site's own
+        email-capture page is skipped automatically.
+        """
+
 class Prv_extraspace(Protocol):
     """Extra Space Storage — self-storage facility search and detail. `search` takes a US city
     or ZIP and returns the nearby facilities its own locator would, nearest first, each with
@@ -13979,6 +14030,7 @@ class BowmarkProviders(Protocol):
     embroker: Prv_embroker
     erieinsurance: Prv_erieinsurance
     eventsource: Prv_eventsource
+    evolutionofsmooth: Prv_evolutionofsmooth
     extraspace: Prv_extraspace
     firstdibs: Prv_firstdibs
     flightradar24: Prv_flightradar24

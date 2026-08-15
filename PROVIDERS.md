@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 756 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 758 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -190,6 +190,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventsource.getShowroom` | eventsource.com | Reads a public Virtual Design Center showroom by its access code — the pre-built room… | 🟢 |
 | `eventsource.getShowroomInquiryContact` | eventsource.com | Reads who a showroom's 'Send Inquiry' button actually emails — the sales inbox and the… | 🟢 |
 | `eventsource.getShowroomVenue` | eventsource.com | Reads the real venue/room a showroom's design is staged in — business name… | 🟢 |
+| `evolutionofsmooth.answerShadeQuizQuestion` | evolutionofsmooth.com | Submits one answer to a shade-quiz question page and returns either the next question… | 🟢 |
+| `evolutionofsmooth.startShadeQuiz` | evolutionofsmooth.com | Starts eos's Dewy Lip Shine Shade Finder quiz (an Octane AI embed) and returns the… | 🟢 |
 | `extraspace.checkAvailability` | extraspace.com | Checks current availability and price for one specific unit size (e.g. 5x10, 10x10… | 🟢 |
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |

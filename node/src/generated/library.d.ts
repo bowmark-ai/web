@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c6f27587b7c786eae1a5ecb1abf2b576dbc628fb0b7e1a017e45ad47468376ce
-// 9 capabilities, 124 providers, 387 typed functions, 20 refused.
+// Manifest version: e3c5d8d25e4eef2d958a5f91540655f1f585d79109789ec29a815658f982febf
+// 9 capabilities, 125 providers, 389 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4338,6 +4338,42 @@ interface EventSourceInquiryContact {
 
     /** Reads who a showroom's Send Inquiry button emails, without submitting anything. */
     getShowroomInquiryContact(code: string): Promise<EventSourceInquiryContact>;
+  }
+}
+
+declare namespace BowmarkProvider_evolutionofsmooth {
+  // ── eos Products — the unit's own declarations, verbatim ──
+interface ShadeQuizOption { optionId: string; text: string }
+interface ShadeQuizQuestion { questionPageId: string; questionId: string; title: string; options: ShadeQuizOption[] }
+interface ShadeResult {
+  shadeName: string; price: number; priceFormatted: string;
+  productUrl: string; productId: string; variantId: string; description: string;
+}
+type ShadeQuizAnswerResult =
+  | { done: false; question: ShadeQuizQuestion }
+  | { done: true; result: ShadeResult };
+
+  /**
+   * eos's Dewy Lip Shine Shade Finder quiz (Octane AI) — walks the site's real 5-question quiz
+   * and returns the personalized shade result: name, Shopify product/variant id, price and
+   * product URL, ready for a cart handoff.
+   */
+  interface Unit {
+    /**
+     * Starts eos's Dewy Lip Shine Shade Finder quiz (walking past the site's own unanswerable
+     * intro page automatically) and returns the first real question, with the `quizResponseId`
+     * every following `answerShadeQuizQuestion` call takes.
+     */
+    startShadeQuiz(): Promise<{ quizResponseId: string; question: ShadeQuizQuestion }>;
+
+    /**
+     * Submits one answer (the `questionPageId`/`questionId` from the question just answered, and
+     * the `optionId` of the chosen option) and returns either the next question, or — once all 5
+     * real questions are answered — `{ done: true, result }` with the personalized Dewy Lip Shine
+     * shade: name, Shopify product/variant id, price and product URL. The site's own email-capture
+     * page is skipped automatically.
+     */
+    answerShadeQuizQuestion(quizResponseId: string, questionPageId: string, questionId: string, optionId: string): Promise<ShadeQuizAnswerResult>;
   }
 }
 
@@ -16914,6 +16950,7 @@ interface BowmarkProviders {
   embroker: BowmarkProvider_embroker.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
   eventsource: BowmarkProvider_eventsource.Unit;
+  evolutionofsmooth: BowmarkProvider_evolutionofsmooth.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;
