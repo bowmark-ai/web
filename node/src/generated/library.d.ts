@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 656967bce90cdcb4c85f03a28fc4880dacb0cedd0a9208d95cb12f9d1b928ac5
-// 9 capabilities, 130 providers, 400 typed functions, 20 refused.
+// Manifest version: 45fca5e4179708a010976b18c032432f55f1e66af537669d7dc78a2f32028d44
+// 9 capabilities, 131 providers, 401 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6429,6 +6429,67 @@ interface HauslabsShadeMatch {
      * function returns the single shade the quiz's terminal page renders for the same inputs.
      */
     runFoundationShadeFinder(input: { family: 'Deep' | 'Medium Deep' | 'Medium' | 'Light Medium' | 'Light' | 'Fair'; depth: 'deeper' | 'medium' | 'lighter'; undertone: 'warm' | 'cool' | 'neutral' | 'rosy' | 'golden'; hasAddOne?: boolean }): Promise<HauslabsShadeMatch>;
+  }
+}
+
+declare namespace BowmarkProvider_haydenhomes {
+  // ── Hayden Homes — the unit's own declarations, verbatim ──
+// Hayden Homes' OWN shapes — not a capability contract.
+
+interface HaydenhomesQuickMoveIn {
+  id: number;
+  planName: string;
+  address: string;
+  city: string;
+  state: string;
+  communityName: string;
+  communityUrl: string;
+  price: number;
+  priceFormatted: string;
+  monthlyPayment: string | null;
+  beds: number | null;
+  baths: number | null;
+  sqft: number | null;
+  stories: number | null;
+  garage: string | null;
+  lot: string | null;
+  status: string;              // "available" | "reserved", the site's own value
+  availabilityLabel: string;   // e.g. "Move-in Now", "Move-in Fall"
+  availabilityDate: string | null;
+  incentive: string | null;
+  imageUrl: string | null;
+  url: string;                 // the listing page — the real next step (tour / contact) lives here
+  canScheduleAppointment: boolean;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+interface HaydenhomesSearchFilters {
+  state?: string;       // two-letter code, e.g. "OR"
+  city?: string;        // fuzzy substring match
+  community?: string;   // fuzzy substring match
+  minBeds?: number;
+  minBaths?: number;
+  minSqft?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  availableOnly?: boolean; // default true
+}
+
+  /**
+   * Hayden Homes' live quick move-in inventory search across Oregon, Washington, Idaho and
+   * Montana — filterable by state, city, community, beds/baths/sqft and price, off the search
+   * page's own server-rendered listing rather than a third-party aggregator's stale mirror.
+   */
+  interface Unit {
+    /**
+     * Runs Hayden Homes' quick move-in search against the site's own live inventory — every home
+     * currently listed across OR/WA/ID/MT, with real address, price, beds/baths/sqft, community
+     * and a listing URL to schedule a tour or contact a sales team. `filters` (all optional):
+     * `state` (e.g. "OR"), `city`, `community`, `minBeds`, `minBaths`, `minSqft`, `minPrice`,
+     * `maxPrice`, `availableOnly` (default true — excludes homes the site has marked reserved).
+     */
+    searchQuickMoveIns(filters?: HaydenhomesSearchFilters): Promise<HaydenhomesQuickMoveIn[]>;
   }
 }
 
@@ -17299,6 +17360,7 @@ interface BowmarkProviders {
   hansons: BowmarkProvider_hansons.Unit;
   harmar: BowmarkProvider_harmar.Unit;
   hauslabs: BowmarkProvider_hauslabs.Unit;
+  haydenhomes: BowmarkProvider_haydenhomes.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;
   hellotend: BowmarkProvider_hellotend.Unit;

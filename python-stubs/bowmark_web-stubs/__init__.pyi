@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 656967bce90cdcb4c85f03a28fc4880dacb0cedd0a9208d95cb12f9d1b928ac5
-# 9 capabilities, 130 providers, 382 typed functions, 20 refused.
+# Manifest version: 45fca5e4179708a010976b18c032432f55f1e66af537669d7dc78a2f32028d44
+# 9 capabilities, 131 providers, 383 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3667,6 +3667,44 @@ class Prv_hauslabs_HauslabsShadeMatch_Out_variant_Out(TypedDict):
     sku: str | None
     price: str
     available: bool
+
+class Prv_haydenhomes_HaydenhomesSearchFilters_In(TypedDict):
+    state: NotRequired[str]
+    city: NotRequired[str]
+    community: NotRequired[str]
+    minBeds: NotRequired[float]
+    minBaths: NotRequired[float]
+    minSqft: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    availableOnly: NotRequired[bool]
+
+class Prv_haydenhomes_HaydenhomesQuickMoveIn_Out(TypedDict):
+    id: float
+    planName: str
+    address: str
+    city: str
+    state: str
+    communityName: str
+    communityUrl: str
+    price: float
+    priceFormatted: str
+    monthlyPayment: str | None
+    beds: float | None
+    baths: float | None
+    sqft: float | None
+    stories: float | None
+    garage: str | None
+    lot: str | None
+    status: str
+    availabilityLabel: str
+    availabilityDate: str | None
+    incentive: str | None
+    imageUrl: str | None
+    url: str
+    canScheduleAppointment: bool
+    latitude: float | None
+    longitude: float | None
 
 class Prv_healthcare_gov_healthcare_govEnrollmentQuery_In(TypedDict):
     zip: str
@@ -10943,6 +10981,22 @@ class Prv_hauslabs(Protocol):
         renders for the same inputs.
         """
 
+class Prv_haydenhomes(Protocol):
+    """Hayden Homes' live quick move-in inventory search across Oregon, Washington, Idaho and
+    Montana — filterable by state, city, community, beds/baths/sqft and price, off the
+    search page's own server-rendered listing rather than a third-party aggregator's stale
+    mirror.
+    """
+
+    async def searchQuickMoveIns(self, filters: Prv_haydenhomes_HaydenhomesSearchFilters_In | None = None, /) -> list[Prv_haydenhomes_HaydenhomesQuickMoveIn_Out]:
+        """Runs Hayden Homes' quick move-in search against the site's own live inventory — every
+        home currently listed across OR/WA/ID/MT, with real address, price, beds/baths/sqft,
+        community and a listing URL to schedule a tour or contact a sales team. `filters` (all
+        optional): `state` (e.g. "OR"), `city`, `community`, `minBeds`, `minBaths`, `minSqft`,
+        `minPrice`, `maxPrice`, `availableOnly` (default true — excludes homes the site has
+        marked reserved).
+        """
+
 class Prv_healthcare_gov(Protocol):
     """The federal ACA Marketplace: the health and dental plans a household can actually buy
     for its ZIP and income, with premiums both before and after the premium tax credit, plus
@@ -14373,6 +14427,7 @@ class BowmarkProviders(Protocol):
     hansons: Prv_hansons
     harmar: Prv_harmar
     hauslabs: Prv_hauslabs
+    haydenhomes: Prv_haydenhomes
     healthcare_gov: Prv_healthcare_gov
     hellofresh: Prv_hellofresh
     hellotend: Prv_hellotend
