@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ef6d7e1e1f9d70c3acde16c02adc9af80e7c002849fc5e8d20241c509816a631
-# 9 capabilities, 126 providers, 373 typed functions, 20 refused.
+# Manifest version: 13c0ec5ba5df5dc0ea5800ab5d7f94a923abd5ea5553f55e1bf572a645742b4f
+# 9 capabilities, 127 providers, 376 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2915,6 +2915,43 @@ class Prv_ford_fordVehicleRecalls_Out_counts_Out(TypedDict):
     recallsCount: float
     cspCount: float
     totalFsaCount: float
+
+class Prv_fourseasonsyachts_searchVoyages_filters_In(TypedDict):
+    region: NotRequired[str]
+    vessel: NotRequired[str]
+    keyword: NotRequired[str]
+
+class Prv_fourseasonsyachts_FourseasonsyachtsSearchResult_Out(TypedDict):
+    voyages: list[Prv_fourseasonsyachts_FourseasonsyachtsVoyage_Out]
+    warnings: list[str]
+
+class Prv_fourseasonsyachts_FourseasonsyachtsVoyage_Out(TypedDict):
+    voyageCode: str
+    title: str
+    slug: str
+    category: str
+    destination: str
+    vessel: str
+    body: str
+    images: list[str]
+    url: str
+
+class Prv_fourseasonsyachts_FourseasonsyachtsSailing_Out(TypedDict):
+    voyageCode: str
+    sailDays: float
+    fromPort: str
+    fromDateTime: str
+    toPort: str
+    toDateTime: str
+    ship: str
+    suites: list[Prv_fourseasonsyachts_FourseasonsyachtsSuite_Out]
+
+class Prv_fourseasonsyachts_FourseasonsyachtsSuite_Out(TypedDict):
+    description: str
+    totalCabins: float
+    availableCabins: float
+    price: float
+    currency: str
 
 class Prv_framebridge_FramebridgeFrameStyle_Out(TypedDict):
     productId: str
@@ -10320,6 +10357,33 @@ class Prv_ford(Protocol):
         5xx shouldn't kill the caller. No sign-in: the page is public.
         """
 
+class Prv_fourseasonsyachts(Protocol):
+    """Four Seasons Yachts' live Voyage Finder — every published sailing, its region and
+    vessel, plus the real scheduled departure with per-suite pricing and cabin availability,
+    read off the site's own booking-engine endpoints.
+    """
+
+    async def searchVoyages(self, filters: Prv_fourseasonsyachts_searchVoyages_filters_In | None = None, /) -> Prv_fourseasonsyachts_FourseasonsyachtsSearchResult_Out:
+        """Reads the live Voyage Finder inventory (50 published itineraries) and filters locally by
+        region, vessel and/or a free-text keyword against the title/body. Returns real
+        voyageCodes and slugs — the entry point every other function takes its identifier from.
+        The site publishes no query/filter endpoint of its own, so the divide is what this
+        function does with the listing, not how it gets there.
+        """
+
+    async def getVoyage(self, voyageCodeOrSlug: str, /) -> Prv_fourseasonsyachts_FourseasonsyachtsVoyage_Out:
+        """Reads one voyage's itinerary — its day-by-day description, region, vessel and images —
+        by voyageCode (server-side filtered, cheap) or by slug (matched locally against the full
+        listing). THROWS when neither matches.
+        """
+
+    async def getVoyageSailing(self, voyageCode: str, /) -> Prv_fourseasonsyachts_FourseasonsyachtsSailing_Out | None:
+        """Reads the REAL scheduled departure for one voyageCode — exact embark/disembark ports and
+        dates, the ship, and every suite category's live price and cabin availability, straight
+        off the site's own booking engine. Returns null when the site currently has no scheduled
+        departure for that voyageCode (an honest empty answer, not a failure).
+        """
+
 class Prv_framebridge(Protocol):
     """Framebridge's real custom picture-framing catalog and CPQ pricing engine — search real
     frame styles, read a style's real sizes and the site's live mat catalog, and price an
@@ -14122,6 +14186,7 @@ class BowmarkProviders(Protocol):
     firstdibs: Prv_firstdibs
     flightradar24: Prv_flightradar24
     ford: Prv_ford
+    fourseasonsyachts: Prv_fourseasonsyachts
     framebridge: Prv_framebridge
     fred: Prv_fred
     geico: Prv_geico

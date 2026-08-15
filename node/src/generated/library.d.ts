@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ef6d7e1e1f9d70c3acde16c02adc9af80e7c002849fc5e8d20241c509816a631
-// 9 capabilities, 126 providers, 391 typed functions, 20 refused.
+// Manifest version: 13c0ec5ba5df5dc0ea5800ab5d7f94a923abd5ea5553f55e1bf572a645742b4f
+// 9 capabilities, 127 providers, 394 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5135,6 +5135,78 @@ interface fordVehicleRecalls {
      * caller. No sign-in: the page is public.
      */
     getRecalls(vin: string): Promise<fordVehicleRecalls | null>;
+  }
+}
+
+declare namespace BowmarkProvider_fourseasonsyachts {
+  // ── Four Seasons Yachts — the unit's own declarations, verbatim ──
+interface FourseasonsyachtsVoyage {
+  /** The site's own stable identifier for a sailing — what getVoyageSailing takes. */
+  voyageCode: string;
+  title: string;
+  /** The path segment on fourseasonsyachts.com/voyages/<slug>. */
+  slug: string;
+  /** The site's own free-text category label, e.g. "Grand Mediterranean". */
+  category: string;
+  /** The resolved destination entry's title, when the link resolved; falls back to category. */
+  destination: string;
+  vessel: string;
+  body: string;
+  images: string[];
+  url: string;
+}
+interface FourseasonsyachtsSuite {
+  description: string;
+  totalCabins: number;
+  availableCabins: number;
+  price: number;
+  currency: string;
+}
+interface FourseasonsyachtsSailing {
+  voyageCode: string;
+  sailDays: number;
+  fromPort: string;
+  fromDateTime: string;
+  toPort: string;
+  toDateTime: string;
+  ship: string;
+  suites: FourseasonsyachtsSuite[];
+}
+interface FourseasonsyachtsSearchResult {
+  voyages: FourseasonsyachtsVoyage[];
+  /** What the filter DROPPED, in the same register the rest of the library uses. */
+  warnings: string[];
+}
+
+  /**
+   * Four Seasons Yachts' live Voyage Finder — every published sailing, its region and vessel,
+   * plus the real scheduled departure with per-suite pricing and cabin availability, read off
+   * the site's own booking-engine endpoints.
+   */
+  interface Unit {
+    /**
+     * Reads the live Voyage Finder inventory (50 published itineraries) and filters locally by
+     * region, vessel and/or a free-text keyword against the title/body. Returns real voyageCodes
+     * and slugs — the entry point every other function takes its identifier from. The site
+     * publishes no query/filter endpoint of its own, so the divide is what this function does with
+     * the listing, not how it gets there.
+     */
+    searchVoyages(filters?: { region?: string; vessel?: string; keyword?: string }): Promise<FourseasonsyachtsSearchResult>;
+
+    /**
+     * Reads one voyage's itinerary — its day-by-day description, region, vessel and images — by
+     * voyageCode (server-side filtered, cheap) or by slug (matched locally against the full
+     * listing). THROWS when neither matches.
+     */
+    getVoyage(voyageCodeOrSlug: string): Promise<FourseasonsyachtsVoyage>;
+
+    /**
+     * Reads the REAL scheduled departure for one voyageCode — exact embark/disembark ports and
+     * dates, the ship, and every suite category's live price and cabin availability, straight off
+     * the site's own booking engine. Returns null when the site currently has no scheduled
+     * departure for that voyageCode (an honest empty answer, not a failure).
+     */
+    getVoyageSailing(voyageCode: string): Promise<FourseasonsyachtsSailing | null>;
   }
 }
 
@@ -17030,6 +17102,7 @@ interface BowmarkProviders {
   firstdibs: BowmarkProvider_firstdibs.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;
   ford: BowmarkProvider_ford.Unit;
+  fourseasonsyachts: BowmarkProvider_fourseasonsyachts.Unit;
   framebridge: BowmarkProvider_framebridge.Unit;
   fred: BowmarkProvider_fred.Unit;
   geico: BowmarkProvider_geico.Unit;

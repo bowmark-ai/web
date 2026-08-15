@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ef6d7e1e1f9d70c3acde16c02adc9af80e7c002849fc5e8d20241c509816a631
-// 373 checked, 20 unchecked.
+// Manifest version: 13c0ec5ba5df5dc0ea5800ab5d7f94a923abd5ea5553f55e1bf572a645742b4f
+// 376 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ef6d7e1e1f9d70c3acde16c02adc9af80e7c002849fc5e8d20241c509816a631",
+  "version": "13c0ec5ba5df5dc0ea5800ab5d7f94a923abd5ea5553f55e1bf572a645742b4f",
   "units": {
     "cars": {
       "defs": {
@@ -4381,6 +4381,61 @@ export const VALIDATORS: ValidatorTable = {
         "getRecalls": [
           {
             "name": "vin",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.fourseasonsyachts": {
+      "defs": {},
+      "functions": {
+        "searchVoyages": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "region",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "vessel",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "keyword",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getVoyage": [
+          {
+            "name": "voyageCodeOrSlug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getVoyageSailing": [
+          {
+            "name": "voyageCode",
             "schema": {
               "k": "string"
             },
