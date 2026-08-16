@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 802 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 808 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -420,6 +420,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kitchentuneup.visualizeKitchen` | kitchentuneup.com | Runs a photo through Kitchen Tune-Up's own AI Design Tool the way… | 🟢 |
 | `kompan.getSparePartsDocuments` | kompan.com | Reads the real spare-parts / TÜV-certificate / maintenance-manual documents KOMPAN… | 🟢 |
 | `kompan.searchProduct` | kompan.com | Searches KOMPAN Master for a product number in one region and lists every real… | 🟢 |
+| `kuiu.findKuiuSize` | kuiu.com | Maps a shopper's chest/waist measurements (inches) to KUIU's own men's apparel size… | 🟢 |
+| `kuiu.getKuiuCheckoutLink` | kuiu.com | Resolves a product handle + chosen variant (camo pattern/color + size) to a real… | 🟢 |
+| `kuiu.getKuiuProduct` | kuiu.com | Reads one product by its handle — every camo-pattern/size variant, its exact price and… | 🟢 |
+| `kuiu.listKuiuProducts` | kuiu.com | Reads the live KUIU catalogue as the storefront publishes it — every hunting… | 🟢 |
 | `labcorp.checkAppointmentAvailability` | labcorp.com | Checks open appointment slots at a given Patient Service Center for a chosen date… | ⚪ |
 | `labcorp.findLocation` | labcorp.com | Finds nearby Labcorp Patient Service Centers (PSCs) by zip code or address, returning… | ⚪ |
 | `labcorp.getTest` | labcorp.com | Returns one OnDemand test in full: price, what it screens for, sample type (blood… | 🟢 |
@@ -706,6 +710,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teladoc.getInsurancePricing` | teladochealth.com | Returns the with-insurance side of /start/no-insurance — what Teladoc publishes about… | 🟢 |
 | `teladoc.getPricing` | teladochealth.com | Returns Teladoc's published self-pay (no-insurance) visit pricing by service line —… | 🟢 |
 | `teladoc.search` | teladochealth.com | Searches Teladoc Health's public Health Library — recipes, meal plans… | ⚪ |
+| `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
+| `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
 | `therabody.getTheragunProduct` | therabody.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `therabody.listTheragunProducts` | therabody.com | Reads the live Therabody catalogue as Therabody publishes it — every product, its… | 🟢 |
 | `therabody.recommendTheragun` | therabody.com | Filters the live catalogue by what a shopper actually needs — Theragun device family… | 🟢 |

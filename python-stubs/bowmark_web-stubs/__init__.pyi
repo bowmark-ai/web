@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 813247a2829712615b41dd6d94f14e4626e2e85c041ac9609ecc105c12809aeb
-# 9 capabilities, 143 providers, 409 typed functions, 20 refused.
+# Manifest version: 1ed5357295c6e0bd30822ff52ed61135673b3285c1ea1cb9fffa16603102182b
+# 9 capabilities, 145 providers, 415 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4917,6 +4917,57 @@ class Prv_kompan_KompanDocument_Out(TypedDict):
     label: str
     url: str
 
+class Prv_kuiu_listKuiuProducts_opts_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_kuiu_KuiuProduct_Out(TypedDict):
+    handle: str
+    title: str
+    vendor: str
+    productType: str
+    url: str
+    descriptionHtml: str | None
+    optionNames: list[str]
+    variants: list[Prv_kuiu_KuiuVariant_Out]
+    priceRange: Prv_kuiu_KuiuProduct_Out_priceRange_u0_Out | None
+    inStock: bool
+    tags: list[str]
+    images: list[str]
+
+class Prv_kuiu_KuiuVariant_Out(TypedDict):
+    id: str
+    title: str
+    price: str
+    compareAtPrice: str | None
+    sku: str | None
+    available: bool
+    options: list[str]
+
+class Prv_kuiu_KuiuProduct_Out_priceRange_u0_Out(TypedDict):
+    min: str
+    max: str
+
+class Prv_kuiu_findKuiuSize_measurements_In(TypedDict):
+    chest: float
+    waist: float
+
+class Prv_kuiu_KuiuSizeMatch_Out(TypedDict):
+    size: str | None
+    chestRange: str | None
+    waistRange: str | None
+    armLengthRange: str | None
+    chestMatch: str | None
+    waistMatch: str | None
+    warnings: list[str]
+
+class Prv_kuiu_getKuiuCheckoutLink_opts_In(TypedDict):
+    quantity: NotRequired[float]
+
+class Prv_kuiu_KuiuCheckoutLink_Out(TypedDict):
+    url: str
+    variant: Prv_kuiu_KuiuVariant_Out
+    product: Prv_kuiu_KuiuProduct_Out
+
 class Prv_labcorp_LabcorpTestSummary_Out(TypedDict):
     sku: str
     name: str
@@ -8088,6 +8139,46 @@ class Prv_teladoc_teladocInsuranceCoverage_Out(TypedDict):
     headlinePriceUsd: float
     services: list[str]
     disclaimer: str
+
+class Prv_teneohg_searchMemberHotels_args_In(TypedDict):
+    state: NotRequired[str]
+    country: NotRequired[str]
+    collection: NotRequired[str]
+    minMeetingSpaceSqFt: NotRequired[float]
+    minSleepingRooms: NotRequired[float]
+    query: NotRequired[str]
+    limit: NotRequired[float]
+    maxPagesToScan: NotRequired[float]
+
+class Prv_teneohg_TeneohgSearchResult_Out(TypedDict):
+    hotels: list[Prv_teneohg_TeneohgHotelSummary_Out]
+    totalMatched: float
+    totalScanned: float
+    pagesScanned: float
+
+class Prv_teneohg_TeneohgHotelSummary_Out(TypedDict):
+    slug: str
+    name: str
+    city: str | None
+    region: str | None
+    profileUrl: str
+    totalMeetingSpaceSqFt: float | None
+    largestMeetingSpaceSqFt: float | None
+    sleepingRooms: float | None
+    collections: list[str]
+
+class Prv_teneohg_TeneohgHotelDetail_Out(TypedDict):
+    slug: str
+    name: str
+    city: str | None
+    region: str | None
+    profileUrl: str
+    stats: Mapping[str, str]
+    rfpHandoff: Prv_teneohg_TeneohgRfpHandoff_Out
+
+class Prv_teneohg_TeneohgRfpHandoff_Out(TypedDict):
+    url: str
+    hotelsOfInterestValue: str
 
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -12323,6 +12414,39 @@ class Prv_kompan(Protocol):
         and the on-demand "full package" PDF URL.
         """
 
+class Prv_kuiu(Protocol):
+    """KUIU's live hunting-apparel catalogue — every product, its camo-pattern/color and size
+    variants, real prices and stock — plus the storefront's own Find Your Fit men's size
+    chart and a live-validated checkout handoff link.
+    """
+
+    async def listKuiuProducts(self, opts: Prv_kuiu_listKuiuProducts_opts_In | None = None, /) -> list[Prv_kuiu_KuiuProduct_Out]:
+        """Reads the live KUIU catalogue as the storefront publishes it — every product, its
+        handle, title, vendor, description, tags, images and the per-variant price/stock the
+        storefront is quoting right now.
+        """
+
+    async def getKuiuProduct(self, handle: str, /) -> Prv_kuiu_KuiuProduct_Out:
+        """Reads one product by its handle — every camo-pattern/color and size variant, its exact
+        price and whether that specific variant is purchasable right now. Takes the handle
+        listKuiuProducts returns. THROWS on an unknown handle (the store answers a real 404).
+        """
+
+    async def findKuiuSize(self, measurements: Prv_kuiu_findKuiuSize_measurements_In, /) -> Prv_kuiu_KuiuSizeMatch_Out:
+        """Maps chest and waist measurements (inches) to KUIU's own published men's apparel size,
+        reading the storefront's live Find Your Fit chart. Returns the matched size plus each
+        measurement's OWN match, so a caller can see when chest and waist point at different
+        rows — a real case on a chart sized primarily by chest.
+        """
+
+    async def getKuiuCheckoutLink(self, handle: str, variantTitleOrOptions: str, opts: Prv_kuiu_getKuiuCheckoutLink_opts_In | None = None, /) -> Prv_kuiu_KuiuCheckoutLink_Out:
+        """Resolves a product handle + a variant match (either the exact variant title like "Vias /
+        M", or a substring of it) to a real Shopify cart-permalink URL, validated live against
+        the storefront. THROWS if the handle is unknown, if no variant matches, if the match is
+        ambiguous, or if the matched variant is out of stock — the error names the candidates or
+        in-stock options so the caller can retry.
+        """
+
 class Prv_labcorp(Protocol):
     """Lab test pricing, PSC location lookup and appointment availability from Labcorp."""
 
@@ -14337,6 +14461,34 @@ class Prv_teladoc(Protocol):
         way this parser cannot read surfaces as an error rather than an empty answer.
         """
 
+class Prv_teneohg(Protocol):
+    """Teneo Hospitality Group's own member-hotel directory — search 350+ independent and
+    small-branded meeting hotels by destination, collection and meeting-space/room-block
+    size with real specs, then read one hotel's full meeting-space stat block and the RFP
+    hand-off to actually request a proposal.
+    """
+
+    async def searchMemberHotels(self, args: Prv_teneohg_searchMemberHotels_args_In | None = None, /) -> Prv_teneohg_TeneohgSearchResult_Out:
+        """Searches Teneo's own member-hotel directory (350+ hotels) by US state (2-letter code,
+        e.g. "AZ"), country, collection tag substring (e.g. "luxury", "resorts"), minimum total
+        meeting-space square footage, minimum sleeping-room count and a name/city substring.
+        Uses one of the site's own curated per-state directory pages when the requested state
+        has one (faster, pre-filtered), otherwise scans the base listing's pages (bounded by
+        `maxPagesToScan`, default 8) and filters client-side. `totalMatched` is the count before
+        `limit` (default 20, max 50) cuts the list; `totalScanned`/`pagesScanned` say how much
+        of the directory the call actually covered.
+        """
+
+    async def getMemberHotel(self, slug: str, /) -> Prv_teneohg_TeneohgHotelDetail_Out:
+        """Reads one member hotel's own profile page: every stat its meeting-space and
+        sleeping-room widgets carry (total/largest/second-largest meeting room space, outdoor
+        space, meeting-room count, suites, doubles), keyed on the site's own label text, plus
+        `rfpHandoff` — the public RFP form URL and the exact value to put in its "Hotels of
+        Interest" field to route a request at this hotel. `slug` comes from
+        searchMemberHotels(). THROWS on an unknown slug, naming searchMemberHotels() as the way
+        to find current ones.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -15068,6 +15220,7 @@ class BowmarkProviders(Protocol):
     kingsdown: Prv_kingsdown
     kitchentuneup: Prv_kitchentuneup
     kompan: Prv_kompan
+    kuiu: Prv_kuiu
     labcorp: Prv_labcorp
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
@@ -15118,6 +15271,7 @@ class BowmarkProviders(Protocol):
     target: Prv_target
     tatcha: Prv_tatcha
     teladoc: Prv_teladoc
+    teneohg: Prv_teneohg
     therabody: Prv_therabody
     thezebra: Prv_thezebra
     tilsonhomes: Prv_tilsonhomes

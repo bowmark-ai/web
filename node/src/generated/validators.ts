@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 813247a2829712615b41dd6d94f14e4626e2e85c041ac9609ecc105c12809aeb
-// 409 checked, 20 unchecked.
+// Manifest version: 1ed5357295c6e0bd30822ff52ed61135673b3285c1ea1cb9fffa16603102182b
+// 415 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "813247a2829712615b41dd6d94f14e4626e2e85c041ac9609ecc105c12809aeb",
+  "version": "1ed5357295c6e0bd30822ff52ed61135673b3285c1ea1cb9fffa16603102182b",
   "units": {
     "cars": {
       "defs": {
@@ -7733,6 +7733,95 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.kuiu": {
+      "defs": {},
+      "functions": {
+        "listKuiuProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getKuiuProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "findKuiuSize": [
+          {
+            "name": "measurements",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "chest",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "waist",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getKuiuCheckoutLink": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "variantTitleOrOptions",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.labcorp": {
       "defs": {},
       "functions": {
@@ -14496,6 +14585,87 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getPricing": [],
         "getInsurancePricing": []
+      }
+    },
+    "providers.teneohg": {
+      "defs": {},
+      "functions": {
+        "searchMemberHotels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "collection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minMeetingSpaceSqFt",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minSleepingRooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxPagesToScan",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMemberHotel": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.therabody": {

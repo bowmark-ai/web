@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 813247a2829712615b41dd6d94f14e4626e2e85c041ac9609ecc105c12809aeb
-// 9 capabilities, 143 providers, 427 typed functions, 20 refused.
+// Manifest version: 1ed5357295c6e0bd30822ff52ed61135673b3285c1ea1cb9fffa16603102182b
+// 9 capabilities, 145 providers, 433 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9333,6 +9333,98 @@ interface KompanSparePartsDocuments {
   }
 }
 
+declare namespace BowmarkProvider_kuiu {
+  // ── KUIU — the unit's own declarations, verbatim ──
+interface KuiuVariant {
+  /** Shopify's numeric variant id as a string. */
+  id: string;
+  /** The variant's own label, e.g. "Vias / M". */
+  title: string;
+  /** String verbatim from the storefront — "129.00" (dollars) on /products.json, "12900" (cents) on /products/<handle>.js. */
+  price: string;
+  /** Same scale as price. Null when the variant is not on sale. */
+  compareAtPrice: string | null;
+  sku: string | null;
+  /** Whether the variant is purchasable right now. */
+  available: boolean;
+  /** e.g. ["Vias", "M"] — camo pattern/color + size. */
+  options: string[];
+}
+interface KuiuProduct {
+  /** The handle is the only stable identifier across the catalogue. */
+  handle: string;
+  title: string;
+  vendor: string;
+  productType: string;
+  url: string;
+  descriptionHtml: string | null;
+  optionNames: string[];
+  variants: KuiuVariant[];
+  priceRange: { min: string; max: string } | null;
+  /** True if ANY variant is purchasable. */
+  inStock: boolean;
+  tags: string[];
+  images: string[];
+}
+interface KuiuSizeMatch {
+  /** The chart size that matched both chest and waist, e.g. "M". Null on no match. */
+  size: string | null;
+  chestRange: string | null;
+  waistRange: string | null;
+  armLengthRange: string | null;
+  /** The size the CHEST measurement alone points to. */
+  chestMatch: string | null;
+  /** The size the WAIST measurement alone points to. */
+  waistMatch: string | null;
+  /** Populated when chest and waist disagree, or neither matched. */
+  warnings: string[];
+}
+interface KuiuCheckoutLink {
+  /** Shopify's own cart-permalink URL — a GET that adds the line item and redirects into the cart. */
+  url: string;
+  variant: KuiuVariant;
+  product: KuiuProduct;
+}
+
+  /**
+   * KUIU's live hunting-apparel catalogue — every product, its camo-pattern/color and size
+   * variants, real prices and stock — plus the storefront's own Find Your Fit men's size chart
+   * and a live-validated checkout handoff link.
+   */
+  interface Unit {
+    /**
+     * Reads the live KUIU catalogue as the storefront publishes it — every product, its handle,
+     * title, vendor, description, tags, images and the per-variant price/stock the storefront is
+     * quoting right now.
+     */
+    listKuiuProducts(opts?: { limit?: number }): Promise<KuiuProduct[]>;
+
+    /**
+     * Reads one product by its handle — every camo-pattern/color and size variant, its exact price
+     * and whether that specific variant is purchasable right now. Takes the handle
+     * listKuiuProducts returns. THROWS on an unknown handle (the store answers a real 404).
+     */
+    getKuiuProduct(handle: string): Promise<KuiuProduct>;
+
+    /**
+     * Maps chest and waist measurements (inches) to KUIU's own published men's apparel size,
+     * reading the storefront's live Find Your Fit chart. Returns the matched size plus each
+     * measurement's OWN match, so a caller can see when chest and waist point at different rows —
+     * a real case on a chart sized primarily by chest.
+     */
+    findKuiuSize(measurements: { chest: number; waist: number }): Promise<KuiuSizeMatch>;
+
+    /**
+     * Resolves a product handle + a variant match (either the exact variant title like "Vias / M",
+     * or a substring of it) to a real Shopify cart-permalink URL, validated live against the
+     * storefront. THROWS if the handle is unknown, if no variant matches, if the match is
+     * ambiguous, or if the matched variant is out of stock — the error names the candidates or
+     * in-stock options so the caller can retry.
+     */
+    getKuiuCheckoutLink(handle: string, variantTitleOrOptions: string, opts?: { quantity?: number }): Promise<KuiuCheckoutLink>;
+  }
+}
+
 declare namespace BowmarkProvider_labcorp {
   // ── Labcorp — the unit's own declarations, verbatim ──
 interface LabcorpTestSummary {
@@ -15387,6 +15479,69 @@ interface teladocInsuranceCoverage {
   }
 }
 
+declare namespace BowmarkProvider_teneohg {
+  // ── Teneo Hospitality Group — the unit's own declarations, verbatim ──
+// Teneo's OWN shapes — not a capability contract.
+
+interface TeneohgHotelSummary {
+  slug: string;
+  name: string;
+  city: string | null;
+  region: string | null;              // US state code, e.g. "AZ", or a country name
+  profileUrl: string;
+  totalMeetingSpaceSqFt: number | null;
+  largestMeetingSpaceSqFt: number | null;
+  sleepingRooms: number | null;
+  collections: string[];              // e.g. ["Luxury", "Resorts"]
+}
+
+interface TeneohgSearchResult { hotels: TeneohgHotelSummary[]; totalMatched: number; totalScanned: number; pagesScanned: number }
+
+type TeneohgHotelStats = Record<string, string>;  // e.g. { "Meeting Room Space": "156,000 Sq. Ft.", "Number of Sleeping Rooms": "517" }
+
+interface TeneohgRfpHandoff { url: string; hotelsOfInterestValue: string }
+
+interface TeneohgHotelDetail {
+  slug: string;
+  name: string;
+  city: string | null;
+  region: string | null;
+  profileUrl: string;
+  stats: TeneohgHotelStats;
+  rfpHandoff: TeneohgRfpHandoff;      // the public RFP form + what to type into its "Hotels of Interest" field
+}
+
+  /**
+   * Teneo Hospitality Group's own member-hotel directory — search 350+ independent and
+   * small-branded meeting hotels by destination, collection and meeting-space/room-block size
+   * with real specs, then read one hotel's full meeting-space stat block and the RFP hand-off to
+   * actually request a proposal.
+   */
+  interface Unit {
+    /**
+     * Searches Teneo's own member-hotel directory (350+ hotels) by US state (2-letter code, e.g.
+     * "AZ"), country, collection tag substring (e.g. "luxury", "resorts"), minimum total
+     * meeting-space square footage, minimum sleeping-room count and a name/city substring. Uses
+     * one of the site's own curated per-state directory pages when the requested state has one
+     * (faster, pre-filtered), otherwise scans the base listing's pages (bounded by
+     * `maxPagesToScan`, default 8) and filters client-side. `totalMatched` is the count before
+     * `limit` (default 20, max 50) cuts the list; `totalScanned`/`pagesScanned` say how much of
+     * the directory the call actually covered.
+     */
+    searchMemberHotels(args?: { state?: string; country?: string; collection?: string; minMeetingSpaceSqFt?: number; minSleepingRooms?: number; query?: string; limit?: number; maxPagesToScan?: number }): Promise<TeneohgSearchResult>;
+
+    /**
+     * Reads one member hotel's own profile page: every stat its meeting-space and sleeping-room
+     * widgets carry (total/largest/second-largest meeting room space, outdoor space, meeting-room
+     * count, suites, doubles), keyed on the site's own label text, plus `rfpHandoff` — the public
+     * RFP form URL and the exact value to put in its "Hotels of Interest" field to route a request
+     * at this hotel. `slug` comes from searchMemberHotels(). THROWS on an unknown slug, naming
+     * searchMemberHotels() as the way to find current ones.
+     */
+    getMemberHotel(slug: string): Promise<TeneohgHotelDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_therabody {
   // ── Therabody — the unit's own declarations, verbatim ──
 interface TherabodyVariant {
@@ -18048,6 +18203,7 @@ interface BowmarkProviders {
   kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
   kompan: BowmarkProvider_kompan.Unit;
+  kuiu: BowmarkProvider_kuiu.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
@@ -18098,6 +18254,7 @@ interface BowmarkProviders {
   target: BowmarkProvider_target.Unit;
   tatcha: BowmarkProvider_tatcha.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
+  teneohg: BowmarkProvider_teneohg.Unit;
   therabody: BowmarkProvider_therabody.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
