@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6ae44c11d705a75a8b02c383274e5f6dca945746ab7593d1cb9feabce4352a46
-// 9 capabilities, 140 providers, 420 typed functions, 20 refused.
+// Manifest version: be4cdedcfa4c990cc2208fd7e5f33c2dd386c9c210168b9f2c02f259fbe8fbba
+// 9 capabilities, 141 providers, 422 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8942,6 +8942,44 @@ interface JoybirdPriceResult {
      * picked.
      */
     priceConfigurator(slug: string, selections: Record<string, string>): Promise<JoybirdPriceResult>;
+  }
+}
+
+declare namespace BowmarkProvider_joycefactorydirect {
+  // ── Joyce Windows, Sunrooms & Baths — the unit's own declarations, verbatim ──
+interface JoyceCalculatorOption {
+  label: string;
+  answerId: string;
+}
+interface JoyceCalculatorQuestion {
+  page: number;
+  componentId: string;
+  prompt: string;
+  kind: "select" | "quantity";
+  options: JoyceCalculatorOption[] | null;
+}
+interface JoyceWindowCalculatorOptions {
+  calculatorUrl: string;
+  questions: JoyceCalculatorQuestion[];
+}
+
+  /**
+   * Reads the live question/option set behind Joyce Windows' own window-cost calculator (an
+   * involve.me embed) with no browser and no interaction.
+   */
+  interface Unit {
+    /**
+     * Reads the live window-cost calculator's real questions and answer options (styles,
+     * quantities, grade, colors, glass, grids) straight off the page — no interaction needed.
+     */
+    getWindowCalculatorOptions(): Promise<JoyceWindowCalculatorOptions>;
+
+    /**
+     * Reads the live bath-remodel cost calculator's real questions and answer options straight off
+     * the page — no interaction needed. Same involve.me platform and return shape as
+     * getWindowCalculatorOptions.
+     */
+    getBathCalculatorOptions(): Promise<JoyceWindowCalculatorOptions>;
   }
 }
 
@@ -17892,6 +17930,7 @@ interface BowmarkProviders {
   islllc: BowmarkProvider_islllc.Unit;
   jennikayne: BowmarkProvider_jennikayne.Unit;
   joybird: BowmarkProvider_joybird.Unit;
+  joycefactorydirect: BowmarkProvider_joycefactorydirect.Unit;
   justinwine: BowmarkProvider_justinwine.Unit;
   kayak: BowmarkProvider_kayak.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;

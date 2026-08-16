@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6ae44c11d705a75a8b02c383274e5f6dca945746ab7593d1cb9feabce4352a46
-// 402 checked, 20 unchecked.
+// Manifest version: be4cdedcfa4c990cc2208fd7e5f33c2dd386c9c210168b9f2c02f259fbe8fbba
+// 404 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6ae44c11d705a75a8b02c383274e5f6dca945746ab7593d1cb9feabce4352a46",
+  "version": "be4cdedcfa4c990cc2208fd7e5f33c2dd386c9c210168b9f2c02f259fbe8fbba",
   "units": {
     "cars": {
       "defs": {
@@ -7249,6 +7249,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.joycefactorydirect": {
+      "defs": {},
+      "functions": {
+        "getWindowCalculatorOptions": [],
+        "getBathCalculatorOptions": []
       }
     },
     "providers.justinwine": {

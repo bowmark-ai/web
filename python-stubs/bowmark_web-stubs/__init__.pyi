@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6ae44c11d705a75a8b02c383274e5f6dca945746ab7593d1cb9feabce4352a46
-# 9 capabilities, 140 providers, 402 typed functions, 20 refused.
+# Manifest version: be4cdedcfa4c990cc2208fd7e5f33c2dd386c9c210168b9f2c02f259fbe8fbba
+# 9 capabilities, 141 providers, 404 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4725,6 +4725,21 @@ class Prv_joybird_JoybirdPriceLine_Out(TypedDict):
     optionSku: str
     valueSku: str
     valueName: str
+
+class Prv_joycefactorydirect_JoyceWindowCalculatorOptions_Out(TypedDict):
+    calculatorUrl: str
+    questions: list[Prv_joycefactorydirect_JoyceCalculatorQuestion_Out]
+
+class Prv_joycefactorydirect_JoyceCalculatorQuestion_Out(TypedDict):
+    page: float
+    componentId: str
+    prompt: str
+    kind: Literal["select"] | Literal["quantity"]
+    options: list[Prv_joycefactorydirect_JoyceCalculatorOption_Out] | None
+
+class Prv_joycefactorydirect_JoyceCalculatorOption_Out(TypedDict):
+    label: str
+    answerId: str
 
 class Prv_justinwine_JustinwineClubTier_Out(TypedDict):
     category: str
@@ -12112,6 +12127,22 @@ class Prv_joybird(Protocol):
         per-slot breakdown of what was picked.
         """
 
+class Prv_joycefactorydirect(Protocol):
+    """Reads the live question/option set behind Joyce Windows' own window-cost calculator (an
+    involve.me embed) with no browser and no interaction.
+    """
+
+    async def getWindowCalculatorOptions(self, /) -> Prv_joycefactorydirect_JoyceWindowCalculatorOptions_Out:
+        """Reads the live window-cost calculator's real questions and answer options (styles,
+        quantities, grade, colors, glass, grids) straight off the page — no interaction needed.
+        """
+
+    async def getBathCalculatorOptions(self, /) -> Prv_joycefactorydirect_JoyceWindowCalculatorOptions_Out:
+        """Reads the live bath-remodel cost calculator's real questions and answer options straight
+        off the page — no interaction needed. Same involve.me platform and return shape as
+        getWindowCalculatorOptions.
+        """
+
 class Prv_justinwine(Protocol):
     """JUSTIN Vineyards & Winery's Wine Society club — per-shipment price by tier and quantity,
     with the exact join handoff URL, off the club page's own embedded data.
@@ -14938,6 +14969,7 @@ class BowmarkProviders(Protocol):
     islllc: Prv_islllc
     jennikayne: Prv_jennikayne
     joybird: Prv_joybird
+    joycefactorydirect: Prv_joycefactorydirect
     justinwine: Prv_justinwine
     kayak: Prv_kayak
     kingsdown: Prv_kingsdown
