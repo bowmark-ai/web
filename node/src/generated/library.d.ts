@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7b14c688aefabb2449b58da8580e2aba139ec879f050b5be5beb942849bcafef
-// 9 capabilities, 138 providers, 415 typed functions, 20 refused.
+// Manifest version: 29f719b999a2d50dbe0eb7d10a596088a2e203a1a66acb185e543bd566b79f50
+// 9 capabilities, 139 providers, 417 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12142,6 +12142,56 @@ interface ottoSearchQuery {
   }
 }
 
+declare namespace BowmarkProvider_outdoorresearch {
+  // ── Outdoor Research — the unit's own declarations, verbatim ──
+interface OutdoorResearchWarrantyPolicy {
+  teamId: string;
+  teamName: string;               // "Outdoor Research"
+  excludedTags: string[];         // e.g. ["Non-OR","warehouse_sale","POS_only","Nikwax"]
+  thirdPartyPurchasesAccepted: boolean;
+  purchaseLocations: string[];    // e.g. ["www.outdoorresearch.com","Other"]
+  replacesFromFullCatalogWhenInStock: boolean;
+  replacesFromFullCatalogWhenOutOfStock: boolean;
+  receiptRequiredForThirdParty: boolean;
+  productPhotoRequiredForThirdParty: boolean;
+  supportEmail: string | null;
+  notFoundMessage: string | null;
+  expiredMessage: string | null;
+}
+interface OutdoorResearchClaimEligibility {
+  eligible: boolean;
+  status: "not_found" | "blocked" | "expired" | "eligible";
+  message: string;                // the site's own wording for this outcome
+  continueUrl: string | null;     // set only when eligible: true
+}
+
+  /**
+   * Reads Outdoor Research's Infinite Guarantee warranty program straight from the ReturnLogic
+   * claim portal's own API — the real program rules, and whether a given order/email can open a
+   * claim right now — no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Reads Outdoor Research's Infinite Guarantee program config straight from the ReturnLogic
+     * claim portal — exclusion tags, in-stock/out-of-stock replacement scenarios, third-party
+     * purchase acceptance and its named purchase locations, receipt/photo requirements, and the
+     * site's own not-found/expired copy. Takes nothing. THROWS rather than returning a placeholder
+     * when the settings endpoint answers without teamId/teamName.
+     */
+    getWarrantyPolicy(): Promise<OutdoorResearchWarrantyPolicy>;
+
+    /**
+     * Starts an Infinite Guarantee claim by order number + email — the same lookup 'File a
+     * Warranty Claim' performs. Returns `eligible: false` with a `status` of
+     * not_found/blocked/expired and the site's own message when the pair does not qualify (a real,
+     * expected answer, not an error) — never throws for those. On `eligible: true`, `continueUrl`
+     * is where the customer would pick items and see per-item eligibility. THROWS only on a
+     * transport failure or an unrecognized response.
+     */
+    checkClaimEligibility(orderNumber: string, email: string): Promise<OutdoorResearchClaimEligibility>;
+  }
+}
+
 declare namespace BowmarkProvider_paypal {
   // ── PayPal — the unit's own declarations, verbatim ──
 interface PaypalEstimateFeeArgs {
@@ -17800,6 +17850,7 @@ interface BowmarkProviders {
   newegg: BowmarkProvider_newegg.Unit;
   oanda: BowmarkProvider_oanda.Unit;
   otto: BowmarkProvider_otto.Unit;
+  outdoorresearch: BowmarkProvider_outdoorresearch.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;

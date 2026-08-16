@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7b14c688aefabb2449b58da8580e2aba139ec879f050b5be5beb942849bcafef
-# 9 capabilities, 138 providers, 397 typed functions, 20 refused.
+# Manifest version: 29f719b999a2d50dbe0eb7d10a596088a2e203a1a66acb185e543bd566b79f50
+# 9 capabilities, 139 providers, 399 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6287,6 +6287,26 @@ class Prv_otto_ottoSearchResult_Out_availability_Out(TypedDict):
 class Prv_otto_ottoSearchResult_Out_rating_u0_Out(TypedDict):
     value: float
     count: float
+
+class Prv_outdoorresearch_OutdoorResearchWarrantyPolicy_Out(TypedDict):
+    teamId: str
+    teamName: str
+    excludedTags: list[str]
+    thirdPartyPurchasesAccepted: bool
+    purchaseLocations: list[str]
+    replacesFromFullCatalogWhenInStock: bool
+    replacesFromFullCatalogWhenOutOfStock: bool
+    receiptRequiredForThirdParty: bool
+    productPhotoRequiredForThirdParty: bool
+    supportEmail: str | None
+    notFoundMessage: str | None
+    expiredMessage: str | None
+
+class Prv_outdoorresearch_OutdoorResearchClaimEligibility_Out(TypedDict):
+    eligible: bool
+    status: Literal["not_found"] | Literal["blocked"] | Literal["expired"] | Literal["eligible"]
+    message: str
+    continueUrl: str | None
 
 class Prv_paypal_PaypalEstimateFeeArgs_In(TypedDict):
     amount: float
@@ -13054,6 +13074,29 @@ class Prv_otto(Protocol):
         `getProduct`'s current `-C<id>/` pattern.
         """
 
+class Prv_outdoorresearch(Protocol):
+    """Reads Outdoor Research's Infinite Guarantee warranty program straight from the
+    ReturnLogic claim portal's own API — the real program rules, and whether a given
+    order/email can open a claim right now — no key, no browser.
+    """
+
+    async def getWarrantyPolicy(self, /) -> Prv_outdoorresearch_OutdoorResearchWarrantyPolicy_Out:
+        """Reads Outdoor Research's Infinite Guarantee program config straight from the ReturnLogic
+        claim portal — exclusion tags, in-stock/out-of-stock replacement scenarios, third-party
+        purchase acceptance and its named purchase locations, receipt/photo requirements, and
+        the site's own not-found/expired copy. Takes nothing. THROWS rather than returning a
+        placeholder when the settings endpoint answers without teamId/teamName.
+        """
+
+    async def checkClaimEligibility(self, orderNumber: str, email: str, /) -> Prv_outdoorresearch_OutdoorResearchClaimEligibility_Out:
+        """Starts an Infinite Guarantee claim by order number + email — the same lookup 'File a
+        Warranty Claim' performs. Returns `eligible: false` with a `status` of
+        not_found/blocked/expired and the site's own message when the pair does not qualify (a
+        real, expected answer, not an error) — never throws for those. On `eligible: true`,
+        `continueUrl` is where the customer would pick items and see per-item eligibility.
+        THROWS only on a transport failure or an unrecognized response.
+        """
+
 class Prv_paypal(Protocol):
     """PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules,
     the fee on one concrete personal (friends-and-family) transaction, the spread PayPal
@@ -14857,6 +14900,7 @@ class BowmarkProviders(Protocol):
     newegg: Prv_newegg
     oanda: Prv_oanda
     otto: Prv_otto
+    outdoorresearch: Prv_outdoorresearch
     paypal: Prv_paypal
     pirateship: Prv_pirateship
     pizzahut: Prv_pizzahut

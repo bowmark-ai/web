@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7b14c688aefabb2449b58da8580e2aba139ec879f050b5be5beb942849bcafef
-// 397 checked, 20 unchecked.
+// Manifest version: 29f719b999a2d50dbe0eb7d10a596088a2e203a1a66acb185e543bd566b79f50
+// 399 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7b14c688aefabb2449b58da8580e2aba139ec879f050b5be5beb942849bcafef",
+  "version": "29f719b999a2d50dbe0eb7d10a596088a2e203a1a66acb185e543bd566b79f50",
   "units": {
     "cars": {
       "defs": {
@@ -9397,6 +9397,28 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ottoSearchQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.outdoorresearch": {
+      "defs": {},
+      "functions": {
+        "getWarrantyPolicy": [],
+        "checkClaimEligibility": [
+          {
+            "name": "orderNumber",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "email",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
