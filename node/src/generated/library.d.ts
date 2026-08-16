@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9000b770c7a6efc9464c3da0b2eb36bc6aaf6c8a781b120a3bd8702d8c3feaea
-// 9 capabilities, 133 providers, 404 typed functions, 20 refused.
+// Manifest version: ea729afcd1f0531e7466e72b3cebd5a0bde7b9e4659e3b0d4a88b830f435aba5
+// 9 capabilities, 134 providers, 406 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16380,6 +16380,64 @@ interface walmartSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_waterfurnace {
+  // ── WaterFurnace — the unit's own declarations, verbatim ──
+type WaterfurnaceFuelSource = "gas" | "propane" | "heatpump" | "resistance" | "oil";
+type WaterfurnaceSecondaryFuelSource = "gas" | "propane" | "resistance" | "oil" | "none";
+interface WaterfurnaceHomeDetails {
+  address: string;
+  postalCode: string;
+  homeAgeYears: number;
+  livingSqft: number;
+  basementSqft: number;
+  lotAcreage: number;
+}
+interface WaterfurnaceRecommendedSystem {
+  tier: "good" | "better" | "best";
+  title: string;
+  description: string;
+  highlights: string[];
+}
+interface WaterfurnaceSavingsEstimate {
+  zipCode: string;
+  lat: number;
+  lng: number;
+  currentAnnualCostUsd: number;
+  geothermalAnnualCostUsd: number;
+  annualSavingsUsd: number;
+  savingsBreakdownUsd: { heating: number; cooling: number; hotWater: number };
+  carbonFootprintLbsPerYear: { current: number; geothermal: number; reduction: number };
+  fuelRates: { gas: number; electric: number; oil: number; propane: number };
+  recommendedSystems: WaterfurnaceRecommendedSystem[];
+  warnings: string[];
+}
+
+  /**
+   * WaterFurnace's Savings Calculator, run for real — the site's own computed Free Savings
+   * Report (annual dollar savings, energy comparison, carbon footprint, recommended geothermal
+   * systems) for a real address and fuel source, off its undocumented backend API.
+   */
+  interface Unit {
+    /**
+     * Runs the Savings Calculator's own home-details lookup for an address/zip. Returns the site's
+     * real public-data estimate of home age, living sqft and basement sqft — a fixed fallback
+     * estimate (not an error) when the address isn't in its data source, matching what the
+     * wizard's own UI does.
+     */
+    lookupHomeDetails(input: { address: string; city?: string; state?: string; zipCode: string }): Promise<WaterfurnaceHomeDetails>;
+
+    /**
+     * Runs the Savings Calculator's real backend computation for a home and current fuel source
+     * (gas/propane/electric heat pump/electric resistance/oil) and returns the site's own computed
+     * Free Savings Report: current vs. geothermal annual cost, dollar savings, carbon footprint
+     * reduction, and WaterFurnace's recommended systems. Missing home details are filled from
+     * lookupHomeDetails; a missing lat/lng is resolved from the zip via a keyless geocode. THROWS
+     * if the API's response shape has changed.
+     */
+    estimateGeothermalSavings(input: { zipCode: string; state: string; address?: string; city?: string; fuelSource: WaterfurnaceFuelSource; secondaryFuelSource?: WaterfurnaceSecondaryFuelSource; homeAgeYears?: number; livingSqft?: number; basementSqft?: number; numResidents?: number; winterSetpointF?: number; summerSetpointF?: number; lat?: number; lng?: number }): Promise<WaterfurnaceSavingsEstimate>;
+  }
+}
+
 declare namespace BowmarkProvider_wellfound {
   // ── Wellfound — the unit's own declarations, verbatim ──
 interface wellfoundRow {
@@ -17536,6 +17594,7 @@ interface BowmarkProviders {
   visible: BowmarkProvider_visible.Unit;
   voluspa: BowmarkProvider_voluspa.Unit;
   walmart: BowmarkProvider_walmart.Unit;
+  waterfurnace: BowmarkProvider_waterfurnace.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yourarborhome: BowmarkProvider_yourarborhome.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9000b770c7a6efc9464c3da0b2eb36bc6aaf6c8a781b120a3bd8702d8c3feaea
-// 386 checked, 20 unchecked.
+// Manifest version: ea729afcd1f0531e7466e72b3cebd5a0bde7b9e4659e3b0d4a88b830f435aba5
+// 388 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9000b770c7a6efc9464c3da0b2eb36bc6aaf6c8a781b120a3bd8702d8c3feaea",
+  "version": "ea729afcd1f0531e7466e72b3cebd5a0bde7b9e4659e3b0d4a88b830f435aba5",
   "units": {
     "cars": {
       "defs": {
@@ -15427,6 +15427,212 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.waterfurnace": {
+      "defs": {
+        "WaterfurnaceFuelSource": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "gas"
+            },
+            {
+              "k": "literal",
+              "v": "propane"
+            },
+            {
+              "k": "literal",
+              "v": "heatpump"
+            },
+            {
+              "k": "literal",
+              "v": "resistance"
+            },
+            {
+              "k": "literal",
+              "v": "oil"
+            }
+          ]
+        },
+        "WaterfurnaceSecondaryFuelSource": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "gas"
+            },
+            {
+              "k": "literal",
+              "v": "propane"
+            },
+            {
+              "k": "literal",
+              "v": "resistance"
+            },
+            {
+              "k": "literal",
+              "v": "oil"
+            },
+            {
+              "k": "literal",
+              "v": "none"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "lookupHomeDetails": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "address",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "zipCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "estimateGeothermalSavings": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zipCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "address",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "fuelSource",
+                  "schema": {
+                    "k": "ref",
+                    "name": "WaterfurnaceFuelSource"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "secondaryFuelSource",
+                  "schema": {
+                    "k": "ref",
+                    "name": "WaterfurnaceSecondaryFuelSource"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "homeAgeYears",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "livingSqft",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "basementSqft",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "numResidents",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "winterSetpointF",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "summerSetpointF",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "lat",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "lng",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },

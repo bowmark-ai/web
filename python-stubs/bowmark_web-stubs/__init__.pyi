@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9000b770c7a6efc9464c3da0b2eb36bc6aaf6c8a781b120a3bd8702d8c3feaea
-# 9 capabilities, 133 providers, 386 typed functions, 20 refused.
+# Manifest version: ea729afcd1f0531e7466e72b3cebd5a0bde7b9e4659e3b0d4a88b830f435aba5
+# 9 capabilities, 134 providers, 388 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8707,6 +8707,71 @@ class Prv_walmart_walmartStore_Out_services_item_Out(TypedDict):
     displayName: str
     phone: str | None
 
+class Prv_waterfurnace_lookupHomeDetails_input_In(TypedDict):
+    address: str
+    city: NotRequired[str]
+    state: NotRequired[str]
+    zipCode: str
+
+class Prv_waterfurnace_WaterfurnaceHomeDetails_Out(TypedDict):
+    address: str
+    postalCode: str
+    homeAgeYears: float
+    livingSqft: float
+    basementSqft: float
+    lotAcreage: float
+
+class Prv_waterfurnace_estimateGeothermalSavings_input_In(TypedDict):
+    zipCode: str
+    state: str
+    address: NotRequired[str]
+    city: NotRequired[str]
+    fuelSource: Literal["gas"] | Literal["propane"] | Literal["heatpump"] | Literal["resistance"] | Literal["oil"]
+    secondaryFuelSource: NotRequired[Literal["gas"] | Literal["propane"] | Literal["resistance"] | Literal["oil"] | Literal["none"]]
+    homeAgeYears: NotRequired[float]
+    livingSqft: NotRequired[float]
+    basementSqft: NotRequired[float]
+    numResidents: NotRequired[float]
+    winterSetpointF: NotRequired[float]
+    summerSetpointF: NotRequired[float]
+    lat: NotRequired[float]
+    lng: NotRequired[float]
+
+class Prv_waterfurnace_WaterfurnaceSavingsEstimate_Out(TypedDict):
+    zipCode: str
+    lat: float
+    lng: float
+    currentAnnualCostUsd: float
+    geothermalAnnualCostUsd: float
+    annualSavingsUsd: float
+    savingsBreakdownUsd: Prv_waterfurnace_WaterfurnaceSavingsEstimate_Out_savingsBreakdownUsd_Out
+    carbonFootprintLbsPerYear: Prv_waterfurnace_WaterfurnaceSavingsEstimate_Out_carbonFootprintLbsPerYear_Out
+    fuelRates: Prv_waterfurnace_WaterfurnaceSavingsEstimate_Out_fuelRates_Out
+    recommendedSystems: list[Prv_waterfurnace_WaterfurnaceRecommendedSystem_Out]
+    warnings: list[str]
+
+class Prv_waterfurnace_WaterfurnaceSavingsEstimate_Out_savingsBreakdownUsd_Out(TypedDict):
+    heating: float
+    cooling: float
+    hotWater: float
+
+class Prv_waterfurnace_WaterfurnaceSavingsEstimate_Out_carbonFootprintLbsPerYear_Out(TypedDict):
+    current: float
+    geothermal: float
+    reduction: float
+
+class Prv_waterfurnace_WaterfurnaceSavingsEstimate_Out_fuelRates_Out(TypedDict):
+    gas: float
+    electric: float
+    oil: float
+    propane: float
+
+class Prv_waterfurnace_WaterfurnaceRecommendedSystem_Out(TypedDict):
+    tier: Literal["good"] | Literal["better"] | Literal["best"]
+    title: str
+    description: str
+    highlights: list[str]
+
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
     title: str
@@ -14395,6 +14460,29 @@ class Prv_walmart(Protocol):
         store within the site's own default 50-mile radius, nearest first.
         """
 
+class Prv_waterfurnace(Protocol):
+    """WaterFurnace's Savings Calculator, run for real — the site's own computed Free Savings
+    Report (annual dollar savings, energy comparison, carbon footprint, recommended
+    geothermal systems) for a real address and fuel source, off its undocumented backend
+    API.
+    """
+
+    async def lookupHomeDetails(self, input: Prv_waterfurnace_lookupHomeDetails_input_In, /) -> Prv_waterfurnace_WaterfurnaceHomeDetails_Out:
+        """Runs the Savings Calculator's own home-details lookup for an address/zip. Returns the
+        site's real public-data estimate of home age, living sqft and basement sqft — a fixed
+        fallback estimate (not an error) when the address isn't in its data source, matching
+        what the wizard's own UI does.
+        """
+
+    async def estimateGeothermalSavings(self, input: Prv_waterfurnace_estimateGeothermalSavings_input_In, /) -> Prv_waterfurnace_WaterfurnaceSavingsEstimate_Out:
+        """Runs the Savings Calculator's real backend computation for a home and current fuel
+        source (gas/propane/electric heat pump/electric resistance/oil) and returns the site's
+        own computed Free Savings Report: current vs. geothermal annual cost, dollar savings,
+        carbon footprint reduction, and WaterFurnace's recommended systems. Missing home details
+        are filled from lookupHomeDetails; a missing lat/lng is resolved from the zip via a
+        keyless geocode. THROWS if the API's response shape has changed.
+        """
+
 class Prv_wellfound(Protocol):
     """Wellfound (formerly AngelList Talent) — startup job search with salary and equity bands,
     startup profiles and their open roles.
@@ -14601,6 +14689,7 @@ class BowmarkProviders(Protocol):
     visible: Prv_visible
     voluspa: Prv_voluspa
     walmart: Prv_walmart
+    waterfurnace: Prv_waterfurnace
     wellfound: Prv_wellfound
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     yourarborhome: Prv_yourarborhome
