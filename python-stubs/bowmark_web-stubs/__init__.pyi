@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: be4cdedcfa4c990cc2208fd7e5f33c2dd386c9c210168b9f2c02f259fbe8fbba
-# 9 capabilities, 141 providers, 404 typed functions, 20 refused.
+# Manifest version: 8df90c4b980680ebc990c47aa21fb299b903dbf13d2253b51fecbbab11e2266d
+# 9 capabilities, 142 providers, 407 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8832,6 +8832,42 @@ class Prv_voluspa_VoluspaQuizButton_Out(TypedDict):
     url: NotRequired[str]
     selectedValue: NotRequired[str]
 
+class Prv_walkerhughes_WalkerhughesQuoteCatalog_Out(TypedDict):
+    products: list[Prv_walkerhughes_WalkerhughesProduct_Out]
+    applyUrl: str
+    sourceUrl: str
+
+class Prv_walkerhughes_WalkerhughesProduct_Out(TypedDict):
+    id: str
+    name: str
+    personal: bool
+
+class Prv_walkerhughes_WalkerhughesOfficeDirectory_Out(TypedDict):
+    offices: list[Prv_walkerhughes_WalkerhughesOffice_Out]
+    sourceUrl: str
+
+class Prv_walkerhughes_WalkerhughesOffice_Out(TypedDict):
+    label: str
+    city: str
+    state: str
+    address: str | None
+    phone: str | None
+    url: str
+
+class Prv_walkerhughes_WalkerhughesOfficeSearch_Out(TypedDict):
+    query: str
+    matches: list[Prv_walkerhughes_WalkerhughesOfficeMatch_Out]
+    sourceUrl: str
+
+class Prv_walkerhughes_WalkerhughesOfficeMatch_Out(TypedDict):
+    label: str
+    city: str
+    state: str
+    address: str | None
+    phone: str | None
+    url: str
+    matchedOn: Literal["label"] | Literal["city"] | Literal["state"]
+
 class Prv_walmart_search_args_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -14780,6 +14816,29 @@ class Prv_voluspa(Protocol):
         campaign config.
         """
 
+class Prv_walkerhughes(Protocol):
+    """WalkerHughes' real 16-product Personal/Business insurance-quote application catalog and
+    its real 25-office directory, straight off /start-quote and /locations — list and filter
+    the product catalog, list and filter offices, and match a caller's free-text location
+    against the real office directory.
+    """
+
+    async def listQuoteProducts(self, department: Literal["Personal"] | Literal["Business"] | None = None, /) -> Prv_walkerhughes_WalkerhughesQuoteCatalog_Out:
+        """Lists WalkerHughes' real 16-product insurance catalog straight off the /start-quote
+        form's own <select>, optionally filtered to just Personal or just Business — the same
+        toggle the live form applies. Includes the real applyUrl handoff.
+        """
+
+    async def listOffices(self, state: str | None = None, /) -> Prv_walkerhughes_WalkerhughesOfficeDirectory_Out:
+        """Lists WalkerHughes' real 25-office directory straight off /locations' own
+        server-rendered cards, optionally filtered to one two-letter state.
+        """
+
+    async def findNearestOffice(self, query: str, /) -> Prv_walkerhughes_WalkerhughesOfficeSearch_Out:
+        """Matches a free-text location (a city, a two-letter state, or "City, ST") against the
+        real office directory and returns every match, ranked exact-label > city > state.
+        """
+
 class Prv_walmart(Protocol):
     """Walmart.com — product search, product detail, store-level stock, store locator and more.
     Two functions built: keyword search across the catalog, and finding nearby stores by ZIP
@@ -15038,6 +15097,7 @@ class BowmarkProviders(Protocol):
     villagerealtyobx: Prv_villagerealtyobx
     visible: Prv_visible
     voluspa: Prv_voluspa
+    walkerhughes: Prv_walkerhughes
     walmart: Prv_walmart
     waterfurnace: Prv_waterfurnace
     wellfound: Prv_wellfound

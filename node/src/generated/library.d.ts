@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: be4cdedcfa4c990cc2208fd7e5f33c2dd386c9c210168b9f2c02f259fbe8fbba
-// 9 capabilities, 141 providers, 422 typed functions, 20 refused.
+// Manifest version: 8df90c4b980680ebc990c47aa21fb299b903dbf13d2253b51fecbbab11e2266d
+// 9 capabilities, 142 providers, 425 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16712,6 +16712,74 @@ interface VoluspaQuizIntro {
   }
 }
 
+declare namespace BowmarkProvider_walkerhughes {
+  // ── WalkerHughes Insurance — the unit's own declarations, verbatim ──
+// WalkerHughes' OWN shapes — not a capability contract.
+
+interface WalkerhughesProduct {
+  id: string;         // the exact `product` value /start-quote expects
+  name: string;
+  personal: boolean;  // Personal vs Business, from the site's own toggle
+}
+
+interface WalkerhughesQuoteCatalog {
+  products: WalkerhughesProduct[];
+  applyUrl: string;   // the real /start-quote URL — no query prefill exists
+  sourceUrl: string;
+}
+
+interface WalkerhughesOffice {
+  label: string;       // exact `preferredOffice` value /start-quote expects
+  city: string;
+  state: string;
+  address: string | null;
+  phone: string | null;
+  url: string;         // this office's own detail page
+}
+
+interface WalkerhughesOfficeDirectory {
+  offices: WalkerhughesOffice[];
+  sourceUrl: string;
+}
+
+interface WalkerhughesOfficeMatch extends WalkerhughesOffice {
+  matchedOn: "label" | "city" | "state";
+}
+
+interface WalkerhughesOfficeSearch {
+  query: string;
+  matches: WalkerhughesOfficeMatch[];
+  sourceUrl: string;
+}
+
+  /**
+   * WalkerHughes' real 16-product Personal/Business insurance-quote application catalog and its
+   * real 25-office directory, straight off /start-quote and /locations — list and filter the
+   * product catalog, list and filter offices, and match a caller's free-text location against
+   * the real office directory.
+   */
+  interface Unit {
+    /**
+     * Lists WalkerHughes' real 16-product insurance catalog straight off the /start-quote form's
+     * own <select>, optionally filtered to just Personal or just Business — the same toggle the
+     * live form applies. Includes the real applyUrl handoff.
+     */
+    listQuoteProducts(department?: "Personal" | "Business"): Promise<WalkerhughesQuoteCatalog>;
+
+    /**
+     * Lists WalkerHughes' real 25-office directory straight off /locations' own server-rendered
+     * cards, optionally filtered to one two-letter state.
+     */
+    listOffices(state?: string): Promise<WalkerhughesOfficeDirectory>;
+
+    /**
+     * Matches a free-text location (a city, a two-letter state, or "City, ST") against the real
+     * office directory and returns every match, ranked exact-label > city > state.
+     */
+    findNearestOffice(query: string): Promise<WalkerhughesOfficeSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_walmart {
   // ── Walmart — the unit's own declarations, verbatim ──
 interface walmartStore {
@@ -17999,6 +18067,7 @@ interface BowmarkProviders {
   villagerealtyobx: BowmarkProvider_villagerealtyobx.Unit;
   visible: BowmarkProvider_visible.Unit;
   voluspa: BowmarkProvider_voluspa.Unit;
+  walkerhughes: BowmarkProvider_walkerhughes.Unit;
   walmart: BowmarkProvider_walmart.Unit;
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;

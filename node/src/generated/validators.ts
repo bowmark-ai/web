@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: be4cdedcfa4c990cc2208fd7e5f33c2dd386c9c210168b9f2c02f259fbe8fbba
-// 404 checked, 20 unchecked.
+// Manifest version: 8df90c4b980680ebc990c47aa21fb299b903dbf13d2253b51fecbbab11e2266d
+// 407 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "be4cdedcfa4c990cc2208fd7e5f33c2dd386c9c210168b9f2c02f259fbe8fbba",
+  "version": "8df90c4b980680ebc990c47aa21fb299b903dbf13d2253b51fecbbab11e2266d",
   "units": {
     "cars": {
       "defs": {
@@ -15614,6 +15614,48 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.walkerhughes": {
+      "defs": {},
+      "functions": {
+        "listQuoteProducts": [
+          {
+            "name": "department",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "Personal"
+                },
+                {
+                  "k": "literal",
+                  "v": "Business"
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listOffices": [
+          {
+            "name": "state",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "findNearestOffice": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
