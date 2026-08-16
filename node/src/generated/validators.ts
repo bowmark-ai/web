@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8df90c4b980680ebc990c47aa21fb299b903dbf13d2253b51fecbbab11e2266d
-// 407 checked, 20 unchecked.
+// Manifest version: 813247a2829712615b41dd6d94f14e4626e2e85c041ac9609ecc105c12809aeb
+// 409 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8df90c4b980680ebc990c47aa21fb299b903dbf13d2253b51fecbbab11e2266d",
+  "version": "813247a2829712615b41dd6d94f14e4626e2e85c041ac9609ecc105c12809aeb",
   "units": {
     "cars": {
       "defs": {
@@ -1752,6 +1752,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "AshleyFurnitureFindStoreArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.asppoolco": {
+      "defs": {},
+      "functions": {
+        "findLocationByZip": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "state",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }

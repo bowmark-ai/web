@@ -1,5 +1,5 @@
 {
-  "version": "8df90c4b980680ebc990c47aa21fb299b903dbf13d2253b51fecbbab11e2266d",
+  "version": "813247a2829712615b41dd6d94f14e4626e2e85c041ac9609ecc105c12809aeb",
   "units": {
     "cars": {
       "defs": {
@@ -1740,6 +1740,29 @@
               "name": "AshleyFurnitureFindStoreArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.asppoolco": {
+      "defs": {},
+      "functions": {
+        "findLocationByZip": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLocations": [
+          {
+            "name": "state",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }

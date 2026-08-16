@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8df90c4b980680ebc990c47aa21fb299b903dbf13d2253b51fecbbab11e2266d
-# 9 capabilities, 142 providers, 407 typed functions, 20 refused.
+# Manifest version: 813247a2829712615b41dd6d94f14e4626e2e85c041ac9609ecc105c12809aeb
+# 9 capabilities, 143 providers, 409 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1060,6 +1060,19 @@ class Prv_ashleyfurniture_AshleyFurnitureStore_Out_hours_item_Out(TypedDict):
     opensAt: str
     closesAt: str
     state: str
+
+class Prv_asppoolco_AspZipMatch_Out(TypedDict):
+    zip: str
+    covered: bool
+    location: Prv_asppoolco_AspLocation_Out | None
+
+class Prv_asppoolco_AspLocation_Out(TypedDict):
+    name: str
+    state: str
+    url: str
+    requestServiceUrl: str
+    phone: str
+    coverageZips: list[str]
 
 class Prv_atlasoceanvoyages_searchVoyages_args_In(TypedDict):
     destination: NotRequired[str]
@@ -9656,6 +9669,26 @@ class Prv_ashleyfurniture(Protocol):
         site's own validity signal), rather than returning its non-matching fallback store.
         """
 
+class Prv_asppoolco(Protocol):
+    """ASP - America's Swimming Pool Company's own 257-location franchise directory — match a
+    zip code to the exact local ASP franchise that services it (name, phone, coverage) and
+    hand back that location's own Request Service form URL, the same match/route step ASP's
+    site itself performs before a homeowner can request service.
+    """
+
+    async def findLocationByZip(self, zip: str, /) -> Prv_asppoolco_AspZipMatch_Out:
+        """Matches a 5-digit US zip code against ASP's 257-location franchise network and returns
+        the ONE local franchise that services it — name, phone, coverage zips, and its own
+        Request Service form URL to hand the shopper to. `covered: false` means no published ASP
+        location covers that zip yet, a real answer, not a failure.
+        """
+
+    async def listLocations(self, state: str | None = None, /) -> list[Prv_asppoolco_AspLocation_Out]:
+        """Lists every ASP franchise location on the public directory — name, state, phone,
+        coverage zips, site URL and Request Service URL. `state` (optional, two-letter code,
+        e.g. "GA") narrows to that state.
+        """
+
 class Prv_atlasoceanvoyages(Protocol):
     """Luxury expedition cruise voyage search from Atlas Ocean Voyages — filter the site's own
     180 live itineraries by destination, ship, duration and departure date with real
@@ -14966,6 +14999,7 @@ class BowmarkProviders(Protocol):
     aiper: Prv_aiper
     ajmadison: Prv_ajmadison
     ashleyfurniture: Prv_ashleyfurniture
+    asppoolco: Prv_asppoolco
     atlasoceanvoyages: Prv_atlasoceanvoyages
     atlasseniorliving: Prv_atlasseniorliving
     avis: Prv_avis

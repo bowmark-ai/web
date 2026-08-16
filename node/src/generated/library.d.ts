@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8df90c4b980680ebc990c47aa21fb299b903dbf13d2253b51fecbbab11e2266d
-// 9 capabilities, 142 providers, 425 typed functions, 20 refused.
+// Manifest version: 813247a2829712615b41dd6d94f14e4626e2e85c041ac9609ecc105c12809aeb
+// 9 capabilities, 143 providers, 427 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1643,6 +1643,49 @@ interface AshleyFurnitureStore {
      * validity signal), rather than returning its non-matching fallback store.
      */
     findStore(args: AshleyFurnitureFindStoreArgs): Promise<AshleyFurnitureStore[]>;
+  }
+}
+
+declare namespace BowmarkProvider_asppoolco {
+  // ── ASP - America's Swimming Pool Company — the unit's own declarations, verbatim ──
+// ASP's OWN shapes — not a capability contract.
+
+interface AspLocation {
+  name: string;             // e.g. "ASP - America's Swimming Pool Company of Baldwin County"
+  state: string;             // two-letter state code
+  url: string;                // the location's own site
+  requestServiceUrl: string;  // handoff URL — ASP's own per-location request form
+  phone: string;
+  coverageZips: string[];     // every zip this location's page declares covering
+}
+
+interface AspZipMatch {
+  zip: string;
+  covered: boolean;           // false = no published ASP location covers this zip yet
+  location: AspLocation | null;
+}
+
+  /**
+   * ASP - America's Swimming Pool Company's own 257-location franchise directory — match a zip
+   * code to the exact local ASP franchise that services it (name, phone, coverage) and hand back
+   * that location's own Request Service form URL, the same match/route step ASP's site itself
+   * performs before a homeowner can request service.
+   */
+  interface Unit {
+    /**
+     * Matches a 5-digit US zip code against ASP's 257-location franchise network and returns the
+     * ONE local franchise that services it — name, phone, coverage zips, and its own Request
+     * Service form URL to hand the shopper to. `covered: false` means no published ASP location
+     * covers that zip yet, a real answer, not a failure.
+     */
+    findLocationByZip(zip: string): Promise<AspZipMatch>;
+
+    /**
+     * Lists every ASP franchise location on the public directory — name, state, phone, coverage
+     * zips, site URL and Request Service URL. `state` (optional, two-letter code, e.g. "GA")
+     * narrows to that state.
+     */
+    listLocations(state?: string): Promise<AspLocation[]>;
   }
 }
 
@@ -17936,6 +17979,7 @@ interface BowmarkProviders {
   aiper: BowmarkProvider_aiper.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
+  asppoolco: BowmarkProvider_asppoolco.Unit;
   atlasoceanvoyages: BowmarkProvider_atlasoceanvoyages.Unit;
   atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
   avis: BowmarkProvider_avis.Unit;

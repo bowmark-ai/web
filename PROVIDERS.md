@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 800 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 802 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -32,6 +32,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ashleyfurniture.getProduct` | ashleyfurniture.com | Reads one product page in full — price, dimensions, fabric/finish/size options… | 🟢 |
 | `ashleyfurniture.search` | ashleyfurniture.com | Searches or browses Ashley's furniture and home-goods catalog by keyword or category… | 🟢 |
 | `ashleyfurniture.trackOrder` | ashleyfurniture.com | Looks up the status of a placed order (order number plus email or ZIP, no sign-in) —… | ⚪ |
+| `asppoolco.findLocationByZip` | asppoolco.com | Matches a 5-digit US zip code against ASP's 257-location franchise network and returns… | 🟢 |
+| `asppoolco.listLocations` | asppoolco.com | Lists every ASP franchise location on the public directory, optionally narrowed to one… | 🟢 |
 | `atlasoceanvoyages.getVoyage` | atlasoceanvoyages.com | Reads one voyage's own detail page: the full port-by-port day itinerary with… | 🟢 |
 | `atlasoceanvoyages.searchVoyages` | atlasoceanvoyages.com | Runs the /search voyage finder — destination, ship, duration and departure-date… | 🟢 |
 | `atlasseniorliving.searchCommunities` | atlasseniorliving.com | Runs the site's own 'Find a Community' search at… | 🟢 |
