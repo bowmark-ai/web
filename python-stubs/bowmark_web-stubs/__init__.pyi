@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f9353b624420004a3dded4f8bfe640c848c3af0524fa77ea25e18d7119e072d8
-# 9 capabilities, 135 providers, 390 typed functions, 20 refused.
+# Manifest version: 76c05e37982951d801b947e0ca0db51aeefd420c70a6c2e2574f3f069133feb8
+# 9 capabilities, 136 providers, 391 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4687,6 +4687,19 @@ class Prv_joybird_JoybirdPriceLine_Out(TypedDict):
     optionSku: str
     valueSku: str
     valueName: str
+
+class Prv_justinwine_JustinwineClubTier_Out(TypedDict):
+    category: str
+    categorySlug: str
+    description: str
+    priceRanges: list[Prv_justinwine_JustinwineClubPriceRange_Out]
+
+class Prv_justinwine_JustinwineClubPriceRange_Out(TypedDict):
+    quantityLabel: str
+    bottles: float
+    min: float
+    max: float
+    checkoutUrl: str
 
 Prv_kayak_KayakQuery_In = TypedDict(
     "Prv_kayak_KayakQuery_In",
@@ -11941,6 +11954,17 @@ class Prv_joybird(Protocol):
         per-slot breakdown of what was picked.
         """
 
+class Prv_justinwine(Protocol):
+    """JUSTIN Vineyards & Winery's Wine Society club — per-shipment price by tier and quantity,
+    with the exact join handoff URL, off the club page's own embedded data.
+    """
+
+    async def listClubTiers(self, category: str | None = None, /) -> list[Prv_justinwine_JustinwineClubTier_Out]:
+        """Lists the JUSTIN Wine Society club tiers, each with its per-shipment price range at
+        4/6/12 bottles and the exact join/checkout URL for that tier+quantity. Pass a category
+        (e.g. "Isosceles Only") to filter to one tier.
+        """
+
 class Prv_kayak(Protocol):
     """Kayak (kayak.com) — metasearch flight results, cheapest-first, read directly from the
     result cards.
@@ -14672,6 +14696,7 @@ class BowmarkProviders(Protocol):
     islllc: Prv_islllc
     jennikayne: Prv_jennikayne
     joybird: Prv_joybird
+    justinwine: Prv_justinwine
     kayak: Prv_kayak
     kingsdown: Prv_kingsdown
     kitchentuneup: Prv_kitchentuneup

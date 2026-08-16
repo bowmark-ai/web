@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 780 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 782 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -401,6 +401,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `joybird.getConfigurator` | joybird.com | Reads one product's full configurator — its dimensions, current price, active… | 🟢 |
 | `joybird.listConfigurators` | joybird.com | Lists every configurable product Joybird currently sells — sofas, sectionals, chairs… | 🟢 |
 | `joybird.priceConfigurator` | joybird.com | Prices an exact configuration for one product given the caller's swatch picks (one… | 🟢 |
+| `justinwine.checkTastingAvailability` | justinwine.com | Checks real open reservation slots for a given date and party size at JUSTIN's… | ⚪ |
+| `justinwine.listClubTiers` | justinwine.com | Lists the JUSTIN Wine Society club tiers (Red Wines, Red and White Wines, Isosceles… | 🟢 |
 | `kayak.getBookingOptions` | kayak.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `kayak.search` | kayak.com | Runs the itinerary search on kayak.com and returns its result rows price-ascending. | 🟢 |
 | `kayak.searchCars` | kayak.com | Runs the car-hire search on kayak.com and returns priced vehicles for a pickup… | 🟢 |

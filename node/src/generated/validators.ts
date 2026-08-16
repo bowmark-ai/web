@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f9353b624420004a3dded4f8bfe640c848c3af0524fa77ea25e18d7119e072d8
-// 390 checked, 20 unchecked.
+// Manifest version: 76c05e37982951d801b947e0ca0db51aeefd420c70a6c2e2574f3f069133feb8
+// 391 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f9353b624420004a3dded4f8bfe640c848c3af0524fa77ea25e18d7119e072d8",
+  "version": "76c05e37982951d801b947e0ca0db51aeefd420c70a6c2e2574f3f069133feb8",
   "units": {
     "cars": {
       "defs": {
@@ -7183,6 +7183,20 @@ export const VALIDATORS: ValidatorTable = {
               }
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.justinwine": {
+      "defs": {},
+      "functions": {
+        "listClubTiers": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }

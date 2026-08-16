@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f9353b624420004a3dded4f8bfe640c848c3af0524fa77ea25e18d7119e072d8
-// 9 capabilities, 135 providers, 408 typed functions, 20 refused.
+// Manifest version: 76c05e37982951d801b947e0ca0db51aeefd420c70a6c2e2574f3f069133feb8
+// 9 capabilities, 136 providers, 409 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8862,6 +8862,37 @@ interface JoybirdPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_justinwine {
+  // ── JUSTIN Vineyards & Winery — the unit's own declarations, verbatim ──
+interface JustinwineClubPriceRange {
+  quantityLabel: string;
+  bottles: number;
+  min: number;
+  max: number;
+  checkoutUrl: string;
+}
+
+interface JustinwineClubTier {
+  category: string;
+  categorySlug: string;
+  description: string;
+  priceRanges: JustinwineClubPriceRange[];
+}
+
+  /**
+   * JUSTIN Vineyards & Winery's Wine Society club — per-shipment price by tier and quantity,
+   * with the exact join handoff URL, off the club page's own embedded data.
+   */
+  interface Unit {
+    /**
+     * Lists the JUSTIN Wine Society club tiers, each with its per-shipment price range at 4/6/12
+     * bottles and the exact join/checkout URL for that tier+quantity. Pass a category (e.g.
+     * "Isosceles Only") to filter to one tier.
+     */
+    listClubTiers(category?: string): Promise<JustinwineClubTier[]>;
+  }
+}
+
 declare namespace BowmarkProvider_kayak {
   // ── Kayak — the unit's own declarations, verbatim ──
 interface KayakQuery {
@@ -17574,6 +17605,7 @@ interface BowmarkProviders {
   islllc: BowmarkProvider_islllc.Unit;
   jennikayne: BowmarkProvider_jennikayne.Unit;
   joybird: BowmarkProvider_joybird.Unit;
+  justinwine: BowmarkProvider_justinwine.Unit;
   kayak: BowmarkProvider_kayak.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
