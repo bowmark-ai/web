@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 778 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 780 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -622,6 +622,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsclub.getProduct` | samsclub.com | Reads one product's full page — member price (and non-member price where the site… | 🟢 |
 | `samsclub.search` | samsclub.com | Searches samsclub.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `samsclub.trackOrder` | samsclub.com | Looks up shipment/delivery status for an order by order number plus the email or zip… | ⚪ |
+| `seakeeper.findNearestDealers` | seakeeper.com | Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest N… | 🟢 |
+| `seakeeper.listAllDealers` | seakeeper.com | Every real Seakeeper dealer worldwide (name, address, contact, coordinates, tier)… | 🟢 |
 | `sears.checkStock` | sears.com | Answers whether a specific product is buyable right now — for delivery or for… | 🟢 |
 | `sears.findStores` | sears.com | Finds physical Sears/Sears Hometown stores near a zip code or city the way the site's… | ⚪ |
 | `sears.getProduct` | sears.com | Reads one product in full the way its own product detail page does — given a URL or… | 🟢 |

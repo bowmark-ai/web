@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ea729afcd1f0531e7466e72b3cebd5a0bde7b9e4659e3b0d4a88b830f435aba5
-// 388 checked, 20 unchecked.
+// Manifest version: f9353b624420004a3dded4f8bfe640c848c3af0524fa77ea25e18d7119e072d8
+// 390 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ea729afcd1f0531e7466e72b3cebd5a0bde7b9e4659e3b0d4a88b830f435aba5",
+  "version": "f9353b624420004a3dded4f8bfe640c848c3af0524fa77ea25e18d7119e072d8",
   "units": {
     "cars": {
       "defs": {
@@ -13045,6 +13045,28 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMembershipPlans": []
+      }
+    },
+    "providers.seakeeper": {
+      "defs": {},
+      "functions": {
+        "listAllDealers": [],
+        "findNearestDealers": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.sears": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ea729afcd1f0531e7466e72b3cebd5a0bde7b9e4659e3b0d4a88b830f435aba5
-# 9 capabilities, 134 providers, 388 typed functions, 20 refused.
+# Manifest version: f9353b624420004a3dded4f8bfe640c848c3af0524fa77ea25e18d7119e072d8
+# 9 capabilities, 135 providers, 390 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7348,6 +7348,35 @@ class Prv_samsclub_SamsclubMembershipBenefit_Out(TypedDict):
     included: bool
     extraDetails: str | None
 
+class Prv_seakeeper_SeakeeperDealer_Out(TypedDict):
+    name: str
+    address: str
+    contactName: str
+    phone: str
+    email: str
+    website: str
+    latitude: float
+    longitude: float
+    tier: str
+    tierLabel: str
+
+class Prv_seakeeper_SeakeeperNearestDealersResult_Out(TypedDict):
+    zip: str
+    dealers: list[Prv_seakeeper_SeakeeperNearbyDealer_Out]
+
+class Prv_seakeeper_SeakeeperNearbyDealer_Out(TypedDict):
+    name: str
+    address: str
+    contactName: str
+    phone: str
+    email: str
+    website: str
+    latitude: float
+    longitude: float
+    tier: str
+    tierLabel: str
+    distanceMiles: float
+
 class Prv_sears_SearsSearchQuery_In(TypedDict):
     query: str
     zipCode: NotRequired[str]
@@ -13558,6 +13587,24 @@ class Prv_samsclub(Protocol):
         scope.
         """
 
+class Prv_seakeeper(Protocol):
+    """Reads Seakeeper's own real-time Dealer / Elite Dealer Locator directly (the same
+    admin-ajax endpoint the site's map runs) — every real gyro-stabilizer dealer worldwide,
+    or the nearest ones to a US zip ranked by distance with each dealer's real tier (Elite
+    Dealer / Dealer / Master Technician).
+    """
+
+    async def listAllDealers(self, /) -> list[Prv_seakeeper_SeakeeperDealer_Out]:
+        """Every real Seakeeper dealer worldwide (name, address, contact, coordinates, tier), read
+        straight from the locator's own live data endpoint.
+        """
+
+    async def findNearestDealers(self, zip: str, limit: float | None = None, /) -> Prv_seakeeper_SeakeeperNearestDealersResult_Out:
+        """Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest
+        `limit` (default 20, matching the site's own displayed count), each with its real tier
+        and how far it is.
+        """
+
 class Prv_sears(Protocol):
     """Sears' own storefront — product search, product detail, fulfillment/stock and store
     locator.
@@ -14663,6 +14710,7 @@ class BowmarkProviders(Protocol):
     roofmaxx: Prv_roofmaxx
     saltandstone: Prv_saltandstone
     samsclub: Prv_samsclub
+    seakeeper: Prv_seakeeper
     sears: Prv_sears
     seegarsfence: Prv_seegarsfence
     selectblinds: Prv_selectblinds

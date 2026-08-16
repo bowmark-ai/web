@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ea729afcd1f0531e7466e72b3cebd5a0bde7b9e4659e3b0d4a88b830f435aba5
-// 9 capabilities, 134 providers, 406 typed functions, 20 refused.
+// Manifest version: f9353b624420004a3dded4f8bfe640c848c3af0524fa77ea25e18d7119e072d8
+// 9 capabilities, 135 providers, 408 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13847,6 +13847,50 @@ interface SamsclubMembershipPlan {
   }
 }
 
+declare namespace BowmarkProvider_seakeeper {
+  // ── Seakeeper — the unit's own declarations, verbatim ──
+interface SeakeeperDealer {
+  name: string;
+  address: string;
+  contactName: string;
+  phone: string;
+  email: string;
+  website: string;
+  latitude: number;
+  longitude: number;
+  tier: string;
+  tierLabel: string;
+}
+interface SeakeeperNearbyDealer extends SeakeeperDealer {
+  distanceMiles: number;
+}
+interface SeakeeperNearestDealersResult {
+  zip: string;
+  dealers: SeakeeperNearbyDealer[];
+}
+
+  /**
+   * Reads Seakeeper's own real-time Dealer / Elite Dealer Locator directly (the same admin-ajax
+   * endpoint the site's map runs) — every real gyro-stabilizer dealer worldwide, or the nearest
+   * ones to a US zip ranked by distance with each dealer's real tier (Elite Dealer / Dealer /
+   * Master Technician).
+   */
+  interface Unit {
+    /**
+     * Every real Seakeeper dealer worldwide (name, address, contact, coordinates, tier), read
+     * straight from the locator's own live data endpoint.
+     */
+    listAllDealers(): Promise<SeakeeperDealer[]>;
+
+    /**
+     * Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest `limit`
+     * (default 20, matching the site's own displayed count), each with its real tier and how far
+     * it is.
+     */
+    findNearestDealers(zip: string, limit?: number): Promise<SeakeeperNearestDealersResult>;
+  }
+}
+
 declare namespace BowmarkProvider_sears {
   // ── Sears — the unit's own declarations, verbatim ──
 interface SearsSearchPrice {
@@ -17568,6 +17612,7 @@ interface BowmarkProviders {
   roofmaxx: BowmarkProvider_roofmaxx.Unit;
   saltandstone: BowmarkProvider_saltandstone.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
+  seakeeper: BowmarkProvider_seakeeper.Unit;
   sears: BowmarkProvider_sears.Unit;
   seegarsfence: BowmarkProvider_seegarsfence.Unit;
   selectblinds: BowmarkProvider_selectblinds.Unit;
