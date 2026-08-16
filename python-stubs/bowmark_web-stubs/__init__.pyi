@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 29f719b999a2d50dbe0eb7d10a596088a2e203a1a66acb185e543bd566b79f50
-# 9 capabilities, 139 providers, 399 typed functions, 20 refused.
+# Manifest version: 6ae44c11d705a75a8b02c383274e5f6dca945746ab7593d1cb9feabce4352a46
+# 9 capabilities, 140 providers, 402 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5122,6 +5122,41 @@ class Prv_louvershop_LouvershopConsultant_Out(TypedDict):
 class Prv_louvershop_LouvershopAvailability_Out(TypedDict):
     exteriorDecorative: bool
     exteriorSecurity: bool
+
+class Prv_lovelybride_LovelybrideStore_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+
+class Prv_lovelybride_getStoreAppointmentTypes_return_Out(TypedDict):
+    store: Prv_lovelybride_LovelybrideStoreInfo_Out
+    appointmentTypes: list[Prv_lovelybride_LovelybrideAppointmentType_Out]
+
+class Prv_lovelybride_LovelybrideStoreInfo_Out(TypedDict):
+    name: str
+    emailAddress: str | None
+    phoneNumber: str | None
+    address: str | None
+    schedulerUrl: str
+
+class Prv_lovelybride_LovelybrideAppointmentType_Out(TypedDict):
+    id: float
+    description: str
+    durationMinutes: float
+    priceUsd: float | None
+    priceFormatted: str | None
+    requiresPaymentInfo: bool
+
+class Prv_lovelybride_LovelybrideAvailability_Out(TypedDict):
+    storeSlug: str
+    date: str
+    slots: list[Prv_lovelybride_LovelybrideTimeSlot_Out]
+
+class Prv_lovelybride_LovelybrideTimeSlot_Out(TypedDict):
+    startDateTime: str
+    endDateTime: str
+    startDateTimeForView: str
+    location: str | None
 
 class Prv_lufthansa_LufthansaFlightStatus_Out(TypedDict):
     airline: str
@@ -12408,6 +12443,37 @@ class Prv_louvershop(Protocol):
         not guessed at.
         """
 
+class Prv_lovelybride(Protocol):
+    """Reads Lovely Bride's real per-store BridalLive appointment scheduler — every store, a
+    store's real bookable appointment types and prices, and real open time slots — straight
+    off lovelybride.com and app.bridallive.com's own private JSON API, no key, no browser.
+    """
+
+    async def listStores(self, /) -> list[Prv_lovelybride_LovelybrideStore_Out]:
+        """Lists every Lovely Bride store the site's own store locator links — 19 across the US and
+        one in London, each with the slug the other two functions take. Takes nothing. The entry
+        point: a caller asking 'where can I book' has nowhere else to start.
+        """
+
+    async def getStoreAppointmentTypes(self, storeSlug: str, /) -> Prv_lovelybride_getStoreAppointmentTypes_return_Out:
+        """Reads one store's real, currently-bookable BridalLive appointment types — each with its
+        real price and duration exactly as the store's own scheduler quotes it — plus the
+        store's contact info and the live scheduler URL to hand off to. Takes the slug
+        listStores returns. THROWS LovelybrideNoOnlineBooking (not caller-fixable — no slug
+        fixes it) when the store's own page carries no online-booking link at all, which is a
+        real answer for some stores (Charlotte, measured 2026-08-16), not a parse failure.
+        """
+
+    async def getAvailableSlots(self, storeSlug: str, appointmentTypeId: float, date: str, /) -> Prv_lovelybride_LovelybrideAvailability_Out:
+        """Reads the real open appointment slots for one store, one appointment type, and one date
+        ("YYYY-MM-DD") — the exact slots a shopper would see on the store's own scheduler page.
+        Takes the appointmentTypeId getStoreAppointmentTypes returns. Returns the requested date
+        alongside the slots; an empty `slots` array is a genuine answer (the date is fully
+        booked), never an error. This is a READ only: it does not hold or submit anything — a
+        shopper follows the store's schedulerUrl (from getStoreAppointmentTypes) to actually
+        book the slot this function found.
+        """
+
 class Prv_lufthansa(Protocol):
     """Flight search and fares, flight status, seat maps, baggage allowance and reading an
     existing booking on lufthansa.com.
@@ -14882,6 +14948,7 @@ class BowmarkProviders(Protocol):
     liquiddeath: Prv_liquiddeath
     lonelyplanet: Prv_lonelyplanet
     louvershop: Prv_louvershop
+    lovelybride: Prv_lovelybride
     lufthansa: Prv_lufthansa
     lululemon: Prv_lululemon
     maidenhome: Prv_maidenhome

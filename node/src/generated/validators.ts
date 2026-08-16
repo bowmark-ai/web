@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 29f719b999a2d50dbe0eb7d10a596088a2e203a1a66acb185e543bd566b79f50
-// 399 checked, 20 unchecked.
+// Manifest version: 6ae44c11d705a75a8b02c383274e5f6dca945746ab7593d1cb9feabce4352a46
+// 402 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "29f719b999a2d50dbe0eb7d10a596088a2e203a1a66acb185e543bd566b79f50",
+  "version": "6ae44c11d705a75a8b02c383274e5f6dca945746ab7593d1cb9feabce4352a46",
   "units": {
     "cars": {
       "defs": {
@@ -7995,6 +7995,44 @@ export const VALIDATORS: ValidatorTable = {
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.lovelybride": {
+      "defs": {},
+      "functions": {
+        "listStores": [],
+        "getStoreAppointmentTypes": [
+          {
+            "name": "storeSlug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailableSlots": [
+          {
+            "name": "storeSlug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "appointmentTypeId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "date",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
