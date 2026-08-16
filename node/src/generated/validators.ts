@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2851cbd577544abc77ca6e72c121c5841762dc90d239f4207c253a7041cdd6f6
-// 394 checked, 20 unchecked.
+// Manifest version: 7b14c688aefabb2449b58da8580e2aba139ec879f050b5be5beb942849bcafef
+// 397 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2851cbd577544abc77ca6e72c121c5841762dc90d239f4207c253a7041cdd6f6",
+  "version": "7b14c688aefabb2449b58da8580e2aba139ec879f050b5be5beb942849bcafef",
   "units": {
     "cars": {
       "defs": {
@@ -2482,6 +2482,70 @@ export const VALIDATORS: ValidatorTable = {
               "name": "BoydsleepCalibrationInput"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.brixton": {
+      "defs": {},
+      "functions": {
+        "listBrixtonProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getBrixtonProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getBrixtonCheckoutLink": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "variantTitleOrOptions",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

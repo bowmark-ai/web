@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2851cbd577544abc77ca6e72c121c5841762dc90d239f4207c253a7041cdd6f6
-# 9 capabilities, 137 providers, 394 typed functions, 20 refused.
+# Manifest version: 7b14c688aefabb2449b58da8580e2aba139ec879f050b5be5beb942849bcafef
+# 9 capabilities, 138 providers, 397 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1607,6 +1607,44 @@ class Prv_boydsleep_Boydsleep6ZoneResult_Out(TypedDict):
     weightBandLbs: float
     setupGuideUrl: str
     calibratorUrl: str
+
+class Prv_brixton_listBrixtonProducts_opts_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_brixton_BrixtonProduct_Out(TypedDict):
+    handle: str
+    title: str
+    vendor: str
+    productType: str
+    url: str
+    descriptionHtml: str | None
+    optionNames: list[str]
+    variants: list[Prv_brixton_BrixtonVariant_Out]
+    priceRange: Prv_brixton_BrixtonProduct_Out_priceRange_u0_Out | None
+    inStock: bool
+    tags: list[str]
+    images: list[str]
+
+class Prv_brixton_BrixtonVariant_Out(TypedDict):
+    id: str
+    title: str
+    price: str
+    compareAtPrice: str | None
+    sku: str | None
+    available: bool
+    options: list[str]
+
+class Prv_brixton_BrixtonProduct_Out_priceRange_u0_Out(TypedDict):
+    min: str
+    max: str
+
+class Prv_brixton_getBrixtonCheckoutLink_opts_In(TypedDict):
+    quantity: NotRequired[float]
+
+class Prv_brixton_BrixtonCheckoutLink_Out(TypedDict):
+    url: str
+    variant: Prv_brixton_BrixtonVariant_Out
+    product: Prv_brixton_BrixtonProduct_Out
 
 class Prv_bykoket_KoketProductSummary_Out(TypedDict):
     id: str
@@ -9844,6 +9882,33 @@ class Prv_boydsleep(Protocol):
         Nautica Home Smart Zone bed.
         """
 
+class Prv_brixton(Protocol):
+    """Brixton apparel and headwear catalogue — every product, its size/color variants, real
+    prices and stock — read off the live Shopify storefront, plus a live-validated checkout
+    handoff link.
+    """
+
+    async def listBrixtonProducts(self, opts: Prv_brixton_listBrixtonProducts_opts_In | None = None, /) -> list[Prv_brixton_BrixtonProduct_Out]:
+        """Reads the live Brixton catalogue as the storefront publishes it — every product, its
+        handle, title, vendor, description, tags, images and the per-variant price the
+        storefront is quoting right now. Returns [] on a transport failure. The catalog page is
+        the line and the parse is the unit of work.
+        """
+
+    async def getBrixtonProduct(self, handle: str, /) -> Prv_brixton_BrixtonProduct_Out:
+        """Reads one product by its handle — every size/color variant, its exact price and whether
+        that specific variant is purchasable right now. Takes the handle listBrixtonProducts
+        returns. THROWS on an unknown handle (the store answers a real 404).
+        """
+
+    async def getBrixtonCheckoutLink(self, handle: str, variantTitleOrOptions: str, opts: Prv_brixton_getBrixtonCheckoutLink_opts_In | None = None, /) -> Prv_brixton_BrixtonCheckoutLink_Out:
+        """Resolves a product handle + a variant match (either the exact variant title like "M", or
+        a substring of it) to a real Shopify cart-permalink URL, validated live against the
+        storefront. THROWS if the handle is unknown, if no variant matches, if the match is
+        ambiguous (matches more than one variant), or if the matched variant is not currently
+        available — the error names the candidate or in-stock options so the caller can retry.
+        """
+
 class Prv_bykoket(Protocol):
     """Reads KOKET's public furniture, lighting and textiles storefront (bykoket.com/shop) —
     search the catalog, read a product's live price, stock and description, and get the
@@ -14713,6 +14778,7 @@ class BowmarkProviders(Protocol):
     bluehaven: Prv_bluehaven
     bmwusa: Prv_bmwusa
     boydsleep: Prv_boydsleep
+    brixton: Prv_brixton
     bykoket: Prv_bykoket
     cancer: Prv_cancer
     caraway: Prv_caraway

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2851cbd577544abc77ca6e72c121c5841762dc90d239f4207c253a7041cdd6f6
-// 9 capabilities, 137 providers, 412 typed functions, 20 refused.
+// Manifest version: 7b14c688aefabb2449b58da8580e2aba139ec879f050b5be5beb942849bcafef
+// 9 capabilities, 138 providers, 415 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2531,6 +2531,89 @@ interface Boydsleep6ZoneResult {
      * Smart Zone bed.
      */
     calibrateSixZoneSupportNumber(input: BoydsleepCalibrationInput): Promise<Boydsleep6ZoneResult>;
+  }
+}
+
+declare namespace BowmarkProvider_brixton {
+  // ── Brixton — the unit's own declarations, verbatim ──
+interface BrixtonVariant {
+  /** Shopify's numeric variant id as a string. */
+  id: string;
+  /** The variant's own label, e.g. "M" or "Black / M" on multi-option products. */
+  title: string;
+  /** String verbatim from the storefront — "30.00" (dollars) on /products.json, "10900" (cents) on /products/<h>.js. */
+  price: string;
+  /** Same scale as price. Null when the variant is not on sale. */
+  compareAtPrice: string | null;
+  /** The store's own SKU. Null on a variant without one. */
+  sku: string | null;
+  /** Whether the variant is purchasable right now. */
+  available: boolean;
+  /** e.g. ["M"] or ["Black", "M"]. */
+  options: string[];
+}
+interface BrixtonProduct {
+  /** The handle is the only stable identifier across the catalogue. */
+  handle: string;
+  title: string;
+  vendor: string;
+  productType: string;
+  url: string;
+  descriptionHtml: string | null;
+  optionNames: string[];
+  variants: BrixtonVariant[];
+  /** Same scale as variants — see BrixtonVariant.price. */
+  priceRange: { min: string; max: string } | null;
+  /** True if ANY variant is purchasable. */
+  inStock: boolean;
+  tags: string[];
+  /** Brixton's own images, in the order the storefront publishes them. */
+  images: string[];
+}
+interface BrixtonCatalogue {
+  /** All matching products, in-stock first, then by handle. */
+  products: BrixtonProduct[];
+  /** What the filter DROPPED, in the same register the rest of the library uses. */
+  warnings: string[];
+}
+interface BrixtonCheckoutLink {
+  /** Shopify's own cart-permalink URL — a GET that adds the line item and redirects into the cart. */
+  url: string;
+  /** The exact variant the link resolved to, read live off the storefront. */
+  variant: BrixtonVariant;
+  /** The product the variant belongs to. */
+  product: BrixtonProduct;
+}
+
+  /**
+   * Brixton apparel and headwear catalogue — every product, its size/color variants, real prices
+   * and stock — read off the live Shopify storefront, plus a live-validated checkout handoff
+   * link.
+   */
+  interface Unit {
+    /**
+     * Reads the live Brixton catalogue as the storefront publishes it — every product, its handle,
+     * title, vendor, description, tags, images and the per-variant price the storefront is quoting
+     * right now. Returns [] on a transport failure. The catalog page is the line and the parse is
+     * the unit of work.
+     */
+    listBrixtonProducts(opts?: { limit?: number }): Promise<BrixtonProduct[]>;
+
+    /**
+     * Reads one product by its handle — every size/color variant, its exact price and whether that
+     * specific variant is purchasable right now. Takes the handle listBrixtonProducts returns.
+     * THROWS on an unknown handle (the store answers a real 404).
+     */
+    getBrixtonProduct(handle: string): Promise<BrixtonProduct>;
+
+    /**
+     * Resolves a product handle + a variant match (either the exact variant title like "M", or a
+     * substring of it) to a real Shopify cart-permalink URL, validated live against the
+     * storefront. THROWS if the handle is unknown, if no variant matches, if the match is
+     * ambiguous (matches more than one variant), or if the matched variant is not currently
+     * available — the error names the candidate or in-stock options so the caller can retry.
+     */
+    getBrixtonCheckoutLink(handle: string, variantTitleOrOptions: string, opts?: { quantity?: number }): Promise<BrixtonCheckoutLink>;
   }
 }
 
@@ -17638,6 +17721,7 @@ interface BowmarkProviders {
   bluehaven: BowmarkProvider_bluehaven.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;
+  brixton: BowmarkProvider_brixton.Unit;
   bykoket: BowmarkProvider_bykoket.Unit;
   cancer: BowmarkProvider_cancer.Unit;
   caraway: BowmarkProvider_caraway.Unit;
