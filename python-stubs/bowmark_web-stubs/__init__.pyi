@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 76c05e37982951d801b947e0ca0db51aeefd420c70a6c2e2574f3f069133feb8
-# 9 capabilities, 136 providers, 391 typed functions, 20 refused.
+# Manifest version: 2851cbd577544abc77ca6e72c121c5841762dc90d239f4207c253a7041cdd6f6
+# 9 capabilities, 137 providers, 394 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5973,6 +5973,44 @@ class Prv_momondo_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Prv_mossyoak_listMossyoakProducts_opts_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_mossyoak_MossyoakProduct_Out(TypedDict):
+    handle: str
+    title: str
+    vendor: str
+    productType: str
+    url: str
+    descriptionHtml: str | None
+    optionNames: list[str]
+    variants: list[Prv_mossyoak_MossyoakVariant_Out]
+    priceRange: Prv_mossyoak_MossyoakProduct_Out_priceRange_u0_Out | None
+    inStock: bool
+    tags: list[str]
+    images: list[str]
+
+class Prv_mossyoak_MossyoakVariant_Out(TypedDict):
+    id: str
+    title: str
+    price: str
+    compareAtPrice: str | None
+    sku: str | None
+    available: bool
+    options: list[str]
+
+class Prv_mossyoak_MossyoakProduct_Out_priceRange_u0_Out(TypedDict):
+    min: str
+    max: str
+
+class Prv_mossyoak_getMossyoakCheckoutLink_opts_In(TypedDict):
+    quantity: NotRequired[float]
+
+class Prv_mossyoak_MossyoakCheckoutLink_Out(TypedDict):
+    url: str
+    variant: Prv_mossyoak_MossyoakVariant_Out
+    product: Prv_mossyoak_MossyoakProduct_Out
 
 class Prv_naic_naicCompanyQuery_In(TypedDict):
     name: NotRequired[str]
@@ -12741,6 +12779,35 @@ class Prv_momondo(Protocol):
         the site's own three-phase supplier poll completes.
         """
 
+class Prv_mossyoak(Protocol):
+    """Mossy Oak camo-apparel and gear catalogue — every product, its camo-pattern and size
+    variants, real prices and stock — read off the live Shopify storefront, plus a
+    live-validated checkout handoff link.
+    """
+
+    async def listMossyoakProducts(self, opts: Prv_mossyoak_listMossyoakProducts_opts_In | None = None, /) -> list[Prv_mossyoak_MossyoakProduct_Out]:
+        """Reads the live Mossy Oak catalogue as the storefront publishes it — every product, its
+        handle, title, vendor, description, tags, images and the per-variant price the
+        storefront is quoting right now. Returns [] on a transport failure. The catalog page is
+        the line and the parse is the unit of work.
+        """
+
+    async def getMossyoakProduct(self, handle: str, /) -> Prv_mossyoak_MossyoakProduct_Out:
+        """Reads one product by its handle — every camo-pattern/size variant, its exact price and
+        whether that specific variant is purchasable right now. Takes the handle
+        listMossyoakProducts returns. THROWS on an unknown handle (the store answers a real
+        404).
+        """
+
+    async def getMossyoakCheckoutLink(self, handle: str, variantTitleOrOptions: str, opts: Prv_mossyoak_getMossyoakCheckoutLink_opts_In | None = None, /) -> Prv_mossyoak_MossyoakCheckoutLink_Out:
+        """Resolves a product handle + a variant match (either the exact variant title like "Full
+        Foliage / M/L", or a substring of it) to a real Shopify cart-permalink URL, validated
+        live against the storefront. THROWS if the handle is unknown, if no variant matches, if
+        the match is ambiguous (matches more than one variant), or if the matched variant is not
+        currently available — the error names the candidate or in-stock options so the caller
+        can retry.
+        """
+
 class Prv_naic(Protocol):
     """The insurance regulators' own consumer record on a carrier — complaint index, licensing
     by state and financial condition — plus the directory of state insurance departments and
@@ -14718,6 +14785,7 @@ class BowmarkProviders(Protocol):
     mixbook: Prv_mixbook
     modularclosets: Prv_modularclosets
     momondo: Prv_momondo
+    mossyoak: Prv_mossyoak
     naic: Prv_naic
     namecheap: Prv_namecheap
     newegg: Prv_newegg

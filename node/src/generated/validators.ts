@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 76c05e37982951d801b947e0ca0db51aeefd420c70a6c2e2574f3f069133feb8
-// 391 checked, 20 unchecked.
+// Manifest version: 2851cbd577544abc77ca6e72c121c5841762dc90d239f4207c253a7041cdd6f6
+// 394 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "76c05e37982951d801b947e0ca0db51aeefd420c70a6c2e2574f3f069133feb8",
+  "version": "2851cbd577544abc77ca6e72c121c5841762dc90d239f4207c253a7041cdd6f6",
   "units": {
     "cars": {
       "defs": {
@@ -9039,6 +9039,70 @@ export const VALIDATORS: ValidatorTable = {
               "name": "KayakCarQuery"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.mossyoak": {
+      "defs": {},
+      "functions": {
+        "listMossyoakProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMossyoakProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMossyoakCheckoutLink": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "variantTitleOrOptions",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

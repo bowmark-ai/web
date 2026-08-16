@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 76c05e37982951d801b947e0ca0db51aeefd420c70a6c2e2574f3f069133feb8
-// 9 capabilities, 136 providers, 409 typed functions, 20 refused.
+// Manifest version: 2851cbd577544abc77ca6e72c121c5841762dc90d239f4207c253a7041cdd6f6
+// 9 capabilities, 137 providers, 412 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11508,6 +11508,89 @@ interface KayakCar {
   }
 }
 
+declare namespace BowmarkProvider_mossyoak {
+  // ── Mossy Oak — the unit's own declarations, verbatim ──
+interface MossyoakVariant {
+  /** Shopify's numeric variant id as a string. */
+  id: string;
+  /** The variant's own label, e.g. "Full Foliage / M/L". */
+  title: string;
+  /** String verbatim from the storefront — "149.99" (dollars) on /products.json, "14999" (cents) on /products/<h>.js. */
+  price: string;
+  /** Same scale as price. Null when the variant is not on sale. */
+  compareAtPrice: string | null;
+  /** The store's own SKU. Null on a variant without one. */
+  sku: string | null;
+  /** Whether the variant is purchasable right now. */
+  available: boolean;
+  /** e.g. ["Full Foliage", "M/L"] — camo pattern + combined size. */
+  options: string[];
+}
+interface MossyoakProduct {
+  /** The handle is the only stable identifier across the catalogue. */
+  handle: string;
+  title: string;
+  vendor: string;
+  productType: string;
+  url: string;
+  descriptionHtml: string | null;
+  optionNames: string[];
+  variants: MossyoakVariant[];
+  /** Same scale as variants — see MossyoakVariant.price. */
+  priceRange: { min: string; max: string } | null;
+  /** True if ANY variant is purchasable. */
+  inStock: boolean;
+  tags: string[];
+  /** Mossy Oak's own images, in the order the storefront publishes them. */
+  images: string[];
+}
+interface MossyoakCatalogue {
+  /** All matching products, in-stock first, then by handle. */
+  products: MossyoakProduct[];
+  /** What the filter DROPPED, in the same register the rest of the library uses. */
+  warnings: string[];
+}
+interface MossyoakCheckoutLink {
+  /** Shopify's own cart-permalink URL — a GET that adds the line item and redirects into the cart. */
+  url: string;
+  /** The exact variant the link resolved to, read live off the storefront. */
+  variant: MossyoakVariant;
+  /** The product the variant belongs to. */
+  product: MossyoakProduct;
+}
+
+  /**
+   * Mossy Oak camo-apparel and gear catalogue — every product, its camo-pattern and size
+   * variants, real prices and stock — read off the live Shopify storefront, plus a
+   * live-validated checkout handoff link.
+   */
+  interface Unit {
+    /**
+     * Reads the live Mossy Oak catalogue as the storefront publishes it — every product, its
+     * handle, title, vendor, description, tags, images and the per-variant price the storefront is
+     * quoting right now. Returns [] on a transport failure. The catalog page is the line and the
+     * parse is the unit of work.
+     */
+    listMossyoakProducts(opts?: { limit?: number }): Promise<MossyoakProduct[]>;
+
+    /**
+     * Reads one product by its handle — every camo-pattern/size variant, its exact price and
+     * whether that specific variant is purchasable right now. Takes the handle
+     * listMossyoakProducts returns. THROWS on an unknown handle (the store answers a real 404).
+     */
+    getMossyoakProduct(handle: string): Promise<MossyoakProduct>;
+
+    /**
+     * Resolves a product handle + a variant match (either the exact variant title like "Full
+     * Foliage / M/L", or a substring of it) to a real Shopify cart-permalink URL, validated live
+     * against the storefront. THROWS if the handle is unknown, if no variant matches, if the match
+     * is ambiguous (matches more than one variant), or if the matched variant is not currently
+     * available — the error names the candidate or in-stock options so the caller can retry.
+     */
+    getMossyoakCheckoutLink(handle: string, variantTitleOrOptions: string, opts?: { quantity?: number }): Promise<MossyoakCheckoutLink>;
+  }
+}
+
 declare namespace BowmarkProvider_naic {
   // ── NAIC — the unit's own declarations, verbatim ──
 interface naicCompanyQuery {
@@ -17627,6 +17710,7 @@ interface BowmarkProviders {
   mixbook: BowmarkProvider_mixbook.Unit;
   modularclosets: BowmarkProvider_modularclosets.Unit;
   momondo: BowmarkProvider_momondo.Unit;
+  mossyoak: BowmarkProvider_mossyoak.Unit;
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;
   newegg: BowmarkProvider_newegg.Unit;

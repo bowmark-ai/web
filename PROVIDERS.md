@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 782 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 785 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -521,6 +521,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `momondo.search` | momondo.com | Runs the itinerary search on momondo.com and returns its result rows price-ascending. | 🟢 |
 | `momondo.searchCars` | momondo.com | Runs the car-hire search on momondo.com and returns priced vehicles for a pickup… | 🟢 |
 | `momondo.searchHotels` | momondo.com | Runs the stays search on momondo.com — the site's own second vertical — and returns… | ⚪ |
+| `mossyoak.getMossyoakCheckoutLink` | mossyoak.com | Resolves a product handle + chosen variant (camo pattern + size) to a real… | 🟢 |
+| `mossyoak.getMossyoakProduct` | mossyoak.com | Reads one product by its handle — every camo-pattern/size variant, its exact price and… | 🟢 |
+| `mossyoak.listMossyoakProducts` | mossyoak.com | Reads the live Mossy Oak catalogue as the storefront publishes it — every camo-apparel… | 🟢 |
 | `naic.getCompanyProfile` | naic.org | Reads one insurer's CIS financial report — the holding group that owns it, the state… | 🟢 |
 | `naic.getComplaintIndex` | naic.org | Reads one insurer's closed-confirmed complaint index against the national baseline of… | 🟢 |
 | `naic.getComplaintTrends` | naic.org | Reads NAIC's aggregate closed-complaint reports — by disposition, by reason, and by… | ⚪ |
