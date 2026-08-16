@@ -6,6 +6,34 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.9.0 (2026-08-16)
+
+**Providers**
+
+- New provider **atlasoceanvoyages.com** (2 functions): `atlasoceanvoyages.getVoyage`, `atlasoceanvoyages.searchVoyages`
+- New provider **brixton.com** (3 functions): `brixton.getBrixtonCheckoutLink`, `brixton.getBrixtonProduct`, `brixton.listBrixtonProducts`
+- New provider **chantecaille.com** (2 functions): `chantecaille.getFoundationQuizTaxonomy`, `chantecaille.matchFoundation`
+- New provider **davidsonhomes.com** (4 functions): `davidsonhomes.getCommunity`, `davidsonhomes.getHome`, `davidsonhomes.getRegion`, `davidsonhomes.listRegions`
+- New provider **evolutionofsmooth.com** (2 functions): `evolutionofsmooth.answerShadeQuizQuestion`, `evolutionofsmooth.startShadeQuiz`
+- New provider **fourseasonsyachts.com** (3 functions): `fourseasonsyachts.getVoyage`, `fourseasonsyachts.getVoyageSailing`, `fourseasonsyachts.searchVoyages`
+- New provider **hansons.com** (1 function): `hansons.checkAvailability`
+- New provider **hayden-homes.com** (1 function): `haydenhomes.searchQuickMoveIns`
+- New provider **joycefactorydirect.com** (2 functions): `joycefactorydirect.getBathCalculatorOptions`, `joycefactorydirect.getWindowCalculatorOptions`
+- New provider **justinwine.com** (1 function): `justinwine.listClubTiers`
+- New provider **kingsdown.com** (1 function): `kingsdown.getBedMatchResult`
+- New provider **lovelybride.com** (3 functions): `lovelybride.getAvailableSlots`, `lovelybride.getStoreAppointmentTypes`, `lovelybride.listStores`
+- New provider **mossyoak.com** (3 functions): `mossyoak.getMossyoakCheckoutLink`, `mossyoak.getMossyoakProduct`, `mossyoak.listMossyoakProducts`
+- New provider **outdoorresearch.com** (2 functions): `outdoorresearch.checkClaimEligibility`, `outdoorresearch.getWarrantyPolicy`
+- New provider **rishi-tea.com** (2 functions): `rishitea.getTeaFinderQuiz`, `rishitea.matchTeaFinderQuiz`
+- New provider **saltandstone.com** (3 functions): `saltandstone.getScentProducts`, `saltandstone.listScentFamilies`, `saltandstone.matchScent`
+- New provider **seakeeper.com** (2 functions): `seakeeper.findNearestDealers`, `seakeeper.listAllDealers`
+- New provider **tilsonhomes.com** (2 functions): `tilsonhomes.getElevationDetails`, `tilsonhomes.listPlans`
+- New provider **titlenine.com** (1 function): `titlenine.calculateBraSize`
+- New provider **waterfurnace.com** (2 functions): `waterfurnace.estimateGeothermalSavings`, `waterfurnace.lookupHomeDetails`
+- Added `shopify.getStyleDetails`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.8.0 (2026-08-14)
 
 **Providers**
