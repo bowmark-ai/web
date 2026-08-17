@@ -1,5 +1,5 @@
 {
-  "version": "1ed5357295c6e0bd30822ff52ed61135673b3285c1ea1cb9fffa16603102182b",
+  "version": "b9199632c68ac2662bf4d932b10951d6e5087406fa1474b502ecfe28e059816a",
   "units": {
     "cars": {
       "defs": {
@@ -12843,6 +12843,86 @@
             "name": "ref",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.revisionskincare": {
+      "defs": {
+        "RevisionQuestionType": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "single-select"
+            },
+            {
+              "k": "literal",
+              "v": "multi-select"
+            }
+          ]
+        },
+        "RevisionQuizAnswer": {
+          "k": "object",
+          "props": [
+            {
+              "name": "questionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "ref",
+                "name": "RevisionQuestionType"
+              },
+              "optional": false
+            },
+            {
+              "name": "answer",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getSkincareQuizQuestions": [],
+        "takeSkincareQuiz": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "answers",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "RevisionQuizAnswer"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

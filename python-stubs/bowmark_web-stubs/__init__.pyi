@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1ed5357295c6e0bd30822ff52ed61135673b3285c1ea1cb9fffa16603102182b
-# 9 capabilities, 145 providers, 415 typed functions, 20 refused.
+# Manifest version: b9199632c68ac2662bf4d932b10951d6e5087406fa1474b502ecfe28e059816a
+# 9 capabilities, 146 providers, 417 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7322,6 +7322,46 @@ class Prv_reddit_RedditComment_Out(TypedDict):
     permalink: str
     createdAt: str
 
+class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
+    quizId: str
+    channelQuizId: str
+    subscriberId: str
+    questions: list[Prv_revisionskincare_RevisionQuizQuestion_Out]
+
+class Prv_revisionskincare_RevisionQuizQuestion_Out(TypedDict):
+    questionId: str
+    text: str
+    type: Literal["single-select"] | Literal["multi-select"]
+    options: list[Prv_revisionskincare_RevisionQuizOption_Out]
+
+class Prv_revisionskincare_RevisionQuizOption_Out(TypedDict):
+    title: str
+
+class Prv_revisionskincare_takeSkincareQuiz_arg_In(TypedDict):
+    answers: Sequence[Prv_revisionskincare_RevisionQuizAnswer_In]
+
+class Prv_revisionskincare_RevisionQuizAnswer_In(TypedDict):
+    questionId: str
+    type: Literal["single-select"] | Literal["multi-select"]
+    answer: str | Sequence[str]
+
+class Prv_revisionskincare_RevisionQuizResult_Out(TypedDict):
+    quizResponseId: str
+    title: str
+    subtitle: str
+    products: list[Prv_revisionskincare_RevisionRecommendedProduct_Out]
+
+class Prv_revisionskincare_RevisionRecommendedProduct_Out(TypedDict):
+    productId: str
+    name: str
+    description: str
+    url: str
+    imageUrl: str
+    price: float | None
+    currencyCode: str | None
+    averageRating: float | None
+    approvedReviewsCount: float | None
+
 class Prv_rishitea_TeaFinderQuiz_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -13911,6 +13951,22 @@ class Prv_reddit(Protocol):
         "nobody replied" and "we could not read it" are opposite answers.
         """
 
+class Prv_revisionskincare(Protocol):
+    """Reads and answers Revision Skincare's own Product Finder Quiz
+    (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
+    recommendations.
+    """
+
+    async def getSkincareQuizQuestions(self, /) -> Prv_revisionskincare_RevisionQuizQuestions_Out:
+        """Reads the live Product Finder Quiz's real questions, in order, each with its options and
+        answer type.
+        """
+
+    async def takeSkincareQuiz(self, arg: Prv_revisionskincare_takeSkincareQuiz_arg_In, /) -> Prv_revisionskincare_RevisionQuizResult_Out:
+        """Submits a shopper's answers to the Product Finder Quiz and returns the site's real
+        computed product recommendations.
+        """
+
 class Prv_rishitea(Protocol):
     """Rishi Tea's own "Tea Finder" quiz (Okendo Quizzes) — reads the real question set and
     submits real answers to get back the site's own personalized tea recommendation.
@@ -15253,6 +15309,7 @@ class BowmarkProviders(Protocol):
     progressive: Prv_progressive
     prose: Prv_prose
     reddit: Prv_reddit
+    revisionskincare: Prv_revisionskincare
     rishitea: Prv_rishitea
     ritani: Prv_ritani
     roofmaxx: Prv_roofmaxx

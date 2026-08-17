@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1ed5357295c6e0bd30822ff52ed61135673b3285c1ea1cb9fffa16603102182b
-// 9 capabilities, 145 providers, 433 typed functions, 20 refused.
+// Manifest version: b9199632c68ac2662bf4d932b10951d6e5087406fa1474b502ecfe28e059816a
+// 9 capabilities, 146 providers, 435 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13912,6 +13912,73 @@ interface RedditThread {
   }
 }
 
+declare namespace BowmarkProvider_revisionskincare {
+  // ── Revision Skincare — the unit's own declarations, verbatim ──
+type RevisionQuestionType = "single-select" | "multi-select";
+
+interface RevisionQuizOption {
+  title: string;
+}
+
+interface RevisionQuizQuestion {
+  questionId: string;
+  text: string;
+  type: RevisionQuestionType;
+  options: RevisionQuizOption[];
+}
+
+interface RevisionQuizQuestions {
+  quizId: string;
+  channelQuizId: string;
+  subscriberId: string;
+  questions: RevisionQuizQuestion[];
+}
+
+interface RevisionQuizAnswer {
+  questionId: string;
+  type: RevisionQuestionType;
+  answer: string | string[];
+}
+
+interface RevisionRecommendedProduct {
+  productId: string;
+  name: string;
+  description: string;
+  url: string;
+  imageUrl: string;
+  price: number | null;
+  currencyCode: string | null;
+  averageRating: number | null;
+  approvedReviewsCount: number | null;
+}
+
+interface RevisionQuizResult {
+  quizResponseId: string;
+  title: string;
+  subtitle: string;
+  products: RevisionRecommendedProduct[];
+}
+
+  /**
+   * Reads and answers Revision Skincare's own Product Finder Quiz
+   * (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
+   * recommendations.
+   */
+  interface Unit {
+    /**
+     * Reads the live Product Finder Quiz's real questions, in order, each with its options and
+     * answer type.
+     */
+    getSkincareQuizQuestions(): Promise<RevisionQuizQuestions>;
+
+    /**
+     * Submits a shopper's answers to the Product Finder Quiz and returns the site's real computed
+     * product recommendations.
+     */
+    takeSkincareQuiz(arg: { answers: RevisionQuizAnswer[] }): Promise<RevisionQuizResult>;
+  }
+}
+
 declare namespace BowmarkProvider_rishitea {
   // ── Rishi Tea & Botanicals — the unit's own declarations, verbatim ──
 interface TeaFinderQuestion {
@@ -18236,6 +18303,7 @@ interface BowmarkProviders {
   progressive: BowmarkProvider_progressive.Unit;
   prose: BowmarkProvider_prose.Unit;
   reddit: BowmarkProvider_reddit.Unit;
+  revisionskincare: BowmarkProvider_revisionskincare.Unit;
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
   roofmaxx: BowmarkProvider_roofmaxx.Unit;
