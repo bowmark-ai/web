@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b9199632c68ac2662bf4d932b10951d6e5087406fa1474b502ecfe28e059816a
-// 417 checked, 20 unchecked.
+// Manifest version: 02a7d4e04aeb4763b05c5723693901f0799a0dd6c146973d6e1ffe91f9610cd8
+// 419 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b9199632c68ac2662bf4d932b10951d6e5087406fa1474b502ecfe28e059816a",
+  "version": "02a7d4e04aeb4763b05c5723693901f0799a0dd6c146973d6e1ffe91f9610cd8",
   "units": {
     "cars": {
       "defs": {
@@ -8416,6 +8416,109 @@ export const VALIDATORS: ValidatorTable = {
         "getMenu": null,
         "getMenuItem": null,
         "findStores": null
+      }
+    },
+    "providers.medicalguardian": {
+      "defs": {
+        "MedicalguardianActivityLevel": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "Low"
+            },
+            {
+              "k": "literal",
+              "v": "Medium"
+            },
+            {
+              "k": "literal",
+              "v": "High"
+            }
+          ]
+        },
+        "MedicalguardianFallRiskAnswers": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hearingImpaired",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "chronicHealthCondition",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "limitedMobility",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "activityLevel",
+              "schema": {
+                "k": "ref",
+                "name": "MedicalguardianActivityLevel"
+              },
+              "optional": false
+            },
+            {
+              "name": "takesDailyMedications",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "travelsAnnually",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "homeHasStairs",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "drivesDaily",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            },
+            {
+              "name": "previouslyFallen",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getRiskAssessmentQuestions": [],
+        "assessFallRisk": [
+          {
+            "name": "answers",
+            "schema": {
+              "k": "ref",
+              "name": "MedicalguardianFallRiskAnswers"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.medicare": {

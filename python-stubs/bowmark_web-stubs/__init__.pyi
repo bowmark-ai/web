@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b9199632c68ac2662bf4d932b10951d6e5087406fa1474b502ecfe28e059816a
-# 9 capabilities, 146 providers, 417 typed functions, 20 refused.
+# Manifest version: 02a7d4e04aeb4763b05c5723693901f0799a0dd6c146973d6e1ffe91f9610cd8
+# 9 capabilities, 147 providers, 419 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5538,6 +5538,35 @@ class Prv_marriott_MarriottHotelListing_Out(TypedDict):
     brand: str
     url: str
     place: str
+
+class Prv_medicalguardian_getRiskAssessmentQuestions_return_Out(TypedDict):
+    questions: list[Prv_medicalguardian_MedicalguardianRiskQuestion_Out]
+
+class Prv_medicalguardian_MedicalguardianRiskQuestion_Out(TypedDict):
+    id: str
+    prompt: str
+    options: list[Prv_medicalguardian_MedicalguardianRiskQuestion_Out_options_item_Out]
+
+class Prv_medicalguardian_MedicalguardianRiskQuestion_Out_options_item_Out(TypedDict):
+    value: str
+    score: float
+
+class Prv_medicalguardian_MedicalguardianFallRiskAnswers_In(TypedDict):
+    hearingImpaired: bool
+    chronicHealthCondition: bool
+    limitedMobility: bool
+    activityLevel: Literal["Low"] | Literal["Medium"] | Literal["High"]
+    takesDailyMedications: bool
+    travelsAnnually: bool
+    homeHasStairs: bool
+    drivesDaily: bool
+    previouslyFallen: bool
+
+class Prv_medicalguardian_MedicalguardianFallRiskResult_Out(TypedDict):
+    score: float
+    riskLevel: Literal["low"] | Literal["medium"] | Literal["high"]
+    assessmentUrl: str
+    deviceSelectionUrl: str
 
 class Prv_medicare_medicareCostsInfo_Out(TypedDict):
     year: float
@@ -12909,6 +12938,24 @@ class Prv_mcdonalds(Protocol):
     # It is CALLABLE at runtime; `bowmark.providers.mcdonalds.findStores` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
+class Prv_medicalguardian(Protocol):
+    """Medical Guardian's own fall-risk assessment (medicalguardian.com/risk-assessment) — a
+    real 0-9 score and low/medium/high risk level computed exactly as the site computes it,
+    plus the site's own 'Choose a Device' handoff URL as the real next step.
+    """
+
+    async def getRiskAssessmentQuestions(self, /) -> Prv_medicalguardian_getRiskAssessmentQuestions_return_Out:
+        """Returns Medical Guardian's own 9 fall-risk assessment questions, in order, exactly as
+        medicalguardian.com/risk-assessment asks them — ask them one at a time, then call
+        assessFallRisk with the answers.
+        """
+
+    async def assessFallRisk(self, answers: Prv_medicalguardian_MedicalguardianFallRiskAnswers_In, /) -> Prv_medicalguardian_MedicalguardianFallRiskResult_Out:
+        """Runs Medical Guardian's own fall-risk scoring — a real, personalized 0-9 score and risk
+        level, computed exactly as the site's own calculator computes it, no estimate.
+        `deviceSelectionUrl` is the real next step the site itself sends the user to.
+        """
+
 class Prv_medicare(Protocol):
     """The US government's own Medicare site — Medicare Advantage, Part D and Medigap plan
     search with real drug-cost estimates, the Care Compare directory of doctors, hospitals,
@@ -15289,6 +15336,7 @@ class BowmarkProviders(Protocol):
     mailchimp: Prv_mailchimp
     marriott: Prv_marriott
     mcdonalds: Prv_mcdonalds
+    medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
     microcenter: Prv_microcenter
     minted: Prv_minted

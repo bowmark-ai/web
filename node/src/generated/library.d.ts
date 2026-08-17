@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b9199632c68ac2662bf4d932b10951d6e5087406fa1474b502ecfe28e059816a
-// 9 capabilities, 146 providers, 435 typed functions, 20 refused.
+// Manifest version: 02a7d4e04aeb4763b05c5723693901f0799a0dd6c146973d6e1ffe91f9610cd8
+// 9 capabilities, 147 providers, 437 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10660,6 +10660,60 @@ interface mcdonaldsFindStoresResult {
   }
 }
 
+declare namespace BowmarkProvider_medicalguardian {
+  // ── Medical Guardian — the unit's own declarations, verbatim ──
+// Medical Guardian's OWN shapes — not a capability contract.
+
+type MedicalguardianActivityLevel = "Low" | "Medium" | "High";
+type MedicalguardianRiskLevel = "low" | "medium" | "high";
+
+interface MedicalguardianRiskQuestion {
+  id: string;
+  prompt: string;
+  options: Array<{ value: string; score: number }>;
+}
+
+interface MedicalguardianFallRiskAnswers {
+  hearingImpaired: boolean;
+  chronicHealthCondition: boolean;
+  limitedMobility: boolean;
+  activityLevel: MedicalguardianActivityLevel;
+  takesDailyMedications: boolean;
+  travelsAnnually: boolean;
+  homeHasStairs: boolean;
+  drivesDaily: boolean;
+  previouslyFallen: boolean;
+}
+
+interface MedicalguardianFallRiskResult {
+  score: number;          // 0-9
+  riskLevel: MedicalguardianRiskLevel;
+  assessmentUrl: string;
+  deviceSelectionUrl: string;  // the site's own next step — device selection, not built here
+}
+
+  /**
+   * Medical Guardian's own fall-risk assessment (medicalguardian.com/risk-assessment) — a real
+   * 0-9 score and low/medium/high risk level computed exactly as the site computes it, plus the
+   * site's own 'Choose a Device' handoff URL as the real next step.
+   */
+  interface Unit {
+    /**
+     * Returns Medical Guardian's own 9 fall-risk assessment questions, in order, exactly as
+     * medicalguardian.com/risk-assessment asks them — ask them one at a time, then call
+     * assessFallRisk with the answers.
+     */
+    getRiskAssessmentQuestions(): Promise<{ questions: MedicalguardianRiskQuestion[] }>;
+
+    /**
+     * Runs Medical Guardian's own fall-risk scoring — a real, personalized 0-9 score and risk
+     * level, computed exactly as the site's own calculator computes it, no estimate.
+     * `deviceSelectionUrl` is the real next step the site itself sends the user to.
+     */
+    assessFallRisk(answers: MedicalguardianFallRiskAnswers): Promise<MedicalguardianFallRiskResult>;
+  }
+}
+
 declare namespace BowmarkProvider_medicare {
   // ── Medicare.gov — the unit's own declarations, verbatim ──
 interface medicareCounty {
@@ -18283,6 +18337,7 @@ interface BowmarkProviders {
   mailchimp: BowmarkProvider_mailchimp.Unit;
   marriott: BowmarkProvider_marriott.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
+  medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
   minted: BowmarkProvider_minted.Unit;
