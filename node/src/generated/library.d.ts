@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e3197011164a15986265fdf648f7d59a7176d97ee1891c07d0d69e3524166dac
-// 9 capabilities, 148 providers, 440 typed functions, 20 refused.
+// Manifest version: 07433527faa25cbcc91b346f23bb48231a884edc9ba2d0328db46ec19a46cee7
+// 9 capabilities, 149 providers, 442 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14204,6 +14204,75 @@ interface RoofmaxxCostEstimate {
   }
 }
 
+declare namespace BowmarkProvider_saatva {
+  // ── Saatva — the unit's own declarations, verbatim ──
+// Saatva's OWN shapes — not a capability contract.
+
+interface MattressQuizAnswers {
+  sleepPosition: "side" | "back" | "stomach";
+  feel: "soft" | "medium" | "firm";
+  sharesBed?: boolean;   // optional — narrows scoring further when given
+}
+
+interface SaatvaVariant {
+  sku: string;
+  name: string;
+  size: string | null;
+  comfortLevel: string | null;   // Saatva's own label, e.g. "Medium Firm"
+  mattressType: string | null;   // "Standard" | "Split" | "Upper-Flex"
+  price: number | null;
+  inStock: boolean;
+  sleepPositions: string[];      // e.g. ["Side Sleeper", "Back Sleeper"]
+  url: string;                   // pre-selected-SKU product page, one click from cart
+}
+
+interface SaatvaMattress {
+  productCode: string;
+  name: string;
+  url: string;
+  variants: SaatvaVariant[];
+}
+
+interface SaatvaRecommendation {
+  productCode: string;
+  name: string;
+  score: number;                 // higher is a better match; ties break on lower price
+  matchedOn: string[];           // plain-language reasons this variant scored
+  bestVariant: SaatvaVariant | null;
+}
+
+  /**
+   * Saatva's mattress catalogue and its own mattress-quiz recommendation logic — every mattress
+   * line Saatva currently sells with every buyable variant's size, comfort level, sleep-position
+   * fit, stock and price, plus a real computed recommendation from stated sleep position,
+   * weight, and firmness preference, each with the exact pre-selected-SKU product link to buy
+   * it.
+   */
+  interface Unit {
+    /**
+     * Lists every mattress product line Saatva currently sells with every buyable variant — size,
+     * comfort level, sleep-position fit, stock and price — read out of the same catalogue the
+     * site's own mattress quiz scores against. Takes nothing. THROWS rather than returning [] when
+     * the page answers without its payload or names no mattress lines, because Saatva always sells
+     * these and an empty array would read as a catalogue that had emptied.
+     */
+    listMattresses(): Promise<SaatvaMattress[]>;
+
+    /**
+     * Runs Saatva's mattress-quiz goal-flow (saatva.com/mattress-quiz) for a stated sleep position
+     * and firmness preference, ranking every mattress line against the SAME live catalogue the
+     * site's own quiz reads and returning the best-matching in-stock variant for each, with its
+     * exact pre-selected-SKU buy link. Ranked highest score first, ties broken by lower price.
+     * `matchedOn` names which stated preferences the top variant actually satisfies. Does NOT
+     * replicate Saatva's internal weighted scoring formula byte-for-byte — that logic is
+     * proprietary client-side JS — it scores each variant's own declared attributes against what
+     * was asked, which is a genuine computation over real data rather than a guess from marketing
+     * copy.
+     */
+    recommendMattress(answers: MattressQuizAnswers): Promise<SaatvaRecommendation[]>;
+  }
+}
+
 declare namespace BowmarkProvider_saltandstone {
   // ── Salt & Stone — the unit's own declarations, verbatim ──
 // Salt & Stone's OWN shapes — not a capability contract.
@@ -18413,6 +18482,7 @@ interface BowmarkProviders {
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
   roofmaxx: BowmarkProvider_roofmaxx.Unit;
+  saatva: BowmarkProvider_saatva.Unit;
   saltandstone: BowmarkProvider_saltandstone.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
   seakeeper: BowmarkProvider_seakeeper.Unit;

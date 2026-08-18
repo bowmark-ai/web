@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e3197011164a15986265fdf648f7d59a7176d97ee1891c07d0d69e3524166dac
-// 422 checked, 20 unchecked.
+// Manifest version: 07433527faa25cbcc91b346f23bb48231a884edc9ba2d0328db46ec19a46cee7
+// 424 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e3197011164a15986265fdf648f7d59a7176d97ee1891c07d0d69e3524166dac",
+  "version": "07433527faa25cbcc91b346f23bb48231a884edc9ba2d0328db46ec19a46cee7",
   "units": {
     "cars": {
       "defs": {
@@ -13419,6 +13419,77 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "RoofmaxxCostEstimateArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.saatva": {
+      "defs": {
+        "MattressQuizAnswers": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sleepPosition",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "side"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "back"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "stomach"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "feel",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "soft"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "medium"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "firm"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "sharesBed",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listMattresses": [],
+        "recommendMattress": [
+          {
+            "name": "answers",
+            "schema": {
+              "k": "ref",
+              "name": "MattressQuizAnswers"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e3197011164a15986265fdf648f7d59a7176d97ee1891c07d0d69e3524166dac
-# 9 capabilities, 148 providers, 422 typed functions, 20 refused.
+# Manifest version: 07433527faa25cbcc91b346f23bb48231a884edc9ba2d0328db46ec19a46cee7
+# 9 capabilities, 149 providers, 424 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7495,6 +7495,35 @@ class Prv_roofmaxx_RoofmaxxCostEstimate_Out(TypedDict):
     mid: float
     high: float
 
+class Prv_saatva_SaatvaMattress_Out(TypedDict):
+    productCode: str
+    name: str
+    url: str
+    variants: list[Prv_saatva_SaatvaVariant_Out]
+
+class Prv_saatva_SaatvaVariant_Out(TypedDict):
+    sku: str
+    name: str
+    size: str | None
+    comfortLevel: str | None
+    mattressType: str | None
+    price: float | None
+    inStock: bool
+    sleepPositions: list[str]
+    url: str
+
+class Prv_saatva_MattressQuizAnswers_In(TypedDict):
+    sleepPosition: Literal["side"] | Literal["back"] | Literal["stomach"]
+    feel: Literal["soft"] | Literal["medium"] | Literal["firm"]
+    sharesBed: NotRequired[bool]
+
+class Prv_saatva_SaatvaRecommendation_Out(TypedDict):
+    productCode: str
+    name: str
+    score: float
+    matchedOn: list[str]
+    bestVariant: Prv_saatva_SaatvaVariant_Out | None
+
 class Prv_saltandstone_ScentFamily_Out(TypedDict):
     handle: str
     name: str
@@ -14105,6 +14134,35 @@ class Prv_roofmaxx(Protocol):
         full-replacement-cost tiers.
         """
 
+class Prv_saatva(Protocol):
+    """Saatva's mattress catalogue and its own mattress-quiz recommendation logic — every
+    mattress line Saatva currently sells with every buyable variant's size, comfort level,
+    sleep-position fit, stock and price, plus a real computed recommendation from stated
+    sleep position, weight, and firmness preference, each with the exact pre-selected-SKU
+    product link to buy it.
+    """
+
+    async def listMattresses(self, /) -> list[Prv_saatva_SaatvaMattress_Out]:
+        """Lists every mattress product line Saatva currently sells with every buyable variant —
+        size, comfort level, sleep-position fit, stock and price — read out of the same
+        catalogue the site's own mattress quiz scores against. Takes nothing. THROWS rather than
+        returning [] when the page answers without its payload or names no mattress lines,
+        because Saatva always sells these and an empty array would read as a catalogue that had
+        emptied.
+        """
+
+    async def recommendMattress(self, answers: Prv_saatva_MattressQuizAnswers_In, /) -> list[Prv_saatva_SaatvaRecommendation_Out]:
+        """Runs Saatva's mattress-quiz goal-flow (saatva.com/mattress-quiz) for a stated sleep
+        position and firmness preference, ranking every mattress line against the SAME live
+        catalogue the site's own quiz reads and returning the best-matching in-stock variant for
+        each, with its exact pre-selected-SKU buy link. Ranked highest score first, ties broken
+        by lower price. `matchedOn` names which stated preferences the top variant actually
+        satisfies. Does NOT replicate Saatva's internal weighted scoring formula byte-for-byte —
+        that logic is proprietary client-side JS — it scores each variant's own declared
+        attributes against what was asked, which is a genuine computation over real data rather
+        than a guess from marketing copy.
+        """
+
 class Prv_saltandstone(Protocol):
     """Salt & Stone's own Scent Quiz, reimplemented over its real six named scent families:
     list every family's real fragrance notes, compute a real ranked match against a
@@ -15416,6 +15474,7 @@ class BowmarkProviders(Protocol):
     rishitea: Prv_rishitea
     ritani: Prv_ritani
     roofmaxx: Prv_roofmaxx
+    saatva: Prv_saatva
     saltandstone: Prv_saltandstone
     samsclub: Prv_samsclub
     seakeeper: Prv_seakeeper
