@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 07433527faa25cbcc91b346f23bb48231a884edc9ba2d0328db46ec19a46cee7
-// 9 capabilities, 149 providers, 442 typed functions, 20 refused.
+// Manifest version: 74216abca6e2006e6d662e94ee6d86fa463c0bd0f5718a45d36cbd8505818027
+// 9 capabilities, 150 providers, 444 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4980,6 +4980,58 @@ interface FirstdibsListing {
      * Contact Seller, whichever this seller has enabled.
      */
     getListing(url: string): Promise<FirstdibsListing>;
+  }
+}
+
+declare namespace BowmarkProvider_fivestarbathsolutions {
+  // ── Five Star Bath Solutions — the unit's own declarations, verbatim ──
+interface FivestarLocation {
+  id: string;
+  title: string;
+  ownerName: string;
+  phone: string;
+  address: string;
+  state: string;
+  latitude: number;
+  longitude: number;
+  url: string;
+}
+
+interface FivestarDaySlots {
+  date: string;
+  dayOfWeek: string;
+  times: string[];
+}
+
+interface GetAvailableSlotsResult {
+  region: string;
+  usingRegionSlots: boolean;
+  days: FivestarDaySlots[];
+}
+
+  /**
+   * National bath/kitchen remodeling franchise (walk-in tubs, shower/tub conversions).
+   * listLocations and getAvailableSlots are live — listLocations reads the site's own
+   * 176-territory location directory, getAvailableSlots checks a region's real free
+   * design-consultation scheduler and returns the actual open days/times. bookAppointment (the
+   * final booking submit) is a stub — see its notImplemented reason.
+   */
+  interface Unit {
+    /**
+     * Returns every Five Star Bath Solutions franchise territory from the site's own
+     * location-finder directory — geo slug (`id`, what `getAvailableSlots`' `region` argument
+     * takes), title, owner, phone, mailing address, state and lat/long. No arguments.
+     */
+    listLocations(): Promise<FivestarLocation[]>;
+
+    /**
+     * Checks one franchise region's real free design-consultation scheduler and returns the actual
+     * open appointment days and times over the site's own 3-week booking window. Pass `region`
+     * (the geo slug from `listLocations`' `id` field, e.g. "livonia-mi"). Returns whether the
+     * region has its own configured slot table (`usingRegionSlots`) or fell back to the site's
+     * Mon-Sat default, plus the day-by-day list of open times.
+     */
+    getAvailableSlots(args: object): Promise<GetAvailableSlotsResult>;
   }
 }
 
@@ -18411,6 +18463,7 @@ interface BowmarkProviders {
   evolutionofsmooth: BowmarkProvider_evolutionofsmooth.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
+  fivestarbathsolutions: BowmarkProvider_fivestarbathsolutions.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;
   ford: BowmarkProvider_ford.Unit;
   fourseasonsyachts: BowmarkProvider_fourseasonsyachts.Unit;

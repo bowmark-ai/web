@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 07433527faa25cbcc91b346f23bb48231a884edc9ba2d0328db46ec19a46cee7
-# 9 capabilities, 149 providers, 424 typed functions, 20 refused.
+# Manifest version: 74216abca6e2006e6d662e94ee6d86fa463c0bd0f5718a45d36cbd8505818027
+# 9 capabilities, 150 providers, 426 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2934,6 +2934,27 @@ class Prv_firstdibs_FirstdibsCompletingAction_Out(TypedDict):
     makeOffer: bool
     contactSeller: bool
     purchase: Literal[False]
+
+class Prv_fivestarbathsolutions_FivestarLocation_Out(TypedDict):
+    id: str
+    title: str
+    ownerName: str
+    phone: str
+    address: str
+    state: str
+    latitude: float
+    longitude: float
+    url: str
+
+class Prv_fivestarbathsolutions_GetAvailableSlotsResult_Out(TypedDict):
+    region: str
+    usingRegionSlots: bool
+    days: list[Prv_fivestarbathsolutions_FivestarDaySlots_Out]
+
+class Prv_fivestarbathsolutions_FivestarDaySlots_Out(TypedDict):
+    date: str
+    dayOfWeek: str
+    times: list[str]
 
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
@@ -11069,6 +11090,28 @@ class Prv_firstdibs(Protocol):
         and/or Contact Seller, whichever this seller has enabled.
         """
 
+class Prv_fivestarbathsolutions(Protocol):
+    """National bath/kitchen remodeling franchise (walk-in tubs, shower/tub conversions).
+    listLocations and getAvailableSlots are live — listLocations reads the site's own
+    176-territory location directory, getAvailableSlots checks a region's real free
+    design-consultation scheduler and returns the actual open days/times. bookAppointment
+    (the final booking submit) is a stub — see its notImplemented reason.
+    """
+
+    async def listLocations(self, /) -> list[Prv_fivestarbathsolutions_FivestarLocation_Out]:
+        """Returns every Five Star Bath Solutions franchise territory from the site's own
+        location-finder directory — geo slug (`id`, what `getAvailableSlots`' `region` argument
+        takes), title, owner, phone, mailing address, state and lat/long. No arguments.
+        """
+
+    async def getAvailableSlots(self, args: Any, /) -> Prv_fivestarbathsolutions_GetAvailableSlotsResult_Out:
+        """Checks one franchise region's real free design-consultation scheduler and returns the
+        actual open appointment days and times over the site's own 3-week booking window. Pass
+        `region` (the geo slug from `listLocations`' `id` field, e.g. "livonia-mi"). Returns
+        whether the region has its own configured slot table (`usingRegionSlots`) or fell back
+        to the site's Mon-Sat default, plus the day-by-day list of open times.
+        """
+
 class Prv_flightradar24(Protocol):
     """Live flight tracking: where a given flight number, callsign or tail registration is
     right now, every aircraft airborne inside a map box, an airport's arrivals and
@@ -15403,6 +15446,7 @@ class BowmarkProviders(Protocol):
     evolutionofsmooth: Prv_evolutionofsmooth
     extraspace: Prv_extraspace
     firstdibs: Prv_firstdibs
+    fivestarbathsolutions: Prv_fivestarbathsolutions
     flightradar24: Prv_flightradar24
     ford: Prv_ford
     fourseasonsyachts: Prv_fourseasonsyachts
