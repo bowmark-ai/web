@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 02a7d4e04aeb4763b05c5723693901f0799a0dd6c146973d6e1ffe91f9610cd8
-// 9 capabilities, 147 providers, 437 typed functions, 20 refused.
+// Manifest version: e3197011164a15986265fdf648f7d59a7176d97ee1891c07d0d69e3524166dac
+// 9 capabilities, 148 providers, 440 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17433,6 +17433,57 @@ interface SearchHomesFilters {
   }
 }
 
+declare namespace BowmarkProvider_zennioptical {
+  // ── Zenni Optical — the unit's own declarations, verbatim ──
+interface ZenniFrame {
+  sku: string;
+  name: string;
+  price: number;
+  colors: Array<{ sku: string; price: number }>;
+}
+interface ZenniStock {
+  skuId: string;
+  inStock: boolean;
+  quantity: number;
+  backOrderable: boolean;
+  preOrderable: boolean;
+}
+interface ZenniRx {
+  odSph: number;
+  osSph: number;
+  pd: number;
+  birthYear: number;
+}
+interface ZenniLensPriceRow {
+  type: string;
+  minPrice: number;
+  maxPrice: number;
+  subTypes: Array<{ type: string; usage: string; minPrice: number; maxPrice: number; tints: boolean }>;
+}
+
+  /**
+   * Online prescription eyewear. Prices a real frame + Rx + lens-type configuration off the
+   * site's own configurator, and checks live per-SKU stock.
+   */
+  interface Unit {
+    /**
+     * Reads one frame's name, base price and per-color-variant price straight off the product
+     * page's own embedded data. No rendering.
+     */
+    getFrame(skuId: string): Promise<ZenniFrame>;
+
+    /** Checks live per-SKU inventory off Zenni's own inventory endpoint. */
+    checkStock(skuId: string): Promise<ZenniStock>;
+
+    /**
+     * Runs a real prescription through Zenni's own order-configurator wizard (usage type -> manual
+     * Rx entry -> confirm) and returns the priced lens-type matrix the site computes for that
+     * exact Rx — a completed, priced configuration rather than a base frame price.
+     */
+    priceLensConfig(skuId: string, rx: ZenniRx): Promise<ZenniLensPriceRow[]>;
+  }
+}
+
 declare namespace BowmarkFamily_shopify_store {
   // ── Shopify storefronts — the unit's own declarations, verbatim ──
 interface ShopifyVariant {
@@ -18397,6 +18448,7 @@ interface BowmarkProviders {
   wellfound: BowmarkProvider_wellfound.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yourarborhome: BowmarkProvider_yourarborhome.Unit;
+  zennioptical: BowmarkProvider_zennioptical.Unit;
   "000de82": BowmarkFamily_shopify_store.Unit;
   "001r3iv0": BowmarkFamily_shopify_store.Unit;
   "00246d8e": BowmarkFamily_shopify_store.Unit;

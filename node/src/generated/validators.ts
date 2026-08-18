@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 02a7d4e04aeb4763b05c5723693901f0799a0dd6c146973d6e1ffe91f9610cd8
-// 419 checked, 20 unchecked.
+// Manifest version: e3197011164a15986265fdf648f7d59a7176d97ee1891c07d0d69e3524166dac
+// 422 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "02a7d4e04aeb4763b05c5723693901f0799a0dd6c146973d6e1ffe91f9610cd8",
+  "version": "e3197011164a15986265fdf648f7d59a7176d97ee1891c07d0d69e3524166dac",
   "units": {
     "cars": {
       "defs": {
@@ -16419,6 +16419,80 @@ export const VALIDATORS: ValidatorTable = {
             "name": "uniqueName",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.zennioptical": {
+      "defs": {
+        "ZenniRx": {
+          "k": "object",
+          "props": [
+            {
+              "name": "odSph",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "osSph",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "pd",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "birthYear",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getFrame": [
+          {
+            "name": "skuId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "checkStock": [
+          {
+            "name": "skuId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "priceLensConfig": [
+          {
+            "name": "skuId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "rx",
+            "schema": {
+              "k": "ref",
+              "name": "ZenniRx"
             },
             "optional": false
           }

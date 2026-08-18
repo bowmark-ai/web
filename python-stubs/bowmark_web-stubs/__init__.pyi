@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 02a7d4e04aeb4763b05c5723693901f0799a0dd6c146973d6e1ffe91f9610cd8
-# 9 capabilities, 147 providers, 419 typed functions, 20 refused.
+# Manifest version: e3197011164a15986265fdf648f7d59a7176d97ee1891c07d0d69e3524166dac
+# 9 capabilities, 148 providers, 422 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9294,6 +9294,42 @@ class Prv_yourarborhome_ArborHome_Out_address_Out(TypedDict):
     state: str
     postalCode: str
 
+class Prv_zennioptical_ZenniFrame_Out(TypedDict):
+    sku: str
+    name: str
+    price: float
+    colors: list[Prv_zennioptical_ZenniFrame_Out_colors_item_Out]
+
+class Prv_zennioptical_ZenniFrame_Out_colors_item_Out(TypedDict):
+    sku: str
+    price: float
+
+class Prv_zennioptical_ZenniStock_Out(TypedDict):
+    skuId: str
+    inStock: bool
+    quantity: float
+    backOrderable: bool
+    preOrderable: bool
+
+class Prv_zennioptical_ZenniRx_In(TypedDict):
+    odSph: float
+    osSph: float
+    pd: float
+    birthYear: float
+
+class Prv_zennioptical_ZenniLensPriceRow_Out(TypedDict):
+    type: str
+    minPrice: float
+    maxPrice: float
+    subTypes: list[Prv_zennioptical_ZenniLensPriceRow_Out_subTypes_item_Out]
+
+class Prv_zennioptical_ZenniLensPriceRow_Out_subTypes_item_Out(TypedDict):
+    type: str
+    usage: str
+    minPrice: float
+    maxPrice: float
+    tints: bool
+
 
 class Cap_cars(Protocol):
     """Search car hire at an airport for a date range and get back normalized offers, cheapest
@@ -15244,6 +15280,25 @@ class Prv_yourarborhome(Protocol):
         link without re-filtering the whole search.
         """
 
+class Prv_zennioptical(Protocol):
+    """Online prescription eyewear. Prices a real frame + Rx + lens-type configuration off the
+    site's own configurator, and checks live per-SKU stock.
+    """
+
+    async def getFrame(self, skuId: str, /) -> Prv_zennioptical_ZenniFrame_Out:
+        """Reads one frame's name, base price and per-color-variant price straight off the product
+        page's own embedded data. No rendering.
+        """
+
+    async def checkStock(self, skuId: str, /) -> Prv_zennioptical_ZenniStock_Out:
+        """Checks live per-SKU inventory off Zenni's own inventory endpoint."""
+
+    async def priceLensConfig(self, skuId: str, rx: Prv_zennioptical_ZenniRx_In, /) -> list[Prv_zennioptical_ZenniLensPriceRow_Out]:
+        """Runs a real prescription through Zenni's own order-configurator wizard (usage type ->
+        manual Rx entry -> confirm) and returns the priced lens-type matrix the site computes
+        for that exact Rx — a completed, priced configuration rather than a base frame price.
+        """
+
 class BowmarkProviders(Protocol):
     """Every provider, under `bowmark.providers.<id>`. Flat, and snake_case on the
     wire — the id in the manifest, the trace, the namespace and a script are one
@@ -15396,6 +15451,7 @@ class BowmarkProviders(Protocol):
     wellfound: Prv_wellfound
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     yourarborhome: Prv_yourarborhome
+    zennioptical: Prv_zennioptical
 
 
 class Bowmark(Protocol):
