@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 820 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 822 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -681,6 +681,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shopify.resolveProductUrl` | shopify.com (51715 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
 | `shopify.search` | shopify.com (51715 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
 | `shopify.searchPolicies` | shopify.com (51715 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
+| `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟢 |
+| `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |

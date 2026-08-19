@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 74216abca6e2006e6d662e94ee6d86fa463c0bd0f5718a45d36cbd8505818027
-// 9 capabilities, 150 providers, 444 typed functions, 20 refused.
+// Manifest version: 10dc92a051455caa9ccecb0906b3740fdfd6db763077e49cd9a7b6bb6c8bf5be
+// 9 capabilities, 151 providers, 446 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14955,6 +14955,52 @@ interface SemihandmadePriceResult {
   }
 }
 
+declare namespace BowmarkProvider_smartsign {
+  // ── SmartSign — the unit's own declarations, verbatim ──
+interface SmartsignSearchResult {
+  sku: string;
+  name: string;
+  url: string;       // absolute product page URL — what getTemplate takes
+  imageUrl: string;
+}
+interface SmartsignMaterialPricing {
+  name: string;               // e.g. "Aluminum"
+  sizeCode: string;           // SmartSign's own per-material+size code
+  unitPrice: number;          // single-unit price, e.g. 37.94
+  pricingTiers: { qty: number; price: number }[]; // volume-discount ladder, includes qty:1
+}
+interface SmartsignTemplate {
+  sku: string;
+  title: string;
+  url: string;
+  materials: SmartsignMaterialPricing[];
+}
+
+  /**
+   * Reads SmartSign's custom-sign template configurator — search for a template, then read its
+   * real per-material live pricing and volume-discount ladder — straight from smartsign.com's
+   * own pages, no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Runs SmartSign's own site-search suggest endpoint for a free-text query (e.g. "parking
+     * sign", "custom aluminum sign") and returns the matching product/template rows — sku, name,
+     * product URL, thumbnail — deduplicated by URL. The `sku` it returns is what getTemplate
+     * takes. May legitimately return [] for a query that matches nothing.
+     */
+    search(query: string): Promise<SmartsignSearchResult[]>;
+
+    /**
+     * Reads one custom-sign template's product page and returns its title plus every material
+     * option offered — display name, the site's own size+material code, single-unit price, and the
+     * FULL volume-discount ladder (qty tier -> price). THROWS rather than returning an empty
+     * materials list on a retired/mistyped SKU — every real template offers at least one material,
+     * so zero is never an honest answer.
+     */
+    getTemplate(sku: string): Promise<SmartsignTemplate>;
+  }
+}
+
 declare namespace BowmarkProvider_soundcloud {
   // ── SoundCloud — the unit's own declarations, verbatim ──
 // SoundCloud's OWN row shape — not the `music` capability contract.
@@ -18543,6 +18589,7 @@ interface BowmarkProviders {
   seegarsfence: BowmarkProvider_seegarsfence.Unit;
   selectblinds: BowmarkProvider_selectblinds.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;
+  smartsign: BowmarkProvider_smartsign.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;

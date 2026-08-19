@@ -1,5 +1,5 @@
 {
-  "version": "74216abca6e2006e6d662e94ee6d86fa463c0bd0f5718a45d36cbd8505818027",
+  "version": "10dc92a051455caa9ccecb0906b3740fdfd6db763077e49cd9a7b6bb6c8bf5be",
   "units": {
     "cars": {
       "defs": {
@@ -13859,6 +13859,29 @@
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.smartsign": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTemplate": [
+          {
+            "name": "sku",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

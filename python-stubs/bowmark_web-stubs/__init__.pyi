@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 74216abca6e2006e6d662e94ee6d86fa463c0bd0f5718a45d36cbd8505818027
-# 9 capabilities, 150 providers, 426 typed functions, 20 refused.
+# Manifest version: 10dc92a051455caa9ccecb0906b3740fdfd6db763077e49cd9a7b6bb6c8bf5be
+# 9 capabilities, 151 providers, 428 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7916,6 +7916,28 @@ class Prv_semihandmade_SemihandmadePriceResult_Out(TypedDict):
     sku: str
     productUrl: str
 
+class Prv_smartsign_SmartsignSearchResult_Out(TypedDict):
+    sku: str
+    name: str
+    url: str
+    imageUrl: str
+
+class Prv_smartsign_SmartsignTemplate_Out(TypedDict):
+    sku: str
+    title: str
+    url: str
+    materials: list[Prv_smartsign_SmartsignMaterialPricing_Out]
+
+class Prv_smartsign_SmartsignMaterialPricing_Out(TypedDict):
+    name: str
+    sizeCode: str
+    unitPrice: float
+    pricingTiers: list[Prv_smartsign_SmartsignMaterialPricing_Out_pricingTiers_item_Out]
+
+class Prv_smartsign_SmartsignMaterialPricing_Out_pricingTiers_item_Out(TypedDict):
+    qty: float
+    price: float
+
 class Prv_soundcloud_ScTrack_Out(TypedDict):
     id: float
     title: str
@@ -14442,6 +14464,27 @@ class Prv_semihandmade(Protocol):
         plus the product page to finish there.
         """
 
+class Prv_smartsign(Protocol):
+    """Reads SmartSign's custom-sign template configurator — search for a template, then read
+    its real per-material live pricing and volume-discount ladder — straight from
+    smartsign.com's own pages, no key, no browser.
+    """
+
+    async def search(self, query: str, /) -> list[Prv_smartsign_SmartsignSearchResult_Out]:
+        """Runs SmartSign's own site-search suggest endpoint for a free-text query (e.g. "parking
+        sign", "custom aluminum sign") and returns the matching product/template rows — sku,
+        name, product URL, thumbnail — deduplicated by URL. The `sku` it returns is what
+        getTemplate takes. May legitimately return [] for a query that matches nothing.
+        """
+
+    async def getTemplate(self, sku: str, /) -> Prv_smartsign_SmartsignTemplate_Out:
+        """Reads one custom-sign template's product page and returns its title plus every material
+        option offered — display name, the site's own size+material code, single-unit price, and
+        the FULL volume-discount ladder (qty tier -> price). THROWS rather than returning an
+        empty materials list on a retired/mistyped SKU — every real template offers at least one
+        material, so zero is never an honest answer.
+        """
+
 class Prv_soundcloud(Protocol):
     """SoundCloud (soundcloud.com) — live track search over SoundCloud's own catalogue, reading
     one track URL back to its full detail (artwork, description, genre, release date,
@@ -15526,6 +15569,7 @@ class BowmarkProviders(Protocol):
     seegarsfence: Prv_seegarsfence
     selectblinds: Prv_selectblinds
     semihandmade: Prv_semihandmade
+    smartsign: Prv_smartsign
     soundcloud: Prv_soundcloud
     statefarm: Prv_statefarm
     stickergiant: Prv_stickergiant
