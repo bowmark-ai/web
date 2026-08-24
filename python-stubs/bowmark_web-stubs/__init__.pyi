@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 10dc92a051455caa9ccecb0906b3740fdfd6db763077e49cd9a7b6bb6c8bf5be
+# Manifest version: 465fa0c25e179d6ae2fa6e2edc22af0e235d51cd09cd76a46d8cb3338dab73a7
 # 9 capabilities, 151 providers, 428 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -9421,8 +9421,10 @@ class Cap_cars(Protocol):
         quote on IATA codes and a city name would come back as an empty list an agent would
         misread as "no cars available". `warnings` is always present and names anything dropped
         or clamped — INCLUDING a site that timed out or failed, which quoted nothing and is not
-        the same as an airport with no availability. `options.timeoutMs` sets the per-site
-        budget (default 30000).
+        the same as an airport with no availability. And when NO site answered at all this
+        THROWS rather than returning `cars: []`, because those two are the same value and only
+        one of them means there are no cars: a list you receive is always a list a site actually
+        gave. `options.timeoutMs` sets the per-site budget (default 30000).
         """
 
 class Cap_email(Protocol):
@@ -9470,10 +9472,12 @@ class Cap_flights(Protocol):
         matching flight, which is a completely different fact from a site that was never
         reached, so coverage is NOT inferable from the rows. Read `warnings` before treating
         them as the whole market: a dropped site means the real cheapest fare may not be here at
-        all. Three of the four sites run one shared engine, so they tend to fail together.
-        `options.timeoutMs` sets the per-site budget (default 30000) — a site slower than that
-        is dropped and named, so the answer arrives inside the calling client's own tool-call
-        limit rather than not at all.
+        all. Three of the four sites run one shared engine, so they tend to fail together — and
+        when ALL FOUR are gone this THROWS instead of returning `flights: []`, since an empty
+        list would otherwise be indistinguishable from a route nobody flies. `options.timeoutMs`
+        sets the per-site budget (default 30000) — a site slower than that is dropped and named,
+        so the answer arrives inside the calling client's own tool-call limit rather than not at
+        all.
         """
 
     async def getBookingOptions(self, flight: Cap_flights_FlightResult_In, options: Cap_flights_CallOptions_In | None = None, /) -> Cap_flights_BookingOptionsResult_Out:
@@ -9532,7 +9536,9 @@ class Cap_hotels(Protocol):
         `nightPrice` is per night per ROOM, so multiplying `nightPrice` by the night count on a
         multi-room search is out by a factor of `rooms`; compare on `price`. `warnings` is
         always present and names anything dropped or clamped — INCLUDING a site that timed out
-        or failed, which returned nothing and is not the same as a sold-out destination. This
+        or failed, which returned nothing and is not the same as a sold-out destination. And
+        when NO site answered at all this THROWS rather than returning `hotels: []`, because
+        those two are the same value and only one of them means there is nowhere to stay. This
         route drives a real browser and is the slowest thing in the library: 21-26s measured,
         against `options.timeoutMs`'s 30000 default. RAISE that budget rather than lowering it
         if you batch several searches into one call.
@@ -9558,7 +9564,9 @@ class Cap_insurance(Protocol):
         misread. `reportCategories` says which regulator reports exist for a carrier, NOT which
         lines it writes. `warnings` is always present, and a source that timed out or failed is
         NAMED there — read it before treating an empty list as "no carrier is licensed there".
-        `options.timeoutMs` sets the per-source budget (default 30000).
+        When NO source answered at all this THROWS instead of returning an empty list, so that
+        misreading is not available. `options.timeoutMs` sets the per-source budget (default
+        30000).
         """
 
     async def findAgent(self, query: Cap_insurance_AgentLocatorQuery_In, limit: float | None = None, options: Cap_insurance_CallOptions_In | None = None, /) -> Cap_insurance_AgentSearchResult_Out:
@@ -9575,7 +9583,9 @@ class Cap_insurance(Protocol):
         carries neither a zip nor a city+state — one carrier alone is a complete query, not a
         partial one. `warnings` is always present: a carrier the query lacked input for, or one
         that timed out or failed, is NAMED there — read it before treating a short list as the
-        whole answer. `options.timeoutMs` sets the per-carrier budget (default 30000).
+        whole answer. When every carrier the query DID reach for failed, this THROWS rather than
+        returning an empty list, which would otherwise read as "no agent near you".
+        `options.timeoutMs` sets the per-carrier budget (default 30000).
         """
 
     async def getLicensing(self, naicCode: str, options: Cap_insurance_CallOptions_In | None = None, /) -> Cap_insurance_CarrierLicensing_Out:
@@ -9618,8 +9628,9 @@ class Cap_insurance(Protocol):
         directory with no legitimate empty case, so a missing section or a changed page throws
         at the provider rather than under-reporting who underwrites the policy. `warnings` is
         always present and names a source that timed out or failed — with one source today, read
-        it before trusting a short list is the whole directory. `options.timeoutMs` sets the
-        per-source budget (default 30000).
+        it before trusting a short list is the whole directory. When no source answered at all
+        this THROWS, so an outage is never handed back as a directory with nothing in it.
+        `options.timeoutMs` sets the per-source budget (default 30000).
         """
 
 class Cap_music(Protocol):
@@ -9635,7 +9646,9 @@ class Cap_music(Protocol):
         most-played first. Tracks with no reported play count sort last rather than as zero.
         `warnings` is always present and names anything dropped — INCLUDING a catalogue that
         timed out or failed, which returned nothing and is not the same as a query with no
-        matches. `options.timeoutMs` sets the per-catalogue budget (default 30000).
+        matches. And when NO catalogue answered at all this THROWS rather than returning
+        `tracks: []`, because those two are the same value and only one of them means nothing
+        matched. `options.timeoutMs` sets the per-catalogue budget (default 30000).
         """
 
     async def getTrack(self, track: str | Cap_music_Track_In, options: Cap_music_CallOptions_In | None = None, /) -> Cap_music_MusicTrackResult_Out:
@@ -9663,8 +9676,9 @@ class Cap_pcparts(Protocol):
         price-sorted (cheapest first), each tagged with its `store`. A store that is genuinely
         empty contributes nothing and says nothing; a store that TIMED OUT or FAILED is named in
         `warnings`, and the two are not the same fact — "the cheapest of three stores" is a
-        wrong claim when one of them never answered. `options.timeoutMs` sets the per-store
-        budget (default 30000).
+        wrong claim when one of them never answered. When ALL THREE never answered this THROWS
+        rather than returning `offers: []`, because that empty list is the same value as a part
+        nobody stocks. `options.timeoutMs` sets the per-store budget (default 30000).
         """
 
     async def getProduct(self, urlOrOffer: str | Cap_pcparts_Offer_In, options: Cap_pcparts_CallOptions_In | None = None, /) -> Cap_pcparts_ProductResult_Out:
@@ -9713,8 +9727,10 @@ class Cap_sheds(Protocol):
         DESCRIBES the building as well as costing it — a real product image, the roof line and
         roofing material, the maker's own wall-height spec — and carries `orderUrl`, their own
         page to go order that build. `warnings` is always present and names a maker that failed,
-        styles that do not build the size, and a capped fan. `options.timeoutMs` sets the
-        per-maker budget (default 30000).
+        styles that do not build the size, and a capped fan. When NO maker answered at all this
+        THROWS rather than returning an empty list — "nobody builds a 12x20" and "nobody could
+        be reached" are otherwise the same result. `options.timeoutMs` sets the per-maker budget
+        (default 30000).
         """
 
     async def listStyles(self, options: Cap_sheds_CallOptions_In | None = None, /) -> Cap_sheds_ShedStylesResult_Out:
@@ -9723,7 +9739,9 @@ class Cap_sheds(Protocol):
         (a real product image, the roof line and roofing material, the maker's own wall-height
         spec). Use it to see what exists before pricing, or to answer "what sizes do they even
         make". `warnings` names any maker that returned nothing, which is not the same as a
-        maker with no styles.
+        maker with no styles. When NO maker answered at all this THROWS rather than returning an
+        empty list, because an empty catalogue and an unreachable one are otherwise the same
+        value.
         """
 
     async def findDealers(self, state: str, options: Cap_sheds_CallOptions_In | None = None, /) -> Cap_sheds_ShedDealerResult_Out:
@@ -9731,6 +9749,9 @@ class Cap_sheds(Protocol):
         province — full name ("Tennessee") or abbreviation ("TN") — with name, city, phone and
         the dealer's own page, for handing a priced configuration to somebody who can actually
         build it. `phone` is null when the directory lists none, never an empty string.
+        `warnings` names any maker whose directory could not be read, and when NO directory
+        could be read at all this THROWS rather than returning an empty list, which would read
+        as "no dealers in that state".
         """
 
 class Prv_aa(Protocol):
