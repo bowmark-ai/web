@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 465fa0c25e179d6ae2fa6e2edc22af0e235d51cd09cd76a46d8cb3338dab73a7
-# 9 capabilities, 151 providers, 428 typed functions, 20 refused.
+# Manifest version: d90e71efbfdb639d3da357f55df46bd815e9dfb804b55436a5b8413b1f72d7db
+# 10 capabilities, 152 providers, 432 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -625,6 +625,47 @@ class Cap_read_ReadResult_Out(TypedDict):
 class Cap_read_ReadResult_Out_wall_u0_Out(TypedDict):
     vendor: str
     cleared: bool
+
+class Cap_search_web_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Cap_search_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_search_SearchWebResult_Out(TypedDict):
+    query: str
+    engine: str
+    results: list[Cap_search_SearchResult_Out]
+    warnings: list[str]
+
+class Cap_search_SearchResult_Out(TypedDict):
+    source: str
+    rank: float
+    title: str
+    url: str
+    snippet: str | None
+    published: str | None
+
+class Cap_search_news_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Cap_search_SearchNewsResult_Out(TypedDict):
+    query: str
+    engine: str
+    results: list[Cap_search_NewsResult_Out]
+    warnings: list[str]
+
+class Cap_search_NewsResult_Out(TypedDict):
+    source: str
+    rank: float
+    title: str
+    url: str
+    snippet: str | None
+    published: str | None
+    publisher: str | None
+    imageUrl: str | None
 
 class Cap_sheds_ShedQuoteRequest_In(TypedDict):
     widthFt: float
@@ -1412,6 +1453,42 @@ class Prv_bigrentz_BigrentzCategoryRow_Out(TypedDict):
     slug: str
     count: float
     permalink: str
+
+class Prv_bing_searchWeb_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_bing_BingSearchResult_Out(TypedDict):
+    query: str
+    results: list[Prv_bing_BingWebResult_Out]
+    warnings: list[str]
+
+class Prv_bing_BingWebResult_Out(TypedDict):
+    source: Literal["bing"]
+    rank: float
+    title: str
+    url: str
+    snippet: str | None
+    published: str | None
+
+class Prv_bing_searchNews_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_bing_BingNewsSearchResult_Out(TypedDict):
+    query: str
+    results: list[Prv_bing_BingNewsResult_Out]
+    warnings: list[str]
+
+class Prv_bing_BingNewsResult_Out(TypedDict):
+    source: Literal["bing"]
+    rank: float
+    title: str
+    url: str
+    snippet: str | None
+    published: str | None
+    publisher: str | None
+    imageUrl: str | None
 
 class Prv_blenderseyewear_BlendersEyewearStyle_Out(TypedDict):
     handle: str
@@ -9710,6 +9787,37 @@ class Cap_read(Protocol):
         `error` set.
         """
 
+class Cap_search(Protocol):
+    """Find pages on the web when you do not already know the URL — the step before read.page.
+    Returns ranked results with title, destination URL and snippet. `news` is the same read
+    over news coverage, with real publication dates and the outlet's name. ONE ENGINE TODAY
+    (Bing), so if it is down this fails rather than degrading — it throws, and never reports
+    an outage as zero results. Two things that engine cannot do, measured on `web`: it never
+    returns an empty list even when nothing matches, and it ignores search operators like
+    site:.
+    """
+
+    async def web(self, query: str | Cap_search_web_query_u1_In, limit: float | None = None, options: Cap_search_CallOptions_In | None = None, /) -> Cap_search_SearchWebResult_Out:
+        """Searches the web and returns ranked results — title, destination URL, snippet — from the
+        first engine in the chain that answers. `engine` names which one that was, and
+        `warnings` names any that were tried and failed first. Feed a result's `url` straight to
+        bowmark.read.page to actually read it. TWO THINGS TO KNOW BEFORE YOU TRUST THE ROWS: the
+        engine NEVER returns an empty list, so results are its best offer rather than proof
+        anything matched, and it IGNORES operators — a `site:example.com` query is not scoped to
+        that site. When every engine fails this THROWS rather than returning zero rows, because
+        no engine reached is not the same as nothing found.
+        """
+
+    async def news(self, query: str | Cap_search_news_query_u1_In, limit: float | None = None, options: Cap_search_CallOptions_In | None = None, /) -> Cap_search_SearchNewsResult_Out:
+        """Searches news coverage and returns stories with the headline, the outlet's own article
+        URL, a summary, the publisher's name and a real publication timestamp. Use this rather
+        than `web` whenever the question is about what happened or when — `web`'s dates are
+        commonly the engine's crawl stamp, and these are the story's own. NOT MEASURED on the
+        two limits `web` declares: nobody has checked whether this feed returns an empty list
+        for a query with no coverage, or whether it honours operators. Treat both as unknown
+        rather than as working — `web`'s answers are the ones with fixtures behind them.
+        """
+
 class Cap_sheds(Protocol):
     """Price a portable building the way its maker's own 3D configurator does — give a size in
     feet and a zip and get the real regional price for every style that builds it, the exact
@@ -10175,6 +10283,28 @@ class Prv_bigrentz(Protocol):
     async def listCategories(self, options: Prv_bigrentz_listCategories_options_In | None = None, /) -> list[Prv_bigrentz_BigrentzCategoryRow_Out]:
         """Lists BigRentz's equipment categories — id, name, slug, live listing count, category
         page URL. Pass `parentSlug` to list a category's children.
+        """
+
+class Prv_bing(Protocol):
+    """General web and news search over Bing's index, read off Bing's own RSS output — ten
+    ranked results per query with title, destination URL, snippet and date. Keyless,
+    browserless, ~5 KB a call. It never reports 'no matches' and it ignores search operators
+    like site: — both measured, both declared.
+    """
+
+    async def searchWeb(self, args: Prv_bing_searchWeb_args_In, /) -> Prv_bing_BingSearchResult_Out:
+        """Searches the web and returns the ten results Bing ranked first, with title, destination
+        URL, snippet and date. TWO LIMITS, neither visible in the response: it NEVER returns an
+        empty list — a query of three invented words came back with ten confident, unrelated
+        rows — and it IGNORES search operators, so `site:reddit.com …` is not scoped to reddit.
+        Treat the rows as Bing's best offer rather than as proof anything matched.
+        """
+
+    async def searchNews(self, args: Prv_bing_searchNews_args_In, /) -> Prv_bing_BingNewsSearchResult_Out:
+        """Searches news coverage and returns stories with the headline, the outlet's own article
+        URL, a summary, a real publication timestamp, the publisher name and a thumbnail. Use
+        this rather than searchWeb when the question is 'what happened' — the web feed's dates
+        are Bing's crawl stamps, this feed's are the story's.
         """
 
 class Prv_blenderseyewear(Protocol):
@@ -15482,6 +15612,7 @@ class BowmarkProviders(Protocol):
     barletta: Prv_barletta
     bhphoto: Prv_bhphoto
     bigrentz: Prv_bigrentz
+    bing: Prv_bing
     blenderseyewear: Prv_blenderseyewear
     bluehaven: Prv_bluehaven
     bmwusa: Prv_bmwusa
@@ -15637,5 +15768,6 @@ class Bowmark(Protocol):
     music: Cap_music
     pcparts: Cap_pcparts
     read: Cap_read
+    search: Cap_search
     sheds: Cap_sheds
     providers: BowmarkProviders

@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 25 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 29 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -28,6 +28,10 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `pcparts.search` | Searches Newegg + Micro Center + B&H for ONE part (e.g. "Ryzen 7 7800X3D" or "RTX… | 3 | 🟢 |
 | `read.page` | Loads one page and returns its content. | 0 | 🟢 |
 | `read.pages` | The same read over many urls, six in flight at a time, results in the order the urls… | 0 | 🟢 |
+| `search.news` | Searches news coverage and returns stories with the headline, the outlet's own article… | 1 | 🟢 |
+| `search.searchNews` | Planned — declared behind this capability, not built yet. | 1 | ⚪ |
+| `search.searchWeb` | Planned — declared behind this capability, not built yet. | 1 | ⚪ |
+| `search.web` | Searches the web and returns ranked results — title, destination URL, snippet — from… | 1 | 🟢 |
 | `sheds.findDealers` | Looks up the real places that sell a maker's buildings in one US state or Canadian… | 1 | 🟢 |
 | `sheds.listBuildingStyles` | Planned — declared behind this capability, not built yet. | 1 | ⚪ |
 | `sheds.listStyles` | Lists every building style each maker actually offers — its customer-facing name, the… | 1 | 🟢 |

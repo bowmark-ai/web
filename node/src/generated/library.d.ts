@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 465fa0c25e179d6ae2fa6e2edc22af0e235d51cd09cd76a46d8cb3338dab73a7
-// 9 capabilities, 151 providers, 446 typed functions, 20 refused.
+// Manifest version: d90e71efbfdb639d3da357f55df46bd815e9dfb804b55436a5b8413b1f72d7db
+// 10 capabilities, 152 providers, 450 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -872,6 +872,80 @@ type ReadResult = {
      * set.
      */
     pages(urls: string[], options?: ReadOptions): Promise<ReadResult[]>;
+  }
+}
+
+declare namespace BowmarkCapability_search {
+  // ── Web search — the unit's own declarations, verbatim ──
+type SearchResult = {
+  source: string              // which ENGINE produced this row ("bing")
+  rank: number                // 1-based, in that engine's own ranking
+  title: string
+  url: string                 // the destination page, already unwrapped from any
+                              // click-tracker — pass it straight to read.page
+  snippet: string | null      // the engine's blurb; null when it published none
+  published: string | null    // ISO. On `web` this is often the engine's CRAWL
+                              // date, not the page's — do not report it as one
+}
+type SearchWebResult = {
+  query: string
+  engine: string              // who actually answered. With a fallback chain this
+                              // is the difference between the primary engine's
+                              // ranking and the standby's
+  results: SearchResult[]
+  warnings: string[]          // always present. Names every engine tried and
+                              // FAILED before the one that answered
+}
+
+// news adds the two things a news index has and a web index does not
+type NewsResult = SearchResult & {
+  publisher: string | null    // the outlet
+  imageUrl: string | null     // usually the engine's cached thumbnail
+}
+type SearchNewsResult = {
+  query: string
+  engine: string
+  results: NewsResult[]
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Find pages on the web when you do not already know the URL — the step before read.page.
+   * Returns ranked results with title, destination URL and snippet. `news` is the same read over
+   * news coverage, with real publication dates and the outlet's name. ONE ENGINE TODAY (Bing),
+   * so if it is down this fails rather than degrading — it throws, and never reports an outage
+   * as zero results. Two things that engine cannot do, measured on `web`: it never returns an
+   * empty list even when nothing matches, and it ignores search operators like site:.
+   */
+  interface Unit {
+    /**
+     * Searches the web and returns ranked results — title, destination URL, snippet — from the
+     * first engine in the chain that answers. `engine` names which one that was, and `warnings`
+     * names any that were tried and failed first. Feed a result's `url` straight to
+     * bowmark.read.page to actually read it. TWO THINGS TO KNOW BEFORE YOU TRUST THE ROWS: the
+     * engine NEVER returns an empty list, so results are its best offer rather than proof anything
+     * matched, and it IGNORES operators — a `site:example.com` query is not scoped to that site.
+     * When every engine fails this THROWS rather than returning zero rows, because no engine
+     * reached is not the same as nothing found.
+     */
+    web(query: string | { query: string, limit?: number }, limit?: number, options?: CallOptions): Promise<SearchWebResult>;
+
+    /**
+     * Searches news coverage and returns stories with the headline, the outlet's own article URL,
+     * a summary, the publisher's name and a real publication timestamp. Use this rather than `web`
+     * whenever the question is about what happened or when — `web`'s dates are commonly the
+     * engine's crawl stamp, and these are the story's own. NOT MEASURED on the two limits `web`
+     * declares: nobody has checked whether this feed returns an empty list for a query with no
+     * coverage, or whether it honours operators. Treat both as unknown rather than as working —
+     * `web`'s answers are the ones with fixtures behind them.
+     */
+    news(query: string | { query: string, limit?: number }, limit?: number, options?: CallOptions): Promise<SearchNewsResult>;
   }
 }
 
@@ -2215,6 +2289,66 @@ interface BigrentzCategoryRow {
      * URL. Pass `parentSlug` to list a category's children.
      */
     listCategories(options?: { parentSlug?: string }): Promise<BigrentzCategoryRow[]>;
+  }
+}
+
+declare namespace BowmarkProvider_bing {
+  // ── Bing — the unit's own declarations, verbatim ──
+interface BingWebResult {
+  source: "bing";
+  rank: number;
+  title: string;
+  url: string;
+  snippet: string | null;
+  published: string | null;
+}
+
+interface BingNewsResult {
+  source: "bing";
+  rank: number;
+  title: string;
+  url: string;
+  snippet: string | null;
+  published: string | null;
+  publisher: string | null;
+  imageUrl: string | null;
+}
+
+interface BingSearchResult {
+  query: string;
+  results: BingWebResult[];
+  warnings: string[];
+}
+
+interface BingNewsSearchResult {
+  query: string;
+  results: BingNewsResult[];
+  warnings: string[];
+}
+
+  /**
+   * General web and news search over Bing's index, read off Bing's own RSS output — ten ranked
+   * results per query with title, destination URL, snippet and date. Keyless, browserless, ~5 KB
+   * a call. It never reports 'no matches' and it ignores search operators like site: — both
+   * measured, both declared.
+   */
+  interface Unit {
+    /**
+     * Searches the web and returns the ten results Bing ranked first, with title, destination URL,
+     * snippet and date. TWO LIMITS, neither visible in the response: it NEVER returns an empty
+     * list — a query of three invented words came back with ten confident, unrelated rows — and it
+     * IGNORES search operators, so `site:reddit.com …` is not scoped to reddit. Treat the rows as
+     * Bing's best offer rather than as proof anything matched.
+     */
+    searchWeb(args: { query: string, limit?: number }): Promise<BingSearchResult>;
+
+    /**
+     * Searches news coverage and returns stories with the headline, the outlet's own article URL,
+     * a summary, a real publication timestamp, the publisher name and a thumbnail. Use this rather
+     * than searchWeb when the question is 'what happened' — the web feed's dates are Bing's crawl
+     * stamps, this feed's are the story's.
+     */
+    searchNews(args: { query: string, limit?: number }): Promise<BingNewsSearchResult>;
   }
 }
 
@@ -18501,6 +18635,7 @@ interface BowmarkProviders {
   barletta: BowmarkProvider_barletta.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;
   bigrentz: BowmarkProvider_bigrentz.Unit;
+  bing: BowmarkProvider_bing.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
   bluehaven: BowmarkProvider_bluehaven.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
@@ -70370,6 +70505,7 @@ interface BowmarkLibrary {
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
   read: BowmarkCapability_read.Unit;
+  search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
   providers: BowmarkProviders;
 }
