@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cad629ad449ffa7b6e12b0299082209643912c130193213d154764eeb434951f
-// 10 capabilities, 155 providers, 457 typed functions, 20 refused.
+// Manifest version: b1daa5aec184eeb0b8346d32639c41fe7881d510bb8f37ddd25bd717d757319a
+// 10 capabilities, 156 providers, 460 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16888,6 +16888,77 @@ interface TrekTravelSearchFilters {
   }
 }
 
+declare namespace BowmarkProvider_trophysignaturehomes {
+  // ── Trophy Signature Homes — the unit's own declarations, verbatim ──
+// Trophy Signature Homes' OWN shapes — not a capability contract.
+
+interface TrophysignaturehomesAddress { street: string; city: string; state: string; zip: string }
+
+interface TrophysignaturehomesHomeSummary {
+  id: string;                 // the key getHome/compareHomes take
+  uniqueName: string;         // the site's own slug, e.g. "181-hornet-street-elgin-tx"
+  address: TrophysignaturehomesAddress;
+  price: number | null;
+  sqft: number;
+  beds: number;
+  bathsFull: number;
+  bathsHalf: number;
+  status: string;             // "Active", "Under Construction", "Sold"
+  communityId: string;
+  communityName: string;
+  city: string;
+}
+
+interface TrophysignaturehomesHomeDetail extends TrophysignaturehomesHomeSummary {
+  stories: number | null;
+  garages: number | null;
+  moveInDate: string | null;
+  description: string | null;
+}
+
+interface TrophysignaturehomesSearchFilters {
+  city?: string; community?: string; status?: string;
+  minPrice?: number; maxPrice?: number; minBeds?: number; minSqft?: number;
+}
+
+interface TrophysignaturehomesComparison {
+  a: TrophysignaturehomesHomeDetail;
+  b: TrophysignaturehomesHomeDetail;
+  pricePerSqft: { a: number | null; b: number | null };
+  betterValue: string | null;  // the id of the cheaper-per-sqft home, or null on a tie
+}
+
+  /**
+   * Reads Trophy Signature Homes' own live inventory — real move-in-ready and under-construction
+   * homes across their Dallas-Ft Worth, Austin and Houston communities, with real street
+   * address, price, beds/baths/sqft and status, plus a real side-by-side price-per-sqft compare
+   * — the way the site's own search and compare tools would show it.
+   */
+  interface Unit {
+    /**
+     * Searches Trophy Signature Homes' current live inventory (all metros) by city, community,
+     * status, price range, min beds or min sqft. Real addresses, real prices, real availability —
+     * never a floor-plan brochure.
+     */
+    searchHomes(filters?: TrophysignaturehomesSearchFilters): Promise<TrophysignaturehomesHomeSummary[]>;
+
+    /**
+     * Reads one home's full detail: address, price, sqft, beds/baths, status, stories, garages,
+     * move-in date and the site's own listing description. `id` is a home's `id` or `uniqueName`
+     * from `searchHomes()`. THROWS on an unknown id, naming `searchHomes()` as the way to find
+     * current ones.
+     */
+    getHome(id: string): Promise<TrophysignaturehomesHomeDetail>;
+
+    /**
+     * Runs the site's own compare: reads both homes and computes real price-per-square-foot for
+     * each, naming which is the better value. This is the tool ChatGPT could not run on its own —
+     * it had to re-read two static pages (one a third-party MLS mirror) to fake the same math.
+     */
+    compareHomes(idA: string, idB: string): Promise<TrophysignaturehomesComparison>;
+  }
+}
+
 declare namespace BowmarkProvider_twiddy {
   // ── Twiddy & Company Realtors — the unit's own declarations, verbatim ──
 interface TwiddyRentalRow {
@@ -18925,6 +18996,7 @@ interface BowmarkProviders {
   titlenine: BowmarkProvider_titlenine.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
+  trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   vervecoffee: BowmarkProvider_vervecoffee.Unit;
