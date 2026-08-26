@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 831 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 835 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -770,6 +770,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `travelocity.searchPackages` | travelocity.com | Searches Travelocity's live bundled flight+hotel packages the way its own booking… | ⚪ |
 | `trektravel.getDeparturePricing` | trektravel.com | Reads one trip's real scheduled departure dates straight off its own page: each date's… | 🟢 |
 | `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟢 |
+| `trophysignaturehomes.compareHomes` | trophysignaturehomes.com | Runs the site's own compare: reads both homes and computes real price-per-square-foot… | 🟢 |
+| `trophysignaturehomes.getHome` | trophysignaturehomes.com | Reads one home's full detail: address, price, sqft, beds/baths, status, stories… | 🟢 |
+| `trophysignaturehomes.listPlans` | trophysignaturehomes.com | Lists the floor plans (as opposed to priced, addressed spec homes) available per… | ⚪ |
+| `trophysignaturehomes.searchHomes` | trophysignaturehomes.com | Searches Trophy Signature Homes' current live inventory (all metros) by city… | 🟢 |
 | `twiddy.getRentalDetail` | twiddy.com | Reads one rental's own detail page in full — description, address, pets-allowed flag… | 🟢 |
 | `twiddy.getRentalQuote` | twiddy.com | Runs the site's own real-time weekly pricing engine for one property and a check-in… | 🟢 |
 | `twiddy.searchRentals` | twiddy.com | Runs Twiddy's own Outer Banks vacation rental search (all 1,000+ managed properties in… | 🟢 |
