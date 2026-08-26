@@ -6,6 +6,31 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.10.0 (2026-08-26)
+
+**Capabilities**
+
+- New capability **search** (2 functions): `search.news`, `search.web`
+
+**Providers**
+
+- New provider **asppoolco.com** (2 functions): `asppoolco.findLocationByZip`, `asppoolco.listLocations`
+- New provider **bing.com** (2 functions): `bing.searchNews`, `bing.searchWeb`
+- New provider **fivestarbathsolutions.com** (2 functions): `fivestarbathsolutions.getAvailableSlots`, `fivestarbathsolutions.listLocations`
+- New provider **holidaybuilders.com** (2 functions): `holidaybuilders.getHomeDetail`, `holidaybuilders.searchAvailableHomes`
+- New provider **kuiu.com** (4 functions): `kuiu.findKuiuSize`, `kuiu.getKuiuCheckoutLink`, `kuiu.getKuiuProduct`, `kuiu.listKuiuProducts`
+- New provider **medicalguardian.com** (2 functions): `medicalguardian.assessFallRisk`, `medicalguardian.getRiskAssessmentQuestions`
+- New provider **reliancepartners.com** (2 functions): `reliancepartners.assembleApplication`, `reliancepartners.getApplicationSchema`
+- New provider **revisionskincare.com** (2 functions): `revisionskincare.getSkincareQuizQuestions`, `revisionskincare.takeSkincareQuiz`
+- New provider **saatva.com** (2 functions): `saatva.listMattresses`, `saatva.recommendMattress`
+- New provider **smartsign.com** (2 functions): `smartsign.getTemplate`, `smartsign.search`
+- New provider **teneohg.com** (2 functions): `teneohg.getMemberHotel`, `teneohg.searchMemberHotels`
+- New provider **walkerhughes.com** (3 functions): `walkerhughes.findNearestOffice`, `walkerhughes.listOffices`, `walkerhughes.listQuoteProducts`
+- New provider **yorkwallcoverings.com** (3 functions): `yorkwallcoverings.addToCart`, `yorkwallcoverings.getProduct`, `yorkwallcoverings.search`
+- New provider **zennioptical.com** (3 functions): `zennioptical.checkStock`, `zennioptical.getFrame`, `zennioptical.priceLensConfig`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.9.0 (2026-08-16)
 
 **Providers**
