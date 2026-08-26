@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b1daa5aec184eeb0b8346d32639c41fe7881d510bb8f37ddd25bd717d757319a
-// 442 checked, 20 unchecked.
+// Manifest version: a49c2d7a9ba71f91edcd2ee14dfff7822e65dbc7f40c8294a9ab75d922bd952a
+// 444 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b1daa5aec184eeb0b8346d32639c41fe7881d510bb8f37ddd25bd717d757319a",
+  "version": "a49c2d7a9ba71f91edcd2ee14dfff7822e65dbc7f40c8294a9ab75d922bd952a",
   "units": {
     "cars": {
       "defs": {
@@ -9848,6 +9848,106 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.nvisioncenters": {
+      "defs": {
+        "NvisioncentersAgeBracket": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "Under 18"
+            },
+            {
+              "k": "literal",
+              "v": "18-34"
+            },
+            {
+              "k": "literal",
+              "v": "35-54"
+            },
+            {
+              "k": "literal",
+              "v": "55+"
+            }
+          ]
+        },
+        "NvisioncentersCandidacyInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ageBracket",
+              "schema": {
+                "k": "ref",
+                "name": "NvisioncentersAgeBracket"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "NvisioncentersSavingsInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "age",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "glasses",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "glassesCost",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "contacts",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "contactsCost",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "calculateLasikSavings": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "NvisioncentersSavingsInput"
+            },
+            "optional": false
+          }
+        ],
+        "checkLasikCandidacy": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "NvisioncentersCandidacyInput"
             },
             "optional": false
           }

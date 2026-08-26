@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 835 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 837 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -565,6 +565,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `newegg.checkStock` | newegg.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟢 |
 | `newegg.getProduct` | newegg.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `newegg.search` | newegg.com | Searches newegg.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
+| `nvisioncenters.calculateLasikSavings` | nvisioncenters.com | Runs NVISION's own LASIK Savings Calculator — age plus glasses/contacts usage and cost… | 🟢 |
+| `nvisioncenters.checkLasikCandidacy` | nvisioncenters.com | Runs NVISION's own LASIK Candidate Quiz disqualification rule — age bracket in, the… | 🟢 |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
 | `otto.browseCategory` | otto.de | Lists products under one of OTTO's own department/category pages (e.g. Damenmode… | ⚪ |
 | `otto.getProduct` | otto.de | Reads one OTTO product page — price, current availability, delivery-time estimate (the… | 🟢 |

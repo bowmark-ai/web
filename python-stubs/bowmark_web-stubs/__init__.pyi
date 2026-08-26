@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b1daa5aec184eeb0b8346d32639c41fe7881d510bb8f37ddd25bd717d757319a
-# 10 capabilities, 156 providers, 442 typed functions, 20 refused.
+# Manifest version: a49c2d7a9ba71f91edcd2ee14dfff7822e65dbc7f40c8294a9ab75d922bd952a
+# 10 capabilities, 157 providers, 444 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6464,6 +6464,27 @@ class Prv_newegg_StoreStock_Out(TypedDict):
     price: float | None
     currency: str
     checkedAt: str
+
+class Prv_nvisioncenters_NvisioncentersSavingsInput_In(TypedDict):
+    age: float
+    glasses: float
+    glassesCost: float
+    contacts: float
+    contactsCost: float
+
+class Prv_nvisioncenters_NvisioncentersSavingsResult_Out(TypedDict):
+    lifetimeSavings: float
+    calculatorUrl: str
+
+class Prv_nvisioncenters_NvisioncentersCandidacyInput_In(TypedDict):
+    ageBracket: Literal["Under 18"] | Literal["18-34"] | Literal["35-54"] | Literal["55+"]
+
+class Prv_nvisioncenters_NvisioncentersCandidacyResult_Out(TypedDict):
+    candidate: bool
+    verdictHeadline: str
+    verdictBody: str
+    bookingUrl: str
+    quizUrl: str
 
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
@@ -13861,6 +13882,27 @@ class Prv_newegg(Protocol):
         mistaken for bad news.
         """
 
+class Prv_nvisioncenters(Protocol):
+    """NVISION's own LASIK Savings Calculator (a real lifetime-cost dollar figure from age plus
+    glasses/contacts usage) and LASIK Candidate Quiz (the site's real candidacy verdict,
+    which its own logic decides on age alone), both computed exactly as the site computes
+    them, no estimate.
+    """
+
+    async def calculateLasikSavings(self, input: Prv_nvisioncenters_NvisioncentersSavingsInput_In, /) -> Prv_nvisioncenters_NvisioncentersSavingsResult_Out:
+        """Runs NVISION's own LASIK Savings Calculator — a real lifetime glasses/contacts-vs-LASIK
+        dollar figure, computed exactly as the site's own client-side script computes it, no
+        estimate. Throws if both glasses and contacts are 0 — the site shows its own error state
+        there too.
+        """
+
+    async def checkLasikCandidacy(self, input: Prv_nvisioncenters_NvisioncentersCandidacyInput_In, /) -> Prv_nvisioncenters_NvisioncentersCandidacyResult_Out:
+        """Runs NVISION's own LASIK Candidate Quiz verdict — the site's real candidate /
+        not-a-typical-candidate text, computed exactly as the site computes it. Measured against
+        the real page: the verdict depends on age bracket alone (the site's own quiz collects
+        lens type and prior-consultation history but its logic never uses either).
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -15939,6 +15981,7 @@ class BowmarkProviders(Protocol):
     naic: Prv_naic
     namecheap: Prv_namecheap
     newegg: Prv_newegg
+    nvisioncenters: Prv_nvisioncenters
     oanda: Prv_oanda
     otto: Prv_otto
     outdoorresearch: Prv_outdoorresearch

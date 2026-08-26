@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b1daa5aec184eeb0b8346d32639c41fe7881d510bb8f37ddd25bd717d757319a
-// 10 capabilities, 156 providers, 460 typed functions, 20 refused.
+// Manifest version: a49c2d7a9ba71f91edcd2ee14dfff7822e65dbc7f40c8294a9ab75d922bd952a
+// 10 capabilities, 157 providers, 462 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12601,6 +12601,62 @@ interface StoreStock {
   }
 }
 
+declare namespace BowmarkProvider_nvisioncenters {
+  // ── NVISION Eye Centers — the unit's own declarations, verbatim ──
+// NVISION's OWN shapes — not a capability contract.
+
+interface NvisioncentersSavingsInput {
+  age: number;           // 18-79, the site's slider range
+  glasses: number;       // pairs/year, 0-10
+  glassesCost: number;   // dollars/pair, 0-1000
+  contacts: number;      // boxes/year, 0-50
+  contactsCost: number;  // dollars/box, 0-200
+}
+
+interface NvisioncentersSavingsResult {
+  lifetimeSavings: number;
+  calculatorUrl: string;
+}
+
+type NvisioncentersAgeBracket = "Under 18" | "18-34" | "35-54" | "55+";
+
+interface NvisioncentersCandidacyInput {
+  ageBracket: NvisioncentersAgeBracket;
+}
+
+interface NvisioncentersCandidacyResult {
+  candidate: boolean;    // false only for "55+" — the site's sole disqualifier
+  verdictHeadline: string;
+  verdictBody: string;
+  bookingUrl: string;
+  quizUrl: string;
+}
+
+  /**
+   * NVISION's own LASIK Savings Calculator (a real lifetime-cost dollar figure from age plus
+   * glasses/contacts usage) and LASIK Candidate Quiz (the site's real candidacy verdict, which
+   * its own logic decides on age alone), both computed exactly as the site computes them, no
+   * estimate.
+   */
+  interface Unit {
+    /**
+     * Runs NVISION's own LASIK Savings Calculator — a real lifetime glasses/contacts-vs-LASIK
+     * dollar figure, computed exactly as the site's own client-side script computes it, no
+     * estimate. Throws if both glasses and contacts are 0 — the site shows its own error state
+     * there too.
+     */
+    calculateLasikSavings(input: NvisioncentersSavingsInput): Promise<NvisioncentersSavingsResult>;
+
+    /**
+     * Runs NVISION's own LASIK Candidate Quiz verdict — the site's real candidate /
+     * not-a-typical-candidate text, computed exactly as the site computes it. Measured against the
+     * real page: the verdict depends on age bracket alone (the site's own quiz collects lens type
+     * and prior-consultation history but its logic never uses either).
+     */
+    checkLasikCandidacy(input: NvisioncentersCandidacyInput): Promise<NvisioncentersCandidacyResult>;
+  }
+}
+
 declare namespace BowmarkProvider_oanda {
   // ── OANDA — the unit's own declarations, verbatim ──
 interface OandaConversion {
@@ -18957,6 +19013,7 @@ interface BowmarkProviders {
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;
   newegg: BowmarkProvider_newegg.Unit;
+  nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
   oanda: BowmarkProvider_oanda.Unit;
   otto: BowmarkProvider_otto.Unit;
   outdoorresearch: BowmarkProvider_outdoorresearch.Unit;
