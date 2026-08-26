@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4150ea3bc3d033f2a39626aaaf1e8ecbaacc6db14385aabccccf51acd35fd2c9
-# 10 capabilities, 154 providers, 437 typed functions, 20 refused.
+# Manifest version: cad629ad449ffa7b6e12b0299082209643912c130193213d154764eeb434951f
+# 10 capabilities, 155 providers, 439 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7474,6 +7474,50 @@ class Prv_reddit_RedditComment_Out(TypedDict):
     permalink: str
     createdAt: str
 
+class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out(TypedDict):
+    entryUrl: str
+    steps: list[Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out]
+
+class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out(TypedDict):
+    title: str
+    fields: list[Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_fields_item_Out]
+    repeaters: list[Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_repeaters_item_Out]
+
+class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_fields_item_Out(TypedDict):
+    gfName: str
+    label: str
+    type: str
+    required: bool
+    options: NotRequired[list[Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_fields_item_Out_options_item_Out]]
+
+class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_fields_item_Out_options_item_Out(TypedDict):
+    value: str
+    label: str
+
+class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_repeaters_item_Out(TypedDict):
+    title: str
+    gfRepeaterId: str
+    maxItems: float
+    columns: list[Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_repeaters_item_Out_columns_item_Out]
+
+class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_repeaters_item_Out_columns_item_Out(TypedDict):
+    gfName: str
+    label: str
+    type: str
+    required: bool
+    options: NotRequired[list[Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_repeaters_item_Out_columns_item_Out_options_item_Out]]
+
+class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out_repeaters_item_Out_columns_item_Out_options_item_Out(TypedDict):
+    value: str
+    label: str
+
+class Prv_reliancepartners_AssembledApplication_Out(TypedDict):
+    valid: bool
+    errors: list[str]
+    entryUrl: str
+    formFields: Mapping[str, str]
+    summary: str
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -14348,6 +14392,25 @@ class Prv_reddit(Protocol):
         "nobody replied" and "we could not read it" are opposite answers.
         """
 
+class Prv_reliancepartners(Protocol):
+    """Reliance Partners' own 3-step commercial-trucking insurance application (FMCSA/EIN,
+    per-line coverage limits, equipment) — reads the live field structure and enumerated
+    catalogs, and validates + assembles a caller's application against it, ready to submit.
+    """
+
+    async def getApplicationSchema(self, /) -> Prv_reliancepartners_ReliancePartnersApplicationSchema_Out:
+        """Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every
+        field, and every real enumerated catalog (15 coverage lines, 30 commodities, FMCSA type,
+        all US states).
+        """
+
+    async def assembleApplication(self, args: Any, /) -> Prv_reliancepartners_AssembledApplication_Out:
+        """Validates a caller's trucking-insurance application against the live schema's own field
+        requirements and enumerated catalogs, then maps it onto the site's own Gravity Forms
+        field names — exact, ready to submit. Never submits it; the site's own flow ends in a
+        human underwriting follow-up, not an instant quote.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -15802,6 +15865,7 @@ class BowmarkProviders(Protocol):
     progressive: Prv_progressive
     prose: Prv_prose
     reddit: Prv_reddit
+    reliancepartners: Prv_reliancepartners
     revisionskincare: Prv_revisionskincare
     rishitea: Prv_rishitea
     ritani: Prv_ritani

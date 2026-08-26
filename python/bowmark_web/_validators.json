@@ -1,5 +1,5 @@
 {
-  "version": "4150ea3bc3d033f2a39626aaaf1e8ecbaacc6db14385aabccccf51acd35fd2c9",
+  "version": "cad629ad449ffa7b6e12b0299082209643912c130193213d154764eeb434951f",
   "units": {
     "cars": {
       "defs": {
@@ -13216,6 +13216,21 @@
             "name": "ref",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.reliancepartners": {
+      "defs": {},
+      "functions": {
+        "getApplicationSchema": [],
+        "assembleApplication": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }

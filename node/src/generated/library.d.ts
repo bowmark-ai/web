@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4150ea3bc3d033f2a39626aaaf1e8ecbaacc6db14385aabccccf51acd35fd2c9
-// 10 capabilities, 154 providers, 455 typed functions, 20 refused.
+// Manifest version: cad629ad449ffa7b6e12b0299082209643912c130193213d154764eeb434951f
+// 10 capabilities, 155 providers, 457 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14237,6 +14237,48 @@ interface RedditThread {
   }
 }
 
+declare namespace BowmarkProvider_reliancepartners {
+  // ── Reliance Partners — the unit's own declarations, verbatim ──
+interface ReliancePartnersApplicationSchema {
+  entryUrl: string;
+  steps: Array<{
+    title: string; // "Basic Info" | "Coverage" | "Equipment"
+    fields: Array<{ gfName: string; label: string; type: string; required: boolean; options?: Array<{ value: string; label: string }> }>;
+    repeaters: Array<{ title: string; gfRepeaterId: string; maxItems: number; columns: Array<{ gfName: string; label: string; type: string; required: boolean; options?: Array<{ value: string; label: string }> }> }>;
+  }>;
+}
+
+interface AssembledApplication {
+  valid: boolean;
+  errors: string[];
+  entryUrl: string;
+  formFields: Record<string, string>; // the site's own GF field names
+  summary: string;
+}
+
+  /**
+   * Reliance Partners' own 3-step commercial-trucking insurance application (FMCSA/EIN, per-line
+   * coverage limits, equipment) — reads the live field structure and enumerated catalogs, and
+   * validates + assembles a caller's application against it, ready to submit.
+   */
+  interface Unit {
+    /**
+     * Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every
+     * field, and every real enumerated catalog (15 coverage lines, 30 commodities, FMCSA type, all
+     * US states).
+     */
+    getApplicationSchema(): Promise<ReliancePartnersApplicationSchema>;
+
+    /**
+     * Validates a caller's trucking-insurance application against the live schema's own field
+     * requirements and enumerated catalogs, then maps it onto the site's own Gravity Forms field
+     * names — exact, ready to submit. Never submits it; the site's own flow ends in a human
+     * underwriting follow-up, not an instant quote.
+     */
+    assembleApplication(args: object): Promise<AssembledApplication>;
+  }
+}
+
 declare namespace BowmarkProvider_revisionskincare {
   // ── Revision Skincare — the unit's own declarations, verbatim ──
 type RevisionQuestionType = "single-select" | "multi-select";
@@ -18854,6 +18896,7 @@ interface BowmarkProviders {
   progressive: BowmarkProvider_progressive.Unit;
   prose: BowmarkProvider_prose.Unit;
   reddit: BowmarkProvider_reddit.Unit;
+  reliancepartners: BowmarkProvider_reliancepartners.Unit;
   revisionskincare: BowmarkProvider_revisionskincare.Unit;
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
