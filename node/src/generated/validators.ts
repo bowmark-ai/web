@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a49c2d7a9ba71f91edcd2ee14dfff7822e65dbc7f40c8294a9ab75d922bd952a
-// 444 checked, 20 unchecked.
+// Manifest version: 4f8d8cc294e48599c276416dce42be077a1d1e1aa2eedbe02d4aa6455b0f708b
+// 452 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a49c2d7a9ba71f91edcd2ee14dfff7822e65dbc7f40c8294a9ab75d922bd952a",
+  "version": "4f8d8cc294e48599c276416dce42be077a1d1e1aa2eedbe02d4aa6455b0f708b",
   "units": {
     "cars": {
       "defs": {
@@ -2290,6 +2290,33 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bigjoeforklifts": {
+      "defs": {},
+      "functions": {
+        "getRuntimeEstimatorInputs": [],
+        "listForkliftModels": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "prepareQuoteRequest": [
+          {
+            "name": "models",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
             },
             "optional": false
           }
@@ -6308,6 +6335,45 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.identitygroup": {
+      "defs": {},
+      "functions": {
+        "searchSigns": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getSign": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "priceMountOption": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "mountOption",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.insurify": {
       "defs": {
         "insurifyAutoQuotesQuery": {
@@ -7565,6 +7631,92 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.kaleidescape": {
+      "defs": {
+        "KaleidescapeCoordLocation": {
+          "k": "object",
+          "props": [
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "KaleidescapeFindDealersOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "installType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "marine"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "aviation"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
+        "KaleidescapeZipLocation": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findDealersNear": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "KaleidescapeZipLocation"
+                },
+                {
+                  "k": "ref",
+                  "name": "KaleidescapeCoordLocation"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "KaleidescapeFindDealersOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.kayak": {
       "defs": {
         "KayakCarQuery": {
@@ -8107,6 +8259,20 @@ export const VALIDATORS: ValidatorTable = {
         "getTest": [
           {
             "name": "sku",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.legacyhomesal": {
+      "defs": {},
+      "functions": {
+        "getAvailability": [
+          {
+            "name": "repSlug",
             "schema": {
               "k": "string"
             },

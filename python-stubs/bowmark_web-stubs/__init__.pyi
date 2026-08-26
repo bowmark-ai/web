@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a49c2d7a9ba71f91edcd2ee14dfff7822e65dbc7f40c8294a9ab75d922bd952a
-# 10 capabilities, 157 providers, 444 typed functions, 20 refused.
+# Manifest version: 4f8d8cc294e48599c276416dce42be077a1d1e1aa2eedbe02d4aa6455b0f708b
+# 10 capabilities, 161 providers, 452 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1401,6 +1401,23 @@ class Prv_bhphoto_StoreStock_Out(TypedDict):
     price: float | None
     currency: str
     checkedAt: str
+
+class Prv_bigjoeforklifts_BigJoeRoiEstimatorInputs_Out(TypedDict):
+    questions: list[Prv_bigjoeforklifts_BigJoeRoiQuestion_Out]
+
+class Prv_bigjoeforklifts_BigJoeRoiQuestion_Out(TypedDict):
+    questionNumber: float
+    prompt: str
+    options: list[str]
+
+class Prv_bigjoeforklifts_BigJoeForkliftModel_Out(TypedDict):
+    value: str
+
+class Prv_bigjoeforklifts_BigJoeQuotePreview_Out(TypedDict):
+    matchedModels: list[str]
+    unmatchedModels: list[str]
+    quoteUrl: str
+    instructions: str
 
 class Prv_bigrentz_BigrentzEquipmentRow_Out(TypedDict):
     id: float
@@ -4252,6 +4269,36 @@ class Prv_ibuypower_IbuypowerGameFps_Out(TypedDict):
     medium4k: str
     ultra4k: str
 
+class Prv_identitygroup_IdentitygroupSearchResult_Out(TypedDict):
+    handle: str
+    title: str
+    price: str
+    available: bool
+    url: str
+
+class Prv_identitygroup_IdentitygroupProduct_Out(TypedDict):
+    handle: str
+    title: str
+    url: str
+    variants: list[Prv_identitygroup_IdentitygroupVariant_Out]
+
+class Prv_identitygroup_IdentitygroupVariant_Out(TypedDict):
+    id: str
+    title: str
+    sku: str
+    price: str
+    available: bool | None
+
+class Prv_identitygroup_IdentitygroupMountOptionResult_Out(TypedDict):
+    query: str
+    handle: str
+    matched: bool
+    variant: Prv_identitygroup_IdentitygroupVariant_Out | None
+    candidates: list[Prv_identitygroup_IdentitygroupVariant_Out]
+    productUrl: str
+    checkoutUrl: str | None
+    message: str
+
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
     gender: Literal["male"] | Literal["female"] | Literal["non-binary"]
@@ -4890,6 +4937,44 @@ class Prv_justinwine_JustinwineClubPriceRange_Out(TypedDict):
     max: float
     checkoutUrl: str
 
+class Prv_kaleidescape_KaleidescapeZipLocation_In(TypedDict):
+    zip: str
+
+class Prv_kaleidescape_KaleidescapeCoordLocation_In(TypedDict):
+    latitude: float
+    longitude: float
+
+class Prv_kaleidescape_KaleidescapeFindDealersOptions_In(TypedDict):
+    installType: NotRequired[Literal["marine"] | Literal["aviation"]]
+
+class Prv_kaleidescape_KaleidescapeFindDealersResult_Out(TypedDict):
+    dealers: list[Prv_kaleidescape_KaleidescapeDealer_Out]
+    searchPoint: Prv_kaleidescape_KaleidescapeGeoPoint_Out
+    sourceUrl: str
+
+class Prv_kaleidescape_KaleidescapeDealer_Out(TypedDict):
+    id: float
+    store: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    countryCode: str
+    email: str | None
+    url: str | None
+    phone: str
+    latitude: float
+    longitude: float
+    distanceMiles: float
+    rank: float
+    certified: bool
+    demo: bool
+    dealerStatus: float
+
+class Prv_kaleidescape_KaleidescapeGeoPoint_Out(TypedDict):
+    latitude: float
+    longitude: float
+
 Prv_kayak_KayakQuery_In = TypedDict(
     "Prv_kayak_KayakQuery_In",
     {
@@ -5116,6 +5201,18 @@ class Prv_labcorp_LabcorpTestDetail_Out(TypedDict):
     metaTitle: str
     shortDescriptionHtml: str
     descriptionHtml: str
+
+class Prv_legacyhomesal_LegacyHomesalAvailability_Out(TypedDict):
+    repSlug: str
+    repName: str | None
+    timezone: str
+    durationMinutes: float | None
+    slots: list[Prv_legacyhomesal_LegacyHomesalTimeSlot_Out]
+    bookingUrl: str
+
+class Prv_legacyhomesal_LegacyHomesalTimeSlot_Out(TypedDict):
+    startUtc: str
+    endUtc: str
 
 class Prv_linkedin_LinkedinJobSearchQuery_In(TypedDict):
     keywords: NotRequired[str]
@@ -10433,6 +10530,32 @@ class Prv_bhphoto(Protocol):
         mistaken for bad news.
         """
 
+class Prv_bigjoeforklifts(Protocol):
+    """Big Joe Forklifts' real 17-question Runtime & ROI estimator's live input options, and
+    its real current forklift model list for a quote request — the tools their own site
+    already computes, read straight off the live site rather than guessed from brochure
+    PDFs.
+    """
+
+    async def getRuntimeEstimatorInputs(self, /) -> Prv_bigjoeforklifts_BigJoeRoiEstimatorInputs_Out:
+        """Reads Big Joe's own 'Pre-Demo Runtime & ROI Estimator' and returns its real current 17
+        questions and their real option lists (truck model, load weight, lift height, ramps,
+        attachments, speed limit, facility location, fuel type, and more) straight off the
+        tool's own workbook.
+        """
+
+    async def listForkliftModels(self, query: str | None = None, /) -> list[Prv_bigjoeforklifts_BigJoeForkliftModel_Out]:
+        """Reads Big Joe's live /quote page and returns its real current forklift model list (40+
+        models across sit-down, pallet jack, order picker and stacker lines), optionally
+        filtered by a free-text query.
+        """
+
+    async def prepareQuoteRequest(self, models: Sequence[str], /) -> Prv_bigjoeforklifts_BigJoeQuotePreview_Out:
+        """Validates the requested model names against Big Joe's real live /quote model list and
+        returns exactly which real checkboxes to select plus the page to submit on. Never
+        submits the form itself — read-only, no lead is ever created on a caller's behalf.
+        """
+
 class Prv_bigrentz(Protocol):
     """BigRentz's own equipment catalog — search, category browse and per-item detail, real
     data from their WooCommerce Store API. Live rental pricing is not yet built (site gates
@@ -12347,6 +12470,30 @@ class Prv_ibuypower(Protocol):
         failure; fall back to the Time Spy score of a pair it does have.
         """
 
+class Prv_identitygroup(Protocol):
+    """Identity Group's live hotel-signage catalog — search by brand or sign type, read a
+    product's real mount-option prices, and get a checkout handoff URL. Rung 9, no browser.
+    """
+
+    async def searchSigns(self, query: str, /) -> list[Prv_identitygroup_IdentitygroupSearchResult_Out]:
+        """Runs Identity Group's own storefront search for a hotel brand or sign type (e.g.
+        "americinn", "veteran parking", "exit sign") and returns real, live, in-stock results
+        with price — the same query the site's own search box runs.
+        """
+
+    async def getSign(self, handle: str, /) -> Prv_identitygroup_IdentitygroupProduct_Out:
+        """Reads one sign product's full page by its handle (from searchSigns()): every
+        mount-option variant with its own real live price, plus the product's own page URL.
+        """
+
+    async def priceMountOption(self, handle: str, mountOption: str, /) -> Prv_identitygroup_IdentitygroupMountOptionResult_Out:
+        """Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact variant
+        on one product, returning the real price and a `checkoutUrl` handoff — Shopify's own
+        cart permalink preselecting that variant, no cart created here. `matched: false` +
+        `candidates` is a real, expected answer for an ambiguous or unrecognized mount-option
+        name, not an error.
+        """
+
 class Prv_insurify(Protocol):
     """US insurance comparison marketplace and licensed agency — real-time side-by-side rates
     from 120+ carriers across car, home, renters, life, pet and business lines, plus
@@ -12855,6 +13002,25 @@ class Prv_justinwine(Protocol):
         (e.g. "Isosceles Only") to filter to one tier.
         """
 
+class Prv_kaleidescape(Protocol):
+    """Kaleidescape's own authorized-dealer locator, run for real — a current, real dealer list
+    (tier, address, phone, email, distance) for a US zip or coordinate, off the site's own
+    undocumented API.
+    """
+
+    async def findDealersNear(self, location: Prv_kaleidescape_KaleidescapeZipLocation_In | Prv_kaleidescape_KaleidescapeCoordLocation_In, options: Prv_kaleidescape_KaleidescapeFindDealersOptions_In | None = None, /) -> Prv_kaleidescape_KaleidescapeFindDealersResult_Out:
+        """Finds Kaleidescape authorized dealers near a location — pass EITHER a 5-digit US `zip`
+        (geocoded to a centroid with a keyless third-party lookup, since kaleidescape.com's own
+        search endpoint takes only coordinates) OR `latitude`+`longitude` directly, never both.
+        `installType` optionally narrows to `"marine"` or `"aviation"` installers (the site's
+        own filter checkboxes); omit it for the default residential result set. Returns each
+        dealer's name, tier rank, full address, phone, email, website, distance in miles from
+        the search point (the site's own computed value), and whether it carries the site's
+        "Certified"/"Demo Available" badges. Results are sorted nearest-first, matching the
+        site's own order. This is the SAME lookup kaleidescape.com/find-a-dealer/ runs — real,
+        current dealers, not a web-search guess.
+        """
+
 class Prv_kayak(Protocol):
     """Kayak (kayak.com) — metasearch flight results, cheapest-first, read directly from the
     result cards.
@@ -13002,6 +13168,17 @@ class Prv_labcorp(Protocol):
         collection method, turnaround time and acceptable age band. Combines the catalog row
         (GraphQL) with the specimen/turnaround facts the site renders on the PDP HTML. Pass the
         sku returned by `search`.
+        """
+
+class Prv_legacyhomesal(Protocol):
+    """Reads a Legacy Homes AL community sales rep's real open tour-appointment slots off
+    HubSpot Meetings — the live calendar, not a request that goes into a queue.
+    """
+
+    async def getAvailability(self, repSlug: str, /) -> Prv_legacyhomesal_LegacyHomesalAvailability_Out:
+        """Reads a Legacy Homes AL community sales rep's real open tour-appointment slots straight
+        off HubSpot Meetings — the same live calendar the site's own "Schedule an Appointment"
+        booking widget reads, not a form that goes into a queue.
         """
 
 class Prv_linkedin(Protocol):
@@ -15892,6 +16069,7 @@ class BowmarkProviders(Protocol):
     azure: Prv_azure
     barletta: Prv_barletta
     bhphoto: Prv_bhphoto
+    bigjoeforklifts: Prv_bigjoeforklifts
     bigrentz: Prv_bigrentz
     bing: Prv_bing
     blenderseyewear: Prv_blenderseyewear
@@ -15946,6 +16124,7 @@ class BowmarkProviders(Protocol):
     holidaybuilders: Prv_holidaybuilders
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
+    identitygroup: Prv_identitygroup
     insurify: Prv_insurify
     interiordefine: Prv_interiordefine
     islllc: Prv_islllc
@@ -15953,12 +16132,14 @@ class BowmarkProviders(Protocol):
     joybird: Prv_joybird
     joycefactorydirect: Prv_joycefactorydirect
     justinwine: Prv_justinwine
+    kaleidescape: Prv_kaleidescape
     kayak: Prv_kayak
     kingsdown: Prv_kingsdown
     kitchentuneup: Prv_kitchentuneup
     kompan: Prv_kompan
     kuiu: Prv_kuiu
     labcorp: Prv_labcorp
+    legacyhomesal: Prv_legacyhomesal
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
     lonelyplanet: Prv_lonelyplanet

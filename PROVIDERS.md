@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 837 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 846 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -56,6 +56,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bhphoto.checkStock` | bhphotovideo.com | Answers whether a specific item is actually gettable right now, rather than merely… | 🟢 |
 | `bhphoto.getProduct` | bhphotovideo.com | Reads one product page in full — the identity a search row cannot carry (SKU… | 🟢 |
 | `bhphoto.search` | bhphotovideo.com | Searches bhphotovideo.com for a part and returns matching rows cheapest-first… | 🟢 |
+| `bigjoeforklifts.estimateRuntimeAndRoi` | bigjoeforklifts.com | Would answer the ROI estimator's 17 questions and return the tool's real computed… | ⚪ |
+| `bigjoeforklifts.getRuntimeEstimatorInputs` | bigjoeforklifts.com | Reads Big Joe's own 'Pre-Demo Runtime & ROI Estimator' and returns its real current 17… | 🟢 |
+| `bigjoeforklifts.listForkliftModels` | bigjoeforklifts.com | Reads Big Joe's live /quote page and returns its real current forklift model list (40+… | 🟢 |
+| `bigjoeforklifts.prepareQuoteRequest` | bigjoeforklifts.com | Validates the requested model names against Big Joe's real live /quote model list and… | 🟢 |
 | `bigrentz.getEquipment` | bigrentz.com | Reads one piece of equipment in full by the slug `search` or `listCategories` returned… | 🟢 |
 | `bigrentz.getRentalPricing` | bigrentz.com | Would return live, location- and date-specific rental pricing/availability for one… | ⚪ |
 | `bigrentz.listCategories` | bigrentz.com | Lists BigRentz's equipment categories (optionally filtered to children of a parent… | 🟢 |
@@ -374,6 +378,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ibuypower.listPrebuilts` | ibuypower.com | Lists the RDY prebuilt gaming PCs — the ship-now, fixed-configuration SKUs, a… | 🟢 |
 | `ibuypower.listSystems` | ibuypower.com | Lists every base configurator on the PC builder — AMD and Intel — with its slug, name… | 🟢 |
 | `ibuypower.searchGear` | ibuypower.com | Searches the Gear Store — peripherals, components and accessories sold loose rather… | ⚪ |
+| `identitygroup.getSign` | identitygroup.com | Reads one sign product's full page: every mount-option variant, each with its own real… | 🟢 |
+| `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟢 |
+| `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `insurify.estimateAutoCost` | insurify.com | Returns an estimated monthly car insurance cost for a driver profile — age, location… | ⚪ |
 | `insurify.getAutoQuotes` | insurify.com | Returns real-time side-by-side car insurance rates from the carriers that will… | 🟢 |
 | `insurify.getAutoWarrantyQuotes` | insurify.com | Returns extended vehicle service contract (auto warranty) prices for a vehicle's make… | ⚪ |
@@ -418,6 +425,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `joycefactorydirect.getWindowCalculatorOptions` | joycefactorydirect.com | Reads the live window-cost calculator's real questions and answer options (styles… | 🟢 |
 | `justinwine.checkTastingAvailability` | justinwine.com | Checks real open reservation slots for a given date and party size at JUSTIN's… | ⚪ |
 | `justinwine.listClubTiers` | justinwine.com | Lists the JUSTIN Wine Society club tiers (Red Wines, Red and White Wines, Isosceles… | 🟢 |
+| `kaleidescape.findDealersNear` | kaleidescape.com | Finds Kaleidescape authorized dealers near a location — pass EITHER a 5-digit US zip… | 🟢 |
 | `kayak.getBookingOptions` | kayak.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `kayak.search` | kayak.com | Runs the itinerary search on kayak.com and returns its result rows price-ascending. | 🟢 |
 | `kayak.searchCars` | kayak.com | Runs the car-hire search on kayak.com and returns priced vehicles for a pickup… | 🟢 |
@@ -436,6 +444,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `labcorp.getTest` | labcorp.com | Returns one OnDemand test in full: price, what it screens for, sample type (blood… | 🟢 |
 | `labcorp.search` | labcorp.com | Searches Labcorp's direct-to-consumer test catalog (Labcorp OnDemand) by keyword —… | 🟢 |
 | `labcorp.trackOrder` | labcorp.com | Looks up the status of an existing Labcorp OnDemand order (ordered, kit shipped, kit… | ⚪ |
+| `legacyhomesal.getAvailability` | legacyhomesal.com | Reads a Legacy Homes AL community sales rep's real open tour-appointment slots… | 🟢 |
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | ⚪ |
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
 | `linkedin.getEvent` | linkedin.com | Returns one public LinkedIn event from its URL — name, organizer, start and end time… | ⚪ |

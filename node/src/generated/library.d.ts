@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a49c2d7a9ba71f91edcd2ee14dfff7822e65dbc7f40c8294a9ab75d922bd952a
-// 10 capabilities, 157 providers, 462 typed functions, 20 refused.
+// Manifest version: 4f8d8cc294e48599c276416dce42be077a1d1e1aa2eedbe02d4aa6455b0f708b
+// 10 capabilities, 161 providers, 470 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2237,6 +2237,56 @@ interface StoreStock {
      * "out of stock" when the page does not render, so a block is never mistaken for bad news.
      */
     checkStock(url: string): Promise<StoreStock>;
+  }
+}
+
+declare namespace BowmarkProvider_bigjoeforklifts {
+  // ── Big Joe Forklifts — the unit's own declarations, verbatim ──
+interface BigJoeRoiQuestion {
+  questionNumber: number;   // the tool's own 1-based question number
+  prompt: string;           // the question's own text, verbatim
+  options: string[];        // the real current choices for this question
+}
+interface BigJoeRoiEstimatorInputs {
+  questions: BigJoeRoiQuestion[];
+}
+interface BigJoeForkliftModel {
+  value: string;   // pass this back into prepareQuoteRequest
+}
+interface BigJoeQuotePreview {
+  matchedModels: string[];
+  unmatchedModels: string[];
+  quoteUrl: string;       // where to actually submit — this provider never does
+  instructions: string;
+}
+
+  /**
+   * Big Joe Forklifts' real 17-question Runtime & ROI estimator's live input options, and its
+   * real current forklift model list for a quote request — the tools their own site already
+   * computes, read straight off the live site rather than guessed from brochure PDFs.
+   */
+  interface Unit {
+    /**
+     * Reads Big Joe's own 'Pre-Demo Runtime & ROI Estimator' and returns its real current 17
+     * questions and their real option lists (truck model, load weight, lift height, ramps,
+     * attachments, speed limit, facility location, fuel type, and more) straight off the tool's
+     * own workbook.
+     */
+    getRuntimeEstimatorInputs(): Promise<BigJoeRoiEstimatorInputs>;
+
+    /**
+     * Reads Big Joe's live /quote page and returns its real current forklift model list (40+
+     * models across sit-down, pallet jack, order picker and stacker lines), optionally filtered by
+     * a free-text query.
+     */
+    listForkliftModels(query?: string): Promise<BigJoeForkliftModel[]>;
+
+    /**
+     * Validates the requested model names against Big Joe's real live /quote model list and
+     * returns exactly which real checkboxes to select plus the page to submit on. Never submits
+     * the form itself — read-only, no lead is ever created on a caller's behalf.
+     */
+    prepareQuoteRequest(models: string[]): Promise<BigJoeQuotePreview>;
   }
 }
 
@@ -8068,6 +8118,70 @@ interface IbuypowerBenchmark {
   }
 }
 
+declare namespace BowmarkProvider_identitygroup {
+  // ── Identity Group — the unit's own declarations, verbatim ──
+interface IdentitygroupSearchResult {
+  handle: string;
+  title: string;
+  price: string;
+  available: boolean;
+  url: string;
+}
+
+interface IdentitygroupVariant {
+  id: string;
+  title: string;      // the mount option, e.g. "Fence Post" or "Wall Mount"
+  sku: string;
+  price: string;
+  available: boolean | null;
+}
+
+interface IdentitygroupProduct {
+  handle: string;
+  title: string;
+  url: string;
+  variants: IdentitygroupVariant[];
+}
+
+interface IdentitygroupMountOptionResult {
+  query: string;
+  handle: string;
+  matched: boolean;
+  variant: IdentitygroupVariant | null;
+  candidates: IdentitygroupVariant[];   // real options, populated when not matched to exactly one
+  productUrl: string;
+  checkoutUrl: string | null;           // Shopify cart permalink preselecting the matched variant
+  message: string;
+}
+
+  /**
+   * Identity Group's live hotel-signage catalog — search by brand or sign type, read a product's
+   * real mount-option prices, and get a checkout handoff URL. Rung 9, no browser.
+   */
+  interface Unit {
+    /**
+     * Runs Identity Group's own storefront search for a hotel brand or sign type (e.g.
+     * "americinn", "veteran parking", "exit sign") and returns real, live, in-stock results with
+     * price — the same query the site's own search box runs.
+     */
+    searchSigns(query: string): Promise<IdentitygroupSearchResult[]>;
+
+    /**
+     * Reads one sign product's full page by its handle (from searchSigns()): every mount-option
+     * variant with its own real live price, plus the product's own page URL.
+     */
+    getSign(handle: string): Promise<IdentitygroupProduct>;
+
+    /**
+     * Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact variant on
+     * one product, returning the real price and a `checkoutUrl` handoff — Shopify's own cart
+     * permalink preselecting that variant, no cart created here. `matched: false` + `candidates`
+     * is a real, expected answer for an ambiguous or unrecognized mount-option name, not an error.
+     */
+    priceMountOption(handle: string, mountOption: string): Promise<IdentitygroupMountOptionResult>;
+  }
+}
+
 declare namespace BowmarkProvider_insurify {
   // ── Insurify — the unit's own declarations, verbatim ──
 interface insurifyCityRatesQuery {
@@ -9328,6 +9442,69 @@ interface JustinwineClubTier {
   }
 }
 
+declare namespace BowmarkProvider_kaleidescape {
+  // ── Kaleidescape — the unit's own declarations, verbatim ──
+interface KaleidescapeDealer {
+  id: number;
+  store: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  countryCode: string;
+  email: string | null;
+  url: string | null;
+  phone: string;
+  latitude: number;
+  longitude: number;
+  distanceMiles: number;
+  rank: number;
+  certified: boolean;
+  demo: boolean;
+  dealerStatus: number;
+}
+interface KaleidescapeGeoPoint {
+  latitude: number;
+  longitude: number;
+}
+interface KaleidescapeFindDealersResult {
+  dealers: KaleidescapeDealer[];
+  searchPoint: KaleidescapeGeoPoint;
+  sourceUrl: string;
+}
+interface KaleidescapeZipLocation {
+  zip: string;
+}
+interface KaleidescapeCoordLocation {
+  latitude: number;
+  longitude: number;
+}
+interface KaleidescapeFindDealersOptions {
+  installType?: "marine" | "aviation";
+}
+
+  /**
+   * Kaleidescape's own authorized-dealer locator, run for real — a current, real dealer list
+   * (tier, address, phone, email, distance) for a US zip or coordinate, off the site's own
+   * undocumented API.
+   */
+  interface Unit {
+    /**
+     * Finds Kaleidescape authorized dealers near a location — pass EITHER a 5-digit US `zip`
+     * (geocoded to a centroid with a keyless third-party lookup, since kaleidescape.com's own
+     * search endpoint takes only coordinates) OR `latitude`+`longitude` directly, never both.
+     * `installType` optionally narrows to `"marine"` or `"aviation"` installers (the site's own
+     * filter checkboxes); omit it for the default residential result set. Returns each dealer's
+     * name, tier rank, full address, phone, email, website, distance in miles from the search
+     * point (the site's own computed value), and whether it carries the site's "Certified"/"Demo
+     * Available" badges. Results are sorted nearest-first, matching the site's own order. This is
+     * the SAME lookup kaleidescape.com/find-a-dealer/ runs — real, current dealers, not a
+     * web-search guess.
+     */
+    findDealersNear(location: KaleidescapeZipLocation | KaleidescapeCoordLocation, options?: KaleidescapeFindDealersOptions): Promise<KaleidescapeFindDealersResult>;
+  }
+}
+
 declare namespace BowmarkProvider_kayak {
   // ── Kayak — the unit's own declarations, verbatim ──
 interface KayakQuery {
@@ -9735,6 +9912,35 @@ interface LabcorpTestDetail extends LabcorpTestSummary {
      * returned by `search`.
      */
     getTest(sku: string): Promise<LabcorpTestDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_legacyhomesal {
+  // ── Legacy Homes AL — the unit's own declarations, verbatim ──
+interface LegacyHomesalTimeSlot {
+  startUtc: string;
+  endUtc: string;
+}
+interface LegacyHomesalAvailability {
+  repSlug: string;
+  repName: string | null;
+  timezone: string;
+  durationMinutes: number | null;
+  slots: LegacyHomesalTimeSlot[];
+  bookingUrl: string;
+}
+
+  /**
+   * Reads a Legacy Homes AL community sales rep's real open tour-appointment slots off HubSpot
+   * Meetings — the live calendar, not a request that goes into a queue.
+   */
+  interface Unit {
+    /**
+     * Reads a Legacy Homes AL community sales rep's real open tour-appointment slots straight off
+     * HubSpot Meetings — the same live calendar the site's own "Schedule an Appointment" booking
+     * widget reads, not a form that goes into a queue.
+     */
+    getAvailability(repSlug: string): Promise<LegacyHomesalAvailability>;
   }
 }
 
@@ -18924,6 +19130,7 @@ interface BowmarkProviders {
   azure: BowmarkProvider_azure.Unit;
   barletta: BowmarkProvider_barletta.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;
+  bigjoeforklifts: BowmarkProvider_bigjoeforklifts.Unit;
   bigrentz: BowmarkProvider_bigrentz.Unit;
   bing: BowmarkProvider_bing.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
@@ -18978,6 +19185,7 @@ interface BowmarkProviders {
   holidaybuilders: BowmarkProvider_holidaybuilders.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
+  identitygroup: BowmarkProvider_identitygroup.Unit;
   insurify: BowmarkProvider_insurify.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
   islllc: BowmarkProvider_islllc.Unit;
@@ -18985,12 +19193,14 @@ interface BowmarkProviders {
   joybird: BowmarkProvider_joybird.Unit;
   joycefactorydirect: BowmarkProvider_joycefactorydirect.Unit;
   justinwine: BowmarkProvider_justinwine.Unit;
+  kaleidescape: BowmarkProvider_kaleidescape.Unit;
   kayak: BowmarkProvider_kayak.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
   kompan: BowmarkProvider_kompan.Unit;
   kuiu: BowmarkProvider_kuiu.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
+  legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
