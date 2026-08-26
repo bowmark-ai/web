@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 032d72451ded4d3df25b90a716c57792ab92bd20fcb2d5ef16520760cb17ca7a
-// 434 checked, 20 unchecked.
+// Manifest version: 4150ea3bc3d033f2a39626aaaf1e8ecbaacc6db14385aabccccf51acd35fd2c9
+// 437 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "032d72451ded4d3df25b90a716c57792ab92bd20fcb2d5ef16520760cb17ca7a",
+  "version": "4150ea3bc3d033f2a39626aaaf1e8ecbaacc6db14385aabccccf51acd35fd2c9",
   "units": {
     "cars": {
       "defs": {
@@ -16702,6 +16702,38 @@ export const VALIDATORS: ValidatorTable = {
         "checkWaitTime": [
           {
             "name": "facilityId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.yorkwallcoverings": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "url",
             "schema": {
               "k": "string"
             },

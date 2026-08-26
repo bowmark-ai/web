@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 032d72451ded4d3df25b90a716c57792ab92bd20fcb2d5ef16520760cb17ca7a
-// 10 capabilities, 153 providers, 452 typed functions, 20 refused.
+// Manifest version: 4150ea3bc3d033f2a39626aaaf1e8ecbaacc6db14385aabccccf51acd35fd2c9
+// 10 capabilities, 154 providers, 455 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17768,6 +17768,62 @@ interface XpressWaitTime {
   }
 }
 
+declare namespace BowmarkProvider_yorkwallcoverings {
+  // ── York Wallcoverings — the unit's own declarations, verbatim ──
+interface YorkWallcoveringsSearchResult {
+  sku: string;
+  name: string;
+  url: string;
+  price: number;
+}
+
+interface YorkWallcoveringsProduct {
+  sku: string;
+  name: string;
+  url: string;
+  price: number;
+  inStock: boolean;
+  description: string;
+  images: string[];
+}
+
+interface YorkWallcoveringsAddToCartHandoff {
+  sku: string;
+  name: string;
+  url: string;
+  price: number;
+  inStock: boolean;
+  note: string;
+}
+
+  /**
+   * Reads York Wallcoverings' public wallpaper/mural storefront (yorkwallcoverings.com) — search
+   * the catalog by keyword, read a product's live price and stock, and get the handoff to add it
+   * to cart on the real site.
+   */
+  interface Unit {
+    /**
+     * Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword — theme,
+     * style, color or brand words all match, since the site's own search covers name and
+     * description — and returns each match's SKU, name, product URL and price.
+     */
+    search(query: string): Promise<YorkWallcoveringsSearchResult[]>;
+
+    /**
+     * Reads one York product page in full — SKU, live price, in-stock/out-of-stock status,
+     * description and images — for a product URL `search` already returned.
+     */
+    getProduct(url: string): Promise<YorkWallcoveringsProduct>;
+
+    /**
+     * Hands back the shopper's own York product page — the exact Add to cart button for this SKU —
+     * since the site's cart requires a per-session ASP.NET token nobody but the shopper can
+     * supply. Writes nothing.
+     */
+    addToCart(url: string): Promise<YorkWallcoveringsAddToCartHandoff>;
+  }
+}
+
 declare namespace BowmarkProvider_yourarborhome {
   // ── Arbor Homes — the unit's own declarations, verbatim ──
 interface ArborHome {
@@ -18838,6 +18894,7 @@ interface BowmarkProviders {
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
+  yorkwallcoverings: BowmarkProvider_yorkwallcoverings.Unit;
   yourarborhome: BowmarkProvider_yourarborhome.Unit;
   zennioptical: BowmarkProvider_zennioptical.Unit;
   "000de82": BowmarkFamily_shopify_store.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 032d72451ded4d3df25b90a716c57792ab92bd20fcb2d5ef16520760cb17ca7a
-# 10 capabilities, 153 providers, 434 typed functions, 20 refused.
+# Manifest version: 4150ea3bc3d033f2a39626aaaf1e8ecbaacc6db14385aabccccf51acd35fd2c9
+# 10 capabilities, 154 providers, 437 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9438,6 +9438,29 @@ class Prv_xpresswellnessurgentcare_XpressWaitTime_Out(TypedDict):
     hoursText: str | None
     url: str
 
+class Prv_yorkwallcoverings_YorkWallcoveringsSearchResult_Out(TypedDict):
+    sku: str
+    name: str
+    url: str
+    price: float
+
+class Prv_yorkwallcoverings_YorkWallcoveringsProduct_Out(TypedDict):
+    sku: str
+    name: str
+    url: str
+    price: float
+    inStock: bool
+    description: str
+    images: list[str]
+
+class Prv_yorkwallcoverings_YorkWallcoveringsAddToCartHandoff_Out(TypedDict):
+    sku: str
+    name: str
+    url: str
+    price: float
+    inStock: bool
+    note: str
+
 class Prv_yourarborhome_SearchHomesFilters_In(TypedDict):
     city: NotRequired[str]
     minPrice: NotRequired[float]
@@ -15601,6 +15624,29 @@ class Prv_xpresswellnessurgentcare(Protocol):
         (the widget's markup changed).
         """
 
+class Prv_yorkwallcoverings(Protocol):
+    """Reads York Wallcoverings' public wallpaper/mural storefront (yorkwallcoverings.com) —
+    search the catalog by keyword, read a product's live price and stock, and get the
+    handoff to add it to cart on the real site.
+    """
+
+    async def search(self, query: str, /) -> list[Prv_yorkwallcoverings_YorkWallcoveringsSearchResult_Out]:
+        """Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —
+        theme, style, color or brand words all match, since the site's own search covers name
+        and description — and returns each match's SKU, name, product URL and price.
+        """
+
+    async def getProduct(self, url: str, /) -> Prv_yorkwallcoverings_YorkWallcoveringsProduct_Out:
+        """Reads one York product page in full — SKU, live price, in-stock/out-of-stock status,
+        description and images — for a product URL `search` already returned.
+        """
+
+    async def addToCart(self, url: str, /) -> Prv_yorkwallcoverings_YorkWallcoveringsAddToCartHandoff_Out:
+        """Hands back the shopper's own York product page — the exact Add to cart button for this
+        SKU — since the site's cart requires a per-session ASP.NET token nobody but the shopper
+        can supply. Writes nothing.
+        """
+
 class Prv_yourarborhome(Protocol):
     """Arbor Homes — Indiana/Ohio/Kentucky new-construction homebuilder (Clayton Properties
     Group). searchHomes reads its live quick-move-in inventory (price, beds/baths/sqft,
@@ -15796,6 +15842,7 @@ class BowmarkProviders(Protocol):
     waterfurnace: Prv_waterfurnace
     wellfound: Prv_wellfound
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
+    yorkwallcoverings: Prv_yorkwallcoverings
     yourarborhome: Prv_yourarborhome
     zennioptical: Prv_zennioptical
 
