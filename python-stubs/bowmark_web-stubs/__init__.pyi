@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d90e71efbfdb639d3da357f55df46bd815e9dfb804b55436a5b8413b1f72d7db
-# 10 capabilities, 152 providers, 432 typed functions, 20 refused.
+# Manifest version: 032d72451ded4d3df25b90a716c57792ab92bd20fcb2d5ef16520760cb17ca7a
+# 10 capabilities, 153 providers, 434 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4122,6 +4122,31 @@ class Prv_hobie_HobieDealer_Out(TypedDict):
     carriesBrand: bool
     stockStatus: str
     stockDisclaimer: str
+
+class Prv_holidaybuilders_HolidaybuildersSearchFilters_In(TypedDict):
+    location: NotRequired[str]
+    collection: NotRequired[str]
+    minBeds: NotRequired[float]
+    minBaths: NotRequired[float]
+    minSqft: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    moveInReadyOnly: NotRequired[bool]
+
+class Prv_holidaybuilders_HolidaybuildersHome_Out(TypedDict):
+    planName: str
+    location: str
+    collection: str
+    address: str
+    price: float
+    priceFormatted: str
+    sqft: float
+    beds: float
+    baths: float
+    plan: str
+    status: str
+    imageUrl: str | None
+    url: str
 
 class Prv_hunter_hunterDomainMatch_Out(TypedDict):
     query: str
@@ -12057,6 +12082,27 @@ class Prv_hobie(Protocol):
         flags. `color` defaults to the site's own default color when omitted.
         """
 
+class Prv_holidaybuilders(Protocol):
+    """Holiday Builders' live Available Homes inventory across every Florida community —
+    filterable by location, collection, beds/baths/sqft and price, off the search page's own
+    server-rendered listing rather than a third-party aggregator's stale mirror — plus one
+    listing's own full detail and Request-a-Tour handoff.
+    """
+
+    async def searchAvailableHomes(self, filters: Prv_holidaybuilders_HolidaybuildersSearchFilters_In | None = None, /) -> list[Prv_holidaybuilders_HolidaybuildersHome_Out]:
+        """Runs Holiday Builders' site-wide Available Homes search — every home currently listed
+        across all Florida communities, with real address, price, beds/baths/sqft, collection
+        and status, and a listing URL to view details or request a tour. `filters` (all
+        optional): `location`, `collection`, `minBeds`, `minBaths`, `minSqft`, `minPrice`,
+        `maxPrice`, `moveInReadyOnly` (default true — excludes homes marked "Coming Soon").
+        """
+
+    async def getHomeDetail(self, url: str, /) -> Any:
+        """Reads one home's own listing page — full specs, description, and whether the site's
+        Contact Us Today / Request a Tour forms are present. `url` is a listing URL from a
+        `searchAvailableHomes` result.
+        """
+
 class Prv_hunter(Protocol):
     """Work email addresses: the people at a given company and how to reach them, the address
     of one named person at one employer, whether an address will actually accept mail, the
@@ -15662,6 +15708,7 @@ class BowmarkProviders(Protocol):
     hellotend: Prv_hellotend
     hilton: Prv_hilton
     hobie: Prv_hobie
+    holidaybuilders: Prv_holidaybuilders
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
     insurify: Prv_insurify

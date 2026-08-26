@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d90e71efbfdb639d3da357f55df46bd815e9dfb804b55436a5b8413b1f72d7db
-// 10 capabilities, 152 providers, 450 typed functions, 20 refused.
+// Manifest version: 032d72451ded4d3df25b90a716c57792ab92bd20fcb2d5ef16520760cb17ca7a
+// 10 capabilities, 153 providers, 452 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7783,6 +7783,71 @@ interface HobieLocalAvailability {
      * `color` defaults to the site's own default color when omitted.
      */
     checkLocalAvailability(slug: string, color: string | undefined, zip: string): Promise<HobieLocalAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_holidaybuilders {
+  // ── Holiday Builders — the unit's own declarations, verbatim ──
+// Holiday Builders' OWN shapes — not a capability contract.
+
+interface HolidaybuildersHome {
+  planName: string;
+  location: string;    // the community/city, e.g. "Palm Bay"
+  collection: string;  // e.g. "inspire", "value", "cornerstone"
+  address: string;
+  price: number;
+  priceFormatted: string;
+  sqft: number;
+  beds: number;
+  baths: number;
+  plan: string;
+  status: string;      // "Move-in Ready" | "Coming Soon", the site's own label
+  imageUrl: string | null;
+  url: string;          // the listing page — Request a Tour / Contact Us Today live here
+}
+
+interface HolidaybuildersHomeDetail extends Omit<HolidaybuildersHome, "url"> {
+  url: string;
+  description: string;
+  garage: number | null;
+  coordinates: { lat: number; lng: number } | null;
+  contactUsUrl: string | null;
+  requestTourUrl: string | null; // the WRITE handoff this provider never performs
+}
+
+interface HolidaybuildersSearchFilters {
+  location?: string;      // fuzzy substring match
+  collection?: string;    // exact, case-insensitive
+  minBeds?: number;
+  minBaths?: number;
+  minSqft?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  moveInReadyOnly?: boolean; // default true
+}
+
+  /**
+   * Holiday Builders' live Available Homes inventory across every Florida community — filterable
+   * by location, collection, beds/baths/sqft and price, off the search page's own
+   * server-rendered listing rather than a third-party aggregator's stale mirror — plus one
+   * listing's own full detail and Request-a-Tour handoff.
+   */
+  interface Unit {
+    /**
+     * Runs Holiday Builders' site-wide Available Homes search — every home currently listed across
+     * all Florida communities, with real address, price, beds/baths/sqft, collection and status,
+     * and a listing URL to view details or request a tour. `filters` (all optional): `location`,
+     * `collection`, `minBeds`, `minBaths`, `minSqft`, `minPrice`, `maxPrice`, `moveInReadyOnly`
+     * (default true — excludes homes marked "Coming Soon").
+     */
+    searchAvailableHomes(filters?: HolidaybuildersSearchFilters): Promise<HolidaybuildersHome[]>;
+
+    /**
+     * Reads one home's own listing page — full specs, description, and whether the site's Contact
+     * Us Today / Request a Tour forms are present. `url` is a listing URL from a
+     * `searchAvailableHomes` result.
+     */
+    getHomeDetail(url: string): Promise<HolidaybuildersHomeDetail>;
   }
 }
 
@@ -18685,6 +18750,7 @@ interface BowmarkProviders {
   hellotend: BowmarkProvider_hellotend.Unit;
   hilton: BowmarkProvider_hilton.Unit;
   hobie: BowmarkProvider_hobie.Unit;
+  holidaybuilders: BowmarkProvider_holidaybuilders.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
   insurify: BowmarkProvider_insurify.Unit;

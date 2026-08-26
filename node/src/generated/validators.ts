@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d90e71efbfdb639d3da357f55df46bd815e9dfb804b55436a5b8413b1f72d7db
-// 432 checked, 20 unchecked.
+// Manifest version: 032d72451ded4d3df25b90a716c57792ab92bd20fcb2d5ef16520760cb17ca7a
+// 434 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d90e71efbfdb639d3da357f55df46bd815e9dfb804b55436a5b8413b1f72d7db",
+  "version": "032d72451ded4d3df25b90a716c57792ab92bd20fcb2d5ef16520760cb17ca7a",
   "units": {
     "cars": {
       "defs": {
@@ -6151,6 +6151,92 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.holidaybuilders": {
+      "defs": {
+        "HolidaybuildersSearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "collection",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBeds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBaths",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minSqft",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "moveInReadyOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchAvailableHomes": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "HolidaybuildersSearchFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getHomeDetail": [
+          {
+            "name": "url",
             "schema": {
               "k": "string"
             },
