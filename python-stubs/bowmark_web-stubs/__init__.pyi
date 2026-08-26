@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b1daa5aec184eeb0b8346d32639c41fe7881d510bb8f37ddd25bd717d757319a
-# 10 capabilities, 156 providers, 442 typed functions, 20 refused.
+# Manifest version: cad629ad449ffa7b6e12b0299082209643912c130193213d154764eeb434951f
+# 10 capabilities, 155 providers, 439 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8868,63 +8868,6 @@ class Prv_trektravel_TrekTravelDeparture_Out(TypedDict):
     hotels: list[str]
     bookingUrl: str
 
-class Prv_trophysignaturehomes_TrophysignaturehomesSearchFilters_In(TypedDict):
-    city: NotRequired[str]
-    community: NotRequired[str]
-    status: NotRequired[str]
-    minPrice: NotRequired[float]
-    maxPrice: NotRequired[float]
-    minBeds: NotRequired[float]
-    minSqft: NotRequired[float]
-
-class Prv_trophysignaturehomes_TrophysignaturehomesHomeSummary_Out(TypedDict):
-    id: str
-    uniqueName: str
-    address: Prv_trophysignaturehomes_TrophysignaturehomesAddress_Out
-    price: float | None
-    sqft: float
-    beds: float
-    bathsFull: float
-    bathsHalf: float
-    status: str
-    communityId: str
-    communityName: str
-    city: str
-
-class Prv_trophysignaturehomes_TrophysignaturehomesAddress_Out(TypedDict):
-    street: str
-    city: str
-    state: str
-    zip: str
-
-class Prv_trophysignaturehomes_TrophysignaturehomesHomeDetail_Out(TypedDict):
-    id: str
-    uniqueName: str
-    address: Prv_trophysignaturehomes_TrophysignaturehomesAddress_Out
-    price: float | None
-    sqft: float
-    beds: float
-    bathsFull: float
-    bathsHalf: float
-    status: str
-    communityId: str
-    communityName: str
-    city: str
-    stories: float | None
-    garages: float | None
-    moveInDate: str | None
-    description: str | None
-
-class Prv_trophysignaturehomes_TrophysignaturehomesComparison_Out(TypedDict):
-    a: Prv_trophysignaturehomes_TrophysignaturehomesHomeDetail_Out
-    b: Prv_trophysignaturehomes_TrophysignaturehomesHomeDetail_Out
-    pricePerSqft: Prv_trophysignaturehomes_TrophysignaturehomesComparison_Out_pricePerSqft_Out
-    betterValue: str | None
-
-class Prv_trophysignaturehomes_TrophysignaturehomesComparison_Out_pricePerSqft_Out(TypedDict):
-    a: float | None
-    b: float | None
-
 class Prv_twiddy_searchRentals_options_In(TypedDict):
     town: NotRequired[str]
     minBedrooms: NotRequired[float]
@@ -15414,33 +15357,6 @@ class Prv_trektravel(Protocol):
         find current ones.
         """
 
-class Prv_trophysignaturehomes(Protocol):
-    """Reads Trophy Signature Homes' own live inventory — real move-in-ready and
-    under-construction homes across their Dallas-Ft Worth, Austin and Houston communities,
-    with real street address, price, beds/baths/sqft and status, plus a real side-by-side
-    price-per-sqft compare — the way the site's own search and compare tools would show it.
-    """
-
-    async def searchHomes(self, filters: Prv_trophysignaturehomes_TrophysignaturehomesSearchFilters_In | None = None, /) -> list[Prv_trophysignaturehomes_TrophysignaturehomesHomeSummary_Out]:
-        """Searches Trophy Signature Homes' current live inventory (all metros) by city, community,
-        status, price range, min beds or min sqft. Real addresses, real prices, real
-        availability — never a floor-plan brochure.
-        """
-
-    async def getHome(self, id: str, /) -> Prv_trophysignaturehomes_TrophysignaturehomesHomeDetail_Out:
-        """Reads one home's full detail: address, price, sqft, beds/baths, status, stories,
-        garages, move-in date and the site's own listing description. `id` is a home's `id` or
-        `uniqueName` from `searchHomes()`. THROWS on an unknown id, naming `searchHomes()` as
-        the way to find current ones.
-        """
-
-    async def compareHomes(self, idA: str, idB: str, /) -> Prv_trophysignaturehomes_TrophysignaturehomesComparison_Out:
-        """Runs the site's own compare: reads both homes and computes real price-per-square-foot
-        for each, naming which is the better value. This is the tool ChatGPT could not run on
-        its own — it had to re-read two static pages (one a third-party MLS mirror) to fake the
-        same math.
-        """
-
 class Prv_twiddy(Protocol):
     """Twiddy & Company's own Outer Banks vacation rental search and real-time weekly
     pricing/booking-handoff engine — a regional owner-operator's own 1,000+ property
@@ -15978,7 +15894,6 @@ class BowmarkProviders(Protocol):
     titlenine: Prv_titlenine
     topviewtix: Prv_topviewtix
     trektravel: Prv_trektravel
-    trophysignaturehomes: Prv_trophysignaturehomes
     twiddy: Prv_twiddy
     ulrichlifestyle: Prv_ulrichlifestyle
     vervecoffee: Prv_vervecoffee

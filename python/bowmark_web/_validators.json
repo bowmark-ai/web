@@ -1,5 +1,5 @@
 {
-  "version": "b1daa5aec184eeb0b8346d32639c41fe7881d510bb8f37ddd25bd717d757319a",
+  "version": "cad629ad449ffa7b6e12b0299082209643912c130193213d154764eeb434951f",
   "units": {
     "cars": {
       "defs": {
@@ -15834,101 +15834,6 @@
         "getDeparturePricing": [
           {
             "name": "url",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.trophysignaturehomes": {
-      "defs": {
-        "TrophysignaturehomesSearchFilters": {
-          "k": "object",
-          "props": [
-            {
-              "name": "city",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "community",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "status",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "minPrice",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "maxPrice",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "minBeds",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "minSqft",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        }
-      },
-      "functions": {
-        "searchHomes": [
-          {
-            "name": "filters",
-            "schema": {
-              "k": "ref",
-              "name": "TrophysignaturehomesSearchFilters"
-            },
-            "optional": true
-          }
-        ],
-        "getHome": [
-          {
-            "name": "id",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "compareHomes": [
-          {
-            "name": "idA",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          },
-          {
-            "name": "idB",
             "schema": {
               "k": "string"
             },
