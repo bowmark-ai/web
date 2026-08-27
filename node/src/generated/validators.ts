@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5f04a036da8e38b499020da7ffcabdf2f41847eaacd9457a567ce24c3e06f419
-// 517 checked, 20 unchecked.
+// Manifest version: 447a468ffb0f0aa7ad6bdc616b3b8537693b8c52f6288d696f3ee312ffddaa05
+// 519 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5f04a036da8e38b499020da7ffcabdf2f41847eaacd9457a567ce24c3e06f419",
+  "version": "447a468ffb0f0aa7ad6bdc616b3b8537693b8c52f6288d696f3ee312ffddaa05",
   "units": {
     "cars": {
       "defs": {
@@ -1751,6 +1751,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "AjmadisonSearchArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ancientnutrition": {
+      "defs": {
+        "GutTypeAnswers": {
+          "k": "record",
+          "value": {
+            "k": "string"
+          }
+        }
+      },
+      "functions": {
+        "getGutTypeQuizQuestions": [],
+        "computeGutType": [
+          {
+            "name": "answers",
+            "schema": {
+              "k": "ref",
+              "name": "GutTypeAnswers"
+            },
+            "optional": true
           }
         ]
       }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5f04a036da8e38b499020da7ffcabdf2f41847eaacd9457a567ce24c3e06f419
-// 10 capabilities, 192 providers, 535 typed functions, 20 refused.
+// Manifest version: 447a468ffb0f0aa7ad6bdc616b3b8537693b8c52f6288d696f3ee312ffddaa05
+// 10 capabilities, 193 providers, 537 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1617,6 +1617,67 @@ interface AjmadisonSearchResult {
      * Madison URL). Read-only — never adds to cart or checks out.
      */
     search(args: AjmadisonSearchArgs): Promise<AjmadisonSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_ancientnutrition {
+  // ── Ancient Nutrition — the unit's own declarations, verbatim ──
+// Ancient Nutrition's OWN shapes — not a capability contract.
+
+interface QuizQuestion {
+  questionId: string;
+  title: string;
+  type: "free_form_text" | "email" | "phone" | "multiple_choice";
+  allowSkip: boolean;
+  options?: string[];       // present only for multiple_choice
+}
+
+interface QuizPage {
+  questionPageId: string;
+  question: QuizQuestion;
+}
+
+interface GutTypeProduct {
+  title: string;
+  priceFormatted: string;
+  checkoutUrl: string;      // real checkout link for this exact product
+}
+
+interface GutTypeResult {
+  gutType: string;          // e.g. "Angry Gut"
+  product: GutTypeProduct | null;
+}
+
+interface QuizRun {
+  pages: QuizPage[];        // every page the run showed, in order
+  result: GutTypeResult;
+}
+
+// keyed by the question's own TITLE, e.g. { "How old are you?": "25-34" } —
+// omit a question to skip it (only legal where the site itself allows a skip)
+type GutTypeAnswers = Record<string, string>;
+
+  /**
+   * Ancient Nutrition's own Gut Type Quiz, run for real: walks the site's live Octane AI quiz
+   * question by question and returns the real computed gut type plus the matching SBO Probiotics
+   * product and checkout link — no PII required.
+   */
+  interface Unit {
+    /**
+     * Walks Ancient Nutrition's real Gut Type Quiz along its default path (first option for every
+     * multiple-choice question, both PII-eligible questions skipped) and returns every page it
+     * showed plus the resulting gut type and product — the real live question and option text to
+     * pass to computeGutType.
+     */
+    getGutTypeQuizQuestions(): Promise<QuizRun>;
+
+    /**
+     * Runs Ancient Nutrition's real Gut Type Quiz with the caller's own answers (keyed by question
+     * title) and returns the site's own computed gut type, the matching SBO Probiotics product and
+     * a real checkout link. No PII is required: both name and email are skippable on this quiz.
+     * THROWS naming the real options when an answer does not match the live quiz.
+     */
+    computeGutType(answers?: GutTypeAnswers): Promise<QuizRun>;
   }
 }
 
@@ -20750,6 +20811,7 @@ interface BowmarkProviders {
   abercrombie: BowmarkProvider_abercrombie.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
+  ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
   atlasoceanvoyages: BowmarkProvider_atlasoceanvoyages.Unit;

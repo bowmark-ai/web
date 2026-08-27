@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5f04a036da8e38b499020da7ffcabdf2f41847eaacd9457a567ce24c3e06f419
-# 10 capabilities, 192 providers, 517 typed functions, 20 refused.
+# Manifest version: 447a468ffb0f0aa7ad6bdc616b3b8537693b8c52f6288d696f3ee312ffddaa05
+# 10 capabilities, 193 providers, 519 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1006,6 +1006,30 @@ class Prv_ajmadison_AjmadisonSearchResult_Out(TypedDict):
     price: float
     wasPrice: float | None
     url: str
+
+class Prv_ancientnutrition_QuizRun_Out(TypedDict):
+    pages: list[Prv_ancientnutrition_QuizPage_Out]
+    result: Prv_ancientnutrition_GutTypeResult_Out
+
+class Prv_ancientnutrition_QuizPage_Out(TypedDict):
+    questionPageId: str
+    question: Prv_ancientnutrition_QuizQuestion_Out
+
+class Prv_ancientnutrition_QuizQuestion_Out(TypedDict):
+    questionId: str
+    title: str
+    type: Literal["free_form_text"] | Literal["email"] | Literal["phone"] | Literal["multiple_choice"]
+    allowSkip: bool
+    options: NotRequired[list[str]]
+
+class Prv_ancientnutrition_GutTypeResult_Out(TypedDict):
+    gutType: str
+    product: Prv_ancientnutrition_GutTypeProduct_Out | None
+
+class Prv_ancientnutrition_GutTypeProduct_Out(TypedDict):
+    title: str
+    priceFormatted: str
+    checkoutUrl: str
 
 class Prv_ashleyfurniture_AshleyFurnitureSearchArgs_In(TypedDict):
     query: str
@@ -11163,6 +11187,27 @@ class Prv_ajmadison(Protocol):
         product's own AJ Madison URL). Read-only — never adds to cart or checks out.
         """
 
+class Prv_ancientnutrition(Protocol):
+    """Ancient Nutrition's own Gut Type Quiz, run for real: walks the site's live Octane AI
+    quiz question by question and returns the real computed gut type plus the matching SBO
+    Probiotics product and checkout link — no PII required.
+    """
+
+    async def getGutTypeQuizQuestions(self, /) -> Prv_ancientnutrition_QuizRun_Out:
+        """Walks Ancient Nutrition's real Gut Type Quiz along its default path (first option for
+        every multiple-choice question, both PII-eligible questions skipped) and returns every
+        page it showed plus the resulting gut type and product — the real live question and
+        option text to pass to computeGutType.
+        """
+
+    async def computeGutType(self, answers: Mapping[str, str] | None = None, /) -> Prv_ancientnutrition_QuizRun_Out:
+        """Runs Ancient Nutrition's real Gut Type Quiz with the caller's own answers (keyed by
+        question title) and returns the site's own computed gut type, the matching SBO
+        Probiotics product and a real checkout link. No PII is required: both name and email are
+        skippable on this quiz. THROWS naming the real options when an answer does not match the
+        live quiz.
+        """
+
 class Prv_ashleyfurniture(Protocol):
     """Ashley's furniture and home-goods catalog, search, product detail, store/delivery
     availability, and store locator. search, checkStock and getProduct all read the site's
@@ -17567,6 +17612,7 @@ class BowmarkProviders(Protocol):
     abercrombie: Prv_abercrombie
     aiper: Prv_aiper
     ajmadison: Prv_ajmadison
+    ancientnutrition: Prv_ancientnutrition
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco
     atlasoceanvoyages: Prv_atlasoceanvoyages
