@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4f8d8cc294e48599c276416dce42be077a1d1e1aa2eedbe02d4aa6455b0f708b
-// 10 capabilities, 161 providers, 470 typed functions, 20 refused.
+// Manifest version: a0baf79167ff3a093a3e1d4c30bbd3f69807761201bb8b41a673ac7a077ac963
+// 10 capabilities, 165 providers, 482 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2929,6 +2929,51 @@ interface KoketAddToCartHandoff {
   }
 }
 
+declare namespace BowmarkProvider_califloors {
+  // ── CALI — the unit's own declarations, verbatim ──
+// CALI's OWN shapes — not a capability contract.
+
+interface CaliCategory { name: string; path: string; hasChildren: boolean }
+
+interface CaliProduct {
+  sku: string;
+  name: string;
+  path: string;
+  brand: string | null;
+  price: string | null;      // "$4.00"
+  priceValue: number | null;
+  isSample: boolean;         // the site's own "Sample" custom field
+}
+
+interface CaliProductDetail extends CaliProduct {
+  description: string | null;
+  inStock: boolean;
+  categories: string[];
+}
+
+  /**
+   * CALI's own flooring & decking catalog — the category tree, a keyword search over any
+   * category's first page of live products, and one product's real current price, live in-stock
+   * status and description, including the $4-and-under free-sample SKUs.
+   */
+  interface Unit {
+    /**
+     * CALI's own flooring/decking category tree — every category's site path and whether it has
+     * sub-collections.
+     */
+    listCategories(): Promise<CaliCategory[]>;
+
+    /**
+     * The first page (up to 50) of one category's live listing, e.g. /samples/products for the
+     * free-sample catalog, optionally filtered by a keyword against name/brand.
+     */
+    searchProducts(categoryPath: string, keyword?: string): Promise<{ products: CaliProduct[]; totalItems: number | null }>;
+
+    /** One product's own page — its real current price, live stock and description. */
+    getProduct(path: string): Promise<CaliProductDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_cancer {
   // ── National Cancer Institute (cancer.gov) — the unit's own declarations, verbatim ──
 type cancerCenterDesignation =
@@ -4077,6 +4122,72 @@ interface DavidsonhomesHomeDetail extends DavidsonhomesHomeSummary {
      * `getCommunity()` as the way to find current ones.
      */
     getHome(path: string): Promise<DavidsonhomesHomeDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_deangroup {
+  // ── The Dean Hotel Group — the unit's own declarations, verbatim ──
+interface DeangroupProperty {
+  hotelId: number;
+  name: string;
+  city: string;
+  lat: number;
+  lng: number;
+  fromPriceEUR: number | null;
+}
+interface DeangroupRatePlan {
+  code: string;
+  name: string;
+  amount: number;
+  currency: string;
+  cancellationPolicy: string | null;
+  description: string | null;
+  unitsLeft: number | null;
+}
+interface DeangroupAvailability {
+  hotelId: number;
+  hotelName: string;
+  checkin: string;
+  nights: number;
+  rooms: number;
+  adults: number;
+  currency: string;
+  rates: DeangroupRatePlan[];
+}
+interface DeangroupCalendarRoom {
+  roomTypeId: number;
+  nights: Array<{ date: string; priceEUR: number | null; available: boolean }>;
+}
+interface DeangroupRateCalendar {
+  hotelId: number;
+  checkin: string;
+  currency: string;
+  rooms: DeangroupCalendarRoom[];
+}
+
+  /**
+   * Searches Dean Group boutique hotels (Dublin, Cork, Galway, Berlin) and returns real
+   * availability, room/rate names and priced stays — the actual quote, not a from-price teaser.
+   */
+  interface Unit {
+    /**
+     * Lists every Dean Group hotel with its hotelId, city, coordinates and a from-price teaser.
+     * Fetches and parses the group booking page — no browser.
+     */
+    listProperties(): Promise<DeangroupProperty[]>;
+
+    /**
+     * Runs the real 'Check Availability' search on one property and returns every bookable rate
+     * plan — room/rate name, real price, cancellation policy. Posts to the IBE's own search
+     * endpoint — no browser.
+     */
+    searchAvailability(hotelId: number, checkin: string, nights: number, rooms: number, adults: number, childAges?: number[]): Promise<DeangroupAvailability>;
+
+    /**
+     * Reads 36 nights of per-room-type pricing and sold-out flags starting at checkin, for finding
+     * the cheapest night to stay. Reads the IBE's own calendar endpoint — no browser.
+     */
+    getRateCalendar(hotelId: number, checkin: string, nights: number, adults: number, childAges?: number[]): Promise<DeangroupRateCalendar>;
   }
 }
 
@@ -7477,6 +7588,61 @@ interface healthcare_govLocalHelpResult {
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.healthcare_gov.findLocalHelp` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+  }
+}
+
+declare namespace BowmarkProvider_heatherwood {
+  // ── Heatherwood — Heritage Westminster — the unit's own declarations, verbatim ──
+// Heatherwood's OWN shapes — not a capability contract.
+
+interface HeatherwoodFloorplanSummary {
+  id: string;             // the key getFloorplan takes
+  name: string;            // e.g. "3 Bed 2 Bath"
+  isActive: boolean;
+  tourUrl: string | null;  // a 3D walkthrough, when the site publishes one
+}
+
+interface HeatherwoodUnit {
+  unitName: string;                  // e.g. "2145"
+  price: number;                     // monthly rent, USD
+  available: boolean;
+  availabilityStarts: string | null; // e.g. "01/15/2027"
+  applyUrl: string;                  // real Yardi SecureCafe Apply Now URL, this unit
+}
+
+interface HeatherwoodFloorplanDetail {
+  id: string;
+  name: string;
+  description: string | null;
+  beds: number;
+  baths: number;
+  sqft: number | null;
+  image: string | null;
+  units: HeatherwoodUnit[];
+}
+
+  /**
+   * Reads Heritage Westminster's (a Heatherwood property) own floor-plan search: every
+   * floor-plan type it currently publishes, and — for one type — its real available units right
+   * now, each with real rent, real move-in date and a direct Apply Now handoff into Yardi's
+   * SecureCafe leasing portal.
+   */
+  interface Unit {
+    /**
+     * Lists every floor-plan type Heritage Westminster currently publishes (studio through
+     * 3-bedroom, plus the townhome), each with its own id and active flag. Every entry's `id` is
+     * what `getFloorplan` takes.
+     */
+    listFloorplans(): Promise<HeatherwoodFloorplanSummary[]>;
+
+    /**
+     * Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently
+     * available UNIT under it — real rent, real move-in date, real unit number and a direct Apply
+     * Now handoff URL into Yardi's SecureCafe leasing portal. `id` comes from `listFloorplans()`,
+     * e.g. "6117790". THROWS on an unknown id, naming `listFloorplans()` as the way to find
+     * current ones.
+     */
+    getFloorplan(id: string): Promise<HeatherwoodFloorplanDetail>;
   }
 }
 
@@ -17410,6 +17576,89 @@ interface CoffeeQuizAnswers {
   }
 }
 
+declare namespace BowmarkProvider_vessi {
+  // ── Vessi — the unit's own declarations, verbatim ──
+// Vessi's OWN shapes — not a capability contract.
+
+interface VessiVariant {
+  productHandle: string;
+  productTitle: string;
+  colorway: string;
+  size: string;
+  sku: string;
+  price: number;
+  priceFormatted: string;
+  available: boolean;
+}
+
+interface VessiProduct {
+  handle: string;
+  title: string;
+  productType: string;   // "Shoes" | "Bags" | "Socks" | "Gloves" | "Hats" | "Clothing"
+  url: string;
+  colorways: string[];
+  sizes: string[];
+  priceRange: { min: number; max: number };
+  variants: VessiVariant[];
+}
+
+interface VessiFitGuide {
+  productHandle: string;
+  colorwayName: string;
+  styleDirection: string;         // e.g. "snug"
+  introCopy: string;              // the site's own plain-language fit summary
+  chips: string[];                // e.g. ["whole_sizes_only", "Slightly snug"]
+  sizeChart: { gender: string; headers: string[]; rows: string[][] };
+  // keyed by foot profile, e.g. "standard" | "wide" | "narrow" | "between"
+  recommendations: Record<string, { offsetSizes: number; reason: string }>;
+  returnData: {
+    snugPct: number;
+    loosePct: number;
+    otherPct: number;
+    ratioLabel: string;    // e.g. "2.2 to 1"
+    window: string;        // e.g. "H1 2026 · current (gendered) SKUs"
+    returnedUnits: number; // e.g. 4826
+  };
+}
+
+  /**
+   * Vessi's live Shopify catalog (every style, colorway, size, price and stock) plus its own
+   * per-style fit-guide — a size-offset recommendation computed from real return/exchange volume
+   * for that exact style, not a static chart — off the storefront's own live data rather than a
+   * generic guess.
+   */
+  interface Unit {
+    /**
+     * Lists every Vessi product from the storefront's own live catalog — colorways, sizes, live
+     * prices and stock. `productType` (optional) narrows to one category, e.g. "Shoes" or "Socks".
+     */
+    listProducts(productType?: string): Promise<VessiProduct[]>;
+
+    /**
+     * Searches the live catalog by a fuzzy match on product title or handle, e.g. "weekend
+     * classic" or "tidal sneaker".
+     */
+    searchProducts(query: string): Promise<VessiProduct[]>;
+
+    /**
+     * Reads one product's complete colorway x size grid with live price, SKU and availability — a
+     * handle, e.g. "womens-weekend-classic-marble-white". THROWS on an unrecognized handle, naming
+     * searchProducts() as the way to find current ones.
+     */
+    getProduct(handle: string): Promise<VessiProduct>;
+
+    /**
+     * Reads Vessi's own computed fit-guide for one style — a size-offset recommendation per foot
+     * profile (standard/wide/narrow/between), each backed by that style's real return/exchange
+     * data (a snug/loose/other split and a returned-unit count), rendered inline on the product
+     * page. Returns `null` for a product type with no fit-guide (Socks, Bags, Gloves, Hats,
+     * Clothing) rather than inventing one — call getProduct() first to check productType is
+     * "Shoes".
+     */
+    getFitGuide(handle: string): Promise<VessiFitGuide | null>;
+  }
+}
+
 declare namespace BowmarkProvider_viewrail {
   // ── Viewrail — the unit's own declarations, verbatim ──
 interface ViewrailMaterial {
@@ -19139,6 +19388,7 @@ interface BowmarkProviders {
   boydsleep: BowmarkProvider_boydsleep.Unit;
   brixton: BowmarkProvider_brixton.Unit;
   bykoket: BowmarkProvider_bykoket.Unit;
+  califloors: BowmarkProvider_califloors.Unit;
   cancer: BowmarkProvider_cancer.Unit;
   caraway: BowmarkProvider_caraway.Unit;
   cars: BowmarkProvider_cars.Unit;
@@ -19150,6 +19400,7 @@ interface BowmarkProviders {
   cloudflare: BowmarkProvider_cloudflare.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
+  deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
@@ -19178,6 +19429,7 @@ interface BowmarkProviders {
   hauslabs: BowmarkProvider_hauslabs.Unit;
   haydenhomes: BowmarkProvider_haydenhomes.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
+  heatherwood: BowmarkProvider_heatherwood.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;
   hellotend: BowmarkProvider_hellotend.Unit;
   hilton: BowmarkProvider_hilton.Unit;
@@ -19267,6 +19519,7 @@ interface BowmarkProviders {
   twiddy: BowmarkProvider_twiddy.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   vervecoffee: BowmarkProvider_vervecoffee.Unit;
+  vessi: BowmarkProvider_vessi.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;
   villagerealtyobx: BowmarkProvider_villagerealtyobx.Unit;
   visible: BowmarkProvider_visible.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4f8d8cc294e48599c276416dce42be077a1d1e1aa2eedbe02d4aa6455b0f708b
-# 10 capabilities, 161 providers, 452 typed functions, 20 refused.
+# Manifest version: a0baf79167ff3a093a3e1d4c30bbd3f69807761201bb8b41a673ac7a077ac963
+# 10 capabilities, 165 providers, 464 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1786,6 +1786,36 @@ class Prv_bykoket_KoketAddToCartHandoff_Out(TypedDict):
     inStock: bool
     note: str
 
+class Prv_califloors_CaliCategory_Out(TypedDict):
+    name: str
+    path: str
+    hasChildren: bool
+
+class Prv_califloors_searchProducts_return_Out(TypedDict):
+    products: list[Prv_califloors_CaliProduct_Out]
+    totalItems: float | None
+
+class Prv_califloors_CaliProduct_Out(TypedDict):
+    sku: str
+    name: str
+    path: str
+    brand: str | None
+    price: str | None
+    priceValue: float | None
+    isSample: bool
+
+class Prv_califloors_CaliProductDetail_Out(TypedDict):
+    sku: str
+    name: str
+    path: str
+    brand: str | None
+    price: str | None
+    priceValue: float | None
+    isSample: bool
+    description: str | None
+    inStock: bool
+    categories: list[str]
+
 class Prv_cancer_findCancerCenters_args_In(TypedDict):
     state: NotRequired[str]
 
@@ -2450,6 +2480,48 @@ class Prv_davidsonhomes_DavidsonhomesHomeDetail_Out(TypedDict):
 class Prv_davidsonhomes_DavidsonhomesHomeDetail_Out_coordinates_u0_Out(TypedDict):
     lat: float
     lng: float
+
+class Prv_deangroup_DeangroupProperty_Out(TypedDict):
+    hotelId: float
+    name: str
+    city: str
+    lat: float
+    lng: float
+    fromPriceEUR: float | None
+
+class Prv_deangroup_DeangroupAvailability_Out(TypedDict):
+    hotelId: float
+    hotelName: str
+    checkin: str
+    nights: float
+    rooms: float
+    adults: float
+    currency: str
+    rates: list[Prv_deangroup_DeangroupRatePlan_Out]
+
+class Prv_deangroup_DeangroupRatePlan_Out(TypedDict):
+    code: str
+    name: str
+    amount: float
+    currency: str
+    cancellationPolicy: str | None
+    description: str | None
+    unitsLeft: float | None
+
+class Prv_deangroup_DeangroupRateCalendar_Out(TypedDict):
+    hotelId: float
+    checkin: str
+    currency: str
+    rooms: list[Prv_deangroup_DeangroupCalendarRoom_Out]
+
+class Prv_deangroup_DeangroupCalendarRoom_Out(TypedDict):
+    roomTypeId: float
+    nights: list[Prv_deangroup_DeangroupCalendarRoom_Out_nights_item_Out]
+
+class Prv_deangroup_DeangroupCalendarRoom_Out_nights_item_Out(TypedDict):
+    date: str
+    priceEUR: float | None
+    available: bool
 
 class Prv_decked_DeckedFit_Out(TypedDict):
     vehicleClass: str
@@ -3926,6 +3998,29 @@ class Prv_healthcare_gov_healthcare_govSepAssessment_Out_matches_item_Out(TypedD
     windowDays: float
     windowEndsOn: str
     daysLeft: float
+
+class Prv_heatherwood_HeatherwoodFloorplanSummary_Out(TypedDict):
+    id: str
+    name: str
+    isActive: bool
+    tourUrl: str | None
+
+class Prv_heatherwood_HeatherwoodFloorplanDetail_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    beds: float
+    baths: float
+    sqft: float | None
+    image: str | None
+    units: list[Prv_heatherwood_HeatherwoodUnit_Out]
+
+class Prv_heatherwood_HeatherwoodUnit_Out(TypedDict):
+    unitName: str
+    price: float
+    available: bool
+    availabilityStarts: str | None
+    applyUrl: str
 
 class Prv_hellofresh_HellofreshMeal_Out(TypedDict):
     id: str
@@ -9168,6 +9263,57 @@ class Prv_vervecoffee_VervecoffeeCoffeeMatch_Out_subscriptionPlans_item_Out(Type
     deliveryInterval: str
     priceWithDiscount: str
 
+class Prv_vessi_VessiProduct_Out(TypedDict):
+    handle: str
+    title: str
+    productType: str
+    url: str
+    colorways: list[str]
+    sizes: list[str]
+    priceRange: Prv_vessi_VessiProduct_Out_priceRange_Out
+    variants: list[Prv_vessi_VessiVariant_Out]
+
+class Prv_vessi_VessiProduct_Out_priceRange_Out(TypedDict):
+    min: float
+    max: float
+
+class Prv_vessi_VessiVariant_Out(TypedDict):
+    productHandle: str
+    productTitle: str
+    colorway: str
+    size: str
+    sku: str
+    price: float
+    priceFormatted: str
+    available: bool
+
+class Prv_vessi_VessiFitGuide_Out(TypedDict):
+    productHandle: str
+    colorwayName: str
+    styleDirection: str
+    introCopy: str
+    chips: list[str]
+    sizeChart: Prv_vessi_VessiFitGuide_Out_sizeChart_Out
+    recommendations: Mapping[str, Prv_vessi_VessiFitGuide_Out_recommendations_value_Out]
+    returnData: Prv_vessi_VessiFitGuide_Out_returnData_Out
+
+class Prv_vessi_VessiFitGuide_Out_sizeChart_Out(TypedDict):
+    gender: str
+    headers: list[str]
+    rows: list[list[str]]
+
+class Prv_vessi_VessiFitGuide_Out_recommendations_value_Out(TypedDict):
+    offsetSizes: float
+    reason: str
+
+class Prv_vessi_VessiFitGuide_Out_returnData_Out(TypedDict):
+    snugPct: float
+    loosePct: float
+    otherPct: float
+    ratioLabel: str
+    window: str
+    returnedUnits: float
+
 class Prv_viewrail_ViewrailMaterial_Out(TypedDict):
     slug: str
     title: str
@@ -10782,6 +10928,25 @@ class Prv_bykoket(Protocol):
         supply. Writes nothing.
         """
 
+class Prv_califloors(Protocol):
+    """CALI's own flooring & decking catalog — the category tree, a keyword search over any
+    category's first page of live products, and one product's real current price, live
+    in-stock status and description, including the $4-and-under free-sample SKUs.
+    """
+
+    async def listCategories(self, /) -> list[Prv_califloors_CaliCategory_Out]:
+        """CALI's own flooring/decking category tree — every category's site path and whether it
+        has sub-collections.
+        """
+
+    async def searchProducts(self, categoryPath: str, keyword: str | None = None, /) -> Prv_califloors_searchProducts_return_Out:
+        """The first page (up to 50) of one category's live listing, e.g. /samples/products for the
+        free-sample catalog, optionally filtered by a keyword against name/brand.
+        """
+
+    async def getProduct(self, path: str, /) -> Prv_califloors_CaliProductDetail_Out:
+        """One product's own page — its real current price, live stock and description."""
+
 class Prv_cancer(Protocol):
     """The US National Cancer Institute: PDQ cancer information, the clinical-trial register,
     cancer drugs, NCI-designated cancer centers and the cancer dictionaries. Callable now:
@@ -11176,6 +11341,28 @@ class Prv_davidsonhomes(Protocol):
         `getCommunity()` or `getRegion()`'s community list, e.g.
         "…/bailey-park/available-homes/28-aurora-circle". THROWS on an unknown path, naming
         `getCommunity()` as the way to find current ones.
+        """
+
+class Prv_deangroup(Protocol):
+    """Searches Dean Group boutique hotels (Dublin, Cork, Galway, Berlin) and returns real
+    availability, room/rate names and priced stays — the actual quote, not a from-price
+    teaser.
+    """
+
+    async def listProperties(self, /) -> list[Prv_deangroup_DeangroupProperty_Out]:
+        """Lists every Dean Group hotel with its hotelId, city, coordinates and a from-price
+        teaser. Fetches and parses the group booking page — no browser.
+        """
+
+    async def searchAvailability(self, hotelId: float, checkin: str, nights: float, rooms: float, adults: float, childAges: Sequence[float] | None = None, /) -> Prv_deangroup_DeangroupAvailability_Out:
+        """Runs the real 'Check Availability' search on one property and returns every bookable
+        rate plan — room/rate name, real price, cancellation policy. Posts to the IBE's own
+        search endpoint — no browser.
+        """
+
+    async def getRateCalendar(self, hotelId: float, checkin: str, nights: float, adults: float, childAges: Sequence[float] | None = None, /) -> Prv_deangroup_DeangroupRateCalendar_Out:
+        """Reads 36 nights of per-room-type pricing and sold-out flags starting at checkin, for
+        finding the cheapest night to stay. Reads the IBE's own calendar endpoint — no browser.
         """
 
 class Prv_decked(Protocol):
@@ -12213,6 +12400,27 @@ class Prv_healthcare_gov(Protocol):
     # argument, so there is no honest signature to emit.
     # It is CALLABLE at runtime; `bowmark.providers.healthcare_gov.findLocalHelp` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
+
+class Prv_heatherwood(Protocol):
+    """Reads Heritage Westminster's (a Heatherwood property) own floor-plan search: every
+    floor-plan type it currently publishes, and — for one type — its real available units
+    right now, each with real rent, real move-in date and a direct Apply Now handoff into
+    Yardi's SecureCafe leasing portal.
+    """
+
+    async def listFloorplans(self, /) -> list[Prv_heatherwood_HeatherwoodFloorplanSummary_Out]:
+        """Lists every floor-plan type Heritage Westminster currently publishes (studio through
+        3-bedroom, plus the townhome), each with its own id and active flag. Every entry's `id`
+        is what `getFloorplan` takes.
+        """
+
+    async def getFloorplan(self, id: str, /) -> Prv_heatherwood_HeatherwoodFloorplanDetail_Out:
+        """Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently
+        available UNIT under it — real rent, real move-in date, real unit number and a direct
+        Apply Now handoff URL into Yardi's SecureCafe leasing portal. `id` comes from
+        `listFloorplans()`, e.g. "6117790". THROWS on an unknown id, naming `listFloorplans()`
+        as the way to find current ones.
+        """
 
 class Prv_hellofresh(Protocol):
     """Meal-kit subscription — this week's menu, plan pricing, delivery availability by ZIP,
@@ -15737,6 +15945,39 @@ class Prv_vervecoffee(Protocol):
         matches (see the error for the live option set).
         """
 
+class Prv_vessi(Protocol):
+    """Vessi's live Shopify catalog (every style, colorway, size, price and stock) plus its own
+    per-style fit-guide — a size-offset recommendation computed from real return/exchange
+    volume for that exact style, not a static chart — off the storefront's own live data
+    rather than a generic guess.
+    """
+
+    async def listProducts(self, productType: str | None = None, /) -> list[Prv_vessi_VessiProduct_Out]:
+        """Lists every Vessi product from the storefront's own live catalog — colorways, sizes,
+        live prices and stock. `productType` (optional) narrows to one category, e.g. "Shoes" or
+        "Socks".
+        """
+
+    async def searchProducts(self, query: str, /) -> list[Prv_vessi_VessiProduct_Out]:
+        """Searches the live catalog by a fuzzy match on product title or handle, e.g. "weekend
+        classic" or "tidal sneaker".
+        """
+
+    async def getProduct(self, handle: str, /) -> Prv_vessi_VessiProduct_Out:
+        """Reads one product's complete colorway x size grid with live price, SKU and availability
+        — a handle, e.g. "womens-weekend-classic-marble-white". THROWS on an unrecognized
+        handle, naming searchProducts() as the way to find current ones.
+        """
+
+    async def getFitGuide(self, handle: str, /) -> Prv_vessi_VessiFitGuide_Out | None:
+        """Reads Vessi's own computed fit-guide for one style — a size-offset recommendation per
+        foot profile (standard/wide/narrow/between), each backed by that style's real
+        return/exchange data (a snug/loose/other split and a returned-unit count), rendered
+        inline on the product page. Returns `null` for a product type with no fit-guide (Socks,
+        Bags, Gloves, Hats, Clothing) rather than inventing one — call getProduct() first to
+        check productType is "Shoes".
+        """
+
 class Prv_viewrail(Protocol):
     """Cable railing / floating-stair manufacturer — the material and mounting-style catalog
     behind Victor, Viewrail's own draw-and-quote design app (victor.viewrail.com).
@@ -16078,6 +16319,7 @@ class BowmarkProviders(Protocol):
     boydsleep: Prv_boydsleep
     brixton: Prv_brixton
     bykoket: Prv_bykoket
+    califloors: Prv_califloors
     cancer: Prv_cancer
     caraway: Prv_caraway
     cars: Prv_cars
@@ -16089,6 +16331,7 @@ class BowmarkProviders(Protocol):
     cloudflare: Prv_cloudflare
     cyberpowerpc: Prv_cyberpowerpc
     davidsonhomes: Prv_davidsonhomes
+    deangroup: Prv_deangroup
     decked: Prv_decked
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
@@ -16117,6 +16360,7 @@ class BowmarkProviders(Protocol):
     hauslabs: Prv_hauslabs
     haydenhomes: Prv_haydenhomes
     healthcare_gov: Prv_healthcare_gov
+    heatherwood: Prv_heatherwood
     hellofresh: Prv_hellofresh
     hellotend: Prv_hellotend
     hilton: Prv_hilton
@@ -16206,6 +16450,7 @@ class BowmarkProviders(Protocol):
     twiddy: Prv_twiddy
     ulrichlifestyle: Prv_ulrichlifestyle
     vervecoffee: Prv_vervecoffee
+    vessi: Prv_vessi
     viewrail: Prv_viewrail
     villagerealtyobx: Prv_villagerealtyobx
     visible: Prv_visible

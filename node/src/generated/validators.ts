@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4f8d8cc294e48599c276416dce42be077a1d1e1aa2eedbe02d4aa6455b0f708b
-// 452 checked, 20 unchecked.
+// Manifest version: a0baf79167ff3a093a3e1d4c30bbd3f69807761201bb8b41a673ac7a077ac963
+// 464 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4f8d8cc294e48599c276416dce42be077a1d1e1aa2eedbe02d4aa6455b0f708b",
+  "version": "a0baf79167ff3a093a3e1d4c30bbd3f69807761201bb8b41a673ac7a077ac963",
   "units": {
     "cars": {
       "defs": {
@@ -2801,6 +2801,37 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.califloors": {
+      "defs": {},
+      "functions": {
+        "listCategories": [],
+        "searchProducts": [
+          {
+            "name": "categoryPath",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "keyword",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.cancer": {
       "defs": {},
       "functions": {
@@ -3860,6 +3891,99 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.deangroup": {
+      "defs": {},
+      "functions": {
+        "listProperties": [],
+        "searchAvailability": [
+          {
+            "name": "hotelId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "checkin",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "nights",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "rooms",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "adults",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "childAges",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "number"
+              }
+            },
+            "optional": true
+          }
+        ],
+        "getRateCalendar": [
+          {
+            "name": "hotelId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "checkin",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "nights",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "adults",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "childAges",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "number"
+              }
+            },
+            "optional": true
           }
         ]
       }
@@ -6029,6 +6153,21 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "estimateEligibility": null,
         "findLocalHelp": null
+      }
+    },
+    "providers.heatherwood": {
+      "defs": {},
+      "functions": {
+        "listFloorplans": [],
+        "getFloorplan": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.hellofresh": {
@@ -16503,6 +16642,47 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CoffeeQuizAnswers"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.vessi": {
+      "defs": {},
+      "functions": {
+        "listProducts": [
+          {
+            "name": "productType",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getFitGuide": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

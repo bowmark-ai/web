@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 846 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 858 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -92,6 +92,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bykoket.addToCart` | bykoket.com | Hands back the shopper's own KOKET product page — the exact Add to cart button for… | 🟢 |
 | `bykoket.getProduct` | bykoket.com | Reads one KOKET product's live page — price (list and current, since KOKET runs… | 🟢 |
 | `bykoket.searchProducts` | bykoket.com | Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each… | 🟢 |
+| `califloors.getProduct` | califloors.com | Reads one product's own detail page — its real current price, live stock status… | 🟢 |
+| `califloors.listCategories` | califloors.com | Lists CALI's own flooring and decking category tree — Vinyl, Hardwood, Laminate… | 🟢 |
+| `califloors.searchProducts` | califloors.com | Browses one category (from `listCategories`, e.g. the free-sample category or a… | 🟢 |
 | `cancer.findCancerCenters` | cancer.gov | Returns the NCI-Designated Cancer Centers — the institutions NCI itself certifies as… | 🟢 |
 | `cancer.getCancerInfoSummary` | cancer.gov | Returns NCI's own PDQ information summary for one cancer type or topic — what the… | 🟢 |
 | `cancer.getCancerStatistics` | cancer.gov | Returns NCI's published statistics for a cancer type — new cases and deaths per year… | ⚪ |
@@ -147,6 +150,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `davidsonhomes.getHome` | davidsonhomes.com | Reads one specific home's own listing page: address, price, sqft, bed/bath count… | 🟢 |
 | `davidsonhomes.getRegion` | davidsonhomes.com | Reads one region's own page: every community in it with a real live price/bed/sqft… | 🟢 |
 | `davidsonhomes.listRegions` | davidsonhomes.com | Lists every market region Davidson Homes currently builds in — state/metro area, live… | 🟢 |
+| `deangroup.getRateCalendar` | deangroup.com | Reads 36 consecutive nights of per-night pricing and sold-out flags for one property… | 🟢 |
+| `deangroup.listProperties` | deangroup.com | Lists every Dean Group hotel — Dublin Centre, Cork, Galway, Dublin Docklands, Berlin —… | 🟢 |
+| `deangroup.searchAvailability` | deangroup.com | Searches one property for a date range and party size and returns every bookable rate… | 🟢 |
 | `decked.getVehicleClass` | decked.com | Reads one vehicle class's complete fit list — every model it fits, each with its own… | 🟢 |
 | `decked.priceCabSideOption` | decked.com | Prices the Load Floor vs Cab-side Gap 8'-bed accessory-pack option for one vehicle +… | 🟢 |
 | `decked.resolveFitment` | decked.com | Resolves a free-text vehicle to its real fitted SKU and live price, mirroring the… | 🟢 |
@@ -334,6 +340,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `healthcare_gov.searchDrugs` | healthcare.gov | Searches the Marketplace's drug reference by name and returns matching drugs with… | ⚪ |
 | `healthcare_gov.searchPlans` | healthcare.gov | Returns the ACA Marketplace health plans available to a household — for a ZIP… | 🟢 |
 | `healthcare_gov.searchProviders` | healthcare.gov | Searches the Marketplace's own provider directory by name and location and returns… | ⚪ |
+| `heatherwood.getFloorplan` | heatherwood.com | Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently… | 🟢 |
+| `heatherwood.listFloorplans` | heatherwood.com | Lists every floor-plan TYPE Heritage Westminster publishes (studio through 3-bedroom… | 🟢 |
 | `hellofresh.checkDeliveryAvailability` | hellofresh.com | Answers whether HelloFresh delivers to a given ZIP code, and which delivery days that… | 🟢 |
 | `hellofresh.getPlanPricing` | hellofresh.com | Prices a plan configuration — meals per week x servings per meal — into the numbers a… | ⚪ |
 | `hellofresh.getRecipe` | hellofresh.com | Reads one recipe page in full for a recipe URL or bare id that `getWeeklyMenu` (or the… | 🟢 |
@@ -803,6 +811,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
 | `vervecoffee.listRoastersChoiceSubscriptions` | vervecoffee.com | Lists Verve's five real Roaster's Choice coffee subscription products (single origin… | 🟢 |
 | `vervecoffee.matchCoffeeSubscription` | vervecoffee.com | Runs Verve's real 'Find Your Coffee Match' quiz end to end — the same 5 questions… | 🟢 |
+| `vessi.getFitGuide` | vessi.com | Reads Vessi's own computed per-style fit-guide — a size-offset recommendation per foot… | 🟢 |
+| `vessi.getProduct` | vessi.com | Reads one product's complete colorway x size grid with live price, SKU and availability. | 🟢 |
+| `vessi.listProducts` | vessi.com | Lists every Vessi product from the storefront's own live catalog, optionally narrowed… | 🟢 |
+| `vessi.searchProducts` | vessi.com | Searches the live catalog by a fuzzy match on product title or handle. | 🟢 |
 | `viewrail.getDesignEstimate` | viewrail.com | Submits a drawn Victor layout (posts, runs, materials, mounting style) and returns the… | ⚪ |
 | `viewrail.listInfillOptions` | viewrail.com | Lists Victor's infill choices for a run — stainless cable, rod, or glass panel — with… | ⚪ |
 | `viewrail.listMaterials` | viewrail.com | Lists the metal and metal-look composite families Victor's cable railing configurator… | 🟢 |
