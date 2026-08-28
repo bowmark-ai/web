@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cad763a89f203eb0c23a88f734a560fbf9ef8ef19c76011ae4e31242280cc7de
-// 560 checked, 20 unchecked.
+// Manifest version: 32242f651eecfd4441ac5f63fc5c8d183cd2f21b0f0f79559b552f432b17eda0
+// 563 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cad763a89f203eb0c23a88f734a560fbf9ef8ef19c76011ae4e31242280cc7de",
+  "version": "32242f651eecfd4441ac5f63fc5c8d183cd2f21b0f0f79559b552f432b17eda0",
   "units": {
     "cars": {
       "defs": {
@@ -1334,6 +1334,27 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "weather": {
+      "defs": {},
+      "functions": {
+        "forecast": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "days",
+            "schema": {
+              "k": "number"
             },
             "optional": true
           }
@@ -4412,6 +4433,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ClasspassScheduleOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.cleanairlawncare": {
+      "defs": {},
+      "functions": {
+        "checkServiceArea": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailableSlots": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
           }
         ]
       }

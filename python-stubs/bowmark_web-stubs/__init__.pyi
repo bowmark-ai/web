@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cad763a89f203eb0c23a88f734a560fbf9ef8ef19c76011ae4e31242280cc7de
-# 10 capabilities, 213 providers, 560 typed functions, 20 refused.
+# Manifest version: 32242f651eecfd4441ac5f63fc5c8d183cd2f21b0f0f79559b552f432b17eda0
+# 11 capabilities, 214 providers, 563 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -736,6 +736,23 @@ class Cap_sheds_ShedDealer_Out(TypedDict):
     zip: str
     phone: str | None
     url: str
+
+class Cap_weather_ForecastResult_Out(TypedDict):
+    location: str
+    resolvedName: str
+    latitude: float
+    longitude: float
+    timezone: str
+    days: list[Cap_weather_ForecastDay_Out]
+    warnings: list[str]
+
+class Cap_weather_ForecastDay_Out(TypedDict):
+    date: str
+    tempMaxC: float
+    tempMinC: float
+    precipitationMm: float
+    weatherCode: float
+    summary: str
 
 class Prv_aa_aaBaggageAllowanceArgs_In(TypedDict):
     origin: str
@@ -2675,6 +2692,38 @@ class Prv_classpass_ClasspassSession_Out(TypedDict):
     availability: str | None
     isLivestream: bool
     demandSignals: list[str]
+
+class Prv_cleanairlawncare_CheckServiceAreaResult_Out(TypedDict):
+    zip: str
+    inServiceArea: bool
+    org: Prv_cleanairlawncare_CleanAirOrg_Out | None
+    widgetUrl: str
+
+class Prv_cleanairlawncare_CleanAirOrg_Out(TypedDict):
+    id: str
+    name: str
+    brand_type: str
+    scheduling_enabled: bool
+    estimate_availability: Prv_cleanairlawncare_CleanAirEstimateAvailability_Out | None
+
+class Prv_cleanairlawncare_CleanAirEstimateAvailability_Out(TypedDict):
+    days_out: float
+    daily_cap: float
+    slot_minutes: float
+    recurring: Mapping[str, tuple[str, str]]
+    overrides: Mapping[str, tuple[str, str] | tuple[()]]
+
+class Prv_cleanairlawncare_GetAvailableSlotsResult_Out(TypedDict):
+    zip: str
+    inServiceArea: bool
+    schedulingEnabled: bool
+    org: Prv_cleanairlawncare_CleanAirOrg_Out | None
+    slots: list[Prv_cleanairlawncare_AvailableSlot_Out]
+    widgetUrl: str
+
+class Prv_cleanairlawncare_AvailableSlot_Out(TypedDict):
+    date: str
+    time: str
 
 class Prv_cloudflare_CloudflareComparePlansResult_Out(TypedDict):
     tiers: list[Prv_cloudflare_CloudflarePlanTier_Out]
@@ -11626,6 +11675,17 @@ class Cap_sheds(Protocol):
         as "no dealers in that state".
         """
 
+class Cap_weather(Protocol):
+    """The daily forecast for any place on earth — high/low, precipitation and conditions,
+    geocoded from a plain place name.
+    """
+
+    async def forecast(self, location: str, days: float | None = None, /) -> Cap_weather_ForecastResult_Out:
+        """Geocodes a place name and returns its daily forecast (default 5 days, max 16 —
+        Open-Meteo's own ceiling). Reports the resolved place name alongside what was asked for,
+        since a name like "Springfield" is ambiguous and worth comparing.
+        """
+
 class Prv_aa(Protocol):
     """American Airlines' own site — its published fares and award availability, flight status,
     reservation lookup, seat maps, baggage allowance and fee schedules. Flight status,
@@ -12883,6 +12943,26 @@ class Prv_classpass(Protocol):
         sessions — "closed today" and "I never looked" are different answers. A studio that has
         LEFT ClassPass throws a caller-fixable error quoting the site's own reason ("Venue
         disabled") rather than returning an empty timetable that reads like a quiet day.
+        """
+
+class Prv_cleanairlawncare(Protocol):
+    """Eco lawn-care franchise. checkServiceArea and getAvailableSlots are live — a zip-code
+    area check against the real caw-estimate-widget backend, plus the real per-franchise
+    computed availability calendar. submitEstimateRequest (the final CRM lead) is a stub —
+    Broadcast stays read/compute-only here, handing off to the site's own widget instead.
+    """
+
+    async def checkServiceArea(self, args: Any, /) -> Prv_cleanairlawncare_CheckServiceAreaResult_Out:
+        """Checks a 5-digit US zip (`zip`) against Clean Air Lawn Care's live caw-estimate-widget
+        backend — the same area lookup the site's own homepage widget runs — and returns whether
+        it's in-area, the local franchise org that would service it, and whether that org has
+        online scheduling enabled.
+        """
+
+    async def getAvailableSlots(self, args: Any, /) -> Prv_cleanairlawncare_GetAvailableSlotsResult_Out:
+        """For a zip (`zip`), runs the same area check as checkServiceArea and, when the resolved
+        org has online scheduling enabled, returns the real candidate date/time slots computed
+        from that org's own recurring-hours + daily-cap + override calendar config.
         """
 
 class Prv_cloudflare(Protocol):
@@ -18666,6 +18746,7 @@ class BowmarkProviders(Protocol):
     chriscraft: Prv_chriscraft
     classichome: Prv_classichome
     classpass: Prv_classpass
+    cleanairlawncare: Prv_cleanairlawncare
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
     consultnet: Prv_consultnet
@@ -18854,4 +18935,5 @@ class Bowmark(Protocol):
     read: Cap_read
     search: Cap_search
     sheds: Cap_sheds
+    weather: Cap_weather
     providers: BowmarkProviders

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cad763a89f203eb0c23a88f734a560fbf9ef8ef19c76011ae4e31242280cc7de
-// 10 capabilities, 213 providers, 578 typed functions, 20 refused.
+// Manifest version: 32242f651eecfd4441ac5f63fc5c8d183cd2f21b0f0f79559b552f432b17eda0
+// 11 capabilities, 214 providers, 581 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1072,6 +1072,42 @@ type CallOptions = {
      * rather than returning an empty list, which would read as "no dealers in that state".
      */
     findDealers(state: string, options?: CallOptions): Promise<ShedDealerResult>;
+  }
+}
+
+declare namespace BowmarkCapability_weather {
+  // ── Weather forecast for a place — the unit's own declarations, verbatim ──
+
+interface ForecastDay {
+  date: string             // ISO date (YYYY-MM-DD), the location's own timezone
+  tempMaxC: number
+  tempMinC: number
+  precipitationMm: number
+  weatherCode: number       // Open-Meteo's own WMO code
+  summary: string           // a short gloss of weatherCode, e.g. "light rain"
+}
+
+interface ForecastResult {
+  location: string          // what the caller passed
+  resolvedName: string      // the place name the geocoder actually resolved
+  latitude: number
+  longitude: number
+  timezone: string
+  days: ForecastDay[]
+  warnings: string[]
+}
+
+  /**
+   * The daily forecast for any place on earth — high/low, precipitation and conditions, geocoded
+   * from a plain place name.
+   */
+  interface Unit {
+    /**
+     * Geocodes a place name and returns its daily forecast (default 5 days, max 16 — Open-Meteo's
+     * own ceiling). Reports the resolved place name alongside what was asked for, since a name
+     * like "Springfield" is ambiguous and worth comparing.
+     */
+    forecast(location: string, days?: number): Promise<ForecastResult>;
   }
 }
 
@@ -4570,6 +4606,69 @@ interface ClasspassSearchResult {
      * like a quiet day.
      */
     getSchedule(studio: number | string, options?: ClasspassScheduleOptions): Promise<ClasspassSchedule>;
+  }
+}
+
+declare namespace BowmarkProvider_cleanairlawncare {
+  // ── Clean Air Lawn Care — the unit's own declarations, verbatim ──
+interface CleanAirEstimateAvailability {
+  days_out: number;
+  daily_cap: number;
+  slot_minutes: number;
+  recurring: Record<string, [string, string]>;
+  overrides: Record<string, [string, string] | []>;
+}
+
+interface CleanAirOrg {
+  id: string;
+  name: string;
+  brand_type: string;
+  scheduling_enabled: boolean;
+  estimate_availability: CleanAirEstimateAvailability | null;
+}
+
+interface CheckServiceAreaResult {
+  zip: string;
+  inServiceArea: boolean;
+  org: CleanAirOrg | null;
+  widgetUrl: string;
+}
+
+interface AvailableSlot {
+  date: string;
+  time: string;
+}
+
+interface GetAvailableSlotsResult {
+  zip: string;
+  inServiceArea: boolean;
+  schedulingEnabled: boolean;
+  org: CleanAirOrg | null;
+  slots: AvailableSlot[];
+  widgetUrl: string;
+}
+
+  /**
+   * Eco lawn-care franchise. checkServiceArea and getAvailableSlots are live — a zip-code area
+   * check against the real caw-estimate-widget backend, plus the real per-franchise computed
+   * availability calendar. submitEstimateRequest (the final CRM lead) is a stub — Broadcast
+   * stays read/compute-only here, handing off to the site's own widget instead.
+   */
+  interface Unit {
+    /**
+     * Checks a 5-digit US zip (`zip`) against Clean Air Lawn Care's live caw-estimate-widget
+     * backend — the same area lookup the site's own homepage widget runs — and returns whether
+     * it's in-area, the local franchise org that would service it, and whether that org has online
+     * scheduling enabled.
+     */
+    checkServiceArea(args: object): Promise<CheckServiceAreaResult>;
+
+    /**
+     * For a zip (`zip`), runs the same area check as checkServiceArea and, when the resolved org
+     * has online scheduling enabled, returns the real candidate date/time slots computed from that
+     * org's own recurring-hours + daily-cap + override calendar config.
+     */
+    getAvailableSlots(args: object): Promise<GetAvailableSlotsResult>;
   }
 }
 
@@ -21965,6 +22064,7 @@ interface BowmarkProviders {
   chriscraft: BowmarkProvider_chriscraft.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classpass: BowmarkProvider_classpass.Unit;
+  cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
@@ -73866,5 +73966,6 @@ interface BowmarkLibrary {
   read: BowmarkCapability_read.Unit;
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
+  weather: BowmarkCapability_weather.Unit;
   providers: BowmarkProviders;
 }
