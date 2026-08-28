@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: dfd84658d94edba1fdad9b313ddb1b69e5f6bb93108a4473586cffd4026e0f19
-// 568 checked, 20 unchecked.
+// Manifest version: 948709f09bfbdad65cbf15e740c21061094925c510b615e9972aa2d03ce1afa5
+// 570 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "dfd84658d94edba1fdad9b313ddb1b69e5f6bb93108a4473586cffd4026e0f19",
+  "version": "948709f09bfbdad65cbf15e740c21061094925c510b615e9972aa2d03ce1afa5",
   "units": {
     "cars": {
       "defs": {
@@ -1867,6 +1867,21 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GutTypeAnswers"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.archipelago": {
+      "defs": {},
+      "functions": {
+        "getClientRelease": [],
+        "getGameOptions": [
+          {
+            "name": "game",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

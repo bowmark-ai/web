@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dfd84658d94edba1fdad9b313ddb1b69e5f6bb93108a4473586cffd4026e0f19
-// 13 capabilities, 217 providers, 586 typed functions, 20 refused.
+// Manifest version: 948709f09bfbdad65cbf15e740c21061094925c510b615e9972aa2d03ce1afa5
+// 13 capabilities, 218 providers, 588 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1821,6 +1821,52 @@ type GutTypeAnswers = Record<string, string>;
      * THROWS naming the real options when an answer does not match the live quiz.
      */
     computeGutType(answers?: GutTypeAnswers): Promise<QuizRun>;
+  }
+}
+
+declare namespace BowmarkProvider_archipelago {
+  // ── Archipelago — the unit's own declarations, verbatim ──
+interface ArchipelagoAsset {
+  name: string;
+  platform: "windows" | "linux" | "android" | "macos" | "unknown";
+  downloadUrl: string;
+  size: number;
+}
+interface ArchipelagoRelease {
+  version: string;
+  url: string;
+  publishedAt: string;
+  assets: ArchipelagoAsset[];
+}
+interface ArchipelagoGameOptions {
+  game: string;
+  yaml: string;
+}
+
+  /**
+   * Archipelago — the open-source multiworld/randomizer tool for game speedrunning communities.
+   * Reads the latest client release straight from GitHub (every platform installer, with its
+   * direct download URL) and archipelago.gg's own published per-game randomizer-options YAML
+   * template, no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Returns the latest published Archipelago client release from GitHub — the version tag, the
+     * release page URL, and every platform asset (Windows .exe, Linux .AppImage/.tar.gz, Android
+     * .apk) with its direct download URL and byte size. Takes nothing. THROWS on a transport
+     * failure and on a release payload with no downloadable assets, so a caller can distinguish a
+     * real answer from an outage.
+     */
+    getClientRelease(): Promise<ArchipelagoRelease>;
+
+    /**
+     * Returns one game's per-player randomizer-options YAML template exactly as archipelago.gg
+     * publishes it — the file a real Archipelago multiworld generator player YAML is built from,
+     * comments and all. `game` must match archipelago.gg's own display name (e.g. "Factorio").
+     * THROWS a caller-fixable error naming the mismatch when the game does not exist on the site
+     * (a 404), so a caller can retry with the exact spelling.
+     */
+    getGameOptions(game: string): Promise<ArchipelagoGameOptions>;
   }
 }
 
@@ -22209,6 +22255,7 @@ interface BowmarkProviders {
   ajmadison: BowmarkProvider_ajmadison.Unit;
   amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
+  archipelago: BowmarkProvider_archipelago.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
   atlasoceanvoyages: BowmarkProvider_atlasoceanvoyages.Unit;

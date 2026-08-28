@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dfd84658d94edba1fdad9b313ddb1b69e5f6bb93108a4473586cffd4026e0f19
-# 13 capabilities, 217 providers, 568 typed functions, 20 refused.
+# Manifest version: 948709f09bfbdad65cbf15e740c21061094925c510b615e9972aa2d03ce1afa5
+# 13 capabilities, 218 providers, 570 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1088,6 +1088,22 @@ class Prv_ancientnutrition_GutTypeProduct_Out(TypedDict):
     title: str
     priceFormatted: str
     checkoutUrl: str
+
+class Prv_archipelago_ArchipelagoRelease_Out(TypedDict):
+    version: str
+    url: str
+    publishedAt: str
+    assets: list[Prv_archipelago_ArchipelagoAsset_Out]
+
+class Prv_archipelago_ArchipelagoAsset_Out(TypedDict):
+    name: str
+    platform: Literal["windows"] | Literal["linux"] | Literal["android"] | Literal["macos"] | Literal["unknown"]
+    downloadUrl: str
+    size: float
+
+class Prv_archipelago_ArchipelagoGameOptions_Out(TypedDict):
+    game: str
+    yaml: str
 
 class Prv_ashleyfurniture_AshleyFurnitureSearchArgs_In(TypedDict):
     query: str
@@ -12007,6 +12023,29 @@ class Prv_ancientnutrition(Protocol):
         live quiz.
         """
 
+class Prv_archipelago(Protocol):
+    """Archipelago — the open-source multiworld/randomizer tool for game speedrunning
+    communities. Reads the latest client release straight from GitHub (every platform
+    installer, with its direct download URL) and archipelago.gg's own published per-game
+    randomizer-options YAML template, no key, no browser.
+    """
+
+    async def getClientRelease(self, /) -> Prv_archipelago_ArchipelagoRelease_Out:
+        """Returns the latest published Archipelago client release from GitHub — the version tag,
+        the release page URL, and every platform asset (Windows .exe, Linux .AppImage/.tar.gz,
+        Android .apk) with its direct download URL and byte size. Takes nothing. THROWS on a
+        transport failure and on a release payload with no downloadable assets, so a caller can
+        distinguish a real answer from an outage.
+        """
+
+    async def getGameOptions(self, game: str, /) -> Prv_archipelago_ArchipelagoGameOptions_Out:
+        """Returns one game's per-player randomizer-options YAML template exactly as archipelago.gg
+        publishes it — the file a real Archipelago multiworld generator player YAML is built
+        from, comments and all. `game` must match archipelago.gg's own display name (e.g.
+        "Factorio"). THROWS a caller-fixable error naming the mismatch when the game does not
+        exist on the site (a 404), so a caller can retry with the exact spelling.
+        """
+
 class Prv_ashleyfurniture(Protocol):
     """Ashley's furniture and home-goods catalog, search, product detail, store/delivery
     availability, and store locator. search, checkStock and getProduct all read the site's
@@ -18871,6 +18910,7 @@ class BowmarkProviders(Protocol):
     ajmadison: Prv_ajmadison
     amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition
+    archipelago: Prv_archipelago
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco
     atlasoceanvoyages: Prv_atlasoceanvoyages
