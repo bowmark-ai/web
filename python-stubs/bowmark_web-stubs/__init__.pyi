@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dda8aa3f024d05a77ebc5bcce7a8595541e0860eb03c0e2ba26c98e7d0c42911
-# 12 capabilities, 216 providers, 566 typed functions, 20 refused.
+# Manifest version: 0f294b9f37ab974b2d5a419dd2624dc2f6473112a33079a9a7cc503c0ecb0165
+# 13 capabilities, 216 providers, 567 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -598,6 +598,22 @@ class Cap_pcparts_Spec_Out(TypedDict):
     group: str
     name: str
     value: str
+
+class Cap_products_ProductAvailability_Out(TypedDict):
+    url: str
+    requestedUrl: str
+    status: float
+    ok: bool
+    title: str | None
+    price: Cap_products_ProductAvailability_Out_price_u0_Out | None
+    availability: str | None
+    source: Literal["ld+json"] | Literal["microdata"] | Literal["none"]
+    error: str | None
+    warnings: list[str]
+
+class Cap_products_ProductAvailability_Out_price_u0_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Cap_promocodes_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -11633,6 +11649,17 @@ class Cap_pcparts(Protocol):
         would misread as "this product has no specs".
         """
 
+class Cap_products(Protocol):
+    """Given a product page's url, returns its current price and stock status — reading the
+    page's own schema.org markup rather than guessing from the DOM.
+    """
+
+    async def getAvailability(self, url: str, /) -> Cap_products_ProductAvailability_Out:
+        """Reads one product page and returns its price and stock status, from the page's own
+        schema.org Product/Offer markup — no browser, no per-site adapter. Reports a failure or
+        an unread page IN the result rather than throwing.
+        """
+
 class Cap_promocodes(Protocol):
     """Looks up currently-known promo codes and checkout discounts for a merchant by domain —
     the code string (when one exists), human discount text, title, description, whether the
@@ -19035,6 +19062,7 @@ class Bowmark(Protocol):
     insurance: Cap_insurance
     music: Cap_music
     pcparts: Cap_pcparts
+    products: Cap_products
     promocodes: Cap_promocodes
     read: Cap_read
     search: Cap_search

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: dda8aa3f024d05a77ebc5bcce7a8595541e0860eb03c0e2ba26c98e7d0c42911
-// 566 checked, 20 unchecked.
+// Manifest version: 0f294b9f37ab974b2d5a419dd2624dc2f6473112a33079a9a7cc503c0ecb0165
+// 567 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "dda8aa3f024d05a77ebc5bcce7a8595541e0860eb03c0e2ba26c98e7d0c42911",
+  "version": "0f294b9f37ab974b2d5a419dd2624dc2f6473112a33079a9a7cc503c0ecb0165",
   "units": {
     "cars": {
       "defs": {
@@ -1003,6 +1003,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "products": {
+      "defs": {},
+      "functions": {
+        "getAvailability": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

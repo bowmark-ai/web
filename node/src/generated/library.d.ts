@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dda8aa3f024d05a77ebc5bcce7a8595541e0860eb03c0e2ba26c98e7d0c42911
-// 12 capabilities, 216 providers, 584 typed functions, 20 refused.
+// Manifest version: 0f294b9f37ab974b2d5a419dd2624dc2f6473112a33079a9a7cc503c0ecb0165
+// 13 capabilities, 216 providers, 585 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -813,6 +813,35 @@ type ProductResult = {
      * product has no specs".
      */
     getProduct(urlOrOffer: string | Offer, options?: CallOptions): Promise<ProductResult>;
+  }
+}
+
+declare namespace BowmarkCapability_products {
+  // ── Check a product page's price and stock availability — the unit's own declarations, verbatim ──
+interface ProductAvailability {
+  url: string
+  requestedUrl: string
+  status: number
+  ok: boolean
+  title: string | null
+  price: { amount: number; currency: string } | null   // integer minor units
+  availability: string | null   // "InStock" | "OutOfStock" | "PreOrder" | "BackOrder" | …
+  source: "ld+json" | "microdata" | "none"
+  error: string | null
+  warnings: string[]
+}
+
+  /**
+   * Given a product page's url, returns its current price and stock status — reading the page's
+   * own schema.org markup rather than guessing from the DOM.
+   */
+  interface Unit {
+    /**
+     * Reads one product page and returns its price and stock status, from the page's own
+     * schema.org Product/Offer markup — no browser, no per-site adapter. Reports a failure or an
+     * unread page IN the result rather than throwing.
+     */
+    getAvailability(url: string): Promise<ProductAvailability>;
   }
 }
 
@@ -74086,6 +74115,7 @@ interface BowmarkLibrary {
   insurance: BowmarkCapability_insurance.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
+  products: BowmarkCapability_products.Unit;
   promocodes: BowmarkCapability_promocodes.Unit;
   read: BowmarkCapability_read.Unit;
   search: BowmarkCapability_search.Unit;
