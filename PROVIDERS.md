@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 973 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 974 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -233,6 +233,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
 | `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🟢 |
+| `ebay.soldPrices` | ebay.com | What items ACTUALLY sold for — eBay's completed/sold listings. | ⚪ |
 | `embroker.getBusinessInsuranceQuote` | embroker.com | Returns a priced business-insurance coverage package for a company's profile… | ⚪ |
 | `embroker.getQuoteEntryPoint` | embroker.com | Returns the live entry URL for Embroker's self-serve quote wizard for one coverage… | 🟢 |
 | `embroker.listCoverageLines` | embroker.com | Returns the real list of commercial-insurance coverage lines and policy product types… | 🟢 |
@@ -786,20 +787,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `semihandmade.getPartOptions` | semihandmade.com | Reads one part's real live size grid: every real size combination with its own real… | 🟢 |
 | `semihandmade.priceConfiguration` | semihandmade.com | Resolves one exact size selection to Semihandmade's own real price, availability and… | 🟢 |
 | `semihandmade.searchParts` | semihandmade.com | Searches Semihandmade's real catalog for one IKEA cabinet system (Sektion, Akurum… | 🟢 |
-| `shopify.addToCart` | shopify.com (51714 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
-| `shopify.getCart` | shopify.com (51714 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
-| `shopify.getCollection` | shopify.com (51714 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
-| `shopify.getProduct` | shopify.com (51714 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
-| `shopify.getProducts` | shopify.com (51714 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
-| `shopify.getSetEvidence` | shopify.com (51714 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
-| `shopify.getShippingRates` | shopify.com (51714 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
-| `shopify.getStyleDetails` | shopify.com (51714 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |
-| `shopify.listCollections` | shopify.com (51714 stores) | Lists the store's own merchandised collections. | 🟢 |
-| `shopify.listProducts` | shopify.com (51714 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
-| `shopify.removeFromCart` | shopify.com (51714 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
-| `shopify.resolveProductUrl` | shopify.com (51714 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
-| `shopify.search` | shopify.com (51714 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
-| `shopify.searchPolicies` | shopify.com (51714 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
+| `shopify.addToCart` | shopify.com (51715 stores) | Puts variants into THIS run's own cart on the store and returns the cart the store… | 🟢 |
+| `shopify.getCart` | shopify.com (51715 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
+| `shopify.getCollection` | shopify.com (51715 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
+| `shopify.getProduct` | shopify.com (51715 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
+| `shopify.getProducts` | shopify.com (51715 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
+| `shopify.getSetEvidence` | shopify.com (51715 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
+| `shopify.getShippingRates` | shopify.com (51715 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
+| `shopify.getStyleDetails` | shopify.com (51715 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |
+| `shopify.listCollections` | shopify.com (51715 stores) | Lists the store's own merchandised collections. | 🟢 |
+| `shopify.listProducts` | shopify.com (51715 stores) | Walks the store's WHOLE catalogue a page at a time, in its own merchandised order —… | 🟢 |
+| `shopify.removeFromCart` | shopify.com (51715 stores) | Takes a line back out of this run's cart, or changes its quantity, so a caller can… | ⚪ |
+| `shopify.resolveProductUrl` | shopify.com (51715 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
+| `shopify.search` | shopify.com (51715 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
+| `shopify.searchPolicies` | shopify.com (51715 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟢 |
 | `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |

@@ -7,7 +7,7 @@
 //
 // Manifest version: 50253068cb9a031524e4d2ba60ef98334a040bc70fb6f62bb8eb696bf93d84d1
 // 15 capabilities, 220 providers, 593 typed functions, 20 refused.
-// 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -48163,6 +48163,7 @@ interface BowmarkProviders {
   lecoeurlashes: BowmarkFamily_shopify_store.Unit;
   lecpresents: BowmarkFamily_shopify_store.Unit;
   lecreaonline: BowmarkFamily_shopify_store.Unit;
+  lectricebikes: BowmarkFamily_shopify_store.Unit;
   lecurieproduction: BowmarkFamily_shopify_store.Unit;
   ledaswissglobal: BowmarkFamily_shopify_store.Unit;
   ledbylanternsband: BowmarkFamily_shopify_store.Unit;
