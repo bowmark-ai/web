@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 447a468ffb0f0aa7ad6bdc616b3b8537693b8c52f6288d696f3ee312ffddaa05
-# 10 capabilities, 193 providers, 519 typed functions, 20 refused.
+# Manifest version: cad763a89f203eb0c23a88f734a560fbf9ef8ef19c76011ae4e31242280cc7de
+# 10 capabilities, 213 providers, 560 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1007,6 +1007,13 @@ class Prv_ajmadison_AjmadisonSearchResult_Out(TypedDict):
     wasPrice: float | None
     url: str
 
+class Prv_amramp_findNearestLocation_input_In(TypedDict):
+    zip: str
+
+class Prv_amramp_AmrampLocation_Out(TypedDict):
+    name: str
+    url: str
+
 class Prv_ancientnutrition_QuizRun_Out(TypedDict):
     pages: list[Prv_ancientnutrition_QuizPage_Out]
     result: Prv_ancientnutrition_GutTypeResult_Out
@@ -1910,6 +1917,36 @@ class Prv_bmwusa_BmwusaModelListing_Out(TypedDict):
     msrpTo: float | None
     trimCount: float
 
+class Prv_bollandbranch_BedDesignerFlow_Out(TypedDict):
+    name: str
+    steps: list[Prv_bollandbranch_BedDesignerStep_Out]
+
+class Prv_bollandbranch_BedDesignerStep_Out(TypedDict):
+    title: str
+    category: str
+
+class Prv_bollandbranch_BollAndBranchProduct_Out(TypedDict):
+    title: str
+    handle: str
+    productType: str
+    priceRange: Prv_bollandbranch_BollAndBranchProduct_Out_priceRange_Out
+    sizes: list[Prv_bollandbranch_BollAndBranchOption_Out]
+    colors: list[Prv_bollandbranch_BollAndBranchOption_Out]
+    hasAnyInStock: bool
+
+class Prv_bollandbranch_BollAndBranchProduct_Out_priceRange_Out(TypedDict):
+    min: float
+    max: float
+
+class Prv_bollandbranch_BollAndBranchOption_Out(TypedDict):
+    value: str
+    inStock: bool
+
+class Prv_bollandbranch_BollAndBranchSwatch_Out(TypedDict):
+    name: str
+    hex: str | None
+    imageUrl: str | None
+
 class Prv_boydsleep_BoydsleepCalibrationInput_In(TypedDict):
     gender: Literal["Male"] | Literal["Female"] | Literal["Non Binary"]
     heightInches: float
@@ -1968,6 +2005,25 @@ class Prv_brixton_BrixtonCheckoutLink_Out(TypedDict):
     url: str
     variant: Prv_brixton_BrixtonVariant_Out
     product: Prv_brixton_BrixtonProduct_Out
+
+class Prv_bulletproof_BulletproofNearbyStores_Out(TypedDict):
+    zip: str
+    maxItems: float
+    stores: list[Prv_bulletproof_BulletproofStore_Out]
+
+class Prv_bulletproof_BulletproofStore_Out(TypedDict):
+    id: str
+    name: str
+    address1: str
+    address2: str
+    city: str
+    state: str
+    zip: str
+    phone: str
+    latitude: float
+    longitude: float
+    distanceMiles: float
+    dataSource: str
 
 class Prv_bykoket_KoketProductSummary_Out(TypedDict):
     id: str
@@ -2096,6 +2152,30 @@ class Prv_cancer_cancerInfoSummaryResult_Out(TypedDict):
 class Prv_cancer_cancerInfoSection_Out(TypedDict):
     heading: str
     text: str
+
+class Prv_capitalbrands_CapitalbrandsQuizQuestions_Out(TypedDict):
+    questions: list[Prv_capitalbrands_CapitalbrandsQuizQuestion_Out]
+
+class Prv_capitalbrands_CapitalbrandsQuizQuestion_Out(TypedDict):
+    step: float
+    title: str
+    allowsMultiple: bool
+    options: list[Prv_capitalbrands_CapitalbrandsQuizQuestion_Out_options_item_Out]
+
+class Prv_capitalbrands_CapitalbrandsQuizQuestion_Out_options_item_Out(TypedDict):
+    value: str
+    label: str
+
+class Prv_capitalbrands_getBlenderRecommendation_arg_In(TypedDict):
+    answers: Sequence[str]
+
+class Prv_capitalbrands_CapitalbrandsRecommendation_Out(TypedDict):
+    products: list[Prv_capitalbrands_CapitalbrandsRecommendedProduct_Out]
+
+class Prv_capitalbrands_CapitalbrandsRecommendedProduct_Out(TypedDict):
+    name: str
+    price: str | None
+    url: str
 
 class Prv_caraway_listCarawayProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -2394,6 +2474,32 @@ class Prv_cheapflights_KayakCar_Out(TypedDict):
     pickupAddress: str | None
     url: str
 
+class Prv_chesmar_ChesmarSearchFilters_In(TypedDict):
+    region: NotRequired[str]
+    city: NotRequired[str]
+    community: NotRequired[str]
+    minBeds: NotRequired[float]
+    minBaths: NotRequired[float]
+    minSqft: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+
+class Prv_chesmar_ChesmarQuickMoveInHome_Out(TypedDict):
+    id: str
+    planName: str
+    communityName: str
+    communityUrl: str | None
+    city: str
+    region: str
+    address: str
+    price: float
+    priceFormatted: str
+    beds: float | None
+    baths: float | None
+    sqft: float | None
+    garage: str | None
+    url: str
+
 class Prv_chriscraft_ChriscraftModelSummary_Out(TypedDict):
     modelId: str
     boatType: Literal["STERNDRIVE"] | Literal["OUTBOARD"] | Literal["SURF"]
@@ -2622,6 +2728,43 @@ class Prv_cloudflare_CloudflareDomainSuggestion_Out(TypedDict):
     price: float | None
     renewal: float | None
     promotional: bool
+
+class Prv_clubchampion_ClubchampionStudio_Out(TypedDict):
+    id: str
+    name: str
+    timezone: str
+    bayCount: float
+    address: str
+    country: str
+    lat: float
+    lng: float
+    phone: str
+    email: str
+
+class Prv_clubchampion_ClubchampionFittingsMenu_Out(TypedDict):
+    storeId: str
+    storeName: str
+    fittings: list[Prv_clubchampion_ClubchampionFitting_Out]
+    activePromoCode: str | None
+    activePromoTerms: str | None
+
+class Prv_clubchampion_ClubchampionFitting_Out(TypedDict):
+    productId: str
+    name: str
+    description: str
+    durationMinutes: float
+    durationLabel: str
+    unitPrice: float
+
+class Prv_clubchampion_ClubchampionAvailability_Out(TypedDict):
+    resourceId: str
+    range: Prv_clubchampion_ClubchampionAvailability_Out_range_Out
+    mode: str
+    slots: list[Any]
+
+class Prv_clubchampion_ClubchampionAvailability_Out_range_Out(TypedDict):
+    start: str
+    end: str
 
 class Prv_consultnet_ConsultnetJobSearchQuery_In(TypedDict):
     keywords: NotRequired[str]
@@ -3116,6 +3259,48 @@ class Prv_embroker_EmbrokerQuoteEntryPoint_Out(TypedDict):
     productLabel: str
     url: str
     reachable: bool
+
+class Prv_eq3_Eq3SofaListing_Out(TypedDict):
+    instanceId: str
+    name: str
+    regularPrice: float
+    salePrice: float
+    isCustomMade: bool
+    coloursAvailable: bool
+    optionsAvailable: bool
+    thumbnailUrl: str | None
+    categorySlug: str
+    subcategorySlug: str
+    productLineSlug: str
+    productSlug: str
+    productUrl: str
+
+class Prv_eq3_getSofaConfiguration_args_In(TypedDict):
+    instanceId: str
+    categorySlug: str
+    subcategorySlug: str
+    productLineSlug: str
+    productSlug: str
+
+class Prv_eq3_Eq3SofaConfiguration_Out(TypedDict):
+    instanceId: str
+    name: str
+    regularPrice: float
+    sellingPrice: float
+    discountPercent: float | None
+    massPounds: float | None
+    availability: str
+    canonicalUrl: str
+    optionGroups: list[Prv_eq3_Eq3OptionGroup_Out]
+
+class Prv_eq3_Eq3OptionGroup_Out(TypedDict):
+    component: str
+    items: list[Prv_eq3_Eq3OptionItem_Out]
+
+class Prv_eq3_Eq3OptionItem_Out(TypedDict):
+    id: str
+    alias: str
+    price: float | None
 
 class Prv_erieinsurance_ErieAgentQuery_In(TypedDict):
     zip: NotRequired[str]
@@ -4611,6 +4796,44 @@ class Prv_hilton_hiltonRoomOffer_Out(TypedDict):
     nightlyRate: str
     totalRate: str
 
+class Prv_historymaker_HistorymakerSearchFilters_In(TypedDict):
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    beds: NotRequired[float]
+    baths: NotRequired[float]
+    minSqft: NotRequired[float]
+
+class Prv_historymaker_HistorymakerHomeSummary_Out(TypedDict):
+    id: str
+    formattedAddress: str
+    city: str
+    state: str
+    zip: str
+    price: float | None
+    formattedCurrentPrice: str
+    formattedOriginalPrice: str
+    beds: float
+    baths: float
+    sqft: str
+    garage: float | None
+    floors: float | None
+    banner: str
+    communityName: str
+    residenceName: str
+    url: str
+
+class Prv_historymaker_HistorymakerCommunity_Out(TypedDict):
+    id: str
+    name: str
+    city: str
+    state: str
+    formattedPriceRange: str
+    sqftRange: str
+    bedsRange: str
+    bathsRange: str
+    activeHomesCount: float
+    url: str
+
 class Prv_hobie_HobieModelSummary_Out(TypedDict):
     slug: str
     name: str
@@ -5332,6 +5555,23 @@ class Prv_islllc_IsllcCommunity_Out(TypedDict):
     lng: float
     url: str
 
+class Prv_ivoryhomes_IvoryHomesSearchFilters_In(TypedDict):
+    minBeds: NotRequired[float]
+    minBaths: NotRequired[float]
+    sqftFrom: NotRequired[float]
+    sqftTo: NotRequired[float]
+    stories: NotRequired[Literal[1] | Literal[2] | Literal[3]]
+
+class Prv_ivoryhomes_IvoryHomesFloorPlan_Out(TypedDict):
+    name: str
+    slug: str
+    totalSqft: float | None
+    finishedSqft: float | None
+    beds: float | None
+    baths: float | None
+    imageUrl: str | None
+    detailUrl: str
+
 class Prv_jennikayne_GiftCardOptions_Out(TypedDict):
     productUrl: str
     denominations: list[Prv_jennikayne_GiftCardDenomination_Out]
@@ -5436,6 +5676,34 @@ class Prv_joycefactorydirect_JoyceCalculatorQuestion_Out(TypedDict):
 class Prv_joycefactorydirect_JoyceCalculatorOption_Out(TypedDict):
     label: str
     answerId: str
+
+class Prv_junkluggers_JunkluggersFranchiseLookup_Out(TypedDict):
+    zip: str
+    inService: bool
+    franchise: Prv_junkluggers_JunkluggersFranchise_Out | None
+
+class Prv_junkluggers_JunkluggersFranchise_Out(TypedDict):
+    franchiseId: float
+    franchiseName: str
+
+class Prv_junkluggers_JunkluggersServiceType_Out(TypedDict):
+    serviceTypeId: float
+    serviceType: str
+    isOnline: bool
+    franchiseId: float
+    franchiseName: str
+
+class Prv_junkluggers_JunkluggersAvailability_Out(TypedDict):
+    zip: str
+    serviceTypeId: float
+    inService: bool
+    slots: list[Prv_junkluggers_JunkluggersAvailabilitySlot_Out]
+
+class Prv_junkluggers_JunkluggersAvailabilitySlot_Out(TypedDict):
+    date: str
+    startTime: str
+    durationMinutes: float
+    routeId: str
 
 class Prv_justinwine_JustinwineClubTier_Out(TypedDict):
     category: str
@@ -5714,6 +5982,44 @@ class Prv_labcorp_LabcorpTestDetail_Out(TypedDict):
     metaTitle: str
     shortDescriptionHtml: str
     descriptionHtml: str
+
+class Prv_lasikplus_findCenters_arg_In(TypedDict):
+    zip: str
+    radiusMiles: NotRequired[float]
+
+class Prv_lasikplus_LasikPlusCenter_Out(TypedDict):
+    centerCode: str
+    brand: str
+    city: str
+    state: str
+    zip: str
+    address1: str
+    address2: str
+    url: str
+    distanceMiles: float
+    ratings: float
+    userRatingsTotal: float
+
+class Prv_lasikplus_LasikPlusAvailability_Out(TypedDict):
+    centerCode: str
+    found: bool
+    centerInfo: Prv_lasikplus_LasikPlusCenterInfo_Out | None
+    inCenterDates: list[Prv_lasikplus_LasikPlusDaySlots_Out]
+    virtualDates: list[Prv_lasikplus_LasikPlusDaySlots_Out]
+
+class Prv_lasikplus_LasikPlusCenterInfo_Out(TypedDict):
+    centerCode: str
+    address1: str
+    address2: str
+    city: str
+    state: str
+    zip: str
+    directions: str
+    mapURL: str
+
+class Prv_lasikplus_LasikPlusDaySlots_Out(TypedDict):
+    date: str
+    times: list[str]
 
 class Prv_legacyhomesal_LegacyHomesalAvailability_Out(TypedDict):
     repSlug: str
@@ -7097,6 +7403,61 @@ class Prv_naic_naicStateLicense_Out(TypedDict):
     status: str
     insuranceTypes: list[str]
 
+class Prv_nationalbusinessfurniture_NbfProductSummary_Out(TypedDict):
+    sku: str
+    name: str
+    urlKey: str
+    url: str
+    basePrice: float
+    basePriceFormatted: str
+
+class Prv_nationalbusinessfurniture_NbfProduct_Out(TypedDict):
+    sku: str
+    name: str
+    url: str
+    basePrice: float
+    basePriceFormatted: str
+    options: list[Prv_nationalbusinessfurniture_NbfOption_Out]
+
+class Prv_nationalbusinessfurniture_NbfOption_Out(TypedDict):
+    groupLabel: str
+    choices: list[Prv_nationalbusinessfurniture_NbfOptionChoice_Out]
+
+class Prv_nationalbusinessfurniture_NbfOptionChoice_Out(TypedDict):
+    valueIndex: float
+    label: str
+    variantSku: str
+    price: float
+    priceFormatted: str
+
+class Prv_nationalbusinessfurniture_NbfPriceResult_Out(TypedDict):
+    sku: str
+    variantSku: str | None
+    price: float | None
+    priceFormatted: str | None
+    applied: list[Prv_nationalbusinessfurniture_NbfPriceResult_Out_applied_item_Out]
+    missingGroups: list[str]
+    unmatched: list[str]
+    handoffUrl: str
+
+class Prv_nationalbusinessfurniture_NbfPriceResult_Out_applied_item_Out(TypedDict):
+    group: str
+    choice: str
+
+class Prv_nationalbusinessfurniture_NbfCartHandoff_Out(TypedDict):
+    sku: str
+    name: str
+    url: str
+    applied: list[Prv_nationalbusinessfurniture_NbfCartHandoff_Out_applied_item_Out]
+    price: float | None
+    priceFormatted: str | None
+    missingGroups: list[str]
+    unmatched: list[str]
+
+class Prv_nationalbusinessfurniture_NbfCartHandoff_Out_applied_item_Out(TypedDict):
+    group: str
+    choice: str
+
 class Prv_newegg_StoreOffer_Out(TypedDict):
     title: str
     price: float | None
@@ -7408,6 +7769,34 @@ class Prv_paypal_PaypalCurrencyConversionCitation_Out(TypedDict):
     feeDataKey: str
     internalName: str
 
+class Prv_perennialsandsutherland_RugSearchResult_Out(TypedDict):
+    sku: str
+    id: str
+    name: str
+    colorway: str
+    url: str
+
+class Prv_perennialsandsutherland_RugVariant_Out(TypedDict):
+    sku: str
+    id: float
+    name: str
+    url: str
+    price: float
+    currency: str
+    colorways: list[Prv_perennialsandsutherland_RugVariantOption_Out]
+    sizes: list[Prv_perennialsandsutherland_RugVariantOption_Out]
+    explorugUrl: str | None
+    tearsheetUrl: str
+
+class Prv_perennialsandsutherland_RugVariantOption_Out(TypedDict):
+    sku: str
+    variationId: float
+    name: str
+
+class Prv_perennialsandsutherland_TearsheetUrl_Out(TypedDict):
+    productId: str
+    url: str
+
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
     width: float
@@ -7659,6 +8048,35 @@ class Prv_pizzahut_PizzahutDealsForRender_Out_sources_item_Out(TypedDict):
 
 class Prv_pizzahut_PizzahutDealScopeForRender_u1_Out(TypedDict):
     storeNumbers: list[str]
+
+class Prv_positivegrid_positivegridFindRetailersArgs_In(TypedDict):
+    near: str
+    radiusMiles: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_positivegrid_positivegridRetailerSearch_Out(TypedDict):
+    query: str
+    center: Prv_positivegrid_positivegridRetailerSearch_Out_center_Out
+    radiusMiles: float
+    totalWithinRadius: float
+    retailers: list[Prv_positivegrid_positivegridRetailer_Out]
+
+class Prv_positivegrid_positivegridRetailerSearch_Out_center_Out(TypedDict):
+    latitude: float
+    longitude: float
+
+class Prv_positivegrid_positivegridRetailer_Out(TypedDict):
+    id: str
+    name: str
+    street: str
+    city: str | None
+    region: str | None
+    country: str | None
+    phone: str | None
+    url: str | None
+    latitude: float
+    longitude: float
+    distanceMiles: float
 
 class Prv_premierbuildings_PremierbuildingsStyle_Out(TypedDict):
     key: str
@@ -8117,6 +8535,47 @@ class Prv_prose_HairPrescriptionItem_Out(TypedDict):
     currency: str | None
     price: float | None
     subscribedPrice: float | None
+
+class Prv_provenwinners_ContainerRecipeFilters_In(TypedDict):
+    keyword: NotRequired[str]
+    season: NotRequired[Literal["early_spring"] | Literal["spring"] | Literal["summer"] | Literal["fall"] | Literal["winter"]]
+    potStyle: NotRequired[Literal["hanging_basket"] | Literal["upright_container"] | Literal["wall_sconce"] | Literal["window_box"]]
+    colorScheme: NotRequired[Literal["complementary"] | Literal["accented_neutral"] | Literal["analogous"] | Literal["earth_tones"] | Literal["monochromatic"] | Literal["neutral"] | Literal["pastel_mix"] | Literal["patriotic"] | Literal["split_analogous"] | Literal["split_complementary"] | Literal["tetradic"] | Literal["triadic"] | Literal["tropical"] | Literal["vibrant_mix"] | Literal["warm_and_cool"]]
+    exposure: NotRequired[Literal["bright_light"] | Literal["full_shade"] | Literal["high"] | Literal["low"] | Literal["medium"] | Literal["part_shade"] | Literal["part_shade_to_shade"] | Literal["part_sun_to_shade"] | Literal["part_sun_to_sun"] | Literal["sun"] | Literal["sun_or_shade"]]
+    potSizeInches: NotRequired[float]
+    potSizeOp: NotRequired[Literal["lt"] | Literal["lte"] | Literal["eq"] | Literal["neq"] | Literal["gte"] | Literal["gt"]]
+    page: NotRequired[float]
+
+class Prv_provenwinners_ContainerRecipeSearchResult_Out(TypedDict):
+    recipes: list[Prv_provenwinners_ContainerRecipeSummary_Out]
+    totalCount: float
+
+class Prv_provenwinners_ContainerRecipeSummary_Out(TypedDict):
+    slug: str
+    title: str
+    url: str
+    potSizeInches: float | None
+    plants: list[Prv_provenwinners_ContainerRecipeSummary_Out_plants_item_Out]
+
+class Prv_provenwinners_ContainerRecipeSummary_Out_plants_item_Out(TypedDict):
+    quantity: float
+    name: str
+    url: str
+
+class Prv_provenwinners_ContainerRecipeDetails_Out(TypedDict):
+    slug: str
+    title: str
+    url: str
+    description: str
+    seasons: list[str]
+    potSizeInches: float | None
+    plants: list[Prv_provenwinners_ContainerRecipeDetails_Out_plants_item_Out]
+
+class Prv_provenwinners_ContainerRecipeDetails_Out_plants_item_Out(TypedDict):
+    role: str
+    quantity: float
+    name: str
+    url: str
 
 class Prv_reddit_RedditSubreddit_Out(TypedDict):
     name: str
@@ -8613,6 +9072,35 @@ class Prv_samsclub_SamsclubMembershipBenefit_Out(TypedDict):
     included: bool
     extraDetails: str | None
 
+class Prv_scentbird_ScentbirdCatalogueResult_Out(TypedDict):
+    catalogue: Literal["perfumes"] | Literal["colognes"]
+    count: float
+    products: list[Prv_scentbird_ScentbirdProduct_Out]
+
+class Prv_scentbird_ScentbirdProduct_Out(TypedDict):
+    id: float
+    url: str
+    fullName: str
+    name: str
+    brand: str | None
+    category: str | None
+    gender: str | None
+    rating: float | None
+    sku: str | None
+    inStock: bool | None
+    volume: Prv_scentbird_ScentbirdProduct_Out_volume_u0_Out | None
+    price: Prv_scentbird_ScentbirdPrice_Out
+
+class Prv_scentbird_ScentbirdProduct_Out_volume_u0_Out(TypedDict):
+    unit: str
+    amount: float
+
+class Prv_scentbird_ScentbirdPrice_Out(TypedDict):
+    standard: float | None
+    discount: float | None
+    membership: float | None
+    currencyCode: str | None
+
 class Prv_seakeeper_SeakeeperDealer_Out(TypedDict):
     name: str
     address: str
@@ -8839,6 +9327,19 @@ class Prv_semihandmade_SemihandmadePriceResult_Out(TypedDict):
     sku: str
     productUrl: str
 
+class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
+    zip: str
+    locations: list[Prv_sitmeanssit_SitmeanssitLocation_Out]
+
+class Prv_sitmeanssit_SitmeanssitLocation_Out(TypedDict):
+    name: str
+    contactName: str
+    phone: str
+    email: str
+    reciprocity: str
+    handoffUrl: str
+    distanceMiles: float
+
 class Prv_smartsign_SmartsignSearchResult_Out(TypedDict):
     sku: str
     name: str
@@ -8941,6 +9442,44 @@ class Prv_soundcloud_ScPlaylist_Out(TypedDict):
     likeCount: float | None
     createdAt: str | None
     tracks: list[Prv_soundcloud_ScTrack_Out]
+
+class Prv_starlighthomes_StarlighthomesMetroSummary_Out(TypedDict):
+    name: str
+    path: str
+
+class Prv_starlighthomes_StarlighthomesMetroDetail_Out(TypedDict):
+    path: str
+    neighborhoods: list[Prv_starlighthomes_StarlighthomesNeighborhoodSummary_Out]
+
+class Prv_starlighthomes_StarlighthomesNeighborhoodSummary_Out(TypedDict):
+    name: str
+    path: str
+    monthlyPriceRange: Prv_starlighthomes_StarlighthomesRange_Out
+    sqftRange: Prv_starlighthomes_StarlighthomesRange_Out
+    coordinates: Prv_starlighthomes_StarlighthomesNeighborhoodSummary_Out_coordinates_u0_Out | None
+
+class Prv_starlighthomes_StarlighthomesRange_Out(TypedDict):
+    lowest: float | None
+    highest: float | None
+
+class Prv_starlighthomes_StarlighthomesNeighborhoodSummary_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_starlighthomes_StarlighthomesNeighborhoodDetail_Out(TypedDict):
+    path: str
+    availableHomes: list[Prv_starlighthomes_StarlighthomesAvailableHome_Out]
+
+class Prv_starlighthomes_StarlighthomesAvailableHome_Out(TypedDict):
+    address: str
+    price: float
+    listPrice: float | None
+    planName: str
+    planPath: str
+    beds: float
+    baths: float
+    sqft: float
+    availability: str
 
 class Prv_statefarm_StatefarmAgentQuery_In(TypedDict):
     city: str
@@ -9200,6 +9739,33 @@ class Prv_tamarackidaho_tamarackidahoUnit_Out(TypedDict):
     productId: str
     unitName: str
     totalPrice: float
+
+class Prv_target_search_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_target_TargetSearchResults_Out(TypedDict):
+    query: str
+    offset: float
+    results: list[Prv_target_TargetSearchResult_Out]
+    totalMatches: float | None
+    priceStoreId: float | None
+    warnings: list[str]
+
+class Prv_target_TargetSearchResult_Out(TypedDict):
+    tcin: str
+    name: str
+    brand: str | None
+    url: str
+    image: str | None
+    price: float | None
+    wasPrice: float | None
+    availabilityStatus: str | None
+    inStock: bool
+    rating: float | None
+    reviewCount: float
+    sponsored: bool
 
 class Prv_target_findStore_args_In(TypedDict):
     query: str
@@ -9648,6 +10214,21 @@ class Prv_thezebra_thezebraAutoQuote_Out(TypedDict):
     policyLengthMonths: float | None
     deductible: float | None
     coverages: list[str]
+
+class Prv_thibautdesign_ThibautdesignRollCalculationInput_In(TypedDict):
+    wallWidth: float
+    ceilingHeight: float
+    rollWidth: NotRequired[float]
+    rollLength: NotRequired[float]
+    patternRepeat: NotRequired[float]
+    isMetric: NotRequired[bool]
+
+class Prv_thibautdesign_ThibautdesignRollCalculationResult_Out(TypedDict):
+    rollsNeeded: float
+    totalArea: float
+    wasteMarginAdvice: str
+    howToBuyUrl: str
+    calculatorUrl: str
 
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
@@ -10532,6 +11113,30 @@ class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
     website: str | None
     logoUrl: str | None
 
+class Prv_winestyles_WinestylesStore_Out(TypedDict):
+    storeId: str
+    city: str
+    state: str
+    shopUrl: str
+
+class Prv_winestyles_WinestylesInventorySearch_Out(TypedDict):
+    storeId: str
+    term: str
+    shopUrl: str
+    results: list[Prv_winestyles_WinestylesProduct_Out]
+
+class Prv_winestyles_WinestylesProduct_Out(TypedDict):
+    sku: str
+    name: str
+    department: str
+    style: str
+    quantityAvailable: float
+    price: Prv_winestyles_WinestylesProduct_Out_price_Out
+
+class Prv_winestyles_WinestylesProduct_Out_price_Out(TypedDict):
+    value: float | None
+    formatted: str | None
+
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
     facilityId: str
     name: str
@@ -11187,6 +11792,21 @@ class Prv_ajmadison(Protocol):
         product's own AJ Madison URL). Read-only — never adds to cart or checks out.
         """
 
+class Prv_amramp(Protocol):
+    """Amramp's own ZIP/postal-code locator — which of its ~58 US/Canada
+    accessibility-equipment franchises covers a given ZIP, and that franchise's own
+    quote-request page — read directly from the site's own published data, no browser.
+    """
+
+    async def findNearestLocation(self, input: Prv_amramp_findNearestLocation_input_In, /) -> list[Prv_amramp_AmrampLocation_Out]:
+        """Runs Amramp's own ZIP/postal-code locator — the same array-membership match the locator
+        page's own JS runs on submit, against the site's ~58-row franchise territory table. zip
+        accepts a US 5-digit or ZIP+4 code or a Canadian postal code. Returns [] when no
+        franchise covers the ZIP — a real, correct answer, not a failure. Each returned
+        location's url carries that franchise's own quote-request form (Gravity Forms) — the
+        write step, reached by handoff, never submitted here.
+        """
+
 class Prv_ancientnutrition(Protocol):
     """Ancient Nutrition's own Gut Type Quiz, run for real: walks the site's live Octane AI
     quiz question by question and returns the real computed gut type plus the matching SBO
@@ -11750,6 +12370,30 @@ class Prv_bmwusa(Protocol):
         body style rather than dropping the model.
         """
 
+class Prv_bollandbranch(Protocol):
+    """Boll & Branch's Virtual Bed Designer, read for real — the bundle configurator's own
+    category steps, live product/price/color options and swatch references, off the embedded
+    widget vendor's own undocumented API.
+    """
+
+    async def getBedDesignerFlow(self, /) -> Prv_bollandbranch_BedDesignerFlow_Out:
+        """Reads the Virtual Bed Designer's own configurator definition — its ordered category
+        steps (sheet set, comforter/duvet, bed blanket, throw blanket, decorative pillow) —
+        straight off the widget vendor's live API. The entry point: getCategoryOptions takes a
+        `category` from this flow's steps.
+        """
+
+    async def getCategoryOptions(self, category: str, /) -> list[Prv_bollandbranch_BollAndBranchProduct_Out]:
+        """Lists the real, currently-sellable products for one Designer category (matched by
+        keyword against the site's own productType, e.g. "Choose Your Sheet Set" -> Sheet Sets)
+        with live price range, size/color options and stock.
+        """
+
+    async def getSwatchDetails(self, names: Sequence[str], /) -> list[Prv_bollandbranch_BollAndBranchSwatch_Out]:
+        """Resolves color/fabric names (as offered by getCategoryOptions) to their hex value or
+        reference swatch image. THROWS on an unknown name.
+        """
+
 class Prv_boydsleep(Protocol):
     """Boyd Sleep's own 'Smart Support Number' calibrator for a Nautica Home Smart Zone air bed
     — the real personalized 0-100 Support Index (2-zone) or Head/Foot + Center numbers
@@ -11796,6 +12440,21 @@ class Prv_brixton(Protocol):
         storefront. THROWS if the handle is unknown, if no variant matches, if the match is
         ambiguous (matches more than one variant), or if the matched variant is not currently
         available — the error names the candidate or in-stock options so the caller can retry.
+        """
+
+class Prv_bulletproof(Protocol):
+    """Reads Bulletproof 360's own real-time Destini store locator directly — real nearby
+    retailers (Target, Whole Foods, Sprouts and others) that actually carry Bulletproof
+    products near a US ZIP, distance-ranked, never a guess at which national chains might
+    stock it.
+    """
+
+    async def findStores(self, zip: str, maxItems: float | None = None, /) -> Prv_bulletproof_BulletproofNearbyStores_Out:
+        """Runs Bulletproof 360's own real-time Destini store locator for a US ZIP and returns real
+        nearby retailers that carry Bulletproof products, distance-ranked (miles), nearest first
+        — from the brand's own tracked retailer network, not a guess at national chains.
+        `maxItems` defaults to 25 and is capped at 100; an honestly empty list means Destini's
+        own tracker has nothing that close.
         """
 
 class Prv_bykoket(Protocol):
@@ -11919,6 +12578,25 @@ class Prv_cancer(Protocol):
         one genuinely distinct disease, each with its own summary (lung: non-small-cell and
         small-cell are both filed under `/types/lung`) — the error names every option's own URL
         rather than silently answering for the wrong one.
+        """
+
+class Prv_capitalbrands(Protocol):
+    """NutriBullet's own "Which nutribullet is Best for Me?" product-recommendation quiz
+    (nutribullet.com) — reads the real four-question quiz and runs the site's own scoring
+    logic to return the actual recommended blender(s), with no personal information
+    required.
+    """
+
+    async def listQuizQuestions(self, /) -> Prv_capitalbrands_CapitalbrandsQuizQuestions_Out:
+        """Reads NutriBullet's own product-recommendation quiz off its live page — all four
+        questions, in order, with the exact option values and labels the site's own form
+        submits.
+        """
+
+    async def getBlenderRecommendation(self, arg: Prv_capitalbrands_getBlenderRecommendation_arg_In, /) -> Prv_capitalbrands_CapitalbrandsRecommendation_Out:
+        """Runs the site's own quiz-scoring logic for a real set of quiz answers and returns the
+        actual recommended blender(s) — name, price and buy link — with no personal information
+        required.
         """
 
 class Prv_caraway(Protocol):
@@ -12053,6 +12731,21 @@ class Prv_cheapflights(Protocol):
         """Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup
         location and date range, cheapest-first. Interaction-gated: the prices only exist after
         the site's own three-phase supplier poll completes.
+        """
+
+class Prv_chesmar(Protocol):
+    """Chesmar Homes' live quick-move-in inventory search across 5 Texas markets (Austin, San
+    Antonio, Houston, Dallas, Central Texas) — filterable by region/city/community and
+    beds/baths/sqft/price, off the sitemap's own stable detail-page URLs rather than a
+    third-party listing aggregator's mirror.
+    """
+
+    async def searchQuickMoveInHomes(self, filters: Prv_chesmar_ChesmarSearchFilters_In, /) -> list[Prv_chesmar_ChesmarQuickMoveInHome_Out]:
+        """Runs Chesmar Homes' quick-move-in home search against the site's own live inventory —
+        real address, price, beds/baths/sqft, community/plan and a listing URL to inquire or
+        schedule a tour. `filters` requires at least one of `region` (e.g. "Austin"), `city`
+        (e.g. "Georgetown") or `community` (e.g. "Nolina") to bound the search, plus optional
+        `minBeds`, `minBaths`, `minSqft`, `minPrice`, `maxPrice`.
         """
 
 class Prv_chriscraft(Protocol):
@@ -12217,6 +12910,30 @@ class Prv_cloudflare(Protocol):
         search, driven live. Returns the exact-match answer (available,
         registration/renewal/transfer/redemption fees) plus the same search's related
         suggestions across other TLDs.
+        """
+
+class Prv_clubchampion(Protocol):
+    """Club Champion's live studio directory, real per-store fitting pricing, and real
+    open-slot availability checks — the same booking widget backend the site itself calls.
+    Rung 10, no browser.
+    """
+
+    async def listStudios(self, /) -> list[Prv_clubchampion_ClubchampionStudio_Out]:
+        """Reads the live list of every Club Champion fitting studio (~155 in the US) — real
+        address, lat/lng, timezone, bay count and contact info, the same data the site's own
+        /booknow-access studio finder renders.
+        """
+
+    async def getFittings(self, storeName: str, /) -> Prv_clubchampion_ClubchampionFittingsMenu_Out:
+        """Reads one studio's real, live fitting-type menu with per-store pricing (Driver, Full
+        Bag, Putter, etc.) — pass a studio name from listStudios(), e.g. "Bellevue".
+        """
+
+    async def checkAvailability(self, resourceId: str, start: str, end: str, /) -> Prv_clubchampion_ClubchampionAvailability_Out:
+        """Checks real, live open-slot availability for one fitting product (a `productId` from
+        getFittings()) over a "YYYY-MM-DD"..."YYYY-MM-DD" date range — the same live check the
+        site's own booking widget makes. An empty `slots` array is the site's real answer, not
+        an error.
         """
 
 class Prv_consultnet(Protocol):
@@ -12575,6 +13292,25 @@ class Prv_embroker(Protocol):
     async def getQuoteEntryPoint(self, args: Prv_embroker_getQuoteEntryPoint_args_In, /) -> Prv_embroker_EmbrokerQuoteEntryPoint_Out:
         """Returns the live, confirmed-reachable entry URL for one of Embroker's self-serve
         quote-wizard products.
+        """
+
+class Prv_eq3(Protocol):
+    """EQ3's modern furniture catalog and configurator — real listing prices across the sofa
+    line (listSofas), and one product's full fabric/finish/size configurator read in full
+    (getSofaConfiguration): the site's own computed price for its default build plus every
+    alternative option and its own price contribution.
+    """
+
+    async def listSofas(self, /) -> list[Prv_eq3_Eq3SofaListing_Out]:
+        """Lists every sofa in EQ3's living/seating/sofas line with real regular and sale prices,
+        straight off the site's own category listing. Every row carries the exact ids
+        getSofaConfiguration needs.
+        """
+
+    async def getSofaConfiguration(self, args: Prv_eq3_getSofaConfiguration_args_In, /) -> Prv_eq3_Eq3SofaConfiguration_Out:
+        """Reads one sofa's full configurator: the site's own computed price (regular + sale) for
+        its default build, plus every fabric/finish/size option the configurator offers with
+        each item's own price contribution. THROWS when the instance does not exist.
         """
 
 class Prv_erieinsurance(Protocol):
@@ -13621,6 +14357,31 @@ class Prv_hilton(Protocol):
         error rather than a wrong or empty result. See manifest.json's `reach.why`.
         """
 
+class Prv_historymaker(Protocol):
+    """Reads HistoryMaker Homes' own live Dallas/Fort Worth quick-move-in inventory — real
+    addresses, real current and original prices, real beds/baths/sqft and availability
+    banners, fully filterable by price, beds, baths and minimum sqft — plus the site's own
+    community list, the way the site's own search would show it.
+    """
+
+    async def searchQuickMoveIns(self, filters: Prv_historymaker_HistorymakerSearchFilters_In | None = None, /) -> list[Prv_historymaker_HistorymakerHomeSummary_Out]:
+        """Searches HistoryMaker's current Dallas/Fort Worth quick-move-in inventory by min/max
+        price, beds, baths and minimum sqft. Real addresses, real prices, real availability
+        banners ('Ready Now' etc.) — never a floor-plan brochure.
+        """
+
+    async def getHome(self, id: str, /) -> Prv_historymaker_HistorymakerHomeSummary_Out:
+        """Reads one quick-move-in home's full detail: address, current and original price,
+        beds/baths, sqft, garage, floors, community and residence (floor-plan) name, and its own
+        public listing URL. `id` is a home's `id` from `searchQuickMoveIns()`.
+        """
+
+    async def listCommunities(self, /) -> list[Prv_historymaker_HistorymakerCommunity_Out]:
+        """Lists HistoryMaker's active DFW communities with city, price range, beds/baths range,
+        sqft range and how many homes are currently active in each — the site's own
+        community-picker data.
+        """
+
 class Prv_hobie(Protocol):
     """Reads Hobie Cat Company's own real-time 'Find it Locally' dealer-inventory widget
     directly — which real dealer near a zip has a specific kayak model, IN A SPECIFIC COLOR,
@@ -14222,6 +14983,19 @@ class Prv_islllc(Protocol):
         returns the real, nearest-first matching ISL communities.
         """
 
+class Prv_ivoryhomes(Protocol):
+    """Ivory Homes' live home-design floor-plan search — filterable by minimum beds/baths, a
+    total-square-footage range and story count, off the site's own undocumented DataFetch
+    endpoint rather than a third-party listing aggregator's stale mirror.
+    """
+
+    async def searchFloorPlans(self, filters: Prv_ivoryhomes_IvoryHomesSearchFilters_In, /) -> list[Prv_ivoryhomes_IvoryHomesFloorPlan_Out]:
+        """Runs Ivory Homes' home-design floor-plan search against the site's own live inventory —
+        plan name, total/finished square footage, bed/bath count, a gallery image and the plan's
+        own detail-page URL. `filters` is optional: `minBeds`, `minBaths` (each 0-7, "at
+        least"), `sqftFrom`/`sqftTo` (a total-square-footage range) and `stories` (1, 2 or 3).
+        """
+
 class Prv_jennikayne(Protocol):
     """Jenni Kayne's live gift-card product: read the real denominations and hand the shopper a
     checkout link pre-filled with the recipient, message and scheduled delivery
@@ -14283,6 +15057,37 @@ class Prv_joycefactorydirect(Protocol):
         """Reads the live bath-remodel cost calculator's real questions and answer options straight
         off the page — no interaction needed. Same involve.me platform and return shape as
         getWindowCalculatorOptions.
+        """
+
+class Prv_junkluggers(Protocol):
+    """Junk-removal franchise booking — resolves a zip to its local Junkluggers franchise,
+    lists that franchise's online-bookable service types, and reads real-time open 2-hour
+    appointment windows straight off the site's own Vonigo scheduling backend. Read-only: no
+    booking is created.
+    """
+
+    async def findFranchise(self, args: Any, /) -> Prv_junkluggers_JunkluggersFranchiseLookup_Out:
+        """Resolves the local Junkluggers franchise for a zip code (`zip`) — the same lookup the
+        `/book-now/` widget runs as its first step. Returns `inService: false` (not an error)
+        when the zip falls outside every franchise's coverage area, e.g. `{ zip: "78701" }` ->
+        `{ inService: true, franchise: { franchiseId: 137, franchiseName: "TX - Austin" } }`.
+        """
+
+    async def getServiceTypes(self, args: Any, /) -> list[Prv_junkluggers_JunkluggersServiceType_Out]:
+        """Lists the service types the zip's resolved franchise offers (`zip`), each flagged
+        `isOnline` for whether the public widget lets a visitor book it directly (most
+        franchises expose only "Junk Removal"; a handful of internal types like "National
+        Accounts" are staff-only). Empty array for a zip outside every franchise's area.
+        """
+
+    async def getAvailability(self, args: Any, /) -> Prv_junkluggers_JunkluggersAvailability_Out:
+        """The computed result: real open 2-hour appointment windows for a zip (`zip`), from
+        Junkluggers' live Vonigo scheduling backend — the same call the `/book-now/` widget
+        makes after zip -> franchise -> service-type resolution, exactly what ChatGPT cannot see
+        today (it can only hedge with a national price range and ask the user to call the local
+        office). `serviceTypeId` defaults to the zip's first online-bookable type; `daysAhead`
+        (1-14, default 7) bounds the search window. Read-only — no booking is created, no PII is
+        sent.
         """
 
 class Prv_justinwine(Protocol):
@@ -14462,6 +15267,22 @@ class Prv_labcorp(Protocol):
         collection method, turnaround time and acceptable age band. Combines the catalog row
         (GraphQL) with the specimen/turnaround facts the site renders on the PDP HTML. Pass the
         sku returned by `search`.
+        """
+
+class Prv_lasikplus(Protocol):
+    """LasikPlus's own iSchedule locator + live appointment calendar (lasikplus.com/ischedule/)
+    — find nearby centers by ZIP, then read the real, computed open consultation slots for
+    one, in-center and virtual, before any contact info is required.
+    """
+
+    async def findCenters(self, arg: Prv_lasikplus_findCenters_arg_In, /) -> list[Prv_lasikplus_LasikPlusCenter_Out]:
+        """Given a US ZIP, returns the real, distance-sorted set of nearby LasikPlus centers with
+        their centerCode.
+        """
+
+    async def getAvailability(self, centerCode: str, /) -> Prv_lasikplus_LasikPlusAvailability_Out:
+        """Given a centerCode from findCenters, returns the live, computed in-center and virtual
+        consultation slot calendar.
         """
 
 class Prv_legacyhomesal(Protocol):
@@ -15349,6 +16170,45 @@ class Prv_namecheap(Protocol):
     # It is CALLABLE at runtime; `bowmark.providers.namecheap.getWhois` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
+class Prv_nationalbusinessfurniture(Protocol):
+    """National Business Furniture's office-furniture catalog — search live inventory, read one
+    product's real configurable options (finish, size) with each choice's exact price, and
+    resolve a specific configuration to its real variant price rather than a researched
+    estimate.
+    """
+
+    async def searchProducts(self, query: str, /) -> list[Prv_nationalbusinessfurniture_NbfProductSummary_Out]:
+        """Searches National Business Furniture's office-furniture catalog by free text (e.g.
+        "desk", "conference chair") and returns every match's SKU, name, entry URL and starting
+        price. The `sku` on each row is what getProduct takes.
+        """
+
+    async def getProduct(self, sku: str, /) -> Prv_nationalbusinessfurniture_NbfProduct_Out:
+        """Reads one product's full configurable-option set (e.g. Finish) with each choice's REAL
+        label and its exact variant price, plus the base product's price and page URL. THROWS on
+        an unknown SKU, naming searchProducts() as the way to find current ones.
+        """
+
+    async def priceConfiguration(self, sku: str, selections: Mapping[str, str], /) -> Prv_nationalbusinessfurniture_NbfPriceResult_Out:
+        """Resolves ONE specific configuration — selections keyed by option group
+        (case-insensitive), e.g. { Finish: "Ash Black" } — against the SKU's live options and
+        returns the matching variant's real price, the applied choices, and the site URL to
+        re-pick the same choices (National Business Furniture publishes no shareable URL for a
+        configured state). `missingGroups` names any option group left unpicked — price is null
+        until every group is chosen. `unmatched` names any selection that did not match a real
+        group or choice, rather than silently mispricing.
+        """
+
+    async def addToCart(self, sku: str, selections: Mapping[str, str], /) -> Prv_nationalbusinessfurniture_NbfCartHandoff_Out:
+        """Turns a configuration into the handoff you give the shopper: National Business
+        Furniture's own product page URL plus the exact choices to click there (e.g. Finish:
+        "Ash Black"), since this site does not honour a query-param deep link the way some
+        Magento storefronts do (measured — see the provider's reach note). Same selections shape
+        as priceConfiguration, and returns the same price and applied choices alongside the URL.
+        NOTHING IS CREATED SERVER-SIDE and nothing is bought — this provider never posts to the
+        site's own add-to-cart endpoint.
+        """
+
 class Prv_newegg(Protocol):
     """Newegg (newegg.com) — live product search over this store's own catalogue, cheapest
     matching item first.
@@ -15563,6 +16423,29 @@ class Prv_paypal(Protocol):
         capability tier's job, not a single provider's. consumer / us only today.
         """
 
+class Prv_perennialsandsutherland(Protocol):
+    """Reads Perennials & Sutherland's public rug catalog (perennialsandsutherland.com) —
+    search for a design, read one variant's real trade price, its sibling colorway/size
+    choices, and its unauthenticated PDF tearsheet.
+    """
+
+    async def searchRugs(self, query: str, /) -> list[Prv_perennialsandsutherland_RugSearchResult_Out]:
+        """Searches Perennials & Sutherland's live public rug catalog and returns each match's
+        product URL, sku, id and name.
+        """
+
+    async def getRugVariant(self, url: str, /) -> Prv_perennialsandsutherland_RugVariant_Out:
+        """Reads one rug product-page variant (design + colorway + size) — the real trade price,
+        sku, size, and every sibling colorway/size choice available on that same design —
+        straight off the page's own inline JSON, before any login or PII.
+        """
+
+    async def getTearsheetUrl(self, productId: str, /) -> Prv_perennialsandsutherland_TearsheetUrl_Out:
+        """Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant (spec
+        sheet keyed to that exact product id) — confirmed to serve a real application/pdf with
+        no login and no query-string secret.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -15697,6 +16580,23 @@ class Prv_pizzahut(Protocol):
         answer. The list is sorted by `dealPagePosition` (1-based, lower = higher up); positions
         the site leaves null fall back to a stable code-order tiebreak rather than being treated
         as "first". Wholly anonymous, one Contentful read per call.
+        """
+
+class Prv_positivegrid(Protocol):
+    """Positive Grid's own authorized-retailer network — findRetailers finds real nearby
+    dealers (Guitar Center and independent music shops) that carry Spark amps, with address,
+    phone and distance, read straight off the site's own store-locator data feed rather than
+    a generic web guess.
+    """
+
+    async def findRetailers(self, arg: Prv_positivegrid_positivegridFindRetailersArgs_In, /) -> Prv_positivegrid_positivegridRetailerSearch_Out:
+        """Authorized Positive Grid retailers near a place — real dealers who carry Spark amps,
+        nearest first, each with street address, phone, coordinates and distance. `near` is a
+        5-digit US ZIP (the geocoder behind this is keyless and only resolves ZIPs — a
+        city/state or street address is refused). `radiusMiles` defaults to 50 (max 500),
+        `limit` to 10 (max 100). `totalWithinRadius` reports how many of the vendor's worldwide
+        dealer list fell inside the radius, which can exceed `limit` — this module sees the
+        whole feed, unlike a server-side search that would silently truncate.
         """
 
 class Prv_premierbuildings(Protocol):
@@ -15892,6 +16792,24 @@ class Prv_prose(Protocol):
         (main/upsale/optional/inadvisable) and their real USD prices, one-time and subscribed. A
         different `answers` object gets a genuinely different formula (measured 2026-08-05: 5 of
         14 product types moved sections between two divergent profiles).
+        """
+
+class Prv_provenwinners(Protocol):
+    """Proven Winners' own Container Recipe Finder (1,074+ real container-planting recipes,
+    filterable by season, pot style, pot size, color scheme, exposure and keyword) plus a
+    recipe's exact plant list off its own combination page.
+    """
+
+    async def searchContainerRecipes(self, filters: Prv_provenwinners_ContainerRecipeFilters_In | None = None, /) -> Prv_provenwinners_ContainerRecipeSearchResult_Out:
+        """Runs Proven Winners' own Container Recipe Finder — season, pot style, pot size (with an
+        operator), color scheme, exposure and free-text keyword — and returns the matching
+        recipes with their pot size and plant list, plus the site's own total match count.
+        """
+
+    async def getRecipeDetails(self, slug: str, /) -> Prv_provenwinners_ContainerRecipeDetails_Out:
+        """Reads one container recipe's own combination page — season(s), container size, and the
+        exact plant list with each plant's role (Filler/Spiller/Thriller), quantity and buy-page
+        link.
         """
 
 class Prv_reddit(Protocol):
@@ -16293,6 +17211,17 @@ class Prv_samsclub(Protocol):
         scope.
         """
 
+class Prv_scentbird(Protocol):
+    """Scentbird's own live perfume/cologne subscription catalogue — real per-item name, brand,
+    category, in-stock state and price, no login required.
+    """
+
+    async def browseCatalogue(self, catalogue: Literal["perfumes"] | Literal["colognes"], limit: float | None = None, offset: float | None = None, /) -> Prv_scentbird_ScentbirdCatalogueResult_Out:
+        """Reads one page of Scentbird's own live subscription catalogue (867 perfumes / 631
+        colognes) — real per-item brand, category, rating, in-stock state and price
+        (standard/discount/membership) — straight off the site's own public GraphQL endpoint.
+        """
+
 class Prv_seakeeper(Protocol):
     """Reads Seakeeper's own real-time Dealer / Elite Dealer Locator directly (the same
     admin-ajax endpoint the site's map runs) — every real gyro-stabilizer dealer worldwide,
@@ -16419,6 +17348,19 @@ class Prv_semihandmade(Protocol):
         plus the product page to finish there.
         """
 
+class Prv_sitmeanssit(Protocol):
+    """Reads Sit Means Sit's own real-time Dog Training Locator directly (the same admin-ajax
+    endpoint the site's /locations/ map runs) — the nearest real franchise locations to a US
+    zip, each with its own contact name, phone, reciprocity level and a handoff URL to that
+    location's page.
+    """
+
+    async def findNearestLocations(self, zip: str, limit: float | None = None, /) -> Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out:
+        """Ranks every real Sit Means Sit dog-training location by distance from a US zip and
+        returns the nearest `limit` (default 5, matching the site's own /locations/ map), each
+        with its real contact name, phone, reciprocity level and a handoff URL.
+        """
+
 class Prv_smartsign(Protocol):
     """Reads SmartSign's custom-sign template configurator — search for a template, then read
     its real per-material live pricing and volume-discount ladder — straight from
@@ -16484,6 +17426,34 @@ class Prv_soundcloud(Protocol):
         27-track set is 2 calls and a 200-track set is 5. THROWS when the URL resolves to a
         track or an account, when the set is gone, or when the set lists tracks and none of them
         could be read — an empty track list would be a failed read wearing a success costume.
+        """
+
+class Prv_starlighthomes(Protocol):
+    """Reads Starlight Homes' own metro/neighborhood catalogue — every metro division, one
+    metro's neighborhoods with real live monthly-price and sq-ft ranges, and one
+    neighborhood's ACTUAL move-in-ready homes right now with real street addresses, real
+    sale prices, real plan names and real availability — the cross-neighborhood search the
+    live site itself does not offer.
+    """
+
+    async def listMetros(self, /) -> list[Prv_starlighthomes_StarlighthomesMetroSummary_Out]:
+        """Lists every metro division Starlight Homes currently builds in (e.g. Dallas - Fort
+        Worth, Phoenix). The entry point: every metro's `path` is what `getMetro` takes.
+        """
+
+    async def getMetro(self, path: str, /) -> Prv_starlighthomes_StarlighthomesMetroDetail_Out:
+        """Reads one metro's own page: every named neighborhood in it with a real live
+        monthly-price range, square-footage range and map coordinates. `path` comes from
+        `listMetros()`, e.g. "dallas". THROWS on an unknown path, naming `listMetros()` as the
+        way to find current ones.
+        """
+
+    async def getNeighborhood(self, path: str, /) -> Prv_starlighthomes_StarlighthomesNeighborhoodDetail_Out:
+        """Reads one neighborhood's own page: its ACTUAL move-in-ready homes right now, each with a
+        real street address, real sale price, real plan name and real
+        beds/baths/sqft/availability — never a floor-plan brochure. `path` comes from
+        `getMetro()`, e.g. "dallas/liberty-ranch". THROWS on an unknown path, naming
+        `getMetro()` as the way to find current ones.
         """
 
 class Prv_statefarm(Protocol):
@@ -16712,6 +17682,17 @@ class Prv_target(Protocol):
     """Big-box general merchandise — search, product detail, store stock and store lookup on
     target.com.
     """
+
+    async def search(self, args: Prv_target_search_args_In, /) -> Prv_target_TargetSearchResults_Out:
+        """Searches target.com's catalog for a keyword and returns one page of matching products —
+        TCIN, title, brand, product URL, image, price (plus the pre-markdown price when the
+        site's regular price is genuinely higher), ship availability, rating and review count,
+        and the site's own sponsored-placement flag — in the site's own default relevance order.
+        A page is up to 24 organic rows plus whatever sponsored placements the site adds on top
+        of them; `offset` reads the next page. The site's total match count comes back too, but
+        it counts what the site would SHOW: a nonsense query returns unrelated fallback rows
+        rather than nothing.
+        """
 
     async def findStore(self, args: Prv_target_findStore_args_In, /) -> Prv_target_TargetStoreSearch_Out:
         """Searches the store-locator for nearby Targets by ZIP, partial ZIP, city, or street+city,
@@ -17042,6 +18023,21 @@ class Prv_thezebra(Protocol):
         and a card printing any other term THROWS instead of relabelling a figure.
         `totalPremium` is the site's own whole-term number and is never divided out of the
         monthly one.
+        """
+
+class Prv_thibautdesign(Protocol):
+    """Thibaut's own wallpaper-calculator — the real 'Estimated Rolls Needed' computed exactly
+    as the site computes it from a wall width, ceiling height and the customer's own roll
+    spec and pattern repeat, plus the site's own 20%-overage advisory and its 'How To Buy'
+    next step (there is no DTC cart on this calculator; Thibaut sells to the trade and
+    direct through showrooms/designers).
+    """
+
+    async def calculateRollsNeeded(self, input: Prv_thibautdesign_ThibautdesignRollCalculationInput_In, /) -> Prv_thibautdesign_ThibautdesignRollCalculationResult_Out:
+        """Runs Thibaut's own wallpaper-calculator computation — a real 'Estimated Rolls Needed'
+        from a wall width, ceiling height and the customer's own roll spec, computed exactly as
+        the site's own calculator computes it, no estimate. `howToBuyUrl` is the real next step;
+        there is no DTC checkout on this calculator to route to.
         """
 
 class Prv_tilsonhomes(Protocol):
@@ -17519,6 +18515,24 @@ class Prv_wellfound(Protocol):
         site's own experience-requirement text and the hiring startup.
         """
 
+class Prv_winestyles(Protocol):
+    """Which WineStyles franchise locations offer online order-for-pickup, and a live search of
+    one store's own in-stock wine/beer/cheese catalog with real prices and quantities — read
+    off the same pickup.winestyles.com app the store's own pickup checkout uses.
+    """
+
+    async def listStores(self, /) -> list[Prv_winestyles_WinestylesStore_Out]:
+        """Lists the WineStyles franchise locations that currently offer online order-for-pickup,
+        with each store's numeric id, city and state, read off the site's own store-locator nav.
+        """
+
+    async def searchStoreInventory(self, storeId: str, term: str | None = None, /) -> Prv_winestyles_WinestylesInventorySearch_Out:
+        """Searches one WineStyles store's own live pickup catalog for a term (grape, style,
+        region, brand) and returns matching wine/beer/cheese rows with real prices and in-stock
+        quantities. An empty/omitted term returns that store's full catalog. THROWS if storeId
+        is not a real WineStyles store — call listStores() for real ids.
+        """
+
 class Prv_xpresswellnessurgentcare(Protocol):
     """Reads Xpress Wellness Urgent Care's clinic roster and each clinic's live healow
     wait-time / check-in widget — no key, no browser.
@@ -17612,6 +18626,7 @@ class BowmarkProviders(Protocol):
     abercrombie: Prv_abercrombie
     aiper: Prv_aiper
     ajmadison: Prv_ajmadison
+    amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco
@@ -17633,21 +18648,26 @@ class BowmarkProviders(Protocol):
     bluehaven: Prv_bluehaven
     bluesignal: Prv_bluesignal
     bmwusa: Prv_bmwusa
+    bollandbranch: Prv_bollandbranch
     boydsleep: Prv_boydsleep
     brixton: Prv_brixton
+    bulletproof: Prv_bulletproof
     bykoket: Prv_bykoket
     byltbasics: Prv_byltbasics
     califloors: Prv_califloors
     cancer: Prv_cancer
+    capitalbrands: Prv_capitalbrands
     caraway: Prv_caraway
     carepatrol: Prv_carepatrol
     cars: Prv_cars
     chantecaille: Prv_chantecaille
     cheapflights: Prv_cheapflights
+    chesmar: Prv_chesmar
     chriscraft: Prv_chriscraft
     classichome: Prv_classichome
     classpass: Prv_classpass
     cloudflare: Prv_cloudflare
+    clubchampion: Prv_clubchampion
     consultnet: Prv_consultnet
     culturefly: Prv_culturefly
     cyberpowerpc: Prv_cyberpowerpc
@@ -17659,6 +18679,7 @@ class BowmarkProviders(Protocol):
     dillards: Prv_dillards
     discounttire: Prv_discounttire
     embroker: Prv_embroker
+    eq3: Prv_eq3
     erieinsurance: Prv_erieinsurance
     eventsource: Prv_eventsource
     evolutionofsmooth: Prv_evolutionofsmooth
@@ -17691,6 +18712,7 @@ class BowmarkProviders(Protocol):
     hellofresh: Prv_hellofresh
     hellotend: Prv_hellotend
     hilton: Prv_hilton
+    historymaker: Prv_historymaker
     hobie: Prv_hobie
     holidaybuilders: Prv_holidaybuilders
     hunter: Prv_hunter
@@ -17699,9 +18721,11 @@ class BowmarkProviders(Protocol):
     insurify: Prv_insurify
     interiordefine: Prv_interiordefine
     islllc: Prv_islllc
+    ivoryhomes: Prv_ivoryhomes
     jennikayne: Prv_jennikayne
     joybird: Prv_joybird
     joycefactorydirect: Prv_joycefactorydirect
+    junkluggers: Prv_junkluggers
     justinwine: Prv_justinwine
     kaleidescape: Prv_kaleidescape
     kayak: Prv_kayak
@@ -17710,6 +18734,7 @@ class BowmarkProviders(Protocol):
     kompan: Prv_kompan
     kuiu: Prv_kuiu
     labcorp: Prv_labcorp
+    lasikplus: Prv_lasikplus
     legacyhomesal: Prv_legacyhomesal
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
@@ -17733,6 +18758,7 @@ class BowmarkProviders(Protocol):
     mossyoak: Prv_mossyoak
     naic: Prv_naic
     namecheap: Prv_namecheap
+    nationalbusinessfurniture: Prv_nationalbusinessfurniture
     newegg: Prv_newegg
     nvisioncenters: Prv_nvisioncenters
     oanda: Prv_oanda
@@ -17741,11 +18767,14 @@ class BowmarkProviders(Protocol):
     outdoorresearch: Prv_outdoorresearch
     pacificcompanies: Prv_pacificcompanies
     paypal: Prv_paypal
+    perennialsandsutherland: Prv_perennialsandsutherland
     pirateship: Prv_pirateship
     pizzahut: Prv_pizzahut
+    positivegrid: Prv_positivegrid
     premierbuildings: Prv_premierbuildings
     progressive: Prv_progressive
     prose: Prv_prose
+    provenwinners: Prv_provenwinners
     reddit: Prv_reddit
     reliancepartners: Prv_reliancepartners
     revisionskincare: Prv_revisionskincare
@@ -17756,14 +18785,17 @@ class BowmarkProviders(Protocol):
     saatva: Prv_saatva
     saltandstone: Prv_saltandstone
     samsclub: Prv_samsclub
+    scentbird: Prv_scentbird
     seakeeper: Prv_seakeeper
     sears: Prv_sears
     seegarsfence: Prv_seegarsfence
     selectblinds: Prv_selectblinds
     semihandmade: Prv_semihandmade
+    sitmeanssit: Prv_sitmeanssit
     smartsign: Prv_smartsign
     smartwool: Prv_smartwool
     soundcloud: Prv_soundcloud
+    starlighthomes: Prv_starlighthomes
     statefarm: Prv_statefarm
     stickergiant: Prv_stickergiant
     summerfridaysquiz: Prv_summerfridaysquiz
@@ -17778,6 +18810,7 @@ class BowmarkProviders(Protocol):
     therowhouse: Prv_therowhouse
     thestowcompany: Prv_thestowcompany
     thezebra: Prv_thezebra
+    thibautdesign: Prv_thibautdesign
     tilsonhomes: Prv_tilsonhomes
     titlenine: Prv_titlenine
     topviewtix: Prv_topviewtix
@@ -17797,6 +18830,7 @@ class BowmarkProviders(Protocol):
     walmart: Prv_walmart
     waterfurnace: Prv_waterfurnace
     wellfound: Prv_wellfound
+    winestyles: Prv_winestyles
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     yorkwallcoverings: Prv_yorkwallcoverings
     yourarborhome: Prv_yourarborhome

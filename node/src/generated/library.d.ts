@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 447a468ffb0f0aa7ad6bdc616b3b8537693b8c52f6288d696f3ee312ffddaa05
-// 10 capabilities, 193 providers, 537 typed functions, 20 refused.
+// Manifest version: cad763a89f203eb0c23a88f734a560fbf9ef8ef19c76011ae4e31242280cc7de
+// 10 capabilities, 213 providers, 578 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1620,6 +1620,34 @@ interface AjmadisonSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_amramp {
+  // ── Amramp — the unit's own declarations, verbatim ──
+interface AmrampLocation {
+  /** The franchise's own display name, e.g. "Northeast Wisconsin". */
+  name: string;
+  /** That franchise's own site page — carries its Gravity Forms quote-request
+   * instance. This is the write-step handoff URL; the provider never submits. */
+  url: string;
+}
+
+  /**
+   * Amramp's own ZIP/postal-code locator — which of its ~58 US/Canada accessibility-equipment
+   * franchises covers a given ZIP, and that franchise's own quote-request page — read directly
+   * from the site's own published data, no browser.
+   */
+  interface Unit {
+    /**
+     * Runs Amramp's own ZIP/postal-code locator — the same array-membership match the locator
+     * page's own JS runs on submit, against the site's ~58-row franchise territory table. zip
+     * accepts a US 5-digit or ZIP+4 code or a Canadian postal code. Returns [] when no franchise
+     * covers the ZIP — a real, correct answer, not a failure. Each returned location's url carries
+     * that franchise's own quote-request form (Gravity Forms) — the write step, reached by
+     * handoff, never submitted here.
+     */
+    findNearestLocation(input: { zip: string }): Promise<AmrampLocation[]>;
+  }
+}
+
 declare namespace BowmarkProvider_ancientnutrition {
   // ── Ancient Nutrition — the unit's own declarations, verbatim ──
 // Ancient Nutrition's OWN shapes — not a capability contract.
@@ -3135,6 +3163,64 @@ interface BmwusaModelListing {
   }
 }
 
+declare namespace BowmarkProvider_bollandbranch {
+  // ── Boll & Branch — the unit's own declarations, verbatim ──
+interface BedDesignerStep {
+  title: string;
+  category: string;
+}
+interface BedDesignerFlow {
+  name: string;
+  steps: BedDesignerStep[];
+}
+interface BollAndBranchOption {
+  value: string;
+  inStock: boolean;
+}
+interface BollAndBranchProduct {
+  title: string;
+  handle: string;
+  productType: string;
+  priceRange: { min: number; max: number };
+  sizes: BollAndBranchOption[];
+  colors: BollAndBranchOption[];
+  hasAnyInStock: boolean;
+}
+interface BollAndBranchSwatch {
+  name: string;
+  hex: string | null;
+  imageUrl: string | null;
+}
+
+  /**
+   * Boll & Branch's Virtual Bed Designer, read for real — the bundle configurator's own category
+   * steps, live product/price/color options and swatch references, off the embedded widget
+   * vendor's own undocumented API.
+   */
+  interface Unit {
+    /**
+     * Reads the Virtual Bed Designer's own configurator definition — its ordered category steps
+     * (sheet set, comforter/duvet, bed blanket, throw blanket, decorative pillow) — straight off
+     * the widget vendor's live API. The entry point: getCategoryOptions takes a `category` from
+     * this flow's steps.
+     */
+    getBedDesignerFlow(): Promise<BedDesignerFlow>;
+
+    /**
+     * Lists the real, currently-sellable products for one Designer category (matched by keyword
+     * against the site's own productType, e.g. "Choose Your Sheet Set" -> Sheet Sets) with live
+     * price range, size/color options and stock.
+     */
+    getCategoryOptions(category: string): Promise<BollAndBranchProduct[]>;
+
+    /**
+     * Resolves color/fabric names (as offered by getCategoryOptions) to their hex value or
+     * reference swatch image. THROWS on an unknown name.
+     */
+    getSwatchDetails(names: string[]): Promise<BollAndBranchSwatch[]>;
+  }
+}
+
 declare namespace BowmarkProvider_boydsleep {
   // ── Boyd Sleep — the unit's own declarations, verbatim ──
 // Boyd Sleep's OWN shapes — not a capability contract.
@@ -3271,6 +3357,45 @@ interface BrixtonCheckoutLink {
      * available — the error names the candidate or in-stock options so the caller can retry.
      */
     getBrixtonCheckoutLink(handle: string, variantTitleOrOptions: string, opts?: { quantity?: number }): Promise<BrixtonCheckoutLink>;
+  }
+}
+
+declare namespace BowmarkProvider_bulletproof {
+  // ── Bulletproof 360 — the unit's own declarations, verbatim ──
+interface BulletproofStore {
+  id: string;
+  name: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string;
+  latitude: number;
+  longitude: number;
+  distanceMiles: number;
+  dataSource: string;
+}
+interface BulletproofNearbyStores {
+  zip: string;
+  maxItems: number;
+  stores: BulletproofStore[];
+}
+
+  /**
+   * Reads Bulletproof 360's own real-time Destini store locator directly — real nearby retailers
+   * (Target, Whole Foods, Sprouts and others) that actually carry Bulletproof products near a US
+   * ZIP, distance-ranked, never a guess at which national chains might stock it.
+   */
+  interface Unit {
+    /**
+     * Runs Bulletproof 360's own real-time Destini store locator for a US ZIP and returns real
+     * nearby retailers that carry Bulletproof products, distance-ranked (miles), nearest first —
+     * from the brand's own tracked retailer network, not a guess at national chains. `maxItems`
+     * defaults to 25 and is capped at 100; an honestly empty list means Destini's own tracker has
+     * nothing that close.
+     */
+    findStores(zip: string, maxItems?: number): Promise<BulletproofNearbyStores>;
   }
 }
 
@@ -3555,6 +3680,49 @@ interface cancerInfoSummaryResult {
      * option's own URL rather than silently answering for the wrong one.
      */
     getCancerInfoSummary(args: { topic: string; audience?: "patient" | "healthProfessional" }): Promise<cancerInfoSummaryResult>;
+  }
+}
+
+declare namespace BowmarkProvider_capitalbrands {
+  // ── NutriBullet (Capital Brands LLC) — the unit's own declarations, verbatim ──
+interface CapitalbrandsQuizQuestion {
+  step: number;
+  title: string;
+  allowsMultiple: boolean;
+  options: Array<{ value: string; label: string }>;
+}
+
+interface CapitalbrandsQuizQuestions {
+  questions: CapitalbrandsQuizQuestion[];
+}
+
+interface CapitalbrandsRecommendedProduct {
+  name: string;
+  price: string | null;
+  url: string;
+}
+
+interface CapitalbrandsRecommendation {
+  products: CapitalbrandsRecommendedProduct[];
+}
+
+  /**
+   * NutriBullet's own "Which nutribullet is Best for Me?" product-recommendation quiz
+   * (nutribullet.com) — reads the real four-question quiz and runs the site's own scoring logic
+   * to return the actual recommended blender(s), with no personal information required.
+   */
+  interface Unit {
+    /**
+     * Reads NutriBullet's own product-recommendation quiz off its live page — all four questions,
+     * in order, with the exact option values and labels the site's own form submits.
+     */
+    listQuizQuestions(): Promise<CapitalbrandsQuizQuestions>;
+
+    /**
+     * Runs the site's own quiz-scoring logic for a real set of quiz answers and returns the actual
+     * recommended blender(s) — name, price and buy link — with no personal information required.
+     */
+    getBlenderRecommendation(arg: { answers: string[] }): Promise<CapitalbrandsRecommendation>;
   }
 }
 
@@ -3982,6 +4150,56 @@ interface KayakCar {
      * site's own three-phase supplier poll completes.
      */
     searchCars(query: KayakCarQuery): Promise<KayakCar[]>;
+  }
+}
+
+declare namespace BowmarkProvider_chesmar {
+  // ── Chesmar Homes — the unit's own declarations, verbatim ──
+// Chesmar Homes' OWN shapes — not a capability contract.
+
+interface ChesmarQuickMoveInHome {
+  id: string;
+  planName: string;
+  communityName: string;
+  communityUrl: string | null;
+  city: string;
+  region: string;          // e.g. "San Antonio"
+  address: string;
+  price: number;
+  priceFormatted: string;
+  beds: number | null;
+  baths: number | null;
+  sqft: number | null;
+  garage: string | null;
+  url: string;              // the listing page — inquire / schedule a tour lives here
+}
+
+interface ChesmarSearchFilters {
+  region?: string;      // fuzzy substring, e.g. "Austin"
+  city?: string;         // fuzzy substring, e.g. "Georgetown"
+  community?: string;    // fuzzy substring, e.g. "Nolina"
+  minBeds?: number;
+  minBaths?: number;
+  minSqft?: number;
+  minPrice?: number;
+  maxPrice?: number;
+}
+
+  /**
+   * Chesmar Homes' live quick-move-in inventory search across 5 Texas markets (Austin, San
+   * Antonio, Houston, Dallas, Central Texas) — filterable by region/city/community and
+   * beds/baths/sqft/price, off the sitemap's own stable detail-page URLs rather than a
+   * third-party listing aggregator's mirror.
+   */
+  interface Unit {
+    /**
+     * Runs Chesmar Homes' quick-move-in home search against the site's own live inventory — real
+     * address, price, beds/baths/sqft, community/plan and a listing URL to inquire or schedule a
+     * tour. `filters` requires at least one of `region` (e.g. "Austin"), `city` (e.g.
+     * "Georgetown") or `community` (e.g. "Nolina") to bound the search, plus optional `minBeds`,
+     * `minBaths`, `minSqft`, `minPrice`, `maxPrice`.
+     */
+    searchQuickMoveInHomes(filters: ChesmarSearchFilters): Promise<ChesmarQuickMoveInHome[]>;
   }
 }
 
@@ -4447,6 +4665,74 @@ interface CloudflareSearchDomainAvailabilityResult {
      * across other TLDs.
      */
     searchDomainAvailability(domain: string): Promise<CloudflareSearchDomainAvailabilityResult>;
+  }
+}
+
+declare namespace BowmarkProvider_clubchampion {
+  // ── Club Champion — the unit's own declarations, verbatim ──
+interface ClubchampionStudio {
+  id: string;
+  name: string;
+  timezone: string;
+  bayCount: number;
+  address: string;
+  country: string;
+  lat: number;
+  lng: number;
+  phone: string;
+  email: string;
+}
+
+interface ClubchampionFitting {
+  productId: string;
+  name: string;
+  description: string;
+  durationMinutes: number;
+  durationLabel: string;
+  unitPrice: number;
+}
+
+interface ClubchampionFittingsMenu {
+  storeId: string;
+  storeName: string;
+  fittings: ClubchampionFitting[];
+  activePromoCode: string | null;
+  activePromoTerms: string | null;
+}
+
+interface ClubchampionAvailability {
+  resourceId: string;
+  range: { start: string; end: string };
+  mode: string;      // the site's own live/cached indicator
+  slots: unknown[];  // the site's own slot list, verbatim — empty is a real answer
+}
+
+  /**
+   * Club Champion's live studio directory, real per-store fitting pricing, and real open-slot
+   * availability checks — the same booking widget backend the site itself calls. Rung 10, no
+   * browser.
+   */
+  interface Unit {
+    /**
+     * Reads the live list of every Club Champion fitting studio (~155 in the US) — real address,
+     * lat/lng, timezone, bay count and contact info, the same data the site's own /booknow-access
+     * studio finder renders.
+     */
+    listStudios(): Promise<ClubchampionStudio[]>;
+
+    /**
+     * Reads one studio's real, live fitting-type menu with per-store pricing (Driver, Full Bag,
+     * Putter, etc.) — pass a studio name from listStudios(), e.g. "Bellevue".
+     */
+    getFittings(storeName: string): Promise<ClubchampionFittingsMenu>;
+
+    /**
+     * Checks real, live open-slot availability for one fitting product (a `productId` from
+     * getFittings()) over a "YYYY-MM-DD"..."YYYY-MM-DD" date range — the same live check the
+     * site's own booking widget makes. An empty `slots` array is the site's real answer, not an
+     * error.
+     */
+    checkAvailability(resourceId: string, start: string, end: string): Promise<ClubchampionAvailability>;
   }
 }
 
@@ -5441,6 +5727,70 @@ interface EmbrokerQuoteEntryPoint {
      * quote-wizard products.
      */
     getQuoteEntryPoint(args: { product: string }): Promise<EmbrokerQuoteEntryPoint>;
+  }
+}
+
+declare namespace BowmarkProvider_eq3 {
+  // ── EQ3 — the unit's own declarations, verbatim ──
+interface Eq3SofaListing {
+  instanceId: string;   // pass into getSofaConfiguration's instanceId
+  name: string;
+  regularPrice: number; // real listing price before the sitewide sale
+  salePrice: number;    // real listing price after the sitewide sale, 0 when none running
+  isCustomMade: boolean;
+  coloursAvailable: boolean;
+  optionsAvailable: boolean;
+  thumbnailUrl: string | null;
+  categorySlug: string;
+  subcategorySlug: string;
+  productLineSlug: string;
+  productSlug: string;
+  productUrl: string;
+}
+
+interface Eq3OptionItem {
+  id: string;
+  alias: string;
+  price: number | null; // null when this item is structural (its price lives on ITS OWN nested groups)
+}
+
+interface Eq3OptionGroup {
+  component: string; // e.g. "Seat Depth", "Core", "Arm Style"
+  items: Eq3OptionItem[];
+}
+
+interface Eq3SofaConfiguration {
+  instanceId: string;
+  name: string;
+  regularPrice: number;   // the site's own computed price for this default build
+  sellingPrice: number;
+  discountPercent: number | null; // e.g. 20 — null when no sale is running
+  massPounds: number | null;
+  availability: string;
+  canonicalUrl: string;
+  optionGroups: Eq3OptionGroup[]; // every alternative the configurator offers
+}
+
+  /**
+   * EQ3's modern furniture catalog and configurator — real listing prices across the sofa line
+   * (listSofas), and one product's full fabric/finish/size configurator read in full
+   * (getSofaConfiguration): the site's own computed price for its default build plus every
+   * alternative option and its own price contribution.
+   */
+  interface Unit {
+    /**
+     * Lists every sofa in EQ3's living/seating/sofas line with real regular and sale prices,
+     * straight off the site's own category listing. Every row carries the exact ids
+     * getSofaConfiguration needs.
+     */
+    listSofas(): Promise<Eq3SofaListing[]>;
+
+    /**
+     * Reads one sofa's full configurator: the site's own computed price (regular + sale) for its
+     * default build, plus every fabric/finish/size option the configurator offers with each item's
+     * own price contribution. THROWS when the instance does not exist.
+     */
+    getSofaConfiguration(args: { instanceId: string; categorySlug: string; subcategorySlug: string; productLineSlug: string; productSlug: string }): Promise<Eq3SofaConfiguration>;
   }
 }
 
@@ -8794,6 +9144,65 @@ interface hiltonRoomOffer {
   }
 }
 
+declare namespace BowmarkProvider_historymaker {
+  // ── HistoryMaker Homes — the unit's own declarations, verbatim ──
+// HistoryMaker Homes' OWN shapes — not a capability contract.
+
+interface HistorymakerHomeSummary {
+  id: string;                    // the key getHome takes
+  formattedAddress: string;
+  city: string; state: string; zip: string;
+  price: number | null;          // current asking price, dollars
+  formattedCurrentPrice: string;
+  formattedOriginalPrice: string;
+  beds: number; baths: number;
+  sqft: string;                  // the site's own formatted string, e.g. "1,440"
+  garage: number | null; floors: number | null;
+  banner: string;                // e.g. "Ready Now", or "" when none
+  communityName: string; residenceName: string;
+  url: string;                   // the home's own public listing page
+}
+
+interface HistorymakerSearchFilters {
+  minPrice?: number; maxPrice?: number; beds?: number; baths?: number; minSqft?: number;
+}
+
+interface HistorymakerCommunity {
+  id: string; name: string; city: string; state: string;
+  formattedPriceRange: string; sqftRange: string; bedsRange: string; bathsRange: string;
+  activeHomesCount: number; url: string;
+}
+
+  /**
+   * Reads HistoryMaker Homes' own live Dallas/Fort Worth quick-move-in inventory — real
+   * addresses, real current and original prices, real beds/baths/sqft and availability banners,
+   * fully filterable by price, beds, baths and minimum sqft — plus the site's own community
+   * list, the way the site's own search would show it.
+   */
+  interface Unit {
+    /**
+     * Searches HistoryMaker's current Dallas/Fort Worth quick-move-in inventory by min/max price,
+     * beds, baths and minimum sqft. Real addresses, real prices, real availability banners ('Ready
+     * Now' etc.) — never a floor-plan brochure.
+     */
+    searchQuickMoveIns(filters?: HistorymakerSearchFilters): Promise<HistorymakerHomeSummary[]>;
+
+    /**
+     * Reads one quick-move-in home's full detail: address, current and original price, beds/baths,
+     * sqft, garage, floors, community and residence (floor-plan) name, and its own public listing
+     * URL. `id` is a home's `id` from `searchQuickMoveIns()`.
+     */
+    getHome(id: string): Promise<HistorymakerHomeSummary>;
+
+    /**
+     * Lists HistoryMaker's active DFW communities with city, price range, beds/baths range, sqft
+     * range and how many homes are currently active in each — the site's own community-picker
+     * data.
+     */
+    listCommunities(): Promise<HistorymakerCommunity[]>;
+  }
+}
+
 declare namespace BowmarkProvider_hobie {
   // ── Hobie Cat Company — the unit's own declarations, verbatim ──
 interface HobieModelSummary {
@@ -10252,6 +10661,45 @@ interface IsllcSearchCommunitiesResult {
   }
 }
 
+declare namespace BowmarkProvider_ivoryhomes {
+  // ── Ivory Homes — the unit's own declarations, verbatim ──
+// Ivory Homes' OWN shapes — not a capability contract.
+
+interface IvoryHomesFloorPlan {
+  name: string;
+  slug: string;
+  totalSqft: number | null;
+  finishedSqft: number | null;
+  beds: number | null;
+  baths: number | null;
+  imageUrl: string | null;
+  detailUrl: string;      // the plan's own detail page
+}
+
+interface IvoryHomesSearchFilters {
+  minBeds?: number;    // "N+", 0-7
+  minBaths?: number;   // "N+", 0-7
+  sqftFrom?: number;
+  sqftTo?: number;
+  stories?: 1 | 2 | 3;
+}
+
+  /**
+   * Ivory Homes' live home-design floor-plan search — filterable by minimum beds/baths, a
+   * total-square-footage range and story count, off the site's own undocumented DataFetch
+   * endpoint rather than a third-party listing aggregator's stale mirror.
+   */
+  interface Unit {
+    /**
+     * Runs Ivory Homes' home-design floor-plan search against the site's own live inventory — plan
+     * name, total/finished square footage, bed/bath count, a gallery image and the plan's own
+     * detail-page URL. `filters` is optional: `minBeds`, `minBaths` (each 0-7, "at least"),
+     * `sqftFrom`/`sqftTo` (a total-square-footage range) and `stories` (1, 2 or 3).
+     */
+    searchFloorPlans(filters: IvoryHomesSearchFilters): Promise<IvoryHomesFloorPlan[]>;
+  }
+}
+
 declare namespace BowmarkProvider_jennikayne {
   // ── Jenni Kayne — the unit's own declarations, verbatim ──
 interface GiftCardDenomination {
@@ -10438,6 +10886,76 @@ interface JoyceWindowCalculatorOptions {
      * getWindowCalculatorOptions.
      */
     getBathCalculatorOptions(): Promise<JoyceWindowCalculatorOptions>;
+  }
+}
+
+declare namespace BowmarkProvider_junkluggers {
+  // ── The Junkluggers — the unit's own declarations, verbatim ──
+interface JunkluggersFranchise {
+  franchiseId: number;
+  franchiseName: string;
+}
+
+interface JunkluggersFranchiseLookup {
+  zip: string;
+  inService: boolean;
+  franchise: JunkluggersFranchise | null;
+}
+
+interface JunkluggersServiceType {
+  serviceTypeId: number;
+  serviceType: string;
+  isOnline: boolean;
+  franchiseId: number;
+  franchiseName: string;
+}
+
+interface JunkluggersAvailabilitySlot {
+  date: string;
+  startTime: string;
+  durationMinutes: number;
+  routeId: string;
+}
+
+interface JunkluggersAvailability {
+  zip: string;
+  serviceTypeId: number;
+  inService: boolean;
+  slots: JunkluggersAvailabilitySlot[];
+}
+
+  /**
+   * Junk-removal franchise booking — resolves a zip to its local Junkluggers franchise, lists
+   * that franchise's online-bookable service types, and reads real-time open 2-hour appointment
+   * windows straight off the site's own Vonigo scheduling backend. Read-only: no booking is
+   * created.
+   */
+  interface Unit {
+    /**
+     * Resolves the local Junkluggers franchise for a zip code (`zip`) — the same lookup the
+     * `/book-now/` widget runs as its first step. Returns `inService: false` (not an error) when
+     * the zip falls outside every franchise's coverage area, e.g. `{ zip: "78701" }` -> `{
+     * inService: true, franchise: { franchiseId: 137, franchiseName: "TX - Austin" } }`.
+     */
+    findFranchise(args: object): Promise<JunkluggersFranchiseLookup>;
+
+    /**
+     * Lists the service types the zip's resolved franchise offers (`zip`), each flagged `isOnline`
+     * for whether the public widget lets a visitor book it directly (most franchises expose only
+     * "Junk Removal"; a handful of internal types like "National Accounts" are staff-only). Empty
+     * array for a zip outside every franchise's area.
+     */
+    getServiceTypes(args: object): Promise<JunkluggersServiceType[]>;
+
+    /**
+     * The computed result: real open 2-hour appointment windows for a zip (`zip`), from
+     * Junkluggers' live Vonigo scheduling backend — the same call the `/book-now/` widget makes
+     * after zip -> franchise -> service-type resolution, exactly what ChatGPT cannot see today (it
+     * can only hedge with a national price range and ask the user to call the local office).
+     * `serviceTypeId` defaults to the zip's first online-bookable type; `daysAhead` (1-14, default
+     * 7) bounds the search window. Read-only — no booking is created, no PII is sent.
+     */
+    getAvailability(args: object): Promise<JunkluggersAvailability>;
   }
 }
 
@@ -10942,6 +11460,66 @@ interface LabcorpTestDetail extends LabcorpTestSummary {
      * returned by `search`.
      */
     getTest(sku: string): Promise<LabcorpTestDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_lasikplus {
+  // ── LasikPlus — the unit's own declarations, verbatim ──
+interface LasikPlusCenter {
+  centerCode: string;
+  brand: string;
+  city: string;
+  state: string;
+  zip: string;
+  address1: string;
+  address2: string;
+  url: string;
+  distanceMiles: number;
+  ratings: number;
+  userRatingsTotal: number;
+}
+
+interface LasikPlusDaySlots {
+  date: string;
+  times: string[];
+}
+
+interface LasikPlusCenterInfo {
+  centerCode: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+  directions: string;
+  mapURL: string;
+}
+
+interface LasikPlusAvailability {
+  centerCode: string;
+  found: boolean;
+  centerInfo: LasikPlusCenterInfo | null;
+  inCenterDates: LasikPlusDaySlots[];
+  virtualDates: LasikPlusDaySlots[];
+}
+
+  /**
+   * LasikPlus's own iSchedule locator + live appointment calendar (lasikplus.com/ischedule/) —
+   * find nearby centers by ZIP, then read the real, computed open consultation slots for one,
+   * in-center and virtual, before any contact info is required.
+   */
+  interface Unit {
+    /**
+     * Given a US ZIP, returns the real, distance-sorted set of nearby LasikPlus centers with their
+     * centerCode.
+     */
+    findCenters(arg: { zip: string, radiusMiles?: number }): Promise<LasikPlusCenter[]>;
+
+    /**
+     * Given a centerCode from findCenters, returns the live, computed in-center and virtual
+     * consultation slot calendar.
+     */
+    getAvailability(centerCode: string): Promise<LasikPlusAvailability>;
   }
 }
 
@@ -13837,6 +14415,101 @@ interface namecheapWhoisRecord {
   }
 }
 
+declare namespace BowmarkProvider_nationalbusinessfurniture {
+  // ── National Business Furniture — the unit's own declarations, verbatim ──
+// National Business Furniture's OWN shapes — not a capability contract.
+
+interface NbfProductSummary {
+  sku: string;                // the key getProduct takes
+  name: string;
+  urlKey: string;
+  url: string;
+  basePrice: number;
+  basePriceFormatted: string; // "$1,969.00"
+}
+
+interface NbfOptionChoice { valueIndex: number; label: string; variantSku: string; price: number; priceFormatted: string }
+
+interface NbfOption {
+  groupLabel: string;          // "Finish" — the real swatch group name, not GraphQL's opaque attribute_code
+  choices: NbfOptionChoice[];
+}
+
+interface NbfProduct {
+  sku: string;
+  name: string;
+  url: string;
+  basePrice: number;
+  basePriceFormatted: string;
+  options: NbfOption[];
+}
+
+interface NbfPriceResult {
+  sku: string;
+  variantSku: string | null;   // null until every option group is picked
+  price: number | null;
+  priceFormatted: string | null;
+  applied: { group: string; choice: string }[];
+  missingGroups: string[];     // option groups with no valid selection applied
+  unmatched: string[];         // selections that didn't match a real group/choice, named so nothing mispriced silently
+  handoffUrl: string;          // the product's entry page — call addToCart for the same page plus which swatch to click
+}
+
+interface NbfCartHandoff {
+  sku: string;
+  name: string;
+  url: string;                 // the product page — NBF publishes no query-param deep link, so this is the base URL
+  applied: { group: string; choice: string }[];
+  price: number | null;
+  priceFormatted: string | null;
+  missingGroups: string[];
+  unmatched: string[];
+}
+
+  /**
+   * National Business Furniture's office-furniture catalog — search live inventory, read one
+   * product's real configurable options (finish, size) with each choice's exact price, and
+   * resolve a specific configuration to its real variant price rather than a researched
+   * estimate.
+   */
+  interface Unit {
+    /**
+     * Searches National Business Furniture's office-furniture catalog by free text (e.g. "desk",
+     * "conference chair") and returns every match's SKU, name, entry URL and starting price. The
+     * `sku` on each row is what getProduct takes.
+     */
+    searchProducts(query: string): Promise<NbfProductSummary[]>;
+
+    /**
+     * Reads one product's full configurable-option set (e.g. Finish) with each choice's REAL label
+     * and its exact variant price, plus the base product's price and page URL. THROWS on an
+     * unknown SKU, naming searchProducts() as the way to find current ones.
+     */
+    getProduct(sku: string): Promise<NbfProduct>;
+
+    /**
+     * Resolves ONE specific configuration — selections keyed by option group (case-insensitive),
+     * e.g. { Finish: "Ash Black" } — against the SKU's live options and returns the matching
+     * variant's real price, the applied choices, and the site URL to re-pick the same choices
+     * (National Business Furniture publishes no shareable URL for a configured state).
+     * `missingGroups` names any option group left unpicked — price is null until every group is
+     * chosen. `unmatched` names any selection that did not match a real group or choice, rather
+     * than silently mispricing.
+     */
+    priceConfiguration(sku: string, selections: Record<string, string>): Promise<NbfPriceResult>;
+
+    /**
+     * Turns a configuration into the handoff you give the shopper: National Business Furniture's
+     * own product page URL plus the exact choices to click there (e.g. Finish: "Ash Black"), since
+     * this site does not honour a query-param deep link the way some Magento storefronts do
+     * (measured — see the provider's reach note). Same selections shape as priceConfiguration, and
+     * returns the same price and applied choices alongside the URL. NOTHING IS CREATED SERVER-SIDE
+     * and nothing is bought — this provider never posts to the site's own add-to-cart endpoint.
+     */
+    addToCart(sku: string, selections: Record<string, string>): Promise<NbfCartHandoff>;
+  }
+}
+
 declare namespace BowmarkProvider_newegg {
   // ── Newegg — the unit's own declarations, verbatim ──
 // Newegg's OWN row shape — not the `pcparts` capability contract.
@@ -14378,6 +15051,68 @@ interface PaypalCurrencyConversionQuote {
   }
 }
 
+declare namespace BowmarkProvider_perennialsandsutherland {
+  // ── Perennials & Sutherland — the unit's own declarations, verbatim ──
+interface RugSearchResult {
+  sku: string;
+  id: string;
+  name: string;
+  colorway: string;
+  url: string;
+}
+
+interface RugVariantOption {
+  sku: string;
+  variationId: number;
+  name: string;
+}
+
+interface RugVariant {
+  sku: string;
+  id: number;
+  name: string;
+  url: string;
+  price: number;
+  currency: string;
+  colorways: RugVariantOption[];
+  sizes: RugVariantOption[];
+  explorugUrl: string | null;
+  tearsheetUrl: string;
+}
+
+interface TearsheetUrl {
+  productId: string;
+  url: string;
+}
+
+  /**
+   * Reads Perennials & Sutherland's public rug catalog (perennialsandsutherland.com) — search
+   * for a design, read one variant's real trade price, its sibling colorway/size choices, and
+   * its unauthenticated PDF tearsheet.
+   */
+  interface Unit {
+    /**
+     * Searches Perennials & Sutherland's live public rug catalog and returns each match's product
+     * URL, sku, id and name.
+     */
+    searchRugs(query: string): Promise<RugSearchResult[]>;
+
+    /**
+     * Reads one rug product-page variant (design + colorway + size) — the real trade price, sku,
+     * size, and every sibling colorway/size choice available on that same design — straight off
+     * the page's own inline JSON, before any login or PII.
+     */
+    getRugVariant(url: string): Promise<RugVariant>;
+
+    /**
+     * Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant (spec
+     * sheet keyed to that exact product id) — confirmed to serve a real application/pdf with no
+     * login and no query-string secret.
+     */
+    getTearsheetUrl(productId: string): Promise<TearsheetUrl>;
+  }
+}
+
 declare namespace BowmarkProvider_pirateship {
   // ── Pirate Ship — the unit's own declarations, verbatim ──
 interface PirateshipDimensions {
@@ -14739,6 +15474,66 @@ interface PizzahutDealsForRender {
      * anonymous, one Contentful read per call.
      */
     getDeals(args: { storeNumber: string }): Promise<PizzahutDealsForRender>;
+  }
+}
+
+declare namespace BowmarkProvider_positivegrid {
+  // ── Positive Grid — the unit's own declarations, verbatim ──
+interface positivegridFindRetailersArgs {
+  /** A 5-digit US ZIP. The geocoder behind this is keyless and resolves ZIPs
+   * only — a city/state or street address is refused. */
+  near: string;
+  /** Defaults to 50, max 500. */
+  radiusMiles?: number;
+  /** Defaults to 10, max 100. */
+  limit?: number;
+}
+
+interface positivegridRetailer {
+  /** The vendor's own numeric id for this location. */
+  id: string;
+  name: string;
+  street: string;
+  city: string | null;
+  region: string | null;
+  country: string | null;
+  phone: string | null;
+  /** The retailer's own site, when the feed publishes one. */
+  url: string | null;
+  latitude: number;
+  longitude: number;
+  /** Straight-line miles from the geocoded search centre. */
+  distanceMiles: number;
+}
+
+interface positivegridRetailerSearch {
+  query: string;
+  center: { latitude: number; longitude: number };
+  radiusMiles: number;
+  /** How many rows in the FULL feed fell within radiusMiles — may exceed
+   * retailers.length if the radius matched more than `limit`. */
+  totalWithinRadius: number;
+  /** Nearest first. */
+  retailers: positivegridRetailer[];
+}
+
+  /**
+   * Positive Grid's own authorized-retailer network — findRetailers finds real nearby dealers
+   * (Guitar Center and independent music shops) that carry Spark amps, with address, phone and
+   * distance, read straight off the site's own store-locator data feed rather than a generic web
+   * guess.
+   */
+  interface Unit {
+    /**
+     * Authorized Positive Grid retailers near a place — real dealers who carry Spark amps, nearest
+     * first, each with street address, phone, coordinates and distance. `near` is a 5-digit US ZIP
+     * (the geocoder behind this is keyless and only resolves ZIPs — a city/state or street address
+     * is refused). `radiusMiles` defaults to 50 (max 500), `limit` to 10 (max 100).
+     * `totalWithinRadius` reports how many of the vendor's worldwide dealer list fell inside the
+     * radius, which can exceed `limit` — this module sees the whole feed, unlike a server-side
+     * search that would silently truncate.
+     */
+    findRetailers(arg: positivegridFindRetailersArgs): Promise<positivegridRetailerSearch>;
   }
 }
 
@@ -15458,6 +16253,60 @@ interface HairPrescription {
      * product types moved sections between two divergent profiles).
      */
     getHairPrescription(answers: HairConsultationAnswers): Promise<HairPrescription>;
+  }
+}
+
+declare namespace BowmarkProvider_provenwinners {
+  // ── Proven Winners — the unit's own declarations, verbatim ──
+interface ContainerRecipeFilters {
+  keyword?: string;
+  season?: "early_spring" | "spring" | "summer" | "fall" | "winter";
+  potStyle?: "hanging_basket" | "upright_container" | "wall_sconce" | "window_box";
+  colorScheme?: "complementary" | "accented_neutral" | "analogous" | "earth_tones" | "monochromatic" | "neutral" | "pastel_mix" | "patriotic" | "split_analogous" | "split_complementary" | "tetradic" | "triadic" | "tropical" | "vibrant_mix" | "warm_and_cool";
+  exposure?: "bright_light" | "full_shade" | "high" | "low" | "medium" | "part_shade" | "part_shade_to_shade" | "part_sun_to_shade" | "part_sun_to_sun" | "sun" | "sun_or_shade";
+  potSizeInches?: number;
+  potSizeOp?: "lt" | "lte" | "eq" | "neq" | "gte" | "gt";
+  page?: number;
+}
+interface ContainerRecipeSummary {
+  slug: string;
+  title: string;
+  url: string;
+  potSizeInches: number | null;
+  plants: Array<{ quantity: number; name: string; url: string }>;
+}
+interface ContainerRecipeSearchResult {
+  recipes: ContainerRecipeSummary[];
+  totalCount: number;
+}
+interface ContainerRecipeDetails {
+  slug: string;
+  title: string;
+  url: string;
+  description: string;
+  seasons: string[];
+  potSizeInches: number | null;
+  plants: Array<{ role: string; quantity: number; name: string; url: string }>;
+}
+
+  /**
+   * Proven Winners' own Container Recipe Finder (1,074+ real container-planting recipes,
+   * filterable by season, pot style, pot size, color scheme, exposure and keyword) plus a
+   * recipe's exact plant list off its own combination page.
+   */
+  interface Unit {
+    /**
+     * Runs Proven Winners' own Container Recipe Finder — season, pot style, pot size (with an
+     * operator), color scheme, exposure and free-text keyword — and returns the matching recipes
+     * with their pot size and plant list, plus the site's own total match count.
+     */
+    searchContainerRecipes(filters?: ContainerRecipeFilters): Promise<ContainerRecipeSearchResult>;
+
+    /**
+     * Reads one container recipe's own combination page — season(s), container size, and the exact
+     * plant list with each plant's role (Filler/Spiller/Thriller), quantity and buy-page link.
+     */
+    getRecipeDetails(slug: string): Promise<ContainerRecipeDetails>;
   }
 }
 
@@ -16381,6 +17230,48 @@ interface SamsclubMembershipPlan {
   }
 }
 
+declare namespace BowmarkProvider_scentbird {
+  // ── Scentbird — the unit's own declarations, verbatim ──
+interface ScentbirdPrice {
+  standard: number | null;
+  discount: number | null;
+  membership: number | null;
+  currencyCode: string | null;
+}
+interface ScentbirdProduct {
+  id: number;
+  url: string;
+  fullName: string;
+  name: string;
+  brand: string | null;
+  category: string | null;
+  gender: string | null;
+  rating: number | null;
+  sku: string | null;
+  inStock: boolean | null;
+  volume: { unit: string; amount: number } | null;
+  price: ScentbirdPrice;
+}
+interface ScentbirdCatalogueResult {
+  catalogue: "perfumes" | "colognes";
+  count: number;
+  products: ScentbirdProduct[];
+}
+
+  /**
+   * Scentbird's own live perfume/cologne subscription catalogue — real per-item name, brand,
+   * category, in-stock state and price, no login required.
+   */
+  interface Unit {
+    /**
+     * Reads one page of Scentbird's own live subscription catalogue (867 perfumes / 631 colognes)
+     * — real per-item brand, category, rating, in-stock state and price
+     * (standard/discount/membership) — straight off the site's own public GraphQL endpoint.
+     */
+    browseCatalogue(catalogue: "perfumes" | "colognes", limit?: number, offset?: number): Promise<ScentbirdCatalogueResult>;
+  }
+}
+
 declare namespace BowmarkProvider_seakeeper {
   // ── Seakeeper — the unit's own declarations, verbatim ──
 interface SeakeeperDealer {
@@ -16757,6 +17648,38 @@ interface SemihandmadePriceResult {
   }
 }
 
+declare namespace BowmarkProvider_sitmeanssit {
+  // ── Sit Means Sit — the unit's own declarations, verbatim ──
+interface SitmeanssitLocation {
+  name: string;
+  contactName: string;
+  phone: string;
+  email: string;
+  reciprocity: string;
+  handoffUrl: string;
+  distanceMiles: number;
+}
+interface SitmeanssitNearestLocationsResult {
+  zip: string;
+  locations: SitmeanssitLocation[];
+}
+
+  /**
+   * Reads Sit Means Sit's own real-time Dog Training Locator directly (the same admin-ajax
+   * endpoint the site's /locations/ map runs) — the nearest real franchise locations to a US
+   * zip, each with its own contact name, phone, reciprocity level and a handoff URL to that
+   * location's page.
+   */
+  interface Unit {
+    /**
+     * Ranks every real Sit Means Sit dog-training location by distance from a US zip and returns
+     * the nearest `limit` (default 5, matching the site's own /locations/ map), each with its real
+     * contact name, phone, reciprocity level and a handoff URL.
+     */
+    findNearestLocations(zip: string, limit?: number): Promise<SitmeanssitNearestLocationsResult>;
+  }
+}
+
 declare namespace BowmarkProvider_smartsign {
   // ── SmartSign — the unit's own declarations, verbatim ──
 interface SmartsignSearchResult {
@@ -16911,6 +17834,77 @@ interface ScPlaylist {
      * track list would be a failed read wearing a success costume.
      */
     getPlaylist(playlist: string | ScPlaylist, limit?: number): Promise<ScPlaylist>;
+  }
+}
+
+declare namespace BowmarkProvider_starlighthomes {
+  // ── Starlight Homes — the unit's own declarations, verbatim ──
+// Starlight Homes' OWN shapes — not a capability contract.
+
+interface StarlighthomesRange { lowest: number | null; highest: number | null }
+
+interface StarlighthomesMetroSummary {
+  name: string;                // e.g. "Dallas - Fort Worth"
+  path: string;                // the key getMetro takes
+}
+
+interface StarlighthomesNeighborhoodSummary {
+  name: string;
+  path: string;                // the key getNeighborhood takes
+  monthlyPriceRange: StarlighthomesRange;  // advertised MONTHLY payment, not sale price
+  sqftRange: StarlighthomesRange;
+  coordinates: { lat: number; lng: number } | null;
+}
+
+interface StarlighthomesMetroDetail {
+  path: string;
+  neighborhoods: StarlighthomesNeighborhoodSummary[];
+}
+
+interface StarlighthomesAvailableHome {
+  address: string;             // real street address, e.g. "818 Independence Trail"
+  price: number;               // current sale price
+  listPrice: number | null;    // struck-through prior/list price, when discounted
+  planName: string;
+  planPath: string;
+  beds: number;
+  baths: number;
+  sqft: number;
+  availability: string;        // e.g. "Ready Now"
+}
+
+interface StarlighthomesNeighborhoodDetail {
+  path: string;
+  availableHomes: StarlighthomesAvailableHome[];
+}
+
+  /**
+   * Reads Starlight Homes' own metro/neighborhood catalogue — every metro division, one metro's
+   * neighborhoods with real live monthly-price and sq-ft ranges, and one neighborhood's ACTUAL
+   * move-in-ready homes right now with real street addresses, real sale prices, real plan names
+   * and real availability — the cross-neighborhood search the live site itself does not offer.
+   */
+  interface Unit {
+    /**
+     * Lists every metro division Starlight Homes currently builds in (e.g. Dallas - Fort Worth,
+     * Phoenix). The entry point: every metro's `path` is what `getMetro` takes.
+     */
+    listMetros(): Promise<StarlighthomesMetroSummary[]>;
+
+    /**
+     * Reads one metro's own page: every named neighborhood in it with a real live monthly-price
+     * range, square-footage range and map coordinates. `path` comes from `listMetros()`, e.g.
+     * "dallas". THROWS on an unknown path, naming `listMetros()` as the way to find current ones.
+     */
+    getMetro(path: string): Promise<StarlighthomesMetroDetail>;
+
+    /**
+     * Reads one neighborhood's own page: its ACTUAL move-in-ready homes right now, each with a
+     * real street address, real sale price, real plan name and real beds/baths/sqft/availability —
+     * never a floor-plan brochure. `path` comes from `getMetro()`, e.g. "dallas/liberty-ranch".
+     * THROWS on an unknown path, naming `getMetro()` as the way to find current ones.
+     */
+    getNeighborhood(path: string): Promise<StarlighthomesNeighborhoodDetail>;
   }
 }
 
@@ -17595,11 +18589,47 @@ interface TargetStoreSearch {
   warnings: string[];
 }
 
+interface TargetSearchResult {
+  tcin: string;
+  name: string;
+  brand: string | null;
+  url: string;
+  image: string | null;
+  price: number | null;
+  wasPrice: number | null;
+  availabilityStatus: string | null;
+  inStock: boolean;
+  rating: number | null;
+  reviewCount: number;
+  sponsored: boolean;
+}
+
+interface TargetSearchResults {
+  query: string;
+  offset: number;
+  results: TargetSearchResult[];
+  totalMatches: number | null;
+  priceStoreId: number | null;
+  warnings: string[];
+}
+
   /**
    * Big-box general merchandise — search, product detail, store stock and store lookup on
    * target.com.
    */
   interface Unit {
+    /**
+     * Searches target.com's catalog for a keyword and returns one page of matching products —
+     * TCIN, title, brand, product URL, image, price (plus the pre-markdown price when the site's
+     * regular price is genuinely higher), ship availability, rating and review count, and the
+     * site's own sponsored-placement flag — in the site's own default relevance order. A page is
+     * up to 24 organic rows plus whatever sponsored placements the site adds on top of them;
+     * `offset` reads the next page. The site's total match count comes back too, but it counts
+     * what the site would SHOW: a nonsense query returns unrelated fallback rows rather than
+     * nothing.
+     */
+    search(args: { query: string; limit?: number; offset?: number }): Promise<TargetSearchResults>;
+
     /**
      * Searches the store-locator for nearby Targets by ZIP, partial ZIP, city, or street+city, and
      * returns each store's id, slug, name, address, phone, time-zone and 14-day weekly hours.
@@ -18441,6 +19471,45 @@ interface thezebraAutoQuotes {
      * site's own whole-term number and is never divided out of the monthly one.
      */
     getAutoQuotes(query: thezebraAutoQuotesQuery): Promise<thezebraAutoQuotes>;
+  }
+}
+
+declare namespace BowmarkProvider_thibautdesign {
+  // ── Thibaut Design — the unit's own declarations, verbatim ──
+// Thibaut's OWN shapes — not a capability contract.
+
+interface ThibautdesignRollCalculationInput {
+  wallWidth: number;        // feet, or meters if isMetric
+  ceilingHeight: number;    // feet, or meters if isMetric
+  rollWidth?: number;       // inches, or cm if isMetric; default 21in / 53cm
+  rollLength?: number;      // yards, or meters if isMetric; default 11yd / 10m
+  patternRepeat?: number;   // inches, or cm if isMetric; omitted/0 = no repeat
+  isMetric?: boolean;       // default false
+}
+
+interface ThibautdesignRollCalculationResult {
+  rollsNeeded: number;       // imperial is always rounded to an even number
+  totalArea: number;         // sq ft (imperial) or sq m (metric)
+  wasteMarginAdvice: string; // the site's own overage advisory, verbatim
+  howToBuyUrl: string;       // real next step — no cart exists on this calculator
+  calculatorUrl: string;
+}
+
+  /**
+   * Thibaut's own wallpaper-calculator — the real 'Estimated Rolls Needed' computed exactly as
+   * the site computes it from a wall width, ceiling height and the customer's own roll spec and
+   * pattern repeat, plus the site's own 20%-overage advisory and its 'How To Buy' next step
+   * (there is no DTC cart on this calculator; Thibaut sells to the trade and direct through
+   * showrooms/designers).
+   */
+  interface Unit {
+    /**
+     * Runs Thibaut's own wallpaper-calculator computation — a real 'Estimated Rolls Needed' from a
+     * wall width, ceiling height and the customer's own roll spec, computed exactly as the site's
+     * own calculator computes it, no estimate. `howToBuyUrl` is the real next step; there is no
+     * DTC checkout on this calculator to route to.
+     */
+    calculateRollsNeeded(input: ThibautdesignRollCalculationInput): Promise<ThibautdesignRollCalculationResult>;
   }
 }
 
@@ -19786,6 +20855,51 @@ interface wellfoundCompanyDetail {
   }
 }
 
+declare namespace BowmarkProvider_winestyles {
+  // ── WineStyles — the unit's own declarations, verbatim ──
+interface WinestylesStore {
+  storeId: string;
+  city: string;
+  state: string;
+  shopUrl: string;
+}
+interface WinestylesProduct {
+  sku: string;
+  name: string;
+  department: string;
+  style: string;
+  quantityAvailable: number;
+  price: { value: number | null; formatted: string | null };
+}
+interface WinestylesInventorySearch {
+  storeId: string;
+  term: string;
+  shopUrl: string;
+  results: WinestylesProduct[];
+}
+
+  /**
+   * Which WineStyles franchise locations offer online order-for-pickup, and a live search of one
+   * store's own in-stock wine/beer/cheese catalog with real prices and quantities — read off the
+   * same pickup.winestyles.com app the store's own pickup checkout uses.
+   */
+  interface Unit {
+    /**
+     * Lists the WineStyles franchise locations that currently offer online order-for-pickup, with
+     * each store's numeric id, city and state, read off the site's own store-locator nav.
+     */
+    listStores(): Promise<WinestylesStore[]>;
+
+    /**
+     * Searches one WineStyles store's own live pickup catalog for a term (grape, style, region,
+     * brand) and returns matching wine/beer/cheese rows with real prices and in-stock quantities.
+     * An empty/omitted term returns that store's full catalog. THROWS if storeId is not a real
+     * WineStyles store — call listStores() for real ids.
+     */
+    searchStoreInventory(storeId: string, term?: string): Promise<WinestylesInventorySearch>;
+  }
+}
+
 declare namespace BowmarkProvider_xpresswellnessurgentcare {
   // ── Xpress Wellness Urgent Care — the unit's own declarations, verbatim ──
 interface XpressFacility {
@@ -20811,6 +21925,7 @@ interface BowmarkProviders {
   abercrombie: BowmarkProvider_abercrombie.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
+  amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
@@ -20832,21 +21947,26 @@ interface BowmarkProviders {
   bluehaven: BowmarkProvider_bluehaven.Unit;
   bluesignal: BowmarkProvider_bluesignal.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
+  bollandbranch: BowmarkProvider_bollandbranch.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;
   brixton: BowmarkProvider_brixton.Unit;
+  bulletproof: BowmarkProvider_bulletproof.Unit;
   bykoket: BowmarkProvider_bykoket.Unit;
   byltbasics: BowmarkProvider_byltbasics.Unit;
   califloors: BowmarkProvider_califloors.Unit;
   cancer: BowmarkProvider_cancer.Unit;
+  capitalbrands: BowmarkProvider_capitalbrands.Unit;
   caraway: BowmarkProvider_caraway.Unit;
   carepatrol: BowmarkProvider_carepatrol.Unit;
   cars: BowmarkProvider_cars.Unit;
   chantecaille: BowmarkProvider_chantecaille.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
+  chesmar: BowmarkProvider_chesmar.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classpass: BowmarkProvider_classpass.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
+  clubchampion: BowmarkProvider_clubchampion.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
   culturefly: BowmarkProvider_culturefly.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
@@ -20858,6 +21978,7 @@ interface BowmarkProviders {
   dillards: BowmarkProvider_dillards.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
   embroker: BowmarkProvider_embroker.Unit;
+  eq3: BowmarkProvider_eq3.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
   eventsource: BowmarkProvider_eventsource.Unit;
   evolutionofsmooth: BowmarkProvider_evolutionofsmooth.Unit;
@@ -20890,6 +22011,7 @@ interface BowmarkProviders {
   hellofresh: BowmarkProvider_hellofresh.Unit;
   hellotend: BowmarkProvider_hellotend.Unit;
   hilton: BowmarkProvider_hilton.Unit;
+  historymaker: BowmarkProvider_historymaker.Unit;
   hobie: BowmarkProvider_hobie.Unit;
   holidaybuilders: BowmarkProvider_holidaybuilders.Unit;
   hunter: BowmarkProvider_hunter.Unit;
@@ -20898,9 +22020,11 @@ interface BowmarkProviders {
   insurify: BowmarkProvider_insurify.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
   islllc: BowmarkProvider_islllc.Unit;
+  ivoryhomes: BowmarkProvider_ivoryhomes.Unit;
   jennikayne: BowmarkProvider_jennikayne.Unit;
   joybird: BowmarkProvider_joybird.Unit;
   joycefactorydirect: BowmarkProvider_joycefactorydirect.Unit;
+  junkluggers: BowmarkProvider_junkluggers.Unit;
   justinwine: BowmarkProvider_justinwine.Unit;
   kaleidescape: BowmarkProvider_kaleidescape.Unit;
   kayak: BowmarkProvider_kayak.Unit;
@@ -20909,6 +22033,7 @@ interface BowmarkProviders {
   kompan: BowmarkProvider_kompan.Unit;
   kuiu: BowmarkProvider_kuiu.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
+  lasikplus: BowmarkProvider_lasikplus.Unit;
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
@@ -20932,6 +22057,7 @@ interface BowmarkProviders {
   mossyoak: BowmarkProvider_mossyoak.Unit;
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;
+  nationalbusinessfurniture: BowmarkProvider_nationalbusinessfurniture.Unit;
   newegg: BowmarkProvider_newegg.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
   oanda: BowmarkProvider_oanda.Unit;
@@ -20940,11 +22066,14 @@ interface BowmarkProviders {
   outdoorresearch: BowmarkProvider_outdoorresearch.Unit;
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   paypal: BowmarkProvider_paypal.Unit;
+  perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
+  positivegrid: BowmarkProvider_positivegrid.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
   progressive: BowmarkProvider_progressive.Unit;
   prose: BowmarkProvider_prose.Unit;
+  provenwinners: BowmarkProvider_provenwinners.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
   revisionskincare: BowmarkProvider_revisionskincare.Unit;
@@ -20955,14 +22084,17 @@ interface BowmarkProviders {
   saatva: BowmarkProvider_saatva.Unit;
   saltandstone: BowmarkProvider_saltandstone.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
+  scentbird: BowmarkProvider_scentbird.Unit;
   seakeeper: BowmarkProvider_seakeeper.Unit;
   sears: BowmarkProvider_sears.Unit;
   seegarsfence: BowmarkProvider_seegarsfence.Unit;
   selectblinds: BowmarkProvider_selectblinds.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;
+  sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   smartsign: BowmarkProvider_smartsign.Unit;
   smartwool: BowmarkProvider_smartwool.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
+  starlighthomes: BowmarkProvider_starlighthomes.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
   summerfridaysquiz: BowmarkProvider_summerfridaysquiz.Unit;
@@ -20977,6 +22109,7 @@ interface BowmarkProviders {
   therowhouse: BowmarkProvider_therowhouse.Unit;
   thestowcompany: BowmarkProvider_thestowcompany.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
+  thibautdesign: BowmarkProvider_thibautdesign.Unit;
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
   titlenine: BowmarkProvider_titlenine.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
@@ -20996,6 +22129,7 @@ interface BowmarkProviders {
   walmart: BowmarkProvider_walmart.Unit;
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
+  winestyles: BowmarkProvider_winestyles.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yorkwallcoverings: BowmarkProvider_yorkwallcoverings.Unit;
   yourarborhome: BowmarkProvider_yourarborhome.Unit;

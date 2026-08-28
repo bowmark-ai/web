@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 936 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 962 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -27,6 +27,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
 | `ajmadison.checkStock` | ajmadison.com | Reads one product's detail page for its real, current stock/availability message. | ⚪ |
 | `ajmadison.search` | ajmadison.com | Runs AJ Madison's own category + facet filter (brand, size/capacity, price band… | 🟢 |
+| `amramp.findNearestLocation` | amramp.com | Runs Amramp's own ZIP/postal-code locator — the same… | 🟢 |
 | `ancientnutrition.computeGutType` | ancientnutrition.com | Runs Ancient Nutrition's real Gut Type Quiz with the caller's own answers (keyed by… | 🟢 |
 | `ancientnutrition.getGutTypeQuizQuestions` | ancientnutrition.com | Walks Ancient Nutrition's real Gut Type Quiz along its default path (first option for… | 🟢 |
 | `ashleyfurniture.checkStock` | ashleyfurniture.com | Answers whether a product (by SKU) is available for delivery to a ZIP — the function… | 🟢 |
@@ -102,6 +103,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.listOffers` | bmwusa.com | Lists BMW's current US lease and finance offers for a ZIP code (resolved server-side… | 🟢 |
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
+| `bollandbranch.getBedDesignerFlow` | bollandbranch.com | Reads the Virtual Bed Designer's own configurator definition — the ordered categories… | 🟢 |
+| `bollandbranch.getCategoryOptions` | bollandbranch.com | Lists the real, currently-sellable products for one Virtual Bed Designer category… | 🟢 |
+| `bollandbranch.getSwatchDetails` | bollandbranch.com | Resolves color/fabric swatch names (as offered by getCategoryOptions) to their hex… | 🟢 |
+| `bollandbranch.renderBedPreview` | bollandbranch.com | Would render the Designer's own live combination preview (the stacked-bed visual for a… | ⚪ |
 | `boydsleep.calibrateSixZoneSupportNumber` | boydsleep.com | Runs Boyd's own '6-Zone Smart Support Number' calibration for the 6-zone Nautica Home… | 🟢 |
 | `boydsleep.calibrateSupportNumber` | boydsleep.com | Runs Boyd's own '2-Zone Smart Support Number' calibration — sleep position, gender… | 🟢 |
 | `brixton.getBrixtonCheckoutLink` | brixton.com | Resolves a product handle + chosen variant (size and/or color) to a real, purchasable… | 🟢 |
@@ -130,6 +135,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cancer.searchFundingOpportunities` | cancer.gov | Searches NCI's research funding opportunities — the grants, fellowships and training… | ⚪ |
 | `cancer.searchNews` | cancer.gov | Returns NCI's own news — press releases, research findings written up for a general… | ⚪ |
 | `cancer.searchPublications` | cancer.gov | Searches NCI's publications catalogue — the patient-education booklets, fact sheets… | ⚪ |
+| `capitalbrands.getBlenderRecommendation` | nutribullet.com | Runs the site's own quiz-scoring logic (its `get_result_quiz` admin-ajax handler) for… | 🟢 |
+| `capitalbrands.listQuizQuestions` | nutribullet.com | Reads NutriBullet's own "Which nutribullet is Best for Me?" product-recommendation… | 🟢 |
 | `caraway.getCarawayProduct` | carawayhome.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `caraway.listCarawayProducts` | carawayhome.com | Reads the live Caraway catalogue as Caraway publishes it — every ceramic cookware… | 🟢 |
 | `caraway.runCarawayQuiz` | carawayhome.com | Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended… | 🟢 |
@@ -151,6 +158,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cheapflights.search` | cheapflights.com | Runs the itinerary search on cheapflights.com and returns its result rows… | 🟢 |
 | `cheapflights.searchCars` | cheapflights.com | Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup… | 🟢 |
 | `cheapflights.searchHotels` | cheapflights.com | Runs the stays search on cheapflights.com — the site's own second vertical — and… | 🟢 |
+| `chesmar.searchQuickMoveInHomes` | chesmar.com | Runs Chesmar Homes' quick-move-in home search against the site's own live inventory… | 🟢 |
 | `chriscraft.getConfigurator` | chriscraft.com | Reads one model+boat-type's whole builder off build.chriscraft.com: every option group… | 🟢 |
 | `chriscraft.priceConfiguration` | chriscraft.com | Prices a specific build (a choice, or choices, per option group) against… | 🟢 |
 | `chriscraft.searchModels` | chriscraft.com | Lists every current Chris-Craft model reachable from the public "Build Your Own"… | 🟢 |
@@ -469,6 +477,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `interiordefine.priceConfiguration` | interiordefine.com | Prices a specific configuration (a choice per option category) against… | 🟢 |
 | `interiordefine.searchProducts` | interiordefine.com | Searches Interior Define's custom-furniture catalog (sofas, sectionals, chairs) by… | 🟢 |
 | `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
+| `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' home-design floor-plan search against the site's own live inventory… | 🟢 |
 | `jennikayne.buildGiftCardLink` | jennikayne.com | Configures a gift card — amount, recipient name/email, an optional message, and a… | 🟢 |
 | `jennikayne.getGiftCardOptions` | jennikayne.com | Reads the live digital gift-card product — every denomination from $50 to $1,000 with… | 🟢 |
 | `joybird.getConfigurator` | joybird.com | Reads one product's full configurator — its dimensions, current price, active… | 🟢 |
@@ -477,6 +486,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `joycefactorydirect.estimateWindowCost` | joycefactorydirect.com | Would answer all steps of Joyce's window-cost calculator and return the site's own… | ⚪ |
 | `joycefactorydirect.getBathCalculatorOptions` | joycefactorydirect.com | Reads the live bath-remodel cost calculator's real questions and answer options… | 🟢 |
 | `joycefactorydirect.getWindowCalculatorOptions` | joycefactorydirect.com | Reads the live window-cost calculator's real questions and answer options (styles… | 🟢 |
+| `junkluggers.createBooking` | junkluggers.com | Would submit the widget's final step (name/phone/email/address) to create an actual… | ⚪ |
+| `junkluggers.findFranchise` | junkluggers.com | Resolves the local Junkluggers franchise for a zip code — the same lookup the… | 🟢 |
+| `junkluggers.getAvailability` | junkluggers.com | Real open 2-hour appointment windows for a zip, read straight off Junkluggers' live… | 🟢 |
+| `junkluggers.getServiceTypes` | junkluggers.com | Lists the service types the zip's resolved franchise offers, each flagged isOnline for… | 🟢 |
 | `justinwine.checkTastingAvailability` | justinwine.com | Checks real open reservation slots for a given date and party size at JUSTIN's… | ⚪ |
 | `justinwine.listClubTiers` | justinwine.com | Lists the JUSTIN Wine Society club tiers (Red Wines, Red and White Wines, Isosceles… | 🟢 |
 | `kaleidescape.findDealersNear` | kaleidescape.com | Finds Kaleidescape authorized dealers near a location — pass EITHER a 5-digit US zip… | 🟢 |
@@ -666,6 +679,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `paypal.getPolicyDocument` | paypal.com | Reads one of PayPal's binding policy documents — the User Agreement, the Seller… | ⚪ |
 | `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — title, canonical URL… | ⚪ |
 | `paypal.searchShoppingOffers` | paypal.com | Finds the cashback and discount offers PayPal is currently running at a given merchant… | ⚪ |
+| `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟢 |
+| `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
+| `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |
 | `pirateship.getRates` | pirateship.com | Compares live shipping rates across USPS and UPS for a package — given a from/to… | 🟢 |
 | `pirateship.trackShipment` | pirateship.com | Looks up delivery status for a shipment by tracking number, the way… | ⚪ |
 | `pirateship.validateAddress` | pirateship.com | Validates and standardizes a US shipping address the way Pirate Ship checks an address… | ⚪ |
@@ -675,6 +691,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | 🟢 |
 | `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
 | `pizzahut.priceOrder` | pizzahut.com | Prices a configured basket at a store WITHOUT placing it — line items with their… | 🟢 |
+| `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
 | `premierbuildings.listBuildingStyles` | premierbuildings.us | Lists every real building style Premier's ShedView configurator offers (Lofted Barn… | 🟢 |
 | `premierbuildings.priceBuilding` | premierbuildings.us | Prices one real Premier building configuration exactly the way ShedView itself does… | 🟢 |
@@ -705,6 +722,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prose.getHaircareProductPrice` | prose.com | Looks up ONE Prose product type's real one-time and subscription USD price (e.g.… | 🟢 |
 | `prose.getHairPrescription` | prose.com | Runs Prose's real online hair consultation end to end — the exact 38 questions its own… | 🟢 |
 | `prose.listHaircareProducts` | prose.com | Lists every haircare formula/tool type Prose sells (shampoo, conditioner, hair mask… | 🟢 |
+| `provenwinners.getRecipeDetails` | provenwinners.com | Reads one container recipe's own combination page — its season(s), container size and… | 🟢 |
+| `provenwinners.searchContainerRecipes` | provenwinners.com | Runs Proven Winners' own Container Recipe Finder over its 1,074+ published… | 🟢 |
 | `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | ⚪ |
 | `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟢 |
 | `reddit.getSubreddit` | reddit.com | Returns the facts about one community rather than its content — the subreddit's title… | 🟢 |
@@ -742,6 +761,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsclub.getProduct` | samsclub.com | Reads one product's full page — member price (and non-member price where the site… | 🟢 |
 | `samsclub.search` | samsclub.com | Searches samsclub.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `samsclub.trackOrder` | samsclub.com | Looks up shipment/delivery status for an order by order number plus the email or zip… | ⚪ |
+| `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
 | `seakeeper.findNearestDealers` | seakeeper.com | Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest N… | 🟢 |
 | `seakeeper.listAllDealers` | seakeeper.com | Every real Seakeeper dealer worldwide (name, address, contact, coordinates, tier)… | 🟢 |
 | `sears.checkStock` | sears.com | Answers whether a specific product is buyable right now — for delivery or for… | 🟢 |
@@ -777,6 +797,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
+| `starlighthomes.getMetro` | starlighthomes.com | Reads one metro's own page: every named neighborhood in it, each with a real live… | 🟢 |
+| `starlighthomes.getNeighborhood` | starlighthomes.com | Reads one neighborhood's own page: its ACTUAL move-in-ready homes right now — real… | 🟢 |
+| `starlighthomes.listMetros` | starlighthomes.com | Lists every metro division Starlight Homes currently builds in (e.g. Dallas - Fort… | 🟢 |
 | `statefarm.findAgent` | statefarm.com | Returns the State Farm agents near a ZIP or city — name, office address, phone… | 🟢 |
 | `statefarm.getAgent` | statefarm.com | Reads one State Farm agent's own page back to full detail — office hours, licensed… | ⚪ |
 | `statefarm.getAutoQuote` | statefarm.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP — the… | ⚪ |
@@ -808,7 +831,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getProduct` | target.com | Reads one product page in full — price, variant/size options, description, images —… | ⚪ |
-| `target.search` | target.com | Searches or browses Target's catalog by keyword or category, returning matching… | ⚪ |
+| `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟢 |
 | `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |
 | `tatcha.getPersonalizedRitual` | tatcha.com | Runs a shopper's real answers (skin type, up to three benefits, optional eye concerns… | 🟢 |
 | `tatcha.getRitualQuizOptions` | tatcha.com | Reads the live "Ritual Finder" quiz's real input menus — every skin-type, skin-benefit… | 🟢 |
@@ -842,6 +865,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `thezebra.getVehicleRates` | thezebra.com | Returns what it costs to insure a specific vehicle — by make, model and year — with… | 🟢 |
 | `thezebra.listCarriers` | thezebra.com | Returns the insurance companies The Zebra compares — the roster behind the '100+… | ⚪ |
 | `thezebra.listVehicles` | thezebra.com | Returns the makes and models The Zebra publishes insurance rates for — the index that… | ⚪ |
+| `thibautdesign.calculateRollsNeeded` | thibautdesign.com | Runs Thibaut's own wallpaper-calculator (thibautdesign.com/wallpaper-calculator) —… | 🟢 |
 | `ticketmaster.getEvent` | ticketmaster.com | Returns one event in full: venue (name, address), date/time, the classification… | ⚪ |
 | `ticketmaster.listClassifications` | ticketmaster.com | Returns the segment/genre/sub-genre taxonomy Ticketmaster uses to categorize events… | ⚪ |
 | `ticketmaster.search` | ticketmaster.com | Searches live events — concerts, sports, arts & theater, family — by keyword, location… | ⚪ |
@@ -933,6 +957,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellfound.listJobCollections` | wellfound.com | Lists Wellfound's own curated job collections — the editorial groupings the site… | ⚪ |
 | `wellfound.searchCompanies` | wellfound.com | Finds startups the way Wellfound's own search groups them — one row per COMPANY, off… | 🟢 |
 | `wellfound.searchJobs` | wellfound.com | Searches Wellfound's startup job board — by role (`/role/<slug>`) or by city… | 🟢 |
+| `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
+| `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists every Xpress Wellness Urgent Care clinic — 40 locations across Oklahoma, Kansas… | 🟢 |
 | `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page — the exact Add to cart button for this… | 🟢 |

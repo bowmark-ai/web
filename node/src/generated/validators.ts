@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 447a468ffb0f0aa7ad6bdc616b3b8537693b8c52f6288d696f3ee312ffddaa05
-// 519 checked, 20 unchecked.
+// Manifest version: cad763a89f203eb0c23a88f734a560fbf9ef8ef19c76011ae4e31242280cc7de
+// 560 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "447a468ffb0f0aa7ad6bdc616b3b8537693b8c52f6288d696f3ee312ffddaa05",
+  "version": "cad763a89f203eb0c23a88f734a560fbf9ef8ef19c76011ae4e31242280cc7de",
   "units": {
     "cars": {
       "defs": {
@@ -1755,6 +1755,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.amramp": {
+      "defs": {},
+      "functions": {
+        "findNearestLocation": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.ancientnutrition": {
       "defs": {
         "GutTypeAnswers": {
@@ -2945,6 +2968,33 @@ export const VALIDATORS: ValidatorTable = {
         "listModels": []
       }
     },
+    "providers.bollandbranch": {
+      "defs": {},
+      "functions": {
+        "getBedDesignerFlow": [],
+        "getCategoryOptions": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getSwatchDetails": [
+          {
+            "name": "names",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.boydsleep": {
       "defs": {
         "BoydsleepCalibrationInput": {
@@ -3102,6 +3152,27 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.bulletproof": {
+      "defs": {},
+      "functions": {
+        "findStores": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "maxItems",
+            "schema": {
+              "k": "number"
             },
             "optional": true
           }
@@ -3288,6 +3359,33 @@ export const VALIDATORS: ValidatorTable = {
                     ]
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.capitalbrands": {
+      "defs": {},
+      "functions": {
+        "listQuizQuestions": [],
+        "getBlenderRecommendation": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "answers",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
                 }
               ]
             },
@@ -3981,6 +4079,83 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.chesmar": {
+      "defs": {
+        "ChesmarSearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "region",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "community",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBeds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBaths",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minSqft",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchQuickMoveInHomes": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "ChesmarSearchFilters"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.chriscraft": {
       "defs": {
         "ChriscraftBoatType": {
@@ -4249,6 +4424,44 @@ export const VALIDATORS: ValidatorTable = {
         "searchDomainAvailability": [
           {
             "name": "domain",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.clubchampion": {
+      "defs": {},
+      "functions": {
+        "listStudios": [],
+        "getFittings": [
+          {
+            "name": "storeName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "checkAvailability": [
+          {
+            "name": "resourceId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "start",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "end",
             "schema": {
               "k": "string"
             },
@@ -5004,6 +5217,58 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "product",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.eq3": {
+      "defs": {},
+      "functions": {
+        "listSofas": [],
+        "getSofaConfiguration": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "instanceId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "categorySlug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "subcategorySlug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "productLineSlug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "productSlug",
                   "schema": {
                     "k": "string"
                   },
@@ -6935,6 +7200,72 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.historymaker": {
+      "defs": {
+        "HistorymakerSearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "beds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "baths",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minSqft",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchQuickMoveIns": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "HistorymakerSearchFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getHome": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listCommunities": []
+      }
+    },
     "providers.hobie": {
       "defs": {},
       "functions": {
@@ -8307,6 +8638,76 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.ivoryhomes": {
+      "defs": {
+        "IvoryHomesSearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "minBeds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBaths",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sqftFrom",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sqftTo",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "stories",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 1
+                  },
+                  {
+                    "k": "literal",
+                    "v": 2
+                  },
+                  {
+                    "k": "literal",
+                    "v": 3
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchFloorPlans": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "IvoryHomesSearchFilters"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.jennikayne": {
       "defs": {
         "GiftCardConfig": {
@@ -8410,6 +8811,38 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getWindowCalculatorOptions": [],
         "getBathCalculatorOptions": []
+      }
+    },
+    "providers.junkluggers": {
+      "defs": {},
+      "functions": {
+        "findFranchise": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "getServiceTypes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.justinwine": {
@@ -9054,6 +9487,45 @@ export const VALIDATORS: ValidatorTable = {
         "getTest": [
           {
             "name": "sku",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.lasikplus": {
+      "defs": {},
+      "functions": {
+        "findCenters": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "radiusMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getAvailability": [
+          {
+            "name": "centerCode",
             "schema": {
               "k": "string"
             },
@@ -10873,6 +11345,67 @@ export const VALIDATORS: ValidatorTable = {
         "getWhois": null
       }
     },
+    "providers.nationalbusinessfurniture": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "sku",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "priceConfiguration": [
+          {
+            "name": "sku",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "sku",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.newegg": {
       "defs": {},
       "functions": {
@@ -11373,6 +11906,38 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.perennialsandsutherland": {
+      "defs": {},
+      "functions": {
+        "searchRugs": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getRugVariant": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTearsheetUrl": [
+          {
+            "name": "productId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.pirateship": {
       "defs": {
         "PirateshipDimensions": {
@@ -11791,6 +12356,48 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.positivegrid": {
+      "defs": {
+        "positivegridFindRetailersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "near",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findRetailers": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "ref",
+              "name": "positivegridFindRetailersArgs"
             },
             "optional": false
           }
@@ -14243,6 +14850,266 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.provenwinners": {
+      "defs": {
+        "ContainerRecipeFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "keyword",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "season",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "early_spring"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "spring"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "summer"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fall"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "winter"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "potStyle",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "hanging_basket"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "upright_container"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "wall_sconce"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "window_box"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "colorScheme",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "complementary"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "accented_neutral"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "analogous"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "earth_tones"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "monochromatic"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "neutral"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pastel_mix"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "patriotic"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "split_analogous"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "split_complementary"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "tetradic"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "triadic"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "tropical"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "vibrant_mix"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "warm_and_cool"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "exposure",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "bright_light"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "full_shade"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "high"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "low"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "medium"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "part_shade"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "part_shade_to_shade"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "part_sun_to_shade"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "part_sun_to_sun"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sun"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sun_or_shade"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "potSizeInches",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "potSizeOp",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "lt"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "lte"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "eq"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "neq"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "gte"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "gt"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchContainerRecipes": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "ContainerRecipeFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getRecipeDetails": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.reddit": {
       "defs": {},
       "functions": {
@@ -15197,6 +16064,44 @@ export const VALIDATORS: ValidatorTable = {
         "getMembershipPlans": []
       }
     },
+    "providers.scentbird": {
+      "defs": {},
+      "functions": {
+        "browseCatalogue": [
+          {
+            "name": "catalogue",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "perfumes"
+                },
+                {
+                  "k": "literal",
+                  "v": "colognes"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.seakeeper": {
       "defs": {},
       "functions": {
@@ -15433,6 +16338,27 @@ export const VALIDATORS: ValidatorTable = {
               }
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.sitmeanssit": {
+      "defs": {},
+      "functions": {
+        "findNearestLocations": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }
@@ -15780,6 +16706,30 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.starlighthomes": {
+      "defs": {},
+      "functions": {
+        "listMetros": [],
+        "getMetro": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getNeighborhood": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -16510,6 +17460,38 @@ export const VALIDATORS: ValidatorTable = {
     "providers.target": {
       "defs": {},
       "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "findStore": [
           {
             "name": "args",
@@ -17147,6 +18129,69 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "thezebraAutoQuotesQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.thibautdesign": {
+      "defs": {
+        "ThibautdesignRollCalculationInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "wallWidth",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "ceilingHeight",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "rollWidth",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "rollLength",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "patternRepeat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "isMetric",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "calculateRollsNeeded": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "ThibautdesignRollCalculationInput"
             },
             "optional": false
           }
@@ -18497,6 +19542,28 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.winestyles": {
+      "defs": {},
+      "functions": {
+        "listStores": [],
+        "searchStoreInventory": [
+          {
+            "name": "storeId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "term",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }
