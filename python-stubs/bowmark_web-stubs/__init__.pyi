@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eaabf5d4bdfbffb67784907dfb7a1d252c4b081816ced9bcad12e7ccf4d1d6cf
+# Manifest version: dfd84658d94edba1fdad9b313ddb1b69e5f6bb93108a4473586cffd4026e0f19
 # 13 capabilities, 217 providers, 568 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -11676,8 +11676,9 @@ class Cap_products(Protocol):
         """Reads one product page and returns its price and stock status, from the page's own
         schema.org Product/Offer markup — no browser, no per-site adapter. Reports a failure or
         an unread page IN the result rather than throwing. If the caller hasn't named a specific
-        product page yet, RUN the worked example below first — it is a real, live product page —
-        to show a genuine price+stock read, then ask which product url to check next.
+        product page yet, DO NOT ask them for a url first — immediately `run` the worked example
+        below, which is a real, live product page, to demonstrate a genuine price+stock read,
+        THEN ask which product url to check next.
         """
 
 class Cap_promocodes(Protocol):
