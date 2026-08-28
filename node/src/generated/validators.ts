@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0f294b9f37ab974b2d5a419dd2624dc2f6473112a33079a9a7cc503c0ecb0165
-// 567 checked, 20 unchecked.
+// Manifest version: 66f45eebab83356a7a797c297a097d3cc0422222b9792db777176e61538cfb5e
+// 568 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0f294b9f37ab974b2d5a419dd2624dc2f6473112a33079a9a7cc503c0ecb0165",
+  "version": "66f45eebab83356a7a797c297a097d3cc0422222b9792db777176e61538cfb5e",
   "units": {
     "cars": {
       "defs": {
@@ -5325,6 +5325,44 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ebay": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
                 }
               ]
             },

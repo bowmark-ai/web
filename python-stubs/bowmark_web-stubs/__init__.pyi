@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0f294b9f37ab974b2d5a419dd2624dc2f6473112a33079a9a7cc503c0ecb0165
-# 13 capabilities, 216 providers, 567 typed functions, 20 refused.
+# Manifest version: 66f45eebab83356a7a797c297a097d3cc0422222b9792db777176e61538cfb5e
+# 13 capabilities, 217 providers, 568 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3362,6 +3362,24 @@ class Prv_discounttire_DiscounttireTireResult_Out(TypedDict):
 class Prv_discounttire_DiscounttireTireResult_Out_price_u0_Out(TypedDict):
     value: float | None
     formatted: str | None
+
+class Prv_ebay_search_args_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_ebay_ebayItem_Out(TypedDict):
+    itemId: str
+    title: str
+    price: Prv_ebay_ebayItem_Out_price_u0_Out | None
+    condition: str | None
+    buyingOptions: list[str]
+    url: str
+    imageUrl: str | None
+    seller: str | None
+
+class Prv_ebay_ebayItem_Out_price_u0_Out(TypedDict):
+    value: str
+    currency: str
 
 class Prv_embroker_EmbrokerCoverageCatalog_Out(TypedDict):
     coverageLines: list[str]
@@ -13489,6 +13507,20 @@ class Prv_discounttire(Protocol):
         for one.
         """
 
+class Prv_ebay(Protocol):
+    """eBay's own documented Browse API (api.ebay.com) — searches live eBay listings by query
+    and returns title, price, condition, buying option, seller and the item's own ebay.com
+    URL, without scraping the (Akamai-defended) public search page.
+    """
+
+    async def search(self, args: str | Prv_ebay_search_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
+        """Runs an eBay item search the way ebay.com's own search box does, via eBay's documented
+        Browse API, and returns the matching listings — title, price, condition, buying option
+        (auction/fixed-price/best-offer), seller and the item's own ebay.com URL. `limit` caps
+        the row count (default 20, eBay's own ceiling 200). Requires an eBay OAuth application
+        key — see this provider's `auth`.
+        """
+
 class Prv_embroker(Protocol):
     """Embroker's own coverage catalog and live self-serve quote-wizard entry points for
     tech/startup, law firm, cyber, BOP, crime and professional-liability business insurance.
@@ -18889,6 +18921,7 @@ class BowmarkProviders(Protocol):
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
     discounttire: Prv_discounttire
+    ebay: Prv_ebay
     embroker: Prv_embroker
     eq3: Prv_eq3
     erieinsurance: Prv_erieinsurance

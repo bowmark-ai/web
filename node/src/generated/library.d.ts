@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0f294b9f37ab974b2d5a419dd2624dc2f6473112a33079a9a7cc503c0ecb0165
-// 13 capabilities, 216 providers, 585 typed functions, 20 refused.
+// Manifest version: 66f45eebab83356a7a797c297a097d3cc0422222b9792db777176e61538cfb5e
+// 13 capabilities, 217 providers, 586 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5946,6 +5946,36 @@ interface DiscounttireTireSizeSearch {
      * take `vehicleInfo` as optional and the function never asks for one.
      */
     searchTiresBySize(args: { front: { diameter: string; width: string; aspectRatio: string }; rear?: { diameter: string; width: string; aspectRatio: string }; location: { zip: string } | { storeCode: string } | { latitude: number; longitude: number }; pageNumber: number; pageSize: number }): Promise<DiscounttireTireSizeSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_ebay {
+  // ── eBay — the unit's own declarations, verbatim ──
+interface ebayItem {
+  itemId: string;
+  title: string;
+  price: { value: string; currency: string } | null;
+  condition: string | null;
+  buyingOptions: string[];
+  url: string;
+  imageUrl: string | null;
+  seller: string | null;
+}
+
+  /**
+   * eBay's own documented Browse API (api.ebay.com) — searches live eBay listings by query and
+   * returns title, price, condition, buying option, seller and the item's own ebay.com URL,
+   * without scraping the (Akamai-defended) public search page.
+   */
+  interface Unit {
+    /**
+     * Runs an eBay item search the way ebay.com's own search box does, via eBay's documented
+     * Browse API, and returns the matching listings — title, price, condition, buying option
+     * (auction/fixed-price/best-offer), seller and the item's own ebay.com URL. `limit` caps the
+     * row count (default 20, eBay's own ceiling 200). Requires an eBay OAuth application key — see
+     * this provider's `auth`.
+     */
+    search(args: string | { query: string; limit?: number }): Promise<ebayItem[]>;
   }
 }
 
@@ -22229,6 +22259,7 @@ interface BowmarkProviders {
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
+  ebay: BowmarkProvider_ebay.Unit;
   embroker: BowmarkProvider_embroker.Unit;
   eq3: BowmarkProvider_eq3.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
