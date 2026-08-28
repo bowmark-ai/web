@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 76ce4f22388413c6ec0ca92dc58de42d6fd94e34bbbbd0adeb15faebc9b8f540
-// 13 capabilities, 219 providers, 589 typed functions, 20 refused.
+// Manifest version: 8b2b43bb4adcfb5e49029d59de76d45dbac7eea02282d212e54f0b4e03dde461
+// 14 capabilities, 219 providers, 590 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1151,6 +1151,40 @@ type CallOptions = {
      * rather than returning an empty list, which would read as "no dealers in that state".
      */
     findDealers(state: string, options?: CallOptions): Promise<ShedDealerResult>;
+  }
+}
+
+declare namespace BowmarkCapability_tariff {
+  // ── HS/HTS tariff code lookup — the unit's own declarations, verbatim ──
+
+interface TariffEntry {
+  htsno: string             // "6109.10.00" or a statistical-suffix row "6109.10.00.04"
+  description: string
+  indent: number             // nesting depth in HTS's own hierarchy
+  generalRate: string        // Column 1 General (NTR) rate, e.g. "16.5%", "Free"
+  specialRate: string        // Column 1 Special — preferential/FTA rates
+  otherRate: string          // Column 2 — non-NTR countries
+  units: string[]            // e.g. ["doz.", "kg"]
+}
+
+interface TariffLookupResult {
+  code: string                // as passed, trimmed
+  entry: TariffEntry | null   // exact htsno match, or null
+  children: TariffEntry[]     // statistical-suffix rows nested under entry
+  warnings: string[]
+}
+
+  /**
+   * Resolves a Harmonized Tariff Schedule (HS/HTS) code to its description, duty rates and place
+   * in the schedule, straight off USITC's own published data.
+   */
+  interface Unit {
+    /**
+     * Looks up an HS/HTS code (e.g. "6109.10.00") and returns its description, Column 1
+     * General/Special and Column 2 duty rates, plus any statistical-suffix breakouts nested under
+     * it. `entry: null` means the code matched nothing in the published schedule.
+     */
+    lookup(code: string): Promise<TariffLookupResult>;
   }
 }
 
@@ -74231,6 +74265,7 @@ interface BowmarkLibrary {
   read: BowmarkCapability_read.Unit;
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
+  tariff: BowmarkCapability_tariff.Unit;
   weather: BowmarkCapability_weather.Unit;
   providers: BowmarkProviders;
 }

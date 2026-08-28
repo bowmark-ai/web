@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 76ce4f22388413c6ec0ca92dc58de42d6fd94e34bbbbd0adeb15faebc9b8f540
-# 13 capabilities, 219 providers, 571 typed functions, 20 refused.
+# Manifest version: 8b2b43bb4adcfb5e49029d59de76d45dbac7eea02282d212e54f0b4e03dde461
+# 14 capabilities, 219 providers, 572 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -770,6 +770,21 @@ class Cap_sheds_ShedDealer_Out(TypedDict):
     zip: str
     phone: str | None
     url: str
+
+class Cap_tariff_TariffLookupResult_Out(TypedDict):
+    code: str
+    entry: Cap_tariff_TariffEntry_Out | None
+    children: list[Cap_tariff_TariffEntry_Out]
+    warnings: list[str]
+
+class Cap_tariff_TariffEntry_Out(TypedDict):
+    htsno: str
+    description: str
+    indent: float
+    generalRate: str
+    specialRate: str
+    otherRate: str
+    units: list[str]
 
 class Cap_weather_ForecastResult_Out(TypedDict):
     location: str
@@ -11823,6 +11838,17 @@ class Cap_sheds(Protocol):
         as "no dealers in that state".
         """
 
+class Cap_tariff(Protocol):
+    """Resolves a Harmonized Tariff Schedule (HS/HTS) code to its description, duty rates and
+    place in the schedule, straight off USITC's own published data.
+    """
+
+    async def lookup(self, code: str, /) -> Cap_tariff_TariffLookupResult_Out:
+        """Looks up an HS/HTS code (e.g. "6109.10.00") and returns its description, Column 1
+        General/Special and Column 2 duty rates, plus any statistical-suffix breakouts nested
+        under it. `entry: null` means the code matched nothing in the published schedule.
+        """
+
 class Cap_weather(Protocol):
     """The daily forecast for any place on earth — high/low, precipitation and conditions,
     geocoded from a plain place name.
@@ -19169,5 +19195,6 @@ class Bowmark(Protocol):
     read: Cap_read
     search: Cap_search
     sheds: Cap_sheds
+    tariff: Cap_tariff
     weather: Cap_weather
     providers: BowmarkProviders
