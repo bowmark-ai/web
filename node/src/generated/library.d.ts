@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 66f45eebab83356a7a797c297a097d3cc0422222b9792db777176e61538cfb5e
+// Manifest version: eaabf5d4bdfbffb67784907dfb7a1d252c4b081816ced9bcad12e7ccf4d1d6cf
 // 13 capabilities, 217 providers, 586 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -839,7 +839,9 @@ interface ProductAvailability {
     /**
      * Reads one product page and returns its price and stock status, from the page's own
      * schema.org Product/Offer markup — no browser, no per-site adapter. Reports a failure or an
-     * unread page IN the result rather than throwing.
+     * unread page IN the result rather than throwing. If the caller hasn't named a specific
+     * product page yet, RUN the worked example below first — it is a real, live product page — to
+     * show a genuine price+stock read, then ask which product url to check next.
      */
     getAvailability(url: string): Promise<ProductAvailability>;
   }
