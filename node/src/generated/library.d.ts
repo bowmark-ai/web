@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8b2b43bb4adcfb5e49029d59de76d45dbac7eea02282d212e54f0b4e03dde461
-// 14 capabilities, 219 providers, 590 typed functions, 20 refused.
+// Manifest version: 50253068cb9a031524e4d2ba60ef98334a040bc70fb6f62bb8eb696bf93d84d1
+// 15 capabilities, 220 providers, 593 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -951,6 +951,56 @@ type ReadResult = {
      * set.
      */
     pages(urls: string[], options?: ReadOptions): Promise<ReadResult[]>;
+  }
+}
+
+declare namespace BowmarkCapability_restaurant_booking {
+  // ── Restaurant table reservations — the unit's own declarations, verbatim ──
+type RestaurantSlot = {
+  startsAt: string            // local start time, "YYYY-MM-DD HH:mm:ss"
+  seatingType: string | null  // section/seating label the platform reports, e.g. "Dining Room"
+}
+type RestaurantVenue = {
+  platform: string            // which booking platform this venue runs on, e.g. "resy"
+  name: string
+  locality: string
+  region: string
+  country: string
+  cuisine: string[]
+  bookingUrl: string          // the platform's own page, pre-filled with date/party size
+}
+type RestaurantAvailabilityResult = {
+  venue: RestaurantVenue | null   // null when no platform has a matching venue
+  day: string                      // the date actually queried, "YYYY-MM-DD"
+  partySize: number
+  slots: RestaurantSlot[]         // [] when the venue is fully booked — a real answer
+  warnings: string[]              // always present; empty when nothing was dropped
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Finds a restaurant by name and reads its real-time open reservation slots for a date and
+   * party size, plus a direct link to book one. Resy today; no login, no booking (that needs a
+   * signed-in platform account).
+   */
+  interface Unit {
+    /**
+     * Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco Meralgo")` —
+     * on whichever booking platform it runs on, and reads its real open reservation slots for
+     * `day` (default: tomorrow, UTC) and `partySize` (default 2). Returns `venue: null` when no
+     * platform has a matching restaurant, and `slots: []` when the venue exists but has nothing
+     * open for that date/party — both real, complete answers, not failures. `venue.bookingUrl` is
+     * the platform's own page, pre-filled with the requested date and party size, since booking
+     * the slot itself needs a signed-in platform account and is out of scope here. `location`
+     * narrows a common restaurant name when passed as `"lat,lon"` (e.g. from a prior venue's own
+     * coordinates); free-form text is ignored rather than guessed at.
+     */
+    findAvailability(name: string | { name: string; location?: string; day?: string; partySize?: number }, options?: CallOptions): Promise<RestaurantAvailabilityResult>;
   }
 }
 
@@ -17000,6 +17050,66 @@ interface AssembledApplication {
   }
 }
 
+declare namespace BowmarkProvider_resy {
+  // ── Resy — the unit's own declarations, verbatim ──
+interface ResyVenueRow {
+  venueId: number;
+  name: string;
+  urlSlug: string;
+  citySlug: string;
+  locality: string;
+  region: string;
+  country: string;
+  cuisine: string[];
+  priceRangeId: number | null;
+  rating: { average: number; count: number } | null;
+  maxPartySize: number | null;
+}
+
+interface ResySlot {
+  startsAt: string;
+  seatingType: string | null;
+  token: string | null;
+}
+
+interface ResyAvailability {
+  venueId: number;
+  name: string;
+  urlSlug: string;
+  citySlug: string;
+  timeZone: string;
+  day: string;
+  partySize: number;
+  slots: ResySlot[];
+}
+
+  /**
+   * Restaurant search and real-time table availability on Resy — venue lookup by name and open
+   * slots for a date/party size, both keyless and browserless. No booking (needs a signed-in
+   * Resy account).
+   */
+  interface Unit {
+    /**
+     * Finds Resy venues matching a restaurant name, e.g. `bowmark.providers.resy.search("Paco
+     * Meralgo")` — ranked by Resy's own relevance, optionally biased toward `{ latitude, longitude
+     * }` when the caller knows roughly where the restaurant is (recommended: a common name ranks
+     * best when biased). Returns each match's numeric `venueId` (what `checkAvailability` keys
+     * on), name, its `urlSlug`/`citySlug` (together the booking-page path),
+     * locality/region/country, cuisine, price tier and rating.
+     */
+    search(query: string | { query: string; latitude?: number; longitude?: number }): Promise<ResyVenueRow[]>;
+
+    /**
+     * Reads real-time open reservation slots for one venue (`venueId` from a prior `search` row),
+     * one date (`day`, `"YYYY-MM-DD"` in the venue's own calendar) and a party size (default 2).
+     * Returns each open slot's local start time, seating/section label and Resy's own booking
+     * token, alongside the venue's timezone and booking-page slugs. `slots: []` is a genuine,
+     * complete answer ("nothing open"), not an error.
+     */
+    checkAvailability(args: { venueId: number; day: string; partySize?: number }): Promise<ResyAvailability>;
+  }
+}
+
 declare namespace BowmarkProvider_revisionskincare {
   // ── Revision Skincare — the unit's own declarations, verbatim ──
 type RevisionQuestionType = "single-select" | "multi-select";
@@ -22472,6 +22582,7 @@ interface BowmarkProviders {
   provenwinners: BowmarkProvider_provenwinners.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
+  resy: BowmarkProvider_resy.Unit;
   revisionskincare: BowmarkProvider_revisionskincare.Unit;
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
@@ -74263,6 +74374,7 @@ interface BowmarkLibrary {
   products: BowmarkCapability_products.Unit;
   promocodes: BowmarkCapability_promocodes.Unit;
   read: BowmarkCapability_read.Unit;
+  restaurant_booking: BowmarkCapability_restaurant_booking.Unit;
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
   tariff: BowmarkCapability_tariff.Unit;

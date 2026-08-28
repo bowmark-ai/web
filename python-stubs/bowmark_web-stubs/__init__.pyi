@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8b2b43bb4adcfb5e49029d59de76d45dbac7eea02282d212e54f0b4e03dde461
-# 14 capabilities, 219 providers, 572 typed functions, 20 refused.
+# Manifest version: 50253068cb9a031524e4d2ba60ef98334a040bc70fb6f62bb8eb696bf93d84d1
+# 15 capabilities, 220 providers, 575 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -659,6 +659,35 @@ class Cap_read_ReadResult_Out(TypedDict):
 class Cap_read_ReadResult_Out_wall_u0_Out(TypedDict):
     vendor: str
     cleared: bool
+
+class Cap_restaurant_booking_findAvailability_name_u1_In(TypedDict):
+    name: str
+    location: NotRequired[str]
+    day: NotRequired[str]
+    partySize: NotRequired[float]
+
+class Cap_restaurant_booking_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_restaurant_booking_RestaurantAvailabilityResult_Out(TypedDict):
+    venue: Cap_restaurant_booking_RestaurantVenue_Out | None
+    day: str
+    partySize: float
+    slots: list[Cap_restaurant_booking_RestaurantSlot_Out]
+    warnings: list[str]
+
+class Cap_restaurant_booking_RestaurantVenue_Out(TypedDict):
+    platform: str
+    name: str
+    locality: str
+    region: str
+    country: str
+    cuisine: list[str]
+    bookingUrl: str
+
+class Cap_restaurant_booking_RestaurantSlot_Out(TypedDict):
+    startsAt: str
+    seatingType: str | None
 
 class Cap_search_web_query_u1_In(TypedDict):
     query: str
@@ -8906,6 +8935,48 @@ class Prv_reliancepartners_AssembledApplication_Out(TypedDict):
     formFields: Mapping[str, str]
     summary: str
 
+class Prv_resy_search_query_u1_In(TypedDict):
+    query: str
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+
+class Prv_resy_ResyVenueRow_Out(TypedDict):
+    venueId: float
+    name: str
+    urlSlug: str
+    citySlug: str
+    locality: str
+    region: str
+    country: str
+    cuisine: list[str]
+    priceRangeId: float | None
+    rating: Prv_resy_ResyVenueRow_Out_rating_u0_Out | None
+    maxPartySize: float | None
+
+class Prv_resy_ResyVenueRow_Out_rating_u0_Out(TypedDict):
+    average: float
+    count: float
+
+class Prv_resy_checkAvailability_args_In(TypedDict):
+    venueId: float
+    day: str
+    partySize: NotRequired[float]
+
+class Prv_resy_ResyAvailability_Out(TypedDict):
+    venueId: float
+    name: str
+    urlSlug: str
+    citySlug: str
+    timeZone: str
+    day: str
+    partySize: float
+    slots: list[Prv_resy_ResySlot_Out]
+
+class Prv_resy_ResySlot_Out(TypedDict):
+    startsAt: str
+    seatingType: str | None
+    token: str | None
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -11761,6 +11832,25 @@ class Cap_read(Protocol):
         """The same read over many urls, six in flight at a time, results in the order the urls
         were given. One dead url never costs you the others — it comes back with `ok: false` and
         `error` set.
+        """
+
+class Cap_restaurant_booking(Protocol):
+    """Finds a restaurant by name and reads its real-time open reservation slots for a date and
+    party size, plus a direct link to book one. Resy today; no login, no booking (that needs
+    a signed-in platform account).
+    """
+
+    async def findAvailability(self, name: str | Cap_restaurant_booking_findAvailability_name_u1_In, options: Cap_restaurant_booking_CallOptions_In | None = None, /) -> Cap_restaurant_booking_RestaurantAvailabilityResult_Out:
+        """Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco
+        Meralgo")` — on whichever booking platform it runs on, and reads its real open
+        reservation slots for `day` (default: tomorrow, UTC) and `partySize` (default 2).
+        Returns `venue: null` when no platform has a matching restaurant, and `slots: []` when
+        the venue exists but has nothing open for that date/party — both real, complete answers,
+        not failures. `venue.bookingUrl` is the platform's own page, pre-filled with the
+        requested date and party size, since booking the slot itself needs a signed-in platform
+        account and is out of scope here. `location` narrows a common restaurant name when
+        passed as `"lat,lon"` (e.g. from a prior venue's own coordinates); free-form text is
+        ignored rather than guessed at.
         """
 
 class Cap_search(Protocol):
@@ -17309,6 +17399,29 @@ class Prv_reliancepartners(Protocol):
         human underwriting follow-up, not an instant quote.
         """
 
+class Prv_resy(Protocol):
+    """Restaurant search and real-time table availability on Resy — venue lookup by name and
+    open slots for a date/party size, both keyless and browserless. No booking (needs a
+    signed-in Resy account).
+    """
+
+    async def search(self, query: str | Prv_resy_search_query_u1_In, /) -> list[Prv_resy_ResyVenueRow_Out]:
+        """Finds Resy venues matching a restaurant name, e.g. `bowmark.providers.resy.search("Paco
+        Meralgo")` — ranked by Resy's own relevance, optionally biased toward `{ latitude,
+        longitude }` when the caller knows roughly where the restaurant is (recommended: a
+        common name ranks best when biased). Returns each match's numeric `venueId` (what
+        `checkAvailability` keys on), name, its `urlSlug`/`citySlug` (together the booking-page
+        path), locality/region/country, cuisine, price tier and rating.
+        """
+
+    async def checkAvailability(self, args: Prv_resy_checkAvailability_args_In, /) -> Prv_resy_ResyAvailability_Out:
+        """Reads real-time open reservation slots for one venue (`venueId` from a prior `search`
+        row), one date (`day`, `"YYYY-MM-DD"` in the venue's own calendar) and a party size
+        (default 2). Returns each open slot's local start time, seating/section label and Resy's
+        own booking token, alongside the venue's timezone and booking-page slugs. `slots: []` is
+        a genuine, complete answer ("nothing open"), not an error.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -19115,6 +19228,7 @@ class BowmarkProviders(Protocol):
     provenwinners: Prv_provenwinners
     reddit: Prv_reddit
     reliancepartners: Prv_reliancepartners
+    resy: Prv_resy
     revisionskincare: Prv_revisionskincare
     rishitea: Prv_rishitea
     ritani: Prv_ritani
@@ -19193,6 +19307,7 @@ class Bowmark(Protocol):
     products: Cap_products
     promocodes: Cap_promocodes
     read: Cap_read
+    restaurant_booking: Cap_restaurant_booking
     search: Cap_search
     sheds: Cap_sheds
     tariff: Cap_tariff
