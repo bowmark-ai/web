@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: feafb689a11d9c1a4ab71b04fe143e8094b160cd1c9e73a2cd3e9d9e4c4bdd69
-// 564 checked, 20 unchecked.
+// Manifest version: dda8aa3f024d05a77ebc5bcce7a8595541e0860eb03c0e2ba26c98e7d0c42911
+// 566 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "feafb689a11d9c1a4ab71b04fe143e8094b160cd1c9e73a2cd3e9d9e4c4bdd69",
+  "version": "dda8aa3f024d05a77ebc5bcce7a8595541e0860eb03c0e2ba26c98e7d0c42911",
   "units": {
     "cars": {
       "defs": {
@@ -993,6 +993,41 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "Offer"
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "promocodes": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "domain",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },
@@ -4573,6 +4608,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ConsultnetJobSearchQuery"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.couponfollow": {
+      "defs": {},
+      "functions": {
+        "getCodes": [
+          {
+            "name": "domain",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

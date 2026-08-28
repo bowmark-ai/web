@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: feafb689a11d9c1a4ab71b04fe143e8094b160cd1c9e73a2cd3e9d9e4c4bdd69
-# 11 capabilities, 215 providers, 564 typed functions, 20 refused.
+# Manifest version: dda8aa3f024d05a77ebc5bcce7a8595541e0860eb03c0e2ba26c98e7d0c42911
+# 12 capabilities, 216 providers, 566 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -598,6 +598,24 @@ class Cap_pcparts_Spec_Out(TypedDict):
     group: str
     name: str
     value: str
+
+class Cap_promocodes_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_promocodes_PromoCodeSearchResult_Out(TypedDict):
+    codes: list[Cap_promocodes_PromoCode_Out]
+    warnings: list[str]
+
+class Cap_promocodes_PromoCode_Out(TypedDict):
+    source: str
+    id: str
+    code: str | None
+    discount: str | None
+    title: str
+    description: str
+    verified: bool
+    exclusive: bool
+    url: str
 
 class Cap_read_ReadOptions_In(TypedDict):
     format: NotRequired[Literal["markdown"] | Literal["text"] | Literal["cleanHtml"] | Literal["html"]]
@@ -2846,6 +2864,19 @@ class Prv_consultnet_ConsultnetJob_Out(TypedDict):
     location: str | None
     url: str
     description: str
+
+class Prv_couponfollow_CouponFollowOffer_Out(TypedDict):
+    id: str
+    type: Literal["coupon"] | Literal["featured_coupon"] | Literal["promotion"]
+    merchant: str
+    title: str
+    description: str
+    discountText: str | None
+    code: str | None
+    verified: bool
+    exclusive: bool
+    createdAt: str | None
+    url: str
 
 class Prv_culturefly_CultureFlyBoxSummary_Out(TypedDict):
     handle: str
@@ -11602,6 +11633,26 @@ class Cap_pcparts(Protocol):
         would misread as "this product has no specs".
         """
 
+class Cap_promocodes(Protocol):
+    """Looks up currently-known promo codes and checkout discounts for a merchant by domain —
+    the code string (when one exists), human discount text, title, description, whether the
+    source verified it, and a link to redeem it. Fans out across coupon aggregators; direct
+    API, no browser.
+    """
+
+    async def search(self, domain: str, options: Cap_promocodes_CallOptions_In | None = None, /) -> Cap_promocodes_PromoCodeSearchResult_Out:
+        """Looks up promo codes and checkout discounts for a merchant —
+        `bowmark.promocodes.search("getyourguide.com")` — and returns normalized offers ranked
+        verified-with-code first, then any code, deal-only listings last. `domain` is a
+        registrable domain (a bare URL or a "www."-prefixed host is folded down to it); THROWS
+        on a bare brand word with no dot ("getyourguide"), because a source behind this
+        capability indexes by domain and a guessed TLD would silently search the wrong merchant.
+        Returns `codes: []` honestly when no source tracks anything for that domain — a real,
+        correct answer, not a failure. `warnings` is always present and names anything dropped,
+        INCLUDING a source that timed out or failed. `options.timeoutMs` sets the per-source
+        budget (default 30000).
+        """
+
 class Cap_read(Protocol):
     """Read any web page as markdown, text or HTML — one page or many at once, taking a browser
     only when the page actually needs one.
@@ -13063,6 +13114,22 @@ class Prv_consultnet(Protocol):
         argument, or pass {}, to list every open posting. An empty array is ConsultNet's own
         answer (a real search matching nothing), never invented here — a block page or a moved
         endpoint THROWS instead.
+        """
+
+class Prv_couponfollow(Protocol):
+    """Reads couponfollow.com's own listing page for a merchant domain — every promo code and
+    checkout discount it currently tracks for that merchant (code, discount text, title,
+    description, whether couponfollow itself verified it), no browser.
+    """
+
+    async def getCodes(self, domain: str, /) -> list[Prv_couponfollow_CouponFollowOffer_Out]:
+        """Reads couponfollow.com/site/<domain> — the current promo codes and checkout deals
+        couponfollow tracks for that merchant. domain is a registrable domain, e.g.
+        "getyourguide.com" or "viator.com" (a bare URL is folded down to its registrable
+        domain). Returns [] honestly when couponfollow tracks nothing for that merchant — a
+        real, correct answer, not a failure. Each offer's code is null for a deal-only listing
+        (no code to enter, discount applies automatically or at a linked page) and set only when
+        couponfollow itself marks the card as carrying one.
         """
 
 class Prv_culturefly(Protocol):
@@ -18785,6 +18852,7 @@ class BowmarkProviders(Protocol):
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
     consultnet: Prv_consultnet
+    couponfollow: Prv_couponfollow
     culturefly: Prv_culturefly
     cyberpowerpc: Prv_cyberpowerpc
     davidsonhomes: Prv_davidsonhomes
@@ -18967,6 +19035,7 @@ class Bowmark(Protocol):
     insurance: Cap_insurance
     music: Cap_music
     pcparts: Cap_pcparts
+    promocodes: Cap_promocodes
     read: Cap_read
     search: Cap_search
     sheds: Cap_sheds

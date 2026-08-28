@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: feafb689a11d9c1a4ab71b04fe143e8094b160cd1c9e73a2cd3e9d9e4c4bdd69
-// 11 capabilities, 215 providers, 582 typed functions, 20 refused.
+// Manifest version: dda8aa3f024d05a77ebc5bcce7a8595541e0860eb03c0e2ba26c98e7d0c42911
+// 12 capabilities, 216 providers, 584 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -813,6 +813,53 @@ type ProductResult = {
      * product has no specs".
      */
     getProduct(urlOrOffer: string | Offer, options?: CallOptions): Promise<ProductResult>;
+  }
+}
+
+declare namespace BowmarkCapability_promocodes {
+  // ── Promo codes & checkout discounts — the unit's own declarations, verbatim ──
+// One normalized promo code / checkout discount offer.
+type PromoCode = {
+  source: string            // which source this offer came from, e.g. "couponfollow"
+  id: string                 // that source's own id for this offer; stable within source, not across
+  code: string | null       // the code to enter at checkout; null for a deal-only listing
+  discount: string | null   // human text ("5% OFF", "$10 OFF"); null when unstated
+  title: string
+  description: string
+  verified: boolean         // the SOURCE's own verification, not Bowmark's
+  exclusive: boolean
+  url: string                // merchant page if known, else the source's own listing page
+}
+type PromoCodeSearchResult = {
+  codes: PromoCode[]        // ranked: verified-with-code first, then any code, deal-only last
+  warnings: string[]        // always present; empty when nothing was dropped
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Looks up currently-known promo codes and checkout discounts for a merchant by domain — the
+   * code string (when one exists), human discount text, title, description, whether the source
+   * verified it, and a link to redeem it. Fans out across coupon aggregators; direct API, no
+   * browser.
+   */
+  interface Unit {
+    /**
+     * Looks up promo codes and checkout discounts for a merchant —
+     * `bowmark.promocodes.search("getyourguide.com")` — and returns normalized offers ranked
+     * verified-with-code first, then any code, deal-only listings last. `domain` is a registrable
+     * domain (a bare URL or a "www."-prefixed host is folded down to it); THROWS on a bare brand
+     * word with no dot ("getyourguide"), because a source behind this capability indexes by domain
+     * and a guessed TLD would silently search the wrong merchant. Returns `codes: []` honestly
+     * when no source tracks anything for that domain — a real, correct answer, not a failure.
+     * `warnings` is always present and names anything dropped, INCLUDING a source that timed out
+     * or failed. `options.timeoutMs` sets the per-source budget (default 30000).
+     */
+    search(domain: string, options?: CallOptions): Promise<PromoCodeSearchResult>;
   }
 }
 
@@ -4907,6 +4954,41 @@ interface ConsultnetJobSearchQuery {
      * instead.
      */
     searchJobs(query?: ConsultnetJobSearchQuery): Promise<ConsultnetJob[]>;
+  }
+}
+
+declare namespace BowmarkProvider_couponfollow {
+  // ── CouponFollow — the unit's own declarations, verbatim ──
+interface CouponFollowOffer {
+  id: string;
+  type: "coupon" | "featured_coupon" | "promotion";
+  merchant: string;
+  title: string;
+  description: string;
+  discountText: string | null;
+  code: string | null;
+  verified: boolean;
+  exclusive: boolean;
+  createdAt: string | null;
+  url: string;
+}
+
+  /**
+   * Reads couponfollow.com's own listing page for a merchant domain — every promo code and
+   * checkout discount it currently tracks for that merchant (code, discount text, title,
+   * description, whether couponfollow itself verified it), no browser.
+   */
+  interface Unit {
+    /**
+     * Reads couponfollow.com/site/<domain> — the current promo codes and checkout deals
+     * couponfollow tracks for that merchant. domain is a registrable domain, e.g.
+     * "getyourguide.com" or "viator.com" (a bare URL is folded down to its registrable domain).
+     * Returns [] honestly when couponfollow tracks nothing for that merchant — a real, correct
+     * answer, not a failure. Each offer's code is null for a deal-only listing (no code to enter,
+     * discount applies automatically or at a linked page) and set only when couponfollow itself
+     * marks the card as carrying one.
+     */
+    getCodes(domain: string): Promise<CouponFollowOffer[]>;
   }
 }
 
@@ -22108,6 +22190,7 @@ interface BowmarkProviders {
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
+  couponfollow: BowmarkProvider_couponfollow.Unit;
   culturefly: BowmarkProvider_culturefly.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
@@ -74003,6 +74086,7 @@ interface BowmarkLibrary {
   insurance: BowmarkCapability_insurance.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
+  promocodes: BowmarkCapability_promocodes.Unit;
   read: BowmarkCapability_read.Unit;
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
