@@ -1,5 +1,5 @@
 {
-  "version": "948709f09bfbdad65cbf15e740c21061094925c510b615e9972aa2d03ce1afa5",
+  "version": "76ce4f22388413c6ec0ca92dc58de42d6fd94e34bbbbd0adeb15faebc9b8f540",
   "units": {
     "cars": {
       "defs": {
@@ -19857,6 +19857,29 @@
             "name": "uniqueName",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.youtube": {
+      "defs": {},
+      "functions": {
+        "getTranscript": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

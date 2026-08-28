@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 948709f09bfbdad65cbf15e740c21061094925c510b615e9972aa2d03ce1afa5
-// 13 capabilities, 218 providers, 588 typed functions, 20 refused.
+// Manifest version: 76ce4f22388413c6ec0ca92dc58de42d6fd94e34bbbbd0adeb15faebc9b8f540
+// 13 capabilities, 219 providers, 589 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21381,6 +21381,35 @@ interface SearchHomesFilters {
   }
 }
 
+declare namespace BowmarkProvider_youtube {
+  // ── YouTube — the unit's own declarations, verbatim ──
+interface YoutubeTranscriptSegment {
+  timestamp: string;
+  startSeconds: number;
+  text: string;
+}
+
+interface YoutubeTranscript {
+  videoId: string;
+  segments: YoutubeTranscriptSegment[];
+  fullText: string;
+}
+
+  /**
+   * A YouTube video's own caption transcript, read off the site's own Transcript panel —
+   * timestamped lines plus the full text as one string. Language selection is not offered yet;
+   * this reads whichever track the panel shows by default.
+   */
+  interface Unit {
+    /**
+     * Returns a YouTube video's own caption transcript. `video` is a bare 11-character video id or
+     * any watch/shorts/embed/live/youtu.be URL. `segments` is [] — a real, honest answer — when
+     * the video has no caption track at all.
+     */
+    getTranscript(input: { video: string }): Promise<YoutubeTranscript>;
+  }
+}
+
 declare namespace BowmarkProvider_zennioptical {
   // ── Zenni Optical — the unit's own declarations, verbatim ──
 interface ZenniFrame {
@@ -22466,6 +22495,7 @@ interface BowmarkProviders {
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yorkwallcoverings: BowmarkProvider_yorkwallcoverings.Unit;
   yourarborhome: BowmarkProvider_yourarborhome.Unit;
+  youtube: BowmarkProvider_youtube.Unit;
   zennioptical: BowmarkProvider_zennioptical.Unit;
   "000de82": BowmarkFamily_shopify_store.Unit;
   "001r3iv0": BowmarkFamily_shopify_store.Unit;

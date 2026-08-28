@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 948709f09bfbdad65cbf15e740c21061094925c510b615e9972aa2d03ce1afa5
-# 13 capabilities, 218 providers, 570 typed functions, 20 refused.
+# Manifest version: 76ce4f22388413c6ec0ca92dc58de42d6fd94e34bbbbd0adeb15faebc9b8f540
+# 13 capabilities, 219 providers, 571 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11357,6 +11357,19 @@ class Prv_yourarborhome_ArborHome_Out_address_Out(TypedDict):
     state: str
     postalCode: str
 
+class Prv_youtube_getTranscript_input_In(TypedDict):
+    video: str
+
+class Prv_youtube_YoutubeTranscript_Out(TypedDict):
+    videoId: str
+    segments: list[Prv_youtube_YoutubeTranscriptSegment_Out]
+    fullText: str
+
+class Prv_youtube_YoutubeTranscriptSegment_Out(TypedDict):
+    timestamp: str
+    startSeconds: float
+    text: str
+
 class Prv_zennioptical_ZenniFrame_Out(TypedDict):
     sku: str
     name: str
@@ -18880,6 +18893,18 @@ class Prv_yourarborhome(Protocol):
         link without re-filtering the whole search.
         """
 
+class Prv_youtube(Protocol):
+    """A YouTube video's own caption transcript, read off the site's own Transcript panel —
+    timestamped lines plus the full text as one string. Language selection is not offered
+    yet; this reads whichever track the panel shows by default.
+    """
+
+    async def getTranscript(self, input: Prv_youtube_getTranscript_input_In, /) -> Prv_youtube_YoutubeTranscript_Out:
+        """Returns a YouTube video's own caption transcript. `video` is a bare 11-character video
+        id or any watch/shorts/embed/live/youtu.be URL. `segments` is [] — a real, honest answer
+        — when the video has no caption track at all.
+        """
+
 class Prv_zennioptical(Protocol):
     """Online prescription eyewear. Prices a real frame + Rx + lens-type configuration off the
     site's own configurator, and checks live per-SKU stock.
@@ -19121,6 +19146,7 @@ class BowmarkProviders(Protocol):
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     yorkwallcoverings: Prv_yorkwallcoverings
     yourarborhome: Prv_yourarborhome
+    youtube: Prv_youtube
     zennioptical: Prv_zennioptical
 
 

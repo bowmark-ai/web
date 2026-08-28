@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 948709f09bfbdad65cbf15e740c21061094925c510b615e9972aa2d03ce1afa5
-// 570 checked, 20 unchecked.
+// Manifest version: 76ce4f22388413c6ec0ca92dc58de42d6fd94e34bbbbd0adeb15faebc9b8f540
+// 571 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "948709f09bfbdad65cbf15e740c21061094925c510b615e9972aa2d03ce1afa5",
+  "version": "76ce4f22388413c6ec0ca92dc58de42d6fd94e34bbbbd0adeb15faebc9b8f540",
   "units": {
     "cars": {
       "defs": {
@@ -19869,6 +19869,29 @@ export const VALIDATORS: ValidatorTable = {
             "name": "uniqueName",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.youtube": {
+      "defs": {},
+      "functions": {
+        "getTranscript": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
