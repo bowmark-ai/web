@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 50253068cb9a031524e4d2ba60ef98334a040bc70fb6f62bb8eb696bf93d84d1
-// 575 checked, 20 unchecked.
+// Manifest version: bde4396bada682a0e7e40a3aa1c08e3bed48f779a2b794ab7924c074feee7d9e
+// 577 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "50253068cb9a031524e4d2ba60ef98334a040bc70fb6f62bb8eb696bf93d84d1",
+  "version": "bde4396bada682a0e7e40a3aa1c08e3bed48f779a2b794ab7924c074feee7d9e",
   "units": {
     "cars": {
       "defs": {
@@ -1954,6 +1954,43 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GutTypeAnswers"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.andersenwindows": {
+      "defs": {},
+      "functions": {
+        "findDealers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "radiusMiles",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -11668,6 +11705,20 @@ export const VALIDATORS: ValidatorTable = {
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.newageproducts": {
+      "defs": {},
+      "functions": {
+        "getNewageproductsProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

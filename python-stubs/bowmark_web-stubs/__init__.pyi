@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 50253068cb9a031524e4d2ba60ef98334a040bc70fb6f62bb8eb696bf93d84d1
-# 15 capabilities, 220 providers, 575 typed functions, 20 refused.
+# Manifest version: bde4396bada682a0e7e40a3aa1c08e3bed48f779a2b794ab7924c074feee7d9e
+# 15 capabilities, 222 providers, 577 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1132,6 +1132,30 @@ class Prv_ancientnutrition_GutTypeProduct_Out(TypedDict):
     title: str
     priceFormatted: str
     checkoutUrl: str
+
+class Prv_andersenwindows_findDealers_args_In(TypedDict):
+    zip: str
+    radiusMiles: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_andersenwindows_AndersenDealer_Out(TypedDict):
+    id: str
+    name: str
+    address: Prv_andersenwindows_AndersenDealerAddress_Out
+    phone: str | None
+    tier: str
+    accountType: str
+    distanceMiles: float
+    lat: float
+    lng: float
+    url: str
+
+class Prv_andersenwindows_AndersenDealerAddress_Out(TypedDict):
+    street: str
+    city: str
+    state: str
+    postalCode: str
+    country: str
 
 class Prv_archipelago_ArchipelagoRelease_Out(TypedDict):
     version: str
@@ -7652,6 +7676,27 @@ class Prv_nationalbusinessfurniture_NbfCartHandoff_Out_applied_item_Out(TypedDic
     group: str
     choice: str
 
+class Prv_newageproducts_NewageproductsProduct_Out(TypedDict):
+    handle: str
+    title: str
+    vendor: str
+    url: str
+    variants: list[Prv_newageproducts_NewageproductsVariant_Out]
+    priceRange: Prv_newageproducts_NewageproductsProduct_Out_priceRange_u0_Out | None
+    inStock: bool
+    images: list[str]
+
+class Prv_newageproducts_NewageproductsVariant_Out(TypedDict):
+    sku: str
+    price: str
+    compareAtPrice: str | None
+    option: str
+    active: bool
+
+class Prv_newageproducts_NewageproductsProduct_Out_priceRange_u0_Out(TypedDict):
+    min: str
+    max: str
+
 class Prv_newegg_StoreOffer_Out(TypedDict):
     title: str
     price: float | None
@@ -12152,6 +12197,19 @@ class Prv_ancientnutrition(Protocol):
         live quiz.
         """
 
+class Prv_andersenwindows(Protocol):
+    """Andersen Windows & Doors' certified-dealer locator — find the local dealer a homeowner
+    would be routed to for a real window/door quote, since Andersen never prices online.
+    """
+
+    async def findDealers(self, args: Prv_andersenwindows_findDealers_args_In, /) -> list[Prv_andersenwindows_AndersenDealer_Out]:
+        """Finds Andersen-certified dealers and contractors near a US ZIP code — the entry point to
+        a real Andersen quote, since Andersen prices windows and doors only through a local
+        dealer, never online. Returns each dealer's name, address, phone, program tier (e.g.
+        "Certified Contractor Elite"), distance and Andersen's own locator page URL, closest
+        first.
+        """
+
 class Prv_archipelago(Protocol):
     """Archipelago — the open-source multiworld/randomizer tool for game speedrunning
     communities. Reads the latest client release straight from GitHub (every platform
@@ -16620,6 +16678,20 @@ class Prv_nationalbusinessfurniture(Protocol):
         site's own add-to-cart endpoint.
         """
 
+class Prv_newageproducts(Protocol):
+    """NewAge Products' own garage-cabinetry and outdoor-living catalogue — one product's real
+    finish/color variants, exact live price, compare-at price and active status, plus a
+    direct handoff link to complete checkout on-site.
+    """
+
+    async def getNewageproductsProduct(self, handle: str, /) -> Prv_newageproducts_NewageproductsProduct_Out:
+        """Reads one NewAge Products garage-storage/outdoor-living product by its URL handle (from
+        a URL like newageproducts.com/products/<handle>/) — every finish/color variant, its
+        exact live price, compare-at price and whether it is active right now, plus images and
+        the product's own page URL to complete checkout. THROWS "no such product" for an unknown
+        handle (the site's own reliable soft-404 shape).
+        """
+
 class Prv_newegg(Protocol):
     """Newegg (newegg.com) — live product search over this store's own catalogue, cheapest
     matching item first.
@@ -19074,6 +19146,7 @@ class BowmarkProviders(Protocol):
     ajmadison: Prv_ajmadison
     amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition
+    andersenwindows: Prv_andersenwindows
     archipelago: Prv_archipelago
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco
@@ -19210,6 +19283,7 @@ class BowmarkProviders(Protocol):
     naic: Prv_naic
     namecheap: Prv_namecheap
     nationalbusinessfurniture: Prv_nationalbusinessfurniture
+    newageproducts: Prv_newageproducts
     newegg: Prv_newegg
     nvisioncenters: Prv_nvisioncenters
     oanda: Prv_oanda

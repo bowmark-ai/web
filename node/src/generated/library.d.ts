@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 50253068cb9a031524e4d2ba60ef98334a040bc70fb6f62bb8eb696bf93d84d1
-// 15 capabilities, 220 providers, 593 typed functions, 20 refused.
+// Manifest version: bde4396bada682a0e7e40a3aa1c08e3bed48f779a2b794ab7924c074feee7d9e
+// 15 capabilities, 222 providers, 595 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1905,6 +1905,43 @@ type GutTypeAnswers = Record<string, string>;
      * THROWS naming the real options when an answer does not match the live quiz.
      */
     computeGutType(answers?: GutTypeAnswers): Promise<QuizRun>;
+  }
+}
+
+declare namespace BowmarkProvider_andersenwindows {
+  // ── Andersen Windows & Doors — the unit's own declarations, verbatim ──
+interface AndersenDealerAddress {
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+interface AndersenDealer {
+  id: string;
+  name: string;
+  address: AndersenDealerAddress;
+  phone: string | null;
+  tier: string;
+  accountType: string;
+  distanceMiles: number;
+  lat: number;
+  lng: number;
+  url: string;
+}
+
+  /**
+   * Andersen Windows & Doors' certified-dealer locator — find the local dealer a homeowner would
+   * be routed to for a real window/door quote, since Andersen never prices online.
+   */
+  interface Unit {
+    /**
+     * Finds Andersen-certified dealers and contractors near a US ZIP code — the entry point to a
+     * real Andersen quote, since Andersen prices windows and doors only through a local dealer,
+     * never online. Returns each dealer's name, address, phone, program tier (e.g. "Certified
+     * Contractor Elite"), distance and Andersen's own locator page URL, closest first.
+     */
+    findDealers(args: { zip: string; radiusMiles?: number; limit?: number }): Promise<AndersenDealer[]>;
   }
 }
 
@@ -14922,6 +14959,51 @@ interface NbfCartHandoff {
   }
 }
 
+declare namespace BowmarkProvider_newageproducts {
+  // ── NewAge Products — the unit's own declarations, verbatim ──
+interface NewageproductsVariant {
+  /** The store's own SKU — the only stable per-variant identifier this site publishes. */
+  sku: string;
+  /** String verbatim from the site, e.g. "799.99". */
+  price: string;
+  /** Same scale as price. Null when the variant carries no strike-through price. */
+  compareAtPrice: string | null;
+  /** The finish/color label, e.g. "Black Frame with Red Door". */
+  option: string;
+  /** True when the site's own is_active flag is truthy. */
+  active: boolean;
+}
+interface NewageproductsProduct {
+  /** The URL handle — the only stable identifier a caller has going in. */
+  handle: string;
+  title: string;
+  vendor: string;
+  /** The product's own page — the checkout handoff: pick the variant here and add to cart on-site. */
+  url: string;
+  variants: NewageproductsVariant[];
+  priceRange: { min: string; max: string } | null;
+  /** True if ANY variant's is_active flag is truthy. */
+  inStock: boolean;
+  images: string[];
+}
+
+  /**
+   * NewAge Products' own garage-cabinetry and outdoor-living catalogue — one product's real
+   * finish/color variants, exact live price, compare-at price and active status, plus a direct
+   * handoff link to complete checkout on-site.
+   */
+  interface Unit {
+    /**
+     * Reads one NewAge Products garage-storage/outdoor-living product by its URL handle (from a
+     * URL like newageproducts.com/products/<handle>/) — every finish/color variant, its exact live
+     * price, compare-at price and whether it is active right now, plus images and the product's
+     * own page URL to complete checkout. THROWS "no such product" for an unknown handle (the
+     * site's own reliable soft-404 shape).
+     */
+    getNewageproductsProduct(handle: string): Promise<NewageproductsProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_newegg {
   // ── Newegg — the unit's own declarations, verbatim ──
 // Newegg's OWN row shape — not the `pcparts` capability contract.
@@ -22428,6 +22510,7 @@ interface BowmarkProviders {
   ajmadison: BowmarkProvider_ajmadison.Unit;
   amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
+  andersenwindows: BowmarkProvider_andersenwindows.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
@@ -22564,6 +22647,7 @@ interface BowmarkProviders {
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;
   nationalbusinessfurniture: BowmarkProvider_nationalbusinessfurniture.Unit;
+  newageproducts: BowmarkProvider_newageproducts.Unit;
   newegg: BowmarkProvider_newegg.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
   oanda: BowmarkProvider_oanda.Unit;
