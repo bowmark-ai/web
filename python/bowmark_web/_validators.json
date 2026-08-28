@@ -1,5 +1,5 @@
 {
-  "version": "32242f651eecfd4441ac5f63fc5c8d183cd2f21b0f0f79559b552f432b17eda0",
+  "version": "feafb689a11d9c1a4ab71b04fe143e8094b160cd1c9e73a2cd3e9d9e4c4bdd69",
   "units": {
     "cars": {
       "defs": {
@@ -2763,6 +2763,27 @@
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.blackstoneproducts": {
+      "defs": {},
+      "functions": {
+        "findNearbyDealers": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "radiusMiles",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }

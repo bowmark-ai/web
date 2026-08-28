@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 32242f651eecfd4441ac5f63fc5c8d183cd2f21b0f0f79559b552f432b17eda0
-// 11 capabilities, 214 providers, 581 typed functions, 20 refused.
+// Manifest version: feafb689a11d9c1a4ab71b04fe143e8094b160cd1c9e73a2cd3e9d9e4c4bdd69
+// 11 capabilities, 215 providers, 582 typed functions, 20 refused.
 // 51,714 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2831,6 +2831,45 @@ interface BingNewsSearchResult {
      * stamps, this feed's are the story's.
      */
     searchNews(args: { query: string, limit?: number }): Promise<BingNewsSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_blackstoneproducts {
+  // ── Blackstone Products — the unit's own declarations, verbatim ──
+interface BlackstoneDealer {
+  id: string;
+  name: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+  phone: string;
+  website: string;
+  latitude: number;
+  longitude: number;
+  distanceMiles: number;
+}
+interface BlackstoneNearbyDealers {
+  zip: string;
+  radiusMiles: number;
+  dealers: BlackstoneDealer[];
+}
+
+  /**
+   * Reads Blackstone Products' own real-time Stockist dealer locator directly — real authorized
+   * dealers that actually carry Blackstone griddles, distance-ranked from a US ZIP, never a
+   * guess at which big-box chains might stock them.
+   */
+  interface Unit {
+    /**
+     * Runs Blackstone's own real-time Stockist dealer locator for a US ZIP and returns real nearby
+     * authorized dealers that carry Blackstone griddles, distance-ranked (miles), from the brand's
+     * own tracked network — not a guess at national chains. `radiusMiles` defaults to 100 and is
+     * capped at 500; an honestly empty list means Blackstone's own tracker has nothing that close.
+     */
+    findNearbyDealers(zip: string, radiusMiles?: number): Promise<BlackstoneNearbyDealers>;
   }
 }
 
@@ -22042,6 +22081,7 @@ interface BowmarkProviders {
   bigjoeforklifts: BowmarkProvider_bigjoeforklifts.Unit;
   bigrentz: BowmarkProvider_bigrentz.Unit;
   bing: BowmarkProvider_bing.Unit;
+  blackstoneproducts: BowmarkProvider_blackstoneproducts.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
   bluehaven: BowmarkProvider_bluehaven.Unit;
   bluesignal: BowmarkProvider_bluesignal.Unit;

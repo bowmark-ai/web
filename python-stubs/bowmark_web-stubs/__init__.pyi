@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 32242f651eecfd4441ac5f63fc5c8d183cd2f21b0f0f79559b552f432b17eda0
-# 11 capabilities, 214 providers, 563 typed functions, 20 refused.
+# Manifest version: feafb689a11d9c1a4ab71b04fe143e8094b160cd1c9e73a2cd3e9d9e4c4bdd69
+# 11 capabilities, 215 providers, 564 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1730,6 +1730,26 @@ class Prv_bing_BingNewsResult_Out(TypedDict):
     published: str | None
     publisher: str | None
     imageUrl: str | None
+
+class Prv_blackstoneproducts_BlackstoneNearbyDealers_Out(TypedDict):
+    zip: str
+    radiusMiles: float
+    dealers: list[Prv_blackstoneproducts_BlackstoneDealer_Out]
+
+class Prv_blackstoneproducts_BlackstoneDealer_Out(TypedDict):
+    id: str
+    name: str
+    addressLine1: str
+    addressLine2: str
+    city: str
+    state: str
+    postalCode: str
+    country: str
+    phone: str
+    website: str
+    latitude: float
+    longitude: float
+    distanceMiles: float
 
 class Prv_blenderseyewear_BlendersEyewearStyle_Out(TypedDict):
     handle: str
@@ -12295,6 +12315,20 @@ class Prv_bing(Protocol):
         are Bing's crawl stamps, this feed's are the story's.
         """
 
+class Prv_blackstoneproducts(Protocol):
+    """Reads Blackstone Products' own real-time Stockist dealer locator directly — real
+    authorized dealers that actually carry Blackstone griddles, distance-ranked from a US
+    ZIP, never a guess at which big-box chains might stock them.
+    """
+
+    async def findNearbyDealers(self, zip: str, radiusMiles: float | None = None, /) -> Prv_blackstoneproducts_BlackstoneNearbyDealers_Out:
+        """Runs Blackstone's own real-time Stockist dealer locator for a US ZIP and returns real
+        nearby authorized dealers that carry Blackstone griddles, distance-ranked (miles), from
+        the brand's own tracked network — not a guess at national chains. `radiusMiles` defaults
+        to 100 and is capped at 500; an honestly empty list means Blackstone's own tracker has
+        nothing that close.
+        """
+
 class Prv_blenderseyewear(Protocol):
     """Blenders Eyewear's real prescription (Rx) frame catalog and its real Shopify-priced
     configurator — search real Rx styles, read one style's real option tree (prescription
@@ -18724,6 +18758,7 @@ class BowmarkProviders(Protocol):
     bigjoeforklifts: Prv_bigjoeforklifts
     bigrentz: Prv_bigrentz
     bing: Prv_bing
+    blackstoneproducts: Prv_blackstoneproducts
     blenderseyewear: Prv_blenderseyewear
     bluehaven: Prv_bluehaven
     bluesignal: Prv_bluesignal
