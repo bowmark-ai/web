@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bde4396bada682a0e7e40a3aa1c08e3bed48f779a2b794ab7924c074feee7d9e
-# 15 capabilities, 222 providers, 577 typed functions, 20 refused.
+# Manifest version: 06045bb09984e5a983b826a30db7f132d0424dbe648300ce26c311c6dd3b8825
+# 15 capabilities, 223 providers, 580 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9495,6 +9495,44 @@ class Prv_sears_SearsStockStore_Out(TypedDict):
     promiseDate: str | None
     ffmType: str | None
 
+class Prv_secondswing_SecondswingSearchArgs_In(TypedDict):
+    searchText: str
+
+class Prv_secondswing_SecondswingClubModel_Out(TypedDict):
+    sku: str
+    name: str
+    brand: str | None
+    category: str | None
+    model: str | None
+
+class Prv_secondswing_SecondswingSkuArgs_In(TypedDict):
+    sku: str
+
+class Prv_secondswing_SecondswingQuoteAttributes_Out(TypedDict):
+    sku: str
+    attributes: list[Prv_secondswing_SecondswingQuoteAttribute_Out]
+
+class Prv_secondswing_SecondswingQuoteAttribute_Out(TypedDict):
+    code: str
+    name: str
+    values: list[Prv_secondswing_SecondswingQuoteAttribute_Out_values_item_Out]
+
+class Prv_secondswing_SecondswingQuoteAttribute_Out_values_item_Out(TypedDict):
+    id: float
+    value: str
+
+class Prv_secondswing_SecondswingTradeInArgs_In(TypedDict):
+    sku: str
+    attributeSelections: Sequence[Prv_secondswing_SecondswingAttributeSelection_In]
+
+class Prv_secondswing_SecondswingAttributeSelection_In(TypedDict):
+    attributeCode: str
+    valueId: float
+
+class Prv_secondswing_SecondswingTradeInValue_Out(TypedDict):
+    sku: str
+    cashValue: float
+
 class Prv_seegarsfence_CheckServiceAreaResult_Out(TypedDict):
     address: Prv_seegarsfence_SeegarsGeocodedAddress_Out
     inServiceArea: bool
@@ -17782,6 +17820,26 @@ class Prv_sears(Protocol):
         `search`/`getProduct` — same as `getProduct`.
         """
 
+class Prv_secondswing(Protocol):
+    """2nd Swing's Value Guide — search a golf club and get its real instant cash trade-in
+    offer, the same number the site's own widget shows before any contact info is collected.
+    """
+
+    async def searchClubs(self, arg0: Prv_secondswing_SecondswingSearchArgs_In, /) -> list[Prv_secondswing_SecondswingClubModel_Out]:
+        """Runs the Value Guide's model quick-search and returns matching club SKUs with
+        brand/category/model.
+        """
+
+    async def getQuoteAttributes(self, arg0: Prv_secondswing_SecondswingSkuArgs_In, /) -> Prv_secondswing_SecondswingQuoteAttributes_Out:
+        """Lists the condition and club-number options the Value Guide needs before it will price a
+        SKU.
+        """
+
+    async def getTradeInValue(self, arg0: Prv_secondswing_SecondswingTradeInArgs_In, /) -> Prv_secondswing_SecondswingTradeInValue_Out:
+        """Returns the real instant cash trade-in offer for a SKU + condition/club-number
+        selection.
+        """
+
 class Prv_seegarsfence(Protocol):
     """Fence/gate installer (Carolinas). checkServiceArea is live — geocodes an address and
     reports whether it's inside Seegars' service area, plus the branch that would handle it.
@@ -19314,6 +19372,7 @@ class BowmarkProviders(Protocol):
     scentbird: Prv_scentbird
     seakeeper: Prv_seakeeper
     sears: Prv_sears
+    secondswing: Prv_secondswing
     seegarsfence: Prv_seegarsfence
     selectblinds: Prv_selectblinds
     semihandmade: Prv_semihandmade

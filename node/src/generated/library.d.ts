@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bde4396bada682a0e7e40a3aa1c08e3bed48f779a2b794ab7924c074feee7d9e
-// 15 capabilities, 222 providers, 595 typed functions, 20 refused.
+// Manifest version: 06045bb09984e5a983b826a30db7f132d0424dbe648300ce26c311c6dd3b8825
+// 15 capabilities, 223 providers, 598 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17987,6 +17987,72 @@ interface SearsStock {
   }
 }
 
+declare namespace BowmarkProvider_secondswing {
+  // ── 2nd Swing Golf — the unit's own declarations, verbatim ──
+interface SecondswingClubModel {
+  sku: string;
+  name: string;
+  brand: string | null;
+  category: string | null;
+  model: string | null;
+}
+
+interface SecondswingQuoteAttribute {
+  code: string;
+  name: string;
+  values: Array<{ id: number; value: string }>;
+}
+
+interface SecondswingAttributeSelection {
+  attributeCode: string;
+  valueId: number;
+}
+
+interface SecondswingSearchArgs {
+  searchText: string;
+}
+
+interface SecondswingSkuArgs {
+  sku: string;
+}
+
+interface SecondswingTradeInArgs {
+  sku: string;
+  attributeSelections: SecondswingAttributeSelection[];
+}
+
+interface SecondswingQuoteAttributes {
+  sku: string;
+  attributes: SecondswingQuoteAttribute[];
+}
+
+interface SecondswingTradeInValue {
+  sku: string;
+  cashValue: number;
+}
+
+  /**
+   * 2nd Swing's Value Guide — search a golf club and get its real instant cash trade-in offer,
+   * the same number the site's own widget shows before any contact info is collected.
+   */
+  interface Unit {
+    /**
+     * Runs the Value Guide's model quick-search and returns matching club SKUs with
+     * brand/category/model.
+     */
+    searchClubs(arg0: SecondswingSearchArgs): Promise<SecondswingClubModel[]>;
+
+    /**
+     * Lists the condition and club-number options the Value Guide needs before it will price a
+     * SKU.
+     */
+    getQuoteAttributes(arg0: SecondswingSkuArgs): Promise<SecondswingQuoteAttributes>;
+
+    /** Returns the real instant cash trade-in offer for a SKU + condition/club-number selection. */
+    getTradeInValue(arg0: SecondswingTradeInArgs): Promise<SecondswingTradeInValue>;
+  }
+}
+
 declare namespace BowmarkProvider_seegarsfence {
   // ── Seegars Fence Company — the unit's own declarations, verbatim ──
 interface SeegarsBranch {
@@ -22678,6 +22744,7 @@ interface BowmarkProviders {
   scentbird: BowmarkProvider_scentbird.Unit;
   seakeeper: BowmarkProvider_seakeeper.Unit;
   sears: BowmarkProvider_sears.Unit;
+  secondswing: BowmarkProvider_secondswing.Unit;
   seegarsfence: BowmarkProvider_seegarsfence.Unit;
   selectblinds: BowmarkProvider_selectblinds.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;

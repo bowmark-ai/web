@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bde4396bada682a0e7e40a3aa1c08e3bed48f779a2b794ab7924c074feee7d9e
-// 577 checked, 20 unchecked.
+// Manifest version: 06045bb09984e5a983b826a30db7f132d0424dbe648300ce26c311c6dd3b8825
+// 580 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bde4396bada682a0e7e40a3aa1c08e3bed48f779a2b794ab7924c074feee7d9e",
+  "version": "06045bb09984e5a983b826a30db7f132d0424dbe648300ce26c311c6dd3b8825",
   "units": {
     "cars": {
       "defs": {
@@ -16615,6 +16615,108 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.secondswing": {
+      "defs": {
+        "SecondswingAttributeSelection": {
+          "k": "object",
+          "props": [
+            {
+              "name": "attributeCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "valueId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SecondswingSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "searchText",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SecondswingSkuArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sku",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SecondswingTradeInArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sku",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "attributeSelections",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "SecondswingAttributeSelection"
+                }
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchClubs": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "SecondswingSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getQuoteAttributes": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "SecondswingSkuArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTradeInValue": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "SecondswingTradeInArgs"
+            },
+            "optional": false
           }
         ]
       }
