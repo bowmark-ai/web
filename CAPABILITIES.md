@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 36 functions. 🟢 implemented · ⚪ planned.
+> 37 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -21,10 +21,11 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `git_commit_history.commitHistory` | Returns a public GitHub repository's commit log — each commit's sha (full and short)… | 1 | 🟢 |
 | `hotels.search` | Searches stays for a place and a date range — `{ location: "SFO", checkIn… | 1 | 🟢 |
 | `hvac.getCostEstimate` | Calls the manufacturer's own published cost-guide table and returns a real… | 1 | 🟢 |
-| `insurance.findAgent` | Finds an insurance agent or agency to actually call, across the two carriers this… | 3 | 🟢 |
-| `insurance.getLicensing` | Reads the regulators' own licensing record for ONE carrier, keyed on the `naicCode`… | 3 | 🟢 |
-| `insurance.listReferralCarriers` | Lists the carriers a referral/marketplace program actually places business with — the… | 3 | 🟢 |
-| `insurance.searchCarriers` | Searches the US insurance regulators' register — `{ name: "GEICO" }`, `{ licensedIn… | 3 | 🟢 |
+| `insurance.findAgent` | Finds an insurance agent or agency to actually call, across the two carriers this… | 4 | 🟢 |
+| `insurance.getHomeQuotes` | Returns REAL home insurance quotes — actual carrier premiums for one property address… | 4 | 🟢 |
+| `insurance.getLicensing` | Reads the regulators' own licensing record for ONE carrier, keyed on the `naicCode`… | 4 | 🟢 |
+| `insurance.listReferralCarriers` | Lists the carriers a referral/marketplace program actually places business with — the… | 4 | 🟢 |
+| `insurance.searchCarriers` | Searches the US insurance regulators' register — `{ name: "GEICO" }`, `{ licensedIn… | 4 | 🟢 |
 | `istanbul_schedules.attractionHours` | Matches `query` against muze.gov.tr's own museum/site listing (a substring match on… | 1 | 🟢 |
 | `mcp_registry.search` | Lists or searches the official MCP server registry (registry.modelcontextprotocol.io)… | 1 | 🟢 |
 | `music.getTrack` | Reads ONE track you already have a URL for — a public track link, or a `Track` that… | 1 | 🟢 |
