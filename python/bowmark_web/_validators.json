@@ -1,5 +1,5 @@
 {
-  "version": "1190fc45993f01d27a97139bce411e3d88ed659098e16103dac08e48815c36fb",
+  "version": "c8691b6d8c581b41294743343555a81baec872a5c717daefd5ad270c2ef050fe",
   "units": {
     "cars": {
       "defs": {
@@ -17094,6 +17094,29 @@
             "name": "size",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.solostove": {
+      "defs": {},
+      "functions": {
+        "checkBundle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bundleId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

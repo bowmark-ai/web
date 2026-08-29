@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1190fc45993f01d27a97139bce411e3d88ed659098e16103dac08e48815c36fb
-// 16 capabilities, 225 providers, 601 typed functions, 20 refused.
+// Manifest version: c8691b6d8c581b41294743343555a81baec872a5c717daefd5ad270c2ef050fe
+// 16 capabilities, 226 providers, 602 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18501,6 +18501,43 @@ interface SmartwoolSockFinderResult {
   }
 }
 
+declare namespace BowmarkProvider_solostove {
+  // ── Solo Stove — the unit's own declarations, verbatim ──
+interface SolostoveBundleComponent {
+  sku: string;
+  name: string;
+  price: number;
+  quantity: number;
+  orderable: boolean;
+  availableToSell: number;
+}
+interface SolostoveBundleCheck {
+  bundleId: string;
+  name: string;
+  price: number;
+  currency: string;
+  orderable: boolean;       // false when even ONE component is out of stock
+  components: SolostoveBundleComponent[]; // empty for a non-bundle product
+}
+
+  /**
+   * Solo Stove's bundle-builder check flow — given a bundle's own product id (fire pit +
+   * accessories, e.g. the Dream Backyard Bundle), returns the combined price and whether the
+   * exact combination is orderable right now, broken down per component so a caller can see
+   * WHICH piece is out of stock when it is not.
+   */
+  interface Unit {
+    /**
+     * Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle) by its
+     * own product id — the `+`-joined component SKUs from the bundle's product page URL. Returns
+     * the combined price and whether the site will sell the EXACT combination right now, plus a
+     * per-component breakdown (each component's own price and stock) so a caller can see which
+     * single component made the bundle unorderable. THROWS when the bundle id does not exist.
+     */
+    checkBundle(args: { bundleId: string }): Promise<SolostoveBundleCheck>;
+  }
+}
+
 declare namespace BowmarkProvider_soundcloud {
   // ── SoundCloud — the unit's own declarations, verbatim ──
 // SoundCloud's OWN row shape — not the `music` capability contract.
@@ -22878,6 +22915,7 @@ interface BowmarkProviders {
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   smartsign: BowmarkProvider_smartsign.Unit;
   smartwool: BowmarkProvider_smartwool.Unit;
+  solostove: BowmarkProvider_solostove.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;

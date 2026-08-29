@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1190fc45993f01d27a97139bce411e3d88ed659098e16103dac08e48815c36fb
-# 16 capabilities, 225 providers, 583 typed functions, 20 refused.
+# Manifest version: c8691b6d8c581b41294743343555a81baec872a5c717daefd5ad270c2ef050fe
+# 16 capabilities, 226 providers, 584 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9752,6 +9752,25 @@ class Prv_smartwool_SmartwoolSockFinderResult_Out_shopLinks_item_Out(TypedDict):
     label: str
     ariaLabel: str
 
+class Prv_solostove_checkBundle_args_In(TypedDict):
+    bundleId: str
+
+class Prv_solostove_SolostoveBundleCheck_Out(TypedDict):
+    bundleId: str
+    name: str
+    price: float
+    currency: str
+    orderable: bool
+    components: list[Prv_solostove_SolostoveBundleComponent_Out]
+
+class Prv_solostove_SolostoveBundleComponent_Out(TypedDict):
+    sku: str
+    name: str
+    price: float
+    quantity: float
+    orderable: bool
+    availableToSell: float
+
 class Prv_soundcloud_ScTrack_Out(TypedDict):
     id: float
     title: str
@@ -18059,6 +18078,22 @@ class Prv_smartwool(Protocol):
         sock recommendation — the exact same result a shopper would see, no email required.
         """
 
+class Prv_solostove(Protocol):
+    """Solo Stove's bundle-builder check flow — given a bundle's own product id (fire pit +
+    accessories, e.g. the Dream Backyard Bundle), returns the combined price and whether the
+    exact combination is orderable right now, broken down per component so a caller can see
+    WHICH piece is out of stock when it is not.
+    """
+
+    async def checkBundle(self, args: Prv_solostove_checkBundle_args_In, /) -> Prv_solostove_SolostoveBundleCheck_Out:
+        """Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle) by
+        its own product id — the `+`-joined component SKUs from the bundle's product page URL.
+        Returns the combined price and whether the site will sell the EXACT combination right
+        now, plus a per-component breakdown (each component's own price and stock) so a caller
+        can see which single component made the bundle unorderable. THROWS when the bundle id
+        does not exist.
+        """
+
 class Prv_soundcloud(Protocol):
     """SoundCloud (soundcloud.com) — live track search over SoundCloud's own catalogue, reading
     one track URL back to its full detail (artwork, description, genre, release date,
@@ -19483,6 +19518,7 @@ class BowmarkProviders(Protocol):
     sitmeanssit: Prv_sitmeanssit
     smartsign: Prv_smartsign
     smartwool: Prv_smartwool
+    solostove: Prv_solostove
     soundcloud: Prv_soundcloud
     starlighthomes: Prv_starlighthomes
     statefarm: Prv_statefarm
