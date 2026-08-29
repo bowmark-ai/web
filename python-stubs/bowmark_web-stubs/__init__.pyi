@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d431cab99a3d1455e1e15072556d22a4f1f4e80a5e3477bfcb71fdf31ab124e3
-# 17 capabilities, 232 providers, 594 typed functions, 20 refused.
+# Manifest version: 54e3683692de6415062143d692a1ab30846dc38d8f5c9ba7c14182a3b3618f7d
+# 18 capabilities, 237 providers, 602 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -453,6 +453,28 @@ class Cap_hotels_Hotel_Out(TypedDict):
     distance: str | None
     distanceFrom: str | None
     url: str
+
+class Cap_hvac_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_hvac_HvacCostEstimateResult_Out(TypedDict):
+    source: str
+    brand: str
+    systemType: str
+    tiers: list[Cap_hvac_HvacTierCost_Out]
+    disclaimer: str
+    sourceUrl: str
+    warnings: list[str]
+
+class Cap_hvac_HvacTierCost_Out(TypedDict):
+    tier: str
+    model: str | None
+    estimatedInstalledCost: Cap_hvac_HvacTierCost_Out_estimatedInstalledCost_Out
+
+class Cap_hvac_HvacTierCost_Out_estimatedInstalledCost_Out(TypedDict):
+    low: float
+    high: float
+    currency: str
 
 class Cap_insurance_CarrierQuery_In(TypedDict):
     name: NotRequired[str]
@@ -1148,6 +1170,22 @@ class Prv_ajmadison_AjmadisonSearchResult_Out(TypedDict):
     price: float
     wasPrice: float | None
     url: str
+
+class Prv_americanstandard_AmericanStandardSystemCostEstimate_Out(TypedDict):
+    systemType: str
+    tiers: list[Prv_americanstandard_AmericanStandardTierCost_Out]
+    disclaimer: str
+    sourceUrl: str
+
+class Prv_americanstandard_AmericanStandardTierCost_Out(TypedDict):
+    tier: Literal["Platinum"] | Literal["Gold"] | Literal["Silver"]
+    model: str | None
+    estimatedInstalledCost: Prv_americanstandard_AmericanStandardCostRange_Out
+
+class Prv_americanstandard_AmericanStandardCostRange_Out(TypedDict):
+    low: float
+    high: float
+    currency: Literal["USD"]
 
 class Prv_amramp_findNearestLocation_input_In(TypedDict):
     zip: str
@@ -3071,6 +3109,58 @@ class Prv_couponfollow_CouponFollowOffer_Out(TypedDict):
     createdAt: str | None
     url: str
 
+class Prv_cruiselakegeneva_listTours_args_In(TypedDict):
+    category: NotRequired[str]
+    availableOnly: NotRequired[bool]
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_cruiselakegeneva_CruiseLakeGenevaTour_Out(TypedDict):
+    id: float
+    slug: str
+    name: str
+    url: str
+    categoryIds: list[str]
+    available: bool
+    unavailableMessage: str | None
+    adultPrice: float | None
+    childPrice: float | None
+    ages: str | None
+    durationHours: float | None
+    cardOverview: str
+    tag: str | None
+    bookingUrl: str | None
+    calendarUrl: str | None
+
+class Prv_cruiselakegeneva_CruiseLakeGenevaTourDetail_Out(TypedDict):
+    id: float
+    slug: str
+    name: str
+    url: str
+    categoryIds: list[str]
+    available: bool
+    unavailableMessage: str | None
+    adultPrice: float | None
+    childPrice: float | None
+    ages: str | None
+    durationHours: float | None
+    cardOverview: str
+    tag: str | None
+    bookingUrl: str | None
+    calendarUrl: str | None
+    overview: str
+    highlights: list[Prv_cruiselakegeneva_CruiseLakeGenevaTourDetail_Out_highlights_item_Out]
+    faqs: list[Prv_cruiselakegeneva_CruiseLakeGenevaTourDetail_Out_faqs_item_Out]
+    cancellationPolicy: str | None
+
+class Prv_cruiselakegeneva_CruiseLakeGenevaTourDetail_Out_highlights_item_Out(TypedDict):
+    title: str
+    description: str
+
+class Prv_cruiselakegeneva_CruiseLakeGenevaTourDetail_Out_faqs_item_Out(TypedDict):
+    question: str
+    answer: str
+
 class Prv_culturefly_CultureFlyBoxSummary_Out(TypedDict):
     handle: str
     title: str
@@ -3539,6 +3629,25 @@ class Prv_discounttire_DiscounttireTireResult_Out(TypedDict):
 class Prv_discounttire_DiscounttireTireResult_Out_price_u0_Out(TypedDict):
     value: float | None
     formatted: str | None
+
+class Prv_disney_DisneyTicketPrice_Out(TypedDict):
+    resort: Literal["wdw"]
+    days: float
+    currency: str
+    adult: Prv_disney_DisneyTicketPrice_Out_adult_u0_Out | None
+    child: Prv_disney_DisneyTicketPrice_Out_child_u0_Out | None
+    partyTotal: float
+    cheapestAvailableDates: list[str]
+
+class Prv_disney_DisneyTicketPrice_Out_adult_u0_Out(TypedDict):
+    subtotal: float
+    tax: float
+    total: float
+
+class Prv_disney_DisneyTicketPrice_Out_child_u0_Out(TypedDict):
+    subtotal: float
+    tax: float
+    total: float
 
 class Prv_ebay_search_args_u1_In(TypedDict):
     query: str
@@ -5385,6 +5494,30 @@ class Prv_identitygroup_IdentitygroupMountOptionResult_Out(TypedDict):
     productUrl: str
     checkoutUrl: str | None
     message: str
+
+class Prv_instagram_InstagramProfile_Out(TypedDict):
+    id: str
+    username: str
+    fullName: str
+    biography: str
+    externalUrl: str | None
+    isPrivate: bool
+    isVerified: bool
+    profilePicUrl: str
+    followerCount: float
+    followingCount: float
+    postCount: float
+
+class Prv_instagram_InstagramPost_Out(TypedDict):
+    id: str
+    shortcode: str
+    permalink: str
+    isVideo: bool
+    displayUrl: str
+    caption: str | None
+    likeCount: float
+    commentCount: float
+    takenAt: str
 
 class Prv_insurify_insurifyAutoQuotesQuery_In(TypedDict):
     identity: Prv_insurify_insurifyAutoQuotesQuery_In_identity_In
@@ -8026,6 +8159,17 @@ class Prv_outdoorresearch_OutdoorResearchClaimEligibility_Out(TypedDict):
     status: Literal["not_found"] | Literal["blocked"] | Literal["expired"] | Literal["eligible"]
     message: str
     continueUrl: str | None
+
+class Prv_pacificabeauty_getHairRecommendation_arg_In(TypedDict):
+    tags: Sequence[str]
+
+class Prv_pacificabeauty_PacificabeautyRecommendation_Out(TypedDict):
+    products: list[Prv_pacificabeauty_PacificabeautyRecommendedProduct_Out]
+
+class Prv_pacificabeauty_PacificabeautyRecommendedProduct_Out(TypedDict):
+    name: str
+    price: str | None
+    url: str
 
 class Prv_pacificcompanies_searchJobs_args_In(TypedDict):
     specialty: NotRequired[str]
@@ -11943,6 +12087,28 @@ class Cap_hotels(Protocol):
         if you batch several searches into one call.
         """
 
+class Cap_hvac(Protocol):
+    """Real national-average installed-cost RANGES for a residential HVAC system, straight off
+    a manufacturer's own published cost guide — pick a system type ("Air Conditioners", "80%
+    Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat Pumps", "Cold-Climate Heat
+    Pumps" or "Air Handlers") and get the real per-tier (Platinum/Gold/Silver) range, model
+    name and the source's own disclaimer. Not a bound quote for one home — measured
+    2026-08-29 that no national HVAC brand computes a per-configuration price online; every
+    one sells through independent dealers who set final price locally.
+    """
+
+    async def getCostEstimate(self, systemType: str, options: Cap_hvac_CallOptions_In | None = None, /) -> Cap_hvac_HvacCostEstimateResult_Out:
+        """Reads a real, published national-average installed-cost range for one HVAC system type
+        ("Air Conditioners", "80% Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat
+        Pumps", "Cold-Climate Heat Pumps" or "Air Handlers"), broken into the maker's three
+        tiers (Platinum/Gold/Silver) with a real model name and cost range per tier. THIS IS A
+        PUBLISHED ESTIMATE, NOT A BOUND QUOTE for one caller's home or ZIP — no national HVAC
+        brand computes that online (measured 2026-08-29 across Trane, Carrier, Lennox, Rheem,
+        American Standard and Goodman), so this returns the closest honest real number: the
+        manufacturer's own national-average range, with its own disclaimer carried in
+        `disclaimer`. THROWS when the source could not be reached at all.
+        """
+
 class Cap_insurance(Protocol):
     """Look up insurance carriers in the regulators' own national register — the NAIC company
     code, the legal entity behind a consumer brand, head-office contact details, and the
@@ -12443,6 +12609,22 @@ class Prv_ajmadison(Protocol):
         """Runs AJ Madison's own category + facet filter and returns real, currently-listed
         products (name, real current price, the crossed-out 'was' price when shown, the
         product's own AJ Madison URL). Read-only — never adds to cart or checks out.
+        """
+
+class Prv_americanstandard(Protocol):
+    """American Standard's own published HVAC cost guide — national-average installed-cost
+    ranges by system type and tier, straight off the manufacturer's site. No brand computes
+    a bound, per-home price online (measured across six national brands); this is the
+    closest real thing any of them publishes.
+    """
+
+    async def getSystemCostEstimate(self, systemType: str, /) -> Prv_americanstandard_AmericanStandardSystemCostEstimate_Out:
+        """Reads American Standard's own published cost guide for one system type ("Air
+        Conditioners", "80% Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat Pumps",
+        "Cold-Climate Heat Pumps" or "Air Handlers") and returns the real national-average
+        installed-cost RANGE the manufacturer publishes for each of its three tiers
+        (Platinum/Gold/Silver). This is a published estimate, not a bound quote for one caller's
+        home — no national HVAC brand computes that online.
         """
 
 class Prv_amramp(Protocol):
@@ -13723,6 +13905,26 @@ class Prv_couponfollow(Protocol):
         couponfollow itself marks the card as carrying one.
         """
 
+class Prv_cruiselakegeneva(Protocol):
+    """Cruise Lake Geneva's own tour lineup — narrated, dining and seasonal boat tours on Lake
+    Geneva, WI — with real pricing, duration, ages and live availability straight off the
+    site's own WordPress REST API, plus one tour's full write-up (highlights, FAQs,
+    cancellation policy) and its FareHarbor booking URL.
+    """
+
+    async def listTours(self, args: Prv_cruiselakegeneva_listTours_args_In | None = None, /) -> list[Prv_cruiselakegeneva_CruiseLakeGenevaTour_Out]:
+        """Lists Cruise Lake Geneva's current tour lineup — real pricing, duration, ages and live
+        availability for every narrated/dining/seasonal boat tour — filterable by tour-category
+        slug (e.g. "narrated-cruises"), availability, and a name substring. Default limit 20,
+        max 50; the site carries 27 tours today.
+        """
+
+    async def getTour(self, slug: str, /) -> Prv_cruiselakegeneva_CruiseLakeGenevaTourDetail_Out:
+        """Reads one tour's own detail page: full overview, highlight callouts, FAQs, cancellation
+        policy, and the FareHarbor bookingUrl/calendarUrl to actually check availability and
+        reserve. `slug` comes from listTours(). THROWS on an unknown slug.
+        """
+
 class Prv_culturefly(Protocol):
     """CultureFly's licensed pop-culture subscription boxes — the live catalogue, every box's
     real size + cadence (One-Time/Quarterly/Annual) options and price, and a ready checkout
@@ -14051,6 +14253,21 @@ class Prv_discounttire(Protocol):
         a list of tire rows. No `vehicleAssemblyId` is needed — unlike the by-vehicle searches
         here, the by-size operations take `vehicleInfo` as optional and the function never asks
         for one.
+        """
+
+class Prv_disney(Protocol):
+    """Walt Disney World's park admission ticket pricing — getTicketPrice reads the ticket
+    page's own product-listing endpoint for a real adult/child price by ticket length (1-10
+    days), the multi-day total for a party, and which dates that starting price applies to.
+    """
+
+    async def getTicketPrice(self, args: Any, /) -> Prv_disney_DisneyTicketPrice_Out:
+        """Reads Walt Disney World's own ticket page for a real per-person price by ticket length
+        and the multi-day total for a party. Takes `resort` ("wdw" only today), `days` (1-10)
+        and `partySize: { adults, children }`. The price is the site's own "starting from"
+        figure for that length — the cheapest currently-open date-tier — carried alongside the
+        dates it applies to; it is not a lookup for a caller-supplied date (see
+        get-ticket-price.ts).
         """
 
 class Prv_ebay(Protocol):
@@ -14571,9 +14788,12 @@ class Prv_g2(Protocol):
     """
 
     async def search(self, args: Prv_g2_search_args_In, /) -> list[Prv_g2_G2SearchResult_Out]:
-        """Runs G2's own site search (`/search?query=<q>`) and returns matching software listings
-        in the order G2 ranks them, each carrying the star rating (out of 5) and review count
-        G2's search page publishes, plus the `url` `getProduct` takes.
+        """Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a
+        product name ("slack"), a software category ("project management software"), or a
+        caller's own phrasing verbatim; G2 ranks whatever you pass and this returns those
+        listings in that order, each carrying the star rating (out of 5) and review count G2's
+        search page publishes, plus the `url` `getProduct` takes. Call it directly with the
+        caller's words rather than asking them to narrow it — G2's own ranking does that.
         """
 
     async def getProduct(self, args: Prv_g2_getProduct_args_u0_In | str, /) -> Prv_g2_G2Product_Out:
@@ -15369,6 +15589,26 @@ class Prv_identitygroup(Protocol):
         cart permalink preselecting that variant, no cart created here. `matched: false` +
         `candidates` is a real, expected answer for an ambiguous or unrecognized mount-option
         name, not an error.
+        """
+
+class Prv_instagram(Protocol):
+    """Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
+    follower/following counts, and the latest posts' captions, like and comment counts, off
+    the site's own logged-out profile-info endpoint.
+    """
+
+    async def getProfile(self, username: str, /) -> Prv_instagram_InstagramProfile_Out:
+        """Reads one public Instagram profile's own metadata — full name, biography, external link,
+        verified/private flags, follower and following counts, and total post count. Throws if
+        the username does not exist; a private account still returns its metadata (isPrivate:
+        true).
+        """
+
+    async def getPosts(self, username: str, /) -> list[Prv_instagram_InstagramPost_Out]:
+        """Reads the most recent posts (up to 12, newest first) on one public Instagram profile —
+        shortcode, permalink, image/video flag, caption, like count, comment count and
+        timestamp. A private account returns an empty array rather than throwing, since the site
+        itself serves none to a logged-out reader.
         """
 
 class Prv_insurify(Protocol):
@@ -17199,6 +17439,19 @@ class Prv_outdoorresearch(Protocol):
         real, expected answer, not an error) — never throws for those. On `eligible: true`,
         `continueUrl` is where the customer would pick items and see per-item eligibility.
         THROWS only on a transport failure or an unrecognized response.
+        """
+
+class Prv_pacificabeauty(Protocol):
+    """Pacifica Beauty's own hair-quiz recommendation engine
+    (pacificabeauty.com/pages/hair-quiz) — submits real answer tags to the site's own
+    quiz-scoring vendor and returns the actual recommended product(s), with no personal
+    information required.
+    """
+
+    async def getHairRecommendation(self, arg: Prv_pacificabeauty_getHairRecommendation_arg_In, /) -> Prv_pacificabeauty_PacificabeautyRecommendation_Out:
+        """Runs Pacifica's own hair-quiz scoring logic for a real set of answer tags and returns
+        the actual recommended product(s) — name, price and buy link — with no personal
+        information required.
         """
 
 class Prv_pacificcompanies(Protocol):
@@ -19592,6 +19845,7 @@ class BowmarkProviders(Protocol):
     abercrombie: Prv_abercrombie
     aiper: Prv_aiper
     ajmadison: Prv_ajmadison
+    americanstandard: Prv_americanstandard
     amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows
@@ -19642,6 +19896,7 @@ class BowmarkProviders(Protocol):
     clubchampion: Prv_clubchampion
     consultnet: Prv_consultnet
     couponfollow: Prv_couponfollow
+    cruiselakegeneva: Prv_cruiselakegeneva
     culturefly: Prv_culturefly
     cyberpowerpc: Prv_cyberpowerpc
     davidsonhomes: Prv_davidsonhomes
@@ -19651,6 +19906,7 @@ class BowmarkProviders(Protocol):
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
     discounttire: Prv_discounttire
+    disney: Prv_disney
     ebay: Prv_ebay
     embroker: Prv_embroker
     eq3: Prv_eq3
@@ -19694,6 +19950,7 @@ class BowmarkProviders(Protocol):
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
     identitygroup: Prv_identitygroup
+    instagram: Prv_instagram
     insurify: Prv_insurify
     interiordefine: Prv_interiordefine
     iproyal: Prv_iproyal
@@ -19743,6 +20000,7 @@ class BowmarkProviders(Protocol):
     oliverwinery: Prv_oliverwinery
     otto: Prv_otto
     outdoorresearch: Prv_outdoorresearch
+    pacificabeauty: Prv_pacificabeauty
     pacificcompanies: Prv_pacificcompanies
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland
@@ -19834,6 +20092,7 @@ class Bowmark(Protocol):
     flights: Cap_flights
     git_commit_history: Cap_git_commit_history
     hotels: Cap_hotels
+    hvac: Cap_hvac
     insurance: Cap_insurance
     music: Cap_music
     pcparts: Cap_pcparts

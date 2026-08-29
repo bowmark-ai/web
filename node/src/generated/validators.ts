@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d431cab99a3d1455e1e15072556d22a4f1f4e80a5e3477bfcb71fdf31ab124e3
-// 594 checked, 20 unchecked.
+// Manifest version: 54e3683692de6415062143d692a1ab30846dc38d8f5c9ba7c14182a3b3618f7d
+// 602 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d431cab99a3d1455e1e15072556d22a4f1f4e80a5e3477bfcb71fdf31ab124e3",
+  "version": "54e3683692de6415062143d692a1ab30846dc38d8f5c9ba7c14182a3b3618f7d",
   "units": {
     "cars": {
       "defs": {
@@ -612,6 +612,41 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "hvac": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getCostEstimate": [
+          {
+            "name": "systemType",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           },
           {
             "name": "options",
@@ -2052,6 +2087,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AjmadisonSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.americanstandard": {
+      "defs": {},
+      "functions": {
+        "getSystemCostEstimate": [
+          {
+            "name": "systemType",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -5003,6 +5052,59 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.cruiselakegeneva": {
+      "defs": {},
+      "functions": {
+        "listTours": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "category",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "availableOnly",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTour": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.culturefly": {
       "defs": {},
       "functions": {
@@ -5690,6 +5792,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.disney": {
+      "defs": {},
+      "functions": {
+        "getTicketPrice": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }
@@ -8140,6 +8256,29 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "mountOption",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.instagram": {
+      "defs": {},
+      "functions": {
+        "getProfile": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPosts": [
+          {
+            "name": "username",
             "schema": {
               "k": "string"
             },
@@ -12364,6 +12503,32 @@ export const VALIDATORS: ValidatorTable = {
             "name": "email",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.pacificabeauty": {
+      "defs": {},
+      "functions": {
+        "getHairRecommendation": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tags",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

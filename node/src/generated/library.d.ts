@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d431cab99a3d1455e1e15072556d22a4f1f4e80a5e3477bfcb71fdf31ab124e3
-// 17 capabilities, 232 providers, 612 typed functions, 20 refused.
+// Manifest version: 54e3683692de6415062143d692a1ab30846dc38d8f5c9ba7c14182a3b3618f7d
+// 18 capabilities, 237 providers, 620 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -491,6 +491,56 @@ type CallOptions = {
      * rather than lowering it if you batch several searches into one call.
      */
     search(query: HotelQuery, limit?: number, options?: CallOptions): Promise<HotelSearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_hvac {
+  // ── HVAC system cost estimate — the unit's own declarations, verbatim ──
+type HvacTierCost = {
+  tier: string                 // the maker's own tier name, e.g. "Platinum", "Gold", "Silver"
+  model: string | null         // the maker's exact model name for this tier, when published
+  estimatedInstalledCost: { low: number; high: number; currency: string }
+}
+
+type HvacCostEstimateResult = {
+  source: string                // which maker — a provider id
+  brand: string                 // the maker's brand name
+  systemType: string            // as the source's own page labels it, e.g. "Heat Pumps"
+  tiers: HvacTierCost[]
+  disclaimer: string            // the source's own caveat, verbatim — a national
+                                 // average, NOT a bound quote for one home
+  sourceUrl: string
+  warnings: string[]            // always present; names a dropped maker
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Real national-average installed-cost RANGES for a residential HVAC system, straight off a
+   * manufacturer's own published cost guide — pick a system type ("Air Conditioners", "80%
+   * Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat Pumps", "Cold-Climate Heat Pumps"
+   * or "Air Handlers") and get the real per-tier (Platinum/Gold/Silver) range, model name and
+   * the source's own disclaimer. Not a bound quote for one home — measured 2026-08-29 that no
+   * national HVAC brand computes a per-configuration price online; every one sells through
+   * independent dealers who set final price locally.
+   */
+  interface Unit {
+    /**
+     * Reads a real, published national-average installed-cost range for one HVAC system type ("Air
+     * Conditioners", "80% Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat Pumps",
+     * "Cold-Climate Heat Pumps" or "Air Handlers"), broken into the maker's three tiers
+     * (Platinum/Gold/Silver) with a real model name and cost range per tier. THIS IS A PUBLISHED
+     * ESTIMATE, NOT A BOUND QUOTE for one caller's home or ZIP — no national HVAC brand computes
+     * that online (measured 2026-08-29 across Trane, Carrier, Lennox, Rheem, American Standard and
+     * Goodman), so this returns the closest honest real number: the manufacturer's own
+     * national-average range, with its own disclaimer carried in `disclaimer`. THROWS when the
+     * source could not be reached at all.
+     */
+    getCostEstimate(systemType: string, options?: CallOptions): Promise<HvacCostEstimateResult>;
   }
 }
 
@@ -1925,6 +1975,45 @@ interface AjmadisonSearchResult {
      * Madison URL). Read-only — never adds to cart or checks out.
      */
     search(args: AjmadisonSearchArgs): Promise<AjmadisonSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_americanstandard {
+  // ── American Standard Heating & Air Conditioning — the unit's own declarations, verbatim ──
+type AmericanStandardTierName = "Platinum" | "Gold" | "Silver";
+interface AmericanStandardCostRange {
+  low: number;
+  high: number;
+  currency: "USD";
+}
+interface AmericanStandardTierCost {
+  tier: AmericanStandardTierName;
+  model: string | null;
+  estimatedInstalledCost: AmericanStandardCostRange;
+}
+interface AmericanStandardSystemCostEstimate {
+  systemType: string;
+  tiers: AmericanStandardTierCost[];
+  disclaimer: string;
+  sourceUrl: string;
+}
+
+  /**
+   * American Standard's own published HVAC cost guide — national-average installed-cost ranges
+   * by system type and tier, straight off the manufacturer's site. No brand computes a bound,
+   * per-home price online (measured across six national brands); this is the closest real thing
+   * any of them publishes.
+   */
+  interface Unit {
+    /**
+     * Reads American Standard's own published cost guide for one system type ("Air Conditioners",
+     * "80% Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat Pumps", "Cold-Climate Heat
+     * Pumps" or "Air Handlers") and returns the real national-average installed-cost RANGE the
+     * manufacturer publishes for each of its three tiers (Platinum/Gold/Silver). This is a
+     * published estimate, not a bound quote for one caller's home — no national HVAC brand
+     * computes that online.
+     */
+    getSystemCostEstimate(systemType: string): Promise<AmericanStandardSystemCostEstimate>;
   }
 }
 
@@ -5384,6 +5473,56 @@ interface CouponFollowOffer {
   }
 }
 
+declare namespace BowmarkProvider_cruiselakegeneva {
+  // ── Cruise Lake Geneva — the unit's own declarations, verbatim ──
+interface CruiseLakeGenevaTour {
+  id: number;
+  slug: string;
+  name: string;
+  url: string;
+  categoryIds: string[];         // tour-category term ids, as strings
+  available: boolean;
+  unavailableMessage: string | null;
+  adultPrice: number | null;
+  childPrice: number | null;
+  ages: string | null;
+  durationHours: number | null;
+  cardOverview: string;
+  tag: string | null;            // e.g. "NEW Tour!"
+  bookingUrl: string | null;     // FareHarbor embed URL
+  calendarUrl: string | null;    // FareHarbor calendar embed URL
+}
+interface CruiseLakeGenevaTourDetail extends CruiseLakeGenevaTour {
+  overview: string;
+  highlights: { title: string; description: string }[];
+  faqs: { question: string; answer: string }[];
+  cancellationPolicy: string | null;
+}
+
+  /**
+   * Cruise Lake Geneva's own tour lineup — narrated, dining and seasonal boat tours on Lake
+   * Geneva, WI — with real pricing, duration, ages and live availability straight off the site's
+   * own WordPress REST API, plus one tour's full write-up (highlights, FAQs, cancellation
+   * policy) and its FareHarbor booking URL.
+   */
+  interface Unit {
+    /**
+     * Lists Cruise Lake Geneva's current tour lineup — real pricing, duration, ages and live
+     * availability for every narrated/dining/seasonal boat tour — filterable by tour-category slug
+     * (e.g. "narrated-cruises"), availability, and a name substring. Default limit 20, max 50; the
+     * site carries 27 tours today.
+     */
+    listTours(args?: { category?: string; availableOnly?: boolean; query?: string; limit?: number }): Promise<CruiseLakeGenevaTour[]>;
+
+    /**
+     * Reads one tour's own detail page: full overview, highlight callouts, FAQs, cancellation
+     * policy, and the FareHarbor bookingUrl/calendarUrl to actually check availability and
+     * reserve. `slug` comes from listTours(). THROWS on an unknown slug.
+     */
+    getTour(slug: string): Promise<CruiseLakeGenevaTourDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_culturefly {
   // ── CultureFly — the unit's own declarations, verbatim ──
 interface CultureFlyBoxSummary {
@@ -6309,6 +6448,35 @@ interface DiscounttireTireSizeSearch {
      * take `vehicleInfo` as optional and the function never asks for one.
      */
     searchTiresBySize(args: { front: { diameter: string; width: string; aspectRatio: string }; rear?: { diameter: string; width: string; aspectRatio: string }; location: { zip: string } | { storeCode: string } | { latitude: number; longitude: number }; pageNumber: number; pageSize: number }): Promise<DiscounttireTireSizeSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_disney {
+  // ── Walt Disney World Resort — the unit's own declarations, verbatim ──
+interface DisneyTicketPrice {
+  resort: "wdw";
+  days: number;
+  currency: string;
+  adult: { subtotal: number; tax: number; total: number } | null;
+  child: { subtotal: number; tax: number; total: number } | null;
+  partyTotal: number;
+  cheapestAvailableDates: string[];
+}
+
+  /**
+   * Walt Disney World's park admission ticket pricing — getTicketPrice reads the ticket page's
+   * own product-listing endpoint for a real adult/child price by ticket length (1-10 days), the
+   * multi-day total for a party, and which dates that starting price applies to.
+   */
+  interface Unit {
+    /**
+     * Reads Walt Disney World's own ticket page for a real per-person price by ticket length and
+     * the multi-day total for a party. Takes `resort` ("wdw" only today), `days` (1-10) and
+     * `partySize: { adults, children }`. The price is the site's own "starting from" figure for
+     * that length — the cheapest currently-open date-tier — carried alongside the dates it applies
+     * to; it is not a lookup for a caller-supplied date (see get-ticket-price.ts).
+     */
+    getTicketPrice(args: object): Promise<DisneyTicketPrice>;
   }
 }
 
@@ -7858,9 +8026,12 @@ interface G2Product {
    */
   interface Unit {
     /**
-     * Runs G2's own site search (`/search?query=<q>`) and returns matching software listings in
-     * the order G2 ranks them, each carrying the star rating (out of 5) and review count G2's
-     * search page publishes, plus the `url` `getProduct` takes.
+     * Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a product
+     * name ("slack"), a software category ("project management software"), or a caller's own
+     * phrasing verbatim; G2 ranks whatever you pass and this returns those listings in that order,
+     * each carrying the star rating (out of 5) and review count G2's search page publishes, plus
+     * the `url` `getProduct` takes. Call it directly with the caller's words rather than asking
+     * them to narrow it — G2's own ranking does that.
      */
     search(args: { query: string }): Promise<G2SearchResult[]>;
 
@@ -10344,6 +10515,56 @@ interface IdentitygroupMountOptionResult {
      * is a real, expected answer for an ambiguous or unrecognized mount-option name, not an error.
      */
     priceMountOption(handle: string, mountOption: string): Promise<IdentitygroupMountOptionResult>;
+  }
+}
+
+declare namespace BowmarkProvider_instagram {
+  // ── Instagram — the unit's own declarations, verbatim ──
+interface InstagramProfile {
+  id: string;
+  username: string;
+  fullName: string;
+  biography: string;
+  externalUrl: string | null;
+  isPrivate: boolean;
+  isVerified: boolean;
+  profilePicUrl: string;
+  followerCount: number;
+  followingCount: number;
+  postCount: number;
+}
+interface InstagramPost {
+  id: string;
+  shortcode: string;
+  permalink: string;
+  isVideo: boolean;
+  displayUrl: string;
+  caption: string | null;
+  likeCount: number;
+  commentCount: number;
+  takenAt: string;
+}
+
+  /**
+   * Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
+   * follower/following counts, and the latest posts' captions, like and comment counts, off the
+   * site's own logged-out profile-info endpoint.
+   */
+  interface Unit {
+    /**
+     * Reads one public Instagram profile's own metadata — full name, biography, external link,
+     * verified/private flags, follower and following counts, and total post count. Throws if the
+     * username does not exist; a private account still returns its metadata (isPrivate: true).
+     */
+    getProfile(username: string): Promise<InstagramProfile>;
+
+    /**
+     * Reads the most recent posts (up to 12, newest first) on one public Instagram profile —
+     * shortcode, permalink, image/video flag, caption, like count, comment count and timestamp. A
+     * private account returns an empty array rather than throwing, since the site itself serves
+     * none to a logged-out reader.
+     */
+    getPosts(username: string): Promise<InstagramPost[]>;
   }
 }
 
@@ -15653,6 +15874,33 @@ interface OutdoorResearchClaimEligibility {
      * transport failure or an unrecognized response.
      */
     checkClaimEligibility(orderNumber: string, email: string): Promise<OutdoorResearchClaimEligibility>;
+  }
+}
+
+declare namespace BowmarkProvider_pacificabeauty {
+  // ── Pacifica Beauty — the unit's own declarations, verbatim ──
+interface PacificabeautyRecommendedProduct {
+  name: string;
+  price: string | null;
+  url: string;
+}
+
+interface PacificabeautyRecommendation {
+  products: PacificabeautyRecommendedProduct[];
+}
+
+  /**
+   * Pacifica Beauty's own hair-quiz recommendation engine (pacificabeauty.com/pages/hair-quiz) —
+   * submits real answer tags to the site's own quiz-scoring vendor and returns the actual
+   * recommended product(s), with no personal information required.
+   */
+  interface Unit {
+    /**
+     * Runs Pacifica's own hair-quiz scoring logic for a real set of answer tags and returns the
+     * actual recommended product(s) — name, price and buy link — with no personal information
+     * required.
+     */
+    getHairRecommendation(arg: { tags: string[] }): Promise<PacificabeautyRecommendation>;
   }
 }
 
@@ -23005,6 +23253,7 @@ interface BowmarkProviders {
   abercrombie: BowmarkProvider_abercrombie.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
+  americanstandard: BowmarkProvider_americanstandard.Unit;
   amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
@@ -23055,6 +23304,7 @@ interface BowmarkProviders {
   clubchampion: BowmarkProvider_clubchampion.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
+  cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;
   culturefly: BowmarkProvider_culturefly.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
@@ -23064,6 +23314,7 @@ interface BowmarkProviders {
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
+  disney: BowmarkProvider_disney.Unit;
   ebay: BowmarkProvider_ebay.Unit;
   embroker: BowmarkProvider_embroker.Unit;
   eq3: BowmarkProvider_eq3.Unit;
@@ -23107,6 +23358,7 @@ interface BowmarkProviders {
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
+  instagram: BowmarkProvider_instagram.Unit;
   insurify: BowmarkProvider_insurify.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
   iproyal: BowmarkProvider_iproyal.Unit;
@@ -23156,6 +23408,7 @@ interface BowmarkProviders {
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
   otto: BowmarkProvider_otto.Unit;
   outdoorresearch: BowmarkProvider_outdoorresearch.Unit;
+  pacificabeauty: BowmarkProvider_pacificabeauty.Unit;
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
@@ -74961,6 +75214,7 @@ interface BowmarkLibrary {
   flights: BowmarkCapability_flights.Unit;
   git_commit_history: BowmarkCapability_git_commit_history.Unit;
   hotels: BowmarkCapability_hotels.Unit;
+  hvac: BowmarkCapability_hvac.Unit;
   insurance: BowmarkCapability_insurance.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
