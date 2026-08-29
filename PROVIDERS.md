@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1013 functions. 🟢 implemented · ⚪ planned.
+> 1014 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -569,6 +569,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `liquiddeath.getProduct` | liquiddeath.com | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
 | `liquiddeath.searchPolicies` | liquiddeath.com | Answers questions about shipping, returns, subscriptions and the store's own FAQs… | ⚪ |
 | `liquiddeath.searchProducts` | liquiddeath.com | Searches the live catalogue and returns matching products with their real variants… | 🟢 |
+| `liquidspace.search` | liquidspace.com | Reads LiquidSpace's own city-listing page for a US city/state and returns every… | 🟢 |
 | `littlewordsproject.getLittleWordsProjectCheckoutLink` | littlewordsproject.com | Resolves a product handle + chosen options (bead pattern / letter color / size… | 🟢 |
 | `littlewordsproject.getLittleWordsProjectProduct` | littlewordsproject.com | Reads one custom-bracelet product by its handle — every bead-pattern/letter-color/size… | 🟢 |
 | `littlewordsproject.listLittleWordsProjectProducts` | littlewordsproject.com | Reads a Little Words Project collection's live catalogue as the storefront publishes… | 🟢 |

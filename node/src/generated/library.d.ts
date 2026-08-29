@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 54e3683692de6415062143d692a1ab30846dc38d8f5c9ba7c14182a3b3618f7d
-// 18 capabilities, 237 providers, 620 typed functions, 20 refused.
+// Manifest version: 7db8a9abb8412b6e0576aa5f60a20ad58719fcf71202b51b6309dc41ff1b222c
+// 22 capabilities, 245 providers, 634 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -108,6 +108,135 @@ type CallOptions = {
      * sets the per-site budget (default 30000).
      */
     search(query: CarQuery, limit?: number, options?: CallOptions): Promise<CarSearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_coworking {
+  // ── Coworking space day passes — the unit's own declarations, verbatim ──
+type CoworkingDayPass = {
+  venueName: string
+  address: string
+  workspaceName: string       // the pass's own display name at its venue
+  category: string | null     // e.g. "Coworking" — null when unreported
+  capacity: number | null
+  priceAmount: number
+  currency: string            // ISO 4217, always "USD" today (US cities only)
+  bookingUrl: string          // where to actually book — needs a signed-in account
+  latitude: number
+  longitude: number
+  rating: { average: number; count: number } | null
+}
+type FindDayPassesResult = {
+  city: string
+  state: string
+  dayPasses: CoworkingDayPass[]   // [] when nothing is listed today — a real, complete answer
+  warnings: string[]              // always present; empty when nothing was dropped
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Finds single-day coworking passes in a US city — venue, price, capacity and a direct booking
+   * link, aggregated across WeWork, Industrious, Regus/Spaces and independent operators via
+   * LiquidSpace. No login, no booking (that needs a signed-in LiquidSpace account).
+   */
+  interface Unit {
+    /**
+     * Finds single-day coworking passes for a US city — `bowmark.coworking.findDayPasses("New
+     * York, NY")` or `{ city: "New York", state: "NY" }` — and reads each one's real, current
+     * price. Returns `dayPasses: []` when nothing is listed for that city today, a real, complete
+     * answer, not a failure. Each pass carries the venue name/address, the pass's own name and
+     * category, capacity, price, coordinates, rating and a direct `bookingUrl` — LiquidSpace's own
+     * page, since booking itself needs a signed-in LiquidSpace account and is out of scope here.
+     * US cities only.
+     */
+    findDayPasses(location: string | { city: string; state: string }, options?: CallOptions): Promise<FindDayPassesResult>;
+  }
+}
+
+declare namespace BowmarkCapability_developer_api_key_signup {
+  // ── Developer API key signup — the unit's own declarations, verbatim ──
+interface DeveloperApiKeySignupDetails {
+  organization: string
+  email: string
+  occupation?: string
+}
+interface DeveloperApiKeySignupResult {
+  service: string
+  apiKey: string
+  message: string
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Actually RUNS a developer dashboard's signup flow and hands back a real, usable API key — no
+   * email verification, no CAPTCHA, for the dashboards this covers. Today: Alpha Vantage's free
+   * stock-data API. Call it directly; don't just describe the steps. If the caller gave no
+   * organization/email of their own, invent a placeholder — this is an instant, unverified
+   * free-tier signup, not an account tied to a real identity, so there is nothing to ask
+   * permission for. MAKE THE EMAIL UNIQUE PER CALL (see the worked example) — the dashboard
+   * dedupes by address, so a copied literal example email gets "Redundant origin" on the second
+   * and every later run.
+   */
+  interface Unit {
+    /**
+     * Signs up for a real API key on a developer dashboard — RUN this, don't just explain how —
+     * `bowmark.developer_api_key_signup.signUp("alphavantage", { organization: "Acme Corp", email:
+     * `qa-${Date.now()}@example.com` })`. `service` selects which dashboard (today: "alphavantage"
+     * only — THROWS naming the supported list otherwise, a caller-fixable error).
+     * `details.organization` and `details.email` are required; when the caller did not supply
+     * their own, invent placeholder-shaped ones like the example's — the signup is instant and
+     * unverified, so nothing is lost by not stopping to ask first. MAKE THE EMAIL UNIQUE EVERY
+     * CALL (e.g. embed `Date.now()`, as the example does) — the dashboard rejects a repeated
+     * address with "Redundant origin", so a literal copied example email fails on the second and
+     * every later run. `details.occupation` is optional and dashboard-specific. Returns the real
+     * key plus the dashboard's own confirmation sentence. `options.timeoutMs` sets the call budget
+     * (default 30000).
+     */
+    signUp(service: string, details: { organization: string, email: string, occupation?: string }, options?: CallOptions): Promise<DeveloperApiKeySignupResult>;
+  }
+}
+
+declare namespace BowmarkCapability_domain {
+  // ── Domain name availability check — the unit's own declarations, verbatim ──
+
+interface DomainAvailabilityResult {
+  name: string                  // normalized: lowercased, no scheme, no "www."
+  available: boolean | null     // true = free, false = registered, null = unknown
+  registrar: string | null
+  registeredAt: string | null   // ISO 8601
+  expiresAt: string | null      // ISO 8601
+  price: null                   // always null — see warnings
+  currency: null
+  source: string                // "rdap"
+  warnings: string[]
+}
+
+  /**
+   * Checks whether a domain name is registered — and, when it is, who holds it and when it
+   * expires — straight off RDAP, the IANA-standardized WHOIS successor. No key, no browser.
+   * Price is currently always unknown; see the result's warnings.
+   */
+  interface Unit {
+    /**
+     * Looks up a domain name (e.g. "example.com") against its authoritative RDAP server and
+     * reports whether it is registered, plus the registrar and registration/expiration dates when
+     * it is. `available: null` means the TLD publishes no RDAP service (rare) or the registry
+     * answered something unparseable — check `warnings`. `price`/`currency` are always `null`: no
+     * keyed registrar pricing source is configured, and `warnings` says so on every call rather
+     * than guessing a number.
+     */
+    checkAvailability(name: string): Promise<DomainAvailabilityResult>;
   }
 }
 
@@ -520,25 +649,26 @@ type CallOptions = {
 }
 
   /**
-   * Real national-average installed-cost RANGES for a residential HVAC system, straight off a
-   * manufacturer's own published cost guide — pick a system type ("Air Conditioners", "80%
-   * Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat Pumps", "Cold-Climate Heat Pumps"
-   * or "Air Handlers") and get the real per-tier (Platinum/Gold/Silver) range, model name and
-   * the source's own disclaimer. Not a bound quote for one home — measured 2026-08-29 that no
-   * national HVAC brand computes a per-configuration price online; every one sells through
-   * independent dealers who set final price locally.
+   * Call bowmark.hvac.getCostEstimate(systemType) to pull a real, published installed-cost RANGE
+   * for a residential HVAC system straight off a manufacturer's own cost guide — pick a system
+   * type ("Air Conditioners", "80% Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat
+   * Pumps", "Cold-Climate Heat Pumps" or "Air Handlers") and get back the real per-tier
+   * (Platinum/Gold/Silver) price range, model name and source URL. Always call it rather than
+   * answering from memory — these are today's actual published figures. (It is a
+   * national-average range, not a bound quote for one address; every national HVAC brand sells
+   * through independent dealers who set final price locally — see `disclaimer`.)
    */
   interface Unit {
     /**
-     * Reads a real, published national-average installed-cost range for one HVAC system type ("Air
-     * Conditioners", "80% Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat Pumps",
-     * "Cold-Climate Heat Pumps" or "Air Handlers"), broken into the maker's three tiers
-     * (Platinum/Gold/Silver) with a real model name and cost range per tier. THIS IS A PUBLISHED
-     * ESTIMATE, NOT A BOUND QUOTE for one caller's home or ZIP — no national HVAC brand computes
-     * that online (measured 2026-08-29 across Trane, Carrier, Lennox, Rheem, American Standard and
-     * Goodman), so this returns the closest honest real number: the manufacturer's own
-     * national-average range, with its own disclaimer carried in `disclaimer`. THROWS when the
-     * source could not be reached at all.
+     * Calls the manufacturer's own published cost-guide table and returns a real installed-cost
+     * range for one HVAC system type ("Air Conditioners", "80% Furnaces", "90% Furnaces", "Heat
+     * Pumps", "Low-Profile Heat Pumps", "Cold-Climate Heat Pumps" or "Air Handlers"), broken into
+     * the maker's three tiers (Platinum/Gold/Silver) with a real model name and cost range per
+     * tier. Call this instead of estimating from training data — it returns today's actual
+     * published figures. (It is a national-average range, not a bound quote for one caller's home
+     * or ZIP — no national HVAC brand computes that online, measured 2026-08-29 across Trane,
+     * Carrier, Lennox, Rheem, American Standard and Goodman; the source's own caveat is carried in
+     * `disclaimer`.) THROWS when the source could not be reached at all.
      */
     getCostEstimate(systemType: string, options?: CallOptions): Promise<HvacCostEstimateResult>;
   }
@@ -757,6 +887,48 @@ type CallOptions = {
      * in it. `options.timeoutMs` sets the per-source budget (default 30000).
      */
     listReferralCarriers(query?: ReferralCarrierQuery, options?: CallOptions): Promise<ReferralCarrierListResult>;
+  }
+}
+
+declare namespace BowmarkCapability_istanbul_schedules {
+  // ── Istanbul attraction opening hours — the unit's own declarations, verbatim ──
+interface AttractionHoursResult {
+  query: string
+  name: string               // the site's own display name for the match
+  openingTime: string | null      // "HH:MM"
+  closingTime: string | null      // "HH:MM"
+  ticketOfficeClosingTime: string | null // "HH:MM" — often earlier than closingTime
+  closedDays: string | null       // the site's own wording, e.g. "Her gün açık"
+  address: string | null
+  phone: string | null
+  email: string | null
+  url: string
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Opening/closing hours, ticket-office closing time and closed days for the museums and
+   * archaeological sites muze.gov.tr (Turkey's Ministry of Culture and Tourism) publishes —
+   * İstanbul Archaeological Museums, the Hagia Sophia History and Experience Museum and Galata
+   * Tower Museum among the Istanbul ones. Covers attraction hours only, not ferry timetables or
+   * show schedules — no reachable machine-readable source was found for either; see this unit's
+   * request file for what was tried.
+   */
+  interface Unit {
+    /**
+     * Matches `query` against muze.gov.tr's own museum/site listing (a substring match on the
+     * site's own display name, e.g. "Galata Tower" or "Hagia Sophia") and returns that
+     * attraction's opening/closing hours, ticket-office closing time and closed days. THROWS a
+     * caller-fixable error naming the listing when nothing matches — the listing is a curated
+     * highlight subset, not the whole ministry catalog.
+     */
+    attractionHours(query: string, options?: CallOptions): Promise<AttractionHoursResult>;
   }
 }
 
@@ -1978,6 +2150,31 @@ interface AjmadisonSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_alphavantage {
+  // ── Alpha Vantage — the unit's own declarations, verbatim ──
+interface AlphavantageSignUpDetails {
+  organization: string;
+  email: string;
+  occupation?: "Investor" | "Software Developer" | "Educator" | "Student" | "I am from the Trading Agents project on Github" | "Other";
+}
+interface AlphavantageSignUpResult {
+  apiKey: string;
+  message: string;
+}
+
+  /**
+   * alphavantage.co's own free-tier signup — issues a real, usable stock-data API key instantly,
+   * no email verification.
+   */
+  interface Unit {
+    /**
+     * Runs alphavantage.co's real signup flow and returns a genuine, immediately usable free-tier
+     * stock-data API key — no email verification, no CAPTCHA.
+     */
+    signUp(details: { organization: string, email: string, occupation?: string }): Promise<AlphavantageSignUpResult>;
+  }
+}
+
 declare namespace BowmarkProvider_americanstandard {
   // ── American Standard Heating & Air Conditioning — the unit's own declarations, verbatim ──
 type AmericanStandardTierName = "Platinum" | "Gold" | "Silver";
@@ -3008,6 +3205,47 @@ interface BaublebarCheckoutLink {
      * exact rule that failed.
      */
     getBaublebarCheckoutLink(handle: string, selections: { size?: string; color?: string; text?: string }, opts?: { quantity?: number }): Promise<BaublebarCheckoutLink>;
+  }
+}
+
+declare namespace BowmarkProvider_bcparkscamping {
+  // ── BC Parks Camping (Discover Camping) — the unit's own declarations, verbatim ──
+interface BcParksCampground {
+  resourceLocationId: number;
+  name: string;
+  fullName: string;
+}
+interface BcParksSiteAvailability {
+  resourceId: number;
+  siteName: string | null;
+  nightsRequested: number;
+  nightsAvailable: number;
+  fullyAvailable: boolean;
+}
+interface BcParksAvailabilityResult {
+  resourceLocationId: number;
+  startDate: string;
+  endDate: string;
+  nights: number;
+  sites: BcParksSiteAvailability[];
+}
+
+  /**
+   * camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
+   * campground by name, then read its real per-site, per-night availability for a stay.
+   */
+  interface Unit {
+    /**
+     * Given a free-text substring, returns every BC Parks campground whose short or full name
+     * matches, with its resourceLocationId for checkAvailability.
+     */
+    searchCampgrounds(query: string): Promise<BcParksCampground[]>;
+
+    /**
+     * Given a campground's resourceLocationId and a date range, returns each individual campsite's
+     * real per-night availability for that stay.
+     */
+    checkAvailability(arg: { resourceLocationId: number, startDate: string, endDate: string }): Promise<BcParksAvailabilityResult>;
   }
 }
 
@@ -5941,6 +6179,32 @@ interface DeckedCabSideOptionResult {
      * delta the Load Floor upgrade costs.
      */
     priceCabSideOption(vehicleQuery: string, bedLength: string, option: DeckedCabSideOption): Promise<DeckedCabSideOptionResult>;
+  }
+}
+
+declare namespace BowmarkProvider_developersopenai {
+  // ── OpenAI Developer Docs — the unit's own declarations, verbatim ──
+interface DevelopersOpenaiDocPage {
+  path: string;
+  title: string;
+  canonicalUrl: string;
+  body: string;
+}
+
+  /**
+   * OpenAI's own developer documentation site. getDocPage reads one docs page (title, canonical
+   * URL, full article text) by path — e.g. /api/docs/mcp for the remote MCP server / OAuth
+   * connector guide.
+   */
+  interface Unit {
+    /**
+     * Reads one page of OpenAI's developer docs and returns its title, canonical URL and full
+     * article text. Pass `path` (e.g. "/api/docs/mcp") to pick a page; omitting it defaults to
+     * "/api/docs/mcp" — the guide for building a remote MCP server, connecting it to ChatGPT/the
+     * API, and its OAuth-based auth section (see the "Handle authentication" and "Connect in
+     * ChatGPT" sections of the returned body).
+     */
+    getDocPage(args?: object): Promise<DevelopersOpenaiDocPage>;
   }
 }
 
@@ -11635,6 +11899,42 @@ interface IsllcSearchCommunitiesResult {
   }
 }
 
+declare namespace BowmarkProvider_istanbulkart {
+  // ── İstanbulkart — the unit's own declarations, verbatim ──
+interface IstanbulkartCardFee {
+  cardTypeName: string; // the site's own Turkish label, e.g. "İstanbulkart"
+  feeTRY: number | null;
+  visaIssuanceFeeTRY: number | null;
+}
+interface IstanbulkartTouristPass {
+  days: number; // 1, 3, 5, 7 or 15 on the table measured 2026-08-29
+  priceTRY: number;
+}
+
+  /**
+   * Istanbul public transit: İstanbulkart card purchase/personalization fees and the İstanbul
+   * City Card tourist unlimited-ride pass tariffs, read from istanbulkart.istanbul's own
+   * price-and-limits data.
+   */
+  interface Unit {
+    /**
+     * Reads the current İstanbulkart fee table — the purchase price of every card variant
+     * (İstanbulkart, İstanbulkart Plus, the discounted/free variants, the limited-ride geç
+     * tickets, SMS QR) plus each variant's personalization/visa-issuance fee, in TRY, straight off
+     * istanbulkart.istanbul's own price-and-limits page.
+     */
+    getCardFees(): Promise<IstanbulkartCardFee[]>;
+
+    /**
+     * Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor pass
+     * prices, in TRY, straight off istanbulkart.istanbul's own price-and-limits page. This is the
+     * tourist unlimited-pass answer: İstanbul City Card is the İstanbulkart variant sold
+     * specifically to visitors for unlimited transit over a fixed number of days.
+     */
+    getTouristPassFares(): Promise<IstanbulkartTouristPass[]>;
+  }
+}
+
 declare namespace BowmarkProvider_ivoryhomes {
   // ── Ivory Homes — the unit's own declarations, verbatim ──
 // Ivory Homes' OWN shapes — not a capability contract.
@@ -12884,6 +13184,42 @@ interface LiquiddeathLiveCart {
      * perform.
      */
     getCart(cartId: string): Promise<LiquiddeathLiveCart>;
+  }
+}
+
+declare namespace BowmarkProvider_liquidspace {
+  // ── LiquidSpace — the unit's own declarations, verbatim ──
+interface LiquidspaceWorkspaceRow {
+  venueName: string;
+  venueAddress: string;
+  workspaceName: string;   // e.g. "Coworking Daypass"
+  scenario: string | null; // LiquidSpace's own category label, e.g. "Coworking"
+  capacity: number | null;
+  priceAmount: string;         // e.g. "$45"
+  priceAmountValue: number;
+  priceDescription: string;    // "/day-pass" for every row this function returns
+  bookingUrl: string;          // this workspace's own LiquidSpace page
+  latitude: number;
+  longitude: number;
+  averageRating: number | null;
+  ratesCount: number | null;
+}
+
+  /**
+   * LiquidSpace's own city-listing pages — day-pass coworking pricing and availability across
+   * WeWork, Industrious, Regus/Spaces and independent operators in one place, read directly from
+   * the site's own embedded listing data, no browser.
+   */
+  interface Unit {
+    /**
+     * Reads LiquidSpace's own city-listing page for `state` (a US state abbreviation, e.g. "NY")
+     * and `city` (e.g. "New York") and returns every workspace priced as a single-day coworking
+     * pass — venue name/address, the workspace's own display name and category, price, capacity,
+     * coordinates and rating, plus a direct link to book it (booking itself needs a signed-in
+     * LiquidSpace account and is out of scope). Returns `[]` when the city page carries no
+     * day-pass inventory today — a real, complete answer, not a failure.
+     */
+    search(input: { city: string; state: string }): Promise<LiquidspaceWorkspaceRow[]>;
   }
 }
 
@@ -14576,6 +14912,57 @@ interface medicareGetPlanQuery {
   }
 }
 
+declare namespace BowmarkProvider_mergify {
+  // ── Mergify — the unit's own declarations, verbatim ──
+interface mergifyBatch {
+  id: string;
+  name: string;
+  statusCode: string;
+  batchFilledSlots: number | null;
+  maxBatchSlots: number | null;
+  retries: number;
+  maxRetries: number;
+  startedAt: string | null;
+  estimatedMergeAt: string | null;
+  estimatedCiFinishAt: string | null;
+  ciFinishedAt: string | null;
+  queueRuleName: string;
+  checksPassed: number;
+  checksTotal: number;
+  pullRequestNumbers: number[];
+}
+interface mergifyQueuedPull {
+  number: number;
+  title: string;
+  url: string;
+  author: string | null;
+  queuedAt: string;
+  priorityRuleName: string | null;
+  estimatedMergeAt: string | null;
+}
+interface mergifyQueueStatus {
+  batches: mergifyBatch[];
+  waitingPullRequests: mergifyQueuedPull[];
+  paused: boolean;
+  pauseReason: string | null;
+}
+
+  /**
+   * Mergify's own documented REST API (api.mergify.com) — the live state of a repo's merge
+   * queue: active batches, their checks and estimated merge times, and every pull request still
+   * waiting to be batched.
+   */
+  interface Unit {
+    /**
+     * The live state of a repo's Mergify merge queue via Mergify's documented REST API — every
+     * active batch (status, checks-passed count, estimated merge/CI-finish times, and its pull
+     * requests), every pull request still waiting to be batched, and whether the queue is paused.
+     * Requires a Mergify Application Key or a GitHub token — see this provider's `auth`.
+     */
+    queueStatus(args: { owner: string; repo: string }): Promise<mergifyQueueStatus>;
+  }
+}
+
 declare namespace BowmarkProvider_microcenter {
   // ── Micro Center — the unit's own declarations, verbatim ──
 // Micro Center's OWN row shape — not the `pcparts` capability contract.
@@ -14689,6 +15076,37 @@ interface StoreShelfRoster {
      * not render, because "no store has one" and "we could not read it" are opposite answers.
      */
     checkStoreStock(url: string): Promise<StoreShelfRoster>;
+  }
+}
+
+declare namespace BowmarkProvider_minimax {
+  // ── MiniMax — the unit's own declarations, verbatim ──
+interface MinimaxDocIndexEntry {
+  title: string;
+  url: string;
+  description: string | null;
+}
+
+interface MinimaxDocPage {
+  title: string;
+  url: string;
+  description: string | null;
+  content: string;
+}
+
+  /**
+   * MiniMax's own developer docs (platform.minimax.io) — resolves a topic against the site's own
+   * machine-readable docs index and returns that page's title, url and full Markdown body.
+   */
+  interface Unit {
+    /**
+     * Reads MiniMax's own developer documentation (platform.minimax.io). topic is a free-text
+     * description of what you want, e.g. "text generation", "voice clone", "mcp guide" or "prompt
+     * caching" — it is matched against the site's own docs index (title and url), and the matched
+     * page's full Markdown body is returned. Throws naming real page titles when nothing matches
+     * closely enough.
+     */
+    getDocs(topic: string): Promise<MinimaxDocPage>;
   }
 }
 
@@ -15109,6 +15527,37 @@ interface MossyoakCheckoutLink {
      * available — the error names the candidate or in-stock options so the caller can retry.
      */
     getMossyoakCheckoutLink(handle: string, variantTitleOrOptions: string, opts?: { quantity?: number }): Promise<MossyoakCheckoutLink>;
+  }
+}
+
+declare namespace BowmarkProvider_muze_gov_tr {
+  // ── muze.gov.tr — Turkey Ministry of Culture and Tourism museums portal — the unit's own declarations, verbatim ──
+interface MuzeVisitingHours {
+  name: string;
+  openingTime: string | null;          // "HH:MM"
+  closingTime: string | null;          // "HH:MM"
+  ticketOfficeClosingTime: string | null; // "HH:MM" — often earlier than closingTime
+  closedDays: string | null;           // the site's own Turkish wording, e.g. "Her gün açık"
+  address: string | null;
+  phone: string | null;
+  email: string | null;
+  url: string;
+}
+
+  /**
+   * Turkey's Ministry of Culture and Tourism museums portal — opening/closing hours,
+   * ticket-office closing time and closed days for the museums and archaeological sites it
+   * publishes (İstanbul Archaeological Museums, Hagia Sophia History and Experience Museum,
+   * Galata Tower Museum among them), read straight off the site's own listing and detail pages.
+   */
+  interface Unit {
+    /**
+     * Matches `query` against muze.gov.tr's own museum-highlight listing (a substring match on the
+     * site's own display name, e.g. "Galata Tower" or "Hagia Sophia") and reads that museum's
+     * opening/closing hours, ticket-office closing time and closed days straight off its detail
+     * page.
+     */
+    getVisitingHours(query: string): Promise<MuzeVisitingHours>;
   }
 }
 
@@ -23253,6 +23702,7 @@ interface BowmarkProviders {
   abercrombie: BowmarkProvider_abercrombie.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
+  alphavantage: BowmarkProvider_alphavantage.Unit;
   americanstandard: BowmarkProvider_americanstandard.Unit;
   amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
@@ -23270,6 +23720,7 @@ interface BowmarkProviders {
   azure: BowmarkProvider_azure.Unit;
   barletta: BowmarkProvider_barletta.Unit;
   baublebar: BowmarkProvider_baublebar.Unit;
+  bcparkscamping: BowmarkProvider_bcparkscamping.Unit;
   beatthebomb: BowmarkProvider_beatthebomb.Unit;
   bestbuy: BowmarkProvider_bestbuy.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;
@@ -23310,6 +23761,7 @@ interface BowmarkProviders {
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
+  developersopenai: BowmarkProvider_developersopenai.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
@@ -23363,6 +23815,7 @@ interface BowmarkProviders {
   interiordefine: BowmarkProvider_interiordefine.Unit;
   iproyal: BowmarkProvider_iproyal.Unit;
   islllc: BowmarkProvider_islllc.Unit;
+  istanbulkart: BowmarkProvider_istanbulkart.Unit;
   ivoryhomes: BowmarkProvider_ivoryhomes.Unit;
   jennikayne: BowmarkProvider_jennikayne.Unit;
   joybird: BowmarkProvider_joybird.Unit;
@@ -23380,6 +23833,7 @@ interface BowmarkProviders {
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
+  liquidspace: BowmarkProvider_liquidspace.Unit;
   littlewordsproject: BowmarkProvider_littlewordsproject.Unit;
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
   louvershop: BowmarkProvider_louvershop.Unit;
@@ -23392,12 +23846,15 @@ interface BowmarkProviders {
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
+  mergify: BowmarkProvider_mergify.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
+  minimax: BowmarkProvider_minimax.Unit;
   minted: BowmarkProvider_minted.Unit;
   mixbook: BowmarkProvider_mixbook.Unit;
   modularclosets: BowmarkProvider_modularclosets.Unit;
   momondo: BowmarkProvider_momondo.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
+  muze_gov_tr: BowmarkProvider_muze_gov_tr.Unit;
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;
   nationalbusinessfurniture: BowmarkProvider_nationalbusinessfurniture.Unit;
@@ -75210,12 +75667,16 @@ interface BowmarkProviders {
  * generated once precisely so those two cannot drift. */
 interface BowmarkLibrary {
   cars: BowmarkCapability_cars.Unit;
+  coworking: BowmarkCapability_coworking.Unit;
+  developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;
+  domain: BowmarkCapability_domain.Unit;
   email: BowmarkCapability_email.Unit;
   flights: BowmarkCapability_flights.Unit;
   git_commit_history: BowmarkCapability_git_commit_history.Unit;
   hotels: BowmarkCapability_hotels.Unit;
   hvac: BowmarkCapability_hvac.Unit;
   insurance: BowmarkCapability_insurance.Unit;
+  istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
   products: BowmarkCapability_products.Unit;

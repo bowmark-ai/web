@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 32 functions. 🟢 implemented · ⚪ planned.
+> 35 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -9,12 +9,15 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | Function | What it does | Providers | Status |
 |---|---|---|---|
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |
+| `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
 | `developer_api_key_signup.signUp` | Signs up for a real API key on a developer dashboard — RUN this, don't just explain… | 1 | 🟢 |
 | `domain.checkAvailability` | Looks up a domain name (e.g. "example.com") against its authoritative RDAP server and… | 0 | 🟢 |
 | `email.findDomain` | Turns a company NAME into the domain it sends mail from — findDomain("Basecamp LLC")… | 1 | 🟢 |
 | `flights.getBookingOptions` | Every seller on offer for ONE result — pass the whole row from `search()`, not its id. | 5 | 🟢 |
 | `flights.getFlightStatus` | A flight's live status, checked directly with the airline that flies it. | 5 | 🟢 |
 | `flights.search` | Searches for flights matching the query and returns `{ flights, warnings }`. `flights`… | 5 | 🟢 |
+| `game_soundtrack_composer_credits.getCredits` | Looks up one soundtrack release-group by id (from search()) and returns its full… | 0 | 🟢 |
+| `game_soundtrack_composer_credits.search` | Searches MusicBrainz for soundtrack releases matching a game title and returns each… | 0 | 🟢 |
 | `git_commit_history.commitHistory` | Returns a public GitHub repository's commit log — each commit's sha (full and short)… | 1 | 🟢 |
 | `hotels.search` | Searches stays for a place and a date range — `{ location: "SFO", checkIn… | 1 | 🟢 |
 | `hvac.getCostEstimate` | Calls the manufacturer's own published cost-guide table and returns a real… | 1 | 🟢 |

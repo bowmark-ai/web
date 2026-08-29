@@ -1,5 +1,5 @@
 {
-  "version": "54e3683692de6415062143d692a1ab30846dc38d8f5c9ba7c14182a3b3618f7d",
+  "version": "7db8a9abb8412b6e0576aa5f60a20ad58719fcf71202b51b6309dc41ff1b222c",
   "units": {
     "cars": {
       "defs": {
@@ -94,6 +94,144 @@
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "coworking": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findDayPasses": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "city",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "state",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "developer_api_key_signup": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "signUp": [
+          {
+            "name": "service",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "details",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "organization",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "email",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "occupation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "domain": {
+      "defs": {},
+      "functions": {
+        "checkAvailability": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -826,6 +964,41 @@
               "name": "ReferralCarrierQuery"
             },
             "optional": true
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "istanbul_schedules": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "attractionHours": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           },
           {
             "name": "options",
@@ -2081,6 +2254,43 @@
         ]
       }
     },
+    "providers.alphavantage": {
+      "defs": {},
+      "functions": {
+        "signUp": [
+          {
+            "name": "details",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "organization",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "email",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "occupation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.americanstandard": {
       "defs": {},
       "functions": {
@@ -2937,6 +3147,52 @@
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.bcparkscamping": {
+      "defs": {},
+      "functions": {
+        "searchCampgrounds": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "checkAvailability": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "resourceLocationId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "startDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "endDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -5364,6 +5620,20 @@
               "name": "DeckedCabSideOption"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.developersopenai": {
+      "defs": {},
+      "functions": {
+        "getDocPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
+            },
+            "optional": true
           }
         ]
       }
@@ -9450,6 +9720,13 @@
         ]
       }
     },
+    "providers.istanbulkart": {
+      "defs": {},
+      "functions": {
+        "getCardFees": [],
+        "getTouristPassFares": []
+      }
+    },
     "providers.ivoryhomes": {
       "defs": {
         "IvoryHomesSearchFilters": {
@@ -10607,6 +10884,36 @@
         ]
       }
     },
+    "providers.liquidspace": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.littlewordsproject": {
       "defs": {},
       "functions": {
@@ -11430,6 +11737,36 @@
         ]
       }
     },
+    "providers.mergify": {
+      "defs": {},
+      "functions": {
+        "queueStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "owner",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "repo",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.microcenter": {
       "defs": {},
       "functions": {
@@ -11463,6 +11800,20 @@
         "checkStoreStock": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.minimax": {
+      "defs": {},
+      "functions": {
+        "getDocs": [
+          {
+            "name": "topic",
             "schema": {
               "k": "string"
             },
@@ -12032,6 +12383,20 @@
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.muze_gov_tr": {
+      "defs": {},
+      "functions": {
+        "getVisitingHours": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

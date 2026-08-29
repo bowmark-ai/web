@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 54e3683692de6415062143d692a1ab30846dc38d8f5c9ba7c14182a3b3618f7d
-# 18 capabilities, 237 providers, 602 typed functions, 20 refused.
+# Manifest version: 7db8a9abb8412b6e0576aa5f60a20ad58719fcf71202b51b6309dc41ff1b222c
+# 22 capabilities, 245 providers, 616 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -266,6 +266,61 @@ class Cap_cars_Car_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Cap_coworking_findDayPasses_location_u1_In(TypedDict):
+    city: str
+    state: str
+
+class Cap_coworking_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_coworking_FindDayPassesResult_Out(TypedDict):
+    city: str
+    state: str
+    dayPasses: list[Cap_coworking_CoworkingDayPass_Out]
+    warnings: list[str]
+
+class Cap_coworking_CoworkingDayPass_Out(TypedDict):
+    venueName: str
+    address: str
+    workspaceName: str
+    category: str | None
+    capacity: float | None
+    priceAmount: float
+    currency: str
+    bookingUrl: str
+    latitude: float
+    longitude: float
+    rating: Cap_coworking_CoworkingDayPass_Out_rating_u0_Out | None
+
+class Cap_coworking_CoworkingDayPass_Out_rating_u0_Out(TypedDict):
+    average: float
+    count: float
+
+class Cap_developer_api_key_signup_signUp_details_In(TypedDict):
+    organization: str
+    email: str
+    occupation: NotRequired[str]
+
+class Cap_developer_api_key_signup_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_developer_api_key_signup_DeveloperApiKeySignupResult_Out(TypedDict):
+    service: str
+    apiKey: str
+    message: str
+    warnings: list[str]
+
+class Cap_domain_DomainAvailabilityResult_Out(TypedDict):
+    name: str
+    available: bool | None
+    registrar: str | None
+    registeredAt: str | None
+    expiresAt: str | None
+    price: None
+    currency: None
+    source: str
+    warnings: list[str]
 
 class Cap_email_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -553,6 +608,22 @@ class Cap_insurance_ReferralCarrier_Out(TypedDict):
     lines: list[str]
     url: str | None
     ownedBySource: bool | None
+
+class Cap_istanbul_schedules_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_istanbul_schedules_AttractionHoursResult_Out(TypedDict):
+    query: str
+    name: str
+    openingTime: str | None
+    closingTime: str | None
+    ticketOfficeClosingTime: str | None
+    closedDays: str | None
+    address: str | None
+    phone: str | None
+    email: str | None
+    url: str
+    warnings: list[str]
 
 class Cap_music_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -1170,6 +1241,15 @@ class Prv_ajmadison_AjmadisonSearchResult_Out(TypedDict):
     price: float
     wasPrice: float | None
     url: str
+
+class Prv_alphavantage_signUp_details_In(TypedDict):
+    organization: str
+    email: str
+    occupation: NotRequired[str]
+
+class Prv_alphavantage_AlphavantageSignUpResult_Out(TypedDict):
+    apiKey: str
+    message: str
 
 class Prv_americanstandard_AmericanStandardSystemCostEstimate_Out(TypedDict):
     systemType: str
@@ -1792,6 +1872,30 @@ class Prv_baublebar_BaublebarCheckoutLink_Out(TypedDict):
     variant: Prv_baublebar_BaublebarVariant_Out
     product: Prv_baublebar_BaublebarProduct_Out
     shipBy: str | None
+
+class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
+    resourceLocationId: float
+    name: str
+    fullName: str
+
+class Prv_bcparkscamping_checkAvailability_arg_In(TypedDict):
+    resourceLocationId: float
+    startDate: str
+    endDate: str
+
+class Prv_bcparkscamping_BcParksAvailabilityResult_Out(TypedDict):
+    resourceLocationId: float
+    startDate: str
+    endDate: str
+    nights: float
+    sites: list[Prv_bcparkscamping_BcParksSiteAvailability_Out]
+
+class Prv_bcparkscamping_BcParksSiteAvailability_Out(TypedDict):
+    resourceId: float
+    siteName: str | None
+    nightsRequested: float
+    nightsAvailable: float
+    fullyAvailable: bool
 
 class Prv_beatthebomb_BeatthebombMission_Out(TypedDict):
     id: float
@@ -3390,6 +3494,12 @@ class Prv_decked_DeckedCabSideOptionResult_Out(TypedDict):
     fit: Prv_decked_DeckedFit_Out | None
     reason: str | None
     baseFit: Prv_decked_DeckedFit_Out | None
+
+class Prv_developersopenai_DevelopersOpenaiDocPage_Out(TypedDict):
+    path: str
+    title: str
+    canonicalUrl: str
+    body: str
 
 class Prv_dice_DiceJobDetails_Out(TypedDict):
     jobId: str
@@ -6046,6 +6156,15 @@ class Prv_islllc_IsllcCommunity_Out(TypedDict):
     lng: float
     url: str
 
+class Prv_istanbulkart_IstanbulkartCardFee_Out(TypedDict):
+    cardTypeName: str
+    feeTRY: float | None
+    visaIssuanceFeeTRY: float | None
+
+class Prv_istanbulkart_IstanbulkartTouristPass_Out(TypedDict):
+    days: float
+    priceTRY: float
+
 class Prv_ivoryhomes_IvoryHomesSearchFilters_In(TypedDict):
     minBeds: NotRequired[float]
     minBaths: NotRequired[float]
@@ -6696,6 +6815,25 @@ class Prv_liquiddeath_LiquiddeathLiveCartLine_Out(TypedDict):
     quantity: float
     unitPrice: str
     lineTotal: str
+
+class Prv_liquidspace_search_input_In(TypedDict):
+    city: str
+    state: str
+
+class Prv_liquidspace_LiquidspaceWorkspaceRow_Out(TypedDict):
+    venueName: str
+    venueAddress: str
+    workspaceName: str
+    scenario: str | None
+    capacity: float | None
+    priceAmount: str
+    priceAmountValue: float
+    priceDescription: str
+    bookingUrl: str
+    latitude: float
+    longitude: float
+    averageRating: float | None
+    ratesCount: float | None
 
 class Prv_littlewordsproject_listLittleWordsProjectProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -7486,6 +7624,42 @@ class Prv_medicare_medicarePlanDetail_Out_lis_Out(TypedDict):
     level50: float
     level25: float
 
+class Prv_mergify_queueStatus_args_In(TypedDict):
+    owner: str
+    repo: str
+
+class Prv_mergify_mergifyQueueStatus_Out(TypedDict):
+    batches: list[Prv_mergify_mergifyBatch_Out]
+    waitingPullRequests: list[Prv_mergify_mergifyQueuedPull_Out]
+    paused: bool
+    pauseReason: str | None
+
+class Prv_mergify_mergifyBatch_Out(TypedDict):
+    id: str
+    name: str
+    statusCode: str
+    batchFilledSlots: float | None
+    maxBatchSlots: float | None
+    retries: float
+    maxRetries: float
+    startedAt: str | None
+    estimatedMergeAt: str | None
+    estimatedCiFinishAt: str | None
+    ciFinishedAt: str | None
+    queueRuleName: str
+    checksPassed: float
+    checksTotal: float
+    pullRequestNumbers: list[float]
+
+class Prv_mergify_mergifyQueuedPull_Out(TypedDict):
+    number: float
+    title: str
+    url: str
+    author: str | None
+    queuedAt: str
+    priorityRuleName: str | None
+    estimatedMergeAt: str | None
+
 class Prv_microcenter_StoreOffer_Out(TypedDict):
     title: str
     price: float | None
@@ -7538,6 +7712,12 @@ class Prv_microcenter_StoreShelf_Out(TypedDict):
     name: str
     inStock: bool
     url: str
+
+class Prv_minimax_MinimaxDocPage_Out(TypedDict):
+    title: str
+    url: str
+    description: str | None
+    content: str
 
 class Prv_minted_MintedCardDesign_Out(TypedDict):
     sku: str
@@ -7779,6 +7959,17 @@ class Prv_mossyoak_MossyoakCheckoutLink_Out(TypedDict):
     url: str
     variant: Prv_mossyoak_MossyoakVariant_Out
     product: Prv_mossyoak_MossyoakProduct_Out
+
+class Prv_muze_gov_tr_MuzeVisitingHours_Out(TypedDict):
+    name: str
+    openingTime: str | None
+    closingTime: str | None
+    ticketOfficeClosingTime: str | None
+    closedDays: str | None
+    address: str | None
+    phone: str | None
+    email: str | None
+    url: str
 
 class Prv_naic_naicCompanyQuery_In(TypedDict):
     name: NotRequired[str]
@@ -11947,6 +12138,64 @@ class Cap_cars(Protocol):
         gave. `options.timeoutMs` sets the per-site budget (default 30000).
         """
 
+class Cap_coworking(Protocol):
+    """Finds single-day coworking passes in a US city — venue, price, capacity and a direct
+    booking link, aggregated across WeWork, Industrious, Regus/Spaces and independent
+    operators via LiquidSpace. No login, no booking (that needs a signed-in LiquidSpace
+    account).
+    """
+
+    async def findDayPasses(self, location: str | Cap_coworking_findDayPasses_location_u1_In, options: Cap_coworking_CallOptions_In | None = None, /) -> Cap_coworking_FindDayPassesResult_Out:
+        """Finds single-day coworking passes for a US city — `bowmark.coworking.findDayPasses("New
+        York, NY")` or `{ city: "New York", state: "NY" }` — and reads each one's real, current
+        price. Returns `dayPasses: []` when nothing is listed for that city today, a real,
+        complete answer, not a failure. Each pass carries the venue name/address, the pass's own
+        name and category, capacity, price, coordinates, rating and a direct `bookingUrl` —
+        LiquidSpace's own page, since booking itself needs a signed-in LiquidSpace account and
+        is out of scope here. US cities only.
+        """
+
+class Cap_developer_api_key_signup(Protocol):
+    """Actually RUNS a developer dashboard's signup flow and hands back a real, usable API key
+    — no email verification, no CAPTCHA, for the dashboards this covers. Today: Alpha
+    Vantage's free stock-data API. Call it directly; don't just describe the steps. If the
+    caller gave no organization/email of their own, invent a placeholder — this is an
+    instant, unverified free-tier signup, not an account tied to a real identity, so there
+    is nothing to ask permission for. MAKE THE EMAIL UNIQUE PER CALL (see the worked
+    example) — the dashboard dedupes by address, so a copied literal example email gets
+    "Redundant origin" on the second and every later run.
+    """
+
+    async def signUp(self, service: str, details: Cap_developer_api_key_signup_signUp_details_In, options: Cap_developer_api_key_signup_CallOptions_In | None = None, /) -> Cap_developer_api_key_signup_DeveloperApiKeySignupResult_Out:
+        """Signs up for a real API key on a developer dashboard — RUN this, don't just explain how
+        — `bowmark.developer_api_key_signup.signUp("alphavantage", { organization: "Acme Corp",
+        email: `qa-${Date.now()}@example.com` })`. `service` selects which dashboard (today:
+        "alphavantage" only — THROWS naming the supported list otherwise, a caller-fixable
+        error). `details.organization` and `details.email` are required; when the caller did not
+        supply their own, invent placeholder-shaped ones like the example's — the signup is
+        instant and unverified, so nothing is lost by not stopping to ask first. MAKE THE EMAIL
+        UNIQUE EVERY CALL (e.g. embed `Date.now()`, as the example does) — the dashboard rejects
+        a repeated address with "Redundant origin", so a literal copied example email fails on
+        the second and every later run. `details.occupation` is optional and dashboard-specific.
+        Returns the real key plus the dashboard's own confirmation sentence. `options.timeoutMs`
+        sets the call budget (default 30000).
+        """
+
+class Cap_domain(Protocol):
+    """Checks whether a domain name is registered — and, when it is, who holds it and when it
+    expires — straight off RDAP, the IANA-standardized WHOIS successor. No key, no browser.
+    Price is currently always unknown; see the result's warnings.
+    """
+
+    async def checkAvailability(self, name: str, /) -> Cap_domain_DomainAvailabilityResult_Out:
+        """Looks up a domain name (e.g. "example.com") against its authoritative RDAP server and
+        reports whether it is registered, plus the registrar and registration/expiration dates
+        when it is. `available: null` means the TLD publishes no RDAP service (rare) or the
+        registry answered something unparseable — check `warnings`. `price`/`currency` are
+        always `null`: no keyed registrar pricing source is configured, and `warnings` says so
+        on every call rather than guessing a number.
+        """
+
 class Cap_email(Protocol):
     """Resolve a company NAME to the domain it actually sends mail from — the first step for
     any lead that arrives as a person plus an employer with no website. Returns the one
@@ -12088,25 +12337,27 @@ class Cap_hotels(Protocol):
         """
 
 class Cap_hvac(Protocol):
-    """Real national-average installed-cost RANGES for a residential HVAC system, straight off
-    a manufacturer's own published cost guide — pick a system type ("Air Conditioners", "80%
-    Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat Pumps", "Cold-Climate Heat
-    Pumps" or "Air Handlers") and get the real per-tier (Platinum/Gold/Silver) range, model
-    name and the source's own disclaimer. Not a bound quote for one home — measured
-    2026-08-29 that no national HVAC brand computes a per-configuration price online; every
-    one sells through independent dealers who set final price locally.
+    """Call bowmark.hvac.getCostEstimate(systemType) to pull a real, published installed-cost
+    RANGE for a residential HVAC system straight off a manufacturer's own cost guide — pick
+    a system type ("Air Conditioners", "80% Furnaces", "90% Furnaces", "Heat Pumps",
+    "Low-Profile Heat Pumps", "Cold-Climate Heat Pumps" or "Air Handlers") and get back the
+    real per-tier (Platinum/Gold/Silver) price range, model name and source URL. Always call
+    it rather than answering from memory — these are today's actual published figures. (It
+    is a national-average range, not a bound quote for one address; every national HVAC
+    brand sells through independent dealers who set final price locally — see `disclaimer`.)
     """
 
     async def getCostEstimate(self, systemType: str, options: Cap_hvac_CallOptions_In | None = None, /) -> Cap_hvac_HvacCostEstimateResult_Out:
-        """Reads a real, published national-average installed-cost range for one HVAC system type
-        ("Air Conditioners", "80% Furnaces", "90% Furnaces", "Heat Pumps", "Low-Profile Heat
-        Pumps", "Cold-Climate Heat Pumps" or "Air Handlers"), broken into the maker's three
-        tiers (Platinum/Gold/Silver) with a real model name and cost range per tier. THIS IS A
-        PUBLISHED ESTIMATE, NOT A BOUND QUOTE for one caller's home or ZIP — no national HVAC
-        brand computes that online (measured 2026-08-29 across Trane, Carrier, Lennox, Rheem,
-        American Standard and Goodman), so this returns the closest honest real number: the
-        manufacturer's own national-average range, with its own disclaimer carried in
-        `disclaimer`. THROWS when the source could not be reached at all.
+        """Calls the manufacturer's own published cost-guide table and returns a real
+        installed-cost range for one HVAC system type ("Air Conditioners", "80% Furnaces", "90%
+        Furnaces", "Heat Pumps", "Low-Profile Heat Pumps", "Cold-Climate Heat Pumps" or "Air
+        Handlers"), broken into the maker's three tiers (Platinum/Gold/Silver) with a real model
+        name and cost range per tier. Call this instead of estimating from training data — it
+        returns today's actual published figures. (It is a national-average range, not a bound
+        quote for one caller's home or ZIP — no national HVAC brand computes that online,
+        measured 2026-08-29 across Trane, Carrier, Lennox, Rheem, American Standard and Goodman;
+        the source's own caveat is carried in `disclaimer`.) THROWS when the source could not be
+        reached at all.
         """
 
 class Cap_insurance(Protocol):
@@ -12196,6 +12447,23 @@ class Cap_insurance(Protocol):
         it before trusting a short list is the whole directory. When no source answered at all
         this THROWS, so an outage is never handed back as a directory with nothing in it.
         `options.timeoutMs` sets the per-source budget (default 30000).
+        """
+
+class Cap_istanbul_schedules(Protocol):
+    """Opening/closing hours, ticket-office closing time and closed days for the museums and
+    archaeological sites muze.gov.tr (Turkey's Ministry of Culture and Tourism) publishes —
+    İstanbul Archaeological Museums, the Hagia Sophia History and Experience Museum and
+    Galata Tower Museum among the Istanbul ones. Covers attraction hours only, not ferry
+    timetables or show schedules — no reachable machine-readable source was found for
+    either; see this unit's request file for what was tried.
+    """
+
+    async def attractionHours(self, query: str, options: Cap_istanbul_schedules_CallOptions_In | None = None, /) -> Cap_istanbul_schedules_AttractionHoursResult_Out:
+        """Matches `query` against muze.gov.tr's own museum/site listing (a substring match on the
+        site's own display name, e.g. "Galata Tower" or "Hagia Sophia") and returns that
+        attraction's opening/closing hours, ticket-office closing time and closed days. THROWS a
+        caller-fixable error naming the listing when nothing matches — the listing is a curated
+        highlight subset, not the whole ministry catalog.
         """
 
 class Cap_music(Protocol):
@@ -12611,6 +12879,16 @@ class Prv_ajmadison(Protocol):
         product's own AJ Madison URL). Read-only — never adds to cart or checks out.
         """
 
+class Prv_alphavantage(Protocol):
+    """alphavantage.co's own free-tier signup — issues a real, usable stock-data API key
+    instantly, no email verification.
+    """
+
+    async def signUp(self, details: Prv_alphavantage_signUp_details_In, /) -> Prv_alphavantage_AlphavantageSignUpResult_Out:
+        """Runs alphavantage.co's real signup flow and returns a genuine, immediately usable
+        free-tier stock-data API key — no email verification, no CAPTCHA.
+        """
+
 class Prv_americanstandard(Protocol):
     """American Standard's own published HVAC cost guide — national-average installed-cost
     ranges by system type and tier, straight off the manufacturer's site. No brand computes
@@ -12988,6 +13266,21 @@ class Prv_baublebar(Protocol):
         if size/color don't resolve to exactly one in-stock variant, or if the text fails the
         product's own min/max-length or allowed-character rule — the error names the concrete
         options or the exact rule that failed.
+        """
+
+class Prv_bcparkscamping(Protocol):
+    """camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
+    campground by name, then read its real per-site, per-night availability for a stay.
+    """
+
+    async def searchCampgrounds(self, query: str, /) -> list[Prv_bcparkscamping_BcParksCampground_Out]:
+        """Given a free-text substring, returns every BC Parks campground whose short or full name
+        matches, with its resourceLocationId for checkAvailability.
+        """
+
+    async def checkAvailability(self, arg: Prv_bcparkscamping_checkAvailability_arg_In, /) -> Prv_bcparkscamping_BcParksAvailabilityResult_Out:
+        """Given a campground's resourceLocationId and a date range, returns each individual
+        campsite's real per-night availability for that stay.
         """
 
 class Prv_beatthebomb(Protocol):
@@ -14081,6 +14374,20 @@ class Prv_decked(Protocol):
         which has no Bed Length option at all. `baseFit` (when resolvable) is the "Cab-side Gap"
         fit at the same vehicle + bed length — DECKED's standard 8' option — so a caller can
         read the real dollar delta the Load Floor upgrade costs.
+        """
+
+class Prv_developersopenai(Protocol):
+    """OpenAI's own developer documentation site. getDocPage reads one docs page (title,
+    canonical URL, full article text) by path — e.g. /api/docs/mcp for the remote MCP server
+    / OAuth connector guide.
+    """
+
+    async def getDocPage(self, args: Any | None = None, /) -> Prv_developersopenai_DevelopersOpenaiDocPage_Out:
+        """Reads one page of OpenAI's developer docs and returns its title, canonical URL and full
+        article text. Pass `path` (e.g. "/api/docs/mcp") to pick a page; omitting it defaults to
+        "/api/docs/mcp" — the guide for building a remote MCP server, connecting it to
+        ChatGPT/the API, and its OAuth-based auth section (see the "Handle authentication" and
+        "Connect in ChatGPT" sections of the returned body).
         """
 
 class Prv_dice(Protocol):
@@ -16059,6 +16366,26 @@ class Prv_islllc(Protocol):
         returns the real, nearest-first matching ISL communities.
         """
 
+class Prv_istanbulkart(Protocol):
+    """Istanbul public transit: İstanbulkart card purchase/personalization fees and the
+    İstanbul City Card tourist unlimited-ride pass tariffs, read from
+    istanbulkart.istanbul's own price-and-limits data.
+    """
+
+    async def getCardFees(self, /) -> list[Prv_istanbulkart_IstanbulkartCardFee_Out]:
+        """Reads the current İstanbulkart fee table — the purchase price of every card variant
+        (İstanbulkart, İstanbulkart Plus, the discounted/free variants, the limited-ride geç
+        tickets, SMS QR) plus each variant's personalization/visa-issuance fee, in TRY, straight
+        off istanbulkart.istanbul's own price-and-limits page.
+        """
+
+    async def getTouristPassFares(self, /) -> list[Prv_istanbulkart_IstanbulkartTouristPass_Out]:
+        """Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor
+        pass prices, in TRY, straight off istanbulkart.istanbul's own price-and-limits page.
+        This is the tourist unlimited-pass answer: İstanbul City Card is the İstanbulkart
+        variant sold specifically to visitors for unlimited transit over a fixed number of days.
+        """
+
 class Prv_ivoryhomes(Protocol):
     """Ivory Homes' live home-design floor-plan search — filterable by minimum beds/baths, a
     total-square-footage range and story count, off the site's own undocumented DataFetch
@@ -16545,6 +16872,21 @@ class Prv_liquiddeath(Protocol):
         the cart, which is a write this provider does not perform.
         """
 
+class Prv_liquidspace(Protocol):
+    """LiquidSpace's own city-listing pages — day-pass coworking pricing and availability
+    across WeWork, Industrious, Regus/Spaces and independent operators in one place, read
+    directly from the site's own embedded listing data, no browser.
+    """
+
+    async def search(self, input: Prv_liquidspace_search_input_In, /) -> list[Prv_liquidspace_LiquidspaceWorkspaceRow_Out]:
+        """Reads LiquidSpace's own city-listing page for `state` (a US state abbreviation, e.g.
+        "NY") and `city` (e.g. "New York") and returns every workspace priced as a single-day
+        coworking pass — venue name/address, the workspace's own display name and category,
+        price, capacity, coordinates and rating, plus a direct link to book it (booking itself
+        needs a signed-in LiquidSpace account and is out of scope). Returns `[]` when the city
+        page carries no day-pass inventory today — a real, complete answer, not a failure.
+        """
+
 class Prv_littlewordsproject(Protocol):
     """Little Words Project's choose-a-word bead bracelets — every product, its
     bead-pattern/color/size variants and real prices, PLUS the word personalizer's own
@@ -16952,6 +17294,20 @@ class Prv_medicare(Protocol):
         '' (not published) is load-bearing — never coerce an empty string to 0.
         """
 
+class Prv_mergify(Protocol):
+    """Mergify's own documented REST API (api.mergify.com) — the live state of a repo's merge
+    queue: active batches, their checks and estimated merge times, and every pull request
+    still waiting to be batched.
+    """
+
+    async def queueStatus(self, args: Prv_mergify_queueStatus_args_In, /) -> Prv_mergify_mergifyQueueStatus_Out:
+        """The live state of a repo's Mergify merge queue via Mergify's documented REST API — every
+        active batch (status, checks-passed count, estimated merge/CI-finish times, and its pull
+        requests), every pull request still waiting to be batched, and whether the queue is
+        paused. Requires a Mergify Application Key or a GitHub token — see this provider's
+        `auth`.
+        """
+
 class Prv_microcenter(Protocol):
     """Micro Center (microcenter.com) — live product search over this store's own catalogue,
     cheapest matching item first.
@@ -16994,6 +17350,20 @@ class Prv_microcenter(Protocol):
         page carries no addresses, so filter on `state`/`city`. Throws rather than returning an
         empty roster when the page does not render, because "no store has one" and "we could not
         read it" are opposite answers.
+        """
+
+class Prv_minimax(Protocol):
+    """MiniMax's own developer docs (platform.minimax.io) — resolves a topic against the site's
+    own machine-readable docs index and returns that page's title, url and full Markdown
+    body.
+    """
+
+    async def getDocs(self, topic: str, /) -> Prv_minimax_MinimaxDocPage_Out:
+        """Reads MiniMax's own developer documentation (platform.minimax.io). topic is a free-text
+        description of what you want, e.g. "text generation", "voice clone", "mcp guide" or
+        "prompt caching" — it is matched against the site's own docs index (title and url), and
+        the matched page's full Markdown body is returned. Throws naming real page titles when
+        nothing matches closely enough.
         """
 
 class Prv_minted(Protocol):
@@ -17136,6 +17506,21 @@ class Prv_mossyoak(Protocol):
         the match is ambiguous (matches more than one variant), or if the matched variant is not
         currently available — the error names the candidate or in-stock options so the caller
         can retry.
+        """
+
+class Prv_muze_gov_tr(Protocol):
+    """Turkey's Ministry of Culture and Tourism museums portal — opening/closing hours,
+    ticket-office closing time and closed days for the museums and archaeological sites it
+    publishes (İstanbul Archaeological Museums, Hagia Sophia History and Experience Museum,
+    Galata Tower Museum among them), read straight off the site's own listing and detail
+    pages.
+    """
+
+    async def getVisitingHours(self, query: str, /) -> Prv_muze_gov_tr_MuzeVisitingHours_Out:
+        """Matches `query` against muze.gov.tr's own museum-highlight listing (a substring match on
+        the site's own display name, e.g. "Galata Tower" or "Hagia Sophia") and reads that
+        museum's opening/closing hours, ticket-office closing time and closed days straight off
+        its detail page.
         """
 
 class Prv_naic(Protocol):
@@ -19845,6 +20230,7 @@ class BowmarkProviders(Protocol):
     abercrombie: Prv_abercrombie
     aiper: Prv_aiper
     ajmadison: Prv_ajmadison
+    alphavantage: Prv_alphavantage
     americanstandard: Prv_americanstandard
     amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition
@@ -19862,6 +20248,7 @@ class BowmarkProviders(Protocol):
     azure: Prv_azure
     barletta: Prv_barletta
     baublebar: Prv_baublebar
+    bcparkscamping: Prv_bcparkscamping
     beatthebomb: Prv_beatthebomb
     bestbuy: Prv_bestbuy
     bhphoto: Prv_bhphoto
@@ -19902,6 +20289,7 @@ class BowmarkProviders(Protocol):
     davidsonhomes: Prv_davidsonhomes
     deangroup: Prv_deangroup
     decked: Prv_decked
+    developersopenai: Prv_developersopenai
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
@@ -19955,6 +20343,7 @@ class BowmarkProviders(Protocol):
     interiordefine: Prv_interiordefine
     iproyal: Prv_iproyal
     islllc: Prv_islllc
+    istanbulkart: Prv_istanbulkart
     ivoryhomes: Prv_ivoryhomes
     jennikayne: Prv_jennikayne
     joybird: Prv_joybird
@@ -19972,6 +20361,7 @@ class BowmarkProviders(Protocol):
     legacyhomesal: Prv_legacyhomesal
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
+    liquidspace: Prv_liquidspace
     littlewordsproject: Prv_littlewordsproject
     lonelyplanet: Prv_lonelyplanet
     louvershop: Prv_louvershop
@@ -19984,12 +20374,15 @@ class BowmarkProviders(Protocol):
     mcdonalds: Prv_mcdonalds
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
+    mergify: Prv_mergify
     microcenter: Prv_microcenter
+    minimax: Prv_minimax
     minted: Prv_minted
     mixbook: Prv_mixbook
     modularclosets: Prv_modularclosets
     momondo: Prv_momondo
     mossyoak: Prv_mossyoak
+    muze_gov_tr: Prv_muze_gov_tr
     naic: Prv_naic
     namecheap: Prv_namecheap
     nationalbusinessfurniture: Prv_nationalbusinessfurniture
@@ -20088,12 +20481,16 @@ class Bowmark(Protocol):
     generated once precisely so those two cannot drift."""
 
     cars: Cap_cars
+    coworking: Cap_coworking
+    developer_api_key_signup: Cap_developer_api_key_signup
+    domain: Cap_domain
     email: Cap_email
     flights: Cap_flights
     git_commit_history: Cap_git_commit_history
     hotels: Cap_hotels
     hvac: Cap_hvac
     insurance: Cap_insurance
+    istanbul_schedules: Cap_istanbul_schedules
     music: Cap_music
     pcparts: Cap_pcparts
     products: Cap_products
