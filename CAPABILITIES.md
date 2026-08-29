@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 37 functions. 🟢 implemented · ⚪ planned.
+> 38 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -45,3 +45,4 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `shipping.estimate` | Prices a domestic package — `{ fromZip: "20024", toZip: "10001", weightOz: 16 }` —… | 2 | 🟢 |
 | `tariff.lookup` | Looks up an HS/HTS code (e.g. "6109.10.00") and returns its description, Column 1… | 0 | 🟢 |
 | `weather.forecast` | Geocodes a place name and returns its daily forecast (default 5 days, max 16 —… | 0 | 🟢 |
+| `yoga_outfit_shopping.search` | Fans out one free-text query to lululemon, Beyond Yoga and Alo Yoga in parallel and… | 3 | 🟢 |
