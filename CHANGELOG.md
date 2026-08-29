@@ -6,6 +6,109 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.11.0 (2026-08-29)
+
+**Capabilities**
+
+- New capability **git_commit_history** (1 function): `git_commit_history.commitHistory`
+- New capability **hvac** (1 function): `hvac.getCostEstimate`
+- New capability **products** (1 function): `products.getAvailability`
+- New capability **promocodes** (1 function): `promocodes.search`
+- New capability **restaurant_booking** (1 function): `restaurant_booking.findAvailability`
+- New capability **shipping** (1 function): `shipping.estimate`
+- New capability **tariff** (1 function): `tariff.lookup`
+- New capability **weather** (1 function): `weather.forecast`
+
+**Providers**
+
+- New provider **americanstandardair.com** (1 function): `americanstandard.getSystemCostEstimate`
+- New provider **amramp.com** (1 function): `amramp.findNearestLocation`
+- New provider **ancientnutrition.com** (2 functions): `ancientnutrition.computeGutType`, `ancientnutrition.getGutTypeQuizQuestions`
+- New provider **andersenwindows.com** (1 function): `andersenwindows.findDealers`
+- New provider **apple.com** (2 functions): `apple.getProduct`, `apple.search`
+- New provider **archipelago.gg** (2 functions): `archipelago.getClientRelease`, `archipelago.getGameOptions`
+- New provider **autocamp.com** (1 function): `autocamp.searchAvailability`
+- New provider **avantstay.com** (2 functions): `avantstay.getPricing`, `avantstay.searchProperties`
+- New provider **azazie.com** (1 function): `azazie.getBuildYourOwnConfig`
+- New provider **baublebar.com** (3 functions): `baublebar.getBaublebarCheckoutLink`, `baublebar.getBaublebarProduct`, `baublebar.listBaublebarProducts`
+- New provider **beatthebomb.com** (3 functions): `beatthebomb.checkAvailability`, `beatthebomb.listMissions`, `beatthebomb.priceMission`
+- New provider **bestbuy.com** (2 functions): `bestbuy.getProduct`, `bestbuy.search`
+- New provider **bigjoeforklifts.com** (3 functions): `bigjoeforklifts.getRuntimeEstimatorInputs`, `bigjoeforklifts.listForkliftModels`, `bigjoeforklifts.prepareQuoteRequest`
+- New provider **blackstoneproducts.com** (1 function): `blackstoneproducts.findNearbyDealers`
+- New provider **bluesignal.com** (2 functions): `bluesignal.getJob`, `bluesignal.searchJobs`
+- New provider **bollandbranch.com** (3 functions): `bollandbranch.getBedDesignerFlow`, `bollandbranch.getCategoryOptions`, `bollandbranch.getSwatchDetails`
+- New provider **bulletproof.com** (1 function): `bulletproof.findStores`
+- New provider **byltbasics.com** (3 functions): `byltbasics.buildPackHandoff`, `byltbasics.getPackOptions`, `byltbasics.listBundlePacks`
+- New provider **califloors.com** (3 functions): `califloors.getProduct`, `califloors.listCategories`, `califloors.searchProducts`
+- New provider **nutribullet.com** (2 functions): `capitalbrands.getBlenderRecommendation`, `capitalbrands.listQuizQuestions`
+- New provider **carepatrol.com** (1 function): `carepatrol.findLocalAdvisor`
+- New provider **chesmar.com** (1 function): `chesmar.searchQuickMoveInHomes`
+- New provider **cleanairlawncare.com** (2 functions): `cleanairlawncare.checkServiceArea`, `cleanairlawncare.getAvailableSlots`
+- New provider **clubchampion.com** (3 functions): `clubchampion.checkAvailability`, `clubchampion.getFittings`, `clubchampion.listStudios`
+- New provider **consultnet.com** (1 function): `consultnet.searchJobs`
+- New provider **couponfollow.com** (1 function): `couponfollow.getCodes`
+- New provider **cruiselakegeneva.com** (2 functions): `cruiselakegeneva.getTour`, `cruiselakegeneva.listTours`
+- New provider **culturefly.com** (3 functions): `culturefly.buildCultureFlyCheckoutLink`, `culturefly.getCultureFlyBoxOptions`, `culturefly.listCultureFlyBoxes`
+- New provider **deangroup.com** (3 functions): `deangroup.getRateCalendar`, `deangroup.listProperties`, `deangroup.searchAvailability`
+- New provider **developers.openai.com** (1 function): `developersopenai.getDocPage`
+- New provider **disneyworld.disney.go.com** (1 function): `disney.getTicketPrice`
+- New provider **ebay.com** (1 function): `ebay.search`
+- New provider **eq3.com** (2 functions): `eq3.getSofaConfiguration`, `eq3.listSofas`
+- New provider **executivehomecare.com** (1 function): `executivehomecare.findLocalOffice`
+- New provider **facerealityskincare.com** (1 function): `facerealityskincare.searchAcneExperts`
+- New provider **shop.formax.com** (2 functions): `formax.getCartLink`, `formax.search`
+- New provider **furniture.com** (3 functions): `furniture.listCategories`, `furniture.listFilterOptions`, `furniture.searchProducts`
+- New provider **g2.com** (2 functions): `g2.getProduct`, `g2.search`
+- New provider **github.com** (1 function): `github.listCommits`
+- New provider **glassesusa.com** (1 function): `glassesusa.getProduct`
+- New provider **hamptonwaterwine.com** (1 function): `hamptonwaterwine.findNearbyRetailers`
+- New provider **heatherwood.com** (2 functions): `heatherwood.getFloorplan`, `heatherwood.listFloorplans`
+- New provider **historymaker.com** (3 functions): `historymaker.getHome`, `historymaker.listCommunities`, `historymaker.searchQuickMoveIns`
+- New provider **identitygroup.com** (3 functions): `identitygroup.getSign`, `identitygroup.priceMountOption`, `identitygroup.searchSigns`
+- New provider **instagram.com** (2 functions): `instagram.getPosts`, `instagram.getProfile`
+- New provider **iproyal.com** (1 function): `iproyal.getPlans`
+- New provider **istanbulkart.istanbul** (2 functions): `istanbulkart.getCardFees`, `istanbulkart.getTouristPassFares`
+- New provider **ivoryhomes.com** (1 function): `ivoryhomes.searchFloorPlans`
+- New provider **junkluggers.com** (3 functions): `junkluggers.findFranchise`, `junkluggers.getAvailability`, `junkluggers.getServiceTypes`
+- New provider **kaleidescape.com** (1 function): `kaleidescape.findDealersNear`
+- New provider **lasikplus.com** (2 functions): `lasikplus.findCenters`, `lasikplus.getAvailability`
+- New provider **legacyhomesal.com** (1 function): `legacyhomesal.getAvailability`
+- New provider **littlewordsproject.com** (3 functions): `littlewordsproject.getLittleWordsProjectCheckoutLink`, `littlewordsproject.getLittleWordsProjectProduct`, `littlewordsproject.listLittleWordsProjectProducts`
+- New provider **nationalbusinessfurniture.com** (4 functions): `nationalbusinessfurniture.addToCart`, `nationalbusinessfurniture.getProduct`, `nationalbusinessfurniture.priceConfiguration`, `nationalbusinessfurniture.searchProducts`
+- New provider **newageproducts.com** (1 function): `newageproducts.getNewageproductsProduct`
+- New provider **nvisioncenters.com** (2 functions): `nvisioncenters.calculateLasikSavings`, `nvisioncenters.checkLasikCandidacy`
+- New provider **oliverwinery.com** (3 functions): `oliverwinery.checkShippingAvailability`, `oliverwinery.getWine`, `oliverwinery.listWines`
+- New provider **pacificabeauty.com** (1 function): `pacificabeauty.getHairRecommendation`
+- New provider **pacificcompanies.com** (5 functions): `pacificcompanies.assembleApplication`, `pacificcompanies.getApplicationSchema`, `pacificcompanies.getJob`, `pacificcompanies.getJobCategories`, `pacificcompanies.searchJobs`
+- New provider **perennialsandsutherland.com** (3 functions): `perennialsandsutherland.getRugVariant`, `perennialsandsutherland.getTearsheetUrl`, `perennialsandsutherland.searchRugs`
+- New provider **positivegrid.com** (1 function): `positivegrid.findRetailers`
+- New provider **provenwinners.com** (2 functions): `provenwinners.getRecipeDetails`, `provenwinners.searchContainerRecipes`
+- New provider **resy.com** (2 functions): `resy.checkAvailability`, `resy.search`
+- New provider **rvshare.com** (1 function): `rvshare.searchListings`
+- New provider **scentbird.com** (1 function): `scentbird.browseCatalogue`
+- New provider **2ndswing.com** (3 functions): `secondswing.getQuoteAttributes`, `secondswing.getTradeInValue`, `secondswing.searchClubs`
+- New provider **sellcell.com** (1 function): `sellcell.getTradeInOffers`
+- New provider **sitmeanssit.com** (1 function): `sitmeanssit.findNearestLocations`
+- New provider **smartwool.com** (1 function): `smartwool.getSockRecommendation`
+- New provider **solostove.com** (1 function): `solostove.checkBundle`
+- New provider **starlighthomes.com** (3 functions): `starlighthomes.getMetro`, `starlighthomes.getNeighborhood`, `starlighthomes.listMetros`
+- New provider **summerfridays.com** (2 functions): `summerfridaysquiz.getSkincareQuizQuestions`, `summerfridaysquiz.getSkincareRoutine`
+- New provider **sunlighten.com** (2 functions): `sunlighten.getModelPricing`, `sunlighten.matchSauna`
+- New provider **therowhouse.com** (2 functions): `therowhouse.getSchedule`, `therowhouse.listLocations`
+- New provider **easyclosets.com** (1 function): `thestowcompany.getSampleClosetEstimate`
+- New provider **thibautdesign.com** (1 function): `thibautdesign.calculateRollsNeeded`
+- New provider **travelinsured.com** (2 functions): `travelinsured.getZipInfo`, `travelinsured.searchDestinations`
+- New provider **trawickinternational.com** (2 functions): `trawickinternational.getPlanPremium`, `trawickinternational.getQuote`
+- New provider **trophysignaturehomes.com** (3 functions): `trophysignaturehomes.compareHomes`, `trophysignaturehomes.getHome`, `trophysignaturehomes.searchHomes`
+- New provider **ups.com** (1 function): `ups.getRate`
+- New provider **usps.com** (1 function): `usps.getRate`
+- New provider **vessi.com** (4 functions): `vessi.getFitGuide`, `vessi.getProduct`, `vessi.listProducts`, `vessi.searchProducts`
+- New provider **winestyles.com** (2 functions): `winestyles.listStores`, `winestyles.searchStoreInventory`
+- New provider **youtube.com** (1 function): `youtube.getTranscript`
+- Added `target.search`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.10.0 (2026-08-26)
 
 **Capabilities**
