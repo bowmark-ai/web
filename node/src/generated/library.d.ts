@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 06045bb09984e5a983b826a30db7f132d0424dbe648300ce26c311c6dd3b8825
-// 15 capabilities, 223 providers, 598 typed functions, 20 refused.
+// Manifest version: 2df152d3871bf294a63a812f3a42f1b2e820763aa2b6f7dc0d878ee7ed9349bb
+// 16 capabilities, 224 providers, 600 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -358,6 +358,57 @@ type FlightStatusResult = {
      * clamped `timeoutMs` — a single-carrier route has no fan-out to go thin.
      */
     getFlightStatus(query: FlightStatusQuery, options?: CallOptions): Promise<FlightStatusResult>;
+  }
+}
+
+declare namespace BowmarkCapability_git_commit_history {
+  // ── Git commit history — the unit's own declarations, verbatim ──
+interface Commit {
+  sha: string
+  shortSha: string        // sha's first 7 characters
+  authorName: string
+  authorEmail: string
+  date: string             // ISO 8601, the author date
+  message: string
+  url: string               // the commit's own page on the host
+}
+interface CommitHistoryOptions {
+  ref?: string              // branch, tag or commit to start from — default branch if omitted
+  since?: string            // ISO 8601 — only commits after this date
+  until?: string            // ISO 8601 — only commits before this date
+  limit?: number            // 1-100, default 30
+  page?: number              // 1-based, for paging past limit
+}
+interface CommitHistoryResult {
+  repo: string               // resolved as "owner/repo", however it was passed
+  commits: Commit[]
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * A git repository's commit history — sha, author, date and message for every commit — from a
+   * GitHub URL or a bare owner/repo string. What a commit-history view or a changelog is built
+   * from, in one call rather than a page-by-page browse.
+   */
+  interface Unit {
+    /**
+     * Returns a public GitHub repository's commit log — each commit's sha (full and short), author
+     * name and email, author date, message, and its own commit page URL — newest first, GitHub's
+     * own order. `repo` takes either form: a full URL ("https://github.com/octocat/Hello-World",
+     * with or without a trailing "/tree/<branch>" or ".git") or the bare "owner/repo" string.
+     * `options.ref` starts from a branch/tag/commit other than the default branch;
+     * `options.since`/`until` (ISO 8601) window by date; `options.limit` (1-100, default 30) and
+     * `options.page` page through history. THROWS a caller-fixable error for a string that is
+     * neither shape, or for an owner/repo GitHub does not have (a private repo also reads as
+     * not-found, unauthenticated).
+     */
+    commitHistory(repo: string, options?: CommitHistoryOptions): Promise<CommitHistoryResult>;
   }
 }
 
@@ -7980,6 +8031,48 @@ interface GeicoAgentDetails {
      * to this specific office.
      */
     findAgent(query: GeicoAgentQuery, limit?: number): Promise<GeicoAgentSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_github {
+  // ── GitHub — the unit's own declarations, verbatim ──
+interface GithubCommit {
+  sha: string;
+  authorName: string;
+  authorEmail: string;
+  date: string;
+  message: string;
+  url: string;
+}
+interface GithubListCommitsOptions {
+  sha?: string;
+  since?: string;
+  until?: string;
+  per_page?: number;
+  page?: number;
+}
+interface GithubListCommitsResult {
+  commits: GithubCommit[];
+  warnings: string[];
+}
+
+  /**
+   * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
+   * message), paged and windowed. Declared, not yet built: repo metadata (getRepo).
+   */
+  interface Unit {
+    /**
+     * Returns a public repo's commit log off GitHub's own unauthenticated REST commits endpoint —
+     * each commit's sha, author name/email, author date, message and its own github.com URL.
+     * `options.sha` starts from a branch/tag/commit other than the default branch;
+     * `options.since`/`until` (ISO 8601) window by date; `options.per_page` (GitHub's own 1-100
+     * ceiling, default 30) and `options.page` page through history. Unauthenticated calls are
+     * capped at 60 requests/hour per IP — GitHub's own published ceiling, not something this
+     * provider adds. THROWS on an unknown owner/repo (404) or a rate limit (403/429); a repo with
+     * no commits yet (409, GitHub's own empty-history response) returns `commits: []`, not a
+     * throw.
+     */
+    listCommits(owner: string, repo: string, options?: GithubListCommitsOptions): Promise<GithubListCommitsResult>;
   }
 }
 
@@ -22650,6 +22743,7 @@ interface BowmarkProviders {
   fred: BowmarkProvider_fred.Unit;
   furniture: BowmarkProvider_furniture.Unit;
   geico: BowmarkProvider_geico.Unit;
+  github: BowmarkProvider_github.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
@@ -74519,6 +74613,7 @@ interface BowmarkLibrary {
   cars: BowmarkCapability_cars.Unit;
   email: BowmarkCapability_email.Unit;
   flights: BowmarkCapability_flights.Unit;
+  git_commit_history: BowmarkCapability_git_commit_history.Unit;
   hotels: BowmarkCapability_hotels.Unit;
   insurance: BowmarkCapability_insurance.Unit;
   music: BowmarkCapability_music.Unit;

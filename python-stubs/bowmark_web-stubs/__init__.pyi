@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 06045bb09984e5a983b826a30db7f132d0424dbe648300ce26c311c6dd3b8825
-# 15 capabilities, 223 providers, 580 typed functions, 20 refused.
+# Manifest version: 2df152d3871bf294a63a812f3a42f1b2e820763aa2b6f7dc0d878ee7ed9349bb
+# 16 capabilities, 224 providers, 582 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -399,6 +399,27 @@ class Cap_flights_FlightStatusLeg_Out_equipment_Out(TypedDict):
     equipmentCode: str | None
     iataName: str | None
     displayName: str | None
+
+class Cap_git_commit_history_CommitHistoryOptions_In(TypedDict):
+    ref: NotRequired[str]
+    since: NotRequired[str]
+    until: NotRequired[str]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Cap_git_commit_history_CommitHistoryResult_Out(TypedDict):
+    repo: str
+    commits: list[Cap_git_commit_history_Commit_Out]
+    warnings: list[str]
+
+class Cap_git_commit_history_Commit_Out(TypedDict):
+    sha: str
+    shortSha: str
+    authorName: str
+    authorEmail: str
+    date: str
+    message: str
+    url: str
 
 class Cap_hotels_HotelQuery_In(TypedDict):
     location: str
@@ -4328,6 +4349,25 @@ class Prv_geico_GeicoAgentDetails_Out(TypedDict):
 class Prv_geico_GeicoAgentSearch_Out_searchedFrom_Out(TypedDict):
     latitude: float
     longitude: float
+
+class Prv_github_GithubListCommitsOptions_In(TypedDict):
+    sha: NotRequired[str]
+    since: NotRequired[str]
+    until: NotRequired[str]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListCommitsResult_Out(TypedDict):
+    commits: list[Prv_github_GithubCommit_Out]
+    warnings: list[str]
+
+class Prv_github_GithubCommit_Out(TypedDict):
+    sha: str
+    authorName: str
+    authorEmail: str
+    date: str
+    message: str
+    url: str
 
 class Prv_glassesusa_GlassesusaProduct_Out(TypedDict):
     url: str
@@ -11686,6 +11726,25 @@ class Cap_flights(Protocol):
         no fan-out to go thin.
         """
 
+class Cap_git_commit_history(Protocol):
+    """A git repository's commit history — sha, author, date and message for every commit —
+    from a GitHub URL or a bare owner/repo string. What a commit-history view or a changelog
+    is built from, in one call rather than a page-by-page browse.
+    """
+
+    async def commitHistory(self, repo: str, options: Cap_git_commit_history_CommitHistoryOptions_In | None = None, /) -> Cap_git_commit_history_CommitHistoryResult_Out:
+        """Returns a public GitHub repository's commit log — each commit's sha (full and short),
+        author name and email, author date, message, and its own commit page URL — newest first,
+        GitHub's own order. `repo` takes either form: a full URL
+        ("https://github.com/octocat/Hello-World", with or without a trailing "/tree/<branch>"
+        or ".git") or the bare "owner/repo" string. `options.ref` starts from a
+        branch/tag/commit other than the default branch; `options.since`/`until` (ISO 8601)
+        window by date; `options.limit` (1-100, default 30) and `options.page` page through
+        history. THROWS a caller-fixable error for a string that is neither shape, or for an
+        owner/repo GitHub does not have (a private repo also reads as not-found,
+        unauthenticated).
+        """
+
 class Cap_hotels(Protocol):
     """Search stays for a place and a date range and get back normalized properties, cheapest
     TOTAL first — the whole-booking price AND the per-room per-night rate, which of the many
@@ -14409,6 +14468,23 @@ class Prv_geico(Protocol):
         us", which are opposite facts and only the second is about us. An empty `warnings` is
         the healthy case. `soa`/`sob` are GEICO's own office codes, kept because they are what
         attributes a quote on `sales.geico.com` to this specific office.
+        """
+
+class Prv_github(Protocol):
+    """GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
+    message), paged and windowed. Declared, not yet built: repo metadata (getRepo).
+    """
+
+    async def listCommits(self, owner: str, repo: str, options: Prv_github_GithubListCommitsOptions_In | None = None, /) -> Prv_github_GithubListCommitsResult_Out:
+        """Returns a public repo's commit log off GitHub's own unauthenticated REST commits
+        endpoint — each commit's sha, author name/email, author date, message and its own
+        github.com URL. `options.sha` starts from a branch/tag/commit other than the default
+        branch; `options.since`/`until` (ISO 8601) window by date; `options.per_page` (GitHub's
+        own 1-100 ceiling, default 30) and `options.page` page through history. Unauthenticated
+        calls are capped at 60 requests/hour per IP — GitHub's own published ceiling, not
+        something this provider adds. THROWS on an unknown owner/repo (404) or a rate limit
+        (403/429); a repo with no commits yet (409, GitHub's own empty-history response) returns
+        `commits: []`, not a throw.
         """
 
 class Prv_glassesusa(Protocol):
@@ -19278,6 +19354,7 @@ class BowmarkProviders(Protocol):
     fred: Prv_fred
     furniture: Prv_furniture
     geico: Prv_geico
+    github: Prv_github
     glassesusa: Prv_glassesusa
     google_flights: Prv_google_flights
     gotchacovered: Prv_gotchacovered
@@ -19433,6 +19510,7 @@ class Bowmark(Protocol):
     cars: Cap_cars
     email: Cap_email
     flights: Cap_flights
+    git_commit_history: Cap_git_commit_history
     hotels: Cap_hotels
     insurance: Cap_insurance
     music: Cap_music
