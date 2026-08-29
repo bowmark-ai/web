@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2df152d3871bf294a63a812f3a42f1b2e820763aa2b6f7dc0d878ee7ed9349bb
-# 16 capabilities, 224 providers, 582 typed functions, 20 refused.
+# Manifest version: 1190fc45993f01d27a97139bce411e3d88ed659098e16103dac08e48815c36fb
+# 16 capabilities, 225 providers, 583 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9651,6 +9651,19 @@ class Prv_selectblinds_SelectBlindsPriceResult_Out_warranties_item_Out(TypedDict
     warrantyId: float
     warrantyPrice: float
 
+class Prv_sellcell_SellcellTradeInOffers_Out(TypedDict):
+    model: str
+    storage: str
+    condition: Literal["new"] | Literal["working"] | Literal["poor"] | Literal["broken"]
+    offers: list[Prv_sellcell_SellcellTradeInOffer_Out]
+
+class Prv_sellcell_SellcellTradeInOffer_Out(TypedDict):
+    merchant: str
+    price: float
+    paymentMethods: list[str]
+    paymentPeriod: str | None
+    freeShipping: bool
+
 class Prv_semihandmade_SemihandmadePart_Out(TypedDict):
     system: str
     handle: str
@@ -17959,6 +17972,19 @@ class Prv_selectblinds(Protocol):
         price, matching the number the site's own configurator would show for that exact build.
         """
 
+class Prv_sellcell(Protocol):
+    """Reads SellCell's own live buyback price-comparison table directly — every vendor's
+    current cash offer for one iPhone model/storage/condition, price-descending, straight
+    from the site's own comparison-refresh endpoint.
+    """
+
+    async def getTradeInOffers(self, model: str, storage: str, condition: Literal["new"] | Literal["working"] | Literal["poor"] | Literal["broken"], /) -> Prv_sellcell_SellcellTradeInOffers_Out:
+        """Runs SellCell's own live comparison for one iPhone — model slug (e.g. "iphone-14-pro",
+        from sellcell.com/phones/apple-<model>/), storage (e.g. "256GB") and condition
+        ("new"=MINT, "working"=GOOD, "poor"=POOR, "broken"=FAULTY) — and returns every buyback
+        vendor's current cash offer, highest first.
+        """
+
 class Prv_semihandmade(Protocol):
     """Semihandmade's real custom IKEA-cabinet door/drawer/trim/toe-kick/panel catalog and its
     real, size-dependent Shopify pricing — search real parts for a given IKEA cabinet system
@@ -19452,6 +19478,7 @@ class BowmarkProviders(Protocol):
     secondswing: Prv_secondswing
     seegarsfence: Prv_seegarsfence
     selectblinds: Prv_selectblinds
+    sellcell: Prv_sellcell
     semihandmade: Prv_semihandmade
     sitmeanssit: Prv_sitmeanssit
     smartsign: Prv_smartsign

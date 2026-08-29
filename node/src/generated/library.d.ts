@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2df152d3871bf294a63a812f3a42f1b2e820763aa2b6f7dc0d878ee7ed9349bb
-// 16 capabilities, 224 providers, 600 typed functions, 20 refused.
+// Manifest version: 1190fc45993f01d27a97139bce411e3d88ed659098e16103dac08e48815c36fb
+// 16 capabilities, 225 providers, 601 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18284,6 +18284,38 @@ interface SelectBlindsPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_sellcell {
+  // ── SellCell — the unit's own declarations, verbatim ──
+interface SellcellTradeInOffer {
+  merchant: string;
+  price: number;
+  paymentMethods: string[];
+  paymentPeriod: string | null;
+  freeShipping: boolean;
+}
+interface SellcellTradeInOffers {
+  model: string;
+  storage: string;
+  condition: "new" | "working" | "poor" | "broken";
+  offers: SellcellTradeInOffer[];
+}
+
+  /**
+   * Reads SellCell's own live buyback price-comparison table directly — every vendor's current
+   * cash offer for one iPhone model/storage/condition, price-descending, straight from the
+   * site's own comparison-refresh endpoint.
+   */
+  interface Unit {
+    /**
+     * Runs SellCell's own live comparison for one iPhone — model slug (e.g. "iphone-14-pro", from
+     * sellcell.com/phones/apple-<model>/), storage (e.g. "256GB") and condition ("new"=MINT,
+     * "working"=GOOD, "poor"=POOR, "broken"=FAULTY) — and returns every buyback vendor's current
+     * cash offer, highest first.
+     */
+    getTradeInOffers(model: string, storage: string, condition: "new" | "working" | "poor" | "broken"): Promise<SellcellTradeInOffers>;
+  }
+}
+
 declare namespace BowmarkProvider_semihandmade {
   // ── Semihandmade — the unit's own declarations, verbatim ──
 // Semihandmade's OWN shapes — not a capability contract.
@@ -22841,6 +22873,7 @@ interface BowmarkProviders {
   secondswing: BowmarkProvider_secondswing.Unit;
   seegarsfence: BowmarkProvider_seegarsfence.Unit;
   selectblinds: BowmarkProvider_selectblinds.Unit;
+  sellcell: BowmarkProvider_sellcell.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   smartsign: BowmarkProvider_smartsign.Unit;

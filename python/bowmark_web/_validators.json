@@ -1,5 +1,5 @@
 {
-  "version": "2df152d3871bf294a63a812f3a42f1b2e820763aa2b6f7dc0d878ee7ed9349bb",
+  "version": "1190fc45993f01d27a97139bce411e3d88ed659098e16103dac08e48815c36fb",
   "units": {
     "cars": {
       "defs": {
@@ -16906,6 +16906,52 @@
             "name": "drop",
             "schema": {
               "k": "number"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.sellcell": {
+      "defs": {},
+      "functions": {
+        "getTradeInOffers": [
+          {
+            "name": "model",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "storage",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "condition",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "new"
+                },
+                {
+                  "k": "literal",
+                  "v": "working"
+                },
+                {
+                  "k": "literal",
+                  "v": "poor"
+                },
+                {
+                  "k": "literal",
+                  "v": "broken"
+                }
+              ]
             },
             "optional": false
           }

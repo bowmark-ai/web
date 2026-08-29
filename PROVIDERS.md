@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 982 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 983 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health was not read for this build, so nothing is marked degraded or broken.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -792,6 +792,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `selectblinds.getConfigurator` | selectblinds.com | Reads one blind style's real live configurator: every feature (Mount Type, Lift Style… | 🟢 |
 | `selectblinds.listBlindStyles` | selectblinds.com | Searches SelectBlinds' real made-to-measure catalog via the site's own Shopify… | 🟢 |
 | `selectblinds.priceConfiguration` | selectblinds.com | Prices one exact build (a blind style + chosen feature option ids + a real… | 🟢 |
+| `sellcell.getTradeInOffers` | sellcell.com | Returns every buyback vendor's current cash offer for one iPhone — a specific model… | 🟢 |
 | `semihandmade.getPartOptions` | semihandmade.com | Reads one part's real live size grid: every real size combination with its own real… | 🟢 |
 | `semihandmade.priceConfiguration` | semihandmade.com | Resolves one exact size selection to Semihandmade's own real price, availability and… | 🟢 |
 | `semihandmade.searchParts` | semihandmade.com | Searches Semihandmade's real catalog for one IKEA cabinet system (Sektion, Akurum… | 🟢 |

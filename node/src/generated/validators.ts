@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2df152d3871bf294a63a812f3a42f1b2e820763aa2b6f7dc0d878ee7ed9349bb
-// 582 checked, 20 unchecked.
+// Manifest version: 1190fc45993f01d27a97139bce411e3d88ed659098e16103dac08e48815c36fb
+// 583 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2df152d3871bf294a63a812f3a42f1b2e820763aa2b6f7dc0d878ee7ed9349bb",
+  "version": "1190fc45993f01d27a97139bce411e3d88ed659098e16103dac08e48815c36fb",
   "units": {
     "cars": {
       "defs": {
@@ -16918,6 +16918,52 @@ export const VALIDATORS: ValidatorTable = {
             "name": "drop",
             "schema": {
               "k": "number"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.sellcell": {
+      "defs": {},
+      "functions": {
+        "getTradeInOffers": [
+          {
+            "name": "model",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "storage",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "condition",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "new"
+                },
+                {
+                  "k": "literal",
+                  "v": "working"
+                },
+                {
+                  "k": "literal",
+                  "v": "poor"
+                },
+                {
+                  "k": "literal",
+                  "v": "broken"
+                }
+              ]
             },
             "optional": false
           }
