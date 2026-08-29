@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1004 functions. 🟢 implemented · ⚪ planned.
+> 1006 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -506,6 +506,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `interiordefine.searchProducts` | interiordefine.com | Searches Interior Define's custom-furniture catalog (sofas, sectionals, chairs) by… | 🟢 |
 | `iproyal.getPlans` | iproyal.com | Reads IPRoyal's own published proxy pricing — residential, datacenter, ISP and mobile… | 🟢 |
 | `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
+| `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
+| `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟢 |
 | `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' home-design floor-plan search against the site's own live inventory… | 🟢 |
 | `jennikayne.buildGiftCardLink` | jennikayne.com | Configures a gift card — amount, recipient name/email, an optional message, and a… | 🟢 |
 | `jennikayne.getGiftCardOptions` | jennikayne.com | Reads the live digital gift-card product — every denomination from $50 to $1,000 with… | 🟢 |
