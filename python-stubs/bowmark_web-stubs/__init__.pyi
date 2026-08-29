@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0bed95381ce4e9a502303a6eb4b2c64cfc2b2123f6004d5c3d377c23288eac10
-# 16 capabilities, 226 providers, 584 typed functions, 20 refused.
+# Manifest version: d431cab99a3d1455e1e15072556d22a4f1f4e80a5e3477bfcb71fdf31ab124e3
+# 17 capabilities, 232 providers, 594 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -821,6 +821,32 @@ class Cap_sheds_ShedDealer_Out(TypedDict):
     phone: str | None
     url: str
 
+class Cap_shipping_ShippingQuery_In(TypedDict):
+    fromZip: str
+    toZip: str
+    weightOz: float
+    length: NotRequired[float]
+    width: NotRequired[float]
+    height: NotRequired[float]
+
+class Cap_shipping_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_shipping_ShippingEstimateResult_Out(TypedDict):
+    rates: list[Cap_shipping_ShippingRate_Out]
+    warnings: list[str]
+
+class Cap_shipping_ShippingRate_Out(TypedDict):
+    source: str
+    serviceCode: str
+    serviceName: str
+    price: Cap_shipping_ShippingRate_Out_price_Out
+    transitDays: float | None
+
+class Cap_shipping_ShippingRate_Out_price_Out(TypedDict):
+    amount: float
+    currency: str
+
 class Cap_tariff_TariffLookupResult_Out(TypedDict):
     code: str
     entry: Cap_tariff_TariffEntry_Out | None
@@ -1177,6 +1203,33 @@ class Prv_andersenwindows_AndersenDealerAddress_Out(TypedDict):
     state: str
     postalCode: str
     country: str
+
+class Prv_apple_AppleSearchResponse_Out(TypedDict):
+    query: str
+    results: list[Prv_apple_AppleSearchResult_Out]
+
+class Prv_apple_AppleSearchResult_Out(TypedDict):
+    kind: Literal["organic"] | Literal["curated"]
+    title: str
+    description: str | None
+    url: str | None
+    links: NotRequired[list[Prv_apple_AppleSearchResult_Out_links_item_Out]]
+
+class Prv_apple_AppleSearchResult_Out_links_item_Out(TypedDict):
+    label: str
+    url: str
+
+class Prv_apple_AppleProductPage_Out(TypedDict):
+    url: str
+    products: list[Prv_apple_AppleProduct_Out]
+
+class Prv_apple_AppleProduct_Out(TypedDict):
+    name: str
+    lowPrice: float | None
+    highPrice: float | None
+    priceCurrency: str | None
+    image: str | None
+    description: str | None
 
 class Prv_archipelago_ArchipelagoRelease_Out(TypedDict):
     version: str
@@ -1729,6 +1782,25 @@ class Prv_beatthebomb_BeatthebombPriceQuote_Out(TypedDict):
     isWeekend: bool
     zeroPriceIsBundleSku: bool
     checkoutUrl: str
+
+class Prv_bestbuy_search_args_u1_In(TypedDict):
+    query: str
+    pageSize: NotRequired[float]
+
+class Prv_bestbuy_bestbuyProduct_Out(TypedDict):
+    sku: float
+    name: str
+    salePrice: float | None
+    regularPrice: float | None
+    url: str | None
+    imageUrl: str | None
+    onlineAvailability: bool
+    inStoreAvailability: bool
+    manufacturer: str | None
+    modelNumber: str | None
+    upc: str | None
+    customerReviewAverage: float | None
+    customerReviewCount: float | None
 
 class Prv_bhphoto_StoreOffer_Out(TypedDict):
     title: str
@@ -4224,6 +4296,27 @@ class Prv_furniture_furnitureFilterAttribute_Out(TypedDict):
     key: str
     values: list[str]
 
+class Prv_g2_search_args_In(TypedDict):
+    query: str
+
+class Prv_g2_G2SearchResult_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    rating: float | None
+    reviewCount: float | None
+
+class Prv_g2_getProduct_args_u0_In(TypedDict):
+    url: str
+
+class Prv_g2_G2Product_Out(TypedDict):
+    name: str
+    url: str
+    categories: list[str]
+    rating: float | None
+    bestRating: float | None
+    reviewCount: float | None
+
 class Prv_geico_RentersQuoteArgs_In(TypedDict):
     address: Prv_geico_RentersQuoteArgs_In_address_In
     identity: Prv_geico_QuoteIdentity_In
@@ -5785,6 +5878,13 @@ class Prv_interiordefine_InteriorDefineCartHandoff_Out(TypedDict):
     totalFormatted: str
     missingRequired: list[str]
     unmatched: list[str]
+
+class Prv_iproyal_IproyalPlanTier_Out(TypedDict):
+    productType: Literal["residential"] | Literal["datacenter"] | Literal["isp"] | Literal["mobile"]
+    tier: str
+    price: float
+    unit: str
+    billingMode: Literal["subscription"] | Literal["payAsYouGo"] | None
 
 class Prv_islllc_searchCommunities_arg_In(TypedDict):
     location: str
@@ -10951,6 +11051,37 @@ class Prv_ulrichlifestyle_UlrichPriceLine_Out(TypedDict):
     description: str
     price: float
 
+class Prv_ups_getRate_args_In(TypedDict):
+    fromZip: str
+    toZip: str
+    weightOz: float
+    length: NotRequired[float]
+    width: NotRequired[float]
+    height: NotRequired[float]
+    accountNumber: NotRequired[str]
+
+class Prv_ups_upsRatedShipment_Out(TypedDict):
+    serviceCode: str
+    serviceName: str
+    price: float
+    currency: str
+    transitDays: float | None
+
+class Prv_usps_getRate_args_In(TypedDict):
+    fromZip: str
+    toZip: str
+    weightOz: float
+    length: NotRequired[float]
+    width: NotRequired[float]
+    height: NotRequired[float]
+
+class Prv_usps_uspsRateOption_Out(TypedDict):
+    sku: str
+    description: str
+    mailClass: str
+    price: float
+    zone: str | None
+
 class Prv_vervecoffee_VervecoffeeSubscription_Out(TypedDict):
     id: str
     handle: str
@@ -12106,6 +12237,26 @@ class Cap_sheds(Protocol):
         as "no dealers in that state".
         """
 
+class Cap_shipping(Protocol):
+    """Prices a domestic package across USPS and UPS for a ZIP-to-ZIP move, weight and optional
+    dimensions, and returns normalized quotes cheapest first — service name, price and
+    transit days where the carrier states one. Direct APIs, no browser. Each caller brings
+    their own USPS and/or UPS developer key; a carrier with no key attached is dropped and
+    named in `warnings` rather than silently skipped.
+    """
+
+    async def estimate(self, query: Cap_shipping_ShippingQuery_In, options: Cap_shipping_CallOptions_In | None = None, /) -> Cap_shipping_ShippingEstimateResult_Out:
+        """Prices a domestic package — `{ fromZip: "20024", toZip: "10001", weightOz: 16 }` —
+        across every USPS and UPS service that quotes it, and returns `rates` cheapest first.
+        `length`/`width`/`height` (inches) must be given together or omitted entirely.
+        `warnings` names any carrier dropped for a timeout, an error, or a missing vendor key —
+        each caller brings their own USPS/UPS developer key; neither carrier is served off a
+        fleet credential. THROWS `AllProvidersFailedError` when NEITHER carrier answered,
+        because that is a different fact from "no service quotes this shipment" and only one of
+        them means there truly is no rate. `options.timeoutMs` sets the per-carrier budget
+        (default 30000).
+        """
+
 class Cap_tariff(Protocol):
     """Resolves a Harmonized Tariff Schedule (HS/HTS) code to its description, duty rates and
     place in the schedule, straight off USITC's own published data.
@@ -12341,6 +12492,19 @@ class Prv_andersenwindows(Protocol):
         dealer, never online. Returns each dealer's name, address, phone, program tier (e.g.
         "Certified Contractor Elite"), distance and Andersen's own locator page URL, closest
         first.
+        """
+
+class Prv_apple(Protocol):
+    """apple.com's own site search and product pages — no API, no login, no browser."""
+
+    async def search(self, query: str, /) -> Prv_apple_AppleSearchResponse_Out:
+        """Runs apple.com's own site search for a keyword and returns the organic and curated
+        result rows it renders server-side.
+        """
+
+    async def getProduct(self, urlOrPath: str, /) -> Prv_apple_AppleProductPage_Out:
+        """Reads one apple.com product/buy page (a URL or path, e.g. search()'s own rows) and
+        returns every schema.org Product block it publishes.
         """
 
 class Prv_archipelago(Protocol):
@@ -12669,6 +12833,26 @@ class Prv_beatthebomb(Protocol):
         ("mission", "premium", "vip", "arcade-battle", "kids-birthday", "vip-package"), not
         always the catalog slug from listMissions() — see zeroPriceIsBundleSku for the site's
         own bundle-SKU codes that price at $0.
+        """
+
+class Prv_bestbuy(Protocol):
+    """Best Buy's own documented Products API (api.bestbuy.com) — searches the live bestbuy.com
+    catalog by query and returns price, availability and review data, and looks up one
+    product by Best Buy's own SKU, without scraping bestbuy.com's search page.
+    """
+
+    async def search(self, args: str | Prv_bestbuy_search_args_u1_In, /) -> list[Prv_bestbuy_bestbuyProduct_Out]:
+        """Runs a Best Buy product search the way bestbuy.com's own search box does, via Best Buy's
+        documented Products API, and returns the matching products — name, sale/regular price,
+        online and in-store availability, manufacturer, model number, UPC and review stats.
+        `pageSize` caps the row count (default 10, Best Buy's own ceiling 100). Requires a Best
+        Buy developer API key — see this provider's `auth`.
+        """
+
+    async def getProduct(self, sku: str | float, /) -> Prv_bestbuy_bestbuyProduct_Out:
+        """Looks up one product by Best Buy's own numeric SKU (the id `search`'s rows carry) and
+        returns its full detail — the same fields as `search`. Requires a Best Buy developer API
+        key — see this provider's `auth`.
         """
 
 class Prv_bhphoto(Protocol):
@@ -14380,6 +14564,25 @@ class Prv_furniture(Protocol):
         query can narrow by before running it.
         """
 
+class Prv_g2(Protocol):
+    """G2 — the world's largest B2B software review marketplace. search() runs G2's own site
+    search; getProduct() reads one product's published aggregate rating and category off its
+    review page.
+    """
+
+    async def search(self, args: Prv_g2_search_args_In, /) -> list[Prv_g2_G2SearchResult_Out]:
+        """Runs G2's own site search (`/search?query=<q>`) and returns matching software listings
+        in the order G2 ranks them, each carrying the star rating (out of 5) and review count
+        G2's search page publishes, plus the `url` `getProduct` takes.
+        """
+
+    async def getProduct(self, args: Prv_g2_getProduct_args_u0_In | str, /) -> Prv_g2_G2Product_Out:
+        """Reads one product's `/products/<slug>/reviews` page for its published aggregate rating
+        (out of 10 here — G2 renders a different scale on this page than on `search`'s), review
+        count and category tags, off the page's own schema.org `SoftwareApplication` block.
+        Takes the `url` a `search` row already carries.
+        """
+
 class Prv_geico(Protocol):
     """Quotes and reads across GEICO's published catalogue — the vehicle lines it underwrites
     itself (auto, motorcycle, ATV, RV, boat, scooter, classic and Mexico auto, commercial
@@ -15589,6 +15792,20 @@ class Prv_interiordefine(Protocol):
         `missingRequired` names categories the site will default for the shopper; `unmatched`
         names selections that matched nothing and were therefore left out of the URL rather than
         silently mispricing it.
+        """
+
+class Prv_iproyal(Protocol):
+    """IPRoyal's own published proxy pricing (iproyal.com) — residential, datacenter, ISP and
+    mobile plan tiers, straight off their public pricing pages.
+    """
+
+    async def getPlans(self, productType: Literal["residential"] | Literal["datacenter"] | Literal["isp"] | Literal["mobile"] | None = None, /) -> list[Prv_iproyal_IproyalPlanTier_Out]:
+        """Reads IPRoyal's own published proxy pricing — residential, datacenter, ISP and mobile
+        plan tiers, current "from" price and unit, straight off their public /pricing/ pages.
+        Omit productType to read all four lines in one call; pass one ("residential",
+        "datacenter", "isp" or "mobile") to read just that line. Residential tiers also carry
+        billingMode (subscription vs. pay-as-you-go); the other lines publish one price per tier
+        and leave it null.
         """
 
 class Prv_islllc(Protocol):
@@ -18938,6 +19155,36 @@ class Prv_ulrichlifestyle(Protocol):
         the priced total; see this provider's file-top note.
         """
 
+class Prv_ups(Protocol):
+    """UPS's own documented Rating API (onlinetools.ups.com) — prices a domestic shipment
+    across UPS's service levels for a ZIP-to-ZIP move, weight and optional dimensions, the
+    same rate engine ups.com's own shipping calculator runs. No browser, no scraping.
+    """
+
+    async def getRate(self, args: Prv_ups_getRate_args_In, /) -> list[Prv_ups_upsRatedShipment_Out]:
+        """Prices a domestic shipment across every UPS service level that quotes it, between two
+        5-digit ZIP Codes, for a weight in ounces and optional length/width/height in inches
+        (all three or none). `accountNumber` is a UPS shipper number tied to the caller's own
+        UPS developer account — published rates vary by whether one is sent, and UPS's own
+        response passes straight through either way. Requires a UPS OAuth2 client-credentials
+        token — see this provider's `auth`.
+        """
+
+class Prv_usps(Protocol):
+    """USPS's own documented Domestic Prices v3 API (apis.usps.com) — prices a domestic package
+    across USPS's Mail Classes for a ZIP-to-ZIP move, weight and optional dimensions, the
+    same base-rate calculation usps.com's own postage calculator runs. No browser, no
+    scraping.
+    """
+
+    async def getRate(self, args: Prv_usps_getRate_args_In, /) -> list[Prv_usps_uspsRateOption_Out]:
+        """Prices a domestic package across every USPS Mail Class that quotes it, between two
+        5-digit ZIP Codes, for a weight in ounces and optional length/width/height in inches
+        (all three or none). Returns USPS's own base retail price per option — the postage
+        calculator's own numbers, not an estimate. Requires a USPS OAuth2 client-credentials
+        token — see this provider's `auth`.
+        """
+
 class Prv_vervecoffee(Protocol):
     """Verve Coffee Roasters' Roaster's Choice subscription catalog and its real 'Find Your
     Coffee Match' quiz (Octane AI-powered) — drives the same 5 questions the live site asks
@@ -19348,6 +19595,7 @@ class BowmarkProviders(Protocol):
     amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows
+    apple: Prv_apple
     archipelago: Prv_archipelago
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco
@@ -19361,6 +19609,7 @@ class BowmarkProviders(Protocol):
     barletta: Prv_barletta
     baublebar: Prv_baublebar
     beatthebomb: Prv_beatthebomb
+    bestbuy: Prv_bestbuy
     bhphoto: Prv_bhphoto
     bigjoeforklifts: Prv_bigjoeforklifts
     bigrentz: Prv_bigrentz
@@ -19420,6 +19669,7 @@ class BowmarkProviders(Protocol):
     framebridge: Prv_framebridge
     fred: Prv_fred
     furniture: Prv_furniture
+    g2: Prv_g2
     geico: Prv_geico
     github: Prv_github
     glassesusa: Prv_glassesusa
@@ -19446,6 +19696,7 @@ class BowmarkProviders(Protocol):
     identitygroup: Prv_identitygroup
     insurify: Prv_insurify
     interiordefine: Prv_interiordefine
+    iproyal: Prv_iproyal
     islllc: Prv_islllc
     ivoryhomes: Prv_ivoryhomes
     jennikayne: Prv_jennikayne
@@ -19551,6 +19802,8 @@ class BowmarkProviders(Protocol):
     trophysignaturehomes: Prv_trophysignaturehomes
     twiddy: Prv_twiddy
     ulrichlifestyle: Prv_ulrichlifestyle
+    ups: Prv_ups
+    usps: Prv_usps
     vervecoffee: Prv_vervecoffee
     vessi: Prv_vessi
     viewrail: Prv_viewrail
@@ -19590,6 +19843,7 @@ class Bowmark(Protocol):
     restaurant_booking: Cap_restaurant_booking
     search: Cap_search
     sheds: Cap_sheds
+    shipping: Cap_shipping
     tariff: Cap_tariff
     weather: Cap_weather
     providers: BowmarkProviders

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0bed95381ce4e9a502303a6eb4b2c64cfc2b2123f6004d5c3d377c23288eac10
-// 16 capabilities, 226 providers, 602 typed functions, 20 refused.
+// Manifest version: d431cab99a3d1455e1e15072556d22a4f1f4e80a5e3477bfcb71fdf31ab124e3
+// 17 capabilities, 232 providers, 612 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1259,6 +1259,60 @@ type CallOptions = {
   }
 }
 
+declare namespace BowmarkCapability_shipping {
+  // ── Shipping rate estimate — the unit's own declarations, verbatim ──
+type ShippingQuery = {
+  fromZip: string        // 5-digit US ZIP the package ships FROM
+  toZip: string
+  weightOz: number        // package weight in ounces
+  length?: number         // inches — all three or none
+  width?: number
+  height?: number
+}
+
+// One normalized shipping-rate quote. Same shape no matter which carrier
+// quoted it.
+type ShippingRate = {
+  source: string                              // "usps" | "ups"
+  serviceCode: string                         // the carrier's own code, verbatim
+  serviceName: string                         // the carrier's own name, e.g. "UPS Ground"
+  price: { amount: number; currency: string } // integer minor units (cents)
+  transitDays: number | null                  // null when the carrier didn't state one
+}
+
+type ShippingEstimateResult = {
+  rates: ShippingRate[]   // cheapest first
+  warnings: string[]      // always present; names a dropped/timed-out carrier
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Prices a domestic package across USPS and UPS for a ZIP-to-ZIP move, weight and optional
+   * dimensions, and returns normalized quotes cheapest first — service name, price and transit
+   * days where the carrier states one. Direct APIs, no browser. Each caller brings their own
+   * USPS and/or UPS developer key; a carrier with no key attached is dropped and named in
+   * `warnings` rather than silently skipped.
+   */
+  interface Unit {
+    /**
+     * Prices a domestic package — `{ fromZip: "20024", toZip: "10001", weightOz: 16 }` — across
+     * every USPS and UPS service that quotes it, and returns `rates` cheapest first.
+     * `length`/`width`/`height` (inches) must be given together or omitted entirely. `warnings`
+     * names any carrier dropped for a timeout, an error, or a missing vendor key — each caller
+     * brings their own USPS/UPS developer key; neither carrier is served off a fleet credential.
+     * THROWS `AllProvidersFailedError` when NEITHER carrier answered, because that is a different
+     * fact from "no service quotes this shipment" and only one of them means there truly is no
+     * rate. `options.timeoutMs` sets the per-carrier budget (default 30000).
+     */
+    estimate(query: ShippingQuery, options?: CallOptions): Promise<ShippingEstimateResult>;
+  }
+}
+
 declare namespace BowmarkCapability_tariff {
   // ── HS/HTS tariff code lookup — the unit's own declarations, verbatim ──
 
@@ -1997,6 +2051,48 @@ interface AndersenDealer {
      * Contractor Elite"), distance and Andersen's own locator page URL, closest first.
      */
     findDealers(args: { zip: string; radiusMiles?: number; limit?: number }): Promise<AndersenDealer[]>;
+  }
+}
+
+declare namespace BowmarkProvider_apple {
+  // ── Apple — the unit's own declarations, verbatim ──
+interface AppleSearchResult {
+  kind: "organic" | "curated";
+  title: string;
+  description: string | null;
+  url: string | null;
+  links?: Array<{ label: string; url: string }>;
+}
+interface AppleSearchResponse {
+  query: string;
+  results: AppleSearchResult[];
+}
+interface AppleProduct {
+  name: string;
+  lowPrice: number | null;
+  highPrice: number | null;
+  priceCurrency: string | null;
+  image: string | null;
+  description: string | null;
+}
+interface AppleProductPage {
+  url: string;
+  products: AppleProduct[];
+}
+
+  /** apple.com's own site search and product pages — no API, no login, no browser. */
+  interface Unit {
+    /**
+     * Runs apple.com's own site search for a keyword and returns the organic and curated result
+     * rows it renders server-side.
+     */
+    search(query: string): Promise<AppleSearchResponse>;
+
+    /**
+     * Reads one apple.com product/buy page (a URL or path, e.g. search()'s own rows) and returns
+     * every schema.org Product block it publishes.
+     */
+    getProduct(urlOrPath: string): Promise<AppleProductPage>;
   }
 }
 
@@ -2888,6 +2984,48 @@ interface BeatthebombPriceQuote {
      * price at $0.
      */
     priceMission(location: string, product: string, date: string, time: string, quantity: number): Promise<BeatthebombPriceQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_bestbuy {
+  // ── Best Buy — the unit's own declarations, verbatim ──
+interface bestbuyProduct {
+  sku: number;
+  name: string;
+  salePrice: number | null;
+  regularPrice: number | null;
+  url: string | null;
+  imageUrl: string | null;
+  onlineAvailability: boolean;
+  inStoreAvailability: boolean;
+  manufacturer: string | null;
+  modelNumber: string | null;
+  upc: string | null;
+  customerReviewAverage: number | null;
+  customerReviewCount: number | null;
+}
+
+  /**
+   * Best Buy's own documented Products API (api.bestbuy.com) — searches the live bestbuy.com
+   * catalog by query and returns price, availability and review data, and looks up one product
+   * by Best Buy's own SKU, without scraping bestbuy.com's search page.
+   */
+  interface Unit {
+    /**
+     * Runs a Best Buy product search the way bestbuy.com's own search box does, via Best Buy's
+     * documented Products API, and returns the matching products — name, sale/regular price,
+     * online and in-store availability, manufacturer, model number, UPC and review stats.
+     * `pageSize` caps the row count (default 10, Best Buy's own ceiling 100). Requires a Best Buy
+     * developer API key — see this provider's `auth`.
+     */
+    search(args: string | { query: string; pageSize?: number }): Promise<bestbuyProduct[]>;
+
+    /**
+     * Looks up one product by Best Buy's own numeric SKU (the id `search`'s rows carry) and
+     * returns its full detail — the same fields as `search`. Requires a Best Buy developer API key
+     * — see this provider's `auth`.
+     */
+    getProduct(sku: string | number): Promise<bestbuyProduct>;
   }
 }
 
@@ -7694,6 +7832,48 @@ interface furnitureFilterAttribute {
   }
 }
 
+declare namespace BowmarkProvider_g2 {
+  // ── G2 — the unit's own declarations, verbatim ──
+interface G2SearchResult {
+  id: string;
+  name: string;
+  url: string;
+  rating: number | null;
+  reviewCount: number | null;
+}
+
+interface G2Product {
+  name: string;
+  url: string;
+  categories: string[];
+  rating: number | null;
+  bestRating: number | null;
+  reviewCount: number | null;
+}
+
+  /**
+   * G2 — the world's largest B2B software review marketplace. search() runs G2's own site
+   * search; getProduct() reads one product's published aggregate rating and category off its
+   * review page.
+   */
+  interface Unit {
+    /**
+     * Runs G2's own site search (`/search?query=<q>`) and returns matching software listings in
+     * the order G2 ranks them, each carrying the star rating (out of 5) and review count G2's
+     * search page publishes, plus the `url` `getProduct` takes.
+     */
+    search(args: { query: string }): Promise<G2SearchResult[]>;
+
+    /**
+     * Reads one product's `/products/<slug>/reviews` page for its published aggregate rating (out
+     * of 10 here — G2 renders a different scale on this page than on `search`'s), review count and
+     * category tags, off the page's own schema.org `SoftwareApplication` block. Takes the `url` a
+     * `search` row already carries.
+     */
+    getProduct(args: { url: string } | string): Promise<G2Product>;
+  }
+}
+
 declare namespace BowmarkProvider_geico {
   // ── GEICO — the unit's own declarations, verbatim ──
 interface geicoRow {
@@ -11163,6 +11343,33 @@ interface InteriorDefineCartHandoff {
      * matched nothing and were therefore left out of the URL rather than silently mispricing it.
      */
     addToCart(sku: string, selections: Record<string, string>): Promise<InteriorDefineCartHandoff>;
+  }
+}
+
+declare namespace BowmarkProvider_iproyal {
+  // ── IPRoyal — the unit's own declarations, verbatim ──
+type IproyalProductType = "residential" | "datacenter" | "isp" | "mobile";
+interface IproyalPlanTier {
+  productType: IproyalProductType;
+  tier: string;
+  price: number;
+  unit: string;
+  billingMode: "subscription" | "payAsYouGo" | null;
+}
+
+  /**
+   * IPRoyal's own published proxy pricing (iproyal.com) — residential, datacenter, ISP and
+   * mobile plan tiers, straight off their public pricing pages.
+   */
+  interface Unit {
+    /**
+     * Reads IPRoyal's own published proxy pricing — residential, datacenter, ISP and mobile plan
+     * tiers, current "from" price and unit, straight off their public /pricing/ pages. Omit
+     * productType to read all four lines in one call; pass one ("residential", "datacenter", "isp"
+     * or "mobile") to read just that line. Residential tiers also carry billingMode (subscription
+     * vs. pay-as-you-go); the other lines publish one price per tier and leave it null.
+     */
+    getPlans(productType?: IproyalProductType): Promise<IproyalPlanTier[]>;
   }
 }
 
@@ -20822,6 +21029,61 @@ interface UlrichPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_ups {
+  // ── UPS — the unit's own declarations, verbatim ──
+interface upsRatedShipment {
+  serviceCode: string;
+  serviceName: string;
+  price: number;
+  currency: string;
+  transitDays: number | null;
+}
+
+  /**
+   * UPS's own documented Rating API (onlinetools.ups.com) — prices a domestic shipment across
+   * UPS's service levels for a ZIP-to-ZIP move, weight and optional dimensions, the same rate
+   * engine ups.com's own shipping calculator runs. No browser, no scraping.
+   */
+  interface Unit {
+    /**
+     * Prices a domestic shipment across every UPS service level that quotes it, between two
+     * 5-digit ZIP Codes, for a weight in ounces and optional length/width/height in inches (all
+     * three or none). `accountNumber` is a UPS shipper number tied to the caller's own UPS
+     * developer account — published rates vary by whether one is sent, and UPS's own response
+     * passes straight through either way. Requires a UPS OAuth2 client-credentials token — see
+     * this provider's `auth`.
+     */
+    getRate(args: { fromZip: string; toZip: string; weightOz: number; length?: number; width?: number; height?: number; accountNumber?: string }): Promise<upsRatedShipment[]>;
+  }
+}
+
+declare namespace BowmarkProvider_usps {
+  // ── USPS — the unit's own declarations, verbatim ──
+interface uspsRateOption {
+  sku: string;
+  description: string;
+  mailClass: string;
+  price: number;
+  zone: string | null;
+}
+
+  /**
+   * USPS's own documented Domestic Prices v3 API (apis.usps.com) — prices a domestic package
+   * across USPS's Mail Classes for a ZIP-to-ZIP move, weight and optional dimensions, the same
+   * base-rate calculation usps.com's own postage calculator runs. No browser, no scraping.
+   */
+  interface Unit {
+    /**
+     * Prices a domestic package across every USPS Mail Class that quotes it, between two 5-digit
+     * ZIP Codes, for a weight in ounces and optional length/width/height in inches (all three or
+     * none). Returns USPS's own base retail price per option — the postage calculator's own
+     * numbers, not an estimate. Requires a USPS OAuth2 client-credentials token — see this
+     * provider's `auth`.
+     */
+    getRate(args: { fromZip: string; toZip: string; weightOz: number; length?: number; width?: number; height?: number }): Promise<uspsRateOption[]>;
+  }
+}
+
 declare namespace BowmarkProvider_vervecoffee {
   // ── Verve Coffee Roasters — the unit's own declarations, verbatim ──
 interface VervecoffeeSubscription {
@@ -22746,6 +23008,7 @@ interface BowmarkProviders {
   amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
+  apple: BowmarkProvider_apple.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
@@ -22759,6 +23022,7 @@ interface BowmarkProviders {
   barletta: BowmarkProvider_barletta.Unit;
   baublebar: BowmarkProvider_baublebar.Unit;
   beatthebomb: BowmarkProvider_beatthebomb.Unit;
+  bestbuy: BowmarkProvider_bestbuy.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;
   bigjoeforklifts: BowmarkProvider_bigjoeforklifts.Unit;
   bigrentz: BowmarkProvider_bigrentz.Unit;
@@ -22818,6 +23082,7 @@ interface BowmarkProviders {
   framebridge: BowmarkProvider_framebridge.Unit;
   fred: BowmarkProvider_fred.Unit;
   furniture: BowmarkProvider_furniture.Unit;
+  g2: BowmarkProvider_g2.Unit;
   geico: BowmarkProvider_geico.Unit;
   github: BowmarkProvider_github.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
@@ -22844,6 +23109,7 @@ interface BowmarkProviders {
   identitygroup: BowmarkProvider_identitygroup.Unit;
   insurify: BowmarkProvider_insurify.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
+  iproyal: BowmarkProvider_iproyal.Unit;
   islllc: BowmarkProvider_islllc.Unit;
   ivoryhomes: BowmarkProvider_ivoryhomes.Unit;
   jennikayne: BowmarkProvider_jennikayne.Unit;
@@ -22949,6 +23215,8 @@ interface BowmarkProviders {
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
+  ups: BowmarkProvider_ups.Unit;
+  usps: BowmarkProvider_usps.Unit;
   vervecoffee: BowmarkProvider_vervecoffee.Unit;
   vessi: BowmarkProvider_vessi.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;
@@ -74702,6 +74970,7 @@ interface BowmarkLibrary {
   restaurant_booking: BowmarkCapability_restaurant_booking.Unit;
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
+  shipping: BowmarkCapability_shipping.Unit;
   tariff: BowmarkCapability_tariff.Unit;
   weather: BowmarkCapability_weather.Unit;
   providers: BowmarkProviders;
