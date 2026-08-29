@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 995 functions. 🟢 implemented · ⚪ planned.
+> 998 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -238,7 +238,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.searchTiresByVehicle` | discounttire.com | Searches the tires Discount Tire will actually sell for a specific vehicle — year… | ⚪ |
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
-| `disney.getTicketPrice` | disneyworld.disney.go.com | Would read a park ticket's real per-trip total off Disney's own live ticket… | ⚪ |
+| `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟢 |
 | `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🟢 |
 | `ebay.soldPrices` | ebay.com | What items ACTUALLY sold for — eBay's completed/sold listings. | ⚪ |
 | `embroker.getBusinessInsuranceQuote` | embroker.com | Returns a priced business-insurance coverage package for a company's profile… | ⚪ |
@@ -463,6 +463,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.getSign` | identitygroup.com | Reads one sign product's full page: every mount-option variant, each with its own real… | 🟢 |
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟢 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
+| `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟢 |
+| `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟢 |
+| `instagram.searchProfiles` | instagram.com | Searches Instagram for accounts matching a query and returns each match's username… | ⚪ |
 | `insurify.estimateAutoCost` | insurify.com | Returns an estimated monthly car insurance cost for a driver profile — age, location… | ⚪ |
 | `insurify.getAutoQuotes` | insurify.com | Returns real-time side-by-side car insurance rates from the carriers that will… | 🟢 |
 | `insurify.getAutoWarrantyQuotes` | insurify.com | Returns extended vehicle service contract (auto warranty) prices for a vehicle's make… | ⚪ |
