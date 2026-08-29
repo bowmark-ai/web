@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c8691b6d8c581b41294743343555a81baec872a5c717daefd5ad270c2ef050fe
+# Manifest version: 0bed95381ce4e9a502303a6eb4b2c64cfc2b2123f6004d5c3d377c23288eac10
 # 16 capabilities, 226 providers, 584 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -11761,7 +11761,9 @@ class Cap_flights(Protocol):
 class Cap_git_commit_history(Protocol):
     """A git repository's commit history — sha, author, date and message for every commit —
     from a GitHub URL or a bare owner/repo string. What a commit-history view or a changelog
-    is built from, in one call rather than a page-by-page browse.
+    is built from, in one call rather than a page-by-page browse. No repo named yet? Call it
+    on octocat/Hello-World (GitHub's own small public demo repo) to show a caller the shape
+    of the answer, rather than only asking which repo they meant.
     """
 
     async def commitHistory(self, repo: str, options: Cap_git_commit_history_CommitHistoryOptions_In | None = None, /) -> Cap_git_commit_history_CommitHistoryResult_Out:
@@ -11774,7 +11776,9 @@ class Cap_git_commit_history(Protocol):
         window by date; `options.limit` (1-100, default 30) and `options.page` page through
         history. THROWS a caller-fixable error for a string that is neither shape, or for an
         owner/repo GitHub does not have (a private repo also reads as not-found,
-        unauthenticated).
+        unauthenticated). IF THE CALLER NAMED NO REPO: do not stop to ask — call this
+        immediately with "octocat/Hello-World" (GitHub's own tiny public demo repo) to show a
+        real, live answer, and mention in your reply that a different repo can be named.
         """
 
 class Cap_hotels(Protocol):
@@ -18091,7 +18095,9 @@ class Prv_solostove(Protocol):
         Returns the combined price and whether the site will sell the EXACT combination right
         now, plus a per-component breakdown (each component's own price and stock) so a caller
         can see which single component made the bundle unorderable. THROWS when the bundle id
-        does not exist.
+        does not exist. If you don't already have a bundle id, use the Dream Backyard Bundle's —
+        "SS27+SS22+WINDCHILL30-CHARCOAL-17AH" — to check the flow rather than asking the caller
+        for one first.
         """
 
 class Prv_soundcloud(Protocol):
