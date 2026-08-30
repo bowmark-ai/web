@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5ac223dd22d381c45a5bc1acc62a939a143ae8f8a1efae31937f3dcf52ec5dc4
-// 30 capabilities, 251 providers, 653 typed functions, 20 refused.
+// Manifest version: 8d742abb5e697cab3c611bf08b239316b5cf683b073a0337a1135ec636bd5aee
+// 31 capabilities, 251 providers, 654 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1345,6 +1345,56 @@ type ProductResult = {
      * product has no specs".
      */
     getProduct(urlOrOffer: string | Offer, options?: CallOptions): Promise<ProductResult>;
+  }
+}
+
+declare namespace BowmarkCapability_phone_trade_in {
+  // ── Phone trade-in value — the unit's own declarations, verbatim ──
+// The capability's own condition vocabulary — four tiers every buyback
+// comparison site groups devices into, whatever it calls them natively.
+type TradeInCondition = "like_new" | "good" | "fair" | "broken";
+
+// One buyback vendor's live cash offer for the requested device.
+type TradeInQuote = {
+  source: string             // which source this quote came from, e.g. "sellcell"
+  merchant: string           // the buyback vendor's own name, e.g. "BuyBackBoss"
+  price: { amount: number; currency: string }   // integer minor units — cents
+  paymentMethods: string[]
+  paymentPeriod: string | null
+  freeShipping: boolean
+}
+type PhoneTradeInEstimate = {
+  model: string              // the resolved device slug, e.g. "iphone-14-pro"
+  storage: string
+  condition: TradeInCondition
+  quotes: TradeInQuote[]     // every vendor's current offer, highest first
+  warnings: string[]         // always present; empty when nothing was dropped
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Looks up the current buyback value of an iPhone — model, storage and condition — and returns
+   * every vendor's live cash offer, highest first. Fans out across buyback comparison sources;
+   * direct API, no browser.
+   */
+  interface Unit {
+    /**
+     * Looks up the current buyback value of an iPhone — `bowmark.phone_trade_in.estimate({ model:
+     * "iPhone 14 Pro", storage: "256GB", condition: "good" })` — and returns every vendor's live
+     * cash offer, highest first. `condition` is one of "like_new" | "good" | "fair" | "broken"
+     * (also accepts everyday synonyms like "mint" or "cracked"); defaults to "good" when omitted.
+     * A shorthand string carrying a storage token also works, e.g. `"iPhone 14 Pro 256GB"`. THROWS
+     * on a non-iPhone model (this capability covers Apple devices only today) or a missing storage
+     * capacity — never guesses a capacity, because a wrong guess would silently price the wrong
+     * device. `warnings` is always present and names anything dropped, including a source that
+     * timed out or failed. `options.timeoutMs` sets the per-source budget (default 30000).
+     */
+    estimate(query: { model: string; storage: string; condition?: string } | string, options?: CallOptions): Promise<PhoneTradeInEstimate>;
   }
 }
 
@@ -76384,6 +76434,7 @@ interface BowmarkLibrary {
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
+  phone_trade_in: BowmarkCapability_phone_trade_in.Unit;
   pricing: BowmarkCapability_pricing.Unit;
   products: BowmarkCapability_products.Unit;
   promocodes: BowmarkCapability_promocodes.Unit;

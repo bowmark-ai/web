@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5ac223dd22d381c45a5bc1acc62a939a143ae8f8a1efae31937f3dcf52ec5dc4
-// 635 checked, 20 unchecked.
+// Manifest version: 8d742abb5e697cab3c611bf08b239316b5cf683b073a0337a1135ec636bd5aee
+// 636 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5ac223dd22d381c45a5bc1acc62a939a143ae8f8a1efae31937f3dcf52ec5dc4",
+  "version": "8d742abb5e697cab3c611bf08b239316b5cf683b073a0337a1135ec636bd5aee",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -1429,6 +1429,72 @@ export const VALIDATORS: ValidatorTable = {
                 {
                   "k": "ref",
                   "name": "Offer"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "phone_trade_in": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "estimate": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "model",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "storage",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "condition",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "string"
                 }
               ]
             },

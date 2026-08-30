@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5ac223dd22d381c45a5bc1acc62a939a143ae8f8a1efae31937f3dcf52ec5dc4
-# 30 capabilities, 251 providers, 635 typed functions, 20 refused.
+# Manifest version: 8d742abb5e697cab3c611bf08b239316b5cf683b073a0337a1135ec636bd5aee
+# 31 capabilities, 251 providers, 636 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -830,6 +830,33 @@ class Cap_pcparts_Spec_Out(TypedDict):
     group: str
     name: str
     value: str
+
+class Cap_phone_trade_in_estimate_query_u0_In(TypedDict):
+    model: str
+    storage: str
+    condition: NotRequired[str]
+
+class Cap_phone_trade_in_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_phone_trade_in_PhoneTradeInEstimate_Out(TypedDict):
+    model: str
+    storage: str
+    condition: Literal["like_new"] | Literal["good"] | Literal["fair"] | Literal["broken"]
+    quotes: list[Cap_phone_trade_in_TradeInQuote_Out]
+    warnings: list[str]
+
+class Cap_phone_trade_in_TradeInQuote_Out(TypedDict):
+    source: str
+    merchant: str
+    price: Cap_phone_trade_in_TradeInQuote_Out_price_Out
+    paymentMethods: list[str]
+    paymentPeriod: str | None
+    freeShipping: bool
+
+class Cap_phone_trade_in_TradeInQuote_Out_price_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Cap_pricing_PersonalizationPersona_In(TypedDict):
     label: str
@@ -12961,6 +12988,25 @@ class Cap_pcparts(Protocol):
         would misread as "this product has no specs".
         """
 
+class Cap_phone_trade_in(Protocol):
+    """Looks up the current buyback value of an iPhone — model, storage and condition — and
+    returns every vendor's live cash offer, highest first. Fans out across buyback
+    comparison sources; direct API, no browser.
+    """
+
+    async def estimate(self, query: Cap_phone_trade_in_estimate_query_u0_In | str, options: Cap_phone_trade_in_CallOptions_In | None = None, /) -> Cap_phone_trade_in_PhoneTradeInEstimate_Out:
+        """Looks up the current buyback value of an iPhone — `bowmark.phone_trade_in.estimate({
+        model: "iPhone 14 Pro", storage: "256GB", condition: "good" })` — and returns every
+        vendor's live cash offer, highest first. `condition` is one of "like_new" | "good" |
+        "fair" | "broken" (also accepts everyday synonyms like "mint" or "cracked"); defaults to
+        "good" when omitted. A shorthand string carrying a storage token also works, e.g.
+        `"iPhone 14 Pro 256GB"`. THROWS on a non-iPhone model (this capability covers Apple
+        devices only today) or a missing storage capacity — never guesses a capacity, because a
+        wrong guess would silently price the wrong device. `warnings` is always present and
+        names anything dropped, including a source that timed out or failed. `options.timeoutMs`
+        sets the per-source budget (default 30000).
+        """
+
 class Cap_pricing(Protocol):
     """Given a product page's url, fetches it once per simulated shopper (desktop vs mobile,
     each a fresh cookie-less visit) and reports whether the price they'd see differs — never
@@ -21120,6 +21166,7 @@ class Bowmark(Protocol):
     mcp_registry: Cap_mcp_registry
     music: Cap_music
     pcparts: Cap_pcparts
+    phone_trade_in: Cap_phone_trade_in
     pricing: Cap_pricing
     products: Cap_products
     promocodes: Cap_promocodes
