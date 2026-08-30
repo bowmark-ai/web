@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c9aaf7bb50ed94db4032af22320d6d3ea9e8a26fa1ff2ef461e22b0ed0a50044
-// 643 checked, 20 unchecked.
+// Manifest version: e7fd4105bd1eeb0b5c58ff27228b97e0c1abe18b862ddedc81d80292e11ed8a2
+// 645 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c9aaf7bb50ed94db4032af22320d6d3ea9e8a26fa1ff2ef461e22b0ed0a50044",
+  "version": "e7fd4105bd1eeb0b5c58ff27228b97e0c1abe18b862ddedc81d80292e11ed8a2",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -9103,7 +9103,27 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.ibuypower": {
-      "defs": {},
+      "defs": {
+        "IbuypowerRecommendArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "budget_max",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "use_case",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "listSystems": [],
         "listPrebuilts": [],
@@ -9129,6 +9149,16 @@ export const VALIDATORS: ValidatorTable = {
             "name": "gpuBench",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "recommendGamingPc": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "IbuypowerRecommendArgs"
             },
             "optional": false
           }
@@ -13062,6 +13092,31 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productType",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
                   "schema": {
                     "k": "number"
                   },

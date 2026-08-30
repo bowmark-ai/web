@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c9aaf7bb50ed94db4032af22320d6d3ea9e8a26fa1ff2ef461e22b0ed0a50044
-# 32 capabilities, 253 providers, 643 typed functions, 20 refused.
+# Manifest version: e7fd4105bd1eeb0b5c58ff27228b97e0c1abe18b862ddedc81d80292e11ed8a2
+# 32 capabilities, 253 providers, 645 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5917,6 +5917,25 @@ class Prv_ibuypower_IbuypowerGameFps_Out(TypedDict):
     medium4k: str
     ultra4k: str
 
+class Prv_ibuypower_IbuypowerRecommendArgs_In(TypedDict):
+    budget_max: float
+    use_case: NotRequired[str]
+
+class Prv_ibuypower_recommendGamingPc_return_Out(TypedDict):
+    recommendations: list[Prv_ibuypower_IbuypowerRecommendation_Out]
+    warnings: list[str]
+
+class Prv_ibuypower_IbuypowerRecommendation_Out(TypedDict):
+    source: Literal["prebuilt"] | Literal["configurator"]
+    slug: str
+    name: str
+    url: str
+    price: str | None
+    priceValue: float | None
+    timeSpyOverall: float | None
+    scorePerDollar: float | None
+    inStock: bool
+
 class Prv_identitygroup_IdentitygroupSearchResult_Out(TypedDict):
     handle: str
     title: str
@@ -8321,6 +8340,14 @@ class Prv_mossyoak_MossyoakCheckoutLink_Out(TypedDict):
     url: str
     variant: Prv_mossyoak_MossyoakVariant_Out
     product: Prv_mossyoak_MossyoakProduct_Out
+
+class Prv_mossyoak_searchProducts_opts_In(TypedDict):
+    productType: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_mossyoak_MossyoakCatalogue_Out(TypedDict):
+    products: list[Prv_mossyoak_MossyoakProduct_Out]
+    warnings: list[str]
 
 class Prv_muze_gov_tr_MuzeVisitingHours_Out(TypedDict):
     name: str
@@ -16582,6 +16609,17 @@ class Prv_ibuypower(Protocol):
         failure; fall back to the Time Spy score of a pair it does have.
         """
 
+    async def recommendGamingPc(self, args: Prv_ibuypower_IbuypowerRecommendArgs_In, /) -> Prv_ibuypower_recommendGamingPc_return_Out:
+        """Recommends buildable PCs at or under budget_max, drawn from BOTH product lines —
+        in-stock RDY prebuilts (their own listed Time Spy score) and base configurators at their
+        stock loadout (priced from getSystem, benchmarked from getBenchmark for the cheapest ~5
+        affordable ones) — ranked by 3DMark Time Spy score per dollar, best first. `use_case` is
+        accepted but does not change the ranking: iBUYPOWER publishes only one axis of measured
+        performance, and every recommendation is already ranked on it. THROWS when nothing in
+        stock or buildable fits the budget. `warnings` names any configurator that stopped
+        resolving mid-call; it is empty on a healthy call.
+        """
+
 class Prv_identitygroup(Protocol):
     """Identity Group's live hotel-signage catalog — search by brand or sign type, read a
     product's real mount-option prices, and get a checkout handoff URL. Rung 9, no browser.
@@ -18247,6 +18285,14 @@ class Prv_mossyoak(Protocol):
         the match is ambiguous (matches more than one variant), or if the matched variant is not
         currently available — the error names the candidate or in-stock options so the caller
         can retry.
+        """
+
+    async def searchProducts(self, opts: Prv_mossyoak_searchProducts_opts_In | None = None, /) -> Prv_mossyoak_MossyoakCatalogue_Out:
+        """Reads the same live catalogue listMossyoakProducts does and filters it by product type
+        ("vest", "jacket", …, matched case-insensitively against each product's own productType)
+        before applying the limit — so a caller asking for one category does not have to fetch
+        and filter the whole storefront themselves. In-stock products first, then by handle.
+        `warnings` names it when the requested productType matched nothing.
         """
 
 class Prv_muze_gov_tr(Protocol):

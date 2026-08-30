@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c9aaf7bb50ed94db4032af22320d6d3ea9e8a26fa1ff2ef461e22b0ed0a50044
-// 32 capabilities, 253 providers, 661 typed functions, 20 refused.
+// Manifest version: e7fd4105bd1eeb0b5c58ff27228b97e0c1abe18b862ddedc81d80292e11ed8a2
+// 32 capabilities, 253 providers, 663 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11334,6 +11334,23 @@ interface IbuypowerBenchmark {
   games: Record<string, IbuypowerGameFps>;   // keyed by the titles iBUYPOWER benchmarks
 }
 
+interface IbuypowerRecommendation {
+  source: "prebuilt" | "configurator";
+  slug: string;
+  name: string;
+  url: string;
+  price: string | null;
+  priceValue: number | null;
+  timeSpyOverall: number | null;   // null when the site has not benchmarked this pair
+  scorePerDollar: number | null;   // timeSpyOverall / priceValue — highest first
+  inStock: boolean;                // a configurator is always buildable to order
+}
+
+interface IbuypowerRecommendArgs {
+  budget_max: number;              // the hard ceiling; nothing over it is returned
+  use_case?: string;                // accepted, does not change the ranking — see recommendGamingPc's summary
+}
+
   /**
    * Gaming and workstation PCs from iBUYPOWER — the base configurators with their current
    * starting prices, every component option on one with its exact price difference, the RDY
@@ -11397,6 +11414,18 @@ interface IbuypowerBenchmark {
      * to the Time Spy score of a pair it does have.
      */
     getBenchmark(cpuBench: string, gpuBench: string): Promise<IbuypowerBenchmark | null>;
+
+    /**
+     * Recommends buildable PCs at or under budget_max, drawn from BOTH product lines — in-stock
+     * RDY prebuilts (their own listed Time Spy score) and base configurators at their stock
+     * loadout (priced from getSystem, benchmarked from getBenchmark for the cheapest ~5 affordable
+     * ones) — ranked by 3DMark Time Spy score per dollar, best first. `use_case` is accepted but
+     * does not change the ranking: iBUYPOWER publishes only one axis of measured performance, and
+     * every recommendation is already ranked on it. THROWS when nothing in stock or buildable fits
+     * the budget. `warnings` names any configurator that stopped resolving mid-call; it is empty
+     * on a healthy call.
+     */
+    recommendGamingPc(args: IbuypowerRecommendArgs): Promise<{ recommendations: IbuypowerRecommendation[]; warnings: string[] }>;
   }
 }
 
@@ -16273,6 +16302,15 @@ interface MossyoakCheckoutLink {
      * available — the error names the candidate or in-stock options so the caller can retry.
      */
     getMossyoakCheckoutLink(handle: string, variantTitleOrOptions: string, opts?: { quantity?: number }): Promise<MossyoakCheckoutLink>;
+
+    /**
+     * Reads the same live catalogue listMossyoakProducts does and filters it by product type
+     * ("vest", "jacket", …, matched case-insensitively against each product's own productType)
+     * before applying the limit — so a caller asking for one category does not have to fetch and
+     * filter the whole storefront themselves. In-stock products first, then by handle. `warnings`
+     * names it when the requested productType matched nothing.
+     */
+    searchProducts(opts?: { productType?: string; limit?: number }): Promise<MossyoakCatalogue>;
   }
 }
 
