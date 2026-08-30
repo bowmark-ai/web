@@ -6,6 +6,51 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.12.0 (2026-08-30)
+
+**Capabilities**
+
+- New capability **cable_railing_quote** (1 function): `cable_railing_quote.getDesignOptions`
+- New capability **coworking** (1 function): `coworking.findDayPasses`
+- New capability **custom_sofa_configurator** (3 functions): `custom_sofa_configurator.getConfigurator`, `custom_sofa_configurator.listSofas`, `custom_sofa_configurator.priceConfiguration`
+- New capability **developer_api_key_signup** (1 function): `developer_api_key_signup.signUp`
+- New capability **domain** (1 function): `domain.checkAvailability`
+- New capability **game_soundtrack_composer_credits** (2 functions): `game_soundtrack_composer_credits.getCredits`, `game_soundtrack_composer_credits.search`
+- New capability **git_release_notes** (1 function): `git_release_notes.releaseNotes`
+- New capability **istanbul_schedules** (1 function): `istanbul_schedules.attractionHours`
+- New capability **mcp_registry** (1 function): `mcp_registry.search`
+- New capability **phone_trade_in** (1 function): `phone_trade_in.estimate`
+- New capability **pricing** (1 function): `pricing.checkPersonalization`
+- New capability **text_to_speech** (2 functions): `text_to_speech.cloneVoice`, `text_to_speech.synthesize`
+- New capability **theme_park_tickets** (1 function): `theme_park_tickets.search`
+- New capability **yoga_outfit_shopping** (1 function): `yoga_outfit_shopping.search`
+- Added `insurance.getHomeQuotes`
+
+**Providers**
+
+- New provider **alphavantage.co** (1 function): `alphavantage.signUp`
+- New provider **camping.bcparks.ca** (2 functions): `bcparkscamping.checkAvailability`, `bcparkscamping.searchCampgrounds`
+- New provider **benningtonmarine.com** (1 function): `bennington.search`
+- New provider **elevenlabs.io** (2 functions): `elevenlabs.cloneVoice`, `elevenlabs.synthesize`
+- New provider **liquidspace.com** (1 function): `liquidspace.search`
+- New provider **marketplace.visualstudio.com** (1 function): `marketplace_visualstudio.getExtensionStats`
+- New provider **registry.modelcontextprotocol.io** (1 function): `mcp_registry.search`
+- New provider **mergify.com** (1 function): `mergify.queueStatus`
+- New provider **platform.minimax.io** (1 function): `minimax.getDocs`
+- New provider **muze.gov.tr** (1 function): `muze_gov_tr.getVisitingHours`
+- New provider **poshmark.com** (2 functions): `poshmark.getBulkUploadTemplateGuide`, `poshmark.getZipFileGuide`
+- New provider **proxmox.com** (1 function): `proxmox.getIsoDownloads`
+- New provider **sixflags.com** (1 function): `sixflags.getTickets`
+- New provider **smithery.ai** (1 function): `smithery.search`
+- Added `apple.getTradeInEstimate`
+- Added `github.listReleases`
+- Added `ibuypower.recommendGamingPc`
+- Added `kompan.searchPlaygroundSpareParts`
+- Added `mossyoak.searchProducts`
+- Added `nvisioncenters.estimateLasikSavings`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.11.0 (2026-08-29)
 
 **Capabilities**
