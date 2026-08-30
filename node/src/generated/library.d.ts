@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9b4b08a7a50fb2131731de5408d37112ce73e6cc290b910fb6e96acd44e85f7d
+// Manifest version: 5ac223dd22d381c45a5bc1acc62a939a143ae8f8a1efae31937f3dcf52ec5dc4
 // 30 capabilities, 251 providers, 653 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -1810,20 +1810,21 @@ type CallOptions = {
   /**
    * Prices a domestic package across USPS and UPS for a ZIP-to-ZIP move, weight and optional
    * dimensions, and returns normalized quotes cheapest first — service name, price and transit
-   * days where the carrier states one. Direct APIs, no browser. Each caller brings their own
-   * USPS and/or UPS developer key; a carrier with no key attached is dropped and named in
-   * `warnings` rather than silently skipped.
+   * days where the carrier states one. Direct JSON, no browser. USPS needs no key and always
+   * quotes; UPS is BYOK, and a caller without a UPS developer key gets the USPS quotes plus a
+   * `warnings` line naming what was dropped rather than a silent skip.
    */
   interface Unit {
     /**
      * Prices a domestic package — `{ fromZip: "20024", toZip: "10001", weightOz: 16 }` — across
      * every USPS and UPS service that quotes it, and returns `rates` cheapest first.
-     * `length`/`width`/`height` (inches) must be given together or omitted entirely. `warnings`
-     * names any carrier dropped for a timeout, an error, or a missing vendor key — each caller
-     * brings their own USPS/UPS developer key; neither carrier is served off a fleet credential.
-     * THROWS `AllProvidersFailedError` when NEITHER carrier answered, because that is a different
-     * fact from "no service quotes this shipment" and only one of them means there truly is no
-     * rate. `options.timeoutMs` sets the per-carrier budget (default 30000).
+     * `length`/`width`/`height` (inches) must be given together or omitted entirely. USPS needs no
+     * API key. UPS is BYOK: bring your own UPS developer key or that leg is dropped and named in
+     * `warnings` (it is never served off a fleet credential). `warnings` also names any carrier
+     * dropped for a timeout or an error. THROWS `AllProvidersFailedError` when NEITHER carrier
+     * answered, because that is a different fact from "no service quotes this shipment" and only
+     * one of them means there truly is no rate. `options.timeoutMs` sets the per-carrier budget
+     * (default 30000).
      */
     estimate(query: ShippingQuery, options?: CallOptions): Promise<ShippingEstimateResult>;
   }
@@ -22447,25 +22448,28 @@ interface upsRatedShipment {
 declare namespace BowmarkProvider_usps {
   // ── USPS — the unit's own declarations, verbatim ──
 interface uspsRateOption {
-  sku: string;
+  postageServiceId: number;
   description: string;
-  mailClass: string;
   price: number;
-  zone: string | null;
+  commercialPrice: number | null;
+  deliveryDay: string | null;
+  flatRateBox: string | null;
 }
 
   /**
-   * USPS's own documented Domestic Prices v3 API (apis.usps.com) — prices a domestic package
-   * across USPS's Mail Classes for a ZIP-to-ZIP move, weight and optional dimensions, the same
-   * base-rate calculation usps.com's own postage calculator runs. No browser, no scraping.
+   * USPS's own Retail Postage Price Calculator (postcalc.usps.com) — prices a domestic package
+   * across every USPS Mail Service that quotes it for a ZIP-to-ZIP move, weight and optional
+   * dimensions, and returns the counter price, the discounted Click-N-Ship price and USPS's own
+   * delivery-commitment date. One keyless GET to the calculator's own JSON endpoint. No key, no
+   * browser.
    */
   interface Unit {
     /**
-     * Prices a domestic package across every USPS Mail Class that quotes it, between two 5-digit
+     * Prices a domestic package across every USPS Mail Service that quotes it, between two 5-digit
      * ZIP Codes, for a weight in ounces and optional length/width/height in inches (all three or
-     * none). Returns USPS's own base retail price per option — the postage calculator's own
-     * numbers, not an estimate. Requires a USPS OAuth2 client-credentials token — see this
-     * provider's `auth`.
+     * none). Returns USPS's own retail counter price, its discounted Click-N-Ship price where one
+     * exists, and its delivery-commitment date — the Retail Postage Price Calculator's own
+     * numbers. Needs no API key.
      */
     getRate(args: { fromZip: string; toZip: string; weightOz: number; length?: number; width?: number; height?: number }): Promise<uspsRateOption[]>;
   }
