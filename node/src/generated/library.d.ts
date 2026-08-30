@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6612b1b871c7e6964f29c22bfdfb4d4c10e4d41e6b85a22fa4c8a800b1f5bcd3
-// 31 capabilities, 251 providers, 654 typed functions, 20 refused.
+// Manifest version: 72d57ce39992c224f64b91b2b3836bbcf5e578d8deed98a40a438ac53d6a5ccf
+// 31 capabilities, 251 providers, 655 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2857,6 +2857,11 @@ interface AppleProductPage {
   url: string;
   products: AppleProduct[];
 }
+interface AppleTradeInEstimate {
+  device: string;
+  upToUsd: number;
+  sourceUrl: string;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -2871,6 +2876,15 @@ interface AppleProductPage {
      * every schema.org Product block it publishes.
      */
     getProduct(urlOrPath: string): Promise<AppleProductPage>;
+
+    /**
+     * Reads apple.com's own trade-in value table and returns the CEILING ("up to $X")
+     * cash-or-credit estimate it publishes for one device — a human name ("iPhone 14 Pro") or the
+     * slug `phone_trade_in` already normalizes to ("iphone-14-pro") both resolve. Apple publishes
+     * ONE number per device, not a matrix by storage or condition: the value is Apple's advertised
+     * best-case figure, not a quote for a specific unit's actual condition.
+     */
+    getTradeInEstimate(model: string): Promise<AppleTradeInEstimate>;
   }
 }
 
@@ -3819,12 +3833,12 @@ interface BenningtonModel {
 
   /**
    * Bennington's pontoon/tritoon model catalog — length, beam and standard-feature specs read
-   * off each model's own page (S, SX, S-One today).
+   * off each model's own page (S, SX today).
    */
   interface Unit {
     /**
      * Lists Bennington's pontoon/tritoon model series with their published length overall, beam
-     * and feature specs, read off each model's own page. Pass { model: "s-one" } for one model, or
+     * and feature specs, read off each model's own page. Pass { model: "sx" } for one model, or
      * omit args for every known model.
      */
     search(args?: { model?: string }): Promise<{ models: BenningtonModel[]; warnings: string[] }>;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6612b1b871c7e6964f29c22bfdfb4d4c10e4d41e6b85a22fa4c8a800b1f5bcd3
-# 31 capabilities, 251 providers, 636 typed functions, 20 refused.
+# Manifest version: 72d57ce39992c224f64b91b2b3836bbcf5e578d8deed98a40a438ac53d6a5ccf
+# 31 capabilities, 251 providers, 637 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1581,6 +1581,11 @@ class Prv_apple_AppleProduct_Out(TypedDict):
     priceCurrency: str | None
     image: str | None
     description: str | None
+
+class Prv_apple_AppleTradeInEstimate_Out(TypedDict):
+    device: str
+    upToUsd: float
+    sourceUrl: str
 
 class Prv_archipelago_ArchipelagoRelease_Out(TypedDict):
     version: str
@@ -13516,6 +13521,14 @@ class Prv_apple(Protocol):
         returns every schema.org Product block it publishes.
         """
 
+    async def getTradeInEstimate(self, model: str, /) -> Prv_apple_AppleTradeInEstimate_Out:
+        """Reads apple.com's own trade-in value table and returns the CEILING ("up to $X")
+        cash-or-credit estimate it publishes for one device — a human name ("iPhone 14 Pro") or
+        the slug `phone_trade_in` already normalizes to ("iphone-14-pro") both resolve. Apple
+        publishes ONE number per device, not a matrix by storage or condition: the value is
+        Apple's advertised best-case figure, not a quote for a specific unit's actual condition.
+        """
+
 class Prv_archipelago(Protocol):
     """Archipelago — the open-source multiworld/randomizer tool for game speedrunning
     communities. Reads the latest client release straight from GitHub (every platform
@@ -13861,12 +13874,12 @@ class Prv_beatthebomb(Protocol):
 
 class Prv_bennington(Protocol):
     """Bennington's pontoon/tritoon model catalog — length, beam and standard-feature specs
-    read off each model's own page (S, SX, S-One today).
+    read off each model's own page (S, SX today).
     """
 
     async def search(self, args: Prv_bennington_search_args_In | None = None, /) -> Prv_bennington_search_return_Out:
         """Lists Bennington's pontoon/tritoon model series with their published length overall,
-        beam and feature specs, read off each model's own page. Pass { model: "s-one" } for one
+        beam and feature specs, read off each model's own page. Pass { model: "sx" } for one
         model, or omit args for every known model.
         """
 

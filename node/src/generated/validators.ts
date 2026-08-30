@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6612b1b871c7e6964f29c22bfdfb4d4c10e4d41e6b85a22fa4c8a800b1f5bcd3
-// 636 checked, 20 unchecked.
+// Manifest version: 72d57ce39992c224f64b91b2b3836bbcf5e578d8deed98a40a438ac53d6a5ccf
+// 637 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6612b1b871c7e6964f29c22bfdfb4d4c10e4d41e6b85a22fa4c8a800b1f5bcd3",
+  "version": "72d57ce39992c224f64b91b2b3836bbcf5e578d8deed98a40a438ac53d6a5ccf",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -2866,6 +2866,15 @@ export const VALIDATORS: ValidatorTable = {
         "getProduct": [
           {
             "name": "urlOrPath",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTradeInEstimate": [
+          {
+            "name": "model",
             "schema": {
               "k": "string"
             },
