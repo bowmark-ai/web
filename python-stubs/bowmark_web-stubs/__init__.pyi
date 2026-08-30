@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 07d2d576d50baff377fe3ab571edd04edd75e6120e907f926a5bfb727dab5a1c
-# 25 capabilities, 247 providers, 625 typed functions, 20 refused.
+# Manifest version: 52d242c7105ce51198bd7b02b8e2144cd0826dffb3f9d9d7fbf024d3a412bf5a
+# 29 capabilities, 250 providers, 633 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -501,6 +501,25 @@ class Cap_git_commit_history_Commit_Out(TypedDict):
     message: str
     url: str
 
+class Cap_git_release_notes_ReleaseNotesOptions_In(TypedDict):
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Cap_git_release_notes_ReleaseNotesResult_Out(TypedDict):
+    repo: str
+    releases: list[Cap_git_release_notes_Release_Out]
+    warnings: list[str]
+
+class Cap_git_release_notes_Release_Out(TypedDict):
+    tag: str
+    name: str
+    draft: bool
+    prerelease: bool
+    createdAt: str
+    publishedAt: str | None
+    notes: str
+    url: str
+
 class Cap_hotels_HotelQuery_In(TypedDict):
     location: str
     checkIn: str
@@ -786,6 +805,29 @@ class Cap_pcparts_Spec_Out(TypedDict):
     name: str
     value: str
 
+class Cap_pricing_PersonalizationPersona_In(TypedDict):
+    label: str
+    device: NotRequired[Literal["desktop"] | Literal["mobile"]]
+
+class Cap_pricing_PersonalizationCheck_Out(TypedDict):
+    url: str
+    requestedUrl: str
+    reads: list[Cap_pricing_PersonaRead_Out]
+    personalized: bool | None
+    warnings: list[str]
+
+class Cap_pricing_PersonaRead_Out(TypedDict):
+    persona: str
+    status: float
+    ok: bool
+    price: Cap_pricing_PersonaRead_Out_price_u0_Out | None
+    source: Literal["ld+json"] | Literal["none"]
+    error: str | None
+
+class Cap_pricing_PersonaRead_Out_price_u0_Out(TypedDict):
+    amount: float
+    currency: str
+
 class Cap_products_ProductAvailability_Out(TypedDict):
     url: str
     requestedUrl: str
@@ -1048,6 +1090,29 @@ class Cap_text_to_speech_CloneVoiceResult_Out(TypedDict):
     requiresVerification: bool
     warnings: list[str]
 
+class Cap_theme_park_tickets_search_park_u1_In(TypedDict):
+    park: str
+
+class Cap_theme_park_tickets_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_theme_park_tickets_ThemeParkTicketsResult_Out(TypedDict):
+    park: str
+    parkSlug: str
+    parkTitle: str
+    groupLabel: str
+    tickets: list[Cap_theme_park_tickets_TicketOption_Out]
+    warnings: list[str]
+
+class Cap_theme_park_tickets_TicketOption_Out(TypedDict):
+    title: str
+    subtitle: str | None
+    priceAmount: float | None
+    currency: str
+    priceModifier: str | None
+    wasPriceAmount: float | None
+    buyUrl: str | None
+
 class Cap_weather_ForecastResult_Out(TypedDict):
     location: str
     resolvedName: str
@@ -1064,6 +1129,27 @@ class Cap_weather_ForecastDay_Out(TypedDict):
     precipitationMm: float
     weatherCode: float
     summary: str
+
+class Cap_yoga_outfit_shopping_search_options_In(TypedDict):
+    limit: NotRequired[float]
+    timeoutMs: NotRequired[float]
+
+class Cap_yoga_outfit_shopping_YogaOutfitSearchResult_Out(TypedDict):
+    items: list[Cap_yoga_outfit_shopping_YogaOutfitItem_Out]
+    warnings: list[str]
+
+class Cap_yoga_outfit_shopping_YogaOutfitItem_Out(TypedDict):
+    source: str
+    title: str
+    url: str
+    image: str | None
+    priceLow: float | None
+    priceHigh: float | None
+    currency: str | None
+    inStock: bool
+    garmentType: str | None
+    colorFamily: str | None
+    fabrics: list[str]
 
 class Prv_aa_aaBaggageAllowanceArgs_In(TypedDict):
     origin: str
@@ -4794,6 +4880,24 @@ class Prv_github_GithubCommit_Out(TypedDict):
     message: str
     url: str
 
+class Prv_github_GithubListReleasesOptions_In(TypedDict):
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListReleasesResult_Out(TypedDict):
+    releases: list[Prv_github_GithubRelease_Out]
+    warnings: list[str]
+
+class Prv_github_GithubRelease_Out(TypedDict):
+    tag: str
+    name: str
+    draft: bool
+    prerelease: bool
+    createdAt: str
+    publishedAt: str | None
+    notes: str
+    url: str
+
 class Prv_glassesusa_GlassesusaProduct_Out(TypedDict):
     url: str
     title: str
@@ -7365,6 +7469,17 @@ class Prv_maidenhome_MaidenHomeVariantResolution_Out(TypedDict):
     variant: Prv_maidenhome_MaidenHomeVariant_Out | None
     candidates: list[Prv_maidenhome_MaidenHomeVariant_Out]
     message: str
+
+class Prv_marketplace_visualstudio_marketplaceExtensionStats_Out(TypedDict):
+    extensionId: str
+    displayName: str
+    publisherDisplayName: str
+    shortDescription: str
+    version: str
+    lastUpdated: str
+    installCount: float
+    averageRating: float | None
+    ratingCount: float
 
 class Prv_marriott_findHotels_args_In(TypedDict):
     place: str
@@ -10269,6 +10384,22 @@ class Prv_sitmeanssit_SitmeanssitLocation_Out(TypedDict):
     handoffUrl: str
     distanceMiles: float
 
+class Prv_sixflags_SixFlagsTicketsResult_Out(TypedDict):
+    parkSlug: str
+    parkTitle: str
+    groupLabel: str
+    passes: list[Prv_sixflags_SixFlagsPassRow_Out]
+
+class Prv_sixflags_SixFlagsPassRow_Out(TypedDict):
+    id: str | None
+    guestFacingTitle: str
+    subtitle: str | None
+    beforePriceText: str | None
+    currentPrice: str
+    currentPriceModifier: str | None
+    strikethroughPrice: str | None
+    buyUrl: str | None
+
 class Prv_smartsign_SmartsignSearchResult_Out(TypedDict):
     sku: str
     name: str
@@ -10308,6 +10439,43 @@ class Prv_smartwool_SmartwoolSockFinderResult_Out_selections_Out(TypedDict):
 class Prv_smartwool_SmartwoolSockFinderResult_Out_shopLinks_item_Out(TypedDict):
     label: str
     ariaLabel: str
+
+class Prv_smithery_SmitherySearchOptions_In(TypedDict):
+    page: NotRequired[float]
+    pageSize: NotRequired[float]
+    verified: NotRequired[bool]
+    remote: NotRequired[bool]
+    isDeployed: NotRequired[bool]
+    namespace: NotRequired[str]
+
+class Prv_smithery_SmitherySearchResult_Out(TypedDict):
+    servers: list[Prv_smithery_SmitheryServer_Out]
+    pagination: Prv_smithery_SmitherySearchResult_Out_pagination_Out
+    warnings: list[str]
+
+class Prv_smithery_SmitheryServer_Out(TypedDict):
+    id: str
+    qualifiedName: str
+    namespace: str | None
+    slug: str | None
+    displayName: str
+    description: str
+    iconUrl: str | None
+    verified: bool
+    useCount: float
+    remote: bool | None
+    isDeployed: bool
+    createdAt: str
+    homepage: str
+    bySmithery: bool
+    owner: str | None
+    score: float | None
+
+class Prv_smithery_SmitherySearchResult_Out_pagination_Out(TypedDict):
+    currentPage: float
+    pageSize: float
+    totalPages: float
+    totalCount: float
 
 class Prv_solostove_checkBundle_args_In(TypedDict):
     bundleId: str
@@ -12442,6 +12610,27 @@ class Cap_git_commit_history(Protocol):
         real, live answer, and mention in your reply that a different repo can be named.
         """
 
+class Cap_git_release_notes(Protocol):
+    """A git repository's own release notes — tag, name, dates and the release notes text for
+    every release, newest first — from a GitHub URL or a bare owner/repo string. What a
+    changelog or a "what's new" page is built from, in one call. No repo named yet? Call it
+    on microsoft/TypeScript (a real, actively-released public repo) to show a caller the
+    shape of the answer, rather than only asking which repo they meant.
+    """
+
+    async def releaseNotes(self, repo: str, options: Cap_git_release_notes_ReleaseNotesOptions_In | None = None, /) -> Cap_git_release_notes_ReleaseNotesResult_Out:
+        """Returns a public GitHub repository's own release history — each release's tag, display
+        name, draft/prerelease flags, created/published dates, its release notes text (`notes`)
+        and its own page URL — newest first, GitHub's own order. `repo` takes either form: a
+        full URL ("https://github.com/microsoft/TypeScript") or the bare "owner/repo" string.
+        `options.limit` (1-100, default 30) and `options.page` page through history. THROWS a
+        caller-fixable error for a string that is neither shape, or for an owner/repo GitHub
+        does not have (a private repo also reads as not-found, unauthenticated). IF THE CALLER
+        NAMED NO REPO: do not stop to ask — call this immediately with "microsoft/TypeScript" (a
+        real, actively-released public repo) to show a real, live answer, and mention in your
+        reply that a different repo can be named.
+        """
+
 class Cap_hotels(Protocol):
     """Search stays for a place and a date range and get back normalized properties, cheapest
     TOTAL first — the whole-booking price AND the per-room per-night rate, which of the many
@@ -12712,6 +12901,19 @@ class Cap_pcparts(Protocol):
         would misread as "this product has no specs".
         """
 
+class Cap_pricing(Protocol):
+    """Given a product page's url, fetches it once per simulated shopper (desktop vs mobile,
+    each a fresh cookie-less visit) and reports whether the price they'd see differs — never
+    geography, loyalty status or browsing history, which no session it holds can simulate.
+    """
+
+    async def checkPersonalization(self, url: str, personas: Sequence[Cap_pricing_PersonalizationPersona_In] | None = None, /) -> Cap_pricing_PersonalizationCheck_Out:
+        """Reads one product page's price once per persona (default: desktop + mobile, each a fresh
+        cookie-less visit) and reports whether the personas saw different prices. If the caller
+        hasn't named a page yet, run the worked example below — a real, live product page — to
+        demonstrate a genuine comparison, then ask which page to check next.
+        """
+
 class Cap_products(Protocol):
     """Given a product page's url, returns its current price and stock status — reading the
     page's own schema.org markup rather than guessing from the DOM.
@@ -12908,6 +13110,24 @@ class Cap_text_to_speech(Protocol):
         voice's id, which `synthesize`'s `voiceId` then accepts.
         """
 
+class Cap_theme_park_tickets(Protocol):
+    """Reads a Six Flags/Cedar Fair theme park's own ticket page and returns its current pass
+    prices — title, price, any "was" price and a buy link. Covers every park in the merged
+    portfolio (Six Flags Magic Mountain, Cedar Point, Kings Island, Knott's Berry Farm,
+    Carowinds and ~30 more) by name or sixflags.com slug. Disney, Universal and SeaWorld are
+    not covered yet. No login, no purchase.
+    """
+
+    async def search(self, park: str | Cap_theme_park_tickets_search_park_u1_In, options: Cap_theme_park_tickets_CallOptions_In | None = None, /) -> Cap_theme_park_tickets_ThemeParkTicketsResult_Out:
+        """Looks up a Six Flags/Cedar Fair theme park by name (`"Cedar Point"`, `"Six Flags Magic
+        Mountain"`) or sixflags.com slug (`"cedarpoint"`, `"magicmountain"`) and reads its real,
+        current ticket/pass prices — `bowmark.theme_park_tickets.search("Cedar Point")` or `{
+        park: "Cedar Point" }`. Each ticket carries its own title, subtitle, parsed price, any
+        struck-through "was" price and a buy link, exactly as the park's own site is publishing
+        today. Throws naming the closest matches when the park name does not resolve to one of
+        the ~33 parks in the covered portfolio.
+        """
+
 class Cap_weather(Protocol):
     """The daily forecast for any place on earth — high/low, precipitation and conditions,
     geocoded from a plain place name.
@@ -12917,6 +13137,22 @@ class Cap_weather(Protocol):
         """Geocodes a place name and returns its daily forecast (default 5 days, max 16 —
         Open-Meteo's own ceiling). Reports the resolved place name alongside what was asked for,
         since a name like "Springfield" is ambiguous and worth comparing.
+        """
+
+class Cap_yoga_outfit_shopping(Protocol):
+    """Search for a coordinated yoga outfit across lululemon, Beyond Yoga and Alo Yoga in one
+    call — one normalized row shape per product, with each retailer's own published garment
+    type, colour family and fabric names carried through so a caller can spot a plausible
+    top-and-bottom pair. Never a claim that any retailer sold two items as a set.
+    """
+
+    async def search(self, query: str, options: Cap_yoga_outfit_shopping_search_options_In | None = None, /) -> Cap_yoga_outfit_shopping_YogaOutfitSearchResult_Out:
+        """Fans out one free-text query to lululemon, Beyond Yoga and Alo Yoga in parallel and
+        returns every match as one normalized row per product. `limit` (default 8, max 24)
+        applies PER RETAILER, so a caller asking for 5 gets up to 5 rows from EACH of the three,
+        not 5 total. A retailer that times out or errors is named in `warnings`, never silently
+        absent; all three failing throws `AllProvidersFailedError` instead of returning an empty
+        result, which would be indistinguishable from 'nobody sells this'.
         """
 
 class Prv_aa(Protocol):
@@ -15466,7 +15702,8 @@ class Prv_geico(Protocol):
 
 class Prv_github(Protocol):
     """GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
-    message), paged and windowed. Declared, not yet built: repo metadata (getRepo).
+    message), paged and windowed; a public repo's release history (tag, name, dates, release
+    notes text), paged. Declared, not yet built: repo metadata (getRepo).
     """
 
     async def listCommits(self, owner: str, repo: str, options: Prv_github_GithubListCommitsOptions_In | None = None, /) -> Prv_github_GithubListCommitsResult_Out:
@@ -15479,6 +15716,18 @@ class Prv_github(Protocol):
         something this provider adds. THROWS on an unknown owner/repo (404) or a rate limit
         (403/429); a repo with no commits yet (409, GitHub's own empty-history response) returns
         `commits: []`, not a throw.
+        """
+
+    async def listReleases(self, owner: str, repo: str, options: Prv_github_GithubListReleasesOptions_In | None = None, /) -> Prv_github_GithubListReleasesResult_Out:
+        """Returns a public repo's release history off GitHub's own unauthenticated REST releases
+        endpoint — each release's tag, name, draft/prerelease flags, created/published dates,
+        its release notes text (`notes`) and its own github.com URL. This is a project's own
+        release notes documentation — `listReleases("microsoft", "TypeScript")` returns the
+        TypeScript compiler's. `options.per_page` (GitHub's own 1-100 ceiling, default 30) and
+        `options.page` page through history, newest first (GitHub's own ordering).
+        Unauthenticated calls are capped at 60 requests/hour per IP, the same shared ceiling
+        `listCommits` spends against. THROWS on an unknown owner/repo (404) or a rate limit
+        (403/429); a repo with no releases yet returns `releases: []`, not a throw.
         """
 
 class Prv_glassesusa(Protocol):
@@ -17343,6 +17592,21 @@ class Prv_mailchimp(Protocol):
     # It is CALLABLE at runtime; `bowmark.providers.mailchimp.getPlanPricing` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
+class Prv_marketplace_visualstudio(Protocol):
+    """The VS Code Marketplace — look up one extension by its publisher.name id and get its
+    install count, rating and latest version, the numbers the extension's own Marketplace
+    page shows.
+    """
+
+    async def getExtensionStats(self, extensionId: str, /) -> Prv_marketplace_visualstudio_marketplaceExtensionStats_Out:
+        """Looks up one VS Code extension by its "publisher.name" id — the id shown in the
+        extension's own Marketplace URL (e.g. "ms-python.python" for
+        marketplace.visualstudio.com/items?itemName=ms-python.python) and in `code
+        --list-extensions` — and returns its install count, average rating, rating count, latest
+        published version and when that version last updated. Throws if the id does not match
+        any published extension.
+        """
+
 class Prv_marriott(Protocol):
     """Marriott Bonvoy hotel search, award availability, reservations and property details."""
 
@@ -19151,6 +19415,21 @@ class Prv_sitmeanssit(Protocol):
         with its real contact name, phone, reciprocity level and a handoff URL.
         """
 
+class Prv_sixflags(Protocol):
+    """Reads a Six Flags/Cedar Fair park's own daily-tickets page — every park in the merged
+    portfolio (Six Flags Magic Mountain, Cedar Point, Kings Island, Knott's Berry Farm,
+    Carowinds and ~30 more) runs on one shared site — and returns its current ticket/pass
+    cards straight out of the page's own server-rendered data, no browser.
+    """
+
+    async def getTickets(self, park: str, /) -> Prv_sixflags_SixFlagsTicketsResult_Out:
+        """Reads a Six Flags/Cedar Fair park's own daily-tickets page by its sixflags.com URL slug
+        (e.g. `"cedarpoint"`, `"greatadventure"`, `"magicmountain"`, `"knotts"`) and returns its
+        ticket/pass cards exactly as published today — title, subtitle, raw price text (the site
+        renders it as `"$$55"`, i.e. `"$" + "$55"`), any "was" price, and a buy/learn-more link.
+        Throws if the slug does not resolve to a real park page on the site.
+        """
+
 class Prv_smartsign(Protocol):
     """Reads SmartSign's custom-sign template configurator — search for a template, then read
     its real per-material live pricing and volume-discount ladder — straight from
@@ -19181,6 +19460,23 @@ class Prv_smartwool(Protocol):
     async def getSockRecommendation(self, activity: str, type: str, sockHeight: str, cushion: str, style: str, size: str, /) -> Prv_smartwool_SmartwoolSockFinderResult_Out:
         """Runs Smartwool's own Sock Finder quiz with the given answers and returns the computed
         sock recommendation — the exact same result a shopper would see, no email required.
+        """
+
+class Prv_smithery(Protocol):
+    """Smithery's own registry REST API, keyless. Built: full-text/semantic search over listed
+    MCP servers, returning each server's qualified name, description, verification status,
+    deploy status and use count.
+    """
+
+    async def search(self, query: str, options: Prv_smithery_SmitherySearchOptions_In | None = None, /) -> Prv_smithery_SmitherySearchResult_Out:
+        """Full-text/semantic search over Smithery's public MCP server registry. Pass a qualified
+        name (e.g. "lama/demo-mcp"), a slug, or a keyword as `query` — a known qualified name
+        resolves as the top hit. Each returned server carries `verified` (Smithery's own
+        verification badge), `isDeployed`, `useCount`, `homepage` and `description`.
+        `options.verified`/`options.remote`/`options.isDeployed`/`options.namespace` filter the
+        search; `options.page`/`options.pageSize` page through results (Smithery's own default
+        10, max 100 per page). THROWS on a non-2xx response (e.g. rate limiting); an empty
+        `servers` array is a legitimate answer for a query that matches nothing, not a throw.
         """
 
 class Prv_solostove(Protocol):
@@ -19478,12 +19774,13 @@ class Prv_tamarackidaho(Protocol):
         """Searches Tamarack Resort's own direct-managed lodging (the Lodge at Osprey Meadows, the
         Village at Tamarack Resort, and Tamarack Homes and Cottages — not the golf tee-time
         flow, a different vendor) for a stay and party size. `arrivalDate`/`departureDate` are
-        "MM/DD/YYYY" strings (the widget's own format), `adultCount` is required and positive,
-        `childCount` defaults to 0. Returns every unit type Tamarack's own booking engine
-        (Inntopia RTP) currently prices as AVAILABLE for that exact query — each with its
-        supplier (property), unit name, and `totalPrice` in USD for the whole queried stay (not
-        nightly) — genuinely computed per call, not a cached listing. An empty `units` array is
-        a real answer: Tamarack has nothing available for that stay, not a failure.
+        "YYYY-MM-DD" strings (the site's own "MM/DD/YYYY" is accepted as well and echoed back
+        unchanged), `adultCount` is required and positive, `childCount` defaults to 0. Returns
+        every unit type Tamarack's own booking engine (Inntopia RTP) currently prices as
+        AVAILABLE for that exact query — each with its supplier (property), unit name, and
+        `totalPrice` in USD for the whole queried stay (not nightly) — genuinely computed per
+        call, not a cached listing. An empty `units` array is a real answer: Tamarack has
+        nothing available for that stay, not a failure.
         """
 
 class Prv_target(Protocol):
@@ -20152,19 +20449,21 @@ class Prv_villagerealtyobx(Protocol):
         """Searches Village Realty's own 900+ Outer Banks rental listings the way
         villagerealtyobx.com/outer-banks-vacation-rentals does — filter by town (e.g. "Corolla",
         "Nags Head"), exact bedroom count, amenities (e.g. "Private Pool", "Elevator"), and
-        optionally a date range — returning each matching property's id, name, town, address,
-        bedroom count, max guests and detail-page URL. Call getQuote with a result's propertyID
-        for a real priced quote.
+        optionally a date range (`checkin`/`checkout` as `YYYY-MM-DD`) — returning each matching
+        property's id, name, town, address, bedroom count, max guests and detail-page URL. Call
+        getQuote with a result's propertyID for a real priced quote.
         """
 
     async def getQuote(self, args: Prv_villagerealtyobx_getQuote_args_In, /) -> Prv_villagerealtyobx_VillagerealtyobxQuote_Out:
         """Gets a real-time price quote for one Village Realty property and date range — the exact
         server-computed rent, taxes and total the rental detail page shows after picking dates,
-        plus the book-now URL. `checkin`/`checkout` are `MM/DD/YYYY`. `available: false` is a
-        genuine site answer (e.g. the dates fail the property's minimum-night-stay rule), not an
-        error — this is the flow ChatGPT itself cannot operate today: asked to price a Village
-        Realty stay it answers "I can't complete the booking or take payment for you" and
-        recommends competitor sites instead of quoting Village Realty's own live price.
+        plus the book-now URL. `checkin`/`checkout` are `YYYY-MM-DD` (the site's own
+        `MM/DD/YYYY` is accepted too, and whichever you pass is echoed back unchanged).
+        `available: false` is a genuine site answer (e.g. the dates fail the property's
+        minimum-night-stay rule), not an error — this is the flow ChatGPT itself cannot operate
+        today: asked to price a Village Realty stay it answers "I can't complete the booking or
+        take payment for you" and recommends competitor sites instead of quoting Village
+        Realty's own live price.
         """
 
 class Prv_visible(Protocol):
@@ -20617,6 +20916,7 @@ class BowmarkProviders(Protocol):
     lululemon: Prv_lululemon
     maidenhome: Prv_maidenhome
     mailchimp: Prv_mailchimp
+    marketplace_visualstudio: Prv_marketplace_visualstudio
     marriott: Prv_marriott
     mcdonalds: Prv_mcdonalds
     mcp_registry: Prv_mcp_registry
@@ -20672,8 +20972,10 @@ class BowmarkProviders(Protocol):
     sellcell: Prv_sellcell
     semihandmade: Prv_semihandmade
     sitmeanssit: Prv_sitmeanssit
+    sixflags: Prv_sixflags
     smartsign: Prv_smartsign
     smartwool: Prv_smartwool
+    smithery: Prv_smithery
     solostove: Prv_solostove
     soundcloud: Prv_soundcloud
     starlighthomes: Prv_starlighthomes
@@ -20736,6 +21038,7 @@ class Bowmark(Protocol):
     flights: Cap_flights
     game_soundtrack_composer_credits: Cap_game_soundtrack_composer_credits
     git_commit_history: Cap_git_commit_history
+    git_release_notes: Cap_git_release_notes
     hotels: Cap_hotels
     hvac: Cap_hvac
     insurance: Cap_insurance
@@ -20743,6 +21046,7 @@ class Bowmark(Protocol):
     mcp_registry: Cap_mcp_registry
     music: Cap_music
     pcparts: Cap_pcparts
+    pricing: Cap_pricing
     products: Cap_products
     promocodes: Cap_promocodes
     read: Cap_read
@@ -20752,5 +21056,7 @@ class Bowmark(Protocol):
     shipping: Cap_shipping
     tariff: Cap_tariff
     text_to_speech: Cap_text_to_speech
+    theme_park_tickets: Cap_theme_park_tickets
     weather: Cap_weather
+    yoga_outfit_shopping: Cap_yoga_outfit_shopping
     providers: BowmarkProviders

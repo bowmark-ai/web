@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 07d2d576d50baff377fe3ab571edd04edd75e6120e907f926a5bfb727dab5a1c
-// 25 capabilities, 247 providers, 643 typed functions, 20 refused.
+// Manifest version: 52d242c7105ce51198bd7b02b8e2144cd0826dffb3f9d9d7fbf024d3a412bf5a
+// 29 capabilities, 250 providers, 651 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -588,6 +588,58 @@ type CallOptions = {
      * live answer, and mention in your reply that a different repo can be named.
      */
     commitHistory(repo: string, options?: CommitHistoryOptions): Promise<CommitHistoryResult>;
+  }
+}
+
+declare namespace BowmarkCapability_git_release_notes {
+  // ── Git release notes — the unit's own declarations, verbatim ──
+interface Release {
+  tag: string             // the repo's own tag, e.g. "v7.0.2"
+  name: string             // display name, falls back to the tag when blank
+  draft: boolean
+  prerelease: boolean
+  createdAt: string       // ISO 8601
+  publishedAt: string | null  // ISO 8601, null for a draft never published
+  notes: string             // the release notes text, in the host's own markdown
+  url: string               // the release's own page on the host
+}
+interface ReleaseNotesOptions {
+  limit?: number            // 1-100, default 30
+  page?: number              // 1-based, for paging past limit
+}
+interface ReleaseNotesResult {
+  repo: string               // resolved as "owner/repo", however it was passed
+  releases: Release[]
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * A git repository's own release notes — tag, name, dates and the release notes text for every
+   * release, newest first — from a GitHub URL or a bare owner/repo string. What a changelog or a
+   * "what's new" page is built from, in one call. No repo named yet? Call it on
+   * microsoft/TypeScript (a real, actively-released public repo) to show a caller the shape of
+   * the answer, rather than only asking which repo they meant.
+   */
+  interface Unit {
+    /**
+     * Returns a public GitHub repository's own release history — each release's tag, display name,
+     * draft/prerelease flags, created/published dates, its release notes text (`notes`) and its
+     * own page URL — newest first, GitHub's own order. `repo` takes either form: a full URL
+     * ("https://github.com/microsoft/TypeScript") or the bare "owner/repo" string. `options.limit`
+     * (1-100, default 30) and `options.page` page through history. THROWS a caller-fixable error
+     * for a string that is neither shape, or for an owner/repo GitHub does not have (a private
+     * repo also reads as not-found, unauthenticated). IF THE CALLER NAMED NO REPO: do not stop to
+     * ask — call this immediately with "microsoft/TypeScript" (a real, actively-released public
+     * repo) to show a real, live answer, and mention in your reply that a different repo can be
+     * named.
+     */
+    releaseNotes(repo: string, options?: ReleaseNotesOptions): Promise<ReleaseNotesResult>;
   }
 }
 
@@ -1244,6 +1296,44 @@ type ProductResult = {
   }
 }
 
+declare namespace BowmarkCapability_pricing {
+  // ── Check whether a product page quotes a different price to different shoppers — the unit's own declarations, verbatim ──
+interface PersonalizationPersona {
+  label: string
+  device?: "desktop" | "mobile"   // defaults to "desktop"
+}
+interface PersonaRead {
+  persona: string
+  status: number
+  ok: boolean
+  price: { amount: number; currency: string } | null   // integer minor units
+  source: "ld+json" | "none"
+  error: string | null
+}
+interface PersonalizationCheck {
+  url: string
+  requestedUrl: string
+  reads: PersonaRead[]
+  personalized: boolean | null   // null when fewer than 2 personas produced a comparable price
+  warnings: string[]
+}
+
+  /**
+   * Given a product page's url, fetches it once per simulated shopper (desktop vs mobile, each a
+   * fresh cookie-less visit) and reports whether the price they'd see differs — never geography,
+   * loyalty status or browsing history, which no session it holds can simulate.
+   */
+  interface Unit {
+    /**
+     * Reads one product page's price once per persona (default: desktop + mobile, each a fresh
+     * cookie-less visit) and reports whether the personas saw different prices. If the caller
+     * hasn't named a page yet, run the worked example below — a real, live product page — to
+     * demonstrate a genuine comparison, then ask which page to check next.
+     */
+    checkPersonalization(url: string, personas?: PersonalizationPersona[]): Promise<PersonalizationCheck>;
+  }
+}
+
 declare namespace BowmarkCapability_products {
   // ── Check a product page's price and stock availability — the unit's own declarations, verbatim ──
 interface ProductAvailability {
@@ -1772,6 +1862,53 @@ type CallOptions = {
   }
 }
 
+declare namespace BowmarkCapability_theme_park_tickets {
+  // ── Theme park tickets — the unit's own declarations, verbatim ──
+type TicketOption = {
+  title: string                    // e.g. "Park Ticket", "2027 Gold Pass"
+  subtitle: string | null
+  priceAmount: number | null       // parsed from the site's own price text; null when it didn't parse
+  currency: string                 // ISO 4217, always "USD" today
+  priceModifier: string | null     // e.g. "/ea*", "per night" — null for a flat one-time price
+  wasPriceAmount: number | null    // the struck-through "was" price, same parsing — null when absent
+  buyUrl: string | null            // where to actually buy — a checkout flow is out of scope here
+}
+type ThemeParkTicketsResult = {
+  park: string          // the park name or slug the caller passed
+  parkSlug: string
+  parkTitle: string
+  groupLabel: string    // the site's own section label, e.g. "Daily Tickets"
+  tickets: TicketOption[]
+  warnings: string[]    // always present; empty when nothing was dropped
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Reads a Six Flags/Cedar Fair theme park's own ticket page and returns its current pass
+   * prices — title, price, any "was" price and a buy link. Covers every park in the merged
+   * portfolio (Six Flags Magic Mountain, Cedar Point, Kings Island, Knott's Berry Farm,
+   * Carowinds and ~30 more) by name or sixflags.com slug. Disney, Universal and SeaWorld are not
+   * covered yet. No login, no purchase.
+   */
+  interface Unit {
+    /**
+     * Looks up a Six Flags/Cedar Fair theme park by name (`"Cedar Point"`, `"Six Flags Magic
+     * Mountain"`) or sixflags.com slug (`"cedarpoint"`, `"magicmountain"`) and reads its real,
+     * current ticket/pass prices — `bowmark.theme_park_tickets.search("Cedar Point")` or `{ park:
+     * "Cedar Point" }`. Each ticket carries its own title, subtitle, parsed price, any
+     * struck-through "was" price and a buy link, exactly as the park's own site is publishing
+     * today. Throws naming the closest matches when the park name does not resolve to one of the
+     * ~33 parks in the covered portfolio.
+     */
+    search(park: string | { park: string }, options?: CallOptions): Promise<ThemeParkTicketsResult>;
+  }
+}
+
 declare namespace BowmarkCapability_weather {
   // ── Weather forecast for a place — the unit's own declarations, verbatim ──
 
@@ -1805,6 +1942,53 @@ interface ForecastResult {
      * like "Springfield" is ambiguous and worth comparing.
      */
     forecast(location: string, days?: number): Promise<ForecastResult>;
+  }
+}
+
+declare namespace BowmarkCapability_yoga_outfit_shopping {
+  // ── Coordinated yoga outfit shopping — the unit's own declarations, verbatim ──
+interface YogaOutfitItem {
+  source: string              // "lululemon" | "beyondyoga" | "aloyoga"
+  title: string
+  url: string
+  image: string | null        // null when the leg carries none (lululemon's search rows never do)
+  priceLow: number | null
+  priceHigh: number | null
+  currency: string | null     // null when the leg doesn't publish one (lululemon's search door never does)
+  inStock: boolean
+  garmentType: string | null  // the retailer's OWN published label, transcribed — null if the leg
+                              // doesn't publish one (lululemon never does; the Shopify legs' search
+                              // door doesn't either, only getProduct's REST door does)
+  colorFamily: string | null  // shared-colour evidence — null for lululemon
+  fabrics: string[]           // retailer-published fabric names — [] for lululemon
+}
+interface YogaOutfitSearchResult {
+  items: YogaOutfitItem[]
+  warnings: string[]   // always present. Names a retailer that timed out or errored;
+                       // ALL THREE dead throws instead of returning an empty result
+}
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Search for a coordinated yoga outfit across lululemon, Beyond Yoga and Alo Yoga in one call
+   * — one normalized row shape per product, with each retailer's own published garment type,
+   * colour family and fabric names carried through so a caller can spot a plausible
+   * top-and-bottom pair. Never a claim that any retailer sold two items as a set.
+   */
+  interface Unit {
+    /**
+     * Fans out one free-text query to lululemon, Beyond Yoga and Alo Yoga in parallel and returns
+     * every match as one normalized row per product. `limit` (default 8, max 24) applies PER
+     * RETAILER, so a caller asking for 5 gets up to 5 rows from EACH of the three, not 5 total. A
+     * retailer that times out or errors is named in `warnings`, never silently absent; all three
+     * failing throws `AllProvidersFailedError` instead of returning an empty result, which would
+     * be indistinguishable from 'nobody sells this'.
+     */
+    search(query: string, options?: { limit?: number; timeoutMs?: number }): Promise<YogaOutfitSearchResult>;
   }
 }
 
@@ -8915,10 +9099,29 @@ interface GithubListCommitsResult {
   commits: GithubCommit[];
   warnings: string[];
 }
+interface GithubRelease {
+  tag: string;
+  name: string;
+  draft: boolean;
+  prerelease: boolean;
+  createdAt: string;
+  publishedAt: string | null;
+  notes: string;
+  url: string;
+}
+interface GithubListReleasesOptions {
+  per_page?: number;
+  page?: number;
+}
+interface GithubListReleasesResult {
+  releases: GithubRelease[];
+  warnings: string[];
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
-   * message), paged and windowed. Declared, not yet built: repo metadata (getRepo).
+   * message), paged and windowed; a public repo's release history (tag, name, dates, release
+   * notes text), paged. Declared, not yet built: repo metadata (getRepo).
    */
   interface Unit {
     /**
@@ -8933,6 +9136,19 @@ interface GithubListCommitsResult {
      * throw.
      */
     listCommits(owner: string, repo: string, options?: GithubListCommitsOptions): Promise<GithubListCommitsResult>;
+
+    /**
+     * Returns a public repo's release history off GitHub's own unauthenticated REST releases
+     * endpoint — each release's tag, name, draft/prerelease flags, created/published dates, its
+     * release notes text (`notes`) and its own github.com URL. This is a project's own release
+     * notes documentation — `listReleases("microsoft", "TypeScript")` returns the TypeScript
+     * compiler's. `options.per_page` (GitHub's own 1-100 ceiling, default 30) and `options.page`
+     * page through history, newest first (GitHub's own ordering). Unauthenticated calls are capped
+     * at 60 requests/hour per IP, the same shared ceiling `listCommits` spends against. THROWS on
+     * an unknown owner/repo (404) or a rate limit (403/429); a repo with no releases yet returns
+     * `releases: []`, not a throw.
+     */
+    listReleases(owner: string, repo: string, options?: GithubListReleasesOptions): Promise<GithubListReleasesResult>;
   }
 }
 
@@ -14223,6 +14439,37 @@ interface mailchimpPlanPricing {
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.mailchimp.getPlanPricing` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+  }
+}
+
+declare namespace BowmarkProvider_marketplace_visualstudio {
+  // ── Visual Studio Code Marketplace — the unit's own declarations, verbatim ──
+interface marketplaceExtensionStats {
+  extensionId: string;
+  displayName: string;
+  publisherDisplayName: string;
+  shortDescription: string;
+  version: string;
+  lastUpdated: string;
+  installCount: number;
+  averageRating: number | null;
+  ratingCount: number;
+}
+
+  /**
+   * The VS Code Marketplace — look up one extension by its publisher.name id and get its install
+   * count, rating and latest version, the numbers the extension's own Marketplace page shows.
+   */
+  interface Unit {
+    /**
+     * Looks up one VS Code extension by its "publisher.name" id — the id shown in the extension's
+     * own Marketplace URL (e.g. "ms-python.python" for
+     * marketplace.visualstudio.com/items?itemName=ms-python.python) and in `code
+     * --list-extensions` — and returns its install count, average rating, rating count, latest
+     * published version and when that version last updated. Throws if the id does not match any
+     * published extension.
+     */
+    getExtensionStats(extensionId: string): Promise<marketplaceExtensionStats>;
   }
 }
 
@@ -19607,6 +19854,43 @@ interface SitmeanssitNearestLocationsResult {
   }
 }
 
+declare namespace BowmarkProvider_sixflags {
+  // ── Six Flags — the unit's own declarations, verbatim ──
+interface SixFlagsPassRow {
+  id: string | null;
+  guestFacingTitle: string;   // e.g. "Park Ticket", "2027 Gold Pass"
+  subtitle: string | null;
+  beforePriceText: string | null;   // e.g. "Starting From", "Only"
+  currentPrice: string;             // the site's raw text, e.g. "$$55"
+  currentPriceModifier: string | null;   // e.g. "/ea*", "per night"
+  strikethroughPrice: string | null;     // the struck-through "was" price
+  buyUrl: string | null;
+}
+interface SixFlagsTicketsResult {
+  parkSlug: string;
+  parkTitle: string;
+  groupLabel: string;         // e.g. "Daily Tickets"
+  passes: SixFlagsPassRow[];
+}
+
+  /**
+   * Reads a Six Flags/Cedar Fair park's own daily-tickets page — every park in the merged
+   * portfolio (Six Flags Magic Mountain, Cedar Point, Kings Island, Knott's Berry Farm,
+   * Carowinds and ~30 more) runs on one shared site — and returns its current ticket/pass cards
+   * straight out of the page's own server-rendered data, no browser.
+   */
+  interface Unit {
+    /**
+     * Reads a Six Flags/Cedar Fair park's own daily-tickets page by its sixflags.com URL slug
+     * (e.g. `"cedarpoint"`, `"greatadventure"`, `"magicmountain"`, `"knotts"`) and returns its
+     * ticket/pass cards exactly as published today — title, subtitle, raw price text (the site
+     * renders it as `"$$55"`, i.e. `"$" + "$55"`), any "was" price, and a buy/learn-more link.
+     * Throws if the slug does not resolve to a real park page on the site.
+     */
+    getTickets(park: string): Promise<SixFlagsTicketsResult>;
+  }
+}
+
 declare namespace BowmarkProvider_smartsign {
   // ── SmartSign — the unit's own declarations, verbatim ──
 interface SmartsignSearchResult {
@@ -19680,6 +19964,60 @@ interface SmartwoolSockFinderResult {
      * recommendation — the exact same result a shopper would see, no email required.
      */
     getSockRecommendation(activity: string, type: string, sockHeight: string, cushion: string, style: string, size: string): Promise<SmartwoolSockFinderResult>;
+  }
+}
+
+declare namespace BowmarkProvider_smithery {
+  // ── Smithery — the unit's own declarations, verbatim ──
+interface SmitheryServer {
+  id: string;
+  qualifiedName: string;
+  namespace: string | null;
+  slug: string | null;
+  displayName: string;
+  description: string;
+  iconUrl: string | null;
+  verified: boolean;
+  useCount: number;
+  remote: boolean | null;
+  isDeployed: boolean;
+  createdAt: string;
+  homepage: string;
+  bySmithery: boolean;
+  owner: string | null;
+  score: number | null;
+}
+interface SmitherySearchOptions {
+  page?: number;
+  pageSize?: number;
+  verified?: boolean;
+  remote?: boolean;
+  isDeployed?: boolean;
+  namespace?: string;
+}
+interface SmitherySearchResult {
+  servers: SmitheryServer[];
+  pagination: { currentPage: number; pageSize: number; totalPages: number; totalCount: number };
+  warnings: string[];
+}
+
+  /**
+   * Smithery's own registry REST API, keyless. Built: full-text/semantic search over listed MCP
+   * servers, returning each server's qualified name, description, verification status, deploy
+   * status and use count.
+   */
+  interface Unit {
+    /**
+     * Full-text/semantic search over Smithery's public MCP server registry. Pass a qualified name
+     * (e.g. "lama/demo-mcp"), a slug, or a keyword as `query` — a known qualified name resolves as
+     * the top hit. Each returned server carries `verified` (Smithery's own verification badge),
+     * `isDeployed`, `useCount`, `homepage` and `description`.
+     * `options.verified`/`options.remote`/`options.isDeployed`/`options.namespace` filter the
+     * search; `options.page`/`options.pageSize` page through results (Smithery's own default 10,
+     * max 100 per page). THROWS on a non-2xx response (e.g. rate limiting); an empty `servers`
+     * array is a legitimate answer for a query that matches nothing, not a throw.
+     */
+    search(query: string, options?: SmitherySearchOptions): Promise<SmitherySearchResult>;
   }
 }
 
@@ -20503,13 +20841,13 @@ interface tamarackidahoUnit {
     /**
      * Searches Tamarack Resort's own direct-managed lodging (the Lodge at Osprey Meadows, the
      * Village at Tamarack Resort, and Tamarack Homes and Cottages — not the golf tee-time flow, a
-     * different vendor) for a stay and party size. `arrivalDate`/`departureDate` are "MM/DD/YYYY"
-     * strings (the widget's own format), `adultCount` is required and positive, `childCount`
-     * defaults to 0. Returns every unit type Tamarack's own booking engine (Inntopia RTP)
-     * currently prices as AVAILABLE for that exact query — each with its supplier (property), unit
-     * name, and `totalPrice` in USD for the whole queried stay (not nightly) — genuinely computed
-     * per call, not a cached listing. An empty `units` array is a real answer: Tamarack has
-     * nothing available for that stay, not a failure.
+     * different vendor) for a stay and party size. `arrivalDate`/`departureDate` are "YYYY-MM-DD"
+     * strings (the site's own "MM/DD/YYYY" is accepted as well and echoed back unchanged),
+     * `adultCount` is required and positive, `childCount` defaults to 0. Returns every unit type
+     * Tamarack's own booking engine (Inntopia RTP) currently prices as AVAILABLE for that exact
+     * query — each with its supplier (property), unit name, and `totalPrice` in USD for the whole
+     * queried stay (not nightly) — genuinely computed per call, not a cached listing. An empty
+     * `units` array is a real answer: Tamarack has nothing available for that stay, not a failure.
      */
     searchLodging(args: tamarackidahoSearchArgs): Promise<tamarackidahoSearchResult>;
   }
@@ -22267,20 +22605,21 @@ interface VillagerealtyobxQuote {
      * Searches Village Realty's own 900+ Outer Banks rental listings the way
      * villagerealtyobx.com/outer-banks-vacation-rentals does — filter by town (e.g. "Corolla",
      * "Nags Head"), exact bedroom count, amenities (e.g. "Private Pool", "Elevator"), and
-     * optionally a date range — returning each matching property's id, name, town, address,
-     * bedroom count, max guests and detail-page URL. Call getQuote with a result's propertyID for
-     * a real priced quote.
+     * optionally a date range (`checkin`/`checkout` as `YYYY-MM-DD`) — returning each matching
+     * property's id, name, town, address, bedroom count, max guests and detail-page URL. Call
+     * getQuote with a result's propertyID for a real priced quote.
      */
     searchRentals(args?: { town?: string, bedrooms?: number, amenities?: string[], checkin?: string, checkout?: string, page?: number }): Promise<VillagerealtyobxListing[]>;
 
     /**
      * Gets a real-time price quote for one Village Realty property and date range — the exact
      * server-computed rent, taxes and total the rental detail page shows after picking dates, plus
-     * the book-now URL. `checkin`/`checkout` are `MM/DD/YYYY`. `available: false` is a genuine
-     * site answer (e.g. the dates fail the property's minimum-night-stay rule), not an error —
-     * this is the flow ChatGPT itself cannot operate today: asked to price a Village Realty stay
-     * it answers "I can't complete the booking or take payment for you" and recommends competitor
-     * sites instead of quoting Village Realty's own live price.
+     * the book-now URL. `checkin`/`checkout` are `YYYY-MM-DD` (the site's own `MM/DD/YYYY` is
+     * accepted too, and whichever you pass is echoed back unchanged). `available: false` is a
+     * genuine site answer (e.g. the dates fail the property's minimum-night-stay rule), not an
+     * error — this is the flow ChatGPT itself cannot operate today: asked to price a Village
+     * Realty stay it answers "I can't complete the booking or take payment for you" and recommends
+     * competitor sites instead of quoting Village Realty's own live price.
      */
     getQuote(args: { propertyID: string, checkin: string, checkout: string }): Promise<VillagerealtyobxQuote>;
   }
@@ -24117,6 +24456,7 @@ interface BowmarkProviders {
   lululemon: BowmarkProvider_lululemon.Unit;
   maidenhome: BowmarkProvider_maidenhome.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;
+  marketplace_visualstudio: BowmarkProvider_marketplace_visualstudio.Unit;
   marriott: BowmarkProvider_marriott.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
   mcp_registry: BowmarkProvider_mcp_registry.Unit;
@@ -24172,8 +24512,10 @@ interface BowmarkProviders {
   sellcell: BowmarkProvider_sellcell.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
+  sixflags: BowmarkProvider_sixflags.Unit;
   smartsign: BowmarkProvider_smartsign.Unit;
   smartwool: BowmarkProvider_smartwool.Unit;
+  smithery: BowmarkProvider_smithery.Unit;
   solostove: BowmarkProvider_solostove.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
@@ -75950,6 +76292,7 @@ interface BowmarkLibrary {
   flights: BowmarkCapability_flights.Unit;
   game_soundtrack_composer_credits: BowmarkCapability_game_soundtrack_composer_credits.Unit;
   git_commit_history: BowmarkCapability_git_commit_history.Unit;
+  git_release_notes: BowmarkCapability_git_release_notes.Unit;
   hotels: BowmarkCapability_hotels.Unit;
   hvac: BowmarkCapability_hvac.Unit;
   insurance: BowmarkCapability_insurance.Unit;
@@ -75957,6 +76300,7 @@ interface BowmarkLibrary {
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
+  pricing: BowmarkCapability_pricing.Unit;
   products: BowmarkCapability_products.Unit;
   promocodes: BowmarkCapability_promocodes.Unit;
   read: BowmarkCapability_read.Unit;
@@ -75966,6 +76310,8 @@ interface BowmarkLibrary {
   shipping: BowmarkCapability_shipping.Unit;
   tariff: BowmarkCapability_tariff.Unit;
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
+  theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;
   weather: BowmarkCapability_weather.Unit;
+  yoga_outfit_shopping: BowmarkCapability_yoga_outfit_shopping.Unit;
   providers: BowmarkProviders;
 }

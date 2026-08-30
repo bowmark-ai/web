@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 07d2d576d50baff377fe3ab571edd04edd75e6120e907f926a5bfb727dab5a1c
-// 625 checked, 20 unchecked.
+// Manifest version: 52d242c7105ce51198bd7b02b8e2144cd0826dffb3f9d9d7fbf024d3a412bf5a
+// 633 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "07d2d576d50baff377fe3ab571edd04edd75e6120e907f926a5bfb727dab5a1c",
+  "version": "52d242c7105ce51198bd7b02b8e2144cd0826dffb3f9d9d7fbf024d3a412bf5a",
   "units": {
     "cars": {
       "defs": {
@@ -641,30 +641,9 @@ export const VALIDATORS: ValidatorTable = {
     },
     "git": {
       "defs": {
-        "CommitHistoryOptions": {
+        "ReleaseNotesOptions": {
           "k": "object",
           "props": [
-            {
-              "name": "ref",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "since",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "until",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
             {
               "name": "limit",
               "schema": {
@@ -683,7 +662,7 @@ export const VALIDATORS: ValidatorTable = {
         }
       },
       "functions": {
-        "commitHistory": [
+        "releaseNotes": [
           {
             "name": "repo",
             "schema": {
@@ -695,7 +674,7 @@ export const VALIDATORS: ValidatorTable = {
             "name": "options",
             "schema": {
               "k": "ref",
-              "name": "CommitHistoryOptions"
+              "name": "ReleaseNotesOptions"
             },
             "optional": true
           }
@@ -1438,6 +1417,61 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "pricing": {
+      "defs": {
+        "PersonalizationPersona": {
+          "k": "object",
+          "props": [
+            {
+              "name": "label",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "device",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "desktop"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mobile"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "checkPersonalization": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "personas",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "ref",
+                "name": "PersonalizationPersona"
+              }
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "products": {
       "defs": {},
       "functions": {
@@ -2064,6 +2098,58 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "theme_park_tickets": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "park",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "park",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "weather": {
       "defs": {},
       "functions": {
@@ -2079,6 +2165,43 @@ export const VALIDATORS: ValidatorTable = {
             "name": "days",
             "schema": {
               "k": "number"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "yoga_outfit_shopping": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "timeoutMs",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": true
           }
@@ -7595,6 +7718,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "GithubListReleasesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -7618,6 +7760,30 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GithubListCommitsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listReleases": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListReleasesOptions"
             },
             "optional": true
           }
@@ -11608,6 +11774,20 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "getPlanPricing": null
+      }
+    },
+    "providers.marketplace_visualstudio": {
+      "defs": {},
+      "functions": {
+        "getExtensionStats": [
+          {
+            "name": "extensionId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.marriott": {
@@ -18144,6 +18324,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.sixflags": {
+      "defs": {},
+      "functions": {
+        "getTickets": [
+          {
+            "name": "park",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.smartsign": {
       "defs": {},
       "functions": {
@@ -18212,6 +18406,76 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.smithery": {
+      "defs": {
+        "SmitherySearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "pageSize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "verified",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "remote",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "isDeployed",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "namespace",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "SmitherySearchOptions"
+            },
+            "optional": true
           }
         ]
       }
