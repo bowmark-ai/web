@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7db8a9abb8412b6e0576aa5f60a20ad58719fcf71202b51b6309dc41ff1b222c
-# 22 capabilities, 245 providers, 616 typed functions, 20 refused.
+# Manifest version: 07d2d576d50baff377fe3ab571edd04edd75e6120e907f926a5bfb727dab5a1c
+# 25 capabilities, 247 providers, 625 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -455,6 +455,31 @@ class Cap_flights_FlightStatusLeg_Out_equipment_Out(TypedDict):
     iataName: str | None
     displayName: str | None
 
+class Cap_game_soundtrack_composer_credits_SoundtrackSearchResult_Out(TypedDict):
+    query: str
+    matches: list[Cap_game_soundtrack_composer_credits_SoundtrackMatch_Out]
+    warnings: list[str]
+
+class Cap_game_soundtrack_composer_credits_SoundtrackMatch_Out(TypedDict):
+    releaseGroupId: str
+    title: str
+    composer: str
+    firstReleaseDate: str
+    disambiguation: str
+
+class Cap_game_soundtrack_composer_credits_SoundtrackCredits_Out(TypedDict):
+    releaseGroupId: str
+    title: str
+    composer: str
+    firstReleaseDate: str
+    disambiguation: str
+    relations: list[Cap_game_soundtrack_composer_credits_SoundtrackCredits_Out_relations_item_Out]
+    warnings: list[str]
+
+class Cap_game_soundtrack_composer_credits_SoundtrackCredits_Out_relations_item_Out(TypedDict):
+    role: str
+    artist: str
+
 class Cap_git_commit_history_CommitHistoryOptions_In(TypedDict):
     ref: NotRequired[str]
     since: NotRequired[str]
@@ -609,6 +634,38 @@ class Cap_insurance_ReferralCarrier_Out(TypedDict):
     url: str | None
     ownedBySource: bool | None
 
+class Cap_insurance_HomeQuoteQuery_In(TypedDict):
+    identity: Cap_insurance_HomeQuoteQuery_In_identity_In
+    address: str
+    zip: str
+    city: NotRequired[str]
+    state: NotRequired[str]
+
+class Cap_insurance_HomeQuoteQuery_In_identity_In(TypedDict):
+    firstName: str
+    lastName: str
+    dob: str
+    email: str
+    phone: str
+
+class Cap_insurance_HomeQuoteResult_Out(TypedDict):
+    quotes: list[Cap_insurance_HomeQuote_Out]
+    declined: list[Cap_insurance_DeclinedHomeCarrier_Out]
+    warnings: list[str]
+
+class Cap_insurance_HomeQuote_Out(TypedDict):
+    source: str
+    carrier: str
+    package: str | None
+    annualPremium: float | None
+    monthlyPremium: float | None
+    windHailIncluded: bool | None
+    quoteUrl: str | None
+
+class Cap_insurance_DeclinedHomeCarrier_Out(TypedDict):
+    source: str
+    carrier: str
+
 class Cap_istanbul_schedules_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
 
@@ -624,6 +681,22 @@ class Cap_istanbul_schedules_AttractionHoursResult_Out(TypedDict):
     email: str | None
     url: str
     warnings: list[str]
+
+class Cap_mcp_registry_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_mcp_registry_McpRegistrySearchResult_Out(TypedDict):
+    servers: list[Cap_mcp_registry_McpRegistryEntry_Out]
+    warnings: list[str]
+
+class Cap_mcp_registry_McpRegistryEntry_Out(TypedDict):
+    name: str
+    title: str | None
+    description: str
+    version: str
+    repositoryUrl: str | None
+    remoteUrl: str | None
+    status: str
 
 class Cap_music_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -954,6 +1027,26 @@ class Cap_tariff_TariffEntry_Out(TypedDict):
     specialRate: str
     otherRate: str
     units: list[str]
+
+class Cap_text_to_speech_SynthesizeOptions_In(TypedDict):
+    voiceId: NotRequired[str]
+
+class Cap_text_to_speech_SynthesizeResult_Out(TypedDict):
+    audioBase64: str
+    contentType: str
+    voiceId: str
+    warnings: list[str]
+
+class Cap_text_to_speech_CloneVoiceOptions_In(TypedDict):
+    name: str
+    sampleUrls: Sequence[str]
+    description: NotRequired[str]
+
+class Cap_text_to_speech_CloneVoiceResult_Out(TypedDict):
+    voiceId: str
+    name: str
+    requiresVerification: bool
+    warnings: list[str]
 
 class Cap_weather_ForecastResult_Out(TypedDict):
     location: str
@@ -3776,6 +3869,26 @@ class Prv_ebay_ebayItem_Out(TypedDict):
 class Prv_ebay_ebayItem_Out_price_u0_Out(TypedDict):
     value: str
     currency: str
+
+class Prv_elevenlabs_synthesize_args_In(TypedDict):
+    text: str
+    voiceId: NotRequired[str]
+    modelId: NotRequired[str]
+
+class Prv_elevenlabs_elevenlabsSynthesisResult_Out(TypedDict):
+    audioBase64: str
+    contentType: str
+    voiceId: str
+
+class Prv_elevenlabs_cloneVoice_args_In(TypedDict):
+    name: str
+    sampleUrls: Sequence[str]
+    description: NotRequired[str]
+
+class Prv_elevenlabs_elevenlabsVoice_Out(TypedDict):
+    voiceId: str
+    name: str
+    requiresVerification: bool
 
 class Prv_embroker_EmbrokerCoverageCatalog_Out(TypedDict):
     coverageLines: list[str]
@@ -7263,6 +7376,15 @@ class Prv_marriott_MarriottHotelListing_Out(TypedDict):
     brand: str
     url: str
     place: str
+
+class Prv_mcp_registry_mcpRegistryEntry_Out(TypedDict):
+    name: str
+    title: str | None
+    description: str
+    version: str
+    repositoryUrl: str | None
+    remoteUrl: str | None
+    status: str
 
 class Prv_medicalguardian_getRiskAssessmentQuestions_return_Out(TypedDict):
     questions: list[Prv_medicalguardian_MedicalguardianRiskQuestion_Out]
@@ -12282,6 +12404,21 @@ class Cap_flights(Protocol):
         no fan-out to go thin.
         """
 
+class Cap_game_soundtrack_composer_credits(Protocol):
+    """Looks up a video game's soundtrack release and who composed it, via MusicBrainz's own
+    release-group database.
+    """
+
+    async def search(self, gameTitle: str, /) -> Cap_game_soundtrack_composer_credits_SoundtrackSearchResult_Out:
+        """Searches MusicBrainz for soundtrack releases matching a game title and returns each
+        match's composer credit and release-group id.
+        """
+
+    async def getCredits(self, releaseGroupId: str, /) -> Cap_game_soundtrack_composer_credits_SoundtrackCredits_Out:
+        """Looks up one soundtrack release-group by id (from search()) and returns its full
+        composer/artist credits.
+        """
+
 class Cap_git_commit_history(Protocol):
     """A git repository's commit history — sha, author, date and message for every commit —
     from a GitHub URL or a bare owner/repo string. What a commit-history view or a changelog
@@ -12364,7 +12501,9 @@ class Cap_insurance(Protocol):
     """Look up insurance carriers in the regulators' own national register — the NAIC company
     code, the legal entity behind a consumer brand, head-office contact details, and the
     states each carrier is LICENSED to write in, which is not the same as where it is
-    headquartered. Direct API, no browser.
+    headquartered — and get REAL home insurance quotes and rates for a specific property
+    address from two independent carrier panels (Insurify's marketplace, Progressive's
+    HomeQuote Explorer). Direct API, no browser.
     """
 
     async def searchCarriers(self, query: Cap_insurance_CarrierQuery_In, limit: float | None = None, options: Cap_insurance_CallOptions_In | None = None, /) -> Cap_insurance_CarrierSearchResult_Out:
@@ -12449,13 +12588,43 @@ class Cap_insurance(Protocol):
         `options.timeoutMs` sets the per-source budget (default 30000).
         """
 
+    async def getHomeQuotes(self, query: Cap_insurance_HomeQuoteQuery_In, options: Cap_insurance_CallOptions_In | None = None, /) -> Cap_insurance_HomeQuoteResult_Out:
+        """Returns REAL home insurance quotes — actual carrier premiums for one property address,
+        fanned out across two independent panels: Insurify's own marketplace and Progressive's
+        HomeQuote Explorer (itself a hand-off to a Bolt-run panel of outside carriers, so
+        "progressive" here still means several underwriters, not one). `{ identity, address:
+        "686 Hamlet St", zip: "43215", city: "Columbus", state: "OH" }` — `identity` is the
+        CALLER's OWN `{ firstName, lastName, dob, email, phone }`, required because neither
+        carrier prices a property without one. `city` and `state` are each optional but REQUIRED
+        TOGETHER to reach Progressive's panel, which bootstraps off a full postal address;
+        Insurify resolves both from `zip` on its own and reaches every query this function
+        accepts. Returns `quotes` sorted CHEAPEST `annualPremium` FIRST (a row with no premium
+        at all sorts last), each carrying `source`, `carrier`, Progressive's bundling `package`
+        tier (always null for Insurify, which prices one plan per carrier), `annualPremium`
+        normalized to a 12-month figure so a shorter or longer term is still comparable,
+        `monthlyPremium` (a carrier's own instalment figure when it quoted one — always null on
+        a Progressive row, since that panel publishes only the annual premium per package),
+        `windHailIncluded` (Progressive only), and `quoteUrl` (Insurify's own `bindUrl` when it
+        published one). `declined` names a carrier a panel asked and REFUSED to write — a real
+        answer distinct from "no price returned", and never merged into `quotes`. `warnings` is
+        always present: it names a source that timed out or failed, AND a source not queried
+        because the query lacked the input it needs (Progressive without `city`+`state`) — read
+        it before treating a short list as the whole market. When every source the query DID
+        reach for failed, this THROWS rather than returning an empty list, which would otherwise
+        read as "nobody would insure this property". `options.timeoutMs` sets the per-source
+        budget (default 30000).
+        """
+
 class Cap_istanbul_schedules(Protocol):
-    """Opening/closing hours, ticket-office closing time and closed days for the museums and
-    archaeological sites muze.gov.tr (Turkey's Ministry of Culture and Tourism) publishes —
-    İstanbul Archaeological Museums, the Hagia Sophia History and Experience Museum and
-    Galata Tower Museum among the Istanbul ones. Covers attraction hours only, not ferry
-    timetables or show schedules — no reachable machine-readable source was found for
-    either; see this unit's request file for what was tried.
+    """Live opening/closing hours, ticket-office closing time and closed days for Istanbul
+    museums and archaeological sites — İstanbul Archaeological Museums, the Hagia Sophia
+    History and Experience Museum, Galata Tower Museum among them — read straight off
+    muze.gov.tr (Turkey's Ministry of Culture and Tourism). Call this for the
+    attraction-hours part of any Istanbul-schedules question, even one that also asks about
+    ferries or shows: answer what it returns, then say plainly that ferry timetables and
+    show schedules aren't covered — no reachable machine-readable source was found for
+    either; see this unit's request file for what was tried. Don't skip the call just
+    because the question is broader than this unit's scope.
     """
 
     async def attractionHours(self, query: str, options: Cap_istanbul_schedules_CallOptions_In | None = None, /) -> Cap_istanbul_schedules_AttractionHoursResult_Out:
@@ -12464,6 +12633,24 @@ class Cap_istanbul_schedules(Protocol):
         attraction's opening/closing hours, ticket-office closing time and closed days. THROWS a
         caller-fixable error naming the listing when nothing matches — the listing is a curated
         highlight subset, not the whole ministry catalog.
+        """
+
+class Cap_mcp_registry(Protocol):
+    """Search or browse the official Model Context Protocol server registry — find a published
+    MCP server by name and get its install or connect URL.
+    """
+
+    async def search(self, query: str | None = None, limit: float | None = None, options: Cap_mcp_registry_CallOptions_In | None = None, /) -> Cap_mcp_registry_McpRegistrySearchResult_Out:
+        """Lists or searches the official MCP server registry (registry.modelcontextprotocol.io)
+        for published Model Context Protocol servers. `query` substring-matches a server's
+        registry name — omit it to list the newest-published entries. Each row carries the
+        server's registry name, title, description, latest version, where to install it
+        (`repositoryUrl`) or connect to it if it's hosted (`remoteUrl`), and its registry
+        status. This is how an agent answers 'is there already an MCP server for X' before
+        building one, or finds out what a directory listing/submission for the MCP ecosystem's
+        own registry actually looks like. `limit` caps how many rows come back (default 30, max
+        100). THROWS if the registry cannot be reached — one source, so there is no partial
+        answer to hand back. `options.timeoutMs` sets the budget (default 30000).
         """
 
 class Cap_music(Protocol):
@@ -12700,6 +12887,25 @@ class Cap_tariff(Protocol):
         """Looks up an HS/HTS code (e.g. "6109.10.00") and returns its description, Column 1
         General/Special and Column 2 duty rates, plus any statistical-suffix breakouts nested
         under it. `entry: null` means the code matched nothing in the published schedule.
+        """
+
+class Cap_text_to_speech(Protocol):
+    """Converts text into spoken audio, and clones a new voice from caller-supplied audio
+    samples — narration, dubbing, accessibility, IVR prompts. Requires the caller's own
+    ElevenLabs API key (BYOK) — see the 🔑 note on this unit.
+    """
+
+    async def synthesize(self, text: str, options: Cap_text_to_speech_SynthesizeOptions_In | None = None, /) -> Cap_text_to_speech_SynthesizeResult_Out:
+        """Converts `text` into spoken audio, base64-encoded, in an existing or previously-cloned
+        voice (`options.voiceId`, defaulting to a standard voice). Requires an API key — a
+        caller with none gets a refusal naming what to provide. Call `cloneVoice` first to speak
+        in a specific cloned voice, then pass the returned `voiceId` here.
+        """
+
+    async def cloneVoice(self, options: Cap_text_to_speech_CloneVoiceOptions_In, /) -> Cap_text_to_speech_CloneVoiceResult_Out:
+        """Creates a new voice cloned from one or more audio sample URLs (`options.sampleUrls`) —
+        downloads each sample and uploads it to the vendor's cloning endpoint. Returns the new
+        voice's id, which `synthesize`'s `voiceId` then accepts.
         """
 
 class Cap_weather(Protocol):
@@ -14589,6 +14795,28 @@ class Prv_ebay(Protocol):
         (auction/fixed-price/best-offer), seller and the item's own ebay.com URL. `limit` caps
         the row count (default 20, eBay's own ceiling 200). Requires an eBay OAuth application
         key — see this provider's `auth`.
+        """
+
+class Prv_elevenlabs(Protocol):
+    """ElevenLabs' own documented REST API (api.elevenlabs.io) — converts text into spoken
+    audio in an existing or newly-cloned voice, and clones a new voice from caller-supplied
+    audio samples (Instant Voice Cloning). Requires an ElevenLabs API key.
+    """
+
+    async def synthesize(self, args: Prv_elevenlabs_synthesize_args_In, /) -> Prv_elevenlabs_elevenlabsSynthesisResult_Out:
+        """Converts `text` into spoken audio via ElevenLabs' documented Text to Speech API,
+        returning it base64-encoded alongside the vendor's content type (MP3 by default).
+        `voiceId` selects an existing or previously-cloned ElevenLabs voice (default
+        "21m00Tcm4TlvDq8ikWAM", ElevenLabs' own "Rachel"); `modelId` selects the ElevenLabs
+        model (default "eleven_multilingual_v2"). Requires an ElevenLabs API key — see this
+        provider's `auth`.
+        """
+
+    async def cloneVoice(self, args: Prv_elevenlabs_cloneVoice_args_In, /) -> Prv_elevenlabs_elevenlabsVoice_Out:
+        """Creates a new ElevenLabs voice cloned from one or more caller-supplied audio sample URLs
+        (Instant Voice Cloning) — downloads each sample and uploads it to ElevenLabs'
+        `voices/add`. Returns the new voice's id, which `synthesize`'s `voiceId` then accepts.
+        Requires an ElevenLabs API key — see this provider's `auth`.
         """
 
 class Prv_embroker(Protocol):
@@ -17147,6 +17375,24 @@ class Prv_mcdonalds(Protocol):
     # argument, so there is no honest signature to emit.
     # It is CALLABLE at runtime; `bowmark.providers.mcdonalds.findStores` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
+
+class Prv_mcp_registry(Protocol):
+    """The official Model Context Protocol server registry — search or browse published MCP
+    servers by name, and get each one's install/connect URL.
+    """
+
+    async def search(self, query: str | None = None, limit: float | None = None, /) -> list[Prv_mcp_registry_mcpRegistryEntry_Out]:
+        """Lists or searches the official MCP server registry (registry.modelcontextprotocol.io) —
+        the community-run directory of published Model Context Protocol servers, the same
+        catalogue the registry's own web UI browses. `query` substring-matches the registry NAME
+        (e.g. "weather" matches `ai.smithery/smithery-ai-national-weather-service`); omit it to
+        list the newest-published entries. Each row carries the registry name, an optional
+        title, its description, its latest published version, where to install it
+        (`repositoryUrl`) or connect to it if it's hosted (`remoteUrl`), and the registry's own
+        status (`"active"`, `"deprecated"`, …). `limit` caps how many rows come back (default
+        30, registry maximum 100) — this is a flat list, not a paged walk, since a caller asking
+        "is there an MCP server for X" wants the top matches, not the whole registry.
+        """
 
 class Prv_medicalguardian(Protocol):
     """Medical Guardian's own fall-risk assessment (medicalguardian.com/risk-assessment) — a
@@ -20296,6 +20542,7 @@ class BowmarkProviders(Protocol):
     discounttire: Prv_discounttire
     disney: Prv_disney
     ebay: Prv_ebay
+    elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
     eq3: Prv_eq3
     erieinsurance: Prv_erieinsurance
@@ -20372,6 +20619,7 @@ class BowmarkProviders(Protocol):
     mailchimp: Prv_mailchimp
     marriott: Prv_marriott
     mcdonalds: Prv_mcdonalds
+    mcp_registry: Prv_mcp_registry
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
     mergify: Prv_mergify
@@ -20486,11 +20734,13 @@ class Bowmark(Protocol):
     domain: Cap_domain
     email: Cap_email
     flights: Cap_flights
+    game_soundtrack_composer_credits: Cap_game_soundtrack_composer_credits
     git_commit_history: Cap_git_commit_history
     hotels: Cap_hotels
     hvac: Cap_hvac
     insurance: Cap_insurance
     istanbul_schedules: Cap_istanbul_schedules
+    mcp_registry: Cap_mcp_registry
     music: Cap_music
     pcparts: Cap_pcparts
     products: Cap_products
@@ -20501,5 +20751,6 @@ class Bowmark(Protocol):
     sheds: Cap_sheds
     shipping: Cap_shipping
     tariff: Cap_tariff
+    text_to_speech: Cap_text_to_speech
     weather: Cap_weather
     providers: BowmarkProviders

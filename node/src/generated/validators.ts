@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7db8a9abb8412b6e0576aa5f60a20ad58719fcf71202b51b6309dc41ff1b222c
-// 616 checked, 20 unchecked.
+// Manifest version: 07d2d576d50baff377fe3ab571edd04edd75e6120e907f926a5bfb727dab5a1c
+// 625 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7db8a9abb8412b6e0576aa5f60a20ad58719fcf71202b51b6309dc41ff1b222c",
+  "version": "07d2d576d50baff377fe3ab571edd04edd75e6120e907f926a5bfb727dab5a1c",
   "units": {
     "cars": {
       "defs": {
@@ -616,6 +616,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "game_soundtrack_composer_credits": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "gameTitle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getCredits": [
+          {
+            "name": "releaseGroupId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "git": {
       "defs": {
         "CommitHistoryOptions": {
@@ -887,6 +910,83 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "HomeQuoteQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "identity",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "firstName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "lastName",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "dob",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "email",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "phone",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ReferralCarrierQuery": {
           "k": "object",
           "props": [
@@ -985,6 +1085,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getHomeQuotes": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "HomeQuoteQuery"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -1011,6 +1129,48 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "mcp_registry": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           },
           {
             "name": "options",
@@ -1824,6 +1984,80 @@ export const VALIDATORS: ValidatorTable = {
             "name": "code",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "text_to_speech": {
+      "defs": {
+        "CloneVoiceOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sampleUrls",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SynthesizeOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "voiceId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "synthesize": [
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "SynthesizeOptions"
+            },
+            "optional": true
+          }
+        ],
+        "cloneVoice": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CloneVoiceOptions"
             },
             "optional": false
           }
@@ -6112,6 +6346,78 @@ export const VALIDATORS: ValidatorTable = {
                       "optional": true
                     }
                   ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.elevenlabs": {
+      "defs": {},
+      "functions": {
+        "synthesize": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "voiceId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "modelId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "cloneVoice": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "sampleUrls",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
                 }
               ]
             },
@@ -11340,6 +11646,27 @@ export const VALIDATORS: ValidatorTable = {
         "getMenu": null,
         "getMenuItem": null,
         "findStores": null
+      }
+    },
+    "providers.mcp_registry": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.medicalguardian": {

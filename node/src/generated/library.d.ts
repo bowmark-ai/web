@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7db8a9abb8412b6e0576aa5f60a20ad58719fcf71202b51b6309dc41ff1b222c
-// 22 capabilities, 245 providers, 634 typed functions, 20 refused.
+// Manifest version: 07d2d576d50baff377fe3ab571edd04edd75e6120e907f926a5bfb727dab5a1c
+// 25 capabilities, 247 providers, 643 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -490,6 +490,52 @@ type FlightStatusResult = {
   }
 }
 
+declare namespace BowmarkCapability_game_soundtrack_composer_credits {
+  // ── Video game soundtrack composer credits — the unit's own declarations, verbatim ──
+
+interface SoundtrackMatch {
+  releaseGroupId: string
+  title: string
+  composer: string
+  firstReleaseDate: string
+  disambiguation: string
+}
+
+interface SoundtrackCredits {
+  releaseGroupId: string
+  title: string
+  composer: string
+  firstReleaseDate: string
+  disambiguation: string
+  relations: { role: string, artist: string }[]
+  warnings: string[]
+}
+
+interface SoundtrackSearchResult {
+  query: string
+  matches: SoundtrackMatch[]
+  warnings: string[]
+}
+
+  /**
+   * Looks up a video game's soundtrack release and who composed it, via MusicBrainz's own
+   * release-group database.
+   */
+  interface Unit {
+    /**
+     * Searches MusicBrainz for soundtrack releases matching a game title and returns each match's
+     * composer credit and release-group id.
+     */
+    search(gameTitle: string): Promise<SoundtrackSearchResult>;
+
+    /**
+     * Looks up one soundtrack release-group by id (from search()) and returns its full
+     * composer/artist credits.
+     */
+    getCredits(releaseGroupId: string): Promise<SoundtrackCredits>;
+  }
+}
+
 declare namespace BowmarkCapability_git_commit_history {
   // ── Git commit history — the unit's own declarations, verbatim ──
 interface Commit {
@@ -794,6 +840,35 @@ type ReferralCarrierListResult = {
                                // out or failed
 }
 
+// getHomeQuotes: real homeowners premiums for one property, fanned out across
+// Insurify's marketplace and Progressive's HomeQuote Explorer panel. Both
+// price nothing without the caller's own identity.
+type HomeQuoteQuery = {
+  identity: { firstName: string, lastName: string, dob: string, email: string, phone: string }
+  address: string   // street address, e.g. "686 Hamlet St"
+  zip: string        // 5-digit US ZIP
+  city?: string       // required TOGETHER WITH state to reach Progressive's panel
+  state?: string      // 2-letter state code, required together with city
+}
+type HomeQuote = {
+  source: string              // which panel this came from
+  carrier: string
+  package: string | null      // Progressive's bundling tier; always null for Insurify
+  annualPremium: number | null   // whole-term premium normalized to 12 months
+  monthlyPremium: number | null  // always null on a Progressive row — it publishes none
+  windHailIncluded: boolean | null  // Progressive only; always null for Insurify
+  quoteUrl: string | null     // Insurify's own bindUrl; always null for Progressive
+}
+type DeclinedHomeCarrier = {
+  source: string
+  carrier: string             // asked and refused to write the property — a real answer
+}
+type HomeQuoteResult = {
+  quotes: HomeQuote[]          // cheapest annualPremium first; nulls last
+  declined: DeclinedHomeCarrier[]
+  warnings: string[]
+}
+
 type CallOptions = {
   timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
                        // A provider slower than this is DROPPED from the results and
@@ -803,8 +878,10 @@ type CallOptions = {
   /**
    * Look up insurance carriers in the regulators' own national register — the NAIC company code,
    * the legal entity behind a consumer brand, head-office contact details, and the states each
-   * carrier is LICENSED to write in, which is not the same as where it is headquartered. Direct
-   * API, no browser.
+   * carrier is LICENSED to write in, which is not the same as where it is headquartered — and
+   * get REAL home insurance quotes and rates for a specific property address from two
+   * independent carrier panels (Insurify's marketplace, Progressive's HomeQuote Explorer).
+   * Direct API, no browser.
    */
   interface Unit {
     /**
@@ -887,6 +964,33 @@ type CallOptions = {
      * in it. `options.timeoutMs` sets the per-source budget (default 30000).
      */
     listReferralCarriers(query?: ReferralCarrierQuery, options?: CallOptions): Promise<ReferralCarrierListResult>;
+
+    /**
+     * Returns REAL home insurance quotes — actual carrier premiums for one property address,
+     * fanned out across two independent panels: Insurify's own marketplace and Progressive's
+     * HomeQuote Explorer (itself a hand-off to a Bolt-run panel of outside carriers, so
+     * "progressive" here still means several underwriters, not one). `{ identity, address: "686
+     * Hamlet St", zip: "43215", city: "Columbus", state: "OH" }` — `identity` is the CALLER's OWN
+     * `{ firstName, lastName, dob, email, phone }`, required because neither carrier prices a
+     * property without one. `city` and `state` are each optional but REQUIRED TOGETHER to reach
+     * Progressive's panel, which bootstraps off a full postal address; Insurify resolves both from
+     * `zip` on its own and reaches every query this function accepts. Returns `quotes` sorted
+     * CHEAPEST `annualPremium` FIRST (a row with no premium at all sorts last), each carrying
+     * `source`, `carrier`, Progressive's bundling `package` tier (always null for Insurify, which
+     * prices one plan per carrier), `annualPremium` normalized to a 12-month figure so a shorter
+     * or longer term is still comparable, `monthlyPremium` (a carrier's own instalment figure when
+     * it quoted one — always null on a Progressive row, since that panel publishes only the annual
+     * premium per package), `windHailIncluded` (Progressive only), and `quoteUrl` (Insurify's own
+     * `bindUrl` when it published one). `declined` names a carrier a panel asked and REFUSED to
+     * write — a real answer distinct from "no price returned", and never merged into `quotes`.
+     * `warnings` is always present: it names a source that timed out or failed, AND a source not
+     * queried because the query lacked the input it needs (Progressive without `city`+`state`) —
+     * read it before treating a short list as the whole market. When every source the query DID
+     * reach for failed, this THROWS rather than returning an empty list, which would otherwise
+     * read as "nobody would insure this property". `options.timeoutMs` sets the per-source budget
+     * (default 30000).
+     */
+    getHomeQuotes(query: HomeQuoteQuery, options?: CallOptions): Promise<HomeQuoteResult>;
   }
 }
 
@@ -913,12 +1017,15 @@ type CallOptions = {
 }
 
   /**
-   * Opening/closing hours, ticket-office closing time and closed days for the museums and
-   * archaeological sites muze.gov.tr (Turkey's Ministry of Culture and Tourism) publishes —
-   * İstanbul Archaeological Museums, the Hagia Sophia History and Experience Museum and Galata
-   * Tower Museum among the Istanbul ones. Covers attraction hours only, not ferry timetables or
-   * show schedules — no reachable machine-readable source was found for either; see this unit's
-   * request file for what was tried.
+   * Live opening/closing hours, ticket-office closing time and closed days for Istanbul museums
+   * and archaeological sites — İstanbul Archaeological Museums, the Hagia Sophia History and
+   * Experience Museum, Galata Tower Museum among them — read straight off muze.gov.tr (Turkey's
+   * Ministry of Culture and Tourism). Call this for the attraction-hours part of any
+   * Istanbul-schedules question, even one that also asks about ferries or shows: answer what it
+   * returns, then say plainly that ferry timetables and show schedules aren't covered — no
+   * reachable machine-readable source was found for either; see this unit's request file for
+   * what was tried. Don't skip the call just because the question is broader than this unit's
+   * scope.
    */
   interface Unit {
     /**
@@ -929,6 +1036,50 @@ type CallOptions = {
      * highlight subset, not the whole ministry catalog.
      */
     attractionHours(query: string, options?: CallOptions): Promise<AttractionHoursResult>;
+  }
+}
+
+declare namespace BowmarkCapability_mcp_registry {
+  // ── MCP Registry — the unit's own declarations, verbatim ──
+interface McpRegistryEntry {
+  name: string;
+  title: string | null;
+  description: string;
+  version: string;
+  repositoryUrl: string | null;
+  remoteUrl: string | null;
+  status: string;
+}
+
+interface McpRegistrySearchResult {
+  servers: McpRegistryEntry[];
+  warnings: string[];
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Search or browse the official Model Context Protocol server registry — find a published MCP
+   * server by name and get its install or connect URL.
+   */
+  interface Unit {
+    /**
+     * Lists or searches the official MCP server registry (registry.modelcontextprotocol.io) for
+     * published Model Context Protocol servers. `query` substring-matches a server's registry name
+     * — omit it to list the newest-published entries. Each row carries the server's registry name,
+     * title, description, latest version, where to install it (`repositoryUrl`) or connect to it
+     * if it's hosted (`remoteUrl`), and its registry status. This is how an agent answers 'is
+     * there already an MCP server for X' before building one, or finds out what a directory
+     * listing/submission for the MCP ecosystem's own registry actually looks like. `limit` caps
+     * how many rows come back (default 30, max 100). THROWS if the registry cannot be reached —
+     * one source, so there is no partial answer to hand back. `options.timeoutMs` sets the budget
+     * (default 30000).
+     */
+    search(query?: string, limit?: number, options?: CallOptions): Promise<McpRegistrySearchResult>;
   }
 }
 
@@ -1566,6 +1717,58 @@ interface TariffLookupResult {
      * it. `entry: null` means the code matched nothing in the published schedule.
      */
     lookup(code: string): Promise<TariffLookupResult>;
+  }
+}
+
+declare namespace BowmarkCapability_text_to_speech {
+  // ── Text to speech — the unit's own declarations, verbatim ──
+interface SynthesizeOptions {
+  voiceId?: string     // an id cloneVoice returned, or the vendor's own default voice
+}
+interface SynthesizeResult {
+  audioBase64: string  // the synthesized audio, base64-encoded
+  contentType: string  // e.g. "audio/mpeg"
+  voiceId: string
+  warnings: string[]
+}
+interface CloneVoiceOptions {
+  name: string
+  sampleUrls: string[]  // audio sample URLs to clone the voice from
+  description?: string
+}
+interface CloneVoiceResult {
+  voiceId: string        // pass this as SynthesizeOptions.voiceId
+  name: string
+  requiresVerification: boolean
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Converts text into spoken audio, and clones a new voice from caller-supplied audio samples —
+   * narration, dubbing, accessibility, IVR prompts. Requires the caller's own ElevenLabs API key
+   * (BYOK) — see the 🔑 note on this unit.
+   */
+  interface Unit {
+    /**
+     * Converts `text` into spoken audio, base64-encoded, in an existing or previously-cloned voice
+     * (`options.voiceId`, defaulting to a standard voice). Requires an API key — a caller with
+     * none gets a refusal naming what to provide. Call `cloneVoice` first to speak in a specific
+     * cloned voice, then pass the returned `voiceId` here.
+     */
+    synthesize(text: string, options?: SynthesizeOptions): Promise<SynthesizeResult>;
+
+    /**
+     * Creates a new voice cloned from one or more audio sample URLs (`options.sampleUrls`) —
+     * downloads each sample and uploads it to the vendor's cloning endpoint. Returns the new
+     * voice's id, which `synthesize`'s `voiceId` then accepts.
+     */
+    cloneVoice(options: CloneVoiceOptions): Promise<CloneVoiceResult>;
   }
 }
 
@@ -6771,6 +6974,44 @@ interface ebayItem {
      * this provider's `auth`.
      */
     search(args: string | { query: string; limit?: number }): Promise<ebayItem[]>;
+  }
+}
+
+declare namespace BowmarkProvider_elevenlabs {
+  // ── ElevenLabs — the unit's own declarations, verbatim ──
+interface elevenlabsSynthesisResult {
+  audioBase64: string;
+  contentType: string;
+  voiceId: string;
+}
+interface elevenlabsVoice {
+  voiceId: string;
+  name: string;
+  requiresVerification: boolean;
+}
+
+  /**
+   * ElevenLabs' own documented REST API (api.elevenlabs.io) — converts text into spoken audio in
+   * an existing or newly-cloned voice, and clones a new voice from caller-supplied audio samples
+   * (Instant Voice Cloning). Requires an ElevenLabs API key.
+   */
+  interface Unit {
+    /**
+     * Converts `text` into spoken audio via ElevenLabs' documented Text to Speech API, returning
+     * it base64-encoded alongside the vendor's content type (MP3 by default). `voiceId` selects an
+     * existing or previously-cloned ElevenLabs voice (default "21m00Tcm4TlvDq8ikWAM", ElevenLabs'
+     * own "Rachel"); `modelId` selects the ElevenLabs model (default "eleven_multilingual_v2").
+     * Requires an ElevenLabs API key — see this provider's `auth`.
+     */
+    synthesize(args: { text: string; voiceId?: string; modelId?: string }): Promise<elevenlabsSynthesisResult>;
+
+    /**
+     * Creates a new ElevenLabs voice cloned from one or more caller-supplied audio sample URLs
+     * (Instant Voice Cloning) — downloads each sample and uploads it to ElevenLabs' `voices/add`.
+     * Returns the new voice's id, which `synthesize`'s `voiceId` then accepts. Requires an
+     * ElevenLabs API key — see this provider's `auth`.
+     */
+    cloneVoice(args: { name: string; sampleUrls: string[]; description?: string }): Promise<elevenlabsVoice>;
   }
 }
 
@@ -14134,6 +14375,39 @@ interface mcdonaldsFindStoresResult {
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.mcdonalds.findStores` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+  }
+}
+
+declare namespace BowmarkProvider_mcp_registry {
+  // ── MCP Registry — the unit's own declarations, verbatim ──
+interface mcpRegistryEntry {
+  name: string;
+  title: string | null;
+  description: string;
+  version: string;
+  repositoryUrl: string | null;
+  remoteUrl: string | null;
+  status: string;
+}
+
+  /**
+   * The official Model Context Protocol server registry — search or browse published MCP servers
+   * by name, and get each one's install/connect URL.
+   */
+  interface Unit {
+    /**
+     * Lists or searches the official MCP server registry (registry.modelcontextprotocol.io) — the
+     * community-run directory of published Model Context Protocol servers, the same catalogue the
+     * registry's own web UI browses. `query` substring-matches the registry NAME (e.g. "weather"
+     * matches `ai.smithery/smithery-ai-national-weather-service`); omit it to list the
+     * newest-published entries. Each row carries the registry name, an optional title, its
+     * description, its latest published version, where to install it (`repositoryUrl`) or connect
+     * to it if it's hosted (`remoteUrl`), and the registry's own status (`"active"`,
+     * `"deprecated"`, …). `limit` caps how many rows come back (default 30, registry maximum 100)
+     * — this is a flat list, not a paged walk, since a caller asking "is there an MCP server for
+     * X" wants the top matches, not the whole registry.
+     */
+    search(query?: string, limit?: number): Promise<mcpRegistryEntry[]>;
   }
 }
 
@@ -23768,6 +24042,7 @@ interface BowmarkProviders {
   discounttire: BowmarkProvider_discounttire.Unit;
   disney: BowmarkProvider_disney.Unit;
   ebay: BowmarkProvider_ebay.Unit;
+  elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
   eq3: BowmarkProvider_eq3.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
@@ -23844,6 +24119,7 @@ interface BowmarkProviders {
   mailchimp: BowmarkProvider_mailchimp.Unit;
   marriott: BowmarkProvider_marriott.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
+  mcp_registry: BowmarkProvider_mcp_registry.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
   mergify: BowmarkProvider_mergify.Unit;
@@ -75672,11 +75948,13 @@ interface BowmarkLibrary {
   domain: BowmarkCapability_domain.Unit;
   email: BowmarkCapability_email.Unit;
   flights: BowmarkCapability_flights.Unit;
+  game_soundtrack_composer_credits: BowmarkCapability_game_soundtrack_composer_credits.Unit;
   git_commit_history: BowmarkCapability_git_commit_history.Unit;
   hotels: BowmarkCapability_hotels.Unit;
   hvac: BowmarkCapability_hvac.Unit;
   insurance: BowmarkCapability_insurance.Unit;
   istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
+  mcp_registry: BowmarkCapability_mcp_registry.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
   products: BowmarkCapability_products.Unit;
@@ -75687,6 +75965,7 @@ interface BowmarkLibrary {
   sheds: BowmarkCapability_sheds.Unit;
   shipping: BowmarkCapability_shipping.Unit;
   tariff: BowmarkCapability_tariff.Unit;
+  text_to_speech: BowmarkCapability_text_to_speech.Unit;
   weather: BowmarkCapability_weather.Unit;
   providers: BowmarkProviders;
 }
