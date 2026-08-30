@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e7fd4105bd1eeb0b5c58ff27228b97e0c1abe18b862ddedc81d80292e11ed8a2
-// 32 capabilities, 253 providers, 663 typed functions, 20 refused.
+// Manifest version: 30acf97e882124423eecad144b20c278a6e81b46e839c2063822661efc063ea6
+// 32 capabilities, 253 providers, 665 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13311,6 +13311,15 @@ interface KompanSparePartsDocuments {
      * package" PDF URL.
      */
     getSparePartsDocuments(variantId: string, purchaseDate: string): Promise<KompanSparePartsDocuments>;
+
+    /**
+     * A single call keyed by `product_no` that reports whether a playground product has spare
+     * parts listed — the same search searchProduct() runs, reshaped to a one-argument object so a
+     * caller does not need to know the two-step (search, then fetch documents per variant)
+     * internal shape just to ask "does this product have spare parts". `found: false` is a real
+     * answer, not an error.
+     */
+    searchPlaygroundSpareParts(args: { product_no: string; region?: KompanRegion }): Promise<KompanSearchResult>;
   }
 }
 
@@ -16861,6 +16870,14 @@ interface NvisioncentersSavingsResult {
   calculatorUrl: string;
 }
 
+interface NvisioncentersEstimateSavingsInput {
+  age: number;
+  glasses: number;
+  glasses_cost: number;
+  contacts: number;
+  contacts_cost: number;
+}
+
 type NvisioncentersAgeBracket = "Under 18" | "18-34" | "35-54" | "55+";
 
 interface NvisioncentersCandidacyInput {
@@ -16897,6 +16914,13 @@ interface NvisioncentersCandidacyResult {
      * and prior-consultation history but its logic never uses either).
      */
     checkLasikCandidacy(input: NvisioncentersCandidacyInput): Promise<NvisioncentersCandidacyResult>;
+
+    /**
+     * Same calculation as calculateLasikSavings, taking the snake_case argument spelling
+     * (glasses_cost, contacts_cost) a caller guessed instead of the provider's camelCase — an
+     * alias, not a second calculator. Throws under the same condition calculateLasikSavings does.
+     */
+    estimateLasikSavings(input: NvisioncentersEstimateSavingsInput): Promise<NvisioncentersSavingsResult>;
   }
 }
 

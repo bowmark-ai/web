@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e7fd4105bd1eeb0b5c58ff27228b97e0c1abe18b862ddedc81d80292e11ed8a2
-# 32 capabilities, 253 providers, 645 typed functions, 20 refused.
+# Manifest version: 30acf97e882124423eecad144b20c278a6e81b46e839c2063822661efc063ea6
+# 32 capabilities, 253 providers, 647 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6877,6 +6877,10 @@ class Prv_kompan_KompanDocument_Out(TypedDict):
     label: str
     url: str
 
+class Prv_kompan_searchPlaygroundSpareParts_args_In(TypedDict):
+    product_no: str
+    region: NotRequired[Literal["region_america"] | Literal["region_europe_middleeast"] | Literal["region_asia_newzealand"] | Literal["region_australia"]]
+
 class Prv_kuiu_listKuiuProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -8605,6 +8609,13 @@ class Prv_nvisioncenters_NvisioncentersCandidacyResult_Out(TypedDict):
     verdictBody: str
     bookingUrl: str
     quizUrl: str
+
+class Prv_nvisioncenters_NvisioncentersEstimateSavingsInput_In(TypedDict):
+    age: float
+    glasses: float
+    glasses_cost: float
+    contacts: float
+    contacts_cost: float
 
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
@@ -17369,6 +17380,14 @@ class Prv_kompan(Protocol):
         and the on-demand "full package" PDF URL.
         """
 
+    async def searchPlaygroundSpareParts(self, args: Prv_kompan_searchPlaygroundSpareParts_args_In, /) -> Prv_kompan_KompanSearchResult_Out:
+        """A single call keyed by `product_no` that reports whether a playground product has spare
+        parts listed — the same search searchProduct() runs, reshaped to a one-argument object
+        so a caller does not need to know the two-step (search, then fetch documents per
+        variant) internal shape just to ask "does this product have spare parts". `found: false`
+        is a real answer, not an error.
+        """
+
 class Prv_kuiu(Protocol):
     """KUIU's live hunting-apparel catalogue — every product, its camo-pattern/color and size
     variants, real prices and stock — plus the storefront's own Find Your Fit men's size
@@ -18522,6 +18541,13 @@ class Prv_nvisioncenters(Protocol):
         not-a-typical-candidate text, computed exactly as the site computes it. Measured against
         the real page: the verdict depends on age bracket alone (the site's own quiz collects
         lens type and prior-consultation history but its logic never uses either).
+        """
+
+    async def estimateLasikSavings(self, input: Prv_nvisioncenters_NvisioncentersEstimateSavingsInput_In, /) -> Prv_nvisioncenters_NvisioncentersSavingsResult_Out:
+        """Same calculation as calculateLasikSavings, taking the snake_case argument spelling
+        (glasses_cost, contacts_cost) a caller guessed instead of the provider's camelCase — an
+        alias, not a second calculator. Throws under the same condition calculateLasikSavings
+        does.
         """
 
 class Prv_oanda(Protocol):

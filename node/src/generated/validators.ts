@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e7fd4105bd1eeb0b5c58ff27228b97e0c1abe18b862ddedc81d80292e11ed8a2
-// 645 checked, 20 unchecked.
+// Manifest version: 30acf97e882124423eecad144b20c278a6e81b46e839c2063822661efc063ea6
+// 647 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e7fd4105bd1eeb0b5c58ff27228b97e0c1abe18b862ddedc81d80292e11ed8a2",
+  "version": "30acf97e882124423eecad144b20c278a6e81b46e839c2063822661efc063ea6",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -11151,6 +11151,32 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "searchPlaygroundSpareParts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "product_no",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "region",
+                  "schema": {
+                    "k": "ref",
+                    "name": "KompanRegion"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -13407,6 +13433,46 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NvisioncentersEstimateSavingsInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "age",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "glasses",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "glasses_cost",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "contacts",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "contacts_cost",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "NvisioncentersSavingsInput": {
           "k": "object",
           "props": [
@@ -13465,6 +13531,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "NvisioncentersCandidacyInput"
+            },
+            "optional": false
+          }
+        ],
+        "estimateLasikSavings": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "NvisioncentersEstimateSavingsInput"
             },
             "optional": false
           }

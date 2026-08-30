@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1028 functions. 🟢 implemented · ⚪ planned.
+> 1030 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -541,6 +541,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kitchentuneup.listCabinetStyles` | kitchentuneup.com | Reads Kitchen Tune-Up's own AI Design Tool catalog off its visualizer vendor's API —… | 🟢 |
 | `kitchentuneup.visualizeKitchen` | kitchentuneup.com | Runs a photo through Kitchen Tune-Up's own AI Design Tool the way… | 🟢 |
 | `kompan.getSparePartsDocuments` | kompan.com | Reads the real spare-parts / TÜV-certificate / maintenance-manual documents KOMPAN… | 🟢 |
+| `kompan.searchPlaygroundSpareParts` | kompan.com | Single-object-argument search keyed by product_no that reports whether a playground… | 🟢 |
 | `kompan.searchProduct` | kompan.com | Searches KOMPAN Master for a product number in one region and lists every real… | 🟢 |
 | `kuiu.findKuiuSize` | kuiu.com | Maps a shopper's chest/waist measurements (inches) to KUIU's own men's apparel size… | 🟢 |
 | `kuiu.getKuiuCheckoutLink` | kuiu.com | Resolves a product handle + chosen variant (camo pattern/color + size) to a real… | 🟢 |
@@ -702,6 +703,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `newegg.search` | newegg.com | Searches newegg.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `nvisioncenters.calculateLasikSavings` | nvisioncenters.com | Runs NVISION's own LASIK Savings Calculator — age plus glasses/contacts usage and cost… | 🟢 |
 | `nvisioncenters.checkLasikCandidacy` | nvisioncenters.com | Runs NVISION's own LASIK Candidate Quiz disqualification rule — age bracket in, the… | 🟢 |
+| `nvisioncenters.estimateLasikSavings` | nvisioncenters.com | Alias of calculateLasikSavings taking the snake_case argument spelling (glasses_cost… | 🟢 |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
 | `oliverwinery.checkShippingAvailability` | oliverwinery.com | Checks whether Oliver Winery currently ships wine to one US state, read off the… | 🟢 |
 | `oliverwinery.getWine` | oliverwinery.com | Reads one wine's full Commerce7 product record by its storefront slug (e.g.… | 🟢 |

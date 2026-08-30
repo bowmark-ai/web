@@ -1,5 +1,5 @@
 {
-  "version": "e7fd4105bd1eeb0b5c58ff27228b97e0c1abe18b862ddedc81d80292e11ed8a2",
+  "version": "30acf97e882124423eecad144b20c278a6e81b46e839c2063822661efc063ea6",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -11139,6 +11139,32 @@
             },
             "optional": false
           }
+        ],
+        "searchPlaygroundSpareParts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "product_no",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "region",
+                  "schema": {
+                    "k": "ref",
+                    "name": "KompanRegion"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -13395,6 +13421,46 @@
             }
           ]
         },
+        "NvisioncentersEstimateSavingsInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "age",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "glasses",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "glasses_cost",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "contacts",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "contacts_cost",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "NvisioncentersSavingsInput": {
           "k": "object",
           "props": [
@@ -13453,6 +13519,16 @@
             "schema": {
               "k": "ref",
               "name": "NvisioncentersCandidacyInput"
+            },
+            "optional": false
+          }
+        ],
+        "estimateLasikSavings": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "NvisioncentersEstimateSavingsInput"
             },
             "optional": false
           }
