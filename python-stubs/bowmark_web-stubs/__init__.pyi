@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ce2466c9b8b9b0f023307b4cfb91fab86d501a9f93f25f8e8adf719a7f7e7856
+# Manifest version: c9aaf7bb50ed94db4032af22320d6d3ea9e8a26fa1ff2ef461e22b0ed0a50044
 # 32 capabilities, 253 providers, 643 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -12608,7 +12608,9 @@ class Cap_custom_sofa_configurator(Protocol):
     """Configure a real sofa or sectional — pick a fabric, wood stain or leg finish — and get
     the maker's own live price, across every maker whose site publishes a real configurator
     (Joybird, Interior Define). Not a researched estimate: the same total the maker's own
-    customizer would show for that exact pick.
+    customizer would show for that exact pick. No sofa named yet? Call listSofas() and
+    configure/price the first result — that alone answers 'configure a sofa with fabric
+    selection and live pricing' without asking the caller to pick one first.
     """
 
     async def listSofas(self, query: str | None = None, /) -> Cap_custom_sofa_configurator_CustomSofaListResult_Out:

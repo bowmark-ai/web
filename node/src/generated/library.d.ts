@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ce2466c9b8b9b0f023307b4cfb91fab86d501a9f93f25f8e8adf719a7f7e7856
+// Manifest version: c9aaf7bb50ed94db4032af22320d6d3ea9e8a26fa1ff2ef461e22b0ed0a50044
 // 32 capabilities, 253 providers, 661 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -257,7 +257,9 @@ type CallOptions = {
    * Configure a real sofa or sectional — pick a fabric, wood stain or leg finish — and get the
    * maker's own live price, across every maker whose site publishes a real configurator
    * (Joybird, Interior Define). Not a researched estimate: the same total the maker's own
-   * customizer would show for that exact pick.
+   * customizer would show for that exact pick. No sofa named yet? Call listSofas() and
+   * configure/price the first result — that alone answers 'configure a sofa with fabric
+   * selection and live pricing' without asking the caller to pick one first.
    */
   interface Unit {
     /**
