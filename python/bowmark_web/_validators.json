@@ -1,6 +1,34 @@
 {
-  "version": "52d242c7105ce51198bd7b02b8e2144cd0826dffb3f9d9d7fbf024d3a412bf5a",
+  "version": "9b4b08a7a50fb2131731de5408d37112ce73e6cc290b910fb6e96acd44e85f7d",
   "units": {
+    "cable_railing_quote": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getDesignOptions": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "cars": {
       "defs": {
         "CallOptions": {
@@ -3627,6 +3655,29 @@
               "k": "number"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bennington": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "model",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

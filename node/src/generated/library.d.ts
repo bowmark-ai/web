@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 52d242c7105ce51198bd7b02b8e2144cd0826dffb3f9d9d7fbf024d3a412bf5a
-// 29 capabilities, 250 providers, 651 typed functions, 20 refused.
+// Manifest version: 9b4b08a7a50fb2131731de5408d37112ce73e6cc290b910fb6e96acd44e85f7d
+// 30 capabilities, 251 providers, 653 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35,6 +35,58 @@
 //
 
 
+
+declare namespace BowmarkCapability_cable_railing_quote {
+  // ── Cable railing design quote (materials & mounting options) — the unit's own declarations, verbatim ──
+type CableRailingMaterial = {
+  slug: string
+  title: string
+  metal: boolean
+  defaultFinish: string | null
+  finishes: string[]
+}
+type CableRailingMountingStyle = {
+  slug: string
+  title: string
+  availableMaterials: string[]
+}
+type CableRailingPricing = {
+  automated: false          // no source publishes an automated instant price — see 'how'
+  how: string                // what actually produces a price (a human, after submission)
+  designAppUrl: string
+}
+type CableRailingDesignOptionsResult = {
+  materials: CableRailingMaterial[]
+  mountingStyles: CableRailingMountingStyle[]
+  pricing: CableRailingPricing
+  warnings: string[]        // always present; empty when nothing was dropped
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Returns the real material and mounting-style choices behind Viewrail's Victor cable-railing
+   * design app. There is no automated instant price to return alongside them — Victor prices a
+   * design by having a human review it after submission, and `pricing.how` says so rather than
+   * guessing a number.
+   */
+  interface Unit {
+    /**
+     * Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain
+     * aluminum, …) and post-mounting styles (Surface Mount, Side Mount, Core Drill, …), each with
+     * which materials it's available in — the two choices Victor's own draw-and-quote flow asks
+     * first. `pricing.automated` is always `false`: no cable-railing site measured publishes an
+     * automated instant price (Victor's only pricing route is staff-only and 401s any
+     * unauthenticated call), so `pricing.how` names the real next step — draw the layout in Victor
+     * and submit it for a human-priced quote — instead of fabricating a number.
+     */
+    getDesignOptions(options?: CallOptions): Promise<CableRailingDesignOptionsResult>;
+  }
+}
 
 declare namespace BowmarkCapability_cars {
   // ── Car hire — the unit's own declarations, verbatim ──
@@ -1307,6 +1359,7 @@ interface PersonaRead {
   status: number
   ok: boolean
   price: { amount: number; currency: string } | null   // integer minor units
+  display: string | null   // price formatted for a reader, e.g. "$499.99" — quote THIS, not price.amount
   source: "ld+json" | "none"
   error: string | null
 }
@@ -3698,6 +3751,31 @@ interface BeatthebombPriceQuote {
      * price at $0.
      */
     priceMission(location: string, product: string, date: string, time: string, quantity: number): Promise<BeatthebombPriceQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_bennington {
+  // ── Bennington Marine — the unit's own declarations, verbatim ──
+interface BenningtonModel {
+  slug: string;
+  name: string;
+  url: string;
+  lengthOverall: string | null;
+  beam: string | null;
+  specText: string;
+}
+
+  /**
+   * Bennington's pontoon/tritoon model catalog — length, beam and standard-feature specs read
+   * off each model's own page (S, SX, S-One today).
+   */
+  interface Unit {
+    /**
+     * Lists Bennington's pontoon/tritoon model series with their published length overall, beam
+     * and feature specs, read off each model's own page. Pass { model: "s-one" } for one model, or
+     * omit args for every known model.
+     */
+    search(args?: { model?: string }): Promise<{ models: BenningtonModel[]; warnings: string[] }>;
   }
 }
 
@@ -24335,6 +24413,7 @@ interface BowmarkProviders {
   baublebar: BowmarkProvider_baublebar.Unit;
   bcparkscamping: BowmarkProvider_bcparkscamping.Unit;
   beatthebomb: BowmarkProvider_beatthebomb.Unit;
+  bennington: BowmarkProvider_bennington.Unit;
   bestbuy: BowmarkProvider_bestbuy.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;
   bigjoeforklifts: BowmarkProvider_bigjoeforklifts.Unit;
@@ -76284,6 +76363,7 @@ interface BowmarkProviders {
  * `run()` script, and the Proxy over HTTP in a caller's own process. They are
  * generated once precisely so those two cannot drift. */
 interface BowmarkLibrary {
+  cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   cars: BowmarkCapability_cars.Unit;
   coworking: BowmarkCapability_coworking.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;

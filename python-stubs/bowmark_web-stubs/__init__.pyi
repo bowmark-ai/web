@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 52d242c7105ce51198bd7b02b8e2144cd0826dffb3f9d9d7fbf024d3a412bf5a
-# 29 capabilities, 250 providers, 633 typed functions, 20 refused.
+# Manifest version: 9b4b08a7a50fb2131731de5408d37112ce73e6cc290b910fb6e96acd44e85f7d
+# 30 capabilities, 251 providers, 635 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -229,6 +229,32 @@ __all__: list[str]
 
 Library = Bowmark
 Providers = BowmarkProviders
+
+class Cap_cable_railing_quote_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_cable_railing_quote_CableRailingDesignOptionsResult_Out(TypedDict):
+    materials: list[Cap_cable_railing_quote_CableRailingMaterial_Out]
+    mountingStyles: list[Cap_cable_railing_quote_CableRailingMountingStyle_Out]
+    pricing: Cap_cable_railing_quote_CableRailingPricing_Out
+    warnings: list[str]
+
+class Cap_cable_railing_quote_CableRailingMaterial_Out(TypedDict):
+    slug: str
+    title: str
+    metal: bool
+    defaultFinish: str | None
+    finishes: list[str]
+
+class Cap_cable_railing_quote_CableRailingMountingStyle_Out(TypedDict):
+    slug: str
+    title: str
+    availableMaterials: list[str]
+
+class Cap_cable_railing_quote_CableRailingPricing_Out(TypedDict):
+    automated: Literal[False]
+    how: str
+    designAppUrl: str
 
 class Cap_cars_CarQuery_In(TypedDict):
     pickup: str
@@ -821,6 +847,7 @@ class Cap_pricing_PersonaRead_Out(TypedDict):
     status: float
     ok: bool
     price: Cap_pricing_PersonaRead_Out_price_u0_Out | None
+    display: str | None
     source: Literal["ld+json"] | Literal["none"]
     error: str | None
 
@@ -2103,6 +2130,21 @@ class Prv_beatthebomb_BeatthebombPriceQuote_Out(TypedDict):
     isWeekend: bool
     zeroPriceIsBundleSku: bool
     checkoutUrl: str
+
+class Prv_bennington_search_args_In(TypedDict):
+    model: NotRequired[str]
+
+class Prv_bennington_search_return_Out(TypedDict):
+    models: list[Prv_bennington_BenningtonModel_Out]
+    warnings: list[str]
+
+class Prv_bennington_BenningtonModel_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    lengthOverall: str | None
+    beam: str | None
+    specText: str
 
 class Prv_bestbuy_search_args_u1_In(TypedDict):
     query: str
@@ -12404,6 +12446,23 @@ class Prv_zennioptical_ZenniLensPriceRow_Out_subTypes_item_Out(TypedDict):
     tints: bool
 
 
+class Cap_cable_railing_quote(Protocol):
+    """Returns the real material and mounting-style choices behind Viewrail's Victor
+    cable-railing design app. There is no automated instant price to return alongside them —
+    Victor prices a design by having a human review it after submission, and `pricing.how`
+    says so rather than guessing a number.
+    """
+
+    async def getDesignOptions(self, options: Cap_cable_railing_quote_CallOptions_In | None = None, /) -> Cap_cable_railing_quote_CableRailingDesignOptionsResult_Out:
+        """Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain
+        aluminum, …) and post-mounting styles (Surface Mount, Side Mount, Core Drill, …), each
+        with which materials it's available in — the two choices Victor's own draw-and-quote
+        flow asks first. `pricing.automated` is always `false`: no cable-railing site measured
+        publishes an automated instant price (Victor's only pricing route is staff-only and 401s
+        any unauthenticated call), so `pricing.how` names the real next step — draw the layout
+        in Victor and submit it for a human-priced quote — instead of fabricating a number.
+        """
+
 class Cap_cars(Protocol):
     """Search car hire at an airport for a date range and get back normalized offers, cheapest
     total first — total and per-day price, the agency you collect from AND the separate
@@ -13750,6 +13809,17 @@ class Prv_beatthebomb(Protocol):
         ("mission", "premium", "vip", "arcade-battle", "kids-birthday", "vip-package"), not
         always the catalog slug from listMissions() — see zeroPriceIsBundleSku for the site's
         own bundle-SKU codes that price at $0.
+        """
+
+class Prv_bennington(Protocol):
+    """Bennington's pontoon/tritoon model catalog — length, beam and standard-feature specs
+    read off each model's own page (S, SX, S-One today).
+    """
+
+    async def search(self, args: Prv_bennington_search_args_In | None = None, /) -> Prv_bennington_search_return_Out:
+        """Lists Bennington's pontoon/tritoon model series with their published length overall,
+        beam and feature specs, read off each model's own page. Pass { model: "s-one" } for one
+        model, or omit args for every known model.
         """
 
 class Prv_bestbuy(Protocol):
@@ -20795,6 +20865,7 @@ class BowmarkProviders(Protocol):
     baublebar: Prv_baublebar
     bcparkscamping: Prv_bcparkscamping
     beatthebomb: Prv_beatthebomb
+    bennington: Prv_bennington
     bestbuy: Prv_bestbuy
     bhphoto: Prv_bhphoto
     bigjoeforklifts: Prv_bigjoeforklifts
@@ -21030,6 +21101,7 @@ class Bowmark(Protocol):
     `run()` script, and the proxy over HTTP in a caller's own process. They are
     generated once precisely so those two cannot drift."""
 
+    cable_railing_quote: Cap_cable_railing_quote
     cars: Cap_cars
     coworking: Cap_coworking
     developer_api_key_signup: Cap_developer_api_key_signup

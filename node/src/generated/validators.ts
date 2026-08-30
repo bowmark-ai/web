@@ -5,14 +5,42 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 52d242c7105ce51198bd7b02b8e2144cd0826dffb3f9d9d7fbf024d3a412bf5a
-// 633 checked, 20 unchecked.
+// Manifest version: 9b4b08a7a50fb2131731de5408d37112ce73e6cc290b910fb6e96acd44e85f7d
+// 635 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "52d242c7105ce51198bd7b02b8e2144cd0826dffb3f9d9d7fbf024d3a412bf5a",
+  "version": "9b4b08a7a50fb2131731de5408d37112ce73e6cc290b910fb6e96acd44e85f7d",
   "units": {
+    "cable_railing_quote": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getDesignOptions": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "cars": {
       "defs": {
         "CallOptions": {
@@ -3639,6 +3667,29 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bennington": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "model",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
