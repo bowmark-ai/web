@@ -969,7 +969,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `urbanoutfitters.getReviews` | urbanoutfitters.com | Reads the customer reviews on one Urban Outfitters product — the star rating and its… | ⚪ |
 | `urbanoutfitters.search` | urbanoutfitters.com | Searches Urban Outfitters' live catalogue the way the site's own search bar does and… | ⚪ |
 | `urbanoutfitters.trackOrder` | urbanoutfitters.com | Looks up the status of a Urban Outfitters order from the order number and the email it… | ⚪ |
-| `usps.getRate` | usps.com | Prices a domestic package across USPS's own Mail Classes (Priority Mail, Priority Mail… | 🟢 |
+| `usps.getRate` | usps.com | Prices a domestic package across USPS's own Mail Services (Priority Mail Express… | 🟢 |
 | `vervecoffee.listRoastersChoiceSubscriptions` | vervecoffee.com | Lists Verve's five real Roaster's Choice coffee subscription products (single origin… | 🟢 |
 | `vervecoffee.matchCoffeeSubscription` | vervecoffee.com | Runs Verve's real 'Find Your Coffee Match' quiz end to end — the same 5 questions… | 🟢 |
 | `vessi.getFitGuide` | vessi.com | Reads Vessi's own computed per-style fit-guide — a size-offset recommendation per foot… | 🟢 |
