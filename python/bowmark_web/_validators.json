@@ -1,5 +1,5 @@
 {
-  "version": "72d57ce39992c224f64b91b2b3836bbcf5e578d8deed98a40a438ac53d6a5ccf",
+  "version": "16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -14212,6 +14212,13 @@
         ]
       }
     },
+    "providers.poshmark": {
+      "defs": {},
+      "functions": {
+        "getBulkUploadTemplateGuide": [],
+        "getZipFileGuide": []
+      }
+    },
     "providers.positivegrid": {
       "defs": {
         "positivegridFindRetailersArgs": {
@@ -16956,6 +16963,38 @@
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.proxmox": {
+      "defs": {},
+      "functions": {
+        "getIsoDownloads": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "proxmox-virtual-environment"
+                },
+                {
+                  "k": "literal",
+                  "v": "proxmox-backup-server"
+                },
+                {
+                  "k": "literal",
+                  "v": "proxmox-mail-gateway"
+                },
+                {
+                  "k": "literal",
+                  "v": "proxmox-datacenter-manager"
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 72d57ce39992c224f64b91b2b3836bbcf5e578d8deed98a40a438ac53d6a5ccf
-// 637 checked, 20 unchecked.
+// Manifest version: 16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f
+// 640 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "72d57ce39992c224f64b91b2b3836bbcf5e578d8deed98a40a438ac53d6a5ccf",
+  "version": "16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -14224,6 +14224,13 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.poshmark": {
+      "defs": {},
+      "functions": {
+        "getBulkUploadTemplateGuide": [],
+        "getZipFileGuide": []
+      }
+    },
     "providers.positivegrid": {
       "defs": {
         "positivegridFindRetailersArgs": {
@@ -16968,6 +16975,38 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.proxmox": {
+      "defs": {},
+      "functions": {
+        "getIsoDownloads": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "proxmox-virtual-environment"
+                },
+                {
+                  "k": "literal",
+                  "v": "proxmox-backup-server"
+                },
+                {
+                  "k": "literal",
+                  "v": "proxmox-mail-gateway"
+                },
+                {
+                  "k": "literal",
+                  "v": "proxmox-datacenter-manager"
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

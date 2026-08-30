@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 72d57ce39992c224f64b91b2b3836bbcf5e578d8deed98a40a438ac53d6a5ccf
-# 31 capabilities, 251 providers, 637 typed functions, 20 refused.
+# Manifest version: 16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f
+# 31 capabilities, 253 providers, 640 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9074,6 +9074,10 @@ class Prv_pizzahut_PizzahutDealsForRender_Out_sources_item_Out(TypedDict):
 class Prv_pizzahut_PizzahutDealScopeForRender_u1_Out(TypedDict):
     storeNumbers: list[str]
 
+class Prv_poshmark_PoshmarkSupportArticle_Out(TypedDict):
+    url: str
+    text: str
+
 class Prv_positivegrid_positivegridFindRetailersArgs_In(TypedDict):
     near: str
     radiusMiles: NotRequired[float]
@@ -9601,6 +9605,18 @@ class Prv_provenwinners_ContainerRecipeDetails_Out_plants_item_Out(TypedDict):
     quantity: float
     name: str
     url: str
+
+class Prv_proxmox_ProxmoxIsoDownload_Out(TypedDict):
+    product: Literal["proxmox-virtual-environment"] | Literal["proxmox-backup-server"] | Literal["proxmox-mail-gateway"] | Literal["proxmox-datacenter-manager"]
+    productName: str
+    title: str
+    version: str
+    fileSizeText: str
+    lastUpdated: str
+    sha256: str | None
+    downloadUrl: str
+    torrentUrl: str | None
+    pageUrl: str
 
 class Prv_reddit_RedditSubreddit_Out(TypedDict):
     name: str
@@ -18711,6 +18727,24 @@ class Prv_pizzahut(Protocol):
         as "first". Wholly anonymous, one Contentful read per call.
         """
 
+class Prv_poshmark(Protocol):
+    """Poshmark's own support-center documentation (support.poshmark.com) for Bulk Upload — the
+    CSV/template format and the zip-of-photos requirements for sellers listing many items at
+    once.
+    """
+
+    async def getBulkUploadTemplateGuide(self, /) -> Prv_poshmark_PoshmarkSupportArticle_Out:
+        """Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required
+        columns, SKU rules, the .csv file requirement, Excel-version caveats — straight off
+        support.poshmark.com.
+        """
+
+    async def getZipFileGuide(self, /) -> Prv_poshmark_PoshmarkSupportArticle_Out:
+        """Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how to
+        zip listing photos on Windows/Mac and which image types Bulk Upload accepts — straight
+        off support.poshmark.com.
+        """
+
 class Prv_positivegrid(Protocol):
     """Positive Grid's own authorized-retailer network — findRetailers finds real nearby
     dealers (Guitar Center and independent music shops) that carry Spark amps, with address,
@@ -18939,6 +18973,21 @@ class Prv_provenwinners(Protocol):
         """Reads one container recipe's own combination page — season(s), container size, and the
         exact plant list with each plant's role (Filler/Spiller/Thriller), quantity and buy-page
         link.
+        """
+
+class Prv_proxmox(Protocol):
+    """Open-source virtualization/backup/mail-security vendor. getIsoDownloads is live — the
+    current ISO installer(s) for any or all of Proxmox VE, Proxmox Backup Server, Proxmox
+    Mail Gateway and Proxmox Datacenter Manager, straight off proxmox.com's own downloads
+    pages: version, file size, last-updated date, SHA256 checksum, and the real
+    enterprise.proxmox.com download/torrent URLs.
+    """
+
+    async def getIsoDownloads(self, product: Literal["proxmox-virtual-environment"] | Literal["proxmox-backup-server"] | Literal["proxmox-mail-gateway"] | Literal["proxmox-datacenter-manager"] | None = None, /) -> list[Prv_proxmox_ProxmoxIsoDownload_Out]:
+        """Gets the current ISO installer download(s) for one Proxmox product, or for all four when
+        `product` is omitted. Proxmox VE's own downloads page additionally lists its current
+        arm64 build and three prior major versions (8.4-1, 7.4-1, 6.4-1) alongside the current
+        amd64 release — every card the site publishes comes back, not just the newest one.
         """
 
 class Prv_reddit(Protocol):
@@ -21080,11 +21129,13 @@ class BowmarkProviders(Protocol):
     perennialsandsutherland: Prv_perennialsandsutherland
     pirateship: Prv_pirateship
     pizzahut: Prv_pizzahut
+    poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
     premierbuildings: Prv_premierbuildings
     progressive: Prv_progressive
     prose: Prv_prose
     provenwinners: Prv_provenwinners
+    proxmox: Prv_proxmox
     reddit: Prv_reddit
     reliancepartners: Prv_reliancepartners
     resy: Prv_resy

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 72d57ce39992c224f64b91b2b3836bbcf5e578d8deed98a40a438ac53d6a5ccf
-// 31 capabilities, 251 providers, 655 typed functions, 20 refused.
+// Manifest version: 16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f
+// 31 capabilities, 253 providers, 658 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17637,6 +17637,35 @@ interface PizzahutDealsForRender {
   }
 }
 
+declare namespace BowmarkProvider_poshmark {
+  // ── Poshmark — the unit's own declarations, verbatim ──
+interface PoshmarkSupportArticle {
+  url: string;
+  text: string;
+}
+
+  /**
+   * Poshmark's own support-center documentation (support.poshmark.com) for Bulk Upload — the
+   * CSV/template format and the zip-of-photos requirements for sellers listing many items at
+   * once.
+   */
+  interface Unit {
+    /**
+     * Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required columns,
+     * SKU rules, the .csv file requirement, Excel-version caveats — straight off
+     * support.poshmark.com.
+     */
+    getBulkUploadTemplateGuide(): Promise<PoshmarkSupportArticle>;
+
+    /**
+     * Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how to zip
+     * listing photos on Windows/Mac and which image types Bulk Upload accepts — straight off
+     * support.poshmark.com.
+     */
+    getZipFileGuide(): Promise<PoshmarkSupportArticle>;
+  }
+}
+
 declare namespace BowmarkProvider_positivegrid {
   // ── Positive Grid — the unit's own declarations, verbatim ──
 interface positivegridFindRetailersArgs {
@@ -18467,6 +18496,45 @@ interface ContainerRecipeDetails {
      * plant list with each plant's role (Filler/Spiller/Thriller), quantity and buy-page link.
      */
     getRecipeDetails(slug: string): Promise<ContainerRecipeDetails>;
+  }
+}
+
+declare namespace BowmarkProvider_proxmox {
+  // ── Proxmox — the unit's own declarations, verbatim ──
+type ProxmoxProductSlug =
+  | "proxmox-virtual-environment"
+  | "proxmox-backup-server"
+  | "proxmox-mail-gateway"
+  | "proxmox-datacenter-manager";
+
+interface ProxmoxIsoDownload {
+  product: ProxmoxProductSlug;
+  productName: string;
+  title: string;
+  version: string;
+  fileSizeText: string;
+  lastUpdated: string;
+  sha256: string | null;
+  downloadUrl: string;
+  torrentUrl: string | null;
+  pageUrl: string;
+}
+
+  /**
+   * Open-source virtualization/backup/mail-security vendor. getIsoDownloads is live — the
+   * current ISO installer(s) for any or all of Proxmox VE, Proxmox Backup Server, Proxmox Mail
+   * Gateway and Proxmox Datacenter Manager, straight off proxmox.com's own downloads pages:
+   * version, file size, last-updated date, SHA256 checksum, and the real enterprise.proxmox.com
+   * download/torrent URLs.
+   */
+  interface Unit {
+    /**
+     * Gets the current ISO installer download(s) for one Proxmox product, or for all four when
+     * `product` is omitted. Proxmox VE's own downloads page additionally lists its current arm64
+     * build and three prior major versions (8.4-1, 7.4-1, 6.4-1) alongside the current amd64
+     * release — every card the site publishes comes back, not just the newest one.
+     */
+    getIsoDownloads(product?: "proxmox-virtual-environment" | "proxmox-backup-server" | "proxmox-mail-gateway" | "proxmox-datacenter-manager"): Promise<ProxmoxIsoDownload[]>;
   }
 }
 
@@ -24635,11 +24703,13 @@ interface BowmarkProviders {
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
+  poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
   progressive: BowmarkProvider_progressive.Unit;
   prose: BowmarkProvider_prose.Unit;
   provenwinners: BowmarkProvider_provenwinners.Unit;
+  proxmox: BowmarkProvider_proxmox.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
   resy: BowmarkProvider_resy.Unit;
