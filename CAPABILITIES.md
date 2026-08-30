@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 42 functions. 🟢 implemented · ⚪ planned.
+> 43 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -33,6 +33,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `music.search` | Searches the catalogue for tracks matching free text ("aphex twin", "lofi hip hop"… | 1 | 🟢 |
 | `pcparts.getProduct` | Reads ONE product page in full — pass a product URL or an offer straight from… | 3 | 🟢 |
 | `pcparts.search` | Searches Newegg + Micro Center + B&H for ONE part (e.g. "Ryzen 7 7800X3D" or "RTX… | 3 | 🟢 |
+| `pricing.checkPersonalization` | Reads one product page's price once per persona (default: desktop + mobile, each a… | 0 | 🟢 |
 | `products.getAvailability` | Reads one product page and returns its price and stock status, from the page's own… | 0 | 🟢 |
 | `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟢 |
 | `read.page` | Loads one page and returns its content. | 0 | 🟢 |
