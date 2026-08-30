@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f
-# 31 capabilities, 253 providers, 640 typed functions, 20 refused.
+# Manifest version: ce2466c9b8b9b0f023307b4cfb91fab86d501a9f93f25f8e8adf719a7f7e7856
+# 32 capabilities, 253 providers, 643 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -322,6 +322,57 @@ class Cap_coworking_CoworkingDayPass_Out(TypedDict):
 class Cap_coworking_CoworkingDayPass_Out_rating_u0_Out(TypedDict):
     average: float
     count: float
+
+class Cap_custom_sofa_configurator_CustomSofaListResult_Out(TypedDict):
+    sofas: list[Cap_custom_sofa_configurator_CustomSofa_Out]
+    warnings: list[str]
+
+class Cap_custom_sofa_configurator_CustomSofa_Out(TypedDict):
+    id: str
+    source: str
+    brand: str
+    name: str
+    url: str
+    basePrice: float
+    basePriceNote: str
+
+class Cap_custom_sofa_configurator_CustomSofaConfigurator_Out(TypedDict):
+    id: str
+    source: str
+    brand: str
+    name: str
+    url: str
+    basePrice: float
+    basePriceNote: str
+    options: list[Cap_custom_sofa_configurator_CustomSofaOption_Out]
+    warnings: list[str]
+
+class Cap_custom_sofa_configurator_CustomSofaOption_Out(TypedDict):
+    key: str
+    title: str
+    required: bool
+    choices: list[Cap_custom_sofa_configurator_CustomSofaChoice_Out]
+
+class Cap_custom_sofa_configurator_CustomSofaChoice_Out(TypedDict):
+    key: str
+    label: str
+    priceDelta: float
+
+class Cap_custom_sofa_configurator_CustomSofaPriceResult_Out(TypedDict):
+    id: str
+    source: str
+    brand: str
+    total: float
+    breakdown: list[Cap_custom_sofa_configurator_CustomSofaPriceLine_Out]
+    missingRequired: list[str]
+    unmatched: list[str]
+    url: str
+    warnings: list[str]
+
+class Cap_custom_sofa_configurator_CustomSofaPriceLine_Out(TypedDict):
+    option: str
+    choice: str
+    priceDelta: float
 
 class Cap_developer_api_key_signup_signUp_details_In(TypedDict):
     organization: str
@@ -12553,6 +12604,37 @@ class Cap_coworking(Protocol):
         is out of scope here. US cities only.
         """
 
+class Cap_custom_sofa_configurator(Protocol):
+    """Configure a real sofa or sectional — pick a fabric, wood stain or leg finish — and get
+    the maker's own live price, across every maker whose site publishes a real configurator
+    (Joybird, Interior Define). Not a researched estimate: the same total the maker's own
+    customizer would show for that exact pick.
+    """
+
+    async def listSofas(self, query: str | None = None, /) -> Cap_custom_sofa_configurator_CustomSofaListResult_Out:
+        """Lists configurable sofas/sectionals across every maker — Joybird's whole catalogue
+        (filtered to sofas and sectionals) plus an Interior Define search (defaults to "sofa"
+        when `query` is omitted). Each row's `id` is what getConfigurator and priceConfiguration
+        take. `basePriceNote` says what the price actually means for that maker — Joybird does
+        not charge per-fabric, so its price is the real total; Interior Define's is a floor.
+        Throws only when NEITHER maker could be reached.
+        """
+
+    async def getConfigurator(self, id: str, /) -> Cap_custom_sofa_configurator_CustomSofaConfigurator_Out:
+        """Reads one sofa's full configurator — every option slot (Fabric, Wood Stain, Color,
+        Finish, Cushion Fill — the exact set varies by product and maker) with each choice's
+        label and price delta. Each option's `key` and each choice's `key` are exactly what
+        priceConfiguration takes back as a selection.
+        """
+
+    async def priceConfiguration(self, id: str, selections: Mapping[str, str], /) -> Cap_custom_sofa_configurator_CustomSofaPriceResult_Out:
+        """Prices ONE exact configuration against the maker's own live customizer and returns the
+        real total, a per-choice breakdown, which required slots are still unpicked (the total
+        is a floor until they are), and a link to the maker's own page for it. `selections` is
+        `{ [option.key]: choice.key }` using the keys getConfigurator(id) just returned for THIS
+        sofa — never invent one.
+        """
+
 class Cap_developer_api_key_signup(Protocol):
     """Actually RUNS a developer dashboard's signup flow and hands back a real, usable API key
     — no email verification, no CAPTCHA, for the dashboards this covers. Today: Alpha
@@ -21217,6 +21299,7 @@ class Bowmark(Protocol):
     cable_railing_quote: Cap_cable_railing_quote
     cars: Cap_cars
     coworking: Cap_coworking
+    custom_sofa_configurator: Cap_custom_sofa_configurator
     developer_api_key_signup: Cap_developer_api_key_signup
     domain: Cap_domain
     email: Cap_email

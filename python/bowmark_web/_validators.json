@@ -1,5 +1,5 @@
 {
-  "version": "16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f",
+  "version": "ce2466c9b8b9b0f023307b4cfb91fab86d501a9f93f25f8e8adf719a7f7e7856",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -181,6 +181,48 @@
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "custom_sofa_configurator": {
+      "defs": {},
+      "functions": {
+        "listSofas": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getConfigurator": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "priceConfiguration": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "string"
+              }
+            },
+            "optional": false
           }
         ]
       }

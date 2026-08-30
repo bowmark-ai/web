@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f
-// 640 checked, 20 unchecked.
+// Manifest version: ce2466c9b8b9b0f023307b4cfb91fab86d501a9f93f25f8e8adf719a7f7e7856
+// 643 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f",
+  "version": "ce2466c9b8b9b0f023307b4cfb91fab86d501a9f93f25f8e8adf719a7f7e7856",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -193,6 +193,48 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "custom_sofa_configurator": {
+      "defs": {},
+      "functions": {
+        "listSofas": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getConfigurator": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "priceConfiguration": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "string"
+              }
+            },
+            "optional": false
           }
         ]
       }

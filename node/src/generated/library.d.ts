@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 16b9795a10da2b6777f267123fc274aef443965e6d953d708f81b7f1e2ad0d5f
-// 31 capabilities, 253 providers, 658 typed functions, 20 refused.
+// Manifest version: ce2466c9b8b9b0f023307b4cfb91fab86d501a9f93f25f8e8adf719a7f7e7856
+// 32 capabilities, 253 providers, 661 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -207,6 +207,85 @@ type CallOptions = {
      * US cities only.
      */
     findDayPasses(location: string | { city: string; state: string }, options?: CallOptions): Promise<FindDayPassesResult>;
+  }
+}
+
+declare namespace BowmarkCapability_custom_sofa_configurator {
+  // ── Custom sofa configurator (fabric selection, live pricing) — the unit's own declarations, verbatim ──
+type CustomSofa = {
+  id: string;             // "<source>:<nativeId>" — pass to getConfigurator/priceConfiguration
+  source: string;         // "joybird" | "interiordefine"
+  brand: string;
+  name: string;
+  url: string;
+  basePrice: number;      // whole dollars — see basePriceNote for what it means
+  basePriceNote: string;
+}
+type CustomSofaListResult = { sofas: CustomSofa[]; warnings: string[] }
+
+type CustomSofaChoice = { key: string; label: string; priceDelta: number }
+type CustomSofaOption = {
+  key: string;            // pass as a SELECTIONS key: { [option.key]: choice.key }
+  title: string;
+  required: boolean;
+  choices: CustomSofaChoice[];
+}
+type CustomSofaConfigurator = {
+  id: string; source: string; brand: string; name: string; url: string;
+  basePrice: number; basePriceNote: string; options: CustomSofaOption[];
+  warnings: string[];    // always empty today — getConfigurator is a route to ONE maker
+}
+
+type CustomSofaPriceLine = { option: string; choice: string; priceDelta: number }
+type CustomSofaPriceResult = {
+  id: string; source: string; brand: string;
+  total: number;               // the maker's own live total for this configuration
+  breakdown: CustomSofaPriceLine[];
+  missingRequired: string[];   // total is a FLOOR while this is non-empty
+  unmatched: string[];         // selections that matched no real option/choice
+  url: string;
+  warnings: string[];    // always empty today — priceConfiguration is a route to ONE maker
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Configure a real sofa or sectional — pick a fabric, wood stain or leg finish — and get the
+   * maker's own live price, across every maker whose site publishes a real configurator
+   * (Joybird, Interior Define). Not a researched estimate: the same total the maker's own
+   * customizer would show for that exact pick.
+   */
+  interface Unit {
+    /**
+     * Lists configurable sofas/sectionals across every maker — Joybird's whole catalogue (filtered
+     * to sofas and sectionals) plus an Interior Define search (defaults to "sofa" when `query` is
+     * omitted). Each row's `id` is what getConfigurator and priceConfiguration take.
+     * `basePriceNote` says what the price actually means for that maker — Joybird does not charge
+     * per-fabric, so its price is the real total; Interior Define's is a floor. Throws only when
+     * NEITHER maker could be reached.
+     */
+    listSofas(query?: string): Promise<CustomSofaListResult>;
+
+    /**
+     * Reads one sofa's full configurator — every option slot (Fabric, Wood Stain, Color, Finish,
+     * Cushion Fill — the exact set varies by product and maker) with each choice's label and price
+     * delta. Each option's `key` and each choice's `key` are exactly what priceConfiguration takes
+     * back as a selection.
+     */
+    getConfigurator(id: string): Promise<CustomSofaConfigurator>;
+
+    /**
+     * Prices ONE exact configuration against the maker's own live customizer and returns the real
+     * total, a per-choice breakdown, which required slots are still unpicked (the total is a floor
+     * until they are), and a link to the maker's own page for it. `selections` is `{ [option.key]:
+     * choice.key }` using the keys getConfigurator(id) just returned for THIS sofa — never invent
+     * one.
+     */
+    priceConfiguration(id: string, selections: Record<string, string>): Promise<CustomSofaPriceResult>;
   }
 }
 
@@ -76505,6 +76584,7 @@ interface BowmarkLibrary {
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   cars: BowmarkCapability_cars.Unit;
   coworking: BowmarkCapability_coworking.Unit;
+  custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;
   domain: BowmarkCapability_domain.Unit;
   email: BowmarkCapability_email.Unit;
