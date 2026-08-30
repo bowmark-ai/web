@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 30acf97e882124423eecad144b20c278a6e81b46e839c2063822661efc063ea6
+// Manifest version: cbf5489be238fffb3e90a1b0141ee3eea462ba463cafd4bed18495f568bde1f1
 // 32 capabilities, 253 providers, 665 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -8776,10 +8776,11 @@ interface fredObservations {
   seriesId: string;
   /** The transform FRED reports having applied: "lin" (none), "pc1", "pch", … */
   units: string;
-  observationStart: string;
-  observationEnd: string;
-  realtimeStart: string;
-  realtimeEnd: string;
+  observationStart: string | null;
+  observationEnd: string | null;
+  /** null: the public CSV has no vintage envelope. */
+  realtimeStart: string | null;
+  realtimeEnd: string | null;
   count: number;
   observations: fredObservation[];
 }
@@ -8831,10 +8832,10 @@ interface fredObservations {
      * `pch`, `chg`, `log` and the rest of FRED's ten codes), and `frequency` with
      * `aggregationMethod` collapses a series to a coarser period (`{ frequency: "a",
      * aggregationMethod: "avg" }` turns the monthly unemployment rate into annual averages). The
-     * result carries the transform FRED reports having applied and the vintage it served, so a
-     * caller can tell what they actually got. This is the function to call once
-     * `searchSeries`/`getSeriesInfo` has identified the right series id — e.g. A191RL1Q225SBEA for
-     * the US real GDP growth rate.
+     * result carries the applied transform and the served row bounds; its realtime fields are
+     * `null` because the keyless CSV publishes no vintage envelope. This is the function to call
+     * once `searchSeries`/`getSeriesInfo` has identified the right series id — e.g.
+     * A191RL1Q225SBEA for the US real GDP growth rate.
      */
     getSeriesObservations(args: string | { seriesId: string; from?: string; to?: string; units?: string; frequency?: string; aggregationMethod?: string }): Promise<fredObservations>;
 

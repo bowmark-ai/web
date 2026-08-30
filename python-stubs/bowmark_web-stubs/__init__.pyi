@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 30acf97e882124423eecad144b20c278a6e81b46e839c2063822661efc063ea6
+# Manifest version: cbf5489be238fffb3e90a1b0141ee3eea462ba463cafd4bed18495f568bde1f1
 # 32 capabilities, 253 providers, 647 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -4782,10 +4782,10 @@ Prv_fred_getSeriesObservations_args_u1_In = TypedDict(
 class Prv_fred_fredObservations_Out(TypedDict):
     seriesId: str
     units: str
-    observationStart: str
-    observationEnd: str
-    realtimeStart: str
-    realtimeEnd: str
+    observationStart: str | None
+    observationEnd: str | None
+    realtimeStart: str | None
+    realtimeEnd: str | None
     count: float
     observations: list[Prv_fred_fredObservation_Out]
 
@@ -15777,10 +15777,10 @@ class Prv_fred(Protocol):
         read inflation off CPIAUCSL — plus `pch`, `chg`, `log` and the rest of FRED's ten
         codes), and `frequency` with `aggregationMethod` collapses a series to a coarser period
         (`{ frequency: "a", aggregationMethod: "avg" }` turns the monthly unemployment rate into
-        annual averages). The result carries the transform FRED reports having applied and the
-        vintage it served, so a caller can tell what they actually got. This is the function to
-        call once `searchSeries`/`getSeriesInfo` has identified the right series id — e.g.
-        A191RL1Q225SBEA for the US real GDP growth rate.
+        annual averages). The result carries the applied transform and the served row bounds;
+        its realtime fields are `null` because the keyless CSV publishes no vintage envelope.
+        This is the function to call once `searchSeries`/`getSeriesInfo` has identified the
+        right series id — e.g. A191RL1Q225SBEA for the US real GDP growth rate.
         """
 
     async def browseCategory(self, categoryId: float | None = None, /) -> Prv_fred_fredCategory_Out:
