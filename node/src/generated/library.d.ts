@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8d742abb5e697cab3c611bf08b239316b5cf683b073a0337a1135ec636bd5aee
+// Manifest version: 6612b1b871c7e6964f29c22bfdfb4d4c10e4d41e6b85a22fa4c8a800b1f5bcd3
 // 31 capabilities, 251 providers, 654 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -1430,8 +1430,9 @@ interface PersonalizationCheck {
     /**
      * Reads one product page's price once per persona (default: desktop + mobile, each a fresh
      * cookie-less visit) and reports whether the personas saw different prices. If the caller
-     * hasn't named a page yet, run the worked example below — a real, live product page — to
-     * demonstrate a genuine comparison, then ask which page to check next.
+     * hasn't named a page yet, DO NOT ask them for one first — CALL this function immediately with
+     * the worked example URL below (a real, live product page) so the caller sees a genuine
+     * comparison before you ask which page to check next.
      */
     checkPersonalization(url: string, personas?: PersonalizationPersona[]): Promise<PersonalizationCheck>;
   }

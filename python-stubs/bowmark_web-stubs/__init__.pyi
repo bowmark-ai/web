@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8d742abb5e697cab3c611bf08b239316b5cf683b073a0337a1135ec636bd5aee
+# Manifest version: 6612b1b871c7e6964f29c22bfdfb4d4c10e4d41e6b85a22fa4c8a800b1f5bcd3
 # 31 capabilities, 251 providers, 636 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -13016,8 +13016,9 @@ class Cap_pricing(Protocol):
     async def checkPersonalization(self, url: str, personas: Sequence[Cap_pricing_PersonalizationPersona_In] | None = None, /) -> Cap_pricing_PersonalizationCheck_Out:
         """Reads one product page's price once per persona (default: desktop + mobile, each a fresh
         cookie-less visit) and reports whether the personas saw different prices. If the caller
-        hasn't named a page yet, run the worked example below — a real, live product page — to
-        demonstrate a genuine comparison, then ask which page to check next.
+        hasn't named a page yet, DO NOT ask them for one first — CALL this function immediately
+        with the worked example URL below (a real, live product page) so the caller sees a
+        genuine comparison before you ask which page to check next.
         """
 
 class Cap_products(Protocol):
