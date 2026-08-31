@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2d22fcbee261c0c8e601a78395db0b061a9b63db1983845723f53516b8fa80e0
-// 656 checked, 20 unchecked.
+// Manifest version: 555de1c1f8a489b622fa0e78d04050db7e47939836c0cc545387e1431cb01662
+// 657 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2d22fcbee261c0c8e601a78395db0b061a9b63db1983845723f53516b8fa80e0",
+  "version": "555de1c1f8a489b622fa0e78d04050db7e47939836c0cc545387e1431cb01662",
   "units": {
     "bundles": {
       "defs": {},
@@ -1210,6 +1210,41 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "local_html_preview": {
+      "defs": {
+        "PreviewOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "maxChars",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "render": [
+          {
+            "name": "html",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "PreviewOptions"
             },
             "optional": true
           }

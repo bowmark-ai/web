@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2d22fcbee261c0c8e601a78395db0b061a9b63db1983845723f53516b8fa80e0
-// 34 capabilities, 257 providers, 674 typed functions, 20 refused.
+// Manifest version: 555de1c1f8a489b622fa0e78d04050db7e47939836c0cc545387e1431cb01662
+// 35 capabilities, 257 providers, 675 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1255,6 +1255,46 @@ type CallOptions = {
      * highlight subset, not the whole ministry catalog.
      */
     attractionHours(query: string, options?: CallOptions): Promise<AttractionHoursResult>;
+  }
+}
+
+declare namespace BowmarkCapability_local_html_preview {
+  // ── Preview local HTML (structure, text, links, forms — read-only) — the unit's own declarations, verbatim ──
+
+interface PreviewHeading { level: number; text: string }
+interface PreviewLink { text: string; href: string | null }
+interface PreviewImage { src: string | null; alt: string | null }
+interface PreviewForm { action: string | null; method: string; fieldCount: number }
+
+interface PreviewOptions {
+  maxChars?: number   // default 20000; over it, text is cut + truncated:true
+}
+
+interface HtmlPreviewResult {
+  title: string | null
+  text: string                 // visible text, block structure kept as blank lines
+  chars: number
+  truncated: boolean
+  headings: PreviewHeading[]
+  links: PreviewLink[]
+  images: PreviewImage[]
+  forms: PreviewForm[]         // inventory only — nothing here submits a form
+  wordCount: number
+  warnings: string[]
+}
+
+  /**
+   * Render an HTML file or fragment the caller already has and get back its title, text,
+   * headings, links, images and forms — no network, no browser, nothing executed or submitted.
+   */
+  interface Unit {
+    /**
+     * Parses supplied HTML (a local file's contents, or a fragment) and returns a structured
+     * preview: title, readable text, headings, links, images and a read-only form inventory. Never
+     * executes scripts, never fetches anything, never submits a form — it only reads the markup
+     * you already have.
+     */
+    render(html: string, options?: PreviewOptions): Promise<HtmlPreviewResult>;
   }
 }
 
@@ -76923,6 +76963,7 @@ interface BowmarkLibrary {
   hvac: BowmarkCapability_hvac.Unit;
   insurance: BowmarkCapability_insurance.Unit;
   istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
+  local_html_preview: BowmarkCapability_local_html_preview.Unit;
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;

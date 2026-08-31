@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2d22fcbee261c0c8e601a78395db0b061a9b63db1983845723f53516b8fa80e0
-# 34 capabilities, 257 providers, 656 typed functions, 20 refused.
+# Manifest version: 555de1c1f8a489b622fa0e78d04050db7e47939836c0cc545387e1431cb01662
+# 35 capabilities, 257 providers, 657 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -803,6 +803,38 @@ class Cap_istanbul_schedules_AttractionHoursResult_Out(TypedDict):
     email: str | None
     url: str
     warnings: list[str]
+
+class Cap_local_html_preview_PreviewOptions_In(TypedDict):
+    maxChars: NotRequired[float]
+
+class Cap_local_html_preview_HtmlPreviewResult_Out(TypedDict):
+    title: str | None
+    text: str
+    chars: float
+    truncated: bool
+    headings: list[Cap_local_html_preview_PreviewHeading_Out]
+    links: list[Cap_local_html_preview_PreviewLink_Out]
+    images: list[Cap_local_html_preview_PreviewImage_Out]
+    forms: list[Cap_local_html_preview_PreviewForm_Out]
+    wordCount: float
+    warnings: list[str]
+
+class Cap_local_html_preview_PreviewHeading_Out(TypedDict):
+    level: float
+    text: str
+
+class Cap_local_html_preview_PreviewLink_Out(TypedDict):
+    text: str
+    href: str | None
+
+class Cap_local_html_preview_PreviewImage_Out(TypedDict):
+    src: str | None
+    alt: str | None
+
+class Cap_local_html_preview_PreviewForm_Out(TypedDict):
+    action: str | None
+    method: str
+    fieldCount: float
 
 class Cap_mcp_registry_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -13225,6 +13257,19 @@ class Cap_istanbul_schedules(Protocol):
         highlight subset, not the whole ministry catalog.
         """
 
+class Cap_local_html_preview(Protocol):
+    """Render an HTML file or fragment the caller already has and get back its title, text,
+    headings, links, images and forms — no network, no browser, nothing executed or
+    submitted.
+    """
+
+    async def render(self, html: str, options: Cap_local_html_preview_PreviewOptions_In | None = None, /) -> Cap_local_html_preview_HtmlPreviewResult_Out:
+        """Parses supplied HTML (a local file's contents, or a fragment) and returns a structured
+        preview: title, readable text, headings, links, images and a read-only form inventory.
+        Never executes scripts, never fetches anything, never submits a form — it only reads the
+        markup you already have.
+        """
+
 class Cap_mcp_registry(Protocol):
     """Search or browse the official Model Context Protocol server registry — find a published
     MCP server by name and get its install or connect URL.
@@ -21640,6 +21685,7 @@ class Bowmark(Protocol):
     hvac: Cap_hvac
     insurance: Cap_insurance
     istanbul_schedules: Cap_istanbul_schedules
+    local_html_preview: Cap_local_html_preview
     mcp_registry: Cap_mcp_registry
     music: Cap_music
     pcparts: Cap_pcparts
