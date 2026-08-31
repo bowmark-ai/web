@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1030 functions. 🟢 implemented · ⚪ planned.
+> 1031 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -445,6 +445,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `historymaker.listCommunities` | historymaker.com | Lists HistoryMaker's active DFW communities with city, price range, beds/baths range… | 🟢 |
 | `historymaker.searchQuickMoveIns` | historymaker.com | Searches HistoryMaker's current Dallas/Fort Worth quick-move-in inventory by min/max… | 🟢 |
 | `hobie.checkLocalAvailability` | hobie.com | Runs the site's own real-time 'Find it Locally' local-dealer-inventory lookup for one… | 🟢 |
+| `hobie.listKayakModels` | hobie.com | Same as listModels, reshaped into { total_models, models } — for a caller asking how… | 🟢 |
 | `hobie.listModelColors` | hobie.com | Reads one kayak model's own hobie.com product page for its real buildable colors, each… | 🟢 |
 | `hobie.listModels` | hobie.com | Lists every real kayak model Hobie currently sells (slug, display name and its own… | 🟢 |
 | `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟢 |
