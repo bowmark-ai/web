@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cbf5489be238fffb3e90a1b0141ee3eea462ba463cafd4bed18495f568bde1f1
-// 647 checked, 20 unchecked.
+// Manifest version: 0ce4edc18582236d0f77eb39202d0ab6ddd95856417179e0df8f8e6d5a24ca58
+// 653 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cbf5489be238fffb3e90a1b0141ee3eea462ba463cafd4bed18495f568bde1f1",
+  "version": "0ce4edc18582236d0f77eb39202d0ab6ddd95856417179e0df8f8e6d5a24ca58",
   "units": {
     "cable_railing_quote": {
       "defs": {
@@ -2409,6 +2409,45 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.aauto": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.abercrombie": {
       "defs": {
         "abercrombieProductQuery": {
@@ -2753,6 +2792,142 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AjmadisonSearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.allied": {
+      "defs": {
+        "AlliedPackingCalculatorInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "yearsInHome",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "lessThan5"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "5to10"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "over10"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "cabinetsClosets",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "clutterFree"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "packRat"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "kitchen",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "pantry",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "diningRoom",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "livingRoom",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "familyRoom",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "homeOffice",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "bedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "garageBays",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "storedAttic",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "storageFacility",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "otherRooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "estimatePackingSupplies": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "AlliedPackingCalculatorInput"
             },
             "optional": false
           }
@@ -7972,6 +8147,30 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.goodway": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [],
+        "getProduct": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.google_flights": {
       "defs": {
         "GoogleFlightQuery": {
@@ -8944,6 +9143,7 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "listModels": [],
+        "listKayakModels": [],
         "listModelColors": [
           {
             "name": "slug",

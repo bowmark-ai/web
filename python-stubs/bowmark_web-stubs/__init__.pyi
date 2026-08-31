@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cbf5489be238fffb3e90a1b0141ee3eea462ba463cafd4bed18495f568bde1f1
-# 32 capabilities, 253 providers, 647 typed functions, 20 refused.
+# Manifest version: 0ce4edc18582236d0f77eb39202d0ab6ddd95856417179e0df8f8e6d5a24ca58
+# 32 capabilities, 256 providers, 653 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1350,6 +1350,35 @@ class Prv_aa_aaReservationLeg_Out(TypedDict):
     destinationAirportCode: str | None
     destinationCity: str | None
 
+class Prv_aauto_search_opts_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_aauto_AautoSearchResult_Out(TypedDict):
+    query: str
+    totalResults: float
+    products: list[Prv_aauto_AautoSearchProduct_Out]
+
+class Prv_aauto_AautoSearchProduct_Out(TypedDict):
+    id: str
+    title: str
+    brand: str
+    category: str
+    price: float
+    url: str
+    image: str | None
+
+class Prv_aauto_AautoProduct_Out(TypedDict):
+    id: str
+    title: str
+    brand: str
+    category: str
+    price: float
+    sku: str | None
+    inStock: bool
+    description: str
+    image: str | None
+    url: str
+
 class Prv_abercrombie_abercrombieProductQuery_In(TypedDict):
     url: NotRequired[str]
     id: NotRequired[str]
@@ -1525,6 +1554,33 @@ class Prv_ajmadison_AjmadisonSearchResult_Out(TypedDict):
     price: float
     wasPrice: float | None
     url: str
+
+class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
+    yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
+    cabinetsClosets: NotRequired[Literal["clutterFree"] | Literal["packRat"]]
+    kitchen: NotRequired[bool]
+    pantry: NotRequired[bool]
+    diningRoom: NotRequired[bool]
+    livingRoom: NotRequired[bool]
+    familyRoom: NotRequired[bool]
+    homeOffice: NotRequired[bool]
+    bedrooms: NotRequired[float]
+    garageBays: NotRequired[float]
+    storedAttic: NotRequired[bool]
+    storageFacility: NotRequired[bool]
+    otherRooms: NotRequired[float]
+
+class Prv_allied_AlliedPackingEstimate_Out(TypedDict):
+    totalSupplies: list[Prv_allied_AlliedSupplyLine_Out]
+    byRoom: list[Prv_allied_AlliedRoomSupplies_Out]
+
+class Prv_allied_AlliedSupplyLine_Out(TypedDict):
+    item: str
+    quantity: float | None
+
+class Prv_allied_AlliedRoomSupplies_Out(TypedDict):
+    room: str
+    supplies: list[Prv_allied_AlliedSupplyLine_Out]
 
 class Prv_alphavantage_signUp_details_In(TypedDict):
     organization: str
@@ -5034,6 +5090,22 @@ class Prv_glassesusa_GlassesusaProduct_Out(TypedDict):
     vtoAvailable: bool
     prescriptionEligible: bool
 
+class Prv_goodway_GoodwayProductSummary_Out(TypedDict):
+    sku: str
+    title: str
+    url: str
+    price: str | None
+
+class Prv_goodway_getProduct_arg0_In(TypedDict):
+    slug: str
+
+class Prv_goodway_GoodwayProduct_Out(TypedDict):
+    sku: str
+    title: str
+    url: str
+    price: str | None
+    purchaseType: Literal["buy"] | Literal["quote"]
+
 Prv_google_flights_GoogleFlightQuery_In = TypedDict(
     "Prv_google_flights_GoogleFlightQuery_In",
     {
@@ -5750,6 +5822,10 @@ class Prv_hobie_HobieModelSummary_Out(TypedDict):
     slug: str
     name: str
     url: str
+
+class Prv_hobie_HobieKayakModelList_Out(TypedDict):
+    total_models: float
+    models: list[Prv_hobie_HobieModelSummary_Out]
 
 class Prv_hobie_HobieModelColors_Out(TypedDict):
     slug: str
@@ -13458,6 +13534,23 @@ class Prv_aa(Protocol):
         for field accuracy.
         """
 
+class Prv_aauto(Protocol):
+    """1A Auto's DIY replacement-parts catalog — search results and one product's real price,
+    stock and description — read off the live storefront.
+    """
+
+    async def search(self, query: str, opts: Prv_aauto_search_opts_In | None = None, /) -> Prv_aauto_AautoSearchResult_Out:
+        """Reads 1A Auto's own search-results page for `query` — real price, brand, category and
+        product URL per row, plus the site's own total-match count. `limit` truncates the first
+        results page (the site itself paginates; this reads only the first page).
+        """
+
+    async def getProduct(self, url: str, /) -> Prv_aauto_AautoProduct_Out:
+        """Reads one product page by the URL search() returns (absolute or a site-relative path) —
+        title, brand, SKU, price, live stock status and description text. THROWS if the page
+        does not carry the site's own product data block.
+        """
+
 class Prv_abercrombie(Protocol):
     """Abercrombie & Fitch's own storefront — product search, product detail, size/store stock,
     store locator, current deals and gift card balance.
@@ -13569,6 +13662,21 @@ class Prv_ajmadison(Protocol):
         """Runs AJ Madison's own category + facet filter and returns real, currently-listed
         products (name, real current price, the crossed-out 'was' price when shown, the
         product's own AJ Madison URL). Read-only — never adds to cart or checks out.
+        """
+
+class Prv_allied(Protocol):
+    """Runs Allied Van Lines' own Packing Calculator — takes which rooms are moving (no name,
+    email or phone) and returns a real, server-computed whole-house and per-room
+    packing-supply estimate (cartons, tape, paper). Allied's separate 'quote' flow is a
+    sales-lead form with no computed price and is out of scope; this is the one part of
+    allied.com that answers a question with a number.
+    """
+
+    async def estimatePackingSupplies(self, input: Prv_allied_AlliedPackingCalculatorInput_In, /) -> Prv_allied_AlliedPackingEstimate_Out:
+        """Allied Van Lines' own Packing Calculator: pass which rooms are moving (kitchen, bedrooms
+        count, garage bays, etc — no identity required) and get back a real per-room and
+        whole-house estimate of boxes, tape and paper. At least one room must be set, matching
+        the site's own validation.
         """
 
 class Prv_alphavantage(Protocol):
@@ -16012,6 +16120,21 @@ class Prv_glassesusa(Protocol):
         checks out.
         """
 
+class Prv_goodway(Protocol):
+    """Goodway's own pressure-washer catalog — real listed prices, or a quote-required flag for
+    call-for-price units, and the site's own product page as the buy/quote handoff.
+    """
+
+    async def searchProducts(self, /) -> list[Prv_goodway_GoodwayProductSummary_Out]:
+        """Reads Goodway's pressure-washer catalog grid — every listed model, its SKU, its live
+        price (or null if quote-required) and its product page.
+        """
+
+    async def getProduct(self, arg0: Prv_goodway_getProduct_arg0_In, /) -> Prv_goodway_GoodwayProduct_Out:
+        """Reads one product's detail page for its real current price and whether it buys online or
+        needs a written quote.
+        """
+
 class Prv_google_flights(Protocol):
     """Google Flights (flights.google.com) — itinerary search plus the per-result booking
     panel, read from each row's ARIA label.
@@ -16487,6 +16610,11 @@ class Prv_hobie(Protocol):
     async def listModels(self, /) -> list[Prv_hobie_HobieModelSummary_Out]:
         """Lists every real kayak model Hobie currently sells (slug, display name, its own
         hobie.com URL), read straight from the live /kayaks/ index.
+        """
+
+    async def listKayakModels(self, /) -> Prv_hobie_HobieKayakModelList_Out:
+        """Returns Hobie's live kayak-model list plus total_models. To answer a count request, call
+        it with run; do not infer or paraphrase the count from this description.
         """
 
     async def listModelColors(self, slug: str, /) -> Prv_hobie_HobieModelColors_Out:
@@ -21109,9 +21237,11 @@ class BowmarkProviders(Protocol):
     string, so there is no camelCase alias to be uncertain about."""
 
     aa: Prv_aa
+    aauto: Prv_aauto
     abercrombie: Prv_abercrombie
     aiper: Prv_aiper
     ajmadison: Prv_ajmadison
+    allied: Prv_allied
     alphavantage: Prv_alphavantage
     americanstandard: Prv_americanstandard
     amramp: Prv_amramp
@@ -21201,6 +21331,7 @@ class BowmarkProviders(Protocol):
     geico: Prv_geico
     github: Prv_github
     glassesusa: Prv_glassesusa
+    goodway: Prv_goodway
     google_flights: Prv_google_flights
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger

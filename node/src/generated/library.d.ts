@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cbf5489be238fffb3e90a1b0141ee3eea462ba463cafd4bed18495f568bde1f1
-// 32 capabilities, 253 providers, 665 typed functions, 20 refused.
+// Manifest version: 0ce4edc18582236d0f77eb39202d0ab6ddd95856417179e0df8f8e6d5a24ca58
+// 32 capabilities, 256 providers, 671 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2407,6 +2407,57 @@ interface aaMaxCheckedBagsRule {
   }
 }
 
+declare namespace BowmarkProvider_aauto {
+  // ── 1A Auto — the unit's own declarations, verbatim ──
+interface AautoSearchProduct {
+  id: string;
+  title: string;
+  brand: string;
+  category: string;
+  price: number;
+  url: string;
+  image: string | null;
+}
+interface AautoSearchResult {
+  query: string;
+  /** The site's own reported match count — can exceed products.length. */
+  totalResults: number;
+  products: AautoSearchProduct[];
+}
+interface AautoProduct {
+  id: string;
+  title: string;
+  brand: string;
+  category: string;
+  price: number;
+  sku: string | null;
+  inStock: boolean;
+  description: string;
+  image: string | null;
+  url: string;
+}
+
+  /**
+   * 1A Auto's DIY replacement-parts catalog — search results and one product's real price, stock
+   * and description — read off the live storefront.
+   */
+  interface Unit {
+    /**
+     * Reads 1A Auto's own search-results page for `query` — real price, brand, category and
+     * product URL per row, plus the site's own total-match count. `limit` truncates the first
+     * results page (the site itself paginates; this reads only the first page).
+     */
+    search(query: string, opts?: { limit?: number }): Promise<AautoSearchResult>;
+
+    /**
+     * Reads one product page by the URL search() returns (absolute or a site-relative path) —
+     * title, brand, SKU, price, live stock status and description text. THROWS if the page does
+     * not carry the site's own product data block.
+     */
+    getProduct(url: string): Promise<AautoProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_abercrombie {
   // ── Abercrombie & Fitch — the unit's own declarations, verbatim ──
 interface abercrombieSizeOption {
@@ -2720,6 +2771,54 @@ interface AjmadisonSearchResult {
      * Madison URL). Read-only — never adds to cart or checks out.
      */
     search(args: AjmadisonSearchArgs): Promise<AjmadisonSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_allied {
+  // ── Allied Van Lines — the unit's own declarations, verbatim ──
+interface AlliedSupplyLine {
+  item: string;
+  quantity: number | null;
+}
+interface AlliedRoomSupplies {
+  room: string;
+  supplies: AlliedSupplyLine[];
+}
+interface AlliedPackingEstimate {
+  totalSupplies: AlliedSupplyLine[];
+  byRoom: AlliedRoomSupplies[];
+}
+interface AlliedPackingCalculatorInput {
+  yearsInHome?: "lessThan5" | "5to10" | "over10";
+  cabinetsClosets?: "clutterFree" | "packRat";
+  kitchen?: boolean;
+  pantry?: boolean;
+  diningRoom?: boolean;
+  livingRoom?: boolean;
+  familyRoom?: boolean;
+  homeOffice?: boolean;
+  bedrooms?: number;
+  garageBays?: number;
+  storedAttic?: boolean;
+  storageFacility?: boolean;
+  otherRooms?: number;
+}
+
+  /**
+   * Runs Allied Van Lines' own Packing Calculator — takes which rooms are moving (no name, email
+   * or phone) and returns a real, server-computed whole-house and per-room packing-supply
+   * estimate (cartons, tape, paper). Allied's separate 'quote' flow is a sales-lead form with no
+   * computed price and is out of scope; this is the one part of allied.com that answers a
+   * question with a number.
+   */
+  interface Unit {
+    /**
+     * Allied Van Lines' own Packing Calculator: pass which rooms are moving (kitchen, bedrooms
+     * count, garage bays, etc — no identity required) and get back a real per-room and whole-house
+     * estimate of boxes, tape and paper. At least one room must be set, matching the site's own
+     * validation.
+     */
+    estimatePackingSupplies(input: AlliedPackingCalculatorInput): Promise<AlliedPackingEstimate>;
   }
 }
 
@@ -9406,6 +9505,37 @@ interface GlassesusaProduct {
   }
 }
 
+declare namespace BowmarkProvider_goodway {
+  // ── Goodway Technologies — the unit's own declarations, verbatim ──
+interface GoodwayProductSummary {
+  sku: string;
+  title: string;
+  url: string;
+  price: string | null; // null = call for price / quote required
+}
+interface GoodwayProduct extends GoodwayProductSummary {
+  purchaseType: "buy" | "quote";
+}
+
+  /**
+   * Goodway's own pressure-washer catalog — real listed prices, or a quote-required flag for
+   * call-for-price units, and the site's own product page as the buy/quote handoff.
+   */
+  interface Unit {
+    /**
+     * Reads Goodway's pressure-washer catalog grid — every listed model, its SKU, its live price
+     * (or null if quote-required) and its product page.
+     */
+    searchProducts(): Promise<GoodwayProductSummary[]>;
+
+    /**
+     * Reads one product's detail page for its real current price and whether it buys online or
+     * needs a written quote.
+     */
+    getProduct(arg0: { slug: string }): Promise<GoodwayProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_google_flights {
   // ── Google Flights — the unit's own declarations, verbatim ──
 interface GoogleFlightQuery {
@@ -11054,6 +11184,10 @@ interface HobieModelSummary {
   name: string;
   url: string;
 }
+interface HobieKayakModelList {
+  total_models: number;
+  models: HobieModelSummary[];
+}
 interface HobieModelColor {
   color: string;
   upc: string;
@@ -11103,6 +11237,12 @@ interface HobieLocalAvailability {
      * URL), read straight from the live /kayaks/ index.
      */
     listModels(): Promise<HobieModelSummary[]>;
+
+    /**
+     * Returns Hobie's live kayak-model list plus total_models. To answer a count request, call it
+     * with run; do not infer or paraphrase the count from this description.
+     */
+    listKayakModels(): Promise<HobieKayakModelList>;
 
     /**
      * Reads one model's real buildable colors, each paired with the exact UPC the local-inventory
@@ -24671,9 +24811,11 @@ interface ShopifyCart {
  * string, so there is no camelCase alias to be uncertain about. */
 interface BowmarkProviders {
   aa: BowmarkProvider_aa.Unit;
+  aauto: BowmarkProvider_aauto.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
+  allied: BowmarkProvider_allied.Unit;
   alphavantage: BowmarkProvider_alphavantage.Unit;
   americanstandard: BowmarkProvider_americanstandard.Unit;
   amramp: BowmarkProvider_amramp.Unit;
@@ -24763,6 +24905,7 @@ interface BowmarkProviders {
   geico: BowmarkProvider_geico.Unit;
   github: BowmarkProvider_github.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
+  goodway: BowmarkProvider_goodway.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;

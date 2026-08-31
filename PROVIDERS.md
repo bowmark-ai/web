@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1100 functions. 🟢 implemented · ⚪ planned.
+> 1102 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -17,6 +17,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aa.retrieveBooking` | aa.com | Reads an existing American Airlines reservation by its six-letter record locator (PNR)… | 🟢 |
 | `aa.search` | aa.com | Searches American's own fares for an origin/destination/date (and cabin, passenger… | ⚪ |
 | `aa.searchAwardFlights` | aa.com | Searches the same routes priced in AAdvantage miles rather than cash — award… | ⚪ |
+| `aauto.getProduct` | 1aauto.com | Reads one product page by the URL search() returns — the real title, brand, SKU… | 🟢 |
+| `aauto.search` | 1aauto.com | Reads 1A Auto's own search-results page for a query — DIY replacement auto parts… | 🟢 |
 | `abercrombie.checkGiftCardBalance` | abercrombie.com | Checks the remaining balance on an Abercrombie gift card the way the site's own… | ⚪ |
 | `abercrombie.checkStock` | abercrombie.com | Answers whether a specific size/color of a product is buyable right now — online, and… | 🟢 |
 | `abercrombie.findStores` | abercrombie.com | Finds physical Abercrombie/abercrombie kids stores near a zip code or city (state) the… | 🟢 |
