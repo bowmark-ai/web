@@ -1,5 +1,5 @@
 {
-  "version": "555de1c1f8a489b622fa0e78d04050db7e47939836c0cc545387e1431cb01662",
+  "version": "2b3247d545ad613e6d574c063c4f8091cd7c4d70770489df53502644729f691e",
   "units": {
     "bundles": {
       "defs": {},
@@ -1198,6 +1198,48 @@
             "schema": {
               "k": "ref",
               "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "db_gui": {
+      "defs": {
+        "DbGuiBrowseOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "maxTables",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxRowsPerTable",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "browse": [
+          {
+            "name": "html",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "DbGuiBrowseOptions"
             },
             "optional": true
           }

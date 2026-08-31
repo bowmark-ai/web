@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 555de1c1f8a489b622fa0e78d04050db7e47939836c0cc545387e1431cb01662
-// 657 checked, 20 unchecked.
+// Manifest version: 2b3247d545ad613e6d574c063c4f8091cd7c4d70770489df53502644729f691e
+// 658 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "555de1c1f8a489b622fa0e78d04050db7e47939836c0cc545387e1431cb01662",
+  "version": "2b3247d545ad613e6d574c063c4f8091cd7c4d70770489df53502644729f691e",
   "units": {
     "bundles": {
       "defs": {},
@@ -1210,6 +1210,48 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "db_gui": {
+      "defs": {
+        "DbGuiBrowseOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "maxTables",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxRowsPerTable",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "browse": [
+          {
+            "name": "html",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "DbGuiBrowseOptions"
             },
             "optional": true
           }

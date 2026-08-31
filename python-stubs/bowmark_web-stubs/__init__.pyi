@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 555de1c1f8a489b622fa0e78d04050db7e47939836c0cc545387e1431cb01662
-# 35 capabilities, 257 providers, 657 typed functions, 20 refused.
+# Manifest version: 2b3247d545ad613e6d574c063c4f8091cd7c4d70770489df53502644729f691e
+# 36 capabilities, 257 providers, 658 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -803,6 +803,22 @@ class Cap_istanbul_schedules_AttractionHoursResult_Out(TypedDict):
     email: str | None
     url: str
     warnings: list[str]
+
+class Cap_local_database_gui_DbGuiBrowseOptions_In(TypedDict):
+    maxTables: NotRequired[float]
+    maxRowsPerTable: NotRequired[float]
+
+class Cap_local_database_gui_DbGuiBrowseResult_Out(TypedDict):
+    tables: list[Cap_local_database_gui_DbGuiTable_Out]
+    navLinks: list[str]
+    warnings: list[str]
+
+class Cap_local_database_gui_DbGuiTable_Out(TypedDict):
+    name: str | None
+    columns: list[str]
+    rows: list[Mapping[str, str]]
+    rowCount: float
+    truncated: bool
 
 class Cap_local_html_preview_PreviewOptions_In(TypedDict):
     maxChars: NotRequired[float]
@@ -13257,6 +13273,25 @@ class Cap_istanbul_schedules(Protocol):
         highlight subset, not the whole ministry catalog.
         """
 
+class Cap_local_database_gui(Protocol):
+    """Turns the HTML of a local database GUI (Adminer, phpMyAdmin, pgAdmin, Drizzle Studio,
+    mongo-express, or anything similar running on the caller's own localhost) into typed
+    tables and a candidate table list — Bowmark cannot navigate a caller-private address
+    itself, so this takes the page the caller's own agent already has and structures it.
+    Read-only; nothing here can submit or modify a row.
+    """
+
+    async def browse(self, html: str, options: Cap_local_database_gui_DbGuiBrowseOptions_In | None = None, /) -> Cap_local_database_gui_DbGuiBrowseResult_Out:
+        """Parses the HTML of a local database GUI page (e.g. the caller's own agent read it off
+        http://localhost:<port> — Bowmark cannot reach that address itself) and returns every
+        <table> on the page as structured rows keyed by column name, plus a `navLinks` list of
+        candidate table/collection names pulled from a sidebar-shaped nav. `options.maxTables`
+        (default 25) and `options.maxRowsPerTable` (default 200) cap how much is kept; a cut
+        table reports its real `rowCount` and `truncated: true`. Never throws on odd markup — an
+        empty or table-less page comes back with `tables: []` and a warning rather than an
+        error.
+        """
+
 class Cap_local_html_preview(Protocol):
     """Render an HTML file or fragment the caller already has and get back its title, text,
     headings, links, images and forms — no network, no browser, nothing executed or
@@ -21685,6 +21720,7 @@ class Bowmark(Protocol):
     hvac: Cap_hvac
     insurance: Cap_insurance
     istanbul_schedules: Cap_istanbul_schedules
+    local_database_gui: Cap_local_database_gui
     local_html_preview: Cap_local_html_preview
     mcp_registry: Cap_mcp_registry
     music: Cap_music

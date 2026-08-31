@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 555de1c1f8a489b622fa0e78d04050db7e47939836c0cc545387e1431cb01662
-// 35 capabilities, 257 providers, 675 typed functions, 20 refused.
+// Manifest version: 2b3247d545ad613e6d574c063c4f8091cd7c4d70770489df53502644729f691e
+// 36 capabilities, 257 providers, 676 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1255,6 +1255,47 @@ type CallOptions = {
      * highlight subset, not the whole ministry catalog.
      */
     attractionHours(query: string, options?: CallOptions): Promise<AttractionHoursResult>;
+  }
+}
+
+declare namespace BowmarkCapability_local_database_gui {
+  // ── Browse a local database GUI's tables — the unit's own declarations, verbatim ──
+interface DbGuiTable {
+  name: string | null       // a <caption>, the nearest preceding heading, or an
+                            // aria-label/data-testid naming it — null if nothing does
+  columns: string[]          // "col_1", "col_2", … when the table has no header row
+  rows: Record<string, string>[]
+  rowCount: number           // the real count, even when rows[] was cut
+  truncated: boolean
+}
+interface DbGuiBrowseOptions {
+  maxTables?: number         // default 25
+  maxRowsPerTable?: number   // default 200
+}
+interface DbGuiBrowseResult {
+  tables: DbGuiTable[]
+  navLinks: string[]         // candidate table/collection names from a sidebar-shaped nav
+  warnings: string[]
+}
+
+  /**
+   * Turns the HTML of a local database GUI (Adminer, phpMyAdmin, pgAdmin, Drizzle Studio,
+   * mongo-express, or anything similar running on the caller's own localhost) into typed tables
+   * and a candidate table list — Bowmark cannot navigate a caller-private address itself, so
+   * this takes the page the caller's own agent already has and structures it. Read-only; nothing
+   * here can submit or modify a row.
+   */
+  interface Unit {
+    /**
+     * Parses the HTML of a local database GUI page (e.g. the caller's own agent read it off
+     * http://localhost:<port> — Bowmark cannot reach that address itself) and returns every
+     * <table> on the page as structured rows keyed by column name, plus a `navLinks` list of
+     * candidate table/collection names pulled from a sidebar-shaped nav. `options.maxTables`
+     * (default 25) and `options.maxRowsPerTable` (default 200) cap how much is kept; a cut table
+     * reports its real `rowCount` and `truncated: true`. Never throws on odd markup — an empty or
+     * table-less page comes back with `tables: []` and a warning rather than an error.
+     */
+    browse(html: string, options?: DbGuiBrowseOptions): Promise<DbGuiBrowseResult>;
   }
 }
 
@@ -76963,6 +77004,7 @@ interface BowmarkLibrary {
   hvac: BowmarkCapability_hvac.Unit;
   insurance: BowmarkCapability_insurance.Unit;
   istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
+  local_database_gui: BowmarkCapability_local_database_gui.Unit;
   local_html_preview: BowmarkCapability_local_html_preview.Unit;
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
   music: BowmarkCapability_music.Unit;
