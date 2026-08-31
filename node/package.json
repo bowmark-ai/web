@@ -1,6 +1,6 @@
 {
   "name": "@bowmark/web",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "type": "module",
   "description": "The public client for the Bowmark capability library — real TypeScript for the whole bowmark.* surface, with no Bowmark source on the caller's disk. ZERO runtime dependencies, deliberately and permanently.",
   "license": "MIT",

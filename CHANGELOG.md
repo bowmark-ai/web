@@ -6,6 +6,24 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.12.1 (2026-08-31)
+
+**Capabilities**
+
+- New capability **bundles** (1 function): `bundles.checkAvailability`
+- New capability **school_shopping_basket** (1 function): `school_shopping_basket.priceList`
+
+**Providers**
+
+- New provider **1aauto.com** (2 functions): `aauto.getProduct`, `aauto.search`
+- New provider **allied.com** (1 function): `allied.estimatePackingSupplies`
+- New provider **camelcamelcamel.com** (1 function): `camelcamelcamel.getPriceHistory`
+- New provider **goodway.com** (2 functions): `goodway.getProduct`, `goodway.searchProducts`
+- Added `hobie.listKayakModels`
+- Added `shopify.searchProducts`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.12.0 (2026-08-30)
 
 **Capabilities**
