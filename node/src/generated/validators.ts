@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e6b7eb0c721bc4c4b251c201c4ad3e65115d71aceb6b05f8462083f0e718a201
+// Manifest version: 5207ea33354972da803d6974eed73abefc0ae46410767310486fd5116faa04c1
 // 656 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e6b7eb0c721bc4c4b251c201c4ad3e65115d71aceb6b05f8462083f0e718a201",
+  "version": "5207ea33354972da803d6974eed73abefc0ae46410767310486fd5116faa04c1",
   "units": {
     "bundles": {
       "defs": {},
@@ -20462,6 +20462,50 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "ageFirstLicensed",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "violations",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "accidents",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "claims",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "tickets",
+                    "schema": {
+                      "k": "number"
+                    },
+                    "optional": false
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "occupation",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },

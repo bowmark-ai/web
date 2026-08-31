@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e6b7eb0c721bc4c4b251c201c4ad3e65115d71aceb6b05f8462083f0e718a201
+# Manifest version: 5207ea33354972da803d6974eed73abefc0ae46410767310486fd5116faa04c1
 # 34 capabilities, 257 providers, 656 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -11638,6 +11638,14 @@ class Prv_thezebra_thezebraAutoDriver_In(TypedDict):
     lastName: str
     dob: str
     email: str
+    ageFirstLicensed: NotRequired[float]
+    violations: NotRequired[Prv_thezebra_thezebraAutoDriver_In_violations_In]
+    occupation: NotRequired[str]
+
+class Prv_thezebra_thezebraAutoDriver_In_violations_In(TypedDict):
+    accidents: float
+    claims: float
+    tickets: float
 
 class Prv_thezebra_thezebraAutoVehicle_In(TypedDict):
     year: float
@@ -20682,21 +20690,24 @@ class Prv_thezebra(Protocol):
         carrier's own monthly and six-month premium, deductible, and the coverage it priced, as
         The Zebra's auto quote funnel prices them. This is a priced offer for the person asking,
         NOT the published averages `getStateRates` and its siblings return. Pass `driver`
-        (`firstName`, `lastName`, `dob` ISO YYYY-MM-DD, `email`), one `vehicle` (`year`, `make`,
-        `model` — a model The Zebra does not rate THROWS naming the URL it tried), the 2-letter
-        `state`, a 5-digit `zip`, and `county` (the county the ZIP sits in — The Zebra validates
-        it server-side and a missing or wrong county is bounced). **The write binds, the read
-        does not — yet**: the GraphQL gateway at `graphql-gateway.production.thezebra.com`
-        accepts the auto seed (`LegacyStartInput.start.currentlyInsured` is the only field
-        Apollo currently exposes on that input), but the results route STILL bounces the session
-        to the homepage with the four fields this function sends. The function throws on the
-        bounce with a message naming the gap; the second required field on `LegacyStartInput` is
-        the next attempt's work, and the rejected probes — `helpToday`, `userPurchaseTimeframe`,
-        `hadActiveInsurance`, `residenceOwnership`, `presumedAnswers`, `policyLinkInfo`,
-        `startDate`, `desiredCoverage` — are documented in
-        `agents/capability-engineer/instances/vertical-insurance/tools/zebra-auto-quotes/shape-summary.json`
-        (and the e5 clone) so they don't have to be re-derived. **`advertisedCarriers` is not a
-        quote list and must never be read as one**: the results page would carry paid carrier
+        (`firstName`, `lastName`, `dob` ISO YYYY-MM-DD, `email`, and optionally
+        `ageFirstLicensed`/`violations`/`occupation` — each defaults to a clean-record
+        placeholder when omitted), one `vehicle` (`year`, `make`, `model` — a model The Zebra
+        does not rate THROWS naming the URL it tried), the 2-letter `state`, a 5-digit `zip`,
+        and `county` (the county the ZIP sits in — The Zebra validates it server-side and a
+        missing or wrong county is bounced). **The write always binds** — the GraphQL gateway at
+        `graphql-gateway.production.thezebra.com` accepts the seed and returns 200 — but AS OF
+        2026-08-27 the results route was bouncing the session to the homepage because
+        `LegacyDriverInput` and `LegacyVehicleInput` accept more fields than an earlier version
+        of this function sent; the measured field map (every field on both inputs, which are
+        confirmed valid, which are still unmeasured) lives in
+        `agents/richard/problems/thezebra-getautoquotes-broken.md` and is not re-derived here.
+        The function throws on a bounce with a message naming the redirect target;
+        `vehicle.submodel`, `driver.education` and `driver.creditScore` remain unsent because no
+        valid value for any of them is confirmed yet — sending a guess cannot break the write
+        (all three are nullable) but a wrong guess would look like a fix without being one, so
+        they stay out until a live probe confirms a value. **`advertisedCarriers` is not a quote
+        list and must never be read as one**: the results page would carry paid carrier
         placements alongside real offers, separated by `data-cy="results-card_ad_<carrier>"`
         (ad) versus `data-cy="results-card_q2b_<carrier>"` (real offer), and the advertised
         names are returned in their own field with no price attached. Every premium is USD and
