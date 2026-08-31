@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1031 functions. 🟢 implemented · ⚪ planned.
+> 1100 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -27,6 +27,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
 | `ajmadison.checkStock` | ajmadison.com | Reads one product's detail page for its real, current stock/availability message. | ⚪ |
 | `ajmadison.search` | ajmadison.com | Runs AJ Madison's own category + facet filter (brand, size/capacity, price band… | 🟢 |
+| `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
 | `americanstandard.getSystemCostEstimate` | americanstandardair.com | Reads American Standard's own published cost guide for one system type ("Air… | 🟢 |
 | `amramp.findNearestLocation` | amramp.com | Runs Amramp's own ZIP/postal-code locator — the same… | 🟢 |
@@ -306,6 +307,71 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `flightradar24.listFlightsInArea` | flightradar24.com | Lists every aircraft currently airborne inside a geographic bounding box — the map's… | ⚪ |
 | `flightradar24.search` | flightradar24.com | Resolves a free-text query — an airport name, a city, an airline, a flight number, a… | ⚪ |
 | `flightradar24.trackFlight` | flightradar24.com | Answers "where is this flight right now" for a flight number (BA286), callsign… | ⚪ |
+| `fomo.commentOnTrade` | fomo.family | Posts a comment on a trade, and reacts to or unreacts from an existing comment. `POST… | ⚪ |
+| `fomo.deleteAccount` | fomo.family | Deletes the signed-in trader's fomo account. `DELETE /v2/users/:userId`. | ⚪ |
+| `fomo.editProfile` | fomo.family | Updates the signed-in trader's own profile — display name, bio, handle — and uploads… | ⚪ |
+| `fomo.executeSwap` | fomo.family | Executes a priced swap: authorizes it, refreshes the transaction if the quote went… | ⚪ |
+| `fomo.exportPrivateKeys` | fomo.family | Returns the signed-in user's exported wallet private keys — the site's own key-export… | ⚪ |
+| `fomo.filterTokens` | fomo.family | The full token screener — a POST taking the site's own filter object (chain, market… | ⚪ |
+| `fomo.follow` | fomo.family | Follows another trader on behalf of the signed-in user. | ⚪ |
+| `fomo.getAlertPreferences` | fomo.family | Returns and updates which push alerts the signed-in trader receives — the settings… | ⚪ |
+| `fomo.getBalances` | fomo.family | Returns what one trader actually holds — every open token position with its raw… | ⚪ |
+| `fomo.getCandles` | fomo.family | Returns OHLCV bars for one token at a given resolution — open, high, low, close… | ⚪ |
+| `fomo.getClan` | fomo.family | Returns one clan — fomo's team unit — with its name, description, member count… | ⚪ |
+| `fomo.getClanFeed` | fomo.family | Pages a clan's own feed and the theses its members have written. `GET… | ⚪ |
+| `fomo.getClanHoldings` | fomo.family | Returns what a clan collectively holds — one row per token with how many members hold… | ⚪ |
+| `fomo.getCreatorFees` | fomo.family | Returns fees accrued to a token creator through fomo's relay, and claims them. `GET… | ⚪ |
+| `fomo.getCurrentUser` | fomo.family | Returns the signed-in trader's own profile — id, `userHandle`, display name, bio… | ⚪ |
+| `fomo.getDevHolders` | fomo.family | Returns whether the token's own deployer still holds it, and how much. | ⚪ |
+| `fomo.getFeed` | fomo.family | Pages the signed-in trader's social feed — the trades made by people they follow, each… | ⚪ |
+| `fomo.getFollowers` | fomo.family | Pages the traders following one user. `GET /v2/users/:userId/followers`, cursor-paged… | ⚪ |
+| `fomo.getFollowing` | fomo.family | Pages the traders one user follows. `GET /v2/users/:userId/followingPaginate`. | ⚪ |
+| `fomo.getFollowingIds` | fomo.family | Returns just the ids of everyone the signed-in trader follows, in one call with no… | ⚪ |
+| `fomo.getFollowingLeaderboard` | fomo.family | The same ranking restricted to traders the signed-in user follows — 'how am I doing… | ⚪ |
+| `fomo.getFriendHolders` | fomo.family | Returns which of the signed-in trader's own follows hold a given token — fomo's core… | ⚪ |
+| `fomo.getGraduatedTokens` | fomo.family | Returns tokens that have just completed their bonding curve and moved to a full AMM… | ⚪ |
+| `fomo.getLeaderboard` | fomo.family | Returns the ranked traders for one window — daily, weekly, monthly or all-time — with… | ⚪ |
+| `fomo.getMajorTokens` | fomo.family | Returns the large-cap majors — BTC, ETH, SOL and the rest of the non-memecoin set… | ⚪ |
+| `fomo.getMostHeldTokens` | fomo.family | Returns the tokens held by the most fomo traders — a positions ranking rather than a… | ⚪ |
+| `fomo.getMutuals` | fomo.family | Pages the traders both the signed-in user and another user follow. `GET… | ⚪ |
+| `fomo.getPerpetuals` | fomo.family | Perpetual futures — open positions, funding, leverage and the perps order flow fomo… | ⚪ |
+| `fomo.getPortfolioHistory` | fomo.family | Returns the time series behind a trader's portfolio-value chart — total USD value at… | ⚪ |
+| `fomo.getPortfolioSnapshot` | fomo.family | Returns one point of that series in full — the positions held at that moment, not just… | ⚪ |
+| `fomo.getRecommendedUsers` | fomo.family | Returns fomo's own suggestions of traders to follow for one user. | ⚪ |
+| `fomo.getReferrals` | fomo.family | Returns who the signed-in trader referred and what they have earned from it, plus… | ⚪ |
+| `fomo.getRewards` | fomo.family | Returns the signed-in trader's reward history. `GET /v2/users/:userId/rewards`. | ⚪ |
+| `fomo.getSupportedTransferTokens` | fomo.family | Returns the tokens fomo will let a user send to another user or an external address.… | ⚪ |
+| `fomo.getSwapStatus` | fomo.family | Returns where a submitted swap got to — its status word, transaction hash, and failure… | ⚪ |
+| `fomo.getToken` | fomo.family | Returns one token's full detail — name, symbol, decimals, image, description and… | ⚪ |
+| `fomo.getTokenAllowlist` | fomo.family | Returns the tokens fomo will actually let a user trade, and the detailed variant that… | ⚪ |
+| `fomo.getTokenFeed` | fomo.family | Pages the posts and trades attached to one specific token — the conversation on a… | ⚪ |
+| `fomo.getTokenThesis` | fomo.family | Returns the written theses traders have posted about one token, ranked by the site's… | ⚪ |
+| `fomo.getTokenWarnings` | fomo.family | Returns fomo's risk flags for one token — the honeypot, mint-authority… | ⚪ |
+| `fomo.getTopHolders` | fomo.family | Returns the largest holders of one token, with position sizes. | ⚪ |
+| `fomo.getTrade` | fomo.family | Returns one trade in full by id, with its author and token — the narrow read behind a… | ⚪ |
+| `fomo.getTradeComments` | fomo.family | Returns the comment thread under one trade. `GET /trades/:tradeId/comments`. | ⚪ |
+| `fomo.getTrades` | fomo.family | Pages trades across the platform, optionally filtered to one trader. `GET… | ⚪ |
+| `fomo.getTradingActivityFeed` | fomo.family | Pages raw trading activity rather than the composed social feed — the unfiltered… | ⚪ |
+| `fomo.getTransfers` | fomo.family | Pages the signed-in trader's transfers, and the transfers exchanged with one other… | ⚪ |
+| `fomo.getTrendingTokens` | fomo.family | Returns what is moving on fomo right now — the site's own trending ranking, which is a… | ⚪ |
+| `fomo.getUser` | fomo.family | Returns one trader's public profile by fomo user id — the same record as… | ⚪ |
+| `fomo.getUserByHandle` | fomo.family | Returns one trader's profile from their `@handle` — the half of a… | ⚪ |
+| `fomo.getUserLeaderboardStanding` | fomo.family | Returns one trader's own rank and stats without walking the board — the narrow… | ⚪ |
+| `fomo.getUserSpotlight` | fomo.family | Returns the highlighted trades and stats fomo pins to the top of one trader's profile… | ⚪ |
+| `fomo.getUserSwaps` | fomo.family | Pages one trader's executed swaps — token, side, amount, USD value, price and realized… | ⚪ |
+| `fomo.getUserTransfers` | fomo.family | Pages one trader's token transfers in and out — distinct from swaps, which are trades.… | ⚪ |
+| `fomo.getUserWithdrawals` | fomo.family | Returns one trader's withdrawals off the platform for a given chain. `GET… | ⚪ |
+| `fomo.getVerifiedTokens` | fomo.family | Returns the tokens fomo has verified — its own trust list, as distinct from the… | ⚪ |
+| `fomo.getWatchlist` | fomo.family | Returns the tokens the signed-in trader is watching, and adds or removes one. | ⚪ |
+| `fomo.postTokenThesis` | fomo.family | Publishes the signed-in trader's written thesis on a token. | ⚪ |
+| `fomo.quoteSwap` | fomo.family | Prices a swap without executing it — input token, output token, amounts, price impact… | ⚪ |
+| `fomo.reactToPost` | fomo.family | Reacts to, or removes a reaction from, a feed post. `POST /feed/react` and `POST… | ⚪ |
+| `fomo.searchClans` | fomo.family | Searches clans by name. | ⚪ |
+| `fomo.searchTokens` | fomo.family | Searches tokens by name, symbol or contract address and returns matching rows with… | ⚪ |
+| `fomo.searchUsers` | fomo.family | Fuzzy-searches traders by handle or display name and returns matching profiles. | ⚪ |
+| `fomo.sendTransfer` | fomo.family | Sends tokens from the signed-in user's wallet to another user or address. `POST… | ⚪ |
+| `fomo.subscribeTokenStream` | fomo.family | Subscribes to fomo's realtime channel and streams token updates as they happen — the… | ⚪ |
+| `fomo.unfollow` | fomo.family | Unfollows a trader. `DELETE /follows`. | ⚪ |
 | `ford.buildAndPrice` | ford.com | Walks Ford's own build-and-price configurator for a model and year — choosing trim… | ⚪ |
 | `ford.findDealers` | ford.com | Finds franchised Ford dealers near a US ZIP code — name, address, phone, coordinates… | 🟢 |
 | `ford.getModelDetails` | ford.com | Reads one Ford model's showroom page — its trims with starting MSRP, key specs… | ⚪ |
@@ -377,6 +443,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listReleases` | github.com | Returns a public repository's own release history — each release's tag, name… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
 | `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search/brand-filter and returns the matching frames with… | ⚪ |
+| `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟢 |
+| `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟢 |
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
@@ -853,6 +921,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shopify.resolveProductUrl` | shopify.com (51715 stores) | Turns a product URL into the product, which is the address a caller actually holds… | 🟢 |
 | `shopify.search` | shopify.com (51715 stores) | Searches the store's live catalogue and returns matching products with their real… | 🟢 |
 | `shopify.searchPolicies` | shopify.com (51715 stores) | Answers a question about the store's own returns, shipping, sizing or warranty policy… | ⚪ |
+| `shopify.searchProducts` | shopify.com (51715 stores) | An ALIAS for search, on aloyoga only — same call, same result. | 🟢 |
 | `sitmeanssit.findNearestLocations` | sitmeanssit.com | Ranks every real Sit Means Sit dog-training location by distance from a US zip and… | 🟢 |
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
 | `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟢 |
