@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0ce4edc18582236d0f77eb39202d0ab6ddd95856417179e0df8f8e6d5a24ca58
-// 32 capabilities, 256 providers, 671 typed functions, 20 refused.
+// Manifest version: e6b7eb0c721bc4c4b251c201c4ad3e65115d71aceb6b05f8462083f0e718a201
+// 34 capabilities, 257 providers, 674 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35,6 +35,40 @@
 //
 
 
+
+declare namespace BowmarkCapability_bundles {
+  // ── Check whether a set of products can be built and bought right now — the unit's own declarations, verbatim ──
+interface BundleItemAvailability {
+  url: string
+  ok: boolean
+  buildable: boolean
+  price: { amount: number; currency: string } | null   // integer minor units
+  availability: string | null
+  reason: string | null
+}
+interface BundleAvailability {
+  buildable: boolean
+  items: BundleItemAvailability[]
+  blocking: string[]        // urls of the items stopping the bundle
+  totalPrice: { amount: number; currency: string } | null
+  warnings: string[]
+}
+
+  /**
+   * Given a list of product page urls, reads each one's price and stock the way
+   * `products.getAvailability` does, then reduces the set to one buildable/not-buildable verdict
+   * naming whatever is blocking it.
+   */
+  interface Unit {
+    /**
+     * Reads every item's product page and returns whether the WHOLE bundle can be built and bought
+     * right now — false the moment any one item is out of stock, pre-order, or unreadable, naming
+     * which url(s) are blocking it in `blocking`. Never throws on a bad or dead item url; that
+     * item is reported as not buildable instead, with its reason.
+     */
+    checkAvailability(items: { url: string }[]): Promise<BundleAvailability>;
+  }
+}
 
 declare namespace BowmarkCapability_cable_railing_quote {
   // ── Cable railing design quote (materials & mounting options) — the unit's own declarations, verbatim ──
@@ -1704,6 +1738,45 @@ type CallOptions = {
      * coordinates); free-form text is ignored rather than guessed at.
      */
     findAvailability(name: string | { name: string; location?: string; day?: string; partySize?: number }, options?: CallOptions): Promise<RestaurantAvailabilityResult>;
+  }
+}
+
+declare namespace BowmarkCapability_school_shopping_basket {
+  // ── Price a school-supply list across Target and Walmart — the unit's own declarations, verbatim ──
+interface BasketItemMatch {
+  query: string
+  title: string
+  url: string
+  price: { amount: number; currency: string }   // integer minor units
+}
+interface RetailerBasket {
+  total: { amount: number; currency: string } | null
+  matched: BasketItemMatch[]
+  unavailable: string[]
+}
+interface SchoolShoppingBasket {
+  retailers: { target: RetailerBasket; walmart: RetailerBasket }
+  warnings: string[]
+}
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Given a list of item queries (a school supply list), fans out to Target and Walmart search,
+   * picks the cheapest in-stock match per item per retailer, and returns each retailer's basket
+   * total plus which items neither retailer has in stock right now.
+   */
+  interface Unit {
+    /**
+     * Prices a multi-item shopping list at Target and Walmart, one basket total per retailer,
+     * naming which items had no in-stock match anywhere. Never throws on one retailer being
+     * unreachable — that retailer's basket is dropped and named in `warnings` instead; throws only
+     * when BOTH retailers failed on every item.
+     */
+    priceList(args: { items: string[] }): Promise<SchoolShoppingBasket>;
   }
 }
 
@@ -5125,6 +5198,44 @@ interface CaliProductDetail extends CaliProduct {
 
     /** One product's own page — its real current price, live stock and description. */
     getProduct(path: string): Promise<CaliProductDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_camelcamelcamel {
+  // ── camelcamelcamel — the unit's own declarations, verbatim ──
+interface CamelPriceStat {
+  price: number | null;
+  date: string | null;
+}
+
+interface CamelPriceTypeStats {
+  lowestEver: CamelPriceStat;
+  highestEver: CamelPriceStat;
+  current: CamelPriceStat;
+  average: number | null;
+}
+
+interface CamelPriceHistory {
+  asin: string;
+  productTitle: string;
+  amazon: CamelPriceTypeStats;
+  thirdPartyNew: CamelPriceTypeStats;
+  thirdPartyUsed: CamelPriceTypeStats;
+  chartUrl: string;
+}
+
+  /**
+   * Independent Amazon price-history tracker — real lowest/highest/current/average price per
+   * item, each dated, so a claimed 'sale' can be checked against what the item actually sold
+   * for.
+   */
+  interface Unit {
+    /**
+     * Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the site's
+     * own lowest-ever/highest-ever/current/average figures, each dated, for the Amazon,
+     * 3rd-party-new and 3rd-party-used price types, plus the full-history chart image URL.
+     */
+    getPriceHistory(asinOrUrl: string): Promise<CamelPriceHistory>;
   }
 }
 
@@ -24854,6 +24965,7 @@ interface BowmarkProviders {
   bykoket: BowmarkProvider_bykoket.Unit;
   byltbasics: BowmarkProvider_byltbasics.Unit;
   califloors: BowmarkProvider_califloors.Unit;
+  camelcamelcamel: BowmarkProvider_camelcamelcamel.Unit;
   cancer: BowmarkProvider_cancer.Unit;
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
   caraway: BowmarkProvider_caraway.Unit;
@@ -76789,6 +76901,7 @@ interface BowmarkProviders {
  * `run()` script, and the Proxy over HTTP in a caller's own process. They are
  * generated once precisely so those two cannot drift. */
 interface BowmarkLibrary {
+  bundles: BowmarkCapability_bundles.Unit;
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   cars: BowmarkCapability_cars.Unit;
   coworking: BowmarkCapability_coworking.Unit;
@@ -76813,6 +76926,7 @@ interface BowmarkLibrary {
   promocodes: BowmarkCapability_promocodes.Unit;
   read: BowmarkCapability_read.Unit;
   restaurant_booking: BowmarkCapability_restaurant_booking.Unit;
+  school_shopping_basket: BowmarkCapability_school_shopping_basket.Unit;
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
   shipping: BowmarkCapability_shipping.Unit;

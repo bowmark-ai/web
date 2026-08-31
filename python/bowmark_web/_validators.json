@@ -1,6 +1,32 @@
 {
-  "version": "0ce4edc18582236d0f77eb39202d0ab6ddd95856417179e0df8f8e6d5a24ca58",
+  "version": "e6b7eb0c721bc4c4b251c201c4ad3e65115d71aceb6b05f8462083f0e718a201",
   "units": {
+    "bundles": {
+      "defs": {},
+      "functions": {
+        "checkAvailability": [
+          {
+            "name": "items",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "url",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  }
+                ]
+              }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "cable_railing_quote": {
       "defs": {
         "CallOptions": {
@@ -1830,6 +1856,32 @@
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "school_shopping_basket": {
+      "defs": {},
+      "functions": {
+        "priceList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "items",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -4748,6 +4800,20 @@
         "getProduct": [
           {
             "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.camelcamelcamel": {
+      "defs": {},
+      "functions": {
+        "getPriceHistory": [
+          {
+            "name": "asinOrUrl",
             "schema": {
               "k": "string"
             },

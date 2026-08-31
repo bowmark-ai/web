@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0ce4edc18582236d0f77eb39202d0ab6ddd95856417179e0df8f8e6d5a24ca58
-# 32 capabilities, 256 providers, 653 typed functions, 20 refused.
+# Manifest version: e6b7eb0c721bc4c4b251c201c4ad3e65115d71aceb6b05f8462083f0e718a201
+# 34 capabilities, 257 providers, 656 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -229,6 +229,32 @@ __all__: list[str]
 
 Library = Bowmark
 Providers = BowmarkProviders
+
+class Cap_bundles_checkAvailability_items_item_In(TypedDict):
+    url: str
+
+class Cap_bundles_BundleAvailability_Out(TypedDict):
+    buildable: bool
+    items: list[Cap_bundles_BundleItemAvailability_Out]
+    blocking: list[str]
+    totalPrice: Cap_bundles_BundleAvailability_Out_totalPrice_u0_Out | None
+    warnings: list[str]
+
+class Cap_bundles_BundleItemAvailability_Out(TypedDict):
+    url: str
+    ok: bool
+    buildable: bool
+    price: Cap_bundles_BundleItemAvailability_Out_price_u0_Out | None
+    availability: str | None
+    reason: str | None
+
+class Cap_bundles_BundleItemAvailability_Out_price_u0_Out(TypedDict):
+    amount: float
+    currency: str
+
+class Cap_bundles_BundleAvailability_Out_totalPrice_u0_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Cap_cable_railing_quote_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -1022,6 +1048,36 @@ class Cap_restaurant_booking_RestaurantVenue_Out(TypedDict):
 class Cap_restaurant_booking_RestaurantSlot_Out(TypedDict):
     startsAt: str
     seatingType: str | None
+
+class Cap_school_shopping_basket_priceList_args_In(TypedDict):
+    items: Sequence[str]
+
+class Cap_school_shopping_basket_SchoolShoppingBasket_Out(TypedDict):
+    retailers: Cap_school_shopping_basket_SchoolShoppingBasket_Out_retailers_Out
+    warnings: list[str]
+
+class Cap_school_shopping_basket_SchoolShoppingBasket_Out_retailers_Out(TypedDict):
+    target: Cap_school_shopping_basket_RetailerBasket_Out
+    walmart: Cap_school_shopping_basket_RetailerBasket_Out
+
+class Cap_school_shopping_basket_RetailerBasket_Out(TypedDict):
+    total: Cap_school_shopping_basket_RetailerBasket_Out_total_u0_Out | None
+    matched: list[Cap_school_shopping_basket_BasketItemMatch_Out]
+    unavailable: list[str]
+
+class Cap_school_shopping_basket_RetailerBasket_Out_total_u0_Out(TypedDict):
+    amount: float
+    currency: str
+
+class Cap_school_shopping_basket_BasketItemMatch_Out(TypedDict):
+    query: str
+    title: str
+    url: str
+    price: Cap_school_shopping_basket_BasketItemMatch_Out_price_Out
+
+class Cap_school_shopping_basket_BasketItemMatch_Out_price_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Cap_search_web_query_u1_In(TypedDict):
     query: str
@@ -2870,6 +2926,24 @@ class Prv_califloors_CaliProductDetail_Out(TypedDict):
     description: str | None
     inStock: bool
     categories: list[str]
+
+class Prv_camelcamelcamel_CamelPriceHistory_Out(TypedDict):
+    asin: str
+    productTitle: str
+    amazon: Prv_camelcamelcamel_CamelPriceTypeStats_Out
+    thirdPartyNew: Prv_camelcamelcamel_CamelPriceTypeStats_Out
+    thirdPartyUsed: Prv_camelcamelcamel_CamelPriceTypeStats_Out
+    chartUrl: str
+
+class Prv_camelcamelcamel_CamelPriceTypeStats_Out(TypedDict):
+    lowestEver: Prv_camelcamelcamel_CamelPriceStat_Out
+    highestEver: Prv_camelcamelcamel_CamelPriceStat_Out
+    current: Prv_camelcamelcamel_CamelPriceStat_Out
+    average: float | None
+
+class Prv_camelcamelcamel_CamelPriceStat_Out(TypedDict):
+    price: float | None
+    date: str | None
 
 class Prv_cancer_findCancerCenters_args_In(TypedDict):
     state: NotRequired[str]
@@ -12660,6 +12734,19 @@ class Prv_zennioptical_ZenniLensPriceRow_Out_subTypes_item_Out(TypedDict):
     tints: bool
 
 
+class Cap_bundles(Protocol):
+    """Given a list of product page urls, reads each one's price and stock the way
+    `products.getAvailability` does, then reduces the set to one buildable/not-buildable
+    verdict naming whatever is blocking it.
+    """
+
+    async def checkAvailability(self, items: Sequence[Cap_bundles_checkAvailability_items_item_In], /) -> Cap_bundles_BundleAvailability_Out:
+        """Reads every item's product page and returns whether the WHOLE bundle can be built and
+        bought right now — false the moment any one item is out of stock, pre-order, or
+        unreadable, naming which url(s) are blocking it in `blocking`. Never throws on a bad or
+        dead item url; that item is reported as not buildable instead, with its reason.
+        """
+
 class Cap_cable_railing_quote(Protocol):
     """Returns the real material and mounting-style choices behind Viewrail's Victor
     cable-railing design app. There is no automated instant price to return alongside them —
@@ -13309,6 +13396,19 @@ class Cap_restaurant_booking(Protocol):
         account and is out of scope here. `location` narrows a common restaurant name when
         passed as `"lat,lon"` (e.g. from a prior venue's own coordinates); free-form text is
         ignored rather than guessed at.
+        """
+
+class Cap_school_shopping_basket(Protocol):
+    """Given a list of item queries (a school supply list), fans out to Target and Walmart
+    search, picks the cheapest in-stock match per item per retailer, and returns each
+    retailer's basket total plus which items neither retailer has in stock right now.
+    """
+
+    async def priceList(self, args: Cap_school_shopping_basket_priceList_args_In, /) -> Cap_school_shopping_basket_SchoolShoppingBasket_Out:
+        """Prices a multi-item shopping list at Target and Walmart, one basket total per retailer,
+        naming which items had no in-stock match anywhere. Never throws on one retailer being
+        unreachable — that retailer's basket is dropped and named in `warnings` instead; throws
+        only when BOTH retailers failed on every item.
         """
 
 class Cap_search(Protocol):
@@ -14562,6 +14662,18 @@ class Prv_califloors(Protocol):
 
     async def getProduct(self, path: str, /) -> Prv_califloors_CaliProductDetail_Out:
         """One product's own page — its real current price, live stock and description."""
+
+class Prv_camelcamelcamel(Protocol):
+    """Independent Amazon price-history tracker — real lowest/highest/current/average price per
+    item, each dated, so a claimed 'sale' can be checked against what the item actually sold
+    for.
+    """
+
+    async def getPriceHistory(self, asinOrUrl: str, /) -> Prv_camelcamelcamel_CamelPriceHistory_Out:
+        """Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the
+        site's own lowest-ever/highest-ever/current/average figures, each dated, for the Amazon,
+        3rd-party-new and 3rd-party-used price types, plus the full-history chart image URL.
+        """
 
 class Prv_cancer(Protocol):
     """The US National Cancer Institute: PDQ cancer information, the clinical-trial register,
@@ -21280,6 +21392,7 @@ class BowmarkProviders(Protocol):
     bykoket: Prv_bykoket
     byltbasics: Prv_byltbasics
     califloors: Prv_califloors
+    camelcamelcamel: Prv_camelcamelcamel
     cancer: Prv_cancer
     capitalbrands: Prv_capitalbrands
     caraway: Prv_caraway
@@ -21501,6 +21614,7 @@ class Bowmark(Protocol):
     `run()` script, and the proxy over HTTP in a caller's own process. They are
     generated once precisely so those two cannot drift."""
 
+    bundles: Cap_bundles
     cable_railing_quote: Cap_cable_railing_quote
     cars: Cap_cars
     coworking: Cap_coworking
@@ -21525,6 +21639,7 @@ class Bowmark(Protocol):
     promocodes: Cap_promocodes
     read: Cap_read
     restaurant_booking: Cap_restaurant_booking
+    school_shopping_basket: Cap_school_shopping_basket
     search: Cap_search
     sheds: Cap_sheds
     shipping: Cap_shipping
