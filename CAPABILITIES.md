@@ -1,13 +1,14 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 48 functions. 🟢 implemented · ⚪ planned.
+> 50 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
 
 | Function | What it does | Providers | Status |
 |---|---|---|---|
+| `bundles.checkAvailability` | Reads every item's product page and returns whether the WHOLE bundle can be built and… | 0 | 🟢 |
 | `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |
 | `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
@@ -44,6 +45,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `read.page` | Loads one page and returns its content. | 0 | 🟢 |
 | `read.pages` | The same read over many urls, six in flight at a time, results in the order the urls… | 0 | 🟢 |
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 1 | 🟢 |
+| `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per… | 2 | 🟢 |
 | `search.news` | Searches news coverage and returns stories with the headline, the outlet's own article… | 1 | 🟢 |
 | `search.web` | Searches the web and returns ranked results — title, destination URL, snippet — from… | 1 | 🟢 |
 | `sheds.findDealers` | Looks up the real places that sell a maker's buildings in one US state or Canadian… | 1 | 🟢 |
