@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5207ea33354972da803d6974eed73abefc0ae46410767310486fd5116faa04c1
+# Manifest version: 2d22fcbee261c0c8e601a78395db0b061a9b63db1983845723f53516b8fa80e0
 # 34 capabilities, 257 providers, 656 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -20300,26 +20300,25 @@ class Prv_summerfridaysquiz(Protocol):
         """
 
 class Prv_sunhomesaunas(Protocol):
-    """Sun Home Saunas' real Perfect Product Finder quiz — the site's own 5-question buyer
-    quiz, its real server-computed ranked product matches with live prices, and a real
-    Shopify cart write for the winning match — no login, no dealer routing.
+    """Sun Home Saunas' live Digioh buyer quiz — its current questions, published
+    product-ranking rules, real Shopify prices, and a real cart write for a recommended
+    product — no login or dealer routing.
     """
 
     async def getSaunaFinderQuestions(self, /) -> list[Prv_sunhomesaunas_SunHomeSaunasQuizQuestion_Out]:
-        """Reads Sun Home Saunas' real, live Perfect Product Finder quiz straight off its quiz
-        vendor's own API — the current 5 questions and every real option, with the real ids
+        """Reads Sun Home Saunas' real, live Digioh buyer quiz from its published breakpoint
+        configuration — every current question and answer button, with the ids
         getPersonalizedSaunaMatches() needs to answer them.
         """
 
     async def getPersonalizedSaunaMatches(self, answers: Sequence[Prv_sunhomesaunas_getPersonalizedSaunaMatches_answers_item_In], /) -> list[Prv_sunhomesaunas_SunHomeSaunasMatch_Out]:
-        """Submits real answers (from getSaunaFinderQuestions()) through the same quiz session flow
-        the site's own UI uses, and returns the site's own SERVER-COMPUTED ranked product
-        matches with real live prices and a real match score — the exact personalized result a
-        real buyer would see, never a guess from general knowledge.
+        """Applies real answers (from getSaunaFinderQuestions()) to the live Digioh `prq_keywords`
+        rules the site's quiz publishes, then returns the site's own weighted ranking with real
+        current Shopify prices — never a general-knowledge guess.
         """
 
     async def addSaunaToCart(self, handle: str, quantity: float | None = None, /) -> Prv_sunhomesaunas_SunHomeSaunasCartResult_Out:
-        """Adds one real matched sauna (a handle from getPersonalizedSaunaMatches()) to a real
+        """Adds one real matched product (a handle from getPersonalizedSaunaMatches()) to a real
         Shopify cart at Sun Home Saunas' own real live price, and reads the cart back to confirm
         the write landed. THROWS if the product is currently out of stock.
         """

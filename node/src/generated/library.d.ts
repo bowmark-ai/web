@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5207ea33354972da803d6974eed73abefc0ae46410767310486fd5116faa04c1
+// Manifest version: 2d22fcbee261c0c8e601a78395db0b061a9b63db1983845723f53516b8fa80e0
 // 34 capabilities, 257 providers, 674 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -21307,7 +21307,7 @@ interface SunHomeSaunasQuizOption {
 interface SunHomeSaunasQuizQuestion {
   id: string;          // pass back as answers[].questionId
   title: string;
-  type: string;        // the site's own node type, e.g. "SIMPLE_MULTI"
+  type: string;        // the site's own Digioh question type, e.g. "DIGIOH_PRQ"
   options: SunHomeSaunasQuizOption[];  // option.id -> answers[].optionIds
 }
 
@@ -21315,8 +21315,8 @@ interface SunHomeSaunasMatch {
   handle: string;       // the key addSaunaToCart takes
   title: string;
   price: number;        // dollars — real live Shopify price
-  matchScore: number;   // e.g. 5
-  matchOutOf: number;   // e.g. 5 -> the site's own "5/5 match"
+  matchScore: number;   // selected answers that positively weighted this product
+  matchOutOf: number;   // submitted answer selections
 }
 
 interface SunHomeSaunasCartResult {
@@ -21330,30 +21330,29 @@ interface SunHomeSaunasCartResult {
 }
 
   /**
-   * Sun Home Saunas' real Perfect Product Finder quiz — the site's own 5-question buyer quiz,
-   * its real server-computed ranked product matches with live prices, and a real Shopify cart
-   * write for the winning match — no login, no dealer routing.
+   * Sun Home Saunas' live Digioh buyer quiz — its current questions, published product-ranking
+   * rules, real Shopify prices, and a real cart write for a recommended product — no login or
+   * dealer routing.
    */
   interface Unit {
     /**
-     * Reads Sun Home Saunas' real, live Perfect Product Finder quiz straight off its quiz vendor's
-     * own API — the current 5 questions and every real option, with the real ids
+     * Reads Sun Home Saunas' real, live Digioh buyer quiz from its published breakpoint
+     * configuration — every current question and answer button, with the ids
      * getPersonalizedSaunaMatches() needs to answer them.
      */
     getSaunaFinderQuestions(): Promise<SunHomeSaunasQuizQuestion[]>;
 
     /**
-     * Submits real answers (from getSaunaFinderQuestions()) through the same quiz session flow the
-     * site's own UI uses, and returns the site's own SERVER-COMPUTED ranked product matches with
-     * real live prices and a real match score — the exact personalized result a real buyer would
-     * see, never a guess from general knowledge.
+     * Applies real answers (from getSaunaFinderQuestions()) to the live Digioh `prq_keywords`
+     * rules the site's quiz publishes, then returns the site's own weighted ranking with real
+     * current Shopify prices — never a general-knowledge guess.
      */
     getPersonalizedSaunaMatches(answers: {questionId: string, optionIds: string[]}[]): Promise<SunHomeSaunasMatch[]>;
 
     /**
-     * Adds one real matched sauna (a handle from getPersonalizedSaunaMatches()) to a real Shopify
-     * cart at Sun Home Saunas' own real live price, and reads the cart back to confirm the write
-     * landed. THROWS if the product is currently out of stock.
+     * Adds one real matched product (a handle from getPersonalizedSaunaMatches()) to a real
+     * Shopify cart at Sun Home Saunas' own real live price, and reads the cart back to confirm the
+     * write landed. THROWS if the product is currently out of stock.
      */
     addSaunaToCart(handle: string, quantity?: number): Promise<SunHomeSaunasCartResult>;
   }
