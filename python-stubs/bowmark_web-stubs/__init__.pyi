@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ce8f2b7ced186c86327c3c5bee63a7595f7ed4ef9a600e5bb851b6d5fda51d10
-# 36 capabilities, 259 providers, 660 typed functions, 20 refused.
+# Manifest version: 99301cb99fae5d0c407a10c2566115c3cb04557b907443bf00ebeeb773ebb8c3
+# 36 capabilities, 259 providers, 661 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3660,15 +3660,31 @@ class Prv_clubchampion_ClubchampionFitting_Out(TypedDict):
     durationLabel: str
     unitPrice: float
 
+class Prv_clubchampion_ClubchampionFitter_Out(TypedDict):
+    id: str
+    name: str
+    locationId: str
+    locationName: str
+    timezone: str
+    handedness: list[str]
+    specialties: list[str]
+    locationBayCount: float
+
 class Prv_clubchampion_ClubchampionAvailability_Out(TypedDict):
     resourceId: str
     range: Prv_clubchampion_ClubchampionAvailability_Out_range_Out
     mode: str
-    slots: list[Any]
+    slots: list[Prv_clubchampion_ClubchampionSlot_Out]
 
 class Prv_clubchampion_ClubchampionAvailability_Out_range_Out(TypedDict):
     start: str
     end: str
+
+class Prv_clubchampion_ClubchampionSlot_Out(TypedDict):
+    start: str
+    end: str
+    status: str
+    resourceId: str
 
 class Prv_consultnet_ConsultnetJobSearchQuery_In(TypedDict):
     keywords: NotRequired[str]
@@ -15208,9 +15224,9 @@ class Prv_cloudflare(Protocol):
         """
 
 class Prv_clubchampion(Protocol):
-    """Club Champion's live studio directory, real per-store fitting pricing, and real
-    open-slot availability checks — the same booking widget backend the site itself calls.
-    Rung 10, no browser.
+    """Club Champion's live studio directory, its fitters, real per-store fitting pricing, and
+    real open-slot availability on a named fitter's calendar — the same booking widget
+    backend the site itself calls. Rung 10, no browser.
     """
 
     async def listStudios(self, /) -> list[Prv_clubchampion_ClubchampionStudio_Out]:
@@ -15224,11 +15240,20 @@ class Prv_clubchampion(Protocol):
         Bag, Putter, etc.) — pass a studio name from listStudios(), e.g. "Bellevue".
         """
 
-    async def checkAvailability(self, resourceId: str, start: str, end: str, /) -> Prv_clubchampion_ClubchampionAvailability_Out:
-        """Checks real, live open-slot availability for one fitting product (a `productId` from
-        getFittings()) over a "YYYY-MM-DD"..."YYYY-MM-DD" date range — the same live check the
-        site's own booking widget makes. An empty `slots` array is the site's real answer, not
-        an error.
+    async def listFitters(self, storeName: str | None = None, /) -> list[Prv_clubchampion_ClubchampionFitter_Out]:
+        """Reads the live list of every Club Champion fitter (~396 across the chain) — the person a
+        fitting is booked with, and the only id checkAvailability accepts. Pass a studio name
+        from listStudios(), e.g. "Bellevue", to get just that studio's fitters.
+        """
+
+    async def checkAvailability(self, fitterId: str, start: str, end: str, durationMinutes: float | None = None, fittingType: str | None = None, /) -> Prv_clubchampion_ClubchampionAvailability_Out:
+        """Checks real, live open-slot availability on one FITTER's calendar (an `id` from
+        listFitters()) over a "YYYY-MM-DD"..."YYYY-MM-DD" range — the same live check the site's
+        own booking widget makes. A fitting `productId` from getFittings() is a DIFFERENT id
+        space and the site answers it with an empty list, so pass a fitter id. Optional
+        `durationMinutes` and `fittingType` mirror what the widget sends. An empty `slots` array
+        is the site's real answer — a closed day, a booked-out fitter, or a date past the
+        ~60-day booking horizon — not an error.
         """
 
 class Prv_consultnet(Protocol):

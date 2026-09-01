@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ce8f2b7ced186c86327c3c5bee63a7595f7ed4ef9a600e5bb851b6d5fda51d10
-// 36 capabilities, 259 providers, 678 typed functions, 20 refused.
+// Manifest version: 99301cb99fae5d0c407a10c2566115c3cb04557b907443bf00ebeeb773ebb8c3
+// 36 capabilities, 259 providers, 679 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6507,17 +6507,35 @@ interface ClubchampionFittingsMenu {
   activePromoTerms: string | null;
 }
 
-interface ClubchampionAvailability {
+interface ClubchampionFitter {
+  id: string;            // the id checkAvailability takes
+  name: string;
+  locationId: string;
+  locationName: string;  // the studio name listStudios() and getFittings() use
+  timezone: string;
+  handedness: string[];
+  specialties: string[];
+  locationBayCount: number;
+}
+
+interface ClubchampionSlot {
+  start: string;   // ISO instant, e.g. "2026-09-08T10:00:00.000Z"
+  end: string;
+  status: string;  // the site's own word, e.g. "available"
   resourceId: string;
+}
+
+interface ClubchampionAvailability {
+  resourceId: string;         // the fitter id, echoed back
   range: { start: string; end: string };
-  mode: string;      // the site's own live/cached indicator
-  slots: unknown[];  // the site's own slot list, verbatim — empty is a real answer
+  mode: string;               // the site's own live/cached indicator
+  slots: ClubchampionSlot[];  // verbatim — empty is a real answer
 }
 
   /**
-   * Club Champion's live studio directory, real per-store fitting pricing, and real open-slot
-   * availability checks — the same booking widget backend the site itself calls. Rung 10, no
-   * browser.
+   * Club Champion's live studio directory, its fitters, real per-store fitting pricing, and real
+   * open-slot availability on a named fitter's calendar — the same booking widget backend the
+   * site itself calls. Rung 10, no browser.
    */
   interface Unit {
     /**
@@ -6534,12 +6552,22 @@ interface ClubchampionAvailability {
     getFittings(storeName: string): Promise<ClubchampionFittingsMenu>;
 
     /**
-     * Checks real, live open-slot availability for one fitting product (a `productId` from
-     * getFittings()) over a "YYYY-MM-DD"..."YYYY-MM-DD" date range — the same live check the
-     * site's own booking widget makes. An empty `slots` array is the site's real answer, not an
+     * Reads the live list of every Club Champion fitter (~396 across the chain) — the person a
+     * fitting is booked with, and the only id checkAvailability accepts. Pass a studio name from
+     * listStudios(), e.g. "Bellevue", to get just that studio's fitters.
+     */
+    listFitters(storeName?: string): Promise<ClubchampionFitter[]>;
+
+    /**
+     * Checks real, live open-slot availability on one FITTER's calendar (an `id` from
+     * listFitters()) over a "YYYY-MM-DD"..."YYYY-MM-DD" range — the same live check the site's own
+     * booking widget makes. A fitting `productId` from getFittings() is a DIFFERENT id space and
+     * the site answers it with an empty list, so pass a fitter id. Optional `durationMinutes` and
+     * `fittingType` mirror what the widget sends. An empty `slots` array is the site's real answer
+     * — a closed day, a booked-out fitter, or a date past the ~60-day booking horizon — not an
      * error.
      */
-    checkAvailability(resourceId: string, start: string, end: string): Promise<ClubchampionAvailability>;
+    checkAvailability(fitterId: string, start: string, end: string, durationMinutes?: number, fittingType?: string): Promise<ClubchampionAvailability>;
   }
 }
 

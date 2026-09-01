@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ce8f2b7ced186c86327c3c5bee63a7595f7ed4ef9a600e5bb851b6d5fda51d10
-// 660 checked, 20 unchecked.
+// Manifest version: 99301cb99fae5d0c407a10c2566115c3cb04557b907443bf00ebeeb773ebb8c3
+// 661 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ce8f2b7ced186c86327c3c5bee63a7595f7ed4ef9a600e5bb851b6d5fda51d10",
+  "version": "99301cb99fae5d0c407a10c2566115c3cb04557b907443bf00ebeeb773ebb8c3",
   "units": {
     "bundles": {
       "defs": {},
@@ -6070,9 +6070,18 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listFitters": [
+          {
+            "name": "storeName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
         "checkAvailability": [
           {
-            "name": "resourceId",
+            "name": "fitterId",
             "schema": {
               "k": "string"
             },
@@ -6091,6 +6100,20 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "durationMinutes",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "fittingType",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }
