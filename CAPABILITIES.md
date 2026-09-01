@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 54 functions. 🟢 implemented · ⚪ planned.
+> 55 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -11,6 +11,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `bundles.checkAvailability` | Reads every item's product page and returns whether the WHOLE bundle can be built and… | 0 | 🟢 |
 | `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |
+| `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟢 |
 | `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
 | `custom_sofa_configurator.getConfigurator` | Reads one sofa's full configurator — every option slot (Fabric, Wood Stain, Color… | 2 | 🟢 |
 | `custom_sofa_configurator.listSofas` | Lists configurable sofas/sectionals across every maker — Joybird's whole catalogue… | 2 | 🟢 |
