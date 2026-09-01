@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d5a2fc9437c750b8d29baecb66b09560a5368e75ee0a7745a70d6cd8f8a86ab5
-// 37 capabilities, 261 providers, 682 typed functions, 20 refused.
+// Manifest version: 986ea03e7cdf1341d4741dd7453e91dfbe25072b752274244a59055b265b09cd
+// 37 capabilities, 262 providers, 683 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16826,6 +16826,43 @@ interface MuzeVisitingHours {
   }
 }
 
+declare namespace BowmarkProvider_myollie {
+  // ── Ollie — the unit's own declarations, verbatim ──
+interface OllieMealPlanOption {
+  planType: string;
+  planTypeName: string;
+  startingPricePerWeek: number;
+  availableCadences: number[];
+  defaultCadence: number;
+}
+
+interface GetMealPlanResult {
+  weightLbs: number;
+  activityLevel: "Low" | "Moderate" | "High";
+  plans: OllieMealPlanOption[];
+  checkoutUrl: string;
+}
+
+  /**
+   * Fresh dog food subscription. getMealPlan is live — the same
+   * weight/activity/neuter-status-driven meal plan and REAL per-plan weekly price the site's own
+   * onboarding quiz computes, given a dog's weight, activity level and neuter status. Returns
+   * all four plan tiers (Fresh, Baked, Mixed, Half Fresh) with this dog's own computed starting
+   * price, plus a checkout link that carries the answers forward.
+   */
+  interface Unit {
+    /**
+     * Computes Ollie's personalized fresh-food meal plan and REAL weekly price for a dog, given
+     * `weightLbs` (number, e.g. 45), `activityLevel` ("Low"|"Moderate"|"High"), `isNeutered`
+     * (boolean) and optional `gender` ("Male"|"Female"). Returns all four plan tiers (Fresh,
+     * Baked, Mixed, Half Fresh) each with this dog's own computed `startingPricePerWeek` — not a
+     * marketing-page range — plus a `checkoutUrl` that carries the answers into the site's own
+     * checkout. Recovered from the onboarding quiz's own API, not guessed at.
+     */
+    getMealPlan(args: object): Promise<GetMealPlanResult>;
+  }
+}
+
 declare namespace BowmarkProvider_naic {
   // ── NAIC — the unit's own declarations, verbatim ──
 interface naicCompanyQuery {
@@ -25364,6 +25401,7 @@ interface BowmarkProviders {
   momondo: BowmarkProvider_momondo.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
   muze_gov_tr: BowmarkProvider_muze_gov_tr.Unit;
+  myollie: BowmarkProvider_myollie.Unit;
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;
   nationalbusinessfurniture: BowmarkProvider_nationalbusinessfurniture.Unit;

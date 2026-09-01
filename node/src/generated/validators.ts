@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d5a2fc9437c750b8d29baecb66b09560a5368e75ee0a7745a70d6cd8f8a86ab5
-// 664 checked, 20 unchecked.
+// Manifest version: 986ea03e7cdf1341d4741dd7453e91dfbe25072b752274244a59055b265b09cd
+// 665 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d5a2fc9437c750b8d29baecb66b09560a5368e75ee0a7745a70d6cd8f8a86ab5",
+  "version": "986ea03e7cdf1341d4741dd7453e91dfbe25072b752274244a59055b265b09cd",
   "units": {
     "bundles": {
       "defs": {},
@@ -13718,6 +13718,20 @@ export const VALIDATORS: ValidatorTable = {
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.myollie": {
+      "defs": {},
+      "functions": {
+        "getMealPlan": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "any"
             },
             "optional": false
           }

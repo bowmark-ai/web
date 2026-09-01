@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d5a2fc9437c750b8d29baecb66b09560a5368e75ee0a7745a70d6cd8f8a86ab5
-# 37 capabilities, 261 providers, 664 typed functions, 20 refused.
+# Manifest version: 986ea03e7cdf1341d4741dd7453e91dfbe25072b752274244a59055b265b09cd
+# 37 capabilities, 262 providers, 665 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8652,6 +8652,19 @@ class Prv_muze_gov_tr_MuzeVisitingHours_Out(TypedDict):
     phone: str | None
     email: str | None
     url: str
+
+class Prv_myollie_GetMealPlanResult_Out(TypedDict):
+    weightLbs: float
+    activityLevel: Literal["Low"] | Literal["Moderate"] | Literal["High"]
+    plans: list[Prv_myollie_OllieMealPlanOption_Out]
+    checkoutUrl: str
+
+class Prv_myollie_OllieMealPlanOption_Out(TypedDict):
+    planType: str
+    planTypeName: str
+    startingPricePerWeek: float
+    availableCadences: list[float]
+    defaultCadence: float
 
 class Prv_naic_naicCompanyQuery_In(TypedDict):
     name: NotRequired[str]
@@ -18845,6 +18858,24 @@ class Prv_muze_gov_tr(Protocol):
         its detail page.
         """
 
+class Prv_myollie(Protocol):
+    """Fresh dog food subscription. getMealPlan is live — the same
+    weight/activity/neuter-status-driven meal plan and REAL per-plan weekly price the site's
+    own onboarding quiz computes, given a dog's weight, activity level and neuter status.
+    Returns all four plan tiers (Fresh, Baked, Mixed, Half Fresh) with this dog's own
+    computed starting price, plus a checkout link that carries the answers forward.
+    """
+
+    async def getMealPlan(self, args: Any, /) -> Prv_myollie_GetMealPlanResult_Out:
+        """Computes Ollie's personalized fresh-food meal plan and REAL weekly price for a dog,
+        given `weightLbs` (number, e.g. 45), `activityLevel` ("Low"|"Moderate"|"High"),
+        `isNeutered` (boolean) and optional `gender` ("Male"|"Female"). Returns all four plan
+        tiers (Fresh, Baked, Mixed, Half Fresh) each with this dog's own computed
+        `startingPricePerWeek` — not a marketing-page range — plus a `checkoutUrl` that carries
+        the answers into the site's own checkout. Recovered from the onboarding quiz's own API,
+        not guessed at.
+        """
+
 class Prv_naic(Protocol):
     """The insurance regulators' own consumer record on a carrier — complaint index, licensing
     by state and financial condition — plus the directory of state insurance departments and
@@ -21807,6 +21838,7 @@ class BowmarkProviders(Protocol):
     momondo: Prv_momondo
     mossyoak: Prv_mossyoak
     muze_gov_tr: Prv_muze_gov_tr
+    myollie: Prv_myollie
     naic: Prv_naic
     namecheap: Prv_namecheap
     nationalbusinessfurniture: Prv_nationalbusinessfurniture
