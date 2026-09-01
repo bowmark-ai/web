@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1132 functions. 🟢 implemented · ⚪ planned.
+> 1135 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -531,6 +531,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hobie.listKayakModels` | hobie.com | Same as listModels, reshaped into { total_models, models } — for a caller asking how… | 🟢 |
 | `hobie.listModelColors` | hobie.com | Reads one kayak model's own hobie.com product page for its real buildable colors, each… | 🟢 |
 | `hobie.listModels` | hobie.com | Lists every real kayak model Hobie currently sells (slug, display name and its own… | 🟢 |
+| `hodjapasha.getAvailability` | hodjapasha.com | Checks one show's own availability widget for a given date and party size, returning… | 🟢 |
+| `hodjapasha.getShow` | hodjapasha.com | Reads one show's own detail page for its full description, adult/child pricing… | 🟢 |
+| `hodjapasha.listShows` | hodjapasha.com | Reads every show hodjapasha.com's own booking widget lists — title, product id… | 🟢 |
 | `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟢 |
 | `holidaybuilders.searchAvailableHomes` | holidaybuilders.com | Runs Holiday Builders' site-wide Available Homes search — every real move-in-ready or… | 🟢 |
 | `hunter.countEmails` | hunter.io | Returns how many email addresses Hunter holds for a domain, without returning the… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a9e243c9081df30a46a01550d2dc7df6c8959af9df1182e422f0a71af016d072
-// 675 checked, 20 unchecked.
+// Manifest version: 7ac4a9084853ee226f56e4964cb0bb95339c8375142eebd03526a4d6651ae380
+// 689 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a9e243c9081df30a46a01550d2dc7df6c8959af9df1182e422f0a71af016d072",
+  "version": "7ac4a9084853ee226f56e4964cb0bb95339c8375142eebd03526a4d6651ae380",
   "units": {
     "bundles": {
       "defs": {},
@@ -160,6 +160,36 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "costume_size_check": {
+      "defs": {},
+      "functions": {
+        "checkSize": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "character",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "size",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -3938,6 +3968,57 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.bankmycell": {
+      "defs": {},
+      "functions": {
+        "getTradeInQuote": [
+          {
+            "name": "deviceUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "capacity",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "condition",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "carrier",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "lockedStatus",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.barletta": {
       "defs": {},
       "functions": {
@@ -6123,6 +6204,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.claudemarketplaces_com": {
+      "defs": {},
+      "functions": {
+        "getListing": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.cleanairlawncare": {
       "defs": {},
       "functions": {
@@ -6364,6 +6459,34 @@ export const VALIDATORS: ValidatorTable = {
             "name": "cadence",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.curiocity": {
+      "defs": {
+        "CuriocityListEventsQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listEvents": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "CuriocityListEventsQuery"
             },
             "optional": false
           }
@@ -7319,6 +7442,44 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.etsy": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -9543,6 +9704,60 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.hodjapasha": {
+      "defs": {},
+      "functions": {
+        "listShows": [],
+        "getShow": [
+          {
+            "name": "productId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailability": [
+          {
+            "name": "productId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "date",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "children",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -13199,6 +13414,30 @@ export const VALIDATORS: ValidatorTable = {
         "checkStoreStock": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.millisaraylar": {
+      "defs": {},
+      "functions": {
+        "getPalaces": [],
+        "getVisitingHours": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTicketPrices": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },
@@ -19822,6 +20061,54 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.spirithalloween": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.starlighthomes": {
       "defs": {},
       "functions": {
@@ -22886,6 +23173,48 @@ export const VALIDATORS: ValidatorTable = {
             "name": "facilityId",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.yelp": {
+      "defs": {
+        "YelpSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "term",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "YelpSearchArgs"
             },
             "optional": false
           }

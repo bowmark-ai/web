@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a9e243c9081df30a46a01550d2dc7df6c8959af9df1182e422f0a71af016d072
-# 38 capabilities, 266 providers, 675 typed functions, 20 refused.
+# Manifest version: 7ac4a9084853ee226f56e4964cb0bb95339c8375142eebd03526a4d6651ae380
+# 39 capabilities, 274 providers, 689 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -318,6 +318,35 @@ class Cap_cars_Car_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Cap_costume_size_check_checkSize_args_In(TypedDict):
+    character: str
+    size: str
+
+class Cap_costume_size_check_CostumeSizeCheck_Out(TypedDict):
+    character: str
+    size: str
+    retailers: Cap_costume_size_check_CostumeSizeCheck_Out_retailers_Out
+    warnings: list[str]
+
+class Cap_costume_size_check_CostumeSizeCheck_Out_retailers_Out(TypedDict):
+    target: Cap_costume_size_check_RetailerSizeResult_Out
+    walmart: Cap_costume_size_check_RetailerSizeResult_Out
+    spirithalloween: Cap_costume_size_check_RetailerSizeResult_Out
+
+class Cap_costume_size_check_RetailerSizeResult_Out(TypedDict):
+    matched: Cap_costume_size_check_RetailerSizeMatch_Out | None
+    incomplete: bool
+
+class Cap_costume_size_check_RetailerSizeMatch_Out(TypedDict):
+    title: str
+    url: str
+    price: Cap_costume_size_check_RetailerSizeMatch_Out_price_u0_Out | None
+    inStock: bool
+
+class Cap_costume_size_check_RetailerSizeMatch_Out_price_u0_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Cap_coworking_findDayPasses_location_u1_In(TypedDict):
     city: str
@@ -2272,6 +2301,46 @@ class Prv_azure_AzureService_Out(TypedDict):
     serviceId: str
     serviceFamily: str
 
+class Prv_bankmycell_getTradeInQuote_selections_In(TypedDict):
+    capacity: NotRequired[str]
+    condition: NotRequired[str]
+    carrier: NotRequired[str]
+    lockedStatus: NotRequired[str]
+
+class Prv_bankmycell_BankmycellQuoteResult_Out(TypedDict):
+    deviceUrl: str
+    selections: Prv_bankmycell_BankmycellQuoteResult_Out_selections_Out
+    offers: list[Prv_bankmycell_BankmycellOffer_Out]
+    unavailableMerchants: list[str]
+    summary: Prv_bankmycell_BankmycellQuoteResult_Out_summary_Out
+
+class Prv_bankmycell_BankmycellQuoteResult_Out_selections_Out(TypedDict):
+    capacity: str | None
+    condition: str | None
+    carrier: str | None
+    lockedStatus: str | None
+
+class Prv_bankmycell_BankmycellOffer_Out(TypedDict):
+    merchant: str
+    price: float
+    paymentOptions: str
+    shippingOptions: list[Prv_bankmycell_BankmycellOffer_Out_shippingOptions_item_Out]
+    pricelockTimescale: str | None
+    paymentTimescale: str | None
+    checkoutLink: str
+    reviewsRating: float | None
+    reviewsCount: float | None
+
+class Prv_bankmycell_BankmycellOffer_Out_shippingOptions_item_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_bankmycell_BankmycellQuoteResult_Out_summary_Out(TypedDict):
+    minPrice: float | None
+    maxPrice: float | None
+    avgPrice: float | None
+    count: float
+
 class Prv_barletta_BarlettaModelSummary_Out(TypedDict):
     modelId: str
     name: str
@@ -3599,6 +3668,20 @@ class Prv_classpass_ClasspassSession_Out(TypedDict):
     isLivestream: bool
     demandSignals: list[str]
 
+class Prv_claudemarketplaces_com_claudeMarketplacesListing_Out(TypedDict):
+    url: str
+    kind: str
+    publisher: str
+    slug: str
+    name: str
+    description: str
+    applicationCategory: str | None
+    operatingSystem: str | None
+    codeRepository: str | None
+    featureList: list[str]
+    price: str | None
+    priceCurrency: str | None
+
 class Prv_cleanairlawncare_CheckServiceAreaResult_Out(TypedDict):
     zip: str
     inServiceArea: bool
@@ -3842,6 +3925,20 @@ class Prv_culturefly_CultureFlyCheckoutLink_Out(TypedDict):
     cadence: str
     price: str
     checkoutUrl: str
+
+class Prv_curiocity_CuriocityListEventsQuery_In(TypedDict):
+    city: str
+
+class Prv_curiocity_CuriocityEvent_Out(TypedDict):
+    title: str
+    url: str
+    when: str | None
+    time: str | None
+    where: str | None
+    cost: str | None
+    articleTitle: str
+    articleUrl: str
+    publishedAt: str | None
 
 class Prv_cyberpowerpc_CyberpowerpcConfigurator_Out(TypedDict):
     slug: str
@@ -4449,6 +4546,19 @@ class Prv_erieinsurance_ErieAgent_Out(TypedDict):
     linesOfBusinessWritten: str | None
     hours: list[str]
     photoDataUri: str | None
+
+class Prv_etsy_search_args_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_etsy_etsyListing_Out(TypedDict):
+    listingId: float
+    title: str
+    price: float | None
+    currencyCode: str | None
+    quantity: float | None
+    tags: list[str]
+    url: str
 
 class Prv_eventsource_EventSourceShowroom_Out(TypedDict):
     accessCode: str
@@ -6098,6 +6208,42 @@ class Prv_hobie_HobieDealer_Out(TypedDict):
     carriesBrand: bool
     stockStatus: str
     stockDisclaimer: str
+
+class Prv_hodjapasha_HodjapashaListingEntry_Out(TypedDict):
+    productId: str
+    title: str
+    summary: str | None
+    duration: str | None
+    priceFrom: str | None
+    currency: str | None
+    url: str
+
+class Prv_hodjapasha_HodjapashaShowDetail_Out(TypedDict):
+    productId: str
+    title: str
+    description: str | None
+    duration: str | None
+    location: str | None
+    productCode: str | None
+    priceFrom: str | None
+    currency: str | None
+    url: str
+
+class Prv_hodjapasha_getAvailability_opts_In(TypedDict):
+    adults: NotRequired[float]
+    children: NotRequired[float]
+
+class Prv_hodjapasha_HodjapashaAvailability_Out(TypedDict):
+    productId: str
+    date: str
+    available: bool
+    sessions: list[Prv_hodjapasha_HodjapashaSession_Out]
+    totalPrice: str | None
+    currency: str | None
+
+class Prv_hodjapasha_HodjapashaSession_Out(TypedDict):
+    sessionId: str
+    label: str
 
 class Prv_holidaybuilders_HolidaybuildersSearchFilters_In(TypedDict):
     location: NotRequired[str]
@@ -8451,6 +8597,26 @@ class Prv_microcenter_StoreShelf_Out(TypedDict):
     city: str | None
     name: str
     inStock: bool
+    url: str
+
+class Prv_millisaraylar_MillisaraylarPalace_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+
+class Prv_millisaraylar_MillisaraylarVisitingHours_Out(TypedDict):
+    name: str
+    closedDays: str | None
+    ticketOfficeOpeningTime: str | None
+    ticketOfficeClosingTime: str | None
+    url: str
+
+class Prv_millisaraylar_MillisaraylarTicketPrices_Out(TypedDict):
+    name: str
+    currency: Literal["TRY"]
+    domestic: float | None
+    domesticStudent: float | None
+    foreign: float | None
     url: str
 
 class Prv_minimax_MinimaxDocPage_Out(TypedDict):
@@ -11150,6 +11316,44 @@ class Prv_soundcloud_ScPlaylist_Out(TypedDict):
     createdAt: str | None
     tracks: list[Prv_soundcloud_ScTrack_Out]
 
+class Prv_spirithalloween_search_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_spirithalloween_SpiritHalloweenSearchResults_Out(TypedDict):
+    query: str
+    category: str
+    results: list[Prv_spirithalloween_SpiritHalloweenSearchResult_Out]
+    totalMatches: float | None
+
+class Prv_spirithalloween_SpiritHalloweenSearchResult_Out(TypedDict):
+    productId: str
+    sku: str
+    name: str
+    url: str
+    image: str | None
+    price: float | None
+    currency: Literal["USD"]
+    listedSize: str | None
+    listedSizeStock: float | None
+
+class Prv_spirithalloween_getProduct_args_In(TypedDict):
+    url: str
+
+class Prv_spirithalloween_SpiritHalloweenProduct_Out(TypedDict):
+    productId: str
+    name: str
+    url: str
+    sizes: list[Prv_spirithalloween_SpiritHalloweenSizeVariant_Out]
+
+class Prv_spirithalloween_SpiritHalloweenSizeVariant_Out(TypedDict):
+    color: str
+    size: str
+    price: float
+    inStock: bool
+    shipStockQuantity: float
+    variantId: str
+
 class Prv_starlighthomes_StarlighthomesMetroSummary_Out(TypedDict):
     name: str
     path: str
@@ -12935,6 +13139,19 @@ class Prv_xpresswellnessurgentcare_XpressWaitTime_Out(TypedDict):
     hoursText: str | None
     url: str
 
+class Prv_yelp_YelpSearchArgs_In(TypedDict):
+    term: str
+    location: str
+    limit: NotRequired[float]
+
+class Prv_yelp_YelpSearchResult_Out(TypedDict):
+    name: str
+    url: str
+    rating: float | None
+    reviewCount: float | None
+    priceRange: str | None
+    neighborhood: str | None
+
 class Prv_yorkwallcoverings_YorkWallcoveringsSearchResult_Out(TypedDict):
     sku: str
     name: str
@@ -13090,6 +13307,24 @@ class Cap_cars(Protocol):
         THROWS rather than returning `cars: []`, because those two are the same value and only
         one of them means there are no cars: a list you receive is always a list a site actually
         gave. `options.timeoutMs` sets the per-site budget (default 30000).
+        """
+
+class Cap_costume_size_check(Protocol):
+    """Given a costume character and a size, fans out to Target, Walmart, and Spirit Halloween
+    and reports whether each retailer has that exact character-and-size combination in stock
+    right now — the per-size question a plain product search can't answer, because Target
+    and Walmart bake size into a free-text title and Spirit Halloween only exposes its full
+    size matrix on the product page.
+    """
+
+    async def checkSize(self, args: Cap_costume_size_check_checkSize_args_In, /) -> Cap_costume_size_check_CostumeSizeCheck_Out:
+        """Checks whether one costume character exists in one size, right now, at Target, Walmart,
+        and Spirit Halloween. `retailers.<name>.matched` is the listing that named both the
+        character and the size, or null when that retailer answered and has none. `incomplete:
+        true` means that retailer's own call never answered — a missed deadline or an error — so
+        `matched: null` there is NOT a stockout; nothing was learned. Never throws on one or two
+        retailers being unreachable — the surviving legs still answer and the dropped ones are
+        named in `warnings`; throws only when all three failed.
         """
 
 class Cap_coworking(Protocol):
@@ -14508,6 +14743,21 @@ class Prv_azure(Protocol):
         never a throw.
         """
 
+class Prv_bankmycell(Protocol):
+    """Live trade-in offers for a phone/device from every merchant BankMyCell compares, for a
+    chosen capacity/condition/carrier — read off the same pricing endpoint the site's own
+    sell page polls, instead of parsing prose off the rendered page.
+    """
+
+    async def getTradeInQuote(self, deviceUrl: str, selections: Prv_bankmycell_getTradeInQuote_selections_In | None = None, /) -> Prv_bankmycell_BankmycellQuoteResult_Out:
+        """Reads live trade-in offers for the device at a bankmycell.com sell page (e.g.
+        .../sell/iphone-14-pro), from every merchant the site compares, for the given
+        capacity/condition/carrier/lockedStatus (each matched against that device's own option
+        labels, e.g. condition: "Flawless"). Any selection left out uses the page's own default
+        option for that attribute. THROWS if a selection names an option this device does not
+        offer.
+        """
+
 class Prv_barletta(Protocol):
     """Barletta's pontoon-boat 'Build Your Boat' configurator — list every current floorplan,
     read one model's full option builder (railskin color, furniture, flooring, engine,
@@ -15422,6 +15672,24 @@ class Prv_classpass(Protocol):
         disabled") rather than returning an empty timetable that reads like a quiet day.
         """
 
+class Prv_claudemarketplaces_com(Protocol):
+    """A directory of Claude plugin/MCP/skill marketplace listings — fetch one listing's
+    structured fields (name, description, category, repo, declared tools, price) instead of
+    parsing its page by hand.
+    """
+
+    async def getListing(self, url: str, /) -> Prv_claudemarketplaces_com_claudeMarketplacesListing_Out:
+        """Fetches one MCP server listing page from claudemarketplaces.com — `url` is the listing's
+        full URL or path, e.g. "https://claudemarketplaces.com/mcp/metroxe/bowmark" or
+        "/mcp/github/github-mcp-server". Returns the listing's structured fields straight off
+        the page's own schema.org `SoftwareApplication` record: `name`, `description`,
+        `applicationCategory`, `operatingSystem`, `codeRepository`, `featureList` (the
+        tool/feature names the listing declares), and `price`/`priceCurrency`. `publisher`,
+        `kind` and `slug` are read off the URL path. Only `mcp`-kind listings
+        (`/mcp/<publisher>/<slug>`) are implemented — `getListing` throws
+        `ClaudeMarketplacesInputError` for any other path shape.
+        """
+
 class Prv_cleanairlawncare(Protocol):
     """Eco lawn-care franchise. checkServiceArea and getAvailableSlots are live — a zip-code
     area check against the real caw-estimate-widget backend, plus the real per-franchise
@@ -15579,6 +15847,20 @@ class Prv_culturefly(Protocol):
         checkout handoff URL for that selection, one step from payment. Never adds to a cart or
         submits anything — it only builds the URL. THROWS naming the available sizes/cadences on
         a combination the box does not offer.
+        """
+
+class Prv_curiocity(Protocol):
+    """Curiocity's own city 'things to do' feeds, parsed into individual events — title, when,
+    time, where, cost and a click-through link — instead of the raw RSS/HTML a caller would
+    otherwise have to regex apart.
+    """
+
+    async def listEvents(self, query: Prv_curiocity_CuriocityListEventsQuery_In, /) -> list[Prv_curiocity_CuriocityEvent_Out]:
+        """Reads curiocity.com's own 'things to do' feed for one city and returns individual events
+        — title, when, time, where, cost and a click-through link — parsed out of the site's
+        roundup posts instead of the raw RSS. `city` is curiocity's own slug (e.g. "vancouver",
+        "toronto"). An empty array is the feed's own answer for a city curiocity does not cover,
+        never invented here — a block page or a moved endpoint THROWS instead.
         """
 
 class Prv_cyberpowerpc(Protocol):
@@ -16016,6 +16298,21 @@ class Prv_erieinsurance(Protocol):
         (e.g. a real California one — ERIE writes personal lines in 12 mid-Atlantic/Midwest
         states plus DC) answers the genuinely honest empty list instead, and that is never an
         error.
+        """
+
+class Prv_etsy(Protocol):
+    """Etsy's own documented Open API v3 (openapi.etsy.com) — searches active listings on
+    etsy.com by keyword and returns id, title, price, currency, quantity, tags and the
+    listing's own etsy.com URL, without scraping etsy.com's search page (which sits behind
+    DataDome).
+    """
+
+    async def search(self, args: str | Prv_etsy_search_args_u1_In, /) -> list[Prv_etsy_etsyListing_Out]:
+        """Searches Etsy's live catalog of active listings by keyword, via Etsy's documented Open
+        API v3, and returns the matching listings — id, title, price, currency, quantity
+        available, tags and the listing's own etsy.com URL. `limit` caps the row count (default
+        10, Etsy's own ceiling 100). Requires an Etsy developer API key — see this provider's
+        `auth`.
         """
 
 class Prv_eventsource(Protocol):
@@ -17182,6 +17479,29 @@ class Prv_hobie(Protocol):
         """Runs Hobie's own real-time 'Find it Locally' widget for one model + color near a US zip
         and returns real nearby dealers with Hobie's own exact-color / model / brand carrying
         flags. `color` defaults to the site's own default color when omitted.
+        """
+
+class Prv_hodjapasha(Protocol):
+    """The Hodjapasha Culture Center's own Rezdy booking widget for its whirling-dervish (Sema)
+    and Ottoman/folk dance shows in Istanbul — show list, per-show pricing and description,
+    and date/party-size availability with session times and total price, read straight off
+    the widget's own pages.
+    """
+
+    async def listShows(self, /) -> list[Prv_hodjapasha_HodjapashaListingEntry_Out]:
+        """Reads every show hodjapasha.com's own booking widget lists off /widget/index.php —
+        title, productId, from-price, duration.
+        """
+
+    async def getShow(self, productId: str, /) -> Prv_hodjapasha_HodjapashaShowDetail_Out:
+        """Reads one show's full description, adult/child pricing, location and duration off its
+        own /widget/product-detail.php page.
+        """
+
+    async def getAvailability(self, productId: str, date: str, opts: Prv_hodjapasha_getAvailability_opts_In | None = None, /) -> Prv_hodjapasha_HodjapashaAvailability_Out:
+        """Checks the widget's own availability endpoint for a show, YYYY-MM-DD date and party size
+        (defaults: 1 adult, 0 children), returning the session time(s) offered and the total
+        price, or `available: false` for a date the show does not run.
         """
 
 class Prv_holidaybuilders(Protocol):
@@ -18852,6 +19172,31 @@ class Prv_microcenter(Protocol):
         page carries no addresses, so filter on `state`/`city`. Throws rather than returning an
         empty roster when the page does not render, because "no store has one" and "we could not
         read it" are opposite answers.
+        """
+
+class Prv_millisaraylar(Protocol):
+    """Türkiye's Presidential Administration of National Palaces — the palace/kiosk/pavilion
+    list, closed days and ticket-office hours, and domestic/domestic-student/foreign ticket
+    prices for Topkapi Palace, Dolmabahçe Palace, Yıldız Palace, Beylerbeyi Palace and the
+    other sites it administers, read straight off the site's own ticket-purchase and detail
+    pages.
+    """
+
+    async def getPalaces(self, /) -> list[Prv_millisaraylar_MillisaraylarPalace_Out]:
+        """Reads the full palace/kiosk/pavilion/museum/factory list off millisaraylar.gov.tr's own
+        site navigation.
+        """
+
+    async def getVisitingHours(self, query: str, /) -> Prv_millisaraylar_MillisaraylarVisitingHours_Out:
+        """Matches `query` against `getPalaces()`'s own listing (a substring match on the site's
+        own display name, e.g. "Topkapi" or "Dolmabahce") and reads that site's closed day(s)
+        and ticket-office opening/closing hours off its detail page.
+        """
+
+    async def getTicketPrices(self, query: str, /) -> Prv_millisaraylar_MillisaraylarTicketPrices_Out:
+        """Matches `query` against millisaraylar.gov.tr's own ticket-purchase location list (a
+        narrower set than `getPalaces` — only what is sold as a standalone ticket) and reads the
+        domestic, domestic-student and foreign prices (TRY) the site itself quotes.
         """
 
 class Prv_minimax(Protocol):
@@ -20629,6 +20974,25 @@ class Prv_soundcloud(Protocol):
         could be read — an empty track list would be a failed read wearing a success costume.
         """
 
+class Prv_spirithalloween(Protocol):
+    """The licensed Halloween costume specialist — category browse and per-size, per-color live
+    stock for the lines it carries (today: KPop Demon Hunters).
+    """
+
+    async def search(self, args: Prv_spirithalloween_search_args_In, /) -> Prv_spirithalloween_SpiritHalloweenSearchResults_Out:
+        """Browses Spirit Halloween's category listing for a query resolved against a small
+        internal directory of mapped categories (today: "KPop Demon Hunters" and its characters
+        — rumi, mira, zoey, saja) — NOT a general free-text site search, which was probed
+        2026-09-01 and does not render results server-side. Each result row carries only its OWN
+        listed size's stock; call getProduct for the full per-size breakdown.
+        """
+
+    async def getProduct(self, args: Prv_spirithalloween_getProduct_args_In, /) -> Prv_spirithalloween_SpiritHalloweenProduct_Out:
+        """Reads one product page's full live size/color matrix — every real variant this product
+        sells in, each with its own price and in-stock signal — for a product URL returned by
+        search.
+        """
+
 class Prv_starlighthomes(Protocol):
     """Reads Starlight Homes' own metro/neighborhood catalogue — every metro division, one
     metro's neighborhoods with real live monthly-price and sq-ft ranges, and one
@@ -20987,7 +21351,7 @@ class Prv_therabody(Protocol):
 
     async def recommendTheragun(self, criteria: Prv_therabody_recommendTheragun_criteria_In, /) -> Prv_therabody_TherabodyRecommendation_Out:
         """Filters the live catalogue by what a shopper actually needs — device family, audience,
-        and the features named (percussion, recovery, hot/cold, breath). Returns the matching
+        and the features named (percussive, recovery, massage, vibration). Returns the matching
         products with their real prices, ranked by in-stock first. The storefront does not
         publish a query or filter endpoint, so the function is local filtering on the catalogue
         listTheragunProducts already returns — the divide is what the function does with the
@@ -21805,6 +22169,17 @@ class Prv_xpresswellnessurgentcare(Protocol):
         (the widget's markup changed).
         """
 
+class Prv_yelp(Protocol):
+    """Yelp's own business search — returns real, currently-listed businesses for a search term
+    and location with Yelp's own star rating, review count, price tier and neighborhood.
+    """
+
+    async def search(self, args: Prv_yelp_YelpSearchArgs_In, /) -> list[Prv_yelp_YelpSearchResult_Out]:
+        """Runs Yelp's own business search for a term and location and returns real,
+        currently-listed businesses with Yelp's own rating, review count, price tier and
+        neighborhood. Read-only.
+        """
+
 class Prv_yorkwallcoverings(Protocol):
     """Reads York Wallcoverings' public wallpaper/mural storefront (yorkwallcoverings.com) —
     search the catalog by keyword, read a product's live price and stock, and get the
@@ -21907,6 +22282,7 @@ class BowmarkProviders(Protocol):
     avis: Prv_avis
     azazie: Prv_azazie
     azure: Prv_azure
+    bankmycell: Prv_bankmycell
     barletta: Prv_barletta
     baublebar: Prv_baublebar
     bcparkscamping: Prv_bcparkscamping
@@ -21941,6 +22317,7 @@ class BowmarkProviders(Protocol):
     chriscraft: Prv_chriscraft
     classichome: Prv_classichome
     classpass: Prv_classpass
+    claudemarketplaces_com: Prv_claudemarketplaces_com
     cleanairlawncare: Prv_cleanairlawncare
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
@@ -21948,6 +22325,7 @@ class BowmarkProviders(Protocol):
     couponfollow: Prv_couponfollow
     cruiselakegeneva: Prv_cruiselakegeneva
     culturefly: Prv_culturefly
+    curiocity: Prv_curiocity
     cyberpowerpc: Prv_cyberpowerpc
     davidsonhomes: Prv_davidsonhomes
     deangroup: Prv_deangroup
@@ -21964,6 +22342,7 @@ class BowmarkProviders(Protocol):
     embroker: Prv_embroker
     eq3: Prv_eq3
     erieinsurance: Prv_erieinsurance
+    etsy: Prv_etsy
     eventsource: Prv_eventsource
     evolutionofsmooth: Prv_evolutionofsmooth
     executivehomecare: Prv_executivehomecare
@@ -22001,6 +22380,7 @@ class BowmarkProviders(Protocol):
     hilton: Prv_hilton
     historymaker: Prv_historymaker
     hobie: Prv_hobie
+    hodjapasha: Prv_hodjapasha
     holidaybuilders: Prv_holidaybuilders
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
@@ -22047,6 +22427,7 @@ class BowmarkProviders(Protocol):
     medicare: Prv_medicare
     mergify: Prv_mergify
     microcenter: Prv_microcenter
+    millisaraylar: Prv_millisaraylar
     minimax: Prv_minimax
     minted: Prv_minted
     mixbook: Prv_mixbook
@@ -22106,6 +22487,7 @@ class BowmarkProviders(Protocol):
     smithery: Prv_smithery
     solostove: Prv_solostove
     soundcloud: Prv_soundcloud
+    spirithalloween: Prv_spirithalloween
     starlighthomes: Prv_starlighthomes
     statefarm: Prv_statefarm
     stickergiant: Prv_stickergiant
@@ -22146,6 +22528,7 @@ class BowmarkProviders(Protocol):
     wellfound: Prv_wellfound
     winestyles: Prv_winestyles
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
+    yelp: Prv_yelp
     yorkwallcoverings: Prv_yorkwallcoverings
     yourarborhome: Prv_yourarborhome
     youtube: Prv_youtube
@@ -22162,6 +22545,7 @@ class Bowmark(Protocol):
     bundles: Cap_bundles
     cable_railing_quote: Cap_cable_railing_quote
     cars: Cap_cars
+    costume_size_check: Cap_costume_size_check
     coworking: Cap_coworking
     custom_sofa_configurator: Cap_custom_sofa_configurator
     delivery: Cap_delivery

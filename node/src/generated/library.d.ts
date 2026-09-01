@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a9e243c9081df30a46a01550d2dc7df6c8959af9df1182e422f0a71af016d072
-// 38 capabilities, 266 providers, 693 typed functions, 20 refused.
+// Manifest version: 7ac4a9084853ee226f56e4964cb0bb95339c8375142eebd03526a4d6651ae380
+// 39 capabilities, 274 providers, 707 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -194,6 +194,53 @@ type CallOptions = {
      * sets the per-site budget (default 30000).
      */
     search(query: CarQuery, limit?: number, options?: CallOptions): Promise<CarSearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_costume_size_check {
+  // ── Check one costume character's stock at one size, across Target, Walmart, and Spirit Halloween — the unit's own declarations, verbatim ──
+interface RetailerSizeMatch {
+  title: string
+  url: string
+  price: { amount: number; currency: string } | null
+  inStock: boolean
+}
+interface RetailerSizeResult {
+  matched: RetailerSizeMatch | null   // null + incomplete=false means this retailer
+                                       // answered and has no listing in this size
+  incomplete: boolean                 // true means this retailer's call never
+                                       // answered — matched is NOT a stockout then
+}
+interface CostumeSizeCheck {
+  character: string
+  size: string
+  retailers: { target: RetailerSizeResult; walmart: RetailerSizeResult; spirithalloween: RetailerSizeResult }
+  warnings: string[]
+}
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Given a costume character and a size, fans out to Target, Walmart, and Spirit Halloween and
+   * reports whether each retailer has that exact character-and-size combination in stock right
+   * now — the per-size question a plain product search can't answer, because Target and Walmart
+   * bake size into a free-text title and Spirit Halloween only exposes its full size matrix on
+   * the product page.
+   */
+  interface Unit {
+    /**
+     * Checks whether one costume character exists in one size, right now, at Target, Walmart, and
+     * Spirit Halloween. `retailers.<name>.matched` is the listing that named both the character
+     * and the size, or null when that retailer answered and has none. `incomplete: true` means
+     * that retailer's own call never answered — a missed deadline or an error — so `matched: null`
+     * there is NOT a stockout; nothing was learned. Never throws on one or two retailers being
+     * unreachable — the surviving legs still answer and the dropped ones are named in `warnings`;
+     * throws only when all three failed.
+     */
+    checkSize(args: { character: string; size: string }): Promise<CostumeSizeCheck>;
   }
 }
 
@@ -4017,6 +4064,44 @@ interface AzureListServicesResult {
   }
 }
 
+declare namespace BowmarkProvider_bankmycell {
+  // ── BankMyCell — the unit's own declarations, verbatim ──
+interface BankmycellOffer {
+  merchant: string;
+  price: number;
+  paymentOptions: string;
+  shippingOptions: { id: string; name: string }[];
+  pricelockTimescale: string | null;
+  paymentTimescale: string | null;
+  checkoutLink: string;
+  reviewsRating: number | null;
+  reviewsCount: number | null;
+}
+interface BankmycellQuoteResult {
+  deviceUrl: string;
+  selections: { capacity: string | null; condition: string | null; carrier: string | null; lockedStatus: string | null };
+  offers: BankmycellOffer[];
+  unavailableMerchants: string[];
+  summary: { minPrice: number | null; maxPrice: number | null; avgPrice: number | null; count: number };
+}
+
+  /**
+   * Live trade-in offers for a phone/device from every merchant BankMyCell compares, for a
+   * chosen capacity/condition/carrier — read off the same pricing endpoint the site's own sell
+   * page polls, instead of parsing prose off the rendered page.
+   */
+  interface Unit {
+    /**
+     * Reads live trade-in offers for the device at a bankmycell.com sell page (e.g.
+     * .../sell/iphone-14-pro), from every merchant the site compares, for the given
+     * capacity/condition/carrier/lockedStatus (each matched against that device's own option
+     * labels, e.g. condition: "Flawless"). Any selection left out uses the page's own default
+     * option for that attribute. THROWS if a selection names an option this device does not offer.
+     */
+    getTradeInQuote(deviceUrl: string, selections?: { capacity?: string; condition?: string; carrier?: string; lockedStatus?: string }): Promise<BankmycellQuoteResult>;
+  }
+}
+
 declare namespace BowmarkProvider_barletta {
   // ── Barletta Boats — the unit's own declarations, verbatim ──
 // Barletta's OWN shapes — not a capability contract.
@@ -6454,6 +6539,43 @@ interface ClasspassSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_claudemarketplaces_com {
+  // ── Claude Marketplaces — the unit's own declarations, verbatim ──
+interface claudeMarketplacesListing {
+  url: string;
+  kind: string;
+  publisher: string;
+  slug: string;
+  name: string;
+  description: string;
+  applicationCategory: string | null;
+  operatingSystem: string | null;
+  codeRepository: string | null;
+  featureList: string[];
+  price: string | null;
+  priceCurrency: string | null;
+}
+
+  /**
+   * A directory of Claude plugin/MCP/skill marketplace listings — fetch one listing's structured
+   * fields (name, description, category, repo, declared tools, price) instead of parsing its
+   * page by hand.
+   */
+  interface Unit {
+    /**
+     * Fetches one MCP server listing page from claudemarketplaces.com — `url` is the listing's
+     * full URL or path, e.g. "https://claudemarketplaces.com/mcp/metroxe/bowmark" or
+     * "/mcp/github/github-mcp-server". Returns the listing's structured fields straight off the
+     * page's own schema.org `SoftwareApplication` record: `name`, `description`,
+     * `applicationCategory`, `operatingSystem`, `codeRepository`, `featureList` (the tool/feature
+     * names the listing declares), and `price`/`priceCurrency`. `publisher`, `kind` and `slug` are
+     * read off the URL path. Only `mcp`-kind listings (`/mcp/<publisher>/<slug>`) are implemented
+     * — `getListing` throws `ClaudeMarketplacesInputError` for any other path shape.
+     */
+    getListing(url: string): Promise<claudeMarketplacesListing>;
+  }
+}
+
 declare namespace BowmarkProvider_cleanairlawncare {
   // ── Clean Air Lawn Care — the unit's own declarations, verbatim ──
 interface CleanAirEstimateAvailability {
@@ -6901,6 +7023,41 @@ interface CultureFlyCheckoutLink {
      * combination the box does not offer.
      */
     buildCultureFlyCheckoutLink(handle: string, size: string, cadence: string): Promise<CultureFlyCheckoutLink>;
+  }
+}
+
+declare namespace BowmarkProvider_curiocity {
+  // ── Curiocity — the unit's own declarations, verbatim ──
+interface CuriocityEvent {
+  title: string;             // "Slayyyter – WOR$T GIRL IN THE WORLD TOUR"
+  url: string;                // click-through — the event's own link, or the article's
+  when: string | null;        // "Thursday, Sept. 3, 2026" — free text, as curiocity writes it
+  time: string | null;        // "7 p.m."
+  where: string | null;       // "868 Granville St."
+  cost: string | null;        // "$650+"
+  articleTitle: string;       // the roundup (or single-event) post this came from
+  articleUrl: string;
+  publishedAt: string | null; // the article's own pubDate
+}
+
+interface CuriocityListEventsQuery {
+  city: string; // curiocity's own city slug, e.g. "vancouver", "toronto"
+}
+
+  /**
+   * Curiocity's own city 'things to do' feeds, parsed into individual events — title, when,
+   * time, where, cost and a click-through link — instead of the raw RSS/HTML a caller would
+   * otherwise have to regex apart.
+   */
+  interface Unit {
+    /**
+     * Reads curiocity.com's own 'things to do' feed for one city and returns individual events —
+     * title, when, time, where, cost and a click-through link — parsed out of the site's roundup
+     * posts instead of the raw RSS. `city` is curiocity's own slug (e.g. "vancouver", "toronto").
+     * An empty array is the feed's own answer for a city curiocity does not cover, never invented
+     * here — a block page or a moved endpoint THROWS instead.
+     */
+    listEvents(query: CuriocityListEventsQuery): Promise<CuriocityEvent[]>;
   }
 }
 
@@ -8087,6 +8244,34 @@ interface ErieAgent {
      * that is never an error.
      */
     findAgent(query: ErieAgentQuery, limit?: number): Promise<ErieAgentSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_etsy {
+  // ── Etsy — the unit's own declarations, verbatim ──
+interface etsyListing {
+  listingId: number;
+  title: string;
+  price: number | null;
+  currencyCode: string | null;
+  quantity: number | null;
+  tags: string[];
+  url: string;
+}
+
+  /**
+   * Etsy's own documented Open API v3 (openapi.etsy.com) — searches active listings on etsy.com
+   * by keyword and returns id, title, price, currency, quantity, tags and the listing's own
+   * etsy.com URL, without scraping etsy.com's search page (which sits behind DataDome).
+   */
+  interface Unit {
+    /**
+     * Searches Etsy's live catalog of active listings by keyword, via Etsy's documented Open API
+     * v3, and returns the matching listings — id, title, price, currency, quantity available, tags
+     * and the listing's own etsy.com URL. `limit` caps the row count (default 10, Etsy's own
+     * ceiling 100). Requires an Etsy developer API key — see this provider's `auth`.
+     */
+    search(args: string | { query: string; limit?: number }): Promise<etsyListing[]>;
   }
 }
 
@@ -11713,6 +11898,69 @@ interface HobieLocalAvailability {
      * `color` defaults to the site's own default color when omitted.
      */
     checkLocalAvailability(slug: string, color: string | undefined, zip: string): Promise<HobieLocalAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_hodjapasha {
+  // ── Hodjapasha Culture Center — Istanbul whirling-dervish and dance show ticketing — the unit's own declarations, verbatim ──
+interface HodjapashaListingEntry {
+  productId: string;
+  title: string;
+  summary: string | null;
+  duration: string | null;
+  priceFrom: string | null;   // the site's own "from" price, e.g. "$42.22"
+  currency: string | null;
+  url: string;
+}
+interface HodjapashaShowDetail {
+  productId: string;
+  title: string;
+  description: string | null; // the site's own description paragraphs, joined
+  duration: string | null;
+  location: string | null;
+  productCode: string | null;
+  priceFrom: string | null;
+  currency: string | null;
+  url: string;
+}
+interface HodjapashaSession {
+  sessionId: string;
+  label: string;              // e.g. "20:30 - Available"
+}
+interface HodjapashaAvailability {
+  productId: string;
+  date: string;                // YYYY-MM-DD, as queried
+  available: boolean;
+  sessions: HodjapashaSession[];
+  totalPrice: string | null;   // e.g. "1900"
+  currency: string | null;
+}
+
+  /**
+   * The Hodjapasha Culture Center's own Rezdy booking widget for its whirling-dervish (Sema) and
+   * Ottoman/folk dance shows in Istanbul — show list, per-show pricing and description, and
+   * date/party-size availability with session times and total price, read straight off the
+   * widget's own pages.
+   */
+  interface Unit {
+    /**
+     * Reads every show hodjapasha.com's own booking widget lists off /widget/index.php — title,
+     * productId, from-price, duration.
+     */
+    listShows(): Promise<HodjapashaListingEntry[]>;
+
+    /**
+     * Reads one show's full description, adult/child pricing, location and duration off its own
+     * /widget/product-detail.php page.
+     */
+    getShow(productId: string): Promise<HodjapashaShowDetail>;
+
+    /**
+     * Checks the widget's own availability endpoint for a show, YYYY-MM-DD date and party size
+     * (defaults: 1 adult, 0 children), returning the session time(s) offered and the total price,
+     * or `available: false` for a date the show does not run.
+     */
+    getAvailability(productId: string, date: string, opts?: { adults?: number; children?: number }): Promise<HodjapashaAvailability>;
   }
 }
 
@@ -16495,6 +16743,58 @@ interface StoreShelfRoster {
   }
 }
 
+declare namespace BowmarkProvider_millisaraylar {
+  // ── millisaraylar.gov.tr — Türkiye Presidential Administration of National Palaces — the unit's own declarations, verbatim ──
+interface MillisaraylarPalace {
+  id: string;
+  name: string;
+  url: string;
+}
+interface MillisaraylarVisitingHours {
+  name: string;
+  closedDays: string | null;           // the site's own text, e.g. "Tuesday"
+  ticketOfficeOpeningTime: string | null; // "HH:MM"
+  ticketOfficeClosingTime: string | null; // "HH:MM"
+  url: string;
+}
+interface MillisaraylarTicketPrices {
+  name: string;
+  currency: "TRY";
+  domestic: number | null;
+  domesticStudent: number | null;
+  foreign: number | null;
+  url: string;
+}
+
+  /**
+   * Türkiye's Presidential Administration of National Palaces — the palace/kiosk/pavilion list,
+   * closed days and ticket-office hours, and domestic/domestic-student/foreign ticket prices for
+   * Topkapi Palace, Dolmabahçe Palace, Yıldız Palace, Beylerbeyi Palace and the other sites it
+   * administers, read straight off the site's own ticket-purchase and detail pages.
+   */
+  interface Unit {
+    /**
+     * Reads the full palace/kiosk/pavilion/museum/factory list off millisaraylar.gov.tr's own site
+     * navigation.
+     */
+    getPalaces(): Promise<MillisaraylarPalace[]>;
+
+    /**
+     * Matches `query` against `getPalaces()`'s own listing (a substring match on the site's own
+     * display name, e.g. "Topkapi" or "Dolmabahce") and reads that site's closed day(s) and
+     * ticket-office opening/closing hours off its detail page.
+     */
+    getVisitingHours(query: string): Promise<MillisaraylarVisitingHours>;
+
+    /**
+     * Matches `query` against millisaraylar.gov.tr's own ticket-purchase location list (a narrower
+     * set than `getPalaces` — only what is sold as a standalone ticket) and reads the domestic,
+     * domestic-student and foreign prices (TRY) the site itself quotes.
+     */
+    getTicketPrices(query: string): Promise<MillisaraylarTicketPrices>;
+  }
+}
+
 declare namespace BowmarkProvider_minimax {
   // ── MiniMax — the unit's own declarations, verbatim ──
 interface MinimaxDocIndexEntry {
@@ -21266,6 +21566,62 @@ interface ScPlaylist {
   }
 }
 
+declare namespace BowmarkProvider_spirithalloween {
+  // ── Spirit Halloween — the unit's own declarations, verbatim ──
+interface SpiritHalloweenSearchResult {
+  productId: string
+  sku: string
+  name: string
+  url: string
+  image: string | null
+  price: number | null
+  currency: "USD"
+  listedSize: string | null       // the ONE size this listing row is indexed under
+  listedSizeStock: number | null  // that size's stock only — not the full range
+}
+interface SpiritHalloweenSearchResults {
+  query: string
+  category: string
+  results: SpiritHalloweenSearchResult[]
+  totalMatches: number | null
+}
+interface SpiritHalloweenSizeVariant {
+  color: string
+  size: string           // the site's own size label, e.g. "CHILD MEDIUM"
+  price: number
+  inStock: boolean
+  shipStockQuantity: number
+  variantId: string
+}
+interface SpiritHalloweenProduct {
+  productId: string
+  name: string
+  url: string
+  sizes: SpiritHalloweenSizeVariant[]   // every real color/size combination, each with its own live stock
+}
+
+  /**
+   * The licensed Halloween costume specialist — category browse and per-size, per-color live
+   * stock for the lines it carries (today: KPop Demon Hunters).
+   */
+  interface Unit {
+    /**
+     * Browses Spirit Halloween's category listing for a query resolved against a small internal
+     * directory of mapped categories (today: "KPop Demon Hunters" and its characters — rumi, mira,
+     * zoey, saja) — NOT a general free-text site search, which was probed 2026-09-01 and does not
+     * render results server-side. Each result row carries only its OWN listed size's stock; call
+     * getProduct for the full per-size breakdown.
+     */
+    search(args: { query: string; limit?: number }): Promise<SpiritHalloweenSearchResults>;
+
+    /**
+     * Reads one product page's full live size/color matrix — every real variant this product sells
+     * in, each with its own price and in-stock signal — for a product URL returned by search.
+     */
+    getProduct(args: { url: string }): Promise<SpiritHalloweenProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_starlighthomes {
   // ── Starlight Homes — the unit's own declarations, verbatim ──
 // Starlight Homes' OWN shapes — not a capability contract.
@@ -22299,7 +22655,7 @@ interface TherabodyRecommendation {
 
     /**
      * Filters the live catalogue by what a shopper actually needs — device family, audience, and
-     * the features named (percussion, recovery, hot/cold, breath). Returns the matching products
+     * the features named (percussive, recovery, massage, vibration). Returns the matching products
      * with their real prices, ranked by in-stock first. The storefront does not publish a query or
      * filter endpoint, so the function is local filtering on the catalogue listTheragunProducts
      * already returns — the divide is what the function does with the data, not how it gets there.
@@ -24489,6 +24845,36 @@ interface XpressWaitTime {
   }
 }
 
+declare namespace BowmarkProvider_yelp {
+  // ── Yelp — the unit's own declarations, verbatim ──
+interface YelpSearchArgs {
+  term: string;      // e.g. "ramen" — Yelp's own find_desc
+  location: string;  // e.g. "Philadelphia, PA" — Yelp's own find_loc
+  limit?: number;     // default 10, clamped to [1, 30]
+}
+
+interface YelpSearchResult {
+  name: string;
+  url: string;
+  rating: number | null;
+  reviewCount: number | null;
+  priceRange: string | null;   // "$".."$$$$", or null
+  neighborhood: string | null;
+}
+
+  /**
+   * Yelp's own business search — returns real, currently-listed businesses for a search term and
+   * location with Yelp's own star rating, review count, price tier and neighborhood.
+   */
+  interface Unit {
+    /**
+     * Runs Yelp's own business search for a term and location and returns real, currently-listed
+     * businesses with Yelp's own rating, review count, price tier and neighborhood. Read-only.
+     */
+    search(args: YelpSearchArgs): Promise<YelpSearchResult[]>;
+  }
+}
+
 declare namespace BowmarkProvider_yorkwallcoverings {
   // ── York Wallcoverings — the unit's own declarations, verbatim ──
 interface YorkWallcoveringsSearchResult {
@@ -25516,6 +25902,7 @@ interface BowmarkProviders {
   avis: BowmarkProvider_avis.Unit;
   azazie: BowmarkProvider_azazie.Unit;
   azure: BowmarkProvider_azure.Unit;
+  bankmycell: BowmarkProvider_bankmycell.Unit;
   barletta: BowmarkProvider_barletta.Unit;
   baublebar: BowmarkProvider_baublebar.Unit;
   bcparkscamping: BowmarkProvider_bcparkscamping.Unit;
@@ -25550,6 +25937,7 @@ interface BowmarkProviders {
   chriscraft: BowmarkProvider_chriscraft.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classpass: BowmarkProvider_classpass.Unit;
+  claudemarketplaces_com: BowmarkProvider_claudemarketplaces_com.Unit;
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
@@ -25557,6 +25945,7 @@ interface BowmarkProviders {
   couponfollow: BowmarkProvider_couponfollow.Unit;
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;
   culturefly: BowmarkProvider_culturefly.Unit;
+  curiocity: BowmarkProvider_curiocity.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
@@ -25573,6 +25962,7 @@ interface BowmarkProviders {
   embroker: BowmarkProvider_embroker.Unit;
   eq3: BowmarkProvider_eq3.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
+  etsy: BowmarkProvider_etsy.Unit;
   eventsource: BowmarkProvider_eventsource.Unit;
   evolutionofsmooth: BowmarkProvider_evolutionofsmooth.Unit;
   executivehomecare: BowmarkProvider_executivehomecare.Unit;
@@ -25610,6 +26000,7 @@ interface BowmarkProviders {
   hilton: BowmarkProvider_hilton.Unit;
   historymaker: BowmarkProvider_historymaker.Unit;
   hobie: BowmarkProvider_hobie.Unit;
+  hodjapasha: BowmarkProvider_hodjapasha.Unit;
   holidaybuilders: BowmarkProvider_holidaybuilders.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
@@ -25656,6 +26047,7 @@ interface BowmarkProviders {
   medicare: BowmarkProvider_medicare.Unit;
   mergify: BowmarkProvider_mergify.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
+  millisaraylar: BowmarkProvider_millisaraylar.Unit;
   minimax: BowmarkProvider_minimax.Unit;
   minted: BowmarkProvider_minted.Unit;
   mixbook: BowmarkProvider_mixbook.Unit;
@@ -25715,6 +26107,7 @@ interface BowmarkProviders {
   smithery: BowmarkProvider_smithery.Unit;
   solostove: BowmarkProvider_solostove.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
+  spirithalloween: BowmarkProvider_spirithalloween.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
@@ -25755,6 +26148,7 @@ interface BowmarkProviders {
   wellfound: BowmarkProvider_wellfound.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
+  yelp: BowmarkProvider_yelp.Unit;
   yorkwallcoverings: BowmarkProvider_yorkwallcoverings.Unit;
   yourarborhome: BowmarkProvider_yourarborhome.Unit;
   youtube: BowmarkProvider_youtube.Unit;
@@ -77485,6 +77879,7 @@ interface BowmarkLibrary {
   bundles: BowmarkCapability_bundles.Unit;
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   cars: BowmarkCapability_cars.Unit;
+  costume_size_check: BowmarkCapability_costume_size_check.Unit;
   coworking: BowmarkCapability_coworking.Unit;
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
   delivery: BowmarkCapability_delivery.Unit;
