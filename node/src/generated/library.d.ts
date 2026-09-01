@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a5675c3e09511d32532d16f1d61b5de1866868ad4085e2542a00b7a5d97a2671
+// Manifest version: ce8f2b7ced186c86327c3c5bee63a7595f7ed4ef9a600e5bb851b6d5fda51d10
 // 36 capabilities, 259 providers, 678 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -23743,6 +23743,7 @@ interface walmartSearchResult {
   price: number | null;
   wasPrice: number | null;
   priceRangeMin: number | null;
+  conditionCode: number | null;
   inStock: boolean;
   rating: number | null;
   reviewCount: number;

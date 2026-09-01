@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a5675c3e09511d32532d16f1d61b5de1866868ad4085e2542a00b7a5d97a2671
+# Manifest version: ce8f2b7ced186c86327c3c5bee63a7595f7ed4ef9a600e5bb851b6d5fda51d10
 # 36 capabilities, 259 providers, 660 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -12497,6 +12497,7 @@ class Prv_walmart_walmartSearchResult_Out(TypedDict):
     price: float | None
     wasPrice: float | None
     priceRangeMin: float | None
+    conditionCode: float | None
     inStock: bool
     rating: float | None
     reviewCount: float
