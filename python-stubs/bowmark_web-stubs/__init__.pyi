@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e1a75ddfb570faec855f4ec805faa90e03efd7c7f73d1b31d6d910c56450d84f
-# 38 capabilities, 265 providers, 673 typed functions, 20 refused.
+# Manifest version: 4367aae3846695ff98e8537819e01ea3e2b841043d73690123b839fb07c2a19a
+# 38 capabilities, 266 providers, 675 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9034,6 +9034,37 @@ class Prv_oliverwinery_OliverwineryWineDetail_Out(TypedDict):
 class Prv_oliverwinery_OliverwineryShippingAvailability_Out(TypedDict):
     stateCode: str
     shippable: bool
+
+class Prv_othership_OthershipLocation_Out(TypedDict):
+    id: str
+    name: str
+    city: str
+    stateProvince: str
+    formattedAddress: str
+    timezone: str
+    currencyCode: str
+    regionName: str | None
+
+class Prv_othership_OthershipClassSchedule_Out(TypedDict):
+    classes: list[Prv_othership_OthershipClass_Out]
+    totalCount: float
+    scheduleUrl: str
+    warnings: list[str]
+
+class Prv_othership_OthershipClass_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    durationMinutes: float
+    classroomName: str
+    instructorNames: list[str]
+    tags: list[str]
+    startDateTime: str
+    bookingStartDateTime: str
+    availableSpotCount: float
+    capacity: float
+    spotCountIsPublic: bool
+    isCancelled: bool
 
 class Prv_otto_ottoProduct_Out(TypedDict):
     productId: str
@@ -19298,6 +19329,27 @@ class Prv_oliverwinery(Protocol):
         checkout flow enforces.
         """
 
+class Prv_othership(Protocol):
+    """Othership's real, live class schedule and seat availability across its Toronto and NYC
+    sauna/ice-bath/breathwork studios — the same data its Mariana Tek booking widget shows,
+    read directly rather than through a JS embed nothing outside a real browser can render.
+    """
+
+    async def getLocations(self, /) -> list[Prv_othership_OthershipLocation_Out]:
+        """Returns every Othership studio location (Toronto's Adelaide and Yorkville, NYC's
+        Flatiron and Williamsburg) with its site id, city, address and timezone. The `id` on
+        each row is what getClassSchedule's locationId takes — this is the entry point every
+        schedule search starts from.
+        """
+
+    async def getClassSchedule(self, locationId: str, startDate: str, endDate: str, /) -> Prv_othership_OthershipClassSchedule_Out:
+        """Searches one Othership location's real, live class schedule between two YYYY-MM-DD dates
+        — sauna, ice bath and breathwork sessions with instructor names, duration, tags and the
+        actual seats left right now, off the same Mariana Tek API the site's own booking widget
+        calls. `availableSpotCount: 0` means fully booked, not unavailable; `scheduleUrl` is
+        where to send someone to finish booking.
+        """
+
 class Prv_otto(Protocol):
     """German online marketplace — fashion, furniture, electronics and more."""
 
@@ -22009,6 +22061,7 @@ class BowmarkProviders(Protocol):
     nvisioncenters: Prv_nvisioncenters
     oanda: Prv_oanda
     oliverwinery: Prv_oliverwinery
+    othership: Prv_othership
     otto: Prv_otto
     outdoorresearch: Prv_outdoorresearch
     pacificabeauty: Prv_pacificabeauty

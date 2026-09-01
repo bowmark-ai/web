@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e1a75ddfb570faec855f4ec805faa90e03efd7c7f73d1b31d6d910c56450d84f
-// 673 checked, 20 unchecked.
+// Manifest version: 4367aae3846695ff98e8537819e01ea3e2b841043d73690123b839fb07c2a19a
+// 675 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e1a75ddfb570faec855f4ec805faa90e03efd7c7f73d1b31d6d910c56450d84f",
+  "version": "4367aae3846695ff98e8537819e01ea3e2b841043d73690123b839fb07c2a19a",
   "units": {
     "bundles": {
       "defs": {},
@@ -14283,6 +14283,35 @@ export const VALIDATORS: ValidatorTable = {
         "checkShippingAvailability": [
           {
             "name": "stateCode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.othership": {
+      "defs": {},
+      "functions": {
+        "getLocations": [],
+        "getClassSchedule": [
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "startDate",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "endDate",
             "schema": {
               "k": "string"
             },

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1120 functions. 🟢 implemented · ⚪ planned.
+> 1122 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -794,6 +794,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `oliverwinery.checkShippingAvailability` | oliverwinery.com | Checks whether Oliver Winery currently ships wine to one US state, read off the… | 🟢 |
 | `oliverwinery.getWine` | oliverwinery.com | Reads one wine's full Commerce7 product record by its storefront slug (e.g.… | 🟢 |
 | `oliverwinery.listWines` | oliverwinery.com | Lists Oliver Winery's own Commerce7 shop catalog — real bottle titles, USD prices and… | 🟢 |
+| `othership.getClassSchedule` | othership.us | Searches one location's real, live class schedule between two dates — sauna, ice bath… | 🟢 |
+| `othership.getLocations` | othership.us | Returns every Othership studio location (Toronto's Adelaide and Yorkville, NYC's… | 🟢 |
 | `otto.browseCategory` | otto.de | Lists products under one of OTTO's own department/category pages (e.g. Damenmode… | ⚪ |
 | `otto.getProduct` | otto.de | Reads one OTTO product page — price, current availability, delivery-time estimate (the… | 🟢 |
 | `otto.getReviews` | otto.de | Reads the customer reviews on one OTTO product — rating, review text… | ⚪ |

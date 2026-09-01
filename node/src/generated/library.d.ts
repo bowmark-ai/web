@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e1a75ddfb570faec855f4ec805faa90e03efd7c7f73d1b31d6d910c56450d84f
-// 38 capabilities, 265 providers, 691 typed functions, 20 refused.
+// Manifest version: 4367aae3846695ff98e8537819e01ea3e2b841043d73690123b839fb07c2a19a
+// 38 capabilities, 266 providers, 693 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17708,6 +17708,69 @@ interface OliverwineryShippingAvailability {
   }
 }
 
+declare namespace BowmarkProvider_othership {
+  // ── Othership — the unit's own declarations, verbatim ──
+// Othership's OWN shapes — not a capability contract.
+
+interface OthershipLocation {
+  id: string;              // the key getClassSchedule's locationId takes
+  name: string;             // e.g. "Adelaide", "Flatiron", "Williamsburg"
+  city: string;
+  stateProvince: string;
+  formattedAddress: string;
+  timezone: string;
+  currencyCode: string;
+  regionName: string | null; // e.g. "Toronto", "NYC"
+}
+
+interface OthershipClass {
+  id: string;
+  name: string;              // e.g. "Guided Up: Arctic Tundra - 60 min"
+  description: string;
+  durationMinutes: number;
+  classroomName: string;
+  instructorNames: string[];
+  tags: string[];             // e.g. ["Guided", "Sun Pass"]
+  startDateTime: string;      // ISO 8601 with the location's own UTC offset
+  bookingStartDateTime: string;
+  availableSpotCount: number; // real, live — 0 means fully booked, not "not offered"
+  capacity: number;
+  spotCountIsPublic: boolean;
+  isCancelled: boolean;
+}
+
+interface OthershipClassSchedule {
+  classes: OthershipClass[];
+  totalCount: number;   // may exceed classes.length if the range was too broad — see warnings
+  scheduleUrl: string;   // hand the visitor here to finish booking
+  warnings: string[];
+}
+
+  /**
+   * Othership's real, live class schedule and seat availability across its Toronto and NYC
+   * sauna/ice-bath/breathwork studios — the same data its Mariana Tek booking widget shows, read
+   * directly rather than through a JS embed nothing outside a real browser can render.
+   */
+  interface Unit {
+    /**
+     * Returns every Othership studio location (Toronto's Adelaide and Yorkville, NYC's Flatiron
+     * and Williamsburg) with its site id, city, address and timezone. The `id` on each row is what
+     * getClassSchedule's locationId takes — this is the entry point every schedule search starts
+     * from.
+     */
+    getLocations(): Promise<OthershipLocation[]>;
+
+    /**
+     * Searches one Othership location's real, live class schedule between two YYYY-MM-DD dates —
+     * sauna, ice bath and breathwork sessions with instructor names, duration, tags and the actual
+     * seats left right now, off the same Mariana Tek API the site's own booking widget calls.
+     * `availableSpotCount: 0` means fully booked, not unavailable; `scheduleUrl` is where to send
+     * someone to finish booking.
+     */
+    getClassSchedule(locationId: string, startDate: string, endDate: string): Promise<OthershipClassSchedule>;
+  }
+}
+
 declare namespace BowmarkProvider_otto {
   // ── OTTO — the unit's own declarations, verbatim ──
 interface ottoProduct {
@@ -25607,6 +25670,7 @@ interface BowmarkProviders {
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
   oanda: BowmarkProvider_oanda.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
+  othership: BowmarkProvider_othership.Unit;
   otto: BowmarkProvider_otto.Unit;
   outdoorresearch: BowmarkProvider_outdoorresearch.Unit;
   pacificabeauty: BowmarkProvider_pacificabeauty.Unit;
