@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 986ea03e7cdf1341d4741dd7453e91dfbe25072b752274244a59055b265b09cd
-// 37 capabilities, 262 providers, 683 typed functions, 20 refused.
+// Manifest version: c21a88f0b08fa2ea818a58cdd2e448240577a310bca4ed4c633e746acbcd1ca1
+// 38 capabilities, 263 providers, 686 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1859,6 +1859,46 @@ type CallOptions = {
      * coordinates); free-form text is ignored rather than guessed at.
      */
     findAvailability(name: string | { name: string; location?: string; day?: string; partySize?: number }, options?: CallOptions): Promise<RestaurantAvailabilityResult>;
+  }
+}
+
+declare namespace BowmarkCapability_retail {
+  // ── Retail (general merchandise, multi-store) — the unit's own declarations, verbatim ──
+type RetailOffer = {
+  store: "walmart" | "target"    // where this offer is from
+  title: string                  // the product as the store lists it
+  price: number | null           // USD; null if unpriced
+  wasPrice: number | null        // the pre-markdown price, when the store publishes one
+  url: string | null             // product page
+  inStock: boolean               // this store's OWN in-stock signal — not comparable
+                                  // across stores as one normalized fact
+}
+type RetailSearchResult = {
+  results: RetailOffer[]   // ONE query across ALL stores, price-sorted (cheapest first)
+  warnings: string[]       // always present; names any store that did not answer. A
+                           // store named here priced NOTHING, so read this before
+                           // concluding a store has no stock or a worse price
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * General-merchandise retail across Walmart and Target — one keyword search, fanned out in
+   * parallel and returned price-sorted, so an agent can answer 'where can I actually buy this
+   * and what does it cost' without querying each store by hand.
+   */
+  interface Unit {
+    /**
+     * Searches Walmart and Target in parallel for a keyword and returns one price-sorted list of
+     * offers across both stores, each tagged with which store it's from. `warnings` names any
+     * store that did not answer, so a caller can tell a genuinely cheaper/only offer from one
+     * where a store simply timed out.
+     */
+    search(args: { query: string }): Promise<RetailSearchResult>;
   }
 }
 
@@ -17362,6 +17402,43 @@ interface StoreStock {
   }
 }
 
+declare namespace BowmarkProvider_nutrafol {
+  // ── Nutrafol — the unit's own declarations, verbatim ──
+interface RootCause {
+  category: "Stress" | "Metabolism" | "Nutrition" | "Lifestyle" | "Hormone" | "Aging";
+  severity: string;          // the site's own label, e.g. "NEEDS SUPPORT", "MODERATE", "NORMAL"
+  description: string | null;
+  signs: string[];
+}
+interface HairWellnessAssessment {
+  rootCauses: RootCause[];
+}
+interface QuizOverview {
+  description: string;
+  rootCauseCategories: string[];
+}
+
+  /**
+   * Nutrafol's own Hair Wellness Quiz — assessHairWellness runs the real root-cause assessment
+   * and returns its own computed per-category severities (Stress, Metabolism, Nutrition,
+   * Lifestyle, Hormone, Aging), the personalized output the site's marketing pages only
+   * describe.
+   */
+  interface Unit {
+    /**
+     * Runs Nutrafol's own Hair Wellness Quiz along its default answer path and returns the site's
+     * real computed root-cause severities. Read-only — never adds to cart or checks out.
+     */
+    assessHairWellness(): Promise<HairWellnessAssessment>;
+
+    /**
+     * Reads the Hair Wellness Quiz's own static intro page — its real description and the six
+     * root-cause categories it screens for — with a plain browserless fetch.
+     */
+    getQuizOverview(): Promise<QuizOverview>;
+  }
+}
+
 declare namespace BowmarkProvider_nvisioncenters {
   // ── NVISION Eye Centers — the unit's own declarations, verbatim ──
 // NVISION's OWN shapes — not a capability contract.
@@ -25407,6 +25484,7 @@ interface BowmarkProviders {
   nationalbusinessfurniture: BowmarkProvider_nationalbusinessfurniture.Unit;
   newageproducts: BowmarkProvider_newageproducts.Unit;
   newegg: BowmarkProvider_newegg.Unit;
+  nutrafol: BowmarkProvider_nutrafol.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
   oanda: BowmarkProvider_oanda.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
@@ -77246,6 +77324,7 @@ interface BowmarkLibrary {
   promocodes: BowmarkCapability_promocodes.Unit;
   read: BowmarkCapability_read.Unit;
   restaurant_booking: BowmarkCapability_restaurant_booking.Unit;
+  retail: BowmarkCapability_retail.Unit;
   school_shopping_basket: BowmarkCapability_school_shopping_basket.Unit;
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;

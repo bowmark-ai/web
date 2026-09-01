@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 986ea03e7cdf1341d4741dd7453e91dfbe25072b752274244a59055b265b09cd
-# 37 capabilities, 262 providers, 665 typed functions, 20 refused.
+# Manifest version: c21a88f0b08fa2ea818a58cdd2e448240577a310bca4ed4c633e746acbcd1ca1
+# 38 capabilities, 263 providers, 668 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1115,6 +1115,21 @@ class Cap_restaurant_booking_RestaurantVenue_Out(TypedDict):
 class Cap_restaurant_booking_RestaurantSlot_Out(TypedDict):
     startsAt: str
     seatingType: str | None
+
+class Cap_retail_search_args_In(TypedDict):
+    query: str
+
+class Cap_retail_RetailSearchResult_Out(TypedDict):
+    results: list[Cap_retail_RetailOffer_Out]
+    warnings: list[str]
+
+class Cap_retail_RetailOffer_Out(TypedDict):
+    store: Literal["walmart"] | Literal["target"]
+    title: str
+    price: float | None
+    wasPrice: float | None
+    url: str | None
+    inStock: bool
 
 class Cap_school_shopping_basket_priceList_args_In(TypedDict):
     items: Sequence[str]
@@ -8891,6 +8906,19 @@ class Prv_newegg_StoreStock_Out(TypedDict):
     currency: str
     checkedAt: str
 
+class Prv_nutrafol_HairWellnessAssessment_Out(TypedDict):
+    rootCauses: list[Prv_nutrafol_RootCause_Out]
+
+class Prv_nutrafol_RootCause_Out(TypedDict):
+    category: Literal["Stress"] | Literal["Metabolism"] | Literal["Nutrition"] | Literal["Lifestyle"] | Literal["Hormone"] | Literal["Aging"]
+    severity: str
+    description: str | None
+    signs: list[str]
+
+class Prv_nutrafol_QuizOverview_Out(TypedDict):
+    description: str
+    rootCauseCategories: list[str]
+
 class Prv_nvisioncenters_NvisioncentersSavingsInput_In(TypedDict):
     age: float
     glasses: float
@@ -13639,6 +13667,19 @@ class Cap_restaurant_booking(Protocol):
         account and is out of scope here. `location` narrows a common restaurant name when
         passed as `"lat,lon"` (e.g. from a prior venue's own coordinates); free-form text is
         ignored rather than guessed at.
+        """
+
+class Cap_retail(Protocol):
+    """General-merchandise retail across Walmart and Target — one keyword search, fanned out in
+    parallel and returned price-sorted, so an agent can answer 'where can I actually buy
+    this and what does it cost' without querying each store by hand.
+    """
+
+    async def search(self, args: Cap_retail_search_args_In, /) -> Cap_retail_RetailSearchResult_Out:
+        """Searches Walmart and Target in parallel for a keyword and returns one price-sorted list
+        of offers across both stores, each tagged with which store it's from. `warnings` names
+        any store that did not answer, so a caller can tell a genuinely cheaper/only offer from
+        one where a store simply timed out.
         """
 
 class Cap_school_shopping_basket(Protocol):
@@ -19069,6 +19110,24 @@ class Prv_newegg(Protocol):
         mistaken for bad news.
         """
 
+class Prv_nutrafol(Protocol):
+    """Nutrafol's own Hair Wellness Quiz — assessHairWellness runs the real root-cause
+    assessment and returns its own computed per-category severities (Stress, Metabolism,
+    Nutrition, Lifestyle, Hormone, Aging), the personalized output the site's marketing
+    pages only describe.
+    """
+
+    async def assessHairWellness(self, /) -> Prv_nutrafol_HairWellnessAssessment_Out:
+        """Runs Nutrafol's own Hair Wellness Quiz along its default answer path and returns the
+        site's real computed root-cause severities. Read-only — never adds to cart or checks
+        out.
+        """
+
+    async def getQuizOverview(self, /) -> Prv_nutrafol_QuizOverview_Out:
+        """Reads the Hair Wellness Quiz's own static intro page — its real description and the six
+        root-cause categories it screens for — with a plain browserless fetch.
+        """
+
 class Prv_nvisioncenters(Protocol):
     """NVISION's own LASIK Savings Calculator (a real lifetime-cost dollar figure from age plus
     glasses/contacts usage) and LASIK Candidate Quiz (the site's real candidacy verdict,
@@ -21844,6 +21903,7 @@ class BowmarkProviders(Protocol):
     nationalbusinessfurniture: Prv_nationalbusinessfurniture
     newageproducts: Prv_newageproducts
     newegg: Prv_newegg
+    nutrafol: Prv_nutrafol
     nvisioncenters: Prv_nvisioncenters
     oanda: Prv_oanda
     oliverwinery: Prv_oliverwinery
@@ -21969,6 +22029,7 @@ class Bowmark(Protocol):
     promocodes: Cap_promocodes
     read: Cap_read
     restaurant_booking: Cap_restaurant_booking
+    retail: Cap_retail
     school_shopping_basket: Cap_school_shopping_basket
     search: Cap_search
     sheds: Cap_sheds

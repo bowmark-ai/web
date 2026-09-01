@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 986ea03e7cdf1341d4741dd7453e91dfbe25072b752274244a59055b265b09cd
-// 665 checked, 20 unchecked.
+// Manifest version: c21a88f0b08fa2ea818a58cdd2e448240577a310bca4ed4c633e746acbcd1ca1
+// 668 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "986ea03e7cdf1341d4741dd7453e91dfbe25072b752274244a59055b265b09cd",
+  "version": "c21a88f0b08fa2ea818a58cdd2e448240577a310bca4ed4c633e746acbcd1ca1",
   "units": {
     "bundles": {
       "defs": {},
@@ -2004,6 +2004,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "retail": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -13964,6 +13987,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.nutrafol": {
+      "defs": {},
+      "functions": {
+        "assessHairWellness": [],
+        "getQuizOverview": []
       }
     },
     "providers.nvisioncenters": {
