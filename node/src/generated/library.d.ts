@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fbf653fb4901d539716a9409071953ddd372e67c08131de726126e05adb963bb
-// 36 capabilities, 260 providers, 680 typed functions, 20 refused.
+// Manifest version: d5a2fc9437c750b8d29baecb66b09560a5368e75ee0a7745a70d6cd8f8a86ab5
+// 37 capabilities, 261 providers, 682 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -322,6 +322,46 @@ type CallOptions = {
      * one.
      */
     priceConfiguration(id: string, selections: Record<string, string>): Promise<CustomSofaPriceResult>;
+  }
+}
+
+declare namespace BowmarkCapability_delivery {
+  // ── Food-delivery fee comparison — the unit's own declarations, verbatim ──
+type DeliveryFeeQuote = {
+  app: string                  // which app quoted this, e.g. "doordash"
+  name: string
+  deliveryFee: number | null   // the app's own advertised delivery fee, before a cart is built
+  url: string
+  rating: number | null
+}
+type CompareDeliveryFeesResult = {
+  query: string
+  quotes: DeliveryFeeQuote[]   // every store any queried app returned
+  warnings: string[]           // always present; empty when nothing was dropped
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Runs a free-text restaurant search on DoorDash and returns each store's own advertised
+   * delivery fee, rating and ETA — the fee shown before a cart is built. Uber Eats is declared
+   * but not yet wired (its search stub isn't built); a full delivery+service+tax+tip checkout
+   * TOTAL needs a real cart and address and is separately not-yet-built on both apps.
+   */
+  interface Unit {
+    /**
+     * Runs a free-text search — `bowmark.delivery.compareDeliveryFees("pad thai austin tx")` —
+     * across the delivery apps this library covers (DoorDash today) and returns every matching
+     * store tagged with which app quoted it, that app's own advertised delivery fee, rating and
+     * listing URL. This is the fee shown on the app's OWN results card before a cart is built, not
+     * a full checkout total (delivery + service fee + tax + tip after a real cart and address) —
+     * see the capability blurb for what that needs.
+     */
+    compareDeliveryFees(query: string | { query: string; limit?: number }, options?: CallOptions): Promise<CompareDeliveryFeesResult>;
   }
 }
 
@@ -7681,6 +7721,34 @@ interface DisneyTicketPrice {
      * to; it is not a lookup for a caller-supplied date (see get-ticket-price.ts).
      */
     getTicketPrice(args: object): Promise<DisneyTicketPrice>;
+  }
+}
+
+declare namespace BowmarkProvider_doordash {
+  // ── DoorDash — the unit's own declarations, verbatim ──
+interface DoordashSearchArgs {
+  query: string;   // free text, e.g. "pad thai austin tx" — DoorDash resolves location itself
+  limit?: number;  // default 10, clamped to [1, 30]
+}
+
+interface DoordashSearchResult {
+  name: string;
+  url: string;
+  deliveryFee: number | null;  // DoorDash's own advertised delivery fee, in dollars
+  rating: number | null;
+  etaMinutes: number | null;
+}
+
+  /**
+   * DoorDash's own store search — returns real, currently-listed stores for a free-text query
+   * with the delivery fee, rating and ETA DoorDash itself advertises on the results card.
+   */
+  interface Unit {
+    /**
+     * Runs DoorDash's own store search for a free-text query and returns real, currently-listed
+     * stores with DoorDash's own advertised delivery fee, rating and ETA. Read-only.
+     */
+    search(args: DoordashSearchArgs): Promise<DoordashSearchResult[]>;
   }
 }
 
@@ -25201,6 +25269,7 @@ interface BowmarkProviders {
   dillards: BowmarkProvider_dillards.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
   disney: BowmarkProvider_disney.Unit;
+  doordash: BowmarkProvider_doordash.Unit;
   ebay: BowmarkProvider_ebay.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
@@ -77116,6 +77185,7 @@ interface BowmarkLibrary {
   cars: BowmarkCapability_cars.Unit;
   coworking: BowmarkCapability_coworking.Unit;
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
+  delivery: BowmarkCapability_delivery.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;
   domain: BowmarkCapability_domain.Unit;
   email: BowmarkCapability_email.Unit;

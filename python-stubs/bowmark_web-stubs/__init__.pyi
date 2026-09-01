@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fbf653fb4901d539716a9409071953ddd372e67c08131de726126e05adb963bb
-# 36 capabilities, 260 providers, 662 typed functions, 20 refused.
+# Manifest version: d5a2fc9437c750b8d29baecb66b09560a5368e75ee0a7745a70d6cd8f8a86ab5
+# 37 capabilities, 261 providers, 664 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -399,6 +399,25 @@ class Cap_custom_sofa_configurator_CustomSofaPriceLine_Out(TypedDict):
     option: str
     choice: str
     priceDelta: float
+
+class Cap_delivery_compareDeliveryFees_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Cap_delivery_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_delivery_CompareDeliveryFeesResult_Out(TypedDict):
+    query: str
+    quotes: list[Cap_delivery_DeliveryFeeQuote_Out]
+    warnings: list[str]
+
+class Cap_delivery_DeliveryFeeQuote_Out(TypedDict):
+    app: str
+    name: str
+    deliveryFee: float | None
+    url: str
+    rating: float | None
 
 class Cap_developer_api_key_signup_signUp_details_In(TypedDict):
     organization: str
@@ -4257,6 +4276,17 @@ class Prv_disney_DisneyTicketPrice_Out_child_u0_Out(TypedDict):
     subtotal: float
     tax: float
     total: float
+
+class Prv_doordash_DoordashSearchArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_doordash_DoordashSearchResult_Out(TypedDict):
+    name: str
+    url: str
+    deliveryFee: float | None
+    rating: float | None
+    etaMinutes: float | None
 
 class Prv_ebay_search_args_u1_In(TypedDict):
     query: str
@@ -12989,6 +13019,23 @@ class Cap_custom_sofa_configurator(Protocol):
         sofa — never invent one.
         """
 
+class Cap_delivery(Protocol):
+    """Runs a free-text restaurant search on DoorDash and returns each store's own advertised
+    delivery fee, rating and ETA — the fee shown before a cart is built. Uber Eats is
+    declared but not yet wired (its search stub isn't built); a full
+    delivery+service+tax+tip checkout TOTAL needs a real cart and address and is separately
+    not-yet-built on both apps.
+    """
+
+    async def compareDeliveryFees(self, query: str | Cap_delivery_compareDeliveryFees_query_u1_In, options: Cap_delivery_CallOptions_In | None = None, /) -> Cap_delivery_CompareDeliveryFeesResult_Out:
+        """Runs a free-text search — `bowmark.delivery.compareDeliveryFees("pad thai austin tx")` —
+        across the delivery apps this library covers (DoorDash today) and returns every matching
+        store tagged with which app quoted it, that app's own advertised delivery fee, rating
+        and listing URL. This is the fee shown on the app's OWN results card before a cart is
+        built, not a full checkout total (delivery + service fee + tax + tip after a real cart
+        and address) — see the capability blurb for what that needs.
+        """
+
 class Cap_developer_api_key_signup(Protocol):
     """Actually RUNS a developer dashboard's signup flow and hands back a real, usable API key
     — no email verification, no CAPTCHA, for the dashboards this covers. Today: Alpha
@@ -15703,6 +15750,18 @@ class Prv_disney(Protocol):
         figure for that length — the cheapest currently-open date-tier — carried alongside the
         dates it applies to; it is not a lookup for a caller-supplied date (see
         get-ticket-price.ts).
+        """
+
+class Prv_doordash(Protocol):
+    """DoorDash's own store search — returns real, currently-listed stores for a free-text
+    query with the delivery fee, rating and ETA DoorDash itself advertises on the results
+    card.
+    """
+
+    async def search(self, args: Prv_doordash_DoordashSearchArgs_In, /) -> list[Prv_doordash_DoordashSearchResult_Out]:
+        """Runs DoorDash's own store search for a free-text query and returns real,
+        currently-listed stores with DoorDash's own advertised delivery fee, rating and ETA.
+        Read-only.
         """
 
 class Prv_ebay(Protocol):
@@ -21653,6 +21712,7 @@ class BowmarkProviders(Protocol):
     dillards: Prv_dillards
     discounttire: Prv_discounttire
     disney: Prv_disney
+    doordash: Prv_doordash
     ebay: Prv_ebay
     elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
@@ -21854,6 +21914,7 @@ class Bowmark(Protocol):
     cars: Cap_cars
     coworking: Cap_coworking
     custom_sofa_configurator: Cap_custom_sofa_configurator
+    delivery: Cap_delivery
     developer_api_key_signup: Cap_developer_api_key_signup
     domain: Cap_domain
     email: Cap_email

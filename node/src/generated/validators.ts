@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fbf653fb4901d539716a9409071953ddd372e67c08131de726126e05adb963bb
-// 662 checked, 20 unchecked.
+// Manifest version: d5a2fc9437c750b8d29baecb66b09560a5368e75ee0a7745a70d6cd8f8a86ab5
+// 664 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fbf653fb4901d539716a9409071953ddd372e67c08131de726126e05adb963bb",
+  "version": "d5a2fc9437c750b8d29baecb66b09560a5368e75ee0a7745a70d6cd8f8a86ab5",
   "units": {
     "bundles": {
       "defs": {},
@@ -261,6 +261,65 @@ export const VALIDATORS: ValidatorTable = {
               }
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "delivery": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "compareDeliveryFees": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -6942,6 +7001,41 @@ export const VALIDATORS: ValidatorTable = {
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.doordash": {
+      "defs": {
+        "DoordashSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DoordashSearchArgs"
             },
             "optional": false
           }
