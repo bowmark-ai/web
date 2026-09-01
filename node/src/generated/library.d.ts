@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c21a88f0b08fa2ea818a58cdd2e448240577a310bca4ed4c633e746acbcd1ca1
-// 38 capabilities, 263 providers, 686 typed functions, 20 refused.
+// Manifest version: e7354d341885fdf8c6d9bfd5ef2934e2a23268aa30a4c765a21377067802eba6
+// 38 capabilities, 264 providers, 688 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3308,6 +3308,51 @@ interface AppleTradeInEstimate {
      * best-case figure, not a quote for a specific unit's actual condition.
      */
     getTradeInEstimate(model: string): Promise<AppleTradeInEstimate>;
+  }
+}
+
+declare namespace BowmarkProvider_aquaphoenixsci {
+  // ── AquaPhoenix Scientific — the unit's own declarations, verbatim ──
+// aquaphoenixsci's OWN shapes — not a capability contract.
+
+interface AquaphoenixsciListing {
+  sku: string;
+  name: string;
+  path: string;            // pass to getProduct()
+  price: number | null;    // dollars, or null when gated behind a business account
+  requiresBusinessAccount: boolean;
+}
+
+interface AquaphoenixsciProduct {
+  sku: string;
+  name: string;
+  path: string;
+  price: number | null;    // dollars, or null when gated behind a business account
+  requiresBusinessAccount: boolean;
+  inStock: boolean;
+  checkoutUrl: string;     // the real product page — add-to-cart / checkout entry point
+}
+
+  /**
+   * AquaPhoenix Scientific's real catalog storefront (water/chemical testing and feed-control
+   * equipment) — browse a category for real SKUs and prices, and read one product's real price,
+   * stock status and add-to-cart/checkout URL.
+   */
+  interface Unit {
+    /**
+     * Lists real products in one of AquaPhoenix's catalog categories, e.g.
+     * "testing-supplies/test-kits" or "feed-and-control-equipment/pumps-accessories" — real SKU,
+     * name, product path, and either a real anonymous price or a note that the SKU requires a
+     * business account. THROWS naming the closed set of real category paths on an unknown one.
+     */
+    browseCategory(category: string): Promise<AquaphoenixsciListing[]>;
+
+    /**
+     * Reads one product's real detail page — SKU, name, price (when anonymously priced), stock
+     * status, and the real product URL to hand to the shopper as the add-to-cart / checkout entry
+     * point. THROWS naming browseCategory() as the way to find a real path on an unknown one.
+     */
+    getProduct(path: string): Promise<AquaphoenixsciProduct>;
   }
 }
 
@@ -25322,6 +25367,7 @@ interface BowmarkProviders {
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
   apple: BowmarkProvider_apple.Unit;
+  aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c21a88f0b08fa2ea818a58cdd2e448240577a310bca4ed4c633e746acbcd1ca1
-# 38 capabilities, 263 providers, 668 typed functions, 20 refused.
+# Manifest version: e7354d341885fdf8c6d9bfd5ef2934e2a23268aa30a4c765a21377067802eba6
+# 38 capabilities, 264 providers, 670 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1832,6 +1832,22 @@ class Prv_apple_AppleTradeInEstimate_Out(TypedDict):
     device: str
     upToUsd: float
     sourceUrl: str
+
+class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
+    sku: str
+    name: str
+    path: str
+    price: float | None
+    requiresBusinessAccount: bool
+
+class Prv_aquaphoenixsci_AquaphoenixsciProduct_Out(TypedDict):
+    sku: str
+    name: str
+    path: str
+    price: float | None
+    requiresBusinessAccount: bool
+    inStock: bool
+    checkoutUrl: str
 
 class Prv_archipelago_ArchipelagoRelease_Out(TypedDict):
     version: str
@@ -14164,6 +14180,27 @@ class Prv_apple(Protocol):
         Apple's advertised best-case figure, not a quote for a specific unit's actual condition.
         """
 
+class Prv_aquaphoenixsci(Protocol):
+    """AquaPhoenix Scientific's real catalog storefront (water/chemical testing and
+    feed-control equipment) — browse a category for real SKUs and prices, and read one
+    product's real price, stock status and add-to-cart/checkout URL.
+    """
+
+    async def browseCategory(self, category: str, /) -> list[Prv_aquaphoenixsci_AquaphoenixsciListing_Out]:
+        """Lists real products in one of AquaPhoenix's catalog categories, e.g.
+        "testing-supplies/test-kits" or "feed-and-control-equipment/pumps-accessories" — real
+        SKU, name, product path, and either a real anonymous price or a note that the SKU
+        requires a business account. THROWS naming the closed set of real category paths on an
+        unknown one.
+        """
+
+    async def getProduct(self, path: str, /) -> Prv_aquaphoenixsci_AquaphoenixsciProduct_Out:
+        """Reads one product's real detail page — SKU, name, price (when anonymously priced), stock
+        status, and the real product URL to hand to the shopper as the add-to-cart / checkout
+        entry point. THROWS naming browseCategory() as the way to find a real path on an unknown
+        one.
+        """
+
 class Prv_archipelago(Protocol):
     """Archipelago — the open-source multiworld/randomizer tool for game speedrunning
     communities. Reads the latest client release straight from GitHub (every platform
@@ -21741,6 +21778,7 @@ class BowmarkProviders(Protocol):
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows
     apple: Prv_apple
+    aquaphoenixsci: Prv_aquaphoenixsci
     archipelago: Prv_archipelago
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco

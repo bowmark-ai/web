@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c21a88f0b08fa2ea818a58cdd2e448240577a310bca4ed4c633e746acbcd1ca1
-// 668 checked, 20 unchecked.
+// Manifest version: e7354d341885fdf8c6d9bfd5ef2934e2a23268aa30a4c765a21377067802eba6
+// 670 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c21a88f0b08fa2ea818a58cdd2e448240577a310bca4ed4c633e746acbcd1ca1",
+  "version": "e7354d341885fdf8c6d9bfd5ef2934e2a23268aa30a4c765a21377067802eba6",
   "units": {
     "bundles": {
       "defs": {},
@@ -3303,6 +3303,29 @@ export const VALIDATORS: ValidatorTable = {
         "getTradeInEstimate": [
           {
             "name": "model",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.aquaphoenixsci": {
+      "defs": {},
+      "functions": {
+        "browseCategory": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "path",
             "schema": {
               "k": "string"
             },
