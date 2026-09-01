@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1103 functions. 🟢 implemented · ⚪ planned.
+> 1105 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -548,7 +548,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.getSign` | identitygroup.com | Reads one sign product's full page: every mount-option variant, each with its own real… | 🟢 |
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟢 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
-| `ihg.search` | ihg.com | Searches IHG's live hotel availability across its brand portfolio (Holiday Inn, Crowne… | ⚪ |
+| `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟢 |
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟢 |
 | `instagram.searchProfiles` | instagram.com | Searches Instagram for accounts matching a query and returns each match's username… | ⚪ |
@@ -609,6 +609,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kayak.search` | kayak.com | Runs the itinerary search on kayak.com and returns its result rows price-ascending. | 🟢 |
 | `kayak.searchCars` | kayak.com | Runs the car-hire search on kayak.com and returns priced vehicles for a pickup… | 🟢 |
 | `kayak.searchHotels` | kayak.com | Runs the stays search on kayak.com — the site's own second vertical — and returns… | 🟢 |
+| `keepa.getProduct` | keepa.com | Reads Keepa's native Amazon product record, including its compact price-history… | 🟢 |
+| `keepa.searchProducts` | keepa.com | Searches Keepa's Amazon product index by keyword through its documented Product Search… | ⚪ |
 | `kingsdown.getBedMatchResult` | kingsdown.com | Runs Kingsdown's own bedMATCH diagnostic — the same multi-step questionnaire embedded… | 🟢 |
 | `kitchentuneup.listCabinetStyles` | kitchentuneup.com | Reads Kitchen Tune-Up's own AI Design Tool catalog off its visualizer vendor's API —… | 🟢 |
 | `kitchentuneup.visualizeKitchen` | kitchentuneup.com | Runs a photo through Kitchen Tune-Up's own AI Design Tool the way… | 🟢 |

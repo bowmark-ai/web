@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2b3247d545ad613e6d574c063c4f8091cd7c4d70770489df53502644729f691e
-// 36 capabilities, 257 providers, 676 typed functions, 20 refused.
+// Manifest version: a5675c3e09511d32532d16f1d61b5de1866868ad4085e2542a00b7a5d97a2671
+// 36 capabilities, 259 providers, 678 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11826,6 +11826,22 @@ interface IdentitygroupMountOptionResult {
   }
 }
 
+declare namespace BowmarkProvider_ihg {
+  // ── IHG Hotels & Resorts — the unit's own declarations, verbatim ──
+interface ihgRow { id: string; brandCode: string; availabilityStatus: string; lowestCashOnlyCost: { baseAmount: string; ratePlanType: string | null } | null; highestCashOnlyCost: { baseAmount: string; ratePlanType: string | null } | null; propertyCurrency: string | null; distance: number | null; distanceKm: number | null; }
+
+  /** IHG live hotel availability search across its brand portfolio. */
+  interface Unit {
+    /**
+     * Searches IHG's live cash availability for a destination and increasing ISO
+     * check-in/check-out dates. Returns IHG's hotel mnemonic, brand code, availability status,
+     * cash-price range, currency and distance; IHG's availability endpoint does not include
+     * display names.
+     */
+    search(args: { destination: string; checkIn: string; checkOut: string; adults?: number; rooms?: number; radius?: number }): Promise<ihgRow[]>;
+  }
+}
+
 declare namespace BowmarkProvider_instagram {
   // ── Instagram — the unit's own declarations, verbatim ──
 interface InstagramProfile {
@@ -13511,6 +13527,24 @@ interface KayakCar {
      * three-phase supplier poll completes.
      */
     searchCars(query: KayakCarQuery): Promise<KayakCar[]>;
+  }
+}
+
+declare namespace BowmarkProvider_keepa {
+  // ── Keepa — the unit's own declarations, verbatim ──
+interface KeepaProductResult { product: KeepaProduct; tokensLeft: number | null; tokensConsumed: number | null; refillRate: number | null; }
+interface KeepaProduct { asin: string; domainId: number; title: string; csv?: unknown[]; stats?: Record<string, unknown>; }
+
+  /**
+   * Keepa's documented Amazon product API — reads a product's native price history and metadata
+   * by ASIN. Requires a caller-provided Keepa API key.
+   */
+  interface Unit {
+    /**
+     * Reads Keepa's native Amazon product record and compact price-history series for one ASIN.
+     * Requires a caller-provided Keepa API key.
+     */
+    getProduct(args: { asin: string; domain?: number; stats?: number }): Promise<KeepaProductResult>;
   }
 }
 
@@ -25126,6 +25160,7 @@ interface BowmarkProviders {
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
+  ihg: BowmarkProvider_ihg.Unit;
   instagram: BowmarkProvider_instagram.Unit;
   insurify: BowmarkProvider_insurify.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
@@ -25140,6 +25175,7 @@ interface BowmarkProviders {
   justinwine: BowmarkProvider_justinwine.Unit;
   kaleidescape: BowmarkProvider_kaleidescape.Unit;
   kayak: BowmarkProvider_kayak.Unit;
+  keepa: BowmarkProvider_keepa.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
   kompan: BowmarkProvider_kompan.Unit;

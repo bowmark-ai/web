@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2b3247d545ad613e6d574c063c4f8091cd7c4d70770489df53502644729f691e
-// 658 checked, 20 unchecked.
+// Manifest version: a5675c3e09511d32532d16f1d61b5de1866868ad4085e2542a00b7a5d97a2671
+// 660 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2b3247d545ad613e6d574c063c4f8091cd7c4d70770489df53502644729f691e",
+  "version": "a5675c3e09511d32532d16f1d61b5de1866868ad4085e2542a00b7a5d97a2671",
   "units": {
     "bundles": {
       "defs": {},
@@ -9547,6 +9547,64 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.ihg": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "destination",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkIn",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkOut",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "rooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "radius",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.instagram": {
       "defs": {},
       "functions": {
@@ -11376,6 +11434,43 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "KayakCarQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.keepa": {
+      "defs": {},
+      "functions": {
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "asin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "domain",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "stats",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }

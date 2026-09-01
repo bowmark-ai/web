@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2b3247d545ad613e6d574c063c4f8091cd7c4d70770489df53502644729f691e
-# 36 capabilities, 257 providers, 658 typed functions, 20 refused.
+# Manifest version: a5675c3e09511d32532d16f1d61b5de1866868ad4085e2542a00b7a5d97a2671
+# 36 capabilities, 259 providers, 660 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6164,6 +6164,32 @@ class Prv_identitygroup_IdentitygroupMountOptionResult_Out(TypedDict):
     checkoutUrl: str | None
     message: str
 
+class Prv_ihg_search_args_In(TypedDict):
+    destination: str
+    checkIn: str
+    checkOut: str
+    adults: NotRequired[float]
+    rooms: NotRequired[float]
+    radius: NotRequired[float]
+
+class Prv_ihg_ihgRow_Out(TypedDict):
+    id: str
+    brandCode: str
+    availabilityStatus: str
+    lowestCashOnlyCost: Prv_ihg_ihgRow_Out_lowestCashOnlyCost_u0_Out | None
+    highestCashOnlyCost: Prv_ihg_ihgRow_Out_highestCashOnlyCost_u0_Out | None
+    propertyCurrency: str | None
+    distance: float | None
+    distanceKm: float | None
+
+class Prv_ihg_ihgRow_Out_lowestCashOnlyCost_u0_Out(TypedDict):
+    baseAmount: str
+    ratePlanType: str | None
+
+class Prv_ihg_ihgRow_Out_highestCashOnlyCost_u0_Out(TypedDict):
+    baseAmount: str
+    ratePlanType: str | None
+
 class Prv_instagram_InstagramProfile_Out(TypedDict):
     id: str
     username: str
@@ -7029,6 +7055,24 @@ class Prv_kayak_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Prv_keepa_getProduct_args_In(TypedDict):
+    asin: str
+    domain: NotRequired[float]
+    stats: NotRequired[float]
+
+class Prv_keepa_KeepaProductResult_Out(TypedDict):
+    product: Prv_keepa_KeepaProduct_Out
+    tokensLeft: float | None
+    tokensConsumed: float | None
+    refillRate: float | None
+
+class Prv_keepa_KeepaProduct_Out(TypedDict):
+    asin: str
+    domainId: float
+    title: str
+    csv: NotRequired[list[Any]]
+    stats: NotRequired[Mapping[str, Any]]
 
 class Prv_kingsdown_kingsdownBedmatchResult_Out(TypedDict):
     zoneName: Literal["Gold"] | Literal["Green"] | Literal["Blue"] | Literal["Red"]
@@ -16983,6 +17027,16 @@ class Prv_identitygroup(Protocol):
         name, not an error.
         """
 
+class Prv_ihg(Protocol):
+    """IHG live hotel availability search across its brand portfolio."""
+
+    async def search(self, args: Prv_ihg_search_args_In, /) -> list[Prv_ihg_ihgRow_Out]:
+        """Searches IHG's live cash availability for a destination and increasing ISO
+        check-in/check-out dates. Returns IHG's hotel mnemonic, brand code, availability status,
+        cash-price range, currency and distance; IHG's availability endpoint does not include
+        display names.
+        """
+
 class Prv_instagram(Protocol):
     """Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
     follower/following counts, and the latest posts' captions, like and comment counts, off
@@ -17638,6 +17692,16 @@ class Prv_kayak(Protocol):
         """Runs the car-hire search on kayak.com and returns priced vehicles for a pickup location
         and date range, cheapest-first. Interaction-gated: the prices only exist after the
         site's own three-phase supplier poll completes.
+        """
+
+class Prv_keepa(Protocol):
+    """Keepa's documented Amazon product API — reads a product's native price history and
+    metadata by ASIN. Requires a caller-provided Keepa API key.
+    """
+
+    async def getProduct(self, args: Prv_keepa_getProduct_args_In, /) -> Prv_keepa_KeepaProductResult_Out:
+        """Reads Keepa's native Amazon product record and compact price-history series for one
+        ASIN. Requires a caller-provided Keepa API key.
         """
 
 class Prv_kingsdown(Protocol):
@@ -21556,6 +21620,7 @@ class BowmarkProviders(Protocol):
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
     identitygroup: Prv_identitygroup
+    ihg: Prv_ihg
     instagram: Prv_instagram
     insurify: Prv_insurify
     interiordefine: Prv_interiordefine
@@ -21570,6 +21635,7 @@ class BowmarkProviders(Protocol):
     justinwine: Prv_justinwine
     kaleidescape: Prv_kaleidescape
     kayak: Prv_kayak
+    keepa: Prv_keepa
     kingsdown: Prv_kingsdown
     kitchentuneup: Prv_kitchentuneup
     kompan: Prv_kompan
