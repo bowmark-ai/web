@@ -1,19 +1,29 @@
 {
-  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2022", "DOM"],
+    "incremental": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
     "types": [],
-    // LOAD-BEARING, and the base config sets the opposite. `skipLibCheck: true` skips
-    // type checking of every `.d.ts`, and this package's whole deliverable IS a
-    // `.d.ts` — so with the inherited default `pnpm typecheck` reported green over a
-    // generated file carrying 40 unresolved type names. Verified by turning it off and
-    // watching them appear. It is what makes this the FIRST thing in the repo that has
-    // ever compiled a provider's rendered types.
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "declaration": true,
     "declarationMap": false,
     "sourceMap": false,
     "noEmit": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }
