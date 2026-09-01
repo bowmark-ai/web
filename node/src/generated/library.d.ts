@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 99301cb99fae5d0c407a10c2566115c3cb04557b907443bf00ebeeb773ebb8c3
+// Manifest version: 041db6ed4c374620559fd33f41439cabafcfb5bb060fe33fad34a0d8152e4665
 // 36 capabilities, 259 providers, 679 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -1831,9 +1831,13 @@ interface BasketItemMatch {
   price: { amount: number; currency: string }   // integer minor units
 }
 interface RetailerBasket {
-  total: { amount: number; currency: string } | null
+  total: { amount: number; currency: string } | null   // sums matched only — a partial
+                                                       // sum whenever incomplete is
+                                                       // non-empty
   matched: BasketItemMatch[]
-  unavailable: string[]
+  unavailable: string[]   // this retailer ANSWERED and has no in-stock priced match
+  incomplete: string[]    // this retailer's search never answered — NOT out of stock,
+                          // nothing was learned; retry with fewer items or more time
 }
 interface SchoolShoppingBasket {
   retailers: { target: RetailerBasket; walmart: RetailerBasket }
@@ -1852,10 +1856,15 @@ type CallOptions = {
    */
   interface Unit {
     /**
-     * Prices a multi-item shopping list at Target and Walmart, one basket total per retailer,
-     * naming which items had no in-stock match anywhere. Never throws on one retailer being
-     * unreachable — that retailer's basket is dropped and named in `warnings` instead; throws only
-     * when BOTH retailers failed on every item.
+     * Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. An
+     * item the retailer answered about and does not stock is in `unavailable`; an item whose
+     * search never answered is in `incomplete` and is NOT a stockout — nothing was learned about
+     * it, and the retailer's total is then a partial sum. Every incomplete item is also named in
+     * `warnings`. Never throws on one retailer being unreachable — that retailer's basket is
+     * dropped and named in `warnings` instead; throws only when BOTH retailers failed on every
+     * item. Walmart drives a real browser per item and every item is searched at once, so a long
+     * list is what costs time: price fewer items per call before reaching for a larger
+     * `timeoutMs`.
      */
     priceList(args: { items: string[] }): Promise<SchoolShoppingBasket>;
   }

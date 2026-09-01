@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 99301cb99fae5d0c407a10c2566115c3cb04557b907443bf00ebeeb773ebb8c3
+# Manifest version: 041db6ed4c374620559fd33f41439cabafcfb5bb060fe33fad34a0d8152e4665
 # 36 capabilities, 259 providers, 661 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -1112,6 +1112,7 @@ class Cap_school_shopping_basket_RetailerBasket_Out(TypedDict):
     total: Cap_school_shopping_basket_RetailerBasket_Out_total_u0_Out | None
     matched: list[Cap_school_shopping_basket_BasketItemMatch_Out]
     unavailable: list[str]
+    incomplete: list[str]
 
 class Cap_school_shopping_basket_RetailerBasket_Out_total_u0_Out(TypedDict):
     amount: float
@@ -13554,10 +13555,15 @@ class Cap_school_shopping_basket(Protocol):
     """
 
     async def priceList(self, args: Cap_school_shopping_basket_priceList_args_In, /) -> Cap_school_shopping_basket_SchoolShoppingBasket_Out:
-        """Prices a multi-item shopping list at Target and Walmart, one basket total per retailer,
-        naming which items had no in-stock match anywhere. Never throws on one retailer being
-        unreachable — that retailer's basket is dropped and named in `warnings` instead; throws
-        only when BOTH retailers failed on every item.
+        """Prices a multi-item shopping list at Target and Walmart, one basket total per retailer.
+        An item the retailer answered about and does not stock is in `unavailable`; an item
+        whose search never answered is in `incomplete` and is NOT a stockout — nothing was
+        learned about it, and the retailer's total is then a partial sum. Every incomplete item
+        is also named in `warnings`. Never throws on one retailer being unreachable — that
+        retailer's basket is dropped and named in `warnings` instead; throws only when BOTH
+        retailers failed on every item. Walmart drives a real browser per item and every item is
+        searched at once, so a long list is what costs time: price fewer items per call before
+        reaching for a larger `timeoutMs`.
         """
 
 class Cap_search(Protocol):
