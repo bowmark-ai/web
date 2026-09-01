@@ -6,6 +6,30 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.12.2 (2026-09-01)
+
+**Capabilities**
+
+- New capability **delivery** (1 function): `delivery.compareDeliveryFees`
+- New capability **local_database_gui** (1 function): `local_database_gui.browse`
+- New capability **local_html_preview** (1 function): `local_html_preview.render`
+- New capability **retail** (1 function): `retail.search`
+
+**Providers**
+
+- New provider **catalog.aquaphoenixsci.com** (2 functions): `aquaphoenixsci.browseCategory`, `aquaphoenixsci.getProduct`
+- New provider **doordash.com** (1 function): `doordash.search`
+- New provider **goloadup.com** (3 functions): `goloadup.checkServiceAvailability`, `goloadup.getPricingCatalog`, `goloadup.getQuote`
+- New provider **ihg.com** (1 function): `ihg.search`
+- New provider **keepa.com** (1 function): `keepa.getProduct`
+- New provider **myollie.com** (1 function): `myollie.getMealPlan`
+- New provider **nutrafol.com** (2 functions): `nutrafol.assessHairWellness`, `nutrafol.getQuizOverview`
+- New provider **othership.us** (2 functions): `othership.getClassSchedule`, `othership.getLocations`
+- New provider **t-mobile.com** (1 function): `tmobile.getUpgradeOffer`
+- Added `clubchampion.listFitters`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.12.1 (2026-08-31)
 
 **Capabilities**
