@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1117 functions. 🟢 implemented · ⚪ planned.
+> 1120 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -451,6 +451,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listReleases` | github.com | Returns a public repository's own release history — each release's tag, name… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
 | `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search/brand-filter and returns the matching frames with… | ⚪ |
+| `goloadup.checkServiceAvailability` | goloadup.com | Checks whether and how LoadUp serves one ZIP code — in service, same-day allowed… | 🟢 |
+| `goloadup.getPricingCatalog` | goloadup.com | Returns LoadUp's full current catalog of pickupable items (couches, mattresses… | 🟢 |
+| `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
 | `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟢 |
 | `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟢 |
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |

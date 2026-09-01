@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e7354d341885fdf8c6d9bfd5ef2934e2a23268aa30a4c765a21377067802eba6
-# 38 capabilities, 264 providers, 670 typed functions, 20 refused.
+# Manifest version: e1a75ddfb570faec855f4ec805faa90e03efd7c7f73d1b31d6d910c56450d84f
+# 38 capabilities, 265 providers, 673 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5289,6 +5289,41 @@ class Prv_glassesusa_GlassesusaProduct_Out(TypedDict):
     reviewCount: float | None
     vtoAvailable: bool
     prescriptionEligible: bool
+
+class Prv_goloadup_GoloadupItemType_Out(TypedDict):
+    id: str
+    name: str
+    category: str | None
+    aliases: list[str]
+    pickupAllowed: bool
+    pickupPrice: float | None
+    assemblyAllowed: bool
+    assemblyPrice: float | None
+    disassemblyAllowed: bool
+    disassemblyPrice: float | None
+
+class Prv_goloadup_GoloadupQuoteItem_In(TypedDict):
+    itemId: str
+    quantity: float
+
+class Prv_goloadup_GoloadupQuote_Out(TypedDict):
+    validServiceArea: bool
+    validZip: bool
+    basePrice: float
+    total: float
+    totalFormatted: str
+    taxAmount: float
+    minimumPrice: float
+    minimumPriceApplied: bool
+    sameDayAllowed: bool
+    bookingUrl: str
+
+class Prv_goloadup_GoloadupServiceAvailability_Out(TypedDict):
+    validZip: bool
+    inService: bool
+    sameDayAllowed: bool
+    estimationAllowed: bool
+    retailAssembliesAllowed: bool
 
 class Prv_goodway_GoodwayProductSummary_Out(TypedDict):
     sku: str
@@ -16579,6 +16614,34 @@ class Prv_glassesusa(Protocol):
         checks out.
         """
 
+class Prv_goloadup(Protocol):
+    """LoadUp's own item-selector and live pricing engine for junk removal, donation and
+    furniture pickup — the current catalog of items with base prices, a real ZIP-specific
+    guaranteed quote for an exact set of items, and whether/how a ZIP is served, all off the
+    same GraphQL API the site's own booking widget calls.
+    """
+
+    async def getPricingCatalog(self, /) -> list[Prv_goloadup_GoloadupItemType_Out]:
+        """Returns LoadUp's full current catalog of pickupable items (couches, mattresses,
+        appliances, and 400+ more), each with its category, alternate names, and national base
+        pickup/assembly/disassembly prices. The `id` on each row is what getQuote's items take —
+        this is the entry point every quote starts from.
+        """
+
+    async def getQuote(self, zip: str, items: Sequence[Prv_goloadup_GoloadupQuoteItem_In], /) -> Prv_goloadup_GoloadupQuote_Out:
+        """Prices an EXACT set of items (e.g. [{ itemId: "7412", quantity: 1 }] for one
+        Couch/Loveseat) at a real ZIP code against LoadUp's live pricing engine — the same call
+        its own booking widget makes. Returns the guaranteed total, whether the ZIP falls under
+        the site's minimum-price floor, and same-day availability. `validServiceArea: false`
+        means the ZIP is real but outside LoadUp's coverage, not an error — check it before
+        reading `total`.
+        """
+
+    async def checkServiceAvailability(self, zip: str, /) -> Prv_goloadup_GoloadupServiceAvailability_Out:
+        """Checks whether and how LoadUp serves one ZIP code, independent of any specific items —
+        in service, same-day pickup allowed, and whether retail assembly is offered there.
+        """
+
 class Prv_goodway(Protocol):
     """Goodway's own pressure-washer catalog — real listed prices, or a quote-required flag for
     call-for-price units, and the site's own product page as the buy/quote handoff.
@@ -21864,6 +21927,7 @@ class BowmarkProviders(Protocol):
     geico: Prv_geico
     github: Prv_github
     glassesusa: Prv_glassesusa
+    goloadup: Prv_goloadup
     goodway: Prv_goodway
     google_flights: Prv_google_flights
     gotchacovered: Prv_gotchacovered

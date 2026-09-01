@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e7354d341885fdf8c6d9bfd5ef2934e2a23268aa30a4c765a21377067802eba6
-// 670 checked, 20 unchecked.
+// Manifest version: e1a75ddfb570faec855f4ec805faa90e03efd7c7f73d1b31d6d910c56450d84f
+// 673 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e7354d341885fdf8c6d9bfd5ef2934e2a23268aa30a4c765a21377067802eba6",
+  "version": "e1a75ddfb570faec855f4ec805faa90e03efd7c7f73d1b31d6d910c56450d84f",
   "units": {
     "bundles": {
       "defs": {},
@@ -8445,6 +8445,61 @@ export const VALIDATORS: ValidatorTable = {
         "getProduct": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.goloadup": {
+      "defs": {
+        "GoloadupQuoteItem": {
+          "k": "object",
+          "props": [
+            {
+              "name": "itemId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getPricingCatalog": [],
+        "getQuote": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "items",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "ref",
+                "name": "GoloadupQuoteItem"
+              }
+            },
+            "optional": false
+          }
+        ],
+        "checkServiceAvailability": [
+          {
+            "name": "zip",
             "schema": {
               "k": "string"
             },

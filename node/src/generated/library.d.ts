@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e7354d341885fdf8c6d9bfd5ef2934e2a23268aa30a4c765a21377067802eba6
-// 38 capabilities, 264 providers, 688 typed functions, 20 refused.
+// Manifest version: e1a75ddfb570faec855f4ec805faa90e03efd7c7f73d1b31d6d910c56450d84f
+// 38 capabilities, 265 providers, 691 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9884,6 +9884,78 @@ interface GlassesusaProduct {
      * listing is prescription/Rx-eligible. Read-only — never adds to cart or checks out.
      */
     getProduct(url: string): Promise<GlassesusaProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_goloadup {
+  // ── LoadUp — the unit's own declarations, verbatim ──
+// LoadUp's OWN shapes — not a capability contract.
+
+interface GoloadupItemType {
+  id: string;               // the key getQuote's items take
+  name: string;
+  category: string | null;  // e.g. "COUCH", "MATTRESS"
+  aliases: string[];        // alternate names the site matches this item on
+  pickupAllowed: boolean;
+  pickupPrice: number | null;      // national base price — getQuote is the real, ZIP-priced number
+  assemblyAllowed: boolean;
+  assemblyPrice: number | null;
+  disassemblyAllowed: boolean;
+  disassemblyPrice: number | null;
+}
+
+interface GoloadupQuoteItem { itemId: string; quantity: number }
+
+interface GoloadupQuote {
+  validServiceArea: boolean;  // false = ZIP is outside LoadUp's service area, other fields are placeholders
+  validZip: boolean;          // false = ZIP itself is not recognized
+  basePrice: number;          // the area/trip fee added on top of the items
+  total: number;              // the guaranteed total for exactly these items at this ZIP
+  totalFormatted: string;     // "$124.00"
+  taxAmount: number;
+  minimumPrice: number;       // the floor LoadUp charges regardless of what's selected
+  minimumPriceApplied: boolean;
+  sameDayAllowed: boolean;
+  bookingUrl: string;         // hand the shopper here to finish scheduling
+}
+
+interface GoloadupServiceAvailability {
+  validZip: boolean;
+  inService: boolean;
+  sameDayAllowed: boolean;
+  estimationAllowed: boolean;
+  retailAssembliesAllowed: boolean;
+}
+
+  /**
+   * LoadUp's own item-selector and live pricing engine for junk removal, donation and furniture
+   * pickup — the current catalog of items with base prices, a real ZIP-specific guaranteed quote
+   * for an exact set of items, and whether/how a ZIP is served, all off the same GraphQL API the
+   * site's own booking widget calls.
+   */
+  interface Unit {
+    /**
+     * Returns LoadUp's full current catalog of pickupable items (couches, mattresses, appliances,
+     * and 400+ more), each with its category, alternate names, and national base
+     * pickup/assembly/disassembly prices. The `id` on each row is what getQuote's items take —
+     * this is the entry point every quote starts from.
+     */
+    getPricingCatalog(): Promise<GoloadupItemType[]>;
+
+    /**
+     * Prices an EXACT set of items (e.g. [{ itemId: "7412", quantity: 1 }] for one Couch/Loveseat)
+     * at a real ZIP code against LoadUp's live pricing engine — the same call its own booking
+     * widget makes. Returns the guaranteed total, whether the ZIP falls under the site's
+     * minimum-price floor, and same-day availability. `validServiceArea: false` means the ZIP is
+     * real but outside LoadUp's coverage, not an error — check it before reading `total`.
+     */
+    getQuote(zip: string, items: GoloadupQuoteItem[]): Promise<GoloadupQuote>;
+
+    /**
+     * Checks whether and how LoadUp serves one ZIP code, independent of any specific items — in
+     * service, same-day pickup allowed, and whether retail assembly is offered there.
+     */
+    checkServiceAvailability(zip: string): Promise<GoloadupServiceAvailability>;
   }
 }
 
@@ -25453,6 +25525,7 @@ interface BowmarkProviders {
   geico: BowmarkProvider_geico.Unit;
   github: BowmarkProvider_github.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
+  goloadup: BowmarkProvider_goloadup.Unit;
   goodway: BowmarkProvider_goodway.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
