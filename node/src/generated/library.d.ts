@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 041db6ed4c374620559fd33f41439cabafcfb5bb060fe33fad34a0d8152e4665
-// 36 capabilities, 259 providers, 679 typed functions, 20 refused.
+// Manifest version: fbf653fb4901d539716a9409071953ddd372e67c08131de726126e05adb963bb
+// 36 capabilities, 260 providers, 680 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22685,6 +22685,54 @@ interface TitlenineBraSizeResult {
   }
 }
 
+declare namespace BowmarkProvider_tmobile {
+  // ── T-Mobile — the unit's own declarations, verbatim ──
+interface TmobileSku {
+  id: string;
+  listPriceUsd: number;
+  monthlyPaymentUsd: number | null;
+  contractTermMonths: number | null;
+}
+interface TmobileTradeInCredit {
+  deviceLabel: string;
+  creditUsd: number;
+}
+interface TmobilePromotion {
+  promoId: string;
+  displayName: string;
+  headlineCreditUsd: number;
+  tradeInCredits: TmobileTradeInCredit[];
+}
+interface TmobileTradeInMatch {
+  model: string;
+  promoId: string;
+  promoDisplayName: string;
+  creditUsd: number;
+}
+interface TmobileUpgradeOffer {
+  devicePath: string;
+  sourceUrl: string;
+  sku: TmobileSku;
+  promotions: TmobilePromotion[];
+  tradeInMatch: TmobileTradeInMatch | null;
+}
+
+  /**
+   * t-mobile.com's own device-page pricing call — real list price, real monthly financing, and
+   * the site's own per-trade-in-device credit tiers, read through a real browser session (the
+   * site signs every pricing request).
+   */
+  interface Unit {
+    /**
+     * Reads one t-mobile.com device page's own pricing call (list price, monthly financing, and
+     * every applicable promotion's per-trade-in-device credit tier) and, when `tradeInModel` is
+     * given, resolves the BEST matching credit across all of them — e.g. "iPhone 13" against a
+     * page carrying tiers like "Save $830: iPhone 13".
+     */
+    getUpgradeOffer(arg: { devicePath: string; tradeInModel?: string }): Promise<TmobileUpgradeOffer>;
+  }
+}
+
 declare namespace BowmarkProvider_topviewtix {
   // ── TopView Sightseeing — the unit's own declarations, verbatim ──
 interface topviewtixPackageDetails {
@@ -25314,6 +25362,7 @@ interface BowmarkProviders {
   thibautdesign: BowmarkProvider_thibautdesign.Unit;
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
   titlenine: BowmarkProvider_titlenine.Unit;
+  tmobile: BowmarkProvider_tmobile.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
   travelinsured: BowmarkProvider_travelinsured.Unit;
   trawickinternational: BowmarkProvider_trawickinternational.Unit;

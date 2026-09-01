@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 041db6ed4c374620559fd33f41439cabafcfb5bb060fe33fad34a0d8152e4665
-# 36 capabilities, 259 providers, 661 typed functions, 20 refused.
+# Manifest version: fbf653fb4901d539716a9409071953ddd372e67c08131de726126e05adb963bb
+# 36 capabilities, 260 providers, 662 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11847,6 +11847,39 @@ class Prv_titlenine_TitlenineBraSizeResult_Out(TypedDict):
     unavailableMessage: str | None
     calculatorUrl: str
 
+class Prv_tmobile_getUpgradeOffer_arg_In(TypedDict):
+    devicePath: str
+    tradeInModel: NotRequired[str]
+
+class Prv_tmobile_TmobileUpgradeOffer_Out(TypedDict):
+    devicePath: str
+    sourceUrl: str
+    sku: Prv_tmobile_TmobileSku_Out
+    promotions: list[Prv_tmobile_TmobilePromotion_Out]
+    tradeInMatch: Prv_tmobile_TmobileTradeInMatch_Out | None
+
+class Prv_tmobile_TmobileSku_Out(TypedDict):
+    id: str
+    listPriceUsd: float
+    monthlyPaymentUsd: float | None
+    contractTermMonths: float | None
+
+class Prv_tmobile_TmobilePromotion_Out(TypedDict):
+    promoId: str
+    displayName: str
+    headlineCreditUsd: float
+    tradeInCredits: list[Prv_tmobile_TmobileTradeInCredit_Out]
+
+class Prv_tmobile_TmobileTradeInCredit_Out(TypedDict):
+    deviceLabel: str
+    creditUsd: float
+
+class Prv_tmobile_TmobileTradeInMatch_Out(TypedDict):
+    model: str
+    promoId: str
+    promoDisplayName: str
+    creditUsd: float
+
 class Prv_topviewtix_topviewtixPackageDetails_Out(TypedDict):
     id: float
     slug: str
@@ -20940,6 +20973,19 @@ class Prv_titlenine(Protocol):
         the exact 'Shop <size>' catalog link when the size is currently carried online.
         """
 
+class Prv_tmobile(Protocol):
+    """t-mobile.com's own device-page pricing call — real list price, real monthly financing,
+    and the site's own per-trade-in-device credit tiers, read through a real browser session
+    (the site signs every pricing request).
+    """
+
+    async def getUpgradeOffer(self, arg: Prv_tmobile_getUpgradeOffer_arg_In, /) -> Prv_tmobile_TmobileUpgradeOffer_Out:
+        """Reads one t-mobile.com device page's own pricing call (list price, monthly financing,
+        and every applicable promotion's per-trade-in-device credit tier) and, when
+        `tradeInModel` is given, resolves the BEST matching credit across all of them — e.g.
+        "iPhone 13" against a page carrying tiers like "Save $830: iPhone 13".
+        """
+
 class Prv_topviewtix(Protocol):
     """TopView's NYC hop-on-hop-off bus, Statue of Liberty cruise and bike/walking tour
     packages — getPackageDetails reads one package's live price and its own real-time
@@ -21768,6 +21814,7 @@ class BowmarkProviders(Protocol):
     thibautdesign: Prv_thibautdesign
     tilsonhomes: Prv_tilsonhomes
     titlenine: Prv_titlenine
+    tmobile: Prv_tmobile
     topviewtix: Prv_topviewtix
     travelinsured: Prv_travelinsured
     trawickinternational: Prv_trawickinternational

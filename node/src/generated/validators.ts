@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 041db6ed4c374620559fd33f41439cabafcfb5bb060fe33fad34a0d8152e4665
-// 661 checked, 20 unchecked.
+// Manifest version: fbf653fb4901d539716a9409071953ddd372e67c08131de726126e05adb963bb
+// 662 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "041db6ed4c374620559fd33f41439cabafcfb5bb060fe33fad34a0d8152e4665",
+  "version": "fbf653fb4901d539716a9409071953ddd372e67c08131de726126e05adb963bb",
   "units": {
     "bundles": {
       "defs": {},
@@ -21176,6 +21176,36 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "TitlenineBraMeasurements"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tmobile": {
+      "defs": {},
+      "functions": {
+        "getUpgradeOffer": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "devicePath",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "tradeInModel",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
