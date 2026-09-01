@@ -85,11 +85,25 @@ jobs:
             echo "publish=true" >> "$GITHUB_OUTPUT"
           fi
 
-      # The package has ZERO runtime dependencies and ships TypeScript source
-      # directly (`main`/`types` both point at src/index.ts, and there is no build
-      # step anywhere in this project). So there is nothing to install and nothing
-      # to compile before packing — which is also why `files` names `src` rather
-      # than a `dist` that would never exist.
+      # The package has ZERO RUNTIME dependencies — nothing in `dependencies` or
+      # `peerDependencies`, ever (`tests/unit/bowmark-web-envelopes.test.ts` refuses
+      # one) — but it is compiled before it ships. `main`/`types` point at
+      # `dist/index.{js,d.ts}`, not at `src/index.ts`: Node refuses to type-strip a
+      # `.ts` entry point found inside `node_modules`
+      # (`ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING`), so a stranger's plain
+      # `node app.mjs` failed hard on the raw-source shape this comment used to
+      # describe. The monorepo still has no build step — `pnpm typecheck` and every
+      # workspace test read `src/` directly — and a CONSUMER still needs none: `npm
+      # i @bowmark/web` gets a compiled `dist/`. The compile happens exactly once,
+      # here, on the published TARBALL only.
+      - name: Install dependencies
+        if: steps.decide.outputs.publish == 'true'
+        run: npm install
+
+      - name: Build
+        if: steps.decide.outputs.publish == 'true'
+        run: npm run build
+
       - name: Publish to npm
         if: steps.decide.outputs.publish == 'true'
         run: |

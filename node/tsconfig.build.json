@@ -1,0 +1,21 @@
+{
+  // The PUBLISH-TIME compile — never run in the monorepo and never run by a
+  // consumer. `tsconfig.json` stays `noEmit: true` and is what `pnpm typecheck`
+  // and every workspace test still use; this file exists only for
+  // `scripts/build.mjs`, invoked from `packages/bowmark-web/.github/workflows/publish.yml`
+  // in the public mirror's own CI, after `node/package.json` already carries a real
+  // semver (`scripts/build-bowmark-web-mirror.ts` rewrote it) and `npm install` has
+  // fetched `typescript` as a devDependency.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // `incremental` (inherited from tsconfig.base.json) trusts its .tsbuildinfo
+    // over the filesystem: a stale one left by an EARLIER `noEmit: true` run made
+    // tsc believe this compile was already done and skip emitting anything at all,
+    // silently, exit 0, empty `dist/`. Off here — a publish-time compile runs once
+    // in a fresh checkout and gets nothing from caching it.
+    "incremental": false,
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": "src"
+  }
+}

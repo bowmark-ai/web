@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1122 functions. 🟢 implemented · ⚪ planned.
+> 1128 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -73,6 +73,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `azure.listRegions` | azure.microsoft.com | Returns Azure's datacenter regions — the ARM region name a caller has to pass to every… | ⚪ |
 | `azure.listServices` | azure.microsoft.com | Returns the Azure service catalogue derived live from `prices.azure.com`'s own rows —… | 🟢 |
 | `azure.listVmSizes` | azure.microsoft.com | Returns Azure's virtual-machine SKUs with the specifications a sizing decision is… | ⚪ |
+| `bankmycell.getTradeInQuote` | bankmycell.com | Reads live trade-in offers for a device's bankmycell.com sell page from every merchant… | 🟢 |
 | `barletta.getConfigurator` | barlettapontoonboats.com | Reads one model's whole builder: every option group (Railskin Color, Furniture… | 🟢 |
 | `barletta.priceConfiguration` | barlettapontoonboats.com | Prices a specific build (a choice per option group) against getConfigurator's live… | 🟢 |
 | `barletta.searchModels` | barlettapontoonboats.com | Lists every current Barletta floorplan from the public "Build Your Pontoon Boat"… | 🟢 |
@@ -191,6 +192,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
 | `classpass.search` | classpass.com | Searches fitness, wellness and beauty businesses (gyms, studios, spas and salons) near… | 🟢 |
+| `claudemarketplaces_com.getListing` | claudemarketplaces.com | Fetches one MCP server listing page (`/mcp/<publisher>/<slug>`) from… | 🟢 |
 | `cleanairlawncare.checkServiceArea` | cleanairlawncare.com | Checks a 5-digit US zip against the caw-estimate-widget backend — the same live area… | 🟢 |
 | `cleanairlawncare.getAvailableSlots` | cleanairlawncare.com | For an in-area zip whose local org has online scheduling enabled, computes the real… | 🟢 |
 | `cleanairlawncare.submitEstimateRequest` | cleanairlawncare.com | Would submit the final lead (name, contact, property, requested services, chosen slot)… | ⚪ |
@@ -287,6 +289,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `erieinsurance.getUmbrellaQuote` | erieinsurance.com | Returns a personal umbrella liability insurance premium quote given a requested… | ⚪ |
 | `erieinsurance.getWorkersCompensationQuote` | erieinsurance.com | Returns a workers' compensation insurance premium quote for a business's payroll… | ⚪ |
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
+| `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword, the way etsy.com's own… | 🟢 |
 | `eventsource.getShowroom` | eventsource.com | Reads a public Virtual Design Center showroom by its access code — the pre-built room… | 🟢 |
 | `eventsource.getShowroomInquiryContact` | eventsource.com | Reads who a showroom's 'Send Inquiry' button actually emails — the sales inbox and the… | 🟢 |
 | `eventsource.getShowroomVenue` | eventsource.com | Reads the real venue/room a showroom's design is staged in — business name… | 🟢 |
@@ -951,6 +954,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
+| `spirithalloween.getProduct` | spirithalloween.com | Reads one product page's full live variant matrix — every real color/size combination… | 🟢 |
+| `spirithalloween.search` | spirithalloween.com | Browses Spirit Halloween's category listing for a query resolved against a small… | 🟢 |
 | `starlighthomes.getMetro` | starlighthomes.com | Reads one metro's own page: every named neighborhood in it, each with a real live… | 🟢 |
 | `starlighthomes.getNeighborhood` | starlighthomes.com | Reads one neighborhood's own page: its ACTUAL move-in-ready homes right now — real… | 🟢 |
 | `starlighthomes.listMetros` | starlighthomes.com | Lists every metro division Starlight Homes currently builds in (e.g. Dallas - Fort… | 🟢 |
@@ -1120,6 +1125,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists every Xpress Wellness Urgent Care clinic — 40 locations across Oklahoma, Kansas… | 🟢 |
+| `yelp.search` | yelp.com | Runs Yelp's own business search for a term and location and returns real… | 🟢 |
 | `yorkwallcoverings.addToCart` | yorkwallcoverings.com | Hands back the shopper's own York product page — the exact Add to cart button for this… | 🟢 |
 | `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product page in full — SKU, live price, in-stock/out-of-stock status… | 🟢 |
 | `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —… | 🟢 |

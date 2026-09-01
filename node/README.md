@@ -18,9 +18,13 @@ lmstudio://add_mcp?name=bowmark&config=eyJ1cmwiOiJodHRwczovL2FwaS5ib3dtYXJrLmFpL
 > `bowmark-web` and `bowmark-web-stubs` on PyPI at the same version. The plan that built it
 > is deleted; the reasoning is in the four
 > [`docs/decisions/2026-08-06-*`](../../../docs/decisions/) records and the enforceable half
-> is [`.claude/rules/public-types.md`](../../../.claude/rules/public-types.md).
-> **What would make this doc wrong:** a build step appearing, the declarations moving out
-> into a second package, or a runtime dependency landing in `package.json`.
+> is [`.claude/rules/public-types.md`](../../../.claude/rules/public-types.md). Since
+> 2026-09-01 the TARBALL ships compiled `dist/`, not raw `src/` — see
+> [`docs/decisions/2026-09-01-the-published-npm-client-ships-compiled-js.md`](../../../docs/decisions/2026-09-01-the-published-npm-client-ships-compiled-js.md).
+> **What would make THIS doc wrong:** the declarations moving out into a second package,
+> a runtime dependency landing in `package.json`, or a build step reappearing where a
+> CONSUMER or this MONOREPO has to run it — the one that ships is at publish time only,
+> in the public mirror's own CI, and neither of those two ever sees it.
 
 ```sh
 npm i @bowmark/web
@@ -225,6 +229,35 @@ time while the library says otherwise. `gate:public-types`' `wire-impossible-par
 refuses one, with no exception set — an exception would be a declaration that a
 parameter is uncallable. Found once, on `pizzahut.priceOrder`, by generating validators
 for all 253 typed parameters.
+
+## What ships is compiled, not `src/` verbatim
+
+`main`/`types` point at `dist/index.{js,d.ts}`. `dist/` is never committed — it does not
+exist in this workspace and does not exist in the public mirror's git history either — it
+is produced once, in the mirror's own `publish.yml`, by `npm run build`
+(`scripts/build.mjs`, `tsconfig.build.json`), immediately before `npm publish`. Nobody
+runs it but that one CI job:
+
+- **This workspace never does.** `pnpm typecheck` is `tsc -p tsconfig.json --noEmit` —
+  reads `src/` directly, emits nothing, unaffected.
+- **A consumer never does.** `npm i @bowmark/web` installs the already-compiled `dist/`;
+  there is still no build step on their side, which is the property this package has
+  always promised.
+
+Why compiled at all: Node refuses to strip types out of a `.ts` file found inside
+`node_modules`, so shipping `main: src/index.ts` made plain `node app.mjs` fail with
+`ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING` for every consumer who was not already on
+`tsx`, Bun, or a bundler.
+[`docs/decisions/2026-09-01-the-published-npm-client-ships-compiled-js.md`](../../../docs/decisions/2026-09-01-the-published-npm-client-ships-compiled-js.md).
+
+**One thing `tsc`'s declaration emit does not do on its own, and `build.mjs` does by
+hand:** `src/generated/library.d.ts` is ambient (no imports, no exports — see below) and
+`index.ts` reaches it only with `/// <reference path="./generated/library.d.ts" />`. tsc
+consumes that directive for this package's own compile but does not carry it into the
+emitted `dist/index.d.ts`. Left alone, a downstream `tsc` never loads `library.d.ts` at
+all and `BowmarkLibrary` — the type this package exists to ship — reads as `Cannot find
+name`. `build.mjs` re-inserts the reference line and copies `library.d.ts` into
+`dist/generated/` verbatim (it has nothing to compile).
 
 ## Regenerating
 
