@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4367aae3846695ff98e8537819e01ea3e2b841043d73690123b839fb07c2a19a
+// Manifest version: a9e243c9081df30a46a01550d2dc7df6c8959af9df1182e422f0a71af016d072
 // 38 capabilities, 266 providers, 693 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -1865,7 +1865,7 @@ type CallOptions = {
 declare namespace BowmarkCapability_retail {
   // ── Retail (general merchandise, multi-store) — the unit's own declarations, verbatim ──
 type RetailOffer = {
-  store: "walmart" | "target"    // where this offer is from
+  store: "walmart" | "target" | "bestbuy"  // where this offer is from
   title: string                  // the product as the store lists it
   price: number | null           // USD; null if unpriced
   wasPrice: number | null        // the pre-markdown price, when the store publishes one
@@ -1887,16 +1887,19 @@ type CallOptions = {
 }
 
   /**
-   * General-merchandise retail across Walmart and Target — one keyword search, fanned out in
-   * parallel and returned price-sorted, so an agent can answer 'where can I actually buy this
-   * and what does it cost' without querying each store by hand.
+   * General-merchandise retail across Walmart, Target and Best Buy — one keyword search, fanned
+   * out in parallel and returned price-sorted, so an agent can answer 'where can I actually buy
+   * this and what does it cost' without querying each store by hand. Best Buy's leg needs the
+   * caller's own Best Buy developer key; without one the search still returns Walmart + Target
+   * with a `warnings` entry naming the drop.
    */
   interface Unit {
     /**
-     * Searches Walmart and Target in parallel for a keyword and returns one price-sorted list of
-     * offers across both stores, each tagged with which store it's from. `warnings` names any
-     * store that did not answer, so a caller can tell a genuinely cheaper/only offer from one
-     * where a store simply timed out.
+     * Searches Walmart, Target and Best Buy in parallel for a keyword and returns one price-sorted
+     * list of offers across all stores, each tagged with which store it's from. `warnings` names
+     * any store that did not answer — including Best Buy when the caller holds no Best Buy
+     * developer key — so a caller can tell a genuinely cheaper/only offer from one where a store
+     * simply didn't answer.
      */
     search(args: { query: string }): Promise<RetailSearchResult>;
   }

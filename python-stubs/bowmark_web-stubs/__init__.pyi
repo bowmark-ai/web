@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4367aae3846695ff98e8537819e01ea3e2b841043d73690123b839fb07c2a19a
+# Manifest version: a9e243c9081df30a46a01550d2dc7df6c8959af9df1182e422f0a71af016d072
 # 38 capabilities, 266 providers, 675 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -1124,7 +1124,7 @@ class Cap_retail_RetailSearchResult_Out(TypedDict):
     warnings: list[str]
 
 class Cap_retail_RetailOffer_Out(TypedDict):
-    store: Literal["walmart"] | Literal["target"]
+    store: Literal["walmart"] | Literal["target"] | Literal["bestbuy"]
     title: str
     price: float | None
     wasPrice: float | None
@@ -13752,16 +13752,19 @@ class Cap_restaurant_booking(Protocol):
         """
 
 class Cap_retail(Protocol):
-    """General-merchandise retail across Walmart and Target — one keyword search, fanned out in
-    parallel and returned price-sorted, so an agent can answer 'where can I actually buy
-    this and what does it cost' without querying each store by hand.
+    """General-merchandise retail across Walmart, Target and Best Buy — one keyword search,
+    fanned out in parallel and returned price-sorted, so an agent can answer 'where can I
+    actually buy this and what does it cost' without querying each store by hand. Best Buy's
+    leg needs the caller's own Best Buy developer key; without one the search still returns
+    Walmart + Target with a `warnings` entry naming the drop.
     """
 
     async def search(self, args: Cap_retail_search_args_In, /) -> Cap_retail_RetailSearchResult_Out:
-        """Searches Walmart and Target in parallel for a keyword and returns one price-sorted list
-        of offers across both stores, each tagged with which store it's from. `warnings` names
-        any store that did not answer, so a caller can tell a genuinely cheaper/only offer from
-        one where a store simply timed out.
+        """Searches Walmart, Target and Best Buy in parallel for a keyword and returns one
+        price-sorted list of offers across all stores, each tagged with which store it's from.
+        `warnings` names any store that did not answer — including Best Buy when the caller
+        holds no Best Buy developer key — so a caller can tell a genuinely cheaper/only offer
+        from one where a store simply didn't answer.
         """
 
 class Cap_school_shopping_basket(Protocol):

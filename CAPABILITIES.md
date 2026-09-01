@@ -48,7 +48,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `read.page` | Loads one page and returns its content. | 0 | 🟢 |
 | `read.pages` | The same read over many urls, six in flight at a time, results in the order the urls… | 0 | 🟢 |
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 1 | 🟢 |
-| `retail.search` | Searches Walmart and Target in parallel for a keyword and returns one price-sorted… | 2 | 🟢 |
+| `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one… | 3 | 🟢 |
 | `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟢 |
 | `search.news` | Searches news coverage and returns stories with the headline, the outlet's own article… | 1 | 🟢 |
 | `search.web` | Searches the web and returns ranked results — title, destination URL, snippet — from… | 1 | 🟢 |
