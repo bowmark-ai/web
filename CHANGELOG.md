@@ -6,6 +6,25 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.12.3 (2026-09-01)
+
+**Capabilities**
+
+- New capability **costume_size_check** (1 function): `costume_size_check.checkSize`
+
+**Providers**
+
+- New provider **bankmycell.com** (1 function): `bankmycell.getTradeInQuote`
+- New provider **claudemarketplaces.com** (1 function): `claudemarketplaces_com.getListing`
+- New provider **curiocity.com** (1 function): `curiocity.listEvents`
+- New provider **etsy.com** (1 function): `etsy.search`
+- New provider **hodjapasha.com** (3 functions): `hodjapasha.getAvailability`, `hodjapasha.getShow`, `hodjapasha.listShows`
+- New provider **millisaraylar.gov.tr** (3 functions): `millisaraylar.getPalaces`, `millisaraylar.getTicketPrices`, `millisaraylar.getVisitingHours`
+- New provider **spirithalloween.com** (2 functions): `spirithalloween.getProduct`, `spirithalloween.search`
+- New provider **yelp.com** (1 function): `yelp.search`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.12.2 (2026-09-01)
 
 **Capabilities**
