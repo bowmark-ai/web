@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be
-// 704 checked, 20 unchecked.
+// Manifest version: e8be12bd4a415edf6d39da3a0c2f1f3e1bbd0eeeb929018ed99b5c89635b82ca
+// 705 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be",
+  "version": "e8be12bd4a415edf6d39da3a0c2f1f3e1bbd0eeeb929018ed99b5c89635b82ca",
   "units": {
     "bundles": {
       "defs": {},
@@ -6500,6 +6500,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ClasspassScheduleOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.claude_support": {
+      "defs": {},
+      "functions": {
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

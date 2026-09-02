@@ -1,5 +1,5 @@
 {
-  "version": "bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be",
+  "version": "e8be12bd4a415edf6d39da3a0c2f1f3e1bbd0eeeb929018ed99b5c89635b82ca",
   "units": {
     "bundles": {
       "defs": {},
@@ -6488,6 +6488,20 @@
               "name": "ClasspassScheduleOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.claude_support": {
+      "defs": {},
+      "functions": {
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

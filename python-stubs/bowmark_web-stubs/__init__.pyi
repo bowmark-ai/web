@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be
-# 40 capabilities, 285 providers, 704 typed functions, 20 refused.
+# Manifest version: e8be12bd4a415edf6d39da3a0c2f1f3e1bbd0eeeb929018ed99b5c89635b82ca
+# 40 capabilities, 286 providers, 705 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3863,6 +3863,15 @@ class Prv_classpass_ClasspassSession_Out(TypedDict):
     availability: str | None
     isLivestream: bool
     demandSignals: list[str]
+
+class Prv_claude_support_ClaudeSupportArticle_Out(TypedDict):
+    articleId: str
+    url: str
+    title: str
+    description: str
+    lastUpdated: str | None
+    text: str
+    warnings: list[str]
 
 class Prv_claudemarketplaces_com_claudeMarketplacesListing_Out(TypedDict):
     url: str
@@ -16077,6 +16086,19 @@ class Prv_classpass(Protocol):
         disabled") rather than returning an empty timetable that reads like a quiet day.
         """
 
+class Prv_claude_support(Protocol):
+    """Claude's own help center (support.claude.com) — reads one article's structured content
+    (title, description, last-updated date, flattened body text) directly from the page's
+    own __NEXT_DATA__ payload, given its URL.
+    """
+
+    async def getArticle(self, url: str, /) -> Prv_claude_support_ClaudeSupportArticle_Out:
+        """Returns one Claude help-center article by its URL — title, description, last-updated
+        date, and the flattened body text in document order. THROWS on a
+        missing/invalid/off-site url, on a dead or renamed article link, and on a transport
+        failure, so a caller can distinguish "no such article" from "empty".
+        """
+
 class Prv_claudemarketplaces_com(Protocol):
     """A directory of Claude plugin/MCP/skill marketplace listings — fetch one listing's
     structured fields (name, description, category, repo, declared tools, price) instead of
@@ -22802,6 +22824,7 @@ class BowmarkProviders(Protocol):
     chriscraft: Prv_chriscraft
     classichome: Prv_classichome
     classpass: Prv_classpass
+    claude_support: Prv_claude_support
     claudemarketplaces_com: Prv_claudemarketplaces_com
     cleanairlawncare: Prv_cleanairlawncare
     cloudflare: Prv_cloudflare

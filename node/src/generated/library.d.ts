@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be
-// 40 capabilities, 285 providers, 722 typed functions, 20 refused.
+// Manifest version: e8be12bd4a415edf6d39da3a0c2f1f3e1bbd0eeeb929018ed99b5c89635b82ca
+// 40 capabilities, 286 providers, 723 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6887,6 +6887,34 @@ interface ClasspassSearchResult {
      * like a quiet day.
      */
     getSchedule(studio: number | string, options?: ClasspassScheduleOptions): Promise<ClasspassSchedule>;
+  }
+}
+
+declare namespace BowmarkProvider_claude_support {
+  // ── Claude Help Center — the unit's own declarations, verbatim ──
+interface ClaudeSupportArticle {
+  articleId: string;
+  url: string;
+  title: string;
+  description: string;
+  lastUpdated: string | null;
+  text: string;
+  warnings: string[];
+}
+
+  /**
+   * Claude's own help center (support.claude.com) — reads one article's structured content
+   * (title, description, last-updated date, flattened body text) directly from the page's own
+   * __NEXT_DATA__ payload, given its URL.
+   */
+  interface Unit {
+    /**
+     * Returns one Claude help-center article by its URL — title, description, last-updated date,
+     * and the flattened body text in document order. THROWS on a missing/invalid/off-site url, on
+     * a dead or renamed article link, and on a transport failure, so a caller can distinguish "no
+     * such article" from "empty".
+     */
+    getArticle(url: string): Promise<ClaudeSupportArticle>;
   }
 }
 
@@ -26474,6 +26502,7 @@ interface BowmarkProviders {
   chriscraft: BowmarkProvider_chriscraft.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classpass: BowmarkProvider_classpass.Unit;
+  claude_support: BowmarkProvider_claude_support.Unit;
   claudemarketplaces_com: BowmarkProvider_claudemarketplaces_com.Unit;
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
