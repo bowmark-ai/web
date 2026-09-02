@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 96ac8f6efc72f0a720f7266f5f404b40cd4319ee7a5d0de02cea1c57b47d3a9f
-// 699 checked, 20 unchecked.
+// Manifest version: 1e5497c6c51e3e58f9b866ad459b45623113b72c340c0bc31ed10066e9a4dde1
+// 702 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "96ac8f6efc72f0a720f7266f5f404b40cd4319ee7a5d0de02cea1c57b47d3a9f",
+  "version": "1e5497c6c51e3e58f9b866ad459b45623113b72c340c0bc31ed10066e9a4dde1",
   "units": {
     "bundles": {
       "defs": {},
@@ -3406,6 +3406,143 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.andstr": {
+      "defs": {
+        "AndstrSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "market",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "guests",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "bedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "priceMin",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "priceMax",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "propertyType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "instantBook",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AndstrSearchArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getListing": [
+          {
+            "name": "listingId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getQuote": [
+          {
+            "name": "listingId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "checkIn",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "checkOut",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "guests",
+            "schema": {
+              "k": "number"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 96ac8f6efc72f0a720f7266f5f404b40cd4319ee7a5d0de02cea1c57b47d3a9f
-# 40 capabilities, 282 providers, 699 typed functions, 20 refused.
+# Manifest version: 1e5497c6c51e3e58f9b866ad459b45623113b72c340c0bc31ed10066e9a4dde1
+# 40 capabilities, 283 providers, 702 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1884,6 +1884,71 @@ class Prv_andersenwindows_AndersenDealerAddress_Out(TypedDict):
     state: str
     postalCode: str
     country: str
+
+class Prv_andstr_AndstrSearchArgs_In(TypedDict):
+    market: NotRequired[str]
+    city: NotRequired[str]
+    checkIn: NotRequired[str]
+    checkOut: NotRequired[str]
+    guests: NotRequired[float]
+    bedrooms: NotRequired[float]
+    priceMin: NotRequired[float]
+    priceMax: NotRequired[float]
+    propertyType: NotRequired[str]
+    instantBook: NotRequired[bool]
+    page: NotRequired[float]
+
+class Prv_andstr_AndstrListingSummary_Out(TypedDict):
+    id: str
+    title: str
+    city: str
+    region: str
+    bedrooms: float
+    bathrooms: float
+    maxGuests: float
+    pricePerNight: float
+    currency: str
+    priceBasis: Literal["dates"] | Literal["startingFrom"]
+    verified: bool
+    instantBook: bool
+    cancellationPolicy: str | None
+    imageUrl: str | None
+    url: str
+
+class Prv_andstr_AndstrListingDetail_Out(TypedDict):
+    id: str
+    title: str
+    city: str
+    region: str
+    bedrooms: float
+    bathrooms: float
+    maxGuests: float
+    listedFromPerNight: float
+    currency: str
+    amenities: list[str]
+    cancellationPolicy: str | None
+    latitude: float | None
+    longitude: float | None
+    url: str
+
+class Prv_andstr_AndstrQuote_Out(TypedDict):
+    listingId: str
+    checkIn: str
+    checkOut: str
+    guests: float
+    available: bool
+    unavailableReason: str | None
+    nights: float | None
+    nightlyTotal: float | None
+    fees: list[Prv_andstr_AndstrQuote_Out_fees_item_Out]
+    total: float | None
+    averagePerNight: float | None
+    currency: str
+    bookingUrl: str
+
+class Prv_andstr_AndstrQuote_Out_fees_item_Out(TypedDict):
+    name: str
+    amount: float
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -14711,6 +14776,31 @@ class Prv_andersenwindows(Protocol):
         first.
         """
 
+class Prv_andstr(Protocol):
+    """stayAndes's own flexible-stay search-and-book portal — search by
+    market/dates/guests/price/amenities with real per-night pricing, read a listing's full
+    detail, and get the real date-priced quote (fees + total + booking handoff) for a stay.
+    """
+
+    async def search(self, args: Prv_andstr_AndstrSearchArgs_In | None = None, /) -> list[Prv_andstr_AndstrListingSummary_Out]:
+        """Searches stayAndes's listing portfolio by market, dates, guests, bedrooms, price range
+        and instant-book. When check-in/check-out are given, pricePerNight is the real
+        demand-priced average for that stay; otherwise it's the site's undated starting-from
+        rate (priceBasis says which).
+        """
+
+    async def getListing(self, listingId: str, /) -> Prv_andstr_AndstrListingDetail_Out:
+        """One listing's full detail — bedrooms/bathrooms/guests, amenities, cancellation policy,
+        coordinates. Its own price is a static rack rate, not a real quote — call getQuote for
+        that.
+        """
+
+    async def getQuote(self, listingId: str, checkIn: str, checkOut: str, guests: float, /) -> Prv_andstr_AndstrQuote_Out:
+        """The real date-priced quote for one listing — nightly total, service + cleaning fees,
+        total before taxes, average per night, and a direct checkout handoff URL — or the site's
+        own reason a stay isn't bookable.
+        """
+
 class Prv_apple(Protocol):
     """apple.com's own site search and product pages — no API, no login, no browser."""
 
@@ -22597,6 +22687,7 @@ class BowmarkProviders(Protocol):
     amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows
+    andstr: Prv_andstr
     apple: Prv_apple
     aquaphoenixsci: Prv_aquaphoenixsci
     archipelago: Prv_archipelago

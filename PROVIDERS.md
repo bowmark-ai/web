@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1144 functions. 🟢 implemented · ⚪ planned.
+> 1147 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -39,6 +39,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ancientnutrition.computeGutType` | ancientnutrition.com | Runs Ancient Nutrition's real Gut Type Quiz with the caller's own answers (keyed by… | 🟢 |
 | `ancientnutrition.getGutTypeQuizQuestions` | ancientnutrition.com | Walks Ancient Nutrition's real Gut Type Quiz along its default path (first option for… | 🟢 |
 | `andersenwindows.findDealers` | andersenwindows.com | Finds Andersen-certified dealers and contractors near a US ZIP code — the entry point… | 🟢 |
+| `andstr.getListing` | booking.andstr.com | One listing's full detail page — bedrooms/bathrooms/max guests, description… | 🟢 |
+| `andstr.getQuote` | booking.andstr.com | The real, date-priced quote for one listing — per-night breakdown, service fee… | 🟢 |
+| `andstr.search` | booking.andstr.com | Runs stayAndes's own search-and-book portal (booking.andstr.com) — filters by market… | 🟢 |
 | `apple.getProduct` | apple.com | Reads one apple.com product/buy page (a URL or path search already returned, e.g.… | 🟢 |
 | `apple.getTradeInEstimate` | apple.com | Reads apple.com's own trade-in value table and returns the ceiling ("up to $X")… | 🟢 |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |

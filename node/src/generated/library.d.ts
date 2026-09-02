@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 96ac8f6efc72f0a720f7266f5f404b40cd4319ee7a5d0de02cea1c57b47d3a9f
-// 40 capabilities, 282 providers, 717 typed functions, 20 refused.
+// Manifest version: 1e5497c6c51e3e58f9b866ad459b45623113b72c340c0bc31ed10066e9a4dde1
+// 40 capabilities, 283 providers, 720 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3426,6 +3426,99 @@ interface AndersenDealer {
      * Contractor Elite"), distance and Andersen's own locator page URL, closest first.
      */
     findDealers(args: { zip: string; radiusMiles?: number; limit?: number }): Promise<AndersenDealer[]>;
+  }
+}
+
+declare namespace BowmarkProvider_andstr {
+  // ── Andes (stayAndes) — the unit's own declarations, verbatim ──
+interface AndstrSearchArgs {
+  market?: string;
+  city?: string;
+  checkIn?: string;
+  checkOut?: string;
+  guests?: number;
+  bedrooms?: number;
+  priceMin?: number;
+  priceMax?: number;
+  propertyType?: string;
+  instantBook?: boolean;
+  page?: number;
+}
+interface AndstrListingSummary {
+  id: string;
+  title: string;
+  city: string;
+  region: string;
+  bedrooms: number;
+  bathrooms: number;
+  maxGuests: number;
+  pricePerNight: number;
+  currency: string;
+  priceBasis: "dates" | "startingFrom";
+  verified: boolean;
+  instantBook: boolean;
+  cancellationPolicy: string | null;
+  imageUrl: string | null;
+  url: string;
+}
+interface AndstrListingDetail {
+  id: string;
+  title: string;
+  city: string;
+  region: string;
+  bedrooms: number;
+  bathrooms: number;
+  maxGuests: number;
+  listedFromPerNight: number;
+  currency: string;
+  amenities: string[];
+  cancellationPolicy: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  url: string;
+}
+interface AndstrQuote {
+  listingId: string;
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  available: boolean;
+  unavailableReason: string | null;
+  nights: number | null;
+  nightlyTotal: number | null;
+  fees: Array<{ name: string; amount: number }>;
+  total: number | null;
+  averagePerNight: number | null;
+  currency: string;
+  bookingUrl: string;
+}
+
+  /**
+   * stayAndes's own flexible-stay search-and-book portal — search by
+   * market/dates/guests/price/amenities with real per-night pricing, read a listing's full
+   * detail, and get the real date-priced quote (fees + total + booking handoff) for a stay.
+   */
+  interface Unit {
+    /**
+     * Searches stayAndes's listing portfolio by market, dates, guests, bedrooms, price range and
+     * instant-book. When check-in/check-out are given, pricePerNight is the real demand-priced
+     * average for that stay; otherwise it's the site's undated starting-from rate (priceBasis says
+     * which).
+     */
+    search(args?: AndstrSearchArgs): Promise<AndstrListingSummary[]>;
+
+    /**
+     * One listing's full detail — bedrooms/bathrooms/guests, amenities, cancellation policy,
+     * coordinates. Its own price is a static rack rate, not a real quote — call getQuote for that.
+     */
+    getListing(listingId: string): Promise<AndstrListingDetail>;
+
+    /**
+     * The real date-priced quote for one listing — nightly total, service + cleaning fees, total
+     * before taxes, average per night, and a direct checkout handoff URL — or the site's own
+     * reason a stay isn't bookable.
+     */
+    getQuote(listingId: string, checkIn: string, checkOut: string, guests: number): Promise<AndstrQuote>;
   }
 }
 
@@ -26255,6 +26348,7 @@ interface BowmarkProviders {
   amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
+  andstr: BowmarkProvider_andstr.Unit;
   apple: BowmarkProvider_apple.Unit;
   aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
