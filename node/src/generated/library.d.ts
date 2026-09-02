@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1e5497c6c51e3e58f9b866ad459b45623113b72c340c0bc31ed10066e9a4dde1
-// 40 capabilities, 283 providers, 720 typed functions, 20 refused.
+// Manifest version: a95adae7c6d601fa23ee26d9a66d98a1e1f5d227b339cc865ca4e68cc765f86b
+// 40 capabilities, 284 providers, 721 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16251,6 +16251,41 @@ interface mcpRegistryEntry {
   }
 }
 
+declare namespace BowmarkProvider_mcp_so {
+  // ── MCP.so — the unit's own declarations, verbatim ──
+interface McpSoListing {
+  slug: string;
+  name: string;
+  description: string;
+  category: string | null;
+  author: string | null;
+  url: string;
+  imageUrl: string | null;
+}
+interface McpSoSearchResult {
+  results: McpSoListing[];
+  warnings: string[];
+}
+
+  /**
+   * The mcp.so directory of published MCP servers — substring-search listings by slug/name and
+   * get each match's title, description, category, publisher and page url.
+   */
+  interface Unit {
+    /**
+     * Searches the mcp.so directory of published MCP servers. `query` is matched as a
+     * case-insensitive substring against each listing's mcp.so SLUG (e.g. "firecrawl" matches
+     * `mcp.so/servers/firecrawl-firecrawl` and `mcp.so/servers/firecrawl`) — not a full-text
+     * search of descriptions. `limit` caps how many matches are fetched and returned (default 10,
+     * max 25 — each one costs a separate request to that listing's own page). Returns `{ results,
+     * warnings }`: each result carries mcp.so's own name, description, category, publisher and
+     * page url for that listing, read from the page's own structured data; `warnings` names any
+     * sitemap or detail page this call could not reach, and is empty on a fully healthy call.
+     */
+    search(query: string, limit?: number): Promise<McpSoSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_medicalguardian {
   // ── Medical Guardian — the unit's own declarations, verbatim ──
 // Medical Guardian's OWN shapes — not a capability contract.
@@ -26508,6 +26543,7 @@ interface BowmarkProviders {
   marriott: BowmarkProvider_marriott.Unit;
   mcdonalds: BowmarkProvider_mcdonalds.Unit;
   mcp_registry: BowmarkProvider_mcp_registry.Unit;
+  mcp_so: BowmarkProvider_mcp_so.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
   mergify: BowmarkProvider_mergify.Unit;

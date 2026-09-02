@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1e5497c6c51e3e58f9b866ad459b45623113b72c340c0bc31ed10066e9a4dde1
-# 40 capabilities, 283 providers, 702 typed functions, 20 refused.
+# Manifest version: a95adae7c6d601fa23ee26d9a66d98a1e1f5d227b339cc865ca4e68cc765f86b
+# 40 capabilities, 284 providers, 703 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8408,6 +8408,19 @@ class Prv_mcp_registry_mcpRegistryEntry_Out(TypedDict):
     repositoryUrl: str | None
     remoteUrl: str | None
     status: str
+
+class Prv_mcp_so_McpSoSearchResult_Out(TypedDict):
+    results: list[Prv_mcp_so_McpSoListing_Out]
+    warnings: list[str]
+
+class Prv_mcp_so_McpSoListing_Out(TypedDict):
+    slug: str
+    name: str
+    description: str
+    category: str | None
+    author: str | None
+    url: str
+    imageUrl: str | None
 
 class Prv_medicalguardian_getRiskAssessmentQuestions_return_Out(TypedDict):
     questions: list[Prv_medicalguardian_MedicalguardianRiskQuestion_Out]
@@ -19382,6 +19395,23 @@ class Prv_mcp_registry(Protocol):
         "is there an MCP server for X" wants the top matches, not the whole registry.
         """
 
+class Prv_mcp_so(Protocol):
+    """The mcp.so directory of published MCP servers — substring-search listings by slug/name
+    and get each match's title, description, category, publisher and page url.
+    """
+
+    async def search(self, query: str, limit: float | None = None, /) -> Prv_mcp_so_McpSoSearchResult_Out:
+        """Searches the mcp.so directory of published MCP servers. `query` is matched as a
+        case-insensitive substring against each listing's mcp.so SLUG (e.g. "firecrawl" matches
+        `mcp.so/servers/firecrawl-firecrawl` and `mcp.so/servers/firecrawl`) — not a full-text
+        search of descriptions. `limit` caps how many matches are fetched and returned (default
+        10, max 25 — each one costs a separate request to that listing's own page). Returns `{
+        results, warnings }`: each result carries mcp.so's own name, description, category,
+        publisher and page url for that listing, read from the page's own structured data;
+        `warnings` names any sitemap or detail page this call could not reach, and is empty on a
+        fully healthy call.
+        """
+
 class Prv_medicalguardian(Protocol):
     """Medical Guardian's own fall-risk assessment (medicalguardian.com/risk-assessment) — a
     real 0-9 score and low/medium/high risk level computed exactly as the site computes it,
@@ -22847,6 +22877,7 @@ class BowmarkProviders(Protocol):
     marriott: Prv_marriott
     mcdonalds: Prv_mcdonalds
     mcp_registry: Prv_mcp_registry
+    mcp_so: Prv_mcp_so
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
     mergify: Prv_mergify
