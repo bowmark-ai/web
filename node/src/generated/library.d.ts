@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7eef19ab888bd9a5e7821f8f512a3b57058c9162413c4e6661a6e35bd1d15eaf
-// 40 capabilities, 281 providers, 716 typed functions, 20 refused.
+// Manifest version: 96ac8f6efc72f0a720f7266f5f404b40cd4319ee7a5d0de02cea1c57b47d3a9f
+// 40 capabilities, 282 providers, 717 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2001,11 +2001,14 @@ interface BasketItemMatch {
 }
 interface RetailerBasket {
   total: { amount: number; currency: string } | null   // sums matched only — a partial
-                                                       // sum whenever unpriced or
-                                                       // incomplete is non-empty
+                                                       // sum whenever unpriced, unmatched
+                                                       // or incomplete is non-empty
   matched: BasketItemMatch[]
-  unavailable: string[]   // this retailer ANSWERED and has no in-stock row at all —
+  unavailable: string[]   // this retailer ANSWERED with no in-stock row at all —
                           // a real stockout
+  unmatched: string[]     // this retailer answered with in-stock rows, none identifiable
+                          // as the thing asked for — NOT out of stock; ask more
+                          // specifically, or read their search page. Not in total
   unpriced: string[]      // this retailer HAS it in stock and rendered no price — NOT
                           // out of stock; go read the price on the page. Not in total
   incomplete: string[]    // this retailer's search never answered — NOT out of stock,
@@ -2029,17 +2032,19 @@ type CallOptions = {
    */
   interface Unit {
     /**
-     * Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. An
-     * item the retailer answered about and has no in-stock row for is in `unavailable`; an item
-     * the retailer HAS in stock but rendered no price for is in `unpriced` and is NOT a stockout —
-     * the retailer has it, and the price is on its product page rather than the search tile; an
-     * item whose search never answered is in `incomplete` and is NOT a stockout either — nothing
-     * was learned about it. Either of the latter two makes the retailer's total a partial sum, and
-     * every one of those items is also named in `warnings`. Never throws on one retailer being
-     * unreachable — that retailer's basket is dropped and named in `warnings` instead; throws only
-     * when BOTH retailers failed on every item. Walmart drives a real browser per item and every
-     * item is searched at once, so a long list is what costs time: price fewer items per call
-     * before reaching for a larger `timeoutMs`.
+     * Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. ONLY
+     * `unavailable` is a stockout: the retailer answered and had nothing in stock at all. The
+     * other three are not, and must never be reported as one — an item the retailer HAS in stock
+     * but rendered no price for is in `unpriced` (the price is on its product page, not the search
+     * tile); an item it answered about with in-stock rows none of which could be identified as the
+     * thing asked for is in `unmatched` (a limit of the matching, not of the shop — ask again in
+     * the wording a listing would use); an item whose search never answered at all is in
+     * `incomplete` (nothing was learned). Each of those three makes the retailer's total a partial
+     * sum, and every one of those items is also named in `warnings`. Never throws on one retailer
+     * being unreachable — that retailer's basket is dropped and named in `warnings` instead;
+     * throws only when BOTH retailers failed on every item. Walmart drives a real browser per item
+     * and every item is searched at once, so a long list is what costs time: price fewer items per
+     * call before reaching for a larger `timeoutMs`.
      */
     priceList(args: { items: string[] }): Promise<SchoolShoppingBasket>;
   }
@@ -6321,6 +6326,48 @@ interface ChesmarSearchFilters {
      * `minBaths`, `minSqft`, `minPrice`, `maxPrice`.
      */
     searchQuickMoveInHomes(filters: ChesmarSearchFilters): Promise<ChesmarQuickMoveInHome[]>;
+  }
+}
+
+declare namespace BowmarkProvider_chipotle {
+  // ── Chipotle — the unit's own declarations, verbatim ──
+interface ChipotleCustomization {
+  id: number;
+  name: string;
+}
+
+interface ChipotleContentItem {
+  itemId: string;
+  itemName: string;
+  itemType: string;
+  defaultContent: boolean;
+  customizations: ChipotleCustomization[];
+}
+
+interface ChipotleBowlOption {
+  itemId: string;
+  itemName: string;
+  primaryFillingName: string | null;
+  contents: ChipotleContentItem[];
+}
+
+interface ChipotleBowlBuilderResult {
+  source: string;
+  pricesAvailable: false;
+  proteins: ChipotleBowlOption[];
+}
+
+  /**
+   * Chipotle's own burrito-bowl builder — every protein with its full rice/beans/salsa/topping
+   * list, straight off the site's ordering API.
+   */
+  interface Unit {
+    /**
+     * Every burrito-bowl protein option and its full rice/beans/salsa/topping build, straight off
+     * chipotle.com's own ordering API. Prices are not in this document (Chipotle prices per
+     * restaurant) — pricesAvailable is always false.
+     */
+    getBowlBuilder(options?: { protein?: string }): Promise<ChipotleBowlBuilderResult>;
   }
 }
 
@@ -26253,6 +26300,7 @@ interface BowmarkProviders {
   chantecaille: BowmarkProvider_chantecaille.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
+  chipotle: BowmarkProvider_chipotle.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classpass: BowmarkProvider_classpass.Unit;

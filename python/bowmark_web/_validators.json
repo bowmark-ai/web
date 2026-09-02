@@ -1,5 +1,5 @@
 {
-  "version": "7eef19ab888bd9a5e7821f8f512a3b57058c9162413c4e6661a6e35bd1d15eaf",
+  "version": "96ac8f6efc72f0a720f7266f5f404b40cd4319ee7a5d0de02cea1c57b47d3a9f",
   "units": {
     "bundles": {
       "defs": {},
@@ -6054,6 +6054,29 @@
               "name": "ChesmarSearchFilters"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.chipotle": {
+      "defs": {},
+      "functions": {
+        "getBowlBuilder": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "protein",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7eef19ab888bd9a5e7821f8f512a3b57058c9162413c4e6661a6e35bd1d15eaf
-// 698 checked, 20 unchecked.
+// Manifest version: 96ac8f6efc72f0a720f7266f5f404b40cd4319ee7a5d0de02cea1c57b47d3a9f
+// 699 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7eef19ab888bd9a5e7821f8f512a3b57058c9162413c4e6661a6e35bd1d15eaf",
+  "version": "96ac8f6efc72f0a720f7266f5f404b40cd4319ee7a5d0de02cea1c57b47d3a9f",
   "units": {
     "bundles": {
       "defs": {},
@@ -6066,6 +6066,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ChesmarSearchFilters"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.chipotle": {
+      "defs": {},
+      "functions": {
+        "getBowlBuilder": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "protein",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

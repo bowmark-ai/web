@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7eef19ab888bd9a5e7821f8f512a3b57058c9162413c4e6661a6e35bd1d15eaf
-# 40 capabilities, 281 providers, 698 typed functions, 20 refused.
+# Manifest version: 96ac8f6efc72f0a720f7266f5f404b40cd4319ee7a5d0de02cea1c57b47d3a9f
+# 40 capabilities, 282 providers, 699 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1192,6 +1192,7 @@ class Cap_school_shopping_basket_RetailerBasket_Out(TypedDict):
     total: Cap_school_shopping_basket_RetailerBasket_Out_total_u0_Out | None
     matched: list[Cap_school_shopping_basket_BasketItemMatch_Out]
     unavailable: list[str]
+    unmatched: list[str]
     unpriced: list[str]
     incomplete: list[str]
 
@@ -3566,6 +3567,31 @@ class Prv_chesmar_ChesmarQuickMoveInHome_Out(TypedDict):
     sqft: float | None
     garage: str | None
     url: str
+
+class Prv_chipotle_getBowlBuilder_options_In(TypedDict):
+    protein: NotRequired[str]
+
+class Prv_chipotle_ChipotleBowlBuilderResult_Out(TypedDict):
+    source: str
+    pricesAvailable: Literal[False]
+    proteins: list[Prv_chipotle_ChipotleBowlOption_Out]
+
+class Prv_chipotle_ChipotleBowlOption_Out(TypedDict):
+    itemId: str
+    itemName: str
+    primaryFillingName: str | None
+    contents: list[Prv_chipotle_ChipotleContentItem_Out]
+
+class Prv_chipotle_ChipotleContentItem_Out(TypedDict):
+    itemId: str
+    itemName: str
+    itemType: str
+    defaultContent: bool
+    customizations: list[Prv_chipotle_ChipotleCustomization_Out]
+
+class Prv_chipotle_ChipotleCustomization_Out(TypedDict):
+    id: float
+    name: str
 
 class Prv_chriscraft_ChriscraftModelSummary_Out(TypedDict):
     modelId: str
@@ -14196,11 +14222,13 @@ class Cap_school_shopping_basket(Protocol):
 
     async def priceList(self, args: Cap_school_shopping_basket_priceList_args_In, /) -> Cap_school_shopping_basket_SchoolShoppingBasket_Out:
         """Prices a multi-item shopping list at Target and Walmart, one basket total per retailer.
-        An item the retailer answered about and has no in-stock row for is in `unavailable`; an
-        item the retailer HAS in stock but rendered no price for is in `unpriced` and is NOT a
-        stockout — the retailer has it, and the price is on its product page rather than the
-        search tile; an item whose search never answered is in `incomplete` and is NOT a
-        stockout either — nothing was learned about it. Either of the latter two makes the
+        ONLY `unavailable` is a stockout: the retailer answered and had nothing in stock at all.
+        The other three are not, and must never be reported as one — an item the retailer HAS in
+        stock but rendered no price for is in `unpriced` (the price is on its product page, not
+        the search tile); an item it answered about with in-stock rows none of which could be
+        identified as the thing asked for is in `unmatched` (a limit of the matching, not of the
+        shop — ask again in the wording a listing would use); an item whose search never
+        answered at all is in `incomplete` (nothing was learned). Each of those three makes the
         retailer's total a partial sum, and every one of those items is also named in
         `warnings`. Never throws on one retailer being unreachable — that retailer's basket is
         dropped and named in `warnings` instead; throws only when BOTH retailers failed on every
@@ -15765,6 +15793,17 @@ class Prv_chesmar(Protocol):
         schedule a tour. `filters` requires at least one of `region` (e.g. "Austin"), `city`
         (e.g. "Georgetown") or `community` (e.g. "Nolina") to bound the search, plus optional
         `minBeds`, `minBaths`, `minSqft`, `minPrice`, `maxPrice`.
+        """
+
+class Prv_chipotle(Protocol):
+    """Chipotle's own burrito-bowl builder — every protein with its full
+    rice/beans/salsa/topping list, straight off the site's ordering API.
+    """
+
+    async def getBowlBuilder(self, options: Prv_chipotle_getBowlBuilder_options_In | None = None, /) -> Prv_chipotle_ChipotleBowlBuilderResult_Out:
+        """Every burrito-bowl protein option and its full rice/beans/salsa/topping build, straight
+        off chipotle.com's own ordering API. Prices are not in this document (Chipotle prices
+        per restaurant) — pricesAvailable is always false.
         """
 
 class Prv_chriscraft(Protocol):
@@ -22603,6 +22642,7 @@ class BowmarkProviders(Protocol):
     chantecaille: Prv_chantecaille
     cheapflights: Prv_cheapflights
     chesmar: Prv_chesmar
+    chipotle: Prv_chipotle
     chriscraft: Prv_chriscraft
     classichome: Prv_classichome
     classpass: Prv_classpass
