@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1150 functions. 🟢 implemented · ⚪ planned.
+> 1152 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -848,6 +848,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟢 |
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
 | `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |
+| `pilotprotocol.getApp` | pilotprotocol.network | Reads one app's detail page (/apps/<id>) — vendor, tagline, description, category… | 🟢 |
+| `pilotprotocol.listApps` | pilotprotocol.network | Lists every app in Pilot Protocol's app store (id, name, vendor, category, tagline… | 🟢 |
 | `pirateship.getRates` | pirateship.com | Compares live shipping rates across USPS and UPS for a package — given a from/to… | 🟢 |
 | `pirateship.trackShipment` | pirateship.com | Looks up delivery status for a shipment by tracking number, the way… | ⚪ |
 | `pirateship.validateAddress` | pirateship.com | Validates and standardizes a US shipping address the way Pirate Ship checks an address… | ⚪ |

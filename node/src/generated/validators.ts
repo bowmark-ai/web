@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e8be12bd4a415edf6d39da3a0c2f1f3e1bbd0eeeb929018ed99b5c89635b82ca
-// 705 checked, 20 unchecked.
+// Manifest version: 07aa728c9529b853084bacbe4958d3e87ba6c7a5037f1815e0e6fa3638eddf68
+// 707 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e8be12bd4a415edf6d39da3a0c2f1f3e1bbd0eeeb929018ed99b5c89635b82ca",
+  "version": "07aa728c9529b853084bacbe4958d3e87ba6c7a5037f1815e0e6fa3638eddf68",
   "units": {
     "bundles": {
       "defs": {},
@@ -15384,6 +15384,21 @@ export const VALIDATORS: ValidatorTable = {
         "getTearsheetUrl": [
           {
             "name": "productId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.pilotprotocol": {
+      "defs": {},
+      "functions": {
+        "listApps": [],
+        "getApp": [
+          {
+            "name": "id",
             "schema": {
               "k": "string"
             },

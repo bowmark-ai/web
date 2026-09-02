@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e8be12bd4a415edf6d39da3a0c2f1f3e1bbd0eeeb929018ed99b5c89635b82ca
-// 40 capabilities, 286 providers, 723 typed functions, 20 refused.
+// Manifest version: 07aa728c9529b853084bacbe4958d3e87ba6c7a5037f1815e0e6fa3638eddf68
+// 40 capabilities, 287 providers, 725 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19038,6 +19038,62 @@ interface TearsheetUrl {
   }
 }
 
+declare namespace BowmarkProvider_pilotprotocol {
+  // ── Pilot Protocol App Store — the unit's own declarations, verbatim ──
+interface PilotprotocolAppSummary {
+  id: string;
+  name: string;
+  vendor: string;
+  category: string;
+  tagline: string;
+  platforms: string;
+}
+
+interface PilotprotocolMethod {
+  name: string;
+  summary: string;
+}
+
+interface PilotprotocolAppDetail {
+  id: string;
+  name: string;
+  vendor: string;
+  vendorUrl: string | null;
+  tagline: string;
+  description: string;
+  category: string;
+  version: string;
+  license: string | null;
+  runtime: string | null;
+  minPilotVersion: string | null;
+  sourceUrl: string | null;
+  installCommand: string | null;
+  permissions: string[];
+  methods: PilotprotocolMethod[];
+}
+
+  /**
+   * Pilot Protocol's own app store — a directory of installable agent capabilities (30+ apps:
+   * databases, comms, browser automation, payments, …). listApps returns the whole catalog (id,
+   * name, vendor, category, tagline); getApp reads one app's detail page (version, license,
+   * runtime, permissions, methods) by id.
+   */
+  interface Unit {
+    /**
+     * Lists every app in Pilot Protocol's app store — id, name, vendor, category, one-line tagline
+     * and supported platforms for each.
+     */
+    listApps(): Promise<PilotprotocolAppSummary[]>;
+
+    /**
+     * Reads one app's detail page by id (e.g. "io.pilot.bowmark", from listApps) — vendor,
+     * tagline, full description, category, version, license, runtime, minimum Pilot version,
+     * source link, install command, granted permissions and its method list.
+     */
+    getApp(id: string): Promise<PilotprotocolAppDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_pirateship {
   // ── Pirate Ship — the unit's own declarations, verbatim ──
 interface PirateshipDimensions {
@@ -26643,6 +26699,7 @@ interface BowmarkProviders {
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
+  pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
   poshmark: BowmarkProvider_poshmark.Unit;

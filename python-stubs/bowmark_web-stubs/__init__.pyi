@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e8be12bd4a415edf6d39da3a0c2f1f3e1bbd0eeeb929018ed99b5c89635b82ca
-# 40 capabilities, 286 providers, 705 typed functions, 20 refused.
+# Manifest version: 07aa728c9529b853084bacbe4958d3e87ba6c7a5037f1815e0e6fa3638eddf68
+# 40 capabilities, 287 providers, 707 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9789,6 +9789,35 @@ class Prv_perennialsandsutherland_RugVariantOption_Out(TypedDict):
 class Prv_perennialsandsutherland_TearsheetUrl_Out(TypedDict):
     productId: str
     url: str
+
+class Prv_pilotprotocol_PilotprotocolAppSummary_Out(TypedDict):
+    id: str
+    name: str
+    vendor: str
+    category: str
+    tagline: str
+    platforms: str
+
+class Prv_pilotprotocol_PilotprotocolAppDetail_Out(TypedDict):
+    id: str
+    name: str
+    vendor: str
+    vendorUrl: str | None
+    tagline: str
+    description: str
+    category: str
+    version: str
+    license: str | None
+    runtime: str | None
+    minPilotVersion: str | None
+    sourceUrl: str | None
+    installCommand: str | None
+    permissions: list[str]
+    methods: list[Prv_pilotprotocol_PilotprotocolMethod_Out]
+
+class Prv_pilotprotocol_PilotprotocolMethod_Out(TypedDict):
+    name: str
+    summary: str
 
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
@@ -20351,6 +20380,24 @@ class Prv_perennialsandsutherland(Protocol):
         no login and no query-string secret.
         """
 
+class Prv_pilotprotocol(Protocol):
+    """Pilot Protocol's own app store — a directory of installable agent capabilities (30+
+    apps: databases, comms, browser automation, payments, …). listApps returns the whole
+    catalog (id, name, vendor, category, tagline); getApp reads one app's detail page
+    (version, license, runtime, permissions, methods) by id.
+    """
+
+    async def listApps(self, /) -> list[Prv_pilotprotocol_PilotprotocolAppSummary_Out]:
+        """Lists every app in Pilot Protocol's app store — id, name, vendor, category, one-line
+        tagline and supported platforms for each.
+        """
+
+    async def getApp(self, id: str, /) -> Prv_pilotprotocol_PilotprotocolAppDetail_Out:
+        """Reads one app's detail page by id (e.g. "io.pilot.bowmark", from listApps) — vendor,
+        tagline, full description, category, version, license, runtime, minimum Pilot version,
+        source link, install command, granted permissions and its method list.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -22965,6 +23012,7 @@ class BowmarkProviders(Protocol):
     pacificcompanies: Prv_pacificcompanies
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland
+    pilotprotocol: Prv_pilotprotocol
     pirateship: Prv_pirateship
     pizzahut: Prv_pizzahut
     poshmark: Prv_poshmark
