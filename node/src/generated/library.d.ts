@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7ac4a9084853ee226f56e4964cb0bb95339c8375142eebd03526a4d6651ae380
-// 39 capabilities, 274 providers, 707 typed functions, 20 refused.
+// Manifest version: 5ac243c67f4163e29fdfedf6300997fce7a071830b80075b1356756b40d72a1f
+// 39 capabilities, 275 providers, 709 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3137,6 +3137,48 @@ interface AlphavantageSignUpResult {
      * stock-data API key — no email verification, no CAPTCHA.
      */
     signUp(details: { organization: string, email: string, occupation?: string }): Promise<AlphavantageSignUpResult>;
+  }
+}
+
+declare namespace BowmarkProvider_americandreamvacations {
+  // ── American Dream Vacations — the unit's own declarations, verbatim ──
+interface AdvLocation {
+  storeId: string;
+  name: string;
+}
+
+interface AdvVehicle {
+  id: string;
+  unitId: string;
+  model: string;
+  make: string;
+  vehicleClass: "a" | "b" | "c" | "t";
+  vehicleClassLabel: string;
+  sleeps: number | null;
+  lengthFt: number | null;
+  dailyRate: number | null;
+  weeklyRate: number | null;
+  currency: "USD";
+  electricalConnection: string | null;
+  storeId: string;
+  storeName: string;
+}
+
+  /**
+   * American Dream Vacations' own RV rental inventory search (americandreamvacations.net) —
+   * given one of their 10 store locations and an RV class (Class A/B/C or Trailer), returns the
+   * real, priced units the site itself lists: unit number, model, make, sleeps, length,
+   * daily/weekly rate and electrical connection. No login, no dates required.
+   */
+  interface Unit {
+    /** Returns American Dream Vacations' own list of rental store locations and their store ids. */
+    listLocations(): Promise<AdvLocation[]>;
+
+    /**
+     * Runs American Dream Vacations' own availability search for one store location and vehicle
+     * class and returns the real, priced inventory the site lists.
+     */
+    searchInventory(location: string, vehicleClass: "a" | "b" | "c" | "t"): Promise<AdvVehicle[]>;
   }
 }
 
@@ -6444,24 +6486,43 @@ interface ClasspassSearchQuery {
   /** Centre of the search, decimal degrees. */
   lat: number;
   lon: number;
-  /** Search radius (default 1, clamped to 1-50). */
+  /** Search radius (default 1, clamped to 1-50); turned into a bounding box —
+   *  the origin takes no radius field of its own on this route. */
   radius: number;
   /** "mi" (default) or "km". */
   radiusUnits?: "mi" | "km";
   /** First day, YYYY-MM-DD. Defaults to TODAY (UTC date). */
   date?: string;
-  /** Opaque page token from a previous result's `cursor`. */
-  cursor?: string;
+}
+
+/** One row of a location search — NOT a ClasspassVenue. This endpoint publishes
+ *  a smaller, differently-shaped record (no address, no time zone, no
+ *  amenities); follow up with getStudio(alias) for the full profile. */
+interface ClasspassSearchVenue {
+  id: number;
+  alias: string;
+  name: string;
+  /** The qualifier for a chain branch ("South Charlotte"). Absent on most
+   *  independent studios in this response — a gap in what the endpoint
+   *  publishes, not a parsing miss. */
+  locationName: string | null;
+  description: string | null;
+  activities: string[];
+  /** Null when the site has nothing to show yet. */
+  ratingAverage: number | null;
+  /** The site's OWN display string ("30000+", "3", "0") — never coerced to a
+   *  number, since past a threshold the site itself only publishes a floor. */
+  ratingCountDisplay: string | null;
+  latitude: number;
+  longitude: number;
+  /** Largest real photo; ClassPass's shared placeholder is dropped. */
+  photo: string | null;
 }
 
 interface ClasspassSearchResult {
-  results: ClasspassVenue[];
-  /** Opaque page token. Pass back as `query.cursor`; null when the last page is reached. */
-  cursor: string | null;
-  /** The origin's own session id — stable across pages of one search. */
+  results: ClasspassSearchVenue[];
+  /** The origin's own session id for this search. */
   searchId: string;
-  /** Always null: the origin does not publish a total. */
-  totalHits: number | null;
   /** What this function did to the caller's query (defaults applied). */
   warnings: string[];
 }
@@ -6476,24 +6537,21 @@ interface ClasspassSearchResult {
    */
   interface Unit {
     /**
-     * ClassPass's own location search — POST lat/lon/radius and read back the venues in range,
-     * with their identity, address, coordinates, IANA time zone, the activities the venue teaches,
-     * amenities, ratings, distance and the practical details a person needs to decide which to
-     * open. `query.lat` and `query.lon` are required (decimal degrees, finite, in range);
-     * `query.radius` defaults to 1 and is clamped to 1-50; `query.radiusUnits` is `mi` (default)
-     * or `km`; `query.date` is `YYYY-MM-DD` and defaults to TODAY (UTC). Pagination: the response
-     * carries `cursor` (the base64 page token) and `searchId`; pass `cursor` back verbatim as
-     * `query.cursor` on the next call — the body's shape is identical. One call returns up to 50
-     * venues; the origin does not publish a total count, so `totalHits` is always `null` and the
-     * caller pages until `cursor` is also null. Returns `warnings` whenever the function did
-     * anything to the caller's query (radius defaulted, date defaulted) so a caller rendering the
-     * result knows exactly what shape their input landed in. Each venue block carries `activities`
-     * populated (the search response's `schedules[].venue.activities` is a comma-joined string the
-     * parser splits), which `getSchedule`'s venue block does NOT have on a day the studio
-     * publishes nothing — a real difference, not an inconsistency. **`query` shape today:** only
-     * lat/lon/radius/radiusUnits/date/cursor are honored. The help center's rich facets (text
-     * search, activity filter, time-of-day, credit-price band, neighbourhood) are DECLARED on
-     * `search` but NOT WIRED — see manifest `notImplemented`.
+     * ClassPass's own location search — read back the fitness, wellness AND beauty venues within
+     * `query.radius` of `query.lat`/`query.lon`, with their identity, coordinates, the activities
+     * each teaches, rating, a description and a photo. `query.lat` and `query.lon` are required
+     * (decimal degrees, finite, in range); `query.radius` defaults to 1 and is clamped to 1-50;
+     * `query.radiusUnits` is `mi` (default) or `km`; `query.date` is `YYYY-MM-DD` and defaults to
+     * TODAY (UTC) — this function turns lat/lon/radius into a bounding box itself, since the
+     * origin takes no radius field of its own on this route. One call returns EVERY venue inside
+     * that box (226 measured on a 5 mi Charlotte box) — there is no pagination and no `cursor`;
+     * ask for a wider radius for more. Returns `warnings` whenever the function did anything to
+     * the caller's query (radius defaulted, date defaulted) so a caller rendering the result knows
+     * exactly what shape their input landed in. Each result is NOT a full profile — no address, no
+     * time zone, no amenities, `ratingCountDisplay` is the site's own capped string ('30000+')
+     * rather than a real count — follow up with `getStudio(alias)` for that. This is the entry
+     * point to essentially everything else in this provider — a studio id or class id is not
+     * knowable ahead of a search.
      */
     search(query: ClasspassSearchQuery): Promise<ClasspassSearchResult>;
 
@@ -25886,6 +25944,7 @@ interface BowmarkProviders {
   ajmadison: BowmarkProvider_ajmadison.Unit;
   allied: BowmarkProvider_allied.Unit;
   alphavantage: BowmarkProvider_alphavantage.Unit;
+  americandreamvacations: BowmarkProvider_americandreamvacations.Unit;
   americanstandard: BowmarkProvider_americanstandard.Unit;
   amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;

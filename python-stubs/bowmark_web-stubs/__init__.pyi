@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7ac4a9084853ee226f56e4964cb0bb95339c8375142eebd03526a4d6651ae380
-# 39 capabilities, 274 providers, 689 typed functions, 20 refused.
+# Manifest version: 5ac243c67f4163e29fdfedf6300997fce7a071830b80075b1356756b40d72a1f
+# 39 capabilities, 275 providers, 691 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1758,6 +1758,26 @@ class Prv_alphavantage_signUp_details_In(TypedDict):
 class Prv_alphavantage_AlphavantageSignUpResult_Out(TypedDict):
     apiKey: str
     message: str
+
+class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
+    storeId: str
+    name: str
+
+class Prv_americandreamvacations_AdvVehicle_Out(TypedDict):
+    id: str
+    unitId: str
+    model: str
+    make: str
+    vehicleClass: Literal["a"] | Literal["b"] | Literal["c"] | Literal["t"]
+    vehicleClassLabel: str
+    sleeps: float | None
+    lengthFt: float | None
+    dailyRate: float | None
+    weeklyRate: float | None
+    currency: Literal["USD"]
+    electricalConnection: str | None
+    storeId: str
+    storeName: str
 
 class Prv_americanstandard_AmericanStandardSystemCostEstimate_Out(TypedDict):
     systemType: str
@@ -3575,31 +3595,24 @@ class Prv_classpass_ClasspassSearchQuery_In(TypedDict):
     radius: float
     radiusUnits: NotRequired[Literal["mi"] | Literal["km"]]
     date: NotRequired[str]
-    cursor: NotRequired[str]
 
 class Prv_classpass_ClasspassSearchResult_Out(TypedDict):
-    results: list[Prv_classpass_ClasspassVenue_Out]
-    cursor: str | None
+    results: list[Prv_classpass_ClasspassSearchVenue_Out]
     searchId: str
-    totalHits: float | None
     warnings: list[str]
 
-class Prv_classpass_ClasspassVenue_Out(TypedDict):
+class Prv_classpass_ClasspassSearchVenue_Out(TypedDict):
     id: float
     alias: str
     name: str
-    subtitle: str | None
-    timeZone: str | None
-    street: str | None
-    city: str | None
-    state: str | None
-    postalCode: str | None
-    latitude: float | None
-    longitude: float | None
+    locationName: str | None
+    description: str | None
     activities: list[str]
-    amenities: list[str]
     ratingAverage: float | None
-    ratingCount: float | None
+    ratingCountDisplay: str | None
+    latitude: float
+    longitude: float
+    photo: str | None
 
 class Prv_classpass_ClasspassStudio_Out(TypedDict):
     id: float
@@ -3649,6 +3662,23 @@ class Prv_classpass_ClasspassSchedule_Out(TypedDict):
     venue: Prv_classpass_ClasspassVenue_Out
     dates: list[str]
     sessions: list[Prv_classpass_ClasspassSession_Out]
+
+class Prv_classpass_ClasspassVenue_Out(TypedDict):
+    id: float
+    alias: str
+    name: str
+    subtitle: str | None
+    timeZone: str | None
+    street: str | None
+    city: str | None
+    state: str | None
+    postalCode: str | None
+    latitude: float | None
+    longitude: float | None
+    activities: list[str]
+    amenities: list[str]
+    ratingAverage: float | None
+    ratingCount: float | None
 
 class Prv_classpass_ClasspassSession_Out(TypedDict):
     id: float
@@ -14398,6 +14428,23 @@ class Prv_alphavantage(Protocol):
         free-tier stock-data API key — no email verification, no CAPTCHA.
         """
 
+class Prv_americandreamvacations(Protocol):
+    """American Dream Vacations' own RV rental inventory search (americandreamvacations.net) —
+    given one of their 10 store locations and an RV class (Class A/B/C or Trailer), returns
+    the real, priced units the site itself lists: unit number, model, make, sleeps, length,
+    daily/weekly rate and electrical connection. No login, no dates required.
+    """
+
+    async def listLocations(self, /) -> list[Prv_americandreamvacations_AdvLocation_Out]:
+        """Returns American Dream Vacations' own list of rental store locations and their store
+        ids.
+        """
+
+    async def searchInventory(self, location: str, vehicleClass: Literal["a"] | Literal["b"] | Literal["c"] | Literal["t"], /) -> list[Prv_americandreamvacations_AdvVehicle_Out]:
+        """Runs American Dream Vacations' own availability search for one store location and
+        vehicle class and returns the real, priced inventory the site lists.
+        """
+
 class Prv_americanstandard(Protocol):
     """American Standard's own published HVAC cost guide — national-average installed-cost
     ranges by system type and tier, straight off the manufacturer's site. No brand computes
@@ -15612,25 +15659,22 @@ class Prv_classpass(Protocol):
     """
 
     async def search(self, query: Prv_classpass_ClasspassSearchQuery_In, /) -> Prv_classpass_ClasspassSearchResult_Out:
-        """ClassPass's own location search — POST lat/lon/radius and read back the venues in range,
-        with their identity, address, coordinates, IANA time zone, the activities the venue
-        teaches, amenities, ratings, distance and the practical details a person needs to decide
-        which to open. `query.lat` and `query.lon` are required (decimal degrees, finite, in
-        range); `query.radius` defaults to 1 and is clamped to 1-50; `query.radiusUnits` is `mi`
-        (default) or `km`; `query.date` is `YYYY-MM-DD` and defaults to TODAY (UTC). Pagination:
-        the response carries `cursor` (the base64 page token) and `searchId`; pass `cursor` back
-        verbatim as `query.cursor` on the next call — the body's shape is identical. One call
-        returns up to 50 venues; the origin does not publish a total count, so `totalHits` is
-        always `null` and the caller pages until `cursor` is also null. Returns `warnings`
-        whenever the function did anything to the caller's query (radius defaulted, date
-        defaulted) so a caller rendering the result knows exactly what shape their input landed
-        in. Each venue block carries `activities` populated (the search response's
-        `schedules[].venue.activities` is a comma-joined string the parser splits), which
-        `getSchedule`'s venue block does NOT have on a day the studio publishes nothing — a real
-        difference, not an inconsistency. **`query` shape today:** only
-        lat/lon/radius/radiusUnits/date/cursor are honored. The help center's rich facets (text
-        search, activity filter, time-of-day, credit-price band, neighbourhood) are DECLARED on
-        `search` but NOT WIRED — see manifest `notImplemented`.
+        """ClassPass's own location search — read back the fitness, wellness AND beauty venues
+        within `query.radius` of `query.lat`/`query.lon`, with their identity, coordinates, the
+        activities each teaches, rating, a description and a photo. `query.lat` and `query.lon`
+        are required (decimal degrees, finite, in range); `query.radius` defaults to 1 and is
+        clamped to 1-50; `query.radiusUnits` is `mi` (default) or `km`; `query.date` is
+        `YYYY-MM-DD` and defaults to TODAY (UTC) — this function turns lat/lon/radius into a
+        bounding box itself, since the origin takes no radius field of its own on this route.
+        One call returns EVERY venue inside that box (226 measured on a 5 mi Charlotte box) —
+        there is no pagination and no `cursor`; ask for a wider radius for more. Returns
+        `warnings` whenever the function did anything to the caller's query (radius defaulted,
+        date defaulted) so a caller rendering the result knows exactly what shape their input
+        landed in. Each result is NOT a full profile — no address, no time zone, no amenities,
+        `ratingCountDisplay` is the site's own capped string ('30000+') rather than a real count
+        — follow up with `getStudio(alias)` for that. This is the entry point to essentially
+        everything else in this provider — a studio id or class id is not knowable ahead of a
+        search.
         """
 
     async def getStudio(self, studio: float | str, /) -> Prv_classpass_ClasspassStudio_Out:
@@ -22266,6 +22310,7 @@ class BowmarkProviders(Protocol):
     ajmadison: Prv_ajmadison
     allied: Prv_allied
     alphavantage: Prv_alphavantage
+    americandreamvacations: Prv_americandreamvacations
     americanstandard: Prv_americanstandard
     amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition

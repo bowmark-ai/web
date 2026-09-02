@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7ac4a9084853ee226f56e4964cb0bb95339c8375142eebd03526a4d6651ae380
-// 689 checked, 20 unchecked.
+// Manifest version: 5ac243c67f4163e29fdfedf6300997fce7a071830b80075b1356756b40d72a1f
+// 691 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7ac4a9084853ee226f56e4964cb0bb95339c8375142eebd03526a4d6651ae380",
+  "version": "5ac243c67f4163e29fdfedf6300997fce7a071830b80075b1356756b40d72a1f",
   "units": {
     "bundles": {
       "defs": {},
@@ -3212,6 +3212,46 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.americandreamvacations": {
+      "defs": {},
+      "functions": {
+        "listLocations": [],
+        "searchInventory": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "vehicleClass",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "a"
+                },
+                {
+                  "k": "literal",
+                  "v": "b"
+                },
+                {
+                  "k": "literal",
+                  "v": "c"
+                },
+                {
+                  "k": "literal",
+                  "v": "t"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.americanstandard": {
       "defs": {},
       "functions": {
@@ -6134,13 +6174,6 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "date",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "cursor",
               "schema": {
                 "k": "string"
               },
