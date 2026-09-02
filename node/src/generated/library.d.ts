@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2b3f9209b3fce6ae2c11cb7498017edeaa9cb2d7b6707f99fe4e2aa575b61220
-// 40 capabilities, 288 providers, 726 typed functions, 20 refused.
+// Manifest version: 1b8335b4e6e6692772a144fed8392333e71a20d6f1151fe2d0008b8320949e25
+// 40 capabilities, 289 providers, 727 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7208,6 +7208,32 @@ interface ClubchampionAvailability {
      * error.
      */
     checkAvailability(fitterId: string, start: string, end: string, durationMinutes?: number, fittingType?: string): Promise<ClubchampionAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_code_claude_com {
+  // ── Claude Code Docs — the unit's own declarations, verbatim ──
+interface code_claude_comDoc {
+  url: string;
+  title: string | null;
+  description: string | null;
+  body: string;
+}
+
+  /**
+   * Reads one page of Claude Code's own documentation site (code.claude.com/docs/...) by URL and
+   * returns its title, description and body as clean markdown — the site's own machine-readable
+   * .md source, not a scrape.
+   */
+  interface Unit {
+    /**
+     * Reads one page of code.claude.com's own documentation by URL or path (e.g.
+     * "/docs/en/amazon-bedrock" or the full https:// url) and returns its title, description and
+     * body as clean markdown — the site's own .md source with its per-page navigation boilerplate
+     * and inline component code stripped, not a whole-page scrape. THROWS if the page does not
+     * exist (404) or names a host other than code.claude.com.
+     */
+    getDoc(url: string): Promise<code_claude_comDoc>;
   }
 }
 
@@ -26590,6 +26616,7 @@ interface BowmarkProviders {
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
+  code_claude_com: BowmarkProvider_code_claude_com.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;

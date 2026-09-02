@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2b3f9209b3fce6ae2c11cb7498017edeaa9cb2d7b6707f99fe4e2aa575b61220
-# 40 capabilities, 288 providers, 708 typed functions, 20 refused.
+# Manifest version: 1b8335b4e6e6692772a144fed8392333e71a20d6f1151fe2d0008b8320949e25
+# 40 capabilities, 289 providers, 709 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4024,6 +4024,12 @@ class Prv_clubchampion_ClubchampionSlot_Out(TypedDict):
     end: str
     status: str
     resourceId: str
+
+class Prv_code_claude_com_code_claude_comDoc_Out(TypedDict):
+    url: str
+    title: str | None
+    description: str | None
+    body: str
 
 class Prv_consultnet_ConsultnetJobSearchQuery_In(TypedDict):
     keywords: NotRequired[str]
@@ -16235,6 +16241,20 @@ class Prv_clubchampion(Protocol):
         ~60-day booking horizon — not an error.
         """
 
+class Prv_code_claude_com(Protocol):
+    """Reads one page of Claude Code's own documentation site (code.claude.com/docs/...) by URL
+    and returns its title, description and body as clean markdown — the site's own
+    machine-readable .md source, not a scrape.
+    """
+
+    async def getDoc(self, url: str, /) -> Prv_code_claude_com_code_claude_comDoc_Out:
+        """Reads one page of code.claude.com's own documentation by URL or path (e.g.
+        "/docs/en/amazon-bedrock" or the full https:// url) and returns its title, description
+        and body as clean markdown — the site's own .md source with its per-page navigation
+        boilerplate and inline component code stripped, not a whole-page scrape. THROWS if the
+        page does not exist (404) or names a host other than code.claude.com.
+        """
+
 class Prv_consultnet(Protocol):
     """ConsultNet's live IT-staffing job board — real, current openings by keyword and optional
     ZIP/radius, each with the site's own posting id, title, client location and full
@@ -22897,6 +22917,7 @@ class BowmarkProviders(Protocol):
     cleanairlawncare: Prv_cleanairlawncare
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
+    code_claude_com: Prv_code_claude_com
     consultnet: Prv_consultnet
     couponfollow: Prv_couponfollow
     cruiselakegeneva: Prv_cruiselakegeneva

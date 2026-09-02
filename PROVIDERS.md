@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1153 functions. 🟢 implemented · ⚪ planned.
+> 1161 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -43,6 +43,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `andstr.getQuote` | booking.andstr.com | The real, date-priced quote for one listing — per-night breakdown, service fee… | 🟢 |
 | `andstr.search` | booking.andstr.com | Runs stayAndes's own search-and-book portal (booking.andstr.com) — filters by market… | 🟢 |
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
+| `aosom.getProduct` | aosom.com | Reads one product's live price and the site's own buyability flag straight off its… | 🟢 |
+| `aosom.searchProducts` | aosom.com | Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query… | 🟢 |
 | `apple.getProduct` | apple.com | Reads one apple.com product/buy page (a URL or path search already returned, e.g.… | 🟢 |
 | `apple.getTradeInEstimate` | apple.com | Reads apple.com's own trade-in value table and returns the ceiling ("up to $X")… | 🟢 |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |
@@ -201,6 +203,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
 | `classpass.search` | classpass.com | Searches fitness, wellness AND beauty businesses (gyms, studios, spas and salons) near… | 🟢 |
+| `claude_com.getDoc` | claude.com | Reads one page of claude.com's own documentation (claude.com/docs/...) by URL or path… | 🟢 |
 | `claude_support.getArticle` | support.claude.com | Returns one Claude help-center article's structured content by its URL — title… | 🟢 |
 | `claudemarketplaces_com.getListing` | claudemarketplaces.com | Fetches one MCP server listing page (`/mcp/<publisher>/<slug>`) from… | 🟢 |
 | `cleanairlawncare.checkServiceArea` | cleanairlawncare.com | Checks a 5-digit US zip against the caw-estimate-widget backend — the same live area… | 🟢 |
@@ -214,6 +217,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.getFittings` | clubchampion.com | Reads one studio's real fitting-type menu with live per-store pricing (Driver, Full… | 🟢 |
 | `clubchampion.listFitters` | clubchampion.com | Reads the live list of every Club Champion fitter — id, name, studio, timezone… | 🟢 |
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
+| `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
 | `cruiselakegeneva.getTour` | cruiselakegeneva.com | Reads one tour's own detail page: full pricing (adult/child/group tiers), duration… | 🟢 |
@@ -683,6 +687,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `littlewordsproject.getLittleWordsProjectCheckoutLink` | littlewordsproject.com | Resolves a product handle + chosen options (bead pattern / letter color / size… | 🟢 |
 | `littlewordsproject.getLittleWordsProjectProduct` | littlewordsproject.com | Reads one custom-bracelet product by its handle — every bead-pattern/letter-color/size… | 🟢 |
 | `littlewordsproject.listLittleWordsProjectProducts` | littlewordsproject.com | Reads a Little Words Project collection's live catalogue as the storefront publishes… | 🟢 |
+| `lmstudio.getDoc` | lmstudio.ai | Fetches one lmstudio.ai/docs/... documentation page and returns its title and body… | 🟢 |
 | `lonelyplanet.getBestInTravel` | lonelyplanet.com | Reads Lonely Planet's annually curated 'Best in Travel' list — the destinations and… | ⚪ |
 | `lonelyplanet.getDestinationGuide` | lonelyplanet.com | Reads one destination's guide page (e.g. lonelyplanet.com/destinations/italy) — its… | ⚪ |
 | `lonelyplanet.search` | lonelyplanet.com | Searches lonelyplanet.com's site-wide index — destinations, articles, curated trip… | 🟢 |
@@ -859,6 +864,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | 🟢 |
 | `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
 | `pizzahut.priceOrder` | pizzahut.com | Prices a configured basket at a store WITHOUT placing it — line items with their… | 🟢 |
+| `platform_claude_com.getDocPage` | platform.claude.com | Reads one page of platform.claude.com's own /docs/** documentation by URL or path and… | 🟢 |
+| `platform_claude_com.getPage` | platform.claude.com | Reads a non-/docs page (e.g. /plugins/submit) and returns its title and meta… | ⚪ |
+| `platform_claude_com.listDocPages` | platform.claude.com | Lists every English /docs page platform.claude.com publishes, parsed from the site's… | 🟢 |
 | `poshmark.getBulkUploadTemplateGuide` | poshmark.com | Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required… | 🟢 |
 | `poshmark.getZipFileGuide` | poshmark.com | Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how… | 🟢 |
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
