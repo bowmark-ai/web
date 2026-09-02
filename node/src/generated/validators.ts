@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 41a41628386010dd2aae7065a9ac9fecd0c97a91f4aacb174786751ee991bf44
-// 717 checked, 20 unchecked.
+// Manifest version: ee40e489c746c0cf2cb2f03815febc522bb1d38e7b22483d6ba68f7bddd810e7
+// 720 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "41a41628386010dd2aae7065a9ac9fecd0c97a91f4aacb174786751ee991bf44",
+  "version": "ee40e489c746c0cf2cb2f03815febc522bb1d38e7b22483d6ba68f7bddd810e7",
   "units": {
     "bundles": {
       "defs": {},
@@ -23850,6 +23850,38 @@ export const VALIDATORS: ValidatorTable = {
         "checkWaitTime": [
           {
             "name": "facilityId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ycombinator": {
+      "defs": {},
+      "functions": {
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getBlogPost": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "search": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

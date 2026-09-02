@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 41a41628386010dd2aae7065a9ac9fecd0c97a91f4aacb174786751ee991bf44
-// 41 capabilities, 294 providers, 735 typed functions, 20 refused.
+// Manifest version: ee40e489c746c0cf2cb2f03815febc522bb1d38e7b22483d6ba68f7bddd810e7
+// 41 capabilities, 295 providers, 738 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -25706,6 +25706,68 @@ interface XpressWaitTime {
   }
 }
 
+declare namespace BowmarkProvider_ycombinator {
+  // ── Y Combinator — the unit's own declarations, verbatim ──
+interface YCombinatorArticle {
+  id: number | null;
+  slug: string;
+  title: string;
+  author: string | null;
+  description: string;
+  content: string;
+  categories: string[];
+  youtubeId: string | null;
+  transcript: string | null;
+  url: string;
+  warnings: string[];
+}
+interface YCombinatorBlogPost {
+  title: string;
+  author: string | null;
+  publishedAt: string | null;
+  text: string;
+  url: string;
+  warnings: string[];
+}
+interface YCombinatorSearchHit {
+  title: string;
+  url: string;
+  category: string | null;
+  excerpt: string;
+}
+
+  /**
+   * Y Combinator's own site (ycombinator.com) — reads one Startup Library article or blog post
+   * by its URL/slug (application and interview guidance, fundraising, pitching, growth), and
+   * full-text searches the library with the site's own public search key.
+   */
+  interface Unit {
+    /**
+     * Returns one YC Startup Library article by its /library/<slug> URL or bare slug — title,
+     * author, description, markdown content, categories, and (for a video talk) the YouTube id and
+     * transcript. Covers application and interview guidance, pitching, fundraising and growth.
+     * THROWS on a missing/invalid/off-site url and on a dead or renamed slug, so a caller can
+     * distinguish "no such article" from "empty". Example: getArticle("6h-startup-pricing-101").
+     */
+    getArticle(url: string): Promise<YCombinatorArticle>;
+
+    /**
+     * Returns one YC blog post by its /blog/<slug>/ URL or bare slug — title, author, publish
+     * date, and the flattened body text in document order. THROWS on a missing/invalid/off-site
+     * url and on a dead or renamed slug. Example: getBlogPost("tips-for-yc-interviews").
+     */
+    getBlogPost(url: string): Promise<YCombinatorBlogPost>;
+
+    /**
+     * Full-text searches the YC Startup Library using the site's own public search key — title,
+     * url, category breadcrumb and a body excerpt per hit, up to 10. Returns an empty array on
+     * zero matches; THROWS on an empty query or a transport failure. Example: search("how to pitch
+     * your startup").
+     */
+    search(query: string): Promise<YCombinatorSearchHit[]>;
+  }
+}
+
 declare namespace BowmarkProvider_yelp {
   // ── Yelp — the unit's own declarations, verbatim ──
 interface YelpSearchArgs {
@@ -27029,6 +27091,7 @@ interface BowmarkProviders {
   wellfound: BowmarkProvider_wellfound.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
+  ycombinator: BowmarkProvider_ycombinator.Unit;
   yelp: BowmarkProvider_yelp.Unit;
   yorkwallcoverings: BowmarkProvider_yorkwallcoverings.Unit;
   yourarborhome: BowmarkProvider_yourarborhome.Unit;

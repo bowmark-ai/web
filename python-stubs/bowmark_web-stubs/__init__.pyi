@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 41a41628386010dd2aae7065a9ac9fecd0c97a91f4aacb174786751ee991bf44
-# 41 capabilities, 294 providers, 717 typed functions, 20 refused.
+# Manifest version: ee40e489c746c0cf2cb2f03815febc522bb1d38e7b22483d6ba68f7bddd810e7
+# 41 capabilities, 295 providers, 720 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13550,6 +13550,33 @@ class Prv_xpresswellnessurgentcare_XpressWaitTime_Out(TypedDict):
     hoursText: str | None
     url: str
 
+class Prv_ycombinator_YCombinatorArticle_Out(TypedDict):
+    id: float | None
+    slug: str
+    title: str
+    author: str | None
+    description: str
+    content: str
+    categories: list[str]
+    youtubeId: str | None
+    transcript: str | None
+    url: str
+    warnings: list[str]
+
+class Prv_ycombinator_YCombinatorBlogPost_Out(TypedDict):
+    title: str
+    author: str | None
+    publishedAt: str | None
+    text: str
+    url: str
+    warnings: list[str]
+
+class Prv_ycombinator_YCombinatorSearchHit_Out(TypedDict):
+    title: str
+    url: str
+    category: str | None
+    excerpt: str
+
 class Prv_yelp_YelpSearchArgs_In(TypedDict):
     term: str
     location: str
@@ -22921,6 +22948,35 @@ class Prv_xpresswellnessurgentcare(Protocol):
         (the widget's markup changed).
         """
 
+class Prv_ycombinator(Protocol):
+    """Y Combinator's own site (ycombinator.com) — reads one Startup Library article or blog
+    post by its URL/slug (application and interview guidance, fundraising, pitching,
+    growth), and full-text searches the library with the site's own public search key.
+    """
+
+    async def getArticle(self, url: str, /) -> Prv_ycombinator_YCombinatorArticle_Out:
+        """Returns one YC Startup Library article by its /library/<slug> URL or bare slug — title,
+        author, description, markdown content, categories, and (for a video talk) the YouTube id
+        and transcript. Covers application and interview guidance, pitching, fundraising and
+        growth. THROWS on a missing/invalid/off-site url and on a dead or renamed slug, so a
+        caller can distinguish "no such article" from "empty". Example:
+        getArticle("6h-startup-pricing-101").
+        """
+
+    async def getBlogPost(self, url: str, /) -> Prv_ycombinator_YCombinatorBlogPost_Out:
+        """Returns one YC blog post by its /blog/<slug>/ URL or bare slug — title, author, publish
+        date, and the flattened body text in document order. THROWS on a
+        missing/invalid/off-site url and on a dead or renamed slug. Example:
+        getBlogPost("tips-for-yc-interviews").
+        """
+
+    async def search(self, query: str, /) -> list[Prv_ycombinator_YCombinatorSearchHit_Out]:
+        """Full-text searches the YC Startup Library using the site's own public search key —
+        title, url, category breadcrumb and a body excerpt per hit, up to 10. Returns an empty
+        array on zero matches; THROWS on an empty query or a transport failure. Example:
+        search("how to pitch your startup").
+        """
+
 class Prv_yelp(Protocol):
     """Yelp's own business search — returns real, currently-listed businesses for a search term
     and location with Yelp's own star rating, review count, price tier and neighborhood.
@@ -23300,6 +23356,7 @@ class BowmarkProviders(Protocol):
     wellfound: Prv_wellfound
     winestyles: Prv_winestyles
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
+    ycombinator: Prv_ycombinator
     yelp: Prv_yelp
     yorkwallcoverings: Prv_yorkwallcoverings
     yourarborhome: Prv_yourarborhome
