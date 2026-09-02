@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 56 functions. 🟢 implemented · ⚪ planned.
+> 57 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -63,4 +63,5 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `text_to_speech.synthesize` | Converts `text` into spoken audio, base64-encoded, in an existing or previously-cloned… | 1 | 🟢 |
 | `theme_park_tickets.search` | Looks up a Six Flags/Cedar Fair theme park by name (`"Cedar Point"`, `"Six Flags Magic… | 1 | 🟢 |
 | `weather.forecast` | Geocodes a place name and returns its daily forecast (default 5 days, max 16 —… | 0 | 🟢 |
+| `wireless.compareAllInPrice` | For a given line count, fans out across every carrier this capability declares and… | 0 | 🟢 |
 | `yoga_outfit_shopping.search` | Fans out one free-text query to lululemon, Beyond Yoga and Alo Yoga in parallel and… | 3 | 🟢 |
