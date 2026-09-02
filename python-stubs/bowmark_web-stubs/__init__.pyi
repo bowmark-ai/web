@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1b8335b4e6e6692772a144fed8392333e71a20d6f1151fe2d0008b8320949e25
-# 40 capabilities, 289 providers, 709 typed functions, 20 refused.
+# Manifest version: 41a41628386010dd2aae7065a9ac9fecd0c97a91f4aacb174786751ee991bf44
+# 41 capabilities, 294 providers, 717 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1422,6 +1422,19 @@ class Cap_weather_ForecastDay_Out(TypedDict):
     weatherCode: float
     summary: str
 
+class Cap_wireless_compareAllInPrice_arg_In(TypedDict):
+    lineCount: float
+    addOns: NotRequired[Sequence[str]]
+
+class Cap_wireless_WirelessAllInPriceResult_Out(TypedDict):
+    carriers: list[Cap_wireless_CarrierAllInPrice_Out]
+    warnings: list[str]
+
+class Cap_wireless_CarrierAllInPrice_Out(TypedDict):
+    carrier: str
+    advertisedPricePerLineUsd: float
+    allInMonthlyTotalUsd: float
+
 class Cap_yoga_outfit_shopping_search_options_In(TypedDict):
     limit: NotRequired[float]
     timeoutMs: NotRequired[float]
@@ -1950,6 +1963,11 @@ class Prv_andstr_AndstrQuote_Out_fees_item_Out(TypedDict):
     name: str
     amount: float
 
+class Prv_anthropic_com_AnthropicComDoc_Out(TypedDict):
+    url: str
+    title: str | None
+    body: str
+
 class Prv_antunes_AntunesServiceAgencySearch_Out(TypedDict):
     radiusMiles: float
     agencies: list[Prv_antunes_AntunesServiceAgency_Out]
@@ -1969,6 +1987,31 @@ class Prv_antunes_AntunesServiceAgency_Out(TypedDict):
     latitude: float
     longitude: float
     distanceMiles: float
+
+class Prv_aosom_AosomSearchResult_Out(TypedDict):
+    sin: str
+    sku: str
+    name: str
+    brand: str | None
+    price: float
+    originalPrice: float | None
+    stockQty: float
+    urlkey: str
+    url: str
+    categoryName: str | None
+    imageUrl: str | None
+
+class Prv_aosom_AosomProduct_Out(TypedDict):
+    sin: str
+    sku: str
+    name: str
+    brand: str | None
+    category: str | None
+    subCategory: str | None
+    price: float
+    originalPrice: float | None
+    inStock: bool
+    url: str
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -3863,6 +3906,12 @@ class Prv_classpass_ClasspassSession_Out(TypedDict):
     availability: str | None
     isLivestream: bool
     demandSignals: list[str]
+
+class Prv_claude_com_claude_comDoc_Out(TypedDict):
+    url: str
+    title: str | None
+    description: str | None
+    body: str
 
 class Prv_claude_support_ClaudeSupportArticle_Out(TypedDict):
     articleId: str
@@ -8052,6 +8101,11 @@ class Prv_littlewordsproject_LittleWordsProjectCheckoutLink_Out(TypedDict):
     variant: Prv_littlewordsproject_LittleWordsProjectVariant_Out
     product: Prv_littlewordsproject_LittleWordsProjectProduct_Out
 
+class Prv_lmstudio_lmstudioDoc_Out(TypedDict):
+    url: str
+    title: str
+    body: str
+
 class Prv_lonelyplanet_LonelyPlanetSearchResult_Out(TypedDict):
     title: str
     subtitle: str | None
@@ -10076,6 +10130,17 @@ class Prv_pizzahut_PizzahutDealsForRender_Out_sources_item_Out(TypedDict):
 
 class Prv_pizzahut_PizzahutDealScopeForRender_u1_Out(TypedDict):
     storeNumbers: list[str]
+
+class Prv_platform_claude_com_platform_claude_comDoc_Out(TypedDict):
+    url: str
+    title: str | None
+    description: str | None
+    body: str
+
+class Prv_platform_claude_com_platform_claude_comDocLink_Out(TypedDict):
+    title: str
+    url: str
+    description: str | None
 
 class Prv_poshmark_PoshmarkSupportArticle_Out(TypedDict):
     url: str
@@ -14540,6 +14605,20 @@ class Cap_weather(Protocol):
         since a name like "Springfield" is ambiguous and worth comparing.
         """
 
+class Cap_wireless(Protocol):
+    """Fans a plan/line configuration out across carrier plan-builder flows and returns each
+    carrier's advertised price next to its real all-in monthly total (activation fee,
+    per-line surcharges). Not yet implemented — verizon.getPlanTotal and att.getPlanTotal
+    are both provider-side stubs; see packages/providers/{verizon,att}/manifest.json.
+    """
+
+    async def compareAllInPrice(self, arg: Cap_wireless_compareAllInPrice_arg_In, /) -> Cap_wireless_WirelessAllInPriceResult_Out:
+        """For a given line count, fans out across every carrier this capability declares and
+        returns each one's advertised per-line price next to its real all-in monthly total. Not
+        yet implemented — blocked on verizon.getPlanTotal and att.getPlanTotal, both
+        provider-side stubs today.
+        """
+
 class Cap_yoga_outfit_shopping(Protocol):
     """Search for a coordinated yoga outfit across lululemon, Beyond Yoga and Alo Yoga in one
     call — one normalized row shape per product, with each retailer's own published garment
@@ -14885,6 +14964,19 @@ class Prv_andstr(Protocol):
         own reason a stay isn't bookable.
         """
 
+class Prv_anthropic_com(Protocol):
+    """Reads one page of anthropic.com's engineering blog or legal terms by URL and returns its
+    title and body as plain text — parsed from the page's own server-rendered markup, not a
+    whole-page scrape.
+    """
+
+    async def getDoc(self, url: str, /) -> Prv_anthropic_com_AnthropicComDoc_Out:
+        """Reads one page of anthropic.com's engineering blog (/engineering/...) or legal terms
+        (/legal/...) by URL or path (e.g. "/legal/commercial-terms" or the full https:// url)
+        and returns its title and body as plain text. THROWS if the page does not exist (404) or
+        names a host other than anthropic.com.
+        """
+
 class Prv_antunes(Protocol):
     """Reads Antunes' own real-time authorized service-agency/distributor locator directly —
     real nearby agencies, reps and distributors Antunes itself vets, distance-ranked from a
@@ -14897,6 +14989,27 @@ class Prv_antunes(Protocol):
         and lists — not a guess at which local repair shops might service Antunes equipment.
         `radiusMiles` defaults to 100 and is capped at 500; an honestly empty list means Antunes
         has nothing authorized that close.
+        """
+
+class Prv_aosom(Protocol):
+    """Reads Aosom's live catalog — search results and one product's real price/stock —
+    straight off aosom.com's own search API and product page, no key, no browser.
+    """
+
+    async def searchProducts(self, query: str, /) -> list[Prv_aosom_AosomSearchResult_Out]:
+        """Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query and
+        returns real, currently-listed rows with price, stock count, brand and a ready-to-use
+        product page URL. Returns [] for a query that matches nothing — a real, honest answer,
+        since the endpoint returns 200 with an empty list rather than 404ing.
+        """
+
+    async def getProduct(self, url: str, /) -> Prv_aosom_AosomProduct_Out:
+        """Reads one product's live price and the site's own buyability flag straight off its
+        product page — the SAME page a shopper lands on, so a variant (color/size baked into a
+        distinct SKU/URL on this site) is read exactly as chosen. Takes the full product page
+        URL (searchProducts' `url` field). THROWS rather than guessing when the page's own
+        product-data block is missing or unparseable — never silently returns a stale or wrong
+        variant.
         """
 
 class Prv_apple(Protocol):
@@ -16126,6 +16239,21 @@ class Prv_classpass(Protocol):
         sessions — "closed today" and "I never looked" are different answers. A studio that has
         LEFT ClassPass throws a caller-fixable error quoting the site's own reason ("Venue
         disabled") rather than returning an empty timetable that reads like a quiet day.
+        """
+
+class Prv_claude_com(Protocol):
+    """Reads one page of claude.com's own documentation (claude.com/docs/...) by URL and
+    returns its title, description and body as clean markdown — the site's own
+    machine-readable .md source, not a scrape.
+    """
+
+    async def getDoc(self, url: str, /) -> Prv_claude_com_claude_comDoc_Out:
+        """Reads one page of claude.com's own documentation by URL or path (e.g.
+        "/docs/connectors/building/review-criteria" or the full https:// url) and returns its
+        title, description and body as clean markdown — the site's own .md source with its
+        per-page navigation boilerplate stripped, not a whole-page scrape. Only /docs pages are
+        covered (claude.com/pricing is not under /docs and has no .md source). THROWS if the
+        page does not exist (404) or names a host other than claude.com.
         """
 
 class Prv_claude_support(Protocol):
@@ -19243,6 +19371,21 @@ class Prv_littlewordsproject(Protocol):
         failed.
         """
 
+class Prv_lmstudio(Protocol):
+    """LM Studio's own documentation site (lmstudio.ai/docs) — fetch one page's title and body
+    straight off its machine-readable `.md` export, instead of parsing the rendered page by
+    hand.
+    """
+
+    async def getDoc(self, url: str, /) -> Prv_lmstudio_lmstudioDoc_Out:
+        """Fetches one lmstudio.ai documentation page — `url` is the page's full URL or path, e.g.
+        "https://lmstudio.ai/docs/app/mcp/deeplink" or "/docs/app/plugins/mcp". Returns its
+        canonical `url`, its `title` (the page's own `<title>` tag), and its `body` as Markdown
+        — the site's own machine-readable `.md` export of that page, not raw HTML. Only
+        `/docs/...` pages are implemented — `getDoc` throws `LmstudioInputError` for any other
+        path.
+        """
+
 class Prv_lonelyplanet(Protocol):
     """Travel guides: destination guides, site search, Best in Travel picks, curated trips and
     guidebooks.
@@ -20561,6 +20704,26 @@ class Prv_pizzahut(Protocol):
         answer. The list is sorted by `dealPagePosition` (1-based, lower = higher up); positions
         the site leaves null fall back to a stable code-order tiebreak rather than being treated
         as "first". Wholly anonymous, one Contentful read per call.
+        """
+
+class Prv_platform_claude_com(Protocol):
+    """Reads platform.claude.com's own developer documentation — one /docs page by URL, or the
+    full page index — as clean markdown, the site's own machine-readable source rather than
+    a scrape.
+    """
+
+    async def getDocPage(self, url: str, /) -> Prv_platform_claude_com_platform_claude_comDoc_Out:
+        """Reads one /docs page of platform.claude.com's own documentation by URL or path (e.g.
+        "/docs/en/about-claude/pricing" or the full https:// url) and returns its title,
+        description and body as clean markdown — the site's own .md source, not a whole-page
+        scrape. THROWS if the page does not exist (404) or names a host other than
+        platform.claude.com.
+        """
+
+    async def listDocPages(self, /) -> list[Prv_platform_claude_com_platform_claude_comDocLink_Out]:
+        """Lists every English /docs page platform.claude.com publishes — title, its own .md source
+        url, and a one-line description where the site gives one — parsed from the site's own
+        /llms.txt index.
         """
 
 class Prv_poshmark(Protocol):
@@ -22862,7 +23025,9 @@ class BowmarkProviders(Protocol):
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows
     andstr: Prv_andstr
+    anthropic_com: Prv_anthropic_com
     antunes: Prv_antunes
+    aosom: Prv_aosom
     apple: Prv_apple
     aquaphoenixsci: Prv_aquaphoenixsci
     archipelago: Prv_archipelago
@@ -22912,6 +23077,7 @@ class BowmarkProviders(Protocol):
     chriscraft: Prv_chriscraft
     classichome: Prv_classichome
     classpass: Prv_classpass
+    claude_com: Prv_claude_com
     claude_support: Prv_claude_support
     claudemarketplaces_com: Prv_claudemarketplaces_com
     cleanairlawncare: Prv_cleanairlawncare
@@ -23013,6 +23179,7 @@ class BowmarkProviders(Protocol):
     liquiddeath: Prv_liquiddeath
     liquidspace: Prv_liquidspace
     littlewordsproject: Prv_littlewordsproject
+    lmstudio: Prv_lmstudio
     lonelyplanet: Prv_lonelyplanet
     louvershop: Prv_louvershop
     lovelybride: Prv_lovelybride
@@ -23057,6 +23224,7 @@ class BowmarkProviders(Protocol):
     pilotprotocol: Prv_pilotprotocol
     pirateship: Prv_pirateship
     pizzahut: Prv_pizzahut
+    platform_claude_com: Prv_platform_claude_com
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
     premierbuildings: Prv_premierbuildings
@@ -23185,5 +23353,6 @@ class Bowmark(Protocol):
     text_to_speech: Cap_text_to_speech
     theme_park_tickets: Cap_theme_park_tickets
     weather: Cap_weather
+    wireless: Cap_wireless
     yoga_outfit_shopping: Cap_yoga_outfit_shopping
     providers: BowmarkProviders

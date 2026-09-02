@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1b8335b4e6e6692772a144fed8392333e71a20d6f1151fe2d0008b8320949e25
-// 40 capabilities, 289 providers, 727 typed functions, 20 refused.
+// Manifest version: 41a41628386010dd2aae7065a9ac9fecd0c97a91f4aacb174786751ee991bf44
+// 41 capabilities, 294 providers, 735 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2474,6 +2474,35 @@ interface ForecastResult {
   }
 }
 
+declare namespace BowmarkCapability_wireless {
+  // ── wireless plan all-in price — the unit's own declarations, verbatim ──
+interface CarrierAllInPrice {
+  carrier: string;
+  advertisedPricePerLineUsd: number;
+  allInMonthlyTotalUsd: number;
+}
+interface WirelessAllInPriceResult {
+  carriers: CarrierAllInPrice[];
+  warnings: string[];
+}
+
+  /**
+   * Fans a plan/line configuration out across carrier plan-builder flows and returns each
+   * carrier's advertised price next to its real all-in monthly total (activation fee, per-line
+   * surcharges). Not yet implemented — verizon.getPlanTotal and att.getPlanTotal are both
+   * provider-side stubs; see packages/providers/{verizon,att}/manifest.json.
+   */
+  interface Unit {
+    /**
+     * For a given line count, fans out across every carrier this capability declares and returns
+     * each one's advertised per-line price next to its real all-in monthly total. Not yet
+     * implemented — blocked on verizon.getPlanTotal and att.getPlanTotal, both provider-side stubs
+     * today.
+     */
+    compareAllInPrice(arg: { lineCount: number; addOns?: string[] }): Promise<WirelessAllInPriceResult>;
+  }
+}
+
 declare namespace BowmarkCapability_yoga_outfit_shopping {
   // ── Coordinated yoga outfit shopping — the unit's own declarations, verbatim ──
 interface YogaOutfitItem {
@@ -3522,6 +3551,30 @@ interface AndstrQuote {
   }
 }
 
+declare namespace BowmarkProvider_anthropic_com {
+  // ── Anthropic Engineering & Legal — the unit's own declarations, verbatim ──
+interface AnthropicComDoc {
+  url: string;
+  title: string | null;
+  body: string;
+}
+
+  /**
+   * Reads one page of anthropic.com's engineering blog or legal terms by URL and returns its
+   * title and body as plain text — parsed from the page's own server-rendered markup, not a
+   * whole-page scrape.
+   */
+  interface Unit {
+    /**
+     * Reads one page of anthropic.com's engineering blog (/engineering/...) or legal terms
+     * (/legal/...) by URL or path (e.g. "/legal/commercial-terms" or the full https:// url) and
+     * returns its title and body as plain text. THROWS if the page does not exist (404) or names a
+     * host other than anthropic.com.
+     */
+    getDoc(url: string): Promise<AnthropicComDoc>;
+  }
+}
+
 declare namespace BowmarkProvider_antunes {
   // ── A.J. Antunes & Co. — the unit's own declarations, verbatim ──
 interface AntunesServiceAgency {
@@ -3559,6 +3612,58 @@ interface AntunesServiceAgencySearch {
      * nothing authorized that close.
      */
     findServiceAgencies(zip: string, radiusMiles?: number): Promise<AntunesServiceAgencySearch>;
+  }
+}
+
+declare namespace BowmarkProvider_aosom {
+  // ── Aosom — the unit's own declarations, verbatim ──
+interface AosomSearchResult {
+  sin: string;
+  sku: string;
+  name: string;
+  brand: string | null;
+  price: number;               // dollars, e.g. 354.99
+  originalPrice: number | null;
+  stockQty: number;
+  urlkey: string;
+  url: string;                 // pass to getProduct
+  categoryName: string | null;
+  imageUrl: string | null;
+}
+interface AosomProduct {
+  sin: string;
+  sku: string;
+  name: string;
+  brand: string | null;
+  category: string | null;
+  subCategory: string | null;
+  price: number;               // dollars
+  originalPrice: number | null;
+  inStock: boolean;            // the site's own buyability flag for this variant
+  url: string;                 // the handoff — open this to add to cart / check out
+}
+
+  /**
+   * Reads Aosom's live catalog — search results and one product's real price/stock — straight
+   * off aosom.com's own search API and product page, no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query and
+     * returns real, currently-listed rows with price, stock count, brand and a ready-to-use
+     * product page URL. Returns [] for a query that matches nothing — a real, honest answer, since
+     * the endpoint returns 200 with an empty list rather than 404ing.
+     */
+    searchProducts(query: string): Promise<AosomSearchResult[]>;
+
+    /**
+     * Reads one product's live price and the site's own buyability flag straight off its product
+     * page — the SAME page a shopper lands on, so a variant (color/size baked into a distinct
+     * SKU/URL on this site) is read exactly as chosen. Takes the full product page URL
+     * (searchProducts' `url` field). THROWS rather than guessing when the page's own product-data
+     * block is missing or unparseable — never silently returns a stale or wrong variant.
+     */
+    getProduct(url: string): Promise<AosomProduct>;
   }
 }
 
@@ -6887,6 +6992,33 @@ interface ClasspassSearchResult {
      * like a quiet day.
      */
     getSchedule(studio: number | string, options?: ClasspassScheduleOptions): Promise<ClasspassSchedule>;
+  }
+}
+
+declare namespace BowmarkProvider_claude_com {
+  // ── Claude.ai Docs — the unit's own declarations, verbatim ──
+interface claude_comDoc {
+  url: string;
+  title: string | null;
+  description: string | null;
+  body: string;
+}
+
+  /**
+   * Reads one page of claude.com's own documentation (claude.com/docs/...) by URL and returns
+   * its title, description and body as clean markdown — the site's own machine-readable .md
+   * source, not a scrape.
+   */
+  interface Unit {
+    /**
+     * Reads one page of claude.com's own documentation by URL or path (e.g.
+     * "/docs/connectors/building/review-criteria" or the full https:// url) and returns its title,
+     * description and body as clean markdown — the site's own .md source with its per-page
+     * navigation boilerplate stripped, not a whole-page scrape. Only /docs pages are covered
+     * (claude.com/pricing is not under /docs and has no .md source). THROWS if the page does not
+     * exist (404) or names a host other than claude.com.
+     */
+    getDoc(url: string): Promise<claude_comDoc>;
   }
 }
 
@@ -15451,6 +15583,31 @@ interface LittleWordsProjectCheckoutLink {
   }
 }
 
+declare namespace BowmarkProvider_lmstudio {
+  // ── LM Studio — the unit's own declarations, verbatim ──
+interface lmstudioDoc {
+  url: string;
+  title: string;
+  body: string;
+}
+
+  /**
+   * LM Studio's own documentation site (lmstudio.ai/docs) — fetch one page's title and body
+   * straight off its machine-readable `.md` export, instead of parsing the rendered page by
+   * hand.
+   */
+  interface Unit {
+    /**
+     * Fetches one lmstudio.ai documentation page — `url` is the page's full URL or path, e.g.
+     * "https://lmstudio.ai/docs/app/mcp/deeplink" or "/docs/app/plugins/mcp". Returns its
+     * canonical `url`, its `title` (the page's own `<title>` tag), and its `body` as Markdown —
+     * the site's own machine-readable `.md` export of that page, not raw HTML. Only `/docs/...`
+     * pages are implemented — `getDoc` throws `LmstudioInputError` for any other path.
+     */
+    getDoc(url: string): Promise<lmstudioDoc>;
+  }
+}
+
 declare namespace BowmarkProvider_lonelyplanet {
   // ── Lonely Planet — the unit's own declarations, verbatim ──
 interface LonelyPlanetSearchResult {
@@ -19483,6 +19640,42 @@ interface PizzahutDealsForRender {
      * anonymous, one Contentful read per call.
      */
     getDeals(args: { storeNumber: string }): Promise<PizzahutDealsForRender>;
+  }
+}
+
+declare namespace BowmarkProvider_platform_claude_com {
+  // ── Claude Developer Platform Docs — the unit's own declarations, verbatim ──
+interface platform_claude_comDoc {
+  url: string;
+  title: string | null;
+  description: string | null;
+  body: string;
+}
+interface platform_claude_comDocLink {
+  title: string;
+  url: string;
+  description: string | null;
+}
+
+  /**
+   * Reads platform.claude.com's own developer documentation — one /docs page by URL, or the full
+   * page index — as clean markdown, the site's own machine-readable source rather than a scrape.
+   */
+  interface Unit {
+    /**
+     * Reads one /docs page of platform.claude.com's own documentation by URL or path (e.g.
+     * "/docs/en/about-claude/pricing" or the full https:// url) and returns its title, description
+     * and body as clean markdown — the site's own .md source, not a whole-page scrape. THROWS if
+     * the page does not exist (404) or names a host other than platform.claude.com.
+     */
+    getDocPage(url: string): Promise<platform_claude_comDoc>;
+
+    /**
+     * Lists every English /docs page platform.claude.com publishes — title, its own .md source
+     * url, and a one-line description where the site gives one — parsed from the site's own
+     * /llms.txt index.
+     */
+    listDocPages(): Promise<platform_claude_comDocLink[]>;
   }
 }
 
@@ -26561,7 +26754,9 @@ interface BowmarkProviders {
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
   andstr: BowmarkProvider_andstr.Unit;
+  anthropic_com: BowmarkProvider_anthropic_com.Unit;
   antunes: BowmarkProvider_antunes.Unit;
+  aosom: BowmarkProvider_aosom.Unit;
   apple: BowmarkProvider_apple.Unit;
   aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
@@ -26611,6 +26806,7 @@ interface BowmarkProviders {
   chriscraft: BowmarkProvider_chriscraft.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classpass: BowmarkProvider_classpass.Unit;
+  claude_com: BowmarkProvider_claude_com.Unit;
   claude_support: BowmarkProvider_claude_support.Unit;
   claudemarketplaces_com: BowmarkProvider_claudemarketplaces_com.Unit;
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
@@ -26712,6 +26908,7 @@ interface BowmarkProviders {
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
   liquidspace: BowmarkProvider_liquidspace.Unit;
   littlewordsproject: BowmarkProvider_littlewordsproject.Unit;
+  lmstudio: BowmarkProvider_lmstudio.Unit;
   lonelyplanet: BowmarkProvider_lonelyplanet.Unit;
   louvershop: BowmarkProvider_louvershop.Unit;
   lovelybride: BowmarkProvider_lovelybride.Unit;
@@ -26756,6 +26953,7 @@ interface BowmarkProviders {
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
+  platform_claude_com: BowmarkProvider_platform_claude_com.Unit;
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
@@ -78598,6 +78796,7 @@ interface BowmarkLibrary {
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
   theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;
   weather: BowmarkCapability_weather.Unit;
+  wireless: BowmarkCapability_wireless.Unit;
   yoga_outfit_shopping: BowmarkCapability_yoga_outfit_shopping.Unit;
   providers: BowmarkProviders;
 }

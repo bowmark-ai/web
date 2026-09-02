@@ -1,5 +1,5 @@
 {
-  "version": "1b8335b4e6e6692772a144fed8392333e71a20d6f1151fe2d0008b8320949e25",
+  "version": "41a41628386010dd2aae7065a9ac9fecd0c97a91f4aacb174786751ee991bf44",
   "units": {
     "bundles": {
       "defs": {},
@@ -2559,6 +2559,39 @@
         ]
       }
     },
+    "wireless": {
+      "defs": {},
+      "functions": {
+        "compareAllInPrice": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lineCount",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "addOns",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "yoga_outfit_shopping": {
       "defs": {},
       "functions": {
@@ -3537,6 +3570,20 @@
         ]
       }
     },
+    "providers.anthropic_com": {
+      "defs": {},
+      "functions": {
+        "getDoc": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.antunes": {
       "defs": {},
       "functions": {
@@ -3554,6 +3601,29 @@
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.aosom": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -6488,6 +6558,20 @@
               "name": "ClasspassScheduleOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.claude_com": {
+      "defs": {},
+      "functions": {
+        "getDoc": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -13038,6 +13122,20 @@
         ]
       }
     },
+    "providers.lmstudio": {
+      "defs": {},
+      "functions": {
+        "getDoc": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.lonelyplanet": {
       "defs": {},
       "functions": {
@@ -15831,6 +15929,21 @@
             "optional": false
           }
         ]
+      }
+    },
+    "providers.platform_claude_com": {
+      "defs": {},
+      "functions": {
+        "getDocPage": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listDocPages": []
       }
     },
     "providers.poshmark": {

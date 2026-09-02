@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1b8335b4e6e6692772a144fed8392333e71a20d6f1151fe2d0008b8320949e25
-// 709 checked, 20 unchecked.
+// Manifest version: 41a41628386010dd2aae7065a9ac9fecd0c97a91f4aacb174786751ee991bf44
+// 717 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1b8335b4e6e6692772a144fed8392333e71a20d6f1151fe2d0008b8320949e25",
+  "version": "41a41628386010dd2aae7065a9ac9fecd0c97a91f4aacb174786751ee991bf44",
   "units": {
     "bundles": {
       "defs": {},
@@ -2571,6 +2571,39 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "wireless": {
+      "defs": {},
+      "functions": {
+        "compareAllInPrice": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lineCount",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "addOns",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "yoga_outfit_shopping": {
       "defs": {},
       "functions": {
@@ -3549,6 +3582,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.anthropic_com": {
+      "defs": {},
+      "functions": {
+        "getDoc": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.antunes": {
       "defs": {},
       "functions": {
@@ -3566,6 +3613,29 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.aosom": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -6500,6 +6570,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ClasspassScheduleOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.claude_com": {
+      "defs": {},
+      "functions": {
+        "getDoc": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -13050,6 +13134,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.lmstudio": {
+      "defs": {},
+      "functions": {
+        "getDoc": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.lonelyplanet": {
       "defs": {},
       "functions": {
@@ -15843,6 +15941,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.platform_claude_com": {
+      "defs": {},
+      "functions": {
+        "getDocPage": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listDocPages": []
       }
     },
     "providers.poshmark": {
