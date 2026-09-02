@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a95adae7c6d601fa23ee26d9a66d98a1e1f5d227b339cc865ca4e68cc765f86b
-# 40 capabilities, 284 providers, 703 typed functions, 20 refused.
+# Manifest version: bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be
+# 40 capabilities, 285 providers, 704 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1949,6 +1949,26 @@ class Prv_andstr_AndstrQuote_Out(TypedDict):
 class Prv_andstr_AndstrQuote_Out_fees_item_Out(TypedDict):
     name: str
     amount: float
+
+class Prv_antunes_AntunesServiceAgencySearch_Out(TypedDict):
+    radiusMiles: float
+    agencies: list[Prv_antunes_AntunesServiceAgency_Out]
+
+class Prv_antunes_AntunesServiceAgency_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    country: str
+    phone: str
+    fax: str
+    email: str
+    url: str
+    latitude: float
+    longitude: float
+    distanceMiles: float
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -14814,6 +14834,20 @@ class Prv_andstr(Protocol):
         own reason a stay isn't bookable.
         """
 
+class Prv_antunes(Protocol):
+    """Reads Antunes' own real-time authorized service-agency/distributor locator directly —
+    real nearby agencies, reps and distributors Antunes itself vets, distance-ranked from a
+    US ZIP, never a guess at unverified third-party repair shops.
+    """
+
+    async def findServiceAgencies(self, zip: str, radiusMiles: float | None = None, /) -> Prv_antunes_AntunesServiceAgencySearch_Out:
+        """Runs Antunes' own real-time authorized service-agency/distributor locator for a US ZIP
+        and returns real nearby agencies, sales reps and distributors Antunes itself authorizes
+        and lists — not a guess at which local repair shops might service Antunes equipment.
+        `radiusMiles` defaults to 100 and is capped at 500; an honestly empty list means Antunes
+        has nothing authorized that close.
+        """
+
 class Prv_apple(Protocol):
     """apple.com's own site search and product pages — no API, no login, no browser."""
 
@@ -22718,6 +22752,7 @@ class BowmarkProviders(Protocol):
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows
     andstr: Prv_andstr
+    antunes: Prv_antunes
     apple: Prv_apple
     aquaphoenixsci: Prv_aquaphoenixsci
     archipelago: Prv_archipelago

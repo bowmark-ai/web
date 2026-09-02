@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a95adae7c6d601fa23ee26d9a66d98a1e1f5d227b339cc865ca4e68cc765f86b
-// 703 checked, 20 unchecked.
+// Manifest version: bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be
+// 704 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a95adae7c6d601fa23ee26d9a66d98a1e1f5d227b339cc865ca4e68cc765f86b",
+  "version": "bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be",
   "units": {
     "bundles": {
       "defs": {},
@@ -3545,6 +3545,27 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.antunes": {
+      "defs": {},
+      "functions": {
+        "findServiceAgencies": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "radiusMiles",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }

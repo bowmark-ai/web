@@ -1,5 +1,5 @@
 {
-  "version": "a95adae7c6d601fa23ee26d9a66d98a1e1f5d227b339cc865ca4e68cc765f86b",
+  "version": "bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be",
   "units": {
     "bundles": {
       "defs": {},
@@ -3533,6 +3533,27 @@
               "k": "number"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.antunes": {
+      "defs": {},
+      "functions": {
+        "findServiceAgencies": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "radiusMiles",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }

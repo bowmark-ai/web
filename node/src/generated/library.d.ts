@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a95adae7c6d601fa23ee26d9a66d98a1e1f5d227b339cc865ca4e68cc765f86b
-// 40 capabilities, 284 providers, 721 typed functions, 20 refused.
+// Manifest version: bdc5383848566e2472b4b9cf2a2395dbf01cfd4775ea7f891b42e235346458be
+// 40 capabilities, 285 providers, 722 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3519,6 +3519,46 @@ interface AndstrQuote {
      * reason a stay isn't bookable.
      */
     getQuote(listingId: string, checkIn: string, checkOut: string, guests: number): Promise<AndstrQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_antunes {
+  // ── A.J. Antunes & Co. — the unit's own declarations, verbatim ──
+interface AntunesServiceAgency {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  phone: string;
+  fax: string;
+  email: string;
+  url: string;
+  latitude: number;
+  longitude: number;
+  distanceMiles: number;
+}
+interface AntunesServiceAgencySearch {
+  radiusMiles: number;
+  agencies: AntunesServiceAgency[];
+}
+
+  /**
+   * Reads Antunes' own real-time authorized service-agency/distributor locator directly — real
+   * nearby agencies, reps and distributors Antunes itself vets, distance-ranked from a US ZIP,
+   * never a guess at unverified third-party repair shops.
+   */
+  interface Unit {
+    /**
+     * Runs Antunes' own real-time authorized service-agency/distributor locator for a US ZIP and
+     * returns real nearby agencies, sales reps and distributors Antunes itself authorizes and
+     * lists — not a guess at which local repair shops might service Antunes equipment.
+     * `radiusMiles` defaults to 100 and is capped at 500; an honestly empty list means Antunes has
+     * nothing authorized that close.
+     */
+    findServiceAgencies(zip: string, radiusMiles?: number): Promise<AntunesServiceAgencySearch>;
   }
 }
 
@@ -26384,6 +26424,7 @@ interface BowmarkProviders {
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
   andstr: BowmarkProvider_andstr.Unit;
+  antunes: BowmarkProvider_antunes.Unit;
   apple: BowmarkProvider_apple.Unit;
   aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
