@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1147 functions. 🟢 implemented · ⚪ planned.
+> 1148 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -725,6 +725,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mcdonalds.getMenu` | mcdonalds.com | Returns McDonald's national menu — every item's internal id, name, the category it is… | 🟢 |
 | `mcdonalds.getMenuItem` | mcdonalds.com | Returns one McDonald's menu item in full — its marketing name, description, FDA-style… | 🟢 |
 | `mcp_registry.search` | registry.modelcontextprotocol.io | Lists or searches the official MCP server registry (registry.modelcontextprotocol.io)… | 🟢 |
+| `mcp_so.search` | mcp.so | Searches the mcp.so directory of published MCP servers by a slug/name substring and… | 🟢 |
 | `medicalguardian.assessFallRisk` | medicalguardian.com | Runs Medical Guardian's own fall-risk scoring — 9 yes/no + one 3-way activity-level… | 🟢 |
 | `medicalguardian.getRiskAssessmentQuestions` | medicalguardian.com | Returns the 9 scored questions from Medical Guardian's own fall-risk assessment… | 🟢 |
 | `medicare.checkCoverage` | medicare.gov | Answers the question this site gets asked most: is a specific test, item or service… | ⚪ |
