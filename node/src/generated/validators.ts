@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ad6f3828d9d3b3b2e95ccd10aa1cd54f56b0f23ae27003871169cd29ccd7936b
-// 693 checked, 20 unchecked.
+// Manifest version: 73e74cc46ab9bce28fd9a4346e1417d4e1952ad4db40f36d3c6340533686629b
+// 694 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ad6f3828d9d3b3b2e95ccd10aa1cd54f56b0f23ae27003871169cd29ccd7936b",
+  "version": "73e74cc46ab9bce28fd9a4346e1417d4e1952ad4db40f36d3c6340533686629b",
   "units": {
     "bundles": {
       "defs": {},
@@ -3260,6 +3260,46 @@ export const VALIDATORS: ValidatorTable = {
             "name": "systemType",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.americanvisionwindows": {
+      "defs": {},
+      "functions": {
+        "checkAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "service",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "Windows"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "Bath"
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ad6f3828d9d3b3b2e95ccd10aa1cd54f56b0f23ae27003871169cd29ccd7936b
-# 39 capabilities, 277 providers, 693 typed functions, 20 refused.
+# Manifest version: 73e74cc46ab9bce28fd9a4346e1417d4e1952ad4db40f36d3c6340533686629b
+# 39 capabilities, 278 providers, 694 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1795,6 +1795,22 @@ class Prv_americanstandard_AmericanStandardCostRange_Out(TypedDict):
     low: float
     high: float
     currency: Literal["USD"]
+
+class Prv_americanvisionwindows_checkAvailability_args_In(TypedDict):
+    zip: str
+    service: Literal["Windows"] | Literal["Bath"]
+
+class Prv_americanvisionwindows_AmericanVisionWindowsAvailability_Out(TypedDict):
+    zip: str
+    service: Literal["Windows"] | Literal["Bath"]
+    inTerritory: bool
+    territory: str
+    serviceTerritoryId: str
+    slots: list[Prv_americanvisionwindows_AmericanVisionWindowsSlotDay_Out]
+
+class Prv_americanvisionwindows_AmericanVisionWindowsSlotDay_Out(TypedDict):
+    date: str
+    windows: list[str]
 
 class Prv_amramp_findNearestLocation_input_In(TypedDict):
     zip: str
@@ -14521,6 +14537,20 @@ class Prv_americanstandard(Protocol):
         home — no national HVAC brand computes that online.
         """
 
+class Prv_americanvisionwindows(Protocol):
+    """American Vision Windows' free in-home consultation booking flow — real open appointment
+    slots for a ZIP and service (window or bath replacement), straight from the site's own
+    booking app.
+    """
+
+    async def checkAvailability(self, args: Prv_americanvisionwindows_checkAvailability_args_In, /) -> Prv_americanvisionwindows_AmericanVisionWindowsAvailability_Out:
+        """Checks real, currently-open in-home consultation appointment slots for a US ZIP code and
+        service (window or bath replacement) — the computed step of American Vision Windows'
+        free-consultation booking flow, reachable before any name/email/phone is collected.
+        Returns the matched service territory and a real per-day list of open date/time windows,
+        or `inTerritory: false` for a ZIP outside AVW's California territories.
+        """
+
 class Prv_amramp(Protocol):
     """Amramp's own ZIP/postal-code locator — which of its ~58 US/Canada
     accessibility-equipment franchises covers a given ZIP, and that franchise's own
@@ -22402,6 +22432,7 @@ class BowmarkProviders(Protocol):
     alphavantage: Prv_alphavantage
     americandreamvacations: Prv_americandreamvacations
     americanstandard: Prv_americanstandard
+    americanvisionwindows: Prv_americanvisionwindows
     amramp: Prv_amramp
     ancientnutrition: Prv_ancientnutrition
     andersenwindows: Prv_andersenwindows

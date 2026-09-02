@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ad6f3828d9d3b3b2e95ccd10aa1cd54f56b0f23ae27003871169cd29ccd7936b
-// 39 capabilities, 277 providers, 711 typed functions, 20 refused.
+// Manifest version: 73e74cc46ab9bce28fd9a4346e1417d4e1952ad4db40f36d3c6340533686629b
+// 39 capabilities, 278 providers, 712 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3224,6 +3224,38 @@ interface AmericanStandardSystemCostEstimate {
      * computes that online.
      */
     getSystemCostEstimate(systemType: string): Promise<AmericanStandardSystemCostEstimate>;
+  }
+}
+
+declare namespace BowmarkProvider_americanvisionwindows {
+  // ── American Vision Windows — the unit's own declarations, verbatim ──
+interface AmericanVisionWindowsSlotDay {
+  date: string;
+  windows: string[];
+}
+interface AmericanVisionWindowsAvailability {
+  zip: string;
+  service: "Windows" | "Bath";
+  inTerritory: boolean;
+  territory: string;
+  serviceTerritoryId: string;
+  slots: AmericanVisionWindowsSlotDay[];
+}
+
+  /**
+   * American Vision Windows' free in-home consultation booking flow — real open appointment
+   * slots for a ZIP and service (window or bath replacement), straight from the site's own
+   * booking app.
+   */
+  interface Unit {
+    /**
+     * Checks real, currently-open in-home consultation appointment slots for a US ZIP code and
+     * service (window or bath replacement) — the computed step of American Vision Windows'
+     * free-consultation booking flow, reachable before any name/email/phone is collected. Returns
+     * the matched service territory and a real per-day list of open date/time windows, or
+     * `inTerritory: false` for a ZIP outside AVW's California territories.
+     */
+    checkAvailability(args: { zip: string; service: "Windows" | "Bath" }): Promise<AmericanVisionWindowsAvailability>;
   }
 }
 
@@ -26029,6 +26061,7 @@ interface BowmarkProviders {
   alphavantage: BowmarkProvider_alphavantage.Unit;
   americandreamvacations: BowmarkProvider_americandreamvacations.Unit;
   americanstandard: BowmarkProvider_americanstandard.Unit;
+  americanvisionwindows: BowmarkProvider_americanvisionwindows.Unit;
   amramp: BowmarkProvider_amramp.Unit;
   ancientnutrition: BowmarkProvider_ancientnutrition.Unit;
   andersenwindows: BowmarkProvider_andersenwindows.Unit;
