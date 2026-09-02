@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5ac243c67f4163e29fdfedf6300997fce7a071830b80075b1356756b40d72a1f
+// Manifest version: 8708ed4649646adcd792082b9e3e474937f1925160fc8ad5cb8b52968d9ad407
 // 39 capabilities, 275 providers, 709 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -1962,10 +1962,13 @@ interface BasketItemMatch {
 }
 interface RetailerBasket {
   total: { amount: number; currency: string } | null   // sums matched only — a partial
-                                                       // sum whenever incomplete is
-                                                       // non-empty
+                                                       // sum whenever unpriced or
+                                                       // incomplete is non-empty
   matched: BasketItemMatch[]
-  unavailable: string[]   // this retailer ANSWERED and has no in-stock priced match
+  unavailable: string[]   // this retailer ANSWERED and has no in-stock row at all —
+                          // a real stockout
+  unpriced: string[]      // this retailer HAS it in stock and rendered no price — NOT
+                          // out of stock; go read the price on the page. Not in total
   incomplete: string[]    // this retailer's search never answered — NOT out of stock,
                           // nothing was learned; retry with fewer items or more time
 }
@@ -1982,19 +1985,22 @@ type CallOptions = {
   /**
    * Given a list of item queries (a school supply list), fans out to Target and Walmart search,
    * picks the cheapest in-stock match per item per retailer, and returns each retailer's basket
-   * total plus which items neither retailer has in stock right now.
+   * total plus which items neither retailer has in stock right now — kept apart from the items a
+   * retailer stocks but would not price, and from the searches that never answered.
    */
   interface Unit {
     /**
      * Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. An
-     * item the retailer answered about and does not stock is in `unavailable`; an item whose
-     * search never answered is in `incomplete` and is NOT a stockout — nothing was learned about
-     * it, and the retailer's total is then a partial sum. Every incomplete item is also named in
-     * `warnings`. Never throws on one retailer being unreachable — that retailer's basket is
-     * dropped and named in `warnings` instead; throws only when BOTH retailers failed on every
-     * item. Walmart drives a real browser per item and every item is searched at once, so a long
-     * list is what costs time: price fewer items per call before reaching for a larger
-     * `timeoutMs`.
+     * item the retailer answered about and has no in-stock row for is in `unavailable`; an item
+     * the retailer HAS in stock but rendered no price for is in `unpriced` and is NOT a stockout —
+     * the retailer has it, and the price is on its product page rather than the search tile; an
+     * item whose search never answered is in `incomplete` and is NOT a stockout either — nothing
+     * was learned about it. Either of the latter two makes the retailer's total a partial sum, and
+     * every one of those items is also named in `warnings`. Never throws on one retailer being
+     * unreachable — that retailer's basket is dropped and named in `warnings` instead; throws only
+     * when BOTH retailers failed on every item. Walmart drives a real browser per item and every
+     * item is searched at once, so a long list is what costs time: price fewer items per call
+     * before reaching for a larger `timeoutMs`.
      */
     priceList(args: { items: string[] }): Promise<SchoolShoppingBasket>;
   }
