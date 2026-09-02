@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 07aa728c9529b853084bacbe4958d3e87ba6c7a5037f1815e0e6fa3638eddf68
-// 40 capabilities, 287 providers, 725 typed functions, 20 refused.
+// Manifest version: 2b3f9209b3fce6ae2c11cb7498017edeaa9cb2d7b6707f99fe4e2aa575b61220
+// 40 capabilities, 288 providers, 726 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6910,9 +6910,11 @@ interface ClaudeSupportArticle {
   interface Unit {
     /**
      * Returns one Claude help-center article by its URL — title, description, last-updated date,
-     * and the flattened body text in document order. THROWS on a missing/invalid/off-site url, on
-     * a dead or renamed article link, and on a transport failure, so a caller can distinguish "no
-     * such article" from "empty".
+     * and the flattened body text in document order. Covers articles on the Claude Pro or Max
+     * plan, usage and length limits, the connectors directory, and Claude Code seat policy on a
+     * Team or Enterprise plan. THROWS on a missing/invalid/off-site url, on a dead or renamed
+     * article link, and on a transport failure, so a caller can distinguish "no such article" from
+     * "empty".
      */
     getArticle(url: string): Promise<ClaudeSupportArticle>;
   }
@@ -25063,6 +25065,31 @@ interface VoluspaQuizIntro {
   }
 }
 
+declare namespace BowmarkProvider_vscode {
+  // ── VS Code Documentation — the unit's own declarations, verbatim ──
+interface VscodeDoc {
+  url: string;
+  title: string;
+  description: string;
+  text: string;
+  warnings: string[];
+}
+
+  /**
+   * VS Code's own documentation site (code.visualstudio.com) — reads one doc page's structured
+   * content (title, description, flattened body text) directly from its server-rendered HTML,
+   * given its URL.
+   */
+  interface Unit {
+    /**
+     * Returns one code.visualstudio.com doc page by its URL — title, description, and the
+     * flattened body text in document order. THROWS on a missing/invalid/off-site url and on a
+     * transport failure, so a caller can distinguish "unreachable" from "empty".
+     */
+    getDoc(url: string): Promise<VscodeDoc>;
+  }
+}
+
 declare namespace BowmarkProvider_walkerhughes {
   // ── WalkerHughes Insurance — the unit's own declarations, verbatim ──
 // WalkerHughes' OWN shapes — not a capability contract.
@@ -26770,6 +26797,7 @@ interface BowmarkProviders {
   villagerealtyobx: BowmarkProvider_villagerealtyobx.Unit;
   visible: BowmarkProvider_visible.Unit;
   voluspa: BowmarkProvider_voluspa.Unit;
+  vscode: BowmarkProvider_vscode.Unit;
   walkerhughes: BowmarkProvider_walkerhughes.Unit;
   walmart: BowmarkProvider_walmart.Unit;
   waterfurnace: BowmarkProvider_waterfurnace.Unit;

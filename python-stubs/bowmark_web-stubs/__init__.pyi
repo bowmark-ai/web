@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 07aa728c9529b853084bacbe4958d3e87ba6c7a5037f1815e0e6fa3638eddf68
-# 40 capabilities, 287 providers, 707 typed functions, 20 refused.
+# Manifest version: 2b3f9209b3fce6ae2c11cb7498017edeaa9cb2d7b6707f99fe4e2aa575b61220
+# 40 capabilities, 288 providers, 708 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13188,6 +13188,13 @@ class Prv_voluspa_VoluspaQuizButton_Out(TypedDict):
     url: NotRequired[str]
     selectedValue: NotRequired[str]
 
+class Prv_vscode_VscodeDoc_Out(TypedDict):
+    url: str
+    title: str
+    description: str
+    text: str
+    warnings: list[str]
+
 class Prv_walkerhughes_WalkerhughesQuoteCatalog_Out(TypedDict):
     products: list[Prv_walkerhughes_WalkerhughesProduct_Out]
     applyUrl: str
@@ -16123,9 +16130,11 @@ class Prv_claude_support(Protocol):
 
     async def getArticle(self, url: str, /) -> Prv_claude_support_ClaudeSupportArticle_Out:
         """Returns one Claude help-center article by its URL — title, description, last-updated
-        date, and the flattened body text in document order. THROWS on a
-        missing/invalid/off-site url, on a dead or renamed article link, and on a transport
-        failure, so a caller can distinguish "no such article" from "empty".
+        date, and the flattened body text in document order. Covers articles on the Claude Pro
+        or Max plan, usage and length limits, the connectors directory, and Claude Code seat
+        policy on a Team or Enterprise plan. THROWS on a missing/invalid/off-site url, on a dead
+        or renamed article link, and on a transport failure, so a caller can distinguish "no
+        such article" from "empty".
         """
 
 class Prv_claudemarketplaces_com(Protocol):
@@ -22579,6 +22588,18 @@ class Prv_voluspa(Protocol):
         campaign config.
         """
 
+class Prv_vscode(Protocol):
+    """VS Code's own documentation site (code.visualstudio.com) — reads one doc page's
+    structured content (title, description, flattened body text) directly from its
+    server-rendered HTML, given its URL.
+    """
+
+    async def getDoc(self, url: str, /) -> Prv_vscode_VscodeDoc_Out:
+        """Returns one code.visualstudio.com doc page by its URL — title, description, and the
+        flattened body text in document order. THROWS on a missing/invalid/off-site url and on a
+        transport failure, so a caller can distinguish "unreachable" from "empty".
+        """
+
 class Prv_walkerhughes(Protocol):
     """WalkerHughes' real 16-product Personal/Business insurance-quote application catalog and
     its real 25-office directory, straight off /start-quote and /locations — list and filter
@@ -23083,6 +23104,7 @@ class BowmarkProviders(Protocol):
     villagerealtyobx: Prv_villagerealtyobx
     visible: Prv_visible
     voluspa: Prv_voluspa
+    vscode: Prv_vscode
     walkerhughes: Prv_walkerhughes
     walmart: Prv_walmart
     waterfurnace: Prv_waterfurnace

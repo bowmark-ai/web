@@ -1,5 +1,5 @@
 {
-  "version": "07aa728c9529b853084bacbe4958d3e87ba6c7a5037f1815e0e6fa3638eddf68",
+  "version": "2b3f9209b3fce6ae2c11cb7498017edeaa9cb2d7b6707f99fe4e2aa575b61220",
   "units": {
     "bundles": {
       "defs": {},
@@ -23327,6 +23327,20 @@
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.vscode": {
+      "defs": {},
+      "functions": {
+        "getDoc": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
