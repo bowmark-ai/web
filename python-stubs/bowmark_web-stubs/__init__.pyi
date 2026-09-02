@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8708ed4649646adcd792082b9e3e474937f1925160fc8ad5cb8b52968d9ad407
-# 39 capabilities, 275 providers, 691 typed functions, 20 refused.
+# Manifest version: ad6f3828d9d3b3b2e95ccd10aa1cd54f56b0f23ae27003871169cd29ccd7936b
+# 39 capabilities, 277 providers, 693 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4881,6 +4881,36 @@ class Prv_firstdibs_FirstdibsCompletingAction_Out(TypedDict):
     contactSeller: bool
     purchase: Literal[False]
 
+class Prv_fivebelow_search_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_fivebelow_FiveBelowSearchResults_Out(TypedDict):
+    query: str
+    page: float
+    totalMatches: float | None
+    totalPages: float | None
+    results: list[Prv_fivebelow_FiveBelowSearchResult_Out]
+    warnings: list[str]
+
+class Prv_fivebelow_FiveBelowSearchResult_Out(TypedDict):
+    objectID: str
+    name: str
+    url: str
+    image: str | None
+    priceMin: float | None
+    priceMax: float | None
+    variants: list[Prv_fivebelow_FiveBelowVariant_Out]
+    inStock: bool
+
+class Prv_fivebelow_FiveBelowVariant_Out(TypedDict):
+    sku: str | None
+    style: str | None
+    price: float | None
+    inventory: float | None
+    available: bool
+
 class Prv_fivestarbathsolutions_FivestarLocation_Out(TypedDict):
     id: str
     title: str
@@ -5256,6 +5286,27 @@ class Prv_g2_G2Product_Out(TypedDict):
     rating: float | None
     bestRating: float | None
     reviewCount: float | None
+
+class Prv_gazelle_getTradeInQuote_selections_In(TypedDict):
+    capacity: NotRequired[str]
+    carrier: NotRequired[str]
+    condition: NotRequired[str]
+
+class Prv_gazelle_GazelleQuoteResult_Out(TypedDict):
+    deviceUrl: str
+    product: Prv_gazelle_GazelleQuoteResult_Out_product_Out
+    selections: Prv_gazelle_GazelleQuoteResult_Out_selections_Out
+    estimatedValue: float
+    expirationDate: str | None
+
+class Prv_gazelle_GazelleQuoteResult_Out_product_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_gazelle_GazelleQuoteResult_Out_selections_Out(TypedDict):
+    capacity: str | None
+    carrier: str | None
+    condition: str | None
 
 class Prv_geico_RentersQuoteArgs_In(TypedDict):
     address: Prv_geico_RentersQuoteArgs_In_address_In
@@ -12129,6 +12180,8 @@ class Prv_thezebra_thezebraAutoQuotesQuery_In(TypedDict):
     state: str
     zip: str
     county: str
+    currentlyInsured: NotRequired[bool]
+    userPurchaseTimeframe: NotRequired[Literal["TODAY"] | Literal["FUTURE"]]
 
 class Prv_thezebra_thezebraAutoDriver_In(TypedDict):
     firstName: str
@@ -12138,6 +12191,7 @@ class Prv_thezebra_thezebraAutoDriver_In(TypedDict):
     ageFirstLicensed: NotRequired[float]
     violations: NotRequired[Prv_thezebra_thezebraAutoDriver_In_violations_In]
     occupation: NotRequired[str]
+    residenceOwnership: NotRequired[Literal[0] | Literal[1] | Literal[2] | Literal[3]]
 
 class Prv_thezebra_thezebraAutoDriver_In_violations_In(TypedDict):
     accidents: float
@@ -16514,6 +16568,18 @@ class Prv_firstdibs(Protocol):
         and/or Contact Seller, whichever this seller has enabled.
         """
 
+class Prv_fivebelow(Protocol):
+    """Five Below's own product search — title, price(s), image and per-variant DC stock, the
+    way the site's own search bar answers it.
+    """
+
+    async def search(self, args: Prv_fivebelow_search_args_In, /) -> Prv_fivebelow_FiveBelowSearchResults_Out:
+        """Searches fivebelow.com's catalog for a keyword and returns matching products — name,
+        URL, image, price range across variants, per-variant SKU/style/price/DC-2022 stock, and
+        whether any variant is available — in the site's own relevance order. An empty `results`
+        array is a real answer meaning the site found nothing for this query.
+        """
+
 class Prv_fivestarbathsolutions(Protocol):
     """National bath/kitchen remodeling franchise (walk-in tubs, shower/tub conversions).
     listLocations and getAvailableSlots are live — listLocations reads the site's own
@@ -16824,6 +16890,21 @@ class Prv_g2(Protocol):
         (out of 10 here — G2 renders a different scale on this page than on `search`'s), review
         count and category tags, off the page's own schema.org `SoftwareApplication` block.
         Takes the `url` a `search` row already carries.
+        """
+
+class Prv_gazelle(Protocol):
+    """gazelle.com's own current trade-in offer for a device, for a chosen
+    capacity/carrier/condition — read off the same bootstrap JSON and pricing endpoint the
+    site's own offer page uses, instead of parsing prose off the rendered page.
+    """
+
+    async def getTradeInQuote(self, deviceUrl: str, selections: Prv_gazelle_getTradeInQuote_selections_In | None = None, /) -> Prv_gazelle_GazelleQuoteResult_Out:
+        """Reads gazelle.com's own current trade-in offer for the device at a gazelle.com trade-in
+        page (e.g. .../iphone/iphone-14-pro), for the given capacity/carrier/condition (each
+        matched against that device's own option labels, e.g. condition: "Good").
+        Capacity/carrier left out uses the catalog's own default listing (carrier prefers
+        "Unlocked"); condition left out uses the offer page's own default answer. THROWS if a
+        selection names an option this device does not offer.
         """
 
 class Prv_geico(Protocol):
@@ -21617,30 +21698,33 @@ class Prv_thezebra(Protocol):
         The Zebra's auto quote funnel prices them. This is a priced offer for the person asking,
         NOT the published averages `getStateRates` and its siblings return. Pass `driver`
         (`firstName`, `lastName`, `dob` ISO YYYY-MM-DD, `email`, and optionally
-        `ageFirstLicensed`/`violations`/`occupation` — each defaults to a clean-record
-        placeholder when omitted), one `vehicle` (`year`, `make`, `model` — a model The Zebra
-        does not rate THROWS naming the URL it tried), the 2-letter `state`, a 5-digit `zip`,
-        and `county` (the county the ZIP sits in — The Zebra validates it server-side and a
-        missing or wrong county is bounced). **The write always binds** — the GraphQL gateway at
-        `graphql-gateway.production.thezebra.com` accepts the seed and returns 200 — but AS OF
-        2026-08-27 the results route was bouncing the session to the homepage because
-        `LegacyDriverInput` and `LegacyVehicleInput` accept more fields than an earlier version
-        of this function sent; the measured field map (every field on both inputs, which are
-        confirmed valid, which are still unmeasured) lives in
-        `agents/richard/problems/thezebra-getautoquotes-broken.md` and is not re-derived here.
-        The function throws on a bounce with a message naming the redirect target;
-        `vehicle.submodel`, `driver.education` and `driver.creditScore` remain unsent because no
-        valid value for any of them is confirmed yet — sending a guess cannot break the write
-        (all three are nullable) but a wrong guess would look like a fix without being one, so
-        they stay out until a live probe confirms a value. **`advertisedCarriers` is not a quote
-        list and must never be read as one**: the results page would carry paid carrier
-        placements alongside real offers, separated by `data-cy="results-card_ad_<carrier>"`
-        (ad) versus `data-cy="results-card_q2b_<carrier>"` (real offer), and the advertised
-        names are returned in their own field with no price attached. Every premium is USD and
-        `monthlyPremium` is per MONTH — the card's own period is checked rather than assumed,
-        and a card printing any other term THROWS instead of relabelling a figure.
-        `totalPremium` is the site's own whole-term number and is never divided out of the
-        monthly one.
+        `ageFirstLicensed`/`violations`/`occupation`/`residenceOwnership` — each defaults to a
+        clean-record, non-committal placeholder when omitted), one `vehicle` (`year`, `make`,
+        `model` — a model The Zebra does not rate THROWS naming the URL it tried), the 2-letter
+        `state`, a 5-digit `zip`, `county` (the county the ZIP sits in — The Zebra validates it
+        server-side and a missing or wrong county is bounced), and optionally
+        `currentlyInsured`/`userPurchaseTimeframe`. **The write always binds** — the GraphQL
+        gateway at `graphql-gateway.production.thezebra.com` accepts the seed and returns 200 —
+        but AS OF 2026-08-27 the results route was bouncing the session to the homepage because
+        the funnel's own completeness check (`__NEXT_DATA__.props.initialState.autoFunnelPages`)
+        needs more than `LegacyDriverInput`/`LegacyVehicleInput`'s flat fields. **AS OF
+        2026-09-02 the `/car/manual/start/` page's own gate is confirmed solved** —
+        `driver.residenceOwnership` and the top-level `auto.{userPurchaseTimeframe,
+        coverageHistory.currentlyInsured}` are real, live-confirmed fields (driving the actual
+        UI and reading its own mutations, not introspection guessing) — but four more pages
+        still gate the results route (vehicle selection, vehicle/driver details, coverage);
+        their answers are unmeasured and
+        `agents/richard/problems/thezebra-getautoquotes-broken.md` carries the ranked next
+        candidates. The function throws on a bounce with a message naming the redirect target
+        and, where readable, the funnel's own list of which pages are still unanswered.
+        **`advertisedCarriers` is not a quote list and must never be read as one**: the results
+        page would carry paid carrier placements alongside real offers, separated by
+        `data-cy="results-card_ad_<carrier>"` (ad) versus `data-cy="results-card_q2b_<carrier>"`
+        (real offer), and the advertised names are returned in their own field with no price
+        attached. Every premium is USD and `monthlyPremium` is per MONTH — the card's own period
+        is checked rather than assumed, and a card printing any other term THROWS instead of
+        relabelling a figure. `totalPremium` is the site's own whole-term number and is never
+        divided out of the monthly one.
         """
 
 class Prv_thibautdesign(Protocol):
@@ -22400,6 +22484,7 @@ class BowmarkProviders(Protocol):
     extraspace: Prv_extraspace
     facerealityskincare: Prv_facerealityskincare
     firstdibs: Prv_firstdibs
+    fivebelow: Prv_fivebelow
     fivestarbathsolutions: Prv_fivestarbathsolutions
     flightradar24: Prv_flightradar24
     ford: Prv_ford
@@ -22409,6 +22494,7 @@ class BowmarkProviders(Protocol):
     fred: Prv_fred
     furniture: Prv_furniture
     g2: Prv_g2
+    gazelle: Prv_gazelle
     geico: Prv_geico
     github: Prv_github
     glassesusa: Prv_glassesusa

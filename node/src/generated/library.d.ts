@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8708ed4649646adcd792082b9e3e474937f1925160fc8ad5cb8b52968d9ad407
-// 39 capabilities, 275 providers, 709 typed functions, 20 refused.
+// Manifest version: ad6f3828d9d3b3b2e95ccd10aa1cd54f56b0f23ae27003871169cd29ccd7936b
+// 39 capabilities, 277 providers, 711 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8801,6 +8801,49 @@ interface FirstdibsListing {
   }
 }
 
+declare namespace BowmarkProvider_fivebelow {
+  // ── Five Below — the unit's own declarations, verbatim ──
+interface FiveBelowVariant {
+  sku: string | null;
+  style: string | null;
+  price: number | null;
+  inventory: number | null;
+  available: boolean;
+}
+interface FiveBelowSearchResult {
+  objectID: string;
+  name: string;
+  url: string;
+  image: string | null;
+  priceMin: number | null;
+  priceMax: number | null;
+  variants: FiveBelowVariant[];
+  inStock: boolean;
+}
+interface FiveBelowSearchResults {
+  query: string;
+  page: number;
+  totalMatches: number | null;
+  totalPages: number | null;
+  results: FiveBelowSearchResult[];
+  warnings: string[];
+}
+
+  /**
+   * Five Below's own product search — title, price(s), image and per-variant DC stock, the way
+   * the site's own search bar answers it.
+   */
+  interface Unit {
+    /**
+     * Searches fivebelow.com's catalog for a keyword and returns matching products — name, URL,
+     * image, price range across variants, per-variant SKU/style/price/DC-2022 stock, and whether
+     * any variant is available — in the site's own relevance order. An empty `results` array is a
+     * real answer meaning the site found nothing for this query.
+     */
+    search(args: { query: string, limit?: number, page?: number }): Promise<FiveBelowSearchResults>;
+  }
+}
+
 declare namespace BowmarkProvider_fivestarbathsolutions {
   // ── Five Star Bath Solutions — the unit's own declarations, verbatim ──
 interface FivestarLocation {
@@ -9690,6 +9733,34 @@ interface G2Product {
      * `search` row already carries.
      */
     getProduct(args: { url: string } | string): Promise<G2Product>;
+  }
+}
+
+declare namespace BowmarkProvider_gazelle {
+  // ── Gazelle — the unit's own declarations, verbatim ──
+interface GazelleQuoteResult {
+  deviceUrl: string;
+  product: { id: string; name: string };
+  selections: { capacity: string | null; carrier: string | null; condition: string | null };
+  estimatedValue: number;
+  expirationDate: string | null;
+}
+
+  /**
+   * gazelle.com's own current trade-in offer for a device, for a chosen
+   * capacity/carrier/condition — read off the same bootstrap JSON and pricing endpoint the
+   * site's own offer page uses, instead of parsing prose off the rendered page.
+   */
+  interface Unit {
+    /**
+     * Reads gazelle.com's own current trade-in offer for the device at a gazelle.com trade-in page
+     * (e.g. .../iphone/iphone-14-pro), for the given capacity/carrier/condition (each matched
+     * against that device's own option labels, e.g. condition: "Good"). Capacity/carrier left out
+     * uses the catalog's own default listing (carrier prefers "Unlocked"); condition left out uses
+     * the offer page's own default answer. THROWS if a selection names an option this device does
+     * not offer.
+     */
+    getTradeInQuote(deviceUrl: string, selections?: { capacity?: string; carrier?: string; condition?: string }): Promise<GazelleQuoteResult>;
   }
 }
 
@@ -23085,6 +23156,7 @@ interface thezebraAutoDriver {
   ageFirstLicensed?: number  // default 16 when omitted
   violations?: { accidents: number, claims: number, tickets: number }  // default a clean record
   occupation?: string  // default "OTHER" — the only two confirmed-valid values are "OTHER" and "ENGINEER"
+  residenceOwnership?: 0 | 1 | 2 | 3  // own home/condo/rent/other; default 3 ("Other")
 }
 
 interface thezebraAutoVehicle {
@@ -23099,6 +23171,8 @@ interface thezebraAutoQuotesQuery {
   state: string   // 2-letter postal code
   zip: string     // 5 digits
   county: string  // the county the ZIP sits in — the gateway validates server-side
+  currentlyInsured?: boolean         // default true
+  userPurchaseTimeframe?: "TODAY" | "FUTURE"  // default "TODAY"
 }
 
 interface thezebraAutoQuote {
@@ -23301,24 +23375,27 @@ interface thezebraAutoQuotes {
      * Zebra's auto quote funnel prices them. This is a priced offer for the person asking, NOT the
      * published averages `getStateRates` and its siblings return. Pass `driver` (`firstName`,
      * `lastName`, `dob` ISO YYYY-MM-DD, `email`, and optionally
-     * `ageFirstLicensed`/`violations`/`occupation` — each defaults to a clean-record placeholder
-     * when omitted), one `vehicle` (`year`, `make`, `model` — a model The Zebra does not rate
-     * THROWS naming the URL it tried), the 2-letter `state`, a 5-digit `zip`, and `county` (the
-     * county the ZIP sits in — The Zebra validates it server-side and a missing or wrong county is
-     * bounced). **The write always binds** — the GraphQL gateway at
-     * `graphql-gateway.production.thezebra.com` accepts the seed and returns 200 — but AS OF
-     * 2026-08-27 the results route was bouncing the session to the homepage because
-     * `LegacyDriverInput` and `LegacyVehicleInput` accept more fields than an earlier version of
-     * this function sent; the measured field map (every field on both inputs, which are confirmed
-     * valid, which are still unmeasured) lives in
-     * `agents/richard/problems/thezebra-getautoquotes-broken.md` and is not re-derived here. The
-     * function throws on a bounce with a message naming the redirect target; `vehicle.submodel`,
-     * `driver.education` and `driver.creditScore` remain unsent because no valid value for any of
-     * them is confirmed yet — sending a guess cannot break the write (all three are nullable) but
-     * a wrong guess would look like a fix without being one, so they stay out until a live probe
-     * confirms a value. **`advertisedCarriers` is not a quote list and must never be read as
-     * one**: the results page would carry paid carrier placements alongside real offers, separated
-     * by `data-cy="results-card_ad_<carrier>"` (ad) versus `data-cy="results-card_q2b_<carrier>"`
+     * `ageFirstLicensed`/`violations`/`occupation`/`residenceOwnership` — each defaults to a
+     * clean-record, non-committal placeholder when omitted), one `vehicle` (`year`, `make`,
+     * `model` — a model The Zebra does not rate THROWS naming the URL it tried), the 2-letter
+     * `state`, a 5-digit `zip`, `county` (the county the ZIP sits in — The Zebra validates it
+     * server-side and a missing or wrong county is bounced), and optionally
+     * `currentlyInsured`/`userPurchaseTimeframe`. **The write always binds** — the GraphQL gateway
+     * at `graphql-gateway.production.thezebra.com` accepts the seed and returns 200 — but AS OF
+     * 2026-08-27 the results route was bouncing the session to the homepage because the funnel's
+     * own completeness check (`__NEXT_DATA__.props.initialState.autoFunnelPages`) needs more than
+     * `LegacyDriverInput`/`LegacyVehicleInput`'s flat fields. **AS OF 2026-09-02 the
+     * `/car/manual/start/` page's own gate is confirmed solved** — `driver.residenceOwnership` and
+     * the top-level `auto.{userPurchaseTimeframe, coverageHistory.currentlyInsured}` are real,
+     * live-confirmed fields (driving the actual UI and reading its own mutations, not
+     * introspection guessing) — but four more pages still gate the results route (vehicle
+     * selection, vehicle/driver details, coverage); their answers are unmeasured and
+     * `agents/richard/problems/thezebra-getautoquotes-broken.md` carries the ranked next
+     * candidates. The function throws on a bounce with a message naming the redirect target and,
+     * where readable, the funnel's own list of which pages are still unanswered.
+     * **`advertisedCarriers` is not a quote list and must never be read as one**: the results page
+     * would carry paid carrier placements alongside real offers, separated by
+     * `data-cy="results-card_ad_<carrier>"` (ad) versus `data-cy="results-card_q2b_<carrier>"`
      * (real offer), and the advertised names are returned in their own field with no price
      * attached. Every premium is USD and `monthlyPremium` is per MONTH — the card's own period is
      * checked rather than assumed, and a card printing any other term THROWS instead of
@@ -26034,6 +26111,7 @@ interface BowmarkProviders {
   extraspace: BowmarkProvider_extraspace.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
+  fivebelow: BowmarkProvider_fivebelow.Unit;
   fivestarbathsolutions: BowmarkProvider_fivestarbathsolutions.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;
   ford: BowmarkProvider_ford.Unit;
@@ -26043,6 +26121,7 @@ interface BowmarkProviders {
   fred: BowmarkProvider_fred.Unit;
   furniture: BowmarkProvider_furniture.Unit;
   g2: BowmarkProvider_g2.Unit;
+  gazelle: BowmarkProvider_gazelle.Unit;
   geico: BowmarkProvider_geico.Unit;
   github: BowmarkProvider_github.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8708ed4649646adcd792082b9e3e474937f1925160fc8ad5cb8b52968d9ad407
-// 691 checked, 20 unchecked.
+// Manifest version: ad6f3828d9d3b3b2e95ccd10aa1cd54f56b0f23ae27003871169cd29ccd7936b
+// 693 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8708ed4649646adcd792082b9e3e474937f1925160fc8ad5cb8b52968d9ad407",
+  "version": "ad6f3828d9d3b3b2e95ccd10aa1cd54f56b0f23ae27003871169cd29ccd7936b",
   "units": {
     "bundles": {
       "defs": {},
@@ -7754,6 +7754,43 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.fivebelow": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.fivestarbathsolutions": {
       "defs": {},
       "functions": {
@@ -8226,6 +8263,50 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.gazelle": {
+      "defs": {},
+      "functions": {
+        "getTradeInQuote": [
+          {
+            "name": "deviceUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "capacity",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "carrier",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "condition",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -21266,6 +21347,31 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            },
+            {
+              "name": "residenceOwnership",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": 0
+                  },
+                  {
+                    "k": "literal",
+                    "v": 1
+                  },
+                  {
+                    "k": "literal",
+                    "v": 2
+                  },
+                  {
+                    "k": "literal",
+                    "v": 3
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         },
@@ -21308,6 +21414,30 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "currentlyInsured",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "userPurchaseTimeframe",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "TODAY"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "FUTURE"
+                  }
+                ]
+              },
+              "optional": true
             }
           ]
         },
