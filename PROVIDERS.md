@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1140 functions. 🟢 implemented · ⚪ planned.
+> 1143 functions. 🟢 implemented · ⚪ planned.
 > Health was not read for this build, so 🟢 here means IMPLEMENTED, never working — a 🟢 row can be degraded or retired in prod right now. Ask the canary (`GET /internal/coverage`, or the coverage board in the admin app); never read this table for that.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -131,6 +131,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bollandbranch.getCategoryOptions` | bollandbranch.com | Lists the real, currently-sellable products for one Virtual Bed Designer category… | 🟢 |
 | `bollandbranch.getSwatchDetails` | bollandbranch.com | Resolves color/fabric swatch names (as offered by getCategoryOptions) to their hex… | 🟢 |
 | `bollandbranch.renderBedPreview` | bollandbranch.com | Would render the Designer's own live combination preview (the stacked-bed visual for a… | ⚪ |
+| `boxlunch.search` | boxlunch.com | Searches boxlunch.com's own storefront for a keyword and returns the real, priced… | 🟢 |
 | `boydsleep.calibrateSixZoneSupportNumber` | boydsleep.com | Runs Boyd's own '6-Zone Smart Support Number' calibration for the 6-zone Nautica Home… | 🟢 |
 | `boydsleep.calibrateSupportNumber` | boydsleep.com | Runs Boyd's own '2-Zone Smart Support Number' calibration — sleep position, gender… | 🟢 |
 | `brixton.getBrixtonCheckoutLink` | brixton.com | Resolves a product handle + chosen variant (size and/or color) to a real, purchasable… | 🟢 |
@@ -417,6 +418,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟢 |
 | `g2.getProduct` | g2.com | Reads one product's `/products/<slug>/reviews` page for its published aggregate rating… | 🟢 |
 | `g2.search` | g2.com | Runs G2's own site search (`/search?query=<q>`). `query` is any free-text string — a… | 🟢 |
+| `gasbuddy.findCheapestNearby` | gasbuddy.com | Runs GasBuddy's own ZIP-radius station search and returns real, currently-reported… | 🟢 |
 | `gazelle.getTradeInQuote` | gazelle.com | Reads gazelle.com's own current trade-in offer for a device… | 🟢 |
 | `geico.findAgent` | geico.com | Returns the GEICO local agents near a US location — each office's display name, the… | 🟢 |
 | `geico.getAtvQuote` | geico.com | Returns a GEICO ATV, UTV or off-road vehicle rate — the machine, the rider, the ZIP… | ⚪ |
@@ -541,6 +543,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hodjapasha.listShows` | hodjapasha.com | Reads every show hodjapasha.com's own booking widget lists — title, product id… | 🟢 |
 | `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟢 |
 | `holidaybuilders.searchAvailableHomes` | holidaybuilders.com | Runs Holiday Builders' site-wide Available Homes search — every real move-in-ready or… | 🟢 |
+| `hottopic.search` | hottopic.com | Searches hottopic.com's own storefront for a keyword and returns the real, priced… | 🟢 |
 | `hunter.countEmails` | hunter.io | Returns how many email addresses Hunter holds for a domain, without returning the… | 🟢 |
 | `hunter.discoverCompanies` | hunter.io | Finds companies matching an ideal-customer-profile description or a set of filters —… | ⚪ |
 | `hunter.discoverPeople` | hunter.io | Finds individual people matching a profile — role, seniority, department, plus the… | ⚪ |
