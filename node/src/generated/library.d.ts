@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 73e74cc46ab9bce28fd9a4346e1417d4e1952ad4db40f36d3c6340533686629b
-// 39 capabilities, 278 providers, 712 typed functions, 20 refused.
+// Manifest version: 7eef19ab888bd9a5e7821f8f512a3b57058c9162413c4e6661a6e35bd1d15eaf
+// 40 capabilities, 281 providers, 716 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -548,6 +548,45 @@ type CallOptions = {
      * `warnings` is always present.
      */
     findDomain(company: string, limit?: number, options?: CallOptions): Promise<DomainMatch>;
+  }
+}
+
+declare namespace BowmarkCapability_entertainment_merch {
+  // ── Entertainment merch (licensed, multi-store) — the unit's own declarations, verbatim ──
+type EntertainmentMerchOffer = {
+  store: "hottopic" | "boxlunch"  // which retailer this offer is from
+  title: string           // the product as the store lists it
+  price: number | null    // USD; null if unpriced
+  url: string | null      // product page for this SKU
+  image: string | null
+  color: string | null
+  size: string | null
+  availability: string | null   // the store's own schema.org availability wording
+}
+type EntertainmentMerchSearchResult = {
+  results: EntertainmentMerchOffer[]   // one row per SKU, across all stores
+  warnings: string[]       // always present; names any store that did not answer
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Licensed pop-culture and entertainment merch — a franchise, character or show, searched
+   * across Hot Topic and BoxLunch in parallel and returned as one list of priced SKUs, so an
+   * agent can answer 'where can I buy merch for X' without knowing which licensed-merch retailer
+   * carries it.
+   */
+  interface Unit {
+    /**
+     * Searches Hot Topic and BoxLunch in parallel for a franchise/character/show and returns every
+     * matching SKU across both stores, each tagged with which store it's from. `warnings` names
+     * any store that did not answer.
+     */
+    search(args: { query: string }): Promise<EntertainmentMerchSearchResult>;
   }
 }
 
@@ -5229,6 +5268,42 @@ interface BollAndBranchSwatch {
   }
 }
 
+declare namespace BowmarkProvider_boxlunch {
+  // ── BoxLunch — the unit's own declarations, verbatim ──
+interface BoxlunchOffer {
+  sku: string
+  color: string | null
+  size: string | null
+  price: number | null
+  currency: string | null
+  availability: string | null   // the site's own schema.org availability URL
+  url: string
+}
+interface BoxlunchProduct {
+  name: string
+  url: string
+  image: string | null
+  offers: BoxlunchOffer[]
+}
+interface BoxlunchSearchResult {
+  products: BoxlunchProduct[]
+}
+
+  /**
+   * BoxLunch's own storefront search (boxlunch.com) — licensed pop-culture and entertainment
+   * merch (apparel, figures, accessories, home goods) across every property the store carries,
+   * read straight off the site's own structured search-result data.
+   */
+  interface Unit {
+    /**
+     * Searches boxlunch.com's own storefront for a keyword and returns the real, priced product
+     * results (name, image, per-SKU price/color/size/availability) exactly as the site's own
+     * search page carries them.
+     */
+    search(arg: { query: string }): Promise<BoxlunchSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_boydsleep {
   // ── Boyd Sleep — the unit's own declarations, verbatim ──
 // Boyd Sleep's OWN shapes — not a capability contract.
@@ -8870,7 +8945,10 @@ interface FiveBelowSearchResults {
      * Searches fivebelow.com's catalog for a keyword and returns matching products — name, URL,
      * image, price range across variants, per-variant SKU/style/price/DC-2022 stock, and whether
      * any variant is available — in the site's own relevance order. An empty `results` array is a
-     * real answer meaning the site found nothing for this query.
+     * real answer meaning the site found nothing for this query. `query` is REQUIRED and REFUSES
+     * an empty string — it is not a store-wide browse. If the caller only named the store and gave
+     * no product, category or keyword, ask them what to search for; do not call this with an empty
+     * or guessed query to see what comes back.
      */
     search(args: { query: string, limit?: number, page?: number }): Promise<FiveBelowSearchResults>;
   }
@@ -9765,6 +9843,35 @@ interface G2Product {
      * `search` row already carries.
      */
     getProduct(args: { url: string } | string): Promise<G2Product>;
+  }
+}
+
+declare namespace BowmarkProvider_gasbuddy {
+  // ── GasBuddy — the unit's own declarations, verbatim ──
+interface GasbuddyFindCheapestNearbyArgs {
+  zip: string;      // a 5-digit US ZIP code, e.g. "78701"
+  limit?: number;    // default 10, clamped to [1, 30]
+}
+
+interface GasbuddyStation {
+  brand: string;
+  address: string;             // "<street>, <city>, <state>"
+  price: number | null;        // real, current regular-gas price; null if no recent report
+  reportedAgo: string | null;  // e.g. "2 Hours Ago", or null alongside a null price
+  url: string;                  // this exact station's own GasBuddy URL
+}
+
+  /**
+   * GasBuddy's real, crowdsourced per-station gas prices — runs the site's own ZIP-radius search
+   * and returns currently-reported stations (brand, address, regular-gas price, how long ago it
+   * was reported) sorted cheapest first.
+   */
+  interface Unit {
+    /**
+     * Runs GasBuddy's own ZIP-radius station search and returns real, currently-reported stations
+     * (brand, address, regular-gas price, when it was reported), sorted cheapest first. Read-only.
+     */
+    findCheapestNearby(args: GasbuddyFindCheapestNearbyArgs): Promise<GasbuddyStation[]>;
   }
 }
 
@@ -12193,6 +12300,42 @@ interface HolidaybuildersSearchFilters {
      * `searchAvailableHomes` result.
      */
     getHomeDetail(url: string): Promise<HolidaybuildersHomeDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_hottopic {
+  // ── Hot Topic — the unit's own declarations, verbatim ──
+interface HottopicOffer {
+  sku: string
+  color: string | null
+  size: string | null
+  price: number | null
+  currency: string | null
+  availability: string | null   // the site's own schema.org availability URL
+  url: string
+}
+interface HottopicProduct {
+  name: string
+  url: string
+  image: string | null
+  offers: HottopicOffer[]
+}
+interface HottopicSearchResult {
+  products: HottopicProduct[]
+}
+
+  /**
+   * Hot Topic's own storefront search (hottopic.com) — licensed pop-culture and entertainment
+   * merch (apparel, figures, accessories) across every property the store carries, read straight
+   * off the site's own structured search-result data.
+   */
+  interface Unit {
+    /**
+     * Searches hottopic.com's own storefront for a keyword and returns the real, priced product
+     * results (name, image, per-SKU price/color/size/availability) exactly as the site's own
+     * search page carries them.
+     */
+    search(arg: { query: string }): Promise<HottopicSearchResult>;
   }
 }
 
@@ -26094,6 +26237,7 @@ interface BowmarkProviders {
   bluesignal: BowmarkProvider_bluesignal.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
   bollandbranch: BowmarkProvider_bollandbranch.Unit;
+  boxlunch: BowmarkProvider_boxlunch.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;
   brixton: BowmarkProvider_brixton.Unit;
   bulletproof: BowmarkProvider_bulletproof.Unit;
@@ -26154,6 +26298,7 @@ interface BowmarkProviders {
   fred: BowmarkProvider_fred.Unit;
   furniture: BowmarkProvider_furniture.Unit;
   g2: BowmarkProvider_g2.Unit;
+  gasbuddy: BowmarkProvider_gasbuddy.Unit;
   gazelle: BowmarkProvider_gazelle.Unit;
   geico: BowmarkProvider_geico.Unit;
   github: BowmarkProvider_github.Unit;
@@ -26179,6 +26324,7 @@ interface BowmarkProviders {
   hobie: BowmarkProvider_hobie.Unit;
   hodjapasha: BowmarkProvider_hodjapasha.Unit;
   holidaybuilders: BowmarkProvider_holidaybuilders.Unit;
+  hottopic: BowmarkProvider_hottopic.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
@@ -78063,6 +78209,7 @@ interface BowmarkLibrary {
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;
   domain: BowmarkCapability_domain.Unit;
   email: BowmarkCapability_email.Unit;
+  entertainment_merch: BowmarkCapability_entertainment_merch.Unit;
   flights: BowmarkCapability_flights.Unit;
   game_soundtrack_composer_credits: BowmarkCapability_game_soundtrack_composer_credits.Unit;
   git_commit_history: BowmarkCapability_git_commit_history.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 73e74cc46ab9bce28fd9a4346e1417d4e1952ad4db40f36d3c6340533686629b
-# 39 capabilities, 278 providers, 694 typed functions, 20 refused.
+# Manifest version: 7eef19ab888bd9a5e7821f8f512a3b57058c9162413c4e6661a6e35bd1d15eaf
+# 40 capabilities, 281 providers, 698 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -488,6 +488,23 @@ class Cap_email_DomainCandidate_Out(TypedDict):
     domain: str
     emailCount: float
     logo: str | None
+
+class Cap_entertainment_merch_search_args_In(TypedDict):
+    query: str
+
+class Cap_entertainment_merch_EntertainmentMerchSearchResult_Out(TypedDict):
+    results: list[Cap_entertainment_merch_EntertainmentMerchOffer_Out]
+    warnings: list[str]
+
+class Cap_entertainment_merch_EntertainmentMerchOffer_Out(TypedDict):
+    store: Literal["hottopic"] | Literal["boxlunch"]
+    title: str
+    price: float | None
+    url: str | None
+    image: str | None
+    color: str | None
+    size: str | None
+    availability: str | None
 
 Cap_flights_FlightQuery_In = TypedDict(
     "Cap_flights_FlightQuery_In",
@@ -2958,6 +2975,27 @@ class Prv_bollandbranch_BollAndBranchSwatch_Out(TypedDict):
     hex: str | None
     imageUrl: str | None
 
+class Prv_boxlunch_search_arg_In(TypedDict):
+    query: str
+
+class Prv_boxlunch_BoxlunchSearchResult_Out(TypedDict):
+    products: list[Prv_boxlunch_BoxlunchProduct_Out]
+
+class Prv_boxlunch_BoxlunchProduct_Out(TypedDict):
+    name: str
+    url: str
+    image: str | None
+    offers: list[Prv_boxlunch_BoxlunchOffer_Out]
+
+class Prv_boxlunch_BoxlunchOffer_Out(TypedDict):
+    sku: str
+    color: str | None
+    size: str | None
+    price: float | None
+    currency: str | None
+    availability: str | None
+    url: str
+
 class Prv_boydsleep_BoydsleepCalibrationInput_In(TypedDict):
     gender: Literal["Male"] | Literal["Female"] | Literal["Non Binary"]
     heightInches: float
@@ -5303,6 +5341,17 @@ class Prv_g2_G2Product_Out(TypedDict):
     bestRating: float | None
     reviewCount: float | None
 
+class Prv_gasbuddy_GasbuddyFindCheapestNearbyArgs_In(TypedDict):
+    zip: str
+    limit: NotRequired[float]
+
+class Prv_gasbuddy_GasbuddyStation_Out(TypedDict):
+    brand: str
+    address: str
+    price: float | None
+    reportedAgo: str | None
+    url: str
+
 class Prv_gazelle_getTradeInQuote_selections_In(TypedDict):
     capacity: NotRequired[str]
     carrier: NotRequired[str]
@@ -6366,6 +6415,27 @@ class Prv_holidaybuilders_HolidaybuildersHome_Out(TypedDict):
     plan: str
     status: str
     imageUrl: str | None
+    url: str
+
+class Prv_hottopic_search_arg_In(TypedDict):
+    query: str
+
+class Prv_hottopic_HottopicSearchResult_Out(TypedDict):
+    products: list[Prv_hottopic_HottopicProduct_Out]
+
+class Prv_hottopic_HottopicProduct_Out(TypedDict):
+    name: str
+    url: str
+    image: str | None
+    offers: list[Prv_hottopic_HottopicOffer_Out]
+
+class Prv_hottopic_HottopicOffer_Out(TypedDict):
+    sku: str
+    color: str | None
+    size: str | None
+    price: float | None
+    currency: str | None
+    availability: str | None
     url: str
 
 class Prv_hunter_hunterDomainMatch_Out(TypedDict):
@@ -13562,6 +13632,19 @@ class Cap_email(Protocol):
         always present.
         """
 
+class Cap_entertainment_merch(Protocol):
+    """Licensed pop-culture and entertainment merch — a franchise, character or show, searched
+    across Hot Topic and BoxLunch in parallel and returned as one list of priced SKUs, so an
+    agent can answer 'where can I buy merch for X' without knowing which licensed-merch
+    retailer carries it.
+    """
+
+    async def search(self, args: Cap_entertainment_merch_search_args_In, /) -> Cap_entertainment_merch_EntertainmentMerchSearchResult_Out:
+        """Searches Hot Topic and BoxLunch in parallel for a franchise/character/show and returns
+        every matching SKU across both stores, each tagged with which store it's from.
+        `warnings` names any store that did not answer.
+        """
+
 class Cap_flights(Protocol):
     """Search flights with one call and get back normalized, price-sorted results (the same
     physical flight appears once). Each result carries the site it came from (`site`) and
@@ -15306,6 +15389,18 @@ class Prv_bollandbranch(Protocol):
         reference swatch image. THROWS on an unknown name.
         """
 
+class Prv_boxlunch(Protocol):
+    """BoxLunch's own storefront search (boxlunch.com) — licensed pop-culture and entertainment
+    merch (apparel, figures, accessories, home goods) across every property the store
+    carries, read straight off the site's own structured search-result data.
+    """
+
+    async def search(self, arg: Prv_boxlunch_search_arg_In, /) -> Prv_boxlunch_BoxlunchSearchResult_Out:
+        """Searches boxlunch.com's own storefront for a keyword and returns the real, priced
+        product results (name, image, per-SKU price/color/size/availability) exactly as the
+        site's own search page carries them.
+        """
+
 class Prv_boydsleep(Protocol):
     """Boyd Sleep's own 'Smart Support Number' calibrator for a Nautica Home Smart Zone air bed
     — the real personalized 0-100 Support Index (2-zone) or Head/Foot + Center numbers
@@ -16607,7 +16702,10 @@ class Prv_fivebelow(Protocol):
         """Searches fivebelow.com's catalog for a keyword and returns matching products — name,
         URL, image, price range across variants, per-variant SKU/style/price/DC-2022 stock, and
         whether any variant is available — in the site's own relevance order. An empty `results`
-        array is a real answer meaning the site found nothing for this query.
+        array is a real answer meaning the site found nothing for this query. `query` is
+        REQUIRED and REFUSES an empty string — it is not a store-wide browse. If the caller only
+        named the store and gave no product, category or keyword, ask them what to search for;
+        do not call this with an empty or guessed query to see what comes back.
         """
 
 class Prv_fivestarbathsolutions(Protocol):
@@ -16920,6 +17018,18 @@ class Prv_g2(Protocol):
         (out of 10 here — G2 renders a different scale on this page than on `search`'s), review
         count and category tags, off the page's own schema.org `SoftwareApplication` block.
         Takes the `url` a `search` row already carries.
+        """
+
+class Prv_gasbuddy(Protocol):
+    """GasBuddy's real, crowdsourced per-station gas prices — runs the site's own ZIP-radius
+    search and returns currently-reported stations (brand, address, regular-gas price, how
+    long ago it was reported) sorted cheapest first.
+    """
+
+    async def findCheapestNearby(self, args: Prv_gasbuddy_GasbuddyFindCheapestNearbyArgs_In, /) -> list[Prv_gasbuddy_GasbuddyStation_Out]:
+        """Runs GasBuddy's own ZIP-radius station search and returns real, currently-reported
+        stations (brand, address, regular-gas price, when it was reported), sorted cheapest
+        first. Read-only.
         """
 
 class Prv_gazelle(Protocol):
@@ -17684,6 +17794,18 @@ class Prv_holidaybuilders(Protocol):
         """Reads one home's own listing page — full specs, description, and whether the site's
         Contact Us Today / Request a Tour forms are present. `url` is a listing URL from a
         `searchAvailableHomes` result.
+        """
+
+class Prv_hottopic(Protocol):
+    """Hot Topic's own storefront search (hottopic.com) — licensed pop-culture and
+    entertainment merch (apparel, figures, accessories) across every property the store
+    carries, read straight off the site's own structured search-result data.
+    """
+
+    async def search(self, arg: Prv_hottopic_search_arg_In, /) -> Prv_hottopic_HottopicSearchResult_Out:
+        """Searches hottopic.com's own storefront for a keyword and returns the real, priced
+        product results (name, image, per-SKU price/color/size/availability) exactly as the
+        site's own search page carries them.
         """
 
 class Prv_hunter(Protocol):
@@ -22465,6 +22587,7 @@ class BowmarkProviders(Protocol):
     bluesignal: Prv_bluesignal
     bmwusa: Prv_bmwusa
     bollandbranch: Prv_bollandbranch
+    boxlunch: Prv_boxlunch
     boydsleep: Prv_boydsleep
     brixton: Prv_brixton
     bulletproof: Prv_bulletproof
@@ -22525,6 +22648,7 @@ class BowmarkProviders(Protocol):
     fred: Prv_fred
     furniture: Prv_furniture
     g2: Prv_g2
+    gasbuddy: Prv_gasbuddy
     gazelle: Prv_gazelle
     geico: Prv_geico
     github: Prv_github
@@ -22550,6 +22674,7 @@ class BowmarkProviders(Protocol):
     hobie: Prv_hobie
     hodjapasha: Prv_hodjapasha
     holidaybuilders: Prv_holidaybuilders
+    hottopic: Prv_hottopic
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
     identitygroup: Prv_identitygroup
@@ -22720,6 +22845,7 @@ class Bowmark(Protocol):
     developer_api_key_signup: Cap_developer_api_key_signup
     domain: Cap_domain
     email: Cap_email
+    entertainment_merch: Cap_entertainment_merch
     flights: Cap_flights
     game_soundtrack_composer_credits: Cap_game_soundtrack_composer_credits
     git_commit_history: Cap_git_commit_history

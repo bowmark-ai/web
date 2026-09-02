@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 73e74cc46ab9bce28fd9a4346e1417d4e1952ad4db40f36d3c6340533686629b
-// 694 checked, 20 unchecked.
+// Manifest version: 7eef19ab888bd9a5e7821f8f512a3b57058c9162413c4e6661a6e35bd1d15eaf
+// 698 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "73e74cc46ab9bce28fd9a4346e1417d4e1952ad4db40f36d3c6340533686629b",
+  "version": "7eef19ab888bd9a5e7821f8f512a3b57058c9162413c4e6661a6e35bd1d15eaf",
   "units": {
     "bundles": {
       "defs": {},
@@ -471,6 +471,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "entertainment_merch": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -4849,6 +4872,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.boxlunch": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.boydsleep": {
       "defs": {
         "BoydsleepCalibrationInput": {
@@ -8307,6 +8353,41 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.gasbuddy": {
+      "defs": {
+        "GasbuddyFindCheapestNearbyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findCheapestNearby": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GasbuddyFindCheapestNearbyArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.gazelle": {
       "defs": {},
       "functions": {
@@ -9996,6 +10077,29 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.hottopic": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
