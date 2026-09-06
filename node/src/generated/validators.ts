@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a5397c83ee9d878940ea8aac104704fca2ce97ca2ef48071f139d1b18b6bb24f
-// 805 checked, 20 unchecked.
+// Manifest version: 0347db7ec889122fb3741ca469b63ca8f80f6127012a36539813c955a521ec88
+// 806 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a5397c83ee9d878940ea8aac104704fca2ce97ca2ef48071f139d1b18b6bb24f",
+  "version": "0347db7ec889122fb3741ca469b63ca8f80f6127012a36539813c955a521ec88",
   "units": {
     "bundles": {
       "defs": {},
@@ -16573,6 +16573,27 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.npmjs": {
+      "defs": {},
+      "functions": {
+        "getDownloads": [
+          {
+            "name": "packageName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "period",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }

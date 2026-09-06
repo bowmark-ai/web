@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1247 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1248 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -890,6 +890,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `newegg.checkStock` | newegg.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟢 |
 | `newegg.getProduct` | newegg.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `newegg.search` | newegg.com | Searches newegg.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
+| `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
 | `nutrafol.assessHairWellness` | nutrafol.com | Runs Nutrafol's own Hair Wellness Quiz along its default answer path (the site's own… | 🟢 |
 | `nutrafol.computeHairWellness` | nutrafol.com | Would run the quiz with the caller's own answers (age range, shedding pattern, stress… | ⚪ |
 | `nutrafol.getQuizOverview` | nutrafol.com | Reads the Hair Wellness Quiz's own static intro page — its real description text and… | 🟢 |

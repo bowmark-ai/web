@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a5397c83ee9d878940ea8aac104704fca2ce97ca2ef48071f139d1b18b6bb24f
-# 42 capabilities, 326 providers, 805 typed functions, 20 refused.
+# Manifest version: 0347db7ec889122fb3741ca469b63ca8f80f6127012a36539813c955a521ec88
+# 42 capabilities, 327 providers, 806 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10543,6 +10543,12 @@ class Prv_newegg_StoreStock_Out(TypedDict):
     price: float | None
     currency: str
     checkedAt: str
+
+class Prv_npmjs_npmjsDownloads_Out(TypedDict):
+    package: str
+    downloads: float
+    start: str
+    end: str
 
 class Prv_nutrafol_HairWellnessAssessment_Out(TypedDict):
     rootCauses: list[Prv_nutrafol_RootCause_Out]
@@ -22220,6 +22226,19 @@ class Prv_newegg(Protocol):
         mistaken for bad news.
         """
 
+class Prv_npmjs(Protocol):
+    """npmjs.com's own public download-counts API — real weekly/daily/monthly download totals
+    (or a custom date range) for any published npm package, scoped or not.
+    """
+
+    async def getDownloads(self, packageName: str, period: str | None = None, /) -> Prv_npmjs_npmjsDownloads_Out:
+        """The real download count for an npm package, straight off npmjs.com's own public
+        download-counts API — the same number npmjs.com's own package page shows. `period` is
+        `"last-day"`, `"last-week"` (default) or `"last-month"`, or a custom
+        `"YYYY-MM-DD:YYYY-MM-DD"` range. Works on scoped packages (`"@babel/core"`) exactly as
+        on unscoped ones.
+        """
+
 class Prv_nutrafol(Protocol):
     """Nutrafol's own Hair Wellness Quiz — assessHairWellness runs the real root-cause
     assessment and returns its own computed per-category severities (Stress, Metabolism,
@@ -25295,6 +25314,7 @@ class BowmarkProviders(Protocol):
     nationalbusinessfurniture: Prv_nationalbusinessfurniture
     newageproducts: Prv_newageproducts
     newegg: Prv_newegg
+    npmjs: Prv_npmjs
     nutrafol: Prv_nutrafol
     nvisioncenters: Prv_nvisioncenters
     oanda: Prv_oanda

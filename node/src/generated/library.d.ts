@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a5397c83ee9d878940ea8aac104704fca2ce97ca2ef48071f139d1b18b6bb24f
-// 42 capabilities, 326 providers, 823 typed functions, 20 refused.
+// Manifest version: 0347db7ec889122fb3741ca469b63ca8f80f6127012a36539813c955a521ec88
+// 42 capabilities, 327 providers, 824 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20535,6 +20535,31 @@ interface StoreStock {
   }
 }
 
+declare namespace BowmarkProvider_npmjs {
+  // ── npm — the unit's own declarations, verbatim ──
+interface npmjsDownloads {
+  package: string;
+  downloads: number;
+  start: string;  // ISO date
+  end: string;    // ISO date
+}
+
+  /**
+   * npmjs.com's own public download-counts API — real weekly/daily/monthly download totals (or a
+   * custom date range) for any published npm package, scoped or not.
+   */
+  interface Unit {
+    /**
+     * The real download count for an npm package, straight off npmjs.com's own public
+     * download-counts API — the same number npmjs.com's own package page shows. `period` is
+     * `"last-day"`, `"last-week"` (default) or `"last-month"`, or a custom
+     * `"YYYY-MM-DD:YYYY-MM-DD"` range. Works on scoped packages (`"@babel/core"`) exactly as on
+     * unscoped ones.
+     */
+    getDownloads(packageName: string, period?: string): Promise<npmjsDownloads>;
+  }
+}
+
 declare namespace BowmarkProvider_nutrafol {
   // ── Nutrafol — the unit's own declarations, verbatim ──
 interface RootCause {
@@ -29207,6 +29232,7 @@ interface BowmarkProviders {
   nationalbusinessfurniture: BowmarkProvider_nationalbusinessfurniture.Unit;
   newageproducts: BowmarkProvider_newageproducts.Unit;
   newegg: BowmarkProvider_newegg.Unit;
+  npmjs: BowmarkProvider_npmjs.Unit;
   nutrafol: BowmarkProvider_nutrafol.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
   oanda: BowmarkProvider_oanda.Unit;
