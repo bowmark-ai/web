@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ee40e489c746c0cf2cb2f03815febc522bb1d38e7b22483d6ba68f7bddd810e7
-// 41 capabilities, 295 providers, 738 typed functions, 20 refused.
+// Manifest version: faf4c09938555367990a9c8f7a153fdf8acc74126cd25dc3d424ccd9eb0d1077
+// 42 capabilities, 326 providers, 823 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1670,6 +1670,52 @@ type ProductResult = {
   }
 }
 
+declare namespace BowmarkCapability_phone_price {
+  // ── Phone price comparison (carriers) — the unit's own declarations, verbatim ──
+type PhonePriceOffer = {
+  carrier: string                    // which carrier this offer is from
+  listPriceUsd: number | null        // full price of the device / matched storage variant
+  monthlyPriceUsd: number | null     // financed monthly payment
+  financingTermMonths: number | null // months monthlyPriceUsd is amortised over
+  tradeInCreditUsd: number | null    // best credit for tradeInModel; always null on
+                                      // a visible row (no per-device figure published)
+  sourceUrl: string                  // the page this price was read from
+}
+type PhonePriceCompareResult = {
+  offers: PhonePriceOffer[]  // one row per carrier that answered, unsorted — read
+                             // listPriceUsd to rank
+  warnings: string[]        // always present; names a carrier that did not answer.
+                             // A carrier named here priced NOTHING — read this before
+                             // concluding it doesn't sell the phone
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * What a phone actually costs right now, across carriers — T-Mobile's live device-page pricing
+   * and financing plus every promotion's per-trade-in-device credit, and Visible's catalogue
+   * price and Affirm financing for a matched storage variant, merged into one price-sorted list.
+   * Built for a chip-cost price hike that repriced Android flagships across carriers at once, so
+   * a shopper can compare instead of reading one carrier's page.
+   */
+  interface Unit {
+    /**
+     * Prices one phone across T-Mobile and Visible in parallel and returns a price-sorted list.
+     * `model` is matched against Visible's catalogue and used to reconstruct T-Mobile's device
+     * path (there is no cross-carrier search endpoint) — a model neither matcher can place drops
+     * that carrier with a `warnings` entry naming why, never a silent wrong phone. `tradeInModel`
+     * resolves T-Mobile's best matching promotion credit; Visible never returns a per-device
+     * credit figure. `storageGb` picks Visible's matching variant (T-Mobile's pricing call carries
+     * no storage variants).
+     */
+    compare(args: { model: string; storageGb?: number; tradeInModel?: string; tmobileDevicePath?: string }): Promise<PhonePriceCompareResult>;
+  }
+}
+
 declare namespace BowmarkCapability_phone_trade_in {
   // ── Phone trade-in value — the unit's own declarations, verbatim ──
 // The capability's own condition vocabulary — four tiers every buyback
@@ -3058,6 +3104,89 @@ interface abercrombieStockQuery {
   }
 }
 
+declare namespace BowmarkProvider_achosahw {
+  // ── Achosa Home Warranty — the unit's own declarations, verbatim ──
+// Achosa's OWN shapes — not a capability contract.
+
+interface AchosahwStateEntry { name: string; categoryId: number }
+interface AchosahwStateList { states: AchosahwStateEntry[] }
+
+interface AchosahwQuote {
+  state: string;
+  coverageLevel: string;     // "Core" | "Prime" | "Prime Plus" | "Pro"
+  term: string;               // "Monthly" | "Yearly"
+  propertyType: string;       // "Single Family Home" | "Townhome/Condo" | "Duplex" | "Triplex" | "Fourplex"
+  planName: string | null;    // the site's own SKU display name for this combination
+  price: number;               // 0 when isAvailable is false
+  isAvailable: boolean;        // false = this state does not sell this exact combination
+  configureUrl: string;        // the live configurator page, pre-scoped to this state
+}
+
+interface AchosahwQuoteArgs {
+  state: string;               // required, e.g. "Texas" — see listStates()
+  coverageLevel?: string;       // default "Core"
+  term?: string;                 // default "Monthly"
+  propertyType?: string;         // default "Single Family Home"
+}
+
+  /**
+   * Achosa Home Warranty plan configurator — real per-state home-warranty pricing across
+   * coverage tier, billing term and property type, read from the site's own live pricing
+   * endpoint rather than a rate card.
+   */
+  interface Unit {
+    /**
+     * Reads Achosa's own /shop state selector and returns every US state Achosa currently sells a
+     * home-warranty plan in, each with the site's own numeric category id used to scope getQuote's
+     * configurator URL.
+     */
+    listStates(): Promise<AchosahwStateList>;
+
+    /**
+     * Prices one real, purchasable Homeowner's plan combination by calling the exact pricing
+     * endpoint the site's own configurator calls. `state` is required (call listStates() for the
+     * current list); `coverageLevel`, `term` and `propertyType` default to Core / Monthly / Single
+     * Family Home. A combination the state does not sell (e.g. a coverage tier not offered in that
+     * state's price region) returns `isAvailable: false` and `price: 0` rather than throwing,
+     * matching the site's own "Not Available For Sale" state. THROWS on an unknown state or an
+     * unrecognized coverageLevel/term/propertyType value, naming the accepted set.
+     */
+    getQuote(args: AchosahwQuoteArgs): Promise<AchosahwQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_acqualinaresort {
+  // ── Acqualina Resort & Residences — the unit's own declarations, verbatim ──
+interface AcqualinaRate {
+  planName: string;
+  rateCode: string | null;
+  planDescription: string | null;
+  pricePerNight: number | null;
+  originalPricePerNight: number | null;
+  currency: "USD";
+}
+
+interface AcqualinaRoomAvailability {
+  roomName: string;
+  bedInfo: string | null;
+  sleeps: string | null;
+  rates: AcqualinaRate[];
+}
+
+  /**
+   * Acqualina Resort & Residences' own SynXis GEM reservation engine — real-time room-type
+   * availability and per-night pricing for its Sunny Isles Beach property, for given dates and
+   * party size.
+   */
+  interface Unit {
+    /**
+     * Runs Acqualina's own reservation engine for one stay and returns real room-type availability
+     * with per-night pricing for every rate plan on offer.
+     */
+    searchAvailability(arrive: string, depart: string, adults: number, children?: number): Promise<AcqualinaRoomAvailability[]>;
+  }
+}
+
 declare namespace BowmarkProvider_aiper {
   // ── Aiper — the unit's own declarations, verbatim ──
 interface AiperPoolOption {
@@ -3558,6 +3687,12 @@ interface AnthropicComDoc {
   title: string | null;
   body: string;
 }
+interface AnthropicComDocLink {
+  url: string;
+  slug: string;
+  section: "engineering" | "legal";
+  lastUpdated: string;
+}
 
   /**
    * Reads one page of anthropic.com's engineering blog or legal terms by URL and returns its
@@ -3572,6 +3707,14 @@ interface AnthropicComDoc {
      * host other than anthropic.com.
      */
     getDoc(url: string): Promise<AnthropicComDoc>;
+
+    /**
+     * Lists every engineering-blog and legal-terms page anthropic.com publishes — url, section
+     * ("engineering" | "legal") and the page's own URL slug — parsed from the site's own
+     * /sitemap.xml (anthropic.com has no llms.txt). The slug is the closest thing to a title the
+     * sitemap carries; call getDoc(url) for the page's real headline.
+     */
+    listDocs(): Promise<AnthropicComDocLink[]>;
   }
 }
 
@@ -3768,6 +3911,72 @@ interface AquaphoenixsciProduct {
   }
 }
 
+declare namespace BowmarkProvider_arajet {
+  // ── Arajet — the unit's own declarations, verbatim ──
+interface ArajetSearchArgs {
+  origin: string;
+  destination: string;
+  departureDate: string;
+  passengers?: number;
+}
+
+interface ArajetAirport {
+  code: string;
+  name: string;
+}
+
+interface ArajetFlightLeg {
+  flightNumber: string;
+  carrierCode: string;
+  from: ArajetAirport;
+  to: ArajetAirport;
+  departureDate: string;
+  arrivalDate: string;
+  flightTimeMinutes: number;
+  equipmentType: string | null;
+}
+
+interface ArajetFlightOption {
+  key: string;
+  from: ArajetAirport;
+  to: ArajetAirport;
+  departureDate: string;
+  arrivalDate: string;
+  flightTimeMinutes: number;
+  stops: number;
+  legs: ArajetFlightLeg[];
+  soldOut: boolean;
+}
+
+interface ArajetSearchResult {
+  origin: string;
+  destination: string;
+  departureDate: string;
+  currency: string;
+  pricesAvailable: false;
+  flights: ArajetFlightOption[];
+}
+
+  /**
+   * Arajet's own flight-schedule search (Santo Domingo-based low-cost carrier) — real routes,
+   * times, connections and flight numbers straight off its booking engine's shop endpoint. No
+   * live pricing at this rung.
+   */
+  interface Unit {
+    /**
+     * Runs Arajet's own flight-schedule search for one origin/destination/date and returns the
+     * flight OPTIONS it schedules — carrier and flight number, departure/arrival times, duration,
+     * stop count and each connecting leg. `origin`/`destination` are 3-letter IATA codes ("SDQ",
+     * "MIA"); `departureDate` is "YYYY-MM-DD" or "MM/DD/YYYY"; `passengers` (adults) defaults to
+     * 1. HONEST LIMIT: this reads Arajet's calendar/shop endpoint, which carries the SCHEDULE but
+     * not a live fare — every option's `soldOut` came back `true` at every route and date
+     * measured, and `pricesAvailable` is always `false`. It answers "what does Arajet fly, and
+     * when" rather than "what would this cost".
+     */
+    search(arg0: ArajetSearchArgs): Promise<ArajetSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_archipelago {
   // ── Archipelago — the unit's own declarations, verbatim ──
 interface ArchipelagoAsset {
@@ -3811,6 +4020,51 @@ interface ArchipelagoGameOptions {
      * (a 404), so a caller can retry with the exact spelling.
      */
     getGameOptions(game: string): Promise<ArchipelagoGameOptions>;
+  }
+}
+
+declare namespace BowmarkProvider_artpix3d {
+  // ── ArtPix 3D — the unit's own declarations, verbatim ──
+// ArtPix 3D's OWN shapes — not a capability contract.
+
+interface Artpix3dShape { slug: string; name: string; url: string }
+
+interface Artpix3dSizePrice {
+  size: string;                     // e.g. "Large"
+  sellPrice: number | null;
+  retailPrice: number | null;
+  discountPercent: number | null;
+  inStock: boolean;
+  bestSeller: boolean;
+  lowStockLabel: string | null;
+}
+
+interface Artpix3dProductPricing {
+  shape: string;
+  productName: string;
+  sizes: Artpix3dSizePrice[];
+  configureUrl: string;             // where a buyer picks a photo and checks out
+}
+
+  /**
+   * Reads ArtPix 3D's own live product configurator — every crystal shape, and for a chosen
+   * shape, every size's real current price (with active sale discounts) and stock/best-seller
+   * labels — the way the site's own size-picker computes it, real-time.
+   */
+  interface Unit {
+    /**
+     * Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …), each with
+     * its own product page URL.
+     */
+    listShapes(): Promise<Artpix3dShape[]>;
+
+    /**
+     * Runs the site's own size/price computation for one shape: every size's real current sell
+     * price, list price, active discount, stock and best-seller status. `shape` is a slug from
+     * `listShapes()`. THROWS on an unknown shape, naming `listShapes()` as the way to find current
+     * ones.
+     */
+    getSizePricing(shape: string): Promise<Artpix3dProductPricing>;
   }
 }
 
@@ -4092,6 +4346,41 @@ interface AtlasSearchCommunitiesResult {
   }
 }
 
+declare namespace BowmarkProvider_audibel {
+  // ── Audibel — the unit's own declarations, verbatim ──
+interface AudibelClinic {
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phone: string | null;
+  distanceMiles: number | null;  // miles from the searched point, nearest-first
+  url: string;                   // the clinic's own page on audibel.com
+  hours: Record<string, { open: string; close: string }>;
+}
+
+interface AudibelClinicSearch {
+  search: string;
+  lat: number;
+  lng: number;
+  clinics: AudibelClinic[];      // sorted nearest-first
+}
+
+  /**
+   * Audibel's own find-a-clinic locator — a ZIP/city/address search returning the real network
+   * hearing clinics nearest that point, sorted by distance, each with its full address, phone
+   * and hours.
+   */
+  interface Unit {
+    /**
+     * Runs the real find-a-clinic search for a ZIP code, city or address and returns Audibel's
+     * network clinics nearest that point, distance-sorted, with address/phone/hours.
+     */
+    findClinics(query: string): Promise<AudibelClinicSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_autocamp {
   // ── AutoCamp — the unit's own declarations, verbatim ──
 interface AutocampRate {
@@ -4112,6 +4401,11 @@ interface AutocampRoomAvailability {
   rates: AutocampRate[];
 }
 
+interface AutocampProperty {
+  hotelId: string;
+  location: string;
+}
+
   /**
    * AutoCamp's own SynXis reservation engine — real-time room-type availability and
    * per-night/stay-total pricing for any of its Airstream/cabin/tent properties, for a given
@@ -4123,6 +4417,13 @@ interface AutocampRoomAvailability {
      * availability with per-night and stay-total pricing for every rate plan on offer.
      */
     searchAvailability(hotelId: string, arrive: string, depart: string, adults: number, children?: number): Promise<AutocampRoomAvailability[]>;
+
+    /**
+     * Lists AutoCamp's active properties (name, location, the reservations-engine hotel id) off
+     * the site's own booking-widget furniture, so a caller can resolve a place name to the id
+     * searchAvailability needs.
+     */
+    listProperties(): Promise<AutocampProperty[]>;
   }
 }
 
@@ -4256,8 +4557,56 @@ interface AvisLocationDetail extends AvisLocationRow {
   }
 }
 
+declare namespace BowmarkProvider_ayreshotels {
+  // ── Ayres Hotels — the unit's own declarations, verbatim ──
+interface AyreshotelsRateDay {
+  date: string;
+  isAvailable: boolean;
+  minRate: number | null;
+  currency: string | null;
+  availStatus: string | null;
+}
+
+interface CheckRatesResult {
+  property: string;
+  hotelCode: number | null;
+  checkIn: string;
+  checkOut: string;
+  currency: string | null;
+  days: AyreshotelsRateDay[];
+}
+
+  /**
+   * Boutique Southern California hotel group. checkRates is live — it reads the site's own IBE
+   * (Internet Booking Engine, an Amadeus Hospitality / TravelClick widget on
+   * reservations.ayreshotels.com) and returns the REAL per-night minimum rate + availability
+   * status for a property and date range, the same live pricing the site's own date-picker
+   * renders before any guest information is entered.
+   */
+  interface Unit {
+    /**
+     * Checks a property's real live rate/availability for a date range. Pass `property` (the
+     * reservations subdomain slug from that hotel's own "Book Now" link, e.g. "costa-mesa"),
+     * `checkIn`/`checkOut` (ISO dates), and optionally `adults` (default 2). Returns the per-night
+     * minimum rate and availability status for every night in range — the site's own IBE data, not
+     * a third-party OTA estimate.
+     */
+    checkRates(args: object): Promise<CheckRatesResult>;
+  }
+}
+
 declare namespace BowmarkProvider_azazie {
   // ── Azazie — the unit's own declarations, verbatim ──
+interface AzazieSearchResult {
+  id: string;
+  name: string;
+  url: string;
+}
+
+interface AzazieSearchResults {
+  results: AzazieSearchResult[];
+}
+
 interface AzazieColorOption {
   key: string;
   name: string;
@@ -4306,6 +4655,12 @@ interface AzazieBuildYourOwnConfig {
    * product-data host.
    */
   interface Unit {
+    /**
+     * Searches Azazie's catalog by free text (style, color, fabric, occasion) and returns matching
+     * dress styles with URLs.
+     */
+    search(query: string): Promise<AzazieSearchResults>;
+
     /**
      * Reads one bridesmaid-dress style's full Build Your Own configuration off Azazie's own
      * product-data host — the real live price, every solid + floral color option (each with its
@@ -4428,6 +4783,14 @@ interface AzureListServicesResult {
 
 declare namespace BowmarkProvider_bankmycell {
   // ── BankMyCell — the unit's own declarations, verbatim ──
+interface BankmycellSearchResult {
+  brand: string;
+  model: string;
+  name: string;
+  deviceUrl: string;
+  minPrice: number | null;
+  maxPrice: number | null;
+}
 interface BankmycellOffer {
   merchant: string;
   price: number;
@@ -4450,9 +4813,17 @@ interface BankmycellQuoteResult {
   /**
    * Live trade-in offers for a phone/device from every merchant BankMyCell compares, for a
    * chosen capacity/condition/carrier — read off the same pricing endpoint the site's own sell
-   * page polls, instead of parsing prose off the rendered page.
+   * page polls, instead of parsing prose off the rendered page. searchDevices resolves a
+   * shopper's own words ("iPhone 14") to the deviceUrl getTradeInQuote needs.
    */
   interface Unit {
+    /**
+     * Searches BankMyCell's own device index by free text (e.g. "iPhone 14", "Galaxy S23") and
+     * returns the matching devices with their deviceUrl — the entry point: it turns a shopper's
+     * own words into the deviceUrl getTradeInQuote needs.
+     */
+    searchDevices(term: string): Promise<BankmycellSearchResult[]>;
+
     /**
      * Reads live trade-in offers for the device at a bankmycell.com sell page (e.g.
      * .../sell/iphone-14-pro), from every merchant the site compares, for the given
@@ -4544,6 +4915,59 @@ interface BarlettaPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_barnesfoundation {
+  // ── Barnes Foundation — the unit's own declarations, verbatim ──
+type BarnesAdmissionType = "barnes" | "calderCombo";
+interface BarnesAdmissionDay {
+  date: string;
+  active: boolean;
+}
+interface BarnesAdmissionCalendar {
+  admissionType: BarnesAdmissionType;
+  name: string;
+  days: BarnesAdmissionDay[];
+}
+interface BarnesAdmissionQuoteInput {
+  personType: string;
+  quantity: number;
+}
+interface BarnesAdmissionQuoteLine {
+  personType: string;
+  quantity: number;
+  unitPrice: number;
+  subtotal: number;
+}
+interface BarnesAdmissionQuote {
+  admissionType: BarnesAdmissionType;
+  currency: "USD";
+  lines: BarnesAdmissionQuoteLine[];
+  total: number;
+}
+
+  /**
+   * The Barnes Foundation's own live ticket-admission data, read directly — real day-by-day
+   * open/closed availability and real per-category pricing arithmetic for Barnes Foundation
+   * admission and the Barnes + Calder Gardens combo, off the site's own undocumented API.
+   */
+  interface Unit {
+    /**
+     * Reads the live day-by-day open/closed calendar (a rolling ~6-month window) for either
+     * "barnes" (Barnes Foundation admission only) or "calderCombo" (Barnes + Calder Gardens combo
+     * admission) — the same day-availability the ticket widget's own calendar picker renders.
+     * Day-level only: the site's API carries no per-timeslot remaining-capacity count.
+     */
+    getAdmissionCalendar(admissionType: "barnes" | "calderCombo"): Promise<BarnesAdmissionCalendar>;
+
+    /**
+     * Computes a real ticket total for the given admission type and category quantities
+     * (personType matched case-insensitively against the live list — "Adult", "Senior", "Youth",
+     * "Child", etc.) using the site's own current per-category prices. THROWS if a category name
+     * does not match one the site currently sells, or if tickets is empty.
+     */
+    priceAdmission(admissionType: "barnes" | "calderCombo", tickets: BarnesAdmissionQuoteInput[]): Promise<BarnesAdmissionQuote>;
+  }
+}
+
 declare namespace BowmarkProvider_baublebar {
   // ── BaubleBar — the unit's own declarations, verbatim ──
 interface BaublebarPersonalizationField {
@@ -4591,6 +5015,11 @@ interface BaublebarCatalogueRow {
   inStock: boolean;
   images: string[];
 }
+interface BaublebarCollectionRow {
+  handle: string;
+  title: string;
+  productsCount: number;
+}
 interface BaublebarCheckoutLink {
   url: string;
   variant: BaublebarVariant;
@@ -4605,6 +5034,13 @@ interface BaublebarCheckoutLink {
    * carrying the personalization.
    */
   interface Unit {
+    /**
+     * The entry door: reads BaubleBar's own published list of collections — e.g. "Tennis
+     * Bracelets", "Personalized Jewelry" — with each one's handle and product count, so a caller
+     * holding only what a shopper would say can find the handle listBaublebarProducts takes.
+     */
+    listBaublebarCollections(opts?: { limit?: number }): Promise<BaublebarCollectionRow[]>;
+
     /**
      * Reads a BaubleBar collection's live products — e.g. "tennis-bracelets",
      * "personalized-jewelry", "name-initial-jewelry" — with handle, title, price range and stock.
@@ -4735,6 +5171,169 @@ interface BeatthebombPriceQuote {
      * price at $0.
      */
     priceMission(location: string, product: string, date: string, time: string, quantity: number): Promise<BeatthebombPriceQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_bellwethercoffee {
+  // ── Bellwether Coffee — the unit's own declarations, verbatim ──
+// Bellwether Coffee's OWN shapes — not a capability contract.
+
+type BellwethercoffeeCurrency = "USD" | "CAD" | "GBP" | "EUR";
+type BellwethercoffeeRoasterType = "ShopRoaster" | "ContinuousRoasting";
+
+interface BellwethercoffeeSliderBounds { min: number; max: number; step: number }
+
+interface BellwethercoffeeCalculatorDefaults {
+  currencies: BellwethercoffeeCurrency[];
+  roasterTypes: BellwethercoffeeRoasterType[];
+  defaultInputsByCurrency: Record<BellwethercoffeeCurrency, { poundsWeekly: number; coffeeCost: number; retailBags: number }>;
+  sliderBounds: { poundsWeekly: BellwethercoffeeSliderBounds; coffeeCost: BellwethercoffeeSliderBounds; retailBags: BellwethercoffeeSliderBounds };
+  roasterPricesByCurrency: Record<BellwethercoffeeCurrency, Record<BellwethercoffeeRoasterType, number>>;
+  disclaimer: string;
+  roiCalculatorUrl: string;
+  requestDemoUrl: string;
+}
+
+interface BellwethercoffeeRoiInput {
+  currency: BellwethercoffeeCurrency;
+  roasterType: BellwethercoffeeRoasterType;
+  poundsWeekly: number;   // weekly roasted-coffee usage (lb, or kg for non-USD)
+  coffeeCost: number;     // what the caller currently pays per lb/kg, in currency
+  retailBags: number;     // retail bags of roasted coffee sellable per week
+}
+
+interface BellwethercoffeeRoiEstimate {
+  currency: BellwethercoffeeCurrency;
+  roasterType: BellwethercoffeeRoasterType;
+  investmentAmount: number; investmentAmountFormatted: string;
+  savingsPerUnit: number;
+  monthlySavings: number; monthlySavingsFormatted: string;
+  annualSavings: number; annualSavingsFormatted: string;
+  monthlySalesRevenue: number; monthlySalesRevenueFormatted: string;
+  annualSalesRevenue: number; annualSalesRevenueFormatted: string;
+  annualRetailProfit: number; annualRetailProfitFormatted: string;
+  totalROI: number; totalROIFormatted: string;   // first-year ROI: annualSavings + annualRetailProfit
+  paybackMonths: number;   // 999 sentinel when there is no payback at these inputs
+  savingsPerCup: number;
+  co2SavingsPerYear: number;
+  roiCalculatorUrl: string;
+  requestDemoUrl: string;  // the site's own next step — a separate lead form, not computed here
+}
+
+  /**
+   * Bellwether Coffee's own ROI calculator (bellwethercoffee.com/roi-calculator) — real
+   * monthly/annual savings, retail-bag revenue and profit, payback period, and first-year ROI
+   * for the Shop Roaster, computed exactly as the site's own client-side formula computes it, no
+   * estimate.
+   */
+  interface Unit {
+    /**
+     * Returns the ROI calculator's own currencies, roaster types, per-currency default input
+     * values, slider bounds (min/max/step), per-currency roaster list prices, and the site's own
+     * cost-basis disclaimer text — call this before computeRoiEstimate to know the valid ranges
+     * and defaults.
+     */
+    getCalculatorDefaults(): Promise<BellwethercoffeeCalculatorDefaults>;
+
+    /**
+     * Runs Bellwether's own ROI calculator formula — currency, roaster type, weekly roasted-coffee
+     * usage, price paid per lb, and weekly retail-bag sales in; real monthly/annual savings,
+     * retail-bag revenue and profit, payback period (months), and first-year total ROI out,
+     * computed exactly as bellwethercoffee.com/roi-calculator's own client-side computeROI()
+     * computes it, no estimate. `requestDemoUrl` is the site's own next step, not a checkout.
+     */
+    computeRoiEstimate(input: BellwethercoffeeRoiInput): Promise<BellwethercoffeeRoiEstimate>;
+  }
+}
+
+declare namespace BowmarkProvider_beltservice {
+  // ── Beltservice Corporation — the unit's own declarations, verbatim ──
+interface BeltserviceCatalogItem {
+  catalogNumber: string;
+  partNumber: string;
+  name: string;
+  grade: string | null;
+  specSheetUrl: string | null;
+  detailUrl: string;
+  quoteUrl: string;
+}
+interface BeltserviceCatalogPage {
+  items: BeltserviceCatalogItem[];
+  page: number;
+  totalPages: number;
+  hasMore: boolean;
+}
+interface BeltserviceBrowseParams {
+  group?: string;
+  category?: string;
+  industry?: string;
+  page?: number;
+}
+interface BeltserviceBeltDetail {
+  catalogNumber: string;
+  partNumber: string;
+  name: string;
+  description: string | null;
+  specSheetUrl: string | null;
+  quoteUrl: string;
+}
+
+  /**
+   * Beltservice Corporation's own conveyor-belt catalog: browse or filter by product
+   * group/category/industry and get back real, paginated, spec-matched belts (catalog number,
+   * part number, spec-sheet PDF), or look up one belt directly by catalog number — plus the
+   * ready quote-handoff link for each.
+   */
+  interface Unit {
+    /**
+     * Browses Beltservice's live belt catalog, matching its own site filters: pass at most one of
+     * group/category/industry (the site's own facet slugs, e.g. group: "heavy-duty") plus an
+     * optional page number, or call with no argument for the unfiltered catalog. Returns real
+     * paginated results — catalog number, part number, spec-sheet PDF, quote-handoff link —
+     * exactly as the live site renders them.
+     */
+    browseCatalog(params?: BeltserviceBrowseParams): Promise<BeltserviceCatalogPage>;
+
+    /**
+     * Looks up one belt directly by its Beltservice catalog number (found via browseCatalog) and
+     * returns its full description, spec-sheet PDF, and quote-handoff link.
+     */
+    getBelt(catalogNumber: string): Promise<BeltserviceBeltDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_benelliusa {
+  // ── Benelli USA — the unit's own declarations, verbatim ──
+interface benelliusaDealer {
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  phone: string | null;
+  distanceMiles: number;
+  mapUrl: string;
+  premierDealer: boolean;
+  latitude: number | null;
+  longitude: number | null;
+}
+
+  /**
+   * Runs Benelli USA's own dealer locator by ZIP code and returns real Premier Dealer records —
+   * name, address, phone, distance, map link.
+   */
+  interface Unit {
+    /**
+     * Runs Benelli USA's own "Find A Benelli Dealer" locator for a 5-digit US ZIP and returns
+     * every dealer it lists, nearest first: name, street address, city/state/zip, phone (`null` on
+     * the handful of rows with none), distance in miles, a Google Maps directions link, whether
+     * the site marks it a `premierDealer` ("Benelli Premier Dealer"), and coordinates when the
+     * page's own map data carries them. A ZIP with no dealers nearby returns `[]` — the site's own
+     * honest "No dealers found" answer, not an error. **Does not report which sister brands
+     * (Franchi, Stoeger, Uberti USA) a dealer also carries** — the results page names no brand at
+     * all, whatever an earlier read of the site suggested.
+     */
+    findDealers(zip: string): Promise<benelliusaDealer[]>;
   }
 }
 
@@ -4884,6 +5483,54 @@ interface StoreStock {
      * "out of stock" when the page does not render, so a block is never mistaken for bad news.
      */
     checkStock(url: string): Promise<StoreStock>;
+  }
+}
+
+declare namespace BowmarkProvider_bigairusa {
+  // ── Big Air Trampoline Park — the unit's own declarations, verbatim ──
+interface BigAirLocation {
+  slug: string;
+  name: string;
+  comingSoon: boolean;
+  webstoreSubdomain: string | null;
+}
+
+interface BigAirPass {
+  id: string;
+  name: string;
+  price: number | null;
+  description: string | null;
+  group: string;
+  checkoutUrl: string;
+}
+
+interface BigAirLocationCatalog {
+  location: BigAirLocation;
+  waiverUrl: string;
+  passes: BigAirPass[];
+}
+
+  /**
+   * Big Air Trampoline Park's own location directory and per-location CenterEdge ticket/pass
+   * catalog — real prices, no login, no browser — plus the checkout and waiver handoff URLs a
+   * purchase needs.
+   */
+  interface Unit {
+    /**
+     * Lists every Big Air location off the site's own location-picker CMS collection — name, slug,
+     * coming-soon flag, and (when it's on the classic CenterEdge webstore) the webstoreSubdomain
+     * listPasses needs. Only comingSoon: false locations with a non-null webstoreSubdomain are
+     * servable by listPasses today.
+     */
+    listLocations(): Promise<BigAirLocation[]>;
+
+    /**
+     * Lists every ticket/pass group and item at one open location's CenterEdge webstore — real
+     * prices, descriptions — plus that location's checkout URL (per item, to add to cart) and
+     * hosted-waiver URL. location is the slug listLocations() returns, e.g. "corona". Throws when
+     * the location is coming-soon or is not on the classic webstore.
+     */
+    listPasses(location: string): Promise<BigAirLocationCatalog>;
   }
 }
 
@@ -5046,6 +5693,77 @@ interface BingNewsSearchResult {
      * stamps, this feed's are the story's.
      */
     searchNews(args: { query: string, limit?: number }): Promise<BingNewsSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_bishops {
+  // ── Bishops Cuts/Color — the unit's own declarations, verbatim ──
+interface BishopsLocationLink {
+  slug: string;
+  url: string;
+}
+
+interface BishopsLocation {
+  slug: string;
+  name: string;
+  url: string;
+  centerId: string;      // the id listServices and checkAvailability take
+  phone: string | null;
+  address: string | null;
+  hours: string | null;
+}
+
+interface BishopsService {
+  id: string;             // the id checkAvailability takes
+  name: string;
+  description: string | null;
+  durationMinutes: number | null;
+  price: number | null;
+}
+
+interface BishopsSlot {
+  time: string;            // the site's own display time, e.g. "10:55 AM"
+}
+
+interface BishopsAvailability {
+  centerId: string;
+  serviceId: string;
+  date: string;
+  slots: BishopsSlot[];    // verbatim — empty is a real answer (fully booked / closed)
+}
+
+  /**
+   * Bishops Cuts/Color's real location directory, live per-location service catalog, and real
+   * open-slot appointment availability — the same Zenoti booking backend the site's own widget
+   * calls. Rung 9/11, no browser.
+   */
+  interface Unit {
+    /**
+     * Reads the live list of every Bishops Cuts/Color location (slug + page URL) off the site's
+     * own sitemap.
+     */
+    listLocations(): Promise<BishopsLocationLink[]>;
+
+    /**
+     * Resolves a slug/neighborhood query (e.g. "lowry") to the matching real Bishops location(s) —
+     * name, address, phone, hours, and the Zenoti centerId listServices and checkAvailability
+     * need. Call listLocations() first for the real slugs.
+     */
+    findLocation(query: string): Promise<BishopsLocation[]>;
+
+    /**
+     * Reads one location's real, live service catalog — pass a `centerId` from findLocation(), and
+     * an optional search string (e.g. "cut", "color") to narrow it; omit it for the full catalog.
+     */
+    listServices(centerId: string, query?: string): Promise<BishopsService[]>;
+
+    /**
+     * Checks real, live open time slots for one service at one location on one "YYYY-MM-DD" date —
+     * the same live check Bishops' own Zenoti booking widget makes before showing bookable times.
+     * An empty `slots` array is the site's real answer (fully booked or closed that day), not an
+     * error.
+     */
+    checkAvailability(centerId: string, serviceId: string, date: string): Promise<BishopsAvailability>;
   }
 }
 
@@ -5453,6 +6171,51 @@ interface BmwusaModelListing {
   }
 }
 
+declare namespace BowmarkProvider_boglewinery {
+  // ── Bogle Family Vineyards — the unit's own declarations, verbatim ──
+interface BoglewineryPrice {
+  priceDescription: string;                          // e.g. "Starting at $20 per person"
+  pricePerPersonCents: { min: number; max: number } | null;
+}
+
+interface BoglewineryExperience {
+  id: number;          // the id checkAvailability takes
+  slug: string;         // the slug checkAvailability takes
+  name: string;
+  description: string;
+  price: BoglewineryPrice;
+  partySizes: number[]; // bookable party sizes Tock currently offers
+  state: string;        // e.g. "AVAILABLE", "SOLD"
+}
+
+interface BoglewineryAvailability {
+  experienceId: number;
+  slug: string;
+  openDate: string[];   // "YYYY-MM-DD" — empty is a real answer (nothing currently open)
+  openTime: string[];   // "HH:MM"
+}
+
+  /**
+   * Bogle Family Vineyards' real Tock tasting-experience catalog and the computed open
+   * dates/times for one — the same booking calendar Tock's own widget reads before showing
+   * bookable slots. Rung 17, headed browser only (Cloudflare).
+   */
+  interface Unit {
+    /**
+     * Reads Bogle's real, live Tock experience catalog — name, description, price and bookable
+     * party-size range for every experience, including the Home Ranch Tasting Experience.
+     */
+    listExperiences(): Promise<BoglewineryExperience[]>;
+
+    /**
+     * Checks which upcoming dates and times Tock currently shows as open for one experience — pass
+     * `experienceId` and `slug` from listExperiences(). An empty result is the site's real answer
+     * (nothing currently open), not an error.
+     */
+    checkAvailability(experienceId: number, slug: string): Promise<BoglewineryAvailability>;
+  }
+}
+
 declare namespace BowmarkProvider_bollandbranch {
   // ── Boll & Branch — the unit's own declarations, verbatim ──
 interface BedDesignerStep {
@@ -5508,6 +6271,64 @@ interface BollAndBranchSwatch {
      * reference swatch image. THROWS on an unknown name.
      */
     getSwatchDetails(names: string[]): Promise<BollAndBranchSwatch[]>;
+  }
+}
+
+declare namespace BowmarkProvider_borsheims {
+  // ── Borsheims — the unit's own declarations, verbatim ──
+interface BorsheimsSearchResult {
+  name: string;                  // derived from the URL slug, title-cased
+  url: string;                   // pass to getProduct / configureRing
+  lastmod: string | null;
+}
+interface BorsheimsProduct {
+  code: string;
+  name: string;
+  basePrice: number;             // dollars, before any discount
+  price: number;                 // dollars, the real selling price
+  discount: number | null;
+  inventoryAvailable: number;
+  imageUrl: string | null;
+  url: string;                   // pass to getProduct / configureRing
+}
+interface BorsheimsRingConfiguration {
+  setting: BorsheimsProduct;
+  diamond: BorsheimsProduct;
+  totalPrice: number;             // dollars, setting.price + diamond.price
+  builderUrl: string;             // the handoff — open this to configure/buy
+}
+interface ConfigureRingArgs {
+  settingUrl: string;
+  diamondUrl: string;
+}
+
+  /**
+   * Reads Borsheims' live product catalog and composes a setting + diamond into a priced ring,
+   * straight off borsheims.com's own embedded product data — no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Turns a free-text query into real borsheims.com product page URLs — the LOCATOR getProduct
+     * and configureRing need — by matching every query token against the site's own sitemap.xml
+     * (~16,000 URLs, no login, no browser). Returns [] for a query nothing matches, an honest
+     * empty result.
+     */
+    searchProducts(query: string): Promise<BorsheimsSearchResult[]>;
+
+    /**
+     * Reads one product's real, live price straight off its product page's own embedded data
+     * (mivaJS.product) — the same JSON the page's own components render from, including any active
+     * discount. Takes the full borsheims.com product page URL. THROWS rather than guessing when
+     * the page's own product-data block is missing or unparseable.
+     */
+    getProduct(url: string): Promise<BorsheimsProduct>;
+
+    /**
+     * Composes a setting product page and a diamond/center-stone product page into a priced ring —
+     * setting.price + diamond.price — the same arithmetic the site's own ring builder performs,
+     * plus the ring-builder URL as the handoff to actually configure and buy.
+     */
+    configureRing(args: ConfigureRingArgs): Promise<BorsheimsRingConfiguration>;
   }
 }
 
@@ -5600,6 +6421,43 @@ interface Boydsleep6ZoneResult {
      * Smart Zone bed.
      */
     calibrateSixZoneSupportNumber(input: BoydsleepCalibrationInput): Promise<Boydsleep6ZoneResult>;
+  }
+}
+
+declare namespace BowmarkProvider_brius {
+  // ── Brava by BRIUS — the unit's own declarations, verbatim ──
+// Brava's OWN shapes — not a capability contract.
+
+interface BriusProviderListing {
+  name: string;               // e.g. "Embrace Orthodontics"
+  url: string;                 // the practice's own listing page on bravabraces.com
+  doctorName: string | null;
+  streetAddress: string | null;
+  city: string | null;
+  region: string | null;
+  postalCode: string | null;
+  country: string | null;
+  phone: string | null;
+  website: string | null;      // the practice's own external site, when listed
+}
+
+interface BriusProviderSearch {
+  query: string;
+  providers: BriusProviderListing[];
+}
+
+  /**
+   * Brava (by Brius Technologies) hidden lingual braces are sold only through certified
+   * orthodontists — search the site's own find-a-provider locator by zip code or location and
+   * get back real, currently-listed certified practices with address, phone and doctor name.
+   */
+  interface Unit {
+    /**
+     * Runs Brava's own find-a-provider locator search for a zip code or location string and
+     * returns the certified orthodontist practices it lists — name, doctor, address, phone and
+     * website, straight from the site's own current data.
+     */
+    findProviders(query: string): Promise<BriusProviderSearch>;
   }
 }
 
@@ -5722,6 +6580,91 @@ interface BulletproofNearbyStores {
      * nothing that close.
      */
     findStores(zip: string, maxItems?: number): Promise<BulletproofNearbyStores>;
+  }
+}
+
+declare namespace BowmarkProvider_bungalow {
+  // ── Bungalow — the unit's own declarations, verbatim ──
+interface BungalowMarket {
+  slug: string;
+  displayName: string;
+  region: string;
+  regionCode: string;
+  country: string;
+  countryCode: string;
+}
+
+interface BungalowListingSummary {
+  id: string;
+  slug: string;
+  headline: string | null;
+  marketingType: "co_living" | "group_living" | string;
+  numBathrooms: string;
+  sqft: number | null;
+  city: string;
+  neighborhood: string | null;
+  marketSlug: string;
+  marketDisplayName: string;
+  isComingSoon: boolean;
+}
+
+interface BungalowSearchResult {
+  listings: BungalowListingSummary[];
+  count: number;
+  totalMatching: number;
+}
+
+interface BungalowSearchFilters {
+  marketSlug: string;
+  marketingType?: "co_living" | "group_living";
+  neighborhoodSlug?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  petFriendly?: boolean;
+  limit?: number;
+}
+
+interface BungalowListingDetail {
+  id: string;
+  slug: string;
+  headline: string | null;
+  marketingType: "co_living" | "group_living" | string;
+  totalRoomCount: number;
+  availableRoomCount: number;
+  earliestAvailableDate: string | null;
+  roomPrices: number[];
+  fullPropertyPrice: number | null;
+  sqft: number | null;
+  numBathrooms: string;
+  amenities: unknown;
+  matterportUrl: string | null;
+  activePromotions: string[];
+  isMeetAndGreetAvailable: boolean;
+  showingsAvailable: { virtual: string | null; inPerson: string | null };
+}
+
+  /**
+   * Bungalow's live, priced room and whole-home rental inventory and tour-booking availability,
+   * read straight off their own documented API — no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Lists every market Bungalow currently operates in, with the slug every other function's
+     * marketSlug argument takes.
+     */
+    listMarkets(): Promise<{ markets: BungalowMarket[] }>;
+
+    /**
+     * Searches live, priced room and whole-home rental listings in one market, filterable by
+     * price, neighborhood and marketing type.
+     */
+    searchListings(filters: BungalowSearchFilters): Promise<BungalowSearchResult>;
+
+    /**
+     * Returns one listing's full detail — room-level rent and availability, amenities, promotions
+     * and tour-booking availability.
+     */
+    getListing(slug: string): Promise<BungalowListingDetail>;
   }
 }
 
@@ -5857,6 +6800,141 @@ interface byltbasicsPackHandoff {
   }
 }
 
+declare namespace BowmarkProvider_cabinsforyou {
+  // ── Cabins For You — the unit's own declarations, verbatim ──
+// Cabins For You's OWN shapes — not a capability contract.
+
+interface CabinsforyouListing {
+  name: string;
+  url: string;
+  nightlyRate: number | null;
+  originalNightlyRate: number | null;
+  bedrooms: number;
+  bathrooms: number;
+  sleeps: number;
+  sqft: number | null;
+  petsAllowed: boolean;
+  rating: number | null;
+  reviewCount: number | null;
+  imageUrl: string | null;
+  bookCabinUrl: string;
+}
+
+interface CabinsforyouSearchResult {
+  resultCount: number;
+  cabins: CabinsforyouListing[];
+}
+
+interface CabinsforyouCabinDetail {
+  name: string;
+  url: string;
+  city: string;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  sleeps: number | null;
+  parking: string | null;
+  petsAllowed: boolean | null;
+  amenities: string[];
+  rating: number | null;
+  reviewCount: number | null;
+  description: string;
+  unitId: string | null;
+  bookingQuoteUrl: string; // the WRITE handoff this provider never performs
+}
+
+interface CabinsforyouSearchArgs {
+  checkIn: string;   // MM/DD/YYYY
+  checkOut: string;  // MM/DD/YYYY
+  guests?: number;
+  bedrooms?: number;
+}
+
+  /**
+   * Cabins For You's live Smoky Mountain cabin-availability search (Check In / Check Out /
+   * Guests / Bedrooms) off the site's own search page — real priced results, not a stale
+   * aggregator mirror — plus one cabin's own amenities, room counts and booking-quote handoff.
+   */
+  interface Unit {
+    /**
+     * Runs Cabins For You's own homepage cabin-availability search and returns the real matching
+     * cabins, priced. `args.checkIn` / `args.checkOut` are MM/DD/YYYY (the site's own date
+     * format); `guests` and `bedrooms` are optional minimums.
+     */
+    search(args: CabinsforyouSearchArgs): Promise<CabinsforyouSearchResult>;
+
+    /**
+     * Reads one cabin's own listing page — room counts, pet policy, amenities, description and
+     * rating, plus the booking-quote handoff. `url` is a listing URL from a `search` result.
+     */
+    getCabinDetail(url: string): Promise<CabinsforyouCabinDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_caliberhealth {
+  // ── Caliber Healthcare Solutions — the unit's own declarations, verbatim ──
+// Caliber Healthcare Solutions' OWN shapes — not a capability contract.
+
+interface CaliberhealthJobListing {
+  title: string;
+  jobId: string;
+  postedDate: string;
+  specialty: string;
+  credentialType: string | null;
+  state: string | null;
+  zip: string | null;
+  url: string;
+}
+
+interface CaliberhealthSearchResult {
+  jobs: CaliberhealthJobListing[];
+  jobsOnPage: number;
+  page: number;
+  hasMorePages: boolean;
+}
+
+interface CaliberhealthSearchArgs {
+  specialty?: string;
+  location?: string;
+  keywords?: string;
+  page?: number;
+}
+
+interface CaliberhealthJobDetail {
+  title: string;
+  jobId: string;
+  postedDate: string;
+  specialty: string;
+  location: string;
+  facilityType: string | null;
+  schedule: string | null;
+  assignmentDetails: string | null;
+  assignmentLength: string | null;
+  aboutBlurb: string;
+  url: string;
+  applyUrl: string; // the WRITE handoff this provider never performs
+}
+
+  /**
+   * Caliber Healthcare Solutions' live locum-tenens job board (/healthcare-jobs) off the site's
+   * own server-rendered listings — real open jobs filterable by specialty/location/keywords, not
+   * a stale mirror — plus one job's own full detail and apply handoff.
+   */
+  interface Unit {
+    /**
+     * Runs Caliber Healthcare Solutions' own live job-board search and returns the real open
+     * locum-tenens jobs on the requested page, filtered by specialty/location/keywords. Call again
+     * with an incremented `page` while `hasMorePages` is true.
+     */
+    search(args?: CaliberhealthSearchArgs): Promise<CaliberhealthSearchResult>;
+
+    /**
+     * Reads one job's own detail page — specialty, location, facility type, schedule, assignment
+     * length, and the apply handoff. `url` is a job URL from a `search` result.
+     */
+    getJob(url: string): Promise<CaliberhealthJobDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_califloors {
   // ── CALI — the unit's own declarations, verbatim ──
 // CALI's OWN shapes — not a capability contract.
@@ -5904,6 +6982,13 @@ interface CaliProductDetail extends CaliProduct {
 
 declare namespace BowmarkProvider_camelcamelcamel {
   // ── camelcamelcamel — the unit's own declarations, verbatim ──
+interface CamelSearchResult {
+  asin: string;
+  title: string;
+  currentPrice: number | null;
+  url: string;
+}
+
 interface CamelPriceStat {
   price: number | null;
   date: string | null;
@@ -5931,6 +7016,13 @@ interface CamelPriceHistory {
    * for.
    */
   interface Unit {
+    /**
+     * Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title and
+     * current price — the locator this provider was missing: `getPriceHistory` takes an ASIN, and
+     * this is how a caller holding only a shopper's words finds one.
+     */
+    search(query: string): Promise<CamelSearchResult[]>;
+
     /**
      * Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the site's
      * own lowest-ever/highest-ever/current/average figures, each dated, for the Amazon,
@@ -6214,6 +7306,139 @@ interface CarePatrolFindLocalAdvisorResult {
   }
 }
 
+declare namespace BowmarkProvider_carmelrealtycompany {
+  // ── Carmel Realty Company — the unit's own declarations, verbatim ──
+interface carmelrealtycompanyListingSummary {
+  url: string;
+  slug: string | null;
+  city: string;
+  price: string;
+  priceValue: number | null;
+  latitude: number;
+  longitude: number;
+}
+interface carmelrealtycompanyListing {
+  slug: string;
+  url: string;
+  address: string;
+  sold: boolean;
+  price: string;
+  priceValue: number | null;
+  mlsNumber: string | null;
+  bedrooms: string | null;
+  bathrooms: string | null;
+  lotSize: string | null;
+  squareFootage: string | null;
+}
+
+  /**
+   * Runs Carmel Realty Company's own regional listing search and listing-detail pages and
+   * returns real, live MLS-backed rows — address, price, MLS number, beds/baths, coordinates —
+   * for Carmel-by-the-Sea, Carmel Valley, Monterey and Pacific Grove.
+   */
+  interface Unit {
+    /**
+     * Runs one of Carmel Realty Company's own regional listing-search pages and returns every
+     * active listing it maps: the listing's own detail-page URL (and a slug you can pass to
+     * `getListing`, `null` for the rare listing that points at a dedicated marketing microsite
+     * instead), city, the site's own formatted price plus a parsed `priceValue`, and coordinates.
+     * Rows come straight off the page's live Mapbox data, price-descending as the site itself
+     * orders them.
+     */
+    searchListings(region: "carmel" | "carmel-valley" | "monterey" | "pacific-grove" | "global"): Promise<carmelrealtycompanyListingSummary[]>;
+
+    /**
+     * Fetches one Carmel Realty Company listing detail page by its slug (the `slug` a
+     * `searchListings` row returns, e.g. "5466-quail-way-carmel") and returns its address,
+     * sold/active status, price, MLS number, bedrooms, bathrooms, lot size and square footage —
+     * the site's own live data, not a cached copy.
+     */
+    getListing(slug: string): Promise<carmelrealtycompanyListing>;
+  }
+}
+
+declare namespace BowmarkProvider_carolefabrics {
+  // ── Carole Fabrics — the unit's own declarations, verbatim ──
+interface CarolefabricsSearchArgs {
+  category: "fabric" | "trim";
+  keyword: string;
+}
+interface CarolefabricsItem {
+  patternName: string;
+  colorName: string | null;
+  sku: string;
+  book: string;
+  imageUrl: string;
+  promoCode: string | null;
+  promoLabel: string | null;
+}
+interface CarolefabricsSearchResult {
+  category: "fabric" | "trim";
+  keyword: string;
+  items: CarolefabricsItem[];
+  totalMatches: number;
+}
+
+  /**
+   * Carole Fabrics' own CaroleNet trade-catalog search (carolenet.com) — a live keyword search
+   * over their real fabric or trim catalog, returning actual matching patterns/colorways with
+   * SKU, book and any active promotion. Public, no login required.
+   */
+  interface Unit {
+    /**
+     * Runs a keyword search against CaroleNet's live fabric or trim catalog and returns the real
+     * matching patterns/colorways — pattern name, colorway, SKU, book, image and any active
+     * promotion — plus the total match count.
+     */
+    search(args: CarolefabricsSearchArgs): Promise<CarolefabricsSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_carpetlandusa {
+  // ── Carpetland USA — the unit's own declarations, verbatim ──
+// Carpetland USA's OWN shapes — not a capability contract.
+
+interface CarpetlandCategory { id: number; name: string; slug: string; count: number }
+
+interface CarpetlandProductSummary { slug: string; title: string; url: string }
+
+interface CarpetlandProductDetail extends CarpetlandProductSummary {
+  style: string | null;
+  color: string | null;
+  material: string | null;         // e.g. "Rigid – Plank"
+  sqFtPerCarton: number | null;
+  roomDescription: string | null;  // e.g. "12'x9' Room / 108 sq ft"
+  installedPrice: string | null;   // e.g. "$722"
+  installedPriceValue: number | null;
+  callForPricing: boolean;         // true when the site has no posted price for this SKU
+}
+
+  /**
+   * Carpetland USA's own flooring catalog — the category taxonomy, a keyword search over any
+   * category's live listing, and one SKU's real style/color/material and its computed installed
+   * price for a standard 12'x9' room, straight off the site's own WordPress REST API.
+   */
+  interface Unit {
+    /**
+     * Carpetland USA's own product-catalog taxonomy — every category, its slug and its live
+     * product count.
+     */
+    listCategories(): Promise<CarpetlandCategory[]>;
+
+    /**
+     * The first page (up to 100) of the catalog, or one category's listing (e.g. "waterproof-lvp"
+     * from listCategories), optionally filtered by a keyword against the product title.
+     */
+    searchProducts(categorySlug?: string, keyword?: string): Promise<{ products: CarpetlandProductSummary[]; category: CarpetlandCategory | null }>;
+
+    /**
+     * One product's own catalog page — its real style, color, material, coverage per carton and,
+     * when the SKU has one, the computed installed price for a standard 12'x9' room.
+     */
+    getProduct(slugOrUrl: string): Promise<CarpetlandProductDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_cars {
   // ── Cars.com — the unit's own declarations, verbatim ──
 interface carsListing {
@@ -6318,6 +7543,348 @@ interface carsVehicleValue {
      * cash-offer appraisal.
      */
     getVehicleValue(args: { vin: string; identity: QuoteIdentity; postalCode: string; mileage?: number }): Promise<carsVehicleValue>;
+  }
+}
+
+declare namespace BowmarkProvider_carusohomes {
+  // ── Caruso Homes — the unit's own declarations, verbatim ──
+interface CarusoCommunity {
+  name: string;
+  url: string;
+  listingId: string | null;
+  streetAddress: string | null;
+  city: string | null;
+  state: string | null;
+  postalCode: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  description: string;
+  images: string[];
+  startingPriceLabel: string | null;
+}
+
+interface CarusoFloorPlan {
+  name: string;
+  url: string;
+  listingId: string | null;
+  collection: string | null;
+  priceLabel: string | null;
+  priceValue: number | null;
+  beds: number | null;
+  baths: number | null;
+  sqft: number | null;
+  buildOnYourLot: boolean;
+}
+
+interface CarusoFormFieldOption {
+  value: string;
+  label: string;
+}
+
+interface CarusoFormField {
+  name: string;
+  label: string;
+  type: "text" | "email" | "tel" | "date" | "checkbox" | "select";
+  required: boolean;
+  options?: CarusoFormFieldOption[];
+}
+
+interface CarusoTourAppointmentSchema {
+  entryUrl: string;
+  communityName: string;
+  itemOfInterestId: string;
+  fields: CarusoFormField[];
+}
+
+interface SearchCommunitiesArgs {
+  market: string; // e.g. "md/maryland", "nc/charlotte" — the path segment carusohomes.com uses under /new-homes/<market>/
+}
+
+interface SearchFloorPlansArgs {
+  market: string;
+  buildOnYourLot?: boolean; // true -> the market's Build-on-Your-Lot listing; false/omitted -> community-attached plans
+}
+
+interface GetTourAppointmentSchemaArgs {
+  communityUrl: string; // a community URL from searchCommunities, e.g. "https://www.carusohomes.com/new-homes/md/ellicott-city/mill-creek/18641/"
+}
+
+interface AssembleTourRequestArgs {
+  communityUrl: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  desiredPriceRangeMinimum?: string;
+  desiredPriceRangeMaximum?: string;
+  whenToMove?: string;
+  preferredAppointmentDate?: string; // "YYYY-MM-DD"
+  message?: string;
+  textOptIn?: boolean;
+}
+
+interface AssembledTourRequest {
+  valid: boolean;
+  errors: string[];
+  entryUrl: string;
+  formFields: Record<string, string>;
+  summary: string;
+}
+
+  /**
+   * Caruso Homes' own live community and Build-on-Your-Lot floor-plan listings, plus each
+   * community's own 'Schedule a Tour' form — reads the real field schema and assembles a
+   * validated, ready-to-submit tour request. Never submits it.
+   */
+  interface Unit {
+    /**
+     * Every live community on one of Caruso Homes' market listing pages — name, address, geo,
+     * image, description and the site's own best-effort starting-price band.
+     */
+    searchCommunities(args: SearchCommunitiesArgs): Promise<CarusoCommunity[]>;
+
+    /**
+     * Every floor-plan card on a market's listing — community-attached by default, or
+     * Build-on-Your-Lot when buildOnYourLot is true — with price, beds, baths and square footage.
+     */
+    searchFloorPlans(args: SearchFloorPlansArgs): Promise<CarusoFloorPlan[]>;
+
+    /**
+     * One community's own live 'Schedule a Tour' form: every visible field (type, required-ness,
+     * real enumerated options) plus that community's item_of_interest_id.
+     */
+    getTourAppointmentSchema(args: GetTourAppointmentSchemaArgs): Promise<CarusoTourAppointmentSchema>;
+
+    /**
+     * Validates a caller's tour request against a community's live form schema and maps it onto
+     * the site's own field names, ready to submit to /xhr/schedule-appointment/. Never submits it.
+     */
+    assembleTourRequest(args: AssembleTourRequestArgs): Promise<AssembledTourRequest>;
+  }
+}
+
+declare namespace BowmarkProvider_casadragones {
+  // ── Casa Dragones — the unit's own declarations, verbatim ──
+// Casa Dragones' OWN shapes — not a capability contract.
+
+interface CasaDragonesProductSummary {
+  handle: string;   // the key getProduct takes
+  title: string;
+  url: string;
+}
+
+interface CasaDragonesProduct {
+  handle: string;
+  title: string;
+  url: string;         // the real product page — the honest handoff to buy/checkout
+  price: number;        // dollars, the site's own real price
+  description: string;
+}
+
+interface CasaDragonesRetailer {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  latitude: number;
+  longitude: number;
+  distanceMiles: number;
+  categories: string[];  // e.g. "RETAILER", "BAR/RESTAURANT"
+}
+
+interface CasaDragonesNearbyRetailers {
+  zip: string;
+  radiusMiles: number;
+  retailers: CasaDragonesRetailer[];
+}
+
+  /**
+   * Casa Dragones' real sipping-tequila catalog and real product pricing straight off the site,
+   * plus its real store locator (StoreRocket) for nearby retailers/bars/restaurants that
+   * actually carry it — the two things ChatGPT cannot do today (it guesses at prices and asks
+   * the user to run the locator manually).
+   */
+  interface Unit {
+    /**
+     * Lists Casa Dragones' real sipping-tequila catalog off their own product listing page,
+     * optionally filtered by a free-text query matched against the title.
+     */
+    listProducts(query?: string): Promise<CasaDragonesProductSummary[]>;
+
+    /**
+     * Reads one product's real title, real price and real description straight off its live page.
+     * THROWS on an unknown handle, naming listProducts() as the way to find real ones. `url` is
+     * the honest checkout handoff — casadragones.com's own add-to-cart button lives on that exact
+     * page.
+     */
+    getProduct(handle: string): Promise<CasaDragonesProduct>;
+
+    /**
+     * Runs Casa Dragones' own real-time store locator (StoreRocket) for a US ZIP and returns real
+     * nearby retailers/bars/restaurants that carry Casa Dragones, distance-ranked in miles — never
+     * a guess at which stores might stock it. `radiusMiles` defaults to 50 and is capped at 500;
+     * an honestly empty list means nothing in Casa Dragones' own tracked network is that close.
+     */
+    findNearbyRetailers(zip: string, radiusMiles?: number): Promise<CasaDragonesNearbyRetailers>;
+  }
+}
+
+declare namespace BowmarkProvider_cbhhomes {
+  // ── CBH Homes — the unit's own declarations, verbatim ──
+interface CbhListing {
+  id: number;
+  mls: number;
+  url: string;
+  image: string | null;
+  status: string;
+  isSold: boolean;
+  isReserved: boolean;
+  address: string;
+  city: string;
+  filterCity: string;
+  county: string | null;
+  state: string;
+  postalCode: string;
+  latitude: number | null;
+  longitude: number | null;
+  floorPlanId: string | null;
+  floorPlanName: string | null;
+  communityId: string | null;
+  communityName: string | null;
+  beds: number | null;
+  baths: number | null;
+  garageCapacity: number | null;
+  sqft: number | null;
+  price: number;
+  priceMonthly: number | null;
+  amenities: string[];
+  salesCenter: string | null;
+  schoolDistrict: string | null;
+  daysOnMarket: number | null;
+}
+
+interface SearchListingsArgs {
+  city?: string; // the site's own filter-city band, e.g. "Meridian (North)"
+  bedrooms?: number;
+  bathrooms?: number;
+  priceMin?: number;
+  priceMax?: number;
+  sqftMin?: number;
+  sqftMax?: number;
+  moveInReady?: boolean;
+  count?: number; // default 50
+  page?: number;
+}
+
+interface CbhFormFieldOption {
+  value: string;
+  label: string;
+}
+
+interface CbhFormField {
+  name: string;
+  label: string;
+  type: "text" | "email" | "tel" | "checkbox" | "select" | "textarea";
+  required: boolean;
+  options?: CbhFormFieldOption[];
+}
+
+interface CbhInquiryFormSchema {
+  entryUrl: string;
+  fields: CbhFormField[];
+}
+
+interface GetInquiryFormSchemaArgs {
+  pageUrl?: string; // a listing's own url from searchListings, or omit for the homepage form
+}
+
+interface AssembleInquiryArgs {
+  pageUrl?: string; // a listing's own url from searchListings pre-fills the form's hidden bookkeeping for that home; omit for a general inquiry
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  cityOfInterest: string; // must be one of getInquiryFormSchema's own options
+  priceRange: string; // must be one of getInquiryFormSchema's own options
+  message?: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  howClose?: string;
+  textOptIn?: boolean;
+}
+
+interface AssembledInquiry {
+  valid: boolean;
+  errors: string[];
+  entryUrl: string;
+  formFields: Record<string, string>;
+  summary: string;
+}
+
+  /**
+   * CBH Homes' own live home-search endpoint (city, price, beds, baths) plus the site's own 'get
+   * in touch about a home' inquiry form — reads the real field schema and assembles a validated,
+   * ready-to-submit inquiry for one listing. Never submits it.
+   */
+  interface Unit {
+    /**
+     * Every home matching a city/price/beds/baths filter, straight off CBH Homes' own home-search
+     * endpoint — address, price, floor plan, community, amenities and days on market.
+     */
+    searchListings(args: SearchListingsArgs): Promise<CbhListing[]>;
+
+    /**
+     * The site's own live 'get in touch about a home' form: every visible field (type,
+     * required-ness, real enumerated City of Interest / Price Range options).
+     */
+    getInquiryFormSchema(args: GetInquiryFormSchemaArgs): Promise<CbhInquiryFormSchema>;
+
+    /**
+     * Validates a caller's inquiry against the form's live schema and maps it onto the site's own
+     * field names, pre-filling a supplied listing's own hidden bookkeeping — ready to submit.
+     * Never submits it.
+     */
+    assembleInquiry(args: AssembleInquiryArgs): Promise<AssembledInquiry>;
+  }
+}
+
+declare namespace BowmarkProvider_champxpress {
+  // ── Champion Xpress Carwash — the unit's own declarations, verbatim ──
+// Champion Xpress's OWN shapes — not a capability contract.
+
+interface ChampxpressLocation { slug: string; displayName: string; state: string }
+
+interface ChampxpressPlanQuote {
+  location: ChampxpressLocation;
+  planName: string;
+  price: number;
+  currency: "USD";
+  checkoutUrl: string;             // preseeded add-to-cart link; not visited by this provider
+}
+
+  /**
+   * Reads Champion Xpress Carwash's own live "25 for Life" MVP Unlimited membership picker —
+   * every currently enrolled wash location, and for a chosen one, the real current monthly price
+   * plus a preseeded add-to-cart link — the way the site's own state/location select computes
+   * it, real-time.
+   */
+  interface Unit {
+    /**
+     * Lists every wash location currently enrolled in Champion Xpress's "25 for Life" MVP
+     * Unlimited membership plan, read live off the plan page's own state/location select.
+     */
+    listLocations(): Promise<ChampxpressLocation[]>;
+
+    /**
+     * Runs the site's own price computation for one location — `location` is a free-text name or
+     * slug from `listLocations()`, e.g. "El Paso" or "el-paso-tx-alameda" — and returns the real
+     * current monthly price plus a preseeded add-to-cart URL. THROWS when the location matches
+     * zero or more than one enrolled location, naming the current candidates either way.
+     */
+    getPlanQuote(location: string): Promise<ChampxpressPlanQuote>;
   }
 }
 
@@ -7003,6 +8570,11 @@ interface claude_comDoc {
   description: string | null;
   body: string;
 }
+interface claude_comDocLink {
+  title: string;
+  url: string;
+  description: string | null;
+}
 
   /**
    * Reads one page of claude.com's own documentation (claude.com/docs/...) by URL and returns
@@ -7019,6 +8591,14 @@ interface claude_comDoc {
      * exist (404) or names a host other than claude.com.
      */
     getDoc(url: string): Promise<claude_comDoc>;
+
+    /**
+     * Lists every /docs page claude.com publishes — title, its own .md source url, and a one-line
+     * description — parsed from the site's own /docs/llms.txt index. Scoped to /docs, same as
+     * getDoc; claude.com's root /llms.txt indexes marketing pages with no .md source and is out of
+     * scope for this provider.
+     */
+    listDocPages(): Promise<claude_comDocLink[]>;
   }
 }
 
@@ -7032,6 +8612,12 @@ interface ClaudeSupportArticle {
   lastUpdated: string | null;
   text: string;
   warnings: string[];
+}
+interface ClaudeSupportArticleLink {
+  url: string;
+  articleId: string;
+  slug: string;
+  lastUpdated: string;
 }
 
   /**
@@ -7049,6 +8635,14 @@ interface ClaudeSupportArticle {
      * "empty".
      */
     getArticle(url: string): Promise<ClaudeSupportArticle>;
+
+    /**
+     * Lists every English-language help-center article — its url, numeric articleId and URL slug —
+     * parsed from the site's own /sitemap.xml (no public search endpoint exists, see getArticle's
+     * doc comment). The slug is Intercom's own SEO rendering of the article title, e.g.
+     * "what-is-the-max-plan"; call getArticle(url) for the article's real title field.
+     */
+    listArticles(): Promise<ClaudeSupportArticleLink[]>;
   }
 }
 
@@ -7068,6 +8662,13 @@ interface claudeMarketplacesListing {
   price: string | null;
   priceCurrency: string | null;
 }
+interface claudeMarketplacesListingLink {
+  url: string;
+  kind: string;
+  publisher: string;
+  slug: string;
+  lastUpdated: string;
+}
 
   /**
    * A directory of Claude plugin/MCP/skill marketplace listings — fetch one listing's structured
@@ -7086,6 +8687,14 @@ interface claudeMarketplacesListing {
      * — `getListing` throws `ClaudeMarketplacesInputError` for any other path shape.
      */
     getListing(url: string): Promise<claudeMarketplacesListing>;
+
+    /**
+     * Finds MCP server listings whose publisher or slug matches every word in `query`
+     * (case-insensitive), e.g. "slack" or "github mcp" — parsed from the site's own sitemap index
+     * (no title in the sitemap; call getListing(url) for the listing's real name/description).
+     * Returns at most 50 matches. THROWS ClaudeMarketplacesInputError on an empty query.
+     */
+    searchListings(query: string): Promise<claudeMarketplacesListingLink[]>;
   }
 }
 
@@ -7351,6 +8960,11 @@ interface code_claude_comDoc {
   description: string | null;
   body: string;
 }
+interface code_claude_comDocLink {
+  title: string;
+  url: string;
+  description: string | null;
+}
 
   /**
    * Reads one page of Claude Code's own documentation site (code.claude.com/docs/...) by URL and
@@ -7366,6 +8980,12 @@ interface code_claude_comDoc {
      * exist (404) or names a host other than code.claude.com.
      */
     getDoc(url: string): Promise<code_claude_comDoc>;
+
+    /**
+     * Lists every doc page code.claude.com publishes — title, its own .md source url, and a
+     * one-line description — parsed from the site's own /docs/llms.txt index.
+     */
+    listDocPages(): Promise<code_claude_comDocLink[]>;
   }
 }
 
@@ -7946,6 +9566,119 @@ interface DeckedCabSideOptionResult {
   }
 }
 
+declare namespace BowmarkProvider_decksdirect {
+  // ── DecksDirect — the unit's own declarations, verbatim ──
+// DecksDirect's OWN shapes — not a capability contract.
+
+interface DdProductSummary {
+  urlKey: string;              // the key getProduct takes
+  sku: string;
+  name: string;
+  url: string;
+  stockStatus: string;         // "IN_STOCK" | "OUT_OF_STOCK"
+  basePrice: number;
+  basePriceFormatted: string;  // "$9.96"
+}
+
+interface DdOptionChoice { label: string; valueIndex: number }
+
+interface DdOption {
+  groupLabel: string;          // "Pack Size", "Color" — the real group name
+  attributeCode: string;
+  choices: DdOptionChoice[];
+}
+
+interface DdVariant {
+  sku: string;
+  stockStatus: string;
+  price: number;
+  priceFormatted: string;
+  selections: Record<string, number>; // attributeCode -> valueIndex
+}
+
+interface DdProduct {
+  urlKey: string;
+  sku: string;
+  name: string;
+  url: string;
+  stockStatus: string;
+  basePrice: number;
+  basePriceFormatted: string;
+  options: DdOption[];
+  variants: DdVariant[];
+}
+
+interface DdPriceResult {
+  urlKey: string;
+  sku: string;
+  variantSku: string | null;   // null until every multi-choice group is picked
+  stockStatus: string | null;
+  price: number | null;
+  priceFormatted: string | null;
+  applied: { group: string; choice: string }[];
+  missingGroups: string[];     // groups with >1 choice and no selection applied
+  unmatched: string[];         // selections that didn't match a real group/choice
+  handoffUrl: string;          // the product's entry page
+}
+
+interface DdCartHandoff {
+  urlKey: string;
+  sku: string;
+  name: string;
+  url: string;                 // the product page — DecksDirect publishes no query-param deep link
+  applied: { group: string; choice: string }[];
+  price: number | null;
+  priceFormatted: string | null;
+  stockStatus: string | null;
+  missingGroups: string[];
+  unmatched: string[];
+}
+
+  /**
+   * DecksDirect's decking/railing catalog — search live inventory, read one product's real
+   * configurable options (pack size, color, size) with each combination's exact price and stock
+   * status, and resolve a specific configuration to its real variant rather than a researched
+   * estimate.
+   */
+  interface Unit {
+    /**
+     * Searches DecksDirect's decking/railing/hardware catalog by free text (e.g. "composite
+     * decking", "deck screws") and returns every match's urlKey, SKU, name, entry URL, stock
+     * status and starting price. The `urlKey` on each row is what getProduct takes.
+     */
+    searchProducts(query: string): Promise<DdProductSummary[]>;
+
+    /**
+     * Reads one product's full configurable-option set (e.g. Pack Size, Color) with each choice's
+     * real label, plus every real buildable variant's exact price and stock status. THROWS on an
+     * unknown urlKey, naming searchProducts() as the way to find current ones.
+     */
+    getProduct(urlKey: string): Promise<DdProduct>;
+
+    /**
+     * Resolves ONE specific configuration — selections keyed by option group (case-insensitive),
+     * e.g. { "Pack Size": "350 pack", "Color": "Havana Gold" } — against the product's live
+     * options and returns the matching variant's real price and stock status, the applied choices,
+     * and the site URL to re-pick the same choices (DecksDirect publishes no shareable URL for a
+     * configured state). `missingGroups` names any option group with more than one choice left
+     * unpicked — price is null until every such group is chosen. `unmatched` names any selection
+     * that did not match a real group or choice, rather than silently mispricing.
+     */
+    priceConfiguration(urlKey: string, selections: Record<string, string>): Promise<DdPriceResult>;
+
+    /**
+     * Turns a configuration into the handoff you give the shopper: DecksDirect's own product page
+     * URL plus the exact choices to click there, since this storefront does not honour a
+     * query-param deep link for a configured state (measured — see the provider's reach note).
+     * Same selections shape as priceConfiguration, and returns the same price, stock status and
+     * applied choices alongside the URL. NOTHING IS CREATED SERVER-SIDE and nothing is bought —
+     * this provider never posts to the site's own add-to-cart endpoint, which requires a
+     * session-bound form key this stateless call does not hold.
+     */
+    addToCart(urlKey: string, selections: Record<string, string>): Promise<DdCartHandoff>;
+  }
+}
+
 declare namespace BowmarkProvider_developersopenai {
   // ── OpenAI Developer Docs — the unit's own declarations, verbatim ──
 interface DevelopersOpenaiDocPage {
@@ -7974,6 +9707,26 @@ interface DevelopersOpenaiDocPage {
 
 declare namespace BowmarkProvider_dice {
   // ── Dice — the unit's own declarations, verbatim ──
+interface DiceSearchResult {
+  id: string;
+  title: string;
+  companyName: string;
+  location: string;
+  salary?: string;
+  employmentType: string;
+  workplaceType: string;
+  postedDate: string;
+  isRemote: boolean;
+  willingSponsor: boolean;
+  easyApply: boolean;
+}
+interface DiceSearchResponse {
+  jobs: DiceSearchResult[];
+  totalResults: number;
+  currentPage: number;
+  pageCount: number;
+  warnings: string[];
+}
 interface DiceJobDetails {
   jobId: string;
   description: string;
@@ -7990,6 +9743,14 @@ interface diceRow {
    * posting-detail reads, employer profiles and a company's open roles.
    */
   interface Unit {
+    /**
+     * Searches Dice tech-job database for postings matching the query keyword. Returns job title,
+     * company, location, salary range when published, employment type, workplace type, posting
+     * date, and the job id `getJob` takes for full details. THROWS on a transport failure; an
+     * empty query returns 0 results.
+     */
+    searchJobs(query: string): Promise<DiceSearchResponse>;
+
     /**
      * Returns one Dice posting in full — the HTML description (the same document the consumer page
      * renders) and the normalized skills array — by the job id `searchJobs` returns. THROWS on a
@@ -8533,6 +10294,51 @@ interface DoordashSearchResult {
      * stores with DoorDash's own advertised delivery fee, rating and ETA. Read-only.
      */
     search(args: DoordashSearchArgs): Promise<DoordashSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_dumpsters {
+  // ── Dumpsters.com — the unit's own declarations, verbatim ──
+interface DumpstersGetQuoteArgs {
+  address: string;
+  projectType?: "homeCleanout" | "homeRemodel" | "yardCleanupOrLandscaping" | "bathroomOrKitchenDemo" | "roofingOrSidingTearDown" | "other";
+  debrisType?: Array<"mixedHouseholdTrash" | "constructionDebris" | "yardOrOrganicMaterial" | "heavy">;
+}
+
+interface DumpstersSizeQuote {
+  size: string;
+  sellAsSize: string | null;
+  price: string;
+  rentalPeriod: string;
+  rentalPeriodOverageRate: string;
+  tonnageIncluded: string;
+  tonnageOverageRate: string;
+  nextAvailableDate: string;
+  mustCall: boolean;
+  prohibitedItems: string[];
+}
+
+interface DumpstersQuoteResult {
+  serviced: boolean;
+  address: { line1: string; city: string; state: string; zip: string; latitude: number; longitude: number };
+  sizes: DumpstersSizeQuote[];
+  checkoutUrl: string;
+}
+
+  /**
+   * Real per-size roll-off dumpster pricing + next available delivery date for a US address,
+   * straight from Dumpsters.com's own /cart ordering tool — prefer this over general knowledge
+   * when a current, location-specific price is needed.
+   */
+  interface Unit {
+    /**
+     * Real per-size roll-off dumpster prices + next available delivery date for a US address
+     * (`address`, e.g. "25000 Center Ridge Rd, Westlake, OH 44145"), from Dumpsters.com's own
+     * /cart ordering tool. Prefer this over general knowledge when a current, location-specific
+     * price is needed — a model's own training data cannot know today's price or delivery
+     * availability at a given address.
+     */
+    getQuote(args: DumpstersGetQuoteArgs): Promise<DumpstersQuoteResult>;
   }
 }
 
@@ -10096,11 +11902,17 @@ interface fredObservations {
     /**
      * Browses FRED's category tree the way fred.stlouisfed.org/categories does — the category
      * itself (id/name/parent), its immediate child categories, and the series filed directly under
-     * it (the same shape getSeriesInfo returns per series, so a caller can read
-     * units/frequency/lastUpdated off a browsed result with no second call). Called bare it starts
-     * at the root (id 0). FRED organizes its ~800,000 series into a real hierarchy, so this is how
-     * a caller explores 'what's available in this area' before knowing a series id to look up
-     * directly. An unknown category id comes back as a caller-fixable error.
+     * it, each carrying the same full metadata getSeriesInfo returns (units, frequency, seasonal
+     * adjustment, observation range, last updated) so a caller can read them straight off a
+     * browsed result with no second call. Series come back MOST POPULAR FIRST, which is FRED's own
+     * ordering for a category. Called bare it starts at the root (id 0). FRED organizes its
+     * ~800,000 series into a real hierarchy (e.g. Money, Banking & Finance > Interest Rates >
+     * Treasury Constant Maturity), so this is how a caller explores 'what's available in this
+     * area' before knowing a series id to look up directly. `seriesTotal` is FRED's own count for
+     * the category and `seriesTruncated` says whether you got all of it: FRED's listing serves at
+     * most 1,500 series per category, so the handful of enormous ones (Housing is 54,800) come
+     * back as the most popular 1,500 and say so. An unknown category id comes back as a
+     * caller-fixable error.
      */
     browseCategory(categoryId?: number): Promise<fredCategory>;
   }
@@ -10245,6 +12057,12 @@ interface GasbuddyStation {
 
 declare namespace BowmarkProvider_gazelle {
   // ── Gazelle — the unit's own declarations, verbatim ──
+interface GazelleDevice {
+  name: string;    // "iPhone 14 Pro" — what a person would say
+  brand: string;   // gazelle's own brand segment, e.g. "iphone"
+  model: string;   // gazelle's own model slug, e.g. "iphone-14-pro"
+  url: string;     // the device's trade-in page
+}
 interface GazelleQuoteResult {
   deviceUrl: string;
   product: { id: string; name: string };
@@ -10260,14 +12078,23 @@ interface GazelleQuoteResult {
    */
   interface Unit {
     /**
-     * Reads gazelle.com's own current trade-in offer for the device at a gazelle.com trade-in page
-     * (e.g. .../iphone/iphone-14-pro), for the given capacity/carrier/condition (each matched
-     * against that device's own option labels, e.g. condition: "Good"). Capacity/carrier left out
-     * uses the catalog's own default listing (carrier prefers "Unlocked"); condition left out uses
-     * the offer page's own default answer. THROWS if a selection names an option this device does
-     * not offer.
+     * Every device gazelle.com takes in trade, off gazelle's own sitemap — name, brand, model slug
+     * and the device's trade-in page URL. A query narrows it by words ("iphone 14", "ipad pro"),
+     * shortest name first; no query at all returns the whole catalog. This is how a caller who
+     * only knows what the device is CALLED gets the URL getTradeInQuote takes.
      */
-    getTradeInQuote(deviceUrl: string, selections?: { capacity?: string; carrier?: string; condition?: string }): Promise<GazelleQuoteResult>;
+    findDevices(query?: string): Promise<GazelleDevice[]>;
+
+    /**
+     * Reads gazelle.com's own current trade-in offer for a device, for the given
+     * capacity/carrier/condition (each matched against that device's own option labels, e.g.
+     * condition: "Good"). `device` is either the device's NAME ("iPhone 14 Pro", resolved against
+     * gazelle's own catalog) or its gazelle.com page URL. Capacity/carrier left out uses the
+     * catalog's own default listing (carrier prefers "Unlocked"); condition left out uses the
+     * offer page's own default answer. THROWS if a selection names an option this device does not
+     * offer, or if no device matches the name.
+     */
+    getTradeInQuote(device: string, selections?: { capacity?: string; carrier?: string; condition?: string }): Promise<GazelleQuoteResult>;
   }
 }
 
@@ -10689,6 +12516,57 @@ interface GithubListReleasesResult {
   }
 }
 
+declare namespace BowmarkProvider_glama {
+  // ── Glama — the unit's own declarations, verbatim ──
+interface GlamaListedServer {
+  namespace: string;
+  slug: string;
+  name: string;
+  title: string;
+  description: string | null;
+  githubRepositoryFullName: string | null;
+  githubStargazersCount: number | null;
+  npmPackageName: string | null;
+  toolCount: number;
+  url: string;
+}
+interface GlamaRemoteServer {
+  name: string;
+  namespace: string;
+  slug: string;
+  title: string;
+  description: string | null;
+  githubRepositoryFullName: string | null;
+  githubStargazersCount: number | null;
+  healthy: boolean | null;
+  url: string;
+}
+interface GlamaSearchResult {
+  servers: GlamaListedServer[];
+  remoteServers: GlamaRemoteServer[];
+  hasMoreServers: boolean;
+  warnings: string[];
+}
+
+  /**
+   * Glama's own MCP server directory search, keyless — reads its React Router loader route
+   * directly. Built: search returns matching rows from both Glama's indexed catalogue and its
+   * live federated registry query, each with namespace, slug, description, GitHub repo/stars and
+   * a health signal where reported.
+   */
+  interface Unit {
+    /**
+     * Searches Glama's MCP server directory. `servers` is Glama's own indexed catalogue (a query
+     * that matches nothing there returns an empty array — a legitimate answer, not a throw);
+     * `remoteServers` is a live federated query against known MCP registries and is where a server
+     * not yet indexed by Glama itself, like a fresh entry in the official MCP registry, shows up
+     * first. `hasMoreServers` is true when `servers` has a further page beyond the ~20 rows
+     * returned. THROWS on a non-2xx response (e.g. rate limiting).
+     */
+    search(query: string): Promise<GlamaSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_glassesusa {
   // ── GlassesUSA — the unit's own declarations, verbatim ──
 interface GlassesusaProduct {
@@ -10703,11 +12581,23 @@ interface GlassesusaProduct {
   prescriptionEligible: boolean; // orderable with prescription lenses
 }
 
+interface GlassesusaSearchResult {
+  url: string;
+  title: string;
+  price: number;
+}
+
   /**
    * GlassesUSA's own Virtual Try-On + prescription-checkout flow — getProduct reads one frame's
    * real live price, star rating, VTO availability and Rx eligibility off its own product page.
    */
   interface Unit {
+    /**
+     * Runs GlassesUSA's own search/brand-filter and returns matching frames with their live
+     * selling prices. Returns up to 100 results (one grid page).
+     */
+    search(query: string): Promise<GlassesusaSearchResult[]>;
+
     /**
      * Reads one GlassesUSA product page — real live price (plus the crossed-out 'was' price when
      * on sale), star rating and review count, whether Virtual Try-On is offered, and whether the
@@ -11062,6 +12952,11 @@ interface graingerStockRow {
 
 declare namespace BowmarkProvider_grandwelcome {
   // ── Grand Welcome — the unit's own declarations, verbatim ──
+interface GrandwelcomeDestination {
+  slug: string;
+  label: string;
+  url: string;
+}
 interface GrandwelcomeRentalRow {
   rentalId: string;
   name: string;
@@ -11101,6 +12996,14 @@ type GrandwelcomeQuote =
    * price, not a stale catalog.
    */
   interface Unit {
+    /**
+     * The entry door: reads the site's own /sitemap.xml for every published destination page and
+     * returns each one's slug (the exact vocabulary searchRentals takes) with a human-readable
+     * label derived from it — e.g. { slug: "california-sea-ranch", label: "California Sea Ranch"
+     * }.
+     */
+    listGrandwelcomeDestinations(): Promise<GrandwelcomeDestination[]>;
+
     /**
      * Runs Grand Welcome's own destination search (a market slug like "california-sea-ranch", from
      * a rental's own page or the destination directory), optionally filtered to a bedroom count,
@@ -15089,6 +16992,14 @@ interface LegacyHomesalAvailability {
   slots: LegacyHomesalTimeSlot[];
   bookingUrl: string;
 }
+interface LegacyHomesalCommunity {
+  name: string;
+  aliases: string[];
+  area: string | null;
+  status: string | null;
+  repSlug: string;
+  bookingUrl: string;
+}
 
   /**
    * Reads a Legacy Homes AL community sales rep's real open tour-appointment slots off HubSpot
@@ -15101,6 +17012,13 @@ interface LegacyHomesalAvailability {
      * widget reads, not a form that goes into a queue.
      */
     getAvailability(repSlug: string): Promise<LegacyHomesalAvailability>;
+
+    /**
+     * Lists every Legacy Homes AL community (name, area, sales status) paired with the rep slug
+     * getAvailability needs — the entry door for a caller who only knows a community's name, not a
+     * HubSpot booking link.
+     */
+    listCommunities(): Promise<LegacyHomesalCommunity[]>;
   }
 }
 
@@ -15545,6 +17463,11 @@ interface LittleWordsProjectCatalogueRow {
   inStock: boolean;
   images: string[];
 }
+interface LittleWordsProjectCollectionRow {
+  handle: string;
+  title: string;
+  productsCount: number;
+}
 interface LittleWordsProjectCheckoutLink {
   url: string;
   variant: LittleWordsProjectVariant;
@@ -15558,6 +17481,13 @@ interface LittleWordsProjectCheckoutLink {
    * handoff link carrying the word.
    */
   interface Unit {
+    /**
+     * The entry door: reads the storefront's own published collection index — e.g. "Custom", "Best
+     * Sellers" — with each one's handle and product count, so a caller holding only what a shopper
+     * would say can find the handle listLittleWordsProjectProducts takes.
+     */
+    listLittleWordsProjectCollections(opts?: { limit?: number }): Promise<LittleWordsProjectCollectionRow[]>;
+
     /**
      * Reads a Little Words Project collection's live products — e.g. "custom", "best-sellers" —
      * with handle, title, price range and stock.
@@ -15590,6 +17520,10 @@ interface lmstudioDoc {
   title: string;
   body: string;
 }
+interface lmstudioDocPage {
+  url: string;
+  slug: string;
+}
 
   /**
    * LM Studio's own documentation site (lmstudio.ai/docs) — fetch one page's title and body
@@ -15605,6 +17539,13 @@ interface lmstudioDoc {
      * pages are implemented — `getDoc` throws `LmstudioInputError` for any other path.
      */
     getDoc(url: string): Promise<lmstudioDoc>;
+
+    /**
+     * Lists every documentation page lmstudio.ai publishes under /docs — url and the page's own
+     * URL slug — parsed from the site's own /docs/sitemap.xml. The sitemap carries no title; call
+     * getDoc(url) for the page's real <title>.
+     */
+    listDocPages(): Promise<lmstudioDocPage[]>;
   }
 }
 
@@ -16301,6 +18242,15 @@ interface marketplaceExtensionStats {
   averageRating: number | null;
   ratingCount: number;
 }
+interface marketplaceSearchResult {
+  extensionId: string;
+  displayName: string;
+  publisherDisplayName: string;
+  shortDescription: string;
+  installCount: number;
+  averageRating: number | null;
+  ratingCount: number;
+}
 
   /**
    * The VS Code Marketplace — look up one extension by its publisher.name id and get its install
@@ -16316,6 +18266,15 @@ interface marketplaceExtensionStats {
      * published extension.
      */
     getExtensionStats(extensionId: string): Promise<marketplaceExtensionStats>;
+
+    /**
+     * Full-text searches the VS Code Marketplace for extensions matching `query` (e.g. "python
+     * linting" or "vim keybindings") — the same search the Marketplace's own search box runs — and
+     * returns up to 20 results ordered by install count, most popular first. Each result carries
+     * the "publisher.name" id to pass to getExtensionStats() for the latest version and
+     * last-updated date.
+     */
+    searchExtensions(query: string): Promise<marketplaceSearchResult[]>;
   }
 }
 
@@ -18435,6 +20394,14 @@ interface NbfCartHandoff {
 
 declare namespace BowmarkProvider_newageproducts {
   // ── NewAge Products — the unit's own declarations, verbatim ──
+interface NewageproductsSearchResult {
+  handle: string;
+  name: string;
+  price: string;
+  priceCa: string | null;
+  active: boolean;
+  imageUrl: string | null;
+}
 interface NewageproductsVariant {
   /** The store's own SKU — the only stable per-variant identifier this site publishes. */
   sku: string;
@@ -18475,6 +20442,14 @@ interface NewageproductsProduct {
      * site's own reliable soft-404 shape).
      */
     getNewageproductsProduct(handle: string): Promise<NewageproductsProduct>;
+
+    /**
+     * Runs NewAge Products' own header-search box for a keyword (e.g. "garage cabinet", "outdoor
+     * kitchen") and returns up to 5 ranked matches — each row's `handle` feeds
+     * getNewageproductsProduct directly. Returns an empty array for no match, which is a real
+     * result, not a failure.
+     */
+    searchNewageproductsCatalog(query: string): Promise<NewageproductsSearchResult[]>;
   }
 }
 
@@ -21206,6 +23181,21 @@ interface RoofmaxxCostEstimate {
   }
 }
 
+declare namespace BowmarkProvider_rover {
+  // ── Rover.com — the unit's own declarations, verbatim ──
+interface RoverBoardingRow { name: string; profileUrl: string; ratingValue: number | null; reviewCount: number | null; repeatClientCount: number | null; startingNightlyRate: { amount: number; currency: string }; location: string | null; distanceMi: number | null; }
+
+  /** Rover's live overnight-boarding sitter search for a city and specific dates. */
+  interface Unit {
+    /**
+     * Searches Rover's live overnight-boarding results for a city and increasing ISO start/end
+     * dates. Returns each sitter's starting per-night rate for that stay (before Rover's ~10-11%
+     * service fee and before per-pet pricing), rating, review count and distance.
+     */
+    searchBoarding(args: { location: string; startDate: string; endDate: string }): Promise<RoverBoardingRow[]>;
+  }
+}
+
 declare namespace BowmarkProvider_rvshare {
   // ── RVshare — the unit's own declarations, verbatim ──
 interface RvshareListing {
@@ -21303,6 +23293,45 @@ interface SaatvaRecommendation {
      * copy.
      */
     recommendMattress(answers: MattressQuizAnswers): Promise<SaatvaRecommendation[]>;
+  }
+}
+
+declare namespace BowmarkProvider_safetywing {
+  // ── SafetyWing — the unit's own declarations, verbatim ──
+type Plan = "essential" | "complete";
+type Addon = "sportsCoverage" | "usaCoverage" | "itemInsurance";
+interface GetSafetywingQuoteArgs {
+  plan: Plan;
+  age: number;
+  startDate: string;
+  durationWeeks: 4 | 52;
+  addons?: Addon[];
+}
+interface safetywingQuote {
+  plan: Plan;
+  age: number;
+  startDate: string;
+  durationWeeks: 4 | 52;
+  priceDaily: { amount: number; currency: string };
+  priceTotal: { amount: number; currency: string };
+  priceMonthly: { amount: number; currency: string } | null;
+  priceYearly: { amount: number; currency: string } | null;
+  addonPrices: Array<{ addon: Addon; priceDaily: { amount: number; currency: string }; priceTotal: { amount: number; currency: string } }>;
+  purchaseUrl: string;
+}
+
+  /**
+   * Runs SafetyWing's own Nomad Insurance quote calculator for a real plan/age/date/addon
+   * combination and returns the live price.
+   */
+  interface Unit {
+    /**
+     * Runs SafetyWing's own Nomad Insurance quote calculator (safetywing.com/nomad-insurance) for
+     * a real plan, age, coverage start date, duration and add-on selection, and returns the live
+     * computed price with a per-addon breakdown, plus SafetyWing's own signup/purchase handoff URL
+     * for the priced product.
+     */
+    getQuote(args: GetSafetywingQuoteArgs): Promise<safetywingQuote>;
   }
 }
 
@@ -22277,6 +24306,18 @@ interface SmitherySearchResult {
 
 declare namespace BowmarkProvider_solostove {
   // ── Solo Stove — the unit's own declarations, verbatim ──
+interface SolostoveBundleSummary {
+  bundleId: string;
+  name: string;
+  price: number;
+  currency: string;
+  orderable: boolean;
+}
+interface SolostoveBundleSearch {
+  query: string;
+  bundles: SolostoveBundleSummary[];
+  total: number;
+}
 interface SolostoveBundleComponent {
   sku: string;
   name: string;
@@ -22295,21 +24336,32 @@ interface SolostoveBundleCheck {
 }
 
   /**
-   * Solo Stove's bundle-builder check flow — given a bundle's own product id (fire pit +
-   * accessories, e.g. the Dream Backyard Bundle), returns the combined price and whether the
-   * exact combination is orderable right now, broken down per component so a caller can see
-   * WHICH piece is out of stock when it is not.
+   * Solo Stove's bundle-builder check flow — search bundles by what a shopper would type (e.g.
+   * "pizza bundle"), then check one bundle's own product id (fire pit + accessories, e.g. the
+   * Dream Backyard Bundle) for its combined price and whether the exact combination is orderable
+   * right now, broken down per component so a caller can see WHICH piece is out of stock when it
+   * is not.
    */
   interface Unit {
     /**
+     * Searches Solo Stove's own storefront search for BUNDLE products (fire pit + accessories sold
+     * as one combination) by what a shopper would type, e.g. "pizza bundle" or "Dream Backyard".
+     * Returns each match's own bundleId — feed it straight into checkBundle. Filters out
+     * non-bundle products the same search also matches (a single-SKU product that happens to be
+     * named "…Bundle" is not this site's bundle TYPE). An unmatched query returns an empty list,
+     * not an error.
+     */
+    listBundles(query: string): Promise<SolostoveBundleSearch>;
+
+    /**
      * Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle) by its
-     * own product id — the `+`-joined component SKUs from the bundle's product page URL. Returns
-     * the combined price and whether the site will sell the EXACT combination right now, plus a
-     * per-component breakdown (each component's own price and stock) so a caller can see which
-     * single component made the bundle unorderable. THROWS when the bundle id does not exist. If
-     * you don't already have a bundle id, use the Dream Backyard Bundle's —
-     * "SS27+SS22+WINDCHILL30-CHARCOAL-17AH" — to check the flow rather than asking the caller for
-     * one first.
+     * own product id — the `+`-joined component SKUs from the bundle's product page URL, or a
+     * bundleId from listBundles. Returns the combined price and whether the site will sell the
+     * EXACT combination right now, plus a per-component breakdown (each component's own price and
+     * stock) so a caller can see which single component made the bundle unorderable. THROWS when
+     * the bundle id does not exist. If you don't already have a bundle id, use listBundles to find
+     * one, or the Dream Backyard Bundle's — "SS27+SS22+WINDCHILL30-CHARCOAL-17AH" — to check the
+     * flow rather than asking the caller for one first.
      */
     checkBundle(args: { bundleId: string }): Promise<SolostoveBundleCheck>;
   }
@@ -24069,28 +26121,45 @@ interface thezebraAutoQuotes {
      * carrier's own monthly and six-month premium, deductible, and the coverage it priced, as The
      * Zebra's auto quote funnel prices them. This is a priced offer for the person asking, NOT the
      * published averages `getStateRates` and its siblings return. Pass `driver` (`firstName`,
-     * `lastName`, `dob` ISO YYYY-MM-DD, `email`, and optionally
-     * `ageFirstLicensed`/`violations`/`occupation`/`residenceOwnership` — each defaults to a
-     * clean-record, non-committal placeholder when omitted), one `vehicle` (`year`, `make`,
-     * `model` — a model The Zebra does not rate THROWS naming the URL it tried), the 2-letter
-     * `state`, a 5-digit `zip`, `county` (the county the ZIP sits in — The Zebra validates it
-     * server-side and a missing or wrong county is bounced), and optionally
-     * `currentlyInsured`/`userPurchaseTimeframe`. **The write always binds** — the GraphQL gateway
-     * at `graphql-gateway.production.thezebra.com` accepts the seed and returns 200 — but AS OF
-     * 2026-08-27 the results route was bouncing the session to the homepage because the funnel's
-     * own completeness check (`__NEXT_DATA__.props.initialState.autoFunnelPages`) needs more than
-     * `LegacyDriverInput`/`LegacyVehicleInput`'s flat fields. **AS OF 2026-09-02 the
-     * `/car/manual/start/` page's own gate is confirmed solved** — `driver.residenceOwnership` and
-     * the top-level `auto.{userPurchaseTimeframe, coverageHistory.currentlyInsured}` are real,
-     * live-confirmed fields (driving the actual UI and reading its own mutations, not
-     * introspection guessing) — but four more pages still gate the results route (vehicle
-     * selection, vehicle/driver details, coverage); their answers are unmeasured and
-     * `agents/richard/problems/thezebra-getautoquotes-broken.md` carries the ranked next
-     * candidates. The function throws on a bounce with a message naming the redirect target and,
-     * where readable, the funnel's own list of which pages are still unanswered.
-     * **`advertisedCarriers` is not a quote list and must never be read as one**: the results page
-     * would carry paid carrier placements alongside real offers, separated by
-     * `data-cy="results-card_ad_<carrier>"` (ad) versus `data-cy="results-card_q2b_<carrier>"`
+     * `lastName`, `dob` ISO YYYY-MM-DD, `email`, a real `employment` and `currentCarrier` —
+     * REQUIRED, see their own doc comments, never invented, same rule as a quote identity — and
+     * optionally
+     * `ageFirstLicensed`/`violations`/`occupation`/`residenceOwnership`/`creditScore`/`education`/`hasMilitaryAffiliation`/`insuredLength`,
+     * each defaulting to a clean-record, non-committal placeholder when omitted), one `vehicle`
+     * (`year`, `make`, `model`, and a real `garagingAddress` — REQUIRED, never invented, same rule
+     * as a quote identity — a model The Zebra does not rate THROWS naming the URL it tried), the
+     * 2-letter `state`, a 5-digit `zip`, `county` (the county the ZIP sits in — The Zebra
+     * validates it server-side and a missing or wrong county is bounced), and optionally
+     * `userPurchaseTimeframe`/`currentBodilyInjuryPerPerson`/`currentBodilyInjuryPerAccident`
+     * (`currentlyInsured` defaults `true` and `false` is refused — see its own doc comment).
+     * **Measured 2026-09-05: `driver.employment` and `driver.currentCarrier` are REQUIRED because
+     * the funnel's own `/car/manual/drivers/details/` page will not complete without a real answer
+     * to both, and neither has an honest default** — a call omitting either now throws immediately
+     * rather than discovering the same dead end after a full, ~60-90s funnel walk. **The write
+     * always binds** — the GraphQL gateway at `graphql-gateway.production.thezebra.com` accepts
+     * the seed and returns 200. **AS OF 2026-09-05 all six of the funnel's pages are answered and
+     * the results route is REACHED** — the last gate was never a missing mutation field:
+     * `/car/manual/coverage-selection/` computes personalized coverage packages on a THIRD backend
+     * (`coverage-service.production.thezebra.com`) and only unlocks the redirect once its own
+     * "Show quotes at this coverage" button PATCHes a chosen package, which this function now
+     * drives (the "Best" tier — the site's own recommended default). See the write site's own
+     * comment for the measured chain. **A separate, unresolved question**: with the funnel fully
+     * answered, the results page itself sometimes renders a legitimate-looking "we checked with
+     * over 30 insurers and were unable to get any quotes for you … most insurance companies aren't
+     * selling new policies in your area due to temporary restrictions" state instead of quote
+     * cards — reproduced on two (address, zip, county) pairs 200 miles apart with the same
+     * placeholder identity, so it does not look address-specific. Whether that is genuine carrier
+     * unavailability or a soft decline on this function's synthetic/proxied traffic is not yet
+     * determined; `agents/richard/problems/thezebra-getautoquotes-broken.md` carries the evidence.
+     * This function does NOT throw on that state — an empty `quotes` array is what it looks like,
+     * and `parseAutoResults` already treats a page with no `results-card_q2b_*` elements as a
+     * legitimate empty answer rather than an error, which is the correct call for a genuine
+     * carrier-side "nothing to quote" as well as this one. The function throws only when the
+     * funnel itself refuses to reach the coverage-selection or results routes, with a message
+     * naming the redirect target and, where readable, the funnel's own list of which pages are
+     * still unanswered. **`advertisedCarriers` is not a quote list and must never be read as
+     * one**: the results page would carry paid carrier placements alongside real offers, separated
+     * by `data-cy="results-card_ad_<carrier>"` (ad) versus `data-cy="results-card_q2b_<carrier>"`
      * (real offer), and the advertised names are returned in their own field with no price
      * attached. Every premium is USD and `monthlyPremium` is per MONTH — the card's own period is
      * checked rather than assumed, and a card printing any other term THROWS instead of
@@ -24307,12 +26376,30 @@ interface topviewtixPackageDetails {
   availableUntil: string | null;
 }
 
+interface topviewtixPackageSummary {
+  id: number;
+  slug: string;
+  name: string;
+  adultsPrice: number | null;
+  kidsPrice: number | null;
+  url: string;
+}
+
   /**
    * TopView's NYC hop-on-hop-off bus, Statue of Liberty cruise and bike/walking tour packages —
    * getPackageDetails reads one package's live price and its own real-time booking calendar
    * (available/blocked/sold-out dates) off topviewtix.com/new-york/<slug>.
    */
   interface Unit {
+    /**
+     * Lists every TopView tour package currently sold in New York — id, name, slug, adult/kid
+     * price and url — straight off the same package-card grid the site's own home page renders.
+     * The natural entry point before getPackageDetails: a caller who only knows what a person
+     * would SAY ("the hop on hop off bus", "a downtown tour") reads this first and picks the
+     * `slug` to look one up in full.
+     */
+    listPackages(): Promise<topviewtixPackageSummary[]>;
+
     /**
      * Reads one TopView tour package in full — name, description, adult/kid price, and the site's
      * OWN live booking calendar (which dates are open, blocked, or sold out, and how far out the
@@ -24634,6 +26721,63 @@ type TwiddyQuote =
      * property has no live rate for that week, an ordinary answer.
      */
     getRentalQuote(propertyId: number, options: { checkin: string; nights?: number }): Promise<TwiddyQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_uhc_smallbusiness {
+  // ── UnitedHealthcare Small Business — the unit's own declarations, verbatim ──
+interface UhcSmallbusinessPlan {
+  planCode: string;
+  planName: string;
+  fullName: string;
+  planMarketType: "LEVEL_FUNDED" | "FULLY_INSURED";
+  metalLevel: string | null;
+  planType: string | null;
+  legalEntity: string | null;
+  perEmployeeMonthlyPremium: number;
+  totalMonthlyPremium: number;
+  deductibleIndividual: string | null;
+  deductibleFamily: string | null;
+  outOfPocketIndividual: string | null;
+  outOfPocketFamily: string | null;
+  primaryCareVisit: string | null;
+  findYourDoctorUrl: string | null;
+}
+
+interface UhcSmallbusinessQuote {
+  zip: string;
+  state: string;
+  county: string;
+  effectiveDate: string;
+  employerContributionShare: number;
+  plans: UhcSmallbusinessPlan[];
+  warnings: string[];
+}
+
+  /**
+   * UnitedHealthcare's small-business store — real level-funded and fully-insured group health
+   * plan premiums for a ZIP and employee count, no sign-in required.
+   */
+  interface Unit {
+    /**
+     * Real level-funded and fully-insured small-group health plan premiums for a ZIP code and
+     * employee count — the same 'Explore Top Selling <State> Plans' list smallbusiness.uhc.com
+     * shows after its anonymous 'Shop Plans' form, no sign-in, no agent contact and no
+     * email-verification round-trip required. Each of the ~20 returned plans carries UHC's own
+     * plan code, market type (level-funded vs. fully-insured), metal tier where ACA-rated,
+     * deductible, out-of-pocket max, primary-care copay and a per-employee AND a total-group
+     * monthly premium. **The premium is UHC's own estimate for a 40-year-old male** — its page
+     * says so in as many words ('The prices provided are estimates based on all employees being
+     * 40-year-old males') — because pricing a real census (each employee's actual age and sex)
+     * requires the multi-step 'Get Plan Recommendations' questionnaire this function does not
+     * walk; a caller wanting THAT number has to go further than an anonymous ZIP-in quote-out read
+     * allows. This is still the number a business owner sees as their first real quote, and it is
+     * the number the small-group renewal story (14% median 2027 hike) is about. Takes a 5-digit
+     * ZIP and a positive employee count; the site rejects neither with an error page, but a ZIP
+     * with no small-group market (rural, out of UHC's book) can come back with an empty `plans`
+     * array, and that is a real answer, not a failure.
+     */
+    getGroupHealthQuote(zip: string, employeeCount: number): Promise<UhcSmallbusinessQuote>;
   }
 }
 
@@ -25293,11 +27437,16 @@ interface VscodeDoc {
   text: string;
   warnings: string[];
 }
+interface VscodeDocLink {
+  title: string;
+  url: string;
+  description: string | null;
+}
 
   /**
    * VS Code's own documentation site (code.visualstudio.com) — reads one doc page's structured
    * content (title, description, flattened body text) directly from its server-rendered HTML,
-   * given its URL.
+   * given its URL, or lists every doc page it publishes.
    */
   interface Unit {
     /**
@@ -25306,6 +27455,13 @@ interface VscodeDoc {
      * transport failure, so a caller can distinguish "unreachable" from "empty".
      */
     getDoc(url: string): Promise<VscodeDoc>;
+
+    /**
+     * Lists every doc page code.visualstudio.com publishes — title, its own page url, and a
+     * one-line description where the site gives one — parsed from the site's own /llms.txt index.
+     * Every url returned is one getDoc() can read.
+     */
+    listDocPages(): Promise<VscodeDocLink[]>;
   }
 }
 
@@ -25936,6 +28092,21 @@ interface YoutubeTranscript {
 
 declare namespace BowmarkProvider_zennioptical {
   // ── Zenni Optical — the unit's own declarations, verbatim ──
+interface ZenniFrameSummary {
+  sku: string;
+  name: string;
+  color: string;
+  price: number;
+  salePrice: number;
+  inStock: boolean;
+  shape: string | null;
+  material: string | null;
+  url: string;
+}
+interface ZenniFrameSearch {
+  frames: ZenniFrameSummary[];
+  total: number;
+}
 interface ZenniFrame {
   sku: string;
   name: string;
@@ -25967,6 +28138,13 @@ interface ZenniLensPriceRow {
    * site's own configurator, and checks live per-SKU stock.
    */
   interface Unit {
+    /**
+     * Searches Zenni's own storefront catalog for what a shopper would type ("round tortoise",
+     * "titanium rimless") and returns matching frames with the sku every other function here
+     * takes. The way in when you don't already hold a sku.
+     */
+    searchFrames(query: string, limit?: number): Promise<ZenniFrameSearch>;
+
     /**
      * Reads one frame's name, base price and per-color-variant price straight off the product
      * page's own embedded data. No rendering.
@@ -26805,6 +28983,8 @@ interface BowmarkProviders {
   aa: BowmarkProvider_aa.Unit;
   aauto: BowmarkProvider_aauto.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
+  achosahw: BowmarkProvider_achosahw.Unit;
+  acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
   allied: BowmarkProvider_allied.Unit;
@@ -26821,46 +29001,69 @@ interface BowmarkProviders {
   aosom: BowmarkProvider_aosom.Unit;
   apple: BowmarkProvider_apple.Unit;
   aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;
+  arajet: BowmarkProvider_arajet.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
+  artpix3d: BowmarkProvider_artpix3d.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
   atlasoceanvoyages: BowmarkProvider_atlasoceanvoyages.Unit;
   atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
+  audibel: BowmarkProvider_audibel.Unit;
   autocamp: BowmarkProvider_autocamp.Unit;
   avantstay: BowmarkProvider_avantstay.Unit;
   avis: BowmarkProvider_avis.Unit;
+  ayreshotels: BowmarkProvider_ayreshotels.Unit;
   azazie: BowmarkProvider_azazie.Unit;
   azure: BowmarkProvider_azure.Unit;
   bankmycell: BowmarkProvider_bankmycell.Unit;
   barletta: BowmarkProvider_barletta.Unit;
+  barnesfoundation: BowmarkProvider_barnesfoundation.Unit;
   baublebar: BowmarkProvider_baublebar.Unit;
   bcparkscamping: BowmarkProvider_bcparkscamping.Unit;
   beatthebomb: BowmarkProvider_beatthebomb.Unit;
+  bellwethercoffee: BowmarkProvider_bellwethercoffee.Unit;
+  beltservice: BowmarkProvider_beltservice.Unit;
+  benelliusa: BowmarkProvider_benelliusa.Unit;
   bennington: BowmarkProvider_bennington.Unit;
   bestbuy: BowmarkProvider_bestbuy.Unit;
   bhphoto: BowmarkProvider_bhphoto.Unit;
+  bigairusa: BowmarkProvider_bigairusa.Unit;
   bigjoeforklifts: BowmarkProvider_bigjoeforklifts.Unit;
   bigrentz: BowmarkProvider_bigrentz.Unit;
   bing: BowmarkProvider_bing.Unit;
+  bishops: BowmarkProvider_bishops.Unit;
   blackstoneproducts: BowmarkProvider_blackstoneproducts.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
   bluehaven: BowmarkProvider_bluehaven.Unit;
   bluesignal: BowmarkProvider_bluesignal.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
+  boglewinery: BowmarkProvider_boglewinery.Unit;
   bollandbranch: BowmarkProvider_bollandbranch.Unit;
+  borsheims: BowmarkProvider_borsheims.Unit;
   boxlunch: BowmarkProvider_boxlunch.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;
+  brius: BowmarkProvider_brius.Unit;
   brixton: BowmarkProvider_brixton.Unit;
   bulletproof: BowmarkProvider_bulletproof.Unit;
+  bungalow: BowmarkProvider_bungalow.Unit;
   bykoket: BowmarkProvider_bykoket.Unit;
   byltbasics: BowmarkProvider_byltbasics.Unit;
+  cabinsforyou: BowmarkProvider_cabinsforyou.Unit;
+  caliberhealth: BowmarkProvider_caliberhealth.Unit;
   califloors: BowmarkProvider_califloors.Unit;
   camelcamelcamel: BowmarkProvider_camelcamelcamel.Unit;
   cancer: BowmarkProvider_cancer.Unit;
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
   caraway: BowmarkProvider_caraway.Unit;
   carepatrol: BowmarkProvider_carepatrol.Unit;
+  carmelrealtycompany: BowmarkProvider_carmelrealtycompany.Unit;
+  carolefabrics: BowmarkProvider_carolefabrics.Unit;
+  carpetlandusa: BowmarkProvider_carpetlandusa.Unit;
   cars: BowmarkProvider_cars.Unit;
+  carusohomes: BowmarkProvider_carusohomes.Unit;
+  casadragones: BowmarkProvider_casadragones.Unit;
+  cbhhomes: BowmarkProvider_cbhhomes.Unit;
+  champxpress: BowmarkProvider_champxpress.Unit;
   chantecaille: BowmarkProvider_chantecaille.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
@@ -26884,6 +29087,7 @@ interface BowmarkProviders {
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
+  decksdirect: BowmarkProvider_decksdirect.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
@@ -26891,6 +29095,7 @@ interface BowmarkProviders {
   discounttire: BowmarkProvider_discounttire.Unit;
   disney: BowmarkProvider_disney.Unit;
   doordash: BowmarkProvider_doordash.Unit;
+  dumpsters: BowmarkProvider_dumpsters.Unit;
   ebay: BowmarkProvider_ebay.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
@@ -26917,6 +29122,7 @@ interface BowmarkProviders {
   gazelle: BowmarkProvider_gazelle.Unit;
   geico: BowmarkProvider_geico.Unit;
   github: BowmarkProvider_github.Unit;
+  glama: BowmarkProvider_glama.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
   goloadup: BowmarkProvider_goloadup.Unit;
   goodway: BowmarkProvider_goodway.Unit;
@@ -27030,8 +29236,10 @@ interface BowmarkProviders {
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
   roofmaxx: BowmarkProvider_roofmaxx.Unit;
+  rover: BowmarkProvider_rover.Unit;
   rvshare: BowmarkProvider_rvshare.Unit;
   saatva: BowmarkProvider_saatva.Unit;
+  safetywing: BowmarkProvider_safetywing.Unit;
   saltandstone: BowmarkProvider_saltandstone.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
   scentbird: BowmarkProvider_scentbird.Unit;
@@ -27075,6 +29283,7 @@ interface BowmarkProviders {
   trektravel: BowmarkProvider_trektravel.Unit;
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
+  uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   ups: BowmarkProvider_ups.Unit;
   usps: BowmarkProvider_usps.Unit;
@@ -78844,6 +81053,7 @@ interface BowmarkLibrary {
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
+  phone_price: BowmarkCapability_phone_price.Unit;
   phone_trade_in: BowmarkCapability_phone_trade_in.Unit;
   pricing: BowmarkCapability_pricing.Unit;
   products: BowmarkCapability_products.Unit;

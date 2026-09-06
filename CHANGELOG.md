@@ -6,6 +6,87 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.14.0 (2026-09-06)
+
+**Capabilities**
+
+- New capability **entertainment_merch** (1 function): `entertainment_merch.search`
+- New capability **phone_price** (1 function): `phone_price.compare`
+- New capability **wireless** (1 function): `wireless.compareAllInPrice`
+
+**Providers**
+
+- New provider **achosahw.com** (2 functions): `achosahw.getQuote`, `achosahw.listStates`
+- New provider **acqualinaresort.com** (1 function): `acqualinaresort.searchAvailability`
+- New provider **americandreamvacations.net** (2 functions): `americandreamvacations.listLocations`, `americandreamvacations.searchInventory`
+- New provider **americanvisionwindows.com** (1 function): `americanvisionwindows.checkAvailability`
+- New provider **booking.andstr.com** (3 functions): `andstr.getListing`, `andstr.getQuote`, `andstr.search`
+- New provider **anthropic.com** (2 functions): `anthropic_com.getDoc`, `anthropic_com.listDocs`
+- New provider **antunes.com** (1 function): `antunes.findServiceAgencies`
+- New provider **aosom.com** (2 functions): `aosom.getProduct`, `aosom.searchProducts`
+- New provider **arajet.com** (1 function): `arajet.search`
+- New provider **artpix3d.com** (2 functions): `artpix3d.getSizePricing`, `artpix3d.listShapes`
+- New provider **audibel.com** (1 function): `audibel.findClinics`
+- New provider **ayreshotels.com** (1 function): `ayreshotels.checkRates`
+- New provider **visit.barnesfoundation.org** (2 functions): `barnesfoundation.getAdmissionCalendar`, `barnesfoundation.priceAdmission`
+- New provider **bellwethercoffee.com** (2 functions): `bellwethercoffee.computeRoiEstimate`, `bellwethercoffee.getCalculatorDefaults`
+- New provider **beltservice.com** (2 functions): `beltservice.browseCatalog`, `beltservice.getBelt`
+- New provider **benelliusa.com** (1 function): `benelliusa.findDealers`
+- New provider **bigairusa.com** (2 functions): `bigairusa.listLocations`, `bigairusa.listPasses`
+- New provider **bishops.co** (4 functions): `bishops.checkAvailability`, `bishops.findLocation`, `bishops.listLocations`, `bishops.listServices`
+- New provider **boglewinery.com** (2 functions): `boglewinery.checkAvailability`, `boglewinery.listExperiences`
+- New provider **borsheims.com** (3 functions): `borsheims.configureRing`, `borsheims.getProduct`, `borsheims.searchProducts`
+- New provider **boxlunch.com** (1 function): `boxlunch.search`
+- New provider **bravabraces.com** (1 function): `brius.findProviders`
+- New provider **bungalow.com** (3 functions): `bungalow.getListing`, `bungalow.listMarkets`, `bungalow.searchListings`
+- New provider **cabinsforyou.com** (2 functions): `cabinsforyou.getCabinDetail`, `cabinsforyou.search`
+- New provider **caliberhealth.com** (2 functions): `caliberhealth.getJob`, `caliberhealth.search`
+- New provider **carmelrealtycompany.com** (2 functions): `carmelrealtycompany.getListing`, `carmelrealtycompany.searchListings`
+- New provider **carolenet.com (Carole Fabrics' own CaroleNet trade catalog)** (1 function): `carolefabrics.search`
+- New provider **carpetlandusa.net** (3 functions): `carpetlandusa.getProduct`, `carpetlandusa.listCategories`, `carpetlandusa.searchProducts`
+- New provider **carusohomes.com** (4 functions): `carusohomes.assembleTourRequest`, `carusohomes.getTourAppointmentSchema`, `carusohomes.searchCommunities`, `carusohomes.searchFloorPlans`
+- New provider **casadragones.com** (3 functions): `casadragones.findNearbyRetailers`, `casadragones.getProduct`, `casadragones.listProducts`
+- New provider **cbhhomes.com** (3 functions): `cbhhomes.assembleInquiry`, `cbhhomes.getInquiryFormSchema`, `cbhhomes.searchListings`
+- New provider **champxpress.com** (2 functions): `champxpress.getPlanQuote`, `champxpress.listLocations`
+- New provider **chipotle.com** (1 function): `chipotle.getBowlBuilder`
+- New provider **claude.com** (2 functions): `claude_com.getDoc`, `claude_com.listDocPages`
+- New provider **support.claude.com** (2 functions): `claude_support.getArticle`, `claude_support.listArticles`
+- New provider **code.claude.com** (2 functions): `code_claude_com.getDoc`, `code_claude_com.listDocPages`
+- New provider **decksdirect.com** (4 functions): `decksdirect.addToCart`, `decksdirect.getProduct`, `decksdirect.priceConfiguration`, `decksdirect.searchProducts`
+- New provider **dumpsters.com** (1 function): `dumpsters.getQuote`
+- New provider **fivebelow.com** (1 function): `fivebelow.search`
+- New provider **gasbuddy.com** (1 function): `gasbuddy.findCheapestNearby`
+- New provider **gazelle.com** (2 functions): `gazelle.findDevices`, `gazelle.getTradeInQuote`
+- New provider **glama.ai** (1 function): `glama.search`
+- New provider **hottopic.com** (1 function): `hottopic.search`
+- New provider **lmstudio.ai** (2 functions): `lmstudio.getDoc`, `lmstudio.listDocPages`
+- New provider **mcp.so** (1 function): `mcp_so.search`
+- New provider **pilotprotocol.network** (2 functions): `pilotprotocol.getApp`, `pilotprotocol.listApps`
+- New provider **platform.claude.com** (2 functions): `platform_claude_com.getDocPage`, `platform_claude_com.listDocPages`
+- New provider **rover.com** (1 function): `rover.searchBoarding`
+- New provider **safetywing.com** (1 function): `safetywing.getQuote`
+- New provider **smallbusiness.uhc.com** (1 function): `uhc_smallbusiness.getGroupHealthQuote`
+- New provider **code.visualstudio.com** (2 functions): `vscode.getDoc`, `vscode.listDocPages`
+- New provider **ycombinator.com** (3 functions): `ycombinator.getArticle`, `ycombinator.getBlogPost`, `ycombinator.search`
+- Added `autocamp.listProperties`
+- Added `azazie.search`
+- Added `bankmycell.searchDevices`
+- Added `baublebar.listBaublebarCollections`
+- Added `camelcamelcamel.search`
+- Added `claudemarketplaces_com.searchListings`
+- Added `dice.searchJobs`
+- Added `glassesusa.search`
+- Added `grandwelcome.listGrandwelcomeDestinations`
+- Added `legacyhomesal.listCommunities`
+- Added `littlewordsproject.listLittleWordsProjectCollections`
+- Added `marketplace_visualstudio.searchExtensions`
+- Added `newageproducts.searchNewageproductsCatalog`
+- Added `solostove.listBundles`
+- Added `topviewtix.listPackages`
+- Added `zennioptical.searchFrames`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.12.3 (2026-09-01)
 
 **Capabilities**
