@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: faf4c09938555367990a9c8f7a153fdf8acc74126cd25dc3d424ccd9eb0d1077
+# Manifest version: a5397c83ee9d878940ea8aac104704fca2ce97ca2ef48071f139d1b18b6bb24f
 # 42 capabilities, 326 providers, 805 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -16942,17 +16942,17 @@ class Prv_bigairusa(Protocol):
         """
 
 class Prv_bigjoeforklifts(Protocol):
-    """Big Joe Forklifts' real 17-question Runtime & ROI estimator's live input options, and
-    its real current forklift model list for a quote request — the tools their own site
+    """Big Joe Forklifts' real Runtime & ROI estimator's live input questions and option lists,
+    and its real current forklift model list for a quote request — the tools their own site
     already computes, read straight off the live site rather than guessed from brochure
     PDFs.
     """
 
     async def getRuntimeEstimatorInputs(self, /) -> Prv_bigjoeforklifts_BigJoeRoiEstimatorInputs_Out:
-        """Reads Big Joe's own 'Pre-Demo Runtime & ROI Estimator' and returns its real current 17
-        questions and their real option lists (truck model, load weight, lift height, ramps,
-        attachments, speed limit, facility location, fuel type, and more) straight off the
-        tool's own workbook.
+        """Reads Big Joe's own 'Pre-Demo Runtime & ROI Estimator' and returns its real current
+        numbered questions and the real option list for each one the tool publishes a dropdown
+        for (truck model, load weight, lift height, ramps, attachments, speed limit, facility
+        location, fuel type, and more) straight off the tool's own workbook.
         """
 
     async def listForkliftModels(self, query: str | None = None, /) -> list[Prv_bigjoeforklifts_BigJoeForkliftModel_Out]:

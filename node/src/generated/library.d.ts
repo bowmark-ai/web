@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: faf4c09938555367990a9c8f7a153fdf8acc74126cd25dc3d424ccd9eb0d1077
+// Manifest version: a5397c83ee9d878940ea8aac104704fca2ce97ca2ef48071f139d1b18b6bb24f
 // 42 capabilities, 326 providers, 823 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -5539,7 +5539,7 @@ declare namespace BowmarkProvider_bigjoeforklifts {
 interface BigJoeRoiQuestion {
   questionNumber: number;   // the tool's own 1-based question number
   prompt: string;           // the question's own text, verbatim
-  options: string[];        // the real current choices for this question
+  options: string[];        // the real current choices, or [] for a typed-in answer
 }
 interface BigJoeRoiEstimatorInputs {
   questions: BigJoeRoiQuestion[];
@@ -5555,16 +5555,16 @@ interface BigJoeQuotePreview {
 }
 
   /**
-   * Big Joe Forklifts' real 17-question Runtime & ROI estimator's live input options, and its
-   * real current forklift model list for a quote request — the tools their own site already
+   * Big Joe Forklifts' real Runtime & ROI estimator's live input questions and option lists, and
+   * its real current forklift model list for a quote request — the tools their own site already
    * computes, read straight off the live site rather than guessed from brochure PDFs.
    */
   interface Unit {
     /**
-     * Reads Big Joe's own 'Pre-Demo Runtime & ROI Estimator' and returns its real current 17
-     * questions and their real option lists (truck model, load weight, lift height, ramps,
-     * attachments, speed limit, facility location, fuel type, and more) straight off the tool's
-     * own workbook.
+     * Reads Big Joe's own 'Pre-Demo Runtime & ROI Estimator' and returns its real current numbered
+     * questions and the real option list for each one the tool publishes a dropdown for (truck
+     * model, load weight, lift height, ramps, attachments, speed limit, facility location, fuel
+     * type, and more) straight off the tool's own workbook.
      */
     getRuntimeEstimatorInputs(): Promise<BigJoeRoiEstimatorInputs>;
 
