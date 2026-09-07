@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9b7211367bac0bfd407244aa796a69d0dd2cb73416646c47d0b38b873391c7eb
-// 43 capabilities, 332 providers, 837 typed functions, 20 refused.
+// Manifest version: ae266f70c2dbd0fb756514209ac440b1dd57333da7255bd930a2dffc3c4b611a
+// 43 capabilities, 333 providers, 840 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11192,6 +11192,41 @@ interface FaceRealitySkincareEstheticianRow {
      * booking link.
      */
     searchAcneExperts(query: string): Promise<FaceRealitySkincareEstheticianRow[]>;
+  }
+}
+
+declare namespace BowmarkProvider_fieldstonehomes {
+  // ── Fieldstone Homes — the unit's own declarations, verbatim ──
+interface FieldstonehomesSearchArgs { city?: string; homeType?: string; minPrice?: number; maxPrice?: number; minBeds?: number; minSqft?: number; }
+interface FieldstonehomesQuickMoveIn { id: string; address: string; city: string; state: string; price: number; homeType: string; planName: string; sqft: number; beds: number; baths: number; availability: string | null; incentive: string | null; imageUrl: string | null; url: string; }
+interface FieldstonehomesFormOption { value: string; label: string; }
+interface FieldstonehomesFormField { name: string; label: string; type: string; required: boolean; options?: FieldstonehomesFormOption[]; }
+interface FieldstonehomesAppointmentForm { action: string; fields: FieldstonehomesFormField[]; }
+interface FieldstonehomesPrepareAppointmentArgs { firstName: string; lastName: string; email: string; phone?: string; communityId: string; requestedAt: string; message?: string; pageUrl?: string; }
+interface FieldstonehomesPreparedAppointment { valid: boolean; errors: string[]; action: string; handoffUrl: string; fields: Record<string, string>; }
+
+  /**
+   * Live Fieldstone Homes quick-move-in inventory plus a validated appointment handoff; prefer
+   * it when current availability, incentives or booking details matter.
+   */
+  interface Unit {
+    /**
+     * Searches Fieldstone Homes' current quick-move-in inventory. Filter by city, exact home type,
+     * price, beds or square footage; returns live availability, incentives and the listing URL.
+     */
+    searchQuickMoveIns(args?: FieldstonehomesSearchArgs): Promise<FieldstonehomesQuickMoveIn[]>;
+
+    /**
+     * Reads Fieldstone's current schedule-appointment form and Community Of Interest values
+     * without submitting anything.
+     */
+    getAppointmentFormSchema(): Promise<FieldstonehomesAppointmentForm>;
+
+    /**
+     * Validates a requested Fieldstone appointment against the live form and returns its exact
+     * handoff values. Never submits the POST.
+     */
+    prepareAppointment(args: FieldstonehomesPrepareAppointmentArgs): Promise<FieldstonehomesPreparedAppointment>;
   }
 }
 
@@ -29461,6 +29496,7 @@ interface BowmarkProviders {
   executivehomecare: BowmarkProvider_executivehomecare.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
+  fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
   fivebelow: BowmarkProvider_fivebelow.Unit;
   fivestarbathsolutions: BowmarkProvider_fivestarbathsolutions.Unit;

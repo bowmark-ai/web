@@ -1,5 +1,5 @@
 {
-  "version": "9b7211367bac0bfd407244aa796a69d0dd2cb73416646c47d0b38b873391c7eb",
+  "version": "ae266f70c2dbd0fb756514209ac440b1dd57333da7255bd930a2dffc3c4b611a",
   "units": {
     "bundles": {
       "defs": {},
@@ -9825,6 +9825,141 @@
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.fieldstonehomes": {
+      "defs": {
+        "FieldstonehomesPrepareAppointmentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "firstName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lastName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "communityId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "requestedAt",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "message",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "pageUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "FieldstonehomesSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "homeType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBeds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minSqft",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchQuickMoveIns": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FieldstonehomesSearchArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getAppointmentFormSchema": [],
+        "prepareAppointment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FieldstonehomesPrepareAppointmentArgs"
             },
             "optional": false
           }

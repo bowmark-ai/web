@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9b7211367bac0bfd407244aa796a69d0dd2cb73416646c47d0b38b873391c7eb
-# 43 capabilities, 332 providers, 819 typed functions, 20 refused.
+# Manifest version: ae266f70c2dbd0fb756514209ac440b1dd57333da7255bd930a2dffc3c4b611a
+# 43 capabilities, 333 providers, 822 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6158,6 +6158,62 @@ class Prv_facerealityskincare_FaceRealitySkincareEstheticianRow_Out_address_u0_O
     country: str | None
     lat: float | None
     lng: float | None
+
+class Prv_fieldstonehomes_FieldstonehomesSearchArgs_In(TypedDict):
+    city: NotRequired[str]
+    homeType: NotRequired[str]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minBeds: NotRequired[float]
+    minSqft: NotRequired[float]
+
+class Prv_fieldstonehomes_FieldstonehomesQuickMoveIn_Out(TypedDict):
+    id: str
+    address: str
+    city: str
+    state: str
+    price: float
+    homeType: str
+    planName: str
+    sqft: float
+    beds: float
+    baths: float
+    availability: str | None
+    incentive: str | None
+    imageUrl: str | None
+    url: str
+
+class Prv_fieldstonehomes_FieldstonehomesAppointmentForm_Out(TypedDict):
+    action: str
+    fields: list[Prv_fieldstonehomes_FieldstonehomesFormField_Out]
+
+class Prv_fieldstonehomes_FieldstonehomesFormField_Out(TypedDict):
+    name: str
+    label: str
+    type: str
+    required: bool
+    options: NotRequired[list[Prv_fieldstonehomes_FieldstonehomesFormOption_Out]]
+
+class Prv_fieldstonehomes_FieldstonehomesFormOption_Out(TypedDict):
+    value: str
+    label: str
+
+class Prv_fieldstonehomes_FieldstonehomesPrepareAppointmentArgs_In(TypedDict):
+    firstName: str
+    lastName: str
+    email: str
+    phone: NotRequired[str]
+    communityId: str
+    requestedAt: str
+    message: NotRequired[str]
+    pageUrl: NotRequired[str]
+
+class Prv_fieldstonehomes_FieldstonehomesPreparedAppointment_Out(TypedDict):
+    valid: bool
+    errors: list[str]
+    action: str
+    handoffUrl: str
+    fields: Mapping[str, str]
 
 class Prv_firstdibs_FirstdibsSearchResult_Out(TypedDict):
     name: str
@@ -19138,6 +19194,27 @@ class Prv_facerealityskincare(Protocol):
         Instagram and booking link.
         """
 
+class Prv_fieldstonehomes(Protocol):
+    """Live Fieldstone Homes quick-move-in inventory plus a validated appointment handoff;
+    prefer it when current availability, incentives or booking details matter.
+    """
+
+    async def searchQuickMoveIns(self, args: Prv_fieldstonehomes_FieldstonehomesSearchArgs_In | None = None, /) -> list[Prv_fieldstonehomes_FieldstonehomesQuickMoveIn_Out]:
+        """Searches Fieldstone Homes' current quick-move-in inventory. Filter by city, exact home
+        type, price, beds or square footage; returns live availability, incentives and the
+        listing URL.
+        """
+
+    async def getAppointmentFormSchema(self, /) -> Prv_fieldstonehomes_FieldstonehomesAppointmentForm_Out:
+        """Reads Fieldstone's current schedule-appointment form and Community Of Interest values
+        without submitting anything.
+        """
+
+    async def prepareAppointment(self, args: Prv_fieldstonehomes_FieldstonehomesPrepareAppointmentArgs_In, /) -> Prv_fieldstonehomes_FieldstonehomesPreparedAppointment_Out:
+        """Validates a requested Fieldstone appointment against the live form and returns its exact
+        handoff values. Never submits the POST.
+        """
+
 class Prv_firstdibs(Protocol):
     """Search 1stDibs' luxury/vintage marketplace and read a listing's real price plus its
     concrete completing action (Make an Offer / Contact Seller) — no login.
@@ -25512,6 +25589,7 @@ class BowmarkProviders(Protocol):
     executivehomecare: Prv_executivehomecare
     extraspace: Prv_extraspace
     facerealityskincare: Prv_facerealityskincare
+    fieldstonehomes: Prv_fieldstonehomes
     firstdibs: Prv_firstdibs
     fivebelow: Prv_fivebelow
     fivestarbathsolutions: Prv_fivestarbathsolutions

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1261 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1264 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -129,7 +129,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bigjoeforklifts.prepareQuoteRequest` | bigjoeforklifts.com | Validates the requested model names against Big Joe's real live /quote model list and… | 🟢 |
 | `bigrentz.getEquipment` | bigrentz.com | Reads one piece of equipment in full by the slug `search` or `listCategories` returned… | 🟡 |
 | `bigrentz.getRentalPricing` | bigrentz.com | Would return live, location- and date-specific rental pricing/availability for one… | ⚪ |
-| `bigrentz.listCategories` | bigrentz.com | Lists BigRentz's equipment categories (optionally filtered to children of a parent… | 🟡 |
+| `bigrentz.listCategories` | bigrentz.com | Lists BigRentz's equipment categories (optionally filtered to children of a parent… | 🟢 |
 | `bigrentz.search` | bigrentz.com | Searches BigRentz's equipment catalog by free-text query (e.g. "boom lift", "40 ft… | 🟡 |
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟡 |
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🟡 |
@@ -390,6 +390,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
 | `extraspace.search` | extraspace.com | Searches Extra Space Storage's live facility inventory the way its own homepage… | 🟢 |
 | `facerealityskincare.searchAcneExperts` | facerealityskincare.com | Runs Face Reality's own Acne Expert Locator search — matches a free-text query (city… | 🟢 |
+| `fieldstonehomes.getAppointmentFormSchema` | fieldstonehomes.com | Reads Fieldstone Homes' live schedule-appointment form, including its required fields… | 🟢 |
+| `fieldstonehomes.prepareAppointment` | fieldstonehomes.com | Validates an appointment request against Fieldstone Homes' live form and returns the… | 🟢 |
+| `fieldstonehomes.searchQuickMoveIns` | fieldstonehomes.com | Searches Fieldstone Homes' live quick-move-in inventory by city, home type, price… | 🟢 |
 | `firstdibs.getListing` | 1stdibs.com | Reads one listing's real price and its concrete completing action (Make an Offer… | 🟢 |
 | `firstdibs.search` | 1stdibs.com | Runs 1stDibs' search and returns real listings — name, real price, currency… | 🟢 |
 | `fivebelow.search` | fivebelow.com | Searches fivebelow.com's catalog for a keyword and returns matching products — name… | 🟢 |
@@ -547,7 +550,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listReleases` | github.com | Returns a public repository's own release history — each release's tag, name… | 🟢 |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
-| `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟢 |
+| `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟡 |
 | `goloadup.checkServiceAvailability` | goloadup.com | Checks whether and how LoadUp serves one ZIP code — in service, same-day allowed… | 🟢 |
 | `goloadup.getPricingCatalog` | goloadup.com | Returns LoadUp's full current catalog of pickupable items (couches, mattresses… | 🟢 |
 | `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
