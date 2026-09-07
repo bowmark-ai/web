@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 74df2577fe5ed65dc045250d151618424731e5f2e2df9aa85379bca4dd453c36
-// 43 capabilities, 329 providers, 828 typed functions, 20 refused.
+// Manifest version: e396c290b59b73877a7b9ca0378a65dc856f46f22efef843d7216dd6c4054ffe
+// 43 capabilities, 330 providers, 830 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16524,6 +16524,71 @@ interface KaleidescapeFindDealersOptions {
   }
 }
 
+declare namespace BowmarkProvider_kalshi {
+  // ── Kalshi — the unit's own declarations, verbatim ──
+interface KalshiMarket {
+  ticker: string;
+  eventTicker: string;
+  title: string;
+  subtitle: string;
+  status: string;
+  marketType: string;
+  openTime: string;
+  closeTime: string;
+  yesBid: string;
+  yesAsk: string;
+  noBid: string;
+  noAsk: string;
+  lastPrice: string;
+  volume: string;
+  volume24h: string;
+  openInterest: string;
+  liquidity: string;
+  rules: string;
+}
+interface KalshiGetMarketsOptions {
+  status?: string;
+  series_ticker?: string;
+  event_ticker?: string;
+  limit?: number;
+  cursor?: string;
+}
+interface KalshiGetMarketsResult {
+  markets: KalshiMarket[];
+  cursor: string;
+  warnings: string[];
+}
+
+  /**
+   * Kalshi's own public trading API, keyless. Built: list/filter live prediction-market
+   * contracts (getMarkets) and read one market's full detail by ticker (getMarket) — prices,
+   * volume, open interest, status, close time.
+   */
+  interface Unit {
+    /**
+     * Lists Kalshi's own live prediction-market contracts off its public, keyless REST endpoint —
+     * each market's ticker, title, status, open/close time, yes/no bid and ask prices (as strings,
+     * e.g. "0.0570"), last price, volume, 24h volume, open interest and liquidity.
+     * `options.status` filters to `open`/`closed`/`settled`/`unopened`; `options.series_ticker` or
+     * `options.event_ticker` narrows to one series or event (found via a series/event browse
+     * elsewhere — this provider does not wrap `/series` or `/events`); `options.limit` (1-1000,
+     * default 100) and `options.cursor` (Kalshi's own opaque token, from a prior response's
+     * `cursor`) page through results. This is the locator: a caller without an existing ticker
+     * starts here, then reads one market's full detail with `getMarket`.
+     */
+    getMarkets(options?: KalshiGetMarketsOptions): Promise<KalshiGetMarketsResult>;
+
+    /**
+     * Reads one Kalshi market's full detail by its own ticker (e.g. `"KXWCGROUPBOTTOM-26L-BRA"`,
+     * found via `getMarkets`) off Kalshi's public, keyless REST endpoint — title, subtitle,
+     * status, open/close time, current yes/no bid and ask prices, last price, volume, open
+     * interest, liquidity and the primary rules text governing settlement. THROWS on an unknown
+     * ticker (404) or a rate limit (429).
+     */
+    getMarket(ticker: string): Promise<KalshiMarket>;
+  }
+}
+
 declare namespace BowmarkProvider_kayak {
   // ── Kayak — the unit's own declarations, verbatim ──
 interface KayakQuery {
@@ -29296,6 +29361,7 @@ interface BowmarkProviders {
   junkluggers: BowmarkProvider_junkluggers.Unit;
   justinwine: BowmarkProvider_justinwine.Unit;
   kaleidescape: BowmarkProvider_kaleidescape.Unit;
+  kalshi: BowmarkProvider_kalshi.Unit;
   kayak: BowmarkProvider_kayak.Unit;
   keepa: BowmarkProvider_keepa.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;

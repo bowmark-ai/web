@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 74df2577fe5ed65dc045250d151618424731e5f2e2df9aa85379bca4dd453c36
-# 43 capabilities, 329 providers, 810 typed functions, 20 refused.
+# Manifest version: e396c290b59b73877a7b9ca0378a65dc856f46f22efef843d7216dd6c4054ffe
+# 43 capabilities, 330 providers, 812 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8600,6 +8600,38 @@ class Prv_kaleidescape_KaleidescapeDealer_Out(TypedDict):
 class Prv_kaleidescape_KaleidescapeGeoPoint_Out(TypedDict):
     latitude: float
     longitude: float
+
+class Prv_kalshi_KalshiGetMarketsOptions_In(TypedDict):
+    status: NotRequired[str]
+    series_ticker: NotRequired[str]
+    event_ticker: NotRequired[str]
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_kalshi_KalshiGetMarketsResult_Out(TypedDict):
+    markets: list[Prv_kalshi_KalshiMarket_Out]
+    cursor: str
+    warnings: list[str]
+
+class Prv_kalshi_KalshiMarket_Out(TypedDict):
+    ticker: str
+    eventTicker: str
+    title: str
+    subtitle: str
+    status: str
+    marketType: str
+    openTime: str
+    closeTime: str
+    yesBid: str
+    yesAsk: str
+    noBid: str
+    noAsk: str
+    lastPrice: str
+    volume: str
+    volume24h: str
+    openInterest: str
+    liquidity: str
+    rules: str
 
 Prv_kayak_KayakQuery_In = TypedDict(
     "Prv_kayak_KayakQuery_In",
@@ -20929,6 +20961,33 @@ class Prv_kaleidescape(Protocol):
         current dealers, not a web-search guess.
         """
 
+class Prv_kalshi(Protocol):
+    """Kalshi's own public trading API, keyless. Built: list/filter live prediction-market
+    contracts (getMarkets) and read one market's full detail by ticker (getMarket) — prices,
+    volume, open interest, status, close time.
+    """
+
+    async def getMarkets(self, options: Prv_kalshi_KalshiGetMarketsOptions_In | None = None, /) -> Prv_kalshi_KalshiGetMarketsResult_Out:
+        """Lists Kalshi's own live prediction-market contracts off its public, keyless REST
+        endpoint — each market's ticker, title, status, open/close time, yes/no bid and ask
+        prices (as strings, e.g. "0.0570"), last price, volume, 24h volume, open interest and
+        liquidity. `options.status` filters to `open`/`closed`/`settled`/`unopened`;
+        `options.series_ticker` or `options.event_ticker` narrows to one series or event (found
+        via a series/event browse elsewhere — this provider does not wrap `/series` or
+        `/events`); `options.limit` (1-1000, default 100) and `options.cursor` (Kalshi's own
+        opaque token, from a prior response's `cursor`) page through results. This is the
+        locator: a caller without an existing ticker starts here, then reads one market's full
+        detail with `getMarket`.
+        """
+
+    async def getMarket(self, ticker: str, /) -> Prv_kalshi_KalshiMarket_Out:
+        """Reads one Kalshi market's full detail by its own ticker (e.g.
+        `"KXWCGROUPBOTTOM-26L-BRA"`, found via `getMarkets`) off Kalshi's public, keyless REST
+        endpoint — title, subtitle, status, open/close time, current yes/no bid and ask prices,
+        last price, volume, open interest, liquidity and the primary rules text governing
+        settlement. THROWS on an unknown ticker (404) or a rate limit (429).
+        """
+
 class Prv_kayak(Protocol):
     """Kayak (kayak.com) — metasearch flight results, cheapest-first, read directly from the
     result cards.
@@ -25366,6 +25425,7 @@ class BowmarkProviders(Protocol):
     junkluggers: Prv_junkluggers
     justinwine: Prv_justinwine
     kaleidescape: Prv_kaleidescape
+    kalshi: Prv_kalshi
     kayak: Prv_kayak
     keepa: Prv_keepa
     kingsdown: Prv_kingsdown

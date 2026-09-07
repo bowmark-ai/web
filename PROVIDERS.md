@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1251 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1256 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -710,6 +710,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `justinwine.checkTastingAvailability` | justinwine.com | Checks real open reservation slots for a given date and party size at JUSTIN's… | ⚪ |
 | `justinwine.listClubTiers` | justinwine.com | Lists the JUSTIN Wine Society club tiers (Red Wines, Red and White Wines, Isosceles… | 🟢 |
 | `kaleidescape.findDealersNear` | kaleidescape.com | Finds Kaleidescape authorized dealers near a location — pass EITHER a 5-digit US zip… | 🟢 |
+| `kalshi.getMarket` | kalshi.com | Reads one Kalshi market's full detail by its own ticker — title, subtitle, status… | 🟢 |
+| `kalshi.getMarkets` | kalshi.com | Lists Kalshi's own live prediction-market contracts — each market's ticker, title… | 🟢 |
 | `kayak.getBookingOptions` | kayak.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `kayak.search` | kayak.com | Runs the itinerary search on kayak.com and returns its result rows price-ascending. | 🟢 |
 | `kayak.searchCars` | kayak.com | Runs the car-hire search on kayak.com and returns priced vehicles for a pickup… | 🟢 |
@@ -891,6 +893,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `newegg.checkStock` | newegg.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟢 |
 | `newegg.getProduct` | newegg.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `newegg.search` | newegg.com | Searches newegg.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
+| `nfa_futures_org.lookupByNfaId` | nfa.futures.org | One firm or individual's current NFA membership status and registration types, by NFA… | 🟢 |
+| `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟢 |
+| `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟢 |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
 | `nutrafol.assessHairWellness` | nutrafol.com | Runs Nutrafol's own Hair Wellness Quiz along its default answer path (the site's own… | 🟢 |
 | `nutrafol.computeHairWellness` | nutrafol.com | Would run the quiz with the caller's own answers (age range, shedding pattern, stress… | ⚪ |

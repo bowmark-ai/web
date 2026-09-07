@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 74df2577fe5ed65dc045250d151618424731e5f2e2df9aa85379bca4dd453c36
-// 810 checked, 20 unchecked.
+// Manifest version: e396c290b59b73877a7b9ca0378a65dc856f46f22efef843d7216dd6c4054ffe
+// 812 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "74df2577fe5ed65dc045250d151618424731e5f2e2df9aa85379bca4dd453c36",
+  "version": "e396c290b59b73877a7b9ca0378a65dc856f46f22efef843d7216dd6c4054ffe",
   "units": {
     "bundles": {
       "defs": {},
@@ -13802,6 +13802,71 @@ export const VALIDATORS: ValidatorTable = {
               "name": "KaleidescapeFindDealersOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.kalshi": {
+      "defs": {
+        "KalshiGetMarketsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "status",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "series_ticker",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "event_ticker",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getMarkets": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "KalshiGetMarketsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getMarket": [
+          {
+            "name": "ticker",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
