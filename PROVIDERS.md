@@ -1241,7 +1241,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟡 |
-| `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists every Xpress Wellness Urgent Care clinic — 40 locations across Oklahoma, Kansas… | 🟡 |
+| `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟡 |
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |
 | `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🟢 |
