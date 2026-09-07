@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0347db7ec889122fb3741ca469b63ca8f80f6127012a36539813c955a521ec88
-# 42 capabilities, 327 providers, 806 typed functions, 20 refused.
+# Manifest version: 008d7f0f9a42669e96a39dd5c91de765add3283be062891bf041467540dc8025
+# 43 capabilities, 328 providers, 808 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1020,6 +1020,31 @@ class Cap_pcparts_Spec_Out(TypedDict):
     group: str
     name: str
     value: str
+
+class Cap_pet_boarding_search_args_In(TypedDict):
+    location: str
+    startDate: str
+    endDate: str
+
+class Cap_pet_boarding_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_pet_boarding_SearchPetBoardingResult_Out(TypedDict):
+    location: str
+    startDate: str
+    endDate: str
+    sitters: list[Cap_pet_boarding_PetBoardingSitter_Out]
+    warnings: list[str]
+
+class Cap_pet_boarding_PetBoardingSitter_Out(TypedDict):
+    name: str
+    profileUrl: str
+    ratingValue: float | None
+    reviewCount: float | None
+    startingNightlyRateCents: float
+    currency: str
+    location: str | None
+    distanceMi: float | None
 
 class Cap_phone_price_compare_args_In(TypedDict):
     model: str
@@ -9923,6 +9948,19 @@ class Prv_medicare_medicarePlanDetail_Out_lis_Out(TypedDict):
     level50: float
     level25: float
 
+class Prv_mercari_search_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_mercari_MercariSearchResult_Out(TypedDict):
+    itemId: str
+    name: str
+    price: float
+    wasPrice: float | None
+    brand: str | None
+    size: str | None
+    url: str
+
 class Prv_mergify_queueStatus_args_In(TypedDict):
     owner: str
     repo: str
@@ -15530,6 +15568,20 @@ class Cap_pcparts(Protocol):
         Reads **Micro Center** pages today: pass a newegg.com or bhphotovideo.com URL and it
         THROWS naming the stores it can read, rather than returning an empty object an agent
         would misread as "this product has no specs".
+        """
+
+class Cap_pet_boarding(Protocol):
+    """Finds overnight pet-boarding sitters for a city and a specific date range — starting
+    nightly rate, rating, review count and distance — aggregated via Rover.
+    """
+
+    async def search(self, args: Cap_pet_boarding_search_args_In, options: Cap_pet_boarding_CallOptions_In | None = None, /) -> Cap_pet_boarding_SearchPetBoardingResult_Out:
+        """Searches overnight pet-boarding sitters for a city and increasing ISO start/end dates —
+        `bowmark.pet_boarding.search({ location: "Austin, TX", startDate: "2026-12-24", endDate:
+        "2026-12-28" })`. Returns each sitter's starting per-night rate for that stay (before
+        the provider's service fee and before per-pet pricing), rating, review count and
+        distance. Returns `sitters: []` when nothing is listed for that city and stay, a real,
+        complete answer, not a failure.
         """
 
 class Cap_phone_price(Protocol):
@@ -21746,6 +21798,17 @@ class Prv_medicare(Protocol):
         '' (not published) is load-bearing — never coerce an empty string to 0.
         """
 
+class Prv_mercari(Protocol):
+    """Large peer-to-peer resale marketplace (clothing, electronics, collectibles) — keyword
+    search over live listings with real, current prices.
+    """
+
+    async def search(self, query: str | Prv_mercari_search_query_u1_In, /) -> list[Prv_mercari_MercariSearchResult_Out]:
+        """Runs a Mercari US keyword search the way mercari.com's own search box does and returns
+        each matching listing — item id, name, current price, the crossed-out original price
+        when discounted, brand, size and the listing's own mercari.com URL.
+        """
+
 class Prv_mergify(Protocol):
     """Mergify's own documented REST API (api.mergify.com) — the live state of a repo's merge
     queue: active batches, their checks and estimated merge times, and every pull request
@@ -25298,6 +25361,7 @@ class BowmarkProviders(Protocol):
     mcp_so: Prv_mcp_so
     medicalguardian: Prv_medicalguardian
     medicare: Prv_medicare
+    mercari: Prv_mercari
     mergify: Prv_mergify
     microcenter: Prv_microcenter
     millisaraylar: Prv_millisaraylar
@@ -25447,6 +25511,7 @@ class Bowmark(Protocol):
     mcp_registry: Cap_mcp_registry
     music: Cap_music
     pcparts: Cap_pcparts
+    pet_boarding: Cap_pet_boarding
     phone_price: Cap_phone_price
     phone_trade_in: Cap_phone_trade_in
     pricing: Cap_pricing

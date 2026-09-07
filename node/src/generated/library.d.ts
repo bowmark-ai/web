@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0347db7ec889122fb3741ca469b63ca8f80f6127012a36539813c955a521ec88
-// 42 capabilities, 327 providers, 824 typed functions, 20 refused.
+// Manifest version: 008d7f0f9a42669e96a39dd5c91de765add3283be062891bf041467540dc8025
+// 43 capabilities, 328 providers, 826 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1667,6 +1667,49 @@ type ProductResult = {
      * product has no specs".
      */
     getProduct(urlOrOffer: string | Offer, options?: CallOptions): Promise<ProductResult>;
+  }
+}
+
+declare namespace BowmarkCapability_pet_boarding {
+  // ── Overnight pet boarding search — the unit's own declarations, verbatim ──
+type PetBoardingSitter = {
+  name: string
+  profileUrl: string
+  ratingValue: number | null
+  reviewCount: number | null
+  startingNightlyRateCents: number   // before the provider's service fee and per-pet pricing
+  currency: string
+  location: string | null
+  distanceMi: number | null
+}
+type SearchPetBoardingResult = {
+  location: string
+  startDate: string
+  endDate: string
+  sitters: PetBoardingSitter[]   // [] when nothing is listed — a real, complete answer
+  warnings: string[]             // always present; empty when nothing was dropped
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Finds overnight pet-boarding sitters for a city and a specific date range — starting nightly
+   * rate, rating, review count and distance — aggregated via Rover.
+   */
+  interface Unit {
+    /**
+     * Searches overnight pet-boarding sitters for a city and increasing ISO start/end dates —
+     * `bowmark.pet_boarding.search({ location: "Austin, TX", startDate: "2026-12-24", endDate:
+     * "2026-12-28" })`. Returns each sitter's starting per-night rate for that stay (before the
+     * provider's service fee and before per-pet pricing), rating, review count and distance.
+     * Returns `sitters: []` when nothing is listed for that city and stay, a real, complete
+     * answer, not a failure.
+     */
+    search(args: { location: string; startDate: string; endDate: string }, options?: CallOptions): Promise<SearchPetBoardingResult>;
   }
 }
 
@@ -19273,6 +19316,32 @@ interface medicareGetPlanQuery {
   }
 }
 
+declare namespace BowmarkProvider_mercari {
+  // ── Mercari — the unit's own declarations, verbatim ──
+interface MercariSearchResult {
+  itemId: string;
+  name: string;
+  price: number;
+  wasPrice: number | null;
+  brand: string | null;
+  size: string | null;
+  url: string;
+}
+
+  /**
+   * Large peer-to-peer resale marketplace (clothing, electronics, collectibles) — keyword search
+   * over live listings with real, current prices.
+   */
+  interface Unit {
+    /**
+     * Runs a Mercari US keyword search the way mercari.com's own search box does and returns each
+     * matching listing — item id, name, current price, the crossed-out original price when
+     * discounted, brand, size and the listing's own mercari.com URL.
+     */
+    search(query: string | { query: string; limit?: number }): Promise<MercariSearchResult[]>;
+  }
+}
+
 declare namespace BowmarkProvider_mergify {
   // ── Mergify — the unit's own declarations, verbatim ──
 interface mergifyBatch {
@@ -29216,6 +29285,7 @@ interface BowmarkProviders {
   mcp_so: BowmarkProvider_mcp_so.Unit;
   medicalguardian: BowmarkProvider_medicalguardian.Unit;
   medicare: BowmarkProvider_medicare.Unit;
+  mercari: BowmarkProvider_mercari.Unit;
   mergify: BowmarkProvider_mergify.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
   millisaraylar: BowmarkProvider_millisaraylar.Unit;
@@ -81079,6 +81149,7 @@ interface BowmarkLibrary {
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
+  pet_boarding: BowmarkCapability_pet_boarding.Unit;
   phone_price: BowmarkCapability_phone_price.Unit;
   phone_trade_in: BowmarkCapability_phone_trade_in.Unit;
   pricing: BowmarkCapability_pricing.Unit;
