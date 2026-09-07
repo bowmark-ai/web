@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1249 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1251 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -945,6 +945,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `platform_claude_com.getDocPage` | platform.claude.com | Reads one page of platform.claude.com's own /docs/** documentation by URL or path and… | 🟢 |
 | `platform_claude_com.getPage` | platform.claude.com | Reads a non-/docs page (e.g. /plugins/submit) and returns its title and meta… | ⚪ |
 | `platform_claude_com.listDocPages` | platform.claude.com | Lists every English /docs page platform.claude.com publishes, parsed from the site's… | 🟢 |
+| `polymarket.getMarket` | polymarket.com | Reads one Polymarket market by its slug (the id search returns) — question, outcomes… | 🟢 |
+| `polymarket.search` | polymarket.com | Searches Polymarket's own prediction markets by keyword (via its public-search API)… | 🟢 |
 | `poshmark.getBulkUploadTemplateGuide` | poshmark.com | Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required… | 🟢 |
 | `poshmark.getZipFileGuide` | poshmark.com | Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how… | 🟢 |
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
