@@ -6,6 +6,22 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.15.0 (2026-09-07)
+
+**Capabilities**
+
+- New capability **pet_boarding** (1 function): `pet_boarding.search`
+
+**Providers**
+
+- New provider **kalshi.com** (2 functions): `kalshi.getMarket`, `kalshi.getMarkets`
+- New provider **mercari.com** (1 function): `mercari.search`
+- New provider **nfa.futures.org** (3 functions): `nfa_futures_org.lookupByNfaId`, `nfa_futures_org.searchFirms`, `nfa_futures_org.searchIndividuals`
+- New provider **npmjs.com** (1 function): `npmjs.getDownloads`
+- New provider **polymarket.com** (2 functions): `polymarket.getMarket`, `polymarket.search`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.14.0 (2026-09-06)
 
 **Capabilities**
