@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 956cd34d082cc3e46c4de52865bbc8fd346a168735ba6c35b3684fabf6ca542a
-# 43 capabilities, 328 providers, 808 typed functions, 20 refused.
+# Manifest version: 74df2577fe5ed65dc045250d151618424731e5f2e2df9aa85379bca4dd453c36
+# 43 capabilities, 329 providers, 810 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11245,6 +11245,17 @@ class Prv_platform_claude_com_platform_claude_comDocLink_Out(TypedDict):
     title: str
     url: str
     description: str | None
+
+class Prv_polymarket_polymarketMarket_Out(TypedDict):
+    slug: str
+    question: str
+    outcomes: list[str]
+    outcomePrices: list[float]
+    volume: float
+    liquidity: float | None
+    endDate: str | None
+    active: bool
+    closed: bool
 
 class Prv_poshmark_PoshmarkSupportArticle_Out(TypedDict):
     url: str
@@ -22740,6 +22751,26 @@ class Prv_platform_claude_com(Protocol):
         /llms.txt index.
         """
 
+class Prv_polymarket(Protocol):
+    """Polymarket's own prediction markets — search by keyword or browse the newest, and read
+    one market's question, live outcome prices, volume and status by slug.
+    """
+
+    async def search(self, query: str | None = None, limit: float | None = None, /) -> list[Prv_polymarket_polymarketMarket_Out]:
+        """Searches Polymarket's own markets by keyword, e.g. "election" or "bitcoin" — the same
+        search its own site uses. Omit `query` to list the newest active markets instead. Each
+        row carries the market's slug (what `getMarket` takes), its question, its outcomes and
+        their current prices (0-1 implied probabilities), volume, liquidity (when the door
+        carries it) and whether it is still active/open. `limit` caps how many rows come back
+        (default 20, capped at 100).
+        """
+
+    async def getMarket(self, slug: str, /) -> Prv_polymarket_polymarketMarket_Out:
+        """Reads one Polymarket market by its slug (the id `search` returns, e.g.
+        "xi-jinping-out-before-2027") — its question, outcomes, current outcome prices, volume,
+        liquidity, end date and open/closed status, straight from the site's own API.
+        """
+
 class Prv_poshmark(Protocol):
     """Poshmark's own support-center documentation (support.poshmark.com) for Bulk Upload — the
     CSV/template format and the zip-of-photos requirements for sellers listing many items at
@@ -25396,6 +25427,7 @@ class BowmarkProviders(Protocol):
     pirateship: Prv_pirateship
     pizzahut: Prv_pizzahut
     platform_claude_com: Prv_platform_claude_com
+    polymarket: Prv_polymarket
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
     premierbuildings: Prv_premierbuildings

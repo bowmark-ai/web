@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 956cd34d082cc3e46c4de52865bbc8fd346a168735ba6c35b3684fabf6ca542a
-// 43 capabilities, 328 providers, 826 typed functions, 20 refused.
+// Manifest version: 74df2577fe5ed65dc045250d151618424731e5f2e2df9aa85379bca4dd453c36
+// 43 capabilities, 329 providers, 828 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21748,6 +21748,43 @@ interface platform_claude_comDocLink {
   }
 }
 
+declare namespace BowmarkProvider_polymarket {
+  // ── Polymarket — the unit's own declarations, verbatim ──
+interface polymarketMarket {
+  slug: string;
+  question: string;
+  outcomes: string[];
+  outcomePrices: number[];
+  volume: number;
+  liquidity: number | null;
+  endDate: string | null;
+  active: boolean;
+  closed: boolean;
+}
+
+  /**
+   * Polymarket's own prediction markets — search by keyword or browse the newest, and read one
+   * market's question, live outcome prices, volume and status by slug.
+   */
+  interface Unit {
+    /**
+     * Searches Polymarket's own markets by keyword, e.g. "election" or "bitcoin" — the same search
+     * its own site uses. Omit `query` to list the newest active markets instead. Each row carries
+     * the market's slug (what `getMarket` takes), its question, its outcomes and their current
+     * prices (0-1 implied probabilities), volume, liquidity (when the door carries it) and whether
+     * it is still active/open. `limit` caps how many rows come back (default 20, capped at 100).
+     */
+    search(query?: string, limit?: number): Promise<polymarketMarket[]>;
+
+    /**
+     * Reads one Polymarket market by its slug (the id `search` returns, e.g.
+     * "xi-jinping-out-before-2027") — its question, outcomes, current outcome prices, volume,
+     * liquidity, end date and open/closed status, straight from the site's own API.
+     */
+    getMarket(slug: string): Promise<polymarketMarket>;
+  }
+}
+
 declare namespace BowmarkProvider_poshmark {
   // ── Poshmark — the unit's own declarations, verbatim ──
 interface PoshmarkSupportArticle {
@@ -29320,6 +29357,7 @@ interface BowmarkProviders {
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
   platform_claude_com: BowmarkProvider_platform_claude_com.Unit;
+  polymarket: BowmarkProvider_polymarket.Unit;
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;

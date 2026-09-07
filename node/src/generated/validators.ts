@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 956cd34d082cc3e46c4de52865bbc8fd346a168735ba6c35b3684fabf6ca542a
-// 808 checked, 20 unchecked.
+// Manifest version: 74df2577fe5ed65dc045250d151618424731e5f2e2df9aa85379bca4dd453c36
+// 810 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "956cd34d082cc3e46c4de52865bbc8fd346a168735ba6c35b3684fabf6ca542a",
+  "version": "74df2577fe5ed65dc045250d151618424731e5f2e2df9aa85379bca4dd453c36",
   "units": {
     "bundles": {
       "defs": {},
@@ -17758,6 +17758,36 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      }
+    },
+    "providers.polymarket": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "getMarket": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.poshmark": {
