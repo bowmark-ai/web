@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e396c290b59b73877a7b9ca0378a65dc856f46f22efef843d7216dd6c4054ffe
-# 43 capabilities, 330 providers, 812 typed functions, 20 refused.
+# Manifest version: 23b6633ded987b433276311bd6c89f96297649a628b9687bc4fbd8d39745a4ee
+# 43 capabilities, 331 providers, 815 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10613,6 +10613,15 @@ class Prv_newegg_StoreStock_Out(TypedDict):
     price: float | None
     currency: str
     checkedAt: str
+
+class Prv_nfa_futures_org_NfaEntity_Out(TypedDict):
+    nfaId: str
+    name: str
+    membershipStatus: str | None
+    registrationTypes: str | None
+    hasRegulatoryActions: bool
+    entityToken: str
+    profileUrl: str
 
 class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     package: str
@@ -22359,6 +22368,30 @@ class Prv_newegg(Protocol):
         mistaken for bad news.
         """
 
+class Prv_nfa_futures_org(Protocol):
+    """NFA's own BASIC registry — search a firm or individual by name, or look one up by NFA
+    ID, for its current membership status, registration types and whether it carries
+    regulatory actions.
+    """
+
+    async def searchFirms(self, name: str, /) -> list[Prv_nfa_futures_org_NfaEntity_Out]:
+        """Firms NFA's own BASIC registry lists for a name query (e.g. "JPMorgan Chase Bank") — NFA
+        ID, membership status, registration types and whether NFA shows any regulatory action
+        against it. The door for a caller who only knows the firm's name.
+        """
+
+    async def searchIndividuals(self, name: str, /) -> list[Prv_nfa_futures_org_NfaEntity_Out]:
+        """Individuals NFA's own BASIC registry lists for a name query (e.g. "Smith") — NFA ID,
+        membership status, registration types and whether NFA shows any regulatory action
+        against them. The door for a caller who only knows the person's name.
+        """
+
+    async def lookupByNfaId(self, nfaId: str, /) -> Prv_nfa_futures_org_NfaEntity_Out:
+        """One firm or individual's current NFA membership status and registration types, by NFA ID
+        (e.g. "0229152"), or by pasting a BasicNet profile URL (its "nfaid" query parameter is
+        read for you). THROWS if BASIC lists no registrant under that id.
+        """
+
 class Prv_npmjs(Protocol):
     """npmjs.com's own public download-counts API — real weekly/daily/monthly download totals
     (or a custom date range) for any published npm package, scoped or not.
@@ -25471,6 +25504,7 @@ class BowmarkProviders(Protocol):
     nationalbusinessfurniture: Prv_nationalbusinessfurniture
     newageproducts: Prv_newageproducts
     newegg: Prv_newegg
+    nfa_futures_org: Prv_nfa_futures_org
     npmjs: Prv_npmjs
     nutrafol: Prv_nutrafol
     nvisioncenters: Prv_nvisioncenters

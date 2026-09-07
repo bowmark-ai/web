@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e396c290b59b73877a7b9ca0378a65dc856f46f22efef843d7216dd6c4054ffe
-// 812 checked, 20 unchecked.
+// Manifest version: 23b6633ded987b433276311bd6c89f96297649a628b9687bc4fbd8d39745a4ee
+// 815 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e396c290b59b73877a7b9ca0378a65dc856f46f22efef843d7216dd6c4054ffe",
+  "version": "23b6633ded987b433276311bd6c89f96297649a628b9687bc4fbd8d39745a4ee",
   "units": {
     "bundles": {
       "defs": {},
@@ -16730,6 +16730,38 @@ export const VALIDATORS: ValidatorTable = {
         "checkStock": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.nfa_futures_org": {
+      "defs": {},
+      "functions": {
+        "searchFirms": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchIndividuals": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "lookupByNfaId": [
+          {
+            "name": "nfaId",
             "schema": {
               "k": "string"
             },

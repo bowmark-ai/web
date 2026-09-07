@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e396c290b59b73877a7b9ca0378a65dc856f46f22efef843d7216dd6c4054ffe
-// 43 capabilities, 330 providers, 830 typed functions, 20 refused.
+// Manifest version: 23b6633ded987b433276311bd6c89f96297649a628b9687bc4fbd8d39745a4ee
+// 43 capabilities, 331 providers, 833 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20669,6 +20669,47 @@ interface StoreStock {
   }
 }
 
+declare namespace BowmarkProvider_nfa_futures_org {
+  // ── NFA BASIC — the unit's own declarations, verbatim ──
+interface NfaEntity {
+  nfaId: string;                       // "0229152"
+  name: string;
+  membershipStatus: string | null;     // e.g. "NFA MEMBER APPROVED, SWAP DEALER REGISTERED"
+  registrationTypes: string | null;    // e.g. "Swap Dealer, Exempt Commodity Trading Advisor"
+  hasRegulatoryActions: boolean;
+  entityToken: string;                 // BASIC's own encrypted per-search token
+  profileUrl: string;                  // this entity's BasicNet profile page
+}
+
+  /**
+   * NFA's own BASIC registry — search a firm or individual by name, or look one up by NFA ID,
+   * for its current membership status, registration types and whether it carries regulatory
+   * actions.
+   */
+  interface Unit {
+    /**
+     * Firms NFA's own BASIC registry lists for a name query (e.g. "JPMorgan Chase Bank") — NFA ID,
+     * membership status, registration types and whether NFA shows any regulatory action against
+     * it. The door for a caller who only knows the firm's name.
+     */
+    searchFirms(name: string): Promise<NfaEntity[]>;
+
+    /**
+     * Individuals NFA's own BASIC registry lists for a name query (e.g. "Smith") — NFA ID,
+     * membership status, registration types and whether NFA shows any regulatory action against
+     * them. The door for a caller who only knows the person's name.
+     */
+    searchIndividuals(name: string): Promise<NfaEntity[]>;
+
+    /**
+     * One firm or individual's current NFA membership status and registration types, by NFA ID
+     * (e.g. "0229152"), or by pasting a BasicNet profile URL (its "nfaid" query parameter is read
+     * for you). THROWS if BASIC lists no registrant under that id.
+     */
+    lookupByNfaId(nfaId: string): Promise<NfaEntity>;
+  }
+}
+
 declare namespace BowmarkProvider_npmjs {
   // ── npm — the unit's own declarations, verbatim ──
 interface npmjsDownloads {
@@ -29407,6 +29448,7 @@ interface BowmarkProviders {
   nationalbusinessfurniture: BowmarkProvider_nationalbusinessfurniture.Unit;
   newageproducts: BowmarkProvider_newageproducts.Unit;
   newegg: BowmarkProvider_newegg.Unit;
+  nfa_futures_org: BowmarkProvider_nfa_futures_org.Unit;
   npmjs: BowmarkProvider_npmjs.Unit;
   nutrafol: BowmarkProvider_nutrafol.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
