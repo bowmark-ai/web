@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 008d7f0f9a42669e96a39dd5c91de765add3283be062891bf041467540dc8025
+// Manifest version: 956cd34d082cc3e46c4de52865bbc8fd346a168735ba6c35b3684fabf6ca542a
 // 43 capabilities, 328 providers, 826 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -27931,16 +27931,18 @@ interface XpressWaitTime {
 }
 
   /**
-   * Reads Xpress Wellness Urgent Care's clinic roster and each clinic's live healow wait-time /
-   * check-in widget — no key, no browser.
+   * Reads the Xpress Wellness / Integrity Urgent Care clinic roster and each clinic's live
+   * healow wait-time / check-in widget — no key, no browser.
    */
   interface Unit {
     /**
-     * Lists every Xpress Wellness Urgent Care clinic — 40 locations across Oklahoma, Kansas and
-     * one Texas site — with name, address, phone, the clinic's own detail page and the healow
-     * check-in widget URL + facility_id. Takes nothing. The facilityId it returns is what
-     * checkWaitTime takes. THROWS rather than returning [] when the roster page answers with no
-     * clinics — the roster is never honestly empty.
+     * Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each healow
+     * facility_id's own brand, then matching it against the site's current roster for a name and
+     * address — with name, address, the clinic's own detail page when matched and the healow
+     * check-in widget URL + facility_id. Takes nothing. phone is always null (neither source
+     * publishes one any more). The facilityId it returns is what checkWaitTime takes. THROWS
+     * rather than returning [] when no facility_id resolves to a confirmed clinic — the roster is
+     * never honestly empty.
      */
     listFacilities(): Promise<XpressFacility[]>;
 
