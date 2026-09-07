@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 23b6633ded987b433276311bd6c89f96297649a628b9687bc4fbd8d39745a4ee
-# 43 capabilities, 331 providers, 815 typed functions, 20 refused.
+# Manifest version: 9b7211367bac0bfd407244aa796a69d0dd2cb73416646c47d0b38b873391c7eb
+# 43 capabilities, 332 providers, 819 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4028,6 +4028,74 @@ class Prv_carepatrol_CarePatrolOffice_Out(TypedDict):
     teamMembersUrl: str
     servicesUrl: str
     distanceMiles: float | None
+
+class Prv_carlsgolfland_CglProductSummary_Out(TypedDict):
+    urlKey: str
+    sku: str
+    name: str
+    url: str
+    stockStatus: str
+    basePrice: float
+    basePriceFormatted: str
+
+class Prv_carlsgolfland_CglProduct_Out(TypedDict):
+    urlKey: str
+    sku: str
+    name: str
+    url: str
+    stockStatus: str
+    basePrice: float
+    basePriceFormatted: str
+    options: list[Prv_carlsgolfland_CglOption_Out]
+    variants: list[Prv_carlsgolfland_CglVariant_Out]
+
+class Prv_carlsgolfland_CglOption_Out(TypedDict):
+    groupLabel: str
+    attributeCode: str
+    choices: list[Prv_carlsgolfland_CglOptionChoice_Out]
+
+class Prv_carlsgolfland_CglOptionChoice_Out(TypedDict):
+    label: str
+    valueIndex: float
+
+class Prv_carlsgolfland_CglVariant_Out(TypedDict):
+    sku: str
+    stockStatus: str
+    price: float
+    priceFormatted: str
+    selections: Mapping[str, float]
+
+class Prv_carlsgolfland_CglPriceResult_Out(TypedDict):
+    urlKey: str
+    sku: str
+    variantSku: str | None
+    stockStatus: str | None
+    price: float | None
+    priceFormatted: str | None
+    applied: list[Prv_carlsgolfland_CglPriceResult_Out_applied_item_Out]
+    missingGroups: list[str]
+    unmatched: list[str]
+    handoffUrl: str
+
+class Prv_carlsgolfland_CglPriceResult_Out_applied_item_Out(TypedDict):
+    group: str
+    choice: str
+
+class Prv_carlsgolfland_CglCartHandoff_Out(TypedDict):
+    urlKey: str
+    sku: str
+    name: str
+    url: str
+    applied: list[Prv_carlsgolfland_CglCartHandoff_Out_applied_item_Out]
+    price: float | None
+    priceFormatted: str | None
+    stockStatus: str | None
+    missingGroups: list[str]
+    unmatched: list[str]
+
+class Prv_carlsgolfland_CglCartHandoff_Out_applied_item_Out(TypedDict):
+    group: str
+    choice: str
 
 class Prv_carmelrealtycompany_carmelrealtycompanyListingSummary_Out(TypedDict):
     url: str
@@ -17710,6 +17778,47 @@ class Prv_carepatrol(Protocol):
         senior-care advisor office(s), with owner, phone and consultation link.
         """
 
+class Prv_carlsgolfland(Protocol):
+    """Carl's Golfland's golf-equipment catalog — search live inventory, read one product's
+    real configurable options (hand, loft, shaft) with each combination's exact price and
+    stock status, and resolve a specific configuration to its real variant rather than a
+    researched estimate.
+    """
+
+    async def searchProducts(self, query: str, /) -> list[Prv_carlsgolfland_CglProductSummary_Out]:
+        """Searches Carl's Golfland's golf-equipment catalog by free text (e.g. "driver", "putter")
+        and returns every match's urlKey, SKU, name, entry URL, stock status and starting price.
+        The `urlKey` on each row is what getProduct takes.
+        """
+
+    async def getProduct(self, urlKey: str, /) -> Prv_carlsgolfland_CglProduct_Out:
+        """Reads one product's full configurable-option set (e.g. Hand, Driver Loft, Shaft) with
+        each choice's real label, plus every real buildable variant's exact price and stock
+        status. THROWS on an unknown urlKey, naming searchProducts() as the way to find current
+        ones.
+        """
+
+    async def priceConfiguration(self, urlKey: str, selections: Mapping[str, str], /) -> Prv_carlsgolfland_CglPriceResult_Out:
+        """Resolves ONE specific configuration — selections keyed by option group
+        (case-insensitive), e.g. { "Hand": "Right", "Driver Loft": "10.5*", "Shaft": "PING ALTA
+        CB Blue 50 Regular" } — against the product's live options and returns the matching
+        variant's real price and stock status, the applied choices, and the site URL to re-pick
+        the same choices (Carl's Golfland publishes no shareable URL for a configured state).
+        `missingGroups` names any option group with more than one choice left unpicked — price
+        is null until every such group is chosen. `unmatched` names any selection that did not
+        match a real group or choice, rather than silently mispricing.
+        """
+
+    async def addToCart(self, urlKey: str, selections: Mapping[str, str], /) -> Prv_carlsgolfland_CglCartHandoff_Out:
+        """Turns a configuration into the handoff you give the shopper: Carl's Golfland's own
+        product page URL plus the exact choices to click there, since this storefront does not
+        honour a query-param deep link for a configured state (measured — see the provider's
+        reach note). Same selections shape as priceConfiguration, and returns the same price,
+        stock status and applied choices alongside the URL. NOTHING IS CREATED SERVER-SIDE and
+        nothing is bought — this provider never posts to the site's own add-to-cart endpoint,
+        which requires a session-bound form key this stateless call does not hold.
+        """
+
 class Prv_carmelrealtycompany(Protocol):
     """Runs Carmel Realty Company's own regional listing search and listing-detail pages and
     returns real, live MLS-backed rows — address, price, MLS number, beds/baths, coordinates
@@ -25351,6 +25460,7 @@ class BowmarkProviders(Protocol):
     capitalbrands: Prv_capitalbrands
     caraway: Prv_caraway
     carepatrol: Prv_carepatrol
+    carlsgolfland: Prv_carlsgolfland
     carmelrealtycompany: Prv_carmelrealtycompany
     carolefabrics: Prv_carolefabrics
     carpetlandusa: Prv_carpetlandusa

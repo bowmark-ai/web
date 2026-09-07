@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1256 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1261 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -84,7 +84,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ayreshotels.checkRates` | ayreshotels.com | Checks one property's real live rate/availability for a date range, straight off the… | 🟢 |
 | `azazie.getBuildYourOwnConfig` | azazie.com | Reads one bridesmaid-dress style's full Build Your Own configuration — every color… | 🟢 |
 | `azazie.getColorFamily` | azazie.com | Reads every dress style available in one named color, mirroring the product page's own… | ⚪ |
-| `azazie.search` | azazie.com | Searches Azazie's catalog by free text (style, color, fabric, occasion). | 🟢 |
+| `azazie.search` | azazie.com | Searches Azazie's catalog by free text (style, color, fabric, occasion). | 🟡 |
 | `azure.checkRegionAvailability` | azure.microsoft.com | Answers whether a given Azure product is actually available in a given region, and in… | ⚪ |
 | `azure.estimateCost` | azure.microsoft.com | Prices a whole proposed deployment rather than one meter: the caller passes line items… | ⚪ |
 | `azure.getServiceHealth` | azure.microsoft.com | Returns the current operational status of Azure services by service and region — which… | ⚪ |
@@ -213,6 +213,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `caraway.listCarawayProducts` | carawayhome.com | Reads the live Caraway catalogue as Caraway publishes it — every ceramic cookware… | 🟢 |
 | `caraway.runCarawayQuiz` | carawayhome.com | Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended… | 🟡 |
 | `carepatrol.findLocalAdvisor` | carepatrol.com | Runs the site's own zip/state locator at carepatrol.com/locations/ — given a US ZIP… | 🟢 |
+| `carlsgolfland.addToCart` | carlsgolfland.com | Hands the shopper the entry-point link for a priced configuration plus the exact… | 🟢 |
+| `carlsgolfland.checkout` | carlsgolfland.com | Would place a priced configuration into Carl's Golfland's cart and return a checkout… | ⚪ |
+| `carlsgolfland.getProduct` | carlsgolfland.com | Reads one product's full configurable-option set (e.g. Hand, Driver Loft, Shaft) with… | 🟢 |
+| `carlsgolfland.priceConfiguration` | carlsgolfland.com | Resolves a specific configuration (a choice per option group, e.g. { Hand: "Right"… | 🟢 |
+| `carlsgolfland.searchProducts` | carlsgolfland.com | Searches Carl's Golfland's golf-equipment catalog by free text and returns each… | 🟢 |
 | `carmelrealtycompany.getListing` | carmelrealtycompany.com | Fetches one listing detail page by slug and returns address, sold/active status… | 🟢 |
 | `carmelrealtycompany.searchListings` | carmelrealtycompany.com | Runs one of Carmel Realty Company's own regional listing-search pages and returns… | 🟢 |
 | `carolefabrics.search` | carolenet.com (Carole Fabrics' own CaroleNet trade catalog) | Runs a keyword search against CaroleNet's live fabric or trim catalog and returns the… | 🟢 |

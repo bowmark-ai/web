@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 23b6633ded987b433276311bd6c89f96297649a628b9687bc4fbd8d39745a4ee
-// 815 checked, 20 unchecked.
+// Manifest version: 9b7211367bac0bfd407244aa796a69d0dd2cb73416646c47d0b38b873391c7eb
+// 819 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "23b6633ded987b433276311bd6c89f96297649a628b9687bc4fbd8d39745a4ee",
+  "version": "9b7211367bac0bfd407244aa796a69d0dd2cb73416646c47d0b38b873391c7eb",
   "units": {
     "bundles": {
       "defs": {},
@@ -6532,6 +6532,67 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.carlsgolfland": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "urlKey",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "priceConfiguration": [
+          {
+            "name": "urlKey",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          }
+        ],
+        "addToCart": [
+          {
+            "name": "urlKey",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "selections",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "string"
+              }
             },
             "optional": false
           }

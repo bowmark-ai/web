@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 23b6633ded987b433276311bd6c89f96297649a628b9687bc4fbd8d39745a4ee
-// 43 capabilities, 331 providers, 833 typed functions, 20 refused.
+// Manifest version: 9b7211367bac0bfd407244aa796a69d0dd2cb73416646c47d0b38b873391c7eb
+// 43 capabilities, 332 providers, 837 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7346,6 +7346,120 @@ interface CarePatrolFindLocalAdvisorResult {
      * senior-care advisor office(s), with owner, phone and consultation link.
      */
     findLocalAdvisor(arg: { zipCode: string }): Promise<CarePatrolFindLocalAdvisorResult>;
+  }
+}
+
+declare namespace BowmarkProvider_carlsgolfland {
+  // ── Carl's Golfland — the unit's own declarations, verbatim ──
+// Carl's Golfland's OWN shapes — not a capability contract.
+
+interface CglProductSummary {
+  urlKey: string;              // the key getProduct takes
+  sku: string;
+  name: string;
+  url: string;
+  stockStatus: string;         // "IN_STOCK" | "OUT_OF_STOCK"
+  basePrice: number;
+  basePriceFormatted: string;  // "$447.00"
+}
+
+interface CglOptionChoice { label: string; valueIndex: number }
+
+interface CglOption {
+  groupLabel: string;          // "Hand", "Driver Loft", "Shaft" — the real group name
+  attributeCode: string;
+  choices: CglOptionChoice[];
+}
+
+interface CglVariant {
+  sku: string;
+  stockStatus: string;
+  price: number;
+  priceFormatted: string;
+  selections: Record<string, number>; // attributeCode -> valueIndex
+}
+
+interface CglProduct {
+  urlKey: string;
+  sku: string;
+  name: string;
+  url: string;
+  stockStatus: string;
+  basePrice: number;
+  basePriceFormatted: string;
+  options: CglOption[];
+  variants: CglVariant[];
+}
+
+interface CglPriceResult {
+  urlKey: string;
+  sku: string;
+  variantSku: string | null;   // null until every multi-choice group is picked
+  stockStatus: string | null;
+  price: number | null;
+  priceFormatted: string | null;
+  applied: { group: string; choice: string }[];
+  missingGroups: string[];     // groups with >1 choice and no selection applied
+  unmatched: string[];         // selections that didn't match a real group/choice
+  handoffUrl: string;          // the product's entry page
+}
+
+interface CglCartHandoff {
+  urlKey: string;
+  sku: string;
+  name: string;
+  url: string;                 // the product page — Carl's Golfland publishes no query-param deep link
+  applied: { group: string; choice: string }[];
+  price: number | null;
+  priceFormatted: string | null;
+  stockStatus: string | null;
+  missingGroups: string[];
+  unmatched: string[];
+}
+
+  /**
+   * Carl's Golfland's golf-equipment catalog — search live inventory, read one product's real
+   * configurable options (hand, loft, shaft) with each combination's exact price and stock
+   * status, and resolve a specific configuration to its real variant rather than a researched
+   * estimate.
+   */
+  interface Unit {
+    /**
+     * Searches Carl's Golfland's golf-equipment catalog by free text (e.g. "driver", "putter") and
+     * returns every match's urlKey, SKU, name, entry URL, stock status and starting price. The
+     * `urlKey` on each row is what getProduct takes.
+     */
+    searchProducts(query: string): Promise<CglProductSummary[]>;
+
+    /**
+     * Reads one product's full configurable-option set (e.g. Hand, Driver Loft, Shaft) with each
+     * choice's real label, plus every real buildable variant's exact price and stock status.
+     * THROWS on an unknown urlKey, naming searchProducts() as the way to find current ones.
+     */
+    getProduct(urlKey: string): Promise<CglProduct>;
+
+    /**
+     * Resolves ONE specific configuration — selections keyed by option group (case-insensitive),
+     * e.g. { "Hand": "Right", "Driver Loft": "10.5*", "Shaft": "PING ALTA CB Blue 50 Regular" } —
+     * against the product's live options and returns the matching variant's real price and stock
+     * status, the applied choices, and the site URL to re-pick the same choices (Carl's Golfland
+     * publishes no shareable URL for a configured state). `missingGroups` names any option group
+     * with more than one choice left unpicked — price is null until every such group is chosen.
+     * `unmatched` names any selection that did not match a real group or choice, rather than
+     * silently mispricing.
+     */
+    priceConfiguration(urlKey: string, selections: Record<string, string>): Promise<CglPriceResult>;
+
+    /**
+     * Turns a configuration into the handoff you give the shopper: Carl's Golfland's own product
+     * page URL plus the exact choices to click there, since this storefront does not honour a
+     * query-param deep link for a configured state (measured — see the provider's reach note).
+     * Same selections shape as priceConfiguration, and returns the same price, stock status and
+     * applied choices alongside the URL. NOTHING IS CREATED SERVER-SIDE and nothing is bought —
+     * this provider never posts to the site's own add-to-cart endpoint, which requires a
+     * session-bound form key this stateless call does not hold.
+     */
+    addToCart(urlKey: string, selections: Record<string, string>): Promise<CglCartHandoff>;
   }
 }
 
@@ -29295,6 +29409,7 @@ interface BowmarkProviders {
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
   caraway: BowmarkProvider_caraway.Unit;
   carepatrol: BowmarkProvider_carepatrol.Unit;
+  carlsgolfland: BowmarkProvider_carlsgolfland.Unit;
   carmelrealtycompany: BowmarkProvider_carmelrealtycompany.Unit;
   carolefabrics: BowmarkProvider_carolefabrics.Unit;
   carpetlandusa: BowmarkProvider_carpetlandusa.Unit;
