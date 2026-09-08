@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 58a05170c677365df461c0132c93b4f0f45715e5459e98db70e8ab1cce8b5568
-# 43 capabilities, 334 providers, 824 typed functions, 20 refused.
+# Manifest version: 056bcd5571c8b5ee1f26e75104cbae22a12676f7110ce2edf07549ba84299504
+# 43 capabilities, 335 providers, 825 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7963,6 +7963,34 @@ class Prv_ihg_ihgRow_Out_lowestCashOnlyCost_u0_Out(TypedDict):
 class Prv_ihg_ihgRow_Out_highestCashOnlyCost_u0_Out(TypedDict):
     baseAmount: str
     ratePlanType: str | None
+
+class Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In(TypedDict):
+    state: NotRequired[str]
+    community: NotRequired[str]
+    minBeds: NotRequired[float]
+    minBaths: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    listingType: NotRequired[Literal["sale"] | Literal["rent"]]
+    limit: NotRequired[float]
+
+class Prv_inspirecommunities_InspirecommunitiesSearchHomesResult_Out(TypedDict):
+    total: float
+    pages: float
+    homes: list[Prv_inspirecommunities_InspirecommunitiesHome_Out]
+
+class Prv_inspirecommunities_InspirecommunitiesHome_Out(TypedDict):
+    id: str
+    address: str
+    community: str
+    location: str
+    price: float
+    beds: float
+    baths: float
+    sqft: float
+    listingType: Literal["sale"] | Literal["rent"]
+    detailUrl: str
+    tourHandoffUrl: str | None
 
 class Prv_instagram_InstagramProfile_Out(TypedDict):
     id: str
@@ -20558,6 +20586,17 @@ class Prv_ihg(Protocol):
         display names.
         """
 
+class Prv_inspirecommunities(Protocol):
+    """Searches Inspire Communities' live manufactured-home inventory and returns the real
+    listing plus its schedule-a-tour handoff.
+    """
+
+    async def searchHomes(self, args: Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In | None = None, /) -> Prv_inspirecommunities_InspirecommunitiesSearchHomesResult_Out:
+        """Searches Inspire Communities' current manufactured homes by state, community, beds,
+        baths, price and sale or rent status. Returns live inventory, detail URLs and a
+        read-only schedule-a-tour handoff URL.
+        """
+
 class Prv_instagram(Protocol):
     """Reads a public Instagram profile's own metadata and newest posts (instagram.com) — bio,
     follower/following counts, and the latest posts' captions, like and comment counts, off
@@ -25680,6 +25719,7 @@ class BowmarkProviders(Protocol):
     ibuypower: Prv_ibuypower
     identitygroup: Prv_identitygroup
     ihg: Prv_ihg
+    inspirecommunities: Prv_inspirecommunities
     instagram: Prv_instagram
     insurify: Prv_insurify
     interiordefine: Prv_interiordefine

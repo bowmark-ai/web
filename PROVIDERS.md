@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1266 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1267 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -662,6 +662,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟢 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
+| `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
 | `instagram.searchProfiles` | instagram.com | Searches Instagram for accounts matching a query and returns each match's username… | ⚪ |

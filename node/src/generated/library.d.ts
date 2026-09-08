@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 58a05170c677365df461c0132c93b4f0f45715e5459e98db70e8ab1cce8b5568
-// 43 capabilities, 334 providers, 842 typed functions, 20 refused.
+// Manifest version: 056bcd5571c8b5ee1f26e75104cbae22a12676f7110ce2edf07549ba84299504
+// 43 capabilities, 335 providers, 843 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15128,6 +15128,26 @@ interface ihgRow { id: string; brandCode: string; availabilityStatus: string; lo
   }
 }
 
+declare namespace BowmarkProvider_inspirecommunities {
+  // ── Inspire Communities — the unit's own declarations, verbatim ──
+interface InspirecommunitiesSearchHomesArgs { state?: string; community?: string; minBeds?: number; minBaths?: number; minPrice?: number; maxPrice?: number; listingType?: "sale" | "rent"; limit?: number; }
+interface InspirecommunitiesHome { id: string; address: string; community: string; location: string; price: number; beds: number; baths: number; sqft: number; listingType: "sale" | "rent"; detailUrl: string; tourHandoffUrl: string | null; }
+interface InspirecommunitiesSearchHomesResult { total: number; pages: number; homes: InspirecommunitiesHome[]; }
+
+  /**
+   * Searches Inspire Communities' live manufactured-home inventory and returns the real listing
+   * plus its schedule-a-tour handoff.
+   */
+  interface Unit {
+    /**
+     * Searches Inspire Communities' current manufactured homes by state, community, beds, baths,
+     * price and sale or rent status. Returns live inventory, detail URLs and a read-only
+     * schedule-a-tour handoff URL.
+     */
+    searchHomes(args?: InspirecommunitiesSearchHomesArgs): Promise<InspirecommunitiesSearchHomesResult>;
+  }
+}
+
 declare namespace BowmarkProvider_instagram {
   // ── Instagram — the unit's own declarations, verbatim ──
 interface InstagramProfile {
@@ -29588,6 +29608,7 @@ interface BowmarkProviders {
   ibuypower: BowmarkProvider_ibuypower.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
   ihg: BowmarkProvider_ihg.Unit;
+  inspirecommunities: BowmarkProvider_inspirecommunities.Unit;
   instagram: BowmarkProvider_instagram.Unit;
   insurify: BowmarkProvider_insurify.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;

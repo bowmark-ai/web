@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 58a05170c677365df461c0132c93b4f0f45715e5459e98db70e8ab1cce8b5568
-// 824 checked, 20 unchecked.
+// Manifest version: 056bcd5571c8b5ee1f26e75104cbae22a12676f7110ce2edf07549ba84299504
+// 825 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "58a05170c677365df461c0132c93b4f0f45715e5459e98db70e8ab1cce8b5568",
+  "version": "056bcd5571c8b5ee1f26e75104cbae22a12676f7110ce2edf07549ba84299504",
   "units": {
     "bundles": {
       "defs": {},
@@ -12486,6 +12486,93 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.inspirecommunities": {
+      "defs": {
+        "InspirecommunitiesSearchHomesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "community",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBeds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBaths",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "listingType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "sale"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rent"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchHomes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InspirecommunitiesSearchHomesArgs"
+            },
+            "optional": true
           }
         ]
       }
