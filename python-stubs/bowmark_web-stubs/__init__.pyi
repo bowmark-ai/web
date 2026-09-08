@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3e19faa9bb3ec844982b72b8209accda245a9a3053a8f786521d0518f6ce48ff
-# 43 capabilities, 340 providers, 837 typed functions, 20 refused.
+# Manifest version: 614bfc4a6a0689d476a6b25dd6c4a8fbf0d62805e2bb4be116c938de80b7b97e
+# 43 capabilities, 341 providers, 838 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1795,6 +1795,31 @@ class Prv_abercrombie_abercrombieSearchResult_Out(TypedDict):
     listPrice: float | None
     onSale: bool
     thumbnail: str | None
+
+class Prv_acerentacar_AcerentacarSearchArgs_In(TypedDict):
+    pickupLocationCode: str
+    pickupDate: str
+    dropoffDate: str
+    pickupTime: NotRequired[str]
+    dropoffTime: NotRequired[str]
+
+class Prv_acerentacar_AcerentacarVehicle_Out(TypedDict):
+    code: str
+    name: str
+    type: str
+    category: str
+    passengers: float
+    baggage: float
+    automatic: bool
+    currencyCode: str
+    rates: list[Prv_acerentacar_AcerentacarVehicle_Out_rates_item_Out]
+    reservationUrl: str
+
+class Prv_acerentacar_AcerentacarVehicle_Out_rates_item_Out(TypedDict):
+    bidId: str
+    baseRate: float
+    totalAmount: float
+    prepaid: bool
 
 class Prv_achosahw_AchosahwStateList_Out(TypedDict):
     states: list[Prv_achosahw_AchosahwStateEntry_Out]
@@ -16480,6 +16505,16 @@ class Prv_abercrombie(Protocol):
         "zero results".
         """
 
+class Prv_acerentacar(Protocol):
+    """ACE Rent A Car's live public vehicle availability and rates for a location and
+    itinerary, with a reservation handoff.
+    """
+
+    async def searchAvailability(self, args: Prv_acerentacar_AcerentacarSearchArgs_In, /) -> list[Prv_acerentacar_AcerentacarVehicle_Out]:
+        """Returns ACE's live available vehicle classes and rate totals for a public pickup
+        location and itinerary, plus a reservation handoff URL.
+        """
+
 class Prv_achosahw(Protocol):
     """Achosa Home Warranty plan configurator — real per-state home-warranty pricing across
     coverage tier, billing term and property type, read from the site's own live pricing
@@ -25797,6 +25832,7 @@ class BowmarkProviders(Protocol):
     aa: Prv_aa
     aauto: Prv_aauto
     abercrombie: Prv_abercrombie
+    acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
     acqualinaresort: Prv_acqualinaresort
     aiper: Prv_aiper

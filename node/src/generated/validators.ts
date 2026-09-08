@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3e19faa9bb3ec844982b72b8209accda245a9a3053a8f786521d0518f6ce48ff
-// 837 checked, 20 unchecked.
+// Manifest version: 614bfc4a6a0689d476a6b25dd6c4a8fbf0d62805e2bb4be116c938de80b7b97e
+// 838 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3e19faa9bb3ec844982b72b8209accda245a9a3053a8f786521d0518f6ce48ff",
+  "version": "614bfc4a6a0689d476a6b25dd6c4a8fbf0d62805e2bb4be116c938de80b7b97e",
   "units": {
     "bundles": {
       "defs": {},
@@ -3156,6 +3156,62 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "abercrombieSearchQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.acerentacar": {
+      "defs": {
+        "AcerentacarSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "pickupLocationCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "pickupDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "dropoffDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "pickupTime",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "dropoffTime",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AcerentacarSearchArgs"
             },
             "optional": false
           }

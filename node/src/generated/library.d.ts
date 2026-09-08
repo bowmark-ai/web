@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3e19faa9bb3ec844982b72b8209accda245a9a3053a8f786521d0518f6ce48ff
-// 43 capabilities, 340 providers, 855 typed functions, 20 refused.
+// Manifest version: 614bfc4a6a0689d476a6b25dd6c4a8fbf0d62805e2bb4be116c938de80b7b97e
+// 43 capabilities, 341 providers, 856 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3208,6 +3208,24 @@ interface abercrombieStockQuery {
      * does on `getProduct` — it is not a valid "zero results".
      */
     search(query: abercrombieSearchQuery): Promise<abercrombieSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_acerentacar {
+  // ── ACE Rent A Car — the unit's own declarations, verbatim ──
+interface AcerentacarSearchArgs { pickupLocationCode: string; pickupDate: string; dropoffDate: string; pickupTime?: string; dropoffTime?: string; }
+interface AcerentacarVehicle { code: string; name: string; type: string; category: string; passengers: number; baggage: number; automatic: boolean; currencyCode: string; rates: { bidId: string; baseRate: number; totalAmount: number; prepaid: boolean }[]; reservationUrl: string; }
+
+  /**
+   * ACE Rent A Car's live public vehicle availability and rates for a location and itinerary,
+   * with a reservation handoff.
+   */
+  interface Unit {
+    /**
+     * Returns ACE's live available vehicle classes and rate totals for a public pickup location
+     * and itinerary, plus a reservation handoff URL.
+     */
+    searchAvailability(args: AcerentacarSearchArgs): Promise<AcerentacarVehicle[]>;
   }
 }
 
@@ -29675,6 +29693,7 @@ interface BowmarkProviders {
   aa: BowmarkProvider_aa.Unit;
   aauto: BowmarkProvider_aauto.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
+  acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
   aiper: BowmarkProvider_aiper.Unit;
