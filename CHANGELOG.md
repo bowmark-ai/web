@@ -6,6 +6,23 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.16.0 (2026-09-08)
+
+**Providers**
+
+- New provider **a1storage.com** (3 functions): `a1storage.getFacilityUnits`, `a1storage.getMoveInCost`, `a1storage.listFacilities`
+- New provider **acerentacar.com** (2 functions): `acerentacar.searchAvailability`, `acerentacar.searchLocations`
+- New provider **carlsgolfland.com** (4 functions): `carlsgolfland.addToCart`, `carlsgolfland.getProduct`, `carlsgolfland.priceConfiguration`, `carlsgolfland.searchProducts`
+- New provider **chappellet.com** (3 functions): `chappellet.checkShippingEligibility`, `chappellet.getWine`, `chappellet.listWines`
+- New provider **charterhomes.com** (2 functions): `charterhomes.getScheduleVisitOptions`, `charterhomes.searchHomes`
+- New provider **fieldstonehomes.com** (3 functions): `fieldstonehomes.getAppointmentFormSchema`, `fieldstonehomes.prepareAppointment`, `fieldstonehomes.searchQuickMoveIns`
+- New provider **inspirecommunities.com** (1 function): `inspirecommunities.searchHomes`
+- New provider **luggageforward.com** (2 functions): `luggageforward.getQuoteOptions`, `luggageforward.listLuggageTypes`
+- New provider **nurturelife.com** (2 functions): `nurturelife.getMealBundle`, `nurturelife.getMealPlans`
+- New provider **trojanstorage.com** (2 functions): `trojanstorage.getFacilityUnits`, `trojanstorage.listFacilities`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.15.0 (2026-09-07)
 
 **Capabilities**
