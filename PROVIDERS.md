@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1271 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1274 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -250,6 +250,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `champxpress.listLocations` | champxpress.com | Lists every wash location currently enrolled in Champion Xpress's "25 for Life" MVP… | 🟢 |
 | `chantecaille.getFoundationQuizTaxonomy` | chantecaille.com | Reads Chantecaille's real, live Foundation Shade Match Quiz question and answer… | 🟢 |
 | `chantecaille.matchFoundation` | chantecaille.com | Chantecaille's own Foundation Shade Match Quiz, run for real: posts the caller's… | 🟢 |
+| `chappellet.checkShippingEligibility` | chappellet.com | Checks whether Chappellet's own storefront can ship wine to a US state right now, off… | 🟢 |
+| `chappellet.getWine` | chappellet.com | Reads one wine by its slug — vintage, varietal blend, tasting notes, live price and… | 🟢 |
+| `chappellet.listWines` | chappellet.com | Reads Chappellet's live public wine shop as the storefront publishes it — every… | 🟢 |
 | `cheapflights.getBookingOptions` | cheapflights.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `cheapflights.search` | cheapflights.com | Runs the itinerary search on cheapflights.com and returns its result rows… | 🟢 |
 | `cheapflights.searchCars` | cheapflights.com | Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup… | 🟢 |
@@ -676,7 +679,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `insurify.getCommercialAutoQuotes` | insurify.com | Returns commercial auto rates for a business's vehicles, drivers and use class — the… | ⚪ |
 | `insurify.getDeviceInsuranceQuotes` | insurify.com | Returns phone and device protection plan prices for a device's make, model and age… | ⚪ |
 | `insurify.getHealthQuotes` | insurify.com | Returns individual and family health insurance options for a ZIP, household size and… | ⚪ |
-| `insurify.getHomeQuotes` | insurify.com | Returns homeowners insurance rates from the carriers that will write a given property… | 🟢 |
+| `insurify.getHomeQuotes` | insurify.com | Returns homeowners insurance rates from the carriers that will write a given property… | 🟡 |
 | `insurify.getHomeStateRates` | insurify.com | Returns what homeowners insurance costs in a US state — the average annual premium… | ⚪ |
 | `insurify.getHomeWarrantyQuotes` | insurify.com | Returns home warranty (home service contract) plan prices for a property's location… | ⚪ |
 | `insurify.getInsightsReport` | insurify.com | Returns one Insurify Insights report's actual findings — the headline figures, the… | ⚪ |

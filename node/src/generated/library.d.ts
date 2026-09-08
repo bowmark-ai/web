@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 118bc949640f16cdd53a50f08f2d0bd87576a4170e25d0a39ab0c0b820a98738
-// 43 capabilities, 337 providers, 847 typed functions, 20 refused.
+// Manifest version: 0fdb4f6c535f9ef19e621fa84d1442e7306e2c4c7bb416b5405eac42dab7b2df
+// 43 capabilities, 338 providers, 850 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8095,6 +8095,64 @@ interface FoundationMatch {
      * taxonomy.
      */
     matchFoundation(selections: FoundationSelections): Promise<FoundationMatch[]>;
+  }
+}
+
+declare namespace BowmarkProvider_chappellet {
+  // ── Chappellet — the unit's own declarations, verbatim ──
+interface ChappelletVariantInventory {
+  inventoryLocationId: string;
+  availableForSaleCount: number;
+}
+
+interface ChappelletVariant {
+  id: string;
+  title: string;
+  sku: string | null;
+  volumeInML: number | null;
+  price: number; // cents
+  inventory: ChappelletVariantInventory[];
+  totalAvailable: number;
+}
+
+interface ChappelletWine {
+  id: string;
+  slug: string;
+  title: string;
+  webStatus: string;
+  variants: ChappelletVariant[];
+  inStock: boolean;
+  url: string;
+}
+
+interface ChappelletShippingCheck {
+  stateCode: string;
+  shippable: boolean;
+}
+
+  /**
+   * Chappellet's live public wine shop — current releases, real price and stock, and destination
+   * shipping eligibility, read straight off the Commerce7 storefront that powers
+   * chappellet.com/shop.
+   */
+  interface Unit {
+    /**
+     * Lists the current releases in Chappellet's public shop, with live price and per-location
+     * stock. Takes nothing (page defaults to 1). Example: bowmark.providers.chappellet.listWines()
+     */
+    listWines(page?: number): Promise<ChappelletWine[]>;
+
+    /**
+     * Reads one wine by the slug listWines returns — full variant, price and live stock detail.
+     * Example: bowmark.providers.chappellet.getWine("2023-pritchard-hill-cabernet-sauvignon")
+     */
+    getWine(slug: string): Promise<ChappelletWine>;
+
+    /**
+     * Checks whether Chappellet's storefront can ship wine to a US state right now. Example:
+     * bowmark.providers.chappellet.checkShippingEligibility("IL")
+     */
+    checkShippingEligibility(stateCode: string): Promise<ChappelletShippingCheck>;
   }
 }
 
@@ -29609,6 +29667,7 @@ interface BowmarkProviders {
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
   champxpress: BowmarkProvider_champxpress.Unit;
   chantecaille: BowmarkProvider_chantecaille.Unit;
+  chappellet: BowmarkProvider_chappellet.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
   chipotle: BowmarkProvider_chipotle.Unit;

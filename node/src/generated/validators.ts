@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 118bc949640f16cdd53a50f08f2d0bd87576a4170e25d0a39ab0c0b820a98738
-// 829 checked, 20 unchecked.
+// Manifest version: 0fdb4f6c535f9ef19e621fa84d1442e7306e2c4c7bb416b5405eac42dab7b2df
+// 832 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "118bc949640f16cdd53a50f08f2d0bd87576a4170e25d0a39ab0c0b820a98738",
+  "version": "0fdb4f6c535f9ef19e621fa84d1442e7306e2c4c7bb416b5405eac42dab7b2df",
   "units": {
     "bundles": {
       "defs": {},
@@ -7454,6 +7454,38 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FoundationSelections"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.chappellet": {
+      "defs": {},
+      "functions": {
+        "listWines": [
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "getWine": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "checkShippingEligibility": [
+          {
+            "name": "stateCode",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 118bc949640f16cdd53a50f08f2d0bd87576a4170e25d0a39ab0c0b820a98738
-# 43 capabilities, 337 providers, 829 typed functions, 20 refused.
+# Manifest version: 0fdb4f6c535f9ef19e621fa84d1442e7306e2c4c7bb416b5405eac42dab7b2df
+# 43 capabilities, 338 providers, 832 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4493,6 +4493,32 @@ class Prv_chantecaille_FoundationMatch_Out(TypedDict):
     productUrl: str
     productImageUrl: str
     description: str
+
+class Prv_chappellet_ChappelletWine_Out(TypedDict):
+    id: str
+    slug: str
+    title: str
+    webStatus: str
+    variants: list[Prv_chappellet_ChappelletVariant_Out]
+    inStock: bool
+    url: str
+
+class Prv_chappellet_ChappelletVariant_Out(TypedDict):
+    id: str
+    title: str
+    sku: str | None
+    volumeInML: float | None
+    price: float
+    inventory: list[Prv_chappellet_ChappelletVariantInventory_Out]
+    totalAvailable: float
+
+class Prv_chappellet_ChappelletVariantInventory_Out(TypedDict):
+    inventoryLocationId: str
+    availableForSaleCount: float
+
+class Prv_chappellet_ChappelletShippingCheck_Out(TypedDict):
+    stateCode: str
+    shippable: bool
 
 Prv_cheapflights_KayakQuery_In = TypedDict(
     "Prv_cheapflights_KayakQuery_In",
@@ -18202,6 +18228,29 @@ class Prv_chantecaille(Protocol):
         match the live taxonomy.
         """
 
+class Prv_chappellet(Protocol):
+    """Chappellet's live public wine shop — current releases, real price and stock, and
+    destination shipping eligibility, read straight off the Commerce7 storefront that powers
+    chappellet.com/shop.
+    """
+
+    async def listWines(self, page: float | None = None, /) -> list[Prv_chappellet_ChappelletWine_Out]:
+        """Lists the current releases in Chappellet's public shop, with live price and per-location
+        stock. Takes nothing (page defaults to 1). Example:
+        bowmark.providers.chappellet.listWines()
+        """
+
+    async def getWine(self, slug: str, /) -> Prv_chappellet_ChappelletWine_Out:
+        """Reads one wine by the slug listWines returns — full variant, price and live stock
+        detail. Example:
+        bowmark.providers.chappellet.getWine("2023-pritchard-hill-cabernet-sauvignon")
+        """
+
+    async def checkShippingEligibility(self, stateCode: str, /) -> Prv_chappellet_ChappelletShippingCheck_Out:
+        """Checks whether Chappellet's storefront can ship wine to a US state right now. Example:
+        bowmark.providers.chappellet.checkShippingEligibility("IL")
+        """
+
 class Prv_cheapflights(Protocol):
     """Cheapflights (cheapflights.com) — metasearch flight results, cheapest-first, read
     directly from the result cards.
@@ -25726,6 +25775,7 @@ class BowmarkProviders(Protocol):
     cbhhomes: Prv_cbhhomes
     champxpress: Prv_champxpress
     chantecaille: Prv_chantecaille
+    chappellet: Prv_chappellet
     cheapflights: Prv_cheapflights
     chesmar: Prv_chesmar
     chipotle: Prv_chipotle
