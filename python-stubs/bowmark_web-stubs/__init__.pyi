@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0fdb4f6c535f9ef19e621fa84d1442e7306e2c4c7bb416b5405eac42dab7b2df
-# 43 capabilities, 338 providers, 832 typed functions, 20 refused.
+# Manifest version: 1b5afd4e8f69f6b71d92fc9ad75a35090669712adee20a2f33e266d0418d2236
+# 43 capabilities, 339 providers, 835 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1498,6 +1498,49 @@ class Cap_yoga_outfit_shopping_YogaOutfitItem_Out(TypedDict):
     garmentType: str | None
     colorFamily: str | None
     fabrics: list[str]
+
+class Prv_a1storage_a1storageFacilitySearchFilters_In(TypedDict):
+    state: NotRequired[str]
+    city: NotRequired[str]
+
+class Prv_a1storage_a1storageFacility_Out(TypedDict):
+    facilityId: str
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str
+    email: str
+    lat: float | None
+    lng: float | None
+    locationUrl: str
+
+class Prv_a1storage_a1storageUnitGroup_Out(TypedDict):
+    unitId: str
+    length: float
+    width: float
+    areaSqFt: float
+    categoryName: str
+    features: list[str]
+    availableCount: float
+    regularPrice: float | None
+    promoPrice: float | None
+    promoLabel: str | None
+
+class Prv_a1storage_a1storageMoveInCost_Out(TypedDict):
+    charges: list[Prv_a1storage_a1storageCharge_Out]
+    subtotal: float
+    taxes: float
+    total: float
+    firstMonthRent: float
+    promotionName: str | None
+
+class Prv_a1storage_a1storageCharge_Out(TypedDict):
+    description: str
+    charge: float
+    tax: float
+    total: float
 
 class Prv_aa_aaBaggageAllowanceArgs_In(TypedDict):
     origin: str
@@ -16244,6 +16287,31 @@ class Cap_yoga_outfit_shopping(Protocol):
         result, which would be indistinguishable from 'nobody sells this'.
         """
 
+class Prv_a1storage(Protocol):
+    """Reads A-1 Self Storage's own live unit availability, pricing and per-unit itemized
+    move-in cost — real size, category, live rate and any active promo, and the exact
+    pre-rental total for a selected unit — off the site's own Storage Essentials REST API,
+    the way its facility pages compute the same numbers client-side.
+    """
+
+    async def listFacilities(self, filters: Prv_a1storage_a1storageFacilitySearchFilters_In | None = None, /) -> list[Prv_a1storage_a1storageFacility_Out]:
+        """Lists every A-1 Self Storage facility (51 today), optionally narrowed by US state or
+        city. Each row carries the facilityId getFacilityUnits/getMoveInCost take, plus address,
+        phone, email, lat/lng and a public locationUrl.
+        """
+
+    async def getFacilityUnits(self, facilityId: str, /) -> list[Prv_a1storage_a1storageUnitGroup_Out]:
+        """Reads one facility's live unit inventory by size group: real dimensions, category,
+        current availability, the standard web rate and any active promo rate. THROWS on an
+        unknown facilityId — call listFacilities() first.
+        """
+
+    async def getMoveInCost(self, facilityId: str, unitId: str, /) -> Prv_a1storage_a1storageMoveInCost_Out:
+        """Computes the itemized pre-rental move-in cost for one selected unit — rent, admin fee,
+        deposit, subtotal and total — before any tenant, ID or payment step. THROWS on an
+        unknown facilityId/unitId pair — call getFacilityUnits() first.
+        """
+
 class Prv_aa(Protocol):
     """American Airlines' own site — its published fares and award availability, flight status,
     reservation lookup, seat maps, baggage allowance and fee schedules. Flight status,
@@ -25689,6 +25757,7 @@ class BowmarkProviders(Protocol):
     wire — the id in the manifest, the trace, the namespace and a script are one
     string, so there is no camelCase alias to be uncertain about."""
 
+    a1storage: Prv_a1storage
     aa: Prv_aa
     aauto: Prv_aauto
     abercrombie: Prv_abercrombie

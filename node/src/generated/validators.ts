@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0fdb4f6c535f9ef19e621fa84d1442e7306e2c4c7bb416b5405eac42dab7b2df
-// 832 checked, 20 unchecked.
+// Manifest version: 1b5afd4e8f69f6b71d92fc9ad75a35090669712adee20a2f33e266d0418d2236
+// 835 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0fdb4f6c535f9ef19e621fa84d1442e7306e2c4c7bb416b5405eac42dab7b2df",
+  "version": "1b5afd4e8f69f6b71d92fc9ad75a35090669712adee20a2f33e266d0418d2236",
   "units": {
     "bundles": {
       "defs": {},
@@ -2739,6 +2739,66 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.a1storage": {
+      "defs": {
+        "a1storageFacilitySearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listFacilities": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "a1storageFacilitySearchFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getFacilityUnits": [
+          {
+            "name": "facilityId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMoveInCost": [
+          {
+            "name": "facilityId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "unitId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

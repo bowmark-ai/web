@@ -1,13 +1,16 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1274 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1277 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
 
 | Function | Site | What it does | Status |
 |---|---|---|---|
+| `a1storage.getFacilityUnits` | a1storage.com | Reads one facility's live unit inventory by size group (from `listFacilities`'s… | 🟢 |
+| `a1storage.getMoveInCost` | a1storage.com | Computes the itemized pre-rental move-in cost for one selected unit (from… | 🟢 |
+| `a1storage.listFacilities` | a1storage.com | Lists every A-1 Self Storage facility (51 today) with its address, phone, email… | 🟢 |
 | `aa.getAirportInfo` | aa.com | Reads what American publishes about an airport it serves — which terminal it operates… | ⚪ |
 | `aa.getBaggageAllowance` | aa.com | American's published baggage allowance and fees for a ROUTE, keyed on the two… | 🟢 |
 | `aa.getFlightStatus` | aa.com | Looks up an American Airlines flight's real-time status by flight number and date, or… | 🟢 |
@@ -670,7 +673,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
 | `instagram.searchProfiles` | instagram.com | Searches Instagram for accounts matching a query and returns each match's username… | ⚪ |
 | `insurify.estimateAutoCost` | insurify.com | Returns an estimated monthly car insurance cost for a driver profile — age, location… | ⚪ |
-| `insurify.getAutoQuotes` | insurify.com | Returns real-time side-by-side car insurance rates from the carriers that will… | 🟢 |
+| `insurify.getAutoQuotes` | insurify.com | Returns real-time side-by-side car insurance rates from the carriers that will… | 🟡 |
 | `insurify.getAutoWarrantyQuotes` | insurify.com | Returns extended vehicle service contract (auto warranty) prices for a vehicle's make… | ⚪ |
 | `insurify.getBusinessQuotes` | insurify.com | Returns small-business insurance rates — general liability, a business owner's policy… | ⚪ |
 | `insurify.getCarrierReview` | insurify.com | Returns Insurify's assessment of a named insurance company — its Insurify Quality… | 🟢 |

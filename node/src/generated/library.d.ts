@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0fdb4f6c535f9ef19e621fa84d1442e7306e2c4c7bb416b5405eac42dab7b2df
-// 43 capabilities, 338 providers, 850 typed functions, 20 refused.
+// Manifest version: 1b5afd4e8f69f6b71d92fc9ad75a35090669712adee20a2f33e266d0418d2236
+// 43 capabilities, 339 providers, 853 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2636,6 +2636,70 @@ type CallOptions = {
      * be indistinguishable from 'nobody sells this'.
      */
     search(query: string, options?: { limit?: number; timeoutMs?: number }): Promise<YogaOutfitSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_a1storage {
+  // ── A-1 Self Storage — the unit's own declarations, verbatim ──
+// A-1 Self Storage's OWN shapes — not a capability contract.
+
+interface a1storageFacility {
+  facilityId: string;   // the id getFacilityUnits/getMoveInCost take
+  name: string; address: string; city: string; state: string; zip: string;
+  phone: string; email: string;
+  lat: number | null; lng: number | null;
+  locationUrl: string;  // the facility's public page, verified against A-1's own sitemap
+}
+
+interface a1storageFacilitySearchFilters { state?: string; city?: string }
+
+interface a1storageUnitGroup {
+  unitId: string;        // the id getMoveInCost's unitId takes
+  length: number; width: number; areaSqFt: number;
+  categoryName: string;  // e.g. "Medium"
+  features: string[];
+  availableCount: number;
+  regularPrice: number | null;
+  promoPrice: number | null;  // null when no promo is currently active
+  promoLabel: string | null;
+}
+
+interface a1storageCharge { description: string; charge: number; tax: number; total: number }
+
+interface a1storageMoveInCost {
+  charges: a1storageCharge[];
+  subtotal: number; taxes: number; total: number;
+  firstMonthRent: number;
+  promotionName: string | null;
+}
+
+  /**
+   * Reads A-1 Self Storage's own live unit availability, pricing and per-unit itemized move-in
+   * cost — real size, category, live rate and any active promo, and the exact pre-rental total
+   * for a selected unit — off the site's own Storage Essentials REST API, the way its facility
+   * pages compute the same numbers client-side.
+   */
+  interface Unit {
+    /**
+     * Lists every A-1 Self Storage facility (51 today), optionally narrowed by US state or city.
+     * Each row carries the facilityId getFacilityUnits/getMoveInCost take, plus address, phone,
+     * email, lat/lng and a public locationUrl.
+     */
+    listFacilities(filters?: a1storageFacilitySearchFilters): Promise<a1storageFacility[]>;
+
+    /**
+     * Reads one facility's live unit inventory by size group: real dimensions, category, current
+     * availability, the standard web rate and any active promo rate. THROWS on an unknown
+     * facilityId — call listFacilities() first.
+     */
+    getFacilityUnits(facilityId: string): Promise<a1storageUnitGroup[]>;
+
+    /**
+     * Computes the itemized pre-rental move-in cost for one selected unit — rent, admin fee,
+     * deposit, subtotal and total — before any tenant, ID or payment step. THROWS on an unknown
+     * facilityId/unitId pair — call getFacilityUnits() first.
+     */
+    getMoveInCost(facilityId: string, unitId: string): Promise<a1storageMoveInCost>;
   }
 }
 
@@ -29581,6 +29645,7 @@ interface ShopifyCart {
  * wire — the id in the manifest, the trace, the namespace and a script are one
  * string, so there is no camelCase alias to be uncertain about. */
 interface BowmarkProviders {
+  a1storage: BowmarkProvider_a1storage.Unit;
   aa: BowmarkProvider_aa.Unit;
   aauto: BowmarkProvider_aauto.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
