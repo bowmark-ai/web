@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: af9f2fc3668f2f154cc412e2e604b0c3bb0bc71b189346496a21907e2c8a27ed
-# 43 capabilities, 341 providers, 839 typed functions, 20 refused.
+# Manifest version: 5da83428ac95584a4e6ae0580c16184fe03ce7c0809914df8114cb0be6b28220
+# 43 capabilities, 341 providers, 840 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16891,6 +16891,11 @@ class Prv_artpix3d(Protocol):
     shape, every size's real current price (with active sale discounts) and
     stock/best-seller labels — the way the site's own size-picker computes it, real-time.
     """
+
+    async def listPhotoCrystalShapes(self, /) -> list[Prv_artpix3d_Artpix3dShape_Out]:
+        """Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square, …),
+        each with its product page URL.
+        """
 
     async def listShapes(self, /) -> list[Prv_artpix3d_Artpix3dShape_Out]:
         """Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …), each

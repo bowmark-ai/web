@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1281 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1282 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -64,6 +64,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archipelago.getClientRelease` | archipelago.gg | Returns the latest published Archipelago client release — the version tag, the GitHub… | 🟢 |
 | `archipelago.getGameOptions` | archipelago.gg | Returns one game's per-player randomizer options — the commented YAML template… | 🟢 |
 | `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟢 |
+| `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟢 |
 | `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟢 |
 | `ashleyfurniture.checkStock` | ashleyfurniture.com | Answers whether a product (by SKU) is available for delivery to a ZIP — the function… | 🟡 |
 | `ashleyfurniture.findStore` | ashleyfurniture.com | Finds nearby Ashley HomeStore locations for a ZIP or address — hours, phone, and… | 🟡 |
@@ -233,7 +234,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cars.getConsumerReviews` | cars.com | Reads what owners say about one year/make/model on Cars.com: the aggregate score and… | ⚪ |
 | `cars.getDealer` | cars.com | Reads one dealership's Cars.com page: legal and display name, address and phone… | ⚪ |
 | `cars.getExpertReview` | cars.com | Reads the Cars.com editorial review of one year/make/model — the reviewer's verdict… | ⚪ |
-| `cars.getListing` | cars.com | Reads one for-sale vehicle listing in full from its own detail page: VIN, asking price… | 🟢 |
+| `cars.getListing` | cars.com | Reads one for-sale vehicle listing in full from its own detail page: VIN, asking price… | 🟡 |
 | `cars.getModelResearch` | cars.com | Reads Cars.com's research overview for one year/make/model: MSRP or price range, the… | 🟢 |
 | `cars.getRecalls` | cars.com | Looks up open safety recalls for a specific vehicle on Cars.com's recall surface — by… | ⚪ |
 | `cars.getTrimSpecs` | cars.com | Reads the full specification table for one year/make/model broken out BY TRIM: engine… | ⚪ |

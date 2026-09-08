@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: af9f2fc3668f2f154cc412e2e604b0c3bb0bc71b189346496a21907e2c8a27ed
-// 43 capabilities, 341 providers, 857 typed functions, 20 refused.
+// Manifest version: 5da83428ac95584a4e6ae0580c16184fe03ce7c0809914df8114cb0be6b28220
+// 43 capabilities, 341 providers, 858 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4188,6 +4188,12 @@ interface Artpix3dProductPricing {
    * labels — the way the site's own size-picker computes it, real-time.
    */
   interface Unit {
+    /**
+     * Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square, …), each
+     * with its product page URL.
+     */
+    listPhotoCrystalShapes(): Promise<Artpix3dShape[]>;
+
     /**
      * Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …), each with
      * its own product page URL.

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: af9f2fc3668f2f154cc412e2e604b0c3bb0bc71b189346496a21907e2c8a27ed
-// 839 checked, 20 unchecked.
+// Manifest version: 5da83428ac95584a4e6ae0580c16184fe03ce7c0809914df8114cb0be6b28220
+// 840 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "af9f2fc3668f2f154cc412e2e604b0c3bb0bc71b189346496a21907e2c8a27ed",
+  "version": "5da83428ac95584a4e6ae0580c16184fe03ce7c0809914df8114cb0be6b28220",
   "units": {
     "bundles": {
       "defs": {},
@@ -4084,6 +4084,7 @@ export const VALIDATORS: ValidatorTable = {
     "providers.artpix3d": {
       "defs": {},
       "functions": {
+        "listPhotoCrystalShapes": [],
         "listShapes": [],
         "getSizePricing": [
           {
