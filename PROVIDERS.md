@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1267 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1269 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -789,6 +789,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lufthansa.getSeatMap` | lufthansa.com | Reads the seat map for a specific flight — cabin layout, which seats are open… | ⚪ |
 | `lufthansa.retrieveBooking` | lufthansa.com | Reads an existing reservation by confirmation code (PNR) and the passenger's last name… | ⚪ |
 | `lufthansa.search` | lufthansa.com | Searches flights for an origin/destination/date (and cabin) and returns the available… | ⚪ |
+| `luggageforward.getQuoteOptions` | luggageforward.com | Reads Luggage Forward's live public luggage-shipping price grid and calculates every… | 🟢 |
+| `luggageforward.listLuggageTypes` | luggageforward.com | Lists the live luggage categories and their limits from Luggage Forward's public quote… | 🟢 |
 | `lululemon.addToCart` | shop.lululemon.com | Puts a chosen SKU — one colourway in one size — into a guest cart on lululemon.com… | ⚪ |
 | `lululemon.checkStoreStock` | shop.lululemon.com | Answers whether a specific size and colour is on the shelf at a named lululemon store… | ⚪ |
 | `lululemon.findStores` | shop.lululemon.com | Finds physical lululemon stores near a place the way the site's own store locator… | ⚪ |

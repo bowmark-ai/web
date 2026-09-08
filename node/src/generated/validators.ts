@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 056bcd5571c8b5ee1f26e75104cbae22a12676f7110ce2edf07549ba84299504
-// 825 checked, 20 unchecked.
+// Manifest version: ea220443def77dfb8ace41f0707bae428abeb046b76c9e263feca8dad7c5891d
+// 827 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "056bcd5571c8b5ee1f26e75104cbae22a12676f7110ce2edf07549ba84299504",
+  "version": "ea220443def77dfb8ace41f0707bae428abeb046b76c9e263feca8dad7c5891d",
   "units": {
     "bundles": {
       "defs": {},
@@ -15336,6 +15336,58 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      }
+    },
+    "providers.luggageforward": {
+      "defs": {
+        "LuggageforwardQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "items",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "LuggageforwardQuoteItem"
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
+        "LuggageforwardQuoteItem": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuoteOptions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LuggageforwardQuoteArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listLuggageTypes": []
       }
     },
     "providers.lululemon": {

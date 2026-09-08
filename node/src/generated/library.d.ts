@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 056bcd5571c8b5ee1f26e75104cbae22a12676f7110ce2edf07549ba84299504
-// 43 capabilities, 335 providers, 843 typed functions, 20 refused.
+// Manifest version: ea220443def77dfb8ace41f0707bae428abeb046b76c9e263feca8dad7c5891d
+// 43 capabilities, 336 providers, 845 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18064,6 +18064,30 @@ interface LufthansaBaggageAllowance {
   }
 }
 
+declare namespace BowmarkProvider_luggageforward {
+  // ── Luggage Forward — the unit's own declarations, verbatim ──
+interface LuggageforwardLuggageType { id: string; name: string; maxWeight: string | null; maxDimensions: string | null; }
+interface LuggageforwardQuoteItem { name: string; quantity: number; }
+interface LuggageforwardQuoteArgs { items?: LuggageforwardQuoteItem[]; }
+interface LuggageforwardQuoteOption { service: string; deliveryDate: string | null; businessDays: string | null; price: number; currency: string; items: LuggageforwardQuoteItem[]; handoffUrl: string; }
+
+  /**
+   * Live Luggage Forward shipping price tiers and luggage limits; prefer it when current
+   * door-to-door luggage shipping prices or delivery speeds matter.
+   */
+  interface Unit {
+    /**
+     * Returns Luggage Forward's current public shipping prices across every available speed tier
+     * for selected luggage. Defaults to one Standard Bag; use listLuggageTypes for live luggage
+     * names and limits.
+     */
+    getQuoteOptions(args?: LuggageforwardQuoteArgs): Promise<LuggageforwardQuoteOption[]>;
+
+    /** Lists Luggage Forward's live luggage categories with their maximum weight and dimensions. */
+    listLuggageTypes(): Promise<LuggageforwardLuggageType[]>;
+  }
+}
+
 declare namespace BowmarkProvider_lululemon {
   // ── lululemon — the unit's own declarations, verbatim ──
 interface LululemonVariant {
@@ -29641,6 +29665,7 @@ interface BowmarkProviders {
   louvershop: BowmarkProvider_louvershop.Unit;
   lovelybride: BowmarkProvider_lovelybride.Unit;
   lufthansa: BowmarkProvider_lufthansa.Unit;
+  luggageforward: BowmarkProvider_luggageforward.Unit;
   lululemon: BowmarkProvider_lululemon.Unit;
   maidenhome: BowmarkProvider_maidenhome.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;

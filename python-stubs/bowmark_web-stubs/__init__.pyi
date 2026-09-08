@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 056bcd5571c8b5ee1f26e75104cbae22a12676f7110ce2edf07549ba84299504
-# 43 capabilities, 335 providers, 825 typed functions, 20 refused.
+# Manifest version: ea220443def77dfb8ace41f0707bae428abeb046b76c9e263feca8dad7c5891d
+# 43 capabilities, 336 providers, 827 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9480,6 +9480,32 @@ class Prv_lufthansa_LufthansaBaggageFee_Out(TypedDict):
     name: str
     description: str
     priceUSD: float | None
+
+class Prv_luggageforward_LuggageforwardQuoteArgs_In(TypedDict):
+    items: NotRequired[Sequence[Prv_luggageforward_LuggageforwardQuoteItem_In]]
+
+class Prv_luggageforward_LuggageforwardQuoteItem_In(TypedDict):
+    name: str
+    quantity: float
+
+class Prv_luggageforward_LuggageforwardQuoteOption_Out(TypedDict):
+    service: str
+    deliveryDate: str | None
+    businessDays: str | None
+    price: float
+    currency: str
+    items: list[Prv_luggageforward_LuggageforwardQuoteItem_Out]
+    handoffUrl: str
+
+class Prv_luggageforward_LuggageforwardQuoteItem_Out(TypedDict):
+    name: str
+    quantity: float
+
+class Prv_luggageforward_LuggageforwardLuggageType_Out(TypedDict):
+    id: str
+    name: str
+    maxWeight: str | None
+    maxDimensions: str | None
 
 class Prv_lululemon_search_query_In(TypedDict):
     query: str
@@ -21782,6 +21808,22 @@ class Prv_lufthansa(Protocol):
         fare, independent of any specific booking or the caller's own frequent-flyer status.
         """
 
+class Prv_luggageforward(Protocol):
+    """Live Luggage Forward shipping price tiers and luggage limits; prefer it when current
+    door-to-door luggage shipping prices or delivery speeds matter.
+    """
+
+    async def getQuoteOptions(self, args: Prv_luggageforward_LuggageforwardQuoteArgs_In | None = None, /) -> list[Prv_luggageforward_LuggageforwardQuoteOption_Out]:
+        """Returns Luggage Forward's current public shipping prices across every available speed
+        tier for selected luggage. Defaults to one Standard Bag; use listLuggageTypes for live
+        luggage names and limits.
+        """
+
+    async def listLuggageTypes(self, /) -> list[Prv_luggageforward_LuggageforwardLuggageType_Out]:
+        """Lists Luggage Forward's live luggage categories with their maximum weight and
+        dimensions.
+        """
+
 class Prv_lululemon(Protocol):
     """lululemon's athletic apparel catalogue — search it, and read one product's full
     configurator: every colourway with its own price and images, the size options, and which
@@ -25752,6 +25794,7 @@ class BowmarkProviders(Protocol):
     louvershop: Prv_louvershop
     lovelybride: Prv_lovelybride
     lufthansa: Prv_lufthansa
+    luggageforward: Prv_luggageforward
     lululemon: Prv_lululemon
     maidenhome: Prv_maidenhome
     mailchimp: Prv_mailchimp
