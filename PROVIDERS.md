@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1264 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1266 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1179,6 +1179,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trawickinternational.getQuote` | trawickinternational.com | Submits Trawick's own homepage 'Get a Quote' travel-insurance form (destination… | 🟢 |
 | `trektravel.getDeparturePricing` | trektravel.com | Reads one trip's real scheduled departure dates straight off its own page: each date's… | 🟢 |
 | `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟡 |
+| `trojanstorage.getFacilityUnits` | trojanstorage.com | Reads one Trojan Storage facility's currently-listed units (from `listFacilities`'s… | 🟢 |
+| `trojanstorage.listFacilities` | trojanstorage.com | Lists every Trojan Storage facility (56 today) with its address, phone, lat/lng and… | 🟢 |
 | `trophysignaturehomes.compareHomes` | trophysignaturehomes.com | Runs the site's own compare: reads both homes and computes real price-per-square-foot… | 🟡 |
 | `trophysignaturehomes.getHome` | trophysignaturehomes.com | Reads one home's full detail: address, price, sqft, beds/baths, status, stories… | 🟢 |
 | `trophysignaturehomes.listPlans` | trophysignaturehomes.com | Lists the floor plans (as opposed to priced, addressed spec homes) available per… | ⚪ |

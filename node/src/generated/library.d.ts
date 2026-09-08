@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ae266f70c2dbd0fb756514209ac440b1dd57333da7255bd930a2dffc3c4b611a
-// 43 capabilities, 333 providers, 840 typed functions, 20 refused.
+// Manifest version: 58a05170c677365df461c0132c93b4f0f45715e5459e98db70e8ab1cce8b5568
+// 43 capabilities, 334 providers, 842 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26973,6 +26973,54 @@ interface TrekTravelSearchFilters {
   }
 }
 
+declare namespace BowmarkProvider_trojanstorage {
+  // ── Trojan Storage — the unit's own declarations, verbatim ──
+// Trojan Storage's OWN shapes — not a capability contract.
+
+interface TrojanstorageFacility {
+  facilityId: string;   // the id getFacilityUnits takes
+  name: string; url: string;
+  street: string; city: string; state: string; zip: string; phone: string;
+  lat: number | null; lng: number | null;
+}
+
+interface TrojanstorageFacilitySearchFilters { state?: string; city?: string }
+
+interface TrojanstorageUnit {
+  unitGroupId: string;
+  name: string;               // e.g. "5x5 Upstairs Storage"
+  features: string[];
+  areaSqFt: number | null;
+  regularPrice: number | null;
+  promoPrice: number | null;  // null when no promo is currently active
+  promoLabel: string | null;
+  availableCount: number | null;
+  moveInUrl: string;          // Quikstor handoff URL, price baked in
+}
+
+  /**
+   * Reads Trojan Storage's own live per-facility unit pricing and availability — real size,
+   * features, regular and current promo price, and a pre-computed Quikstor move-in handoff URL
+   * with that exact price baked in — off the site's own storage-essentials REST API, the way its
+   * facility pages render the same data client-side.
+   */
+  interface Unit {
+    /**
+     * Lists every Trojan Storage facility (56 today), optionally narrowed by US state or city.
+     * Each row carries the facilityId getFacilityUnits() takes, plus address, phone and lat/lng.
+     */
+    listFacilities(filters?: TrojanstorageFacilitySearchFilters): Promise<TrojanstorageFacility[]>;
+
+    /**
+     * Reads one facility's live unit inventory: real size, features, regular price, any active
+     * promo and its promo'd price, current availability, and a pre-computed Quikstor move-in URL
+     * with that exact price baked in. THROWS on an unknown facilityId — call listFacilities()
+     * first.
+     */
+    getFacilityUnits(facilityId: string): Promise<TrojanstorageUnit[]>;
+  }
+}
+
 declare namespace BowmarkProvider_trophysignaturehomes {
   // ── Trophy Signature Homes — the unit's own declarations, verbatim ──
 // Trophy Signature Homes' OWN shapes — not a capability contract.
@@ -29676,6 +29724,7 @@ interface BowmarkProviders {
   travelinsured: BowmarkProvider_travelinsured.Unit;
   trawickinternational: BowmarkProvider_trawickinternational.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;
+  trojanstorage: BowmarkProvider_trojanstorage.Unit;
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;

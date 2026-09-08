@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ae266f70c2dbd0fb756514209ac440b1dd57333da7255bd930a2dffc3c4b611a
-// 822 checked, 20 unchecked.
+// Manifest version: 58a05170c677365df461c0132c93b4f0f45715e5459e98db70e8ab1cce8b5568
+// 824 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ae266f70c2dbd0fb756514209ac440b1dd57333da7255bd930a2dffc3c4b611a",
+  "version": "58a05170c677365df461c0132c93b4f0f45715e5459e98db70e8ab1cce8b5568",
   "units": {
     "bundles": {
       "defs": {},
@@ -24957,6 +24957,50 @@ export const VALIDATORS: ValidatorTable = {
         "getDeparturePricing": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.trojanstorage": {
+      "defs": {
+        "TrojanstorageFacilitySearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listFacilities": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "TrojanstorageFacilitySearchFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getFacilityUnits": [
+          {
+            "name": "facilityId",
             "schema": {
               "k": "string"
             },

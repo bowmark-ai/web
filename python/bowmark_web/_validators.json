@@ -1,5 +1,5 @@
 {
-  "version": "ae266f70c2dbd0fb756514209ac440b1dd57333da7255bd930a2dffc3c4b611a",
+  "version": "58a05170c677365df461c0132c93b4f0f45715e5459e98db70e8ab1cce8b5568",
   "units": {
     "bundles": {
       "defs": {},
@@ -24945,6 +24945,50 @@
         "getDeparturePricing": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.trojanstorage": {
+      "defs": {
+        "TrojanstorageFacilitySearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listFacilities": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "TrojanstorageFacilitySearchFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getFacilityUnits": [
+          {
+            "name": "facilityId",
             "schema": {
               "k": "string"
             },

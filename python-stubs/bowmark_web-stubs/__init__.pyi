@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ae266f70c2dbd0fb756514209ac440b1dd57333da7255bd930a2dffc3c4b611a
-# 43 capabilities, 333 providers, 822 typed functions, 20 refused.
+# Manifest version: 58a05170c677365df461c0132c93b4f0f45715e5459e98db70e8ab1cce8b5568
+# 43 capabilities, 334 providers, 824 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14131,6 +14131,33 @@ class Prv_trektravel_TrekTravelDeparture_Out(TypedDict):
     hotels: list[str]
     bookingUrl: str
 
+class Prv_trojanstorage_TrojanstorageFacilitySearchFilters_In(TypedDict):
+    state: NotRequired[str]
+    city: NotRequired[str]
+
+class Prv_trojanstorage_TrojanstorageFacility_Out(TypedDict):
+    facilityId: str
+    name: str
+    url: str
+    street: str
+    city: str
+    state: str
+    zip: str
+    phone: str
+    lat: float | None
+    lng: float | None
+
+class Prv_trojanstorage_TrojanstorageUnit_Out(TypedDict):
+    unitGroupId: str
+    name: str
+    features: list[str]
+    areaSqFt: float | None
+    regularPrice: float | None
+    promoPrice: float | None
+    promoLabel: str | None
+    availableCount: float | None
+    moveInUrl: str
+
 class Prv_trophysignaturehomes_TrophysignaturehomesSearchFilters_In(TypedDict):
     city: NotRequired[str]
     community: NotRequired[str]
@@ -24851,6 +24878,26 @@ class Prv_trektravel(Protocol):
         find current ones.
         """
 
+class Prv_trojanstorage(Protocol):
+    """Reads Trojan Storage's own live per-facility unit pricing and availability — real size,
+    features, regular and current promo price, and a pre-computed Quikstor move-in handoff
+    URL with that exact price baked in — off the site's own storage-essentials REST API, the
+    way its facility pages render the same data client-side.
+    """
+
+    async def listFacilities(self, filters: Prv_trojanstorage_TrojanstorageFacilitySearchFilters_In | None = None, /) -> list[Prv_trojanstorage_TrojanstorageFacility_Out]:
+        """Lists every Trojan Storage facility (56 today), optionally narrowed by US state or city.
+        Each row carries the facilityId getFacilityUnits() takes, plus address, phone and
+        lat/lng.
+        """
+
+    async def getFacilityUnits(self, facilityId: str, /) -> list[Prv_trojanstorage_TrojanstorageUnit_Out]:
+        """Reads one facility's live unit inventory: real size, features, regular price, any active
+        promo and its promo'd price, current availability, and a pre-computed Quikstor move-in
+        URL with that exact price baked in. THROWS on an unknown facilityId — call
+        listFacilities() first.
+        """
+
 class Prv_trophysignaturehomes(Protocol):
     """Reads Trophy Signature Homes' own live inventory — real move-in-ready and
     under-construction homes across their Dallas-Ft Worth, Austin and Houston communities,
@@ -25769,6 +25816,7 @@ class BowmarkProviders(Protocol):
     travelinsured: Prv_travelinsured
     trawickinternational: Prv_trawickinternational
     trektravel: Prv_trektravel
+    trojanstorage: Prv_trojanstorage
     trophysignaturehomes: Prv_trophysignaturehomes
     twiddy: Prv_twiddy
     uhc_smallbusiness: Prv_uhc_smallbusiness
