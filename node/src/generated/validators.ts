@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 614bfc4a6a0689d476a6b25dd6c4a8fbf0d62805e2bb4be116c938de80b7b97e
-// 838 checked, 20 unchecked.
+// Manifest version: a1e3e6de6a511c3fcbec88c14d4c7a9805aef78095475d828edf1aeaa922747f
+// 839 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "614bfc4a6a0689d476a6b25dd6c4a8fbf0d62805e2bb4be116c938de80b7b97e",
+  "version": "a1e3e6de6a511c3fcbec88c14d4c7a9805aef78095475d828edf1aeaa922747f",
   "units": {
     "bundles": {
       "defs": {},
@@ -3212,6 +3212,24 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AcerentacarSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

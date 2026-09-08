@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 614bfc4a6a0689d476a6b25dd6c4a8fbf0d62805e2bb4be116c938de80b7b97e
-# 43 capabilities, 341 providers, 838 typed functions, 20 refused.
+# Manifest version: a1e3e6de6a511c3fcbec88c14d4c7a9805aef78095475d828edf1aeaa922747f
+# 43 capabilities, 341 providers, 839 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1820,6 +1820,16 @@ class Prv_acerentacar_AcerentacarVehicle_Out_rates_item_Out(TypedDict):
     baseRate: float
     totalAmount: float
     prepaid: bool
+
+class Prv_acerentacar_searchLocations_args_In(TypedDict):
+    query: str
+
+class Prv_acerentacar_AcerentacarLocation_Out(TypedDict):
+    code: str
+    name: str
+    city: str
+    state: str | None
+    countryISO: str
 
 class Prv_achosahw_AchosahwStateList_Out(TypedDict):
     states: list[Prv_achosahw_AchosahwStateEntry_Out]
@@ -16513,6 +16523,11 @@ class Prv_acerentacar(Protocol):
     async def searchAvailability(self, args: Prv_acerentacar_AcerentacarSearchArgs_In, /) -> list[Prv_acerentacar_AcerentacarVehicle_Out]:
         """Returns ACE's live available vehicle classes and rate totals for a public pickup
         location and itinerary, plus a reservation handoff URL.
+        """
+
+    async def searchLocations(self, args: Prv_acerentacar_searchLocations_args_In, /) -> list[Prv_acerentacar_AcerentacarLocation_Out]:
+        """Matches a free-text city, airport or state against ACE's public location catalog and
+        returns the location codes searchAvailability needs.
         """
 
 class Prv_achosahw(Protocol):

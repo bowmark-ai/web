@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 614bfc4a6a0689d476a6b25dd6c4a8fbf0d62805e2bb4be116c938de80b7b97e
-// 43 capabilities, 341 providers, 856 typed functions, 20 refused.
+// Manifest version: a1e3e6de6a511c3fcbec88c14d4c7a9805aef78095475d828edf1aeaa922747f
+// 43 capabilities, 341 providers, 857 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3215,6 +3215,7 @@ declare namespace BowmarkProvider_acerentacar {
   // ── ACE Rent A Car — the unit's own declarations, verbatim ──
 interface AcerentacarSearchArgs { pickupLocationCode: string; pickupDate: string; dropoffDate: string; pickupTime?: string; dropoffTime?: string; }
 interface AcerentacarVehicle { code: string; name: string; type: string; category: string; passengers: number; baggage: number; automatic: boolean; currencyCode: string; rates: { bidId: string; baseRate: number; totalAmount: number; prepaid: boolean }[]; reservationUrl: string; }
+interface AcerentacarLocation { code: string; name: string; city: string; state: string | null; countryISO: string; }
 
   /**
    * ACE Rent A Car's live public vehicle availability and rates for a location and itinerary,
@@ -3226,6 +3227,12 @@ interface AcerentacarVehicle { code: string; name: string; type: string; categor
      * and itinerary, plus a reservation handoff URL.
      */
     searchAvailability(args: AcerentacarSearchArgs): Promise<AcerentacarVehicle[]>;
+
+    /**
+     * Matches a free-text city, airport or state against ACE's public location catalog and returns
+     * the location codes searchAvailability needs.
+     */
+    searchLocations(args: { query: string }): Promise<AcerentacarLocation[]>;
   }
 }
 
