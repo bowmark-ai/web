@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a1e3e6de6a511c3fcbec88c14d4c7a9805aef78095475d828edf1aeaa922747f
+// Manifest version: af9f2fc3668f2f154cc412e2e604b0c3bb0bc71b189346496a21907e2c8a27ed
 // 43 capabilities, 341 providers, 857 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2204,10 +2204,14 @@ type CallOptions = {
      * Searches news coverage and returns stories with the headline, the outlet's own article URL,
      * a summary, the publisher's name and a real publication timestamp. Use this rather than `web`
      * whenever the question is about what happened or when — `web`'s dates are commonly the
-     * engine's crawl stamp, and these are the story's own. NOT MEASURED on the two limits `web`
-     * declares: nobody has checked whether this feed returns an empty list for a query with no
-     * coverage, or whether it honours operators. Treat both as unknown rather than as working —
-     * `web`'s answers are the ones with fixtures behind them.
+     * engine's crawl stamp, and these are the story's own. ZERO RESULTS HERE ARE NOT EVIDENCE OF
+     * ABSENCE, and this is the opposite of `web`: unlike the web feed, the news feed CAN return an
+     * empty list, so a zero is a real possible answer — but it is also what a thin or throttled
+     * response looks like. Measured 2026-09-08: five identical calls for one query on one route
+     * inside ten seconds returned 4, 3, 2, 3 and 0 rows, and two exits disagreed (0 against 3) on
+     * that query in the same minute. Every zero therefore arrives carrying a warning saying so;
+     * RETRY before reporting that nothing has been written about something. Still NOT MEASURED:
+     * whether this feed honours search operators — treat that as unknown.
      */
     news(query: string | { query: string, limit?: number }, limit?: number, options?: CallOptions): Promise<SearchNewsResult>;
   }
