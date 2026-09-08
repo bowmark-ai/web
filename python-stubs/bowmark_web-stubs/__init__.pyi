@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1b5afd4e8f69f6b71d92fc9ad75a35090669712adee20a2f33e266d0418d2236
-# 43 capabilities, 339 providers, 835 typed functions, 20 refused.
+# Manifest version: 3e19faa9bb3ec844982b72b8209accda245a9a3053a8f786521d0518f6ce48ff
+# 43 capabilities, 340 providers, 837 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4562,6 +4562,25 @@ class Prv_chappellet_ChappelletVariantInventory_Out(TypedDict):
 class Prv_chappellet_ChappelletShippingCheck_Out(TypedDict):
     stateCode: str
     shippable: bool
+
+class Prv_charterhomes_CharterhomesSearchArgs_In(TypedDict):
+    city: NotRequired[str]
+    minBedrooms: NotRequired[float]
+
+class Prv_charterhomes_CharterhomesListing_Out(TypedDict):
+    id: str
+    address: str
+    neighborhood: str
+    price: float
+    beds: float
+    baths: float
+    sqft: float
+    url: str
+
+class Prv_charterhomes_CharterhomesVisitOption_Out(TypedDict):
+    neighborhood: str
+    label: str
+    calendlyUrl: str
 
 Prv_cheapflights_KayakQuery_In = TypedDict(
     "Prv_cheapflights_KayakQuery_In",
@@ -18319,6 +18338,23 @@ class Prv_chappellet(Protocol):
         bowmark.providers.chappellet.checkShippingEligibility("IL")
         """
 
+class Prv_charterhomes(Protocol):
+    """Live Charter Homes & Neighborhoods for-sale inventory plus real per-neighborhood
+    Calendly tour-booking links; prefer it when current price/availability or how to book a
+    visit matters.
+    """
+
+    async def searchHomes(self, args: Prv_charterhomes_CharterhomesSearchArgs_In | None = None, /) -> list[Prv_charterhomes_CharterhomesListing_Out]:
+        """Searches Charter Homes' current for-sale inventory by city/neighborhood and minimum
+        bedroom count. Returns live address, neighborhood, price, beds, baths, sqft and the
+        listing URL.
+        """
+
+    async def getScheduleVisitOptions(self, /) -> list[Prv_charterhomes_CharterhomesVisitOption_Out]:
+        """Reads Charter's live schedule-a-visit page and returns every neighborhood with its real
+        Calendly tour-booking URL. Never books anything.
+        """
+
 class Prv_cheapflights(Protocol):
     """Cheapflights (cheapflights.com) — metasearch flight results, cheapest-first, read
     directly from the result cards.
@@ -25845,6 +25881,7 @@ class BowmarkProviders(Protocol):
     champxpress: Prv_champxpress
     chantecaille: Prv_chantecaille
     chappellet: Prv_chappellet
+    charterhomes: Prv_charterhomes
     cheapflights: Prv_cheapflights
     chesmar: Prv_chesmar
     chipotle: Prv_chipotle

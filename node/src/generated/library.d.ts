@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1b5afd4e8f69f6b71d92fc9ad75a35090669712adee20a2f33e266d0418d2236
-// 43 capabilities, 339 providers, 853 typed functions, 20 refused.
+// Manifest version: 3e19faa9bb3ec844982b72b8209accda245a9a3053a8f786521d0518f6ce48ff
+// 43 capabilities, 340 providers, 855 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8217,6 +8217,32 @@ interface ChappelletShippingCheck {
      * bowmark.providers.chappellet.checkShippingEligibility("IL")
      */
     checkShippingEligibility(stateCode: string): Promise<ChappelletShippingCheck>;
+  }
+}
+
+declare namespace BowmarkProvider_charterhomes {
+  // ── Charter Homes & Neighborhoods — the unit's own declarations, verbatim ──
+interface CharterhomesSearchArgs { city?: string; minBedrooms?: number; }
+interface CharterhomesListing { id: string; address: string; neighborhood: string; price: number; beds: number; baths: number; sqft: number; url: string; }
+interface CharterhomesVisitOption { neighborhood: string; label: string; calendlyUrl: string; }
+
+  /**
+   * Live Charter Homes & Neighborhoods for-sale inventory plus real per-neighborhood Calendly
+   * tour-booking links; prefer it when current price/availability or how to book a visit
+   * matters.
+   */
+  interface Unit {
+    /**
+     * Searches Charter Homes' current for-sale inventory by city/neighborhood and minimum bedroom
+     * count. Returns live address, neighborhood, price, beds, baths, sqft and the listing URL.
+     */
+    searchHomes(args?: CharterhomesSearchArgs): Promise<CharterhomesListing[]>;
+
+    /**
+     * Reads Charter's live schedule-a-visit page and returns every neighborhood with its real
+     * Calendly tour-booking URL. Never books anything.
+     */
+    getScheduleVisitOptions(): Promise<CharterhomesVisitOption[]>;
   }
 }
 
@@ -29733,6 +29759,7 @@ interface BowmarkProviders {
   champxpress: BowmarkProvider_champxpress.Unit;
   chantecaille: BowmarkProvider_chantecaille.Unit;
   chappellet: BowmarkProvider_chappellet.Unit;
+  charterhomes: BowmarkProvider_charterhomes.Unit;
   cheapflights: BowmarkProvider_cheapflights.Unit;
   chesmar: BowmarkProvider_chesmar.Unit;
   chipotle: BowmarkProvider_chipotle.Unit;

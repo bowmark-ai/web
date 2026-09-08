@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1b5afd4e8f69f6b71d92fc9ad75a35090669712adee20a2f33e266d0418d2236
-// 835 checked, 20 unchecked.
+// Manifest version: 3e19faa9bb3ec844982b72b8209accda245a9a3053a8f786521d0518f6ce48ff
+// 837 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1b5afd4e8f69f6b71d92fc9ad75a35090669712adee20a2f33e266d0418d2236",
+  "version": "3e19faa9bb3ec844982b72b8209accda245a9a3053a8f786521d0518f6ce48ff",
   "units": {
     "bundles": {
       "defs": {},
@@ -7550,6 +7550,42 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.charterhomes": {
+      "defs": {
+        "CharterhomesSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchHomes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CharterhomesSearchArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getScheduleVisitOptions": []
       }
     },
     "providers.cheapflights": {
