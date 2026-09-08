@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ea220443def77dfb8ace41f0707bae428abeb046b76c9e263feca8dad7c5891d
-# 43 capabilities, 336 providers, 827 typed functions, 20 refused.
+# Manifest version: 118bc949640f16cdd53a50f08f2d0bd87576a4170e25d0a39ab0c0b820a98738
+# 43 capabilities, 337 providers, 829 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10806,6 +10806,36 @@ class Prv_npmjs_npmjsDownloads_Out(TypedDict):
     downloads: float
     start: str
     end: str
+
+class Prv_nurturelife_GetMealPlansResult_Out(TypedDict):
+    plans: list[Prv_nurturelife_NurtureLifeMealPlan_Out]
+
+class Prv_nurturelife_NurtureLifeMealPlan_Out(TypedDict):
+    slug: str
+    name: str
+    threshold: float
+    pricePerItem: float
+    shippingCost: float
+    discount: float
+    tag: str | None
+
+class Prv_nurturelife_GetMealBundleArgs_In(TypedDict):
+    bundleSlug: NotRequired[str]
+
+class Prv_nurturelife_GetMealBundleResult_Out(TypedDict):
+    bundles: list[Prv_nurturelife_NurtureLifeBundle_Out]
+
+class Prv_nurturelife_NurtureLifeBundle_Out(TypedDict):
+    slug: str
+    name: str
+    defaultPlanSlug: str | None
+    items: list[Prv_nurturelife_NurtureLifeBundleItem_Out]
+
+class Prv_nurturelife_NurtureLifeBundleItem_Out(TypedDict):
+    sku: str
+    name: str
+    quantity: float
+    categoryName: str
 
 class Prv_nutrafol_HairWellnessAssessment_Out(TypedDict):
     rootCauses: list[Prv_nutrafol_RootCause_Out]
@@ -22699,6 +22729,27 @@ class Prv_npmjs(Protocol):
         on unscoped ones.
         """
 
+class Prv_nurturelife(Protocol):
+    """Kids-meal delivery subscription. getMealPlans is live — the site's own real, current
+    per-plan pricing (7/10/14/21-meal tiers, per-meal price and discount) with no email or
+    ZIP required. getMealBundle returns the site's current curated meal bundles by real SKU
+    and name, never a stale or guessed list.
+    """
+
+    async def getMealPlans(self, /) -> Prv_nurturelife_GetMealPlansResult_Out:
+        """Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's actual
+        current per-meal price, dollar discount and flat shipping cost — the same numbers the
+        site's own onboarding funnel computes, with no email or ZIP submitted. Not a
+        marketing-page range and not a guess off an old blog post.
+        """
+
+    async def getMealBundle(self, args: Prv_nurturelife_GetMealBundleArgs_In, /) -> Prv_nurturelife_GetMealBundleResult_Out:
+        """Returns Nurture Life's currently-offered curated meal bundles with their real, current
+        meal composition by SKU and name — pass `bundleSlug` (e.g. "picky-eater-bundle") for one
+        bundle, or omit it to list every bundle the site currently offers. Recovered from the
+        site's own bundle catalog API, not scraped from stale marketing copy.
+        """
+
 class Prv_nutrafol(Protocol):
     """Nutrafol's own Hair Wellness Quiz — assessHairWellness runs the real root-cause
     assessment and returns its own computed per-category severities (Stress, Metabolism,
@@ -25824,6 +25875,7 @@ class BowmarkProviders(Protocol):
     newegg: Prv_newegg
     nfa_futures_org: Prv_nfa_futures_org
     npmjs: Prv_npmjs
+    nurturelife: Prv_nurturelife
     nutrafol: Prv_nutrafol
     nvisioncenters: Prv_nvisioncenters
     oanda: Prv_oanda

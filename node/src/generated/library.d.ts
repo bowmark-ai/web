@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ea220443def77dfb8ace41f0707bae428abeb046b76c9e263feca8dad7c5891d
-// 43 capabilities, 336 providers, 845 typed functions, 20 refused.
+// Manifest version: 118bc949640f16cdd53a50f08f2d0bd87576a4170e25d0a39ab0c0b820a98738
+// 43 capabilities, 337 providers, 847 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20928,6 +20928,69 @@ interface npmjsDownloads {
   }
 }
 
+declare namespace BowmarkProvider_nurturelife {
+  // ── Nurture Life — the unit's own declarations, verbatim ──
+interface NurtureLifeMealPlan {
+  slug: string;
+  name: string;
+  threshold: number;
+  pricePerItem: number;
+  shippingCost: number;
+  discount: number;
+  tag: string | null;
+}
+
+interface GetMealPlansResult {
+  plans: NurtureLifeMealPlan[];
+}
+
+interface NurtureLifeBundleItem {
+  sku: string;
+  name: string;
+  quantity: number;
+  categoryName: string;
+}
+
+interface NurtureLifeBundle {
+  slug: string;
+  name: string;
+  defaultPlanSlug: string | null;
+  items: NurtureLifeBundleItem[];
+}
+
+interface GetMealBundleArgs {
+  bundleSlug?: string;
+}
+
+interface GetMealBundleResult {
+  bundles: NurtureLifeBundle[];
+}
+
+  /**
+   * Kids-meal delivery subscription. getMealPlans is live — the site's own real, current
+   * per-plan pricing (7/10/14/21-meal tiers, per-meal price and discount) with no email or ZIP
+   * required. getMealBundle returns the site's current curated meal bundles by real SKU and
+   * name, never a stale or guessed list.
+   */
+  interface Unit {
+    /**
+     * Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's actual
+     * current per-meal price, dollar discount and flat shipping cost — the same numbers the site's
+     * own onboarding funnel computes, with no email or ZIP submitted. Not a marketing-page range
+     * and not a guess off an old blog post.
+     */
+    getMealPlans(): Promise<GetMealPlansResult>;
+
+    /**
+     * Returns Nurture Life's currently-offered curated meal bundles with their real, current meal
+     * composition by SKU and name — pass `bundleSlug` (e.g. "picky-eater-bundle") for one bundle,
+     * or omit it to list every bundle the site currently offers. Recovered from the site's own
+     * bundle catalog API, not scraped from stale marketing copy.
+     */
+    getMealBundle(args: GetMealBundleArgs): Promise<GetMealBundleResult>;
+  }
+}
+
 declare namespace BowmarkProvider_nutrafol {
   // ── Nutrafol — the unit's own declarations, verbatim ──
 interface RootCause {
@@ -29695,6 +29758,7 @@ interface BowmarkProviders {
   newegg: BowmarkProvider_newegg.Unit;
   nfa_futures_org: BowmarkProvider_nfa_futures_org.Unit;
   npmjs: BowmarkProvider_npmjs.Unit;
+  nurturelife: BowmarkProvider_nurturelife.Unit;
   nutrafol: BowmarkProvider_nutrafol.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
   oanda: BowmarkProvider_oanda.Unit;

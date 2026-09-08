@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ea220443def77dfb8ace41f0707bae428abeb046b76c9e263feca8dad7c5891d
-// 827 checked, 20 unchecked.
+// Manifest version: 118bc949640f16cdd53a50f08f2d0bd87576a4170e25d0a39ab0c0b820a98738
+// 829 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ea220443def77dfb8ace41f0707bae428abeb046b76c9e263feca8dad7c5891d",
+  "version": "118bc949640f16cdd53a50f08f2d0bd87576a4170e25d0a39ab0c0b820a98738",
   "units": {
     "bundles": {
       "defs": {},
@@ -17122,6 +17122,35 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.nurturelife": {
+      "defs": {
+        "GetMealBundleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "bundleSlug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getMealPlans": [],
+        "getMealBundle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetMealBundleArgs"
+            },
+            "optional": false
           }
         ]
       }
