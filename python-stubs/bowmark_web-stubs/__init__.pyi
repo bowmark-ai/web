@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 89f69d6eaa8df277080c3f75bf0b286a3197daa5dce10ca234f1ffd30f8e765b
+# Manifest version: 61184f2525658fc42ef5885459bb496a5481d79440023ab931332ff390b3b49b
 # 43 capabilities, 344 providers, 848 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -24257,10 +24257,10 @@ class Prv_samsclub(Protocol):
     getFuelPrices reads a specific club's current fuel-center prices (per grade — unleaded,
     premium, diesel where sold) given the site's own numeric club id. findClubs reads the
     site's own club locator for a zip code — address, phone, hours and which real
-    departments (pharmacy, optical, tire & lube, fuel center, …) each nearby club has.
-    getMembershipPlans reads the site's own published Club/Plus membership tiers — current
-    price, regular price, and the full stated benefit-by-tier comparison. The rest is not
-    yet built.
+    departments each nearby club has, as the site's own label strings (“Sam’s Fuel Station”,
+    never “Fuel Center”). getMembershipPlans reads the site's own published Club/Plus
+    membership tiers — current price, regular price, and the full stated benefit-by-tier
+    comparison. The rest is not yet built.
     """
 
     async def search(self, query: str, /) -> list[Prv_samsclub_SamsclubCategoryItem_Out]:
@@ -24314,9 +24314,11 @@ class Prv_samsclub(Protocol):
 
     async def findClubs(self, zip: str, /) -> list[Prv_samsclub_SamsclubClub_Out]:
         """Finds nearby Sam's Club warehouse locations for a 5-digit US zip — address, phone,
-        hours, distance and which real customer-facing departments (pharmacy, optical, tire &
-        lube, fuel center, …) each club has, the way the site's own club finder does. Resolves
-        clubId for getFuelPrices/checkStock's clubId argument.
+        hours, distance and which real customer-facing departments each club has, the way the
+        site's own club finder does. `services` carries the SITE'S OWN label strings verbatim,
+        curly apostrophes included (“Sam’s Fuel Station”, never “Fuel Center”) — a caller
+        filters on a value read off a result, never one guessed from prose. Resolves clubId for
+        getFuelPrices/checkStock's clubId argument.
         """
 
     async def getMembershipPlans(self, /) -> list[Prv_samsclub_SamsclubMembershipPlan_Out]:

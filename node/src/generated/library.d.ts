@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 89f69d6eaa8df277080c3f75bf0b286a3197daa5dce10ca234f1ffd30f8e765b
+// Manifest version: 61184f2525658fc42ef5885459bb496a5481d79440023ab931332ff390b3b49b
 // 43 capabilities, 344 providers, 866 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2661,7 +2661,7 @@ interface a1storageUnitGroup {
   unitId: string;        // the id getMoveInCost's unitId takes
   length: number; width: number; areaSqFt: number;
   categoryName: string;  // e.g. "Medium"
-  features: string[];
+  features: string[];  // the site's own labels — read the values off a result, never guess one from prose
   availableCount: number;
   regularPrice: number | null;
   promoPrice: number | null;  // null when no promo is currently active
@@ -2762,7 +2762,7 @@ interface aaFlightStatusResult {
 
 interface aaReservation {
   recordLocator: string;
-  status: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   bookingTime: string | null;
   passengers: aaReservationPassenger[];
   itinerary: aaReservationSlice[];
@@ -2785,7 +2785,7 @@ interface aaReservationSegment {
   flightNumber: string | null;
   marketingCarrierCode: string | null;
   operatingCarrierCode: string | null;
-  cabinType: string | null;
+  cabinType: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   bookingCode: string | null;
   departureDateTime: string | null;
   legs: aaReservationLeg[];
@@ -3024,7 +3024,7 @@ interface abercrombieProduct {
   listPriceHigh: number | null;
   currency: string;
   onSale: boolean;
-  availability: string | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   rating: number | null;
   reviewCount: number;
   images: string[];
@@ -3700,7 +3700,7 @@ interface AndersenDealer {
   name: string;
   address: AndersenDealerAddress;
   phone: string | null;
-  tier: string;
+  tier: string;  // the site's own labels — read the values off a result, never guess one from prose
   accountType: string;
   distanceMiles: number;
   lat: number;
@@ -3734,7 +3734,7 @@ interface AndstrSearchArgs {
   bedrooms?: number;
   priceMin?: number;
   priceMax?: number;
-  propertyType?: string;
+  propertyType?: string;  // the site's own labels — read the values off a result, never guess one from prose
   instantBook?: boolean;
   page?: number;
 }
@@ -3765,7 +3765,7 @@ interface AndstrListingDetail {
   maxGuests: number;
   listedFromPerNight: number;
   currency: string;
-  amenities: string[];
+  amenities: string[];  // the site's own labels — read the values off a result, never guess one from prose
   cancellationPolicy: string | null;
   latitude: number | null;
   longitude: number | null;
@@ -4537,7 +4537,7 @@ interface AutocampRate {
 
 interface AutocampRoomAvailability {
   roomCategory: string | null;
-  roomType: string;
+  roomType: string;  // the site's own labels — read the values off a result, never guess one from prose
   bedInfo: string | null;
   sleeps: string | null;
   rates: AutocampRate[];
@@ -5394,7 +5394,7 @@ interface BeltserviceCatalogItem {
   catalogNumber: string;
   partNumber: string;
   name: string;
-  grade: string | null;
+  grade: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   specSheetUrl: string | null;
   detailUrl: string;
   quoteUrl: string;
@@ -6159,7 +6159,7 @@ interface BmwusaCpoVehicle {
   odometer: number;
   price: number;
   drivetrain: string;
-  fuelType: string;
+  fuelType: string;  // the site's own labels — read the values off a result, never guess one from prose
   vdpUrl: string;
   photos: string[];
   dealer: BmwusaCpoDealer;
@@ -6185,7 +6185,7 @@ interface BmwusaModelTrim {
   engineType: string | null;
   drivetrain: string | null;
   transmission: string | null;
-  fuelType: string | null;
+  fuelType: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   fuelEfficiency: { city: number | null; highway: number | null; combined: number | null; unit: string } | null;
   seatingCapacity: number | null;
 }
@@ -6977,7 +6977,7 @@ interface CabinsforyouCabinDetail {
   sleeps: number | null;
   parking: string | null;
   petsAllowed: boolean | null;
-  amenities: string[];
+  amenities: string[];  // the site's own labels — read the values off a result, never guess one from prose
   rating: number | null;
   reviewCount: number | null;
   description: string;
@@ -7473,7 +7473,7 @@ interface CglOption {
 
 interface CglVariant {
   sku: string;
-  stockStatus: string;
+  stockStatus: string;  // the site's own labels — read the values off a result, never guess one from prose
   price: number;
   priceFormatted: string;
   selections: Record<string, number>; // attributeCode -> valueIndex
@@ -7484,7 +7484,7 @@ interface CglProduct {
   sku: string;
   name: string;
   url: string;
-  stockStatus: string;
+  stockStatus: string;  // the site's own labels — read the values off a result, never guess one from prose
   basePrice: number;
   basePriceFormatted: string;
   options: CglOption[];
@@ -7495,7 +7495,7 @@ interface CglPriceResult {
   urlKey: string;
   sku: string;
   variantSku: string | null;   // null until every multi-choice group is picked
-  stockStatus: string | null;
+  stockStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   price: number | null;
   priceFormatted: string | null;
   applied: { group: string; choice: string }[];
@@ -7512,7 +7512,7 @@ interface CglCartHandoff {
   applied: { group: string; choice: string }[];
   price: number | null;
   priceFormatted: string | null;
-  stockStatus: string | null;
+  stockStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   missingGroups: string[];
   unmatched: string[];
 }
@@ -7994,7 +7994,7 @@ interface CbhListing {
   mls: number;
   url: string;
   image: string | null;
-  status: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
   isSold: boolean;
   isReserved: boolean;
   address: string;
@@ -8015,7 +8015,7 @@ interface CbhListing {
   sqft: number | null;
   price: number;
   priceMonthly: number | null;
-  amenities: string[];
+  amenities: string[];  // the site's own labels — read the values off a result, never guess one from prose
   salesCenter: string | null;
   schoolDistrict: string | null;
   daysOnMarket: number | null;
@@ -9203,7 +9203,7 @@ interface CloudflareComparePlansResult {
 
 interface CloudflareDomainSuggestion {
   name: string;
-  availability: string;
+  availability: string;  // the site's own labels — read the values off a result, never guess one from prose
   premium: boolean;
   price: number | null;
   renewal: number | null;
@@ -9761,7 +9761,7 @@ interface DavidsonhomesHomeSummary {
 interface DavidsonhomesCommunityDetail {
   title: string;
   path: string;
-  status: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
   priceRange: DavidsonhomesRange;
   sqftRange: DavidsonhomesRange;
   phone: string | null;
@@ -10005,7 +10005,7 @@ interface DdOption {
 
 interface DdVariant {
   sku: string;
-  stockStatus: string;
+  stockStatus: string;  // the site's own labels — read the values off a result, never guess one from prose
   price: number;
   priceFormatted: string;
   selections: Record<string, number>; // attributeCode -> valueIndex
@@ -10016,7 +10016,7 @@ interface DdProduct {
   sku: string;
   name: string;
   url: string;
-  stockStatus: string;
+  stockStatus: string;  // the site's own labels — read the values off a result, never guess one from prose
   basePrice: number;
   basePriceFormatted: string;
   options: DdOption[];
@@ -10027,7 +10027,7 @@ interface DdPriceResult {
   urlKey: string;
   sku: string;
   variantSku: string | null;   // null until every multi-choice group is picked
-  stockStatus: string | null;
+  stockStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   price: number | null;
   priceFormatted: string | null;
   applied: { group: string; choice: string }[];
@@ -10044,7 +10044,7 @@ interface DdCartHandoff {
   applied: { group: string; choice: string }[];
   price: number | null;
   priceFormatted: string | null;
-  stockStatus: string | null;
+  stockStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   missingGroups: string[];
   unmatched: string[];
 }
@@ -10763,7 +10763,7 @@ interface ebayItem {
   itemId: string;
   title: string;
   price: { value: string; currency: string } | null;
-  condition: string | null;
+  condition: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   buyingOptions: string[];
   url: string;
   imageUrl: string | null;
@@ -10966,7 +10966,7 @@ interface Eq3SofaConfiguration {
   sellingPrice: number;
   discountPercent: number | null; // e.g. 20 — null when no sale is running
   massPounds: number | null;
-  availability: string;
+  availability: string;  // the site's own labels — read the values off a result, never guess one from prose
   canonicalUrl: string;
   optionGroups: Eq3OptionGroup[]; // every alternative the configurator offers
 }
@@ -11289,7 +11289,7 @@ interface ExtraspaceUnit {
   webRate: number | null;
   promotions: string[];
   available: boolean;
-  features: string[];
+  features: string[];  // the site's own labels — read the values off a result, never guess one from prose
 }
 
 interface ExtraspaceFeatures {
@@ -11570,7 +11570,7 @@ interface FirstdibsSearchResult {
   url: string;
   price: number;
   priceCurrency: string;
-  availability: string;
+  availability: string;  // the site's own labels — read the values off a result, never guess one from prose
   image: string | null;
 }
 interface FirstdibsCompletingAction {
@@ -13487,7 +13487,7 @@ interface GrandwelcomeRentalRow {
   name: string;
   url: string;
   location: string;
-  propertyType: string;
+  propertyType: string;  // the site's own labels — read the values off a result, never guess one from prose
   petFriendly: boolean;
   priceFromUsd: number | null;
   priceFromFormatted: string | null;
@@ -14808,7 +14808,7 @@ interface hiltonRoomOffer {
   roomTypeName: string;
   bedType: string | null;
   maxOccupancy: number | null;
-  features: string[];
+  features: string[];  // the site's own labels — read the values off a result, never guess one from prose
   ratePlanCode: string;
   currencyCode: string;
   nightlyRate: string;
@@ -14924,7 +14924,7 @@ interface HobieDealer {
   carriesExactColor: boolean;
   carriesModel: boolean;
   carriesBrand: boolean;
-  stockStatus: string;
+  stockStatus: string;  // the site's own labels — read the values off a result, never guess one from prose
   stockDisclaimer: string;
 }
 interface HobieLocalAvailability {
@@ -16535,7 +16535,7 @@ declare namespace BowmarkProvider_iproyal {
 type IproyalProductType = "residential" | "datacenter" | "isp" | "mobile";
 interface IproyalPlanTier {
   productType: IproyalProductType;
-  tier: string;
+  tier: string;  // the site's own labels — read the values off a result, never guess one from prose
   price: number;
   unit: string;
   billingMode: "subscription" | "payAsYouGo" | null;
@@ -17033,7 +17033,7 @@ interface KalshiMarket {
   eventTicker: string;
   title: string;
   subtitle: string;
-  status: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
   marketType: string;
   openTime: string;
   closeTime: string;
@@ -17049,7 +17049,7 @@ interface KalshiMarket {
   rules: string;
 }
 interface KalshiGetMarketsOptions {
-  status?: string;
+  status?: string;  // the site's own labels — read the values off a result, never guess one from prose
   series_ticker?: string;
   event_ticker?: string;
   limit?: number;
@@ -17606,7 +17606,7 @@ interface LegacyHomesalCommunity {
   name: string;
   aliases: string[];
   area: string | null;
-  status: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   repSlug: string;
   bookingUrl: string;
 }
@@ -19030,7 +19030,7 @@ interface mcdonaldsStore {
   openStatus: string;
   hours: mcdonaldsStoreHours;
   services: mcdonaldsStoreServices;
-  amenities: string[];
+  amenities: string[];  // the site's own labels — read the values off a result, never guess one from prose
   deliveryPartners: mcdonaldsDeliveryPartner[];
 }
 
@@ -19073,7 +19073,7 @@ interface mcpRegistryEntry {
   version: string;
   repositoryUrl: string | null;
   remoteUrl: string | null;
-  status: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
 }
 
   /**
@@ -20274,7 +20274,7 @@ interface MixbookProductPrice {
   size: string;
   price: number;      // real Mixbook-computed price for the default configuration
   currency: string;
-  availability: string;
+  availability: string;  // the site's own labels — read the values off a result, never guess one from prose
   url: string;
 }
 
@@ -21591,7 +21591,7 @@ interface ottoProduct {
   originalPrice: number | null;
   discountPercent: number | null;
   currency: string;
-  availability: string | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   soldOut: boolean;
   delivery: { text: string; minDays: number | null; maxDays: number | null } | null;
   rating: { value: number; count: number } | null;
@@ -24311,7 +24311,7 @@ interface SamsclubInstantSavingsItem {
   savingsAmount: number | null;
   expiresLabel: string | null;
   limitLabel: string | null;
-  availability: string | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
 }
 interface SamsclubCategoryItem {
   id: string;
@@ -24323,10 +24323,10 @@ interface SamsclubCategoryItem {
   wasPrice: string | null;
   rating: number | null;
   reviewCount: number | null;
-  availability: string | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
 }
 interface SamsclubFuelPrice {
-  grade: string;
+  grade: string;  // the site's own labels: "Unleaded", "Premium", "Diesel" where the club sells it
   pricePerGallon: number;
 }
 interface SamsclubFuelPrices {
@@ -24346,7 +24346,7 @@ interface SamsclubProduct {
   nonMemberPrice: string | null;
   rating: number | null;
   reviewCount: number | null;
-  availability: string | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   description: string | null;
   images: string[];
   thumbnailUrl: string | null;
@@ -24381,7 +24381,11 @@ interface SamsclubClub {
   address: { addressLine1: string | null; addressLine2: string | null; city: string; state: string; postalCode: string; country: string };
   open24Hours: boolean;
   hours: SamsclubClubHours[];
-  services: string[];
+  services: string[];  // the SITE'S OWN labels, verbatim: "Sam’s Fuel Station" (NOT "Fuel Center"),
+  // "Pharmacy", "Optical Center", "Auto & Tires", "Sam’s Cafe", "Bakery", "Deli", "Liquor",
+  // "Tobacco", "Photo Center", "Hearing Aid Center", "Fresh Flowers", "Wireless Mobile",
+  // "Grocery Pickup and Delivery". Note the CURLY apostrophe (U+2019) — a filter written
+  // with a straight one matches nothing. Read the values off a result, never guess from prose.
   geoPoint: { latitude: number; longitude: number } | null;
 }
 interface SamsclubMembershipBenefit {
@@ -24410,10 +24414,10 @@ interface SamsclubMembershipPlan {
    * availability) given the site's own numeric category id. getFuelPrices reads a specific
    * club's current fuel-center prices (per grade — unleaded, premium, diesel where sold) given
    * the site's own numeric club id. findClubs reads the site's own club locator for a zip code —
-   * address, phone, hours and which real departments (pharmacy, optical, tire & lube, fuel
-   * center, …) each nearby club has. getMembershipPlans reads the site's own published Club/Plus
-   * membership tiers — current price, regular price, and the full stated benefit-by-tier
-   * comparison. The rest is not yet built.
+   * address, phone, hours and which real departments each nearby club has, as the site's own
+   * label strings (“Sam’s Fuel Station”, never “Fuel Center”). getMembershipPlans reads the
+   * site's own published Club/Plus membership tiers — current price, regular price, and the full
+   * stated benefit-by-tier comparison. The rest is not yet built.
    */
   interface Unit {
     /**
@@ -24472,8 +24476,10 @@ interface SamsclubMembershipPlan {
 
     /**
      * Finds nearby Sam's Club warehouse locations for a 5-digit US zip — address, phone, hours,
-     * distance and which real customer-facing departments (pharmacy, optical, tire & lube, fuel
-     * center, …) each club has, the way the site's own club finder does. Resolves clubId for
+     * distance and which real customer-facing departments each club has, the way the site's own
+     * club finder does. `services` carries the SITE'S OWN label strings verbatim, curly
+     * apostrophes included (“Sam’s Fuel Station”, never “Fuel Center”) — a caller filters on a
+     * value read off a result, never one guessed from prose. Resolves clubId for
      * getFuelPrices/checkStock's clubId argument.
      */
     findClubs(zip: string): Promise<SamsclubClub[]>;
@@ -24542,7 +24548,7 @@ interface SeakeeperDealer {
   website: string;
   latitude: number;
   longitude: number;
-  tier: string;
+  tier: string;  // the site's own labels — read the values off a result, never guess one from prose
   tierLabel: string;
 }
 interface SeakeeperNearbyDealer extends SeakeeperDealer {
@@ -25834,7 +25840,7 @@ interface StickergiantProduct {
   priceUsd: string;             // "$37.90" — per-100 stickers starting price
   priceValue: number;           // Same number unformatted
   priceCurrency: string;        // "USD"
-  availability: string;         // Schema.org URL, e.g. "https://schema.org/InStock"
+  availability: string;         // Schema.org URL, e.g. "https://schema.org/InStock" — the site's own labels — read the values off a result, never guess one from prose
   imageUrl: string;
 }
 
@@ -26163,7 +26169,7 @@ interface TargetSearchResult {
   image: string | null;
   price: number | null;
   wasPrice: number | null;
-  availabilityStatus: string | null;
+  availabilityStatus: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   inStock: boolean;
   rating: number | null;
   reviewCount: number;
@@ -26276,7 +26282,7 @@ interface teladocInsuranceCoverage {
   source: string;
   headline: string;
   headlinePriceUsd: number;
-  services: string[];
+  services: string[];  // the site's own labels — read the values off a result, never guess one from prose
   disclaimer: string;
 }
 
@@ -27503,7 +27509,7 @@ interface TrojanstorageFacilitySearchFilters { state?: string; city?: string }
 interface TrojanstorageUnit {
   unitGroupId: string;
   name: string;               // e.g. "5x5 Upstairs Storage"
-  features: string[];
+  features: string[];  // the site's own labels — read the values off a result, never guess one from prose
   areaSqFt: number | null;
   regularPrice: number | null;
   promoPrice: number | null;  // null when no promo is currently active
@@ -27629,7 +27635,7 @@ interface TwiddyRentalDetail {
   streetAddress: string;
   town: string;
   petsAllowed: boolean;
-  amenities: string[];
+  amenities: string[];  // the site's own labels — read the values off a result, never guess one from prose
   numberOfBedrooms: number | null;
   numberOfBathrooms: number | null;
   images: string[];
@@ -28131,7 +28137,7 @@ interface VisiblePhoneVariant {
   sku: string;
   storage: string | null;
   color: string | null;
-  condition: string | null;
+  condition: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   listPrice: number | null;
   price: number | null;
   monthlyPrice: number | null;
@@ -28965,7 +28971,7 @@ declare namespace BowmarkProvider_yourarborhome {
 interface ArborHome {
   uniqueName: string;
   headline: string;
-  status: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
   price: number | null;
   beds: number | null;
   bathsFull: number | null;
@@ -28984,7 +28990,7 @@ interface SearchHomesFilters {
   minBeds?: number;
   minBaths?: number;
   minSqft?: number;
-  status?: string;
+  status?: string;  // the site's own labels — read the values off a result, never guess one from prose
 }
 
   /**
