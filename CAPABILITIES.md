@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 59 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 60 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -49,6 +49,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `pricing.checkPersonalization` | Reads one product page's price once per persona (default: desktop + mobile, each a… | 0 | 🟢 |
 | `products.getAvailability` | Reads one product page and returns its price and stock status, from the page's own… | 0 | 🟢 |
 | `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟢 |
+| `prospect_screening.screenCompany` | Fetches the homepage, reads any schema.org employee-count signal and any… | 0 | 🟢 |
 | `read.page` | Loads one page and returns its content. | 0 | 🟢 |
 | `read.pages` | The same read over many urls, six in flight at a time, results in the order the urls… | 0 | 🟢 |
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 1 | 🟡 |

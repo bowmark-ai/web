@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 38183e34a8f652de7c25882fee7e82c00bf638187a183fe1e79e346a082b75c0
-# 43 capabilities, 345 providers, 850 typed functions, 20 refused.
+# Manifest version: 6624e9960474f9be2ba13915b833ceffe9377f9a3fcfdc77e31d30bb8667d2d9
+# 44 capabilities, 347 providers, 854 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1149,6 +1149,25 @@ class Cap_promocodes_PromoCode_Out(TypedDict):
     exclusive: bool
     url: str
 
+class Cap_prospect_screening_ProspectScreeningResult_Out(TypedDict):
+    domain: str
+    fetchedUrl: str
+    sizeSignal: Cap_prospect_screening_CompanySizeSignal_Out
+    interactiveFlow: Cap_prospect_screening_InteractiveFlowSignal_Out
+    verdict: Literal["candidate"] | Literal["no-interactive-flow"] | Literal["not-mid-market"] | Literal["insufficient-size-data"]
+    warnings: list[str]
+
+class Cap_prospect_screening_CompanySizeSignal_Out(TypedDict):
+    employeeCount: float | None
+    employeeCountText: str | None
+    source: Literal["schema-org"] | Literal["unknown"]
+
+class Cap_prospect_screening_InteractiveFlowSignal_Out(TypedDict):
+    found: bool
+    kind: Literal["booking"] | Literal["quote"] | Literal["configurator"] | Literal["checkout"] | Literal["application"] | Literal["scheduling"] | Literal["other"] | None
+    url: str | None
+    evidence: str | None
+
 class Cap_read_ReadOptions_In(TypedDict):
     format: NotRequired[Literal["markdown"] | Literal["text"] | Literal["cleanHtml"] | Literal["html"]]
     strategy: NotRequired[Literal["auto"] | Literal["fetch"] | Literal["browser"]]
@@ -2287,6 +2306,13 @@ class Prv_archipelago_ArchipelagoAsset_Out(TypedDict):
 class Prv_archipelago_ArchipelagoGameOptions_Out(TypedDict):
     game: str
     yaml: str
+
+class Prv_archive_org_archive_orgAvailability_Out(TypedDict):
+    query: str
+    available: bool
+    archivedUrl: str | None
+    archivedTimestamp: str | None
+    archivedStatus: str | None
 
 class Prv_artpix3d_Artpix3dShape_Out(TypedDict):
     slug: str
@@ -6650,6 +6676,36 @@ class Prv_formax_FormaxCartLink_Out(TypedDict):
     quantity: float
     addToCartUrl: str
     cartUrl: str
+
+class Prv_forms_hubspot_com_HubspotPageForms_Out(TypedDict):
+    pageUrl: str
+    forms: list[Prv_forms_hubspot_com_HubspotFormReference_Out]
+
+class Prv_forms_hubspot_com_HubspotFormReference_Out(TypedDict):
+    portalId: str
+    guid: str
+
+class Prv_forms_hubspot_com_HubspotFormDefinition_Out(TypedDict):
+    portalId: float
+    guid: str
+    submitText: str
+    fields: list[Prv_forms_hubspot_com_HubspotFormField_Out]
+    sourceUrl: str
+
+class Prv_forms_hubspot_com_HubspotFormField_Out(TypedDict):
+    name: str
+    label: str
+    type: str
+    fieldType: str
+    required: bool
+    hidden: bool
+    defaultValue: str
+    placeholder: str
+    options: list[Prv_forms_hubspot_com_HubspotFormField_Out_options_item_Out]
+
+class Prv_forms_hubspot_com_HubspotFormField_Out_options_item_Out(TypedDict):
+    label: str
+    value: str
 
 class Prv_fourseasonsyachts_searchVoyages_filters_In(TypedDict):
     region: NotRequired[str]
@@ -16238,6 +16294,18 @@ class Cap_promocodes(Protocol):
         budget (default 30000).
         """
 
+class Cap_prospect_screening(Protocol):
+    """Given a company's domain, checks whether its own site publishes a mid-market
+    employee-count signal and a public interactive goal flow (booking, quote, configurator,
+    checkout) — a fast screen before spending outbound research time on a candidate.
+    """
+
+    async def screenCompany(self, domain: str, /) -> Cap_prospect_screening_ProspectScreeningResult_Out:
+        """Fetches the homepage, reads any schema.org employee-count signal and any
+        booking/quote/configurator/checkout link or form, and returns a verdict for outbound
+        qualification.
+        """
+
 class Cap_read(Protocol):
     """Read any web page as markdown, text or HTML — one page or many at once, taking a browser
     only when the page actually needs one.
@@ -17043,6 +17111,22 @@ class Prv_archipelago(Protocol):
         from, comments and all. `game` must match archipelago.gg's own display name (e.g.
         "Factorio"). THROWS a caller-fixable error naming the mismatch when the game does not
         exist on the site (a 404), so a caller can retry with the exact spelling.
+        """
+
+class Prv_archive_org(Protocol):
+    """The Wayback Machine's own public availability lookup — is a site or page archived, and
+    where.
+    """
+
+    async def checkAvailability(self, site: str, timestamp: str | None = None, /) -> Prv_archive_org_archive_orgAvailability_Out:
+        """Checks the Wayback Machine's own public availability endpoint for one site or page — a
+        bare domain ("carpetlandusa.net"), a domain plus path
+        ("carpetlandusa.net/schedule-pre-measure/"), or a full URL. Returns whether ANY capture
+        exists, and — when one does — its own browsable `archivedUrl`, its `archivedTimestamp`
+        (`YYYYMMDDhhmmss`) and the original page's `archivedStatus` at capture time. `timestamp`
+        (`YYYYMMDDhhmmss`, or a shorter prefix like `20260615`) asks for the capture CLOSEST to
+        that moment; omit it for the most recent capture. This is the availability check only —
+        it does not fetch the archived page's own content.
         """
 
 class Prv_artpix3d(Protocol):
@@ -19928,6 +20012,23 @@ class Prv_formax(Protocol):
         the site's documented add-to-cart/quantity query parameters) and the cart page it lands
         on. Defaults quantity to 1. THROWS rather than returning a link for an unknown id or an
         out-of-stock part — call search(...) for a current one.
+        """
+
+class Prv_forms_hubspot_com(Protocol):
+    """Reads a public HubSpot form's own field definitions off its forms.hubspot.com URL — no
+    submission, no browser.
+    """
+
+    async def findForms(self, site: str, /) -> Prv_forms_hubspot_com_HubspotPageForms_Out:
+        """Fetches one page on a company's own site (a bare domain, or a domain + path) and returns
+        every HubSpot form it embeds (portalId + formId) — the door into getFormDefinition for a
+        caller who only knows the company, not a form URL.
+        """
+
+    async def getFormDefinition(self, formUrlOrIds: str, /) -> Prv_forms_hubspot_com_HubspotFormDefinition_Out:
+        """Reads a public HubSpot form's own field definitions off its forms.hubspot.com URL (or a
+        "<portalId> <formGuid>" pair) — every field's name, label, type and required flag, plus
+        the form's submit text.
         """
 
 class Prv_fourseasonsyachts(Protocol):
@@ -26120,6 +26221,7 @@ class BowmarkProviders(Protocol):
     aquaphoenixsci: Prv_aquaphoenixsci
     arajet: Prv_arajet
     archipelago: Prv_archipelago
+    archive_org: Prv_archive_org
     artpix3d: Prv_artpix3d
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco
@@ -26237,6 +26339,7 @@ class BowmarkProviders(Protocol):
     flightradar24: Prv_flightradar24
     ford: Prv_ford
     formax: Prv_formax
+    forms_hubspot_com: Prv_forms_hubspot_com
     fourseasonsyachts: Prv_fourseasonsyachts
     framebridge: Prv_framebridge
     fred: Prv_fred
@@ -26479,6 +26582,7 @@ class Bowmark(Protocol):
     pricing: Cap_pricing
     products: Cap_products
     promocodes: Cap_promocodes
+    prospect_screening: Cap_prospect_screening
     read: Cap_read
     restaurant_booking: Cap_restaurant_booking
     retail: Cap_retail

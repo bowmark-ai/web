@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 38183e34a8f652de7c25882fee7e82c00bf638187a183fe1e79e346a082b75c0
-// 43 capabilities, 345 providers, 868 typed functions, 20 refused.
+// Manifest version: 6624e9960474f9be2ba13915b833ceffe9377f9a3fcfdc77e31d30bb8667d2d9
+// 44 capabilities, 347 providers, 872 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1925,6 +1925,49 @@ type CallOptions = {
      * or failed. `options.timeoutMs` sets the per-source budget (default 30000).
      */
     search(domain: string, options?: CallOptions): Promise<PromoCodeSearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_prospect_screening {
+  // ── Prospect screening — mid-market + a public interactive flow — the unit's own declarations, verbatim ──
+
+type InteractiveFlowKind =
+  | "booking" | "quote" | "configurator" | "checkout" | "application" | "scheduling" | "other"
+
+interface InteractiveFlowSignal {
+  found: boolean
+  kind: InteractiveFlowKind | null
+  url: string | null       // the homepage itself, or a link found off it
+  evidence: string | null  // the text/attribute that matched, for an audit trail
+}
+
+interface CompanySizeSignal {
+  employeeCount: number | null
+  employeeCountText: string | null   // e.g. "201-500 employees"
+  source: "schema-org" | "unknown"
+}
+
+interface ProspectScreeningResult {
+  domain: string
+  fetchedUrl: string
+  sizeSignal: CompanySizeSignal
+  interactiveFlow: InteractiveFlowSignal
+  verdict: "candidate" | "no-interactive-flow" | "not-mid-market" | "insufficient-size-data"
+  warnings: string[]
+}
+
+  /**
+   * Given a company's domain, checks whether its own site publishes a mid-market employee-count
+   * signal and a public interactive goal flow (booking, quote, configurator, checkout) — a fast
+   * screen before spending outbound research time on a candidate.
+   */
+  interface Unit {
+    /**
+     * Fetches the homepage, reads any schema.org employee-count signal and any
+     * booking/quote/configurator/checkout link or form, and returns a verdict for outbound
+     * qualification.
+     */
+    screenCompany(domain: string): Promise<ProspectScreeningResult>;
   }
 }
 
@@ -4156,6 +4199,35 @@ interface ArchipelagoGameOptions {
      * (a 404), so a caller can retry with the exact spelling.
      */
     getGameOptions(game: string): Promise<ArchipelagoGameOptions>;
+  }
+}
+
+declare namespace BowmarkProvider_archive_org {
+  // ── Wayback Machine (archive.org) — the unit's own declarations, verbatim ──
+interface archive_orgAvailability {
+  query: string;
+  available: boolean;
+  archivedUrl: string | null;
+  archivedTimestamp: string | null;  // YYYYMMDDhhmmss
+  archivedStatus: string | null;     // the original page's own HTTP status when captured
+}
+
+  /**
+   * The Wayback Machine's own public availability lookup — is a site or page archived, and
+   * where.
+   */
+  interface Unit {
+    /**
+     * Checks the Wayback Machine's own public availability endpoint for one site or page — a bare
+     * domain ("carpetlandusa.net"), a domain plus path
+     * ("carpetlandusa.net/schedule-pre-measure/"), or a full URL. Returns whether ANY capture
+     * exists, and — when one does — its own browsable `archivedUrl`, its `archivedTimestamp`
+     * (`YYYYMMDDhhmmss`) and the original page's `archivedStatus` at capture time. `timestamp`
+     * (`YYYYMMDDhhmmss`, or a shorter prefix like `20260615`) asks for the capture CLOSEST to that
+     * moment; omit it for the most recent capture. This is the availability check only — it does
+     * not fetch the archived page's own content.
+     */
+    checkAvailability(site: string, timestamp?: string): Promise<archive_orgAvailability>;
   }
 }
 
@@ -12182,6 +12254,56 @@ interface FormaxCartLink {
      * out-of-stock part — call search(...) for a current one.
      */
     getCartLink(productId: number | string, quantity?: number): Promise<FormaxCartLink>;
+  }
+}
+
+declare namespace BowmarkProvider_forms_hubspot_com {
+  // ── HubSpot Forms — the unit's own declarations, verbatim ──
+interface HubspotFormField {
+  name: string;
+  label: string;
+  type: string;
+  fieldType: string;
+  required: boolean;
+  hidden: boolean;
+  defaultValue: string;
+  placeholder: string;
+  options: Array<{ label: string; value: string }>;
+}
+interface HubspotFormDefinition {
+  portalId: number;
+  guid: string;
+  submitText: string;
+  fields: HubspotFormField[];
+  sourceUrl: string;
+}
+interface HubspotFormReference {
+  portalId: string;
+  guid: string;
+}
+interface HubspotPageForms {
+  pageUrl: string;
+  forms: HubspotFormReference[];
+}
+
+  /**
+   * Reads a public HubSpot form's own field definitions off its forms.hubspot.com URL — no
+   * submission, no browser.
+   */
+  interface Unit {
+    /**
+     * Fetches one page on a company's own site (a bare domain, or a domain + path) and returns
+     * every HubSpot form it embeds (portalId + formId) — the door into getFormDefinition for a
+     * caller who only knows the company, not a form URL.
+     */
+    findForms(site: string): Promise<HubspotPageForms>;
+
+    /**
+     * Reads a public HubSpot form's own field definitions off its forms.hubspot.com URL (or a
+     * "<portalId> <formGuid>" pair) — every field's name, label, type and required flag, plus the
+     * form's submit text.
+     */
+    getFormDefinition(formUrlOrIds: string): Promise<HubspotFormDefinition>;
   }
 }
 
@@ -30003,6 +30125,7 @@ interface BowmarkProviders {
   aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;
   arajet: BowmarkProvider_arajet.Unit;
   archipelago: BowmarkProvider_archipelago.Unit;
+  archive_org: BowmarkProvider_archive_org.Unit;
   artpix3d: BowmarkProvider_artpix3d.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
@@ -30120,6 +30243,7 @@ interface BowmarkProviders {
   flightradar24: BowmarkProvider_flightradar24.Unit;
   ford: BowmarkProvider_ford.Unit;
   formax: BowmarkProvider_formax.Unit;
+  forms_hubspot_com: BowmarkProvider_forms_hubspot_com.Unit;
   fourseasonsyachts: BowmarkProvider_fourseasonsyachts.Unit;
   framebridge: BowmarkProvider_framebridge.Unit;
   fred: BowmarkProvider_fred.Unit;
@@ -82076,6 +82200,7 @@ interface BowmarkLibrary {
   pricing: BowmarkCapability_pricing.Unit;
   products: BowmarkCapability_products.Unit;
   promocodes: BowmarkCapability_promocodes.Unit;
+  prospect_screening: BowmarkCapability_prospect_screening.Unit;
   read: BowmarkCapability_read.Unit;
   restaurant_booking: BowmarkCapability_restaurant_booking.Unit;
   retail: BowmarkCapability_retail.Unit;

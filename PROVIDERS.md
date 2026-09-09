@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1293 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1297 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -42,6 +42,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `americandreamvacations.listLocations` | americandreamvacations.net | Returns American Dream Vacations' own list of rental store locations (city, state and… | 🟢 |
 | `americandreamvacations.searchInventory` | americandreamvacations.net | Runs American Dream Vacations' own "Check availability" search for one store location… | 🟢 |
 | `americanstandard.getSystemCostEstimate` | americanstandardair.com | Reads American Standard's own published cost guide for one system type ("Air… | 🟢 |
+| `americanvisionwindows.bookAppointment` | americanvisionwindows.com | Would submit the final booking (name/phone/email/street/city + the chosen date and… | ⚪ |
 | `americanvisionwindows.checkAvailability` | americanvisionwindows.com | Checks real, currently-open in-home consultation appointment slots for a US ZIP code… | 🟢 |
 | `amramp.findNearestLocation` | amramp.com | Runs Amramp's own ZIP/postal-code locator — the same… | 🟢 |
 | `ancientnutrition.computeGutType` | ancientnutrition.com | Runs Ancient Nutrition's real Gut Type Quiz with the caller's own answers (keyed by… | 🟢 |
@@ -63,6 +64,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `arajet.search` | arajet.com | Runs Arajet's own flight-schedule search (origin, destination, date, passengers) and… | 🟢 |
 | `archipelago.getClientRelease` | archipelago.gg | Returns the latest published Archipelago client release — the version tag, the GitHub… | 🟢 |
 | `archipelago.getGameOptions` | archipelago.gg | Returns one game's per-player randomizer options — the commented YAML template… | 🟢 |
+| `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🟢 |
 | `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟢 |
 | `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟢 |
 | `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟢 |
@@ -506,6 +508,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ford.searchInventory` | ford.com | Searches live VIN-level new-vehicle inventory at Ford dealers near a ZIP code… | ⚪ |
 | `formax.getCartLink` | shop.formax.com | Looks up one part by its Store-API product id, confirms it is real and purchasable… | 🟢 |
 | `formax.search` | shop.formax.com | Runs shop.formax.com's own WooCommerce Store API product search for a free-text query… | 🟢 |
+| `forms_hubspot_com.findForms` | forms.hubspot.com | Fetches one page on a company's own site (e.g. their homepage or a contact/demo page)… | 🟢 |
+| `forms_hubspot_com.getFormDefinition` | forms.hubspot.com | Reads a public HubSpot form's own field definitions off a forms.hubspot.com URL (or a… | 🟢 |
 | `fourseasonsyachts.getVoyage` | fourseasonsyachts.com | Reads one voyage's full itinerary — the day-by-day description, its region, its vessel… | 🟢 |
 | `fourseasonsyachts.getVoyageSailing` | fourseasonsyachts.com | Reads the real, live departure for one voyageCode — exact embark/disembark ports and… | 🟢 |
 | `fourseasonsyachts.searchVoyages` | fourseasonsyachts.com | Reads the live Voyage Finder inventory — every published sailing, its region, vessel… | 🟡 |
@@ -581,7 +585,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gotchacovered.getDesignStyleQuizQuestions` | gotchacovered.com | Reads the live 'What Design Style Am I?' quiz's real 6 questions and their option… | 🟡 |
 | `gotchacovered.takeDesignStyleQuiz` | gotchacovered.com | Answers all 6 questions of Gotcha Covered's own Design Style Quiz and returns the… | 🟡 |
 | `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🟡 |
-| `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟢 |
+| `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟡 |
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟢 |
 | `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟢 |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
@@ -815,7 +819,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.findStores` | shop.lululemon.com | Finds physical lululemon stores near a place the way the site's own store locator… | ⚪ |
 | `lululemon.getCart` | shop.lululemon.com | Reads back what is in the guest cart across several calls — line items, quantities… | ⚪ |
 | `lululemon.getProduct` | shop.lululemon.com | Reads one product's full configurator the way its product page presents it — every… | 🟢 |
-| `lululemon.getProductAttributes` | shop.lululemon.com | Reads what lululemon's OWN product page publishes about a garment and the third-party… | 🟡 |
+| `lululemon.getProductAttributes` | shop.lululemon.com | Reads what lululemon's OWN product page publishes about a garment and the third-party… | 🟢 |
 | `lululemon.getProducts` | shop.lululemon.com | Reads the full configurator for MANY products in one call — the shape for ranking a… | 🟢 |
 | `lululemon.getReviews` | shop.lululemon.com | Reads the customer reviews on one product — rating, title, body, size-and-fit votes… | ⚪ |
 | `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟢 |
@@ -905,7 +909,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `naic.getComplaintTrends` | naic.org | Reads NAIC's aggregate closed-complaint reports — by disposition, by reason, and by… | ⚪ |
 | `naic.getLicensing` | naic.org | Lists the states one insurer is licensed in and its status in each, which is the… | 🟢 |
 | `naic.getStateInsuranceChart` | naic.org | Reads one State Insurance Chart back in full — the per-state statute and regulation… | ⚪ |
-| `naic.listStateDepartments` | naic.org | Returns the directory of all 50+ state and territory insurance departments — the… | 🟢 |
+| `naic.listStateDepartments` | naic.org | Returns the directory of all 50+ state and territory insurance departments — the… | 🟡 |
 | `naic.lookupProducer` | naic.org | Verifies an individual insurance agent or agency through NAIC's State Based Systems… | ⚪ |
 | `naic.searchCompanies` | naic.org | Searches the NAIC Consumer Information Source register by company name or headquarters… | 🟢 |
 | `naic.searchStateInsuranceCharts` | naic.org | Searches NAIC's State Insurance Charts — the 100+ issue-specific charts that compile… | ⚪ |

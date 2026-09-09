@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 38183e34a8f652de7c25882fee7e82c00bf638187a183fe1e79e346a082b75c0
-// 850 checked, 20 unchecked.
+// Manifest version: 6624e9960474f9be2ba13915b833ceffe9377f9a3fcfdc77e31d30bb8667d2d9
+// 854 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "38183e34a8f652de7c25882fee7e82c00bf638187a183fe1e79e346a082b75c0",
+  "version": "6624e9960474f9be2ba13915b833ceffe9377f9a3fcfdc77e31d30bb8667d2d9",
   "units": {
     "bundles": {
       "defs": {},
@@ -1970,6 +1970,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "prospect_screening": {
+      "defs": {},
+      "functions": {
+        "screenCompany": [
+          {
+            "name": "domain",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -4077,6 +4091,27 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.archive_org": {
+      "defs": {},
+      "functions": {
+        "checkAvailability": [
+          {
+            "name": "site",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "timestamp",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }
@@ -10522,6 +10557,29 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.forms_hubspot_com": {
+      "defs": {},
+      "functions": {
+        "findForms": [
+          {
+            "name": "site",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getFormDefinition": [
+          {
+            "name": "formUrlOrIds",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
