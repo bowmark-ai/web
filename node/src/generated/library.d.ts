@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6c56d192d48f2216a79e99824df2d056c0f1424c7a54634b347c919104f1edfc
-// 43 capabilities, 343 providers, 864 typed functions, 20 refused.
+// Manifest version: 89f69d6eaa8df277080c3f75bf0b286a3197daa5dce10ca234f1ffd30f8e765b
+// 43 capabilities, 344 providers, 866 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8608,6 +8608,80 @@ interface ChriscraftPriceResult {
      * choice, rather than silently mispricing.
      */
     priceConfiguration(modelId: string, boatType: ChriscraftBoatType, selections: Record<string, string | string[]>): Promise<ChriscraftPriceResult>;
+  }
+}
+
+declare namespace BowmarkProvider_christianbrothersauto {
+  // ── Christian Brothers Automotive — the unit's own declarations, verbatim ──
+interface ChristianBrothersAutoService {
+  serviceId: number;
+  text: string;
+}
+interface ChristianBrothersAutoShop {
+  slug: string;
+  shopId: number;
+  locationId: string;
+  city: string;
+  state: string;
+  street: string;
+  zip: string;
+  phone: string;
+  openingTime: string;
+  closingTime: string;
+  schedulerLive: boolean;
+  isAfterHoursDropoff: boolean;
+  services: ChristianBrothersAutoService[];
+  schedulerUrl: string;
+}
+interface ChristianBrothersAutoSlotWindow {
+  fromTime: string;
+  endTime: string;
+  availableSlots: number;
+  totalSlots: number;
+}
+interface ChristianBrothersAutoDaySlots {
+  date: string;
+  availableTimes: number;
+  slots: ChristianBrothersAutoSlotWindow[];
+}
+interface ChristianBrothersAutoAvailability {
+  shop: ChristianBrothersAutoShop;
+  service: ChristianBrothersAutoService;
+  appointmentType: "dropoff" | "ahdo";
+  days: ChristianBrothersAutoDaySlots[];
+  schedulerUrl: string;
+}
+interface GetShopDetailsArgs {
+  shop: string;
+}
+interface CheckAppointmentAvailabilityArgs {
+  shop: string;
+  service: string;
+  appointmentType?: "dropoff" | "ahdo";
+  days?: number;
+}
+
+  /**
+   * Christian Brothers Automotive's public appointment scheduler — resolve a shop and check its
+   * real open appointment slots for a service, straight from the site's own scheduler backend,
+   * no vehicle/name/email/phone required.
+   */
+  interface Unit {
+    /**
+     * Resolves a Christian Brothers Automotive shop — by its scheduler slug ("liberty-lake"), a
+     * plain city/franchise name ("Liberty Lake"), or a scheduler.cbac.com/cbac.com shop URL — to
+     * that shop's real public details: address, hours, phone, whether its online scheduler is
+     * live, and its own list of bookable services with the site's own service ids.
+     */
+    getShopDetails(args: GetShopDetailsArgs): Promise<ChristianBrothersAutoShop>;
+
+    /**
+     * Checks real, currently-open appointment slots at one Christian Brothers Automotive shop for
+     * a named service (matched against that shop's own service list) and visit type — reachable
+     * with no vehicle info, name, email or phone. Returns real per-day open time windows plus the
+     * exact scheduler URL to finish booking.
+     */
+    checkAppointmentAvailability(args: CheckAppointmentAvailabilityArgs): Promise<ChristianBrothersAutoAvailability>;
   }
 }
 
@@ -29950,6 +30024,7 @@ interface BowmarkProviders {
   chesmar: BowmarkProvider_chesmar.Unit;
   chipotle: BowmarkProvider_chipotle.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;
+  christianbrothersauto: BowmarkProvider_christianbrothersauto.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classpass: BowmarkProvider_classpass.Unit;
   claude_com: BowmarkProvider_claude_com.Unit;

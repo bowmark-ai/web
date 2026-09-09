@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6c56d192d48f2216a79e99824df2d056c0f1424c7a54634b347c919104f1edfc
-# 43 capabilities, 343 providers, 846 typed functions, 20 refused.
+# Manifest version: 89f69d6eaa8df277080c3f75bf0b286a3197daa5dce10ca234f1ffd30f8e765b
+# 43 capabilities, 344 providers, 848 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4821,6 +4821,53 @@ class Prv_chriscraft_ChriscraftPriceLine_Out(TypedDict):
     choice: str
     price: float
     yourPrice: float
+
+class Prv_christianbrothersauto_GetShopDetailsArgs_In(TypedDict):
+    shop: str
+
+class Prv_christianbrothersauto_ChristianBrothersAutoShop_Out(TypedDict):
+    slug: str
+    shopId: float
+    locationId: str
+    city: str
+    state: str
+    street: str
+    zip: str
+    phone: str
+    openingTime: str
+    closingTime: str
+    schedulerLive: bool
+    isAfterHoursDropoff: bool
+    services: list[Prv_christianbrothersauto_ChristianBrothersAutoService_Out]
+    schedulerUrl: str
+
+class Prv_christianbrothersauto_ChristianBrothersAutoService_Out(TypedDict):
+    serviceId: float
+    text: str
+
+class Prv_christianbrothersauto_CheckAppointmentAvailabilityArgs_In(TypedDict):
+    shop: str
+    service: str
+    appointmentType: NotRequired[Literal["dropoff"] | Literal["ahdo"]]
+    days: NotRequired[float]
+
+class Prv_christianbrothersauto_ChristianBrothersAutoAvailability_Out(TypedDict):
+    shop: Prv_christianbrothersauto_ChristianBrothersAutoShop_Out
+    service: Prv_christianbrothersauto_ChristianBrothersAutoService_Out
+    appointmentType: Literal["dropoff"] | Literal["ahdo"]
+    days: list[Prv_christianbrothersauto_ChristianBrothersAutoDaySlots_Out]
+    schedulerUrl: str
+
+class Prv_christianbrothersauto_ChristianBrothersAutoDaySlots_Out(TypedDict):
+    date: str
+    availableTimes: float
+    slots: list[Prv_christianbrothersauto_ChristianBrothersAutoSlotWindow_Out]
+
+class Prv_christianbrothersauto_ChristianBrothersAutoSlotWindow_Out(TypedDict):
+    fromTime: str
+    endTime: str
+    availableSlots: float
+    totalSlots: float
 
 class Prv_classichome_ClassicHomeProduct_Out(TypedDict):
     handle: str
@@ -18602,6 +18649,27 @@ class Prv_chriscraft(Protocol):
         matched no real group or choice, rather than silently mispricing.
         """
 
+class Prv_christianbrothersauto(Protocol):
+    """Christian Brothers Automotive's public appointment scheduler — resolve a shop and check
+    its real open appointment slots for a service, straight from the site's own scheduler
+    backend, no vehicle/name/email/phone required.
+    """
+
+    async def getShopDetails(self, args: Prv_christianbrothersauto_GetShopDetailsArgs_In, /) -> Prv_christianbrothersauto_ChristianBrothersAutoShop_Out:
+        """Resolves a Christian Brothers Automotive shop — by its scheduler slug ("liberty-lake"),
+        a plain city/franchise name ("Liberty Lake"), or a scheduler.cbac.com/cbac.com shop URL
+        — to that shop's real public details: address, hours, phone, whether its online
+        scheduler is live, and its own list of bookable services with the site's own service
+        ids.
+        """
+
+    async def checkAppointmentAvailability(self, args: Prv_christianbrothersauto_CheckAppointmentAvailabilityArgs_In, /) -> Prv_christianbrothersauto_ChristianBrothersAutoAvailability_Out:
+        """Checks real, currently-open appointment slots at one Christian Brothers Automotive shop
+        for a named service (matched against that shop's own service list) and visit type —
+        reachable with no vehicle info, name, email or phone. Returns real per-day open time
+        windows plus the exact scheduler URL to finish booking.
+        """
+
 class Prv_classichome(Protocol):
     """Classic Home's real Made-to-Order fabric/leather catalog and its real, material-specific
     Shopify pricing — search real MTO products (sofas, chairs, ottomans), read one product's
@@ -26080,6 +26148,7 @@ class BowmarkProviders(Protocol):
     chesmar: Prv_chesmar
     chipotle: Prv_chipotle
     chriscraft: Prv_chriscraft
+    christianbrothersauto: Prv_christianbrothersauto
     classichome: Prv_classichome
     classpass: Prv_classpass
     claude_com: Prv_claude_com

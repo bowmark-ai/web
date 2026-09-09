@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6c56d192d48f2216a79e99824df2d056c0f1424c7a54634b347c919104f1edfc
-// 846 checked, 20 unchecked.
+// Manifest version: 89f69d6eaa8df277080c3f75bf0b286a3197daa5dce10ca234f1ffd30f8e765b
+// 848 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6c56d192d48f2216a79e99824df2d056c0f1424c7a54634b347c919104f1edfc",
+  "version": "89f69d6eaa8df277080c3f75bf0b286a3197daa5dce10ca234f1ffd30f8e765b",
   "units": {
     "bundles": {
       "defs": {},
@@ -8167,6 +8167,87 @@ export const VALIDATORS: ValidatorTable = {
                   }
                 ]
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.christianbrothersauto": {
+      "defs": {
+        "CheckAppointmentAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "shop",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "service",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "appointmentType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "dropoff"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "ahdo"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "days",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetShopDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "shop",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getShopDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetShopDetailsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkAppointmentAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckAppointmentAvailabilityArgs"
             },
             "optional": false
           }
