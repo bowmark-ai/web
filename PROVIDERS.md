@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1291 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1293 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -275,6 +275,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟡 |
 | `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟡 |
 | `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟡 |
+| `classicrockfab.checkAvailability` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Given an appointmentTypeId from listAppointmentTypes, returns real currently-open time… | 🟢 |
+| `classicrockfab.listAppointmentTypes` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Lists Classic Rock's public design-center appointment types across all four locations… | 🟢 |
 | `classpass.checkAvailability` | classpass.com | Checks whether a specific already-known class or appointment slot still has an open… | ⚪ |
 | `classpass.getPricing` | classpass.com | Returns ClassPass's own membership/credit-plan pricing for a market — the monthly… | ⚪ |
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |

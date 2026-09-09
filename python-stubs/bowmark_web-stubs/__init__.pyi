@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 61184f2525658fc42ef5885459bb496a5481d79440023ab931332ff390b3b49b
-# 43 capabilities, 344 providers, 848 typed functions, 20 refused.
+# Manifest version: 38183e34a8f652de7c25882fee7e82c00bf638187a183fe1e79e346a082b75c0
+# 43 capabilities, 345 providers, 850 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4897,6 +4897,29 @@ class Prv_classichome_ClassicHomeCartHandoff_Out(TypedDict):
     price: float
     available: bool
     productUrl: str
+
+class Prv_classicrockfab_ClassicRockAppointmentType_Out(TypedDict):
+    id: float
+    name: str
+    location: str | None
+    durationMinutes: float
+    price: str
+    bookingUrl: str
+
+class Prv_classicrockfab_checkAvailability_arg_In(TypedDict):
+    appointmentTypeId: float
+    days: NotRequired[float]
+
+class Prv_classicrockfab_ClassicRockAvailability_Out(TypedDict):
+    appointmentTypeId: float
+    timezone: str
+    slots: list[Prv_classicrockfab_ClassicRockAvailabilitySlot_Out]
+    bookingUrl: str
+
+class Prv_classicrockfab_ClassicRockAvailabilitySlot_Out(TypedDict):
+    date: str
+    time: str
+    slotsAvailable: float
 
 class Prv_classpass_ClasspassSearchQuery_In(TypedDict):
     lat: float
@@ -18697,6 +18720,22 @@ class Prv_classichome(Protocol):
         classichome.com's robots.txt disallows automated /cart access.
         """
 
+class Prv_classicrockfab(Protocol):
+    """Classic Rock Fabrication's own public Acuity scheduler — list design-center appointment
+    types across all four locations, then read real live availability and the booking
+    handoff for one.
+    """
+
+    async def listAppointmentTypes(self, locationQuery: str | None = None, /) -> list[Prv_classicrockfab_ClassicRockAppointmentType_Out]:
+        """Lists Classic Rock's public design-center appointment types, optionally filtered by a
+        location substring (e.g. "Mechanicsburg", "Pittsburgh").
+        """
+
+    async def checkAvailability(self, arg: Prv_classicrockfab_checkAvailability_arg_In, /) -> Prv_classicrockfab_ClassicRockAvailability_Out:
+        """Given an appointmentTypeId from listAppointmentTypes, returns real open time slots over
+        the next several days plus the booking-handoff URL.
+        """
+
 class Prv_classpass(Protocol):
     """ClassPass — fitness, wellness and beauty classes across gyms, studios, spas and salons.
     `getStudio` reads one studio's whole profile in a single request: what it does, where it
@@ -26152,6 +26191,7 @@ class BowmarkProviders(Protocol):
     chriscraft: Prv_chriscraft
     christianbrothersauto: Prv_christianbrothersauto
     classichome: Prv_classichome
+    classicrockfab: Prv_classicrockfab
     classpass: Prv_classpass
     claude_com: Prv_claude_com
     claude_support: Prv_claude_support

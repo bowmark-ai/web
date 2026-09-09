@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 61184f2525658fc42ef5885459bb496a5481d79440023ab931332ff390b3b49b
-// 848 checked, 20 unchecked.
+// Manifest version: 38183e34a8f652de7c25882fee7e82c00bf638187a183fe1e79e346a082b75c0
+// 850 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "61184f2525658fc42ef5885459bb496a5481d79440023ab931332ff390b3b49b",
+  "version": "38183e34a8f652de7c25882fee7e82c00bf638187a183fe1e79e346a082b75c0",
   "units": {
     "bundles": {
       "defs": {},
@@ -8287,6 +8287,45 @@ export const VALIDATORS: ValidatorTable = {
             "name": "optionValue",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.classicrockfab": {
+      "defs": {},
+      "functions": {
+        "listAppointmentTypes": [
+          {
+            "name": "locationQuery",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "checkAvailability": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "appointmentTypeId",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "days",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }

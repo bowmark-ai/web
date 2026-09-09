@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 61184f2525658fc42ef5885459bb496a5481d79440023ab931332ff390b3b49b
-// 43 capabilities, 344 providers, 866 typed functions, 20 refused.
+// Manifest version: 38183e34a8f652de7c25882fee7e82c00bf638187a183fe1e79e346a082b75c0
+// 43 capabilities, 345 providers, 868 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8751,6 +8751,48 @@ interface ClassicHomeCartHandoff {
      * robots.txt disallows automated /cart access.
      */
     addToCart(handle: string, optionValue: string): Promise<ClassicHomeCartHandoff>;
+  }
+}
+
+declare namespace BowmarkProvider_classicrockfab {
+  // ── Classic Rock Fabrication — the unit's own declarations, verbatim ──
+interface ClassicRockAppointmentType {
+  id: number;
+  name: string;
+  location: string | null;
+  durationMinutes: number;
+  price: string;
+  bookingUrl: string;
+}
+interface ClassicRockAvailabilitySlot {
+  date: string;
+  time: string;
+  slotsAvailable: number;
+}
+interface ClassicRockAvailability {
+  appointmentTypeId: number;
+  timezone: string;
+  slots: ClassicRockAvailabilitySlot[];
+  bookingUrl: string;
+}
+
+  /**
+   * Classic Rock Fabrication's own public Acuity scheduler — list design-center appointment
+   * types across all four locations, then read real live availability and the booking handoff
+   * for one.
+   */
+  interface Unit {
+    /**
+     * Lists Classic Rock's public design-center appointment types, optionally filtered by a
+     * location substring (e.g. "Mechanicsburg", "Pittsburgh").
+     */
+    listAppointmentTypes(locationQuery?: string): Promise<ClassicRockAppointmentType[]>;
+
+    /**
+     * Given an appointmentTypeId from listAppointmentTypes, returns real open time slots over the
+     * next several days plus the booking-handoff URL.
+     */
+    checkAvailability(arg: { appointmentTypeId: number, days?: number }): Promise<ClassicRockAvailability>;
   }
 }
 
@@ -30032,6 +30074,7 @@ interface BowmarkProviders {
   chriscraft: BowmarkProvider_chriscraft.Unit;
   christianbrothersauto: BowmarkProvider_christianbrothersauto.Unit;
   classichome: BowmarkProvider_classichome.Unit;
+  classicrockfab: BowmarkProvider_classicrockfab.Unit;
   classpass: BowmarkProvider_classpass.Unit;
   claude_com: BowmarkProvider_claude_com.Unit;
   claude_support: BowmarkProvider_claude_support.Unit;
