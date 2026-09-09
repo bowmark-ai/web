@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1307 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1309 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -424,6 +424,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fieldstonehomes.getAppointmentFormSchema` | fieldstonehomes.com | Reads Fieldstone Homes' live schedule-appointment form, including its required fields… | 🟢 |
 | `fieldstonehomes.prepareAppointment` | fieldstonehomes.com | Validates an appointment request against Fieldstone Homes' live form and returns the… | 🟢 |
 | `fieldstonehomes.searchQuickMoveIns` | fieldstonehomes.com | Searches Fieldstone Homes' live quick-move-in inventory by city, home type, price… | 🟢 |
+| `firstamericahomes.getCommunity` | firstamericahomes.com | Reads one community's full detail: address, sales-office phone, description… | 🟢 |
+| `firstamericahomes.searchCommunities` | firstamericahomes.com | Searches First America Homes' current live community list (Houston and San Antonio… | 🟢 |
 | `firstdibs.getListing` | 1stdibs.com | Reads one listing's real price and its concrete completing action (Make an Offer… | 🟢 |
 | `firstdibs.search` | 1stdibs.com | Runs 1stDibs' search and returns real listings — name, real price, currency… | 🟢 |
 | `fivebelow.search` | fivebelow.com | Searches fivebelow.com's catalog for a keyword and returns matching products — name… | 🟢 |

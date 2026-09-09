@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5a2b0c60e4c4a9bfb913d4671d1cf0d9323eb17c51e3b5461c52d84522a2f003
-// 45 capabilities, 353 providers, 883 typed functions, 20 refused.
+// Manifest version: 38c5c1ae5ebd51161f39c1eae1db1fa8639df9fc70fd3e3c87be4ad63f057c7d
+// 45 capabilities, 354 providers, 885 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11923,6 +11923,70 @@ interface FieldstonehomesPreparedAppointment { valid: boolean; errors: string[];
      * handoff values. Never submits the POST.
      */
     prepareAppointment(args: FieldstonehomesPrepareAppointmentArgs): Promise<FieldstonehomesPreparedAppointment>;
+  }
+}
+
+declare namespace BowmarkProvider_firstamericahomes {
+  // ── First America Homes — the unit's own declarations, verbatim ──
+// First America Homes' OWN shapes — not a capability contract.
+
+interface FirstamericahomesCommunitySummary {
+  name: string;
+  url: string;               // the key getCommunity takes
+  city: string;
+  state: string;
+  zip: string;
+  streetAddress: string;
+  phone: string;              // the community's own sales-office number, e.g. "+12106102362"
+  description: string;
+  priceFrom: number | null;   // lowest currently-listed floor-plan price, or null
+}
+
+interface FirstamericahomesFloorPlanRange { min: number; max: number }
+
+interface FirstamericahomesFloorPlan {
+  name: string;
+  url: string;
+  description: string;
+  price: number | null;
+  sqft: number | null;
+  beds: FirstamericahomesFloorPlanRange | null;
+  fullBaths: FirstamericahomesFloorPlanRange | null;
+  halfBaths: FirstamericahomesFloorPlanRange | null;
+}
+
+interface FirstamericahomesCommunityDetail extends FirstamericahomesCommunitySummary {
+  latitude: number | null;
+  longitude: number | null;
+  floorPlans: FirstamericahomesFloorPlan[];
+}
+
+interface FirstamericahomesSearchFilters {
+  city?: string; state?: string; minPrice?: number; maxPrice?: number;
+}
+
+  /**
+   * Reads First America Homes' own live community list across Houston and San Antonio — real
+   * address, real sales-office phone number, real starting price and every current floor plan
+   * (price, sqft, beds/baths) per community — the discoverable door into the site's
+   * contact/tour/financing intake, which is keyed on a community rather than a single company
+   * phone line.
+   */
+  interface Unit {
+    /**
+     * Searches First America Homes' current live community list (Houston and San Antonio metros)
+     * by city, state, or price range. Real address, real sales-office phone number and real
+     * starting price per community.
+     */
+    searchCommunities(filters?: FirstamericahomesSearchFilters): Promise<FirstamericahomesCommunitySummary[]>;
+
+    /**
+     * Reads one community's full detail: address, sales-office phone, description,
+     * geo-coordinates, and every floor plan it currently offers. `url` is a community's own url
+     * from `searchCommunities()`. THROWS on an unknown url, naming `searchCommunities()` as the
+     * way to find current ones.
+     */
+    getCommunity(url: string): Promise<FirstamericahomesCommunityDetail>;
   }
 }
 
@@ -30492,6 +30556,7 @@ interface BowmarkProviders {
   extraspace: BowmarkProvider_extraspace.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
+  firstamericahomes: BowmarkProvider_firstamericahomes.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
   fivebelow: BowmarkProvider_fivebelow.Unit;
   fivestarbathsolutions: BowmarkProvider_fivestarbathsolutions.Unit;

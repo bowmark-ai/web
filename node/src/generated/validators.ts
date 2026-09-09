@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5a2b0c60e4c4a9bfb913d4671d1cf0d9323eb17c51e3b5461c52d84522a2f003
-// 865 checked, 20 unchecked.
+// Manifest version: 38c5c1ae5ebd51161f39c1eae1db1fa8639df9fc70fd3e3c87be4ad63f057c7d
+// 867 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5a2b0c60e4c4a9bfb913d4671d1cf0d9323eb17c51e3b5461c52d84522a2f003",
+  "version": "38c5c1ae5ebd51161f39c1eae1db1fa8639df9fc70fd3e3c87be4ad63f057c7d",
   "units": {
     "bundles": {
       "defs": {},
@@ -10598,6 +10598,64 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FieldstonehomesPrepareAppointmentArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.firstamericahomes": {
+      "defs": {
+        "FirstamericahomesSearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchCommunities": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "FirstamericahomesSearchFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getCommunity": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

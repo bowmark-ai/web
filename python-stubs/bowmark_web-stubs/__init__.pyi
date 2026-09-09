@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5a2b0c60e4c4a9bfb913d4671d1cf0d9323eb17c51e3b5461c52d84522a2f003
-# 45 capabilities, 353 providers, 865 typed functions, 20 refused.
+# Manifest version: 38c5c1ae5ebd51161f39c1eae1db1fa8639df9fc70fd3e3c87be4ad63f057c7d
+# 45 capabilities, 354 providers, 867 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6606,6 +6606,51 @@ class Prv_fieldstonehomes_FieldstonehomesPreparedAppointment_Out(TypedDict):
     action: str
     handoffUrl: str
     fields: Mapping[str, str]
+
+class Prv_firstamericahomes_FirstamericahomesSearchFilters_In(TypedDict):
+    city: NotRequired[str]
+    state: NotRequired[str]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+
+class Prv_firstamericahomes_FirstamericahomesCommunitySummary_Out(TypedDict):
+    name: str
+    url: str
+    city: str
+    state: str
+    zip: str
+    streetAddress: str
+    phone: str
+    description: str
+    priceFrom: float | None
+
+class Prv_firstamericahomes_FirstamericahomesCommunityDetail_Out(TypedDict):
+    name: str
+    url: str
+    city: str
+    state: str
+    zip: str
+    streetAddress: str
+    phone: str
+    description: str
+    priceFrom: float | None
+    latitude: float | None
+    longitude: float | None
+    floorPlans: list[Prv_firstamericahomes_FirstamericahomesFloorPlan_Out]
+
+class Prv_firstamericahomes_FirstamericahomesFloorPlan_Out(TypedDict):
+    name: str
+    url: str
+    description: str
+    price: float | None
+    sqft: float | None
+    beds: Prv_firstamericahomes_FirstamericahomesFloorPlanRange_Out | None
+    fullBaths: Prv_firstamericahomes_FirstamericahomesFloorPlanRange_Out | None
+    halfBaths: Prv_firstamericahomes_FirstamericahomesFloorPlanRange_Out | None
+
+class Prv_firstamericahomes_FirstamericahomesFloorPlanRange_Out(TypedDict):
+    min: float
+    max: float
 
 class Prv_firstdibs_FirstdibsSearchResult_Out(TypedDict):
     name: str
@@ -20080,6 +20125,27 @@ class Prv_fieldstonehomes(Protocol):
         handoff values. Never submits the POST.
         """
 
+class Prv_firstamericahomes(Protocol):
+    """Reads First America Homes' own live community list across Houston and San Antonio — real
+    address, real sales-office phone number, real starting price and every current floor
+    plan (price, sqft, beds/baths) per community — the discoverable door into the site's
+    contact/tour/financing intake, which is keyed on a community rather than a single
+    company phone line.
+    """
+
+    async def searchCommunities(self, filters: Prv_firstamericahomes_FirstamericahomesSearchFilters_In | None = None, /) -> list[Prv_firstamericahomes_FirstamericahomesCommunitySummary_Out]:
+        """Searches First America Homes' current live community list (Houston and San Antonio
+        metros) by city, state, or price range. Real address, real sales-office phone number and
+        real starting price per community.
+        """
+
+    async def getCommunity(self, url: str, /) -> Prv_firstamericahomes_FirstamericahomesCommunityDetail_Out:
+        """Reads one community's full detail: address, sales-office phone, description,
+        geo-coordinates, and every floor plan it currently offers. `url` is a community's own
+        url from `searchCommunities()`. THROWS on an unknown url, naming `searchCommunities()`
+        as the way to find current ones.
+        """
+
 class Prv_firstdibs(Protocol):
     """Search 1stDibs' luxury/vintage marketplace and read a listing's real price plus its
     concrete completing action (Make an Offer / Contact Seller) — no login.
@@ -26579,6 +26645,7 @@ class BowmarkProviders(Protocol):
     extraspace: Prv_extraspace
     facerealityskincare: Prv_facerealityskincare
     fieldstonehomes: Prv_fieldstonehomes
+    firstamericahomes: Prv_firstamericahomes
     firstdibs: Prv_firstdibs
     fivebelow: Prv_fivebelow
     fivestarbathsolutions: Prv_fivestarbathsolutions
