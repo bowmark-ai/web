@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8c35ea5881addf9bf499be8feeccbe29feed1850814fc76e72d3a4430cf99f11
-// 44 capabilities, 351 providers, 879 typed functions, 20 refused.
+// Manifest version: 2c19a8b2cf108160cb76bcf16cb88bbaf4487230565d14c72a6922b56160beb8
+// 44 capabilities, 352 providers, 880 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9305,6 +9305,25 @@ interface claudeMarketplacesListingLink {
      * Returns at most 50 matches. THROWS ClaudeMarketplacesInputError on an empty query.
      */
     searchListings(query: string): Promise<claudeMarketplacesListingLink[]>;
+  }
+}
+
+declare namespace BowmarkProvider_clboyd {
+  // ── CL Boyd — the unit's own declarations, verbatim ──
+interface CLBoydSearchArgs { category: string; manufacturer?: string; minYear?: number; maxYear?: number; minPrice?: number; maxPrice?: number; minHours?: number; maxHours?: number; sort?: string; }
+interface CLBoydEquipment { id: string; name: string; url: string; price: number | null; location: string | null; year: number | null; hours: number | null; stockNumber: string | null; }
+interface CLBoydSearchResult { equipment: CLBoydEquipment[]; }
+
+  /**
+   * CL Boyd's live used-equipment inventory filter with current price, hours, stock number and
+   * detail-page handoff.
+   */
+  interface Unit {
+    /**
+     * Runs CL Boyd's live used-equipment filter and returns current matching machines with price,
+     * hours, stock number and a detail-page handoff.
+     */
+    searchUsedEquipment(args: CLBoydSearchArgs): Promise<CLBoydSearchResult>;
   }
 }
 
@@ -30373,6 +30392,7 @@ interface BowmarkProviders {
   claude_com: BowmarkProvider_claude_com.Unit;
   claude_support: BowmarkProvider_claude_support.Unit;
   claudemarketplaces_com: BowmarkProvider_claudemarketplaces_com.Unit;
+  clboyd: BowmarkProvider_clboyd.Unit;
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;

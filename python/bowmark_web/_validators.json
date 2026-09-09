@@ -1,5 +1,5 @@
 {
-  "version": "8c35ea5881addf9bf499be8feeccbe29feed1850814fc76e72d3a4430cf99f11",
+  "version": "2c19a8b2cf108160cb76bcf16cb88bbaf4487230565d14c72a6922b56160beb8",
   "units": {
     "bundles": {
       "defs": {},
@@ -8585,6 +8585,90 @@
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.clboyd": {
+      "defs": {
+        "CLBoydSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "manufacturer",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "minYear",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxYear",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minHours",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxHours",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchUsedEquipment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CLBoydSearchArgs"
             },
             "optional": false
           }

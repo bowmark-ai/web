@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8c35ea5881addf9bf499be8feeccbe29feed1850814fc76e72d3a4430cf99f11
-# 44 capabilities, 351 providers, 861 typed functions, 20 refused.
+# Manifest version: 2c19a8b2cf108160cb76bcf16cb88bbaf4487230565d14c72a6922b56160beb8
+# 44 capabilities, 352 providers, 862 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5133,6 +5133,30 @@ class Prv_claudemarketplaces_com_claudeMarketplacesListingLink_Out(TypedDict):
     publisher: str
     slug: str
     lastUpdated: str
+
+class Prv_clboyd_CLBoydSearchArgs_In(TypedDict):
+    category: str
+    manufacturer: NotRequired[str]
+    minYear: NotRequired[float]
+    maxYear: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minHours: NotRequired[float]
+    maxHours: NotRequired[float]
+    sort: NotRequired[str]
+
+class Prv_clboyd_CLBoydSearchResult_Out(TypedDict):
+    equipment: list[Prv_clboyd_CLBoydEquipment_Out]
+
+class Prv_clboyd_CLBoydEquipment_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    price: float | None
+    location: str | None
+    year: float | None
+    hours: float | None
+    stockNumber: str | None
 
 class Prv_cleanairlawncare_CheckServiceAreaResult_Out(TypedDict):
     zip: str
@@ -19065,6 +19089,16 @@ class Prv_claudemarketplaces_com(Protocol):
         empty query.
         """
 
+class Prv_clboyd(Protocol):
+    """CL Boyd's live used-equipment inventory filter with current price, hours, stock number
+    and detail-page handoff.
+    """
+
+    async def searchUsedEquipment(self, args: Prv_clboyd_CLBoydSearchArgs_In, /) -> Prv_clboyd_CLBoydSearchResult_Out:
+        """Runs CL Boyd's live used-equipment filter and returns current matching machines with
+        price, hours, stock number and a detail-page handoff.
+        """
+
 class Prv_cleanairlawncare(Protocol):
     """Eco lawn-care franchise. checkServiceArea and getAvailableSlots are live — a zip-code
     area check against the real caw-estimate-widget backend, plus the real per-franchise
@@ -26443,6 +26477,7 @@ class BowmarkProviders(Protocol):
     claude_com: Prv_claude_com
     claude_support: Prv_claude_support
     claudemarketplaces_com: Prv_claudemarketplaces_com
+    clboyd: Prv_clboyd
     cleanairlawncare: Prv_cleanairlawncare
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion

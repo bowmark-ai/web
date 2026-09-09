@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1305 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1307 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -254,6 +254,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `casadragones.findNearbyRetailers` | casadragones.com | Runs Casa Dragones' own real-time store locator (StoreRocket) for a US ZIP and returns… | 🟢 |
 | `casadragones.getProduct` | casadragones.com | Reads one product's real title, real price and real description straight off its live… | 🟢 |
 | `casadragones.listProducts` | casadragones.com | Lists Casa Dragones' real sipping-tequila catalog off their own product listing page… | 🟢 |
+| `cascadiaseniorliving_com.getSitePage` | cascadiaseniorliving.com | Reads one Cascadia Senior Living page (by its url from listSitePages, or by its slug)… | 🟢 |
+| `cascadiaseniorliving_com.listSitePages` | cascadiaseniorliving.com | Lists every page Cascadia Senior Living's own site publishes — title, url, slug and… | 🟢 |
 | `cbhhomes.assembleInquiry` | cbhhomes.com | Validates a caller's inquiry against the form's live schema and maps it onto the… | 🟢 |
 | `cbhhomes.getInquiryFormSchema` | cbhhomes.com | Reads the site's own live 'get in touch about a home' Gravity Forms inquiry form… | 🟢 |
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
