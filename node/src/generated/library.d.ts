@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 331dec8f87b79e8601773134dfdaa0f66aa5f8ad2bd4303d38e64340cf4930ae
-// 45 capabilities, 356 providers, 889 typed functions, 20 refused.
+// Manifest version: ea23887301db8dcc8da6edd8bbf32f4c741c97d691ef30561553ec7f9007ca15
+// 45 capabilities, 357 providers, 890 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15275,6 +15275,63 @@ interface HellotendService {
      * caller-fixable error listing the real ones in that market.
      */
     listServices(market: string, studio: string): Promise<HellotendService[]>;
+  }
+}
+
+declare namespace BowmarkProvider_highlandhomes {
+  // ── Highland Homes — the unit's own declarations, verbatim ──
+interface HighlandHomesSearchFilter {
+  city?: string;
+  bedsMin?: number;
+  bathsMin?: number;
+  priceMin?: number;
+  priceMax?: number;
+  sqftMin?: number;
+  sqftMax?: number;
+  garageSpacesMin?: number;
+  status?: string;  // the site's own labels — read the values off a result, never guess one from prose
+  hasDen?: boolean;
+  hasLoft?: boolean;
+  hasInLawSuite?: boolean;
+  hasOwnersRetreat?: boolean;
+  isOver55?: boolean;
+}
+interface HighlandHomesHome {
+  id: number;
+  lot: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  beds: number;
+  baths: number;
+  halfBaths: number;
+  garage: number;
+  sqft: number;
+  price: number;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  moveInDate: string | null;
+  planName: string;
+  planUrl: string;
+  communityName: string;
+  communityUrl: string;
+  communityPhone: string | null;
+  url: string;
+  imageUrl: string | null;
+}
+
+  /**
+   * Highland Homes' live new-construction inventory across Florida, filterable by city, price,
+   * beds, sqft, garage spaces and build status — off the site's own undocumented filter-form
+   * API.
+   */
+  interface Unit {
+    /**
+     * Searches Highland Homes' live new-construction inventory (Florida only) by city, price,
+     * beds, sqft, garage spaces, status ("Move-In Ready" / "Under Construction") and a handful of
+     * feature flags. Pass no filter to get the full live inventory.
+     */
+    search(filter?: HighlandHomesSearchFilter): Promise<HighlandHomesHome[]>;
   }
 }
 
@@ -30691,6 +30748,7 @@ interface BowmarkProviders {
   heatherwood: BowmarkProvider_heatherwood.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;
   hellotend: BowmarkProvider_hellotend.Unit;
+  highlandhomes: BowmarkProvider_highlandhomes.Unit;
   hilton: BowmarkProvider_hilton.Unit;
   historymaker: BowmarkProvider_historymaker.Unit;
   hobie: BowmarkProvider_hobie.Unit;

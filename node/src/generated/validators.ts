@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 331dec8f87b79e8601773134dfdaa0f66aa5f8ad2bd4303d38e64340cf4930ae
-// 871 checked, 20 unchecked.
+// Manifest version: ea23887301db8dcc8da6edd8bbf32f4c741c97d691ef30561553ec7f9007ca15
+// 872 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "331dec8f87b79e8601773134dfdaa0f66aa5f8ad2bd4303d38e64340cf4930ae",
+  "version": "ea23887301db8dcc8da6edd8bbf32f4c741c97d691ef30561553ec7f9007ca15",
   "units": {
     "bundles": {
       "defs": {},
@@ -12713,6 +12713,125 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.highlandhomes": {
+      "defs": {
+        "HighlandHomesSearchFilter": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "bedsMin",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "bathsMin",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "priceMin",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "priceMax",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sqftMin",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sqftMax",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "garageSpacesMin",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "status",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "hasDen",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "hasLoft",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "hasInLawSuite",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "hasOwnersRetreat",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "isOver55",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "filter",
+            "schema": {
+              "k": "ref",
+              "name": "HighlandHomesSearchFilter"
+            },
+            "optional": true
           }
         ]
       }

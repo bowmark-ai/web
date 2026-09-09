@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 331dec8f87b79e8601773134dfdaa0f66aa5f8ad2bd4303d38e64340cf4930ae
-# 45 capabilities, 356 providers, 871 typed functions, 20 refused.
+# Manifest version: ea23887301db8dcc8da6edd8bbf32f4c741c97d691ef30561553ec7f9007ca15
+# 45 capabilities, 357 providers, 872 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8074,6 +8074,45 @@ class Prv_hellotend_HellotendService_Out(TypedDict):
     description: str | None
     bookingDescription: str | None
     duration: str | None
+
+class Prv_highlandhomes_HighlandHomesSearchFilter_In(TypedDict):
+    city: NotRequired[str]
+    bedsMin: NotRequired[float]
+    bathsMin: NotRequired[float]
+    priceMin: NotRequired[float]
+    priceMax: NotRequired[float]
+    sqftMin: NotRequired[float]
+    sqftMax: NotRequired[float]
+    garageSpacesMin: NotRequired[float]
+    status: NotRequired[str]
+    hasDen: NotRequired[bool]
+    hasLoft: NotRequired[bool]
+    hasInLawSuite: NotRequired[bool]
+    hasOwnersRetreat: NotRequired[bool]
+    isOver55: NotRequired[bool]
+
+class Prv_highlandhomes_HighlandHomesHome_Out(TypedDict):
+    id: float
+    lot: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    beds: float
+    baths: float
+    halfBaths: float
+    garage: float
+    sqft: float
+    price: float
+    status: str
+    moveInDate: str | None
+    planName: str
+    planUrl: str
+    communityName: str
+    communityUrl: str
+    communityPhone: str | None
+    url: str
+    imageUrl: str | None
 
 class Prv_hilton_hiltonRoomOffer_Out(TypedDict):
     roomTypeCode: str
@@ -21257,6 +21296,18 @@ class Prv_hellotend(Protocol):
         market.
         """
 
+class Prv_highlandhomes(Protocol):
+    """Highland Homes' live new-construction inventory across Florida, filterable by city,
+    price, beds, sqft, garage spaces and build status — off the site's own undocumented
+    filter-form API.
+    """
+
+    async def search(self, filter: Prv_highlandhomes_HighlandHomesSearchFilter_In | None = None, /) -> list[Prv_highlandhomes_HighlandHomesHome_Out]:
+        """Searches Highland Homes' live new-construction inventory (Florida only) by city, price,
+        beds, sqft, garage spaces, status ("Move-In Ready" / "Under Construction") and a handful
+        of feature flags. Pass no filter to get the full live inventory.
+        """
+
 class Prv_hilton(Protocol):
     """Hilton-family hotel search, award availability, reservation lookup and property details."""
 
@@ -26769,6 +26820,7 @@ class BowmarkProviders(Protocol):
     heatherwood: Prv_heatherwood
     hellofresh: Prv_hellofresh
     hellotend: Prv_hellotend
+    highlandhomes: Prv_highlandhomes
     hilton: Prv_hilton
     historymaker: Prv_historymaker
     hobie: Prv_hobie
