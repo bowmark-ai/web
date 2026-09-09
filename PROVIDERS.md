@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1299 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1303 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -152,6 +152,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluehaven.checkPoolSiteFeasibility` | bluehaven.com | Runs a US street address through Blue Haven's own site-planning tool the way their… | 🟢 |
 | `bluehaven.getPoolPriceEstimate` | bluehaven.com | Prices one of Blue Haven's own pool designs at a specific sited address, the way the… | ⚪ |
 | `bluehaven.listPoolDesigns` | bluehaven.com | Reads Blue Haven's own live inground pool design catalog off their site-planning… | 🟢 |
+| `blueribbonhomewarranty_com.getPage` | blueribbonhomewarranty.com | Reads one Blue Ribbon Home Warranty page (found via search) and returns its title… | 🟢 |
+| `blueribbonhomewarranty_com.search` | blueribbonhomewarranty.com | Finds Blue Ribbon Home Warranty's own public pages — the apply/quote flows, the claim… | 🟢 |
 | `bluesignal.applyToJob` | bluesignal.com | Would submit a job application (name/email/phone/resume) to the site's own per-job… | ⚪ |
 | `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟢 |
 | `bluesignal.searchJobs` | bluesignal.com | Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by a… | 🟢 |
@@ -305,6 +307,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
+| `credibly_com.getApplicationForm` | credibly.com | Reads the visible questions and select choices on Credibly's public business-financing… | 🟢 |
+| `credibly_com.getEligibilityRequirements` | credibly.com | Reads Credibly's own published eligibility requirements (time in business, credit… | 🟢 |
 | `cruiselakegeneva.getTour` | cruiselakegeneva.com | Reads one tour's own detail page: full pricing (adult/child/group tiers), duration… | 🟢 |
 | `cruiselakegeneva.listTours` | cruiselakegeneva.com | Lists Cruise Lake Geneva's current tour lineup — every narrated/dining/seasonal boat… | 🟢 |
 | `culturefly.buildCultureFlyCheckoutLink` | culturefly.com | Resolves a chosen size + cadence against getCultureFlyBoxOptions and returns the exact… | 🟢 |
@@ -656,7 +660,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hodjapasha.getAvailability` | hodjapasha.com | Checks one show's own availability widget for a given date and party size, returning… | 🟢 |
 | `hodjapasha.getShow` | hodjapasha.com | Reads one show's own detail page for its full description, adult/child pricing… | 🟢 |
 | `hodjapasha.listShows` | hodjapasha.com | Reads every show hodjapasha.com's own booking widget lists — title, product id… | 🟢 |
-| `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟢 |
+| `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟡 |
 | `holidaybuilders.searchAvailableHomes` | holidaybuilders.com | Runs Holiday Builders' site-wide Available Homes search — every real move-in-ready or… | 🟢 |
 | `hottopic.search` | hottopic.com | Searches hottopic.com's own storefront for a keyword and returns the real, priced… | 🟢 |
 | `hunter.countEmails` | hunter.io | Returns how many email addresses Hunter holds for a domain, without returning the… | 🟢 |
