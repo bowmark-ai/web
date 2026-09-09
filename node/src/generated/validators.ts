@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6624e9960474f9be2ba13915b833ceffe9377f9a3fcfdc77e31d30bb8667d2d9
-// 854 checked, 20 unchecked.
+// Manifest version: ab1045c2b0a9094f69fd97b6a8be00087ae7b8871ef4e274bb3bb248203dbcea
+// 856 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6624e9960474f9be2ba13915b833ceffe9377f9a3fcfdc77e31d30bb8667d2d9",
+  "version": "ab1045c2b0a9094f69fd97b6a8be00087ae7b8871ef4e274bb3bb248203dbcea",
   "units": {
     "bundles": {
       "defs": {},
@@ -9584,6 +9584,50 @@ export const VALIDATORS: ValidatorTable = {
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.donsappliances": {
+      "defs": {
+        "DonsAppliancesSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DonsAppliancesSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

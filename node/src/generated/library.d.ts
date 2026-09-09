@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6624e9960474f9be2ba13915b833ceffe9377f9a3fcfdc77e31d30bb8667d2d9
-// 44 capabilities, 347 providers, 872 typed functions, 20 refused.
+// Manifest version: ab1045c2b0a9094f69fd97b6a8be00087ae7b8871ef4e274bb3bb248203dbcea
+// 44 capabilities, 348 providers, 874 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10795,6 +10795,55 @@ interface DisneyTicketPrice {
      * to; it is not a lookup for a caller-supplied date (see get-ticket-price.ts).
      */
     getTicketPrice(args: object): Promise<DisneyTicketPrice>;
+  }
+}
+
+declare namespace BowmarkProvider_donsappliances {
+  // ── Don's Appliances — the unit's own declarations, verbatim ──
+interface DonsAppliancesListing {
+  name: string;
+  url: string;
+  price: number;
+  sku: string;
+  imageUrl: string | null;
+}
+interface DonsAppliancesProduct {
+  name: string;
+  modelNumber: string | null;
+  sku: string;
+  brand: string | null;
+  price: number;
+  regularPrice: number;
+  inStock: boolean;
+  inventoryLabel: string | null;
+  url: string;
+}
+interface DonsAppliancesSearchArgs {
+  category: string;
+  maxPrice?: number;
+}
+
+  /**
+   * Browses Don's Appliances' own public catalog and reads a product's live price, availability
+   * and inventory-label wording straight off the site's own data — no browser.
+   */
+  interface Unit {
+    /**
+     * Browses one of Don's Appliances' catalog categories (the slug from a URL like
+     * https://www.donsappliances.com/catalog/<category>, e.g.
+     * "shop-all-refrigerators-upright-freezers") and returns up to 24 listed products — name,
+     * product URL, current price and SKU — optionally filtered to `maxPrice` or under. Call
+     * `getProduct` on a returned `url` for full detail (brand, model number, live stock).
+     */
+    search(args: DonsAppliancesSearchArgs): Promise<DonsAppliancesListing[]>;
+
+    /**
+     * Reads one Don's Appliances product page (a URL search() already returned) and returns its
+     * brand, model number, current sale price, regular price, live in-stock flag and the site's
+     * own inventory-label wording (e.g. "Limited Stock") — the computed result a shopper checks
+     * before heading to Don's own Add To Cart / checkout on that same page.
+     */
+    getProduct(url: string): Promise<DonsAppliancesProduct>;
   }
 }
 
@@ -30222,6 +30271,7 @@ interface BowmarkProviders {
   dillards: BowmarkProvider_dillards.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
   disney: BowmarkProvider_disney.Unit;
+  donsappliances: BowmarkProvider_donsappliances.Unit;
   doordash: BowmarkProvider_doordash.Unit;
   dumpsters: BowmarkProvider_dumpsters.Unit;
   ebay: BowmarkProvider_ebay.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6624e9960474f9be2ba13915b833ceffe9377f9a3fcfdc77e31d30bb8667d2d9
-# 44 capabilities, 347 providers, 854 typed functions, 20 refused.
+# Manifest version: ab1045c2b0a9094f69fd97b6a8be00087ae7b8871ef4e274bb3bb248203dbcea
+# 44 capabilities, 348 providers, 856 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5924,6 +5924,28 @@ class Prv_disney_DisneyTicketPrice_Out_child_u0_Out(TypedDict):
     subtotal: float
     tax: float
     total: float
+
+class Prv_donsappliances_DonsAppliancesSearchArgs_In(TypedDict):
+    category: str
+    maxPrice: NotRequired[float]
+
+class Prv_donsappliances_DonsAppliancesListing_Out(TypedDict):
+    name: str
+    url: str
+    price: float
+    sku: str
+    imageUrl: str | None
+
+class Prv_donsappliances_DonsAppliancesProduct_Out(TypedDict):
+    name: str
+    modelNumber: str | None
+    sku: str
+    brand: str | None
+    price: float
+    regularPrice: float
+    inStock: bool
+    inventoryLabel: str | None
+    url: str
 
 class Prv_doordash_DoordashSearchArgs_In(TypedDict):
     query: str
@@ -19529,6 +19551,26 @@ class Prv_disney(Protocol):
         get-ticket-price.ts).
         """
 
+class Prv_donsappliances(Protocol):
+    """Browses Don's Appliances' own public catalog and reads a product's live price,
+    availability and inventory-label wording straight off the site's own data — no browser.
+    """
+
+    async def search(self, args: Prv_donsappliances_DonsAppliancesSearchArgs_In, /) -> list[Prv_donsappliances_DonsAppliancesListing_Out]:
+        """Browses one of Don's Appliances' catalog categories (the slug from a URL like
+        https://www.donsappliances.com/catalog/<category>, e.g.
+        "shop-all-refrigerators-upright-freezers") and returns up to 24 listed products — name,
+        product URL, current price and SKU — optionally filtered to `maxPrice` or under. Call
+        `getProduct` on a returned `url` for full detail (brand, model number, live stock).
+        """
+
+    async def getProduct(self, url: str, /) -> Prv_donsappliances_DonsAppliancesProduct_Out:
+        """Reads one Don's Appliances product page (a URL search() already returned) and returns
+        its brand, model number, current sale price, regular price, live in-stock flag and the
+        site's own inventory-label wording (e.g. "Limited Stock") — the computed result a
+        shopper checks before heading to Don's own Add To Cart / checkout on that same page.
+        """
+
 class Prv_doordash(Protocol):
     """DoorDash's own store search — returns real, currently-listed stores for a free-text
     query with the delivery fee, rating and ETA DoorDash itself advertises on the results
@@ -26318,6 +26360,7 @@ class BowmarkProviders(Protocol):
     dillards: Prv_dillards
     discounttire: Prv_discounttire
     disney: Prv_disney
+    donsappliances: Prv_donsappliances
     doordash: Prv_doordash
     dumpsters: Prv_dumpsters
     ebay: Prv_ebay
