@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 38c5c1ae5ebd51161f39c1eae1db1fa8639df9fc70fd3e3c87be4ad63f057c7d
-# 45 capabilities, 354 providers, 867 typed functions, 20 refused.
+# Manifest version: 9d63e47bc912df5f4c1dfd3d08b04831e019b69d5f4b3d2c75dac2f6963bdf41
+# 45 capabilities, 355 providers, 869 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10845,6 +10845,33 @@ class Prv_mixbook_MixbookPromotion_Out(TypedDict):
     description: str
     code: str
     termsUrl: str
+
+class Prv_modernize_com_ModernizeProjectType_Out(TypedDict):
+    value: str
+    label: str
+    slug: str
+    hasQuoteFlow: bool
+
+class Prv_modernize_com_ModernizeQuoteFlow_Out(TypedDict):
+    projectType: str
+    steps: list[Prv_modernize_com_ModernizeQuoteFlowStep_Out]
+
+class Prv_modernize_com_ModernizeQuoteFlowStep_Out(TypedDict):
+    name: str
+    title: str
+    fields: list[Prv_modernize_com_ModernizeQuoteFlowField_Out]
+
+class Prv_modernize_com_ModernizeQuoteFlowField_Out(TypedDict):
+    name: str
+    label: str
+    inputType: Literal["text"] | Literal["email"] | Literal["tel"] | Literal["textarea"] | Literal["select"] | Literal["radio"]
+    required: bool
+    maxLength: float | None
+    options: list[Prv_modernize_com_ModernizeQuoteFlowOption_Out] | None
+
+class Prv_modernize_com_ModernizeQuoteFlowOption_Out(TypedDict):
+    value: str
+    label: str
 
 class Prv_modularclosets_ModularClosetsKit_Out(TypedDict):
     handle: str
@@ -23204,6 +23231,28 @@ class Prv_mixbook(Protocol):
         Mixbook is showing right now. THROWS if no promotion banner is live.
         """
 
+class Prv_modernize_com(Protocol):
+    """Home-improvement lead-gen site — listProjectTypes returns every trade its homeowner
+    quote flow covers (roofing, HVAC, windows, …), and getQuoteFlow reads the multi-step
+    quote wizard for one of them (project scope, address, personal/contact info) as typed
+    steps and fields, never fills or submits it.
+    """
+
+    async def listProjectTypes(self, /) -> list[Prv_modernize_com_ModernizeProjectType_Out]:
+        """Reads modernize.com's own trade radio group — every home-improvement project type its
+        quote flow covers (roofing, HVAC, windows, solar, doors, …), each with the site's own
+        value, label and URL slug, and whether that trade also carries a dedicated quote wizard
+        getQuoteFlow can read.
+        """
+
+    async def getQuoteFlow(self, projectType: str, /) -> Prv_modernize_com_ModernizeQuoteFlow_Out:
+        """Reads modernize.com's own multi-step homeowner quote wizard for one project type —
+        "roofing", "hvac", "windows", "siding", "solar", "doors", "home-security" or
+        "home-warranty" — and returns every step (ZIP, address, project scope, personal/contact
+        info) with each field's name, label, whether it is required, and (for a select or radio
+        group) every option. Never fills in or submits the wizard.
+        """
+
 class Prv_modularclosets(Protocol):
     """Modular Closets' real pre-configured kit catalog (closets, wardrobes, pantries, laundry,
     mudroom) and its real Shopify-priced configurator — search real kits, read one kit's
@@ -26741,6 +26790,7 @@ class BowmarkProviders(Protocol):
     minimax: Prv_minimax
     minted: Prv_minted
     mixbook: Prv_mixbook
+    modernize_com: Prv_modernize_com
     modularclosets: Prv_modularclosets
     momondo: Prv_momondo
     mossyoak: Prv_mossyoak

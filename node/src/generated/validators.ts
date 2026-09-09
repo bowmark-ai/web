@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 38c5c1ae5ebd51161f39c1eae1db1fa8639df9fc70fd3e3c87be4ad63f057c7d
-// 867 checked, 20 unchecked.
+// Manifest version: 9d63e47bc912df5f4c1dfd3d08b04831e019b69d5f4b3d2c75dac2f6963bdf41
+// 869 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "38c5c1ae5ebd51161f39c1eae1db1fa8639df9fc70fd3e3c87be4ad63f057c7d",
+  "version": "9d63e47bc912df5f4c1dfd3d08b04831e019b69d5f4b3d2c75dac2f6963bdf41",
   "units": {
     "bundles": {
       "defs": {},
@@ -17109,6 +17109,21 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getActivePromotion": []
+      }
+    },
+    "providers.modernize_com": {
+      "defs": {},
+      "functions": {
+        "listProjectTypes": [],
+        "getQuoteFlow": [
+          {
+            "name": "projectType",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.modularclosets": {

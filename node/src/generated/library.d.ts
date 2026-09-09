@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 38c5c1ae5ebd51161f39c1eae1db1fa8639df9fc70fd3e3c87be4ad63f057c7d
-// 45 capabilities, 354 providers, 885 typed functions, 20 refused.
+// Manifest version: 9d63e47bc912df5f4c1dfd3d08b04831e019b69d5f4b3d2c75dac2f6963bdf41
+// 45 capabilities, 355 providers, 887 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20817,6 +20817,62 @@ interface MixbookPromotion {
   }
 }
 
+declare namespace BowmarkProvider_modernize_com {
+  // ── Modernize — the unit's own declarations, verbatim ──
+interface ModernizeProjectType {
+  value: string;   // the site's own POST value, e.g. "ROOFING"
+  label: string;
+  slug: string;     // pass this as getQuoteFlow's projectType
+  hasQuoteFlow: boolean;
+}
+interface ModernizeQuoteFlowOption {
+  value: string;
+  label: string;
+}
+interface ModernizeQuoteFlowField {
+  name: string;
+  label: string;
+  inputType: "text" | "email" | "tel" | "textarea" | "select" | "radio";
+  required: boolean;
+  maxLength: number | null;
+  options: ModernizeQuoteFlowOption[] | null;  // present on select/radio only
+}
+interface ModernizeQuoteFlowStep {
+  name: string;
+  title: string;
+  fields: ModernizeQuoteFlowField[];
+}
+interface ModernizeQuoteFlow {
+  projectType: string;
+  steps: ModernizeQuoteFlowStep[];
+}
+
+  /**
+   * Home-improvement lead-gen site — listProjectTypes returns every trade its homeowner quote
+   * flow covers (roofing, HVAC, windows, …), and getQuoteFlow reads the multi-step quote wizard
+   * for one of them (project scope, address, personal/contact info) as typed steps and fields,
+   * never fills or submits it.
+   */
+  interface Unit {
+    /**
+     * Reads modernize.com's own trade radio group — every home-improvement project type its quote
+     * flow covers (roofing, HVAC, windows, solar, doors, …), each with the site's own value, label
+     * and URL slug, and whether that trade also carries a dedicated quote wizard getQuoteFlow can
+     * read.
+     */
+    listProjectTypes(): Promise<ModernizeProjectType[]>;
+
+    /**
+     * Reads modernize.com's own multi-step homeowner quote wizard for one project type —
+     * "roofing", "hvac", "windows", "siding", "solar", "doors", "home-security" or "home-warranty"
+     * — and returns every step (ZIP, address, project scope, personal/contact info) with each
+     * field's name, label, whether it is required, and (for a select or radio group) every option.
+     * Never fills in or submits the wizard.
+     */
+    getQuoteFlow(projectType: string): Promise<ModernizeQuoteFlow>;
+  }
+}
+
 declare namespace BowmarkProvider_modularclosets {
   // ── Modular Closets — the unit's own declarations, verbatim ──
 // Modular Closets' OWN shapes — not a capability contract.
@@ -30652,6 +30708,7 @@ interface BowmarkProviders {
   minimax: BowmarkProvider_minimax.Unit;
   minted: BowmarkProvider_minted.Unit;
   mixbook: BowmarkProvider_mixbook.Unit;
+  modernize_com: BowmarkProvider_modernize_com.Unit;
   modularclosets: BowmarkProvider_modularclosets.Unit;
   momondo: BowmarkProvider_momondo.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
