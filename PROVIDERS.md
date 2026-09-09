@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1286 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1289 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1010,6 +1010,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `progressive.getTravelQuote` | progressive.com | Returns a travel insurance quote for a trip's dates, destination and cost — trip… | ⚪ |
 | `progressive.getUmbrellaQuote` | progressive.com | Returns a personal umbrella liability quote for a coverage limit and ZIP — the excess… | ⚪ |
 | `progressive.listHomeownersCompanies` | progressive.com | Lists every carrier Progressive places property business with and what each one writes… | 🟢 |
+| `prolook.getStyleCustomizationOptions` | prolook.com | Reads one style's real customization surface — every trim (buttons, piping, etc.) and… | 🟢 |
+| `prolook.getTeamQuote` | prolook.com | Computes a real team order total for N jerseys of one style, from the site's own live… | 🟢 |
+| `prolook.listUniformStyles` | prolook.com | Lists one page of PROLOOK's real team-uniform styles for a sport (e.g. baseball) —… | 🟢 |
 | `prose.getHaircareProductPrice` | prose.com | Looks up ONE Prose product type's real one-time and subscription USD price (e.g.… | 🟢 |
 | `prose.getHairPrescription` | prose.com | Runs Prose's real online hair consultation end to end — the exact 38 questions its own… | 🟢 |
 | `prose.listHaircareProducts` | prose.com | Lists every haircare formula/tool type Prose sells (shampoo, conditioner, hair mask… | 🟢 |

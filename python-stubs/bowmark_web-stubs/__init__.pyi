@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 657fb6c29de3f3e6ea4cf765d7c2c6c4d677850c5d5fcedea59952b9086e99e3
+# Manifest version: ef06b80165475f80acbfdcf03e519a5b58a557badfab9665df694064f91b8277
 # 43 capabilities, 342 providers, 843 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -3476,6 +3476,7 @@ class Prv_bmwusa_BmwusaModelTrim_Out(TypedDict):
     zeroToSixty: float | None
     horsepower: float | None
     startingMsrp: float | None
+    buildable: bool
     engineType: str | None
     drivetrain: str | None
     transmission: str | None

@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 657fb6c29de3f3e6ea4cf765d7c2c6c4d677850c5d5fcedea59952b9086e99e3
+// Manifest version: ef06b80165475f80acbfdcf03e519a5b58a557badfab9665df694064f91b8277
 // 43 capabilities, 342 providers, 861 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -6181,6 +6181,7 @@ interface BmwusaModelTrim {
   zeroToSixty: number | null;
   horsepower: number | null;
   startingMsrp: number | null;
+  buildable: boolean;
   engineType: string | null;
   drivetrain: string | null;
   transmission: string | null;
