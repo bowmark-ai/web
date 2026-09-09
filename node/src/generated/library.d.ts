@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5da83428ac95584a4e6ae0580c16184fe03ce7c0809914df8114cb0be6b28220
-// 43 capabilities, 341 providers, 858 typed functions, 20 refused.
+// Manifest version: 657fb6c29de3f3e6ea4cf765d7c2c6c4d677850c5d5fcedea59952b9086e99e3
+// 43 capabilities, 342 providers, 861 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10777,6 +10777,81 @@ interface EmbrokerQuoteEntryPoint {
      * quote-wizard products.
      */
     getQuoteEntryPoint(args: { product: string }): Promise<EmbrokerQuoteEntryPoint>;
+  }
+}
+
+declare namespace BowmarkProvider_epromos {
+  // ── ePromos — the unit's own declarations, verbatim ──
+// ePromos' OWN shapes — not a capability contract.
+
+interface EpromosProductOption {
+  groupLabel: string;
+  label: string;
+  isDefault: boolean;
+}
+
+interface EpromosCustomizationField {
+  label: string;
+  inputType: string;
+  required: boolean;
+}
+
+interface EpromosBulkPricingTier {
+  minQuantity: number;
+  unitPrice: number;
+}
+
+interface EpromosProductConfiguration {
+  name: string;
+  sku: string;
+  url: string;
+  colorOptions: EpromosProductOption[];
+  customizationFields: EpromosCustomizationField[];
+  bulkPricing: EpromosBulkPricingTier[];
+}
+
+interface EpromosBulkQuote {
+  productUrl: string;
+  requestedQuantity: number;
+  tierMinQuantity: number;
+  unitPrice: number;
+  totalPrice: number;
+  currency: "USD";
+}
+
+interface EpromosCategoryProduct {
+  name: string;
+  url: string;
+}
+
+interface EpromosCategoryListing {
+  categoryUrl: string;
+  products: EpromosCategoryProduct[];
+}
+
+  /**
+   * ePromos' own product configurator and bulk-pricing tables off its live product pages — real
+   * tiered per-unit prices for a caller-given quantity, not a stale mirror — plus the
+   * category-page browse path to find a configurable SKU.
+   */
+  interface Unit {
+    /**
+     * Reads one ePromos product's own configurator page — color/style options, customization
+     * fields, and the site's own bulk-pricing tier table.
+     */
+    getProductConfiguration(url: string): Promise<EpromosProductConfiguration>;
+
+    /**
+     * Computes the real per-unit and total price for one product at a given quantity, off the
+     * site's own bulk-pricing table.
+     */
+    quoteBulkPrice(args: { productUrl: string; quantity: number }): Promise<EpromosBulkQuote>;
+
+    /**
+     * Lists the products ePromos features on one category landing page, with name and product-page
+     * URL.
+     */
+    listCategoryProducts(url: string): Promise<EpromosCategoryListing>;
   }
 }
 
@@ -29830,6 +29905,7 @@ interface BowmarkProviders {
   ebay: BowmarkProvider_ebay.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
+  epromos: BowmarkProvider_epromos.Unit;
   eq3: BowmarkProvider_eq3.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
   etsy: BowmarkProvider_etsy.Unit;

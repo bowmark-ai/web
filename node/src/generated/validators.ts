@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5da83428ac95584a4e6ae0580c16184fe03ce7c0809914df8114cb0be6b28220
-// 840 checked, 20 unchecked.
+// Manifest version: 657fb6c29de3f3e6ea4cf765d7c2c6c4d677850c5d5fcedea59952b9086e99e3
+// 843 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5da83428ac95584a4e6ae0580c16184fe03ce7c0809914df8114cb0be6b28220",
+  "version": "657fb6c29de3f3e6ea4cf765d7c2c6c4d677850c5d5fcedea59952b9086e99e3",
   "units": {
     "bundles": {
       "defs": {},
@@ -9687,6 +9687,54 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.epromos": {
+      "defs": {},
+      "functions": {
+        "getProductConfiguration": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "quoteBulkPrice": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productUrl",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listCategoryProducts": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

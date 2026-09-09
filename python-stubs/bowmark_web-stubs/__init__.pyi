@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5da83428ac95584a4e6ae0580c16184fe03ce7c0809914df8114cb0be6b28220
-# 43 capabilities, 341 providers, 840 typed functions, 20 refused.
+# Manifest version: 657fb6c29de3f3e6ea4cf765d7c2c6c4d677850c5d5fcedea59952b9086e99e3
+# 43 capabilities, 342 providers, 843 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5920,6 +5920,48 @@ class Prv_embroker_EmbrokerQuoteEntryPoint_Out(TypedDict):
     productLabel: str
     url: str
     reachable: bool
+
+class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
+    name: str
+    sku: str
+    url: str
+    colorOptions: list[Prv_epromos_EpromosProductOption_Out]
+    customizationFields: list[Prv_epromos_EpromosCustomizationField_Out]
+    bulkPricing: list[Prv_epromos_EpromosBulkPricingTier_Out]
+
+class Prv_epromos_EpromosProductOption_Out(TypedDict):
+    groupLabel: str
+    label: str
+    isDefault: bool
+
+class Prv_epromos_EpromosCustomizationField_Out(TypedDict):
+    label: str
+    inputType: str
+    required: bool
+
+class Prv_epromos_EpromosBulkPricingTier_Out(TypedDict):
+    minQuantity: float
+    unitPrice: float
+
+class Prv_epromos_quoteBulkPrice_args_In(TypedDict):
+    productUrl: str
+    quantity: float
+
+class Prv_epromos_EpromosBulkQuote_Out(TypedDict):
+    productUrl: str
+    requestedQuantity: float
+    tierMinQuantity: float
+    unitPrice: float
+    totalPrice: float
+    currency: Literal["USD"]
+
+class Prv_epromos_EpromosCategoryListing_Out(TypedDict):
+    categoryUrl: str
+    products: list[Prv_epromos_EpromosCategoryProduct_Out]
+
+class Prv_epromos_EpromosCategoryProduct_Out(TypedDict):
+    name: str
+    url: str
 
 class Prv_eq3_Eq3SofaListing_Out(TypedDict):
     instanceId: str
@@ -19324,6 +19366,27 @@ class Prv_embroker(Protocol):
         quote-wizard products.
         """
 
+class Prv_epromos(Protocol):
+    """ePromos' own product configurator and bulk-pricing tables off its live product pages —
+    real tiered per-unit prices for a caller-given quantity, not a stale mirror — plus the
+    category-page browse path to find a configurable SKU.
+    """
+
+    async def getProductConfiguration(self, url: str, /) -> Prv_epromos_EpromosProductConfiguration_Out:
+        """Reads one ePromos product's own configurator page — color/style options, customization
+        fields, and the site's own bulk-pricing tier table.
+        """
+
+    async def quoteBulkPrice(self, args: Prv_epromos_quoteBulkPrice_args_In, /) -> Prv_epromos_EpromosBulkQuote_Out:
+        """Computes the real per-unit and total price for one product at a given quantity, off the
+        site's own bulk-pricing table.
+        """
+
+    async def listCategoryProducts(self, url: str, /) -> Prv_epromos_EpromosCategoryListing_Out:
+        """Lists the products ePromos features on one category landing page, with name and
+        product-page URL.
+        """
+
 class Prv_eq3(Protocol):
     """EQ3's modern furniture catalog and configurator — real listing prices across the sofa
     line (listSofas), and one product's full fabric/finish/size configurator read in full
@@ -25977,6 +26040,7 @@ class BowmarkProviders(Protocol):
     ebay: Prv_ebay
     elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
+    epromos: Prv_epromos
     eq3: Prv_eq3
     erieinsurance: Prv_erieinsurance
     etsy: Prv_etsy
