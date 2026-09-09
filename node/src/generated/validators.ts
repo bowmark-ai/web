@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ab1045c2b0a9094f69fd97b6a8be00087ae7b8871ef4e274bb3bb248203dbcea
-// 856 checked, 20 unchecked.
+// Manifest version: 4623c174540932f713835cba5ec1f8b825a333aad9d503e276f0d968d0154dc0
+// 858 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ab1045c2b0a9094f69fd97b6a8be00087ae7b8871ef4e274bb3bb248203dbcea",
+  "version": "4623c174540932f713835cba5ec1f8b825a333aad9d503e276f0d968d0154dc0",
   "units": {
     "bundles": {
       "defs": {},
@@ -8716,6 +8716,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.credibly_com": {
+      "defs": {},
+      "functions": {
+        "getApplicationForm": [],
+        "getEligibilityRequirements": []
       }
     },
     "providers.cruiselakegeneva": {

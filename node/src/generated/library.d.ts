@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ab1045c2b0a9094f69fd97b6a8be00087ae7b8871ef4e274bb3bb248203dbcea
-// 44 capabilities, 348 providers, 874 typed functions, 20 refused.
+// Manifest version: 4623c174540932f713835cba5ec1f8b825a333aad9d503e276f0d968d0154dc0
+// 44 capabilities, 349 providers, 876 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9586,6 +9586,45 @@ interface CouponFollowOffer {
      * marks the card as carrying one.
      */
     getCodes(domain: string): Promise<CouponFollowOffer[]>;
+  }
+}
+
+declare namespace BowmarkProvider_credibly_com {
+  // ── Credibly business-financing application — the unit's own declarations, verbatim ──
+interface CrediblyApplicationField {
+  name: string;
+  label: string;
+  type: string;
+  required: boolean;
+  options: Array<{ label: string; value: string }>;
+}
+interface CrediblyApplicationForm {
+  applicationUrl: string;
+  submitText: string;
+  fields: CrediblyApplicationField[];
+}
+interface CrediblyEligibilityRequirements {
+  applicationUrl: string;
+  requirements: string[];
+}
+
+  /**
+   * Reads the public Credibly application form's visible questions and its published eligibility
+   * requirements, without filling or submitting anything.
+   */
+  interface Unit {
+    /**
+     * Returns every visible question on Credibly's public business-financing application — label,
+     * field type, required flag and select choices — plus the page URL and submit text. It only
+     * reads the published form definition; it never fills or submits an application.
+     */
+    getApplicationForm(): Promise<CrediblyApplicationForm>;
+
+    /**
+     * Returns Credibly's own published eligibility requirements for its small-business financing
+     * (time in business, credit score, monthly revenue) from its public FAQ, verbatim.
+     */
+    getEligibilityRequirements(): Promise<CrediblyEligibilityRequirements>;
   }
 }
 
@@ -30257,6 +30296,7 @@ interface BowmarkProviders {
   code_claude_com: BowmarkProvider_code_claude_com.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
+  credibly_com: BowmarkProvider_credibly_com.Unit;
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;
   culturefly: BowmarkProvider_culturefly.Unit;
   curiocity: BowmarkProvider_curiocity.Unit;

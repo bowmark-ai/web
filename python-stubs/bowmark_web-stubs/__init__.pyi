@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ab1045c2b0a9094f69fd97b6a8be00087ae7b8871ef4e274bb3bb248203dbcea
-# 44 capabilities, 348 providers, 856 typed functions, 20 refused.
+# Manifest version: 4623c174540932f713835cba5ec1f8b825a333aad9d503e276f0d968d0154dc0
+# 44 capabilities, 349 providers, 858 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5276,6 +5276,26 @@ class Prv_couponfollow_CouponFollowOffer_Out(TypedDict):
     exclusive: bool
     createdAt: str | None
     url: str
+
+class Prv_credibly_com_CrediblyApplicationForm_Out(TypedDict):
+    applicationUrl: str
+    submitText: str
+    fields: list[Prv_credibly_com_CrediblyApplicationField_Out]
+
+class Prv_credibly_com_CrediblyApplicationField_Out(TypedDict):
+    name: str
+    label: str
+    type: str
+    required: bool
+    options: list[Prv_credibly_com_CrediblyApplicationField_Out_options_item_Out]
+
+class Prv_credibly_com_CrediblyApplicationField_Out_options_item_Out(TypedDict):
+    label: str
+    value: str
+
+class Prv_credibly_com_CrediblyEligibilityRequirements_Out(TypedDict):
+    applicationUrl: str
+    requirements: list[str]
 
 class Prv_cruiselakegeneva_listTours_args_In(TypedDict):
     category: NotRequired[str]
@@ -19111,6 +19131,23 @@ class Prv_couponfollow(Protocol):
         couponfollow itself marks the card as carrying one.
         """
 
+class Prv_credibly_com(Protocol):
+    """Reads the public Credibly application form's visible questions and its published
+    eligibility requirements, without filling or submitting anything.
+    """
+
+    async def getApplicationForm(self, /) -> Prv_credibly_com_CrediblyApplicationForm_Out:
+        """Returns every visible question on Credibly's public business-financing application —
+        label, field type, required flag and select choices — plus the page URL and submit text.
+        It only reads the published form definition; it never fills or submits an application.
+        """
+
+    async def getEligibilityRequirements(self, /) -> Prv_credibly_com_CrediblyEligibilityRequirements_Out:
+        """Returns Credibly's own published eligibility requirements for its small-business
+        financing (time in business, credit score, monthly revenue) from its public FAQ,
+        verbatim.
+        """
+
 class Prv_cruiselakegeneva(Protocol):
     """Cruise Lake Geneva's own tour lineup — narrated, dining and seasonal boat tours on Lake
     Geneva, WI — with real pricing, duration, ages and live availability straight off the
@@ -26346,6 +26383,7 @@ class BowmarkProviders(Protocol):
     code_claude_com: Prv_code_claude_com
     consultnet: Prv_consultnet
     couponfollow: Prv_couponfollow
+    credibly_com: Prv_credibly_com
     cruiselakegeneva: Prv_cruiselakegeneva
     culturefly: Prv_culturefly
     curiocity: Prv_curiocity
