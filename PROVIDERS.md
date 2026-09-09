@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1311 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1313 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1041,6 +1041,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `provenwinners.getRecipeDetails` | provenwinners.com | Reads one container recipe's own combination page — its season(s), container size and… | 🟢 |
 | `provenwinners.searchContainerRecipes` | provenwinners.com | Runs Proven Winners' own Container Recipe Finder over its 1,074+ published… | 🟢 |
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
+| `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
+| `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | ⚪ |
 | `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟢 |
 | `reddit.getSubreddit` | reddit.com | Returns the facts about one community rather than its content — the subreddit's title… | 🟢 |

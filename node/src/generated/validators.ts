@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9d63e47bc912df5f4c1dfd3d08b04831e019b69d5f4b3d2c75dac2f6963bdf41
-// 869 checked, 20 unchecked.
+// Manifest version: 331dec8f87b79e8601773134dfdaa0f66aa5f8ad2bd4303d38e64340cf4930ae
+// 871 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9d63e47bc912df5f4c1dfd3d08b04831e019b69d5f4b3d2c75dac2f6963bdf41",
+  "version": "331dec8f87b79e8601773134dfdaa0f66aa5f8ad2bd4303d38e64340cf4930ae",
   "units": {
     "bundles": {
       "defs": {},
@@ -21816,6 +21816,45 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.puls_com": {
+      "defs": {},
+      "functions": {
+        "listApplianceCategories": [],
+        "getRepairQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "device",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "string"
+                      },
+                      {
+                        "k": "number"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "zipCode",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

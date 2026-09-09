@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9d63e47bc912df5f4c1dfd3d08b04831e019b69d5f4b3d2c75dac2f6963bdf41
-// 45 capabilities, 355 providers, 887 typed functions, 20 refused.
+// Manifest version: 331dec8f87b79e8601773134dfdaa0f66aa5f8ad2bd4303d38e64340cf4930ae
+// 45 capabilities, 356 providers, 889 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -23988,6 +23988,50 @@ interface ProxmoxIsoDownload {
   }
 }
 
+declare namespace BowmarkProvider_puls_com {
+  // ── Puls — the unit's own declarations, verbatim ──
+interface PulsApplianceCategory {
+  deviceId: number;
+  name: string;
+  slug: string;
+}
+
+interface GetRepairQuoteResult {
+  device: PulsApplianceCategory;
+  zipCode: string;
+  isValidZipCode: boolean;
+  marketId: number | null;
+  marketName: string | null;
+  serviceCallFee: number | null;
+}
+
+  /**
+   * On-demand home-appliance and electronics repair booking. listApplianceCategories lists the
+   * nine appliance categories the booking funnel offers; getRepairQuote checks whether Puls
+   * services a ZIP and, if so, returns the real service-call (diagnostic) fee for an appliance
+   * in that market — the same two facts the site's own /create-appointment form reveals after
+   * picking an appliance and entering a ZIP.
+   */
+  interface Unit {
+    /**
+     * Lists the nine appliance categories Puls' booking funnel offers (Refrigerator, Dryer, Oven,
+     * Washer, Dishwasher, Cooktop, Freezer, Microwave, Washer dryer combo) with each one's
+     * site-internal deviceId, name and URL slug. Call this first — the deviceId (or the name) is
+     * what getRepairQuote's `device` argument takes.
+     */
+    listApplianceCategories(): Promise<PulsApplianceCategory[]>;
+
+    /**
+     * Checks whether Puls services a ZIP code and, if so, returns the real "Service Call Fee" (the
+     * diagnostic fee a technician charges to show up) for the given appliance in that market.
+     * `device` is an appliance name from listApplianceCategories (e.g. "Refrigerator") or its
+     * numeric deviceId; `zipCode` is a 5-digit US ZIP. `serviceCallFee` and
+     * `marketName`/`marketId` are `null` when the ZIP is outside Puls' service area.
+     */
+    getRepairQuote(args: { device: string | number, zipCode: string }): Promise<GetRepairQuoteResult>;
+  }
+}
+
 declare namespace BowmarkProvider_reddit {
   // ── Reddit — the unit's own declarations, verbatim ──
 interface RedditSearchPost {
@@ -30746,6 +30790,7 @@ interface BowmarkProviders {
   prose: BowmarkProvider_prose.Unit;
   provenwinners: BowmarkProvider_provenwinners.Unit;
   proxmox: BowmarkProvider_proxmox.Unit;
+  puls_com: BowmarkProvider_puls_com.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
   resy: BowmarkProvider_resy.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9d63e47bc912df5f4c1dfd3d08b04831e019b69d5f4b3d2c75dac2f6963bdf41
-# 45 capabilities, 355 providers, 869 typed functions, 20 refused.
+# Manifest version: 331dec8f87b79e8601773134dfdaa0f66aa5f8ad2bd4303d38e64340cf4930ae
+# 45 capabilities, 356 providers, 871 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12590,6 +12590,23 @@ class Prv_proxmox_ProxmoxIsoDownload_Out(TypedDict):
     torrentUrl: str | None
     pageUrl: str
 
+class Prv_puls_com_PulsApplianceCategory_Out(TypedDict):
+    deviceId: float
+    name: str
+    slug: str
+
+class Prv_puls_com_getRepairQuote_args_In(TypedDict):
+    device: str | float
+    zipCode: str
+
+class Prv_puls_com_GetRepairQuoteResult_Out(TypedDict):
+    device: Prv_puls_com_PulsApplianceCategory_Out
+    zipCode: str
+    isValidZipCode: bool
+    marketId: float | None
+    marketName: str | None
+    serviceCallFee: float | None
+
 class Prv_reddit_RedditSubreddit_Out(TypedDict):
     name: str
     url: str
@@ -24380,6 +24397,29 @@ class Prv_proxmox(Protocol):
         amd64 release — every card the site publishes comes back, not just the newest one.
         """
 
+class Prv_puls_com(Protocol):
+    """On-demand home-appliance and electronics repair booking. listApplianceCategories lists
+    the nine appliance categories the booking funnel offers; getRepairQuote checks whether
+    Puls services a ZIP and, if so, returns the real service-call (diagnostic) fee for an
+    appliance in that market — the same two facts the site's own /create-appointment form
+    reveals after picking an appliance and entering a ZIP.
+    """
+
+    async def listApplianceCategories(self, /) -> list[Prv_puls_com_PulsApplianceCategory_Out]:
+        """Lists the nine appliance categories Puls' booking funnel offers (Refrigerator, Dryer,
+        Oven, Washer, Dishwasher, Cooktop, Freezer, Microwave, Washer dryer combo) with each
+        one's site-internal deviceId, name and URL slug. Call this first — the deviceId (or the
+        name) is what getRepairQuote's `device` argument takes.
+        """
+
+    async def getRepairQuote(self, args: Prv_puls_com_getRepairQuote_args_In, /) -> Prv_puls_com_GetRepairQuoteResult_Out:
+        """Checks whether Puls services a ZIP code and, if so, returns the real "Service Call Fee"
+        (the diagnostic fee a technician charges to show up) for the given appliance in that
+        market. `device` is an appliance name from listApplianceCategories (e.g. "Refrigerator")
+        or its numeric deviceId; `zipCode` is a 5-digit US ZIP. `serviceCallFee` and
+        `marketName`/`marketId` are `null` when the ZIP is outside Puls' service area.
+        """
+
 class Prv_reddit(Protocol):
     """Communities, discussion threads and their comment trees — search, subreddit listings,
     posts, users and wikis. Five functions are callable, off Reddit's own syndication feed,
@@ -26828,6 +26868,7 @@ class BowmarkProviders(Protocol):
     prose: Prv_prose
     provenwinners: Prv_provenwinners
     proxmox: Prv_proxmox
+    puls_com: Prv_puls_com
     reddit: Prv_reddit
     reliancepartners: Prv_reliancepartners
     resy: Prv_resy
