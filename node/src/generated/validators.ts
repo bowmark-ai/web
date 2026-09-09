@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ef06b80165475f80acbfdcf03e519a5b58a557badfab9665df694064f91b8277
-// 843 checked, 20 unchecked.
+// Manifest version: 6c56d192d48f2216a79e99824df2d056c0f1424c7a54634b347c919104f1edfc
+// 846 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ef06b80165475f80acbfdcf03e519a5b58a557badfab9665df694064f91b8277",
+  "version": "6c56d192d48f2216a79e99824df2d056c0f1424c7a54634b347c919104f1edfc",
   "units": {
     "bundles": {
       "defs": {},
@@ -20247,6 +20247,66 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.prolook": {
+      "defs": {},
+      "functions": {
+        "listUniformStyles": [
+          {
+            "name": "sportCode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "getStyleCustomizationOptions": [
+          {
+            "name": "styleId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "getTeamQuote": [
+          {
+            "name": "styleId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "sportCode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "quantity",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
           }
         ]
       }

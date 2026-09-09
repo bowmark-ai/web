@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ef06b80165475f80acbfdcf03e519a5b58a557badfab9665df694064f91b8277
-# 43 capabilities, 342 providers, 843 typed functions, 20 refused.
+# Manifest version: 6c56d192d48f2216a79e99824df2d056c0f1424c7a54634b347c919104f1edfc
+# 43 capabilities, 343 providers, 846 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12096,6 +12096,52 @@ class Prv_progressive_ProgressiveHomeCarrier_Out(TypedDict):
     url: str | None
     progressiveOwned: bool | None
 
+class Prv_prolook_ProlookStyleListPage_Out(TypedDict):
+    page: float
+    lastPage: float
+    styles: list[Prv_prolook_ProlookUniformStyle_Out]
+
+class Prv_prolook_ProlookUniformStyle_Out(TypedDict):
+    id: float
+    page: float
+    brandStyleName: str
+    productName: str
+    productLineName: str
+    filterFlags: Mapping[str, str]
+    pricing: Prv_prolook_ProlookUniformStyle_Out_pricing_Out
+    estimatedShippingDate: str | None
+
+class Prv_prolook_ProlookUniformStyle_Out_pricing_Out(TypedDict):
+    msrpAdult: float | None
+    msrpYouth: float | None
+    brandCostAdult: float | None
+    brandCostYouth: float | None
+
+class Prv_prolook_ProlookStyleOptions_Out(TypedDict):
+    styleId: float
+    brandStyleName: str
+    trims: list[Prv_prolook_ProlookTrim_Out]
+
+class Prv_prolook_ProlookTrim_Out(TypedDict):
+    trimId: str
+    trimName: str
+    trimType: str
+    colors: list[Prv_prolook_ProlookTrim_Out_colors_item_Out]
+
+class Prv_prolook_ProlookTrim_Out_colors_item_Out(TypedDict):
+    id: float
+    alias: str
+    hex: str
+    code: str
+
+class Prv_prolook_ProlookTeamQuote_Out(TypedDict):
+    styleId: float
+    brandStyleName: str
+    quantity: float
+    pricePerUnit: float
+    total: float
+    brandCostPerUnit: float | None
+
 class Prv_prose_ProseHaircareProduct_Out(TypedDict):
     type: str
     category: str
@@ -23691,6 +23737,29 @@ class Prv_progressive(Protocol):
         under-reporting who underwrites your home.
         """
 
+class Prv_prolook(Protocol):
+    """PROLOOK's real team-uniform catalog with live per-style MSRP/dealer pricing, real
+    customization options (trims and colors), and a real computed team-order total — no
+    browser, no marketing-page guesswork.
+    """
+
+    async def listUniformStyles(self, sportCode: str, page: float | None = None, /) -> Prv_prolook_ProlookStyleListPage_Out:
+        """Lists one page of PROLOOK's real uniform styles for a sport (e.g. "BSB" for baseball)
+        with real per-unit MSRP/dealer-cost pricing and cut/sleeve filter flags — the entry
+        point every other function's styleId + page come from.
+        """
+
+    async def getStyleCustomizationOptions(self, styleId: float, /) -> Prv_prolook_ProlookStyleOptions_Out:
+        """Reads one style's real trim options (buttons, piping, etc.) and each trim's selectable
+        colors — the same data PROLOOK's own customizer canvas reads.
+        """
+
+    async def getTeamQuote(self, styleId: float, sportCode: str, page: float, quantity: float, /) -> Prv_prolook_ProlookTeamQuote_Out:
+        """Computes a real team-order total for N jerseys of one style from PROLOOK's own live
+        per-unit MSRP — not a marketing-page estimate. `sportCode` and `page` are the values
+        listUniformStyles() found this style with.
+        """
+
 class Prv_prose(Protocol):
     """Personalized haircare and skincare formulas, sold direct via an online consultation."""
 
@@ -26178,6 +26247,7 @@ class BowmarkProviders(Protocol):
     positivegrid: Prv_positivegrid
     premierbuildings: Prv_premierbuildings
     progressive: Prv_progressive
+    prolook: Prv_prolook
     prose: Prv_prose
     provenwinners: Prv_provenwinners
     proxmox: Prv_proxmox

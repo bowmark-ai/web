@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ef06b80165475f80acbfdcf03e519a5b58a557badfab9665df694064f91b8277
-// 43 capabilities, 342 providers, 861 typed functions, 20 refused.
+// Manifest version: 6c56d192d48f2216a79e99824df2d056c0f1424c7a54634b347c919104f1edfc
+// 43 capabilities, 343 providers, 864 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -23097,6 +23097,80 @@ interface ProgressiveHomeCarrier {
   }
 }
 
+declare namespace BowmarkProvider_prolook {
+  // ── PROLOOK — the unit's own declarations, verbatim ──
+interface ProlookUniformStyle {
+  id: number;
+  page: number;
+  brandStyleName: string;
+  productName: string;
+  productLineName: string;
+  filterFlags: Record<string, string>;
+  pricing: {
+    msrpAdult: number | null;
+    msrpYouth: number | null;
+    brandCostAdult: number | null;
+    brandCostYouth: number | null;
+  };
+  estimatedShippingDate: string | null;
+}
+
+interface ProlookStyleListPage {
+  page: number;
+  lastPage: number;
+  styles: ProlookUniformStyle[];
+}
+
+interface ProlookTrim {
+  trimId: string;
+  trimName: string;
+  trimType: string;
+  colors: { id: number; alias: string; hex: string; code: string }[];
+}
+
+interface ProlookStyleOptions {
+  styleId: number;
+  brandStyleName: string;
+  trims: ProlookTrim[];
+}
+
+interface ProlookTeamQuote {
+  styleId: number;
+  brandStyleName: string;
+  quantity: number;
+  pricePerUnit: number;
+  total: number;
+  brandCostPerUnit: number | null;
+}
+
+  /**
+   * PROLOOK's real team-uniform catalog with live per-style MSRP/dealer pricing, real
+   * customization options (trims and colors), and a real computed team-order total — no browser,
+   * no marketing-page guesswork.
+   */
+  interface Unit {
+    /**
+     * Lists one page of PROLOOK's real uniform styles for a sport (e.g. "BSB" for baseball) with
+     * real per-unit MSRP/dealer-cost pricing and cut/sleeve filter flags — the entry point every
+     * other function's styleId + page come from.
+     */
+    listUniformStyles(sportCode: string, page?: number): Promise<ProlookStyleListPage>;
+
+    /**
+     * Reads one style's real trim options (buttons, piping, etc.) and each trim's selectable
+     * colors — the same data PROLOOK's own customizer canvas reads.
+     */
+    getStyleCustomizationOptions(styleId: number): Promise<ProlookStyleOptions>;
+
+    /**
+     * Computes a real team-order total for N jerseys of one style from PROLOOK's own live per-unit
+     * MSRP — not a marketing-page estimate. `sportCode` and `page` are the values
+     * listUniformStyles() found this style with.
+     */
+    getTeamQuote(styleId: number, sportCode: string, page: number, quantity: number): Promise<ProlookTeamQuote>;
+  }
+}
+
 declare namespace BowmarkProvider_prose {
   // ── Prose — the unit's own declarations, verbatim ──
 interface ProseHaircareProduct {
@@ -30043,6 +30117,7 @@ interface BowmarkProviders {
   positivegrid: BowmarkProvider_positivegrid.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
   progressive: BowmarkProvider_progressive.Unit;
+  prolook: BowmarkProvider_prolook.Unit;
   prose: BowmarkProvider_prose.Unit;
   provenwinners: BowmarkProvider_provenwinners.Unit;
   proxmox: BowmarkProvider_proxmox.Unit;
