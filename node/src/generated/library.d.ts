@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2c19a8b2cf108160cb76bcf16cb88bbaf4487230565d14c72a6922b56160beb8
-// 44 capabilities, 352 providers, 880 typed functions, 20 refused.
+// Manifest version: 5a2b0c60e4c4a9bfb913d4671d1cf0d9323eb17c51e3b5461c52d84522a2f003
+// 45 capabilities, 353 providers, 883 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2607,6 +2607,27 @@ interface ForecastResult {
      * like "Springfield" is ambiguous and worth comparing.
      */
     forecast(location: string, days?: number): Promise<ForecastResult>;
+  }
+}
+
+declare namespace BowmarkCapability_web_form_fields {
+  // ── Inspect a web form and count its fields — the unit's own declarations, verbatim ──
+
+interface FormField { name: string | null; label: string | null; type: string; required: boolean }
+interface InspectedForm { action: string | null; method: string; fields: FormField[] }
+interface FormInspectionResult { url: string; title: string | null; forms: InspectedForm[]; fieldCount: number; warnings: string[] }
+
+  /**
+   * Fetches a public web page and inventories every visible form field: its label, name, type
+   * and required-ness. Read-only: it never fills or submits a form.
+   */
+  interface Unit {
+    /**
+     * Reads a public page and returns its forms plus a total field count. Each field includes its
+     * label when the markup supplies one, name, type and required-ness. It never fills, clicks or
+     * submits anything; a page with client-rendered forms or no HTML form gets an honest warning.
+     */
+    getFields(url: string): Promise<FormInspectionResult>;
   }
 }
 
@@ -8137,6 +8158,46 @@ interface CasaDragonesNearbyRetailers {
      * an honestly empty list means nothing in Casa Dragones' own tracked network is that close.
      */
     findNearbyRetailers(zip: string, radiusMiles?: number): Promise<CasaDragonesNearbyRetailers>;
+  }
+}
+
+declare namespace BowmarkProvider_cascadiaseniorliving_com {
+  // ── Cascadia Senior Living — the unit's own declarations, verbatim ──
+interface cascadiaseniorliving_comPage {
+  id: number;
+  title: string;
+  url: string;
+  slug: string;
+  parent: number; // parent page id, or 0 for a top-level page
+}
+interface cascadiaseniorliving_comPageDetail {
+  id: number;
+  title: string;
+  url: string;
+  slug: string;
+  body: string;             // plain text, markup stripped
+  hasContactForm: boolean;  // a Gravity Forms contact/inquiry form is embedded
+}
+
+  /**
+   * Reads Cascadia Senior Living's own site (why-us, living options, communities overview,
+   * contact) — a full page index and any one page's own content as plain text, off the site's
+   * own WordPress REST API rather than a scrape.
+   */
+  interface Unit {
+    /**
+     * Lists every page cascadiaseniorliving.com publishes — title, url, slug and parent — off the
+     * site's own WordPress REST API page index.
+     */
+    listSitePages(): Promise<cascadiaseniorliving_comPage[]>;
+
+    /**
+     * Reads one page by its url (from a `listSitePages` result) or bare slug (e.g.
+     * "living-options") and returns its title and body as plain text, plus whether it embeds one
+     * of the site's own contact/inquiry forms. THROWS if no page matches, or if a url names a host
+     * other than cascadiaseniorliving.com.
+     */
+    getSitePage(pageRef: string): Promise<cascadiaseniorliving_comPageDetail>;
   }
 }
 
@@ -30376,6 +30437,7 @@ interface BowmarkProviders {
   cars: BowmarkProvider_cars.Unit;
   carusohomes: BowmarkProvider_carusohomes.Unit;
   casadragones: BowmarkProvider_casadragones.Unit;
+  cascadiaseniorliving_com: BowmarkProvider_cascadiaseniorliving_com.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
   champxpress: BowmarkProvider_champxpress.Unit;
   chantecaille: BowmarkProvider_chantecaille.Unit;
@@ -82405,6 +82467,7 @@ interface BowmarkLibrary {
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
   theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;
   weather: BowmarkCapability_weather.Unit;
+  web_form_fields: BowmarkCapability_web_form_fields.Unit;
   wireless: BowmarkCapability_wireless.Unit;
   yoga_outfit_shopping: BowmarkCapability_yoga_outfit_shopping.Unit;
   providers: BowmarkProviders;

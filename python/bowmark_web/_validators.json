@@ -1,5 +1,5 @@
 {
-  "version": "2c19a8b2cf108160cb76bcf16cb88bbaf4487230565d14c72a6922b56160beb8",
+  "version": "5a2b0c60e4c4a9bfb913d4671d1cf0d9323eb17c51e3b5461c52d84522a2f003",
   "units": {
     "bundles": {
       "defs": {},
@@ -2671,6 +2671,20 @@
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "web_form_fields": {
+      "defs": {},
+      "functions": {
+        "getFields": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -7369,6 +7383,21 @@
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.cascadiaseniorliving_com": {
+      "defs": {},
+      "functions": {
+        "listSitePages": [],
+        "getSitePage": [
+          {
+            "name": "pageRef",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

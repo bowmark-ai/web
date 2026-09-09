@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2c19a8b2cf108160cb76bcf16cb88bbaf4487230565d14c72a6922b56160beb8
-// 862 checked, 20 unchecked.
+// Manifest version: 5a2b0c60e4c4a9bfb913d4671d1cf0d9323eb17c51e3b5461c52d84522a2f003
+// 865 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2c19a8b2cf108160cb76bcf16cb88bbaf4487230565d14c72a6922b56160beb8",
+  "version": "5a2b0c60e4c4a9bfb913d4671d1cf0d9323eb17c51e3b5461c52d84522a2f003",
   "units": {
     "bundles": {
       "defs": {},
@@ -2683,6 +2683,20 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "web_form_fields": {
+      "defs": {},
+      "functions": {
+        "getFields": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -7381,6 +7395,21 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.cascadiaseniorliving_com": {
+      "defs": {},
+      "functions": {
+        "listSitePages": [],
+        "getSitePage": [
+          {
+            "name": "pageRef",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

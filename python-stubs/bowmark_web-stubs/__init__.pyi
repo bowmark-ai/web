@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2c19a8b2cf108160cb76bcf16cb88bbaf4487230565d14c72a6922b56160beb8
-# 44 capabilities, 352 providers, 862 typed functions, 20 refused.
+# Manifest version: 5a2b0c60e4c4a9bfb913d4671d1cf0d9323eb17c51e3b5461c52d84522a2f003
+# 45 capabilities, 353 providers, 865 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1483,6 +1483,24 @@ class Cap_weather_ForecastDay_Out(TypedDict):
     precipitationMm: float
     weatherCode: float
     summary: str
+
+class Cap_web_form_fields_FormInspectionResult_Out(TypedDict):
+    url: str
+    title: str | None
+    forms: list[Cap_web_form_fields_InspectedForm_Out]
+    fieldCount: float
+    warnings: list[str]
+
+class Cap_web_form_fields_InspectedForm_Out(TypedDict):
+    action: str | None
+    method: str
+    fields: list[Cap_web_form_fields_FormField_Out]
+
+class Cap_web_form_fields_FormField_Out(TypedDict):
+    name: str | None
+    label: str | None
+    type: str
+    required: bool
 
 class Cap_wireless_compareAllInPrice_arg_In(TypedDict):
     lineCount: float
@@ -4505,6 +4523,21 @@ class Prv_casadragones_CasaDragonesRetailer_Out(TypedDict):
     longitude: float
     distanceMiles: float
     categories: list[str]
+
+class Prv_cascadiaseniorliving_com_cascadiaseniorliving_comPage_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    slug: str
+    parent: float
+
+class Prv_cascadiaseniorliving_com_cascadiaseniorliving_comPageDetail_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    slug: str
+    body: str
+    hasContactForm: bool
 
 class Prv_cbhhomes_SearchListingsArgs_In(TypedDict):
     city: NotRequired[str]
@@ -16640,6 +16673,18 @@ class Cap_weather(Protocol):
         since a name like "Springfield" is ambiguous and worth comparing.
         """
 
+class Cap_web_form_fields(Protocol):
+    """Fetches a public web page and inventories every visible form field: its label, name,
+    type and required-ness. Read-only: it never fills or submits a form.
+    """
+
+    async def getFields(self, url: str, /) -> Cap_web_form_fields_FormInspectionResult_Out:
+        """Reads a public page and returns its forms plus a total field count. Each field includes
+        its label when the markup supplies one, name, type and required-ness. It never fills,
+        clicks or submits anything; a page with client-rendered forms or no HTML form gets an
+        honest warning.
+        """
+
 class Cap_wireless(Protocol):
     """Fans a plan/line configuration out across carrier plan-builder flows and returns each
     carrier's advertised price next to its real all-in monthly total (activation fee,
@@ -18684,6 +18729,24 @@ class Prv_casadragones(Protocol):
         miles — never a guess at which stores might stock it. `radiusMiles` defaults to 50 and
         is capped at 500; an honestly empty list means nothing in Casa Dragones' own tracked
         network is that close.
+        """
+
+class Prv_cascadiaseniorliving_com(Protocol):
+    """Reads Cascadia Senior Living's own site (why-us, living options, communities overview,
+    contact) — a full page index and any one page's own content as plain text, off the
+    site's own WordPress REST API rather than a scrape.
+    """
+
+    async def listSitePages(self, /) -> list[Prv_cascadiaseniorliving_com_cascadiaseniorliving_comPage_Out]:
+        """Lists every page cascadiaseniorliving.com publishes — title, url, slug and parent — off
+        the site's own WordPress REST API page index.
+        """
+
+    async def getSitePage(self, pageRef: str, /) -> Prv_cascadiaseniorliving_com_cascadiaseniorliving_comPageDetail_Out:
+        """Reads one page by its url (from a `listSitePages` result) or bare slug (e.g.
+        "living-options") and returns its title and body as plain text, plus whether it embeds
+        one of the site's own contact/inquiry forms. THROWS if no page matches, or if a url
+        names a host other than cascadiaseniorliving.com.
         """
 
 class Prv_cbhhomes(Protocol):
@@ -26461,6 +26524,7 @@ class BowmarkProviders(Protocol):
     cars: Prv_cars
     carusohomes: Prv_carusohomes
     casadragones: Prv_casadragones
+    cascadiaseniorliving_com: Prv_cascadiaseniorliving_com
     cbhhomes: Prv_cbhhomes
     champxpress: Prv_champxpress
     chantecaille: Prv_chantecaille
@@ -26776,6 +26840,7 @@ class Bowmark(Protocol):
     text_to_speech: Cap_text_to_speech
     theme_park_tickets: Cap_theme_park_tickets
     weather: Cap_weather
+    web_form_fields: Cap_web_form_fields
     wireless: Cap_wireless
     yoga_outfit_shopping: Cap_yoga_outfit_shopping
     providers: BowmarkProviders
