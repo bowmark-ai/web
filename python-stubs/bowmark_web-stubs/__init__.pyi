@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4623c174540932f713835cba5ec1f8b825a333aad9d503e276f0d968d0154dc0
-# 44 capabilities, 349 providers, 858 typed functions, 20 refused.
+# Manifest version: 8c35ea5881addf9bf499be8feeccbe29feed1850814fc76e72d3a4430cf99f11
+# 44 capabilities, 351 providers, 861 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2995,6 +2995,24 @@ class Prv_bcparkscamping_BcParksSiteAvailability_Out(TypedDict):
     nightsAvailable: float
     fullyAvailable: bool
 
+class Prv_beaconfunding_BeaconfundingApplicationFields_Out(TypedDict):
+    loanType: Literal["equipmentFinancing"] | Literal["preApproval"] | Literal["cashForBusiness"]
+    helpPhone: str | None
+    fields: list[Prv_beaconfunding_BeaconfundingApplicationField_Out]
+
+class Prv_beaconfunding_BeaconfundingApplicationField_Out(TypedDict):
+    name: str
+    label: str
+    inputType: Literal["text"] | Literal["email"] | Literal["tel"] | Literal["textarea"] | Literal["select"]
+    required: bool
+    maxLength: float | None
+    pattern: str | None
+    options: list[Prv_beaconfunding_BeaconfundingFieldOption_Out] | None
+
+class Prv_beaconfunding_BeaconfundingFieldOption_Out(TypedDict):
+    value: str
+    label: str
+
 class Prv_beatthebomb_BeatthebombMission_Out(TypedDict):
     id: float
     slug: str
@@ -3424,6 +3442,19 @@ class Prv_bluehaven_BluehavenSiteFeasibility_Out_coordinates_Out(TypedDict):
 class Prv_bluehaven_BluehavenSiteFeasibility_Out_nearbyUtilityLines_item_Out(TypedDict):
     name: str
     features: list[Any]
+
+class Prv_blueribbonhomewarranty_com_blueribbonhomewarranty_comPage_Out(TypedDict):
+    url: str
+    title: str
+
+class Prv_blueribbonhomewarranty_com_blueribbonhomewarranty_comPageContent_Out(TypedDict):
+    url: str
+    title: str | None
+    description: str | None
+    headings: list[str]
+    body: str
+    hasApplicationForm: bool
+    applicationFormQuestions: list[str]
 
 class Prv_bluesignal_BlueSignalJobSummary_Out(TypedDict):
     id: str
@@ -17575,6 +17606,19 @@ class Prv_bcparkscamping(Protocol):
         campsite's real per-night availability for that stay.
         """
 
+class Prv_beaconfunding(Protocol):
+    """Equipment-financing lender. getApplicationFields reads beaconfunding.com's own credit
+    application and returns, as typed data, exactly which fields it will ask for once a
+    caller picks a loan type — never fills or submits the application itself.
+    """
+
+    async def getApplicationFields(self, loanType: Literal["equipmentFinancing"] | Literal["preApproval"] | Literal["cashForBusiness"], /) -> Prv_beaconfunding_BeaconfundingApplicationFields_Out:
+        """Reads beaconfunding.com's own credit application and returns the fields it declares for
+        one loan type — "equipmentFinancing", "preApproval", or "cashForBusiness" — with each
+        field's label, whether it is required, its validation pattern/max length, and (for a
+        select) every option value+label. Never fills in or submits the application.
+        """
+
 class Prv_beatthebomb(Protocol):
     """Beat The Bomb's live mission catalog, real per-date availability and real computed
     per-person pricing, city by city — plus a checkout handoff into their own booking flow.
@@ -17912,6 +17956,26 @@ class Prv_bluehaven(Protocol):
         carry sited data (most US residential/commercial street addresses do); a handful of
         well-known landmark addresses resolve only to a generic map pin and throw
         `BluehavenBadRequest`, same as an address with no match at all.
+        """
+
+class Prv_blueribbonhomewarranty_com(Protocol):
+    """Finds and reads Blue Ribbon Home Warranty's own public pages — the apply/quote, claim
+    and renewal flows, pricing and support pages — as clean structured content, including
+    what a page's own Gravity Forms application asks for.
+    """
+
+    async def search(self, query: str, /) -> list[Prv_blueribbonhomewarranty_com_blueribbonhomewarranty_comPage_Out]:
+        """Finds Blue Ribbon Home Warranty's own pages by matching query words against the site's
+        sitemap (e.g. "apply online", "file a claim", "renew warranty", "pricing") — ranked by
+        how many words matched, up to 10 results. Returns [] when nothing matches.
+        """
+
+    async def getPage(self, url: str, /) -> Prv_blueribbonhomewarranty_com_blueribbonhomewarranty_comPageContent_Out:
+        """Reads one Blue Ribbon Home Warranty page (a url returned by search) and returns its
+        title, meta description, headings and clean body text. When the page embeds one of the
+        site's Gravity Forms application/claim/renewal flows, also returns that form's own
+        section headings and top-level question labels. THROWS if the page does not exist (404)
+        or names a host other than blueribbonhomewarranty.com.
         """
 
 class Prv_bluesignal(Protocol):
@@ -26318,6 +26382,7 @@ class BowmarkProviders(Protocol):
     barnesfoundation: Prv_barnesfoundation
     baublebar: Prv_baublebar
     bcparkscamping: Prv_bcparkscamping
+    beaconfunding: Prv_beaconfunding
     beatthebomb: Prv_beatthebomb
     bellwethercoffee: Prv_bellwethercoffee
     beltservice: Prv_beltservice
@@ -26333,6 +26398,7 @@ class BowmarkProviders(Protocol):
     blackstoneproducts: Prv_blackstoneproducts
     blenderseyewear: Prv_blenderseyewear
     bluehaven: Prv_bluehaven
+    blueribbonhomewarranty_com: Prv_blueribbonhomewarranty_com
     bluesignal: Prv_bluesignal
     bmwusa: Prv_bmwusa
     boglewinery: Prv_boglewinery

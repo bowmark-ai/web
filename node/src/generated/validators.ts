@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4623c174540932f713835cba5ec1f8b825a333aad9d503e276f0d968d0154dc0
-// 858 checked, 20 unchecked.
+// Manifest version: 8c35ea5881addf9bf499be8feeccbe29feed1850814fc76e72d3a4430cf99f11
+// 861 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4623c174540932f713835cba5ec1f8b825a333aad9d503e276f0d968d0154dc0",
+  "version": "8c35ea5881addf9bf499be8feeccbe29feed1850814fc76e72d3a4430cf99f11",
   "units": {
     "bundles": {
       "defs": {},
@@ -5093,6 +5093,39 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.beaconfunding": {
+      "defs": {
+        "BeaconfundingLoanType": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "equipmentFinancing"
+            },
+            {
+              "k": "literal",
+              "v": "preApproval"
+            },
+            {
+              "k": "literal",
+              "v": "cashForBusiness"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getApplicationFields": [
+          {
+            "name": "loanType",
+            "schema": {
+              "k": "ref",
+              "name": "BeaconfundingLoanType"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.beatthebomb": {
       "defs": {},
       "functions": {
@@ -5729,6 +5762,29 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.blueribbonhomewarranty_com": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPage": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4623c174540932f713835cba5ec1f8b825a333aad9d503e276f0d968d0154dc0
-// 44 capabilities, 349 providers, 876 typed functions, 20 refused.
+// Manifest version: 8c35ea5881addf9bf499be8feeccbe29feed1850814fc76e72d3a4430cf99f11
+// 44 capabilities, 351 providers, 879 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5323,6 +5323,47 @@ interface BcParksAvailabilityResult {
   }
 }
 
+declare namespace BowmarkProvider_beaconfunding {
+  // ── Beacon Funding — the unit's own declarations, verbatim ──
+type BeaconfundingLoanType = "equipmentFinancing" | "preApproval" | "cashForBusiness";
+
+interface BeaconfundingFieldOption {
+  value: string;
+  label: string;
+}
+
+interface BeaconfundingApplicationField {
+  name: string;
+  label: string;
+  inputType: "text" | "email" | "tel" | "textarea" | "select";
+  required: boolean;
+  maxLength: number | null;
+  pattern: string | null;
+  options: BeaconfundingFieldOption[] | null;
+}
+
+interface BeaconfundingApplicationFields {
+  loanType: BeaconfundingLoanType;
+  helpPhone: string | null;
+  fields: BeaconfundingApplicationField[];
+}
+
+  /**
+   * Equipment-financing lender. getApplicationFields reads beaconfunding.com's own credit
+   * application and returns, as typed data, exactly which fields it will ask for once a caller
+   * picks a loan type — never fills or submits the application itself.
+   */
+  interface Unit {
+    /**
+     * Reads beaconfunding.com's own credit application and returns the fields it declares for one
+     * loan type — "equipmentFinancing", "preApproval", or "cashForBusiness" — with each field's
+     * label, whether it is required, its validation pattern/max length, and (for a select) every
+     * option value+label. Never fills in or submits the application.
+     */
+    getApplicationFields(loanType: BeaconfundingLoanType): Promise<BeaconfundingApplicationFields>;
+  }
+}
+
 declare namespace BowmarkProvider_beatthebomb {
   // ── Beat The Bomb — the unit's own declarations, verbatim ──
 interface BeatthebombMission {
@@ -6146,6 +6187,46 @@ interface BluehavenSiteFeasibility {
      * no match at all.
      */
     checkPoolSiteFeasibility(args: { address: string }): Promise<BluehavenSiteFeasibility>;
+  }
+}
+
+declare namespace BowmarkProvider_blueribbonhomewarranty_com {
+  // ── Blue Ribbon Home Warranty — the unit's own declarations, verbatim ──
+interface blueribbonhomewarranty_comPage {
+  url: string;
+  title: string;
+}
+interface blueribbonhomewarranty_comPageContent {
+  url: string;
+  title: string | null;
+  description: string | null;
+  headings: string[];
+  body: string;
+  hasApplicationForm: boolean;
+  applicationFormQuestions: string[];
+}
+
+  /**
+   * Finds and reads Blue Ribbon Home Warranty's own public pages — the apply/quote, claim and
+   * renewal flows, pricing and support pages — as clean structured content, including what a
+   * page's own Gravity Forms application asks for.
+   */
+  interface Unit {
+    /**
+     * Finds Blue Ribbon Home Warranty's own pages by matching query words against the site's
+     * sitemap (e.g. "apply online", "file a claim", "renew warranty", "pricing") — ranked by how
+     * many words matched, up to 10 results. Returns [] when nothing matches.
+     */
+    search(query: string): Promise<blueribbonhomewarranty_comPage[]>;
+
+    /**
+     * Reads one Blue Ribbon Home Warranty page (a url returned by search) and returns its title,
+     * meta description, headings and clean body text. When the page embeds one of the site's
+     * Gravity Forms application/claim/renewal flows, also returns that form's own section headings
+     * and top-level question labels. THROWS if the page does not exist (404) or names a host other
+     * than blueribbonhomewarranty.com.
+     */
+    getPage(url: string): Promise<blueribbonhomewarranty_comPageContent>;
   }
 }
 
@@ -30231,6 +30312,7 @@ interface BowmarkProviders {
   barnesfoundation: BowmarkProvider_barnesfoundation.Unit;
   baublebar: BowmarkProvider_baublebar.Unit;
   bcparkscamping: BowmarkProvider_bcparkscamping.Unit;
+  beaconfunding: BowmarkProvider_beaconfunding.Unit;
   beatthebomb: BowmarkProvider_beatthebomb.Unit;
   bellwethercoffee: BowmarkProvider_bellwethercoffee.Unit;
   beltservice: BowmarkProvider_beltservice.Unit;
@@ -30246,6 +30328,7 @@ interface BowmarkProviders {
   blackstoneproducts: BowmarkProvider_blackstoneproducts.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;
   bluehaven: BowmarkProvider_bluehaven.Unit;
+  blueribbonhomewarranty_com: BowmarkProvider_blueribbonhomewarranty_com.Unit;
   bluesignal: BowmarkProvider_bluesignal.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
   boglewinery: BowmarkProvider_boglewinery.Unit;
