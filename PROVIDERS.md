@@ -1149,7 +1149,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sunlighten.matchSauna` | sunlighten.com | Runs Sunlighten's own 'Find My Sauna' quiz match — the same wellness-goal +… | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟡 |
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | ⚪ |
-| `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟡 |
+| `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getProduct` | target.com | Reads one product page in full — price, variant/size options, description, images —… | ⚪ |
 | `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟢 |
 | `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |

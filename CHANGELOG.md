@@ -6,6 +6,25 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.16.1 (2026-09-09)
+
+**Capabilities**
+
+- New capability **prospect_screening** (1 function): `prospect_screening.screenCompany`
+
+**Providers**
+
+- New provider **archive.org** (1 function): `archive_org.checkAvailability`
+- New provider **cbac.com** (2 functions): `christianbrothersauto.checkAppointmentAvailability`, `christianbrothersauto.getShopDetails`
+- New provider **classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com)** (2 functions): `classicrockfab.checkAvailability`, `classicrockfab.listAppointmentTypes`
+- New provider **donsappliances.com** (2 functions): `donsappliances.getProduct`, `donsappliances.search`
+- New provider **epromos.com** (3 functions): `epromos.getProductConfiguration`, `epromos.listCategoryProducts`, `epromos.quoteBulkPrice`
+- New provider **forms.hubspot.com** (2 functions): `forms_hubspot_com.findForms`, `forms_hubspot_com.getFormDefinition`
+- New provider **prolook.com** (3 functions): `prolook.getStyleCustomizationOptions`, `prolook.getTeamQuote`, `prolook.listUniformStyles`
+- Added `artpix3d.listPhotoCrystalShapes`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.16.0 (2026-09-08)
 
 **Providers**
