@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0603b639223caa86b3e340f115610c931608725ede90f003567f89c1298963a8
-// 45 capabilities, 362 providers, 900 typed functions, 20 refused.
+// Manifest version: c3b10cd54e186870ffdcb91995b4222605550dc2a437407330e776b47faaaf31
+// 45 capabilities, 363 providers, 902 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10535,6 +10535,67 @@ interface deltadentalmaSearchFilters {
      * fresh a search result set is.
      */
     lastUpdated(): Promise<{ lastUpdated: string }>;
+  }
+}
+
+declare namespace BowmarkProvider_dentalplans {
+  // ── DentalPlans.com — the unit's own declarations, verbatim ──
+// DentalPlans.com's OWN shapes — not a capability contract.
+
+interface DentalplansPlanListing {
+  planId: string;
+  name: string;
+  carrier: string;
+  planType: "savings" | "insurance";
+  annualPrice: number;
+  monthlyPrice: number;
+  dentistsNearYou: number | null;
+  detailUrl: string;
+}
+
+interface DentalplansSearchResult {
+  zip: string;
+  plans: DentalplansPlanListing[];
+  resultCount: number;
+}
+
+interface DentalplansProcedureSaving {
+  description: string;
+  code: string;
+  priceWithoutPlan: number;
+  priceWithPlan: number;
+  savingsPercent: number;
+}
+
+interface DentalplansPlanDetail {
+  name: string;
+  description: string;
+  url: string;
+  procedures: DentalplansProcedureSaving[];
+}
+
+  /**
+   * DentalPlans.com's own live, location-filtered plan search (/plan-search-results/?zip=) off
+   * the site's server-rendered results — real matched dental savings plans and dental insurance
+   * plans with real pricing and in-network dentist counts, not a stale mirror — plus one plan's
+   * own full detail and sample procedure-savings table.
+   */
+  interface Unit {
+    /**
+     * Runs DentalPlans.com's own live plan search for a 5-digit US zip and returns the real
+     * matched dental savings plans and dental insurance plans it currently lists, in the site's
+     * own order, with real pricing and in-network dentist counts. The query ChatGPT's fit-check
+     * (agents/prospector-2/packets/dentalplans.com/angle.md) could not actually run: it cannot
+     * submit the site's own ZIP-entry form.
+     */
+    search(zip: string): Promise<DentalplansSearchResult>;
+
+    /**
+     * Reads one plan's own detail page — its marketing description and the site's own 'Common
+     * Procedures' sample savings table (real per-procedure price with vs. without the plan). `url`
+     * is a plan URL from a `search` result.
+     */
+    getPlan(url: string): Promise<DentalplansPlanDetail>;
   }
 }
 
@@ -30909,6 +30970,7 @@ interface BowmarkProviders {
   decked: BowmarkProvider_decked.Unit;
   decksdirect: BowmarkProvider_decksdirect.Unit;
   deltadentalma: BowmarkProvider_deltadentalma.Unit;
+  dentalplans: BowmarkProvider_dentalplans.Unit;
   detailxperts: BowmarkProvider_detailxperts.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
   dice: BowmarkProvider_dice.Unit;

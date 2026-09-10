@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0603b639223caa86b3e340f115610c931608725ede90f003567f89c1298963a8
-# 45 capabilities, 362 providers, 882 typed functions, 20 refused.
+# Manifest version: c3b10cd54e186870ffdcb91995b4222605550dc2a437407330e776b47faaaf31
+# 45 capabilities, 363 providers, 884 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5818,6 +5818,34 @@ class Prv_deltadentalma_deltadentalmaDentist_Out(TypedDict):
 
 class Prv_deltadentalma_lastUpdated_return_Out(TypedDict):
     lastUpdated: str
+
+class Prv_dentalplans_DentalplansSearchResult_Out(TypedDict):
+    zip: str
+    plans: list[Prv_dentalplans_DentalplansPlanListing_Out]
+    resultCount: float
+
+class Prv_dentalplans_DentalplansPlanListing_Out(TypedDict):
+    planId: str
+    name: str
+    carrier: str
+    planType: Literal["savings"] | Literal["insurance"]
+    annualPrice: float
+    monthlyPrice: float
+    dentistsNearYou: float | None
+    detailUrl: str
+
+class Prv_dentalplans_DentalplansPlanDetail_Out(TypedDict):
+    name: str
+    description: str
+    url: str
+    procedures: list[Prv_dentalplans_DentalplansProcedureSaving_Out]
+
+class Prv_dentalplans_DentalplansProcedureSaving_Out(TypedDict):
+    description: str
+    code: str
+    priceWithoutPlan: float
+    priceWithPlan: float
+    savingsPercent: float
 
 class Prv_detailxperts_checkServiceArea_args_In(TypedDict):
     address1: str
@@ -19846,6 +19874,27 @@ class Prv_deltadentalma(Protocol):
         fresh a search result set is.
         """
 
+class Prv_dentalplans(Protocol):
+    """DentalPlans.com's own live, location-filtered plan search (/plan-search-results/?zip=)
+    off the site's server-rendered results — real matched dental savings plans and dental
+    insurance plans with real pricing and in-network dentist counts, not a stale mirror —
+    plus one plan's own full detail and sample procedure-savings table.
+    """
+
+    async def search(self, zip: str, /) -> Prv_dentalplans_DentalplansSearchResult_Out:
+        """Runs DentalPlans.com's own live plan search for a 5-digit US zip and returns the real
+        matched dental savings plans and dental insurance plans it currently lists, in the
+        site's own order, with real pricing and in-network dentist counts. The query ChatGPT's
+        fit-check (agents/prospector-2/packets/dentalplans.com/angle.md) could not actually run:
+        it cannot submit the site's own ZIP-entry form.
+        """
+
+    async def getPlan(self, url: str, /) -> Prv_dentalplans_DentalplansPlanDetail_Out:
+        """Reads one plan's own detail page — its marketing description and the site's own 'Common
+        Procedures' sample savings table (real per-procedure price with vs. without the plan).
+        `url` is a plan URL from a `search` result.
+        """
+
 class Prv_detailxperts(Protocol):
     """Whether an address falls inside a DetailXPerts mobile-detailing franchise's real service
     area (with the site's own computed drive time/distance/fee), and a real, input-varying
@@ -26982,6 +27031,7 @@ class BowmarkProviders(Protocol):
     decked: Prv_decked
     decksdirect: Prv_decksdirect
     deltadentalma: Prv_deltadentalma
+    dentalplans: Prv_dentalplans
     detailxperts: Prv_detailxperts
     developersopenai: Prv_developersopenai
     dice: Prv_dice

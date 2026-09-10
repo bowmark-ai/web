@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0603b639223caa86b3e340f115610c931608725ede90f003567f89c1298963a8
-// 882 checked, 20 unchecked.
+// Manifest version: c3b10cd54e186870ffdcb91995b4222605550dc2a437407330e776b47faaaf31
+// 884 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0603b639223caa86b3e340f115610c931608725ede90f003567f89c1298963a8",
+  "version": "c3b10cd54e186870ffdcb91995b4222605550dc2a437407330e776b47faaaf31",
   "units": {
     "bundles": {
       "defs": {},
@@ -9456,6 +9456,29 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "lastUpdated": []
+      }
+    },
+    "providers.dentalplans": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPlan": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.detailxperts": {
