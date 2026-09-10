@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0cf004ac139d978430f1ff5f4368f5e8f7fe995ea369bb54b5d8915c241f5c36
-# 45 capabilities, 358 providers, 873 typed functions, 20 refused.
+# Manifest version: 162f61db6442b109538826669712f3ab0f9775b942acf6f7295a705bd86710b8
+# 45 capabilities, 359 providers, 875 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5523,6 +5523,39 @@ class Prv_cyberpowerpc_CyberpowerpcPriceResult_Out_lines_item_Out(TypedDict):
     optionId: str
     optionName: str
     priceDifference: float
+
+class Prv_dahlconsulting_dahlconsultingSearchFilters_In(TypedDict):
+    query: NotRequired[str]
+    location: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_dahlconsulting_dahlconsultingJobSummary_Out(TypedDict):
+    title: str
+    url: str
+    postId: str
+    city: str
+    state: str
+    employmentType: str
+    payMin: float | None
+    payMax: float | None
+    payUnit: str | None
+    datePosted: str
+
+class Prv_dahlconsulting_dahlconsultingJob_Out(TypedDict):
+    title: str
+    url: str
+    postId: str
+    city: str
+    state: str
+    employmentType: str
+    payMin: float | None
+    payMax: float | None
+    payUnit: str | None
+    datePosted: str
+    industry: str
+    validThrough: str
+    description: str
+    applyUrl: str
 
 class Prv_davidsonhomes_DavidsonhomesRegionSummary_Out(TypedDict):
     id: str
@@ -19536,6 +19569,26 @@ class Prv_cyberpowerpc(Protocol):
         pick added.
         """
 
+class Prv_dahlconsulting(Protocol):
+    """Searches Dahl Consulting's own live job board and reads a job's full posting — real
+    title, location, pay range, employment type and description off the site's own
+    structured data — plus a ready-to-open apply link, the way ChatGPT's web_search can find
+    the listing but cannot fill or submit the form.
+    """
+
+    async def searchJobs(self, filters: Prv_dahlconsulting_dahlconsultingSearchFilters_In | None = None, /) -> list[Prv_dahlconsulting_dahlconsultingJobSummary_Out]:
+        """Searches Dahl Consulting's live job board — every open role, optionally narrowed by
+        keyword and/or city/state — off the site's own sitemap and each matching posting's
+        structured data. Returns the url/postId getJob takes. No filter returns the most
+        recently posted openings.
+        """
+
+    async def getJob(self, url: str, /) -> Prv_dahlconsulting_dahlconsultingJob_Out:
+        """Reads one job posting's full detail off its own page — complete description, industry,
+        posted/expiry dates and pay — plus a ready-to-open applyUrl on Dahl's own careers site.
+        THROWS on an unknown/removed url — call searchJobs() first.
+        """
+
 class Prv_davidsonhomes(Protocol):
     """Reads Davidson Homes' own 'Find Your Home' search — all live market regions, one
     region's communities with real price/bed/sqft ranges and availability status, one
@@ -26783,6 +26836,7 @@ class BowmarkProviders(Protocol):
     culturefly: Prv_culturefly
     curiocity: Prv_curiocity
     cyberpowerpc: Prv_cyberpowerpc
+    dahlconsulting: Prv_dahlconsulting
     davidsonhomes: Prv_davidsonhomes
     deangroup: Prv_deangroup
     decked: Prv_decked

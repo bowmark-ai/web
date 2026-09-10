@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0cf004ac139d978430f1ff5f4368f5e8f7fe995ea369bb54b5d8915c241f5c36
-// 873 checked, 20 unchecked.
+// Manifest version: 162f61db6442b109538826669712f3ab0f9775b942acf6f7295a705bd86710b8
+// 875 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0cf004ac139d978430f1ff5f4368f5e8f7fe995ea369bb54b5d8915c241f5c36",
+  "version": "162f61db6442b109538826669712f3ab0f9775b942acf6f7295a705bd86710b8",
   "units": {
     "bundles": {
       "defs": {},
@@ -9041,6 +9041,57 @@ export const VALIDATORS: ValidatorTable = {
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dahlconsulting": {
+      "defs": {
+        "dahlconsultingSearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchJobs": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "dahlconsultingSearchFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getJob": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0cf004ac139d978430f1ff5f4368f5e8f7fe995ea369bb54b5d8915c241f5c36
-// 45 capabilities, 358 providers, 891 typed functions, 20 refused.
+// Manifest version: 162f61db6442b109538826669712f3ab0f9775b942acf6f7295a705bd86710b8
+// 45 capabilities, 359 providers, 893 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10016,6 +10016,52 @@ interface CyberpowerpcPriceResult {
      * the site's own configurator computes, plus a per-section breakdown of what each pick added.
      */
     priceBuild(slug: string, selections: Record<string, string>): Promise<CyberpowerpcPriceResult>;
+  }
+}
+
+declare namespace BowmarkProvider_dahlconsulting {
+  // ── Dahl Consulting — the unit's own declarations, verbatim ──
+// Dahl Consulting's OWN shapes — not a capability contract.
+
+interface dahlconsultingJobSummary {
+  title: string;
+  url: string;          // the id getJob takes
+  postId: string;       // the numeric id every job URL ends with
+  city: string; state: string;
+  employmentType: string;  // e.g. "CONTRACTOR"
+  payMin: number | null; payMax: number | null; payUnit: string | null;  // e.g. "HOUR"
+  datePosted: string;    // ISO date
+}
+
+interface dahlconsultingJob extends dahlconsultingJobSummary {
+  industry: string;
+  validThrough: string;  // ISO date the posting expires
+  description: string;   // the full posting text
+  applyUrl: string;       // Dahl's own quick-apply page for this job — never submitted by this provider
+}
+
+interface dahlconsultingSearchFilters { query?: string; location?: string; limit?: number }
+
+  /**
+   * Searches Dahl Consulting's own live job board and reads a job's full posting — real title,
+   * location, pay range, employment type and description off the site's own structured data —
+   * plus a ready-to-open apply link, the way ChatGPT's web_search can find the listing but
+   * cannot fill or submit the form.
+   */
+  interface Unit {
+    /**
+     * Searches Dahl Consulting's live job board — every open role, optionally narrowed by keyword
+     * and/or city/state — off the site's own sitemap and each matching posting's structured data.
+     * Returns the url/postId getJob takes. No filter returns the most recently posted openings.
+     */
+    searchJobs(filters?: dahlconsultingSearchFilters): Promise<dahlconsultingJobSummary[]>;
+
+    /**
+     * Reads one job posting's full detail off its own page — complete description, industry,
+     * posted/expiry dates and pay — plus a ready-to-open applyUrl on Dahl's own careers site.
+     * THROWS on an unknown/removed url — call searchJobs() first.
+     */
+    getJob(url: string): Promise<dahlconsultingJob>;
   }
 }
 
@@ -30713,6 +30759,7 @@ interface BowmarkProviders {
   culturefly: BowmarkProvider_culturefly.Unit;
   curiocity: BowmarkProvider_curiocity.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
+  dahlconsulting: BowmarkProvider_dahlconsulting.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
