@@ -6,6 +6,32 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.17.0 (2026-09-10)
+
+**Capabilities**
+
+- New capability **web_form_fields** (1 function): `web_form_fields.getFields`
+
+**Providers**
+
+- New provider **beaconfunding.com** (1 function): `beaconfunding.getApplicationFields`
+- New provider **blueribbonhomewarranty.com** (2 functions): `blueribbonhomewarranty_com.getPage`, `blueribbonhomewarranty_com.search`
+- New provider **cascadiaseniorliving.com** (2 functions): `cascadiaseniorliving_com.getSitePage`, `cascadiaseniorliving_com.listSitePages`
+- New provider **clboyd.com** (1 function): `clboyd.searchUsedEquipment`
+- New provider **credibly.com** (2 functions): `credibly_com.getApplicationForm`, `credibly_com.getEligibilityRequirements`
+- New provider **careers.dahlconsulting.com** (2 functions): `dahlconsulting.getJob`, `dahlconsulting.searchJobs`
+- New provider **pitboss-grills.com** (2 functions): `dansons.identifyProduct`, `dansons.listRegisterableProducts`
+- New provider **deltadentalma.com** (2 functions): `deltadentalma.lastUpdated`, `deltadentalma.search`
+- New provider **dentalplans.com** (2 functions): `dentalplans.getPlan`, `dentalplans.search`
+- New provider **detailxperts.com** (3 functions): `detailxperts.checkServiceArea`, `detailxperts.getQuote`, `detailxperts.listVehicleTypes`
+- New provider **firstamericahomes.com** (2 functions): `firstamericahomes.getCommunity`, `firstamericahomes.searchCommunities`
+- New provider **highlandhomes.org** (1 function): `highlandhomes.search`
+- New provider **kbb.com** (1 function): `kbb.getTrimPricing`
+- New provider **modernize.com** (2 functions): `modernize_com.getQuoteFlow`, `modernize_com.listProjectTypes`
+- New provider **puls.com** (2 functions): `puls_com.getRepairQuote`, `puls_com.listApplianceCategories`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.16.1 (2026-09-09)
 
 **Capabilities**
