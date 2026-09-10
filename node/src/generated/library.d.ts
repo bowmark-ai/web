@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c3b10cd54e186870ffdcb91995b4222605550dc2a437407330e776b47faaaf31
+// Manifest version: 1c13721b514afb33f7d95da69a8fc1efac27b320fe0507304a5a5e6f0eba8eb8
 // 45 capabilities, 363 providers, 902 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -10551,6 +10551,7 @@ interface DentalplansPlanListing {
   monthlyPrice: number;
   dentistsNearYou: number | null;
   detailUrl: string;
+  checkoutUrl: string | null;
 }
 
 interface DentalplansSearchResult {

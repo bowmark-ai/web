@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c3b10cd54e186870ffdcb91995b4222605550dc2a437407330e776b47faaaf31
+# Manifest version: 1c13721b514afb33f7d95da69a8fc1efac27b320fe0507304a5a5e6f0eba8eb8
 # 45 capabilities, 363 providers, 884 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -5833,6 +5833,7 @@ class Prv_dentalplans_DentalplansPlanListing_Out(TypedDict):
     monthlyPrice: float
     dentistsNearYou: float | None
     detailUrl: str
+    checkoutUrl: str | None
 
 class Prv_dentalplans_DentalplansPlanDetail_Out(TypedDict):
     name: str
