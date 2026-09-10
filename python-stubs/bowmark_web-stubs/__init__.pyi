@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5b6e66ca9bd3938ba641631abb7b1ee1a41a21589c3441d89d92afe6a88e74e6
-# 45 capabilities, 360 providers, 877 typed functions, 20 refused.
+# Manifest version: 70ba47ac7a945decc0683050a963c4ea6b6846472c7d1882c4c02c42b17fa3d7
+# 45 capabilities, 361 providers, 879 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5788,6 +5788,36 @@ class Prv_decksdirect_DdCartHandoff_Out(TypedDict):
 class Prv_decksdirect_DdCartHandoff_Out_applied_item_Out(TypedDict):
     group: str
     choice: str
+
+class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
+    zip: str
+    radiusMiles: NotRequired[float]
+    network: NotRequired[str]
+    specialty: NotRequired[str]
+    language: NotRequired[str]
+    gender: NotRequired[Literal["F"] | Literal["M"]]
+    limit: NotRequired[float]
+
+class Prv_deltadentalma_deltadentalmaDentist_Out(TypedDict):
+    providerServiceOfficeId: str
+    npi: str | None
+    firstName: str
+    lastName: str
+    specialty: list[str]
+    languages: list[str]
+    acceptsNewPatients: bool
+    networks: list[str]
+    businessName: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str | None
+    rating: float | None
+    distanceMiles: float | None
+
+class Prv_deltadentalma_lastUpdated_return_Out(TypedDict):
+    lastUpdated: str
 
 class Prv_developersopenai_DevelopersOpenaiDocPage_Out(TypedDict):
     path: str
@@ -19761,6 +19791,23 @@ class Prv_decksdirect(Protocol):
         requires a session-bound form key this stateless call does not hold.
         """
 
+class Prv_deltadentalma(Protocol):
+    """Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network
+    dentists and clinics near a ZIP — the same live provider data the site's `/fad/search`
+    widget renders, filterable by network, specialty, language and gender.
+    """
+
+    async def search(self, filters: Prv_deltadentalma_deltadentalmaSearchFilters_In, /) -> list[Prv_deltadentalma_deltadentalmaDentist_Out]:
+        """Searches Delta Dental of Massachusetts's live Find-a-Dentist directory near a ZIP,
+        filtered by network, specialty, language and/or gender. Returns real in-network
+        providers with address, phone, distance and accepts-new-patients status.
+        """
+
+    async def lastUpdated(self, /) -> Prv_deltadentalma_lastUpdated_return_Out:
+        """Returns the ISO timestamp the directory data was last refreshed, so a caller can say how
+        fresh a search result set is.
+        """
+
 class Prv_developersopenai(Protocol):
     """OpenAI's own developer documentation site. getDocPage reads one docs page (title,
     canonical URL, full article text) by path — e.g. /api/docs/mcp for the remote MCP server
@@ -26870,6 +26917,7 @@ class BowmarkProviders(Protocol):
     deangroup: Prv_deangroup
     decked: Prv_decked
     decksdirect: Prv_decksdirect
+    deltadentalma: Prv_deltadentalma
     developersopenai: Prv_developersopenai
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods

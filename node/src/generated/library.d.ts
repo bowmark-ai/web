@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5b6e66ca9bd3938ba641631abb7b1ee1a41a21589c3441d89d92afe6a88e74e6
-// 45 capabilities, 360 providers, 895 typed functions, 20 refused.
+// Manifest version: 70ba47ac7a945decc0683050a963c4ea6b6846472c7d1882c4c02c42b17fa3d7
+// 45 capabilities, 361 providers, 897 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10486,6 +10486,55 @@ interface DdCartHandoff {
      * session-bound form key this stateless call does not hold.
      */
     addToCart(urlKey: string, selections: Record<string, string>): Promise<DdCartHandoff>;
+  }
+}
+
+declare namespace BowmarkProvider_deltadentalma {
+  // ── Delta Dental of Massachusetts — the unit's own declarations, verbatim ──
+// Delta Dental of Massachusetts's OWN shapes — not a capability contract.
+
+interface deltadentalmaDentist {
+  providerServiceOfficeId: string;  // the site's own composite id
+  npi: string | null;
+  firstName: string; lastName: string;
+  specialty: string[];   // e.g. ["General Dentist"]
+  languages: string[];   // e.g. ["English", "Portuguese"]
+  acceptsNewPatients: boolean;  // true on ANY in-network product returned
+  networks: string[];    // in-network product names, e.g. ["Delta Dental PPO"]
+  businessName: string; address: string; city: string; state: string; zip: string;
+  phone: string | null;
+  rating: number | null;  // 1-5, the site's own patient-experience score
+  distanceMiles: number | null;
+}
+
+interface deltadentalmaSearchFilters {
+  zip: string;             // a ZIP or city/town, free text — the site's own field
+  radiusMiles?: number;    // default 25
+  network?: string;        // a network code, e.g. "PPOPlusPremier"; omit for all
+  specialty?: string;      // a specialty code, e.g. "000" (General Dentist); omit for all
+  language?: string;       // a language code, e.g. "POR" (Portuguese); omit for none
+  gender?: "F" | "M";
+  limit?: number;          // default 20, max 100
+}
+
+  /**
+   * Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network
+   * dentists and clinics near a ZIP — the same live provider data the site's `/fad/search`
+   * widget renders, filterable by network, specialty, language and gender.
+   */
+  interface Unit {
+    /**
+     * Searches Delta Dental of Massachusetts's live Find-a-Dentist directory near a ZIP, filtered
+     * by network, specialty, language and/or gender. Returns real in-network providers with
+     * address, phone, distance and accepts-new-patients status.
+     */
+    search(filters: deltadentalmaSearchFilters): Promise<deltadentalmaDentist[]>;
+
+    /**
+     * Returns the ISO timestamp the directory data was last refreshed, so a caller can say how
+     * fresh a search result set is.
+     */
+    lastUpdated(): Promise<{ lastUpdated: string }>;
   }
 }
 
@@ -30800,6 +30849,7 @@ interface BowmarkProviders {
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
   decksdirect: BowmarkProvider_decksdirect.Unit;
+  deltadentalma: BowmarkProvider_deltadentalma.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;

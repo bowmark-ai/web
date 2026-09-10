@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5b6e66ca9bd3938ba641631abb7b1ee1a41a21589c3441d89d92afe6a88e74e6
-// 877 checked, 20 unchecked.
+// Manifest version: 70ba47ac7a945decc0683050a963c4ea6b6846472c7d1882c4c02c42b17fa3d7
+// 879 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5b6e66ca9bd3938ba641631abb7b1ee1a41a21589c3441d89d92afe6a88e74e6",
+  "version": "70ba47ac7a945decc0683050a963c4ea6b6846472c7d1882c4c02c42b17fa3d7",
   "units": {
     "bundles": {
       "defs": {},
@@ -9375,6 +9375,87 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.deltadentalma": {
+      "defs": {
+        "deltadentalmaSearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "radiusMiles",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "network",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "specialty",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "F"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "M"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "deltadentalmaSearchFilters"
+            },
+            "optional": false
+          }
+        ],
+        "lastUpdated": []
       }
     },
     "providers.developersopenai": {
