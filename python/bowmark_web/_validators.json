@@ -1,5 +1,5 @@
 {
-  "version": "162f61db6442b109538826669712f3ab0f9775b942acf6f7295a705bd86710b8",
+  "version": "5b6e66ca9bd3938ba641631abb7b1ee1a41a21589c3441d89d92afe6a88e74e6",
   "units": {
     "bundles": {
       "defs": {},
@@ -9078,6 +9078,21 @@
         "getJob": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dansons": {
+      "defs": {},
+      "functions": {
+        "listRegisterableProducts": [],
+        "identifyProduct": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 162f61db6442b109538826669712f3ab0f9775b942acf6f7295a705bd86710b8
-// 875 checked, 20 unchecked.
+// Manifest version: 5b6e66ca9bd3938ba641631abb7b1ee1a41a21589c3441d89d92afe6a88e74e6
+// 877 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "162f61db6442b109538826669712f3ab0f9775b942acf6f7295a705bd86710b8",
+  "version": "5b6e66ca9bd3938ba641631abb7b1ee1a41a21589c3441d89d92afe6a88e74e6",
   "units": {
     "bundles": {
       "defs": {},
@@ -9090,6 +9090,21 @@ export const VALIDATORS: ValidatorTable = {
         "getJob": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dansons": {
+      "defs": {},
+      "functions": {
+        "listRegisterableProducts": [],
+        "identifyProduct": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

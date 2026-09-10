@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 162f61db6442b109538826669712f3ab0f9775b942acf6f7295a705bd86710b8
-// 45 capabilities, 359 providers, 893 typed functions, 20 refused.
+// Manifest version: 5b6e66ca9bd3938ba641631abb7b1ee1a41a21589c3441d89d92afe6a88e74e6
+// 45 capabilities, 360 providers, 895 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10062,6 +10062,41 @@ interface dahlconsultingSearchFilters { query?: string; location?: string; limit
      * THROWS on an unknown/removed url — call searchJobs() first.
      */
     getJob(url: string): Promise<dahlconsultingJob>;
+  }
+}
+
+declare namespace BowmarkProvider_dansons {
+  // ── Dansons (Pit Boss) — the unit's own declarations, verbatim ──
+interface dansonsRegisterableProduct {
+  productId: string;
+  title: string;
+  sku: string;
+  price: number;
+  imageUrl: string | null;
+}
+
+  /**
+   * Identifies which Pit Boss grill/smoker a free-text description matches, and lists the
+   * products eligible for warranty registration — read live off Pit Boss's own registration-page
+   * catalog.
+   */
+  interface Unit {
+    /**
+     * Lists every Pit Boss product eligible for warranty registration — the exact catalog the
+     * registration page's own product-search reads from. Each row carries the real title, SKU,
+     * current price and product image, direct from Pit Boss's Storefront API.
+     */
+    listRegisterableProducts(): Promise<dansonsRegisterableProduct[]>;
+
+    /**
+     * Identifies which Pit Boss product(s) a free-text description matches — the same normalized
+     * substring match the registration page's own typeahead performs when a shopper types e.g.
+     * 'PB1230' or 'Lockhart Platinum'. Returns every registerable product whose title, SKU or
+     * product id contains the (normalized) query; empty when nothing matches. Use this before
+     * registering a product to confirm the exact model, without needing the shopper's serial
+     * number or purchase info.
+     */
+    identifyProduct(query: string): Promise<dansonsRegisterableProduct[]>;
   }
 }
 
@@ -30760,6 +30795,7 @@ interface BowmarkProviders {
   curiocity: BowmarkProvider_curiocity.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   dahlconsulting: BowmarkProvider_dahlconsulting.Unit;
+  dansons: BowmarkProvider_dansons.Unit;
   davidsonhomes: BowmarkProvider_davidsonhomes.Unit;
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;

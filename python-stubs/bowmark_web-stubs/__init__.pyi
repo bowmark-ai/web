@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 162f61db6442b109538826669712f3ab0f9775b942acf6f7295a705bd86710b8
-# 45 capabilities, 359 providers, 875 typed functions, 20 refused.
+# Manifest version: 5b6e66ca9bd3938ba641631abb7b1ee1a41a21589c3441d89d92afe6a88e74e6
+# 45 capabilities, 360 providers, 877 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5556,6 +5556,13 @@ class Prv_dahlconsulting_dahlconsultingJob_Out(TypedDict):
     validThrough: str
     description: str
     applyUrl: str
+
+class Prv_dansons_dansonsRegisterableProduct_Out(TypedDict):
+    productId: str
+    title: str
+    sku: str
+    price: float
+    imageUrl: str | None
 
 class Prv_davidsonhomes_DavidsonhomesRegionSummary_Out(TypedDict):
     id: str
@@ -19589,6 +19596,27 @@ class Prv_dahlconsulting(Protocol):
         THROWS on an unknown/removed url — call searchJobs() first.
         """
 
+class Prv_dansons(Protocol):
+    """Identifies which Pit Boss grill/smoker a free-text description matches, and lists the
+    products eligible for warranty registration — read live off Pit Boss's own
+    registration-page catalog.
+    """
+
+    async def listRegisterableProducts(self, /) -> list[Prv_dansons_dansonsRegisterableProduct_Out]:
+        """Lists every Pit Boss product eligible for warranty registration — the exact catalog the
+        registration page's own product-search reads from. Each row carries the real title, SKU,
+        current price and product image, direct from Pit Boss's Storefront API.
+        """
+
+    async def identifyProduct(self, query: str, /) -> list[Prv_dansons_dansonsRegisterableProduct_Out]:
+        """Identifies which Pit Boss product(s) a free-text description matches — the same
+        normalized substring match the registration page's own typeahead performs when a shopper
+        types e.g. 'PB1230' or 'Lockhart Platinum'. Returns every registerable product whose
+        title, SKU or product id contains the (normalized) query; empty when nothing matches.
+        Use this before registering a product to confirm the exact model, without needing the
+        shopper's serial number or purchase info.
+        """
+
 class Prv_davidsonhomes(Protocol):
     """Reads Davidson Homes' own 'Find Your Home' search — all live market regions, one
     region's communities with real price/bed/sqft ranges and availability status, one
@@ -26837,6 +26865,7 @@ class BowmarkProviders(Protocol):
     curiocity: Prv_curiocity
     cyberpowerpc: Prv_cyberpowerpc
     dahlconsulting: Prv_dahlconsulting
+    dansons: Prv_dansons
     davidsonhomes: Prv_davidsonhomes
     deangroup: Prv_deangroup
     decked: Prv_decked
