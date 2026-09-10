@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ea23887301db8dcc8da6edd8bbf32f4c741c97d691ef30561553ec7f9007ca15
-// 45 capabilities, 357 providers, 890 typed functions, 20 refused.
+// Manifest version: 0cf004ac139d978430f1ff5f4368f5e8f7fe995ea369bb54b5d8915c241f5c36
+// 45 capabilities, 358 providers, 891 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17768,6 +17768,32 @@ interface KayakCar {
   }
 }
 
+declare namespace BowmarkProvider_kbb {
+  // ── Kelley Blue Book — the unit's own declarations, verbatim ──
+interface KbbTrimPricing {
+  trimName: string;
+  trimId: number;
+  msrp: number;
+  fairPurchasePrice: number;
+  fairPurchasePriceRange: { low: number; high: number };
+}
+
+  /**
+   * Reads kbb.com's own per-trim MSRP and Fair Purchase Price for a make/model/year — an
+   * independent, browserless read on what a vehicle costs, for when the manufacturer's own site
+   * is unreachable.
+   */
+  interface Unit {
+    /**
+     * Reads kbb.com's own per-trim MSRP and Fair Purchase Price for a make and model, e.g.
+     * "Tesla", "Model 3" — kbb.com's own URL slugging, so a caller's ordinary make/model words
+     * work directly. Optional model year defaults to kbb.com's current year. THROWS on a
+     * make/model kbb.com has no page for, rather than returning an empty array.
+     */
+    getTrimPricing(make: string, model: string, year?: number): Promise<KbbTrimPricing[]>;
+  }
+}
+
 declare namespace BowmarkProvider_keepa {
   // ── Keepa — the unit's own declarations, verbatim ──
 interface KeepaProductResult { product: KeepaProduct; tokensLeft: number | null; tokensConsumed: number | null; refillRate: number | null; }
@@ -30775,6 +30801,7 @@ interface BowmarkProviders {
   kaleidescape: BowmarkProvider_kaleidescape.Unit;
   kalshi: BowmarkProvider_kalshi.Unit;
   kayak: BowmarkProvider_kayak.Unit;
+  kbb: BowmarkProvider_kbb.Unit;
   keepa: BowmarkProvider_keepa.Unit;
   kingsdown: BowmarkProvider_kingsdown.Unit;
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;

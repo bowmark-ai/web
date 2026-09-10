@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ea23887301db8dcc8da6edd8bbf32f4c741c97d691ef30561553ec7f9007ca15
-# 45 capabilities, 357 providers, 872 typed functions, 20 refused.
+# Manifest version: 0cf004ac139d978430f1ff5f4368f5e8f7fe995ea369bb54b5d8915c241f5c36
+# 45 capabilities, 358 providers, 873 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9395,6 +9395,17 @@ class Prv_kayak_KayakCar_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Prv_kbb_KbbTrimPricing_Out(TypedDict):
+    trimName: str
+    trimId: float
+    msrp: float
+    fairPurchasePrice: float
+    fairPurchasePriceRange: Prv_kbb_KbbTrimPricing_Out_fairPurchasePriceRange_Out
+
+class Prv_kbb_KbbTrimPricing_Out_fairPurchasePriceRange_Out(TypedDict):
+    low: float
+    high: float
 
 class Prv_keepa_getProduct_args_In(TypedDict):
     asin: str
@@ -22269,6 +22280,19 @@ class Prv_kayak(Protocol):
         site's own three-phase supplier poll completes.
         """
 
+class Prv_kbb(Protocol):
+    """Reads kbb.com's own per-trim MSRP and Fair Purchase Price for a make/model/year — an
+    independent, browserless read on what a vehicle costs, for when the manufacturer's own
+    site is unreachable.
+    """
+
+    async def getTrimPricing(self, make: str, model: str, year: float | None = None, /) -> list[Prv_kbb_KbbTrimPricing_Out]:
+        """Reads kbb.com's own per-trim MSRP and Fair Purchase Price for a make and model, e.g.
+        "Tesla", "Model 3" — kbb.com's own URL slugging, so a caller's ordinary make/model words
+        work directly. Optional model year defaults to kbb.com's current year. THROWS on a
+        make/model kbb.com has no page for, rather than returning an empty array.
+        """
+
 class Prv_keepa(Protocol):
     """Keepa's documented Amazon product API — reads a product's native price history and
     metadata by ASIN. Requires a caller-provided Keepa API key.
@@ -26847,6 +26871,7 @@ class BowmarkProviders(Protocol):
     kaleidescape: Prv_kaleidescape
     kalshi: Prv_kalshi
     kayak: Prv_kayak
+    kbb: Prv_kbb
     keepa: Prv_keepa
     kingsdown: Prv_kingsdown
     kitchentuneup: Prv_kitchentuneup

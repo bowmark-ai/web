@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ea23887301db8dcc8da6edd8bbf32f4c741c97d691ef30561553ec7f9007ca15
-// 872 checked, 20 unchecked.
+// Manifest version: 0cf004ac139d978430f1ff5f4368f5e8f7fe995ea369bb54b5d8915c241f5c36
+// 873 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ea23887301db8dcc8da6edd8bbf32f4c741c97d691ef30561553ec7f9007ca15",
+  "version": "0cf004ac139d978430f1ff5f4368f5e8f7fe995ea369bb54b5d8915c241f5c36",
   "units": {
     "bundles": {
       "defs": {},
@@ -15299,6 +15299,34 @@ export const VALIDATORS: ValidatorTable = {
               "name": "KayakCarQuery"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.kbb": {
+      "defs": {},
+      "functions": {
+        "getTrimPricing": [
+          {
+            "name": "make",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "model",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "year",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }
