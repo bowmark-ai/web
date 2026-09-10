@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1321 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1325 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -344,6 +344,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `decksdirect.searchProducts` | decksdirect.com | Searches DecksDirect's decking/railing/hardware catalog by free text and returns each… | 🟢 |
 | `deltadentalma.lastUpdated` | deltadentalma.com | Returns the timestamp the directory data was last refreshed, so a caller can say how… | 🟢 |
 | `deltadentalma.search` | deltadentalma.com | Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network… | 🟢 |
+| `detailxperts.bookAppointment` | detailxperts.com | Submits the booking form (name, phone, email, service address, vehicle, chosen… | ⚪ |
+| `detailxperts.checkServiceArea` | detailxperts.com | Checks whether a service address is inside a DetailXPerts franchise's mobile service… | 🟢 |
+| `detailxperts.getQuote` | detailxperts.com | Prices a mobile detail for one vehicle type and dirt/pet-hair/interior-dirt condition… | 🟢 |
+| `detailxperts.listVehicleTypes` | detailxperts.com | Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …)… | 🟢 |
 | `developersopenai.getDocPage` | developers.openai.com | Reads one page of OpenAI's own developer documentation (e.g. the MCP connector / OAuth… | 🟢 |
 | `dice.getCompany` | dice.com | Returns one technology employer's Dice profile from its `/company-profile/<uuid>` URL… | ⚪ |
 | `dice.getJob` | dice.com | Returns one Dice posting in full from its posting id — the complete HTML description… | 🟡 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 70ba47ac7a945decc0683050a963c4ea6b6846472c7d1882c4c02c42b17fa3d7
-// 45 capabilities, 361 providers, 897 typed functions, 20 refused.
+// Manifest version: 0603b639223caa86b3e340f115610c931608725ede90f003567f89c1298963a8
+// 45 capabilities, 362 providers, 900 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10535,6 +10535,65 @@ interface deltadentalmaSearchFilters {
      * fresh a search result set is.
      */
     lastUpdated(): Promise<{ lastUpdated: string }>;
+  }
+}
+
+declare namespace BowmarkProvider_detailxperts {
+  // ── DetailXPerts — the unit's own declarations, verbatim ──
+interface DetailxpertsServiceArea {
+  serviced: boolean;
+  driveTimeMinutes: number | null;
+  driveDistanceMiles: number | null;
+  driveFeeAmount: number | null;
+  message: string | null;
+}
+interface DetailxpertsVehicleType {
+  position: number;
+  title: string;
+  imageUrl: string;
+}
+interface DetailxpertsQuotePackage {
+  title: string;
+  points: string[];
+  price: number;
+  timeMinutes: number;
+}
+interface DetailxpertsQuote {
+  vehicleTitle: string;
+  dirtUpcharge: number;
+  hairUpcharge: number;
+  dirtInteriorUpcharge: number;
+  packages: DetailxpertsQuotePackage[];
+}
+
+  /**
+   * Whether an address falls inside a DetailXPerts mobile-detailing franchise's real service
+   * area (with the site's own computed drive time/distance/fee), and a real, input-varying price
+   * quote for a vehicle type and dirt/pet-hair/interior condition — read off the same
+   * admin-ajax.php actions the site's own booking flow calls.
+   */
+  interface Unit {
+    /**
+     * Checks whether an address is inside a DetailXPerts franchise's real mobile service area, and
+     * when it is, returns the site's own computed drive time (minutes), distance (miles) and drive
+     * fee. Returns serviced: false with the site's own message when it's outside every franchise's
+     * territory.
+     */
+    checkServiceArea(args: { address1: string; address2?: string; city: string; state: string; zip: string }): Promise<DetailxpertsServiceArea>;
+
+    /**
+     * Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …), each
+     * with the 1-based position getQuote's vehiclePosition takes.
+     */
+    listVehicleTypes(): Promise<DetailxpertsVehicleType[]>;
+
+    /**
+     * Prices a mobile detail for one vehicle type and a dirt/pet-hair/interior-dirt condition (1
+     * light to 3 heavy, per the site's own scale), returning the real 4-package ladder (title,
+     * checklist, price, time) with the condition upcharges applied. Call listVehicleTypes() for
+     * real vehiclePosition values.
+     */
+    getQuote(args: { vehiclePosition: number; dirtLevel: number; hairLevel: number; dirtInteriorLevel: number }): Promise<DetailxpertsQuote>;
   }
 }
 
@@ -30850,6 +30909,7 @@ interface BowmarkProviders {
   decked: BowmarkProvider_decked.Unit;
   decksdirect: BowmarkProvider_decksdirect.Unit;
   deltadentalma: BowmarkProvider_deltadentalma.Unit;
+  detailxperts: BowmarkProvider_detailxperts.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;

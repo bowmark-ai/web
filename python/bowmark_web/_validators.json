@@ -1,5 +1,5 @@
 {
-  "version": "70ba47ac7a945decc0683050a963c4ea6b6846472c7d1882c4c02c42b17fa3d7",
+  "version": "0603b639223caa86b3e340f115610c931608725ede90f003567f89c1298963a8",
   "units": {
     "bundles": {
       "defs": {},
@@ -9444,6 +9444,97 @@
           }
         ],
         "lastUpdated": []
+      }
+    },
+    "providers.detailxperts": {
+      "defs": {},
+      "functions": {
+        "checkServiceArea": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "address1",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "address2",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "state",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listVehicleTypes": [],
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "vehiclePosition",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "dirtLevel",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "hairLevel",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "dirtInteriorLevel",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.developersopenai": {

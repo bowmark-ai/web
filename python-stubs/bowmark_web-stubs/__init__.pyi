@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 70ba47ac7a945decc0683050a963c4ea6b6846472c7d1882c4c02c42b17fa3d7
-# 45 capabilities, 361 providers, 879 typed functions, 20 refused.
+# Manifest version: 0603b639223caa86b3e340f115610c931608725ede90f003567f89c1298963a8
+# 45 capabilities, 362 providers, 882 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5818,6 +5818,44 @@ class Prv_deltadentalma_deltadentalmaDentist_Out(TypedDict):
 
 class Prv_deltadentalma_lastUpdated_return_Out(TypedDict):
     lastUpdated: str
+
+class Prv_detailxperts_checkServiceArea_args_In(TypedDict):
+    address1: str
+    address2: NotRequired[str]
+    city: str
+    state: str
+    zip: str
+
+class Prv_detailxperts_DetailxpertsServiceArea_Out(TypedDict):
+    serviced: bool
+    driveTimeMinutes: float | None
+    driveDistanceMiles: float | None
+    driveFeeAmount: float | None
+    message: str | None
+
+class Prv_detailxperts_DetailxpertsVehicleType_Out(TypedDict):
+    position: float
+    title: str
+    imageUrl: str
+
+class Prv_detailxperts_getQuote_args_In(TypedDict):
+    vehiclePosition: float
+    dirtLevel: float
+    hairLevel: float
+    dirtInteriorLevel: float
+
+class Prv_detailxperts_DetailxpertsQuote_Out(TypedDict):
+    vehicleTitle: str
+    dirtUpcharge: float
+    hairUpcharge: float
+    dirtInteriorUpcharge: float
+    packages: list[Prv_detailxperts_DetailxpertsQuotePackage_Out]
+
+class Prv_detailxperts_DetailxpertsQuotePackage_Out(TypedDict):
+    title: str
+    points: list[str]
+    price: float
+    timeMinutes: float
 
 class Prv_developersopenai_DevelopersOpenaiDocPage_Out(TypedDict):
     path: str
@@ -19808,6 +19846,32 @@ class Prv_deltadentalma(Protocol):
         fresh a search result set is.
         """
 
+class Prv_detailxperts(Protocol):
+    """Whether an address falls inside a DetailXPerts mobile-detailing franchise's real service
+    area (with the site's own computed drive time/distance/fee), and a real, input-varying
+    price quote for a vehicle type and dirt/pet-hair/interior condition — read off the same
+    admin-ajax.php actions the site's own booking flow calls.
+    """
+
+    async def checkServiceArea(self, args: Prv_detailxperts_checkServiceArea_args_In, /) -> Prv_detailxperts_DetailxpertsServiceArea_Out:
+        """Checks whether an address is inside a DetailXPerts franchise's real mobile service area,
+        and when it is, returns the site's own computed drive time (minutes), distance (miles)
+        and drive fee. Returns serviced: false with the site's own message when it's outside
+        every franchise's territory.
+        """
+
+    async def listVehicleTypes(self, /) -> list[Prv_detailxperts_DetailxpertsVehicleType_Out]:
+        """Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …),
+        each with the 1-based position getQuote's vehiclePosition takes.
+        """
+
+    async def getQuote(self, args: Prv_detailxperts_getQuote_args_In, /) -> Prv_detailxperts_DetailxpertsQuote_Out:
+        """Prices a mobile detail for one vehicle type and a dirt/pet-hair/interior-dirt condition
+        (1 light to 3 heavy, per the site's own scale), returning the real 4-package ladder
+        (title, checklist, price, time) with the condition upcharges applied. Call
+        listVehicleTypes() for real vehiclePosition values.
+        """
+
 class Prv_developersopenai(Protocol):
     """OpenAI's own developer documentation site. getDocPage reads one docs page (title,
     canonical URL, full article text) by path — e.g. /api/docs/mcp for the remote MCP server
@@ -26918,6 +26982,7 @@ class BowmarkProviders(Protocol):
     decked: Prv_decked
     decksdirect: Prv_decksdirect
     deltadentalma: Prv_deltadentalma
+    detailxperts: Prv_detailxperts
     developersopenai: Prv_developersopenai
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
