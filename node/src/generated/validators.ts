@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1c13721b514afb33f7d95da69a8fc1efac27b320fe0507304a5a5e6f0eba8eb8
-// 884 checked, 20 unchecked.
+// Manifest version: c1df166886dfb85871c7347687c5c20821f00671d1d914652bff084c5e0b8614
+// 888 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1c13721b514afb33f7d95da69a8fc1efac27b320fe0507304a5a5e6f0eba8eb8",
+  "version": "c1df166886dfb85871c7347687c5c20821f00671d1d914652bff084c5e0b8614",
   "units": {
     "bundles": {
       "defs": {},
@@ -10227,6 +10227,60 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.elase": {
+      "defs": {},
+      "functions": {
+        "listLocations": [],
+        "findLocation": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listServices": [
+          {
+            "name": "centerId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "checkAvailability": [
+          {
+            "name": "centerId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "serviceId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "date",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

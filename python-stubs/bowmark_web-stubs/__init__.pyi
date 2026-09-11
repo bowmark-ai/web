@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1c13721b514afb33f7d95da69a8fc1efac27b320fe0507304a5a5e6f0eba8eb8
-# 45 capabilities, 363 providers, 884 typed functions, 20 refused.
+# Manifest version: c1df166886dfb85871c7347687c5c20821f00671d1d914652bff084c5e0b8614
+# 45 capabilities, 364 providers, 888 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6251,6 +6251,35 @@ class Prv_ebay_ebayItem_Out(TypedDict):
 class Prv_ebay_ebayItem_Out_price_u0_Out(TypedDict):
     value: str
     currency: str
+
+class Prv_elase_ElaseLocationLink_Out(TypedDict):
+    slug: str
+    url: str
+
+class Prv_elase_ElaseLocation_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    centerId: str
+    phone: str | None
+    address: str | None
+    hours: str | None
+
+class Prv_elase_ElaseService_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    durationMinutes: float | None
+    price: float | None
+
+class Prv_elase_ElaseAvailability_Out(TypedDict):
+    centerId: str
+    serviceId: str
+    date: str
+    slots: list[Prv_elase_ElaseSlot_Out]
+
+class Prv_elase_ElaseSlot_Out(TypedDict):
+    time: str
 
 class Prv_elevenlabs_synthesize_args_In(TypedDict):
     text: str
@@ -20190,6 +20219,36 @@ class Prv_ebay(Protocol):
         key — see this provider's `auth`.
         """
 
+class Prv_elase(Protocol):
+    """Elase Med Spa's real location directory, live per-location service catalog, and real
+    open-slot appointment availability — the same Zenoti booking backend the site's own
+    widget calls. Rung 9/11, no browser.
+    """
+
+    async def listLocations(self, /) -> list[Prv_elase_ElaseLocationLink_Out]:
+        """Reads the live list of every Elase Med Spa location (slug + page URL) off the site's own
+        /locations/ directory.
+        """
+
+    async def findLocation(self, query: str, /) -> list[Prv_elase_ElaseLocation_Out]:
+        """Resolves a slug/neighborhood query (e.g. "sugar-house") to the matching real Elase
+        location(s) — name, address, phone, hours, and the Zenoti centerId listServices and
+        checkAvailability need. Call listLocations() first for the real slugs.
+        """
+
+    async def listServices(self, centerId: str, query: str | None = None, /) -> list[Prv_elase_ElaseService_Out]:
+        """Reads one location's real, live service catalog — pass a `centerId` from findLocation(),
+        and an optional search string (e.g. "botox", "consultation") to narrow it; omit it for
+        the full catalog.
+        """
+
+    async def checkAvailability(self, centerId: str, serviceId: str, date: str, /) -> Prv_elase_ElaseAvailability_Out:
+        """Checks real, live open time slots for one service at one location on one "YYYY-MM-DD"
+        date — the same live check Elase's own Zenoti booking widget makes before showing
+        bookable times. An empty `slots` array is the site's real answer (fully booked or closed
+        that day), not an error.
+        """
+
 class Prv_elevenlabs(Protocol):
     """ElevenLabs' own documented REST API (api.elevenlabs.io) — converts text into spoken
     audio in an existing or newly-cloned voice, and clones a new voice from caller-supplied
@@ -27044,6 +27103,7 @@ class BowmarkProviders(Protocol):
     doordash: Prv_doordash
     dumpsters: Prv_dumpsters
     ebay: Prv_ebay
+    elase: Prv_elase
     elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
     epromos: Prv_epromos

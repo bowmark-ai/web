@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1c13721b514afb33f7d95da69a8fc1efac27b320fe0507304a5a5e6f0eba8eb8
-// 45 capabilities, 363 providers, 902 typed functions, 20 refused.
+// Manifest version: c1df166886dfb85871c7347687c5c20821f00671d1d914652bff084c5e0b8614
+// 45 capabilities, 364 providers, 906 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11398,6 +11398,78 @@ interface ebayItem {
      * this provider's `auth`.
      */
     search(args: string | { query: string; limit?: number }): Promise<ebayItem[]>;
+  }
+}
+
+declare namespace BowmarkProvider_elase {
+  // ── Elase Med Spa — the unit's own declarations, verbatim ──
+interface ElaseLocationLink {
+  slug: string;
+  url: string;
+}
+
+interface ElaseLocation {
+  slug: string;
+  name: string;
+  url: string;
+  centerId: string;      // the id listServices and checkAvailability take
+  phone: string | null;
+  address: string | null;
+  hours: string | null;
+}
+
+interface ElaseService {
+  id: string;             // the id checkAvailability takes
+  name: string;
+  description: string | null;
+  durationMinutes: number | null;
+  price: number | null;
+}
+
+interface ElaseSlot {
+  time: string;            // an ISO-ish "YYYY-MM-DDTHH:mm:ss" local time
+}
+
+interface ElaseAvailability {
+  centerId: string;
+  serviceId: string;
+  date: string;
+  slots: ElaseSlot[];      // verbatim — empty is a real answer (fully booked / closed)
+}
+
+  /**
+   * Elase Med Spa's real location directory, live per-location service catalog, and real
+   * open-slot appointment availability — the same Zenoti booking backend the site's own widget
+   * calls. Rung 9/11, no browser.
+   */
+  interface Unit {
+    /**
+     * Reads the live list of every Elase Med Spa location (slug + page URL) off the site's own
+     * /locations/ directory.
+     */
+    listLocations(): Promise<ElaseLocationLink[]>;
+
+    /**
+     * Resolves a slug/neighborhood query (e.g. "sugar-house") to the matching real Elase
+     * location(s) — name, address, phone, hours, and the Zenoti centerId listServices and
+     * checkAvailability need. Call listLocations() first for the real slugs.
+     */
+    findLocation(query: string): Promise<ElaseLocation[]>;
+
+    /**
+     * Reads one location's real, live service catalog — pass a `centerId` from findLocation(), and
+     * an optional search string (e.g. "botox", "consultation") to narrow it; omit it for the full
+     * catalog.
+     */
+    listServices(centerId: string, query?: string): Promise<ElaseService[]>;
+
+    /**
+     * Checks real, live open time slots for one service at one location on one "YYYY-MM-DD" date —
+     * the same live check Elase's own Zenoti booking widget makes before showing bookable times.
+     * An empty `slots` array is the site's real answer (fully booked or closed that day), not an
+     * error.
+     */
+    checkAvailability(centerId: string, serviceId: string, date: string): Promise<ElaseAvailability>;
   }
 }
 
@@ -30983,6 +31055,7 @@ interface BowmarkProviders {
   doordash: BowmarkProvider_doordash.Unit;
   dumpsters: BowmarkProvider_dumpsters.Unit;
   ebay: BowmarkProvider_ebay.Unit;
+  elase: BowmarkProvider_elase.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
   epromos: BowmarkProvider_epromos.Unit;
