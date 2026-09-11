@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d5943d3b64bdc9d3a566ea0410fc77e628afae284ae1f4c9632bec665a7672af
-// 45 capabilities, 365 providers, 908 typed functions, 20 refused.
+// Manifest version: 81c4c86e3fdc16ffe881abfd8542616ab411dab2795fad79c44e737263f2c0e4
+// 45 capabilities, 366 providers, 910 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11677,6 +11677,34 @@ interface Eq3SofaConfiguration {
      * own price contribution. THROWS when the instance does not exist.
      */
     getSofaConfiguration(args: { instanceId: string; categorySlug: string; subcategorySlug: string; productLineSlug: string; productSlug: string }): Promise<Eq3SofaConfiguration>;
+  }
+}
+
+declare namespace BowmarkProvider_equinox_hotels {
+  // ── Equinox Hotels — the unit's own declarations, verbatim ──
+interface EquinoxRoom { code: string; name: string; description: string | null; maxOccupants: number | null; bookingUrl: string; }
+
+interface SearchEquinoxRatesArgs { checkIn: string; checkOut: string; adults?: number; }
+
+interface EquinoxRate { roomCode: string; rateCode: string; description: string | null; currency: string; nightlyBeforeTax: number; nightlyAfterTax: number; stayBeforeTax: number | null; stayAfterTax: number | null; cancellationText: string | null; bookingUrl: string; }
+
+  /**
+   * Equinox Hotel New York's own live room inventory and direct booking rates, including nightly
+   * and stay-total tax-inclusive prices before any guest details are required.
+   */
+  interface Unit {
+    /**
+     * Lists Equinox Hotel New York's live room inventory, including the booking engine's room
+     * code, description, and occupancy limit.
+     */
+    listRooms(): Promise<EquinoxRoom[]>;
+
+    /**
+     * Searches Equinox Hotel New York's own live booking engine for direct rates on
+     * check-in/check-out dates and an adult count. Returns every room/rate plan with nightly and
+     * stay-total prices, not an OTA estimate.
+     */
+    searchRates(args: SearchEquinoxRatesArgs): Promise<EquinoxRate[]>;
   }
 }
 
@@ -31116,6 +31144,7 @@ interface BowmarkProviders {
   embroker: BowmarkProvider_embroker.Unit;
   epromos: BowmarkProvider_epromos.Unit;
   eq3: BowmarkProvider_eq3.Unit;
+  equinox_hotels: BowmarkProvider_equinox_hotels.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
   etsy: BowmarkProvider_etsy.Unit;
   eventsource: BowmarkProvider_eventsource.Unit;

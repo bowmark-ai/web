@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d5943d3b64bdc9d3a566ea0410fc77e628afae284ae1f4c9632bec665a7672af
-# 45 capabilities, 365 providers, 890 typed functions, 20 refused.
+# Manifest version: 81c4c86e3fdc16ffe881abfd8542616ab411dab2795fad79c44e737263f2c0e4
+# 45 capabilities, 366 providers, 892 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6397,6 +6397,30 @@ class Prv_eq3_Eq3OptionItem_Out(TypedDict):
     id: str
     alias: str
     price: float | None
+
+class Prv_equinox_hotels_EquinoxRoom_Out(TypedDict):
+    code: str
+    name: str
+    description: str | None
+    maxOccupants: float | None
+    bookingUrl: str
+
+class Prv_equinox_hotels_SearchEquinoxRatesArgs_In(TypedDict):
+    checkIn: str
+    checkOut: str
+    adults: NotRequired[float]
+
+class Prv_equinox_hotels_EquinoxRate_Out(TypedDict):
+    roomCode: str
+    rateCode: str
+    description: str | None
+    currency: str
+    nightlyBeforeTax: float
+    nightlyAfterTax: float
+    stayBeforeTax: float | None
+    stayAfterTax: float | None
+    cancellationText: str | None
+    bookingUrl: str
 
 class Prv_erieinsurance_ErieAgentQuery_In(TypedDict):
     zip: NotRequired[str]
@@ -20359,6 +20383,22 @@ class Prv_eq3(Protocol):
         each item's own price contribution. THROWS when the instance does not exist.
         """
 
+class Prv_equinox_hotels(Protocol):
+    """Equinox Hotel New York's own live room inventory and direct booking rates, including
+    nightly and stay-total tax-inclusive prices before any guest details are required.
+    """
+
+    async def listRooms(self, /) -> list[Prv_equinox_hotels_EquinoxRoom_Out]:
+        """Lists Equinox Hotel New York's live room inventory, including the booking engine's room
+        code, description, and occupancy limit.
+        """
+
+    async def searchRates(self, args: Prv_equinox_hotels_SearchEquinoxRatesArgs_In, /) -> list[Prv_equinox_hotels_EquinoxRate_Out]:
+        """Searches Equinox Hotel New York's own live booking engine for direct rates on
+        check-in/check-out dates and an adult count. Returns every room/rate plan with nightly
+        and stay-total prices, not an OTA estimate.
+        """
+
 class Prv_erieinsurance(Protocol):
     """ERIE Insurance — agent-distributed auto/home/life/business carrier; quotes, agent +
     repair-shop lookup, claim status.
@@ -27165,6 +27205,7 @@ class BowmarkProviders(Protocol):
     embroker: Prv_embroker
     epromos: Prv_epromos
     eq3: Prv_eq3
+    equinox_hotels: Prv_equinox_hotels
     erieinsurance: Prv_erieinsurance
     etsy: Prv_etsy
     eventsource: Prv_eventsource

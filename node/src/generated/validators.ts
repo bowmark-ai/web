@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d5943d3b64bdc9d3a566ea0410fc77e628afae284ae1f4c9632bec665a7672af
-// 890 checked, 20 unchecked.
+// Manifest version: 81c4c86e3fdc16ffe881abfd8542616ab411dab2795fad79c44e737263f2c0e4
+// 892 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d5943d3b64bdc9d3a566ea0410fc77e628afae284ae1f4c9632bec665a7672af",
+  "version": "81c4c86e3fdc16ffe881abfd8542616ab411dab2795fad79c44e737263f2c0e4",
   "units": {
     "bundles": {
       "defs": {},
@@ -10477,6 +10477,49 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.equinox_hotels": {
+      "defs": {
+        "SearchEquinoxRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listRooms": [],
+        "searchRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchEquinoxRatesArgs"
             },
             "optional": false
           }

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1333 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1335 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -405,6 +405,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eq3.configureSofa` | eq3.com | Would price an ARBITRARY caller-chosen combination of options (not one of the site's… | ⚪ |
 | `eq3.getSofaConfiguration` | eq3.com | Reads one sofa's full configurator: the site's own computed price (regular + sale) for… | 🟢 |
 | `eq3.listSofas` | eq3.com | Lists every sofa in EQ3's living/seating/sofas line with real regular and sale prices… | 🟢 |
+| `equinox_hotels.listRooms` | equinox-hotels.com | Lists Equinox Hotel New York's live room inventory with booking-engine room codes… | 🟢 |
+| `equinox_hotels.searchRates` | equinox-hotels.com | Searches Equinox Hotel New York's live booking engine for dates and guests, returning… | 🟢 |
 | `erieinsurance.findAgent` | erieinsurance.com | Finds ERIE independent agents near a ZIP or city+state — agency name, the named agent… | 🟢 |
 | `erieinsurance.findRepairShop` | erieinsurance.com | Finds ERIE-network auto body repair shops near a ZIP or address for a policyholder… | ⚪ |
 | `erieinsurance.getAutoQuote` | erieinsurance.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP — the… | ⚪ |

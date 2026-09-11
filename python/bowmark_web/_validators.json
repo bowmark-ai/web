@@ -1,5 +1,5 @@
 {
-  "version": "d5943d3b64bdc9d3a566ea0410fc77e628afae284ae1f4c9632bec665a7672af",
+  "version": "81c4c86e3fdc16ffe881abfd8542616ab411dab2795fad79c44e737263f2c0e4",
   "units": {
     "bundles": {
       "defs": {},
@@ -10465,6 +10465,49 @@
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.equinox_hotels": {
+      "defs": {
+        "SearchEquinoxRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "checkIn",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOut",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "adults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listRooms": [],
+        "searchRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchEquinoxRatesArgs"
             },
             "optional": false
           }
