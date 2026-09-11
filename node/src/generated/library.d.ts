@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 81c4c86e3fdc16ffe881abfd8542616ab411dab2795fad79c44e737263f2c0e4
-// 45 capabilities, 366 providers, 910 typed functions, 20 refused.
+// Manifest version: 12940343b1f8c9228a6b145e3e5125fe143419901694198fcc8789af04b5dc2e
+// 45 capabilities, 367 providers, 913 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11915,6 +11915,31 @@ type ShadeQuizAnswerResult =
      * page is skipped automatically.
      */
     answerShadeQuizQuestion(quizResponseId: string, questionPageId: string, questionId: string, optionId: string): Promise<ShadeQuizAnswerResult>;
+  }
+}
+
+declare namespace BowmarkProvider_evolvemedspa {
+  // ── Evolve Med Spa — the unit's own declarations, verbatim ──
+interface EvolveMedSpaLocation { id: string; name: string; address: string | null; phone: string | null; }
+interface EvolveMedSpaService { id: string; name: string; description: string | null; durationMinutes: number | null; price: number | null; }
+interface EvolveMedSpaAvailability { centerId: string; serviceId: string; date: string; slots: { time: string }[]; }
+
+  /**
+   * Evolve Med Spa's live Zenoti locations, service catalog, and bookable appointment slots — no
+   * login, no PII, and no browser.
+   */
+  interface Unit {
+    /** Lists Evolve Med Spa's real bookable Zenoti locations. */
+    listLocations(): Promise<EvolveMedSpaLocation[]>;
+
+    /** Lists a location's live Zenoti services, prices, and durations. */
+    listServices(centerId: string, query?: string): Promise<EvolveMedSpaService[]>;
+
+    /**
+     * Reads real open appointment slots for a service and date; an empty list is a real
+     * fully-booked answer.
+     */
+    checkAvailability(centerId: string, serviceId: string, date: string): Promise<EvolveMedSpaAvailability>;
   }
 }
 
@@ -31149,6 +31174,7 @@ interface BowmarkProviders {
   etsy: BowmarkProvider_etsy.Unit;
   eventsource: BowmarkProvider_eventsource.Unit;
   evolutionofsmooth: BowmarkProvider_evolutionofsmooth.Unit;
+  evolvemedspa: BowmarkProvider_evolvemedspa.Unit;
   executivehomecare: BowmarkProvider_executivehomecare.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;

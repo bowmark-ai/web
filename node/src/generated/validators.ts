@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 81c4c86e3fdc16ffe881abfd8542616ab411dab2795fad79c44e737263f2c0e4
-// 892 checked, 20 unchecked.
+// Manifest version: 12940343b1f8c9228a6b145e3e5125fe143419901694198fcc8789af04b5dc2e
+// 895 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "81c4c86e3fdc16ffe881abfd8542616ab411dab2795fad79c44e737263f2c0e4",
+  "version": "12940343b1f8c9228a6b145e3e5125fe143419901694198fcc8789af04b5dc2e",
   "units": {
     "bundles": {
       "defs": {},
@@ -10687,6 +10687,51 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "optionId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.evolvemedspa": {
+      "defs": {},
+      "functions": {
+        "listLocations": [],
+        "listServices": [
+          {
+            "name": "centerId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "checkAvailability": [
+          {
+            "name": "centerId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "serviceId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "date",
             "schema": {
               "k": "string"
             },

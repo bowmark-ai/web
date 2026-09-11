@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 81c4c86e3fdc16ffe881abfd8542616ab411dab2795fad79c44e737263f2c0e4
-# 45 capabilities, 366 providers, 892 typed functions, 20 refused.
+# Manifest version: 12940343b1f8c9228a6b145e3e5125fe143419901694198fcc8789af04b5dc2e
+# 45 capabilities, 367 providers, 895 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6545,6 +6545,28 @@ class Prv_evolutionofsmooth_ShadeResult_Out(TypedDict):
     productId: str
     variantId: str
     description: str
+
+class Prv_evolvemedspa_EvolveMedSpaLocation_Out(TypedDict):
+    id: str
+    name: str
+    address: str | None
+    phone: str | None
+
+class Prv_evolvemedspa_EvolveMedSpaService_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    durationMinutes: float | None
+    price: float | None
+
+class Prv_evolvemedspa_EvolveMedSpaAvailability_Out(TypedDict):
+    centerId: str
+    serviceId: str
+    date: str
+    slots: list[Prv_evolvemedspa_EvolveMedSpaAvailability_Out_slots_item_Out]
+
+class Prv_evolvemedspa_EvolveMedSpaAvailability_Out_slots_item_Out(TypedDict):
+    time: str
 
 class Prv_executivehomecare_FindLocalOfficeResult_Out(TypedDict):
     zip: str
@@ -20476,6 +20498,22 @@ class Prv_evolutionofsmooth(Protocol):
         email-capture page is skipped automatically.
         """
 
+class Prv_evolvemedspa(Protocol):
+    """Evolve Med Spa's live Zenoti locations, service catalog, and bookable appointment slots
+    — no login, no PII, and no browser.
+    """
+
+    async def listLocations(self, /) -> list[Prv_evolvemedspa_EvolveMedSpaLocation_Out]:
+        """Lists Evolve Med Spa's real bookable Zenoti locations."""
+
+    async def listServices(self, centerId: str, query: str | None = None, /) -> list[Prv_evolvemedspa_EvolveMedSpaService_Out]:
+        """Lists a location's live Zenoti services, prices, and durations."""
+
+    async def checkAvailability(self, centerId: str, serviceId: str, date: str, /) -> Prv_evolvemedspa_EvolveMedSpaAvailability_Out:
+        """Reads real open appointment slots for a service and date; an empty list is a real
+        fully-booked answer.
+        """
+
 class Prv_executivehomecare(Protocol):
     """Non-medical senior/home-care franchise network. findLocalOffice is live — the same
     ZIP-to-franchise lookup the site's "Find a Location" widget runs, given a ZIP: which
@@ -27210,6 +27248,7 @@ class BowmarkProviders(Protocol):
     etsy: Prv_etsy
     eventsource: Prv_eventsource
     evolutionofsmooth: Prv_evolutionofsmooth
+    evolvemedspa: Prv_evolvemedspa
     executivehomecare: Prv_executivehomecare
     extraspace: Prv_extraspace
     facerealityskincare: Prv_facerealityskincare
