@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c1df166886dfb85871c7347687c5c20821f00671d1d914652bff084c5e0b8614
-// 45 capabilities, 364 providers, 906 typed functions, 20 refused.
+// Manifest version: 9093030cf5ff8056233c06510bcae319b5c55d35cc6327a7d419c4bdd65b3944
+// 45 capabilities, 365 providers, 908 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -28847,6 +28847,62 @@ interface uspsRateOption {
   }
 }
 
+declare namespace BowmarkProvider_vbt {
+  // ── VBT Vacations — the unit's own declarations, verbatim ──
+interface VbtTourListing {
+  slug: string;         // e.g. "dolomites-self-guided-bike-tour"
+  url: string;           // full https://www.vbt.com/... tour page URL
+  region: string;        // e.g. "europe"
+  country: string;       // e.g. "italy"
+  lastmod: string | null;
+}
+interface VbtPackageOption {
+  durationDays: number;
+  fromPrice: number;     // per-person starting price, USD
+}
+interface VbtDeparture {
+  id: string;
+  departureDate: string;         // ISO date
+  returnDate: string | null;     // ISO date
+  stopSellFlag: boolean;         // VBT's own "sales closed" signal, not live seat count
+  status: string | null;
+  deposit: string | null;
+  finalPaymentDate: string | null;
+}
+interface VbtTourDepartures {
+  tourId: string;
+  tourName: string;
+  tourUrl: string;
+  packageOptions: { tour: VbtPackageOption; tourPlusTravelPackage: VbtPackageOption };
+  departures: VbtDeparture[];
+  bookingUrl: string;   // the same page — VBT's own "View Dates & Book" is client-rendered here
+}
+
+  /**
+   * Reads VBT's own tour pages — every self-guided/guided bike and walking tour it sells — and
+   * returns its current departure dates, stop-sell flags and Tour-Only / Tour+Travel-Package
+   * starting prices straight out of the page's own server-rendered data, no browser.
+   */
+  interface Unit {
+    /**
+     * Lists every tour VBT publishes today, straight off vbt.com's own sitemap.xml — slug, full
+     * tour URL and region/country for every /destinations/<region>/<country>/<slug> entry (108
+     * tours measured 2026-09-11). The entry point: pass any returned `url` or `slug` into
+     * `getTourDepartures`.
+     */
+    listTours(): Promise<{ tours: VbtTourListing[] }>;
+
+    /**
+     * Reads one VBT tour's own page (full URL from `listTours`, or just its slug, e.g.
+     * `"dolomites-self-guided-bike-tour"`) and returns its Tour-Only and Tour+Travel-Package
+     * starting prices plus every listed departure — date, VBT's own stop-sell flag, return date,
+     * deposit and final-payment date — exactly as published today, with the page URL as the
+     * booking handoff. Throws if the slug does not resolve to a real tour.
+     */
+    getTourDepartures(tourUrlOrSlug: string): Promise<VbtTourDepartures>;
+  }
+}
+
 declare namespace BowmarkProvider_vervecoffee {
   // ── Verve Coffee Roasters — the unit's own declarations, verbatim ──
 interface VervecoffeeSubscription {
@@ -31264,6 +31320,7 @@ interface BowmarkProviders {
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   ups: BowmarkProvider_ups.Unit;
   usps: BowmarkProvider_usps.Unit;
+  vbt: BowmarkProvider_vbt.Unit;
   vervecoffee: BowmarkProvider_vervecoffee.Unit;
   vessi: BowmarkProvider_vessi.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;

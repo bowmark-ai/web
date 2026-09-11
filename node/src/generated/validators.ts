@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c1df166886dfb85871c7347687c5c20821f00671d1d914652bff084c5e0b8614
-// 888 checked, 20 unchecked.
+// Manifest version: 9093030cf5ff8056233c06510bcae319b5c55d35cc6327a7d419c4bdd65b3944
+// 890 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c1df166886dfb85871c7347687c5c20821f00671d1d914652bff084c5e0b8614",
+  "version": "9093030cf5ff8056233c06510bcae319b5c55d35cc6327a7d419c4bdd65b3944",
   "units": {
     "bundles": {
       "defs": {},
@@ -26832,6 +26832,21 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.vbt": {
+      "defs": {},
+      "functions": {
+        "listTours": [],
+        "getTourDepartures": [
+          {
+            "name": "tourUrlOrSlug",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

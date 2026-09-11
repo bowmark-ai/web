@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c1df166886dfb85871c7347687c5c20821f00671d1d914652bff084c5e0b8614
-# 45 capabilities, 364 providers, 888 typed functions, 20 refused.
+# Manifest version: 9093030cf5ff8056233c06510bcae319b5c55d35cc6327a7d419c4bdd65b3944
+# 45 capabilities, 365 providers, 890 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15225,6 +15225,41 @@ class Prv_usps_uspsRateOption_Out(TypedDict):
     deliveryDay: str | None
     flatRateBox: str | None
 
+class Prv_vbt_listTours_return_Out(TypedDict):
+    tours: list[Prv_vbt_VbtTourListing_Out]
+
+class Prv_vbt_VbtTourListing_Out(TypedDict):
+    slug: str
+    url: str
+    region: str
+    country: str
+    lastmod: str | None
+
+class Prv_vbt_VbtTourDepartures_Out(TypedDict):
+    tourId: str
+    tourName: str
+    tourUrl: str
+    packageOptions: Prv_vbt_VbtTourDepartures_Out_packageOptions_Out
+    departures: list[Prv_vbt_VbtDeparture_Out]
+    bookingUrl: str
+
+class Prv_vbt_VbtTourDepartures_Out_packageOptions_Out(TypedDict):
+    tour: Prv_vbt_VbtPackageOption_Out
+    tourPlusTravelPackage: Prv_vbt_VbtPackageOption_Out
+
+class Prv_vbt_VbtPackageOption_Out(TypedDict):
+    durationDays: float
+    fromPrice: float
+
+class Prv_vbt_VbtDeparture_Out(TypedDict):
+    id: str
+    departureDate: str
+    returnDate: str | None
+    stopSellFlag: bool
+    status: str | None
+    deposit: str | None
+    finalPaymentDate: str | None
+
 class Prv_vervecoffee_VervecoffeeSubscription_Out(TypedDict):
     id: str
     handle: str
@@ -26496,6 +26531,28 @@ class Prv_usps(Protocol):
         Postage Price Calculator's own numbers. Needs no API key.
         """
 
+class Prv_vbt(Protocol):
+    """Reads VBT's own tour pages — every self-guided/guided bike and walking tour it sells —
+    and returns its current departure dates, stop-sell flags and Tour-Only /
+    Tour+Travel-Package starting prices straight out of the page's own server-rendered data,
+    no browser.
+    """
+
+    async def listTours(self, /) -> Prv_vbt_listTours_return_Out:
+        """Lists every tour VBT publishes today, straight off vbt.com's own sitemap.xml — slug,
+        full tour URL and region/country for every /destinations/<region>/<country>/<slug> entry
+        (108 tours measured 2026-09-11). The entry point: pass any returned `url` or `slug` into
+        `getTourDepartures`.
+        """
+
+    async def getTourDepartures(self, tourUrlOrSlug: str, /) -> Prv_vbt_VbtTourDepartures_Out:
+        """Reads one VBT tour's own page (full URL from `listTours`, or just its slug, e.g.
+        `"dolomites-self-guided-bike-tour"`) and returns its Tour-Only and Tour+Travel-Package
+        starting prices plus every listed departure — date, VBT's own stop-sell flag, return
+        date, deposit and final-payment date — exactly as published today, with the page URL as
+        the booking handoff. Throws if the slug does not resolve to a real tour.
+        """
+
 class Prv_vervecoffee(Protocol):
     """Verve Coffee Roasters' Roaster's Choice subscription catalog and its real 'Find Your
     Coffee Match' quiz (Octane AI-powered) — drives the same 5 questions the live site asks
@@ -27312,6 +27369,7 @@ class BowmarkProviders(Protocol):
     ulrichlifestyle: Prv_ulrichlifestyle
     ups: Prv_ups
     usps: Prv_usps
+    vbt: Prv_vbt
     vervecoffee: Prv_vervecoffee
     vessi: Prv_vessi
     viewrail: Prv_viewrail
