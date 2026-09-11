@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 12940343b1f8c9228a6b145e3e5125fe143419901694198fcc8789af04b5dc2e
-// 895 checked, 20 unchecked.
+// Manifest version: 5a8e29a969d36b3db2f6f12e369b20c1ad03e4bd7d138f26030027af19a3b621
+// 898 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "12940343b1f8c9228a6b145e3e5125fe143419901694198fcc8789af04b5dc2e",
+  "version": "5a8e29a969d36b3db2f6f12e369b20c1ad03e4bd7d138f26030027af19a3b621",
   "units": {
     "bundles": {
       "defs": {},
@@ -10850,6 +10850,51 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "unitSize",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.faceforwardaesthetics": {
+      "defs": {},
+      "functions": {
+        "listLocations": [],
+        "listServices": [
+          {
+            "name": "centerId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "checkAvailability": [
+          {
+            "name": "centerId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "serviceId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "date",
             "schema": {
               "k": "string"
             },

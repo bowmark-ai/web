@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1338 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1341 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -441,6 +441,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
 | `extraspace.search` | extraspace.com | Searches Extra Space Storage's live facility inventory the way its own homepage… | 🟢 |
+| `faceforwardaesthetics.checkAvailability` | faceforwardaesthetics.com | Reads real open appointment slots for a service and date. | 🟢 |
+| `faceforwardaesthetics.listLocations` | faceforwardaesthetics.com | Lists Face Forward Aesthetics' real bookable Zenoti locations (9 centers, OH/IN/NV/PA). | 🟢 |
+| `faceforwardaesthetics.listServices` | faceforwardaesthetics.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
 | `facerealityskincare.searchAcneExperts` | facerealityskincare.com | Runs Face Reality's own Acne Expert Locator search — matches a free-text query (city… | 🟢 |
 | `fieldstonehomes.getAppointmentFormSchema` | fieldstonehomes.com | Reads Fieldstone Homes' live schedule-appointment form, including its required fields… | 🟢 |
 | `fieldstonehomes.prepareAppointment` | fieldstonehomes.com | Validates an appointment request against Fieldstone Homes' live form and returns the… | 🟢 |

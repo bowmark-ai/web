@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 12940343b1f8c9228a6b145e3e5125fe143419901694198fcc8789af04b5dc2e
-# 45 capabilities, 367 providers, 895 typed functions, 20 refused.
+# Manifest version: 5a8e29a969d36b3db2f6f12e369b20c1ad03e4bd7d138f26030027af19a3b621
+# 45 capabilities, 368 providers, 898 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6739,6 +6739,28 @@ class Prv_extraspace_ExtraspaceUnitAvailability_Out(TypedDict):
     webRate: float | None
     promotions: list[str]
     features: list[str]
+
+class Prv_faceforwardaesthetics_FaceForwardAestheticsLocation_Out(TypedDict):
+    id: str
+    name: str
+    address: str | None
+    phone: str | None
+
+class Prv_faceforwardaesthetics_FaceForwardAestheticsService_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    durationMinutes: float | None
+    price: float | None
+
+class Prv_faceforwardaesthetics_FaceForwardAestheticsAvailability_Out(TypedDict):
+    centerId: str
+    serviceId: str
+    date: str
+    slots: list[Prv_faceforwardaesthetics_FaceForwardAestheticsAvailability_Out_slots_item_Out]
+
+class Prv_faceforwardaesthetics_FaceForwardAestheticsAvailability_Out_slots_item_Out(TypedDict):
+    time: str
 
 class Prv_facerealityskincare_FaceRealitySkincareEstheticianRow_Out(TypedDict):
     id: str
@@ -20599,6 +20621,22 @@ class Prv_extraspace(Protocol):
         `<number>x<number>` is a caller error.
         """
 
+class Prv_faceforwardaesthetics(Protocol):
+    """Face Forward Aesthetics' live Zenoti locations, service catalog, and bookable
+    appointment slots — no login, no PII, and no browser.
+    """
+
+    async def listLocations(self, /) -> list[Prv_faceforwardaesthetics_FaceForwardAestheticsLocation_Out]:
+        """Lists Face Forward Aesthetics' real bookable Zenoti locations (9 centers, OH/IN/NV/PA)."""
+
+    async def listServices(self, centerId: str, query: str | None = None, /) -> list[Prv_faceforwardaesthetics_FaceForwardAestheticsService_Out]:
+        """Lists a location's live Zenoti services, prices, and durations."""
+
+    async def checkAvailability(self, centerId: str, serviceId: str, date: str, /) -> Prv_faceforwardaesthetics_FaceForwardAestheticsAvailability_Out:
+        """Reads real open appointment slots for a service and date; an empty list is a real
+        fully-booked answer.
+        """
+
 class Prv_facerealityskincare(Protocol):
     """Face Reality's own Acne Expert Locator
     (facerealityskincare.com/pages/acne-expert-locator) — a free-text search over its live
@@ -27251,6 +27289,7 @@ class BowmarkProviders(Protocol):
     evolvemedspa: Prv_evolvemedspa
     executivehomecare: Prv_executivehomecare
     extraspace: Prv_extraspace
+    faceforwardaesthetics: Prv_faceforwardaesthetics
     facerealityskincare: Prv_facerealityskincare
     fieldstonehomes: Prv_fieldstonehomes
     firstamericahomes: Prv_firstamericahomes

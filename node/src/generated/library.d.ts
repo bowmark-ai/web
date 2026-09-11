@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 12940343b1f8c9228a6b145e3e5125fe143419901694198fcc8789af04b5dc2e
-// 45 capabilities, 367 providers, 913 typed functions, 20 refused.
+// Manifest version: 5a8e29a969d36b3db2f6f12e369b20c1ad03e4bd7d138f26030027af19a3b621
+// 45 capabilities, 368 providers, 916 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12224,6 +12224,31 @@ interface ExtraspaceUnitAvailability {
      * only a string that cannot be PARSED as `<number>x<number>` is a caller error.
      */
     checkAvailability(storeId: number | string, unitSize: string): Promise<ExtraspaceAvailabilityResult>;
+  }
+}
+
+declare namespace BowmarkProvider_faceforwardaesthetics {
+  // ── Face Forward Aesthetics — the unit's own declarations, verbatim ──
+interface FaceForwardAestheticsLocation { id: string; name: string; address: string | null; phone: string | null; }
+interface FaceForwardAestheticsService { id: string; name: string; description: string | null; durationMinutes: number | null; price: number | null; }
+interface FaceForwardAestheticsAvailability { centerId: string; serviceId: string; date: string; slots: { time: string }[]; }
+
+  /**
+   * Face Forward Aesthetics' live Zenoti locations, service catalog, and bookable appointment
+   * slots — no login, no PII, and no browser.
+   */
+  interface Unit {
+    /** Lists Face Forward Aesthetics' real bookable Zenoti locations (9 centers, OH/IN/NV/PA). */
+    listLocations(): Promise<FaceForwardAestheticsLocation[]>;
+
+    /** Lists a location's live Zenoti services, prices, and durations. */
+    listServices(centerId: string, query?: string): Promise<FaceForwardAestheticsService[]>;
+
+    /**
+     * Reads real open appointment slots for a service and date; an empty list is a real
+     * fully-booked answer.
+     */
+    checkAvailability(centerId: string, serviceId: string, date: string): Promise<FaceForwardAestheticsAvailability>;
   }
 }
 
@@ -31177,6 +31202,7 @@ interface BowmarkProviders {
   evolvemedspa: BowmarkProvider_evolvemedspa.Unit;
   executivehomecare: BowmarkProvider_executivehomecare.Unit;
   extraspace: BowmarkProvider_extraspace.Unit;
+  faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
   firstamericahomes: BowmarkProvider_firstamericahomes.Unit;
