@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9093030cf5ff8056233c06510bcae319b5c55d35cc6327a7d419c4bdd65b3944
+// Manifest version: d5943d3b64bdc9d3a566ea0410fc77e628afae284ae1f4c9632bec665a7672af
 // 45 capabilities, 365 providers, 908 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -28865,7 +28865,7 @@ interface VbtDeparture {
   departureDate: string;         // ISO date
   returnDate: string | null;     // ISO date
   stopSellFlag: boolean;         // VBT's own "sales closed" signal, not live seat count
-  status: string | null;
+  status: string | null;  // the site's own labels — read the values off a result, never guess one from prose
   deposit: string | null;
   finalPaymentDate: string | null;
 }
