@@ -1,5 +1,5 @@
 {
-  "version": "5a8e29a969d36b3db2f6f12e369b20c1ad03e4bd7d138f26030027af19a3b621",
+  "version": "5010bc0b6738f87863c533210127aceca544299a0fa563372a23fbd1e963bafd",
   "units": {
     "bundles": {
       "defs": {},
@@ -2676,7 +2676,48 @@
       }
     },
     "web_form_fields": {
-      "defs": {},
+      "defs": {
+        "FormOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "strategy",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "auto"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fetch"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "browser"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "open",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "getFields": [
           {
@@ -2685,6 +2726,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "FormOptions"
+            },
+            "optional": true
           }
         ]
       }

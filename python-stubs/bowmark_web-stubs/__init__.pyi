@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5a8e29a969d36b3db2f6f12e369b20c1ad03e4bd7d138f26030027af19a3b621
+# Manifest version: 5010bc0b6738f87863c533210127aceca544299a0fa563372a23fbd1e963bafd
 # 45 capabilities, 368 providers, 898 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -1484,23 +1484,36 @@ class Cap_weather_ForecastDay_Out(TypedDict):
     weatherCode: float
     summary: str
 
+class Cap_web_form_fields_FormOptions_In(TypedDict):
+    strategy: NotRequired[Literal["auto"] | Literal["fetch"] | Literal["browser"]]
+    open: NotRequired[str]
+    timeoutMs: NotRequired[float]
+
 class Cap_web_form_fields_FormInspectionResult_Out(TypedDict):
     url: str
     title: str | None
     forms: list[Cap_web_form_fields_InspectedForm_Out]
     fieldCount: float
+    servedBy: Literal["fetch"] | Literal["browser"]
+    escalated: bool
+    escalationReason: str | None
+    openedWith: str | None
+    multiStep: bool
+    stepLabel: str | None
     warnings: list[str]
 
 class Cap_web_form_fields_InspectedForm_Out(TypedDict):
     action: str | None
     method: str
     fields: list[Cap_web_form_fields_FormField_Out]
+    frameUrl: NotRequired[str | None]
 
 class Cap_web_form_fields_FormField_Out(TypedDict):
     name: str | None
     label: str | None
     type: str
     required: bool
+    options: NotRequired[list[str]]
 
 class Cap_wireless_compareAllInPrice_arg_In(TypedDict):
     lineCount: float
@@ -17082,15 +17095,18 @@ class Cap_weather(Protocol):
         """
 
 class Cap_web_form_fields(Protocol):
-    """Fetches a public web page and inventories every visible form field: its label, name,
-    type and required-ness. Read-only: it never fills or submits a form.
+    """Inventories every field a web form asks for — label, name, type, choices and
+    required-ness — including a booking or quote widget that only appears after a click and
+    mounts in its own iframe. Read-only: it never fills or submits a form.
     """
 
-    async def getFields(self, url: str, /) -> Cap_web_form_fields_FormInspectionResult_Out:
-        """Reads a public page and returns its forms plus a total field count. Each field includes
-        its label when the markup supplies one, name, type and required-ness. It never fills,
-        clicks or submits anything; a page with client-rendered forms or no HTML form gets an
-        honest warning.
+    async def getFields(self, url: str, options: Cap_web_form_fields_FormOptions_In | None = None, /) -> Cap_web_form_fields_FormInspectionResult_Out:
+        """Reads a page and returns its forms plus a total field count, each field with its label,
+        name, type, choices and required-ness. Takes a plain GET first and opens a browser only
+        when that finds no fields — then it clicks the control that reveals the form (a `Book
+        Online` button, say) and reads the widget's own cross-origin iframe. It clicks exactly
+        that one control: it never types, never picks an option and never submits, so a
+        multi-step flow comes back as the visible step plus `multiStep: true`.
         """
 
 class Cap_wireless(Protocol):

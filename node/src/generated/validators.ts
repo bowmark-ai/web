@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5a8e29a969d36b3db2f6f12e369b20c1ad03e4bd7d138f26030027af19a3b621
+// Manifest version: 5010bc0b6738f87863c533210127aceca544299a0fa563372a23fbd1e963bafd
 // 898 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5a8e29a969d36b3db2f6f12e369b20c1ad03e4bd7d138f26030027af19a3b621",
+  "version": "5010bc0b6738f87863c533210127aceca544299a0fa563372a23fbd1e963bafd",
   "units": {
     "bundles": {
       "defs": {},
@@ -2688,7 +2688,48 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "web_form_fields": {
-      "defs": {},
+      "defs": {
+        "FormOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "strategy",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "auto"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "fetch"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "browser"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "open",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "getFields": [
           {
@@ -2697,6 +2738,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "FormOptions"
+            },
+            "optional": true
           }
         ]
       }

@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5a8e29a969d36b3db2f6f12e369b20c1ad03e4bd7d138f26030027af19a3b621
+// Manifest version: 5010bc0b6738f87863c533210127aceca544299a0fa563372a23fbd1e963bafd
 // 45 capabilities, 368 providers, 916 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2613,21 +2613,44 @@ interface ForecastResult {
 declare namespace BowmarkCapability_web_form_fields {
   // ── Inspect a web form and count its fields — the unit's own declarations, verbatim ──
 
-interface FormField { name: string | null; label: string | null; type: string; required: boolean }
-interface InspectedForm { action: string | null; method: string; fields: FormField[] }
-interface FormInspectionResult { url: string; title: string | null; forms: InspectedForm[]; fieldCount: number; warnings: string[] }
+interface FormField { name: string | null; label: string | null; type: string; required: boolean; options?: string[] }
+interface InspectedForm { action: string | null; method: string; fields: FormField[]; frameUrl?: string | null }
+
+type FormOptions = {
+  strategy?: "auto" | "fetch" | "browser"  // default "auto" — plain GET, browser only if it found nothing
+  open?: string                            // the control that opens the form: a CSS selector or its visible text
+  timeoutMs?: number                       // default 30000
+}
+
+type FormInspectionResult = {
+  url: string
+  title: string | null
+  forms: InspectedForm[]
+  fieldCount: number
+  servedBy: "fetch" | "browser"      // which rung paid for this
+  escalated: boolean                 // the GET was tried and found nothing
+  escalationReason: string | null    // set even under strategy:"fetch", so under-reading is visible
+  openedWith: string | null          // the control that was clicked to reveal the form
+  multiStep: boolean                 // more steps follow; the count is the visible step only
+  stepLabel: string | null           // the form's own "Step 2 of 4", when it prints one
+  warnings: string[]
+}
 
   /**
-   * Fetches a public web page and inventories every visible form field: its label, name, type
-   * and required-ness. Read-only: it never fills or submits a form.
+   * Inventories every field a web form asks for — label, name, type, choices and required-ness —
+   * including a booking or quote widget that only appears after a click and mounts in its own
+   * iframe. Read-only: it never fills or submits a form.
    */
   interface Unit {
     /**
-     * Reads a public page and returns its forms plus a total field count. Each field includes its
-     * label when the markup supplies one, name, type and required-ness. It never fills, clicks or
-     * submits anything; a page with client-rendered forms or no HTML form gets an honest warning.
+     * Reads a page and returns its forms plus a total field count, each field with its label,
+     * name, type, choices and required-ness. Takes a plain GET first and opens a browser only when
+     * that finds no fields — then it clicks the control that reveals the form (a `Book Online`
+     * button, say) and reads the widget's own cross-origin iframe. It clicks exactly that one
+     * control: it never types, never picks an option and never submits, so a multi-step flow comes
+     * back as the visible step plus `multiStep: true`.
      */
-    getFields(url: string): Promise<FormInspectionResult>;
+    getFields(url: string, options?: FormOptions): Promise<FormInspectionResult>;
   }
 }
 
