@@ -6,6 +6,17 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.18.0 (2026-09-11)
+
+**Providers**
+
+- New provider **elase.com** (4 functions): `elase.checkAvailability`, `elase.findLocation`, `elase.listLocations`, `elase.listServices`
+- New provider **equinox-hotels.com** (2 functions): `equinox_hotels.listRooms`, `equinox_hotels.searchRates`
+- New provider **evolvemedspa.com** (3 functions): `evolvemedspa.checkAvailability`, `evolvemedspa.listLocations`, `evolvemedspa.listServices`
+- New provider **vbt.com** (2 functions): `vbt.getTourDepartures`, `vbt.listTours`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.17.0 (2026-09-10)
 
 **Capabilities**
