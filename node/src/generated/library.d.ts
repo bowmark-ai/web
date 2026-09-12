@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2a33b4512e3c776fd921176df02e958ce77daf4c119f63c86122703203d9058e
-// 45 capabilities, 370 providers, 918 typed functions, 20 refused.
+// Manifest version: a45b9834642400241b3c7fa383e43dca522f4769a8d75585cb94a56642f6ab71
+// 45 capabilities, 371 providers, 920 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12522,6 +12522,56 @@ interface FirstdibsListing {
      * Contact Seller, whichever this seller has enabled.
      */
     getListing(url: string): Promise<FirstdibsListing>;
+  }
+}
+
+declare namespace BowmarkProvider_fitness1440 {
+  // ── FITNESS:1440 — the unit's own declarations, verbatim ──
+// FITNESS:1440's OWN shapes — not a capability contract.
+
+interface Fitness1440Location {
+  state: string;
+  city: string;
+}
+
+interface Fitness1440ListLocationsArgs {
+  state?: string;
+}
+
+interface Fitness1440ListLocationsResult {
+  locations: Fitness1440Location[];
+  states: string[];
+}
+
+interface Fitness1440DayPassRequestArgs {
+  state: string;
+  city: string;
+}
+
+interface Fitness1440DayPassRequestInfo {
+  state: string;
+  city: string;
+  requestUrl: string; // the WRITE handoff this provider never submits
+  requiredFields: string[];
+}
+
+  /**
+   * FITNESS:1440's own live day-pass request form (/request-day-pass/) — the real state → city
+   * cascade of clubs currently taking free day-pass requests, off the site's own server-rendered
+   * form, plus the form's own handoff for one confirmed location.
+   */
+  interface Unit {
+    /**
+     * Reads FITNESS:1440's own live day-pass form and returns the state → city cascade it
+     * currently renders, optionally filtered to one state.
+     */
+    listLocations(args?: Fitness1440ListLocationsArgs): Promise<Fitness1440ListLocationsResult>;
+
+    /**
+     * Validates one state/city pair against the live cascade and returns the day-pass form's own
+     * URL and required fields — the handoff a caller completes the request at.
+     */
+    getDayPassRequestInfo(args: Fitness1440DayPassRequestArgs): Promise<Fitness1440DayPassRequestInfo>;
   }
 }
 
@@ -31344,6 +31394,7 @@ interface BowmarkProviders {
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
   firstamericahomes: BowmarkProvider_firstamericahomes.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
+  fitness1440: BowmarkProvider_fitness1440.Unit;
   fivebelow: BowmarkProvider_fivebelow.Unit;
   fivestarbathsolutions: BowmarkProvider_fivestarbathsolutions.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2a33b4512e3c776fd921176df02e958ce77daf4c119f63c86122703203d9058e
-// 900 checked, 20 unchecked.
+// Manifest version: a45b9834642400241b3c7fa383e43dca522f4769a8d75585cb94a56642f6ab71
+// 902 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2a33b4512e3c776fd921176df02e958ce77daf4c119f63c86122703203d9058e",
+  "version": "a45b9834642400241b3c7fa383e43dca522f4769a8d75585cb94a56642f6ab71",
   "units": {
     "bundles": {
       "defs": {},
@@ -11211,6 +11211,63 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.fitness1440": {
+      "defs": {
+        "Fitness1440DayPassRequestArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "Fitness1440ListLocationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listLocations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "Fitness1440ListLocationsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getDayPassRequestInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "Fitness1440DayPassRequestArgs"
             },
             "optional": false
           }

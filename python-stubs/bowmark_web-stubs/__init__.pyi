@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2a33b4512e3c776fd921176df02e958ce77daf4c119f63c86122703203d9058e
-# 45 capabilities, 370 providers, 900 typed functions, 20 refused.
+# Manifest version: a45b9834642400241b3c7fa383e43dca522f4769a8d75585cb94a56642f6ab71
+# 45 capabilities, 371 providers, 902 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6932,6 +6932,27 @@ class Prv_firstdibs_FirstdibsCompletingAction_Out(TypedDict):
     makeOffer: bool
     contactSeller: bool
     purchase: Literal[False]
+
+class Prv_fitness1440_Fitness1440ListLocationsArgs_In(TypedDict):
+    state: NotRequired[str]
+
+class Prv_fitness1440_Fitness1440ListLocationsResult_Out(TypedDict):
+    locations: list[Prv_fitness1440_Fitness1440Location_Out]
+    states: list[str]
+
+class Prv_fitness1440_Fitness1440Location_Out(TypedDict):
+    state: str
+    city: str
+
+class Prv_fitness1440_Fitness1440DayPassRequestArgs_In(TypedDict):
+    state: str
+    city: str
+
+class Prv_fitness1440_Fitness1440DayPassRequestInfo_Out(TypedDict):
+    state: str
+    city: str
+    requestUrl: str
+    requiredFields: list[str]
 
 class Prv_fivebelow_search_args_In(TypedDict):
     query: str
@@ -20804,6 +20825,22 @@ class Prv_firstdibs(Protocol):
         and/or Contact Seller, whichever this seller has enabled.
         """
 
+class Prv_fitness1440(Protocol):
+    """FITNESS:1440's own live day-pass request form (/request-day-pass/) — the real state →
+    city cascade of clubs currently taking free day-pass requests, off the site's own
+    server-rendered form, plus the form's own handoff for one confirmed location.
+    """
+
+    async def listLocations(self, args: Prv_fitness1440_Fitness1440ListLocationsArgs_In | None = None, /) -> Prv_fitness1440_Fitness1440ListLocationsResult_Out:
+        """Reads FITNESS:1440's own live day-pass form and returns the state → city cascade it
+        currently renders, optionally filtered to one state.
+        """
+
+    async def getDayPassRequestInfo(self, args: Prv_fitness1440_Fitness1440DayPassRequestArgs_In, /) -> Prv_fitness1440_Fitness1440DayPassRequestInfo_Out:
+        """Validates one state/city pair against the live cascade and returns the day-pass form's
+        own URL and required fields — the handoff a caller completes the request at.
+        """
+
 class Prv_fivebelow(Protocol):
     """Five Below's own product search — title, price(s), image and per-variant DC stock, the
     way the site's own search bar answers it.
@@ -27406,6 +27443,7 @@ class BowmarkProviders(Protocol):
     fieldstonehomes: Prv_fieldstonehomes
     firstamericahomes: Prv_firstamericahomes
     firstdibs: Prv_firstdibs
+    fitness1440: Prv_fitness1440
     fivebelow: Prv_fivebelow
     fivestarbathsolutions: Prv_fivestarbathsolutions
     flightradar24: Prv_flightradar24

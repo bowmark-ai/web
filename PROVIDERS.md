@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1344 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1346 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -454,6 +454,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `firstamericahomes.searchCommunities` | firstamericahomes.com | Searches First America Homes' current live community list (Houston and San Antonio… | 🟢 |
 | `firstdibs.getListing` | 1stdibs.com | Reads one listing's real price and its concrete completing action (Make an Offer… | 🟢 |
 | `firstdibs.search` | 1stdibs.com | Runs 1stDibs' search and returns real listings — name, real price, currency… | 🟢 |
+| `fitness1440.getDayPassRequestInfo` | fitness1440.com | Validates one state/city pair against the same live cascade and returns the day-pass… | 🟢 |
+| `fitness1440.listLocations` | fitness1440.com | Reads FITNESS:1440's own day-pass request form (/request-day-pass/) and returns the… | 🟢 |
 | `fivebelow.search` | fivebelow.com | Searches fivebelow.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `fivestarbathsolutions.bookAppointment` | fivestarbathsolutions.com | Would submit the final 3-step booking form (chosen slot +… | ⚪ |
 | `fivestarbathsolutions.getAvailableSlots` | fivestarbathsolutions.com | Checks a franchise region's real free design-consultation scheduler and returns the… | 🟡 |
