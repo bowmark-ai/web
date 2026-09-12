@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0112ac779c7d6441f65eda746a6b6d8295af54663adec561cac392e7af6a70f1
-// 46 capabilities, 382 providers, 943 typed functions, 20 refused.
+// Manifest version: ecc9b1e9630024cc2887b56102ad0ad62626ab0e8bf64ef9892e5a1d8bfd9886
+// 46 capabilities, 385 providers, 948 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3523,6 +3523,33 @@ interface AcqualinaRoomAvailability {
      * with per-night pricing for every rate plan on offer.
      */
     searchAvailability(arrive: string, depart: string, adults: number, children?: number): Promise<AcqualinaRoomAvailability[]>;
+  }
+}
+
+declare namespace BowmarkProvider_ai_engineer {
+  // ── AI Engineer — the unit's own declarations, verbatim ──
+interface AiEngineerSpeaker {
+  name: string;
+  title: string;
+  company: string;
+  speakerHandle: string;
+  url: string;
+}
+
+  /** Conference speakers and speaker information from the AI Engineer conference. */
+  interface Unit {
+    /**
+     * Lists all speakers at the AI Engineer conference with their names, titles, companies, and
+     * speaker page URLs.
+     */
+    listSpeakers(): Promise<{ speakers: AiEngineerSpeaker[] }>;
+
+    /**
+     * Returns detailed information about one speaker from the AI Engineer conference, including
+     * name, title, company, and speaker page URL. THROWS if the handle is not on the current
+     * roster — check it with listSpeakers() first.
+     */
+    getSpeaker(args: { speakerHandle: string }): Promise<AiEngineerSpeaker>;
   }
 }
 
@@ -23425,6 +23452,25 @@ interface AssembledApplication {
   }
 }
 
+declare namespace BowmarkProvider_pacificlifestylehomes {
+  // ── Pacific Lifestyle Homes — the unit's own declarations, verbatim ──
+interface PacificLifestyleHomesSearchArgs { city?: "Camas" | "Ridgefield" | "Vancouver"; minBedrooms?: number; minBathrooms?: number; minPrice?: number; maxPrice?: number; }
+interface PacificLifestyleHomesListing { id: string; address: string; city: string; state: string; price: number; bedrooms: number; bathrooms: number; sqft: number; availability: string; url: string; }
+
+  /**
+   * Searches Pacific Lifestyle Homes' current Southwest Washington available-home inventory;
+   * prefer it when live home price, availability, or a listing handoff matters.
+   */
+  interface Unit {
+    /**
+     * Searches Pacific Lifestyle Homes' live available-home listings in Camas, Ridgefield, or
+     * Vancouver, Washington. Returns current price, beds, baths, sqft, availability, and the
+     * detail-page handoff URL.
+     */
+    searchAvailableHomes(args?: PacificLifestyleHomesSearchArgs): Promise<PacificLifestyleHomesListing[]>;
+  }
+}
+
 declare namespace BowmarkProvider_paypal {
   // ── PayPal — the unit's own declarations, verbatim ──
 interface PaypalEstimateFeeArgs {
@@ -29371,6 +29417,44 @@ interface TrophysignaturehomesComparison {
   }
 }
 
+declare namespace BowmarkProvider_tryalma_com {
+  // ── Alma — US immigration legal services — the unit's own declarations, verbatim ──
+interface SearchResult {
+  title: string;
+  url: string;
+  summary?: string;
+}
+
+interface SearchResponse {
+  results: SearchResult[];
+  warnings: string[];
+}
+
+interface Page {
+  url: string;
+  title: string;
+  category: string;
+}
+
+interface ListPagesResponse {
+  pages: Page[];
+  warnings: string[];
+}
+
+interface SearchArgs {
+  query: string;
+}
+
+  /** Search Alma's immigration legal services content and site navigation. */
+  interface Unit {
+    /** Search Alma's content, including pages, resources, and team member profiles. */
+    search(query: string): Promise<SearchResponse>;
+
+    /** List all pages and sections available on the Alma website by category. */
+    listPages(): Promise<ListPagesResponse>;
+  }
+}
+
 declare namespace BowmarkProvider_twiddy {
   // ── Twiddy & Company Realtors — the unit's own declarations, verbatim ──
 interface TwiddyRentalRow {
@@ -31814,6 +31898,7 @@ interface BowmarkProviders {
   acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
+  ai_engineer: BowmarkProvider_ai_engineer.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
   allied: BowmarkProvider_allied.Unit;
@@ -32089,6 +32174,7 @@ interface BowmarkProviders {
   outdoorresearch: BowmarkProvider_outdoorresearch.Unit;
   pacificabeauty: BowmarkProvider_pacificabeauty.Unit;
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
+  pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
@@ -32162,6 +32248,7 @@ interface BowmarkProviders {
   trektravel: BowmarkProvider_trektravel.Unit;
   trojanstorage: BowmarkProvider_trojanstorage.Unit;
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
+  tryalma_com: BowmarkProvider_tryalma_com.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;

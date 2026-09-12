@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1372 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1380 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -320,6 +320,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
+| `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
+| `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
 | `credibly_com.getApplicationForm` | credibly.com | Reads the visible questions and select choices on Credibly's public business-financing… | 🟢 |
@@ -964,6 +966,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.listMossyoakProducts` | mossyoak.com | Reads the live Mossy Oak catalogue as the storefront publishes it — every camo-apparel… | 🟢 |
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
 | `muze_gov_tr.getVisitingHours` | muze.gov.tr | Matches a museum name against muze.gov.tr's own highlight listing and reads that… | 🟢 |
+| `my_auroramedicalspa_com.getProviders` | my.auroramedicalspa.com | Lists the providers who can perform one service at one location, including the site's… | 🟢 |
+| `my_auroramedicalspa_com.getServiceCategories` | my.auroramedicalspa.com | Lists the treatment categories one location offers online (Botox, Injectable… | 🟢 |
+| `my_auroramedicalspa_com.getServices` | my.auroramedicalspa.com | Reads the live bookable services in one category at one location — name, starting… | 🟢 |
+| `my_auroramedicalspa_com.listLocations` | my.auroramedicalspa.com | Lists every Aurora Medical Spa location (9 today, across Colorado, Missouri and Texas)… | 🟢 |
 | `myollie.getMealPlan` | myollie.com | Computes Ollie's personalized fresh-food meal plan and REAL weekly price for a dog… | 🟢 |
 | `naic.getCompanyProfile` | naic.org | Reads one insurer's CIS financial report — the holding group that owns it, the state… | 🟡 |
 | `naic.getComplaintIndex` | naic.org | Reads one insurer's closed-confirmed complaint index against the national baseline of… | 🟢 |
@@ -1050,6 +1056,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `platform_claude_com.listDocPages` | platform.claude.com | Lists every English /docs page platform.claude.com publishes, parsed from the site's… | 🟢 |
 | `polymarket.getMarket` | polymarket.com | Reads one Polymarket market by its slug (the id search returns) — question, outcomes… | 🟢 |
 | `polymarket.search` | polymarket.com | Searches Polymarket's own prediction markets by keyword (via its public-search API)… | 🟢 |
+| `polytex.getProduct` | poly-tex.com | Reads one Poly-Tex product's current price, selectable options, shipping availability… | 🟢 |
+| `polytex.searchProducts` | poly-tex.com | Searches Poly-Tex's live greenhouse catalog by product words, returning current… | 🟢 |
 | `poshmark.getBulkUploadTemplateGuide` | poshmark.com | Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required… | 🟢 |
 | `poshmark.getZipFileGuide` | poshmark.com | Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how… | 🟢 |
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |

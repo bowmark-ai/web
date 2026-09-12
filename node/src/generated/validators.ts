@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0112ac779c7d6441f65eda746a6b6d8295af54663adec561cac392e7af6a70f1
-// 925 checked, 20 unchecked.
+// Manifest version: ecc9b1e9630024cc2887b56102ad0ad62626ab0e8bf64ef9892e5a1d8bfd9886
+// 930 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0112ac779c7d6441f65eda746a6b6d8295af54663adec561cac392e7af6a70f1",
+  "version": "ecc9b1e9630024cc2887b56102ad0ad62626ab0e8bf64ef9892e5a1d8bfd9886",
   "units": {
     "bundles": {
       "defs": {},
@@ -3496,6 +3496,30 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.ai_engineer": {
+      "defs": {},
+      "functions": {
+        "listSpeakers": [],
+        "getSpeaker": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "speakerHandle",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -19547,6 +19571,76 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.pacificlifestylehomes": {
+      "defs": {
+        "PacificLifestyleHomesSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "Camas"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Ridgefield"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "Vancouver"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "minBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBathrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchAvailableHomes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PacificLifestyleHomesSearchArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.paypal": {
       "defs": {
         "PaypalConversionKind": {
@@ -27555,6 +27649,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.tryalma_com": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPages": []
       }
     },
     "providers.twiddy": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0112ac779c7d6441f65eda746a6b6d8295af54663adec561cac392e7af6a70f1
-# 46 capabilities, 382 providers, 925 typed functions, 20 refused.
+# Manifest version: ecc9b1e9630024cc2887b56102ad0ad62626ab0e8bf64ef9892e5a1d8bfd9886
+# 46 capabilities, 385 providers, 930 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1959,6 +1959,19 @@ class Prv_acqualinaresort_AcqualinaRate_Out(TypedDict):
     pricePerNight: float | None
     originalPricePerNight: float | None
     currency: Literal["USD"]
+
+class Prv_ai_engineer_listSpeakers_return_Out(TypedDict):
+    speakers: list[Prv_ai_engineer_AiEngineerSpeaker_Out]
+
+class Prv_ai_engineer_AiEngineerSpeaker_Out(TypedDict):
+    name: str
+    title: str
+    company: str
+    speakerHandle: str
+    url: str
+
+class Prv_ai_engineer_getSpeaker_args_In(TypedDict):
+    speakerHandle: str
 
 class Prv_aiper_AiperPoolQuestion_Out(TypedDict):
     id: str
@@ -12152,6 +12165,25 @@ class Prv_pacificcompanies_AssembledApplication_Out(TypedDict):
     cvFieldName: str
     summary: str
 
+class Prv_pacificlifestylehomes_PacificLifestyleHomesSearchArgs_In(TypedDict):
+    city: NotRequired[Literal["Camas"] | Literal["Ridgefield"] | Literal["Vancouver"]]
+    minBedrooms: NotRequired[float]
+    minBathrooms: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+
+class Prv_pacificlifestylehomes_PacificLifestyleHomesListing_Out(TypedDict):
+    id: str
+    address: str
+    city: str
+    state: str
+    price: float
+    bedrooms: float
+    bathrooms: float
+    sqft: float
+    availability: str
+    url: str
+
 class Prv_paypal_PaypalEstimateFeeArgs_In(TypedDict):
     amount: float
     currency: str
@@ -15472,6 +15504,24 @@ class Prv_trophysignaturehomes_TrophysignaturehomesComparison_Out_pricePerSqft_O
     a: float | None
     b: float | None
 
+class Prv_tryalma_com_SearchResponse_Out(TypedDict):
+    results: list[Prv_tryalma_com_SearchResult_Out]
+    warnings: list[str]
+
+class Prv_tryalma_com_SearchResult_Out(TypedDict):
+    title: str
+    url: str
+    summary: NotRequired[str]
+
+class Prv_tryalma_com_ListPagesResponse_Out(TypedDict):
+    pages: list[Prv_tryalma_com_Page_Out]
+    warnings: list[str]
+
+class Prv_tryalma_com_Page_Out(TypedDict):
+    url: str
+    title: str
+    category: str
+
 class Prv_twiddy_searchRentals_options_In(TypedDict):
     town: NotRequired[str]
     minBedrooms: NotRequired[float]
@@ -17800,6 +17850,20 @@ class Prv_acqualinaresort(Protocol):
     async def searchAvailability(self, arrive: str, depart: str, adults: float, children: float | None = None, /) -> list[Prv_acqualinaresort_AcqualinaRoomAvailability_Out]:
         """Runs Acqualina's own reservation engine for one stay and returns real room-type
         availability with per-night pricing for every rate plan on offer.
+        """
+
+class Prv_ai_engineer(Protocol):
+    """Conference speakers and speaker information from the AI Engineer conference."""
+
+    async def listSpeakers(self, /) -> Prv_ai_engineer_listSpeakers_return_Out:
+        """Lists all speakers at the AI Engineer conference with their names, titles, companies,
+        and speaker page URLs.
+        """
+
+    async def getSpeaker(self, args: Prv_ai_engineer_getSpeaker_args_In, /) -> Prv_ai_engineer_AiEngineerSpeaker_Out:
+        """Returns detailed information about one speaker from the AI Engineer conference,
+        including name, title, company, and speaker page URL. THROWS if the handle is not on the
+        current roster — check it with listSpeakers() first.
         """
 
 class Prv_aiper(Protocol):
@@ -25002,6 +25066,17 @@ class Prv_pacificcompanies(Protocol):
         CV optional.
         """
 
+class Prv_pacificlifestylehomes(Protocol):
+    """Searches Pacific Lifestyle Homes' current Southwest Washington available-home inventory;
+    prefer it when live home price, availability, or a listing handoff matters.
+    """
+
+    async def searchAvailableHomes(self, args: Prv_pacificlifestylehomes_PacificLifestyleHomesSearchArgs_In | None = None, /) -> list[Prv_pacificlifestylehomes_PacificLifestyleHomesListing_Out]:
+        """Searches Pacific Lifestyle Homes' live available-home listings in Camas, Ridgefield, or
+        Vancouver, Washington. Returns current price, beds, baths, sqft, availability, and the
+        detail-page handoff URL.
+        """
+
 class Prv_paypal(Protocol):
     """PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules,
     the fee on one concrete personal (friends-and-family) transaction, the spread PayPal
@@ -27197,6 +27272,15 @@ class Prv_trophysignaturehomes(Protocol):
         same math.
         """
 
+class Prv_tryalma_com(Protocol):
+    """Search Alma's immigration legal services content and site navigation."""
+
+    async def search(self, query: str, /) -> Prv_tryalma_com_SearchResponse_Out:
+        """Search Alma's content, including pages, resources, and team member profiles."""
+
+    async def listPages(self, /) -> Prv_tryalma_com_ListPagesResponse_Out:
+        """List all pages and sections available on the Alma website by category."""
+
 class Prv_twiddy(Protocol):
     """Twiddy & Company's own Outer Banks vacation rental search and real-time weekly
     pricing/booking-handoff engine — a regional owner-operator's own 1,000+ property
@@ -27826,6 +27910,7 @@ class BowmarkProviders(Protocol):
     acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
     acqualinaresort: Prv_acqualinaresort
+    ai_engineer: Prv_ai_engineer
     aiper: Prv_aiper
     ajmadison: Prv_ajmadison
     allied: Prv_allied
@@ -28101,6 +28186,7 @@ class BowmarkProviders(Protocol):
     outdoorresearch: Prv_outdoorresearch
     pacificabeauty: Prv_pacificabeauty
     pacificcompanies: Prv_pacificcompanies
+    pacificlifestylehomes: Prv_pacificlifestylehomes
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland
     pilotprotocol: Prv_pilotprotocol
@@ -28174,6 +28260,7 @@ class BowmarkProviders(Protocol):
     trektravel: Prv_trektravel
     trojanstorage: Prv_trojanstorage
     trophysignaturehomes: Prv_trophysignaturehomes
+    tryalma_com: Prv_tryalma_com
     twiddy: Prv_twiddy
     uhc_smallbusiness: Prv_uhc_smallbusiness
     ulrichlifestyle: Prv_ulrichlifestyle
