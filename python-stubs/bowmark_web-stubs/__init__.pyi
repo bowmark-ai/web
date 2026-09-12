@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 54264b993e5ea6cc8c104c40f057915341ab1b6a8cbf13a0c1347b00d0a4f2ce
-# 45 capabilities, 380 providers, 920 typed functions, 20 refused.
+# Manifest version: 93bfb62fdfed0998c66e6713455b3c82a8db2dc919d7ab588496f7a08ac5db5b
+# 45 capabilities, 381 providers, 922 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15556,6 +15556,54 @@ class Prv_ulrichlifestyle_UlrichPriceLine_Out(TypedDict):
     description: str
     price: float
 
+class Prv_upkeepstl_com_UpkeepstlPlanBuilder_Out(TypedDict):
+    homeTypes: list[Prv_upkeepstl_com_UpkeepstlPricedOption_Out]
+    plans: list[Prv_upkeepstl_com_UpkeepstlPricedOption_Out]
+    upgrades: list[Prv_upkeepstl_com_UpkeepstlPricedOption_Out]
+    addOns: list[Prv_upkeepstl_com_UpkeepstlAddOn_Out]
+    warrantyTerms: list[Prv_upkeepstl_com_UpkeepstlWarrantyTerm_Out]
+    paymentOptions: list[Prv_upkeepstl_com_UpkeepstlPlanBuilder_Out_paymentOptions_item_Out]
+    formUrl: str
+
+class Prv_upkeepstl_com_UpkeepstlPricedOption_Out(TypedDict):
+    id: str
+    name: str
+    priceUsd: float
+
+class Prv_upkeepstl_com_UpkeepstlAddOn_Out(TypedDict):
+    id: str
+    name: str
+    priceUsd: float
+    kind: Literal["checkbox"] | Literal["quantity"]
+    maxQuantity: NotRequired[float]
+
+class Prv_upkeepstl_com_UpkeepstlWarrantyTerm_Out(TypedDict):
+    id: str
+    years: float
+    imageUrl: str
+
+class Prv_upkeepstl_com_UpkeepstlPlanBuilder_Out_paymentOptions_item_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_upkeepstl_com_estimatePlanCost_args_In(TypedDict):
+    planId: str
+    homeTypeId: str
+    warrantyYears: float
+    upgradeId: NotRequired[str]
+    addOnIds: NotRequired[Sequence[str]]
+    applianceQuantity: NotRequired[float]
+
+class Prv_upkeepstl_com_UpkeepstlEstimate_Out(TypedDict):
+    termTotalUsd: float
+    perYearUsd: float
+    warrantyYears: float
+    planId: str
+    homeTypeId: str
+    upgradeId: str
+    addOnIds: list[str]
+    applianceQuantity: float
+
 class Prv_ups_getRate_args_In(TypedDict):
     fromZip: str
     toZip: str
@@ -27165,6 +27213,22 @@ class Prv_ulrichlifestyle(Protocol):
         the priced total; see this provider's file-top note.
         """
 
+class Prv_upkeepstl_com(Protocol):
+    """Reads UPKEEP STL's home-maintenance-plan builder — plan tiers, home types, add-ons,
+    warranty terms and their prices — and estimates a plan's total cost, with no submission.
+    """
+
+    async def getPlanBuilder(self, /) -> Prv_upkeepstl_com_UpkeepstlPlanBuilder_Out:
+        """Reads UPKEEP's public plan-builder schema: home types, plan tiers, the upgrade tier,
+        itemized add-ons, warranty terms and payment options, each carrying the site's own
+        price.
+        """
+
+    async def estimatePlanCost(self, args: Prv_upkeepstl_com_estimatePlanCost_args_In, /) -> Prv_upkeepstl_com_UpkeepstlEstimate_Out:
+        """Computes the total contract price and per-year price for one plan selection, using ids
+        from getPlanBuilder() and the site's own published prices. No submission, no identity.
+        """
+
 class Prv_ups(Protocol):
     """UPS's own documented Rating API (onlinetools.ups.com) — prices a domestic shipment
     across UPS's service levels for a ZIP-to-ZIP move, weight and optional dimensions, the
@@ -28047,6 +28111,7 @@ class BowmarkProviders(Protocol):
     twiddy: Prv_twiddy
     uhc_smallbusiness: Prv_uhc_smallbusiness
     ulrichlifestyle: Prv_ulrichlifestyle
+    upkeepstl_com: Prv_upkeepstl_com
     ups: Prv_ups
     usps: Prv_usps
     vbt: Prv_vbt

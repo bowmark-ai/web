@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 54264b993e5ea6cc8c104c40f057915341ab1b6a8cbf13a0c1347b00d0a4f2ce
-// 920 checked, 20 unchecked.
+// Manifest version: 93bfb62fdfed0998c66e6713455b3c82a8db2dc919d7ab588496f7a08ac5db5b
+// 922 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "54264b993e5ea6cc8c104c40f057915341ab1b6a8cbf13a0c1347b00d0a4f2ce",
+  "version": "93bfb62fdfed0998c66e6713455b3c82a8db2dc919d7ab588496f7a08ac5db5b",
   "units": {
     "bundles": {
       "defs": {},
@@ -27611,6 +27611,68 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.upkeepstl_com": {
+      "defs": {},
+      "functions": {
+        "getPlanBuilder": [],
+        "estimatePlanCost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "planId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "homeTypeId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "warrantyYears",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "upgradeId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "addOnIds",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "applianceQuantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },

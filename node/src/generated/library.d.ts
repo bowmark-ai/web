@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 54264b993e5ea6cc8c104c40f057915341ab1b6a8cbf13a0c1347b00d0a4f2ce
-// 45 capabilities, 380 providers, 938 typed functions, 20 refused.
+// Manifest version: 93bfb62fdfed0998c66e6713455b3c82a8db2dc919d7ab588496f7a08ac5db5b
+// 45 capabilities, 381 providers, 940 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29513,6 +29513,61 @@ interface UlrichPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_upkeepstl_com {
+  // ── UPKEEP Home Maintenance Plans — the unit's own declarations, verbatim ──
+interface UpkeepstlPricedOption {
+  id: string;
+  name: string;
+  priceUsd: number;
+}
+interface UpkeepstlAddOn extends UpkeepstlPricedOption {
+  kind: "checkbox" | "quantity";
+  maxQuantity?: number;
+}
+interface UpkeepstlWarrantyTerm {
+  id: string;
+  years: number;
+  imageUrl: string;
+}
+interface UpkeepstlPlanBuilder {
+  homeTypes: UpkeepstlPricedOption[];
+  plans: UpkeepstlPricedOption[];
+  upgrades: UpkeepstlPricedOption[];
+  addOns: UpkeepstlAddOn[];
+  warrantyTerms: UpkeepstlWarrantyTerm[];
+  paymentOptions: { id: string; name: string }[];
+  formUrl: string;
+}
+interface UpkeepstlEstimate {
+  termTotalUsd: number;
+  perYearUsd: number;
+  warrantyYears: number;
+  planId: string;
+  homeTypeId: string;
+  upgradeId: string;
+  addOnIds: string[];
+  applianceQuantity: number;
+}
+
+  /**
+   * Reads UPKEEP STL's home-maintenance-plan builder — plan tiers, home types, add-ons, warranty
+   * terms and their prices — and estimates a plan's total cost, with no submission.
+   */
+  interface Unit {
+    /**
+     * Reads UPKEEP's public plan-builder schema: home types, plan tiers, the upgrade tier,
+     * itemized add-ons, warranty terms and payment options, each carrying the site's own price.
+     */
+    getPlanBuilder(): Promise<UpkeepstlPlanBuilder>;
+
+    /**
+     * Computes the total contract price and per-year price for one plan selection, using ids from
+     * getPlanBuilder() and the site's own published prices. No submission, no identity.
+     */
+    estimatePlanCost(args: { planId: string; homeTypeId: string; warrantyYears: number; upgradeId?: string; addOnIds?: string[]; applianceQuantity?: number }): Promise<UpkeepstlEstimate>;
+  }
+}
+
 declare namespace BowmarkProvider_ups {
   // ── UPS — the unit's own declarations, verbatim ──
 interface upsRatedShipment {
@@ -32057,6 +32112,7 @@ interface BowmarkProviders {
   twiddy: BowmarkProvider_twiddy.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
+  upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
   ups: BowmarkProvider_ups.Unit;
   usps: BowmarkProvider_usps.Unit;
   vbt: BowmarkProvider_vbt.Unit;

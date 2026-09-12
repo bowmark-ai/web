@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1363 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1365 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1080,7 +1080,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prolook.getStyleCustomizationOptions` | prolook.com | Reads one style's real customization surface — every trim (buttons, piping, etc.) and… | 🟢 |
 | `prolook.getTeamQuote` | prolook.com | Computes a real team order total for N jerseys of one style, from the site's own live… | 🟢 |
 | `prolook.listUniformStyles` | prolook.com | Lists one page of PROLOOK's real team-uniform styles for a sport (e.g. baseball) —… | 🟢 |
-| `prose.getHaircareProductPrice` | prose.com | Looks up ONE Prose product type's real one-time and subscription USD price (e.g.… | 🟢 |
+| `prose.getHaircareProductPrice` | prose.com | Looks up ONE Prose product type's real one-time and subscription USD price (e.g.… | 🟡 |
 | `prose.getHairPrescription` | prose.com | Runs Prose's real online hair consultation end to end — the exact 38 questions its own… | 🟢 |
 | `prose.listHaircareProducts` | prose.com | Lists every haircare formula/tool type Prose sells (shampoo, conditioner, hair mask… | 🟢 |
 | `provenwinners.getRecipeDetails` | provenwinners.com | Reads one container recipe's own combination page — its season(s), container size and… | 🟢 |
@@ -1289,6 +1289,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ulrichlifestyle.getConfigurator` | ulrichlifestyle.com | Reads one model's default configurator: its base price (before delivery/tax) plus… | 🟢 |
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
 | `ulrichlifestyle.priceConfiguration` | ulrichlifestyle.com | Configures and prices one specific build (dimensions, wall height, siding, delivery… | 🟢 |
+| `upkeepstl_com.estimatePlanCost` | upkeepstl.com | Computes the total contract price and per-year price for one plan selection (home… | 🟢 |
+| `upkeepstl_com.getPlanBuilder` | upkeepstl.com | Reads UPKEEP's public 'Build Your Plan' quote-form schema: the home-warranty plan… | 🟢 |
 | `ups.getRate` | ups.com | Prices a domestic shipment across UPS's own service levels (Ground, 3 Day Select, 2nd… | 🟢 |
 | `urbanoutfitters.browseCategory` | urbanoutfitters.com | Lists the products under one of Urban Outfitters' own department pages — the site's… | ⚪ |
 | `urbanoutfitters.checkGiftCardBalance` | urbanoutfitters.com | Checks the remaining balance on a Urban Outfitters gift card from the card number and… | ⚪ |
