@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c0a931ccfbcd28fa2502d61456424b5c090bce0dc4ca5c5b45c2b14b2fd8248c
-// 904 checked, 20 unchecked.
+// Manifest version: c1d9dade8a7063304ab7200f4726e2fffa5b81a51dbacbed46a632e880889c80
+// 906 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c0a931ccfbcd28fa2502d61456424b5c090bce0dc4ca5c5b45c2b14b2fd8248c",
+  "version": "c1d9dade8a7063304ab7200f4726e2fffa5b81a51dbacbed46a632e880889c80",
   "units": {
     "bundles": {
       "defs": {},
@@ -6638,6 +6638,57 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.calendly": {
+      "defs": {
+        "CalendlyAvailabilityOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timezone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "daysAhead",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getEventTypes": [
+          {
+            "name": "profile",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailability": [
+          {
+            "name": "profile",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "CalendlyAvailabilityOptions"
+            },
+            "optional": true
           }
         ]
       }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c0a931ccfbcd28fa2502d61456424b5c090bce0dc4ca5c5b45c2b14b2fd8248c
-# 45 capabilities, 371 providers, 904 typed functions, 20 refused.
+# Manifest version: c1d9dade8a7063304ab7200f4726e2fffa5b81a51dbacbed46a632e880889c80
+# 45 capabilities, 372 providers, 906 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4009,6 +4009,42 @@ class Prv_cabinsforyou_CabinsforyouCabinDetail_Out(TypedDict):
     description: str
     unitId: str | None
     bookingQuoteUrl: str
+
+class Prv_calendly_CalendlyEventTypesResult_Out(TypedDict):
+    profile: Prv_calendly_CalendlyProfile_Out
+    eventTypes: list[Prv_calendly_CalendlyEventType_Out]
+
+class Prv_calendly_CalendlyProfile_Out(TypedDict):
+    slug: str
+    name: str
+    timezone: str
+
+class Prv_calendly_CalendlyEventType_Out(TypedDict):
+    slug: str
+    name: str
+    uuid: str
+    url: str
+    description: str | None
+
+class Prv_calendly_CalendlyAvailabilityOptions_In(TypedDict):
+    timezone: NotRequired[str]
+    daysAhead: NotRequired[float]
+
+class Prv_calendly_CalendlyAvailabilityResult_Out(TypedDict):
+    profileSlug: str
+    eventType: Prv_calendly_CalendlyEventType_Out
+    timezone: str
+    days: list[Prv_calendly_CalendlyDay_Out]
+    otherEventTypes: list[Prv_calendly_CalendlyEventType_Out]
+
+class Prv_calendly_CalendlyDay_Out(TypedDict):
+    date: str
+    status: str
+    slots: list[Prv_calendly_CalendlySlot_Out]
+
+class Prv_calendly_CalendlySlot_Out(TypedDict):
+    startTime: str
+    inviteesRemaining: float
 
 class Prv_caliberhealth_CaliberhealthSearchArgs_In(TypedDict):
     specialty: NotRequired[str]
@@ -18930,6 +18966,26 @@ class Prv_cabinsforyou(Protocol):
         rating, plus the booking-quote handoff. `url` is a listing URL from a `search` result.
         """
 
+class Prv_calendly(Protocol):
+    """Calendly's own public booking-widget data — the event types a scheduling page offers and
+    the real, currently-open time slots for one of them — read straight off the widget's
+    undocumented JSON endpoints, no browser, no key.
+    """
+
+    async def getEventTypes(self, profile: str, /) -> Prv_calendly_CalendlyEventTypesResult_Out:
+        """Lists every event type a Calendly profile currently offers — the entry point. Takes the
+        bare profile slug a person books under (e.g. "jason-frazier") or the full url a caller
+        was given (e.g. "https://calendly.com/jason-frazier"), and returns each event's name,
+        slug, uuid and its own bookable url.
+        """
+
+    async def getAvailability(self, profile: str, opts: Prv_calendly_CalendlyAvailabilityOptions_In | None = None, /) -> Prv_calendly_CalendlyAvailabilityResult_Out:
+        """Returns the real, currently-open time slots for one Calendly event type — accepts a bare
+        profile slug ("jason-frazier"), a profile url, or a specific event url
+        ("https://calendly.com/jason-frazier/15min"). Given a bare profile, it picks that
+        profile's first event type and reports the rest in `otherEventTypes`.
+        """
+
 class Prv_caliberhealth(Protocol):
     """Caliber Healthcare Solutions' live locum-tenens job board (/healthcare-jobs) off the
     site's own server-rendered listings — real open jobs filterable by
@@ -27404,6 +27460,7 @@ class BowmarkProviders(Protocol):
     bykoket: Prv_bykoket
     byltbasics: Prv_byltbasics
     cabinsforyou: Prv_cabinsforyou
+    calendly: Prv_calendly
     caliberhealth: Prv_caliberhealth
     califloors: Prv_califloors
     camelcamelcamel: Prv_camelcamelcamel

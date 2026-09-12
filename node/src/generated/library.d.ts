@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c0a931ccfbcd28fa2502d61456424b5c090bce0dc4ca5c5b45c2b14b2fd8248c
-// 45 capabilities, 371 providers, 922 typed functions, 20 refused.
+// Manifest version: c1d9dade8a7063304ab7200f4726e2fffa5b81a51dbacbed46a632e880889c80
+// 45 capabilities, 372 providers, 924 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7284,6 +7284,75 @@ interface CabinsforyouSearchArgs {
      * rating, plus the booking-quote handoff. `url` is a listing URL from a `search` result.
      */
     getCabinDetail(url: string): Promise<CabinsforyouCabinDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_calendly {
+  // ── Calendly — the unit's own declarations, verbatim ──
+interface CalendlyEventType {
+  slug: string;
+  name: string;
+  uuid: string;
+  url: string;
+  description: string | null;
+}
+
+interface CalendlyProfile {
+  slug: string;
+  name: string;
+  timezone: string;
+}
+
+interface CalendlyEventTypesResult {
+  profile: CalendlyProfile;
+  eventTypes: CalendlyEventType[];
+}
+
+interface CalendlySlot {
+  startTime: string;
+  inviteesRemaining: number;
+}
+
+interface CalendlyDay {
+  date: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  slots: CalendlySlot[];
+}
+
+interface CalendlyAvailabilityOptions {
+  timezone?: string;
+  daysAhead?: number;
+}
+
+interface CalendlyAvailabilityResult {
+  profileSlug: string;
+  eventType: CalendlyEventType;
+  timezone: string;
+  days: CalendlyDay[];
+  otherEventTypes: CalendlyEventType[];
+}
+
+  /**
+   * Calendly's own public booking-widget data — the event types a scheduling page offers and the
+   * real, currently-open time slots for one of them — read straight off the widget's
+   * undocumented JSON endpoints, no browser, no key.
+   */
+  interface Unit {
+    /**
+     * Lists every event type a Calendly profile currently offers — the entry point. Takes the bare
+     * profile slug a person books under (e.g. "jason-frazier") or the full url a caller was given
+     * (e.g. "https://calendly.com/jason-frazier"), and returns each event's name, slug, uuid and
+     * its own bookable url.
+     */
+    getEventTypes(profile: string): Promise<CalendlyEventTypesResult>;
+
+    /**
+     * Returns the real, currently-open time slots for one Calendly event type — accepts a bare
+     * profile slug ("jason-frazier"), a profile url, or a specific event url
+     * ("https://calendly.com/jason-frazier/15min"). Given a bare profile, it picks that profile's
+     * first event type and reports the rest in `otherEventTypes`.
+     */
+    getAvailability(profile: string, opts?: CalendlyAvailabilityOptions): Promise<CalendlyAvailabilityResult>;
   }
 }
 
@@ -31355,6 +31424,7 @@ interface BowmarkProviders {
   bykoket: BowmarkProvider_bykoket.Unit;
   byltbasics: BowmarkProvider_byltbasics.Unit;
   cabinsforyou: BowmarkProvider_cabinsforyou.Unit;
+  calendly: BowmarkProvider_calendly.Unit;
   caliberhealth: BowmarkProvider_caliberhealth.Unit;
   califloors: BowmarkProvider_califloors.Unit;
   camelcamelcamel: BowmarkProvider_camelcamelcamel.Unit;
