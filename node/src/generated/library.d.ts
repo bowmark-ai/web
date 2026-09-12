@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: da786148f1a52f69bfb48b53d8549bb37b43add02b5e5f28f19066c38fce9281
+// Manifest version: d43890e140256b353f2eccb0a2def83f44d2d08724c289cf986f3c76773ae40a
 // 45 capabilities, 373 providers, 925 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -6019,6 +6019,9 @@ interface BingSearchResult {
   query: string;
   results: BingWebResult[];
   warnings: string[];
+  substituted: boolean          // true when the three checks below judged these rows
+                                // to answer a DIFFERENT query. The machine-readable
+                                // form of the verdict warnings states in prose
 }
 
 interface BingNewsSearchResult {

@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: da786148f1a52f69bfb48b53d8549bb37b43add02b5e5f28f19066c38fce9281
+# Manifest version: d43890e140256b353f2eccb0a2def83f44d2d08724c289cf986f3c76773ae40a
 # 45 capabilities, 373 providers, 907 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -3352,6 +3352,7 @@ class Prv_bing_BingSearchResult_Out(TypedDict):
     query: str
     results: list[Prv_bing_BingWebResult_Out]
     warnings: list[str]
+    substituted: bool
 
 class Prv_bing_BingWebResult_Out(TypedDict):
     source: Literal["bing"]
