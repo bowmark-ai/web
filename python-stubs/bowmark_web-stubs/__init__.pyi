@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6e747f814135e09291d52ae03e065ecc56d233a1ff2b5d4add83dd52cc82894b
-# 46 capabilities, 388 providers, 938 typed functions, 20 refused.
+# Manifest version: e496aea4f418dd436663bf545141712f1d0a790452718bff25a728809519eff9
+# 46 capabilities, 389 providers, 940 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7846,6 +7846,37 @@ class Prv_glassesusa_GlassesusaProduct_Out(TypedDict):
     reviewCount: float | None
     vtoAvailable: bool
     prescriptionEligible: bool
+
+class Prv_gobrightwing_SearchJobsArgs_In(TypedDict):
+    keyword: NotRequired[str]
+    location: NotRequired[str]
+    workType: NotRequired[str]
+
+class Prv_gobrightwing_JobListing_Out(TypedDict):
+    id: str
+    title: str
+    location: str
+    workType: str
+    payMin: NotRequired[float]
+    payMax: NotRequired[float]
+    payCurrency: NotRequired[str]
+    postedDate: NotRequired[str]
+
+class Prv_gobrightwing_GetJobDetailsArgs_In(TypedDict):
+    jobId: str
+
+class Prv_gobrightwing_JobDetails_Out(TypedDict):
+    id: str
+    title: str
+    location: str
+    workType: str
+    payMin: NotRequired[float]
+    payMax: NotRequired[float]
+    payCurrency: NotRequired[str]
+    postedDate: NotRequired[str]
+    description: str
+    applyUrl: str
+    requirements: NotRequired[list[str]]
 
 class Prv_goloadup_GoloadupItemType_Out(TypedDict):
     id: str
@@ -22020,6 +22051,19 @@ class Prv_glassesusa(Protocol):
         checks out.
         """
 
+class Prv_gobrightwing(Protocol):
+    """Search Brightwing's job listings by keyword, location and work type, with live pay
+    ranges.
+    """
+
+    async def searchJobs(self, args: Prv_gobrightwing_SearchJobsArgs_In, /) -> list[Prv_gobrightwing_JobListing_Out]:
+        """Search Brightwing's live job listings by keyword, location, and work type. Returns
+        matching postings with pay ranges.
+        """
+
+    async def getJobDetails(self, args: Prv_gobrightwing_GetJobDetailsArgs_In, /) -> Prv_gobrightwing_JobDetails_Out:
+        """Get full details for a specific job posting, including description and apply link."""
+
 class Prv_goloadup(Protocol):
     """LoadUp's own item-selector and live pricing engine for junk removal, donation and
     furniture pickup — the current catalog of items with base prices, a real ZIP-specific
@@ -28206,6 +28250,7 @@ class BowmarkProviders(Protocol):
     github: Prv_github
     glama: Prv_glama
     glassesusa: Prv_glassesusa
+    gobrightwing: Prv_gobrightwing
     goloadup: Prv_goloadup
     goodway: Prv_goodway
     google_flights: Prv_google_flights

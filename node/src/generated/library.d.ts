@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6e747f814135e09291d52ae03e065ecc56d233a1ff2b5d4add83dd52cc82894b
-// 46 capabilities, 388 providers, 956 typed functions, 20 refused.
+// Manifest version: e496aea4f418dd436663bf545141712f1d0a790452718bff25a728809519eff9
+// 46 capabilities, 389 providers, 958 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14592,6 +14592,29 @@ interface GlassesusaSearchResult {
      * listing is prescription/Rx-eligible. Read-only — never adds to cart or checks out.
      */
     getProduct(url: string): Promise<GlassesusaProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_gobrightwing {
+  // ── Brightwing — the unit's own declarations, verbatim ──
+interface JobListing { id: string; title: string; location: string; workType: string; payMin?: number; payMax?: number; payCurrency?: string; postedDate?: string; }
+
+interface JobDetails extends JobListing { description: string; applyUrl: string; requirements?: string[]; }
+
+interface SearchJobsArgs { keyword?: string; location?: string; workType?: string; }
+
+interface GetJobDetailsArgs { jobId: string; }
+
+  /** Search Brightwing's job listings by keyword, location and work type, with live pay ranges. */
+  interface Unit {
+    /**
+     * Search Brightwing's live job listings by keyword, location, and work type. Returns matching
+     * postings with pay ranges.
+     */
+    searchJobs(args: SearchJobsArgs): Promise<JobListing[]>;
+
+    /** Get full details for a specific job posting, including description and apply link. */
+    getJobDetails(args: GetJobDetailsArgs): Promise<JobDetails>;
   }
 }
 
@@ -32198,6 +32221,7 @@ interface BowmarkProviders {
   github: BowmarkProvider_github.Unit;
   glama: BowmarkProvider_glama.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
+  gobrightwing: BowmarkProvider_gobrightwing.Unit;
   goloadup: BowmarkProvider_goloadup.Unit;
   goodway: BowmarkProvider_goodway.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;

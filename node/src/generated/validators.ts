@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6e747f814135e09291d52ae03e065ecc56d233a1ff2b5d4add83dd52cc82894b
-// 938 checked, 20 unchecked.
+// Manifest version: e496aea4f418dd436663bf545141712f1d0a790452718bff25a728809519eff9
+// 940 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6e747f814135e09291d52ae03e065ecc56d233a1ff2b5d4add83dd52cc82894b",
+  "version": "e496aea4f418dd436663bf545141712f1d0a790452718bff25a728809519eff9",
   "units": {
     "bundles": {
       "defs": {},
@@ -12829,6 +12829,70 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.gobrightwing": {
+      "defs": {
+        "GetJobDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "jobId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchJobsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "keyword",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "workType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchJobs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchJobsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getJobDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetJobDetailsArgs"
             },
             "optional": false
           }
