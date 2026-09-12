@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 192e1abd0951d1569da8462e05903dfa9260eff4fd51d0fc90d6733fd73400a0
+// Manifest version: eafe6dabac1bcccdff5ba3714d7bf83cf4aca268fd760cec9b236067d79ab0dc
 // 45 capabilities, 374 providers, 927 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2237,10 +2237,12 @@ type CallOptions = {
    * one that hits ordinary research: it answers a MULTI-WORD query by reducing it to the single
    * most popular word in it and returning that word's results — "React useEffect dependency
    * array" comes back as React's homepage — and quoting, shortening or site-scoping the query
-   * does not change it. `warnings` now flags all three shapes: no returned row sharing a word
-   * with the query, every row matching only a generic word like "pricing", or fewer than half
-   * the query's subject words appearing anywhere in the results. A merely partial substitution
-   * is still not caught.
+   * does not change it. `warnings` now flags four shapes. Three read the words: no returned row
+   * sharing a word with the query, every row matching only a generic word like "pricing", or
+   * fewer than half the query's subject words appearing anywhere in the results. The fourth asks
+   * the engine the SAME query twice down the same exit — an answer that differs the second time
+   * is a random decoy, because an answerable query is stable across repeats (measured
+   * 2026-09-12). A merely partial substitution is still not caught.
    */
   interface Unit {
     /**
@@ -2258,10 +2260,14 @@ type CallOptions = {
      * protocol came back as the results for the one two-letter acronym in it. Quoting the proper
      * noun, shortening the query and site-scoping it were all tried on the same queries and all
      * returned the identical substituted set, so rewriting the query does not help — search the
-     * ONE thing you most need, or read a URL you already know. `warnings` flags all three shapes:
-     * no row sharing a single word with the query, every row matching only a generic word like
-     * "pricing" while the subject you named is absent, or fewer than half the query's subject
-     * words appearing anywhere in the results. A partially-relevant substitution is still not
+     * ONE thing you most need, or read a URL you already know. `warnings` flags four shapes. Three
+     * read the words: no row sharing a single word with the query, every row matching only a
+     * generic word like "pricing" while the subject you named is absent, or fewer than half the
+     * query's subject words appearing anywhere in the results. The fourth reads the engine's own
+     * behaviour and is the reliable one: the query is asked TWICE down the same exit, and an
+     * answer that comes back different the second time is a random decoy rather than a bad ranking
+     * — measured 2026-09-12, an answerable query repeats identically while an unanswerable one
+     * returns a fresh unrelated set every time. A partially-relevant substitution is still not
      * caught. When every engine fails this THROWS rather than returning zero rows, because no
      * engine reached is not the same as nothing found.
      */
@@ -6019,8 +6025,8 @@ interface BingSearchResult {
   query: string;
   results: BingWebResult[];
   warnings: string[];
-  substituted: boolean          // true when the three checks below judged these rows
-                                // to answer a DIFFERENT query. The machine-readable
+  substituted: boolean          // true when any of the four checks below judged these
+                                // rows to answer a DIFFERENT query. The machine-readable
                                 // form of the verdict warnings states in prose
 }
 
@@ -6049,19 +6055,27 @@ interface BingNewsSearchResult {
      * a company, a job and a protocol came back as the results for the one two-letter acronym in
      * it. Quoting the proper noun, shortening the query and site-scoping it were all tried and all
      * returned the identical substituted set, so rewriting the query does not help. `warnings`
-     * flags all three shapes: no row sharing a single word with the query, every row matching only
-     * a generic word like "pricing" while the thing you named is absent, or fewer than half the
-     * query's subject words appearing anywhere in the results. A partially-relevant result set is
-     * still not caught, so treat the rows as Bing's best offer rather than as proof anything
-     * matched.
+     * flags four shapes. Three read the words: no row sharing a single word with the query, every
+     * row matching only a generic word like "pricing" while the thing you named is absent, or
+     * fewer than half the query's subject words appearing anywhere in the results. The fourth
+     * reads Bing's own behaviour and is the reliable one — the query is asked TWICE down the same
+     * exit, and an answer that differs the second time is a random decoy, because a query Bing can
+     * actually answer is stable across repeats (measured 2026-09-12: 1.00 repeat overlap on every
+     * answerable query, 0.00 on every unanswerable one, nothing in between). A partially-relevant
+     * result set is still not caught, so treat the rows as Bing's best offer rather than as proof
+     * anything matched.
      */
     searchWeb(args: { query: string, limit?: number }): Promise<BingSearchResult>;
 
     /**
      * Searches the web through a browser to bing.com instead of reading the RSS feed — same
-     * results shape but measured correct on multi-word queries where the RSS feed substitutes
-     * results. Expensive: holds a browser pool slot for ~4s per call. Use searchWeb instead, and
-     * let the search capability choose when to fall back to this version.
+     * results shape. It does NOT fix relevance: measured 2026-09-12 from the fleet's own egress,
+     * it substitutes on exactly the queries the RSS feed substitutes on, on a residential exit and
+     * a datacenter one alike (the earlier claim that a browser answers multi-word queries
+     * correctly was measured from a laptop and confounded the client with the network). Kept as a
+     * standby that can rescue a query the primary drops. Expensive: holds a browser pool slot for
+     * ~4s per call. Use searchWeb instead, and let the search capability choose when to fall back
+     * to this version.
      */
     searchWebBrowser(args: { query: string, limit?: number }): Promise<BingSearchResult>;
 
