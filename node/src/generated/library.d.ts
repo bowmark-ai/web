@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a45b9834642400241b3c7fa383e43dca522f4769a8d75585cb94a56642f6ab71
-// 45 capabilities, 371 providers, 920 typed functions, 20 refused.
+// Manifest version: 973eb205ec05c13ed09a92dadffafadbe38675eafb8053f72132bbbff65521ff
+// 45 capabilities, 371 providers, 921 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6019,6 +6019,14 @@ interface BingNewsSearchResult {
      * matched.
      */
     searchWeb(args: { query: string, limit?: number }): Promise<BingSearchResult>;
+
+    /**
+     * Searches the web through a browser to bing.com instead of reading the RSS feed — same
+     * results shape but measured correct on multi-word queries where the RSS feed substitutes
+     * results. Expensive: holds a browser pool slot for ~4s per call. Use searchWeb instead, and
+     * let the search capability choose when to fall back to this version.
+     */
+    searchWebBrowser(args: { query: string, limit?: number }): Promise<BingSearchResult>;
 
     /**
      * Searches news coverage and returns stories with the headline, the outlet's own article URL,

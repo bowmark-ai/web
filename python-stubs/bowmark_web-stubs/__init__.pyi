@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a45b9834642400241b3c7fa383e43dca522f4769a8d75585cb94a56642f6ab71
-# 45 capabilities, 371 providers, 902 typed functions, 20 refused.
+# Manifest version: 973eb205ec05c13ed09a92dadffafadbe38675eafb8053f72132bbbff65521ff
+# 45 capabilities, 371 providers, 903 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3343,6 +3343,10 @@ class Prv_bing_BingWebResult_Out(TypedDict):
     url: str
     snippet: str | None
     published: str | None
+
+class Prv_bing_searchWebBrowser_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
 
 class Prv_bing_searchNews_args_In(TypedDict):
     query: str
@@ -18431,6 +18435,13 @@ class Prv_bing(Protocol):
         the thing you named is absent, or fewer than half the query's subject words appearing
         anywhere in the results. A partially-relevant result set is still not caught, so treat
         the rows as Bing's best offer rather than as proof anything matched.
+        """
+
+    async def searchWebBrowser(self, args: Prv_bing_searchWebBrowser_args_In, /) -> Prv_bing_BingSearchResult_Out:
+        """Searches the web through a browser to bing.com instead of reading the RSS feed — same
+        results shape but measured correct on multi-word queries where the RSS feed substitutes
+        results. Expensive: holds a browser pool slot for ~4s per call. Use searchWeb instead,
+        and let the search capability choose when to fall back to this version.
         """
 
     async def searchNews(self, args: Prv_bing_searchNews_args_In, /) -> Prv_bing_BingNewsSearchResult_Out:
