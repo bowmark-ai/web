@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 93974c0fe2d59272adb2ff8352ddcd5b0b4aeedfb8990ae8eb2eae6be6db2cb7
+// Manifest version: 39dcf1ce3e09862106f34c3d2acbc7852aecff6301f22eb55a5f963f82b6500a
 // 45 capabilities, 370 providers, 918 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2230,8 +2230,10 @@ type CallOptions = {
    * as zero results. Two things that engine cannot do, measured on `web`: it never returns an
    * empty list even when nothing matches — including for a long-tail query it has nothing
    * confident to say about, e.g. an obscure company name plus "pricing" — and it ignores search
-   * operators like site:. `warnings` now flags the extreme case of the first (every returned row
-   * sharing not one word with the query), but a partially-relevant substitution is not caught.
+   * operators like site:. `warnings` now flags the extreme case of the first — every returned
+   * row sharing not one word with the query, or every row matching only a generic word like
+   * "pricing" while the name you searched for is absent from all of them — but a
+   * partially-relevant substitution is not caught.
    */
   interface Unit {
     /**
@@ -2242,9 +2244,11 @@ type CallOptions = {
      * engine NEVER returns an empty list, so results are its best offer rather than proof anything
      * matched — a long-tail query (an obscure company name plus "pricing", say) can come back with
      * ten confident rows about something else entirely, and `warnings` carries a note only when
-     * NONE of them share a single word with the query — and it IGNORES operators — a
-     * `site:example.com` query is not scoped to that site. When every engine fails this THROWS
-     * rather than returning zero rows, because no engine reached is not the same as nothing found.
+     * NONE of them share a single word with the query, or when the only word they share is a
+     * generic one like "pricing" and the subject you named appears nowhere — and it IGNORES
+     * operators — a `site:example.com` query is not scoped to that site. When every engine fails
+     * this THROWS rather than returning zero rows, because no engine reached is not the same as
+     * nothing found.
      */
     web(query: string | { query: string, limit?: number }, limit?: number, options?: CallOptions): Promise<SearchWebResult>;
 
@@ -5987,9 +5991,10 @@ interface BingNewsSearchResult {
      * words came back with ten confident, unrelated rows, and a long-tail query (an obscure
      * company name plus "pricing", say) can get the same substituted treatment — and it IGNORES
      * search operators, so `site:reddit.com …` is not scoped to reddit. `warnings` now flags the
-     * extreme case of the first (every row sharing not one word with the query), but a
-     * partially-relevant result set is not caught, so still treat the rows as Bing's best offer
-     * rather than as proof anything matched.
+     * extreme case of the first — every row sharing not one word with the query, or every row
+     * matching only a generic word like "pricing" while the thing you named is absent from all of
+     * them — but a partially-relevant result set is not caught, so still treat the rows as Bing's
+     * best offer rather than as proof anything matched.
      */
     searchWeb(args: { query: string, limit?: number }): Promise<BingSearchResult>;
 

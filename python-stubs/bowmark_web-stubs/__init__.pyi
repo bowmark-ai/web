@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 93974c0fe2d59272adb2ff8352ddcd5b0b4aeedfb8990ae8eb2eae6be6db2cb7
+# Manifest version: 39dcf1ce3e09862106f34c3d2acbc7852aecff6301f22eb55a5f963f82b6500a
 # 45 capabilities, 370 providers, 900 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -16977,8 +16977,9 @@ class Cap_search(Protocol):
     returns an empty list even when nothing matches — including for a long-tail query it has
     nothing confident to say about, e.g. an obscure company name plus "pricing" — and it
     ignores search operators like site:. `warnings` now flags the extreme case of the first
-    (every returned row sharing not one word with the query), but a partially-relevant
-    substitution is not caught.
+    — every returned row sharing not one word with the query, or every row matching only a
+    generic word like "pricing" while the name you searched for is absent from all of them —
+    but a partially-relevant substitution is not caught.
     """
 
     async def web(self, query: str | Cap_search_web_query_u1_In, limit: float | None = None, options: Cap_search_CallOptions_In | None = None, /) -> Cap_search_SearchWebResult_Out:
@@ -16989,10 +16990,11 @@ class Cap_search(Protocol):
         engine NEVER returns an empty list, so results are its best offer rather than proof
         anything matched — a long-tail query (an obscure company name plus "pricing", say) can
         come back with ten confident rows about something else entirely, and `warnings` carries
-        a note only when NONE of them share a single word with the query — and it IGNORES
-        operators — a `site:example.com` query is not scoped to that site. When every engine
-        fails this THROWS rather than returning zero rows, because no engine reached is not the
-        same as nothing found.
+        a note only when NONE of them share a single word with the query, or when the only word
+        they share is a generic one like "pricing" and the subject you named appears nowhere —
+        and it IGNORES operators — a `site:example.com` query is not scoped to that site. When
+        every engine fails this THROWS rather than returning zero rows, because no engine
+        reached is not the same as nothing found.
         """
 
     async def news(self, query: str | Cap_search_news_query_u1_In, limit: float | None = None, options: Cap_search_CallOptions_In | None = None, /) -> Cap_search_SearchNewsResult_Out:
@@ -18381,9 +18383,10 @@ class Prv_bing(Protocol):
         invented words came back with ten confident, unrelated rows, and a long-tail query (an
         obscure company name plus "pricing", say) can get the same substituted treatment — and
         it IGNORES search operators, so `site:reddit.com …` is not scoped to reddit. `warnings`
-        now flags the extreme case of the first (every row sharing not one word with the query),
-        but a partially-relevant result set is not caught, so still treat the rows as Bing's
-        best offer rather than as proof anything matched.
+        now flags the extreme case of the first — every row sharing not one word with the query,
+        or every row matching only a generic word like "pricing" while the thing you named is
+        absent from all of them — but a partially-relevant result set is not caught, so still
+        treat the rows as Bing's best offer rather than as proof anything matched.
         """
 
     async def searchNews(self, args: Prv_bing_searchNews_args_In, /) -> Prv_bing_BingNewsSearchResult_Out:
