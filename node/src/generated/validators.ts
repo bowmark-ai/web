@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5010bc0b6738f87863c533210127aceca544299a0fa563372a23fbd1e963bafd
-// 898 checked, 20 unchecked.
+// Manifest version: 01195ec5954c77ea16a9293c228d188c346ef5d4dcce6e9b9f7aea0dd1beec97
+// 900 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5010bc0b6738f87863c533210127aceca544299a0fa563372a23fbd1e963bafd",
+  "version": "01195ec5954c77ea16a9293c228d188c346ef5d4dcce6e9b9f7aea0dd1beec97",
   "units": {
     "bundles": {
       "defs": {},
@@ -10960,6 +10960,41 @@ export const VALIDATORS: ValidatorTable = {
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.fbsappliance": {
+      "defs": {
+        "FbsapplianceSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchAppliances": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FbsapplianceSearchArgs"
             },
             "optional": false
           }
@@ -23141,6 +23176,117 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "RitaniSelections"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.rivian": {
+      "defs": {
+        "RivianLeaseAnnualMileage": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": 10000
+            },
+            {
+              "k": "literal",
+              "v": 12000
+            },
+            {
+              "k": "literal",
+              "v": 15000
+            }
+          ]
+        },
+        "RivianLeaseCreditTier": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "excellent"
+            },
+            {
+              "k": "literal",
+              "v": "veryGood"
+            },
+            {
+              "k": "literal",
+              "v": "good"
+            }
+          ]
+        },
+        "RivianLeaseEstimateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "trim",
+              "schema": {
+                "k": "ref",
+                "name": "RivianLeaseTrim"
+              },
+              "optional": false
+            },
+            {
+              "name": "termMonths",
+              "schema": {
+                "k": "ref",
+                "name": "RivianLeaseTermMonths"
+              },
+              "optional": false
+            },
+            {
+              "name": "annualMileage",
+              "schema": {
+                "k": "ref",
+                "name": "RivianLeaseAnnualMileage"
+              },
+              "optional": false
+            },
+            {
+              "name": "creditTier",
+              "schema": {
+                "k": "ref",
+                "name": "RivianLeaseCreditTier"
+              },
+              "optional": false
+            },
+            {
+              "name": "downPayment",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "RivianLeaseTermMonths": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": 24
+            },
+            {
+              "k": "literal",
+              "v": 36
+            }
+          ]
+        },
+        "RivianLeaseTrim": {
+          "k": "literal",
+          "v": "premium"
+        }
+      },
+      "functions": {
+        "estimateLeasePayment": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RivianLeaseEstimateArgs"
             },
             "optional": false
           }

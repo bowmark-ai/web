@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5010bc0b6738f87863c533210127aceca544299a0fa563372a23fbd1e963bafd
-# 45 capabilities, 368 providers, 898 typed functions, 20 refused.
+# Manifest version: 01195ec5954c77ea16a9293c228d188c346ef5d4dcce6e9b9f7aea0dd1beec97
+# 45 capabilities, 370 providers, 900 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6798,6 +6798,18 @@ class Prv_facerealityskincare_FaceRealitySkincareEstheticianRow_Out_address_u0_O
     lat: float | None
     lng: float | None
 
+class Prv_fbsappliance_FbsapplianceSearchArgs_In(TypedDict):
+    category: str
+    limit: NotRequired[float]
+
+class Prv_fbsappliance_FbsapplianceSearchResult_Out(TypedDict):
+    name: str
+    modelNumber: str
+    price: float
+    wasPrice: float | None
+    availableAt: str | None
+    url: str
+
 class Prv_fieldstonehomes_FieldstonehomesSearchArgs_In(TypedDict):
     city: NotRequired[str]
     homeType: NotRequired[str]
@@ -13236,6 +13248,27 @@ class Prv_ritani_RitaniPriceResult_Out_selections_Out(TypedDict):
     headMetal: str
     shankStyle: str
     shankMetal: str
+
+class Prv_rivian_RivianLeaseEstimateArgs_In(TypedDict):
+    trim: Literal["premium"]
+    termMonths: Literal[24] | Literal[36]
+    annualMileage: Literal[10000] | Literal[12000] | Literal[15000]
+    creditTier: Literal["excellent"] | Literal["veryGood"] | Literal["good"]
+    downPayment: float
+
+class Prv_rivian_RivianLeaseEstimate_Out(TypedDict):
+    model: Literal["R1T"]
+    trim: Literal["premium"]
+    vehiclePrice: float
+    destinationFee: float
+    acquisitionFee: float
+    monthlyPayment: float
+    downPayment: float
+    amountDueAtSigning: float
+    residualValue: float
+    termMonths: float
+    annualMileage: float
+    isLeaseEligible: bool
 
 class Prv_roofmaxx_RoofmaxxCalculatorSettings_Out(TypedDict):
     title: str
@@ -20666,6 +20699,19 @@ class Prv_facerealityskincare(Protocol):
         Instagram and booking link.
         """
 
+class Prv_fbsappliance(Protocol):
+    """FBS Appliance's real catalog across 8 Texas showrooms — searchAppliances runs the site's
+    own category grid and returns real, currently-listed appliances with live selling price,
+    any sale/was price, model number, and which store the grid shows it in stock at.
+    """
+
+    async def searchAppliances(self, args: Prv_fbsappliance_FbsapplianceSearchArgs_In, /) -> list[Prv_fbsappliance_FbsapplianceSearchResult_Out]:
+        """Runs FBS Appliance's own category grid and returns real, currently-listed appliances
+        (name, model number, real current price, the crossed-out 'was' price when shown, the
+        store the grid names as having it, and the product's own FBS Appliance URL). Read-only —
+        never adds to cart or checks out.
+        """
+
 class Prv_fieldstonehomes(Protocol):
     """Live Fieldstone Homes quick-move-in inventory plus a validated appointment handoff;
     prefer it when current availability, incentives or booking details matter.
@@ -25218,6 +25264,20 @@ class Prv_ritani(Protocol):
         current ones.
         """
 
+class Prv_rivian(Protocol):
+    """Prices a real Rivian R1T lease through rivian.com's own R1 Shop payment-estimate
+    calculator — monthly payment, amount due at signing, acquisition fee and residual value
+    for a chosen term, mileage allowance, credit tier and down payment.
+    """
+
+    async def estimateLeasePayment(self, args: Prv_rivian_RivianLeaseEstimateArgs_In, /) -> Prv_rivian_RivianLeaseEstimate_Out:
+        """Prices a real Rivian R1T Premium lease — monthly payment, amount due at signing,
+        acquisition fee and residual value — for a chosen term (24 or 36 months), annual mileage
+        allowance (10,000/12,000/15,000), credit tier and cash down payment, through
+        rivian.com's own R1 Shop payment-estimate calculator. Only the Premium trim has a
+        verified option combo today.
+        """
+
 class Prv_roofmaxx(Protocol):
     """Roof Maxx's own Roof Replacement Cost Calculator (roofmaxx.com/learning-hub) — given a
     home's size, location and roof details, returns the site's real server-computed
@@ -27307,6 +27367,7 @@ class BowmarkProviders(Protocol):
     extraspace: Prv_extraspace
     faceforwardaesthetics: Prv_faceforwardaesthetics
     facerealityskincare: Prv_facerealityskincare
+    fbsappliance: Prv_fbsappliance
     fieldstonehomes: Prv_fieldstonehomes
     firstamericahomes: Prv_firstamericahomes
     firstdibs: Prv_firstdibs
@@ -27451,6 +27512,7 @@ class BowmarkProviders(Protocol):
     revisionskincare: Prv_revisionskincare
     rishitea: Prv_rishitea
     ritani: Prv_ritani
+    rivian: Prv_rivian
     roofmaxx: Prv_roofmaxx
     rover: Prv_rover
     rvshare: Prv_rvshare

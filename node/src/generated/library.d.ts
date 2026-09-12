@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5010bc0b6738f87863c533210127aceca544299a0fa563372a23fbd1e963bafd
-// 45 capabilities, 368 providers, 916 typed functions, 20 refused.
+// Manifest version: 01195ec5954c77ea16a9293c228d188c346ef5d4dcce6e9b9f7aea0dd1beec97
+// 45 capabilities, 370 providers, 918 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12312,6 +12312,38 @@ interface FaceRealitySkincareEstheticianRow {
      * booking link.
      */
     searchAcneExperts(query: string): Promise<FaceRealitySkincareEstheticianRow[]>;
+  }
+}
+
+declare namespace BowmarkProvider_fbsappliance {
+  // ── Factory Builder Stores (FBS Appliance) — the unit's own declarations, verbatim ──
+interface FbsapplianceSearchArgs {
+  category: string;   // the site's own catalog slug, e.g. "built-in-refrigerators"
+  limit?: number;     // default 24, clamped to [1, 60]
+}
+
+interface FbsapplianceSearchResult {
+  name: string;
+  modelNumber: string;         // may end in a literal "..." when the grid clips it
+  price: number;                // real, current selling price
+  wasPrice: number | null;      // the crossed-out "was" price, when shown
+  availableAt: string | null;   // the city the grid names, when it names one
+  url: string;                   // this product's own FBS Appliance URL
+}
+
+  /**
+   * FBS Appliance's real catalog across 8 Texas showrooms — searchAppliances runs the site's own
+   * category grid and returns real, currently-listed appliances with live selling price, any
+   * sale/was price, model number, and which store the grid shows it in stock at.
+   */
+  interface Unit {
+    /**
+     * Runs FBS Appliance's own category grid and returns real, currently-listed appliances (name,
+     * model number, real current price, the crossed-out 'was' price when shown, the store the grid
+     * names as having it, and the product's own FBS Appliance URL). Read-only — never adds to cart
+     * or checks out.
+     */
+    searchAppliances(args: FbsapplianceSearchArgs): Promise<FbsapplianceSearchResult[]>;
   }
 }
 
@@ -25124,6 +25156,52 @@ interface RitaniPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_rivian {
+  // ── Rivian — the unit's own declarations, verbatim ──
+type RivianLeaseTrim = "premium";
+type RivianLeaseTermMonths = 24 | 36;
+type RivianLeaseAnnualMileage = 10000 | 12000 | 15000;
+type RivianLeaseCreditTier = "excellent" | "veryGood" | "good";
+
+interface RivianLeaseEstimateArgs {
+  trim: RivianLeaseTrim;
+  termMonths: RivianLeaseTermMonths;
+  annualMileage: RivianLeaseAnnualMileage;
+  creditTier: RivianLeaseCreditTier;
+  downPayment: number;
+}
+
+interface RivianLeaseEstimate {
+  model: "R1T";
+  trim: RivianLeaseTrim;
+  vehiclePrice: number;
+  destinationFee: number;
+  acquisitionFee: number;
+  monthlyPayment: number;
+  downPayment: number;
+  amountDueAtSigning: number;
+  residualValue: number;
+  termMonths: number;
+  annualMileage: number;
+  isLeaseEligible: boolean;
+}
+
+  /**
+   * Prices a real Rivian R1T lease through rivian.com's own R1 Shop payment-estimate calculator
+   * — monthly payment, amount due at signing, acquisition fee and residual value for a chosen
+   * term, mileage allowance, credit tier and down payment.
+   */
+  interface Unit {
+    /**
+     * Prices a real Rivian R1T Premium lease — monthly payment, amount due at signing, acquisition
+     * fee and residual value — for a chosen term (24 or 36 months), annual mileage allowance
+     * (10,000/12,000/15,000), credit tier and cash down payment, through rivian.com's own R1 Shop
+     * payment-estimate calculator. Only the Premium trim has a verified option combo today.
+     */
+    estimateLeasePayment(args: RivianLeaseEstimateArgs): Promise<RivianLeaseEstimate>;
+  }
+}
+
 declare namespace BowmarkProvider_roofmaxx {
   // ── Roof Maxx — the unit's own declarations, verbatim ──
 interface RoofmaxxCalculatorSettings {
@@ -31227,6 +31305,7 @@ interface BowmarkProviders {
   extraspace: BowmarkProvider_extraspace.Unit;
   faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
+  fbsappliance: BowmarkProvider_fbsappliance.Unit;
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
   firstamericahomes: BowmarkProvider_firstamericahomes.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
@@ -31371,6 +31450,7 @@ interface BowmarkProviders {
   revisionskincare: BowmarkProvider_revisionskincare.Unit;
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
+  rivian: BowmarkProvider_rivian.Unit;
   roofmaxx: BowmarkProvider_roofmaxx.Unit;
   rover: BowmarkProvider_rover.Unit;
   rvshare: BowmarkProvider_rvshare.Unit;
