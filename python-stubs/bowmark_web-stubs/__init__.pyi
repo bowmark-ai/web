@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c1d9dade8a7063304ab7200f4726e2fffa5b81a51dbacbed46a632e880889c80
-# 45 capabilities, 372 providers, 906 typed functions, 20 refused.
+# Manifest version: da786148f1a52f69bfb48b53d8549bb37b43add02b5e5f28f19066c38fce9281
+# 45 capabilities, 373 providers, 907 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7061,6 +7061,49 @@ class Prv_fivestarbathsolutions_FivestarDaySlots_Out(TypedDict):
     date: str
     dayOfWeek: str
     times: list[str]
+
+class Prv_fluencecorp_EnergyConsumptionInput_In(TypedDict):
+    influentFlow: float
+    sludgeFlow: NotRequired[float]
+    influent: Prv_fluencecorp_ConcentrationSet_In
+    effluent: Prv_fluencecorp_ConcentrationSet_In
+    sludge: Prv_fluencecorp_SludgeConcentrationSet_In
+    elevation: float
+    temperature: float
+    power: Mapping[str, Prv_fluencecorp_PowerConsumer_In]
+
+class Prv_fluencecorp_ConcentrationSet_In(TypedDict):
+    COD: float
+    TKN: float
+    NO3N: float
+    DisolvedOxygen: NotRequired[float]
+
+class Prv_fluencecorp_SludgeConcentrationSet_In(TypedDict):
+    TSSConcentration: float
+    COD: NotRequired[float]
+    TKN: NotRequired[float]
+    NO3N: NotRequired[float]
+    DisolvedOxygen: NotRequired[float]
+    VSS_TSS_Ratio: NotRequired[float]
+
+class Prv_fluencecorp_PowerConsumer_In(TypedDict):
+    name: str
+    consumption: float
+    count: float
+    operation: float
+
+class Prv_fluencecorp_EnergyConsumptionResult_Out(TypedDict):
+    NEC: float
+    NEC_T_P: float
+    NOR: float
+    LR_COD: float
+    LR_TKN: float
+    LR_NO3N: float
+    LR_DisolvedOxygen: float
+    totalPower: float
+    barometricPressure: float
+    effluentFlow: float
+    level: Literal[0] | Literal[1] | Literal[2] | Literal[3]
 
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
@@ -20996,6 +21039,18 @@ class Prv_flightradar24(Protocol):
     # It is CALLABLE at runtime; `bowmark.providers.flightradar24.getAirportArrivals` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
+class Prv_fluencecorp(Protocol):
+    """Computes Normalized Energy Consumption (NEC, kWh/kg) for a wastewater-treatment plant
+    design per ISO 21939 — the exact calculation Fluence's own Energy Consumption Calculator
+    performs, reimplemented locally with no network call.
+    """
+
+    async def calculateEnergyConsumption(self, args: Prv_fluencecorp_EnergyConsumptionInput_In, /) -> Prv_fluencecorp_EnergyConsumptionResult_Out:
+        """Computes Normalized Energy Consumption (NEC, kWh/kg) for a wastewater treatment plant
+        design per ISO 21939, from design flows, influent/sludge/effluent concentrations,
+        environmental conditions and a power-consumer list.
+        """
+
 class Prv_ford(Protocol):
     """Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
     VIN, the model/trim directory and its paint palette, the build-and-price configurator,
@@ -27546,6 +27601,7 @@ class BowmarkProviders(Protocol):
     fivebelow: Prv_fivebelow
     fivestarbathsolutions: Prv_fivestarbathsolutions
     flightradar24: Prv_flightradar24
+    fluencecorp: Prv_fluencecorp
     ford: Prv_ford
     formax: Prv_formax
     forms_hubspot_com: Prv_forms_hubspot_com

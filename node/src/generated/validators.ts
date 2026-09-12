@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c1d9dade8a7063304ab7200f4726e2fffa5b81a51dbacbed46a632e880889c80
-// 906 checked, 20 unchecked.
+// Manifest version: da786148f1a52f69bfb48b53d8549bb37b43add02b5e5f28f19066c38fce9281
+// 907 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c1d9dade8a7063304ab7200f4726e2fffa5b81a51dbacbed46a632e880889c80",
+  "version": "da786148f1a52f69bfb48b53d8549bb37b43add02b5e5f28f19066c38fce9281",
   "units": {
     "bundles": {
       "defs": {},
@@ -11467,6 +11467,203 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "getAirline": null,
         "getAirportArrivals": null
+      }
+    },
+    "providers.fluencecorp": {
+      "defs": {
+        "ConcentrationSet": {
+          "k": "object",
+          "props": [
+            {
+              "name": "COD",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "TKN",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "NO3N",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "DisolvedOxygen",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "EnergyConsumptionInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "influentFlow",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "sludgeFlow",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "influent",
+              "schema": {
+                "k": "ref",
+                "name": "ConcentrationSet"
+              },
+              "optional": false
+            },
+            {
+              "name": "effluent",
+              "schema": {
+                "k": "ref",
+                "name": "ConcentrationSet"
+              },
+              "optional": false
+            },
+            {
+              "name": "sludge",
+              "schema": {
+                "k": "ref",
+                "name": "SludgeConcentrationSet"
+              },
+              "optional": false
+            },
+            {
+              "name": "elevation",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "temperature",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "power",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "ref",
+                  "name": "PowerConsumer"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PowerConsumer": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "consumption",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "operation",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SludgeConcentrationSet": {
+          "k": "object",
+          "props": [
+            {
+              "name": "TSSConcentration",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "COD",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "TKN",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "NO3N",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "DisolvedOxygen",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "VSS_TSS_Ratio",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "calculateEnergyConsumption": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EnergyConsumptionInput"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.ford": {

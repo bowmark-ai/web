@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c1d9dade8a7063304ab7200f4726e2fffa5b81a51dbacbed46a632e880889c80
-// 45 capabilities, 372 providers, 924 typed functions, 20 refused.
+// Manifest version: da786148f1a52f69bfb48b53d8549bb37b43add02b5e5f28f19066c38fce9281
+// 45 capabilities, 373 providers, 925 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12843,6 +12843,71 @@ interface flightradar24ArrivalsBoard {
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.flightradar24.getAirportArrivals` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+  }
+}
+
+declare namespace BowmarkProvider_fluencecorp {
+  // ── Fluence Corporation — the unit's own declarations, verbatim ──
+interface ConcentrationSet {
+  COD: number;
+  TKN: number;
+  NO3N: number;
+  DisolvedOxygen?: number;
+}
+
+interface SludgeConcentrationSet {
+  TSSConcentration: number;
+  COD?: number;
+  TKN?: number;
+  NO3N?: number;
+  DisolvedOxygen?: number;
+  VSS_TSS_Ratio?: number;
+}
+
+interface PowerConsumer {
+  name: string;
+  consumption: number;
+  count: number;
+  operation: number;
+}
+
+interface EnergyConsumptionInput {
+  influentFlow: number;
+  sludgeFlow?: number;
+  influent: ConcentrationSet;
+  effluent: ConcentrationSet;
+  sludge: SludgeConcentrationSet;
+  elevation: number;
+  temperature: number;
+  power: Record<string, PowerConsumer>;
+}
+
+interface EnergyConsumptionResult {
+  NEC: number;
+  NEC_T_P: number;
+  NOR: number;
+  LR_COD: number;
+  LR_TKN: number;
+  LR_NO3N: number;
+  LR_DisolvedOxygen: number;
+  totalPower: number;
+  barometricPressure: number;
+  effluentFlow: number;
+  level: 0 | 1 | 2 | 3;
+}
+
+  /**
+   * Computes Normalized Energy Consumption (NEC, kWh/kg) for a wastewater-treatment plant design
+   * per ISO 21939 — the exact calculation Fluence's own Energy Consumption Calculator performs,
+   * reimplemented locally with no network call.
+   */
+  interface Unit {
+    /**
+     * Computes Normalized Energy Consumption (NEC, kWh/kg) for a wastewater treatment plant design
+     * per ISO 21939, from design flows, influent/sludge/effluent concentrations, environmental
+     * conditions and a power-consumer list.
+     */
+    calculateEnergyConsumption(args: EnergyConsumptionInput): Promise<EnergyConsumptionResult>;
   }
 }
 
@@ -31510,6 +31575,7 @@ interface BowmarkProviders {
   fivebelow: BowmarkProvider_fivebelow.Unit;
   fivestarbathsolutions: BowmarkProvider_fivestarbathsolutions.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;
+  fluencecorp: BowmarkProvider_fluencecorp.Unit;
   ford: BowmarkProvider_ford.Unit;
   formax: BowmarkProvider_formax.Unit;
   forms_hubspot_com: BowmarkProvider_forms_hubspot_com.Unit;

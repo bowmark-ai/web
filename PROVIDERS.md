@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1349 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1350 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -475,6 +475,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `flightradar24.listFlightsInArea` | flightradar24.com | Lists every aircraft currently airborne inside a geographic bounding box — the map's… | ⚪ |
 | `flightradar24.search` | flightradar24.com | Resolves a free-text query — an airport name, a city, an airline, a flight number, a… | ⚪ |
 | `flightradar24.trackFlight` | flightradar24.com | Answers "where is this flight right now" for a flight number (BA286), callsign… | ⚪ |
+| `fluencecorp.calculateEnergyConsumption` | fluencecorp.com | Computes Normalized Energy Consumption (`NEC`, kWh/kg) for a wastewater treatment… | 🟢 |
 | `fomo.commentOnTrade` | fomo.family | Posts a comment on a trade, and reacts to or unreacts from an existing comment. `POST… | ⚪ |
 | `fomo.deleteAccount` | fomo.family | Deletes the signed-in trader's fomo account. `DELETE /v2/users/:userId`. | ⚪ |
 | `fomo.editProfile` | fomo.family | Updates the signed-in trader's own profile — display name, bio, handle — and uploads… | ⚪ |
