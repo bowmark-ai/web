@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 973eb205ec05c13ed09a92dadffafadbe38675eafb8053f72132bbbff65521ff
-# 45 capabilities, 371 providers, 903 typed functions, 20 refused.
+# Manifest version: c0a931ccfbcd28fa2502d61456424b5c090bce0dc4ca5c5b45c2b14b2fd8248c
+# 45 capabilities, 371 providers, 904 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1514,6 +1514,23 @@ class Cap_web_form_fields_FormField_Out(TypedDict):
     type: str
     required: bool
     options: NotRequired[list[str]]
+
+class Cap_web_form_fields_FormFillOptions_In(TypedDict):
+    open: NotRequired[str]
+    timeoutMs: NotRequired[float]
+    advance: NotRequired[bool]
+    submit: NotRequired[bool]
+
+class Cap_web_form_fields_FormFillResult_Out(TypedDict):
+    url: str
+    filled: list[str]
+    notFound: list[str]
+    advanced: bool
+    submitted: bool
+    openedWith: str | None
+    multiStep: bool
+    stepLabel: str | None
+    warnings: list[str]
 
 class Cap_wireless_compareAllInPrice_arg_In(TypedDict):
     lineCount: float
@@ -17179,7 +17196,9 @@ class Cap_weather(Protocol):
 class Cap_web_form_fields(Protocol):
     """Inventories every field a web form asks for — label, name, type, choices and
     required-ness — including a booking or quote widget that only appears after a click and
-    mounts in its own iframe. Read-only: it never fills or submits a form.
+    mounts in its own iframe. `getFields` is read-only. `fillForm` writes answers into those
+    same fields and can click 'Next'/'Continue' to advance a multi-step flow, or the control
+    that finally commits it — one call, one step; call it again for the next step.
     """
 
     async def getFields(self, url: str, options: Cap_web_form_fields_FormOptions_In | None = None, /) -> Cap_web_form_fields_FormInspectionResult_Out:
@@ -17189,6 +17208,18 @@ class Cap_web_form_fields(Protocol):
         Online` button, say) and reads the widget's own cross-origin iframe. It clicks exactly
         that one control: it never types, never picks an option and never submits, so a
         multi-step flow comes back as the visible step plus `multiStep: true`.
+        """
+
+    async def fillForm(self, url: str, values: Mapping[str, str], options: Cap_web_form_fields_FormFillOptions_In | None = None, /) -> Cap_web_form_fields_FormFillResult_Out:
+        """Opens the page (and the booking/quote widget behind a button, exactly as `getFields`
+        does), then writes `values` into whatever fields match — keyed by a field's `name` or a
+        word or two of its label, matched fuzzily so the site's own wording doesn't have to be
+        exact. Always opens a browser: filling is an interaction, not a read. Pass `advance:
+        true` to click 'Next'/'Continue' once everything is written, or `submit: true` to click
+        the control that actually commits the form (submit wins if both are set). One call is
+        one step — call it again with the next step's `values` to walk a wizard forward.
+        `notFound` names any `values` key nothing on the page matched, so a caller who guessed a
+        label wrong sees that rather than silence.
         """
 
 class Cap_wireless(Protocol):

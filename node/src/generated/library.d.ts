@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 973eb205ec05c13ed09a92dadffafadbe38675eafb8053f72132bbbff65521ff
-// 45 capabilities, 371 providers, 921 typed functions, 20 refused.
+// Manifest version: c0a931ccfbcd28fa2502d61456424b5c090bce0dc4ca5c5b45c2b14b2fd8248c
+// 45 capabilities, 371 providers, 922 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2635,7 +2635,7 @@ interface ForecastResult {
 }
 
 declare namespace BowmarkCapability_web_form_fields {
-  // ── Inspect a web form and count its fields — the unit's own declarations, verbatim ──
+  // ── Inspect, fill and drive a multi-step web form — the unit's own declarations, verbatim ──
 
 interface FormField { name: string | null; label: string | null; type: string; required: boolean; options?: string[] }
 interface InspectedForm { action: string | null; method: string; fields: FormField[]; frameUrl?: string | null }
@@ -2660,10 +2660,31 @@ type FormInspectionResult = {
   warnings: string[]
 }
 
+type FormFillOptions = {
+  open?: string        // the control that opens the form, if you already know it
+  timeoutMs?: number   // default 30000
+  advance?: boolean     // click "Next"/"Continue" once values are written. default false
+  submit?: boolean       // click the control that COMMITS the form. default false. wins over advance
+}
+
+type FormFillResult = {
+  url: string
+  filled: string[]           // the values keys that matched a field and were written
+  notFound: string[]         // the values keys nothing on the page matched
+  advanced: boolean           // a Next/Continue control was found and clicked
+  submitted: boolean          // a submit/book/place-order control was found and clicked
+  openedWith: string | null
+  multiStep: boolean          // the step now on screen continues past this one
+  stepLabel: string | null
+  warnings: string[]
+}
+
   /**
    * Inventories every field a web form asks for — label, name, type, choices and required-ness —
    * including a booking or quote widget that only appears after a click and mounts in its own
-   * iframe. Read-only: it never fills or submits a form.
+   * iframe. `getFields` is read-only. `fillForm` writes answers into those same fields and can
+   * click 'Next'/'Continue' to advance a multi-step flow, or the control that finally commits it
+   * — one call, one step; call it again for the next step.
    */
   interface Unit {
     /**
@@ -2675,6 +2696,19 @@ type FormInspectionResult = {
      * back as the visible step plus `multiStep: true`.
      */
     getFields(url: string, options?: FormOptions): Promise<FormInspectionResult>;
+
+    /**
+     * Opens the page (and the booking/quote widget behind a button, exactly as `getFields` does),
+     * then writes `values` into whatever fields match — keyed by a field's `name` or a word or two
+     * of its label, matched fuzzily so the site's own wording doesn't have to be exact. Always
+     * opens a browser: filling is an interaction, not a read. Pass `advance: true` to click
+     * 'Next'/'Continue' once everything is written, or `submit: true` to click the control that
+     * actually commits the form (submit wins if both are set). One call is one step — call it
+     * again with the next step's `values` to walk a wizard forward. `notFound` names any `values`
+     * key nothing on the page matched, so a caller who guessed a label wrong sees that rather than
+     * silence.
+     */
+    fillForm(url: string, values: Record<string, string>, options?: FormFillOptions): Promise<FormFillResult>;
   }
 }
 

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 973eb205ec05c13ed09a92dadffafadbe38675eafb8053f72132bbbff65521ff
-// 903 checked, 20 unchecked.
+// Manifest version: c0a931ccfbcd28fa2502d61456424b5c090bce0dc4ca5c5b45c2b14b2fd8248c
+// 904 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "973eb205ec05c13ed09a92dadffafadbe38675eafb8053f72132bbbff65521ff",
+  "version": "c0a931ccfbcd28fa2502d61456424b5c090bce0dc4ca5c5b45c2b14b2fd8248c",
   "units": {
     "bundles": {
       "defs": {},
@@ -2689,6 +2689,39 @@ export const VALIDATORS: ValidatorTable = {
     },
     "web_form_fields": {
       "defs": {
+        "FormFillOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "open",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "advance",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "submit",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "FormOptions": {
           "k": "object",
           "props": [
@@ -2744,6 +2777,33 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FormOptions"
+            },
+            "optional": true
+          }
+        ],
+        "fillForm": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "values",
+            "schema": {
+              "k": "record",
+              "value": {
+                "k": "string"
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "FormFillOptions"
             },
             "optional": true
           }

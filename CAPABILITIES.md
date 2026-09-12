@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 61 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 62 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -66,6 +66,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `text_to_speech.synthesize` | Converts `text` into spoken audio, base64-encoded, in an existing or previously-cloned… | 1 | 🟢 |
 | `theme_park_tickets.search` | Looks up a Six Flags/Cedar Fair theme park by name (`"Cedar Point"`, `"Six Flags Magic… | 1 | 🟢 |
 | `weather.forecast` | Geocodes a place name and returns its daily forecast (default 5 days, max 16 —… | 0 | 🟢 |
+| `web_form_fields.fillForm` | Opens the page (and the booking/quote widget behind a button, exactly as `getFields`… | 0 | 🟢 |
 | `web_form_fields.getFields` | Reads a page and returns its forms plus a total field count, each field with its… | 0 | 🟢 |
 | `wireless.compareAllInPrice` | For a given line count, fans out across every carrier this capability declares and… | 0 | 🟢 |
 | `yoga_outfit_shopping.search` | Fans out one free-text query to lululemon, Beyond Yoga and Alo Yoga in parallel and… | 3 | 🟢 |
