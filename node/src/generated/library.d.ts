@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: eafe6dabac1bcccdff5ba3714d7bf83cf4aca268fd760cec9b236067d79ab0dc
-// 45 capabilities, 374 providers, 927 typed functions, 20 refused.
+// Manifest version: 07321805a3af3d62401f0f74f56f782079b610fa30c99e7d2f8576f1d7b3ccf1
+// 45 capabilities, 376 providers, 931 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13409,6 +13409,46 @@ interface HubspotPageForms {
      * form's submit text.
      */
     getFormDefinition(formUrlOrIds: string): Promise<HubspotFormDefinition>;
+  }
+}
+
+declare namespace BowmarkProvider_fortressbp {
+  // ── Fortress Building Products — the unit's own declarations, verbatim ──
+interface fortressbpRecommendation {
+  productName: string | null;
+  imageUrl: string;
+  path: string[];
+}
+interface fortressbpNextQuestion {
+  prompt: string;
+  options: string[];
+}
+type fortressbpRow =
+  | ({ complete: true } & fortressbpRecommendation)
+  | ({ complete: false } & fortressbpNextQuestion);
+interface ListProductTypesResult {
+  productTypes: string[];
+}
+interface RecommendProductArgs {
+  selections: string[];
+}
+
+  /**
+   * Fortress Building Products' own Simplifinder product-recommendation tool (fencing, framing,
+   * pergolas), reimplemented from the site's own decision tree.
+   */
+  interface Unit {
+    /**
+     * Reads Simplifinder's own top-level product-type choices (Fencing / Framing / Pergolas) off
+     * the live page.
+     */
+    listProductTypes(): Promise<ListProductTypesResult>;
+
+    /**
+     * Walks Simplifinder's own decision tree with the labels chosen so far and returns either the
+     * recommended product or the next question to ask.
+     */
+    recommendProduct(args: RecommendProductArgs): Promise<fortressbpRow>;
   }
 }
 
@@ -28815,6 +28855,41 @@ interface topviewtixPackageSummary {
   }
 }
 
+declare namespace BowmarkProvider_totalplastics {
+  // ── Total Plastics — the unit's own declarations, verbatim ──
+interface TotalplasticsQuoteFormField {
+  id: string;
+  type: string;
+  label: string;
+  required: boolean;
+  options: string[];
+}
+interface TotalplasticsQuoteFormFields {
+  title: string;
+  formUrl: string;
+  fields: TotalplasticsQuoteFormField[];
+}
+
+  /**
+   * Total Plastics' own "Request a Quote" form — a POWR widget embedded on /contact-us/, not on
+   * /quote/ — read directly off POWR's server-rendered config.
+   */
+  interface Unit {
+    /**
+     * Reads Total Plastics' live "Request a Quote" form and returns its field schema — label,
+     * type, required, and options per field.
+     */
+    getQuoteFormFields(): Promise<TotalplasticsQuoteFormFields>;
+
+    /**
+     * Reads one named field off the live "Request a Quote" form — e.g. "Material Type" or "Annual
+     * Plastics Spend" — and returns its option list, so a caller can pick a valid value before
+     * submitting.
+     */
+    getQuoteFormFieldOptions(label: string): Promise<TotalplasticsQuoteFormField>;
+  }
+}
+
 declare namespace BowmarkProvider_travelinsured {
   // ── Travel Insured International — the unit's own declarations, verbatim ──
 interface TravelinsuredDestination {
@@ -31655,6 +31730,7 @@ interface BowmarkProviders {
   ford: BowmarkProvider_ford.Unit;
   formax: BowmarkProvider_formax.Unit;
   forms_hubspot_com: BowmarkProvider_forms_hubspot_com.Unit;
+  fortressbp: BowmarkProvider_fortressbp.Unit;
   fourseasonsyachts: BowmarkProvider_fourseasonsyachts.Unit;
   framebridge: BowmarkProvider_framebridge.Unit;
   fred: BowmarkProvider_fred.Unit;
@@ -31834,6 +31910,7 @@ interface BowmarkProviders {
   titlenine: BowmarkProvider_titlenine.Unit;
   tmobile: BowmarkProvider_tmobile.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
+  totalplastics: BowmarkProvider_totalplastics.Unit;
   travelinsured: BowmarkProvider_travelinsured.Unit;
   trawickinternational: BowmarkProvider_trawickinternational.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;

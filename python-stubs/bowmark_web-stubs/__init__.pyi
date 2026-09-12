@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eafe6dabac1bcccdff5ba3714d7bf83cf4aca268fd760cec9b236067d79ab0dc
-# 45 capabilities, 374 providers, 909 typed functions, 20 refused.
+# Manifest version: 07321805a3af3d62401f0f74f56f782079b610fa30c99e7d2f8576f1d7b3ccf1
+# 45 capabilities, 376 providers, 913 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7290,6 +7290,23 @@ class Prv_forms_hubspot_com_HubspotFormField_Out(TypedDict):
 class Prv_forms_hubspot_com_HubspotFormField_Out_options_item_Out(TypedDict):
     label: str
     value: str
+
+class Prv_fortressbp_ListProductTypesResult_Out(TypedDict):
+    productTypes: list[str]
+
+class Prv_fortressbp_RecommendProductArgs_In(TypedDict):
+    selections: Sequence[str]
+
+class Prv_fortressbp_fortressbpRow_u0_Out(TypedDict):
+    complete: Literal[True]
+    productName: str | None
+    imageUrl: str
+    path: list[str]
+
+class Prv_fortressbp_fortressbpRow_u1_Out(TypedDict):
+    complete: Literal[False]
+    prompt: str
+    options: list[str]
 
 class Prv_fourseasonsyachts_searchVoyages_filters_In(TypedDict):
     region: NotRequired[str]
@@ -15143,6 +15160,18 @@ class Prv_topviewtix_topviewtixPackageDetails_Out(TypedDict):
     soldOutDates: list[str]
     availableUntil: str | None
 
+class Prv_totalplastics_TotalplasticsQuoteFormFields_Out(TypedDict):
+    title: str
+    formUrl: str
+    fields: list[Prv_totalplastics_TotalplasticsQuoteFormField_Out]
+
+class Prv_totalplastics_TotalplasticsQuoteFormField_Out(TypedDict):
+    id: str
+    type: str
+    label: str
+    required: bool
+    options: list[str]
+
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
     name: str
@@ -21233,6 +21262,21 @@ class Prv_forms_hubspot_com(Protocol):
         the form's submit text.
         """
 
+class Prv_fortressbp(Protocol):
+    """Fortress Building Products' own Simplifinder product-recommendation tool (fencing,
+    framing, pergolas), reimplemented from the site's own decision tree.
+    """
+
+    async def listProductTypes(self, /) -> Prv_fortressbp_ListProductTypesResult_Out:
+        """Reads Simplifinder's own top-level product-type choices (Fencing / Framing / Pergolas)
+        off the live page.
+        """
+
+    async def recommendProduct(self, args: Prv_fortressbp_RecommendProductArgs_In, /) -> Prv_fortressbp_fortressbpRow_u0_Out | Prv_fortressbp_fortressbpRow_u1_Out:
+        """Walks Simplifinder's own decision tree with the labels chosen so far and returns either
+        the recommended product or the next question to ask.
+        """
+
 class Prv_fourseasonsyachts(Protocol):
     """Four Seasons Yachts' live Voyage Finder — every published sailing, its region and
     vessel, plus the real scheduled departure with per-suite pricing and cabin availability,
@@ -26792,6 +26836,22 @@ class Prv_topviewtix(Protocol):
         resolve to a real package (a clean 404) rather than returning an empty row.
         """
 
+class Prv_totalplastics(Protocol):
+    """Total Plastics' own "Request a Quote" form — a POWR widget embedded on /contact-us/, not
+    on /quote/ — read directly off POWR's server-rendered config.
+    """
+
+    async def getQuoteFormFields(self, /) -> Prv_totalplastics_TotalplasticsQuoteFormFields_Out:
+        """Reads Total Plastics' live "Request a Quote" form and returns its field schema — label,
+        type, required, and options per field.
+        """
+
+    async def getQuoteFormFieldOptions(self, label: str, /) -> Prv_totalplastics_TotalplasticsQuoteFormField_Out:
+        """Reads one named field off the live "Request a Quote" form — e.g. "Material Type" or
+        "Annual Plastics Spend" — and returns its option list, so a caller can pick a valid
+        value before submitting.
+        """
+
 class Prv_travelinsured(Protocol):
     """Travel Insured International's own quote-and-buy flow — destination and ZIP/state
     lookups the way the trip-details step performs them. (Plan pricing itself is not yet
@@ -27669,6 +27729,7 @@ class BowmarkProviders(Protocol):
     ford: Prv_ford
     formax: Prv_formax
     forms_hubspot_com: Prv_forms_hubspot_com
+    fortressbp: Prv_fortressbp
     fourseasonsyachts: Prv_fourseasonsyachts
     framebridge: Prv_framebridge
     fred: Prv_fred
@@ -27848,6 +27909,7 @@ class BowmarkProviders(Protocol):
     titlenine: Prv_titlenine
     tmobile: Prv_tmobile
     topviewtix: Prv_topviewtix
+    totalplastics: Prv_totalplastics
     travelinsured: Prv_travelinsured
     trawickinternational: Prv_trawickinternational
     trektravel: Prv_trektravel

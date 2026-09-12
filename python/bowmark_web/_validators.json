@@ -1,5 +1,5 @@
 {
-  "version": "eafe6dabac1bcccdff5ba3714d7bf83cf4aca268fd760cec9b236067d79ab0dc",
+  "version": "07321805a3af3d62401f0f74f56f782079b610fa30c99e7d2f8576f1d7b3ccf1",
   "units": {
     "bundles": {
       "defs": {},
@@ -11810,6 +11810,38 @@
             "name": "formUrlOrIds",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.fortressbp": {
+      "defs": {
+        "RecommendProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "selections",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listProductTypes": [],
+        "recommendProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RecommendProductArgs"
             },
             "optional": false
           }
@@ -26891,6 +26923,21 @@
             "name": "args",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.totalplastics": {
+      "defs": {},
+      "functions": {
+        "getQuoteFormFields": [],
+        "getQuoteFormFieldOptions": [
+          {
+            "name": "label",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
