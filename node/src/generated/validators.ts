@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ecc9b1e9630024cc2887b56102ad0ad62626ab0e8bf64ef9892e5a1d8bfd9886
-// 930 checked, 20 unchecked.
+// Manifest version: 6e747f814135e09291d52ae03e065ecc56d233a1ff2b5d4add83dd52cc82894b
+// 938 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ecc9b1e9630024cc2887b56102ad0ad62626ab0e8bf64ef9892e5a1d8bfd9886",
+  "version": "6e747f814135e09291d52ae03e065ecc56d233a1ff2b5d4add83dd52cc82894b",
   "units": {
     "bundles": {
       "defs": {},
@@ -9131,6 +9131,21 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      }
+    },
+    "providers.completehomewarranty_com": {
+      "defs": {},
+      "functions": {
+        "listPlans": [],
+        "getPlan": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.consultnet": {
@@ -18814,6 +18829,82 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.my_auroramedicalspa_com": {
+      "defs": {
+        "AuroraLocationSearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listLocations": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "AuroraLocationSearchFilters"
+            },
+            "optional": true
+          }
+        ],
+        "getServiceCategories": [
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "getServices": [
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "categoryId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "getProviders": [
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "serviceId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.myollie": {
       "defs": {},
       "functions": {
@@ -20305,6 +20396,29 @@ export const VALIDATORS: ValidatorTable = {
         "getMarket": [
           {
             "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.polytex": {
+      "defs": {},
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
             "schema": {
               "k": "string"
             },

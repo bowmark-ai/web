@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ecc9b1e9630024cc2887b56102ad0ad62626ab0e8bf64ef9892e5a1d8bfd9886
-// 46 capabilities, 385 providers, 948 typed functions, 20 refused.
+// Manifest version: 6e747f814135e09291d52ae03e065ecc56d233a1ff2b5d4add83dd52cc82894b
+// 46 capabilities, 388 providers, 956 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10042,6 +10042,38 @@ interface code_claude_comDocLink {
      * one-line description — parsed from the site's own /docs/llms.txt index.
      */
     listDocPages(): Promise<code_claude_comDocLink[]>;
+  }
+}
+
+declare namespace BowmarkProvider_completehomewarranty_com {
+  // ── Complete Home Warranty — the unit's own declarations, verbatim ──
+// Complete Home Warranty's OWN shape — not a capability contract.
+
+interface CompletehomewarrantyComPlan {
+  name: string;               // e.g. "Essential Plan"
+  price: number;               // monthly price in priceCurrency
+  priceCurrency: string;
+  coverageSummary: string;     // e.g. "Essential Home Warranty — 3 Appliances + HVAC"
+}
+
+  /**
+   * Reads Complete Home Warranty's own published plan catalog — real monthly price and coverage
+   * summary for each of its four home-warranty plans — straight off the plans page's own
+   * structured data, no browser and no parsing prose.
+   */
+  interface Unit {
+    /**
+     * Lists Complete Home Warranty's current published plans — name, monthly price and coverage
+     * summary for each — straight off the plans page's own structured data.
+     */
+    listPlans(): Promise<CompletehomewarrantyComPlan[]>;
+
+    /**
+     * Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary.
+     * `name` is a plan name from `listPlans()`. THROWS on an unknown name, naming `listPlans()` as
+     * the way to find current ones.
+     */
+    getPlan(name: string): Promise<CompletehomewarrantyComPlan>;
   }
 }
 
@@ -22278,6 +22310,76 @@ interface MuzeVisitingHours {
   }
 }
 
+declare namespace BowmarkProvider_my_auroramedicalspa_com {
+  // ── Aurora Medical Spa — the unit's own declarations, verbatim ──
+// Aurora Medical Spa's OWN shapes — not a capability contract.
+
+interface AuroraStoreHours { weekday: number; open: string; close: string }
+
+interface AuroraLocation {
+  locationId: number;   // the id getServiceCategories/getServices/getProviders take
+  name: string; fullName: string;
+  address: string; city: string; state: string; zip: string;
+  phone: string; email: string;
+  lat: number | null; lng: number | null;
+  storeHours: AuroraStoreHours[];
+}
+
+interface AuroraLocationSearchFilters { state?: string; city?: string }
+
+interface AuroraServiceCategory {
+  categoryId: number;   // the id getServices' categoryId takes
+  name: string;
+}
+
+interface AuroraService {
+  serviceId: number;    // the id getProviders' serviceId takes
+  name: string;
+  priceFrom: number;     // the site's own starting price, in dollars
+  durationMinutes: number;
+  description: string;
+}
+
+interface AuroraProvider {
+  providerId: number;   // -1 is the site's own "First Available" option
+  name: string;
+  title: string | null;
+}
+
+  /**
+   * Reads Aurora Medical Spa's own live booking options — its locations, the treatment
+   * categories and services each one offers online with starting price and duration, and which
+   * providers can perform a given service — off the site's own Korvue booking-platform REST API,
+   * the way its booking page reads the same data client-side.
+   */
+  interface Unit {
+    /**
+     * Lists every Aurora Medical Spa location (9 today), optionally narrowed by US state or city.
+     * Each row carries the locationId getServiceCategories/getServices/getProviders take, plus
+     * address, phone, email, lat/lng and store hours.
+     */
+    listLocations(filters?: AuroraLocationSearchFilters): Promise<AuroraLocation[]>;
+
+    /**
+     * Lists the treatment categories one location offers online (Botox, Injectable Treatments,
+     * HydraFacial, Kybella, …). Each row carries the categoryId getServices takes.
+     */
+    getServiceCategories(locationId: number): Promise<AuroraServiceCategory[]>;
+
+    /**
+     * Reads the live bookable services in one category at one location — name, starting price,
+     * duration and description. Each row carries the serviceId getProviders takes.
+     */
+    getServices(locationId: number, categoryId: number): Promise<AuroraService[]>;
+
+    /**
+     * Lists the providers who can perform one service at one location, including the site's own -1
+     * 'First Available' option.
+     */
+    getProviders(locationId: number, serviceId: number): Promise<AuroraProvider[]>;
+  }
+}
+
 declare namespace BowmarkProvider_myollie {
   // ── Ollie — the unit's own declarations, verbatim ──
 interface OllieMealPlanOption {
@@ -24131,6 +24233,31 @@ interface polymarketMarket {
      * liquidity, end date and open/closed status, straight from the site's own API.
      */
     getMarket(slug: string): Promise<polymarketMarket>;
+  }
+}
+
+declare namespace BowmarkProvider_polytex {
+  // ── Poly-Tex — the unit's own declarations, verbatim ──
+interface PolytexProduct { name: string; url: string; price: number | null; }
+interface PolytexOption { name: string; values: string[]; }
+interface PolytexProductDetail extends PolytexProduct { sku: string | null; options: PolytexOption[]; availability: string | null; checkoutUrl: string; }
+
+  /**
+   * Poly-Tex's live greenhouse and greenhouse-hardware storefront: find current products and
+   * prices, then read selectable options and checkout handoff.
+   */
+  interface Unit {
+    /**
+     * Searches Poly-Tex's live greenhouse catalog by product words, returning current product
+     * names, prices, and URLs.
+     */
+    searchProducts(query: string): Promise<PolytexProduct[]>;
+
+    /**
+     * Reads one Poly-Tex product's current price, selectable size or bundle options, shipping
+     * availability, and checkout handoff URL.
+     */
+    getProduct(url: string): Promise<PolytexProductDetail>;
   }
 }
 
@@ -32005,6 +32132,7 @@ interface BowmarkProviders {
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
   code_claude_com: BowmarkProvider_code_claude_com.Unit;
+  completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
   credibly_com: BowmarkProvider_credibly_com.Unit;
@@ -32156,6 +32284,7 @@ interface BowmarkProviders {
   momondo: BowmarkProvider_momondo.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
   muze_gov_tr: BowmarkProvider_muze_gov_tr.Unit;
+  my_auroramedicalspa_com: BowmarkProvider_my_auroramedicalspa_com.Unit;
   myollie: BowmarkProvider_myollie.Unit;
   naic: BowmarkProvider_naic.Unit;
   namecheap: BowmarkProvider_namecheap.Unit;
@@ -32182,6 +32311,7 @@ interface BowmarkProviders {
   pizzahut: BowmarkProvider_pizzahut.Unit;
   platform_claude_com: BowmarkProvider_platform_claude_com.Unit;
   polymarket: BowmarkProvider_polymarket.Unit;
+  polytex: BowmarkProvider_polytex.Unit;
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;

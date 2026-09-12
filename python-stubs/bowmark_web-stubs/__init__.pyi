@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ecc9b1e9630024cc2887b56102ad0ad62626ab0e8bf64ef9892e5a1d8bfd9886
-# 46 capabilities, 385 providers, 930 typed functions, 20 refused.
+# Manifest version: 6e747f814135e09291d52ae03e065ecc56d233a1ff2b5d4add83dd52cc82894b
+# 46 capabilities, 388 providers, 938 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5497,6 +5497,12 @@ class Prv_code_claude_com_code_claude_comDocLink_Out(TypedDict):
     title: str
     url: str
     description: str | None
+
+class Prv_completehomewarranty_com_CompletehomewarrantyComPlan_Out(TypedDict):
+    name: str
+    price: float
+    priceCurrency: str
+    coverageSummary: str
 
 class Prv_consultnet_ConsultnetJobSearchQuery_In(TypedDict):
     keywords: NotRequired[str]
@@ -11606,6 +11612,45 @@ class Prv_muze_gov_tr_MuzeVisitingHours_Out(TypedDict):
     email: str | None
     url: str
 
+class Prv_my_auroramedicalspa_com_AuroraLocationSearchFilters_In(TypedDict):
+    state: NotRequired[str]
+    city: NotRequired[str]
+
+class Prv_my_auroramedicalspa_com_AuroraLocation_Out(TypedDict):
+    locationId: float
+    name: str
+    fullName: str
+    address: str
+    city: str
+    state: str
+    zip: str
+    phone: str
+    email: str
+    lat: float | None
+    lng: float | None
+    storeHours: list[Prv_my_auroramedicalspa_com_AuroraStoreHours_Out]
+
+class Prv_my_auroramedicalspa_com_AuroraStoreHours_Out(TypedDict):
+    weekday: float
+    open: str
+    close: str
+
+class Prv_my_auroramedicalspa_com_AuroraServiceCategory_Out(TypedDict):
+    categoryId: float
+    name: str
+
+class Prv_my_auroramedicalspa_com_AuroraService_Out(TypedDict):
+    serviceId: float
+    name: str
+    priceFrom: float
+    durationMinutes: float
+    description: str
+
+class Prv_my_auroramedicalspa_com_AuroraProvider_Out(TypedDict):
+    providerId: float
+    name: str
+    title: str | None
+
 class Prv_myollie_GetMealPlanResult_Out(TypedDict):
     weightLbs: float
     activityLevel: Literal["Low"] | Literal["Moderate"] | Literal["High"]
@@ -12584,6 +12629,24 @@ class Prv_polymarket_polymarketMarket_Out(TypedDict):
     endDate: str | None
     active: bool
     closed: bool
+
+class Prv_polytex_PolytexProduct_Out(TypedDict):
+    name: str
+    url: str
+    price: float | None
+
+class Prv_polytex_PolytexProductDetail_Out(TypedDict):
+    name: str
+    url: str
+    price: float | None
+    sku: str | None
+    options: list[Prv_polytex_PolytexOption_Out]
+    availability: str | None
+    checkoutUrl: str
+
+class Prv_polytex_PolytexOption_Out(TypedDict):
+    name: str
+    values: list[str]
 
 class Prv_poshmark_PoshmarkSupportArticle_Out(TypedDict):
     url: str
@@ -20271,6 +20334,23 @@ class Prv_code_claude_com(Protocol):
         one-line description — parsed from the site's own /docs/llms.txt index.
         """
 
+class Prv_completehomewarranty_com(Protocol):
+    """Reads Complete Home Warranty's own published plan catalog — real monthly price and
+    coverage summary for each of its four home-warranty plans — straight off the plans
+    page's own structured data, no browser and no parsing prose.
+    """
+
+    async def listPlans(self, /) -> list[Prv_completehomewarranty_com_CompletehomewarrantyComPlan_Out]:
+        """Lists Complete Home Warranty's current published plans — name, monthly price and
+        coverage summary for each — straight off the plans page's own structured data.
+        """
+
+    async def getPlan(self, name: str, /) -> Prv_completehomewarranty_com_CompletehomewarrantyComPlan_Out:
+        """Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary.
+        `name` is a plan name from `listPlans()`. THROWS on an unknown name, naming
+        `listPlans()` as the way to find current ones.
+        """
+
 class Prv_consultnet(Protocol):
     """ConsultNet's live IT-staffing job board — real, current openings by keyword and optional
     ZIP/radius, each with the site's own posting id, title, client location and full
@@ -24585,6 +24665,34 @@ class Prv_muze_gov_tr(Protocol):
         its detail page.
         """
 
+class Prv_my_auroramedicalspa_com(Protocol):
+    """Reads Aurora Medical Spa's own live booking options — its locations, the treatment
+    categories and services each one offers online with starting price and duration, and
+    which providers can perform a given service — off the site's own Korvue booking-platform
+    REST API, the way its booking page reads the same data client-side.
+    """
+
+    async def listLocations(self, filters: Prv_my_auroramedicalspa_com_AuroraLocationSearchFilters_In | None = None, /) -> list[Prv_my_auroramedicalspa_com_AuroraLocation_Out]:
+        """Lists every Aurora Medical Spa location (9 today), optionally narrowed by US state or
+        city. Each row carries the locationId getServiceCategories/getServices/getProviders
+        take, plus address, phone, email, lat/lng and store hours.
+        """
+
+    async def getServiceCategories(self, locationId: float, /) -> list[Prv_my_auroramedicalspa_com_AuroraServiceCategory_Out]:
+        """Lists the treatment categories one location offers online (Botox, Injectable Treatments,
+        HydraFacial, Kybella, …). Each row carries the categoryId getServices takes.
+        """
+
+    async def getServices(self, locationId: float, categoryId: float, /) -> list[Prv_my_auroramedicalspa_com_AuroraService_Out]:
+        """Reads the live bookable services in one category at one location — name, starting price,
+        duration and description. Each row carries the serviceId getProviders takes.
+        """
+
+    async def getProviders(self, locationId: float, serviceId: float, /) -> list[Prv_my_auroramedicalspa_com_AuroraProvider_Out]:
+        """Lists the providers who can perform one service at one location, including the site's
+        own -1 'First Available' option.
+        """
+
 class Prv_myollie(Protocol):
     """Fresh dog food subscription. getMealPlan is live — the same
     weight/activity/neuter-status-driven meal plan and REAL per-plan weekly price the site's
@@ -25328,6 +25436,21 @@ class Prv_polymarket(Protocol):
         """Reads one Polymarket market by its slug (the id `search` returns, e.g.
         "xi-jinping-out-before-2027") — its question, outcomes, current outcome prices, volume,
         liquidity, end date and open/closed status, straight from the site's own API.
+        """
+
+class Prv_polytex(Protocol):
+    """Poly-Tex's live greenhouse and greenhouse-hardware storefront: find current products and
+    prices, then read selectable options and checkout handoff.
+    """
+
+    async def searchProducts(self, query: str, /) -> list[Prv_polytex_PolytexProduct_Out]:
+        """Searches Poly-Tex's live greenhouse catalog by product words, returning current product
+        names, prices, and URLs.
+        """
+
+    async def getProduct(self, url: str, /) -> Prv_polytex_PolytexProductDetail_Out:
+        """Reads one Poly-Tex product's current price, selectable size or bundle options, shipping
+        availability, and checkout handoff URL.
         """
 
 class Prv_poshmark(Protocol):
@@ -28017,6 +28140,7 @@ class BowmarkProviders(Protocol):
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
     code_claude_com: Prv_code_claude_com
+    completehomewarranty_com: Prv_completehomewarranty_com
     consultnet: Prv_consultnet
     couponfollow: Prv_couponfollow
     credibly_com: Prv_credibly_com
@@ -28168,6 +28292,7 @@ class BowmarkProviders(Protocol):
     momondo: Prv_momondo
     mossyoak: Prv_mossyoak
     muze_gov_tr: Prv_muze_gov_tr
+    my_auroramedicalspa_com: Prv_my_auroramedicalspa_com
     myollie: Prv_myollie
     naic: Prv_naic
     namecheap: Prv_namecheap
@@ -28194,6 +28319,7 @@ class BowmarkProviders(Protocol):
     pizzahut: Prv_pizzahut
     platform_claude_com: Prv_platform_claude_com
     polymarket: Prv_polymarket
+    polytex: Prv_polytex
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
     premierbuildings: Prv_premierbuildings
