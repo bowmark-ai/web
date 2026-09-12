@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 866f7955f48a51765a2b8d26a44ce2a7e3bc8151639e805ab020a356f8754763
-// 45 capabilities, 377 providers, 933 typed functions, 20 refused.
+// Manifest version: 91a69720e3caaa44f20031f9902b213daadc2093c895452fe8b71d88e0c2380c
+// 45 capabilities, 379 providers, 936 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18065,6 +18065,35 @@ interface IvoryHomesSearchFilters {
   }
 }
 
+declare namespace BowmarkProvider_jasmine_dilucci {
+  // ── Jasmine DiLucci Life Coaching — the unit's own declarations, verbatim ──
+interface FormField {
+  name?: string;
+  type?: string;
+  label?: string;
+  step?: string;
+  options?: string[];
+}
+
+interface ApplicationFormSchema {
+  step?: string;
+  fields: FormField[];
+}
+
+interface GetApplicationFormSchemaArgs {
+  includeOptions?: boolean;
+}
+
+  /** Extracts application form structure from Jasmine DiLucci's coaching application funnel. */
+  interface Unit {
+    /**
+     * Returns the structure of the application funnel's DQ step: field names, labels, and step
+     * markers.
+     */
+    getApplicationFormSchema(args?: { includeOptions?: boolean }): Promise<ApplicationFormSchema>;
+  }
+}
+
 declare namespace BowmarkProvider_jennikayne {
   // ── Jenni Kayne — the unit's own declarations, verbatim ──
 interface GiftCardDenomination {
@@ -18943,6 +18972,42 @@ interface LabcorpTestDetail extends LabcorpTestSummary {
      * returned by `search`.
      */
     getTest(sku: string): Promise<LabcorpTestDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_landmarkhw_com {
+  // ── Landmark Home Warranty — the unit's own declarations, verbatim ──
+interface LandmarkhwComOrderState {
+  code: string;
+  name: string;
+}
+interface LandmarkhwComPropertyType {
+  id: string;
+  name: string;
+  units: number;
+}
+interface LandmarkhwComOrderOptionsArgs {
+  stateCode: string;
+}
+interface LandmarkhwComOrderOptions {
+  state: LandmarkhwComOrderState;
+  propertyTypes: LandmarkhwComPropertyType[];
+  orderUrl: string;
+}
+
+  /**
+   * Landmark Home Warranty's public order-form choices: market states and property types, read
+   * from server-rendered bootstrap data.
+   */
+  interface Unit {
+    /** Lists the states where Landmark Home Warranty's public order form currently offers coverage. */
+    listOrderStates(): Promise<LandmarkhwComOrderState[]>;
+
+    /**
+     * Returns the property-type choices for a Landmark Home Warranty order in one supported state,
+     * before any quote or order is submitted.
+     */
+    getOrderFormOptions(args: LandmarkhwComOrderOptionsArgs): Promise<LandmarkhwComOrderOptions>;
   }
 }
 
@@ -31804,6 +31869,7 @@ interface BowmarkProviders {
   islllc: BowmarkProvider_islllc.Unit;
   istanbulkart: BowmarkProvider_istanbulkart.Unit;
   ivoryhomes: BowmarkProvider_ivoryhomes.Unit;
+  jasmine_dilucci: BowmarkProvider_jasmine_dilucci.Unit;
   jennikayne: BowmarkProvider_jennikayne.Unit;
   joybird: BowmarkProvider_joybird.Unit;
   joycefactorydirect: BowmarkProvider_joycefactorydirect.Unit;
@@ -31819,6 +31885,7 @@ interface BowmarkProviders {
   kompan: BowmarkProvider_kompan.Unit;
   kuiu: BowmarkProvider_kuiu.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
+  landmarkhw_com: BowmarkProvider_landmarkhw_com.Unit;
   lasikplus: BowmarkProvider_lasikplus.Unit;
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;

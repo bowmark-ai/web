@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 866f7955f48a51765a2b8d26a44ce2a7e3bc8151639e805ab020a356f8754763
-// 915 checked, 20 unchecked.
+// Manifest version: 91a69720e3caaa44f20031f9902b213daadc2093c895452fe8b71d88e0c2380c
+// 918 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "866f7955f48a51765a2b8d26a44ce2a7e3bc8151639e805ab020a356f8754763",
+  "version": "91a69720e3caaa44f20031f9902b213daadc2093c895452fe8b71d88e0c2380c",
   "units": {
     "bundles": {
       "defs": {},
@@ -15712,6 +15712,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.jasmine_dilucci": {
+      "defs": {},
+      "functions": {
+        "getApplicationFormSchema": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "includeOptions",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.jennikayne": {
       "defs": {
         "GiftCardConfig": {
@@ -16649,6 +16672,35 @@ export const VALIDATORS: ValidatorTable = {
             "name": "sku",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.landmarkhw_com": {
+      "defs": {
+        "LandmarkhwComOrderOptionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "stateCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listOrderStates": [],
+        "getOrderFormOptions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LandmarkhwComOrderOptionsArgs"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 866f7955f48a51765a2b8d26a44ce2a7e3bc8151639e805ab020a356f8754763
-# 45 capabilities, 377 providers, 915 typed functions, 20 refused.
+# Manifest version: 91a69720e3caaa44f20031f9902b213daadc2093c895452fe8b71d88e0c2380c
+# 45 capabilities, 379 providers, 918 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9519,6 +9519,20 @@ class Prv_ivoryhomes_IvoryHomesFloorPlan_Out(TypedDict):
     imageUrl: str | None
     detailUrl: str
 
+class Prv_jasmine_dilucci_getApplicationFormSchema_args_In(TypedDict):
+    includeOptions: NotRequired[bool]
+
+class Prv_jasmine_dilucci_ApplicationFormSchema_Out(TypedDict):
+    step: NotRequired[str]
+    fields: list[Prv_jasmine_dilucci_FormField_Out]
+
+class Prv_jasmine_dilucci_FormField_Out(TypedDict):
+    name: NotRequired[str]
+    type: NotRequired[str]
+    label: NotRequired[str]
+    step: NotRequired[str]
+    options: NotRequired[list[str]]
+
 class Prv_jennikayne_GiftCardOptions_Out(TypedDict):
     productUrl: str
     denominations: list[Prv_jennikayne_GiftCardDenomination_Out]
@@ -9994,6 +10008,23 @@ class Prv_labcorp_LabcorpTestDetail_Out(TypedDict):
     metaTitle: str
     shortDescriptionHtml: str
     descriptionHtml: str
+
+class Prv_landmarkhw_com_LandmarkhwComOrderState_Out(TypedDict):
+    code: str
+    name: str
+
+class Prv_landmarkhw_com_LandmarkhwComOrderOptionsArgs_In(TypedDict):
+    stateCode: str
+
+class Prv_landmarkhw_com_LandmarkhwComOrderOptions_Out(TypedDict):
+    state: Prv_landmarkhw_com_LandmarkhwComOrderState_Out
+    propertyTypes: list[Prv_landmarkhw_com_LandmarkhwComPropertyType_Out]
+    orderUrl: str
+
+class Prv_landmarkhw_com_LandmarkhwComPropertyType_Out(TypedDict):
+    id: str
+    name: str
+    units: float
 
 class Prv_lasikplus_findCenters_arg_In(TypedDict):
     zip: str
@@ -22976,6 +23007,14 @@ class Prv_ivoryhomes(Protocol):
         least"), `sqftFrom`/`sqftTo` (a total-square-footage range) and `stories` (1, 2 or 3).
         """
 
+class Prv_jasmine_dilucci(Protocol):
+    """Extracts application form structure from Jasmine DiLucci's coaching application funnel."""
+
+    async def getApplicationFormSchema(self, args: Prv_jasmine_dilucci_getApplicationFormSchema_args_In | None = None, /) -> Prv_jasmine_dilucci_ApplicationFormSchema_Out:
+        """Returns the structure of the application funnel's DQ step: field names, labels, and step
+        markers.
+        """
+
 class Prv_jennikayne(Protocol):
     """Jenni Kayne's live gift-card product: read the real denominations and hand the shopper a
     checkout link pre-filled with the recipient, message and scheduled delivery
@@ -23305,6 +23344,21 @@ class Prv_labcorp(Protocol):
         collection method, turnaround time and acceptable age band. Combines the catalog row
         (GraphQL) with the specimen/turnaround facts the site renders on the PDP HTML. Pass the
         sku returned by `search`.
+        """
+
+class Prv_landmarkhw_com(Protocol):
+    """Landmark Home Warranty's public order-form choices: market states and property types,
+    read from server-rendered bootstrap data.
+    """
+
+    async def listOrderStates(self, /) -> list[Prv_landmarkhw_com_LandmarkhwComOrderState_Out]:
+        """Lists the states where Landmark Home Warranty's public order form currently offers
+        coverage.
+        """
+
+    async def getOrderFormOptions(self, args: Prv_landmarkhw_com_LandmarkhwComOrderOptionsArgs_In, /) -> Prv_landmarkhw_com_LandmarkhwComOrderOptions_Out:
+        """Returns the property-type choices for a Landmark Home Warranty order in one supported
+        state, before any quote or order is submitted.
         """
 
 class Prv_lasikplus(Protocol):
@@ -27810,6 +27864,7 @@ class BowmarkProviders(Protocol):
     islllc: Prv_islllc
     istanbulkart: Prv_istanbulkart
     ivoryhomes: Prv_ivoryhomes
+    jasmine_dilucci: Prv_jasmine_dilucci
     jennikayne: Prv_jennikayne
     joybird: Prv_joybird
     joycefactorydirect: Prv_joycefactorydirect
@@ -27825,6 +27880,7 @@ class BowmarkProviders(Protocol):
     kompan: Prv_kompan
     kuiu: Prv_kuiu
     labcorp: Prv_labcorp
+    landmarkhw_com: Prv_landmarkhw_com
     lasikplus: Prv_lasikplus
     legacyhomesal: Prv_legacyhomesal
     linkedin: Prv_linkedin
