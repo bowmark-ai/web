@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d43890e140256b353f2eccb0a2def83f44d2d08724c289cf986f3c76773ae40a
-// 45 capabilities, 373 providers, 925 typed functions, 20 refused.
+// Manifest version: 192e1abd0951d1569da8462e05903dfa9260eff4fd51d0fc90d6733fd73400a0
+// 45 capabilities, 374 providers, 927 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7287,6 +7287,64 @@ interface CabinsforyouSearchArgs {
      * rating, plus the booking-quote handoff. `url` is a listing URL from a `search` result.
      */
     getCabinDetail(url: string): Promise<CabinsforyouCabinDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_cal_com {
+  // ── Cal.com — the unit's own declarations, verbatim ──
+interface CalComEventType {
+  slug: string;
+  title: string;
+  id: number;
+  lengthInMinutes: number | null;
+  description: string | null;
+  url: string;
+}
+
+interface CalComEventTypesResult {
+  username: string;
+  eventTypes: CalComEventType[];
+}
+
+interface CalComSlot {
+  start: string;
+}
+
+interface CalComDay {
+  date: string;
+  slots: CalComSlot[];
+}
+
+interface CalComAvailabilityOptions {
+  daysAhead?: number;
+}
+
+interface CalComAvailabilityResult {
+  username: string;
+  eventType: CalComEventType;
+  days: CalComDay[];
+  otherEventTypes: CalComEventType[];
+}
+
+  /**
+   * Cal.com's own documented, keyless public API — the event types a booking page offers and the
+   * real, currently-open time slots for one of them — no browser, no key.
+   */
+  interface Unit {
+    /**
+     * Lists every event type a Cal.com username currently publishes — the entry point. Takes the
+     * bare username (e.g. "humanlayer") or the full url a caller was given (e.g.
+     * "https://cal.com/humanlayer"), and returns each event's title, slug, id and length.
+     */
+    getEventTypes(username: string): Promise<CalComEventTypesResult>;
+
+    /**
+     * Returns the real, currently-open time slots for one Cal.com event type — accepts a bare
+     * username ("humanlayer"), a username url, or a specific event url
+     * ("https://cal.com/humanlayer/code"). Given a bare username, it picks that username's first
+     * event type and reports the rest in `otherEventTypes`.
+     */
+    getAvailability(username: string, opts?: CalComAvailabilityOptions): Promise<CalComAvailabilityResult>;
   }
 }
 
@@ -31492,6 +31550,7 @@ interface BowmarkProviders {
   bykoket: BowmarkProvider_bykoket.Unit;
   byltbasics: BowmarkProvider_byltbasics.Unit;
   cabinsforyou: BowmarkProvider_cabinsforyou.Unit;
+  cal_com: BowmarkProvider_cal_com.Unit;
   calendly: BowmarkProvider_calendly.Unit;
   caliberhealth: BowmarkProvider_caliberhealth.Unit;
   califloors: BowmarkProvider_califloors.Unit;

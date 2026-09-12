@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d43890e140256b353f2eccb0a2def83f44d2d08724c289cf986f3c76773ae40a
-// 907 checked, 20 unchecked.
+// Manifest version: 192e1abd0951d1569da8462e05903dfa9260eff4fd51d0fc90d6733fd73400a0
+// 909 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d43890e140256b353f2eccb0a2def83f44d2d08724c289cf986f3c76773ae40a",
+  "version": "192e1abd0951d1569da8462e05903dfa9260eff4fd51d0fc90d6733fd73400a0",
   "units": {
     "bundles": {
       "defs": {},
@@ -6638,6 +6638,50 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.cal_com": {
+      "defs": {
+        "CalComAvailabilityOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "daysAhead",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getEventTypes": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailability": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "CalComAvailabilityOptions"
+            },
+            "optional": true
           }
         ]
       }

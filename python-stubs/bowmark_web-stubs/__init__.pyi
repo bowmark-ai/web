@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d43890e140256b353f2eccb0a2def83f44d2d08724c289cf986f3c76773ae40a
-# 45 capabilities, 373 providers, 907 typed functions, 20 refused.
+# Manifest version: 192e1abd0951d1569da8462e05903dfa9260eff4fd51d0fc90d6733fd73400a0
+# 45 capabilities, 374 providers, 909 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4010,6 +4010,34 @@ class Prv_cabinsforyou_CabinsforyouCabinDetail_Out(TypedDict):
     description: str
     unitId: str | None
     bookingQuoteUrl: str
+
+class Prv_cal_com_CalComEventTypesResult_Out(TypedDict):
+    username: str
+    eventTypes: list[Prv_cal_com_CalComEventType_Out]
+
+class Prv_cal_com_CalComEventType_Out(TypedDict):
+    slug: str
+    title: str
+    id: float
+    lengthInMinutes: float | None
+    description: str | None
+    url: str
+
+class Prv_cal_com_CalComAvailabilityOptions_In(TypedDict):
+    daysAhead: NotRequired[float]
+
+class Prv_cal_com_CalComAvailabilityResult_Out(TypedDict):
+    username: str
+    eventType: Prv_cal_com_CalComEventType_Out
+    days: list[Prv_cal_com_CalComDay_Out]
+    otherEventTypes: list[Prv_cal_com_CalComEventType_Out]
+
+class Prv_cal_com_CalComDay_Out(TypedDict):
+    date: str
+    slots: list[Prv_cal_com_CalComSlot_Out]
+
+class Prv_cal_com_CalComSlot_Out(TypedDict):
+    start: str
 
 class Prv_calendly_CalendlyEventTypesResult_Out(TypedDict):
     profile: Prv_calendly_CalendlyProfile_Out
@@ -19010,6 +19038,24 @@ class Prv_cabinsforyou(Protocol):
         rating, plus the booking-quote handoff. `url` is a listing URL from a `search` result.
         """
 
+class Prv_cal_com(Protocol):
+    """Cal.com's own documented, keyless public API — the event types a booking page offers and
+    the real, currently-open time slots for one of them — no browser, no key.
+    """
+
+    async def getEventTypes(self, username: str, /) -> Prv_cal_com_CalComEventTypesResult_Out:
+        """Lists every event type a Cal.com username currently publishes — the entry point. Takes
+        the bare username (e.g. "humanlayer") or the full url a caller was given (e.g.
+        "https://cal.com/humanlayer"), and returns each event's title, slug, id and length.
+        """
+
+    async def getAvailability(self, username: str, opts: Prv_cal_com_CalComAvailabilityOptions_In | None = None, /) -> Prv_cal_com_CalComAvailabilityResult_Out:
+        """Returns the real, currently-open time slots for one Cal.com event type — accepts a bare
+        username ("humanlayer"), a username url, or a specific event url
+        ("https://cal.com/humanlayer/code"). Given a bare username, it picks that username's
+        first event type and reports the rest in `otherEventTypes`.
+        """
+
 class Prv_calendly(Protocol):
     """Calendly's own public booking-widget data — the event types a scheduling page offers and
     the real, currently-open time slots for one of them — read straight off the widget's
@@ -27516,6 +27562,7 @@ class BowmarkProviders(Protocol):
     bykoket: Prv_bykoket
     byltbasics: Prv_byltbasics
     cabinsforyou: Prv_cabinsforyou
+    cal_com: Prv_cal_com
     calendly: Prv_calendly
     caliberhealth: Prv_caliberhealth
     califloors: Prv_califloors

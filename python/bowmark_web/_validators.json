@@ -1,5 +1,5 @@
 {
-  "version": "d43890e140256b353f2eccb0a2def83f44d2d08724c289cf986f3c76773ae40a",
+  "version": "192e1abd0951d1569da8462e05903dfa9260eff4fd51d0fc90d6733fd73400a0",
   "units": {
     "bundles": {
       "defs": {},
@@ -6626,6 +6626,50 @@
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.cal_com": {
+      "defs": {
+        "CalComAvailabilityOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "daysAhead",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getEventTypes": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getAvailability": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "CalComAvailabilityOptions"
+            },
+            "optional": true
           }
         ]
       }

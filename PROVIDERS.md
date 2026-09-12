@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1350 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1352 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -199,6 +199,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `byltbasics.listBundlePacks` | byltbasics.com | Lists BYLT Basics' 'Custom N Pack' bundle kits — each its own product with a single… | 🟢 |
 | `cabinsforyou.getCabinDetail` | cabinsforyou.com | Reads one cabin's own listing page — bedrooms/bathrooms/sleeps/parking, pet policy… | 🟢 |
 | `cabinsforyou.search` | cabinsforyou.com | Runs Cabins For You's own homepage cabin-availability search (Check In / Check Out /… | 🟢 |
+| `cal_com.getAvailability` | cal.com | Returns the real, currently-open time slots for one Cal.com event type — accepts a… | 🟢 |
+| `cal_com.getEventTypes` | cal.com | Lists every event type a Cal.com username currently publishes — the entry point. | 🟢 |
 | `calendly.getAvailability` | calendly.com | Returns the real, currently-open time slots for one Calendly event type over the next… | 🟢 |
 | `calendly.getEventTypes` | calendly.com | Lists every event type a Calendly profile currently offers — the entry point. | 🟢 |
 | `caliberhealth.getJob` | caliberhealth.com | Reads one job's own detail page — specialty, location, facility type, schedule… | 🟢 |
