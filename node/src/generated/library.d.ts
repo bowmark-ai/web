@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 01195ec5954c77ea16a9293c228d188c346ef5d4dcce6e9b9f7aea0dd1beec97
+// Manifest version: 93974c0fe2d59272adb2ff8352ddcd5b0b4aeedfb8990ae8eb2eae6be6db2cb7
 // 45 capabilities, 370 providers, 918 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2228,7 +2228,10 @@ type CallOptions = {
    * news coverage, with real publication dates and the outlet's name. ONE ENGINE TODAY (Bing),
    * so if it is down this fails rather than degrading — it throws, and never reports an outage
    * as zero results. Two things that engine cannot do, measured on `web`: it never returns an
-   * empty list even when nothing matches, and it ignores search operators like site:.
+   * empty list even when nothing matches — including for a long-tail query it has nothing
+   * confident to say about, e.g. an obscure company name plus "pricing" — and it ignores search
+   * operators like site:. `warnings` now flags the extreme case of the first (every returned row
+   * sharing not one word with the query), but a partially-relevant substitution is not caught.
    */
   interface Unit {
     /**
@@ -2237,9 +2240,11 @@ type CallOptions = {
      * names any that were tried and failed first. Feed a result's `url` straight to
      * bowmark.read.page to actually read it. TWO THINGS TO KNOW BEFORE YOU TRUST THE ROWS: the
      * engine NEVER returns an empty list, so results are its best offer rather than proof anything
-     * matched, and it IGNORES operators — a `site:example.com` query is not scoped to that site.
-     * When every engine fails this THROWS rather than returning zero rows, because no engine
-     * reached is not the same as nothing found.
+     * matched — a long-tail query (an obscure company name plus "pricing", say) can come back with
+     * ten confident rows about something else entirely, and `warnings` carries a note only when
+     * NONE of them share a single word with the query — and it IGNORES operators — a
+     * `site:example.com` query is not scoped to that site. When every engine fails this THROWS
+     * rather than returning zero rows, because no engine reached is not the same as nothing found.
      */
     web(query: string | { query: string, limit?: number }, limit?: number, options?: CallOptions): Promise<SearchWebResult>;
 
@@ -5978,10 +5983,13 @@ interface BingNewsSearchResult {
   interface Unit {
     /**
      * Searches the web and returns the ten results Bing ranked first, with title, destination URL,
-     * snippet and date. TWO LIMITS, neither visible in the response: it NEVER returns an empty
-     * list — a query of three invented words came back with ten confident, unrelated rows — and it
-     * IGNORES search operators, so `site:reddit.com …` is not scoped to reddit. Treat the rows as
-     * Bing's best offer rather than as proof anything matched.
+     * snippet and date. TWO LIMITS: it NEVER returns an empty list — a query of three invented
+     * words came back with ten confident, unrelated rows, and a long-tail query (an obscure
+     * company name plus "pricing", say) can get the same substituted treatment — and it IGNORES
+     * search operators, so `site:reddit.com …` is not scoped to reddit. `warnings` now flags the
+     * extreme case of the first (every row sharing not one word with the query), but a
+     * partially-relevant result set is not caught, so still treat the rows as Bing's best offer
+     * rather than as proof anything matched.
      */
     searchWeb(args: { query: string, limit?: number }): Promise<BingSearchResult>;
 
