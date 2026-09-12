@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 39dcf1ce3e09862106f34c3d2acbc7852aecff6301f22eb55a5f963f82b6500a
+// Manifest version: 2a33b4512e3c776fd921176df02e958ce77daf4c119f63c86122703203d9058e
 // 45 capabilities, 370 providers, 918 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2233,22 +2233,37 @@ type CallOptions = {
    * operators like site:. `warnings` now flags the extreme case of the first — every returned
    * row sharing not one word with the query, or every row matching only a generic word like
    * "pricing" while the name you searched for is absent from all of them — but a
-   * partially-relevant substitution is not caught.
+   * partially-relevant substitution is not caught. A THIRD limit, measured 2026-09-11 and the
+   * one that hits ordinary research: it answers a MULTI-WORD query by reducing it to the single
+   * most popular word in it and returning that word's results — "React useEffect dependency
+   * array" comes back as React's homepage — and quoting, shortening or site-scoping the query
+   * does not change it. `warnings` now flags all three shapes: no returned row sharing a word
+   * with the query, every row matching only a generic word like "pricing", or fewer than half
+   * the query's subject words appearing anywhere in the results. A merely partial substitution
+   * is still not caught.
    */
   interface Unit {
     /**
      * Searches the web and returns ranked results — title, destination URL, snippet — from the
      * first engine in the chain that answers. `engine` names which one that was, and `warnings`
      * names any that were tried and failed first. Feed a result's `url` straight to
-     * bowmark.read.page to actually read it. TWO THINGS TO KNOW BEFORE YOU TRUST THE ROWS: the
-     * engine NEVER returns an empty list, so results are its best offer rather than proof anything
-     * matched — a long-tail query (an obscure company name plus "pricing", say) can come back with
-     * ten confident rows about something else entirely, and `warnings` carries a note only when
-     * NONE of them share a single word with the query, or when the only word they share is a
-     * generic one like "pricing" and the subject you named appears nowhere — and it IGNORES
-     * operators — a `site:example.com` query is not scoped to that site. When every engine fails
-     * this THROWS rather than returning zero rows, because no engine reached is not the same as
-     * nothing found.
+     * bowmark.read.page to actually read it. THREE THINGS TO KNOW BEFORE YOU TRUST THE ROWS. (1)
+     * The engine NEVER returns an empty list, so results are its best offer rather than proof
+     * anything matched — a long-tail query (an obscure company name plus "pricing", say) can come
+     * back with ten confident rows about something else entirely. (2) It IGNORES operators — a
+     * `site:example.com` query is not scoped to that site. (3) MEASURED 2026-09-11, AND THE ONE
+     * THAT HITS ORDINARY RESEARCH: it answers a MULTI-WORD query by reducing it to the single most
+     * popular word in it and returning that word's results. "React useEffect dependency array"
+     * comes back as React's own homepage, and a nine-word query naming a company, a job and a
+     * protocol came back as the results for the one two-letter acronym in it. Quoting the proper
+     * noun, shortening the query and site-scoping it were all tried on the same queries and all
+     * returned the identical substituted set, so rewriting the query does not help — search the
+     * ONE thing you most need, or read a URL you already know. `warnings` flags all three shapes:
+     * no row sharing a single word with the query, every row matching only a generic word like
+     * "pricing" while the subject you named is absent, or fewer than half the query's subject
+     * words appearing anywhere in the results. A partially-relevant substitution is still not
+     * caught. When every engine fails this THROWS rather than returning zero rows, because no
+     * engine reached is not the same as nothing found.
      */
     web(query: string | { query: string, limit?: number }, limit?: number, options?: CallOptions): Promise<SearchWebResult>;
 
@@ -5987,14 +6002,21 @@ interface BingNewsSearchResult {
   interface Unit {
     /**
      * Searches the web and returns the ten results Bing ranked first, with title, destination URL,
-     * snippet and date. TWO LIMITS: it NEVER returns an empty list — a query of three invented
-     * words came back with ten confident, unrelated rows, and a long-tail query (an obscure
-     * company name plus "pricing", say) can get the same substituted treatment — and it IGNORES
-     * search operators, so `site:reddit.com …` is not scoped to reddit. `warnings` now flags the
-     * extreme case of the first — every row sharing not one word with the query, or every row
-     * matching only a generic word like "pricing" while the thing you named is absent from all of
-     * them — but a partially-relevant result set is not caught, so still treat the rows as Bing's
-     * best offer rather than as proof anything matched.
+     * snippet and date. THREE LIMITS. (1) It NEVER returns an empty list — a query of three
+     * invented words came back with ten confident, unrelated rows, and a long-tail query (an
+     * obscure company name plus "pricing", say) can get the same substituted treatment. (2) It
+     * IGNORES search operators, so `site:reddit.com …` is not scoped to reddit. (3) MEASURED
+     * 2026-09-11, and the one that hits ordinary research: it answers a MULTI-WORD query by
+     * reducing it to the single most popular word in it and returning that word's results — "React
+     * useEffect dependency array" comes back as React's own homepage, and a nine-word query naming
+     * a company, a job and a protocol came back as the results for the one two-letter acronym in
+     * it. Quoting the proper noun, shortening the query and site-scoping it were all tried and all
+     * returned the identical substituted set, so rewriting the query does not help. `warnings`
+     * flags all three shapes: no row sharing a single word with the query, every row matching only
+     * a generic word like "pricing" while the thing you named is absent, or fewer than half the
+     * query's subject words appearing anywhere in the results. A partially-relevant result set is
+     * still not caught, so treat the rows as Bing's best offer rather than as proof anything
+     * matched.
      */
     searchWeb(args: { query: string, limit?: number }): Promise<BingSearchResult>;
 
