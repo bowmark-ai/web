@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1361 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1363 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -189,6 +189,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `brixton.getBrixtonCheckoutLink` | brixton.com | Resolves a product handle + chosen variant (size and/or color) to a real, purchasable… | 🟢 |
 | `brixton.getBrixtonProduct` | brixton.com | Reads one product by its handle — every size/color variant, its exact price and… | 🟢 |
 | `brixton.listBrixtonProducts` | brixton.com | Reads the live Brixton catalogue as the storefront publishes it — every hat, tee… | 🟢 |
+| `builder_strucsure_com.getNewConstructionRegistrationFields` | builder.strucsure.com | Returns the foundation-type, home-type and warranty-term (enrollment-type) choices for… | 🟢 |
+| `builder_strucsure_com.listRegistrationStates` | builder.strucsure.com | Lists the states StrucSure Home Warranty's builder registration portal recognizes, and… | 🟢 |
 | `bulletproof.findStores` | bulletproof.com | Finds real physical retailers near a US zip code that carry Bulletproof products… | 🟢 |
 | `bungalow.getListing` | bungalow.com | Returns one listing's full detail — every room with its own rent and availability… | 🟢 |
 | `bungalow.listMarkets` | bungalow.com | Lists every market Bungalow currently operates in — city, region and country, plus the… | 🟢 |

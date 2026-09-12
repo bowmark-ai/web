@@ -6,6 +6,31 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.19.0 (2026-09-12)
+
+**Capabilities**
+
+- Added `web_form_fields.fillForm`
+
+**Providers**
+
+- New provider **abqplumb.com** (2 functions): `abqplumb.getAvailability`, `abqplumb.listServices`
+- New provider **builder.strucsure.com** (2 functions): `builder_strucsure_com.getNewConstructionRegistrationFields`, `builder_strucsure_com.listRegistrationStates`
+- New provider **cal.com** (2 functions): `cal_com.getAvailability`, `cal_com.getEventTypes`
+- New provider **calendly.com** (2 functions): `calendly.getAvailability`, `calendly.getEventTypes`
+- New provider **faceforwardaesthetics.com** (3 functions): `faceforwardaesthetics.checkAvailability`, `faceforwardaesthetics.listLocations`, `faceforwardaesthetics.listServices`
+- New provider **fbsappliance.com** (1 function): `fbsappliance.searchAppliances`
+- New provider **fitness1440.com** (2 functions): `fitness1440.getDayPassRequestInfo`, `fitness1440.listLocations`
+- New provider **fluencecorp.com** (1 function): `fluencecorp.calculateEnergyConsumption`
+- New provider **fortressbp.com** (2 functions): `fortressbp.listProductTypes`, `fortressbp.recommendProduct`
+- New provider **jasminedilucci.com** (1 function): `jasmine_dilucci.getApplicationFormSchema`
+- New provider **landmarkhw.com** (2 functions): `landmarkhw_com.getOrderFormOptions`, `landmarkhw_com.listOrderStates`
+- New provider **rivian.com** (1 function): `rivian.estimateLeasePayment`
+- New provider **totalplastics.com** (2 functions): `totalplastics.getQuoteFormFieldOptions`, `totalplastics.getQuoteFormFields`
+- Added `bing.searchWebBrowser`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.18.0 (2026-09-11)
 
 **Providers**
