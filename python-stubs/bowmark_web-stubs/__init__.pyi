@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e496aea4f418dd436663bf545141712f1d0a790452718bff25a728809519eff9
-# 46 capabilities, 389 providers, 940 typed functions, 20 refused.
+# Manifest version: 83633e5d796afb66b10fb4fbc9a726f95cf043ccb210d12b6947e11210d10fa5
+# 46 capabilities, 390 providers, 941 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12259,6 +12259,26 @@ class Prv_pacificlifestylehomes_PacificLifestyleHomesListing_Out(TypedDict):
     sqft: float
     availability: str
     url: str
+
+class Prv_pawsup_PawsupAvailabilityRequest_In(TypedDict):
+    checkInDate: str
+    checkOutDate: str
+    numAdults: float
+    numChildren: float
+
+class Prv_pawsup_PawsupAvailabilityResponse_Out(TypedDict):
+    checkInDate: str
+    checkOutDate: str
+    accommodations: list[Prv_pawsup_PawsupAccommodation_Out]
+    reservationUrl: str
+    warnings: NotRequired[list[str]]
+
+class Prv_pawsup_PawsupAccommodation_Out(TypedDict):
+    type: str
+    capacity: str
+    startingRate: float
+    currency: str
+    description: NotRequired[str]
 
 class Prv_paypal_PaypalEstimateFeeArgs_In(TypedDict):
     amount: float
@@ -25229,6 +25249,14 @@ class Prv_pacificlifestylehomes(Protocol):
         detail-page handoff URL.
         """
 
+class Prv_pawsup(Protocol):
+    """Check availability and starting rates for Paws Up Montana resort accommodations."""
+
+    async def checkAvailability(self, args: Prv_pawsup_PawsupAvailabilityRequest_In, /) -> Prv_pawsup_PawsupAvailabilityResponse_Out:
+        """Query the resort's booking calendar to find available accommodation types and their
+        starting rates for your dates and party size.
+        """
+
 class Prv_paypal(Protocol):
     """PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules,
     the fee on one concrete personal (friends-and-family) transaction, the spread PayPal
@@ -28357,6 +28385,7 @@ class BowmarkProviders(Protocol):
     pacificabeauty: Prv_pacificabeauty
     pacificcompanies: Prv_pacificcompanies
     pacificlifestylehomes: Prv_pacificlifestylehomes
+    pawsup: Prv_pawsup
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland
     pilotprotocol: Prv_pilotprotocol

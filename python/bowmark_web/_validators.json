@@ -1,5 +1,5 @@
 {
-  "version": "e496aea4f418dd436663bf545141712f1d0a790452718bff25a728809519eff9",
+  "version": "83633e5d796afb66b10fb4fbc9a726f95cf043ccb210d12b6947e11210d10fa5",
   "units": {
     "bundles": {
       "defs": {},
@@ -19780,6 +19780,55 @@
               "name": "PacificLifestyleHomesSearchArgs"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.pawsup": {
+      "defs": {
+        "PawsupAvailabilityRequest": {
+          "k": "object",
+          "props": [
+            {
+              "name": "checkInDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkOutDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "numAdults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "numChildren",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "checkAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PawsupAvailabilityRequest"
+            },
+            "optional": false
           }
         ]
       }

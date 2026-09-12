@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e496aea4f418dd436663bf545141712f1d0a790452718bff25a728809519eff9
-// 46 capabilities, 389 providers, 958 typed functions, 20 refused.
+// Manifest version: 83633e5d796afb66b10fb4fbc9a726f95cf043ccb210d12b6947e11210d10fa5
+// 46 capabilities, 390 providers, 959 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -23596,6 +23596,42 @@ interface PacificLifestyleHomesListing { id: string; address: string; city: stri
   }
 }
 
+declare namespace BowmarkProvider_pawsup {
+  // ── Paws Up — the unit's own declarations, verbatim ──
+
+interface PawsupAvailabilityRequest {
+  checkInDate: string;
+  checkOutDate: string;
+  numAdults: number;
+  numChildren: number;
+}
+
+interface PawsupAccommodation {
+  type: string;
+  capacity: string;
+  startingRate: number;
+  currency: string;
+  description?: string;
+}
+
+interface PawsupAvailabilityResponse {
+  checkInDate: string;
+  checkOutDate: string;
+  accommodations: PawsupAccommodation[];
+  reservationUrl: string;
+  warnings?: string[];
+}
+
+  /** Check availability and starting rates for Paws Up Montana resort accommodations. */
+  interface Unit {
+    /**
+     * Query the resort's booking calendar to find available accommodation types and their starting
+     * rates for your dates and party size.
+     */
+    checkAvailability(args: PawsupAvailabilityRequest): Promise<PawsupAvailabilityResponse>;
+  }
+}
+
 declare namespace BowmarkProvider_paypal {
   // ── PayPal — the unit's own declarations, verbatim ──
 interface PaypalEstimateFeeArgs {
@@ -32328,6 +32364,7 @@ interface BowmarkProviders {
   pacificabeauty: BowmarkProvider_pacificabeauty.Unit;
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
+  pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
