@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1346 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1347 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -142,6 +142,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bigrentz.search` | bigrentz.com | Searches BigRentz's equipment catalog by free-text query (e.g. "boom lift", "40 ft… | 🟡 |
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟡 |
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🟡 |
+| `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |
 | `bishops.checkAvailability` | bishops.co | Checks real, live open time slots for one service at one location on one date — the… | 🟢 |
 | `bishops.findLocation` | bishops.co | Resolves a slug/neighborhood query to the matching real Bishops location(s) — name… | 🟢 |
 | `bishops.listLocations` | bishops.co | Reads the live list of every Bishops Cuts/Color location off the site's own sitemap… | 🟢 |
