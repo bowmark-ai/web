@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 91a69720e3caaa44f20031f9902b213daadc2093c895452fe8b71d88e0c2380c
-# 45 capabilities, 379 providers, 918 typed functions, 20 refused.
+# Manifest version: 54264b993e5ea6cc8c104c40f057915341ab1b6a8cbf13a0c1347b00d0a4f2ce
+# 45 capabilities, 380 providers, 920 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3842,6 +3842,27 @@ class Prv_brixton_BrixtonCheckoutLink_Out(TypedDict):
     url: str
     variant: Prv_brixton_BrixtonVariant_Out
     product: Prv_brixton_BrixtonProduct_Out
+
+class Prv_builder_strucsure_com_StrucsureRegistrationState_Out(TypedDict):
+    id: float
+    code: str
+    name: str
+    registered: bool
+
+class Prv_builder_strucsure_com_StrucsureNewConstructionFields_Out(TypedDict):
+    foundationTypes: list[Prv_builder_strucsure_com_StrucsureOption_Out]
+    homeTypes: list[Prv_builder_strucsure_com_StrucsureOption_Out]
+    enrollmentTypes: list[Prv_builder_strucsure_com_StrucsureEnrollmentType_Out]
+
+class Prv_builder_strucsure_com_StrucsureOption_Out(TypedDict):
+    id: float
+    name: str
+
+class Prv_builder_strucsure_com_StrucsureEnrollmentType_Out(TypedDict):
+    id: float
+    name: str
+    isDefault: bool
+    contractorTypeId: float
 
 class Prv_bulletproof_BulletproofNearbyStores_Out(TypedDict):
     zip: str
@@ -19037,6 +19058,23 @@ class Prv_brixton(Protocol):
         available — the error names the candidate or in-stock options so the caller can retry.
         """
 
+class Prv_builder_strucsure_com(Protocol):
+    """StrucSure Home Warranty's new-construction builder registration form: recognized states,
+    foundation types, home types and warranty terms, read from the portal's own
+    reference-data API.
+    """
+
+    async def listRegistrationStates(self, /) -> list[Prv_builder_strucsure_com_StrucsureRegistrationState_Out]:
+        """Lists the states StrucSure Home Warranty's builder registration portal recognizes, and
+        which are currently open for registration.
+        """
+
+    async def getNewConstructionRegistrationFields(self, /) -> Prv_builder_strucsure_com_StrucsureNewConstructionFields_Out:
+        """Returns the foundation-type, home-type and warranty-term (enrollment-type) choices for
+        StrucSure's new-construction builder registration form, before any registration is
+        submitted.
+        """
+
 class Prv_bulletproof(Protocol):
     """Reads Bulletproof 360's own real-time Destini store locator directly — real nearby
     retailers (Target, Whole Foods, Sprouts and others) that actually carry Bulletproof
@@ -27721,6 +27759,7 @@ class BowmarkProviders(Protocol):
     boydsleep: Prv_boydsleep
     brius: Prv_brius
     brixton: Prv_brixton
+    builder_strucsure_com: Prv_builder_strucsure_com
     bulletproof: Prv_bulletproof
     bungalow: Prv_bungalow
     bykoket: Prv_bykoket

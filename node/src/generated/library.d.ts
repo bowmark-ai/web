@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 91a69720e3caaa44f20031f9902b213daadc2093c895452fe8b71d88e0c2380c
-// 45 capabilities, 379 providers, 936 typed functions, 20 refused.
+// Manifest version: 54264b993e5ea6cc8c104c40f057915341ab1b6a8cbf13a0c1347b00d0a4f2ce
+// 45 capabilities, 380 providers, 938 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7001,6 +7001,49 @@ interface BrixtonCheckoutLink {
      * available — the error names the candidate or in-stock options so the caller can retry.
      */
     getBrixtonCheckoutLink(handle: string, variantTitleOrOptions: string, opts?: { quantity?: number }): Promise<BrixtonCheckoutLink>;
+  }
+}
+
+declare namespace BowmarkProvider_builder_strucsure_com {
+  // ── StrucSure Home Warranty — the unit's own declarations, verbatim ──
+interface StrucsureRegistrationState {
+  id: number;
+  code: string;
+  name: string;
+  registered: boolean;
+}
+interface StrucsureOption {
+  id: number;
+  name: string;
+}
+interface StrucsureEnrollmentType extends StrucsureOption {
+  isDefault: boolean;
+  contractorTypeId: number;
+}
+interface StrucsureNewConstructionFields {
+  foundationTypes: StrucsureOption[];
+  homeTypes: StrucsureOption[];
+  enrollmentTypes: StrucsureEnrollmentType[];
+}
+
+  /**
+   * StrucSure Home Warranty's new-construction builder registration form: recognized states,
+   * foundation types, home types and warranty terms, read from the portal's own reference-data
+   * API.
+   */
+  interface Unit {
+    /**
+     * Lists the states StrucSure Home Warranty's builder registration portal recognizes, and which
+     * are currently open for registration.
+     */
+    listRegistrationStates(): Promise<StrucsureRegistrationState[]>;
+
+    /**
+     * Returns the foundation-type, home-type and warranty-term (enrollment-type) choices for
+     * StrucSure's new-construction builder registration form, before any registration is
+     * submitted.
+     */
+    getNewConstructionRegistrationFields(): Promise<StrucsureNewConstructionFields>;
   }
 }
 
@@ -31726,6 +31769,7 @@ interface BowmarkProviders {
   boydsleep: BowmarkProvider_boydsleep.Unit;
   brius: BowmarkProvider_brius.Unit;
   brixton: BowmarkProvider_brixton.Unit;
+  builder_strucsure_com: BowmarkProvider_builder_strucsure_com.Unit;
   bulletproof: BowmarkProvider_bulletproof.Unit;
   bungalow: BowmarkProvider_bungalow.Unit;
   bykoket: BowmarkProvider_bykoket.Unit;
