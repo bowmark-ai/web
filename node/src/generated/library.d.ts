@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 93bfb62fdfed0998c66e6713455b3c82a8db2dc919d7ab588496f7a08ac5db5b
-// 45 capabilities, 381 providers, 940 typed functions, 20 refused.
+// Manifest version: 0112ac779c7d6441f65eda746a6b6d8295af54663adec561cac392e7af6a70f1
+// 46 capabilities, 382 providers, 943 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2179,6 +2179,32 @@ type CallOptions = {
      * call before reaching for a larger `timeoutMs`.
      */
     priceList(args: { items: string[] }): Promise<SchoolShoppingBasket>;
+  }
+}
+
+declare namespace BowmarkCapability_script_execution {
+  // ── How to write and run a script against the Bowmark library — the unit's own declarations, verbatim ──
+
+interface ScriptExecutionGuide {
+  loop: string[]
+  language: string[]
+  globals: string[]
+  statuses: Record<string, string>
+  warnings: string[]
+}
+
+  /**
+   * Explains the get_library -> write script -> run loop, the sandbox's language rules, its
+   * ambient globals, and what each run status means — a static reference, not a site wrapper.
+   */
+  interface Unit {
+    /**
+     * Returns the loop for doing a task (get_library, then a script, then run), the sandbox's
+     * language rules and ambient globals, and what each run envelope status
+     * (ok/partial/error/needs_user) means. Static and deterministic — it describes the platform
+     * itself, not any one site.
+     */
+    guide(): Promise<ScriptExecutionGuide>;
   }
 }
 
@@ -27746,6 +27772,32 @@ interface SunlightenPriceListing {
   }
 }
 
+declare namespace BowmarkProvider_tagtrans_net {
+  // ── TAG Trans — the unit's own declarations, verbatim ──
+interface TagtransShipmentRateField { id: string; label: string; required: boolean; }
+interface TagtransShipmentRateForm { formUrl: string; recipient: string; subject: string; fields: TagtransShipmentRateField[]; services: string[]; }
+interface CreateTagtransShipmentRateEmailArgs { name: string; phone: string; email: string; service: string; company?: string; shipFrom?: string; shipTo?: string; desiredShippingDate?: string; desiredDeliveryDate?: string; details?: string; }
+interface TagtransShipmentRateEmail { mailtoUrl: string; recipient: string; subject: string; body: string; }
+
+  /**
+   * TAG Trans's public freight shipment-rate request form: its current fields and services, plus
+   * a prefilled email handoff the site itself uses.
+   */
+  interface Unit {
+    /**
+     * Returns TAG Trans's current public shipment-rate request fields, service choices, and the
+     * page URL without sending a request.
+     */
+    getShipmentRateForm(): Promise<TagtransShipmentRateForm>;
+
+    /**
+     * Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request; it does
+     * not send the email.
+     */
+    createShipmentRateEmail(args: CreateTagtransShipmentRateEmailArgs): Promise<TagtransShipmentRateEmail>;
+  }
+}
+
 declare namespace BowmarkProvider_tamarackidaho {
   // ── Tamarack Resort — the unit's own declarations, verbatim ──
 interface tamarackidahoSearchArgs {
@@ -32089,6 +32141,7 @@ interface BowmarkProviders {
   summerfridaysquiz: BowmarkProvider_summerfridaysquiz.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   sunlighten: BowmarkProvider_sunlighten.Unit;
+  tagtrans_net: BowmarkProvider_tagtrans_net.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
   target: BowmarkProvider_target.Unit;
   tatcha: BowmarkProvider_tatcha.Unit;
@@ -83893,6 +83946,7 @@ interface BowmarkLibrary {
   restaurant_booking: BowmarkCapability_restaurant_booking.Unit;
   retail: BowmarkCapability_retail.Unit;
   school_shopping_basket: BowmarkCapability_school_shopping_basket.Unit;
+  script_execution: BowmarkCapability_script_execution.Unit;
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
   shipping: BowmarkCapability_shipping.Unit;

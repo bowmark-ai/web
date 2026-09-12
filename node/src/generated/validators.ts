@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 93bfb62fdfed0998c66e6713455b3c82a8db2dc919d7ab588496f7a08ac5db5b
-// 922 checked, 20 unchecked.
+// Manifest version: 0112ac779c7d6441f65eda746a6b6d8295af54663adec561cac392e7af6a70f1
+// 925 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "93bfb62fdfed0998c66e6713455b3c82a8db2dc919d7ab588496f7a08ac5db5b",
+  "version": "0112ac779c7d6441f65eda746a6b6d8295af54663adec561cac392e7af6a70f1",
   "units": {
     "bundles": {
       "defs": {},
@@ -2224,6 +2224,12 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "script_execution": {
+      "defs": {},
+      "functions": {
+        "guide": []
       }
     },
     "search": {
@@ -26029,6 +26035,98 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tagtrans_net": {
+      "defs": {
+        "CreateTagtransShipmentRateEmailArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "phone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "service",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "company",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "shipFrom",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "shipTo",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "desiredShippingDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "desiredDeliveryDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "details",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getShipmentRateForm": [],
+        "createShipmentRateEmail": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CreateTagtransShipmentRateEmailArgs"
             },
             "optional": false
           }

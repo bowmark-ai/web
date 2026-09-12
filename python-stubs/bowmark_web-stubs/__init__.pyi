@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 93bfb62fdfed0998c66e6713455b3c82a8db2dc919d7ab588496f7a08ac5db5b
-# 45 capabilities, 381 providers, 922 typed functions, 20 refused.
+# Manifest version: 0112ac779c7d6441f65eda746a6b6d8295af54663adec561cac392e7af6a70f1
+# 46 capabilities, 382 providers, 925 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1271,6 +1271,13 @@ class Cap_school_shopping_basket_BasketItemMatch_Out(TypedDict):
 class Cap_school_shopping_basket_BasketItemMatch_Out_price_Out(TypedDict):
     amount: float
     currency: str
+
+class Cap_script_execution_ScriptExecutionGuide_Out(TypedDict):
+    loop: list[str]
+    language: list[str]
+    globals: list[str]
+    statuses: Mapping[str, str]
+    warnings: list[str]
 
 class Cap_search_web_query_u1_In(TypedDict):
     query: str
@@ -14599,6 +14606,36 @@ class Prv_sunlighten_SunlightenPriceListing_Out(TypedDict):
     available: bool
     url: str
 
+class Prv_tagtrans_net_TagtransShipmentRateForm_Out(TypedDict):
+    formUrl: str
+    recipient: str
+    subject: str
+    fields: list[Prv_tagtrans_net_TagtransShipmentRateField_Out]
+    services: list[str]
+
+class Prv_tagtrans_net_TagtransShipmentRateField_Out(TypedDict):
+    id: str
+    label: str
+    required: bool
+
+class Prv_tagtrans_net_CreateTagtransShipmentRateEmailArgs_In(TypedDict):
+    name: str
+    phone: str
+    email: str
+    service: str
+    company: NotRequired[str]
+    shipFrom: NotRequired[str]
+    shipTo: NotRequired[str]
+    desiredShippingDate: NotRequired[str]
+    desiredDeliveryDate: NotRequired[str]
+    details: NotRequired[str]
+
+class Prv_tagtrans_net_TagtransShipmentRateEmail_Out(TypedDict):
+    mailtoUrl: str
+    recipient: str
+    subject: str
+    body: str
+
 class Prv_tamarackidaho_tamarackidahoSearchArgs_In(TypedDict):
     arrivalDate: str
     departureDate: str
@@ -17263,6 +17300,19 @@ class Cap_school_shopping_basket(Protocol):
         item. Walmart drives a real browser per item and every item is searched at once, so a
         long list is what costs time: price fewer items per call before reaching for a larger
         `timeoutMs`.
+        """
+
+class Cap_script_execution(Protocol):
+    """Explains the get_library -> write script -> run loop, the sandbox's language rules, its
+    ambient globals, and what each run status means — a static reference, not a site
+    wrapper.
+    """
+
+    async def guide(self, /) -> Cap_script_execution_ScriptExecutionGuide_Out:
+        """Returns the loop for doing a task (get_library, then a script, then run), the sandbox's
+        language rules and ambient globals, and what each run envelope status
+        (ok/partial/error/needs_user) means. Static and deterministic — it describes the
+        platform itself, not any one site.
         """
 
 class Cap_search(Protocol):
@@ -26534,6 +26584,21 @@ class Prv_sunlighten(Protocol):
         than guessing a canonical one.
         """
 
+class Prv_tagtrans_net(Protocol):
+    """TAG Trans's public freight shipment-rate request form: its current fields and services,
+    plus a prefilled email handoff the site itself uses.
+    """
+
+    async def getShipmentRateForm(self, /) -> Prv_tagtrans_net_TagtransShipmentRateForm_Out:
+        """Returns TAG Trans's current public shipment-rate request fields, service choices, and
+        the page URL without sending a request.
+        """
+
+    async def createShipmentRateEmail(self, args: Prv_tagtrans_net_CreateTagtransShipmentRateEmailArgs_In, /) -> Prv_tagtrans_net_TagtransShipmentRateEmail_Out:
+        """Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request; it
+        does not send the email.
+        """
+
 class Prv_tamarackidaho(Protocol):
     """Tamarack Resort's own direct-managed lodging booking engine (Inntopia RTP) — real
     availability and price per unit type for a date range and party size, straight from the
@@ -28088,6 +28153,7 @@ class BowmarkProviders(Protocol):
     summerfridaysquiz: Prv_summerfridaysquiz
     sunhomesaunas: Prv_sunhomesaunas
     sunlighten: Prv_sunlighten
+    tagtrans_net: Prv_tagtrans_net
     tamarackidaho: Prv_tamarackidaho
     target: Prv_target
     tatcha: Prv_tatcha
@@ -28178,6 +28244,7 @@ class Bowmark(Protocol):
     restaurant_booking: Cap_restaurant_booking
     retail: Cap_retail
     school_shopping_basket: Cap_school_shopping_basket
+    script_execution: Cap_script_execution
     search: Cap_search
     sheds: Cap_sheds
     shipping: Cap_shipping
