@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 07321805a3af3d62401f0f74f56f782079b610fa30c99e7d2f8576f1d7b3ccf1
-// 45 capabilities, 376 providers, 931 typed functions, 20 refused.
+// Manifest version: 866f7955f48a51765a2b8d26a44ce2a7e3bc8151639e805ab020a356f8754763
+// 45 capabilities, 377 providers, 933 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3363,6 +3363,32 @@ interface abercrombieStockQuery {
      * does on `getProduct` — it is not a valid "zero results".
      */
     search(query: abercrombieSearchQuery): Promise<abercrombieSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_abqplumb {
+  // ── Albuquerque Plumbing, Heating & Cooling — the unit's own declarations, verbatim ──
+interface AbqPlumbIssueType { id: number; name: string; division: string | null; }
+interface AbqPlumbServiceType { id: number; name: string; issueTypes: AbqPlumbIssueType[]; }
+interface AbqPlumbAppointmentRequest { serviceTypeId: number; issueTypeId: number; }
+interface AbqPlumbAppointmentSlot { startTime: string; endTime: string; }
+
+  /**
+   * Albuquerque Plumbing, Heating & Cooling's public booking-widget services and live
+   * appointment slots, with no customer details needed.
+   */
+  interface Unit {
+    /**
+     * Lists the services and issue types in ABQ Plumb's own booking widget. The entry point:
+     * getAvailability takes a serviceTypeId and issueTypeId this returns.
+     */
+    listServices(): Promise<AbqPlumbServiceType[]>;
+
+    /**
+     * Returns ABQ Plumb's currently-open appointment slots for one service and issue type from
+     * listServices. This reads availability only; it never submits a booking.
+     */
+    getAvailability(input: AbqPlumbAppointmentRequest): Promise<AbqPlumbAppointmentSlot[]>;
   }
 }
 
@@ -31569,6 +31595,7 @@ interface BowmarkProviders {
   aa: BowmarkProvider_aa.Unit;
   aauto: BowmarkProvider_aauto.Unit;
   abercrombie: BowmarkProvider_abercrombie.Unit;
+  abqplumb: BowmarkProvider_abqplumb.Unit;
   acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;

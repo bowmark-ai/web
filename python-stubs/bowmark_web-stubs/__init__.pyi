@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 07321805a3af3d62401f0f74f56f782079b610fa30c99e7d2f8576f1d7b3ccf1
-# 45 capabilities, 376 providers, 913 typed functions, 20 refused.
+# Manifest version: 866f7955f48a51765a2b8d26a44ce2a7e3bc8151639e805ab020a356f8754763
+# 45 capabilities, 377 providers, 915 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1862,6 +1862,24 @@ class Prv_abercrombie_abercrombieSearchResult_Out(TypedDict):
     listPrice: float | None
     onSale: bool
     thumbnail: str | None
+
+class Prv_abqplumb_AbqPlumbServiceType_Out(TypedDict):
+    id: float
+    name: str
+    issueTypes: list[Prv_abqplumb_AbqPlumbIssueType_Out]
+
+class Prv_abqplumb_AbqPlumbIssueType_Out(TypedDict):
+    id: float
+    name: str
+    division: str | None
+
+class Prv_abqplumb_AbqPlumbAppointmentRequest_In(TypedDict):
+    serviceTypeId: float
+    issueTypeId: float
+
+class Prv_abqplumb_AbqPlumbAppointmentSlot_Out(TypedDict):
+    startTime: str
+    endTime: str
 
 class Prv_acerentacar_AcerentacarSearchArgs_In(TypedDict):
     pickupLocationCode: str
@@ -17570,6 +17588,21 @@ class Prv_abercrombie(Protocol):
         "zero results".
         """
 
+class Prv_abqplumb(Protocol):
+    """Albuquerque Plumbing, Heating & Cooling's public booking-widget services and live
+    appointment slots, with no customer details needed.
+    """
+
+    async def listServices(self, /) -> list[Prv_abqplumb_AbqPlumbServiceType_Out]:
+        """Lists the services and issue types in ABQ Plumb's own booking widget. The entry point:
+        getAvailability takes a serviceTypeId and issueTypeId this returns.
+        """
+
+    async def getAvailability(self, input: Prv_abqplumb_AbqPlumbAppointmentRequest_In, /) -> list[Prv_abqplumb_AbqPlumbAppointmentSlot_Out]:
+        """Returns ABQ Plumb's currently-open appointment slots for one service and issue type from
+        listServices. This reads availability only; it never submits a booking.
+        """
+
 class Prv_acerentacar(Protocol):
     """ACE Rent A Car's live public vehicle availability and rates for a location and
     itinerary, with a reservation handoff.
@@ -27568,6 +27601,7 @@ class BowmarkProviders(Protocol):
     aa: Prv_aa
     aauto: Prv_aauto
     abercrombie: Prv_abercrombie
+    abqplumb: Prv_abqplumb
     acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
     acqualinaresort: Prv_acqualinaresort

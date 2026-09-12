@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 07321805a3af3d62401f0f74f56f782079b610fa30c99e7d2f8576f1d7b3ccf1
-// 913 checked, 20 unchecked.
+// Manifest version: 866f7955f48a51765a2b8d26a44ce2a7e3bc8151639e805ab020a356f8754763
+// 915 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "07321805a3af3d62401f0f74f56f782079b610fa30c99e7d2f8576f1d7b3ccf1",
+  "version": "866f7955f48a51765a2b8d26a44ce2a7e3bc8151639e805ab020a356f8754763",
   "units": {
     "bundles": {
       "defs": {},
@@ -3293,6 +3293,42 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "abercrombieSearchQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.abqplumb": {
+      "defs": {
+        "AbqPlumbAppointmentRequest": {
+          "k": "object",
+          "props": [
+            {
+              "name": "serviceTypeId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "issueTypeId",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listServices": [],
+        "getAvailability": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "ref",
+              "name": "AbqPlumbAppointmentRequest"
             },
             "optional": false
           }
