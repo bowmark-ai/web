@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0dd4560f991d5cdf1e743e02523556685bcffb96e71561320254ef2f3573ed6c
-# 46 capabilities, 396 providers, 951 typed functions, 20 refused.
+# Manifest version: caae6708fd963352157c91fdaedc83170ccc8bd62fa25f7aaa2c4b02e2aafb15
+# 46 capabilities, 397 providers, 952 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5545,6 +5545,12 @@ class Prv_code_claude_com_code_claude_comDocLink_Out(TypedDict):
     title: str
     url: str
     description: str | None
+
+class Prv_compass_living_CommunityWithForms_Out(TypedDict):
+    name: str
+    url: str
+    contactFormFields: list[str]
+    warnings: list[str]
 
 class Prv_completehomewarranty_com_CompletehomewarrantyComPlan_Out(TypedDict):
     name: str
@@ -20505,6 +20511,14 @@ class Prv_code_claude_com(Protocol):
         one-line description — parsed from the site's own /docs/llms.txt index.
         """
 
+class Prv_compass_living(Protocol):
+    """Discover senior living communities and their contact-form fields."""
+
+    async def listCommunities(self, limit: float | None = None, /) -> list[Prv_compass_living_CommunityWithForms_Out]:
+        """Lists communities with their contact-form field labels, optionally capped at `limit`
+        communities.
+        """
+
 class Prv_completehomewarranty_com(Protocol):
     """Reads Complete Home Warranty's own published plan catalog — real monthly price and
     coverage summary for each of its four home-warranty plans — straight off the plans
@@ -28381,6 +28395,7 @@ class BowmarkProviders(Protocol):
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
     code_claude_com: Prv_code_claude_com
+    compass_living: Prv_compass_living
     completehomewarranty_com: Prv_completehomewarranty_com
     consultnet: Prv_consultnet
     costco: Prv_costco

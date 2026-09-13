@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0dd4560f991d5cdf1e743e02523556685bcffb96e71561320254ef2f3573ed6c
-// 951 checked, 20 unchecked.
+// Manifest version: caae6708fd963352157c91fdaedc83170ccc8bd62fa25f7aaa2c4b02e2aafb15
+// 952 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0dd4560f991d5cdf1e743e02523556685bcffb96e71561320254ef2f3573ed6c",
+  "version": "caae6708fd963352157c91fdaedc83170ccc8bd62fa25f7aaa2c4b02e2aafb15",
   "units": {
     "bundles": {
       "defs": {},
@@ -9175,6 +9175,20 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      }
+    },
+    "providers.compass_living": {
+      "defs": {},
+      "functions": {
+        "listCommunities": [
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.completehomewarranty_com": {

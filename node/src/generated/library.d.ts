@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0dd4560f991d5cdf1e743e02523556685bcffb96e71561320254ef2f3573ed6c
-// 46 capabilities, 396 providers, 969 typed functions, 20 refused.
+// Manifest version: caae6708fd963352157c91fdaedc83170ccc8bd62fa25f7aaa2c4b02e2aafb15
+// 46 capabilities, 397 providers, 970 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10142,6 +10142,25 @@ interface code_claude_comDocLink {
      * one-line description — parsed from the site's own /docs/llms.txt index.
      */
     listDocPages(): Promise<code_claude_comDocLink[]>;
+  }
+}
+
+declare namespace BowmarkProvider_compass_living {
+  // ── Compass Living — the unit's own declarations, verbatim ──
+interface CommunityWithForms {
+  name: string;
+  url: string;
+  contactFormFields: string[];
+  warnings: string[];
+}
+
+  /** Discover senior living communities and their contact-form fields. */
+  interface Unit {
+    /**
+     * Lists communities with their contact-form field labels, optionally capped at `limit`
+     * communities.
+     */
+    listCommunities(limit?: number): Promise<CommunityWithForms[]>;
   }
 }
 
@@ -32368,6 +32387,7 @@ interface BowmarkProviders {
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
   code_claude_com: BowmarkProvider_code_claude_com.Unit;
+  compass_living: BowmarkProvider_compass_living.Unit;
   completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
   costco: BowmarkProvider_costco.Unit;
