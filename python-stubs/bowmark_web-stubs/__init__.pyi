@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b280bd76dcc953ff8c5b261e887cce479c7da5ca9c0a2767afa3f644e3e4b8da
-# 46 capabilities, 398 providers, 954 typed functions, 20 refused.
+# Manifest version: 0d0379bfb0d4582856a5ec2ca6a6dbf9a81a6a9bdbfdea1f14fcaefa68855331
+# 46 capabilities, 399 providers, 956 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15727,6 +15727,13 @@ class Prv_tryalma_com_Page_Out(TypedDict):
     title: str
     category: str
 
+class Prv_tweethunter_TweetHunterFeature_Out(TypedDict):
+    name: str
+    description: str
+
+class Prv_tweethunter_TweetHunterFeatureCategory_Out(TypedDict):
+    name: str
+
 class Prv_twiddy_searchRentals_options_In(TypedDict):
     town: NotRequired[str]
     minBedrooms: NotRequired[float]
@@ -27675,6 +27682,21 @@ class Prv_tryalma_com(Protocol):
     async def listPages(self, /) -> Prv_tryalma_com_ListPagesResponse_Out:
         """List all pages and sections available on the Alma website by category."""
 
+class Prv_tweethunter(Protocol):
+    """Publicly advertised Tweet Hunter features for writing, scheduling, analyzing, and
+    automating an X account.
+    """
+
+    async def listFeatures(self, /) -> list[Prv_tweethunter_TweetHunterFeature_Out]:
+        """Lists Tweet Hunter's publicly advertised X-account features, including scheduling,
+        analytics, automation, and content-writing tools.
+        """
+
+    async def listFeatureCategories(self, /) -> list[Prv_tweethunter_TweetHunterFeatureCategory_Out]:
+        """Lists Tweet Hunter's public feature categories: content creation, X analytics and
+        growth, and automation.
+        """
+
 class Prv_twiddy(Protocol):
     """Twiddy & Company's own Outer Banks vacation rental search and real-time weekly
     pricing/booking-handoff engine — a regional owner-operator's own 1,000+ property
@@ -28684,6 +28706,7 @@ class BowmarkProviders(Protocol):
     trojanstorage: Prv_trojanstorage
     trophysignaturehomes: Prv_trophysignaturehomes
     tryalma_com: Prv_tryalma_com
+    tweethunter: Prv_tweethunter
     twiddy: Prv_twiddy
     uhc_smallbusiness: Prv_uhc_smallbusiness
     ulrichlifestyle: Prv_ulrichlifestyle

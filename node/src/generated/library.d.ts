@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b280bd76dcc953ff8c5b261e887cce479c7da5ca9c0a2767afa3f644e3e4b8da
-// 46 capabilities, 398 providers, 972 typed functions, 20 refused.
+// Manifest version: 0d0379bfb0d4582856a5ec2ca6a6dbf9a81a6a9bdbfdea1f14fcaefa68855331
+// 46 capabilities, 399 providers, 974 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29817,6 +29817,36 @@ interface SearchArgs {
   }
 }
 
+declare namespace BowmarkProvider_tweethunter {
+  // ── Tweet Hunter — the unit's own declarations, verbatim ──
+interface TweetHunterFeature {
+  name: string;
+  description: string;
+}
+
+interface TweetHunterFeatureCategory {
+  name: string;
+}
+
+  /**
+   * Publicly advertised Tweet Hunter features for writing, scheduling, analyzing, and automating
+   * an X account.
+   */
+  interface Unit {
+    /**
+     * Lists Tweet Hunter's publicly advertised X-account features, including scheduling,
+     * analytics, automation, and content-writing tools.
+     */
+    listFeatures(): Promise<TweetHunterFeature[]>;
+
+    /**
+     * Lists Tweet Hunter's public feature categories: content creation, X analytics and growth,
+     * and automation.
+     */
+    listFeatureCategories(): Promise<TweetHunterFeatureCategory[]>;
+  }
+}
+
 declare namespace BowmarkProvider_twiddy {
   // ── Twiddy & Company Realtors — the unit's own declarations, verbatim ──
 interface TwiddyRentalRow {
@@ -32665,6 +32695,7 @@ interface BowmarkProviders {
   trojanstorage: BowmarkProvider_trojanstorage.Unit;
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
   tryalma_com: BowmarkProvider_tryalma_com.Unit;
+  tweethunter: BowmarkProvider_tweethunter.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;

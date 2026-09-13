@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1399 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1401 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1312,6 +1312,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trophysignaturehomes.searchHomes` | trophysignaturehomes.com | Searches Trophy Signature Homes' current live inventory (all metros) by city… | 🟢 |
 | `tryalma_com.listPages` | tryalma.com | List all pages and sections available on the Alma website by category. | 🟢 |
 | `tryalma_com.search` | tryalma.com | Search Alma's content, including pages, resources, and team member profiles. | 🟢 |
+| `tweethunter.listFeatureCategories` | tweethunter.io | Lists Tweet Hunter's public feature categories: content creation, X analytics and… | 🟢 |
+| `tweethunter.listFeatures` | tweethunter.io | Lists Tweet Hunter's publicly advertised X-account features, including scheduling… | 🟢 |
 | `twiddy.getRentalDetail` | twiddy.com | Reads one rental's own detail page in full — description, address, pets-allowed flag… | 🟢 |
 | `twiddy.getRentalQuote` | twiddy.com | Runs the site's own real-time weekly pricing engine for one property and a check-in… | 🟢 |
 | `twiddy.searchRentals` | twiddy.com | Runs Twiddy's own Outer Banks vacation rental search (all 1,000+ managed properties in… | 🟢 |
