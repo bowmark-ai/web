@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f3f228a6dc4350c3301782d5f671083c4477a6aa8e6938e91f5eff44d880676f
-// 958 checked, 20 unchecked.
+// Manifest version: f9bdccf83883a14360d78c1b4f364bcb1ed422bd4bc56bd1b722b7a00105291c
+// 960 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f3f228a6dc4350c3301782d5f671083c4477a6aa8e6938e91f5eff44d880676f",
+  "version": "f9bdccf83883a14360d78c1b4f364bcb1ed422bd4bc56bd1b722b7a00105291c",
   "units": {
     "bundles": {
       "defs": {},
@@ -13418,6 +13418,42 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.greatlakesbrewing": {
+      "defs": {
+        "PriceGreatlakesbrewingEGiftCardArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "amount",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "sleeve",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getEGiftCardOptions": [],
+        "priceEGiftCard": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PriceGreatlakesbrewingEGiftCardArgs"
             },
             "optional": false
           }

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1403 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1405 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -664,6 +664,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `grandwelcome.getRentalQuote` | grandwelcome.com | Runs the site's own real-time date-specific pricing engine for one property — rent… | 🟢 |
 | `grandwelcome.listGrandwelcomeDestinations` | grandwelcome.com | The entry door: reads the site's own /sitemap.xml for every published destination page… | 🟢 |
 | `grandwelcome.searchRentals` | grandwelcome.com | Runs Grand Welcome's own destination search (a real market slug like… | 🟢 |
+| `greatlakesbrewing.getEGiftCardOptions` | store.greatlakesbrewing.com | Reads Great Lakes Brewing Co.'s live eGift-card denominations, permitted custom range… | 🟢 |
+| `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
 | `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟢 |
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
 | `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟡 |

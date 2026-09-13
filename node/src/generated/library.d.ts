@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f3f228a6dc4350c3301782d5f671083c4477a6aa8e6938e91f5eff44d880676f
-// 46 capabilities, 400 providers, 976 typed functions, 20 refused.
+// Manifest version: f9bdccf83883a14360d78c1b4f364bcb1ed422bd4bc56bd1b722b7a00105291c
+// 46 capabilities, 401 providers, 978 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15225,6 +15225,35 @@ type GrandwelcomeQuote =
      * those dates, an ordinary answer.
      */
     getRentalQuote(propertyId: string, options: { checkin: string; checkout: string }): Promise<GrandwelcomeQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_greatlakesbrewing {
+  // ── Great Lakes Brewing Co. — the unit's own declarations, verbatim ──
+interface GreatlakesbrewingEGiftCardOptions { presetAmounts: number[]; customAmount: { min: number; max: number; wholeDollarsOnly: boolean }; handlingFee: number; sleevePrice: number; checkoutUrl: string; }
+interface PriceGreatlakesbrewingEGiftCardArgs { amount: number; sleeve?: boolean; }
+interface GreatlakesbrewingEGiftCardPrice extends GreatlakesbrewingEGiftCardOptions { amount: number; sleeve: boolean; total: number; }
+
+  /**
+   * Great Lakes Brewing Co.'s live eGift-card configuration: current preset/custom
+   * denominations, gift-card-only handling fee, optional sleeve price, and a read-only total
+   * before checkout.
+   */
+  interface Unit {
+    /**
+     * Reads Great Lakes Brewing Co.'s live public eGift-card form: its preset denominations,
+     * permitted custom-amount range, gift-card-only handling fee, optional sleeve price and the
+     * official checkout handoff URL.
+     */
+    getEGiftCardOptions(): Promise<GreatlakesbrewingEGiftCardOptions>;
+
+    /**
+     * Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar card value and
+     * optional sleeve, using the live public form's permitted range and gift-card-only fees.
+     * Returns the official eGift-card page for the shopper to complete checkout themselves; never
+     * creates a cart or order.
+     */
+    priceEGiftCard(args: PriceGreatlakesbrewingEGiftCardArgs): Promise<GreatlakesbrewingEGiftCardPrice>;
   }
 }
 
@@ -32561,6 +32590,7 @@ interface BowmarkProviders {
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;
   grandwelcome: BowmarkProvider_grandwelcome.Unit;
+  greatlakesbrewing: BowmarkProvider_greatlakesbrewing.Unit;
   greatlakesdentaltech: BowmarkProvider_greatlakesdentaltech.Unit;
   hamptonwaterwine: BowmarkProvider_hamptonwaterwine.Unit;
   handypro: BowmarkProvider_handypro.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f3f228a6dc4350c3301782d5f671083c4477a6aa8e6938e91f5eff44d880676f
-# 46 capabilities, 400 providers, 958 typed functions, 20 refused.
+# Manifest version: f9bdccf83883a14360d78c1b4f364bcb1ed422bd4bc56bd1b722b7a00105291c
+# 46 capabilities, 401 providers, 960 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8256,6 +8256,37 @@ class Prv_grandwelcome_GrandwelcomeQuote_u1_Out(TypedDict):
     propertyId: str
     checkin: str
     checkout: str
+
+class Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardOptions_Out(TypedDict):
+    presetAmounts: list[float]
+    customAmount: Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardOptions_Out_customAmount_Out
+    handlingFee: float
+    sleevePrice: float
+    checkoutUrl: str
+
+class Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardOptions_Out_customAmount_Out(TypedDict):
+    min: float
+    max: float
+    wholeDollarsOnly: bool
+
+class Prv_greatlakesbrewing_PriceGreatlakesbrewingEGiftCardArgs_In(TypedDict):
+    amount: float
+    sleeve: NotRequired[bool]
+
+class Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardPrice_Out(TypedDict):
+    presetAmounts: list[float]
+    customAmount: Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardPrice_Out_customAmount_Out
+    handlingFee: float
+    sleevePrice: float
+    checkoutUrl: str
+    amount: float
+    sleeve: bool
+    total: float
+
+class Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardPrice_Out_customAmount_Out(TypedDict):
+    min: float
+    max: float
+    wholeDollarsOnly: bool
 
 class Prv_greatlakesdentaltech_GldtSearchResult_Out(TypedDict):
     products: list[Prv_greatlakesdentaltech_GldtProductSummary_Out]
@@ -22464,6 +22495,25 @@ class Prv_grandwelcome(Protocol):
         for those dates, an ordinary answer.
         """
 
+class Prv_greatlakesbrewing(Protocol):
+    """Great Lakes Brewing Co.'s live eGift-card configuration: current preset/custom
+    denominations, gift-card-only handling fee, optional sleeve price, and a read-only total
+    before checkout.
+    """
+
+    async def getEGiftCardOptions(self, /) -> Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardOptions_Out:
+        """Reads Great Lakes Brewing Co.'s live public eGift-card form: its preset denominations,
+        permitted custom-amount range, gift-card-only handling fee, optional sleeve price and
+        the official checkout handoff URL.
+        """
+
+    async def priceEGiftCard(self, args: Prv_greatlakesbrewing_PriceGreatlakesbrewingEGiftCardArgs_In, /) -> Prv_greatlakesbrewing_GreatlakesbrewingEGiftCardPrice_Out:
+        """Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar card value and
+        optional sleeve, using the live public form's permitted range and gift-card-only fees.
+        Returns the official eGift-card page for the shopper to complete checkout themselves;
+        never creates a cart or order.
+        """
+
 class Prv_greatlakesdentaltech(Protocol):
     """Great Lakes Dental Technologies' own orthodontic/dental catalog — searches ~4,000 SKUs
     and reads real, live price and stock straight off their storefront.
@@ -28565,6 +28615,7 @@ class BowmarkProviders(Protocol):
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger
     grandwelcome: Prv_grandwelcome
+    greatlakesbrewing: Prv_greatlakesbrewing
     greatlakesdentaltech: Prv_greatlakesdentaltech
     hamptonwaterwine: Prv_hamptonwaterwine
     handypro: Prv_handypro
