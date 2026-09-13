@@ -6,6 +6,38 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.20.0 (2026-09-13)
+
+**Capabilities**
+
+- New capability **script_execution** (1 function): `script_execution.guide`
+
+**Providers**
+
+- New provider **ai.engineer** (2 functions): `ai_engineer.getSpeaker`, `ai_engineer.listSpeakers`
+- New provider **astoundgroup.com** (2 functions): `astoundgroup.getContactForm`, `astoundgroup.listPages`
+- New provider **avalonmalibu.com** (1 function): `avalonmalibu_com.getInsuranceForm`
+- New provider **bionicpo.com** (2 functions): `bionicpo.getInquiryServiceDetails`, `bionicpo.listInquiryServices`
+- New provider **compass-living.com** (1 function): `compass_living.listCommunities`
+- New provider **completehomewarranty.com** (2 functions): `completehomewarranty_com.getPlan`, `completehomewarranty_com.listPlans`
+- New provider **costco.com** (1 function): `costco.search`
+- New provider **gobrightwing.com** (2 functions): `gobrightwing.getJobDetails`, `gobrightwing.searchJobs`
+- New provider **golf.com** (2 functions): `golf_com.findCourses`, `golf_com.getCourse`
+- New provider **gostoreit.com** (2 functions): `gostoreit.findFacilities`, `gostoreit.getFacilityUnits`
+- New provider **store.greatlakesbrewing.com** (2 functions): `greatlakesbrewing.getEGiftCardOptions`, `greatlakesbrewing.priceEGiftCard`
+- New provider **greatlakesdentaltech.com** (2 functions): `greatlakesdentaltech.getProduct`, `greatlakesdentaltech.search`
+- New provider **kwworldwide.com** (1 function): `kwworldwide.findContactForm`
+- New provider **my.auroramedicalspa.com** (4 functions): `my_auroramedicalspa_com.getProviders`, `my_auroramedicalspa_com.getServiceCategories`, `my_auroramedicalspa_com.getServices`, `my_auroramedicalspa_com.listLocations`
+- New provider **pacificlifestylehomes.com** (1 function): `pacificlifestylehomes.searchAvailableHomes`
+- New provider **poly-tex.com** (2 functions): `polytex.getProduct`, `polytex.searchProducts`
+- New provider **tagtrans.net** (2 functions): `tagtrans_net.createShipmentRateEmail`, `tagtrans_net.getShipmentRateForm`
+- New provider **tryalma.com** (2 functions): `tryalma_com.listPages`, `tryalma_com.search`
+- New provider **tweethunter.io** (2 functions): `tweethunter.listFeatureCategories`, `tweethunter.listFeatures`
+- New provider **upkeepstl.com** (2 functions): `upkeepstl_com.estimatePlanCost`, `upkeepstl_com.getPlanBuilder`
+- New provider **wearehirschfeld.com** (2 functions): `wearehirschfeld.getContactForm`, `wearehirschfeld.listPages`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.19.0 (2026-09-12)
 
 **Capabilities**
