@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f9bdccf83883a14360d78c1b4f364bcb1ed422bd4bc56bd1b722b7a00105291c
-# 46 capabilities, 401 providers, 960 typed functions, 20 refused.
+# Manifest version: 560a052e0e710ca2e8f310ec0035ef2cf092ff299887daab940a01c8223b31a8
+# 46 capabilities, 402 providers, 962 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8475,6 +8475,38 @@ class Prv_hauslabs_HauslabsShadeMatch_Out_variant_Out(TypedDict):
     sku: str | None
     price: str
     available: bool
+
+class Prv_havenenergy_HavenPropertyDetails_Out(TypedDict):
+    homeSize: str | None
+    livingSquareFeet: float | None
+    latitude: float | None
+    longitude: float | None
+    county: str | None
+    highFireThreatZone: str | None
+    isInEnergyCommunity: bool | None
+
+class Prv_havenenergy_HavenPricingProgramsResult_Out(TypedDict):
+    programs: list[Prv_havenenergy_HavenPricingProgram_Out]
+
+class Prv_havenenergy_HavenPricingProgram_Out(TypedDict):
+    id: str
+    label: str
+    offerType: str
+    pricingType: str
+    states: list[str]
+    utilities: list[str]
+    dwellingsAllowed: list[str]
+    requiresIncomeOrMedical: bool
+    requiresHomeOwnership: bool
+    tiers: list[Prv_havenenergy_HavenPricingTier_Out]
+
+class Prv_havenenergy_HavenPricingTier_Out(TypedDict):
+    batteryModel: str
+    quantity: float
+    baseMonthlyPayment: float
+    basePrepaidPayment: float
+    installationCost: float
+    billSavings: str
 
 class Prv_haydenhomes_HaydenhomesSearchFilters_In(TypedDict):
     state: NotRequired[str]
@@ -22640,6 +22672,31 @@ class Prv_hauslabs(Protocol):
         renders for the same inputs.
         """
 
+class Prv_havenenergy(Protocol):
+    """Haven Energy home battery quoting — read a US address's own property attributes (home
+    size, county, energy-community status) the way Haven's /quote flow does, and read the
+    site's own live incentive/pricing program table (real monthly payment, prepaid payment,
+    installation cost and bill-savings tiers per program), with no name/email/phone
+    collected anywhere in this path.
+    """
+
+    async def getPropertyDetails(self, address: str, /) -> Prv_havenenergy_HavenPropertyDetails_Out:
+        """Reads Haven's own property-attributes lookup for a US street address — the same call
+        /quote makes on step 1 before any pricing is shown. Returns home-size band, county,
+        lat/lng and energy-community/fire-zone flags used to match pricing programs. THROWS on a
+        malformed address; Haven's endpoint itself answers a real but unrecognized address with
+        nulled fields rather than an error.
+        """
+
+    async def getPricingPrograms(self, /) -> Prv_havenenergy_HavenPricingProgramsResult_Out:
+        """Returns every currently active incentive/pricing program Haven prices against — eligible
+        states, utilities and dwelling types, plus real per-tier monthly payment, prepaid
+        payment, installation cost and typical bill savings for a Tesla Powerwall 3 (with or
+        without an expansion unit). This is the site's own live table; combine with
+        getPropertyDetails' county/utility context to narrow to the programs a specific home
+        actually qualifies for.
+        """
+
 class Prv_haydenhomes(Protocol):
     """Hayden Homes' live quick move-in inventory search across Oregon, Washington, Idaho and
     Montana — filterable by state, city, community, beds/baths/sqft and price, off the
@@ -28622,6 +28679,7 @@ class BowmarkProviders(Protocol):
     hansons: Prv_hansons
     harmar: Prv_harmar
     hauslabs: Prv_hauslabs
+    havenenergy: Prv_havenenergy
     haydenhomes: Prv_haydenhomes
     healthcare_gov: Prv_healthcare_gov
     heatherwood: Prv_heatherwood

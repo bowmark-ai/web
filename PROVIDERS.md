@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1405 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1407 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -68,7 +68,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `arajet.search` | arajet.com | Runs Arajet's own flight-schedule search (origin, destination, date, passengers) and… | 🟢 |
 | `archipelago.getClientRelease` | archipelago.gg | Returns the latest published Archipelago client release — the version tag, the GitHub… | 🟢 |
 | `archipelago.getGameOptions` | archipelago.gg | Returns one game's per-player randomizer options — the commented YAML template… | 🟢 |
-| `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🟢 |
+| `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🟡 |
 | `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟢 |
 | `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟢 |
 | `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟢 |
@@ -682,6 +682,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hauslabs.getHauslabsProduct` | hauslabs.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `hauslabs.listHauslabsProducts` | hauslabs.com | Reads the live Haus Labs catalogue as the storefront publishes it — every product, its… | 🟢 |
 | `hauslabs.runFoundationShadeFinder` | hauslabs.com | Resolves a buyer's Foundation Lab quiz answers to ONE specific shade: the variant… | 🟢 |
+| `havenenergy.getPricingPrograms` | havenenergy.com | Returns every active battery incentive/pricing program Haven currently prices against… | 🟢 |
+| `havenenergy.getPropertyDetails` | havenenergy.com | Given a US home address, returns the property attributes Haven's own /quote flow… | 🟢 |
 | `haydenhomes.calculateAffordability` | hayden-homes.com | Runs Hayden Homes' "What Can I Afford?" mortgage affordability calculator… | ⚪ |
 | `haydenhomes.listFloorPlans` | hayden-homes.com | Lists Hayden Homes' Build-On-Your-Land floor plan catalog (a template plan, not live… | ⚪ |
 | `haydenhomes.searchQuickMoveIns` | hayden-homes.com | Runs Hayden Homes' quick move-in search against the site's own live inventory — real… | 🟢 |

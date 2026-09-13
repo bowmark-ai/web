@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f9bdccf83883a14360d78c1b4f364bcb1ed422bd4bc56bd1b722b7a00105291c
-// 46 capabilities, 401 providers, 978 typed functions, 20 refused.
+// Manifest version: 560a052e0e710ca2e8f310ec0035ef2cf092ff299887daab940a01c8223b31a8
+// 46 capabilities, 402 providers, 980 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15567,6 +15567,72 @@ interface HauslabsShadeMatch {
      * function returns the single shade the quiz's terminal page renders for the same inputs.
      */
     runFoundationShadeFinder(input: { family: 'Deep' | 'Medium Deep' | 'Medium' | 'Light Medium' | 'Light' | 'Fair'; depth: 'deeper' | 'medium' | 'lighter'; undertone: 'warm' | 'cool' | 'neutral' | 'rosy' | 'golden'; hasAddOne?: boolean }): Promise<HauslabsShadeMatch>;
+  }
+}
+
+declare namespace BowmarkProvider_havenenergy {
+  // ── Haven Energy — the unit's own declarations, verbatim ──
+// Haven Energy's OWN shapes — not a capability contract.
+
+interface HavenPropertyDetails {
+  homeSize: string | null;           // e.g. "SIZE_1500_2499"
+  livingSquareFeet: number | null;
+  latitude: number | null;
+  longitude: number | null;
+  county: string | null;
+  highFireThreatZone: string | null;
+  isInEnergyCommunity: boolean | null;
+}
+
+interface HavenPricingTier {
+  batteryModel: string;      // e.g. "TESLA_POWERWALL_3"
+  quantity: number;
+  baseMonthlyPayment: number;
+  basePrepaidPayment: number;
+  installationCost: number;
+  billSavings: string;       // e.g. "$300-$600"
+}
+
+interface HavenPricingProgram {
+  id: string;
+  label: string;             // e.g. "PG&E Permanent Battery Storage Rebate"
+  offerType: string;
+  pricingType: string;
+  states: string[];
+  utilities: string[];
+  dwellingsAllowed: string[];
+  requiresIncomeOrMedical: boolean;
+  requiresHomeOwnership: boolean;
+  tiers: HavenPricingTier[];
+}
+
+interface HavenPricingProgramsResult { programs: HavenPricingProgram[] }
+
+  /**
+   * Haven Energy home battery quoting — read a US address's own property attributes (home size,
+   * county, energy-community status) the way Haven's /quote flow does, and read the site's own
+   * live incentive/pricing program table (real monthly payment, prepaid payment, installation
+   * cost and bill-savings tiers per program), with no name/email/phone collected anywhere in
+   * this path.
+   */
+  interface Unit {
+    /**
+     * Reads Haven's own property-attributes lookup for a US street address — the same call /quote
+     * makes on step 1 before any pricing is shown. Returns home-size band, county, lat/lng and
+     * energy-community/fire-zone flags used to match pricing programs. THROWS on a malformed
+     * address; Haven's endpoint itself answers a real but unrecognized address with nulled fields
+     * rather than an error.
+     */
+    getPropertyDetails(address: string): Promise<HavenPropertyDetails>;
+
+    /**
+     * Returns every currently active incentive/pricing program Haven prices against — eligible
+     * states, utilities and dwelling types, plus real per-tier monthly payment, prepaid payment,
+     * installation cost and typical bill savings for a Tesla Powerwall 3 (with or without an
+     * expansion unit). This is the site's own live table; combine with getPropertyDetails'
+     * county/utility context to narrow to the programs a specific home actually qualifies for.
+     */
+    getPricingPrograms(): Promise<HavenPricingProgramsResult>;
   }
 }
 
@@ -32597,6 +32663,7 @@ interface BowmarkProviders {
   hansons: BowmarkProvider_hansons.Unit;
   harmar: BowmarkProvider_harmar.Unit;
   hauslabs: BowmarkProvider_hauslabs.Unit;
+  havenenergy: BowmarkProvider_havenenergy.Unit;
   haydenhomes: BowmarkProvider_haydenhomes.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
   heatherwood: BowmarkProvider_heatherwood.Unit;

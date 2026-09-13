@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f9bdccf83883a14360d78c1b4f364bcb1ed422bd4bc56bd1b722b7a00105291c
-// 960 checked, 20 unchecked.
+// Manifest version: 560a052e0e710ca2e8f310ec0035ef2cf092ff299887daab940a01c8223b31a8
+// 962 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f9bdccf83883a14360d78c1b4f364bcb1ed422bd4bc56bd1b722b7a00105291c",
+  "version": "560a052e0e710ca2e8f310ec0035ef2cf092ff299887daab940a01c8223b31a8",
   "units": {
     "bundles": {
       "defs": {},
@@ -13812,6 +13812,21 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.havenenergy": {
+      "defs": {},
+      "functions": {
+        "getPropertyDetails": [
+          {
+            "name": "address",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPricingPrograms": []
       }
     },
     "providers.haydenhomes": {
