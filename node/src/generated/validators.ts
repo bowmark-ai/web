@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 83633e5d796afb66b10fb4fbc9a726f95cf043ccb210d12b6947e11210d10fa5
-// 941 checked, 20 unchecked.
+// Manifest version: d08b40552ee449953a0f0be3556960a9306b1f79ba5905762f196e8b1f996e19
+// 942 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "83633e5d796afb66b10fb4fbc9a726f95cf043ccb210d12b6947e11210d10fa5",
+  "version": "d08b40552ee449953a0f0be3556960a9306b1f79ba5905762f196e8b1f996e19",
   "units": {
     "bundles": {
       "defs": {},
@@ -9186,6 +9186,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ConsultnetJobSearchQuery"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.costco": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

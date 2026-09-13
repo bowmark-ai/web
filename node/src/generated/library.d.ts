@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 83633e5d796afb66b10fb4fbc9a726f95cf043ccb210d12b6947e11210d10fa5
-// 46 capabilities, 390 providers, 959 typed functions, 20 refused.
+// Manifest version: d08b40552ee449953a0f0be3556960a9306b1f79ba5905762f196e8b1f996e19
+// 46 capabilities, 391 providers, 960 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10110,6 +10110,23 @@ interface ConsultnetJobSearchQuery {
      * instead.
      */
     searchJobs(query?: ConsultnetJobSearchQuery): Promise<ConsultnetJob[]>;
+  }
+}
+
+declare namespace BowmarkProvider_costco {
+  // ── Costco — the unit's own declarations, verbatim ──
+interface CostcoProduct {
+  itemNumber: string;
+  title: string;
+  price: number;
+  description?: string;
+  url?: string;
+}
+
+  /** Search Costco's product catalog by keyword. */
+  interface Unit {
+    /** Runs a search on Costco's product catalog and returns matching items with prices. */
+    search(query: string): Promise<CostcoProduct[]>;
   }
 }
 
@@ -32193,6 +32210,7 @@ interface BowmarkProviders {
   code_claude_com: BowmarkProvider_code_claude_com.Unit;
   completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
+  costco: BowmarkProvider_costco.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
   credibly_com: BowmarkProvider_credibly_com.Unit;
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;

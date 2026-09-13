@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 83633e5d796afb66b10fb4fbc9a726f95cf043ccb210d12b6947e11210d10fa5
-# 46 capabilities, 390 providers, 941 typed functions, 20 refused.
+# Manifest version: d08b40552ee449953a0f0be3556960a9306b1f79ba5905762f196e8b1f996e19
+# 46 capabilities, 391 providers, 942 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5515,6 +5515,13 @@ class Prv_consultnet_ConsultnetJob_Out(TypedDict):
     location: str | None
     url: str
     description: str
+
+class Prv_costco_CostcoProduct_Out(TypedDict):
+    itemNumber: str
+    title: str
+    price: float
+    description: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_couponfollow_CouponFollowOffer_Out(TypedDict):
     id: str
@@ -20417,6 +20424,12 @@ class Prv_consultnet(Protocol):
         endpoint THROWS instead.
         """
 
+class Prv_costco(Protocol):
+    """Search Costco's product catalog by keyword."""
+
+    async def search(self, query: str, /) -> list[Prv_costco_CostcoProduct_Out]:
+        """Runs a search on Costco's product catalog and returns matching items with prices."""
+
 class Prv_couponfollow(Protocol):
     """Reads couponfollow.com's own listing page for a merchant domain — every promo code and
     checkout discount it currently tracks for that merchant (code, discount text, title,
@@ -28214,6 +28227,7 @@ class BowmarkProviders(Protocol):
     code_claude_com: Prv_code_claude_com
     completehomewarranty_com: Prv_completehomewarranty_com
     consultnet: Prv_consultnet
+    costco: Prv_costco
     couponfollow: Prv_couponfollow
     credibly_com: Prv_credibly_com
     cruiselakegeneva: Prv_cruiselakegeneva

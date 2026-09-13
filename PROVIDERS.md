@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1385 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1386 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -81,7 +81,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `asppoolco.listLocations` | asppoolco.com | Lists every ASP franchise location on the public directory, optionally narrowed to one… | 🟡 |
 | `atlasoceanvoyages.getVoyage` | atlasoceanvoyages.com | Reads one voyage's own detail page: the full port-by-port day itinerary with… | 🟡 |
 | `atlasoceanvoyages.searchVoyages` | atlasoceanvoyages.com | Runs the /search voyage finder — destination, ship, duration and departure-date… | 🟢 |
-| `atlasseniorliving.searchCommunities` | atlasseniorliving.com | Runs the site's own 'Find a Community' search at… | 🟡 |
+| `atlasseniorliving.searchCommunities` | atlasseniorliving.com | Runs the site's own 'Find a Community' search at… | 🟢 |
 | `att.getPlanTotal` | att.com | Walks AT&T's new-line plan-builder / order flow (att.com/plans/unlimited-data-plans/ →… | ⚪ |
 | `audibel.findClinics` | audibel.com | Runs Audibel's find-a-clinic locator for a ZIP code, city or address and returns the… | 🟢 |
 | `autocamp.listProperties` | autocamp.com | Lists AutoCamp's active properties (name, location, the reservations-engine hotel id)… | 🟢 |
@@ -323,6 +323,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
 | `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
+| `costco.search` | costco.com | Runs a search on Costco's product catalog and returns matching items with prices. | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
 | `credibly_com.getApplicationForm` | credibly.com | Reads the visible questions and select choices on Credibly's public business-financing… | 🟢 |
 | `credibly_com.getEligibilityRequirements` | credibly.com | Reads Credibly's own published eligibility requirements (time in business, credit… | 🟢 |
