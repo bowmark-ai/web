@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: caae6708fd963352157c91fdaedc83170ccc8bd62fa25f7aaa2c4b02e2aafb15
-// 952 checked, 20 unchecked.
+// Manifest version: b280bd76dcc953ff8c5b261e887cce479c7da5ca9c0a2767afa3f644e3e4b8da
+// 954 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "caae6708fd963352157c91fdaedc83170ccc8bd62fa25f7aaa2c4b02e2aafb15",
+  "version": "b280bd76dcc953ff8c5b261e887cce479c7da5ca9c0a2767afa3f644e3e4b8da",
   "units": {
     "bundles": {
       "defs": {},
@@ -13196,6 +13196,43 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GoogleFlightQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.gostoreit": {
+      "defs": {
+        "GetFacilityUnitsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "facilityUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findFacilities": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getFacilityUnits": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetFacilityUnitsArgs"
             },
             "optional": false
           }

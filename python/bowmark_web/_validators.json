@@ -1,5 +1,5 @@
 {
-  "version": "caae6708fd963352157c91fdaedc83170ccc8bd62fa25f7aaa2c4b02e2aafb15",
+  "version": "b280bd76dcc953ff8c5b261e887cce479c7da5ca9c0a2767afa3f644e3e4b8da",
   "units": {
     "bundles": {
       "defs": {},
@@ -13184,6 +13184,43 @@
             "schema": {
               "k": "ref",
               "name": "GoogleFlightQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.gostoreit": {
+      "defs": {
+        "GetFacilityUnitsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "facilityUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findFacilities": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getFacilityUnits": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetFacilityUnitsArgs"
             },
             "optional": false
           }

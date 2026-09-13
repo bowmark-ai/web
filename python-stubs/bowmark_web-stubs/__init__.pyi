@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: caae6708fd963352157c91fdaedc83170ccc8bd62fa25f7aaa2c4b02e2aafb15
-# 46 capabilities, 397 providers, 952 typed functions, 20 refused.
+# Manifest version: b280bd76dcc953ff8c5b261e887cce479c7da5ca9c0a2767afa3f644e3e4b8da
+# 46 capabilities, 398 providers, 954 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8066,6 +8066,27 @@ class Prv_google_flights_GooglePricePoint_Out(TypedDict):
     returnDate: str | None
     price: float | None
     currency: str
+
+class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
+    name: str
+    address: str
+    city: str
+    state: str
+    zip: str | None
+    amenities: list[str]
+    startingPrice: float | None
+    facilityUrl: str
+
+class Prv_gostoreit_GetFacilityUnitsArgs_In(TypedDict):
+    facilityUrl: str
+
+class Prv_gostoreit_GoStoreItUnit_Out(TypedDict):
+    size: str
+    category: str
+    amenities: list[str]
+    monthlyPrice: float
+    standardMonthlyPrice: float | None
+    promotion: str | None
 
 class Prv_gotchacovered_GotchaCoveredQuizQuestions_Out(TypedDict):
     questions: list[Prv_gotchacovered_GotchaCoveredQuizQuestion_Out]
@@ -22310,6 +22331,21 @@ class Prv_google_flights(Protocol):
         it.
         """
 
+class Prv_gostoreit(Protocol):
+    """Go Store It — live public self-storage unit inventory, amenity details, and monthly
+    online prices from a chosen facility.
+    """
+
+    async def findFacilities(self, query: str, /) -> list[Prv_gostoreit_GoStoreItFacility_Out]:
+        """Searches Go Store It's public facility results by city, state, or ZIP and returns
+        matching facility URLs, addresses, amenities, and starting prices.
+        """
+
+    async def getFacilityUnits(self, args: Prv_gostoreit_GetFacilityUnitsArgs_In, /) -> list[Prv_gostoreit_GoStoreItUnit_Out]:
+        """Reads a public Go Store It facility page's live rendered inventory, prices, and amenity
+        details.
+        """
+
 class Prv_gotchacovered(Protocol):
     """Reads and answers Gotcha Covered's own 'What Design Style Am I?' window-treatment style
     quiz, returning the site's real computed match.
@@ -28468,6 +28504,7 @@ class BowmarkProviders(Protocol):
     goloadup: Prv_goloadup
     goodway: Prv_goodway
     google_flights: Prv_google_flights
+    gostoreit: Prv_gostoreit
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger
     grandwelcome: Prv_grandwelcome

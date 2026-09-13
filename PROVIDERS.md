@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1397 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1399 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -325,7 +325,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
-| `compass_living.listCommunities` | compass-living.com | Lists senior living communities with their contact-form fields available for discovery. | 🟢 |
+| `compass_living.listCommunities` | compass-living.com | Lists up to 10 senior living communities with their contact-form fields and… | 🟢 |
 | `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
 | `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
@@ -651,6 +651,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
+| `gostoreit.findFacilities` | gostoreit.com | Searches Go Store It's public location results by a city, state, or ZIP and returns… | 🟢 |
+| `gostoreit.getFacilityUnits` | gostoreit.com | Reads a public Go Store It facility URL's live rendered unit inventory: size… | 🟢 |
 | `gotchacovered.getDesignStyleQuizQuestions` | gotchacovered.com | Reads the live 'What Design Style Am I?' quiz's real 6 questions and their option… | 🟡 |
 | `gotchacovered.takeDesignStyleQuiz` | gotchacovered.com | Answers all 6 questions of Gotcha Covered's own Design Style Quiz and returns the… | 🟡 |
 | `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🟡 |

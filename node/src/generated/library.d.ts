@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: caae6708fd963352157c91fdaedc83170ccc8bd62fa25f7aaa2c4b02e2aafb15
-// 46 capabilities, 397 providers, 970 typed functions, 20 refused.
+// Manifest version: b280bd76dcc953ff8c5b261e887cce479c7da5ca9c0a2767afa3f644e3e4b8da
+// 46 capabilities, 398 providers, 972 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14968,6 +14968,31 @@ interface GooglePriceGraph {
      * fixed-length stay, so each column carries the return date priced with it.
      */
     getPriceGraph(query: GoogleFlightQuery): Promise<GooglePriceGraph>;
+  }
+}
+
+declare namespace BowmarkProvider_gostoreit {
+  // ── Go Store It — the unit's own declarations, verbatim ──
+interface GetFacilityUnitsArgs { facilityUrl: string; }
+interface GoStoreItFacility { name: string; address: string; city: string; state: string; zip: string | null; amenities: string[]; startingPrice: number | null; facilityUrl: string; }
+interface GoStoreItUnit { size: string; category: string; amenities: string[]; monthlyPrice: number; standardMonthlyPrice: number | null; promotion: string | null; }
+
+  /**
+   * Go Store It — live public self-storage unit inventory, amenity details, and monthly online
+   * prices from a chosen facility.
+   */
+  interface Unit {
+    /**
+     * Searches Go Store It's public facility results by city, state, or ZIP and returns matching
+     * facility URLs, addresses, amenities, and starting prices.
+     */
+    findFacilities(query: string): Promise<GoStoreItFacility[]>;
+
+    /**
+     * Reads a public Go Store It facility page's live rendered inventory, prices, and amenity
+     * details.
+     */
+    getFacilityUnits(args: GetFacilityUnitsArgs): Promise<GoStoreItUnit[]>;
   }
 }
 
@@ -32460,6 +32485,7 @@ interface BowmarkProviders {
   goloadup: BowmarkProvider_goloadup.Unit;
   goodway: BowmarkProvider_goodway.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
+  gostoreit: BowmarkProvider_gostoreit.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;
   grandwelcome: BowmarkProvider_grandwelcome.Unit;
