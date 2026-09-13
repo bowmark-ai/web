@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0d0379bfb0d4582856a5ec2ca6a6dbf9a81a6a9bdbfdea1f14fcaefa68855331
-# 46 capabilities, 399 providers, 956 typed functions, 20 refused.
+# Manifest version: f3f228a6dc4350c3301782d5f671083c4477a6aa8e6938e91f5eff44d880676f
+# 46 capabilities, 400 providers, 958 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8256,6 +8256,25 @@ class Prv_grandwelcome_GrandwelcomeQuote_u1_Out(TypedDict):
     propertyId: str
     checkin: str
     checkout: str
+
+class Prv_greatlakesdentaltech_GldtSearchResult_Out(TypedDict):
+    products: list[Prv_greatlakesdentaltech_GldtProductSummary_Out]
+    total: float
+
+class Prv_greatlakesdentaltech_GldtProductSummary_Out(TypedDict):
+    sku: str
+    name: str
+    price: float
+    category: str | None
+    url: str
+
+class Prv_greatlakesdentaltech_GldtProduct_Out(TypedDict):
+    sku: str
+    name: str
+    price: float
+    inStock: bool
+    stockMessage: str | None
+    url: str
 
 class Prv_hamptonwaterwine_HamptonWaterNearbyRetailers_Out(TypedDict):
     zip: str
@@ -22445,6 +22464,22 @@ class Prv_grandwelcome(Protocol):
         for those dates, an ordinary answer.
         """
 
+class Prv_greatlakesdentaltech(Protocol):
+    """Great Lakes Dental Technologies' own orthodontic/dental catalog — searches ~4,000 SKUs
+    and reads real, live price and stock straight off their storefront.
+    """
+
+    async def search(self, query: str, limit: float | None = None, /) -> Prv_greatlakesdentaltech_GldtSearchResult_Out:
+        """Searches Great Lakes Dental Tech's own storefront catalog for what a buyer would type
+        ("intraoral scanner", "sleep appliance") and returns matching products with the URL
+        getProduct takes.
+        """
+
+    async def getProduct(self, url: str, /) -> Prv_greatlakesdentaltech_GldtProduct_Out:
+        """Reads one product's real, current price and live stock status straight off its own page,
+        plus the page's own URL — where the real Add to Cart action lives.
+        """
+
 class Prv_hamptonwaterwine(Protocol):
     """Reads Hampton Water Wine Co.'s own real-time Stockist store locator directly — real
     nearby retailers/restaurants that actually carry Hampton Water, distance-ranked from a
@@ -28530,6 +28565,7 @@ class BowmarkProviders(Protocol):
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger
     grandwelcome: Prv_grandwelcome
+    greatlakesdentaltech: Prv_greatlakesdentaltech
     hamptonwaterwine: Prv_hamptonwaterwine
     handypro: Prv_handypro
     hansons: Prv_hansons

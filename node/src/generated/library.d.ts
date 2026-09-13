@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0d0379bfb0d4582856a5ec2ca6a6dbf9a81a6a9bdbfdea1f14fcaefa68855331
-// 46 capabilities, 399 providers, 974 typed functions, 20 refused.
+// Manifest version: f3f228a6dc4350c3301782d5f671083c4477a6aa8e6938e91f5eff44d880676f
+// 46 capabilities, 400 providers, 976 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15225,6 +15225,48 @@ type GrandwelcomeQuote =
      * those dates, an ordinary answer.
      */
     getRentalQuote(propertyId: string, options: { checkin: string; checkout: string }): Promise<GrandwelcomeQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_greatlakesdentaltech {
+  // ── Great Lakes Dental Technologies — the unit's own declarations, verbatim ──
+interface GldtProductSummary {
+  sku: string;
+  name: string;
+  price: number;
+  category: string | null;
+  url: string;
+}
+interface GldtSearchResult {
+  products: GldtProductSummary[];
+  total: number;
+}
+interface GldtProduct {
+  sku: string;
+  name: string;
+  price: number;
+  inStock: boolean;
+  stockMessage: string | null;
+  url: string;
+}
+
+  /**
+   * Great Lakes Dental Technologies' own orthodontic/dental catalog — searches ~4,000 SKUs and
+   * reads real, live price and stock straight off their storefront.
+   */
+  interface Unit {
+    /**
+     * Searches Great Lakes Dental Tech's own storefront catalog for what a buyer would type
+     * ("intraoral scanner", "sleep appliance") and returns matching products with the URL
+     * getProduct takes.
+     */
+    search(query: string, limit?: number): Promise<GldtSearchResult>;
+
+    /**
+     * Reads one product's real, current price and live stock status straight off its own page,
+     * plus the page's own URL — where the real Add to Cart action lives.
+     */
+    getProduct(url: string): Promise<GldtProduct>;
   }
 }
 
@@ -32519,6 +32561,7 @@ interface BowmarkProviders {
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;
   grandwelcome: BowmarkProvider_grandwelcome.Unit;
+  greatlakesdentaltech: BowmarkProvider_greatlakesdentaltech.Unit;
   hamptonwaterwine: BowmarkProvider_hamptonwaterwine.Unit;
   handypro: BowmarkProvider_handypro.Unit;
   hansons: BowmarkProvider_hansons.Unit;
