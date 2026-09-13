@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b8971773d87fcf5eb0325175c8a40536fa69b92aec8f6903747bde6d1c791f08
-# 46 capabilities, 393 providers, 947 typed functions, 20 refused.
+# Manifest version: 0e3f26529d756d8dc35575b0684b3a2198a43877ebea5111a6ca60e4c1e9652d
+# 46 capabilities, 394 providers, 948 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10103,6 +10103,12 @@ class Prv_kuiu_KuiuCheckoutLink_Out(TypedDict):
     url: str
     variant: Prv_kuiu_KuiuVariant_Out
     product: Prv_kuiu_KuiuProduct_Out
+
+class Prv_kwworldwide_KwworldwideHubspotFormReference_Out(TypedDict):
+    pageUrl: str
+    formUrl: str
+    portalId: str
+    guid: str
 
 class Prv_labcorp_LabcorpTestSummary_Out(TypedDict):
     sku: str
@@ -23745,6 +23751,19 @@ class Prv_kuiu(Protocol):
         in-stock options so the caller can retry.
         """
 
+class Prv_kwworldwide(Protocol):
+    """Recovers the HubSpot portalId/formId pair kwworldwide.com's contact page loads
+    client-side after hydration — for forms_hubspot_com.getFormDefinition, since the page's
+    own HTML never carries them.
+    """
+
+    async def findContactForm(self, pageUrl: str | None = None, /) -> Prv_kwworldwide_KwworldwideHubspotFormReference_Out:
+        """Fetches a kwworldwide.com page (defaults to the contact page) and recovers the HubSpot
+        portalId/formId pair its client-side embed loads after hydration — the page's own HTML
+        never carries them — as a forms.hubspot.com URL ready for
+        forms_hubspot_com.getFormDefinition.
+        """
+
 class Prv_labcorp(Protocol):
     """Lab test pricing, PSC location lookup and appointment availability from Labcorp."""
 
@@ -28412,6 +28431,7 @@ class BowmarkProviders(Protocol):
     kitchentuneup: Prv_kitchentuneup
     kompan: Prv_kompan
     kuiu: Prv_kuiu
+    kwworldwide: Prv_kwworldwide
     labcorp: Prv_labcorp
     landmarkhw_com: Prv_landmarkhw_com
     lasikplus: Prv_lasikplus

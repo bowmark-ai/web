@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1392 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1393 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -828,6 +828,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kuiu.getKuiuCheckoutLink` | kuiu.com | Resolves a product handle + chosen variant (camo pattern/color + size) to a real… | 🟢 |
 | `kuiu.getKuiuProduct` | kuiu.com | Reads one product by its handle — every camo-pattern/size variant, its exact price and… | 🟢 |
 | `kuiu.listKuiuProducts` | kuiu.com | Reads the live KUIU catalogue as the storefront publishes it — every hunting… | 🟢 |
+| `kwworldwide.findContactForm` | kwworldwide.com | Fetches a kwworldwide.com page (defaults to the contact page) and recovers the HubSpot… | 🟢 |
 | `labcorp.checkAppointmentAvailability` | labcorp.com | Checks open appointment slots at a given Patient Service Center for a chosen date… | ⚪ |
 | `labcorp.findLocation` | labcorp.com | Finds nearby Labcorp Patient Service Centers (PSCs) by zip code or address, returning… | ⚪ |
 | `labcorp.getTest` | labcorp.com | Returns one OnDemand test in full: price, what it screens for, sample type (blood… | 🟢 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b8971773d87fcf5eb0325175c8a40536fa69b92aec8f6903747bde6d1c791f08
-// 46 capabilities, 393 providers, 965 typed functions, 20 refused.
+// Manifest version: 0e3f26529d756d8dc35575b0684b3a2198a43877ebea5111a6ca60e4c1e9652d
+// 46 capabilities, 394 providers, 966 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19179,6 +19179,30 @@ interface KuiuCheckoutLink {
   }
 }
 
+declare namespace BowmarkProvider_kwworldwide {
+  // ── KW Worldwide — the unit's own declarations, verbatim ──
+interface KwworldwideHubspotFormReference {
+  pageUrl: string;
+  formUrl: string;
+  portalId: string;
+  guid: string;
+}
+
+  /**
+   * Recovers the HubSpot portalId/formId pair kwworldwide.com's contact page loads client-side
+   * after hydration — for forms_hubspot_com.getFormDefinition, since the page's own HTML never
+   * carries them.
+   */
+  interface Unit {
+    /**
+     * Fetches a kwworldwide.com page (defaults to the contact page) and recovers the HubSpot
+     * portalId/formId pair its client-side embed loads after hydration — the page's own HTML never
+     * carries them — as a forms.hubspot.com URL ready for forms_hubspot_com.getFormDefinition.
+     */
+    findContactForm(pageUrl?: string): Promise<KwworldwideHubspotFormReference>;
+  }
+}
+
 declare namespace BowmarkProvider_labcorp {
   // ── Labcorp — the unit's own declarations, verbatim ──
 interface LabcorpTestSummary {
@@ -32412,6 +32436,7 @@ interface BowmarkProviders {
   kitchentuneup: BowmarkProvider_kitchentuneup.Unit;
   kompan: BowmarkProvider_kompan.Unit;
   kuiu: BowmarkProvider_kuiu.Unit;
+  kwworldwide: BowmarkProvider_kwworldwide.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
   landmarkhw_com: BowmarkProvider_landmarkhw_com.Unit;
   lasikplus: BowmarkProvider_lasikplus.Unit;
