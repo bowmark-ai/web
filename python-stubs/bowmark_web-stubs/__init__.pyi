@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 43711276aeb58b978d4aac40694b3eaef1e62b73532e77e5bf9cca9c0cf85df4
-# 46 capabilities, 392 providers, 944 typed functions, 20 refused.
+# Manifest version: 76c941a6db88526b81582145fa7085d342f89bae491d0566707eef7f62974160
+# 46 capabilities, 391 providers, 943 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5534,9 +5534,8 @@ class Prv_consultnet_ConsultnetJob_Out(TypedDict):
 class Prv_costco_CostcoProduct_Out(TypedDict):
     itemNumber: str
     title: str
-    price: float
-    description: NotRequired[str]
-    url: NotRequired[str]
+    brand: str | None
+    imageUrl: str | None
 
 class Prv_couponfollow_CouponFollowOffer_Out(TypedDict):
     id: str
@@ -12281,26 +12280,6 @@ class Prv_pacificlifestylehomes_PacificLifestyleHomesListing_Out(TypedDict):
     sqft: float
     availability: str
     url: str
-
-class Prv_pawsup_PawsupAvailabilityRequest_In(TypedDict):
-    checkInDate: str
-    checkOutDate: str
-    numAdults: float
-    numChildren: float
-
-class Prv_pawsup_PawsupAvailabilityResponse_Out(TypedDict):
-    checkInDate: str
-    checkOutDate: str
-    accommodations: list[Prv_pawsup_PawsupAccommodation_Out]
-    reservationUrl: str
-    warnings: NotRequired[list[str]]
-
-class Prv_pawsup_PawsupAccommodation_Out(TypedDict):
-    type: str
-    capacity: str
-    startingRate: float
-    currency: str
-    description: NotRequired[str]
 
 class Prv_paypal_PaypalEstimateFeeArgs_In(TypedDict):
     amount: float
@@ -20460,7 +20439,9 @@ class Prv_costco(Protocol):
     """Search Costco's product catalog by keyword."""
 
     async def search(self, query: str, /) -> list[Prv_costco_CostcoProduct_Out]:
-        """Runs a search on Costco's product catalog and returns matching items with prices."""
+        """Runs a search on Costco's product catalog and returns matching items (title, brand, item
+        number, image). Does not return price — see the module header.
+        """
 
 class Prv_couponfollow(Protocol):
     """Reads couponfollow.com's own listing page for a merchant domain — every promo code and
@@ -25294,14 +25275,6 @@ class Prv_pacificlifestylehomes(Protocol):
         detail-page handoff URL.
         """
 
-class Prv_pawsup(Protocol):
-    """Check availability and starting rates for Paws Up Montana resort accommodations."""
-
-    async def checkAvailability(self, args: Prv_pawsup_PawsupAvailabilityRequest_In, /) -> Prv_pawsup_PawsupAvailabilityResponse_Out:
-        """Query the resort's booking calendar to find available accommodation types and their
-        starting rates for your dates and party size.
-        """
-
 class Prv_paypal(Protocol):
     """PayPal's public, signed-out surfaces: the published consumer and merchant fee schedules,
     the fee on one concrete personal (friends-and-family) transaction, the spread PayPal
@@ -28432,7 +28405,6 @@ class BowmarkProviders(Protocol):
     pacificabeauty: Prv_pacificabeauty
     pacificcompanies: Prv_pacificcompanies
     pacificlifestylehomes: Prv_pacificlifestylehomes
-    pawsup: Prv_pawsup
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland
     pilotprotocol: Prv_pilotprotocol

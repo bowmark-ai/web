@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 43711276aeb58b978d4aac40694b3eaef1e62b73532e77e5bf9cca9c0cf85df4
-// 944 checked, 20 unchecked.
+// Manifest version: 76c941a6db88526b81582145fa7085d342f89bae491d0566707eef7f62974160
+// 943 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "43711276aeb58b978d4aac40694b3eaef1e62b73532e77e5bf9cca9c0cf85df4",
+  "version": "76c941a6db88526b81582145fa7085d342f89bae491d0566707eef7f62974160",
   "units": {
     "bundles": {
       "defs": {},
@@ -19821,55 +19821,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "PacificLifestyleHomesSearchArgs"
             },
             "optional": true
-          }
-        ]
-      }
-    },
-    "providers.pawsup": {
-      "defs": {
-        "PawsupAvailabilityRequest": {
-          "k": "object",
-          "props": [
-            {
-              "name": "checkInDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "checkOutDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "numAdults",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
-            },
-            {
-              "name": "numChildren",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
-            }
-          ]
-        }
-      },
-      "functions": {
-        "checkAvailability": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "PawsupAvailabilityRequest"
-            },
-            "optional": false
           }
         ]
       }

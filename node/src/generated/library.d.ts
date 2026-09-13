@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 43711276aeb58b978d4aac40694b3eaef1e62b73532e77e5bf9cca9c0cf85df4
-// 46 capabilities, 392 providers, 962 typed functions, 20 refused.
+// Manifest version: 76c941a6db88526b81582145fa7085d342f89bae491d0566707eef7f62974160
+// 46 capabilities, 391 providers, 961 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10161,14 +10161,16 @@ declare namespace BowmarkProvider_costco {
 interface CostcoProduct {
   itemNumber: string;
   title: string;
-  price: number;
-  description?: string;
-  url?: string;
+  brand: string | null;
+  imageUrl: string | null;
 }
 
   /** Search Costco's product catalog by keyword. */
   interface Unit {
-    /** Runs a search on Costco's product catalog and returns matching items with prices. */
+    /**
+     * Runs a search on Costco's product catalog and returns matching items (title, brand, item
+     * number, image). Does not return price — see the module header.
+     */
     search(query: string): Promise<CostcoProduct[]>;
   }
 }
@@ -23656,42 +23658,6 @@ interface PacificLifestyleHomesListing { id: string; address: string; city: stri
   }
 }
 
-declare namespace BowmarkProvider_pawsup {
-  // ── Paws Up — the unit's own declarations, verbatim ──
-
-interface PawsupAvailabilityRequest {
-  checkInDate: string;
-  checkOutDate: string;
-  numAdults: number;
-  numChildren: number;
-}
-
-interface PawsupAccommodation {
-  type: string;
-  capacity: string;
-  startingRate: number;
-  currency: string;
-  description?: string;
-}
-
-interface PawsupAvailabilityResponse {
-  checkInDate: string;
-  checkOutDate: string;
-  accommodations: PawsupAccommodation[];
-  reservationUrl: string;
-  warnings?: string[];
-}
-
-  /** Check availability and starting rates for Paws Up Montana resort accommodations. */
-  interface Unit {
-    /**
-     * Query the resort's booking calendar to find available accommodation types and their starting
-     * rates for your dates and party size.
-     */
-    checkAvailability(args: PawsupAvailabilityRequest): Promise<PawsupAvailabilityResponse>;
-  }
-}
-
 declare namespace BowmarkProvider_paypal {
   // ── PayPal — the unit's own declarations, verbatim ──
 interface PaypalEstimateFeeArgs {
@@ -32426,7 +32392,6 @@ interface BowmarkProviders {
   pacificabeauty: BowmarkProvider_pacificabeauty.Unit;
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
-  pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
