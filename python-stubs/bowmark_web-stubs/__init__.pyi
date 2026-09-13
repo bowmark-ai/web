@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d08b40552ee449953a0f0be3556960a9306b1f79ba5905762f196e8b1f996e19
-# 46 capabilities, 391 providers, 942 typed functions, 20 refused.
+# Manifest version: 43711276aeb58b978d4aac40694b3eaef1e62b73532e77e5bf9cca9c0cf85df4
+# 46 capabilities, 392 providers, 944 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2527,6 +2527,21 @@ class Prv_asppoolco_AspLocation_Out(TypedDict):
     requestServiceUrl: str
     phone: str
     coverageZips: list[str]
+
+class Prv_astoundgroup_AstoundgroupSitemapPage_Out(TypedDict):
+    url: str
+    lastmod: str | None
+
+class Prv_astoundgroup_AstoundgroupContactForm_Out(TypedDict):
+    url: str
+    action: str
+    fields: list[Prv_astoundgroup_AstoundgroupContactField_Out]
+
+class Prv_astoundgroup_AstoundgroupContactField_Out(TypedDict):
+    name: str
+    label: str
+    type: str
+    required: bool
 
 class Prv_atlasoceanvoyages_searchVoyages_args_In(TypedDict):
     destination: NotRequired[str]
@@ -18401,6 +18416,23 @@ class Prv_asppoolco(Protocol):
         e.g. "GA") narrows to that state.
         """
 
+class Prv_astoundgroup(Protocol):
+    """Astound Group's own site index (sitemap.xml) and its Get in Touch contact form's real
+    fields — name, label, type and required — parsed from the site's server-rendered markup
+    rather than a caller re-reading raw HTML.
+    """
+
+    async def listPages(self, /) -> list[Prv_astoundgroup_AstoundgroupSitemapPage_Out]:
+        """Lists every page astoundgroup.com's own sitemap.xml publishes, each with its own url and
+        last-modified date — use this to find the contact page or any other page without
+        guessing a path.
+        """
+
+    async def getContactForm(self, url: str | None = None, /) -> Prv_astoundgroup_AstoundgroupContactForm_Out:
+        """Reads Astound Group's contact form (astoundgroup.com/contact-us by default) and returns
+        its real fields — name, label, input type and whether it's required.
+        """
+
 class Prv_atlasoceanvoyages(Protocol):
     """Luxury expedition cruise voyage search from Atlas Ocean Voyages — filter the site's own
     180 live itineraries by destination, ship, duration and departure date with real
@@ -28141,6 +28173,7 @@ class BowmarkProviders(Protocol):
     artpix3d: Prv_artpix3d
     ashleyfurniture: Prv_ashleyfurniture
     asppoolco: Prv_asppoolco
+    astoundgroup: Prv_astoundgroup
     atlasoceanvoyages: Prv_atlasoceanvoyages
     atlasseniorliving: Prv_atlasseniorliving
     audibel: Prv_audibel

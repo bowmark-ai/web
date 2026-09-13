@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d08b40552ee449953a0f0be3556960a9306b1f79ba5905762f196e8b1f996e19
-// 942 checked, 20 unchecked.
+// Manifest version: 43711276aeb58b978d4aac40694b3eaef1e62b73532e77e5bf9cca9c0cf85df4
+// 944 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d08b40552ee449953a0f0be3556960a9306b1f79ba5905762f196e8b1f996e19",
+  "version": "43711276aeb58b978d4aac40694b3eaef1e62b73532e77e5bf9cca9c0cf85df4",
   "units": {
     "bundles": {
       "defs": {},
@@ -4451,6 +4451,21 @@ export const VALIDATORS: ValidatorTable = {
         "listLocations": [
           {
             "name": "state",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.astoundgroup": {
+      "defs": {},
+      "functions": {
+        "listPages": [],
+        "getContactForm": [
+          {
+            "name": "url",
             "schema": {
               "k": "string"
             },

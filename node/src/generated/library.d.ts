@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d08b40552ee449953a0f0be3556960a9306b1f79ba5905762f196e8b1f996e19
-// 46 capabilities, 391 providers, 960 typed functions, 20 refused.
+// Manifest version: 43711276aeb58b978d4aac40694b3eaef1e62b73532e77e5bf9cca9c0cf85df4
+// 46 capabilities, 392 providers, 962 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4629,6 +4629,49 @@ interface AspZipMatch {
      * narrows to that state.
      */
     listLocations(state?: string): Promise<AspLocation[]>;
+  }
+}
+
+declare namespace BowmarkProvider_astoundgroup {
+  // ── Astound Group — the unit's own declarations, verbatim ──
+// Astound Group's OWN shapes — not a capability contract.
+
+interface AstoundgroupSitemapPage {
+  url: string;
+  lastmod: string | null;
+}
+
+interface AstoundgroupContactField {
+  name: string;
+  label: string;
+  type: string;
+  required: boolean;
+}
+
+interface AstoundgroupContactForm {
+  url: string;
+  action: string;
+  fields: AstoundgroupContactField[];
+}
+
+  /**
+   * Astound Group's own site index (sitemap.xml) and its Get in Touch contact form's real fields
+   * — name, label, type and required — parsed from the site's server-rendered markup rather than
+   * a caller re-reading raw HTML.
+   */
+  interface Unit {
+    /**
+     * Lists every page astoundgroup.com's own sitemap.xml publishes, each with its own url and
+     * last-modified date — use this to find the contact page or any other page without guessing a
+     * path.
+     */
+    listPages(): Promise<AstoundgroupSitemapPage[]>;
+
+    /**
+     * Reads Astound Group's contact form (astoundgroup.com/contact-us by default) and returns its
+     * real fields — name, label, input type and whether it's required.
+     */
+    getContactForm(url?: string): Promise<AstoundgroupContactForm>;
   }
 }
 
@@ -32124,6 +32167,7 @@ interface BowmarkProviders {
   artpix3d: BowmarkProvider_artpix3d.Unit;
   ashleyfurniture: BowmarkProvider_ashleyfurniture.Unit;
   asppoolco: BowmarkProvider_asppoolco.Unit;
+  astoundgroup: BowmarkProvider_astoundgroup.Unit;
   atlasoceanvoyages: BowmarkProvider_atlasoceanvoyages.Unit;
   atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
   audibel: BowmarkProvider_audibel.Unit;
