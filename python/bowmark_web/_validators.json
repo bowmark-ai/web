@@ -1,5 +1,5 @@
 {
-  "version": "76c941a6db88526b81582145fa7085d342f89bae491d0566707eef7f62974160",
+  "version": "19bbd0e437ea7af5d37def9c19d15fc99fe59a5e312428e445d5e8b4911f7195",
   "units": {
     "bundles": {
       "defs": {},
@@ -5827,6 +5827,21 @@
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bionicpo": {
+      "defs": {},
+      "functions": {
+        "listInquiryServices": [],
+        "getInquiryServiceDetails": [
+          {
+            "name": "serviceName",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

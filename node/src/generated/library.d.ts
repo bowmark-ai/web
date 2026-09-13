@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 76c941a6db88526b81582145fa7085d342f89bae491d0566707eef7f62974160
-// 46 capabilities, 391 providers, 961 typed functions, 20 refused.
+// Manifest version: 19bbd0e437ea7af5d37def9c19d15fc99fe59a5e312428e445d5e8b4911f7195
+// 46 capabilities, 392 providers, 963 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6208,6 +6208,39 @@ interface BingNewsSearchResult {
      * stamps, this feed's are the story's.
      */
     searchNews(args: { query: string, limit?: number }): Promise<BingNewsSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_bionicpo {
+  // ── BionicPO — the unit's own declarations, verbatim ──
+interface InquiryService {
+  id: string;
+  name: string;
+  category: string;
+  description?: string;
+}
+
+interface ServiceDetails {
+  id: string;
+  name: string;
+  description: string;
+  formFields: FormField[];
+}
+
+interface FormField {
+  name: string;
+  type: string;
+  required: boolean;
+  label?: string;
+}
+
+  /** Query inquiry and service details from BionicPO's services directory. */
+  interface Unit {
+    /** List BionicPO inquiry and service categories from the inquiry-services page. */
+    listInquiryServices(): Promise<{ services: InquiryService[]; warnings: string[] }>;
+
+    /** Get a BionicPO inquiry service's form fields and details. */
+    getInquiryServiceDetails(serviceName: string): Promise<ServiceDetails>;
   }
 }
 
@@ -32160,6 +32193,7 @@ interface BowmarkProviders {
   bigjoeforklifts: BowmarkProvider_bigjoeforklifts.Unit;
   bigrentz: BowmarkProvider_bigrentz.Unit;
   bing: BowmarkProvider_bing.Unit;
+  bionicpo: BowmarkProvider_bionicpo.Unit;
   bishops: BowmarkProvider_bishops.Unit;
   blackstoneproducts: BowmarkProvider_blackstoneproducts.Unit;
   blenderseyewear: BowmarkProvider_blenderseyewear.Unit;

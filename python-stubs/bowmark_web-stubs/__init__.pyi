@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 76c941a6db88526b81582145fa7085d342f89bae491d0566707eef7f62974160
-# 46 capabilities, 391 providers, 943 typed functions, 20 refused.
+# Manifest version: 19bbd0e437ea7af5d37def9c19d15fc99fe59a5e312428e445d5e8b4911f7195
+# 46 capabilities, 392 providers, 945 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3437,6 +3437,28 @@ class Prv_bing_BingNewsResult_Out(TypedDict):
     published: str | None
     publisher: str | None
     imageUrl: str | None
+
+class Prv_bionicpo_listInquiryServices_return_Out(TypedDict):
+    services: list[Prv_bionicpo_InquiryService_Out]
+    warnings: list[str]
+
+class Prv_bionicpo_InquiryService_Out(TypedDict):
+    id: str
+    name: str
+    category: str
+    description: NotRequired[str]
+
+class Prv_bionicpo_ServiceDetails_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    formFields: list[Prv_bionicpo_FormField_Out]
+
+class Prv_bionicpo_FormField_Out(TypedDict):
+    name: str
+    type: str
+    required: bool
+    label: NotRequired[str]
 
 class Prv_bishops_BishopsLocationLink_Out(TypedDict):
     slug: str
@@ -19014,6 +19036,15 @@ class Prv_bing(Protocol):
         are Bing's crawl stamps, this feed's are the story's.
         """
 
+class Prv_bionicpo(Protocol):
+    """Query inquiry and service details from BionicPO's services directory."""
+
+    async def listInquiryServices(self, /) -> Prv_bionicpo_listInquiryServices_return_Out:
+        """List BionicPO inquiry and service categories from the inquiry-services page."""
+
+    async def getInquiryServiceDetails(self, serviceName: str, /) -> Prv_bionicpo_ServiceDetails_Out:
+        """Get a BionicPO inquiry service's form fields and details."""
+
 class Prv_bishops(Protocol):
     """Bishops Cuts/Color's real location directory, live per-location service catalog, and
     real open-slot appointment availability — the same Zenoti booking backend the site's own
@@ -28173,6 +28204,7 @@ class BowmarkProviders(Protocol):
     bigjoeforklifts: Prv_bigjoeforklifts
     bigrentz: Prv_bigrentz
     bing: Prv_bing
+    bionicpo: Prv_bionicpo
     bishops: Prv_bishops
     blackstoneproducts: Prv_blackstoneproducts
     blenderseyewear: Prv_blenderseyewear
