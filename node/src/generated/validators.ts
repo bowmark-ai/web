@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d29fbd7f39c999322a02cf0b6e7ff404f647c1c8255a3224e581a8410f733403
-// 948 checked, 20 unchecked.
+// Manifest version: 0a9e265138c2440265fad6ecf6dac7d1ca8c8814e6db14eed8e7e39fab494a58
+// 950 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d29fbd7f39c999322a02cf0b6e7ff404f647c1c8255a3224e581a8410f733403",
+  "version": "0a9e265138c2440265fad6ecf6dac7d1ca8c8814e6db14eed8e7e39fab494a58",
   "units": {
     "bundles": {
       "defs": {},
@@ -12937,6 +12937,29 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetJobDetailsArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.golf_com": {
+      "defs": {},
+      "functions": {
+        "findCourses": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getCourse": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

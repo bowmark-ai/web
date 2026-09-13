@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d29fbd7f39c999322a02cf0b6e7ff404f647c1c8255a3224e581a8410f733403
-# 46 capabilities, 394 providers, 948 typed functions, 20 refused.
+# Manifest version: 0a9e265138c2440265fad6ecf6dac7d1ca8c8814e6db14eed8e7e39fab494a58
+# 46 capabilities, 395 providers, 950 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7920,6 +7920,30 @@ class Prv_gobrightwing_JobDetails_Out(TypedDict):
     description: str
     applyUrl: str
     requirements: NotRequired[list[str]]
+
+class Prv_golf_com_GolfComCourse_Out(TypedDict):
+    id: str
+    name: str
+    city: str
+    state: str
+    country: str
+    courseType: str | None
+    holes: float | None
+    startingFee: float | None
+
+class Prv_golf_com_GolfComCourseDetail_Out(TypedDict):
+    id: str
+    name: str
+    city: str
+    state: str
+    country: str
+    courseType: str | None
+    holes: float | None
+    startingFee: float | None
+    address: str | None
+    phone: str | None
+    bookingUrl: str | None
+    golfNowUrl: str | None
 
 class Prv_goloadup_GoloadupItemType_Out(TypedDict):
     id: str
@@ -22167,6 +22191,22 @@ class Prv_gobrightwing(Protocol):
     async def getJobDetails(self, args: Prv_gobrightwing_GetJobDetailsArgs_In, /) -> Prv_gobrightwing_JobDetails_Out:
         """Get full details for a specific job posting, including description and apply link."""
 
+class Prv_golf_com(Protocol):
+    """GOLF.com's Course Finder: search real courses by name, city or ZIP, then read a course's
+    address, phone and its own tee-time or trip-booking handoff. This provider discovers
+    booking options; it never submits a reservation.
+    """
+
+    async def findCourses(self, query: str, /) -> list[Prv_golf_com_GolfComCourse_Out]:
+        """Searches GOLF.com's Course Finder by course name, city or ZIP. Returns actual course
+        rows, not location suggestions; pass a returned id to getCourse.
+        """
+
+    async def getCourse(self, id: str, /) -> Prv_golf_com_GolfComCourseDetail_Out:
+        """Reads one Course Finder record including its address, phone, and the course's own
+        tee-time/trip booking handoff when published. It does not reserve a tee time.
+        """
+
 class Prv_goloadup(Protocol):
     """LoadUp's own item-selector and live pricing engine for junk removal, donation and
     furniture pickup — the current catalog of items with base prices, a real ZIP-specific
@@ -28387,6 +28427,7 @@ class BowmarkProviders(Protocol):
     glama: Prv_glama
     glassesusa: Prv_glassesusa
     gobrightwing: Prv_gobrightwing
+    golf_com: Prv_golf_com
     goloadup: Prv_goloadup
     goodway: Prv_goodway
     google_flights: Prv_google_flights

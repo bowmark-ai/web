@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d29fbd7f39c999322a02cf0b6e7ff404f647c1c8255a3224e581a8410f733403
-// 46 capabilities, 394 providers, 966 typed functions, 20 refused.
+// Manifest version: 0a9e265138c2440265fad6ecf6dac7d1ca8c8814e6db14eed8e7e39fab494a58
+// 46 capabilities, 395 providers, 968 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14716,6 +14716,31 @@ interface GetJobDetailsArgs { jobId: string; }
 
     /** Get full details for a specific job posting, including description and apply link. */
     getJobDetails(args: GetJobDetailsArgs): Promise<JobDetails>;
+  }
+}
+
+declare namespace BowmarkProvider_golf_com {
+  // ── GOLF.com Course Finder — the unit's own declarations, verbatim ──
+interface GolfComCourse { id: string; name: string; city: string; state: string; country: string; courseType: string | null; holes: number | null; startingFee: number | null; }
+interface GolfComCourseDetail extends GolfComCourse { address: string | null; phone: string | null; bookingUrl: string | null; golfNowUrl: string | null; }
+
+  /**
+   * GOLF.com's Course Finder: search real courses by name, city or ZIP, then read a course's
+   * address, phone and its own tee-time or trip-booking handoff. This provider discovers booking
+   * options; it never submits a reservation.
+   */
+  interface Unit {
+    /**
+     * Searches GOLF.com's Course Finder by course name, city or ZIP. Returns actual course rows,
+     * not location suggestions; pass a returned id to getCourse.
+     */
+    findCourses(query: string): Promise<GolfComCourse[]>;
+
+    /**
+     * Reads one Course Finder record including its address, phone, and the course's own
+     * tee-time/trip booking handoff when published. It does not reserve a tee time.
+     */
+    getCourse(id: string): Promise<GolfComCourseDetail>;
   }
 }
 
@@ -32392,6 +32417,7 @@ interface BowmarkProviders {
   glama: BowmarkProvider_glama.Unit;
   glassesusa: BowmarkProvider_glassesusa.Unit;
   gobrightwing: BowmarkProvider_gobrightwing.Unit;
+  golf_com: BowmarkProvider_golf_com.Unit;
   goloadup: BowmarkProvider_goloadup.Unit;
   goodway: BowmarkProvider_goodway.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
