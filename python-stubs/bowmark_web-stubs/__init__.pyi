@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0e3f26529d756d8dc35575b0684b3a2198a43877ebea5111a6ca60e4c1e9652d
+# Manifest version: d29fbd7f39c999322a02cf0b6e7ff404f647c1c8255a3224e581a8410f733403
 # 46 capabilities, 394 providers, 948 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -17543,7 +17543,9 @@ class Cap_search(Protocol):
     anywhere in the results. The fourth asks the engine the SAME query twice down the same
     exit — an answer that differs the second time is a random decoy, because an answerable
     query is stable across repeats (measured 2026-09-12). A merely partial substitution is
-    still not caught.
+    still not caught. For `news`, keep queries to 2–3 words: OR-joined and
+    more-than-three-term queries are unsupported and return an empty feed; short-query zeros
+    remain ambiguous and carry a retry warning.
     """
 
     async def web(self, query: str | Cap_search_web_query_u1_In, limit: float | None = None, options: Cap_search_CallOptions_In | None = None, /) -> Cap_search_SearchWebResult_Out:
@@ -17584,9 +17586,10 @@ class Cap_search(Protocol):
         what a thin or throttled response looks like. Measured 2026-09-08: five identical calls
         for one query on one route inside ten seconds returned 4, 3, 2, 3 and 0 rows, and two
         exits disagreed (0 against 3) on that query in the same minute. Every zero therefore
-        arrives carrying a warning saying so; RETRY before reporting that nothing has been
-        written about something. Still NOT MEASURED: whether this feed honours search operators
-        — treat that as unknown.
+        arrives carrying a warning saying so; retry short queries before reporting that nothing
+        has been written about something. Keep queries to 2–3 words: OR-joined and
+        more-than-three-term queries are unsupported on this feed, so split them into separate
+        calls instead of retrying.
         """
 
 class Cap_sheds(Protocol):
@@ -19010,8 +19013,9 @@ class Prv_bigrentz(Protocol):
 class Prv_bing(Protocol):
     """General web and news search over Bing's index, read off Bing's own RSS output — ten
     ranked results per query with title, destination URL, snippet and date. Keyless,
-    browserless, ~5 KB a call. It never reports 'no matches' and it ignores search operators
-    like site: — both measured, both declared.
+    browserless, ~5 KB a call. Web never reports 'no matches' and ignores search operators
+    like site:. News can be empty, but OR-joined or more-than-three-term queries are
+    unsupported and are warned as malformed instead of retried.
     """
 
     async def searchWeb(self, args: Prv_bing_searchWeb_args_In, /) -> Prv_bing_BingSearchResult_Out:
@@ -19053,7 +19057,9 @@ class Prv_bing(Protocol):
         """Searches news coverage and returns stories with the headline, the outlet's own article
         URL, a summary, a real publication timestamp, the publisher name and a thumbnail. Use
         this rather than searchWeb when the question is 'what happened' — the web feed's dates
-        are Bing's crawl stamps, this feed's are the story's.
+        are Bing's crawl stamps, this feed's are the story's. Keep each query to 2–3 words:
+        OR-joined and more-than-three-term queries return an empty feed and are warned as
+        unsupported, so split them into separate calls rather than retrying.
         """
 
 class Prv_bionicpo(Protocol):

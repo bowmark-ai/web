@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0e3f26529d756d8dc35575b0684b3a2198a43877ebea5111a6ca60e4c1e9652d
+// Manifest version: d29fbd7f39c999322a02cf0b6e7ff404f647c1c8255a3224e581a8410f733403
 // 46 capabilities, 394 providers, 966 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2268,7 +2268,9 @@ type CallOptions = {
    * fewer than half the query's subject words appearing anywhere in the results. The fourth asks
    * the engine the SAME query twice down the same exit — an answer that differs the second time
    * is a random decoy, because an answerable query is stable across repeats (measured
-   * 2026-09-12). A merely partial substitution is still not caught.
+   * 2026-09-12). A merely partial substitution is still not caught. For `news`, keep queries to
+   * 2–3 words: OR-joined and more-than-three-term queries are unsupported and return an empty
+   * feed; short-query zeros remain ambiguous and carry a retry warning.
    */
   interface Unit {
     /**
@@ -2309,8 +2311,9 @@ type CallOptions = {
      * response looks like. Measured 2026-09-08: five identical calls for one query on one route
      * inside ten seconds returned 4, 3, 2, 3 and 0 rows, and two exits disagreed (0 against 3) on
      * that query in the same minute. Every zero therefore arrives carrying a warning saying so;
-     * RETRY before reporting that nothing has been written about something. Still NOT MEASURED:
-     * whether this feed honours search operators — treat that as unknown.
+     * retry short queries before reporting that nothing has been written about something. Keep
+     * queries to 2–3 words: OR-joined and more-than-three-term queries are unsupported on this
+     * feed, so split them into separate calls instead of retrying.
      */
     news(query: string | { query: string, limit?: number }, limit?: number, options?: CallOptions): Promise<SearchNewsResult>;
   }
@@ -6161,8 +6164,9 @@ interface BingNewsSearchResult {
   /**
    * General web and news search over Bing's index, read off Bing's own RSS output — ten ranked
    * results per query with title, destination URL, snippet and date. Keyless, browserless, ~5 KB
-   * a call. It never reports 'no matches' and it ignores search operators like site: — both
-   * measured, both declared.
+   * a call. Web never reports 'no matches' and ignores search operators like site:. News can be
+   * empty, but OR-joined or more-than-three-term queries are unsupported and are warned as
+   * malformed instead of retried.
    */
   interface Unit {
     /**
@@ -6205,7 +6209,9 @@ interface BingNewsSearchResult {
      * Searches news coverage and returns stories with the headline, the outlet's own article URL,
      * a summary, a real publication timestamp, the publisher name and a thumbnail. Use this rather
      * than searchWeb when the question is 'what happened' — the web feed's dates are Bing's crawl
-     * stamps, this feed's are the story's.
+     * stamps, this feed's are the story's. Keep each query to 2–3 words: OR-joined and
+     * more-than-three-term queries return an empty feed and are warned as unsupported, so split
+     * them into separate calls rather than retrying.
      */
     searchNews(args: { query: string, limit?: number }): Promise<BingNewsSearchResult>;
   }
