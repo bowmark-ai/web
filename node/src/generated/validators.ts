@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 19bbd0e437ea7af5d37def9c19d15fc99fe59a5e312428e445d5e8b4911f7195
-// 945 checked, 20 unchecked.
+// Manifest version: b8971773d87fcf5eb0325175c8a40536fa69b92aec8f6903747bde6d1c791f08
+// 947 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "19bbd0e437ea7af5d37def9c19d15fc99fe59a5e312428e445d5e8b4911f7195",
+  "version": "b8971773d87fcf5eb0325175c8a40536fa69b92aec8f6903747bde6d1c791f08",
   "units": {
     "bundles": {
       "defs": {},
@@ -28976,6 +28976,21 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.wearehirschfeld": {
+      "defs": {},
+      "functions": {
+        "listPages": [],
+        "getContactForm": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }

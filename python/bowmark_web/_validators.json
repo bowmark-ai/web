@@ -1,5 +1,5 @@
 {
-  "version": "19bbd0e437ea7af5d37def9c19d15fc99fe59a5e312428e445d5e8b4911f7195",
+  "version": "b8971773d87fcf5eb0325175c8a40536fa69b92aec8f6903747bde6d1c791f08",
   "units": {
     "bundles": {
       "defs": {},
@@ -28964,6 +28964,21 @@
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.wearehirschfeld": {
+      "defs": {},
+      "functions": {
+        "listPages": [],
+        "getContactForm": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }

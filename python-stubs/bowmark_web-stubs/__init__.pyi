@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 19bbd0e437ea7af5d37def9c19d15fc99fe59a5e312428e445d5e8b4911f7195
-# 46 capabilities, 392 providers, 945 typed functions, 20 refused.
+# Manifest version: b8971773d87fcf5eb0325175c8a40536fa69b92aec8f6903747bde6d1c791f08
+# 46 capabilities, 393 providers, 947 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16383,6 +16383,20 @@ class Prv_waterfurnace_WaterfurnaceRecommendedSystem_Out(TypedDict):
     description: str
     highlights: list[str]
 
+class Prv_wearehirschfeld_WearehirschfeldSitemapPage_Out(TypedDict):
+    url: str
+    lastmod: str | None
+
+class Prv_wearehirschfeld_WearehirschfeldContactForm_Out(TypedDict):
+    url: str
+    fields: list[Prv_wearehirschfeld_WearehirschfeldContactField_Out]
+
+class Prv_wearehirschfeld_WearehirschfeldContactField_Out(TypedDict):
+    name: str
+    label: str
+    type: str
+    required: bool
+
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
     title: str
@@ -27950,6 +27964,23 @@ class Prv_waterfurnace(Protocol):
         keyless geocode. THROWS if the API's response shape has changed.
         """
 
+class Prv_wearehirschfeld(Protocol):
+    """Hirschfeld's own page index (page-sitemap.xml) and its Connect contact form's real
+    fields — name, label, type and required — parsed from the site's server-rendered markup
+    rather than a caller guessing contact-page paths.
+    """
+
+    async def listPages(self, /) -> list[Prv_wearehirschfeld_WearehirschfeldSitemapPage_Out]:
+        """Lists every page wearehirschfeld.com's own page-sitemap.xml publishes, each with its own
+        url and last-modified date — use this to find the connect/contact page or any other page
+        without guessing a path.
+        """
+
+    async def getContactForm(self, url: str | None = None, /) -> Prv_wearehirschfeld_WearehirschfeldContactForm_Out:
+        """Reads Hirschfeld's contact form (wearehirschfeld.com/connect/ by default) and returns
+        its real fields — name, label, input type and whether it's required.
+        """
+
 class Prv_wellfound(Protocol):
     """Wellfound (formerly AngelList Talent) — startup job search with salary and equity bands,
     startup profiles and their open roles.
@@ -28529,6 +28560,7 @@ class BowmarkProviders(Protocol):
     walkerhughes: Prv_walkerhughes
     walmart: Prv_walmart
     waterfurnace: Prv_waterfurnace
+    wearehirschfeld: Prv_wearehirschfeld
     wellfound: Prv_wellfound
     winestyles: Prv_winestyles
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare

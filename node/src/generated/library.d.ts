@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 19bbd0e437ea7af5d37def9c19d15fc99fe59a5e312428e445d5e8b4911f7195
-// 46 capabilities, 392 providers, 963 typed functions, 20 refused.
+// Manifest version: b8971773d87fcf5eb0325175c8a40536fa69b92aec8f6903747bde6d1c791f08
+// 46 capabilities, 393 providers, 965 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30812,6 +30812,48 @@ interface WaterfurnaceSavingsEstimate {
   }
 }
 
+declare namespace BowmarkProvider_wearehirschfeld {
+  // ── Hirschfeld — the unit's own declarations, verbatim ──
+// Hirschfeld's OWN shapes — not a capability contract.
+
+interface WearehirschfeldSitemapPage {
+  url: string;
+  lastmod: string | null;
+}
+
+interface WearehirschfeldContactField {
+  name: string;
+  label: string;
+  type: string;
+  required: boolean;
+}
+
+interface WearehirschfeldContactForm {
+  url: string;
+  fields: WearehirschfeldContactField[];
+}
+
+  /**
+   * Hirschfeld's own page index (page-sitemap.xml) and its Connect contact form's real fields —
+   * name, label, type and required — parsed from the site's server-rendered markup rather than a
+   * caller guessing contact-page paths.
+   */
+  interface Unit {
+    /**
+     * Lists every page wearehirschfeld.com's own page-sitemap.xml publishes, each with its own url
+     * and last-modified date — use this to find the connect/contact page or any other page without
+     * guessing a path.
+     */
+    listPages(): Promise<WearehirschfeldSitemapPage[]>;
+
+    /**
+     * Reads Hirschfeld's contact form (wearehirschfeld.com/connect/ by default) and returns its
+     * real fields — name, label, input type and whether it's required.
+     */
+    getContactForm(url?: string): Promise<WearehirschfeldContactForm>;
+  }
+}
+
 declare namespace BowmarkProvider_wellfound {
   // ── Wellfound — the unit's own declarations, verbatim ──
 interface wellfoundRow {
@@ -32518,6 +32560,7 @@ interface BowmarkProviders {
   walkerhughes: BowmarkProvider_walkerhughes.Unit;
   walmart: BowmarkProvider_walmart.Unit;
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
+  wearehirschfeld: BowmarkProvider_wearehirschfeld.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
