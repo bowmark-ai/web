@@ -1,5 +1,5 @@
 {
-  "version": "0a9e265138c2440265fad6ecf6dac7d1ca8c8814e6db14eed8e7e39fab494a58",
+  "version": "0dd4560f991d5cdf1e743e02523556685bcffb96e71561320254ef2f3573ed6c",
   "units": {
     "bundles": {
       "defs": {},
@@ -4668,6 +4668,20 @@
           }
         ],
         "listProperties": []
+      }
+    },
+    "providers.avalonmalibu_com": {
+      "defs": {},
+      "functions": {
+        "getInsuranceForm": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.avantstay": {

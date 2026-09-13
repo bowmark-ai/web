@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0a9e265138c2440265fad6ecf6dac7d1ca8c8814e6db14eed8e7e39fab494a58
-# 46 capabilities, 395 providers, 950 typed functions, 20 refused.
+# Manifest version: 0dd4560f991d5cdf1e743e02523556685bcffb96e71561320254ef2f3573ed6c
+# 46 capabilities, 396 providers, 951 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2667,6 +2667,17 @@ class Prv_autocamp_AutocampRate_Out(TypedDict):
 class Prv_autocamp_AutocampProperty_Out(TypedDict):
     hotelId: str
     location: str
+
+class Prv_avalonmalibu_com_AvalonMalibuInsuranceForm_Out(TypedDict):
+    url: str
+    fields: list[Prv_avalonmalibu_com_AvalonMalibuInsuranceField_Out]
+
+class Prv_avalonmalibu_com_AvalonMalibuInsuranceField_Out(TypedDict):
+    name: str
+    label: str
+    type: str
+    required: bool
+    options: list[str]
 
 class Prv_avantstay_AvantstayProperty_Out(TypedDict):
     name: str
@@ -18549,6 +18560,16 @@ class Prv_autocamp(Protocol):
         id searchAvailability needs.
         """
 
+class Prv_avalonmalibu_com(Protocol):
+    """Avalon Malibu's public insurance-verification form, with real field labels and select
+    choices, read without submitting health or insurance data.
+    """
+
+    async def getInsuranceForm(self, url: str | None = None, /) -> Prv_avalonmalibu_com_AvalonMalibuInsuranceForm_Out:
+        """Reads Avalon Malibu's /insurance verification form and returns its named fields, labels,
+        types, required flags and select choices. It never submits the form.
+        """
+
 class Prv_avantstay(Protocol):
     """AvantStay's own portfolio search and real-time per-room-type pricing — search
     hotel-style properties by capacity, then price any of them for real dates and a guest
@@ -28278,6 +28299,7 @@ class BowmarkProviders(Protocol):
     atlasseniorliving: Prv_atlasseniorliving
     audibel: Prv_audibel
     autocamp: Prv_autocamp
+    avalonmalibu_com: Prv_avalonmalibu_com
     avantstay: Prv_avantstay
     avis: Prv_avis
     ayreshotels: Prv_ayreshotels

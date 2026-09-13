@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1395 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1397 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -88,6 +88,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `audibel.findClinics` | audibel.com | Runs Audibel's find-a-clinic locator for a ZIP code, city or address and returns the… | 🟢 |
 | `autocamp.listProperties` | autocamp.com | Lists AutoCamp's active properties (name, location, the reservations-engine hotel id)… | 🟢 |
 | `autocamp.searchAvailability` | autocamp.com | Runs AutoCamp's own SynXis-backed reservation engine for one property (location +… | 🟢 |
+| `avalonmalibu_com.getInsuranceForm` | avalonmalibu.com | Reads Avalon Malibu's public insurance-verification form and returns its fields… | 🟢 |
 | `avantstay.getPricing` | avantstay.com | Prices every room type at one AvantStay hotel-style property for a given date range… | 🟢 |
 | `avantstay.searchProperties` | avantstay.com | Runs AvantStay's own portfolio search (the same query the site-wide search widget… | 🟢 |
 | `avis.getDeals` | avis.com | Reads Avis's current published promotions and discount codes — the site's own "Deals &… | ⚪ |
@@ -324,6 +325,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
+| `compass_living.listCommunities` | compass-living.com | Lists senior living communities with their contact-form fields available for discovery. | 🟢 |
 | `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
 | `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |

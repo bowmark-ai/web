@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0a9e265138c2440265fad6ecf6dac7d1ca8c8814e6db14eed8e7e39fab494a58
-// 46 capabilities, 395 providers, 968 typed functions, 20 refused.
+// Manifest version: 0dd4560f991d5cdf1e743e02523556685bcffb96e71561320254ef2f3573ed6c
+// 46 capabilities, 396 providers, 969 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4871,6 +4871,24 @@ interface AutocampProperty {
      * searchAvailability needs.
      */
     listProperties(): Promise<AutocampProperty[]>;
+  }
+}
+
+declare namespace BowmarkProvider_avalonmalibu_com {
+  // ── Avalon Malibu — the unit's own declarations, verbatim ──
+interface AvalonMalibuInsuranceField { name: string; label: string; type: string; required: boolean; options: string[]; }
+interface AvalonMalibuInsuranceForm { url: string; fields: AvalonMalibuInsuranceField[]; }
+
+  /**
+   * Avalon Malibu's public insurance-verification form, with real field labels and select
+   * choices, read without submitting health or insurance data.
+   */
+  interface Unit {
+    /**
+     * Reads Avalon Malibu's /insurance verification form and returns its named fields, labels,
+     * types, required flags and select choices. It never submits the form.
+     */
+    getInsuranceForm(url?: string): Promise<AvalonMalibuInsuranceForm>;
   }
 }
 
@@ -32268,6 +32286,7 @@ interface BowmarkProviders {
   atlasseniorliving: BowmarkProvider_atlasseniorliving.Unit;
   audibel: BowmarkProvider_audibel.Unit;
   autocamp: BowmarkProvider_autocamp.Unit;
+  avalonmalibu_com: BowmarkProvider_avalonmalibu_com.Unit;
   avantstay: BowmarkProvider_avantstay.Unit;
   avis: BowmarkProvider_avis.Unit;
   ayreshotels: BowmarkProvider_ayreshotels.Unit;

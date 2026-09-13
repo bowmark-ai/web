@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0a9e265138c2440265fad6ecf6dac7d1ca8c8814e6db14eed8e7e39fab494a58
-// 950 checked, 20 unchecked.
+// Manifest version: 0dd4560f991d5cdf1e743e02523556685bcffb96e71561320254ef2f3573ed6c
+// 951 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0a9e265138c2440265fad6ecf6dac7d1ca8c8814e6db14eed8e7e39fab494a58",
+  "version": "0dd4560f991d5cdf1e743e02523556685bcffb96e71561320254ef2f3573ed6c",
   "units": {
     "bundles": {
       "defs": {},
@@ -4680,6 +4680,20 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listProperties": []
+      }
+    },
+    "providers.avalonmalibu_com": {
+      "defs": {},
+      "functions": {
+        "getInsuranceForm": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.avantstay": {
