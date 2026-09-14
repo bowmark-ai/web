@@ -5,14 +5,165 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8f74962f532da5df8d2905deb36fe43233b84c4f09f37cb4c76b92a153333d03
-// 966 checked, 20 unchecked.
+// Manifest version: 4007500c4ff14838aae125d11a95d32e205ad87d3dcf4a1f543aaaf32830c161
+// 975 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8f74962f532da5df8d2905deb36fe43233b84c4f09f37cb4c76b92a153333d03",
+  "version": "4007500c4ff14838aae125d11a95d32e205ad87d3dcf4a1f543aaaf32830c161",
   "units": {
+    "booking_links": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "FindBookingLinksInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "company",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "domain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "github",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "urls",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
+        "FindBookingLinksOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "archive",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ReadBookingPageOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "event",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "find": [
+          {
+            "name": "person",
+            "schema": {
+              "k": "ref",
+              "name": "FindBookingLinksInput"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "FindBookingLinksOptions"
+            },
+            "optional": true
+          }
+        ],
+        "scanPage": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ],
+        "read": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ReadBookingPageOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "bundles": {
       "defs": {},
       "functions": {
@@ -4285,8 +4436,81 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.archive_org": {
-      "defs": {},
+      "defs": {
+        "archive_orgSnapshotOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "scope",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "exact"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "prefix"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "pathContains",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
+        "listSnapshots": [
+          {
+            "name": "site",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "archive_orgSnapshotOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getSnapshot": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "timestamp",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "checkAvailability": [
           {
             "name": "site",
@@ -6772,6 +6996,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "CalComBookingFormOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "event",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -6800,6 +7036,39 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getBookingForm": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "CalComBookingFormOptions"
+            },
+            "optional": true
+          }
+        ],
+        "findProfiles": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -6819,6 +7088,18 @@ export const VALIDATORS: ValidatorTable = {
               "name": "daysAhead",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CalendlyBookingFormOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "event",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -6848,6 +7129,39 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CalendlyAvailabilityOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getBookingForm": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "CalendlyBookingFormOptions"
+            },
+            "optional": true
+          }
+        ],
+        "findProfiles": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "company",
+            "schema": {
+              "k": "string"
             },
             "optional": true
           }

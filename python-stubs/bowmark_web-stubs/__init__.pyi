@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8f74962f532da5df8d2905deb36fe43233b84c4f09f37cb4c76b92a153333d03
-# 46 capabilities, 404 providers, 966 typed functions, 20 refused.
+# Manifest version: 4007500c4ff14838aae125d11a95d32e205ad87d3dcf4a1f543aaaf32830c161
+# 47 capabilities, 404 providers, 975 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -229,6 +229,88 @@ __all__: list[str]
 
 Library = Bowmark
 Providers = BowmarkProviders
+
+class Cap_booking_links_FindBookingLinksInput_In(TypedDict):
+    name: str
+    company: NotRequired[str]
+    domain: NotRequired[str]
+    github: NotRequired[str]
+    urls: NotRequired[Sequence[str]]
+
+class Cap_booking_links_FindBookingLinksOptions_In(TypedDict):
+    archive: NotRequired[bool]
+    timeoutMs: NotRequired[float]
+
+class Cap_booking_links_BookingLinkSearch_Out(TypedDict):
+    name: str
+    links: list[Cap_booking_links_BookingLinkFinding_Out]
+    checked: Cap_booking_links_BookingLinkSearch_Out_checked_Out
+    warnings: list[str]
+
+class Cap_booking_links_BookingLinkFinding_Out(TypedDict):
+    url: str
+    platform: Literal["calendly"] | Literal["cal.com"] | Literal["savvycal"] | Literal["tidycal"] | Literal["zcal"] | Literal["hubspot"] | Literal["acuity"] | Literal["chilipiper"] | Literal["google-calendar"] | Literal["microsoft-bookings"]
+    method: Literal["published"] | Literal["archived"] | Literal["name_match"]
+    foundBy: list[Literal["published"] | Literal["archived"] | Literal["name_match"]]
+    foundOn: str | None
+    archivedAt: str | None
+    archiveUrl: str | None
+    context: str | None
+    ownerName: str | None
+    nameConfirmed: bool
+
+class Cap_booking_links_BookingLinkSearch_Out_checked_Out(TypedDict):
+    pagesScanned: float
+    pagesUnreachable: list[str]
+    archivedPagesRead: float
+    slugsChecked: list[str]
+
+class Cap_booking_links_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_booking_links_PageScan_Out(TypedDict):
+    url: str
+    finalUrl: str
+    status: float
+    links: list[Cap_booking_links_PublishedBookingLink_Out]
+    warnings: list[str]
+
+class Cap_booking_links_PublishedBookingLink_Out(TypedDict):
+    url: str
+    platform: Literal["calendly"] | Literal["cal.com"] | Literal["savvycal"] | Literal["tidycal"] | Literal["zcal"] | Literal["hubspot"] | Literal["acuity"] | Literal["chilipiper"] | Literal["google-calendar"] | Literal["microsoft-bookings"]
+    context: str
+    nearbyText: str
+
+class Cap_booking_links_ReadBookingPageOptions_In(TypedDict):
+    event: NotRequired[str]
+    timeoutMs: NotRequired[float]
+
+class Cap_booking_links_BookingPage_Out(TypedDict):
+    url: str
+    platform: Literal["calendly"] | Literal["cal.com"]
+    ownerName: str | None
+    organization: str | None
+    avatarUrl: str | None
+    events: list[Cap_booking_links_BookingEvent_Out]
+    event: Cap_booking_links_BookingEvent_Out | None
+    questions: list[Cap_booking_links_BookingQuestion_Out]
+    qualifyingQuestions: list[str]
+    bookable: Literal["open"] | Literal["fully_booked"] | Literal["closed"] | Literal["unknown"]
+    nextAvailability: str | None
+    unavailableReason: str | None
+    warnings: list[str]
+
+class Cap_booking_links_BookingEvent_Out(TypedDict):
+    name: str
+    url: str
+    description: str | None
+    durationMinutes: float | None
+
+class Cap_booking_links_BookingQuestion_Out(TypedDict):
+    label: str
+    kind: str
+    required: bool
+    choices: list[str]
 
 class Cap_bundles_checkAvailability_items_item_In(TypedDict):
     url: str
@@ -2393,6 +2475,31 @@ class Prv_archipelago_ArchipelagoGameOptions_Out(TypedDict):
     game: str
     yaml: str
 
+class Prv_archive_org_archive_orgSnapshotOptions_In(TypedDict):
+    scope: NotRequired[Literal["exact"] | Literal["prefix"]]
+    limit: NotRequired[float]
+    pathContains: NotRequired[Sequence[str]]
+
+class Prv_archive_org_archive_orgSnapshotList_Out(TypedDict):
+    query: str
+    scope: Literal["exact"] | Literal["prefix"]
+    snapshots: list[Prv_archive_org_archive_orgSnapshot_Out]
+    warnings: list[str]
+
+class Prv_archive_org_archive_orgSnapshot_Out(TypedDict):
+    timestamp: str
+    originalUrl: str
+    archivedUrl: str
+    statusCode: str
+    mimeType: str
+
+class Prv_archive_org_archive_orgSnapshotPage_Out(TypedDict):
+    originalUrl: str
+    timestamp: str
+    archivedUrl: str
+    html: str
+    warnings: list[str]
+
 class Prv_archive_org_archive_orgAvailability_Out(TypedDict):
     query: str
     available: bool
@@ -4146,6 +4253,48 @@ class Prv_cal_com_CalComDay_Out(TypedDict):
 class Prv_cal_com_CalComSlot_Out(TypedDict):
     start: str
 
+class Prv_cal_com_CalComBookingFormOptions_In(TypedDict):
+    event: NotRequired[str]
+
+class Prv_cal_com_CalComBookingForm_Out(TypedDict):
+    url: str
+    username: str
+    eventTypes: list[Prv_cal_com_CalComEventType_Out]
+    event: Prv_cal_com_CalComBookingEvent_Out | None
+    ownerName: str | None
+    organization: str | None
+    avatarUrl: str | None
+    questions: list[Prv_cal_com_CalComFormQuestion_Out]
+    warnings: list[str]
+
+class Prv_cal_com_CalComBookingEvent_Out(TypedDict):
+    title: str
+    slug: str
+    url: str
+    description: str | None
+    lengthInMinutes: float | None
+
+class Prv_cal_com_CalComFormQuestion_Out(TypedDict):
+    label: str
+    name: str
+    type: str
+    required: bool
+    choices: list[str]
+
+class Prv_cal_com_CalComFindProfilesResult_Out(TypedDict):
+    name: str
+    company: str | None
+    slugsChecked: list[str]
+    candidates: list[Prv_cal_com_CalComProfileCandidate_Out]
+    warnings: list[str]
+
+class Prv_cal_com_CalComProfileCandidate_Out(TypedDict):
+    slug: str
+    url: str
+    title: str
+    ownerName: str | None
+    nameMatches: bool
+
 class Prv_calendly_CalendlyEventTypesResult_Out(TypedDict):
     profile: Prv_calendly_CalendlyProfile_Out
     eventTypes: list[Prv_calendly_CalendlyEventType_Out]
@@ -4181,6 +4330,47 @@ class Prv_calendly_CalendlyDay_Out(TypedDict):
 class Prv_calendly_CalendlySlot_Out(TypedDict):
     startTime: str
     inviteesRemaining: float
+
+class Prv_calendly_CalendlyBookingFormOptions_In(TypedDict):
+    event: NotRequired[str]
+
+class Prv_calendly_CalendlyBookingForm_Out(TypedDict):
+    url: str
+    profileSlug: str | None
+    ownerName: str | None
+    eventTypes: list[Prv_calendly_CalendlyEventType_Out]
+    event: Prv_calendly_CalendlyBookingEvent_Out | None
+    questions: list[Prv_calendly_CalendlyFormQuestion_Out]
+    nextAvailability: str | None
+    unavailableReason: str | None
+    warnings: list[str]
+
+class Prv_calendly_CalendlyBookingEvent_Out(TypedDict):
+    name: str
+    slug: str | None
+    url: str
+    description: str | None
+    durationMinutes: float | None
+
+class Prv_calendly_CalendlyFormQuestion_Out(TypedDict):
+    label: str
+    format: str
+    required: bool
+    choices: list[str]
+
+class Prv_calendly_CalendlyFindProfilesResult_Out(TypedDict):
+    name: str
+    company: str | None
+    slugsChecked: list[str]
+    candidates: list[Prv_calendly_CalendlyProfileCandidate_Out]
+    warnings: list[str]
+
+class Prv_calendly_CalendlyProfileCandidate_Out(TypedDict):
+    slug: str
+    url: str
+    ownerName: str
+    nameMatches: bool
+    timezone: str
 
 class Prv_caliberhealth_CaliberhealthSearchArgs_In(TypedDict):
     specialty: NotRequired[str]
@@ -16901,6 +17091,42 @@ class Prv_zennioptical_ZenniLensPriceRow_Out_subTypes_item_Out(TypedDict):
     tints: bool
 
 
+class Cap_booking_links(Protocol):
+    """Finds the public booking link (Calendly, Cal.com, SavvyCal, HubSpot…) a named person
+    publishes — on their company's pages, their GitHub, an old archived copy of their site,
+    or under their own name on Calendly and Cal.com — and reads what the booking form asks
+    and whether the calendar is open, without booking anything.
+    """
+
+    async def find(self, person: Cap_booking_links_FindBookingLinksInput_In, options: Cap_booking_links_FindBookingLinksOptions_In | None = None, /) -> Cap_booking_links_BookingLinkSearch_Out:
+        """Finds a person's public booking links from their name. Runs three searches at once and
+        merges them, strongest evidence first: links PUBLISHED on their company's
+        about/team/contact/services pages and homepage, their GitHub profile README and any
+        `urls` of theirs (each with the page it was on and the words around it); links on
+        ARCHIVED Wayback Machine captures of the company's about/team/contact pages, dated
+        (catches a link since removed); and their name as a slug on Calendly and Cal.com,
+        including "first-company" shapes (NAME_MATCH — exists, but a namesake can own it, so
+        check `ownerName` and tie it to the company). Pass `company` and `domain` whenever known
+        — they are what make most finds. Search engines do not index Calendly pages, so a web
+        search cannot replace this. Never books.
+        """
+
+    async def scanPage(self, url: str, options: Cap_booking_links_CallOptions_In | None = None, /) -> Cap_booking_links_PageScan_Out:
+        """Lists every booking link written on one page — hrefs, Cal.com embed buttons
+        (`data-cal-link`) and plain-text links — with each link's anchor text and the words
+        around it, ignoring the platforms' own pricing/login/blog pages. Use it on a personal
+        site, a speaker bio or a newsletter footer.
+        """
+
+    async def read(self, url: str, options: Cap_booking_links_ReadBookingPageOptions_In | None = None, /) -> Cap_booking_links_BookingPage_Out:
+        """Reads a Calendly or Cal.com booking page without booking: who owns it, the events it
+        offers, every question its form asks, `qualifyingQuestions` (anything beyond
+        name/email/notes — a sales funnel asks for your company, a personal chat does not), and
+        whether it can be booked (Calendly: open, fully booked, or closed with the platform's
+        own reason). Works on a fully-booked calendar. A profile with several events returns
+        `event: null` and the list unless `options.event` names one (slug or part of the name).
+        """
+
 class Cap_bundles(Protocol):
     """Given a list of product page urls, reads each one's price and stock the way
     `products.getAvailability` does, then reduces the set to one buildable/not-buildable
@@ -18565,9 +18791,26 @@ class Prv_archipelago(Protocol):
         """
 
 class Prv_archive_org(Protocol):
-    """The Wayback Machine's own public availability lookup — is a site or page archived, and
-    where.
+    """The Wayback Machine — is a site or page archived, every capture it holds, and the page
+    itself as it was captured, so a caller can see what a site published before it was
+    changed or removed.
     """
+
+    async def listSnapshots(self, site: str, opts: Prv_archive_org_archive_orgSnapshotOptions_In | None = None, /) -> Prv_archive_org_archive_orgSnapshotList_Out:
+        """Lists what the Wayback Machine has captured, newest first. A bare domain
+        ("humanlayer.dev") returns the newest capture of every distinct page under it — narrow
+        it with `pathContains: ["about", "team", "contact"]`. A url with a path returns every
+        distinct VERSION of that one page, which is the axis that answers "was this ever on the
+        page". Each row carries the capture timestamp, the original url and its browsable
+        archive url. Use getSnapshot to read one.
+        """
+
+    async def getSnapshot(self, url: str, timestamp: str, /) -> Prv_archive_org_archive_orgSnapshotPage_Out:
+        """Reads one archived page as it was captured — the original HTML, without the archive's
+        toolbar or rewritten links — for a url and a `YYYYMMDDhhmmss` timestamp from
+        listSnapshots (a nearby timestamp is redirected to the closest capture). Use it to find
+        something a page carried in the past and has since removed.
+        """
 
     async def checkAvailability(self, site: str, timestamp: str | None = None, /) -> Prv_archive_org_archive_orgAvailability_Out:
         """Checks the Wayback Machine's own public availability endpoint for one site or page — a
@@ -19768,8 +20011,9 @@ class Prv_cabinsforyou(Protocol):
         """
 
 class Prv_cal_com(Protocol):
-    """Cal.com's own documented, keyless public API — the event types a booking page offers and
-    the real, currently-open time slots for one of them — no browser, no key.
+    """Cal.com's own public surfaces — find a person's Cal.com page from their name, read the
+    event types it offers, the questions its booking form asks and who owns it, and the
+    real, currently-open time slots — no browser, no key.
     """
 
     async def getEventTypes(self, username: str, /) -> Prv_cal_com_CalComEventTypesResult_Out:
@@ -19785,10 +20029,31 @@ class Prv_cal_com(Protocol):
         first event type and reports the rest in `otherEventTypes`.
         """
 
+    async def getBookingForm(self, url: str, opts: Prv_cal_com_CalComBookingFormOptions_In | None = None, /) -> Prv_cal_com_CalComBookingForm_Out:
+        """Reads what a Cal.com booking page will ask before anyone books: the event's
+        title/description/length, every question on its booking form (only the ones a booker is
+        actually shown, with choices and whether each is required), the owner's name and avatar,
+        and the organization or team Cal.com files the account under. Needs no open slot. Takes
+        an event url ("https://cal.com/alexatallah/15min"), a team or org-subdomain event url,
+        or a profile url — a profile with several events returns `event: null` and the list
+        unless `opts.event` names one. Never books anything.
+        """
+
+    async def findProfiles(self, name: str, company: str | None = None, /) -> Prv_cal_com_CalComFindProfilesResult_Out:
+        """Finds a person's own Cal.com page from their full name, and optionally their company
+        (pass it). Checks the slug shapes that measured reliable (first-last, firstlast,
+        lastfirst, first-company, firstcompany, last-company, and the bare company slug — which
+        often belongs to a stranger, so read `ownerName`) and returns each page that exists with
+        its own title, the owner name the title states, and `nameMatches`. A match is a GUESS: a
+        namesake passes, so tie the page to the company before relying on it. Works on pages no
+        search engine has indexed.
+        """
+
 class Prv_calendly(Protocol):
-    """Calendly's own public booking-widget data — the event types a scheduling page offers and
-    the real, currently-open time slots for one of them — read straight off the widget's
-    undocumented JSON endpoints, no browser, no key.
+    """Calendly's own public booking-widget data — find a person's Calendly page from their
+    name, read the event types it offers, the questions its booking form asks, and the real,
+    currently-open time slots — read straight off the widget's undocumented JSON endpoints,
+    no browser, no key.
     """
 
     async def getEventTypes(self, profile: str, /) -> Prv_calendly_CalendlyEventTypesResult_Out:
@@ -19803,6 +20068,27 @@ class Prv_calendly(Protocol):
         profile slug ("jason-frazier"), a profile url, or a specific event url
         ("https://calendly.com/jason-frazier/15min"). Given a bare profile, it picks that
         profile's first event type and reports the rest in `otherEventTypes`.
+        """
+
+    async def getBookingForm(self, url: str, opts: Prv_calendly_CalendlyBookingFormOptions_In | None = None, /) -> Prv_calendly_CalendlyBookingForm_Out:
+        """Reads what a Calendly booking page will ask before anyone books: the owner's name, the
+        event's name/description/duration, every custom form question (with its choices and
+        whether it is required), the next open time, and Calendly's own reason when the calendar
+        cannot be booked. Needs no open slot, so it reads a fully-booked calendar too. Takes a
+        profile url ("https://calendly.com/eric-ciarla"), an event url, or a one-off share link
+        ("https://calendly.com/d/ctbt-d45-rgb/simbie-ai-demo"). A profile with several events
+        returns `event: null` and the list unless `opts.event` names one. Never books anything.
+        """
+
+    async def findProfiles(self, name: str, company: str | None = None, /) -> Prv_calendly_CalendlyFindProfilesResult_Out:
+        """Finds a person's own Calendly page from their full name, and optionally their company
+        (pass it — "caleb-firecrawl" is found only by the company shape). Checks the slug shapes
+        that measured reliable (first-last, firstlast, lastfirst, first-company, firstcompany,
+        last-company, and the bare company slug — which often belongs to a stranger, so read
+        `ownerName`) and returns every one that exists with the name the page itself shows and
+        `nameMatches`. A match is a GUESS: a namesake with the same first and last name passes,
+        so tie the page to the company before relying on it. Search engines do not index
+        Calendly pages, so this is the way to find one.
         """
 
 class Prv_caliberhealth(Protocol):
@@ -28988,6 +29274,7 @@ class Bowmark(Protocol):
     `run()` script, and the proxy over HTTP in a caller's own process. They are
     generated once precisely so those two cannot drift."""
 
+    booking_links: Cap_booking_links
     bundles: Cap_bundles
     cable_railing_quote: Cap_cable_railing_quote
     cars: Cap_cars

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8f74962f532da5df8d2905deb36fe43233b84c4f09f37cb4c76b92a153333d03
-// 46 capabilities, 404 providers, 984 typed functions, 20 refused.
+// Manifest version: 4007500c4ff14838aae125d11a95d32e205ad87d3dcf4a1f543aaaf32830c161
+// 47 capabilities, 404 providers, 993 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35,6 +35,119 @@
 //
 
 
+
+declare namespace BowmarkCapability_booking_links {
+  // ── Booking links — find a person's Calendly or Cal.com link and read its form — the unit's own declarations, verbatim ──
+type BookingPlatform = "calendly" | "cal.com" | "savvycal" | "tidycal" | "zcal" | "hubspot"
+  | "acuity" | "chilipiper" | "google-calendar" | "microsoft-bookings"
+
+// published: READ off a page (foundOn is the citation). archived: read off an old
+// Wayback capture of a page (archivedAt dates it). name_match: built from the name and
+// it exists — nothing shows the person published it, and a namesake can own it.
+type BookingLinkMethod = "published" | "archived" | "name_match"
+
+interface BookingLinkFinding {
+  url: string
+  platform: BookingPlatform
+  method: BookingLinkMethod        // the strongest way it was found
+  foundBy: BookingLinkMethod[]     // every way it was found
+  foundOn: string | null           // the page it was written on
+  archivedAt: string | null        // YYYY-MM-DD capture date, for "archived"
+  archiveUrl: string | null
+  context: string | null           // the link's anchor text or the words around it
+  ownerName: string | null         // the name the booking page itself shows (name_match)
+  nameConfirmed: boolean           // name_match: page owner carries both names; published/archived: the name is on that page
+}
+
+interface FindBookingLinksInput {
+  name: string          // full name, first and last
+  company?: string       // name or domain — adds "first-company" slugs
+  domain?: string        // their company site: about/team/contact/services pages + homepage scanned
+  github?: string        // a handle READ off a page that names them, never guessed
+  urls?: string[]        // personal site, speaker bio, blog post — any page of theirs
+}
+
+interface FindBookingLinksOptions {
+  archive?: boolean      // read Wayback captures of the domain's about/team/contact pages; default true with a domain
+  timeoutMs?: number
+}
+
+interface BookingLinkSearch {
+  name: string
+  links: BookingLinkFinding[]   // published first, then archived, then name_match
+  checked: { pagesScanned: number; pagesUnreachable: string[]; archivedPagesRead: number; slugsChecked: string[] }
+  warnings: string[]
+}
+
+interface PublishedBookingLink { url: string; platform: BookingPlatform; context: string; nearbyText: string }
+interface PageScan { url: string; finalUrl: string; status: number; links: PublishedBookingLink[]; warnings: string[] }
+
+interface BookingQuestion { label: string; kind: string; required: boolean; choices: string[] }
+interface BookingEvent { name: string; url: string; description: string | null; durationMinutes: number | null }
+
+interface BookingPage {
+  url: string
+  platform: "calendly" | "cal.com"
+  ownerName: string | null
+  organization: string | null        // the org/team the platform files the account under (Cal.com)
+  avatarUrl: string | null
+  events: BookingEvent[]             // every event a profile lists
+  event: BookingEvent | null         // the event whose form was read; null if several and none named
+  questions: BookingQuestion[]       // everything the form asks
+  qualifyingQuestions: string[]      // the questions beyond name/email/notes — "company", "team size": a sales funnel asks these, a personal chat does not
+  bookable: "open" | "fully_booked" | "closed" | "unknown"   // Cal.com is always "unknown" here; use cal_com.getAvailability
+  nextAvailability: string | null
+  unavailableReason: string | null   // the platform's own words when it cannot be booked
+  warnings: string[]
+}
+
+interface ReadBookingPageOptions { event?: string; timeoutMs?: number }
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Finds the public booking link (Calendly, Cal.com, SavvyCal, HubSpot…) a named person
+   * publishes — on their company's pages, their GitHub, an old archived copy of their site, or
+   * under their own name on Calendly and Cal.com — and reads what the booking form asks and
+   * whether the calendar is open, without booking anything.
+   */
+  interface Unit {
+    /**
+     * Finds a person's public booking links from their name. Runs three searches at once and
+     * merges them, strongest evidence first: links PUBLISHED on their company's
+     * about/team/contact/services pages and homepage, their GitHub profile README and any `urls`
+     * of theirs (each with the page it was on and the words around it); links on ARCHIVED Wayback
+     * Machine captures of the company's about/team/contact pages, dated (catches a link since
+     * removed); and their name as a slug on Calendly and Cal.com, including "first-company" shapes
+     * (NAME_MATCH — exists, but a namesake can own it, so check `ownerName` and tie it to the
+     * company). Pass `company` and `domain` whenever known — they are what make most finds. Search
+     * engines do not index Calendly pages, so a web search cannot replace this. Never books.
+     */
+    find(person: FindBookingLinksInput, options?: FindBookingLinksOptions): Promise<BookingLinkSearch>;
+
+    /**
+     * Lists every booking link written on one page — hrefs, Cal.com embed buttons
+     * (`data-cal-link`) and plain-text links — with each link's anchor text and the words around
+     * it, ignoring the platforms' own pricing/login/blog pages. Use it on a personal site, a
+     * speaker bio or a newsletter footer.
+     */
+    scanPage(url: string, options?: CallOptions): Promise<PageScan>;
+
+    /**
+     * Reads a Calendly or Cal.com booking page without booking: who owns it, the events it offers,
+     * every question its form asks, `qualifyingQuestions` (anything beyond name/email/notes — a
+     * sales funnel asks for your company, a personal chat does not), and whether it can be booked
+     * (Calendly: open, fully booked, or closed with the platform's own reason). Works on a
+     * fully-booked calendar. A profile with several events returns `event: null` and the list
+     * unless `options.event` names one (slug or part of the name).
+     */
+    read(url: string, options?: ReadBookingPageOptions): Promise<BookingPage>;
+  }
+}
 
 declare namespace BowmarkCapability_bundles {
   // ── Check whether a set of products can be built and bought right now — the unit's own declarations, verbatim ──
@@ -4402,11 +4515,59 @@ interface archive_orgAvailability {
   archivedStatus: string | null;     // the original page's own HTTP status when captured
 }
 
+interface archive_orgSnapshotOptions {
+  scope?: "exact" | "prefix";   // default: "prefix" for a bare domain (every page under it), "exact" for a url with a path
+  limit?: number;               // 1-500, default 50 — newest first
+  pathContains?: string[];      // keep only urls whose path contains one of these, e.g. ["about", "team", "contact"]
+}
+
+interface archive_orgSnapshot {
+  timestamp: string;            // YYYYMMDDhhmmss
+  originalUrl: string;
+  archivedUrl: string;          // the browsable capture, web.archive.org/web/<ts>/<url>
+  statusCode: string;
+  mimeType: string;
+}
+
+interface archive_orgSnapshotList {
+  query: string;
+  scope: "exact" | "prefix";
+  snapshots: archive_orgSnapshot[];   // prefix: newest capture of each distinct url; exact: each distinct VERSION of the page
+  warnings: string[];
+}
+
+interface archive_orgSnapshotPage {
+  originalUrl: string;
+  timestamp: string;
+  archivedUrl: string;
+  html: string;                 // the ORIGINAL bytes as captured, without the archive's toolbar or rewritten links
+  warnings: string[];
+}
+
   /**
-   * The Wayback Machine's own public availability lookup — is a site or page archived, and
-   * where.
+   * The Wayback Machine — is a site or page archived, every capture it holds, and the page
+   * itself as it was captured, so a caller can see what a site published before it was changed
+   * or removed.
    */
   interface Unit {
+    /**
+     * Lists what the Wayback Machine has captured, newest first. A bare domain ("humanlayer.dev")
+     * returns the newest capture of every distinct page under it — narrow it with `pathContains:
+     * ["about", "team", "contact"]`. A url with a path returns every distinct VERSION of that one
+     * page, which is the axis that answers "was this ever on the page". Each row carries the
+     * capture timestamp, the original url and its browsable archive url. Use getSnapshot to read
+     * one.
+     */
+    listSnapshots(site: string, opts?: archive_orgSnapshotOptions): Promise<archive_orgSnapshotList>;
+
+    /**
+     * Reads one archived page as it was captured — the original HTML, without the archive's
+     * toolbar or rewritten links — for a url and a `YYYYMMDDhhmmss` timestamp from listSnapshots
+     * (a nearby timestamp is redirected to the closest capture). Use it to find something a page
+     * carried in the past and has since removed.
+     */
+    getSnapshot(url: string, timestamp: string): Promise<archive_orgSnapshotPage>;
+
     /**
      * Checks the Wayback Machine's own public availability endpoint for one site or page — a bare
      * domain ("carpetlandusa.net"), a domain plus path
@@ -7562,9 +7723,58 @@ interface CalComAvailabilityResult {
   otherEventTypes: CalComEventType[];
 }
 
+interface CalComFormQuestion {
+  label: string;       // what a booker reads
+  name: string;        // Cal.com's own field name ("name", "email", or a custom slug)
+  type: string;        // Cal.com's own type: "name" | "email" | "phone" | "text" | "textarea" | "select" | "radio" | …
+  required: boolean;
+  choices: string[];
+}
+
+interface CalComBookingEvent {
+  title: string;
+  slug: string;
+  url: string;
+  description: string | null;
+  lengthInMinutes: number | null;
+}
+
+interface CalComBookingFormOptions {
+  event?: string;      // which event on a multi-event profile — its slug or part of its title
+}
+
+interface CalComBookingForm {
+  url: string;
+  username: string;
+  eventTypes: CalComEventType[];     // a profile's list; empty when the url already named an event
+  event: CalComBookingEvent | null;  // null when several events exist and none was named
+  ownerName: string | null;
+  organization: string | null;       // the org/team Cal.com itself files the account under
+  avatarUrl: string | null;
+  questions: CalComFormQuestion[];   // only what a booker is shown — hidden and reschedule-only fields dropped
+  warnings: string[];
+}
+
+interface CalComProfileCandidate {
+  slug: string;
+  url: string;                // where the page landed; a one-event profile redirects to that event
+  title: string;              // the page's own <title>
+  ownerName: string | null;   // read off the title
+  nameMatches: boolean;       // ownerName carries BOTH names asked for — a hint, a namesake passes too
+}
+
+interface CalComFindProfilesResult {
+  name: string;
+  company: string | null;
+  slugsChecked: string[];
+  candidates: CalComProfileCandidate[];
+  warnings: string[];
+}
+
   /**
-   * Cal.com's own documented, keyless public API — the event types a booking page offers and the
-   * real, currently-open time slots for one of them — no browser, no key.
+   * Cal.com's own public surfaces — find a person's Cal.com page from their name, read the event
+   * types it offers, the questions its booking form asks and who owns it, and the real,
+   * currently-open time slots — no browser, no key.
    */
   interface Unit {
     /**
@@ -7581,6 +7791,28 @@ interface CalComAvailabilityResult {
      * event type and reports the rest in `otherEventTypes`.
      */
     getAvailability(username: string, opts?: CalComAvailabilityOptions): Promise<CalComAvailabilityResult>;
+
+    /**
+     * Reads what a Cal.com booking page will ask before anyone books: the event's
+     * title/description/length, every question on its booking form (only the ones a booker is
+     * actually shown, with choices and whether each is required), the owner's name and avatar, and
+     * the organization or team Cal.com files the account under. Needs no open slot. Takes an event
+     * url ("https://cal.com/alexatallah/15min"), a team or org-subdomain event url, or a profile
+     * url — a profile with several events returns `event: null` and the list unless `opts.event`
+     * names one. Never books anything.
+     */
+    getBookingForm(url: string, opts?: CalComBookingFormOptions): Promise<CalComBookingForm>;
+
+    /**
+     * Finds a person's own Cal.com page from their full name, and optionally their company (pass
+     * it). Checks the slug shapes that measured reliable (first-last, firstlast, lastfirst,
+     * first-company, firstcompany, last-company, and the bare company slug — which often belongs
+     * to a stranger, so read `ownerName`) and returns each page that exists with its own title,
+     * the owner name the title states, and `nameMatches`. A match is a GUESS: a namesake passes,
+     * so tie the page to the company before relying on it. Works on pages no search engine has
+     * indexed.
+     */
+    findProfiles(name: string, company?: string): Promise<CalComFindProfilesResult>;
   }
 }
 
@@ -7629,10 +7861,58 @@ interface CalendlyAvailabilityResult {
   otherEventTypes: CalendlyEventType[];
 }
 
+interface CalendlyFormQuestion {
+  label: string;
+  format: string;     // Calendly's own: "string" | "text" | "phone_number" | "select" | "multi_select" | "radios" | "checkboxes"
+  required: boolean;
+  choices: string[];
+}
+
+interface CalendlyBookingEvent {
+  name: string;
+  slug: string | null;
+  url: string;
+  description: string | null;
+  durationMinutes: number | null;
+}
+
+interface CalendlyBookingFormOptions {
+  event?: string;     // which event on a multi-event profile — its slug or part of its name
+}
+
+interface CalendlyBookingForm {
+  url: string;
+  profileSlug: string | null;         // null for a calendly.com/d/<hash> share link
+  ownerName: string | null;
+  eventTypes: CalendlyEventType[];
+  event: CalendlyBookingEvent | null; // null when several events exist and none was named
+  questions: CalendlyFormQuestion[];  // CUSTOM questions; name + email are always asked on top
+  nextAvailability: string | null;    // null + unavailableReason null = fully booked, not unread
+  unavailableReason: string | null;   // non-null = Calendly says this cannot be booked
+  warnings: string[];
+}
+
+interface CalendlyProfileCandidate {
+  slug: string;
+  url: string;
+  ownerName: string;       // the name the profile itself shows
+  nameMatches: boolean;    // ownerName carries BOTH names asked for — a hint, a namesake passes too
+  timezone: string;
+}
+
+interface CalendlyFindProfilesResult {
+  name: string;
+  company: string | null;
+  slugsChecked: string[];
+  candidates: CalendlyProfileCandidate[];
+  warnings: string[];
+}
+
   /**
-   * Calendly's own public booking-widget data — the event types a scheduling page offers and the
-   * real, currently-open time slots for one of them — read straight off the widget's
-   * undocumented JSON endpoints, no browser, no key.
+   * Calendly's own public booking-widget data — find a person's Calendly page from their name,
+   * read the event types it offers, the questions its booking form asks, and the real,
+   * currently-open time slots — read straight off the widget's undocumented JSON endpoints, no
+   * browser, no key.
    */
   interface Unit {
     /**
@@ -7650,6 +7930,29 @@ interface CalendlyAvailabilityResult {
      * first event type and reports the rest in `otherEventTypes`.
      */
     getAvailability(profile: string, opts?: CalendlyAvailabilityOptions): Promise<CalendlyAvailabilityResult>;
+
+    /**
+     * Reads what a Calendly booking page will ask before anyone books: the owner's name, the
+     * event's name/description/duration, every custom form question (with its choices and whether
+     * it is required), the next open time, and Calendly's own reason when the calendar cannot be
+     * booked. Needs no open slot, so it reads a fully-booked calendar too. Takes a profile url
+     * ("https://calendly.com/eric-ciarla"), an event url, or a one-off share link
+     * ("https://calendly.com/d/ctbt-d45-rgb/simbie-ai-demo"). A profile with several events
+     * returns `event: null` and the list unless `opts.event` names one. Never books anything.
+     */
+    getBookingForm(url: string, opts?: CalendlyBookingFormOptions): Promise<CalendlyBookingForm>;
+
+    /**
+     * Finds a person's own Calendly page from their full name, and optionally their company (pass
+     * it — "caleb-firecrawl" is found only by the company shape). Checks the slug shapes that
+     * measured reliable (first-last, firstlast, lastfirst, first-company, firstcompany,
+     * last-company, and the bare company slug — which often belongs to a stranger, so read
+     * `ownerName`) and returns every one that exists with the name the page itself shows and
+     * `nameMatches`. A match is a GUESS: a namesake with the same first and last name passes, so
+     * tie the page to the company before relying on it. Search engines do not index Calendly
+     * pages, so this is the way to find one.
+     */
+    findProfiles(name: string, company?: string): Promise<CalendlyFindProfilesResult>;
   }
 }
 
@@ -84690,6 +84993,7 @@ interface BowmarkProviders {
  * `run()` script, and the Proxy over HTTP in a caller's own process. They are
  * generated once precisely so those two cannot drift. */
 interface BowmarkLibrary {
+  booking_links: BowmarkCapability_booking_links.Unit;
   bundles: BowmarkCapability_bundles.Unit;
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   cars: BowmarkCapability_cars.Unit;
