@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1411 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1417 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -69,6 +69,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archipelago.getClientRelease` | archipelago.gg | Returns the latest published Archipelago client release — the version tag, the GitHub… | 🟢 |
 | `archipelago.getGameOptions` | archipelago.gg | Returns one game's per-player randomizer options — the commented YAML template… | 🟢 |
 | `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🟡 |
+| `archive_org.getSnapshot` | archive.org | Reads one archived page as it was captured — the original HTML without the archive's… | 🟢 |
+| `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🟢 |
 | `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟢 |
 | `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟢 |
 | `artpix3d.listShapes` | artpix3d.com | Lists every crystal shape ArtPix 3D currently sells (rectangle, heart, square, …)… | 🟢 |
@@ -210,9 +212,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `byltbasics.listBundlePacks` | byltbasics.com | Lists BYLT Basics' 'Custom N Pack' bundle kits — each its own product with a single… | 🟢 |
 | `cabinsforyou.getCabinDetail` | cabinsforyou.com | Reads one cabin's own listing page — bedrooms/bathrooms/sleeps/parking, pet policy… | 🟢 |
 | `cabinsforyou.search` | cabinsforyou.com | Runs Cabins For You's own homepage cabin-availability search (Check In / Check Out /… | 🟢 |
+| `cal_com.findProfiles` | cal.com | Finds a person's own Cal.com page from their full name and, optionally, their company… | 🟢 |
 | `cal_com.getAvailability` | cal.com | Returns the real, currently-open time slots for one Cal.com event type — accepts a… | 🟢 |
+| `cal_com.getBookingForm` | cal.com | Reads what a Cal.com booking page will ask before anyone books — the event's title… | 🟢 |
 | `cal_com.getEventTypes` | cal.com | Lists every event type a Cal.com username currently publishes — the entry point. | 🟢 |
+| `calendly.findProfiles` | calendly.com | Finds a person's own Calendly page from their full name and, optionally, their company… | 🟢 |
 | `calendly.getAvailability` | calendly.com | Returns the real, currently-open time slots for one Calendly event type over the next… | 🟢 |
+| `calendly.getBookingForm` | calendly.com | Reads what a Calendly booking page will ask before anyone books — the owner's name… | 🟢 |
 | `calendly.getEventTypes` | calendly.com | Lists every event type a Calendly profile currently offers — the entry point. | 🟢 |
 | `caliberhealth.getJob` | caliberhealth.com | Reads one job's own detail page — specialty, location, facility type, schedule… | 🟢 |
 | `caliberhealth.search` | caliberhealth.com | Runs Caliber Healthcare Solutions' own live job-board search (/healthcare-jobs) and… | 🟢 |
