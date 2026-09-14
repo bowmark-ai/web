@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 34cae2a5359be9de8bdc292741d58d3127e3780364248121716ccd8965f827ed
-# 46 capabilities, 403 providers, 964 typed functions, 20 refused.
+# Manifest version: 8f74962f532da5df8d2905deb36fe43233b84c4f09f37cb4c76b92a153333d03
+# 46 capabilities, 404 providers, 966 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9783,6 +9783,55 @@ class Prv_ivoryhomes_IvoryHomesFloorPlan_Out(TypedDict):
     baths: float | None
     imageUrl: str | None
     detailUrl: str
+
+class Prv_iyc_IycCharterSearchFilters_In(TypedDict):
+    destination: NotRequired[str]
+    guestsMin: NotRequired[float]
+    lengthFeetMin: NotRequired[float]
+    lengthFeetMax: NotRequired[float]
+    budgetMaxUsd: NotRequired[float]
+    sort: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_iyc_IycCharterSearchResult_Out(TypedDict):
+    total: float
+    page: float
+    pages: float
+    filters: Prv_iyc_IycCharterSearchFilters_Out
+    yachts: list[Prv_iyc_IycCharterYacht_Out]
+
+class Prv_iyc_IycCharterSearchFilters_Out(TypedDict):
+    destination: NotRequired[str]
+    guestsMin: NotRequired[float]
+    lengthFeetMin: NotRequired[float]
+    lengthFeetMax: NotRequired[float]
+    budgetMaxUsd: NotRequired[float]
+    sort: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_iyc_IycCharterYacht_Out(TypedDict):
+    yachtId: str
+    slug: str
+    name: str
+    url: str
+    builder: str | None
+    lengthInFeet: str | None
+    lengthInMeters: str | None
+    guests: float | None
+    cabins: float | None
+    crew: float | None
+    priceToDisplay: str | None
+    priceUsd: str | None
+    priceEur: str | None
+    isPriceOnApplication: bool
+    image: str | None
+    availabilityUrl: str | None
+
+class Prv_iyc_IycCharterAvailability_Out(TypedDict):
+    yachtId: str
+    isAvailable: bool
+    unavailableDates: list[str]
+    maxDateWithPrice: str | None
 
 class Prv_jasmine_dilucci_getApplicationFormSchema_args_In(TypedDict):
     includeOptions: NotRequired[bool]
@@ -23715,6 +23764,25 @@ class Prv_ivoryhomes(Protocol):
         least"), `sqftFrom`/`sqftTo` (a total-square-footage range) and `stories` (1, 2 or 3).
         """
 
+class Prv_iyc(Protocol):
+    """IYC's superyacht charter search, run for real — filtered inventory with live USD/EUR
+    pricing and each yacht's own booked-date calendar, off the site's own undocumented
+    filter API.
+    """
+
+    async def searchCharterYachts(self, filters: Prv_iyc_IycCharterSearchFilters_In | None = None, /) -> Prv_iyc_IycCharterSearchResult_Out:
+        """Runs IYC's live charter search — destination, minimum guests, length range and max
+        budget — and returns real matching yachts with USD/EUR pricing, specs and a
+        charter-detail URL. The entry point: call with {} for the site's own default window, or
+        narrow it. checkCharterAvailability takes the yachtId this returns.
+        """
+
+    async def checkCharterAvailability(self, yachtId: str, /) -> Prv_iyc_IycCharterAvailability_Out:
+        """Reads one yacht's real charter calendar for a yachtId from searchCharterYachts — whether
+        it's marked available at all, and the exact list of dates the site's own calendar has
+        booked. THROWS if the endpoint's shape changes underneath it.
+        """
+
 class Prv_jasmine_dilucci(Protocol):
     """Extracts application form structure from Jasmine DiLucci's coaching application funnel."""
 
@@ -28734,6 +28802,7 @@ class BowmarkProviders(Protocol):
     islllc: Prv_islllc
     istanbulkart: Prv_istanbulkart
     ivoryhomes: Prv_ivoryhomes
+    iyc: Prv_iyc
     jasmine_dilucci: Prv_jasmine_dilucci
     jennikayne: Prv_jennikayne
     joybird: Prv_joybird

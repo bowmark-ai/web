@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 34cae2a5359be9de8bdc292741d58d3127e3780364248121716ccd8965f827ed
-// 964 checked, 20 unchecked.
+// Manifest version: 8f74962f532da5df8d2905deb36fe43233b84c4f09f37cb4c76b92a153333d03
+// 966 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "34cae2a5359be9de8bdc292741d58d3127e3780364248121716ccd8965f827ed",
+  "version": "8f74962f532da5df8d2905deb36fe43233b84c4f09f37cb4c76b92a153333d03",
   "units": {
     "bundles": {
       "defs": {},
@@ -16035,6 +16035,85 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "IvoryHomesSearchFilters"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.iyc": {
+      "defs": {
+        "IycCharterSearchFilters": {
+          "k": "object",
+          "props": [
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "guestsMin",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lengthFeetMin",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "lengthFeetMax",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "budgetMaxUsd",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchCharterYachts": [
+          {
+            "name": "filters",
+            "schema": {
+              "k": "ref",
+              "name": "IycCharterSearchFilters"
+            },
+            "optional": true
+          }
+        ],
+        "checkCharterAvailability": [
+          {
+            "name": "yachtId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

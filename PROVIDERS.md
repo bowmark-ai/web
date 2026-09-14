@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1409 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1411 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -805,6 +805,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
 | `istanbulkart.getTouristPassFares` | istanbulkart.istanbul | Reads the İstanbul City Card tariff table — the 1/3/5/7/15-day unlimited-ride visitor… | 🟢 |
 | `ivoryhomes.searchFloorPlans` | ivoryhomes.com | Runs Ivory Homes' home-design floor-plan search against the site's own live inventory… | 🟢 |
+| `iyc.checkCharterAvailability` | iyc.com | Reads one yacht's real charter calendar (the site's own booked/unavailable date list)… | 🟢 |
+| `iyc.searchCharterYachts` | iyc.com | Searches IYC's live superyacht charter fleet by destination, guest count, length and… | 🟢 |
 | `jasmine_dilucci.getApplicationFormSchema` | jasminedilucci.com | Returns the structure of the application funnel's DQ (disqualification) step: field… | 🟢 |
 | `jennikayne.buildGiftCardLink` | jennikayne.com | Configures a gift card — amount, recipient name/email, an optional message, and a… | 🟢 |
 | `jennikayne.getGiftCardOptions` | jennikayne.com | Reads the live digital gift-card product — every denomination from $50 to $1,000 with… | 🟢 |

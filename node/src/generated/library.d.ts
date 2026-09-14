@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 34cae2a5359be9de8bdc292741d58d3127e3780364248121716ccd8965f827ed
-// 46 capabilities, 403 providers, 982 typed functions, 20 refused.
+// Manifest version: 8f74962f532da5df8d2905deb36fe43233b84c4f09f37cb4c76b92a153333d03
+// 46 capabilities, 404 providers, 984 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18541,6 +18541,71 @@ interface IvoryHomesSearchFilters {
   }
 }
 
+declare namespace BowmarkProvider_iyc {
+  // ── IYC — the unit's own declarations, verbatim ──
+interface IycCharterSearchFilters {
+  destination?: string;
+  guestsMin?: number;
+  lengthFeetMin?: number;
+  lengthFeetMax?: number;
+  budgetMaxUsd?: number;
+  sort?: string;
+  page?: number;
+}
+interface IycCharterYacht {
+  yachtId: string;
+  slug: string;
+  name: string;
+  url: string;
+  builder: string | null;
+  lengthInFeet: string | null;
+  lengthInMeters: string | null;
+  guests: number | null;
+  cabins: number | null;
+  crew: number | null;
+  priceToDisplay: string | null;
+  priceUsd: string | null;
+  priceEur: string | null;
+  isPriceOnApplication: boolean;
+  image: string | null;
+  availabilityUrl: string | null;
+}
+interface IycCharterSearchResult {
+  total: number;
+  page: number;
+  pages: number;
+  filters: IycCharterSearchFilters;
+  yachts: IycCharterYacht[];
+}
+interface IycCharterAvailability {
+  yachtId: string;
+  isAvailable: boolean;
+  unavailableDates: string[];
+  maxDateWithPrice: string | null;
+}
+
+  /**
+   * IYC's superyacht charter search, run for real — filtered inventory with live USD/EUR pricing
+   * and each yacht's own booked-date calendar, off the site's own undocumented filter API.
+   */
+  interface Unit {
+    /**
+     * Runs IYC's live charter search — destination, minimum guests, length range and max budget —
+     * and returns real matching yachts with USD/EUR pricing, specs and a charter-detail URL. The
+     * entry point: call with {} for the site's own default window, or narrow it.
+     * checkCharterAvailability takes the yachtId this returns.
+     */
+    searchCharterYachts(filters?: IycCharterSearchFilters): Promise<IycCharterSearchResult>;
+
+    /**
+     * Reads one yacht's real charter calendar for a yachtId from searchCharterYachts — whether
+     * it's marked available at all, and the exact list of dates the site's own calendar has
+     * booked. THROWS if the endpoint's shape changes underneath it.
+     */
+    checkCharterAvailability(yachtId: string): Promise<IycCharterAvailability>;
+  }
+}
+
 declare namespace BowmarkProvider_jasmine_dilucci {
   // ── Jasmine DiLucci Life Coaching — the unit's own declarations, verbatim ──
 interface FormField {
@@ -32725,6 +32790,7 @@ interface BowmarkProviders {
   islllc: BowmarkProvider_islllc.Unit;
   istanbulkart: BowmarkProvider_istanbulkart.Unit;
   ivoryhomes: BowmarkProvider_ivoryhomes.Unit;
+  iyc: BowmarkProvider_iyc.Unit;
   jasmine_dilucci: BowmarkProvider_jasmine_dilucci.Unit;
   jennikayne: BowmarkProvider_jennikayne.Unit;
   joybird: BowmarkProvider_joybird.Unit;
