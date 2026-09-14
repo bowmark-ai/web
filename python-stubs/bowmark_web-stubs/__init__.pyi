@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 560a052e0e710ca2e8f310ec0035ef2cf092ff299887daab940a01c8223b31a8
-# 46 capabilities, 402 providers, 962 typed functions, 20 refused.
+# Manifest version: 34cae2a5359be9de8bdc292741d58d3127e3780364248121716ccd8965f827ed
+# 46 capabilities, 403 providers, 964 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12904,6 +12904,27 @@ class Prv_positivegrid_positivegridRetailer_Out(TypedDict):
     latitude: float
     longitude: float
     distanceMiles: float
+
+class Prv_postiz_ListPostsArgs_In(TypedDict):
+    startDate: str
+    endDate: str
+    customer: NotRequired[str]
+
+class Prv_postiz_PostizPost_Out(TypedDict):
+    id: str
+    content: str
+    state: NotRequired[str]
+    publishDate: NotRequired[str]
+    integration: NotRequired[str]
+    group: NotRequired[str]
+
+class Prv_postiz_CreatePostArgs_In(TypedDict):
+    integrationId: str
+    content: str
+    type: NotRequired[Literal["draft"] | Literal["schedule"] | Literal["now"]]
+    date: NotRequired[str]
+    settings: NotRequired[Mapping[str, Any]]
+    shortLink: NotRequired[bool]
 
 class Prv_premierbuildings_PremierbuildingsStyle_Out(TypedDict):
     key: str
@@ -25908,6 +25929,15 @@ class Prv_positivegrid(Protocol):
         whole feed, unlike a server-side search that would silently truncate.
         """
 
+class Prv_postiz(Protocol):
+    """Schedule and publish posts across multiple social media platforms"""
+
+    async def listPosts(self, args: Prv_postiz_ListPostsArgs_In, /) -> list[Prv_postiz_PostizPost_Out]:
+        """List scheduled and published posts for a workspace within a date range."""
+
+    async def createPost(self, args: Prv_postiz_CreatePostArgs_In, /) -> Prv_postiz_PostizPost_Out:
+        """Create and schedule a new post across a connected social media account."""
+
 class Prv_premierbuildings(Protocol):
     """Reads Premier Portable Buildings' own ShedView 3D configurator pricing catalogue —
     building styles, real available sizes, and region-exact siding surcharges — plus its
@@ -28786,6 +28816,7 @@ class BowmarkProviders(Protocol):
     polytex: Prv_polytex
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
+    postiz: Prv_postiz
     premierbuildings: Prv_premierbuildings
     progressive: Prv_progressive
     prolook: Prv_prolook

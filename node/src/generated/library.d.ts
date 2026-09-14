@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 560a052e0e710ca2e8f310ec0035ef2cf092ff299887daab940a01c8223b31a8
-// 46 capabilities, 402 providers, 980 typed functions, 20 refused.
+// Manifest version: 34cae2a5359be9de8bdc292741d58d3127e3780364248121716ccd8965f827ed
+// 46 capabilities, 403 providers, 982 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -24722,6 +24722,43 @@ interface positivegridRetailerSearch {
   }
 }
 
+declare namespace BowmarkProvider_postiz {
+  // ── Postiz — the unit's own declarations, verbatim ──
+interface PostizPost {
+  id: string;
+  content: string;
+  state?: string;
+  publishDate?: string;
+  integration?: string;
+  group?: string;
+}
+
+interface ListPostsArgs {
+  /** ISO 8601 — Postiz's own list endpoint requires both bounds. */
+  startDate: string;
+  endDate: string;
+  customer?: string;
+}
+
+interface CreatePostArgs {
+  integrationId: string;
+  content: string;
+  type?: "draft" | "schedule" | "now";
+  date?: string;
+  settings?: Record<string, unknown>;
+  shortLink?: boolean;
+}
+
+  /** Schedule and publish posts across multiple social media platforms */
+  interface Unit {
+    /** List scheduled and published posts for a workspace within a date range. */
+    listPosts(args: ListPostsArgs): Promise<PostizPost[]>;
+
+    /** Create and schedule a new post across a connected social media account. */
+    createPost(args: CreatePostArgs): Promise<PostizPost>;
+  }
+}
+
 declare namespace BowmarkProvider_premierbuildings {
   // ── Premier Portable Buildings — the unit's own declarations, verbatim ──
 interface PremierbuildingsStyle {
@@ -32770,6 +32807,7 @@ interface BowmarkProviders {
   polytex: BowmarkProvider_polytex.Unit;
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
+  postiz: BowmarkProvider_postiz.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
   progressive: BowmarkProvider_progressive.Unit;
   prolook: BowmarkProvider_prolook.Unit;

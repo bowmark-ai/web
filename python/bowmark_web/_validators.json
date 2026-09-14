@@ -1,5 +1,5 @@
 {
-  "version": "560a052e0e710ca2e8f310ec0035ef2cf092ff299887daab940a01c8223b31a8",
+  "version": "34cae2a5359be9de8bdc292741d58d3127e3780364248121716ccd8965f827ed",
   "units": {
     "bundles": {
       "defs": {},
@@ -20749,6 +20749,122 @@
             "schema": {
               "k": "ref",
               "name": "positivegridFindRetailersArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.postiz": {
+      "defs": {
+        "CreatePostArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "integrationId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "content",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "draft"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "schedule"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "now"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "settings",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "any"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "shortLink",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListPostsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "startDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "endDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "customer",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listPosts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPostsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "createPost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CreatePostArgs"
             },
             "optional": false
           }
