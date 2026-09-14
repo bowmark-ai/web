@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4007500c4ff14838aae125d11a95d32e205ad87d3dcf4a1f543aaaf32830c161
-// 975 checked, 20 unchecked.
+// Manifest version: 14e0e80f51c4a6a3ad1795714639d6c7d46f788150e8de1313f6187000d7e51b
+// 976 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4007500c4ff14838aae125d11a95d32e205ad87d3dcf4a1f543aaaf32830c161",
+  "version": "14e0e80f51c4a6a3ad1795714639d6c7d46f788150e8de1313f6187000d7e51b",
   "units": {
     "booking_links": {
       "defs": {
@@ -13180,6 +13180,15 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GithubListReleasesOptions"
             },
             "optional": true
+          }
+        ],
+        "getProfileReadme": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4007500c4ff14838aae125d11a95d32e205ad87d3dcf4a1f543aaaf32830c161
-# 47 capabilities, 404 providers, 975 typed functions, 20 refused.
+# Manifest version: 14e0e80f51c4a6a3ad1795714639d6c7d46f788150e8de1313f6187000d7e51b
+# 47 capabilities, 404 providers, 976 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8051,6 +8051,18 @@ class Prv_github_GithubRelease_Out(TypedDict):
     publishedAt: str | None
     notes: str
     url: str
+
+class Prv_github_GithubProfileReadme_Out(TypedDict):
+    login: str
+    name: str | None
+    company: str | None
+    blog: str | None
+    bio: str | None
+    twitterUsername: str | None
+    profileUrl: str
+    readme: str | None
+    readmeUrl: str | None
+    warnings: list[str]
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -22643,6 +22655,15 @@ class Prv_github(Protocol):
         Unauthenticated calls are capped at 60 requests/hour per IP, the same shared ceiling
         `listCommits` spends against. THROWS on an unknown owner/repo (404) or a rate limit
         (403/429); a repo with no releases yet returns `releases: []`, not a throw.
+        """
+
+    async def getProfileReadme(self, handle: str, /) -> Prv_github_GithubProfileReadme_Out:
+        """Reads a person's own GitHub profile — display name, company, the website they list, bio,
+        X handle — and the raw markdown of their profile README (the `<handle>/<handle>` repo
+        GitHub shows on the profile page), which is where people put a personal site, a booking
+        link or contact details. Takes a username, `@handle` or github.com url. `readme` is null
+        when they have no profile README. Unauthenticated calls share GitHub's 60 requests/hour
+        per IP; this spends two. THROWS on an unknown user or a rate limit.
         """
 
 class Prv_glama(Protocol):

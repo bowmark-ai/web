@@ -8,9 +8,9 @@ One function per row. A capability is the thing you call; it fans out to whichev
 
 | Function | What it does | Providers | Status |
 |---|---|---|---|
-| `booking_links.find` | Finds a person's public booking links from their name. | 3 | 🟢 |
-| `booking_links.read` | Reads a Calendly or Cal.com booking page without booking: who owns it, the events it… | 3 | 🟢 |
-| `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 3 | 🟢 |
+| `booking_links.find` | Finds a person's public booking links from their name. | 4 | 🟢 |
+| `booking_links.read` | Reads a Calendly or Cal.com booking page without booking: who owns it, the events it… | 4 | 🟢 |
+| `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 4 | 🟢 |
 | `bundles.checkAvailability` | Reads every item's product page and returns whether the WHOLE bundle can be built and… | 0 | 🟢 |
 | `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4007500c4ff14838aae125d11a95d32e205ad87d3dcf4a1f543aaaf32830c161
-// 47 capabilities, 404 providers, 993 typed functions, 20 refused.
+// Manifest version: 14e0e80f51c4a6a3ad1795714639d6c7d46f788150e8de1313f6187000d7e51b
+// 47 capabilities, 404 providers, 994 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14911,6 +14911,19 @@ interface GithubListReleasesResult {
   warnings: string[];
 }
 
+interface GithubProfileReadme {
+  login: string;
+  name: string | null;
+  company: string | null;
+  blog: string | null;            // the website they list on their profile
+  bio: string | null;
+  twitterUsername: string | null;
+  profileUrl: string;
+  readme: string | null;          // the profile README's raw markdown; null when they have none
+  readmeUrl: string | null;
+  warnings: string[];
+}
+
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
    * message), paged and windowed; a public repo's release history (tag, name, dates, release
@@ -14942,6 +14955,16 @@ interface GithubListReleasesResult {
      * `releases: []`, not a throw.
      */
     listReleases(owner: string, repo: string, options?: GithubListReleasesOptions): Promise<GithubListReleasesResult>;
+
+    /**
+     * Reads a person's own GitHub profile — display name, company, the website they list, bio, X
+     * handle — and the raw markdown of their profile README (the `<handle>/<handle>` repo GitHub
+     * shows on the profile page), which is where people put a personal site, a booking link or
+     * contact details. Takes a username, `@handle` or github.com url. `readme` is null when they
+     * have no profile README. Unauthenticated calls share GitHub's 60 requests/hour per IP; this
+     * spends two. THROWS on an unknown user or a rate limit.
+     */
+    getProfileReadme(handle: string): Promise<GithubProfileReadme>;
   }
 }
 
