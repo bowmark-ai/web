@@ -6,6 +6,16 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.21.0 (2026-09-14)
+
+**Providers**
+
+- New provider **havenenergy.com** (2 functions): `havenenergy.getPricingPrograms`, `havenenergy.getPropertyDetails`
+- New provider **iyc.com** (2 functions): `iyc.checkCharterAvailability`, `iyc.searchCharterYachts`
+- New provider **postiz.com** (2 functions): `postiz.createPost`, `postiz.listPosts`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.20.0 (2026-09-13)
 
 **Capabilities**
