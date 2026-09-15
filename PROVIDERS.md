@@ -1232,7 +1232,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.listSeasons` | www.primevideo.com | List every season of a series with the titleId that opens each one, its number, its… | ⚪ |
 | `prime_video.listTop10` | www.primevideo.com | Prime Video's own top ten right now — the most-watched TV shows in the US, the top… | ⚪ |
 | `prime_video.searchTitles` | www.primevideo.com | Search Prime Video's whole catalogue for what a person would type — "matrix", "the… | 🟢 |
-| `prime_video.suggestTitles` | www.primevideo.com | Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy"… | ⚪ |
+| `prime_video.suggestTitles` | www.primevideo.com | Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy"… | 🟢 |
 | `prime_video.toggleWatchlist` | www.primevideo.com | Add a title to the caller's watchlist, or take one off it — the one write a person… | ⚪ |
 | `progressive.findAgent` | progressive.com | Finds the independent agents who sell Progressive near a ZIP — name, agency, address… | 🟢 |
 | `progressive.getAtvQuote` | progressive.com | Returns an ATV or UTV insurance quote for the machine and its ZIP — off-road coverage… | ⚪ |
