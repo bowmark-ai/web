@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: da2208e458d06a837bb0e41b73ebe96b5b9666ae190b0ef1a725e2d7cd77bf71
-// 982 checked, 20 unchecked.
+// Manifest version: b67481a8d1aa3ba039792f2d93a95fa66b7140fe4dbfab75c67857526985cbca
+// 983 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "da2208e458d06a837bb0e41b73ebe96b5b9666ae190b0ef1a725e2d7cd77bf71",
+  "version": "b67481a8d1aa3ba039792f2d93a95fa66b7140fe4dbfab75c67857526985cbca",
   "units": {
     "booking_links": {
       "defs": {
@@ -13617,6 +13617,34 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GoogleFlightQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.google_maps": {
+      "defs": {
+        "SuggestPlacesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "suggestPlaces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SuggestPlacesArgs"
             },
             "optional": false
           }

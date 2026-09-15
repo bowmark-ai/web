@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: da2208e458d06a837bb0e41b73ebe96b5b9666ae190b0ef1a725e2d7cd77bf71
-// 48 capabilities, 408 providers, 1000 typed functions, 20 refused.
+// Manifest version: b67481a8d1aa3ba039792f2d93a95fa66b7140fe4dbfab75c67857526985cbca
+// 48 capabilities, 409 providers, 1001 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15358,6 +15358,30 @@ interface GooglePriceGraph {
      * fixed-length stay, so each column carries the return date priced with it.
      */
     getPriceGraph(query: GoogleFlightQuery): Promise<GooglePriceGraph>;
+  }
+}
+
+declare namespace BowmarkProvider_google_maps {
+  // ── Google Maps — the unit's own declarations, verbatim ──
+interface GoogleMapsPlace {
+  featureId: string;
+  name: string;
+}
+interface SuggestPlacesArgs {
+  query: string;
+}
+
+  /**
+   * Local business search on Google Maps — find places by what a person would say, then read the
+   * address, hours, rating, reviews and route. suggestPlaces (autocomplete) is built; everything
+   * else is still a declared stub.
+   */
+  interface Unit {
+    /**
+     * Google Maps' own autocomplete for a half-typed query — what the search box offers while
+     * somebody types. Returns the completed queries, ready to hand to searchPlaces once it lands.
+     */
+    suggestPlaces(args: SuggestPlacesArgs): Promise<string[]>;
   }
 }
 
@@ -33233,6 +33257,7 @@ interface BowmarkProviders {
   goloadup: BowmarkProvider_goloadup.Unit;
   goodway: BowmarkProvider_goodway.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
+  google_maps: BowmarkProvider_google_maps.Unit;
   gostoreit: BowmarkProvider_gostoreit.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;

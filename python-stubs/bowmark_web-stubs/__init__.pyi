@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: da2208e458d06a837bb0e41b73ebe96b5b9666ae190b0ef1a725e2d7cd77bf71
-# 48 capabilities, 408 providers, 982 typed functions, 20 refused.
+# Manifest version: b67481a8d1aa3ba039792f2d93a95fa66b7140fe4dbfab75c67857526985cbca
+# 48 capabilities, 409 providers, 983 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8287,6 +8287,9 @@ class Prv_google_flights_GooglePricePoint_Out(TypedDict):
     returnDate: str | None
     price: float | None
     currency: str
+
+class Prv_google_maps_SuggestPlacesArgs_In(TypedDict):
+    query: str
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -22877,6 +22880,18 @@ class Prv_google_flights(Protocol):
         it.
         """
 
+class Prv_google_maps(Protocol):
+    """Local business search on Google Maps — find places by what a person would say, then read
+    the address, hours, rating, reviews and route. suggestPlaces (autocomplete) is built;
+    everything else is still a declared stub.
+    """
+
+    async def suggestPlaces(self, args: Prv_google_maps_SuggestPlacesArgs_In, /) -> list[str]:
+        """Google Maps' own autocomplete for a half-typed query — what the search box offers while
+        somebody types. Returns the completed queries, ready to hand to searchPlaces once it
+        lands.
+        """
+
 class Prv_gostoreit(Protocol):
     """Go Store It — live public self-storage unit inventory, amenity details, and monthly
     online prices from a chosen facility.
@@ -29195,6 +29210,7 @@ class BowmarkProviders(Protocol):
     goloadup: Prv_goloadup
     goodway: Prv_goodway
     google_flights: Prv_google_flights
+    google_maps: Prv_google_maps
     gostoreit: Prv_gostoreit
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger

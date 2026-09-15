@@ -112,8 +112,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `azure.listVmSizes` | azure.microsoft.com | Returns Azure's virtual-machine SKUs with the specifications a sizing decision is… | ⚪ |
 | `bankmycell.getTradeInQuote` | bankmycell.com | Reads live trade-in offers for a device's bankmycell.com sell page from every merchant… | 🟢 |
 | `bankmycell.searchDevices` | bankmycell.com | Searches BankMyCell's own device index by free text (e.g. "iPhone 14") and returns… | 🟢 |
-| `barletta.getConfigurator` | barlettapontoonboats.com | Reads one model's whole builder: every option group (Railskin Color, Furniture… | 🟡 |
-| `barletta.priceConfiguration` | barlettapontoonboats.com | Prices a specific build (a choice per option group) against getConfigurator's live… | 🟡 |
+| `barletta.getConfigurator` | barlettapontoonboats.com | Reads one model's whole builder: every option group (Railskin Color, Furniture… | 🟢 |
+| `barletta.priceConfiguration` | barlettapontoonboats.com | Prices a specific build (a choice per option group) against getConfigurator's live… | 🟢 |
 | `barletta.searchModels` | barlettapontoonboats.com | Lists every current Barletta floorplan from the public "Build Your Pontoon Boat"… | 🟢 |
 | `barnesfoundation.getAdmissionCalendar` | visit.barnesfoundation.org | Reads the live open/closed status for every published date (a rolling ~6-month window)… | 🟢 |
 | `barnesfoundation.priceAdmission` | visit.barnesfoundation.org | Computes the real ticket total for a set of admission-category quantities… | 🟢 |
@@ -675,7 +675,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | ⚪ |
 | `google_maps.searchPlaces` | google.com/maps | The entry point. | ⚪ |
 | `google_maps.suggestPlaceEdit` | google.com/maps | Send Google a correction about a place — wrong hours, wrong address, permanently… | ⚪ |
-| `google_maps.suggestPlaces` | google.com/maps | Google Maps' own autocomplete for a half-typed query — what the search box offers… | ⚪ |
+| `google_maps.suggestPlaces` | google.com/maps | Google Maps' own autocomplete for a half-typed query — what the search box offers… | 🟢 |
 | `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | ⚪ |
 | `google_news.followTopic` | news.google.com | Follow a topic, a place or a publisher as the signed-in person — how a Google News… | ⚪ |
 | `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | ⚪ |
