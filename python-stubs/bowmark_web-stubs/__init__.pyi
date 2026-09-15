@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 414317c86300844acbb14f0cd17bbec93557cf5544e0431815b7835be8676b84
-# 48 capabilities, 410 providers, 987 typed functions, 20 refused.
+# Manifest version: 40511f20299edcdd7bded08679ce232d615267dd72c5e5616fd2fa0154d410b7
+# 48 capabilities, 410 providers, 988 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8319,6 +8319,30 @@ class Prv_google_maps_GeocodeAddressResult_Out(TypedDict):
 class Prv_google_maps_GeocodeAddressResult_Out_coordinates_u0_Out(TypedDict):
     lat: float
     lng: float
+
+class Prv_google_maps_GetPlaceArgs_In(TypedDict):
+    query: str
+
+class Prv_google_maps_GetPlaceResult_Out(TypedDict):
+    featureId: str
+    name: str
+    address: str
+    coordinates: Prv_google_maps_GetPlaceResult_Out_coordinates_u0_Out | None
+    categories: list[str]
+    neighborhood: NotRequired[str]
+    phone: NotRequired[str]
+    website: NotRequired[str]
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+    hours: NotRequired[list[Prv_google_maps_GetPlaceResult_Out_hours_item_Out]]
+
+class Prv_google_maps_GetPlaceResult_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_google_maps_GetPlaceResult_Out_hours_item_Out(TypedDict):
+    day: str
+    hours: list[str]
 
 class Prv_google_news_GoogleNewsSearchResult_Out(TypedDict):
     query: str
@@ -22934,8 +22958,8 @@ class Prv_google_flights(Protocol):
 class Prv_google_maps(Protocol):
     """Local business search on Google Maps — find places by what a person would say, then read
     the address, hours, rating, reviews and route. suggestPlaces (autocomplete),
-    searchPlaces (the door) and geocodeAddress are built; everything else is still a
-    declared stub.
+    searchPlaces (the door), geocodeAddress and getPlace are built; everything else is still
+    a declared stub.
     """
 
     async def suggestPlaces(self, args: Prv_google_maps_SuggestPlacesArgs_In, /) -> list[str]:
@@ -22957,6 +22981,16 @@ class Prv_google_maps(Protocol):
         feature id and its coordinates out. Rides the same door as searchPlaces (a second
         reading of the same response), so it only resolves a query that names ONE place; a
         category or list-style query throws.
+        """
+
+    async def getPlace(self, args: Prv_google_maps_GetPlaceArgs_In, /) -> Prv_google_maps_GetPlaceResult_Out:
+        """Everything Google Maps shows on one business's panel — name, full address, coordinates,
+        category, neighborhood, phone, website, rating, review count and weekly hours, each
+        present only when the site's own response carried it. A THIRD reading of searchPlaces'
+        door: takes the same resolving query geocodeAddress does (typically a name plus address,
+        since this does not take a feature id — measured live, neither the raw id nor a cid
+        string resolves through this door), and throws when the query names a category or list
+        rather than one business.
         """
 
 class Prv_google_news(Protocol):

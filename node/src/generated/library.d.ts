@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 414317c86300844acbb14f0cd17bbec93557cf5544e0431815b7835be8676b84
-// 48 capabilities, 410 providers, 1005 typed functions, 20 refused.
+// Manifest version: 40511f20299edcdd7bded08679ce232d615267dd72c5e5616fd2fa0154d410b7
+// 48 capabilities, 410 providers, 1006 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15391,11 +15391,27 @@ interface GeocodeAddressResult {
   formattedAddress: string;
   coordinates: { lat: number; lng: number } | null;
 }
+interface GetPlaceArgs {
+  query: string;
+}
+interface GetPlaceResult {
+  featureId: string;
+  name: string;
+  address: string;
+  coordinates: { lat: number; lng: number } | null;
+  categories: string[];
+  neighborhood?: string;
+  phone?: string;
+  website?: string;
+  rating?: number;
+  reviewCount?: number;
+  hours?: { day: string; hours: string[] }[];
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
    * address, hours, rating, reviews and route. suggestPlaces (autocomplete), searchPlaces (the
-   * door) and geocodeAddress are built; everything else is still a declared stub.
+   * door), geocodeAddress and getPlace are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -15420,6 +15436,16 @@ interface GeocodeAddressResult {
      * list-style query throws.
      */
     geocodeAddress(args: GeocodeAddressArgs): Promise<GeocodeAddressResult>;
+
+    /**
+     * Everything Google Maps shows on one business's panel — name, full address, coordinates,
+     * category, neighborhood, phone, website, rating, review count and weekly hours, each present
+     * only when the site's own response carried it. A THIRD reading of searchPlaces' door: takes
+     * the same resolving query geocodeAddress does (typically a name plus address, since this does
+     * not take a feature id — measured live, neither the raw id nor a cid string resolves through
+     * this door), and throws when the query names a category or list rather than one business.
+     */
+    getPlace(args: GetPlaceArgs): Promise<GetPlaceResult>;
   }
 }
 

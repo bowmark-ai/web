@@ -685,7 +685,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.addMissingPlace` | google.com/maps | Add a business Google Maps does not list yet — name, address, category and hours —… | ⚪ |
 | `google_maps.geocodeAddress` | google.com/maps | A street address or place name in, coordinates and the matching Google Maps place out. | 🟢 |
 | `google_maps.getDirections` | google.com/maps | Route between two places — distance, duration, the step-by-step turns and the… | ⚪ |
-| `google_maps.getPlace` | google.com/maps | Everything Google Maps shows on one business's panel, from a feature id searchPlaces… | ⚪ |
+| `google_maps.getPlace` | google.com/maps | Everything Google Maps shows on one business's panel: name, full address, coordinates… | 🟢 |
 | `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | ⚪ |
 | `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in person has contributed, with… | ⚪ |
 | `google_maps.listPhotos` | google.com/maps | The photos attached to a place — the business's own and the ones visitors uploaded —… | ⚪ |

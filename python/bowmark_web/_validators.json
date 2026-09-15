@@ -1,5 +1,5 @@
 {
-  "version": "414317c86300844acbb14f0cd17bbec93557cf5544e0431815b7835be8676b84",
+  "version": "40511f20299edcdd7bded08679ce232d615267dd72c5e5616fd2fa0154d410b7",
   "units": {
     "booking_links": {
       "defs": {
@@ -13625,6 +13625,18 @@
             }
           ]
         },
+        "GetPlaceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchPlacesArgs": {
           "k": "object",
           "props": [
@@ -13677,6 +13689,16 @@
             "schema": {
               "k": "ref",
               "name": "GeocodeAddressArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlace": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPlaceArgs"
             },
             "optional": false
           }
