@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1441 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1457 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -677,6 +677,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.suggestPlaceEdit` | google.com/maps | Send Google a correction about a place — wrong hours, wrong address, permanently… | ⚪ |
 | `google_maps.suggestPlaces` | google.com/maps | Google Maps' own autocomplete for a half-typed query — what the search box offers… | ⚪ |
 | `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | ⚪ |
+| `google_news.followTopic` | news.google.com | Follow a topic, a place or a publisher as the signed-in person — how a Google News… | ⚪ |
+| `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | ⚪ |
+| `google_news.getFullCoverage` | news.google.com | Google News' Full Coverage for one story — every outlet reporting it, with each one's… | ⚪ |
+| `google_news.getTopicHeadlines` | news.google.com | The headlines under any Google News topic id — the entity and interest topics (a… | ⚪ |
+| `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | ⚪ |
+| `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, as Google News'… | ⚪ |
+| `google_news.listLocalHeadlines` | news.google.com | What is being reported in one place — the local-news section for a city or region, by… | ⚪ |
+| `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — reuters.com, apnews.com, a… | ⚪ |
+| `google_news.listSavedArticles` | news.google.com | The articles the signed-in person saved for later — Google News' own reading list… | ⚪ |
+| `google_news.listStories` | news.google.com | The story clusters Google News is running right now, as ids — the front page and any… | ⚪ |
+| `google_news.listTopicHeadlines` | news.google.com | The latest headlines in one of Google News' own eight sections — World, Nation… | ⚪ |
+| `google_news.listTopics` | news.google.com | The topics Google News itself offers — the eight standing sections plus the entity and… | ⚪ |
+| `google_news.resolveArticleUrl` | news.google.com | The publisher's real article URL behind a Google News link. | ⚪ |
+| `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | ⚪ |
+| `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | ⚪ |
+| `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | ⚪ |
 | `google.search` | google.com | Runs a Google web search and returns the ranked results — title, destination url and… | ⚪ |
 | `gostoreit.findFacilities` | gostoreit.com | Searches Go Store It's public location results by a city, state, or ZIP and returns… | 🟢 |
 | `gostoreit.getFacilityUnits` | gostoreit.com | Reads a public Go Store It facility URL's live rendered unit inventory: size… | 🟢 |
