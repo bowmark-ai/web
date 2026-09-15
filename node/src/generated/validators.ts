@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6
-// 1009 checked, 20 unchecked.
+// Manifest version: 13b890b8f0b06ac315c33c214656eb5bbdfc44ea7e9d97893b5f869658735073
+// 1013 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6",
+  "version": "13b890b8f0b06ac315c33c214656eb5bbdfc44ea7e9d97893b5f869658735073",
   "units": {
     "booking_links": {
       "defs": {
@@ -4475,6 +4475,33 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetAppArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "app",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchAppsArgs": {
           "k": "object",
           "props": [
@@ -4535,6 +4562,16 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getApp": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAppArgs"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -4580,6 +4617,15 @@ export const VALIDATORS: ValidatorTable = {
         "searchSupport": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "resolveLocation": [
+          {
+            "name": "place",
             "schema": {
               "k": "string"
             },
@@ -13880,6 +13926,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListRelatedPlacesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListReviewsArgs": {
           "k": "object",
           "props": [
@@ -13964,6 +14022,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listRelatedPlaces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListRelatedPlacesArgs"
             },
             "optional": false
           }
@@ -22009,6 +22077,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getWatchOptions": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listSeasons": [
           {
             "name": "titleId",
             "schema": {

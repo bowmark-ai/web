@@ -1,5 +1,5 @@
 {
-  "version": "252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6",
+  "version": "13b890b8f0b06ac315c33c214656eb5bbdfc44ea7e9d97893b5f869658735073",
   "units": {
     "booking_links": {
       "defs": {
@@ -4463,6 +4463,33 @@
             }
           ]
         },
+        "GetAppArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "app",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchAppsArgs": {
           "k": "object",
           "props": [
@@ -4523,6 +4550,16 @@
             },
             "optional": false
           }
+        ],
+        "getApp": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAppArgs"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -4568,6 +4605,15 @@
         "searchSupport": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "resolveLocation": [
+          {
+            "name": "place",
             "schema": {
               "k": "string"
             },
@@ -13868,6 +13914,18 @@
             }
           ]
         },
+        "ListRelatedPlacesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListReviewsArgs": {
           "k": "object",
           "props": [
@@ -13952,6 +14010,16 @@
             "schema": {
               "k": "ref",
               "name": "ListReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listRelatedPlaces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListRelatedPlacesArgs"
             },
             "optional": false
           }
@@ -21997,6 +22065,15 @@
           }
         ],
         "getWatchOptions": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listSeasons": [
           {
             "name": "titleId",
             "schema": {

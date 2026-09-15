@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6
-// 48 capabilities, 414 providers, 1027 typed functions, 20 refused.
+// Manifest version: 13b890b8f0b06ac315c33c214656eb5bbdfc44ea7e9d97893b5f869658735073
+// 48 capabilities, 414 providers, 1031 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4452,6 +4452,10 @@ interface AppStoreSearchResult {
   total: number;
   apps: AppStoreApp[];
 }
+interface GetAppArgs {
+  app: string | number;
+  country?: string;
+}
 
   /**
    * Search every iPhone, iPad and Mac app Apple lists, read one app's price, rating, reviews,
@@ -4466,6 +4470,14 @@ interface AppStoreSearchResult {
      * in this provider is fed by an id this returns.
      */
     searchApps(args: SearchAppsArgs): Promise<AppStoreSearchResult>;
+
+    /**
+     * Read one app the way its store listing reads: name, developer, price, average rating and
+     * rating count, category, and the id every other function here takes — from a numeric app id,
+     * its bundle id, or an apps.apple.com URL a person pasted. The core read of the provider, and
+     * the cheapest call in it.
+     */
+    getApp(args: GetAppArgs): Promise<AppStoreApp>;
   }
 }
 
@@ -4519,6 +4531,18 @@ interface AppleSupportSearchResponse {
   results: AppleSupportResult[];
   totalResults: number;
 }
+interface AppleLocationSuggestion {
+  displayValue: string;
+  city: string;
+  state: string;
+}
+interface AppleResolvedLocation {
+  place: string;
+  location: string;
+  city: string;
+  state: string;
+  alternates: AppleLocationSuggestion[];
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -4559,6 +4583,15 @@ interface AppleSupportSearchResponse {
      * getSupportArticle reads one page in full.
      */
     searchSupport(query: string): Promise<AppleSupportSearchResponse>;
+
+    /**
+     * Turns the place a person said — "cupertino", "san francisco" — into the exact "<city>,
+     * <state>" string apple.com's own store and delivery lookups accept, off apple.com's own
+     * location typeahead. A DOOR HOP: the small step that makes findStoresNear,
+     * getPickupAvailability and getDeliveryEstimate callable from words alone instead of a
+     * pre-resolved location string.
+     */
+    resolveLocation(place: string): Promise<AppleResolvedLocation>;
   }
 }
 
@@ -15606,6 +15639,17 @@ interface Review {
   text: string;
   relativeDate?: string;
 }
+interface ListRelatedPlacesArgs {
+  query: string;
+}
+interface RelatedPlace {
+  featureId: string;
+  name: string;
+  coordinates: { lat: number; lng: number } | null;
+  categories: string[];
+  rating?: number;
+  reviewCount?: number;
+}
 interface GetDirectionsArgs {
   origin: string;
   destination: string;
@@ -15626,9 +15670,9 @@ interface GetDirectionsResult {
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
-   * address, hours, rating, reviews and route. suggestPlaces (autocomplete), searchPlaces (the
-   * door), geocodeAddress, getPlace, listReviews and getDirections are built; everything else is
-   * still a declared stub.
+   * address, hours, rating, reviews, co-located tenants and route. suggestPlaces (autocomplete),
+   * searchPlaces (the door), geocodeAddress, getPlace, listReviews, listRelatedPlaces and
+   * getDirections are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -15675,6 +15719,18 @@ interface GetDirectionsResult {
      * place.
      */
     listReviews(args: ListReviewsArgs): Promise<Review[]>;
+
+    /**
+     * Other businesses Google Maps lists "At this place" — the site's own label for a shared
+     * address, not the "people also search for" competitor set the survey planned. A FIFTH reading
+     * of searchPlaces' door (the same record getPlace reads, at [204]). Verified 2026-09-15:
+     * `null` for an ordinary standalone business (confirmed against four, including Analog Coffee
+     * and Pike Place Market), populated only for a multi-tenant venue — Space Needle's own gift
+     * shop, café and lounge; a 61-store list for Westlake Center mall. Returns [] for a
+     * single-business query rather than throwing; throws only when the query itself does not
+     * resolve to one place.
+     */
+    listRelatedPlaces(args: ListRelatedPlacesArgs): Promise<RelatedPlace[]>;
 
     /**
      * A DIFFERENT door from searchPlaces' — www.google.com/maps/preview/directions, its own
@@ -25885,6 +25941,13 @@ interface PrimeVideoWatchOptions {
   channel: { name: string; link: string } | null;
   offers: PrimeVideoWatchOffer[];
 }
+interface PrimeVideoSeason {
+  seasonId: string;
+  seasonLink: string;
+  displayName: string;
+  sequenceNumber: number;
+  seasonSelectorIcon: string | null;
+}
 interface PrimeVideoCredit {
   name: string;
   searchLink: string | null;
@@ -25930,8 +25993,8 @@ interface PrimeVideoTitleDetail {
    * included with Prime, free with ads, on a named add-on channel, or rentable and buyable with
    * the real price. Plus the browse surfaces (genres, collections, the top ten, this week's
    * deals), the add-on channels, and the free live TV, news and sports schedules. searchTitles,
-   * suggestTitles, getTitle and getWatchOptions are built; everything else is still a declared
-   * stub.
+   * suggestTitles, getTitle, getWatchOptions and listSeasons are built; everything else is still
+   * a declared stub.
    */
   interface Unit {
     /**
@@ -25978,6 +26041,17 @@ interface PrimeVideoTitleDetail {
      * payment step, always.
      */
     getWatchOptions(titleId: string): Promise<PrimeVideoWatchOptions>;
+
+    /**
+     * List every season of a series with the titleId that opens each one, its number, its display
+     * name, and whether it needs paying for beyond what the current season needs. What an agent
+     * needs when the person said "season 4" and the search returned whichever season Prime Video
+     * ranked first. Takes a titleId or a title URL, e.g. one read off searchTitles() or
+     * getTitle(). Reads the SAME cached page as getTitle and getWatchOptions, never fetches it
+     * twice. A film returns an empty array — a real, measured answer, since a film's own /detail/
+     * page carries no seasons at all.
+     */
+    listSeasons(titleId: string): Promise<PrimeVideoSeason[]>;
   }
 }
 

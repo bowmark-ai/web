@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6
-# 48 capabilities, 414 providers, 1009 typed functions, 20 refused.
+# Manifest version: 13b890b8f0b06ac315c33c214656eb5bbdfc44ea7e9d97893b5f869658735073
+# 48 capabilities, 414 providers, 1013 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2462,6 +2462,10 @@ class Prv_app_store_AppStoreApp_Out_rating_u0_Out(TypedDict):
     average: float
     count: float
 
+class Prv_app_store_GetAppArgs_In(TypedDict):
+    app: str | float
+    country: NotRequired[str]
+
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
     results: list[Prv_apple_AppleSearchResult_Out]
@@ -2513,6 +2517,18 @@ class Prv_apple_AppleSupportResult_Out(TypedDict):
     title: str
     url: str
     snippet: str
+
+class Prv_apple_AppleResolvedLocation_Out(TypedDict):
+    place: str
+    location: str
+    city: str
+    state: str
+    alternates: list[Prv_apple_AppleLocationSuggestion_Out]
+
+class Prv_apple_AppleLocationSuggestion_Out(TypedDict):
+    displayValue: str
+    city: str
+    state: str
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -8464,6 +8480,21 @@ class Prv_google_maps_Review_Out(TypedDict):
     text: str
     relativeDate: NotRequired[str]
 
+class Prv_google_maps_ListRelatedPlacesArgs_In(TypedDict):
+    query: str
+
+class Prv_google_maps_RelatedPlace_Out(TypedDict):
+    featureId: str
+    name: str
+    coordinates: Prv_google_maps_RelatedPlace_Out_coordinates_u0_Out | None
+    categories: list[str]
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+
+class Prv_google_maps_RelatedPlace_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
+
 class Prv_google_maps_GetDirectionsArgs_In(TypedDict):
     origin: str
     destination: str
@@ -13599,6 +13630,13 @@ class Prv_prime_video_PrimeVideoWatchOffer_Out_price_u0_Out(TypedDict):
 class Prv_prime_video_PrimeVideoWatchOffer_Out_channel_u0_Out(TypedDict):
     benefitId: str
     link: str
+
+class Prv_prime_video_PrimeVideoSeason_Out(TypedDict):
+    seasonId: str
+    seasonLink: str
+    displayName: str
+    sequenceNumber: float
+    seasonSelectorIcon: str | None
 
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
@@ -19191,6 +19229,13 @@ class Prv_app_store(Protocol):
         function in this provider is fed by an id this returns.
         """
 
+    async def getApp(self, args: Prv_app_store_GetAppArgs_In, /) -> Prv_app_store_AppStoreApp_Out:
+        """Read one app the way its store listing reads: name, developer, price, average rating and
+        rating count, category, and the id every other function here takes — from a numeric app
+        id, its bundle id, or an apps.apple.com URL a person pasted. The core read of the
+        provider, and the cheapest call in it.
+        """
+
 class Prv_apple(Protocol):
     """apple.com's own site search and product pages — no API, no login, no browser."""
 
@@ -19225,6 +19270,14 @@ class Prv_apple(Protocol):
         Guide pages and Apple Support Community threads mixed in one list, each with its
         document id, title, URL and a plain-text snippet. A DOOR: the way into the support half
         of this provider before getSupportArticle reads one page in full.
+        """
+
+    async def resolveLocation(self, place: str, /) -> Prv_apple_AppleResolvedLocation_Out:
+        """Turns the place a person said — "cupertino", "san francisco" — into the exact "<city>,
+        <state>" string apple.com's own store and delivery lookups accept, off apple.com's own
+        location typeahead. A DOOR HOP: the small step that makes findStoresNear,
+        getPickupAvailability and getDeliveryEstimate callable from words alone instead of a
+        pre-resolved location string.
         """
 
 class Prv_aquaphoenixsci(Protocol):
@@ -23302,9 +23355,9 @@ class Prv_google_flights(Protocol):
 
 class Prv_google_maps(Protocol):
     """Local business search on Google Maps — find places by what a person would say, then read
-    the address, hours, rating, reviews and route. suggestPlaces (autocomplete),
-    searchPlaces (the door), geocodeAddress, getPlace, listReviews and getDirections are
-    built; everything else is still a declared stub.
+    the address, hours, rating, reviews, co-located tenants and route. suggestPlaces
+    (autocomplete), searchPlaces (the door), geocodeAddress, getPlace, listReviews,
+    listRelatedPlaces and getDirections are built; everything else is still a declared stub.
     """
 
     async def suggestPlaces(self, args: Prv_google_maps_SuggestPlacesArgs_In, /) -> list[str]:
@@ -23347,6 +23400,17 @@ class Prv_google_maps(Protocol):
         fetched are already sitting in the panel response. Takes the same resolving query
         getPlace does. Returns [] for a place with no reviews rather than throwing; throws only
         when the query itself does not resolve to one place.
+        """
+
+    async def listRelatedPlaces(self, args: Prv_google_maps_ListRelatedPlacesArgs_In, /) -> list[Prv_google_maps_RelatedPlace_Out]:
+        """Other businesses Google Maps lists "At this place" — the site's own label for a shared
+        address, not the "people also search for" competitor set the survey planned. A FIFTH
+        reading of searchPlaces' door (the same record getPlace reads, at [204]). Verified
+        2026-09-15: `null` for an ordinary standalone business (confirmed against four,
+        including Analog Coffee and Pike Place Market), populated only for a multi-tenant venue
+        — Space Needle's own gift shop, café and lounge; a 61-store list for Westlake Center
+        mall. Returns [] for a single-business query rather than throwing; throws only when the
+        query itself does not resolve to one place.
         """
 
     async def getDirections(self, args: Prv_google_maps_GetDirectionsArgs_In, /) -> Prv_google_maps_GetDirectionsResult_Out:
@@ -27045,8 +27109,8 @@ class Prv_prime_video(Protocol):
     watched: included with Prime, free with ads, on a named add-on channel, or rentable and
     buyable with the real price. Plus the browse surfaces (genres, collections, the top ten,
     this week's deals), the add-on channels, and the free live TV, news and sports
-    schedules. searchTitles, suggestTitles, getTitle and getWatchOptions are built;
-    everything else is still a declared stub.
+    schedules. searchTitles, suggestTitles, getTitle, getWatchOptions and listSeasons are
+    built; everything else is still a declared stub.
     """
 
     async def searchTitles(self, query: str, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
@@ -27090,6 +27154,16 @@ class Prv_prime_video(Protocol):
         off searchTitles() or getTitle(). Reads the SAME page as getTitle, never fetches it
         twice. Placing any of these orders is never a function of this provider — a flow that
         costs money stops before the payment step, always.
+        """
+
+    async def listSeasons(self, titleId: str, /) -> list[Prv_prime_video_PrimeVideoSeason_Out]:
+        """List every season of a series with the titleId that opens each one, its number, its
+        display name, and whether it needs paying for beyond what the current season needs. What
+        an agent needs when the person said "season 4" and the search returned whichever season
+        Prime Video ranked first. Takes a titleId or a title URL, e.g. one read off
+        searchTitles() or getTitle(). Reads the SAME cached page as getTitle and
+        getWatchOptions, never fetches it twice. A film returns an empty array — a real,
+        measured answer, since a film's own /detail/ page carries no seasons at all.
         """
 
 class Prv_progressive(Protocol):
