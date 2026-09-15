@@ -1,5 +1,5 @@
 {
-  "version": "59359f905f58074c59dfd9490990b8f34d2359c82d8b4bb2c18a0a1ef2c501e8",
+  "version": "1b0a961bc1715a907ab0f6e795acb6a51d3203cc66f3004e6634d186eabc2d9c",
   "units": {
     "booking_links": {
       "defs": {
@@ -10125,6 +10125,34 @@
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dell": {
+      "defs": {
+        "SearchForumThreadsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchForumThreads": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchForumThreadsArgs"
             },
             "optional": false
           }

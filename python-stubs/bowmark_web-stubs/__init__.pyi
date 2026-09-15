@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 59359f905f58074c59dfd9490990b8f34d2359c82d8b4bb2c18a0a1ef2c501e8
-# 48 capabilities, 405 providers, 978 typed functions, 20 refused.
+# Manifest version: 1b0a961bc1715a907ab0f6e795acb6a51d3203cc66f3004e6634d186eabc2d9c
+# 48 capabilities, 406 providers, 979 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6212,6 +6212,14 @@ class Prv_decksdirect_DdCartHandoff_Out(TypedDict):
 class Prv_decksdirect_DdCartHandoff_Out_applied_item_Out(TypedDict):
     group: str
     choice: str
+
+class Prv_dell_SearchForumThreadsArgs_In(TypedDict):
+    query: str
+
+class Prv_dell_DellForumThread_Out(TypedDict):
+    title: str
+    url: str
+    postCount: float
 
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
     zip: str
@@ -21365,6 +21373,12 @@ class Prv_decksdirect(Protocol):
         requires a session-bound form key this stateless call does not hold.
         """
 
+class Prv_dell(Protocol):
+    """Search Dell's community forum for discussion threads."""
+
+    async def searchForumThreads(self, args: Prv_dell_SearchForumThreadsArgs_In, /) -> list[Prv_dell_DellForumThread_Out]:
+        """Search Dell community forums for threads matching a query."""
+
 class Prv_deltadentalma(Protocol):
     """Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network
     dentists and clinics near a ZIP — the same live provider data the site's `/fad/search`
@@ -29039,6 +29053,7 @@ class BowmarkProviders(Protocol):
     deangroup: Prv_deangroup
     decked: Prv_decked
     decksdirect: Prv_decksdirect
+    dell: Prv_dell
     deltadentalma: Prv_deltadentalma
     dentalplans: Prv_dentalplans
     detailxperts: Prv_detailxperts

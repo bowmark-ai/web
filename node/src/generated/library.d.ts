@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 59359f905f58074c59dfd9490990b8f34d2359c82d8b4bb2c18a0a1ef2c501e8
-// 48 capabilities, 405 providers, 996 typed functions, 20 refused.
+// Manifest version: 1b0a961bc1715a907ab0f6e795acb6a51d3203cc66f3004e6634d186eabc2d9c
+// 48 capabilities, 406 providers, 997 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11357,6 +11357,25 @@ interface DdCartHandoff {
      * session-bound form key this stateless call does not hold.
      */
     addToCart(urlKey: string, selections: Record<string, string>): Promise<DdCartHandoff>;
+  }
+}
+
+declare namespace BowmarkProvider_dell {
+  // ── Dell — the unit's own declarations, verbatim ──
+interface SearchForumThreadsArgs {
+  query: string;
+}
+
+interface DellForumThread {
+  title: string;
+  url: string;
+  postCount: number;
+}
+
+  /** Search Dell's community forum for discussion threads. */
+  interface Unit {
+    /** Search Dell community forums for threads matching a query. */
+    searchForumThreads(args: SearchForumThreadsArgs): Promise<DellForumThread[]>;
   }
 }
 
@@ -33056,6 +33075,7 @@ interface BowmarkProviders {
   deangroup: BowmarkProvider_deangroup.Unit;
   decked: BowmarkProvider_decked.Unit;
   decksdirect: BowmarkProvider_decksdirect.Unit;
+  dell: BowmarkProvider_dell.Unit;
   deltadentalma: BowmarkProvider_deltadentalma.Unit;
   dentalplans: BowmarkProvider_dentalplans.Unit;
   detailxperts: BowmarkProvider_detailxperts.Unit;

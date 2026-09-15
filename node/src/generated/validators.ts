@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 59359f905f58074c59dfd9490990b8f34d2359c82d8b4bb2c18a0a1ef2c501e8
-// 978 checked, 20 unchecked.
+// Manifest version: 1b0a961bc1715a907ab0f6e795acb6a51d3203cc66f3004e6634d186eabc2d9c
+// 979 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "59359f905f58074c59dfd9490990b8f34d2359c82d8b4bb2c18a0a1ef2c501e8",
+  "version": "1b0a961bc1715a907ab0f6e795acb6a51d3203cc66f3004e6634d186eabc2d9c",
   "units": {
     "booking_links": {
       "defs": {
@@ -10137,6 +10137,34 @@ export const VALIDATORS: ValidatorTable = {
               "value": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.dell": {
+      "defs": {
+        "SearchForumThreadsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchForumThreads": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchForumThreadsArgs"
             },
             "optional": false
           }
