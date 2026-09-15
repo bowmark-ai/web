@@ -709,7 +709,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — reuters.com, apnews.com, a… | ⚪ |
 | `google_news.listSavedArticles` | news.google.com | The articles the signed-in person saved for later — Google News' own reading list… | ⚪ |
 | `google_news.listStories` | news.google.com | The story clusters Google News is running right now, as ids — the front page and any… | ⚪ |
-| `google_news.listTopicHeadlines` | news.google.com | The latest headlines in one of Google News' own eight sections — World, Nation… | ⚪ |
+| `google_news.listTopicHeadlines` | news.google.com | The latest headlines in one of Google News' own eight sections — World, Nation… | 🟢 |
 | `google_news.listTopics` | news.google.com | The topics Google News itself offers — the eight standing sections plus the entity and… | ⚪ |
 | `google_news.resolveArticleUrl` | news.google.com | The publisher's real article URL behind a Google News link. | ⚪ |
 | `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | ⚪ |
