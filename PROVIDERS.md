@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1555 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1557 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -729,7 +729,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.listRelatedPlaces` | google.com/maps | Other businesses Google Maps lists "At this place" — the site's own label for a shared… | 🟢 |
 | `google_maps.listReviews` | google.com/maps | The reviews Google Maps shows on a business's own panel — up to 5, each with author… | 🟢 |
 | `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in person saved — Favourites, Want to go, Starred and their own… | ⚪ |
-| `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a /maps/place/ url… | ⚪ |
+| `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a full /maps/place/… | 🟢 |
 | `google_maps.reverseGeocode` | google.com/maps | Coordinates in, the street address and the place that sits there out — what Maps shows… | ⚪ |
 | `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | ⚪ |
 | `google_maps.searchPlaces` | google.com/maps | The door every other Maps function chains off. | 🟢 |
@@ -1471,6 +1471,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twiddy.getRentalDetail` | twiddy.com | Reads one rental's own detail page in full — description, address, pets-allowed flag… | 🟢 |
 | `twiddy.getRentalQuote` | twiddy.com | Runs the site's own real-time weekly pricing engine for one property and a check-in… | 🟢 |
 | `twiddy.searchRentals` | twiddy.com | Runs Twiddy's own Outer Banks vacation rental search (all 1,000+ managed properties in… | 🟢 |
+| `twitch.createHighlight` | twitch.tv | Cuts a permanent Highlight from the signed-in streamer's own broadcast, including the… | 🟢 |
+| `twitch.getVideo` | twitch.tv | Reads one public Twitch video by id or twitch.tv/videos link: title, length in… | 🟢 |
 | `ubereats.getCheckoutTotal` | ubereats.com | Would open a specific restaurant, add real menu items to the cart, set a delivery… | ⚪ |
 | `ubereats.search` | ubereats.com | Would run Uber Eats' own restaurant search for a free-text query + address and return… | ⚪ |
 | `uhc_smallbusiness.getGroupHealthQuote` | smallbusiness.uhc.com | Real level-funded and fully-insured small-group health plan premiums for a ZIP code… | 🟢 |

@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 67 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 68 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -66,6 +66,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `sheds.listStyles` | Lists every building style each maker actually offers — its customer-facing name, the… | 1 | 🟢 |
 | `sheds.quote` | Prices a building at a real size for a real zip, exactly the way the maker's own… | 1 | 🟢 |
 | `shipping.estimate` | Prices a domestic package — `{ fromZip: "20024", toZip: "10001", weightOz: 16 }` —… | 2 | 🟢 |
+| `stream_highlights.create` | Cuts a highlight from [startSeconds, endSeconds] of the signed-in streamer's broadcast… | 1 | 🟢 |
 | `tariff.lookup` | Looks up an HS/HTS code (e.g. "6109.10.00") and returns its description, Column 1… | 0 | 🟢 |
 | `text_to_speech.cloneVoice` | Creates a new voice cloned from one or more audio sample URLs (`options.sampleUrls`) —… | 1 | 🟢 |
 | `text_to_speech.synthesize` | Converts `text` into spoken audio, base64-encoded, in an existing or previously-cloned… | 1 | 🟢 |
