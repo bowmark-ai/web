@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 29802fc741d7366170edac54a71e247b6624e420dd6cd04b2cd9428e55133590
-# 48 capabilities, 412 providers, 993 typed functions, 20 refused.
+# Manifest version: 4623db3b0641253df64c5bbe7c99fd79a27eda69d57916ea487a7433f688d90d
+# 48 capabilities, 412 providers, 994 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8371,6 +8371,23 @@ class Prv_google_maps_Review_Out(TypedDict):
     rating: float
     text: str
     relativeDate: NotRequired[str]
+
+class Prv_google_maps_GetDirectionsArgs_In(TypedDict):
+    origin: str
+    destination: str
+    mode: NotRequired[Literal["driving"] | Literal["walking"] | Literal["transit"]]
+
+class Prv_google_maps_GetDirectionsResult_Out(TypedDict):
+    distance: str
+    duration: str
+    distanceMeters: float
+    durationSeconds: float
+    steps: list[Prv_google_maps_DirectionsStep_Out]
+
+class Prv_google_maps_DirectionsStep_Out(TypedDict):
+    instruction: str
+    distance: str
+    duration: str
 
 class Prv_google_news_GoogleNewsSearchResult_Out(TypedDict):
     query: str
@@ -23023,8 +23040,8 @@ class Prv_google_flights(Protocol):
 class Prv_google_maps(Protocol):
     """Local business search on Google Maps — find places by what a person would say, then read
     the address, hours, rating, reviews and route. suggestPlaces (autocomplete),
-    searchPlaces (the door), geocodeAddress, getPlace and listReviews are built; everything
-    else is still a declared stub.
+    searchPlaces (the door), geocodeAddress, getPlace, listReviews and getDirections are
+    built; everything else is still a declared stub.
     """
 
     async def suggestPlaces(self, args: Prv_google_maps_SuggestPlacesArgs_In, /) -> list[str]:
@@ -23067,6 +23084,19 @@ class Prv_google_maps(Protocol):
         fetched are already sitting in the panel response. Takes the same resolving query
         getPlace does. Returns [] for a place with no reviews rather than throwing; throws only
         when the query itself does not resolve to one place.
+        """
+
+    async def getDirections(self, args: Prv_google_maps_GetDirectionsArgs_In, /) -> Prv_google_maps_GetDirectionsResult_Out:
+        """A DIFFERENT door from searchPlaces' — www.google.com/maps/preview/directions, its own
+        reusable pb= template (BUILD_QUEUE.md), one per mode. Takes origin and destination as
+        text, exactly what a person would type ("Space Needle, Seattle, WA") or a
+        searchPlaces/geocodeAddress result's name plus address — not a feature id, measured live
+        the same way getPlace measured it. mode defaults to "driving"; "walking" and "transit"
+        are also built. "bicycling" is not: its response shape diverges enough that a route
+        total cannot be read off it safely yet. Returns the site's own trip total (distance,
+        duration, traffic-aware for driving) plus the turn-by-turn instructions, each carrying
+        the site's own distance and duration text. Throws when either place does not resolve to
+        a route.
         """
 
 class Prv_google_news(Protocol):

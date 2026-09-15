@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 29802fc741d7366170edac54a71e247b6624e420dd6cd04b2cd9428e55133590
-// 48 capabilities, 412 providers, 1011 typed functions, 20 refused.
+// Manifest version: 4623db3b0641253df64c5bbe7c99fd79a27eda69d57916ea487a7433f688d90d
+// 48 capabilities, 412 providers, 1012 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15456,12 +15456,29 @@ interface Review {
   text: string;
   relativeDate?: string;
 }
+interface GetDirectionsArgs {
+  origin: string;
+  destination: string;
+  mode?: "driving" | "walking" | "transit";
+}
+interface DirectionsStep {
+  instruction: string;
+  distance: string;
+  duration: string;
+}
+interface GetDirectionsResult {
+  distance: string;
+  duration: string;
+  distanceMeters: number;
+  durationSeconds: number;
+  steps: DirectionsStep[];
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
    * address, hours, rating, reviews and route. suggestPlaces (autocomplete), searchPlaces (the
-   * door), geocodeAddress, getPlace and listReviews are built; everything else is still a
-   * declared stub.
+   * door), geocodeAddress, getPlace, listReviews and getDirections are built; everything else is
+   * still a declared stub.
    */
   interface Unit {
     /**
@@ -15508,6 +15525,19 @@ interface Review {
      * place.
      */
     listReviews(args: ListReviewsArgs): Promise<Review[]>;
+
+    /**
+     * A DIFFERENT door from searchPlaces' — www.google.com/maps/preview/directions, its own
+     * reusable pb= template (BUILD_QUEUE.md), one per mode. Takes origin and destination as text,
+     * exactly what a person would type ("Space Needle, Seattle, WA") or a
+     * searchPlaces/geocodeAddress result's name plus address — not a feature id, measured live the
+     * same way getPlace measured it. mode defaults to "driving"; "walking" and "transit" are also
+     * built. "bicycling" is not: its response shape diverges enough that a route total cannot be
+     * read off it safely yet. Returns the site's own trip total (distance, duration, traffic-aware
+     * for driving) plus the turn-by-turn instructions, each carrying the site's own distance and
+     * duration text. Throws when either place does not resolve to a route.
+     */
+    getDirections(args: GetDirectionsArgs): Promise<GetDirectionsResult>;
   }
 }
 

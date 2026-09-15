@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 29802fc741d7366170edac54a71e247b6624e420dd6cd04b2cd9428e55133590
-// 993 checked, 20 unchecked.
+// Manifest version: 4623db3b0641253df64c5bbe7c99fd79a27eda69d57916ea487a7433f688d90d
+// 994 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "29802fc741d7366170edac54a71e247b6624e420dd6cd04b2cd9428e55133590",
+  "version": "4623db3b0641253df64c5bbe7c99fd79a27eda69d57916ea487a7433f688d90d",
   "units": {
     "booking_links": {
       "defs": {
@@ -13700,6 +13700,46 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetDirectionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "origin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "mode",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "driving"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "walking"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "transit"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetPlaceArgs": {
           "k": "object",
           "props": [
@@ -13796,6 +13836,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListReviewsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDirections": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDirectionsArgs"
             },
             "optional": false
           }
