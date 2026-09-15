@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 636b089a5550a559cde96804fd1491c9151fd446a8544fe71e352dabb218de6b
-# 48 capabilities, 407 providers, 980 typed functions, 20 refused.
+# Manifest version: 61ab3a399ffb54b2f077d07758573673e98dfca34087f23cb65d02baf948f19d
+# 48 capabilities, 408 providers, 981 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8766,6 +8766,15 @@ class Prv_haydenhomes_HaydenhomesQuickMoveIn_Out(TypedDict):
     canScheduleAppointment: bool
     latitude: float | None
     longitude: float | None
+
+class Prv_hccts_CheckApplicationAvailabilityArgs_In(TypedDict):
+    refresh: NotRequired[bool]
+
+class Prv_hccts_ApplicationStatus_Out(TypedDict):
+    available: bool
+    formUrl: str
+    message: str
+    lastChecked: str
 
 class Prv_healthcare_gov_healthcare_govEnrollmentQuery_In(TypedDict):
     zip: str
@@ -23151,6 +23160,16 @@ class Prv_haydenhomes(Protocol):
         marked reserved).
         """
 
+class Prv_hccts(Protocol):
+    """Checks application availability and appointment scheduling for Highlands' adult
+    education programs.
+    """
+
+    async def checkApplicationAvailability(self, args: Prv_hccts_CheckApplicationAvailabilityArgs_In, /) -> Prv_hccts_ApplicationStatus_Out:
+        """Checks if the HCCTS online application form is currently accessible and returns the
+        application status.
+        """
+
 class Prv_healthcare_gov(Protocol):
     """The federal ACA Marketplace: the health and dental plans a household can actually buy
     for its ZIP and income, with premiums both before and after the premium tax credit, plus
@@ -29164,6 +29183,7 @@ class BowmarkProviders(Protocol):
     hauslabs: Prv_hauslabs
     havenenergy: Prv_havenenergy
     haydenhomes: Prv_haydenhomes
+    hccts: Prv_hccts
     healthcare_gov: Prv_healthcare_gov
     heatherwood: Prv_heatherwood
     hellofresh: Prv_hellofresh

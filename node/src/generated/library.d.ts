@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 636b089a5550a559cde96804fd1491c9151fd446a8544fe71e352dabb218de6b
-// 48 capabilities, 407 providers, 998 typed functions, 20 refused.
+// Manifest version: 61ab3a399ffb54b2f077d07758573673e98dfca34087f23cb65d02baf948f19d
+// 48 capabilities, 408 providers, 999 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16080,6 +16080,32 @@ interface HaydenhomesSearchFilters {
      * `maxPrice`, `availableOnly` (default true — excludes homes the site has marked reserved).
      */
     searchQuickMoveIns(filters?: HaydenhomesSearchFilters): Promise<HaydenhomesQuickMoveIn[]>;
+  }
+}
+
+declare namespace BowmarkProvider_hccts {
+  // ── hccts.org Online Application Appointment Booking — the unit's own declarations, verbatim ──
+interface ApplicationStatus {
+  available: boolean;
+  formUrl: string;
+  message: string;
+  lastChecked: string;
+}
+
+interface CheckApplicationAvailabilityArgs {
+  refresh?: boolean;
+}
+
+  /**
+   * Checks application availability and appointment scheduling for Highlands' adult education
+   * programs.
+   */
+  interface Unit {
+    /**
+     * Checks if the HCCTS online application form is currently accessible and returns the
+     * application status.
+     */
+    checkApplicationAvailability(args: CheckApplicationAvailabilityArgs): Promise<ApplicationStatus>;
   }
 }
 
@@ -33196,6 +33222,7 @@ interface BowmarkProviders {
   hauslabs: BowmarkProvider_hauslabs.Unit;
   havenenergy: BowmarkProvider_havenenergy.Unit;
   haydenhomes: BowmarkProvider_haydenhomes.Unit;
+  hccts: BowmarkProvider_hccts.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
   heatherwood: BowmarkProvider_heatherwood.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;

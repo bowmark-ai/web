@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 636b089a5550a559cde96804fd1491c9151fd446a8544fe71e352dabb218de6b
-// 980 checked, 20 unchecked.
+// Manifest version: 61ab3a399ffb54b2f077d07758573673e98dfca34087f23cb65d02baf948f19d
+// 981 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "636b089a5550a559cde96804fd1491c9151fd446a8544fe71e352dabb218de6b",
+  "version": "61ab3a399ffb54b2f077d07758573673e98dfca34087f23cb65d02baf948f19d",
   "units": {
     "booking_links": {
       "defs": {
@@ -14330,6 +14330,34 @@ export const VALIDATORS: ValidatorTable = {
               "name": "HaydenhomesSearchFilters"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.hccts": {
+      "defs": {
+        "CheckApplicationAvailabilityArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "refresh",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "checkApplicationAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckApplicationAvailabilityArgs"
+            },
+            "optional": false
           }
         ]
       }
