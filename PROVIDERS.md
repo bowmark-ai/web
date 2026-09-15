@@ -120,7 +120,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.listTradeInValues` | apple.com | The whole Apple Trade In price list in one call, for a device category — every phone… | ⚪ |
 | `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | ⚪ |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |
-| `apple.searchSupport` | apple.com | Search Apple's own support library the way a person describes a problem — "iphone… | ⚪ |
+| `apple.searchSupport` | apple.com | Search Apple's own support library the way a person describes a problem — "iphone… | 🟢 |
 | `apple.suggestSearches` | apple.com | Type the first two letters of what you want — "airpo", "macbo" — and get back what… | 🟢 |
 | `aquaphoenixsci.browseCategory` | catalog.aquaphoenixsci.com | Lists real products in one of AquaPhoenix's catalog categories (test kits, meters, lab… | 🟢 |
 | `aquaphoenixsci.getProduct` | catalog.aquaphoenixsci.com | Reads one product's real detail page: SKU, name, price (when anonymously priced)… | 🟢 |
