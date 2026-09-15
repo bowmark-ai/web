@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f79f547674e2832e7437213225ace242b1b815f5a017fe608ada28a221de1551
-# 48 capabilities, 412 providers, 997 typed functions, 20 refused.
+# Manifest version: 08163ba92b0b7b4522613b6222c328d0af5f93905f49c92c9470ec1ea039c143
+# 48 capabilities, 412 providers, 999 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2165,6 +2165,10 @@ class Prv_amazon_AmazonProduct_Out(TypedDict):
 class Prv_amazon_AmazonKeywordSuggestion_Out(TypedDict):
     value: str
 
+class Prv_amazon_AmazonBestSellerCategory_Out(TypedDict):
+    name: str
+    slug: str
+
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
     name: str
@@ -2405,6 +2409,15 @@ class Prv_apple_AppleSearchResult_Out(TypedDict):
     links: NotRequired[list[Prv_apple_AppleSearchResult_Out_links_item_Out]]
 
 class Prv_apple_AppleSearchResult_Out_links_item_Out(TypedDict):
+    label: str
+    url: str
+
+class Prv_apple_AppleSuggestResponse_Out(TypedDict):
+    query: str
+    suggestions: list[Prv_apple_AppleSuggestionRow_Out]
+    quickLinks: list[Prv_apple_AppleSuggestionRow_Out]
+
+class Prv_apple_AppleSuggestionRow_Out(TypedDict):
     label: str
     url: str
 
@@ -18766,8 +18779,8 @@ class Prv_amazon(Protocol):
     """Search Amazon's catalogue and read a product the way a shopper does — price, stock,
     rating, the customer reviews, every size and colour the listing sells — plus the
     rankings (best sellers, new releases, movers and shakers, most wished for), today's
-    deals and a marketplace seller's feedback. searchProducts and suggestKeywords are built;
-    everything else is still a declared stub.
+    deals and a marketplace seller's feedback. searchProducts, suggestKeywords and
+    listBestSellerCategories are built; everything else is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -18782,6 +18795,14 @@ class Prv_amazon(Protocol):
         """Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes
         back as "cast iron skillets", "cast iron", "cast iron dutch oven". What an agent holding
         a vague noun calls before it commits to a search, and the cheapest call in the provider.
+        """
+
+    async def listBestSellerCategories(self, /) -> list[Prv_amazon_AmazonBestSellerCategory_Out]:
+        """List the departments Amazon publishes Best Sellers rankings for — Electronics, Kitchen &
+        Dining, Books, roughly forty of them — each with the slug ("electronics", "kitchen",
+        "books") that listBestSellers, listNewReleases, listMostWishedFor and
+        listMoversAndShakers take. The door for all four ranking functions: a caller holding the
+        word "kitchen" cannot reach a ranking without this.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -18966,6 +18987,13 @@ class Prv_apple(Protocol):
     async def search(self, query: str, /) -> Prv_apple_AppleSearchResponse_Out:
         """Runs apple.com's own site search for a keyword and returns the organic and curated
         result rows it renders server-side.
+        """
+
+    async def suggestSearches(self, query: str, /) -> Prv_apple_AppleSuggestResponse_Out:
+        """Types a partial query into apple.com's own search box and returns what it suggests:
+        completed search phrases ("AirPods Pro 3") and quick links straight to a product page
+        ("AirPods" → apple.com/airpods/). A caller holding only the words somebody said gets a
+        real product URL with no id to know first.
         """
 
     async def getProduct(self, urlOrPath: str, /) -> Prv_apple_AppleProductPage_Out:

@@ -48,7 +48,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.getDeliveryEstimate` | www.amazon.com | When a product would actually arrive at a given US ZIP, and what it costs to get it… | ⚪ |
 | `amazon.getProduct` | www.amazon.com | Read one product page the way a shopper reads it: title, brand, ASIN, current price… | ⚪ |
 | `amazon.getSeller` | www.amazon.com | Read a marketplace seller's storefront — their name, their lifetime and 12-month… | ⚪ |
-| `amazon.listBestSellerCategories` | www.amazon.com | List the departments Amazon publishes rankings for — Electronics, Kitchen & Dining… | ⚪ |
+| `amazon.listBestSellerCategories` | www.amazon.com | List the departments Amazon publishes rankings for — Electronics, Kitchen & Dining… | 🟢 |
 | `amazon.listBestSellers` | www.amazon.com | Amazon's hourly-updated top 100 in a department — what is actually selling right now… | ⚪ |
 | `amazon.listCategoryProducts` | www.amazon.com | Browse a whole department with no keyword at all — "what is in Home & Kitchen… | ⚪ |
 | `amazon.listDeals` | www.amazon.com | Today's Deals — what is discounted right now, with the deal price, the price it was… | ⚪ |
@@ -121,7 +121,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | ⚪ |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |
 | `apple.searchSupport` | apple.com | Search Apple's own support library the way a person describes a problem — "iphone… | ⚪ |
-| `apple.suggestSearches` | apple.com | Type the first two letters of what you want — "airpo", "macbo" — and get back what… | ⚪ |
+| `apple.suggestSearches` | apple.com | Type the first two letters of what you want — "airpo", "macbo" — and get back what… | 🟢 |
 | `aquaphoenixsci.browseCategory` | catalog.aquaphoenixsci.com | Lists real products in one of AquaPhoenix's catalog categories (test kits, meters, lab… | 🟢 |
 | `aquaphoenixsci.getProduct` | catalog.aquaphoenixsci.com | Reads one product's real detail page: SKU, name, price (when anonymously priced)… | 🟢 |
 | `arajet.search` | arajet.com | Runs Arajet's own flight-schedule search (origin, destination, date, passengers) and… | 🟢 |

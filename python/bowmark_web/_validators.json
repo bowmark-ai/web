@@ -1,5 +1,5 @@
 {
-  "version": "f79f547674e2832e7437213225ace242b1b815f5a017fe608ada28a221de1551",
+  "version": "08163ba92b0b7b4522613b6222c328d0af5f93905f49c92c9470ec1ea039c143",
   "units": {
     "booking_links": {
       "defs": {
@@ -4049,7 +4049,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listBestSellerCategories": []
       }
     },
     "providers.americandreamvacations": {
@@ -4429,6 +4430,15 @@
       "defs": {},
       "functions": {
         "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "suggestSearches": [
           {
             "name": "query",
             "schema": {

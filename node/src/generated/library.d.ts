@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f79f547674e2832e7437213225ace242b1b815f5a017fe608ada28a221de1551
-// 48 capabilities, 412 providers, 1015 typed functions, 20 refused.
+// Manifest version: 08163ba92b0b7b4522613b6222c328d0af5f93905f49c92c9470ec1ea039c143
+// 48 capabilities, 412 providers, 1017 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3878,13 +3878,17 @@ interface SearchProductsArgs {
 interface AmazonKeywordSuggestion {
   value: string;
 }
+interface AmazonBestSellerCategory {
+  name: string;
+  slug: string;
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
    * the customer reviews, every size and colour the listing sells — plus the rankings (best
    * sellers, new releases, movers and shakers, most wished for), today's deals and a marketplace
-   * seller's feedback. searchProducts and suggestKeywords are built; everything else is still a
-   * declared stub.
+   * seller's feedback. searchProducts, suggestKeywords and listBestSellerCategories are built;
+   * everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -3902,6 +3906,15 @@ interface AmazonKeywordSuggestion {
      * noun calls before it commits to a search, and the cheapest call in the provider.
      */
     suggestKeywords(prefix: string): Promise<AmazonKeywordSuggestion[]>;
+
+    /**
+     * List the departments Amazon publishes Best Sellers rankings for — Electronics, Kitchen &
+     * Dining, Books, roughly forty of them — each with the slug ("electronics", "kitchen",
+     * "books") that listBestSellers, listNewReleases, listMostWishedFor and listMoversAndShakers
+     * take. The door for all four ranking functions: a caller holding the word "kitchen" cannot
+     * reach a ranking without this.
+     */
+    listBestSellerCategories(): Promise<AmazonBestSellerCategory[]>;
   }
 }
 
@@ -4380,6 +4393,15 @@ interface AppleSearchResponse {
   query: string;
   results: AppleSearchResult[];
 }
+interface AppleSuggestionRow {
+  label: string;
+  url: string;
+}
+interface AppleSuggestResponse {
+  query: string;
+  suggestions: AppleSuggestionRow[];
+  quickLinks: AppleSuggestionRow[];
+}
 interface AppleProduct {
   name: string;
   lowPrice: number | null;
@@ -4405,6 +4427,14 @@ interface AppleTradeInEstimate {
      * rows it renders server-side.
      */
     search(query: string): Promise<AppleSearchResponse>;
+
+    /**
+     * Types a partial query into apple.com's own search box and returns what it suggests:
+     * completed search phrases ("AirPods Pro 3") and quick links straight to a product page
+     * ("AirPods" → apple.com/airpods/). A caller holding only the words somebody said gets a real
+     * product URL with no id to know first.
+     */
+    suggestSearches(query: string): Promise<AppleSuggestResponse>;
 
     /**
      * Reads one apple.com product/buy page (a URL or path, e.g. search()'s own rows) and returns
