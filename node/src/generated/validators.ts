@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c116af9380903534b76b276429edb61c04ac0917103ae25dc223ac917ba417bc
-// 1007 checked, 20 unchecked.
+// Manifest version: 252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6
+// 1009 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c116af9380903534b76b276429edb61c04ac0917103ae25dc223ac917ba417bc",
+  "version": "252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6",
   "units": {
     "booking_links": {
       "defs": {
@@ -4064,6 +4064,15 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listBestSellerCategories": [],
         "getProduct": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listVariations": [
           {
             "name": "asinOrUrl",
             "schema": {
@@ -14032,6 +14041,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.google_translate": {
       "defs": {
+        "DetectLanguageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "TranslateArgs": {
           "k": "object",
           "props": [
@@ -14077,6 +14098,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "TranslateArgs"
+            },
+            "optional": false
+          }
+        ],
+        "detectLanguage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DetectLanguageArgs"
             },
             "optional": false
           }

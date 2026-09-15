@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c116af9380903534b76b276429edb61c04ac0917103ae25dc223ac917ba417bc
-# 48 capabilities, 414 providers, 1007 typed functions, 20 refused.
+# Manifest version: 252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6
+# 48 capabilities, 414 providers, 1009 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2191,6 +2191,11 @@ class Prv_amazon_AmazonProductDetail_Out(TypedDict):
 class Prv_amazon_AmazonBestSellerRankEntry_Out(TypedDict):
     category: str
     rank: float
+
+class Prv_amazon_AmazonVariation_Out(TypedDict):
+    asin: str
+    dimensions: Mapping[str, str]
+    isCurrent: bool
 
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
@@ -8536,6 +8541,18 @@ class Prv_google_translate_GoogleTranslateResult_Out(TypedDict):
     targetLanguage: str
     sourceLanguage: str
     detected: bool
+
+class Prv_google_translate_DetectLanguageArgs_In(TypedDict):
+    text: str
+
+class Prv_google_translate_GoogleTranslateLanguageDetection_Out(TypedDict):
+    language: str
+    confidence: float
+    candidates: list[Prv_google_translate_GoogleTranslateLanguageCandidate_Out]
+
+class Prv_google_translate_GoogleTranslateLanguageCandidate_Out(TypedDict):
+    language: str
+    confidence: float
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -18944,8 +18961,8 @@ class Prv_amazon(Protocol):
     rating, the customer reviews, every size and colour the listing sells — plus the
     rankings (best sellers, new releases, movers and shakers, most wished for), today's
     deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
-    listBestSellerCategories and getProduct are built; everything else is still a declared
-    stub.
+    listBestSellerCategories, getProduct and listVariations are built; everything else is
+    still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -18975,6 +18992,14 @@ class Prv_amazon(Protocol):
         list price, whether it is in stock, the star rating and how many ratings it has, the
         bullet-point features, the specification table, the images, its category breadcrumb, its
         Best Sellers Rank, and who it is sold by. The single most-wanted read on the whole site.
+        """
+
+    async def listVariations(self, asinOrUrl: str, /) -> list[Prv_amazon_AmazonVariation_Out]:
+        """List every version of a product that is really the same listing — the 8-inch,
+        10.25-inch, 12-inch and 15-inch skillet; the colours; the pack sizes — each with the
+        ASIN that buys it. What an agent needs when the person said "the 12 inch one" and the
+        search returned whichever size Amazon ranked first. Empty when the listing has no
+        variations — a real answer, not a parse failure.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -23434,6 +23459,14 @@ class Prv_google_translate(Protocol):
         code ("es", "pt-BR"); `args.from` is optional and, left out, the source is detected per
         string, with `detected: true` and the detected code coming back on each result. Returns
         one `GoogleTranslateResult` per input string, aligned by position.
+        """
+
+    async def detectLanguage(self, args: Prv_google_translate_DetectLanguageArgs_In, /) -> Prv_google_translate_GoogleTranslateLanguageDetection_Out:
+        """Work out what language a string is written in. Returns `language` (Google's own code)
+        and `confidence` (0-1) rather than swallowing it — a single word can come back
+        confidently wrong (measured 2026-09-15: "Bonjour" alone detects as "en"), so a caller
+        reading only `language` cannot tell a guess from a sure thing. `candidates` carries
+        every language Google's detector considered, most confident first.
         """
 
 class Prv_gostoreit(Protocol):

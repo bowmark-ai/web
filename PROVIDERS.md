@@ -60,7 +60,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together"… | ⚪ |
 | `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | ⚪ |
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | ⚪ |
-| `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | ⚪ |
+| `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
 | `amazon.searchProducts` | www.amazon.com | Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c… | 🟢 |
 | `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | 🟢 |
@@ -82,7 +82,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
 | `aosom.getProduct` | aosom.com | Reads one product's live price and the site's own buyability flag straight off its… | 🟢 |
 | `aosom.searchProducts` | aosom.com | Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query… | 🟢 |
-| `app_store.getApp` | apps.apple.com | Read one app the way its store listing reads: name, developer, price, average rating… | ⚪ |
+| `app_store.getApp` | apps.apple.com | Read one app the way its store listing reads: name, developer, price, average rating… | 🟢 |
 | `app_store.getAppDetails` | apps.apple.com | Everything the store page shows that the API does not: the five-star histogram behind… | ⚪ |
 | `app_store.getApps` | apps.apple.com | Read up to fifty apps in ONE request, for when an agent already holds a list of ids —… | ⚪ |
 | `app_store.getStory` | apps.apple.com | Read an App Store editorial story — the Today-tab piece Apple's editors wrote ("Master… | ⚪ |
@@ -118,7 +118,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | ⚪ |
 | `apple.listTodaySessions` | apple.com | The free hands-on sessions a given Apple Store is running this week, with what each… | ⚪ |
 | `apple.listTradeInValues` | apple.com | The whole Apple Trade In price list in one call, for a device category — every phone… | ⚪ |
-| `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | ⚪ |
+| `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | 🟢 |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |
 | `apple.searchSupport` | apple.com | Search Apple's own support library the way a person describes a problem — "iphone… | 🟢 |
 | `apple.suggestSearches` | apple.com | Type the first two letters of what you want — "airpo", "macbo" — and get back what… | 🟢 |
@@ -726,7 +726,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | ⚪ |
 | `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in person has contributed, with… | ⚪ |
 | `google_maps.listPhotos` | google.com/maps | The photos attached to a place — the business's own and the ones visitors uploaded —… | ⚪ |
-| `google_maps.listRelatedPlaces` | google.com/maps | The "people also search for" places Google Maps shows under a business — the… | ⚪ |
+| `google_maps.listRelatedPlaces` | google.com/maps | Other businesses Google Maps lists "At this place" — the site's own label for a shared… | 🟢 |
 | `google_maps.listReviews` | google.com/maps | The reviews Google Maps shows on a business's own panel — up to 5, each with author… | 🟢 |
 | `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in person saved — Favourites, Want to go, Starred and their own… | ⚪ |
 | `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a /maps/place/ url… | ⚪ |
@@ -753,7 +753,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | 🟢 |
 | `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | 🟢 |
 | `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | ⚪ |
-| `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | ⚪ |
+| `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | 🟢 |
 | `google_translate.getAlternativeTranslations` | translate.google.com | The other ways Google would have translated the same thing — the list that appears… | ⚪ |
 | `google_translate.getDefinitions` | translate.google.com | What a word MEANS, in its own language — the dictionary Google Translate shows… | ⚪ |
 | `google_translate.getSynonyms` | translate.google.com | Other words that mean the same thing, grouped by sense rather than thrown into one… | ⚪ |
@@ -1335,7 +1335,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `shopify.getCart` | shopify.com (51715 stores) | Reads THIS run's cart back — lines, quantities, per-line and order totals, and the… | 🟢 |
 | `shopify.getCollection` | shopify.com (51715 stores) | Reads one collection's products in the retailer's own merchandised order, as full… | 🟢 |
 | `shopify.getProduct` | shopify.com (51715 stores) | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
-| `shopify.getProducts` | shopify.com (51715 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟡 |
+| `shopify.getProducts` | shopify.com (51715 stores) | Reads FULL detail for many products in one call — the shape for ranking a candidate… | 🟢 |
 | `shopify.getSetEvidence` | shopify.com (51715 stores) | Two answers in one call. `evidence` is ONLY what a MERCHANDISER pinned by hand, in the… | 🟢 |
 | `shopify.getShippingRates` | shopify.com (51715 stores) | Returns the shipping options and prices for a destination, which is the second thing a… | ⚪ |
 | `shopify.getStyleDetails` | shopify.com (51715 stores) | Reads what a store publishes on its rendered product PAGE and not in its product feed… | 🟢 |

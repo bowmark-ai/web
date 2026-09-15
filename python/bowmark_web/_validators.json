@@ -1,5 +1,5 @@
 {
-  "version": "c116af9380903534b76b276429edb61c04ac0917103ae25dc223ac917ba417bc",
+  "version": "252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6",
   "units": {
     "booking_links": {
       "defs": {
@@ -4052,6 +4052,15 @@
         ],
         "listBestSellerCategories": [],
         "getProduct": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listVariations": [
           {
             "name": "asinOrUrl",
             "schema": {
@@ -14020,6 +14029,18 @@
     },
     "providers.google_translate": {
       "defs": {
+        "DetectLanguageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "TranslateArgs": {
           "k": "object",
           "props": [
@@ -14065,6 +14086,16 @@
             "schema": {
               "k": "ref",
               "name": "TranslateArgs"
+            },
+            "optional": false
+          }
+        ],
+        "detectLanguage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DetectLanguageArgs"
             },
             "optional": false
           }

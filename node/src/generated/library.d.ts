@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c116af9380903534b76b276429edb61c04ac0917103ae25dc223ac917ba417bc
-// 48 capabilities, 414 providers, 1025 typed functions, 20 refused.
+// Manifest version: 252822ac3cbe8ea343b5c8b227c224c67d98fe16059cad720b5bd588ce9cd3c6
+// 48 capabilities, 414 providers, 1027 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3905,13 +3905,18 @@ interface AmazonProductDetail {
   soldBy: string | null;
   sellerId: string | null;
 }
+interface AmazonVariation {
+  asin: string;
+  dimensions: Record<string, string>; // e.g. { style_name: "Skillet", size_name: "12-inch" } — the site's own dimension names
+  isCurrent: boolean;
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
    * the customer reviews, every size and colour the listing sells — plus the rankings (best
    * sellers, new releases, movers and shakers, most wished for), today's deals and a marketplace
-   * seller's feedback. searchProducts, suggestKeywords, listBestSellerCategories and getProduct
-   * are built; everything else is still a declared stub.
+   * seller's feedback. searchProducts, suggestKeywords, listBestSellerCategories, getProduct and
+   * listVariations are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -3946,6 +3951,15 @@ interface AmazonProductDetail {
      * Rank, and who it is sold by. The single most-wanted read on the whole site.
      */
     getProduct(asinOrUrl: string): Promise<AmazonProductDetail>;
+
+    /**
+     * List every version of a product that is really the same listing — the 8-inch, 10.25-inch,
+     * 12-inch and 15-inch skillet; the colours; the pack sizes — each with the ASIN that buys it.
+     * What an agent needs when the person said "the 12 inch one" and the search returned whichever
+     * size Amazon ranked first. Empty when the listing has no variations — a real answer, not a
+     * parse failure.
+     */
+    listVariations(asinOrUrl: string): Promise<AmazonVariation[]>;
   }
 }
 
@@ -15830,6 +15844,18 @@ interface GoogleTranslateResult {
   sourceLanguage: string;
   detected: boolean;
 }
+interface DetectLanguageArgs {
+  text: string;
+}
+interface GoogleTranslateLanguageCandidate {
+  language: string;
+  confidence: number;
+}
+interface GoogleTranslateLanguageDetection {
+  language: string;
+  confidence: number;
+  candidates: GoogleTranslateLanguageCandidate[];
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -15846,6 +15872,15 @@ interface GoogleTranslateResult {
      * `GoogleTranslateResult` per input string, aligned by position.
      */
     translate(args: TranslateArgs): Promise<GoogleTranslateResult[]>;
+
+    /**
+     * Work out what language a string is written in. Returns `language` (Google's own code) and
+     * `confidence` (0-1) rather than swallowing it — a single word can come back confidently wrong
+     * (measured 2026-09-15: "Bonjour" alone detects as "en"), so a caller reading only `language`
+     * cannot tell a guess from a sure thing. `candidates` carries every language Google's detector
+     * considered, most confident first.
+     */
+    detectLanguage(args: DetectLanguageArgs): Promise<GoogleTranslateLanguageDetection>;
   }
 }
 
