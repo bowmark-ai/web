@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1457 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1474 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -693,6 +693,23 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | ⚪ |
 | `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | ⚪ |
 | `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | ⚪ |
+| `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | ⚪ |
+| `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | ⚪ |
+| `google_translate.getAlternativeTranslations` | translate.google.com | The other ways Google would have translated the same thing — the list that appears… | ⚪ |
+| `google_translate.getDefinitions` | translate.google.com | What a word MEANS, in its own language — the dictionary Google Translate shows… | ⚪ |
+| `google_translate.getSynonyms` | translate.google.com | Other words that mean the same thing, grouped by sense rather than thrown into one… | ⚪ |
+| `google_translate.listHistory` | translate.google.com | What the signed-in person has translated recently, newest first — Google Translate's… | ⚪ |
+| `google_translate.listLanguages` | translate.google.com | Every language Google Translate supports, each with the code the rest of this provider… | ⚪ |
+| `google_translate.listSavedPhrases` | translate.google.com | The phrases the signed-in person starred — Google Translate's own saved-phrase book… | ⚪ |
+| `google_translate.lookupWord` | translate.google.com | The full "translations of <word>" panel for one word — every part of speech Google has… | ⚪ |
+| `google_translate.romanize` | translate.google.com | The pronunciation line Google Translate prints under a translation into a non-Latin… | ⚪ |
+| `google_translate.savePhrase` | translate.google.com | Star a translation so it joins the signed-in person's saved phrases — the one write… | ⚪ |
+| `google_translate.speak` | translate.google.com | Hear it — the speaker button, as the MP3 Google Translate itself plays. | ⚪ |
+| `google_translate.translate` | translate.google.com | Turn text into another language — the whole point of the site, and the provider's main… | ⚪ |
+| `google_translate.translateDocument` | translate.google.com | Translate a whole document — the Documents tab, which takes a PDF, Word or PowerPoint… | ⚪ |
+| `google_translate.translateImage` | translate.google.com | Read the text in a picture in another language — the Images tab, where a person points… | ⚪ |
+| `google_translate.translateWebPage` | translate.google.com | Read somebody else's web page in your own language — the Websites tab. | ⚪ |
+| `google_translate.unsavePhrase` | translate.google.com | Take a phrase back out of the signed-in person's saved phrases — the undo for… | ⚪ |
 | `google.search` | google.com | Runs a Google web search and returns the ranked results — title, destination url and… | ⚪ |
 | `gostoreit.findFacilities` | gostoreit.com | Searches Go Store It's public location results by a city, state, or ZIP and returns… | 🟢 |
 | `gostoreit.getFacilityUnits` | gostoreit.com | Reads a public Go Store It facility URL's live rendered unit inventory: size… | 🟢 |
