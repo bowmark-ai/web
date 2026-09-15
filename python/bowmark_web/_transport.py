@@ -152,6 +152,14 @@ def _version() -> str:
         return "0.0.0+local"
 
 
+NO_API_KEY_MESSAGE = (
+    "Bowmark needs an API key, and this client has none, so nothing was sent.\n"
+    "1. Sign up at https://bowmark.ai/sign-up (free).\n"
+    "2. Create an API key at https://bowmark.ai/dashboard/keys.\n"
+    '3. Pass it as `client(api_key="<key>")`, or set the `BOWMARK_API_KEY` environment variable.'
+)
+
+
 def _post_json_blocking(
     client: ResolvedClient, path: str, body: Any
 ) -> tuple[int, Any]:
@@ -163,8 +171,10 @@ def _post_json_blocking(
     headers.setdefault("user-agent", f"{USER_AGENT}/{_version()}")
     headers["content-type"] = "application/json"
     headers["accept"] = "application/json"
-    if client.api_key:
-        headers["authorization"] = f"Bearer {client.api_key}"
+    # Refused HERE rather than sent: the api would answer 401 with the same steps.
+    if not client.api_key:
+        raise BowmarkError(NO_API_KEY_MESSAGE, code="no_api_key")
+    headers["authorization"] = f"Bearer {client.api_key}"
 
     request = urllib.request.Request(
         url, data=json.dumps(body).encode("utf-8"), headers=headers, method="POST"

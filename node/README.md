@@ -30,6 +30,20 @@ lmstudio://add_mcp?name=bowmark&config=eyJ1cmwiOiJodHRwczovL2FwaS5ib3dtYXJrLmFpL
 npm i @bowmark/web
 ```
 
+**You need an API key.** Sign up at https://bowmark.ai/sign-up, create a key at
+https://bowmark.ai/dashboard/keys, and pass it in:
+
+```ts
+import { session } from "@bowmark/web";
+
+const total = await session(async (bm) => (await bm.music.search("aphex twin")).length, {
+  apiKey: "bmk_…",   // or set BOWMARK_API_KEY and omit this
+});
+```
+
+A client with no key throws `BowmarkError` with `code: "no_api_key"` on its first call,
+before anything is sent.
+
 **There is a Python client too**, from this same directory tree and the same generated
 surface: `pip install bowmark-web bowmark-web-stubs`
 ([`../python/README.md`](../python/README.md)). One `LibraryManifest` produces the
@@ -120,10 +134,10 @@ an agent that reads a failure retries, and retrying a login halt buys the same h
 
 ### Configuration
 
-`BOWMARK_API_KEY` and `BOWMARK_API_URL`, read at CALL time, or passed explicitly as
-`{ apiKey, baseUrl, fetch, headers, signal, onLog }`. A caller header cannot displace
-the key. Anonymous is legal — every browserless capability works without one, on a
-smaller daily budget.
+Pass `{ apiKey, baseUrl, fetch, headers, signal, onLog }` explicitly — every entry point
+takes them — or set `BOWMARK_API_KEY` and `BOWMARK_API_URL`, read at CALL time. **The key
+is required**: without one the first call throws `code: "no_api_key"` and sends nothing.
+A caller header cannot displace the key.
 
 ## The two halves, and why they are split
 

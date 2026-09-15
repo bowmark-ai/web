@@ -20,8 +20,9 @@ export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>
 /** How a client reaches the api. Every field is optional; the defaults read the
  * environment the same way every other CLI-shaped client does. */
 export interface ClientOptions {
-  /** `bmk_…`. Falls back to `BOWMARK_API_KEY`. Absent is legal — an anonymous
-   * caller keeps every browserless capability, on a smaller daily budget. */
+  /** `bmk_…`, from https://bowmark.ai/dashboard/keys. **Required** — pass it here,
+   * or set `BOWMARK_API_KEY`. Bowmark requires an account, so a client with neither
+   * throws `BowmarkError` with `code: "no_api_key"` on its first call. */
   apiKey?: string;
   /** Defaults to `BOWMARK_API_URL`, else `https://api.bowmark.ai`. */
   baseUrl?: string;
@@ -177,6 +178,15 @@ export interface ResolvedClient {
 
 const DEFAULT_BASE_URL = "https://api.bowmark.ai";
 
+/** What a client with no key is told, before it sends anything. Worded like the
+ * api's own refusal (`apps/api/src/account-required.ts`), minus the parts about
+ * other clients. */
+const NO_API_KEY_MESSAGE =
+  "Bowmark needs an API key, and this client has none, so nothing was sent.\n" +
+  "1. Sign up at https://bowmark.ai/sign-up (free).\n" +
+  "2. Create an API key at https://bowmark.ai/dashboard/keys.\n" +
+  '3. Pass it as `client({ apiKey: "<key>" })`, or set the `BOWMARK_API_KEY` environment variable.';
+
 /** Read one environment variable without depending on `@types/node`.
  *
  * This package compiles with `"types": []` and must run in a browser, a worker and
@@ -224,7 +234,10 @@ async function postJson<T>(
     "content-type": "application/json",
     accept: "application/json",
   };
-  if (client.apiKey) headers.authorization = `Bearer ${client.apiKey}`;
+  // Refused HERE rather than sent: the api would answer 401 with the same steps,
+  // and a round trip that can only fail is a slower way to say it.
+  if (!client.apiKey) throw new BowmarkError(NO_API_KEY_MESSAGE, { code: "no_api_key" });
+  headers.authorization = `Bearer ${client.apiKey}`;
 
   let response: Response;
   try {

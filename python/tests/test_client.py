@@ -285,13 +285,33 @@ class Headers(unittest.TestCase):
         original = _transport.urllib.request.urlopen
         _transport.urllib.request.urlopen = fake_urlopen  # type: ignore[assignment]
         try:
-            _post_json_blocking(_transport.resolve_client(), "/v1/session", {})
+            _post_json_blocking(_transport.resolve_client(api_key="bmk_test"), "/v1/session", {})
         finally:
             _transport.urllib.request.urlopen = original  # type: ignore[assignment]
 
         self.assertIn("user-agent", seen)
         self.assertTrue(seen["user-agent"].startswith(USER_AGENT), seen["user-agent"])
         self.assertNotIn("python-urllib", seen["user-agent"].lower())
+
+    def test_no_key_raises_before_any_request(self) -> None:
+        import os
+
+        from bowmark_web._transport import _post_json_blocking
+
+        sent: list[Any] = []
+        original = _transport.urllib.request.urlopen
+        _transport.urllib.request.urlopen = lambda *a, **k: sent.append(a)  # type: ignore[assignment]
+        ambient = os.environ.pop("BOWMARK_API_KEY", None)
+        try:
+            with self.assertRaises(BowmarkError) as raised:
+                _post_json_blocking(_transport.resolve_client(), "/v1/session", {})
+        finally:
+            _transport.urllib.request.urlopen = original  # type: ignore[assignment]
+            if ambient is not None:
+                os.environ["BOWMARK_API_KEY"] = ambient
+        self.assertEqual(raised.exception.code, "no_api_key")
+        self.assertIn("https://bowmark.ai/dashboard/keys", str(raised.exception))
+        self.assertEqual(sent, [])
 
     def test_a_caller_may_override_it(self) -> None:
         from bowmark_web._transport import resolve_client

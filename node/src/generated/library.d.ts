@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 61ab3a399ffb54b2f077d07758573673e98dfca34087f23cb65d02baf948f19d
+// Manifest version: 9f7a26c01852d39c987dc5e3c48084908c51c90511b674fd77cd50a4b8448506
 // 48 capabilities, 408 providers, 999 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -70,7 +70,7 @@ interface FindBookingLinksInput {
 
 interface FindBookingLinksOptions {
   archive?: boolean      // read Wayback captures of the domain's about/team/contact pages; default true with a domain
-  search?: boolean       // Google site:cal.com "<name>" via Serper; default true; needs the x-bowmark-vendor-key-serper header
+  search?: boolean       // Google site:cal.com "<name>" via Serper; default true; each search is charged to your account, or send your own key as the x-bowmark-vendor-key-serper header
   timeoutMs?: number
 }
 
@@ -125,12 +125,13 @@ type CallOptions = {
      * that profile lists and any `urls` of theirs (each with the page it was on and the words
      * around it); links on ARCHIVED Wayback Machine captures of the company's about/team/contact
      * pages, dated (catches a link since removed); Cal.com pages Google has INDEXED under their
-     * name (a `site:cal.com "<name>"` Google search through Serper — send your Serper key as the
-     * `x-bowmark-vendor-key-serper` header, or it is skipped and named in `warnings`); and their
-     * name as a slug on Calendly and Cal.com, including "first-company" shapes (NAME_MATCH —
-     * exists, but a namesake can own it, so check `ownerName` and tie it to the company). Pass
-     * `company` and `domain` whenever known. Google does not index Calendly pages, so the slug
-     * check is the only way to find those. Never books.
+     * name (a `site:cal.com "<name>"` Google search through Serper — each search is charged to
+     * your account on Bowmark's key, or send your own as the `x-bowmark-vendor-key-serper` header;
+     * if no key can serve it, it is skipped and named in `warnings`); and their name as a slug on
+     * Calendly and Cal.com, including "first-company" shapes (NAME_MATCH — exists, but a namesake
+     * can own it, so check `ownerName` and tie it to the company). Pass `company` and `domain`
+     * whenever known. Google does not index Calendly pages, so the slug check is the only way to
+     * find those. Never books.
      */
     find(person: FindBookingLinksInput, options?: FindBookingLinksOptions): Promise<BookingLinkSearch>;
 
@@ -6081,15 +6082,17 @@ interface bestbuyProduct {
      * Runs a Best Buy product search the way bestbuy.com's own search box does, via Best Buy's
      * documented Products API, and returns the matching products — name, sale/regular price,
      * online and in-store availability, manufacturer, model number, UPC and review stats.
-     * `pageSize` caps the row count (default 10, Best Buy's own ceiling 100). Requires a Best Buy
-     * developer API key — see this provider's `auth`.
+     * `pageSize` caps the row count (default 10, Best Buy's own ceiling 100). Uses Bowmark's Best
+     * Buy key and charges each request to your account; send your own key as the
+     * `x-bowmark-vendor-key-bestbuy` header instead.
      */
     search(args: string | { query: string; pageSize?: number }): Promise<bestbuyProduct[]>;
 
     /**
      * Looks up one product by Best Buy's own numeric SKU (the id `search`'s rows carry) and
-     * returns its full detail — the same fields as `search`. Requires a Best Buy developer API key
-     * — see this provider's `auth`.
+     * returns its full detail — the same fields as `search`. Uses Bowmark's Best Buy key and
+     * charges each request to your account; send your own key as the
+     * `x-bowmark-vendor-key-bestbuy` header instead.
      */
     getProduct(sku: string | number): Promise<bestbuyProduct>;
   }
@@ -12717,7 +12720,8 @@ interface etsyListing {
      * Searches Etsy's live catalog of active listings by keyword, via Etsy's documented Open API
      * v3, and returns the matching listings — id, title, price, currency, quantity available, tags
      * and the listing's own etsy.com URL. `limit` caps the row count (default 10, Etsy's own
-     * ceiling 100). Requires an Etsy developer API key — see this provider's `auth`.
+     * ceiling 100). Uses Bowmark's Etsy key and charges each request to your account; send your
+     * own key as the `x-bowmark-vendor-key-etsy` header instead.
      */
     search(args: string | { query: string; limit?: number }): Promise<etsyListing[]>;
   }
@@ -19641,12 +19645,14 @@ interface KeepaProduct { asin: string; domainId: number; title: string; csv?: un
 
   /**
    * Keepa's documented Amazon product API — reads a product's native price history and metadata
-   * by ASIN. Requires a caller-provided Keepa API key.
+   * by ASIN. Uses Bowmark's Keepa key and charges each request to your account; send your own
+   * key as the `x-bowmark-vendor-key-keepa` header to spend your own Keepa tokens instead.
    */
   interface Unit {
     /**
      * Reads Keepa's native Amazon product record and compact price-history series for one ASIN.
-     * Requires a caller-provided Keepa API key.
+     * Uses Bowmark's Keepa key and charges each request to your account; send your own key as the
+     * `x-bowmark-vendor-key-keepa` header to spend your own Keepa tokens instead.
      */
     getProduct(args: { asin: string; domain?: number; stats?: number }): Promise<KeepaProductResult>;
   }
@@ -27793,8 +27799,8 @@ interface SerperSearchResult {
 
   /**
    * Google's own search results as JSON through Serper's API — honours site:, quoted phrases and
-   * every other Google operator, in about a second. Needs a Serper API key; each search spends a
-   * credit.
+   * every other Google operator, in about a second. Uses Bowmark's Serper key and charges each
+   * search to your account, or your own key sent as the `x-bowmark-vendor-key-serper` header.
    */
   interface Unit {
     /**
@@ -27802,8 +27808,8 @@ interface SerperSearchResult {
      * url, snippet — with every Google operator honoured. `site:cal.com "Chris Field"` returns
      * only cal.com pages naming him (cal.com/analytics/quick-chat among them), which is how to
      * find a page on one site by any words printed on it. An empty `results` is Google matching
-     * nothing. Requires a Serper API key: send your own as the `x-bowmark-vendor-key-serper`
-     * header; each search spends one Serper credit.
+     * nothing. Uses Bowmark's Serper key and charges each search to your account; send your own
+     * key as the `x-bowmark-vendor-key-serper` header to spend your own credits instead.
      */
     searchGoogle(query: string, opts?: SerperSearchOptions): Promise<SerperSearchResult>;
   }

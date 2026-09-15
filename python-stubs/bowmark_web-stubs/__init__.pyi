@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 61ab3a399ffb54b2f077d07758573673e98dfca34087f23cb65d02baf948f19d
+# Manifest version: 9f7a26c01852d39c987dc5e3c48084908c51c90511b674fd77cd50a4b8448506
 # 48 capabilities, 408 providers, 981 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -17163,13 +17163,13 @@ class Cap_booking_links(Protocol):
         that profile lists and any `urls` of theirs (each with the page it was on and the words
         around it); links on ARCHIVED Wayback Machine captures of the company's
         about/team/contact pages, dated (catches a link since removed); Cal.com pages Google has
-        INDEXED under their name (a `site:cal.com "<name>"` Google search through Serper — send
-        your Serper key as the `x-bowmark-vendor-key-serper` header, or it is skipped and named
-        in `warnings`); and their name as a slug on Calendly and Cal.com, including
-        "first-company" shapes (NAME_MATCH — exists, but a namesake can own it, so check
-        `ownerName` and tie it to the company). Pass `company` and `domain` whenever known.
-        Google does not index Calendly pages, so the slug check is the only way to find those.
-        Never books.
+        INDEXED under their name (a `site:cal.com "<name>"` Google search through Serper — each
+        search is charged to your account on Bowmark's key, or send your own as the
+        `x-bowmark-vendor-key-serper` header; if no key can serve it, it is skipped and named in
+        `warnings`); and their name as a slug on Calendly and Cal.com, including "first-company"
+        shapes (NAME_MATCH — exists, but a namesake can own it, so check `ownerName` and tie it
+        to the company). Pass `company` and `domain` whenever known. Google does not index
+        Calendly pages, so the slug check is the only way to find those. Never books.
         """
 
     async def scanPage(self, url: str, options: Cap_booking_links_CallOptions_In | None = None, /) -> Cap_booking_links_PageScan_Out:
@@ -19441,14 +19441,16 @@ class Prv_bestbuy(Protocol):
         """Runs a Best Buy product search the way bestbuy.com's own search box does, via Best Buy's
         documented Products API, and returns the matching products — name, sale/regular price,
         online and in-store availability, manufacturer, model number, UPC and review stats.
-        `pageSize` caps the row count (default 10, Best Buy's own ceiling 100). Requires a Best
-        Buy developer API key — see this provider's `auth`.
+        `pageSize` caps the row count (default 10, Best Buy's own ceiling 100). Uses Bowmark's
+        Best Buy key and charges each request to your account; send your own key as the
+        `x-bowmark-vendor-key-bestbuy` header instead.
         """
 
     async def getProduct(self, sku: str | float, /) -> Prv_bestbuy_bestbuyProduct_Out:
         """Looks up one product by Best Buy's own numeric SKU (the id `search`'s rows carry) and
-        returns its full detail — the same fields as `search`. Requires a Best Buy developer API
-        key — see this provider's `auth`.
+        returns its full detail — the same fields as `search`. Uses Bowmark's Best Buy key and
+        charges each request to your account; send your own key as the
+        `x-bowmark-vendor-key-bestbuy` header instead.
         """
 
 class Prv_bhphoto(Protocol):
@@ -21903,8 +21905,8 @@ class Prv_etsy(Protocol):
         """Searches Etsy's live catalog of active listings by keyword, via Etsy's documented Open
         API v3, and returns the matching listings — id, title, price, currency, quantity
         available, tags and the listing's own etsy.com URL. `limit` caps the row count (default
-        10, Etsy's own ceiling 100). Requires an Etsy developer API key — see this provider's
-        `auth`.
+        10, Etsy's own ceiling 100). Uses Bowmark's Etsy key and charges each request to your
+        account; send your own key as the `x-bowmark-vendor-key-etsy` header instead.
         """
 
 class Prv_eventsource(Protocol):
@@ -24376,12 +24378,15 @@ class Prv_kbb(Protocol):
 
 class Prv_keepa(Protocol):
     """Keepa's documented Amazon product API — reads a product's native price history and
-    metadata by ASIN. Requires a caller-provided Keepa API key.
+    metadata by ASIN. Uses Bowmark's Keepa key and charges each request to your account;
+    send your own key as the `x-bowmark-vendor-key-keepa` header to spend your own Keepa
+    tokens instead.
     """
 
     async def getProduct(self, args: Prv_keepa_getProduct_args_In, /) -> Prv_keepa_KeepaProductResult_Out:
         """Reads Keepa's native Amazon product record and compact price-history series for one
-        ASIN. Requires a caller-provided Keepa API key.
+        ASIN. Uses Bowmark's Keepa key and charges each request to your account; send your own
+        key as the `x-bowmark-vendor-key-keepa` header to spend your own Keepa tokens instead.
         """
 
 class Prv_kingsdown(Protocol):
@@ -27298,8 +27303,9 @@ class Prv_semihandmade(Protocol):
 
 class Prv_serper(Protocol):
     """Google's own search results as JSON through Serper's API — honours site:, quoted phrases
-    and every other Google operator, in about a second. Needs a Serper API key; each search
-    spends a credit.
+    and every other Google operator, in about a second. Uses Bowmark's Serper key and
+    charges each search to your account, or your own key sent as the
+    `x-bowmark-vendor-key-serper` header.
     """
 
     async def searchGoogle(self, query: str, opts: Prv_serper_SerperSearchOptions_In | None = None, /) -> Prv_serper_SerperSearchResult_Out:
@@ -27307,8 +27313,9 @@ class Prv_serper(Protocol):
         url, snippet — with every Google operator honoured. `site:cal.com "Chris Field"` returns
         only cal.com pages naming him (cal.com/analytics/quick-chat among them), which is how to
         find a page on one site by any words printed on it. An empty `results` is Google
-        matching nothing. Requires a Serper API key: send your own as the
-        `x-bowmark-vendor-key-serper` header; each search spends one Serper credit.
+        matching nothing. Uses Bowmark's Serper key and charges each search to your account;
+        send your own key as the `x-bowmark-vendor-key-serper` header to spend your own credits
+        instead.
         """
 
 class Prv_sitmeanssit(Protocol):

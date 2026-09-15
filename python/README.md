@@ -10,6 +10,19 @@ whole transport.
 pip install bowmark-web bowmark-web-stubs
 ```
 
+**You need an API key.** Sign up at https://bowmark.ai/sign-up, create a key at
+https://bowmark.ai/dashboard/keys, and pass it in:
+
+```python
+from bowmark_web import session
+
+async with session(api_key="bmk_…") as bm:   # or set BOWMARK_API_KEY and omit it
+    tracks = await bm.music.search("aphex twin")
+```
+
+A client with no key raises `BowmarkError` with `code="no_api_key"` on its first call,
+before anything is sent.
+
 The second package is where the types live. [PEP 561](https://peps.python.org/pep-0561/)
 requires a stub distribution to be named `<pkg>-stubs`, so the split is mandated rather
 than chosen. Skip it and the client still works; you just lose autocomplete for the
@@ -69,10 +82,10 @@ still works.
 
 | | |
 |---|---|
-| `BOWMARK_API_KEY` | `bmk_…`. Optional: an anonymous caller keeps every browserless capability on a smaller daily budget. |
+| `BOWMARK_API_KEY` | `bmk_…`. **Required** unless you pass `api_key=`. With neither, the first call raises `code="no_api_key"`. |
 | `BOWMARK_API_URL` | Defaults to `https://api.bowmark.ai`. |
 
-Every entry point takes the same keyword overrides — `api_key`, `base_url`, `headers`,
+Every entry point takes the same keyword overrides — `api_key` first, then `base_url`, `headers`,
 `timeout`, `on_log`.
 
 ## Errors
