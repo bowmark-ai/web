@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 629f1aeb04463086ca99af95377a310bbd807733f6a06b36d16890fbc8e3314d
-// 990 checked, 20 unchecked.
+// Manifest version: 8caae597d1a0c833415dc0da7f498a4ba02dcae98dec2bcdbf89b5313ee4a5e0
+// 991 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "629f1aeb04463086ca99af95377a310bbd807733f6a06b36d16890fbc8e3314d",
+  "version": "8caae597d1a0c833415dc0da7f498a4ba02dcae98dec2bcdbf89b5313ee4a5e0",
   "units": {
     "booking_links": {
       "defs": {
@@ -3986,6 +3986,69 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.amazon": {
+      "defs": {
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "keywords",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "department",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "priceMin",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "priceMax",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "brand",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
             },
             "optional": false
           }

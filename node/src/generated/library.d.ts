@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 629f1aeb04463086ca99af95377a310bbd807733f6a06b36d16890fbc8e3314d
-// 48 capabilities, 410 providers, 1008 typed functions, 20 refused.
+// Manifest version: 8caae597d1a0c833415dc0da7f498a4ba02dcae98dec2bcdbf89b5313ee4a5e0
+// 48 capabilities, 411 providers, 1009 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3852,6 +3852,45 @@ interface AlphavantageSignUpResult {
      * stock-data API key — no email verification, no CAPTCHA.
      */
     signUp(details: { organization: string, email: string, occupation?: string }): Promise<AlphavantageSignUpResult>;
+  }
+}
+
+declare namespace BowmarkProvider_amazon {
+  // ── Amazon — the unit's own declarations, verbatim ──
+interface AmazonProduct {
+  asin: string;
+  title: string;
+  url: string;
+  price: number | null;
+  listPrice: number | null;
+  rating: number | null;
+  ratingCount: number | null;
+  sponsored: boolean;
+}
+interface SearchProductsArgs {
+  keywords: string;
+  department?: string;
+  sort?: string;
+  priceMin?: number;
+  priceMax?: number;
+  brand?: string;
+}
+
+  /**
+   * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
+   * the customer reviews, every size and colour the listing sells — plus the rankings (best
+   * sellers, new releases, movers and shakers, most wished for), today's deals and a marketplace
+   * seller's feedback. searchProducts is built; everything else is still a declared stub.
+   */
+  interface Unit {
+    /**
+     * Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c hub" —
+     * and get back the result cards as the site ranks them: ASIN, title, price, list price, star
+     * rating, review count, whether the row is a paid placement, and its product URL. Optionally
+     * narrowed to a department, a brand, a price range and a sort order. THE provider's door:
+     * every function below that takes an ASIN is fed by this one.
+     */
+    searchProducts(args: SearchProductsArgs): Promise<AmazonProduct[]>;
   }
 }
 
@@ -33236,6 +33275,7 @@ interface BowmarkProviders {
   ajmadison: BowmarkProvider_ajmadison.Unit;
   allied: BowmarkProvider_allied.Unit;
   alphavantage: BowmarkProvider_alphavantage.Unit;
+  amazon: BowmarkProvider_amazon.Unit;
   americandreamvacations: BowmarkProvider_americandreamvacations.Unit;
   americanstandard: BowmarkProvider_americanstandard.Unit;
   americanvisionwindows: BowmarkProvider_americanvisionwindows.Unit;

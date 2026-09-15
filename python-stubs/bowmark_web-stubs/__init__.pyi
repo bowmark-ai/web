@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 629f1aeb04463086ca99af95377a310bbd807733f6a06b36d16890fbc8e3314d
-# 48 capabilities, 410 providers, 990 typed functions, 20 refused.
+# Manifest version: 8caae597d1a0c833415dc0da7f498a4ba02dcae98dec2bcdbf89b5313ee4a5e0
+# 48 capabilities, 411 providers, 991 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2143,6 +2143,24 @@ class Prv_alphavantage_signUp_details_In(TypedDict):
 class Prv_alphavantage_AlphavantageSignUpResult_Out(TypedDict):
     apiKey: str
     message: str
+
+class Prv_amazon_SearchProductsArgs_In(TypedDict):
+    keywords: str
+    department: NotRequired[str]
+    sort: NotRequired[str]
+    priceMin: NotRequired[float]
+    priceMax: NotRequired[float]
+    brand: NotRequired[str]
+
+class Prv_amazon_AmazonProduct_Out(TypedDict):
+    asin: str
+    title: str
+    url: str
+    price: float | None
+    listPrice: float | None
+    rating: float | None
+    ratingCount: float | None
+    sponsored: bool
 
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
@@ -18700,6 +18718,22 @@ class Prv_alphavantage(Protocol):
         free-tier stock-data API key — no email verification, no CAPTCHA.
         """
 
+class Prv_amazon(Protocol):
+    """Search Amazon's catalogue and read a product the way a shopper does — price, stock,
+    rating, the customer reviews, every size and colour the listing sells — plus the
+    rankings (best sellers, new releases, movers and shakers, most wished for), today's
+    deals and a marketplace seller's feedback. searchProducts is built; everything else is
+    still a declared stub.
+    """
+
+    async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
+        """Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c
+        hub" — and get back the result cards as the site ranks them: ASIN, title, price, list
+        price, star rating, review count, whether the row is a paid placement, and its product
+        URL. Optionally narrowed to a department, a brand, a price range and a sort order. THE
+        provider's door: every function below that takes an ASIN is fed by this one.
+        """
+
 class Prv_americandreamvacations(Protocol):
     """American Dream Vacations' own RV rental inventory search (americandreamvacations.net) —
     given one of their 10 store locations and an RV class (Class A/B/C or Trailer), returns
@@ -29194,6 +29228,7 @@ class BowmarkProviders(Protocol):
     ajmadison: Prv_ajmadison
     allied: Prv_allied
     alphavantage: Prv_alphavantage
+    amazon: Prv_amazon
     americandreamvacations: Prv_americandreamvacations
     americanstandard: Prv_americanstandard
     americanvisionwindows: Prv_americanvisionwindows

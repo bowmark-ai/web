@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1518 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1542 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -82,9 +82,33 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
 | `aosom.getProduct` | aosom.com | Reads one product's live price and the site's own buyability flag straight off its… | 🟢 |
 | `aosom.searchProducts` | aosom.com | Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query… | 🟢 |
+| `apple.bookGeniusBarAppointment` | apple.com | Book a Genius Bar or repair appointment at a specific store. | ⚪ |
+| `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number. | ⚪ |
+| `apple.compareModels` | apple.com | Put two or more models of the same product side by side on the specs a person actually… | ⚪ |
+| `apple.findStoresNear` | apple.com | Find the Apple Stores near a place a person named — "Cupertino", "94108", "San… | ⚪ |
+| `apple.getConfigurationOptions` | apple.com | Read every choice a buy page actually offers — chip, memory, storage, colour, size… | ⚪ |
+| `apple.getDeliveryEstimate` | apple.com | When would this actually arrive if I ordered it now, to my ZIP code — the delivery… | ⚪ |
+| `apple.getNewsroomPost` | apple.com | Read one Apple press release in full from its URL — the announcement text itself, not… | ⚪ |
+| `apple.getOrderStatus` | apple.com | Where is my Apple order, and when does it arrive. | ⚪ |
+| `apple.getPickupAvailability` | apple.com | Answer the one question apple.com is uniquely able to answer and no other site can… | ⚪ |
 | `apple.getProduct` | apple.com | Reads one apple.com product/buy page (a URL or path search already returned, e.g.… | 🟢 |
+| `apple.getProductByPartNumber` | apple.com | Turn an Apple part number — the MYAP3LL/A-shaped code printed on every buy page, in… | ⚪ |
+| `apple.getPurchaseOptions` | apple.com | Read the ways Apple will let you pay for one product — buy it outright, monthly… | ⚪ |
+| `apple.getStore` | apple.com | Read one Apple Store: its full address, phone number, map coordinates, store number… | ⚪ |
+| `apple.getSupportArticle` | apple.com | Read one Apple support article end to end — the actual instructions, not a search… | ⚪ |
 | `apple.getTradeInEstimate` | apple.com | Reads apple.com's own trade-in value table and returns the ceiling ("up to $X")… | 🟢 |
+| `apple.listAccessories` | apple.com | Everything Apple sells that is not a device — cases, chargers, bands, keyboards… | ⚪ |
+| `apple.listFamilyModels` | apple.com | List every model Apple currently sells in one product family — every Mac, every… | ⚪ |
+| `apple.listNewsroomPosts` | apple.com | Apple's official announcements, newest first — every product launch, financial result… | ⚪ |
+| `apple.listOrders` | apple.com | Everything I have bought from Apple, with dates and prices. | ⚪ |
+| `apple.listRefurbished` | apple.com | Apple's own certified refurbished store, read as data: every refurbished Mac, iPad… | ⚪ |
+| `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | ⚪ |
+| `apple.listTodaySessions` | apple.com | The free hands-on sessions a given Apple Store is running this week, with what each… | ⚪ |
+| `apple.listTradeInValues` | apple.com | The whole Apple Trade In price list in one call, for a device category — every phone… | ⚪ |
+| `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | ⚪ |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |
+| `apple.searchSupport` | apple.com | Search Apple's own support library the way a person describes a problem — "iphone… | ⚪ |
+| `apple.suggestSearches` | apple.com | Type the first two letters of what you want — "airpo", "macbo" — and get back what… | ⚪ |
 | `aquaphoenixsci.browseCategory` | catalog.aquaphoenixsci.com | Lists real products in one of AquaPhoenix's catalog categories (test kits, meters, lab… | 🟢 |
 | `aquaphoenixsci.getProduct` | catalog.aquaphoenixsci.com | Reads one product's real detail page: SKU, name, price (when anonymously priced)… | 🟢 |
 | `arajet.search` | arajet.com | Runs Arajet's own flight-schedule search (origin, destination, date, passengers) and… | 🟢 |
