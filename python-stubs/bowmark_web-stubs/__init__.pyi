@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: aaa52f8aae839c5e2c6d4f768c23e0df90c026be4f003581db562009068b974c
-# 48 capabilities, 414 providers, 1005 typed functions, 20 refused.
+# Manifest version: d6f19193f7c86fcd6396152111642cc9a9b4717c65d8a193b0dec2a6b35b3823
+# 48 capabilities, 414 providers, 1006 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13552,6 +13552,33 @@ class Prv_prime_video_PrimeVideoRatingBucket_Out(TypedDict):
     stars: Literal[1] | Literal[2] | Literal[3] | Literal[4] | Literal[5]
     percentage: float
 
+class Prv_prime_video_PrimeVideoWatchOptions_Out(TypedDict):
+    titleId: str
+    entitlementType: Literal["Entitled"] | Literal["Unentitled"]
+    entitled: bool
+    message: str
+    channel: Prv_prime_video_PrimeVideoWatchOptions_Out_channel_u0_Out | None
+    offers: list[Prv_prime_video_PrimeVideoWatchOffer_Out]
+
+class Prv_prime_video_PrimeVideoWatchOptions_Out_channel_u0_Out(TypedDict):
+    name: str
+    link: str
+
+class Prv_prime_video_PrimeVideoWatchOffer_Out(TypedDict):
+    kind: Literal["rent"] | Literal["buy"] | Literal["subscribe"]
+    label: str
+    price: Prv_prime_video_PrimeVideoWatchOffer_Out_price_u0_Out | None
+    quality: Literal["SD"] | Literal["HD"] | Literal["UHD"] | None
+    channel: Prv_prime_video_PrimeVideoWatchOffer_Out_channel_u0_Out | None
+
+class Prv_prime_video_PrimeVideoWatchOffer_Out_price_u0_Out(TypedDict):
+    currency: str
+    value: str
+
+class Prv_prime_video_PrimeVideoWatchOffer_Out_channel_u0_Out(TypedDict):
+    benefitId: str
+    link: str
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -26971,8 +26998,8 @@ class Prv_prime_video(Protocol):
     watched: included with Prime, free with ads, on a named add-on channel, or rentable and
     buyable with the real price. Plus the browse surfaces (genres, collections, the top ten,
     this week's deals), the add-on channels, and the free live TV, news and sports
-    schedules. searchTitles and suggestTitles are built; everything else is still a declared
-    stub.
+    schedules. searchTitles, suggestTitles, getTitle and getWatchOptions are built;
+    everything else is still a declared stub.
     """
 
     async def searchTitles(self, query: str, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
@@ -27005,6 +27032,17 @@ class Prv_prime_video(Protocol):
         searchTitles(). THE REVIEW TEXT IS NOT HERE — the aggregate rating and histogram are
         real and logged out, but review bodies are amazon.com's own surface behind amazon.com's
         sign-in wall.
+        """
+
+    async def getWatchOptions(self, titleId: str, /) -> Prv_prime_video_PrimeVideoWatchOptions_Out:
+        """Say how you would actually watch a title: included with your Prime membership, free with
+        ads, on an add-on channel you would have to subscribe to (and which one), or available
+        to rent or buy — and when it is rent-or-buy, every offer with its real price and
+        quality. THE question this provider exists to answer, and the one no general search
+        result answers about Amazon's catalogue. Takes a titleId or a title URL, e.g. one read
+        off searchTitles() or getTitle(). Reads the SAME page as getTitle, never fetches it
+        twice. Placing any of these orders is never a function of this provider — a flow that
+        costs money stops before the payment step, always.
         """
 
 class Prv_progressive(Protocol):

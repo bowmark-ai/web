@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: aaa52f8aae839c5e2c6d4f768c23e0df90c026be4f003581db562009068b974c
-// 48 capabilities, 414 providers, 1023 typed functions, 20 refused.
+// Manifest version: d6f19193f7c86fcd6396152111642cc9a9b4717c65d8a193b0dec2a6b35b3823
+// 48 capabilities, 414 providers, 1024 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -25821,6 +25821,21 @@ interface PrimeVideoTitle {
 interface PrimeVideoTitleSuggestion {
   value: string;
 }
+interface PrimeVideoWatchOffer {
+  kind: "rent" | "buy" | "subscribe";
+  label: string;
+  price: { currency: string; value: string } | null;
+  quality: "SD" | "HD" | "UHD" | null;
+  channel: { benefitId: string; link: string } | null;
+}
+interface PrimeVideoWatchOptions {
+  titleId: string;
+  entitlementType: "Entitled" | "Unentitled";
+  entitled: boolean;
+  message: string;
+  channel: { name: string; link: string } | null;
+  offers: PrimeVideoWatchOffer[];
+}
 interface PrimeVideoCredit {
   name: string;
   searchLink: string | null;
@@ -25865,8 +25880,9 @@ interface PrimeVideoTitleDetail {
    * cast, rating, seasons and episodes — and above all say how it can actually be watched:
    * included with Prime, free with ads, on a named add-on channel, or rentable and buyable with
    * the real price. Plus the browse surfaces (genres, collections, the top ten, this week's
-   * deals), the add-on channels, and the free live TV, news and sports schedules. searchTitles
-   * and suggestTitles are built; everything else is still a declared stub.
+   * deals), the add-on channels, and the free live TV, news and sports schedules. searchTitles,
+   * suggestTitles, getTitle and getWatchOptions are built; everything else is still a declared
+   * stub.
    */
   interface Unit {
     /**
@@ -25901,6 +25917,18 @@ interface PrimeVideoTitleDetail {
      * review bodies are amazon.com's own surface behind amazon.com's sign-in wall.
      */
     getTitle(titleId: string): Promise<PrimeVideoTitleDetail>;
+
+    /**
+     * Say how you would actually watch a title: included with your Prime membership, free with
+     * ads, on an add-on channel you would have to subscribe to (and which one), or available to
+     * rent or buy — and when it is rent-or-buy, every offer with its real price and quality. THE
+     * question this provider exists to answer, and the one no general search result answers about
+     * Amazon's catalogue. Takes a titleId or a title URL, e.g. one read off searchTitles() or
+     * getTitle(). Reads the SAME page as getTitle, never fetches it twice. Placing any of these
+     * orders is never a function of this provider — a flow that costs money stops before the
+     * payment step, always.
+     */
+    getWatchOptions(titleId: string): Promise<PrimeVideoWatchOptions>;
   }
 }
 
