@@ -1,5 +1,5 @@
 {
-  "version": "f338b281647d75045f865de018619e3f324279b18d99c226271256bbb846d8ef",
+  "version": "29802fc741d7366170edac54a71e247b6624e420dd6cd04b2cd9428e55133590",
   "units": {
     "booking_links": {
       "defs": {
@@ -21679,6 +21679,20 @@
         "findDealers": [
           {
             "name": "state",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.prime_video": {
+      "defs": {},
+      "functions": {
+        "searchTitles": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

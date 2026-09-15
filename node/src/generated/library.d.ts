@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f338b281647d75045f865de018619e3f324279b18d99c226271256bbb846d8ef
-// 48 capabilities, 411 providers, 1010 typed functions, 20 refused.
+// Manifest version: 29802fc741d7366170edac54a71e247b6624e420dd6cd04b2cd9428e55133590
+// 48 capabilities, 412 providers, 1011 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -25571,6 +25571,45 @@ interface PremierbuildingsDealer {
   }
 }
 
+declare namespace BowmarkProvider_prime_video {
+  // ── Prime Video — the unit's own declarations, verbatim ──
+interface PrimeVideoTitle {
+  titleId: string;
+  catalogId: string | null;
+  title: string;
+  url: string;
+  entityType: string | null;
+  releaseYear: number | null;
+  maturityRating: string | null;
+  entitled: boolean;
+  watchMessage: string | null;
+}
+
+  /**
+   * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
+   * cast, rating, seasons and episodes — and above all say how it can actually be watched:
+   * included with Prime, free with ads, on a named add-on channel, or rentable and buyable with
+   * the real price. Plus the browse surfaces (genres, collections, the top ten, this week's
+   * deals), the add-on channels, and the free live TV, news and sports schedules. searchTitles
+   * (the door) is built; everything else is still a declared stub.
+   */
+  interface Unit {
+    /**
+     * Search Prime Video's whole catalogue for what a person would type — "matrix", "the boys" —
+     * and get back the title cards the site itself ranks: display title, the titleId every other
+     * function here takes, whether it is a film or a series, the year, the maturity rating, and
+     * the site's own sentence for how to watch it. THE provider's door: every titleId-taking
+     * function below is fed by this one. Returns the FIRST page only — Prime Video's search page
+     * carries no pagination markers at all (measured 2026-09-15) — and the site's six refinement
+     * filters (film-or-series, how you can watch it, which channel, HD/UHD, theme, audio language)
+     * are not built here: they ride an opaque per-page `serviceToken`, not a query parameter, and
+     * a query parameter silently returns the unfiltered set rather than erroring. A query that
+     * matches nothing returns an empty array rather than throwing.
+     */
+    searchTitles(query: string): Promise<PrimeVideoTitle[]>;
+  }
+}
+
 declare namespace BowmarkProvider_progressive {
   // ── Progressive — the unit's own declarations, verbatim ──
 // Progressive's OWN shapes — not a capability contract.
@@ -33598,6 +33637,7 @@ interface BowmarkProviders {
   positivegrid: BowmarkProvider_positivegrid.Unit;
   postiz: BowmarkProvider_postiz.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
+  prime_video: BowmarkProvider_prime_video.Unit;
   progressive: BowmarkProvider_progressive.Unit;
   prolook: BowmarkProvider_prolook.Unit;
   prose: BowmarkProvider_prose.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f338b281647d75045f865de018619e3f324279b18d99c226271256bbb846d8ef
-# 48 capabilities, 411 providers, 992 typed functions, 20 refused.
+# Manifest version: 29802fc741d7366170edac54a71e247b6624e420dd6cd04b2cd9428e55133590
+# 48 capabilities, 412 providers, 993 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13367,6 +13367,17 @@ class Prv_premierbuildings_PremierbuildingsDealer_Out(TypedDict):
     phoneNumber: str
     dealerURL: str
 
+class Prv_prime_video_PrimeVideoTitle_Out(TypedDict):
+    titleId: str
+    catalogId: str | None
+    title: str
+    url: str
+    entityType: str | None
+    releaseYear: float | None
+    maturityRating: str | None
+    entitled: bool
+    watchMessage: str | None
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -26677,6 +26688,29 @@ class Prv_premierbuildings(Protocol):
         handing a priced configuration off to order.
         """
 
+class Prv_prime_video(Protocol):
+    """Search Prime Video's catalogue and read a film or series the way a viewer does —
+    synopsis, cast, rating, seasons and episodes — and above all say how it can actually be
+    watched: included with Prime, free with ads, on a named add-on channel, or rentable and
+    buyable with the real price. Plus the browse surfaces (genres, collections, the top ten,
+    this week's deals), the add-on channels, and the free live TV, news and sports
+    schedules. searchTitles (the door) is built; everything else is still a declared stub.
+    """
+
+    async def searchTitles(self, query: str, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
+        """Search Prime Video's whole catalogue for what a person would type — "matrix", "the boys"
+        — and get back the title cards the site itself ranks: display title, the titleId every
+        other function here takes, whether it is a film or a series, the year, the maturity
+        rating, and the site's own sentence for how to watch it. THE provider's door: every
+        titleId-taking function below is fed by this one. Returns the FIRST page only — Prime
+        Video's search page carries no pagination markers at all (measured 2026-09-15) — and the
+        site's six refinement filters (film-or-series, how you can watch it, which channel,
+        HD/UHD, theme, audio language) are not built here: they ride an opaque per-page
+        `serviceToken`, not a query parameter, and a query parameter silently returns the
+        unfiltered set rather than erroring. A query that matches nothing returns an empty array
+        rather than throwing.
+        """
+
 class Prv_progressive(Protocol):
     """Quotes from the second-largest US auto insurer across every line it publishes — auto,
     the specialty vehicle band (motorcycle, boat, RV, ATV, snowmobile, golf cart, PWC,
@@ -29550,6 +29584,7 @@ class BowmarkProviders(Protocol):
     positivegrid: Prv_positivegrid
     postiz: Prv_postiz
     premierbuildings: Prv_premierbuildings
+    prime_video: Prv_prime_video
     progressive: Prv_progressive
     prolook: Prv_prolook
     prose: Prv_prose
