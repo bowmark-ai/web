@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1b0a961bc1715a907ab0f6e795acb6a51d3203cc66f3004e6634d186eabc2d9c
-// 979 checked, 20 unchecked.
+// Manifest version: 91e91d275f6c525bfc0d024b500dadfa2b416e8f59fc4f0583a78866e1716f19
+// 980 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1b0a961bc1715a907ab0f6e795acb6a51d3203cc66f3004e6634d186eabc2d9c",
+  "version": "91e91d275f6c525bfc0d024b500dadfa2b416e8f59fc4f0583a78866e1716f19",
   "units": {
     "booking_links": {
       "defs": {
@@ -75,6 +75,13 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "archive",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "search",
               "schema": {
                 "k": "boolean"
               },
@@ -25915,6 +25922,55 @@ export const VALIDATORS: ValidatorTable = {
               }
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.serper": {
+      "defs": {
+        "SerperSearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "num",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "gl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "hl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchGoogle": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "SerperSearchOptions"
+            },
+            "optional": true
           }
         ]
       }

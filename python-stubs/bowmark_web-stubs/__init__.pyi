@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1b0a961bc1715a907ab0f6e795acb6a51d3203cc66f3004e6634d186eabc2d9c
-# 48 capabilities, 406 providers, 979 typed functions, 20 refused.
+# Manifest version: 91e91d275f6c525bfc0d024b500dadfa2b416e8f59fc4f0583a78866e1716f19
+# 48 capabilities, 407 providers, 980 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -239,6 +239,7 @@ class Cap_booking_links_FindBookingLinksInput_In(TypedDict):
 
 class Cap_booking_links_FindBookingLinksOptions_In(TypedDict):
     archive: NotRequired[bool]
+    search: NotRequired[bool]
     timeoutMs: NotRequired[float]
 
 class Cap_booking_links_BookingLinkSearch_Out(TypedDict):
@@ -250,8 +251,8 @@ class Cap_booking_links_BookingLinkSearch_Out(TypedDict):
 class Cap_booking_links_BookingLinkFinding_Out(TypedDict):
     url: str
     platform: Literal["calendly"] | Literal["cal.com"] | Literal["savvycal"] | Literal["tidycal"] | Literal["zcal"] | Literal["hubspot"] | Literal["acuity"] | Literal["chilipiper"] | Literal["google-calendar"] | Literal["microsoft-bookings"]
-    method: Literal["published"] | Literal["archived"] | Literal["name_match"]
-    foundBy: list[Literal["published"] | Literal["archived"] | Literal["name_match"]]
+    method: Literal["published"] | Literal["archived"] | Literal["indexed"] | Literal["name_match"]
+    foundBy: list[Literal["published"] | Literal["archived"] | Literal["indexed"] | Literal["name_match"]]
     foundOn: str | None
     archivedAt: str | None
     archiveUrl: str | None
@@ -14700,6 +14701,24 @@ class Prv_semihandmade_SemihandmadePriceResult_Out(TypedDict):
     sku: str
     productUrl: str
 
+class Prv_serper_SerperSearchOptions_In(TypedDict):
+    num: NotRequired[float]
+    gl: NotRequired[str]
+    hl: NotRequired[str]
+
+class Prv_serper_SerperSearchResult_Out(TypedDict):
+    query: str
+    results: list[Prv_serper_SerperOrganicResult_Out]
+    credits: float | None
+    warnings: list[str]
+
+class Prv_serper_SerperOrganicResult_Out(TypedDict):
+    position: float
+    title: str
+    link: str
+    snippet: str | None
+    date: str | None
+
 class Prv_sitmeanssit_SitmeanssitNearestLocationsResult_Out(TypedDict):
     zip: str
     locations: list[Prv_sitmeanssit_SitmeanssitLocation_Out]
@@ -17129,16 +17148,19 @@ class Cap_booking_links(Protocol):
     """
 
     async def find(self, person: Cap_booking_links_FindBookingLinksInput_In, options: Cap_booking_links_FindBookingLinksOptions_In | None = None, /) -> Cap_booking_links_BookingLinkSearch_Out:
-        """Finds a person's public booking links from their name. Runs three searches at once and
+        """Finds a person's public booking links from their name. Runs four searches at once and
         merges them, strongest evidence first: links PUBLISHED on their company's
-        about/team/contact/services pages and homepage, their GitHub profile README and any
-        `urls` of theirs (each with the page it was on and the words around it); links on
-        ARCHIVED Wayback Machine captures of the company's about/team/contact pages, dated
-        (catches a link since removed); and their name as a slug on Calendly and Cal.com,
-        including "first-company" shapes (NAME_MATCH — exists, but a namesake can own it, so
-        check `ownerName` and tie it to the company). Pass `company` and `domain` whenever known
-        — they are what make most finds. Search engines do not index Calendly pages, so a web
-        search cannot replace this. Never books.
+        about/team/contact/services pages and homepage, their GitHub profile README, the website
+        that profile lists and any `urls` of theirs (each with the page it was on and the words
+        around it); links on ARCHIVED Wayback Machine captures of the company's
+        about/team/contact pages, dated (catches a link since removed); Cal.com pages Google has
+        INDEXED under their name (a `site:cal.com "<name>"` Google search through Serper — send
+        your Serper key as the `x-bowmark-vendor-key-serper` header, or it is skipped and named
+        in `warnings`); and their name as a slug on Calendly and Cal.com, including
+        "first-company" shapes (NAME_MATCH — exists, but a namesake can own it, so check
+        `ownerName` and tie it to the company). Pass `company` and `domain` whenever known.
+        Google does not index Calendly pages, so the slug check is the only way to find those.
+        Never books.
         """
 
     async def scanPage(self, url: str, options: Cap_booking_links_CallOptions_In | None = None, /) -> Cap_booking_links_PageScan_Out:
@@ -27252,6 +27274,21 @@ class Prv_semihandmade(Protocol):
         plus the product page to finish there.
         """
 
+class Prv_serper(Protocol):
+    """Google's own search results as JSON through Serper's API — honours site:, quoted phrases
+    and every other Google operator, in about a second. Needs a Serper API key; each search
+    spends a credit.
+    """
+
+    async def searchGoogle(self, query: str, opts: Prv_serper_SerperSearchOptions_In | None = None, /) -> Prv_serper_SerperSearchResult_Out:
+        """Runs a Google search and returns Google's organic results — position, title, destination
+        url, snippet — with every Google operator honoured. `site:cal.com "Chris Field"` returns
+        only cal.com pages naming him (cal.com/analytics/quick-chat among them), which is how to
+        find a page on one site by any words printed on it. An empty `results` is Google
+        matching nothing. Requires a Serper API key: send your own as the
+        `x-bowmark-vendor-key-serper` header; each search spends one Serper credit.
+        """
+
 class Prv_sitmeanssit(Protocol):
     """Reads Sit Means Sit's own real-time Dog Training Locator directly (the same admin-ajax
     endpoint the site's /locations/ map runs) — the nearest real franchise locations to a US
@@ -29260,6 +29297,7 @@ class BowmarkProviders(Protocol):
     selectblinds: Prv_selectblinds
     sellcell: Prv_sellcell
     semihandmade: Prv_semihandmade
+    serper: Prv_serper
     sitmeanssit: Prv_sitmeanssit
     sixflags: Prv_sixflags
     smartsign: Prv_smartsign

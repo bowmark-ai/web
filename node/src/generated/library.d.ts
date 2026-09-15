@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1b0a961bc1715a907ab0f6e795acb6a51d3203cc66f3004e6634d186eabc2d9c
-// 48 capabilities, 406 providers, 997 typed functions, 20 refused.
+// Manifest version: 91e91d275f6c525bfc0d024b500dadfa2b416e8f59fc4f0583a78866e1716f19
+// 48 capabilities, 407 providers, 998 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -42,9 +42,10 @@ type BookingPlatform = "calendly" | "cal.com" | "savvycal" | "tidycal" | "zcal" 
   | "acuity" | "chilipiper" | "google-calendar" | "microsoft-bookings"
 
 // published: READ off a page (foundOn is the citation). archived: read off an old
-// Wayback capture of a page (archivedAt dates it). name_match: built from the name and
+// Wayback capture of a page (archivedAt dates it). indexed: Google's site:cal.com search for
+// the name returned it (context quotes the result). name_match: built from the name and
 // it exists — nothing shows the person published it, and a namesake can own it.
-type BookingLinkMethod = "published" | "archived" | "name_match"
+type BookingLinkMethod = "published" | "archived" | "indexed" | "name_match"
 
 interface BookingLinkFinding {
   url: string
@@ -69,6 +70,7 @@ interface FindBookingLinksInput {
 
 interface FindBookingLinksOptions {
   archive?: boolean      // read Wayback captures of the domain's about/team/contact pages; default true with a domain
+  search?: boolean       // Google site:cal.com "<name>" via Serper; default true; needs the x-bowmark-vendor-key-serper header
   timeoutMs?: number
 }
 
@@ -117,15 +119,18 @@ type CallOptions = {
    */
   interface Unit {
     /**
-     * Finds a person's public booking links from their name. Runs three searches at once and
-     * merges them, strongest evidence first: links PUBLISHED on their company's
-     * about/team/contact/services pages and homepage, their GitHub profile README and any `urls`
-     * of theirs (each with the page it was on and the words around it); links on ARCHIVED Wayback
-     * Machine captures of the company's about/team/contact pages, dated (catches a link since
-     * removed); and their name as a slug on Calendly and Cal.com, including "first-company" shapes
-     * (NAME_MATCH — exists, but a namesake can own it, so check `ownerName` and tie it to the
-     * company). Pass `company` and `domain` whenever known — they are what make most finds. Search
-     * engines do not index Calendly pages, so a web search cannot replace this. Never books.
+     * Finds a person's public booking links from their name. Runs four searches at once and merges
+     * them, strongest evidence first: links PUBLISHED on their company's
+     * about/team/contact/services pages and homepage, their GitHub profile README, the website
+     * that profile lists and any `urls` of theirs (each with the page it was on and the words
+     * around it); links on ARCHIVED Wayback Machine captures of the company's about/team/contact
+     * pages, dated (catches a link since removed); Cal.com pages Google has INDEXED under their
+     * name (a `site:cal.com "<name>"` Google search through Serper — send your Serper key as the
+     * `x-bowmark-vendor-key-serper` header, or it is skipped and named in `warnings`); and their
+     * name as a slug on Calendly and Cal.com, including "first-company" shapes (NAME_MATCH —
+     * exists, but a namesake can own it, so check `ownerName` and tie it to the company). Pass
+     * `company` and `domain` whenever known. Google does not index Calendly pages, so the slug
+     * check is the only way to find those. Never books.
      */
     find(person: FindBookingLinksInput, options?: FindBookingLinksOptions): Promise<BookingLinkSearch>;
 
@@ -27733,6 +27738,47 @@ interface SemihandmadePriceResult {
   }
 }
 
+declare namespace BowmarkProvider_serper {
+  // ── Serper — the unit's own declarations, verbatim ──
+interface SerperOrganicResult {
+  position: number;
+  title: string;
+  link: string;              // the destination url
+  snippet: string | null;
+  date: string | null;
+}
+
+interface SerperSearchOptions {
+  num?: number;              // 1-100, default 10
+  gl?: string;               // country, e.g. "us"
+  hl?: string;               // language, e.g. "en"
+}
+
+interface SerperSearchResult {
+  query: string;
+  results: SerperOrganicResult[];   // empty only when Google matched nothing
+  credits: number | null;           // Serper credits this search spent
+  warnings: string[];
+}
+
+  /**
+   * Google's own search results as JSON through Serper's API — honours site:, quoted phrases and
+   * every other Google operator, in about a second. Needs a Serper API key; each search spends a
+   * credit.
+   */
+  interface Unit {
+    /**
+     * Runs a Google search and returns Google's organic results — position, title, destination
+     * url, snippet — with every Google operator honoured. `site:cal.com "Chris Field"` returns
+     * only cal.com pages naming him (cal.com/analytics/quick-chat among them), which is how to
+     * find a page on one site by any words printed on it. An empty `results` is Google matching
+     * nothing. Requires a Serper API key: send your own as the `x-bowmark-vendor-key-serper`
+     * header; each search spends one Serper credit.
+     */
+    searchGoogle(query: string, opts?: SerperSearchOptions): Promise<SerperSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_sitmeanssit {
   // ── Sit Means Sit — the unit's own declarations, verbatim ──
 interface SitmeanssitLocation {
@@ -33282,6 +33328,7 @@ interface BowmarkProviders {
   selectblinds: BowmarkProvider_selectblinds.Unit;
   sellcell: BowmarkProvider_sellcell.Unit;
   semihandmade: BowmarkProvider_semihandmade.Unit;
+  serper: BowmarkProvider_serper.Unit;
   sitmeanssit: BowmarkProvider_sitmeanssit.Unit;
   sixflags: BowmarkProvider_sixflags.Unit;
   smartsign: BowmarkProvider_smartsign.Unit;
