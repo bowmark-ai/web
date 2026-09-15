@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1419 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1420 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -244,7 +244,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `capitalbrands.listQuizQuestions` | nutribullet.com | Reads NutriBullet's own "Which nutribullet is Best for Me?" product-recommendation… | 🟢 |
 | `caraway.getCarawayProduct` | carawayhome.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `caraway.listCarawayProducts` | carawayhome.com | Reads the live Caraway catalogue as Caraway publishes it — every ceramic cookware… | 🟢 |
-| `caraway.runCarawayQuiz` | carawayhome.com | Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended… | 🟡 |
+| `caraway.runCarawayQuiz` | carawayhome.com | Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended… | 🟢 |
 | `carepatrol.findLocalAdvisor` | carepatrol.com | Runs the site's own zip/state locator at carepatrol.com/locations/ — given a US ZIP… | 🟢 |
 | `carlsgolfland.addToCart` | carlsgolfland.com | Hands the shopper the entry-point link for a priced configuration plus the exact… | 🟢 |
 | `carlsgolfland.checkout` | carlsgolfland.com | Would place a priced configuration into Carl's Golfland's cart and return a checkout… | ⚪ |
@@ -345,6 +345,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `culturefly.getCultureFlyBoxOptions` | culturefly.com | Reads one box's full configure surface off its own product page — every apparel size… | 🟢 |
 | `culturefly.listCultureFlyBoxes` | culturefly.com | Reads the live CultureFly catalogue for exactly the licensed subscription-box product… | 🟢 |
 | `curiocity.listEvents` | curiocity.com | Reads curiocity.com's own city 'things to do' feed and returns individual events… | 🟢 |
+| `currency_exchange.getRate` | exchangerate-api.com | Returns the current exchange rate between two currency codes | 🟢 |
 | `cyberpowerpc.getConfigurator` | cyberpowerpc.com | Reads one base configurator's whole component tree — every section (CPU, GPU, memory… | 🟢 |
 | `cyberpowerpc.listConfigurators` | cyberpowerpc.com | Lists every base gaming-PC configurator on the site — AMD and Intel, every tier from… | 🟢 |
 | `cyberpowerpc.priceBuild` | cyberpowerpc.com | Prices an exact build for one configurator given a caller's part selections (one part… | 🟢 |
@@ -729,7 +730,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hilton.getDeals` | hilton.com | Reads Hilton's currently published promotions and offers — the site's own "Offers"… | ⚪ |
 | `hilton.getHotelDetails` | hilton.com | Reads one Hilton-family property in full — full address, phone number, brand tier… | ⚪ |
 | `hilton.getReservation` | hilton.com | Reads an existing Hilton reservation the way the site's own "Find Your Reservation"… | ⚪ |
-| `hilton.search` | hilton.com | Searches Hilton's live cash room availability for one property (a hilton.com URL… | 🟡 |
+| `hilton.search` | hilton.com | Searches Hilton's live cash room availability for one property (a hilton.com URL… | 🟢 |
 | `historymaker.getHome` | historymaker.com | Reads one quick-move-in home's full detail: address, current and original price… | 🟢 |
 | `historymaker.listCommunities` | historymaker.com | Lists HistoryMaker's active DFW communities with city, price range, beds/baths range… | 🟢 |
 | `historymaker.searchQuickMoveIns` | historymaker.com | Searches HistoryMaker's current Dallas/Fort Worth quick-move-in inventory by min/max… | 🟢 |
@@ -971,7 +972,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟡 |
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟡 |
-| `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟡 |
+| `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
 | `millisaraylar.getVisitingHours` | millisaraylar.gov.tr | Matches a name against getPalaces()'s own listing and reads that site's closed day(s)… | 🟢 |
@@ -1249,7 +1250,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `summerfridaysquiz.getSkincareQuizQuestions` | summerfridays.com | Lists the live Skincare Quiz's questions (skin type, sensitivity, skin concerns, eye… | 🟢 |
 | `summerfridaysquiz.getSkincareRoutine` | summerfridays.com | Runs Summer Fridays' own published Skincare Quiz decision tree (the routine-category… | 🟢 |
 | `sunhomesaunas.addSaunaToCart` | sunhomesaunas.com | Adds one real matched product to a real Shopify cart at Sun Home Saunas' own real live… | 🟢 |
-| `sunhomesaunas.getPersonalizedSaunaMatches` | sunhomesaunas.com | Applies real answers to the live Digioh product-weight rules the site's quiz… | 🟡 |
+| `sunhomesaunas.getPersonalizedSaunaMatches` | sunhomesaunas.com | Applies real answers to the live Digioh product-weight rules the site's quiz… | 🟢 |
 | `sunhomesaunas.getSaunaFinderQuestions` | sunhomesaunas.com | Reads Sun Home Saunas' real, live Digioh buyer quiz from its public breakpoint… | 🟢 |
 | `sunlighten.getModelPricing` | sunlighten.com | Reads the real, currently-quoted price for a Sunlighten sauna model off the public… | 🟢 |
 | `sunlighten.matchSauna` | sunlighten.com | Runs Sunlighten's own 'Find My Sauna' quiz match — the same wellness-goal +… | 🟢 |

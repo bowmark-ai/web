@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 66 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 67 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -16,6 +16,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |
 | `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟢 |
 | `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
+| `currency_exchange.getRate` | Returns the current exchange rate between two currencies | 1 | 🟢 |
 | `custom_sofa_configurator.getConfigurator` | Reads one sofa's full configurator — every option slot (Fabric, Wood Stain, Color… | 2 | 🟢 |
 | `custom_sofa_configurator.listSofas` | Lists configurable sofas/sectionals across every maker — Joybird's whole catalogue… | 2 | 🟢 |
 | `custom_sofa_configurator.priceConfiguration` | Prices ONE exact configuration against the maker's own live customizer and returns the… | 2 | 🟢 |
@@ -45,7 +46,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `music.getTrack` | Reads ONE track you already have a URL for — a public track link, or a `Track` that… | 1 | 🟢 |
 | `music.search` | Searches the catalogue for tracks matching free text ("aphex twin", "lofi hip hop"… | 1 | 🟢 |
 | `pcparts.getProduct` | Reads ONE product page in full — pass a product URL or an offer straight from… | 3 | 🟡 |
-| `pcparts.search` | Searches Newegg + Micro Center + B&H for ONE part (e.g. "Ryzen 7 7800X3D" or "RTX… | 3 | 🟡 |
+| `pcparts.search` | Searches Newegg + Micro Center + B&H for ONE part (e.g. "Ryzen 7 7800X3D" or "RTX… | 3 | 🟢 |
 | `pet_boarding.search` | Searches overnight pet-boarding sitters for a city and increasing ISO start/end dates… | 1 | 🟢 |
 | `phone_price.compare` | Prices one phone across T-Mobile and Visible in parallel and returns a price-sorted… | 2 | 🟢 |
 | `phone_trade_in.estimate` | Looks up the current buyback value of an iPhone — `bowmark.phone_trade_in.estimate({… | 2 | 🟢 |
