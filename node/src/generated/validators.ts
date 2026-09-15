@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 34ad764859f7f3f5a69ccae375b435c4f96897c82bf8e6ba45abe5e7a1720701
-// 1000 checked, 20 unchecked.
+// Manifest version: 6c0c6d8b085043abd31cce81f4df5c7fd294cca6d3eb0765f790163d155059cf
+// 1003 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "34ad764859f7f3f5a69ccae375b435c4f96897c82bf8e6ba45abe5e7a1720701",
+  "version": "6c0c6d8b085043abd31cce81f4df5c7fd294cca6d3eb0765f790163d155059cf",
   "units": {
     "booking_links": {
       "defs": {
@@ -4432,6 +4432,88 @@ export const VALIDATORS: ValidatorTable = {
             "name": "url",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.app_store": {
+      "defs": {
+        "AppStorePlatform": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "iphone"
+            },
+            {
+              "k": "literal",
+              "v": "ipad"
+            },
+            {
+              "k": "literal",
+              "v": "mac"
+            }
+          ]
+        },
+        "SearchAppsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "term",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "platform",
+              "schema": {
+                "k": "ref",
+                "name": "AppStorePlatform"
+              },
+              "optional": true
+            },
+            {
+              "name": "genreId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchApps": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchAppsArgs"
             },
             "optional": false
           }
@@ -13917,6 +13999,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "resolveArticleUrl": [
+          {
+            "name": "articleIdOrLink",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -21852,6 +21943,15 @@ export const VALIDATORS: ValidatorTable = {
         "suggestTitles": [
           {
             "name": "prefix",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTitle": [
+          {
+            "name": "titleId",
             "schema": {
               "k": "string"
             },

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 34ad764859f7f3f5a69ccae375b435c4f96897c82bf8e6ba45abe5e7a1720701
-# 48 capabilities, 413 providers, 1000 typed functions, 20 refused.
+# Manifest version: 6c0c6d8b085043abd31cce81f4df5c7fd294cca6d3eb0765f790163d155059cf
+# 48 capabilities, 414 providers, 1003 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2396,6 +2396,43 @@ class Prv_aosom_AosomProduct_Out(TypedDict):
     originalPrice: float | None
     inStock: bool
     url: str
+
+class Prv_app_store_SearchAppsArgs_In(TypedDict):
+    term: str
+    platform: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"]]
+    genreId: NotRequired[str | float]
+    country: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_app_store_AppStoreSearchResult_Out(TypedDict):
+    term: str
+    platform: Literal["iphone"] | Literal["ipad"] | Literal["mac"]
+    country: str
+    total: float
+    apps: list[Prv_app_store_AppStoreApp_Out]
+
+class Prv_app_store_AppStoreApp_Out(TypedDict):
+    id: str
+    name: str
+    bundleId: str
+    developer: Prv_app_store_AppStoreApp_Out_developer_Out
+    price: Prv_app_store_AppStoreApp_Out_price_u0_Out | None
+    rating: Prv_app_store_AppStoreApp_Out_rating_u0_Out | None
+    category: str
+    url: str
+
+class Prv_app_store_AppStoreApp_Out_developer_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_app_store_AppStoreApp_Out_price_u0_Out(TypedDict):
+    amount: float
+    currency: str
+    formatted: str
+
+class Prv_app_store_AppStoreApp_Out_rating_u0_Out(TypedDict):
+    average: float
+    count: float
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -8442,6 +8479,10 @@ class Prv_google_news_GoogleNewsLocalHeadlines_Out(TypedDict):
     title: str
     articles: list[Prv_google_news_GoogleNewsArticle_Out]
 
+class Prv_google_news_GoogleNewsArticleResolution_Out(TypedDict):
+    articleId: str
+    url: str
+
 Prv_google_translate_TranslateArgs_In = TypedDict(
     "Prv_google_translate_TranslateArgs_In",
     {
@@ -13434,6 +13475,48 @@ class Prv_prime_video_PrimeVideoTitle_Out(TypedDict):
 
 class Prv_prime_video_PrimeVideoTitleSuggestion_Out(TypedDict):
     value: str
+
+class Prv_prime_video_PrimeVideoTitleDetail_Out(TypedDict):
+    titleId: str
+    catalogId: str | None
+    title: str
+    seriesTitle: str | None
+    seasonNumber: float | None
+    titleType: str | None
+    synopsis: str | None
+    releaseYear: float | None
+    releaseDate: str | None
+    runtime: str | None
+    genres: list[str]
+    maturityRating: str | None
+    cast: list[Prv_prime_video_PrimeVideoCredit_Out]
+    directors: list[Prv_prime_video_PrimeVideoCredit_Out]
+    studios: list[str]
+    amazonRating: Prv_prime_video_PrimeVideoTitleDetail_Out_amazonRating_u0_Out | None
+    ratingsHistogram: list[Prv_prime_video_PrimeVideoRatingBucket_Out]
+    imdbScore: float | None
+    audioTracks: list[str]
+    subtitles: list[str]
+    isUhd: bool
+    isHdr: bool
+    isDolbyVision: bool
+    isDolbyAtmos: bool
+    isXRay: bool
+    isClosedCaption: bool
+    isPrime: bool
+    isAd: bool
+
+class Prv_prime_video_PrimeVideoCredit_Out(TypedDict):
+    name: str
+    searchLink: str | None
+
+class Prv_prime_video_PrimeVideoTitleDetail_Out_amazonRating_u0_Out(TypedDict):
+    value: float
+    count: float
+
+class Prv_prime_video_PrimeVideoRatingBucket_Out(TypedDict):
+    stars: Literal[1] | Literal[2] | Literal[3] | Literal[4] | Literal[5]
+    percentage: float
 
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
@@ -18997,6 +19080,19 @@ class Prv_aosom(Protocol):
         variant.
         """
 
+class Prv_app_store(Protocol):
+    """Search every iPhone, iPad and Mac app Apple lists, read one app's price, rating,
+    reviews, in-app purchases and privacy labels, and see what is charting right now — off
+    Apple's own keyless public API and its server-rendered store pages.
+    """
+
+    async def searchApps(self, args: Prv_app_store_SearchAppsArgs_In, /) -> Prv_app_store_AppStoreSearchResult_Out:
+        """Search the App Store for what a person would actually type — "budget tracker", "slack",
+        "photo editor" — and get back the apps Apple's own store search ranks, narrowable by
+        platform (iPhone/iPad/Mac), category and store country. THE door: every id-taking
+        function in this provider is fed by an id this returns.
+        """
+
 class Prv_apple(Protocol):
     """apple.com's own site search and product pages — no API, no login, no browser."""
 
@@ -23164,8 +23260,9 @@ class Prv_google_news(Protocol):
     """Headlines from every publisher at once — today's top stories as clusters, a section or a
     city's local news, one outlet's own coverage, and everything indexed about a subject
     with Google's own when: and site: operators. searchNews (the door), topStories,
-    listTopicHeadlines, listLocalHeadlines and listPublisherHeadlines are built; everything
-    else is still a declared stub.
+    listTopicHeadlines, listLocalHeadlines, listPublisherHeadlines and resolveArticleUrl
+    (the redirector-to-publisher resolver every other function's links need) are built;
+    everything else is still a declared stub.
     """
 
     async def searchNews(self, query: str, /) -> Prv_google_news_GoogleNewsSearchResult_Out:
@@ -23219,6 +23316,18 @@ class Prv_google_news(Protocol):
         other feed by guid) — reading that as an empty result would be silently wrong, so this
         throws instead. A recognized place's own channel title is echoed back in `place`, in the
         site's own spelling, so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`.
+        """
+
+    async def resolveArticleUrl(self, articleIdOrLink: str, /) -> Prv_google_news_GoogleNewsArticleResolution_Out:
+        """The publisher's real article URL behind a Google News link — every `link` in every feed
+        above is a `news.google.com/rss/articles/<id>` redirector that does NOT redirect (it
+        302s to itself, then serves an interstitial with no publisher URL anywhere in its
+        bytes), so this is what turns a headline into something a caller can actually read.
+        Takes either the bare `articleId` (a feed item's own `<guid>`) or a full redirector link
+        someone pasted. Two hops, both browserless: GET the interstitial for a
+        `data-n-a-id`/`-ts`/`-sg` signature minted for that article page, then POST it to the
+        site's `batchexecute` RPC for the real URL — the signature cannot be skipped or reused
+        across articles, so this is always two requests.
         """
 
 class Prv_google_translate(Protocol):
@@ -26837,6 +26946,17 @@ class Prv_prime_video(Protocol):
         provider.
         """
 
+    async def getTitle(self, titleId: str, /) -> Prv_prime_video_PrimeVideoTitleDetail_Out:
+        """Read one film, series-season or episode the way a viewer reads its page: title,
+        synopsis, year, release date, runtime, genres, maturity rating, cast, directors, studio,
+        the Amazon customer rating and its five-star histogram, the IMDb score, which audio
+        languages and subtitles it ships, and whether it is in UHD, HDR, Dolby Atmos or X-Ray.
+        The core read of the whole provider. Takes a titleId or a title URL, e.g. one read off
+        searchTitles(). THE REVIEW TEXT IS NOT HERE — the aggregate rating and histogram are
+        real and logged out, but review bodies are amazon.com's own surface behind amazon.com's
+        sign-in wall.
+        """
+
 class Prv_progressive(Protocol):
     """Quotes from the second-largest US auto insurer across every line it publishes — auto,
     the specialty vehicle band (motorcycle, boat, RV, ATV, snowmobile, golf cart, PWC,
@@ -29416,6 +29536,7 @@ class BowmarkProviders(Protocol):
     anthropic_com: Prv_anthropic_com
     antunes: Prv_antunes
     aosom: Prv_aosom
+    app_store: Prv_app_store
     apple: Prv_apple
     aquaphoenixsci: Prv_aquaphoenixsci
     arajet: Prv_arajet

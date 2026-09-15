@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 34ad764859f7f3f5a69ccae375b435c4f96897c82bf8e6ba45abe5e7a1720701
-// 48 capabilities, 413 providers, 1018 typed functions, 20 refused.
+// Manifest version: 6c0c6d8b085043abd31cce81f4df5c7fd294cca6d3eb0765f790163d155059cf
+// 48 capabilities, 414 providers, 1021 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4377,6 +4377,50 @@ interface AosomProduct {
      * block is missing or unparseable — never silently returns a stale or wrong variant.
      */
     getProduct(url: string): Promise<AosomProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_app_store {
+  // ── Apple App Store — the unit's own declarations, verbatim ──
+interface AppStoreApp {
+  id: string;
+  name: string;
+  bundleId: string;
+  developer: { id: string; name: string };
+  price: { amount: number; currency: string; formatted: string } | null;
+  rating: { average: number; count: number } | null;
+  category: string;
+  url: string;
+}
+type AppStorePlatform = "iphone" | "ipad" | "mac";
+interface SearchAppsArgs {
+  term: string;
+  platform?: AppStorePlatform;
+  genreId?: string | number;
+  country?: string;
+  limit?: number;
+}
+interface AppStoreSearchResult {
+  term: string;
+  platform: AppStorePlatform;
+  country: string;
+  total: number;
+  apps: AppStoreApp[];
+}
+
+  /**
+   * Search every iPhone, iPad and Mac app Apple lists, read one app's price, rating, reviews,
+   * in-app purchases and privacy labels, and see what is charting right now — off Apple's own
+   * keyless public API and its server-rendered store pages.
+   */
+  interface Unit {
+    /**
+     * Search the App Store for what a person would actually type — "budget tracker", "slack",
+     * "photo editor" — and get back the apps Apple's own store search ranks, narrowable by
+     * platform (iPhone/iPad/Mac), category and store country. THE door: every id-taking function
+     * in this provider is fed by an id this returns.
+     */
+    searchApps(args: SearchAppsArgs): Promise<AppStoreSearchResult>;
   }
 }
 
@@ -15621,13 +15665,18 @@ interface GoogleNewsLocalHeadlines {
   title: string;
   articles: GoogleNewsArticle[];
 }
+interface GoogleNewsArticleResolution {
+  articleId: string;
+  url: string;
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
    * city's local news, one outlet's own coverage, and everything indexed about a subject with
    * Google's own when: and site: operators. searchNews (the door), topStories,
-   * listTopicHeadlines, listLocalHeadlines and listPublisherHeadlines are built; everything else
-   * is still a declared stub.
+   * listTopicHeadlines, listLocalHeadlines, listPublisherHeadlines and resolveArticleUrl (the
+   * redirector-to-publisher resolver every other function's links need) are built; everything
+   * else is still a declared stub.
    */
   interface Unit {
     /**
@@ -15687,6 +15736,18 @@ interface GoogleNewsLocalHeadlines {
      * so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`.
      */
     listLocalHeadlines(place: string): Promise<GoogleNewsLocalHeadlines>;
+
+    /**
+     * The publisher's real article URL behind a Google News link — every `link` in every feed
+     * above is a `news.google.com/rss/articles/<id>` redirector that does NOT redirect (it 302s to
+     * itself, then serves an interstitial with no publisher URL anywhere in its bytes), so this is
+     * what turns a headline into something a caller can actually read. Takes either the bare
+     * `articleId` (a feed item's own `<guid>`) or a full redirector link someone pasted. Two hops,
+     * both browserless: GET the interstitial for a `data-n-a-id`/`-ts`/`-sg` signature minted for
+     * that article page, then POST it to the site's `batchexecute` RPC for the real URL — the
+     * signature cannot be skipped or reused across articles, so this is always two requests.
+     */
+    resolveArticleUrl(articleIdOrLink: string): Promise<GoogleNewsArticleResolution>;
   }
 }
 
@@ -25709,6 +25770,44 @@ interface PrimeVideoTitle {
 interface PrimeVideoTitleSuggestion {
   value: string;
 }
+interface PrimeVideoCredit {
+  name: string;
+  searchLink: string | null;
+}
+interface PrimeVideoRatingBucket {
+  stars: 1 | 2 | 3 | 4 | 5;
+  percentage: number;
+}
+interface PrimeVideoTitleDetail {
+  titleId: string;
+  catalogId: string | null;
+  title: string;
+  seriesTitle: string | null;
+  seasonNumber: number | null;
+  titleType: string | null;
+  synopsis: string | null;
+  releaseYear: number | null;
+  releaseDate: string | null;
+  runtime: string | null;
+  genres: string[];
+  maturityRating: string | null;
+  cast: PrimeVideoCredit[];
+  directors: PrimeVideoCredit[];
+  studios: string[];
+  amazonRating: { value: number; count: number } | null;
+  ratingsHistogram: PrimeVideoRatingBucket[];
+  imdbScore: number | null;
+  audioTracks: string[];
+  subtitles: string[];
+  isUhd: boolean;
+  isHdr: boolean;
+  isDolbyVision: boolean;
+  isDolbyAtmos: boolean;
+  isXRay: boolean;
+  isClosedCaption: boolean;
+  isPrime: boolean;
+  isAd: boolean;
+}
 
   /**
    * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
@@ -25740,6 +25839,17 @@ interface PrimeVideoTitleSuggestion {
      * provider.
      */
     suggestTitles(prefix: string): Promise<PrimeVideoTitleSuggestion[]>;
+
+    /**
+     * Read one film, series-season or episode the way a viewer reads its page: title, synopsis,
+     * year, release date, runtime, genres, maturity rating, cast, directors, studio, the Amazon
+     * customer rating and its five-star histogram, the IMDb score, which audio languages and
+     * subtitles it ships, and whether it is in UHD, HDR, Dolby Atmos or X-Ray. The core read of
+     * the whole provider. Takes a titleId or a title URL, e.g. one read off searchTitles(). THE
+     * REVIEW TEXT IS NOT HERE — the aggregate rating and histogram are real and logged out, but
+     * review bodies are amazon.com's own surface behind amazon.com's sign-in wall.
+     */
+    getTitle(titleId: string): Promise<PrimeVideoTitleDetail>;
   }
 }
 
@@ -33476,6 +33586,7 @@ interface BowmarkProviders {
   anthropic_com: BowmarkProvider_anthropic_com.Unit;
   antunes: BowmarkProvider_antunes.Unit;
   aosom: BowmarkProvider_aosom.Unit;
+  app_store: BowmarkProvider_app_store.Unit;
   apple: BowmarkProvider_apple.Unit;
   aquaphoenixsci: BowmarkProvider_aquaphoenixsci.Unit;
   arajet: BowmarkProvider_arajet.Unit;
