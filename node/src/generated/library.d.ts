@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 13b890b8f0b06ac315c33c214656eb5bbdfc44ea7e9d97893b5f869658735073
+// Manifest version: 6703ea19a52c9a8dad7453df13635e694222d0e02dda8fe71040392e999a5d85
 // 48 capabilities, 414 providers, 1031 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -21642,7 +21642,7 @@ interface LululemonProductAttributes {
   /** The site's own ProductGroup category, e.g. "Leggings". */
   category: string | null;
   description: string | null;
-  /** Trademarked fabric names off the detail accordion, e.g. ["Nulu"]. */
+  /** Trademarked fabric names off the product-detail region, e.g. ["Nulu"]. */
   fabrics: string[];
   fit: string | null;
   /** "High-Rise" / "Mid-Rise" / "Low-Rise", as the title spells it. */
