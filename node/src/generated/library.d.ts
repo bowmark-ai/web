@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 14e0e80f51c4a6a3ad1795714639d6c7d46f788150e8de1313f6187000d7e51b
-// 47 capabilities, 404 providers, 994 typed functions, 20 refused.
+// Manifest version: 59359f905f58074c59dfd9490990b8f34d2359c82d8b4bb2c18a0a1ef2c501e8
+// 48 capabilities, 405 providers, 996 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -401,6 +401,25 @@ type CallOptions = {
      * US cities only.
      */
     findDayPasses(location: string | { city: string; state: string }, options?: CallOptions): Promise<FindDayPassesResult>;
+  }
+}
+
+declare namespace BowmarkCapability_currency_exchange {
+  // ── Currency exchange — the unit's own declarations, verbatim ──
+interface currency_exchangeResult {
+  rate: number;
+  warnings: string[];
+}
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /** Get real-time exchange rates between currencies */
+  interface Unit {
+    /** Returns the current exchange rate between two currencies */
+    getRate(from: string, to: string, options?: CallOptions): Promise<currency_exchangeResult>;
   }
 }
 
@@ -10785,6 +10804,19 @@ interface CuriocityListEventsQuery {
      * here — a block page or a moved endpoint THROWS instead.
      */
     listEvents(query: CuriocityListEventsQuery): Promise<CuriocityEvent[]>;
+  }
+}
+
+declare namespace BowmarkProvider_currency_exchange {
+  // ── ExchangeRate-API — the unit's own declarations, verbatim ──
+interface currency_exchangeRow {
+  rate: number;
+}
+
+  /** Get real-time exchange rates from ExchangeRate-API */
+  interface Unit {
+    /** Returns the current exchange rate between two currencies */
+    getRate(from: string, to: string): Promise<currency_exchangeRow>;
   }
 }
 
@@ -33016,6 +33048,7 @@ interface BowmarkProviders {
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;
   culturefly: BowmarkProvider_culturefly.Unit;
   curiocity: BowmarkProvider_curiocity.Unit;
+  currency_exchange: BowmarkProvider_currency_exchange.Unit;
   cyberpowerpc: BowmarkProvider_cyberpowerpc.Unit;
   dahlconsulting: BowmarkProvider_dahlconsulting.Unit;
   dansons: BowmarkProvider_dansons.Unit;
@@ -85022,6 +85055,7 @@ interface BowmarkLibrary {
   cars: BowmarkCapability_cars.Unit;
   costume_size_check: BowmarkCapability_costume_size_check.Unit;
   coworking: BowmarkCapability_coworking.Unit;
+  currency_exchange: BowmarkCapability_currency_exchange.Unit;
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
   delivery: BowmarkCapability_delivery.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 14e0e80f51c4a6a3ad1795714639d6c7d46f788150e8de1313f6187000d7e51b
-# 47 capabilities, 404 providers, 976 typed functions, 20 refused.
+# Manifest version: 59359f905f58074c59dfd9490990b8f34d2359c82d8b4bb2c18a0a1ef2c501e8
+# 48 capabilities, 405 providers, 978 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -459,6 +459,13 @@ class Cap_coworking_CoworkingDayPass_Out(TypedDict):
 class Cap_coworking_CoworkingDayPass_Out_rating_u0_Out(TypedDict):
     average: float
     count: float
+
+class Cap_currency_exchange_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_currency_exchange_currency_exchangeResult_Out(TypedDict):
+    rate: float
+    warnings: list[str]
 
 class Cap_custom_sofa_configurator_CustomSofaListResult_Out(TypedDict):
     sofas: list[Cap_custom_sofa_configurator_CustomSofa_Out]
@@ -5893,6 +5900,9 @@ class Prv_curiocity_CuriocityEvent_Out(TypedDict):
     articleTitle: str
     articleUrl: str
     publishedAt: str | None
+
+class Prv_currency_exchange_currency_exchangeRow_Out(TypedDict):
+    rate: float
 
 class Prv_cyberpowerpc_CyberpowerpcConfigurator_Out(TypedDict):
     slug: str
@@ -17228,6 +17238,12 @@ class Cap_coworking(Protocol):
         is out of scope here. US cities only.
         """
 
+class Cap_currency_exchange(Protocol):
+    """Get real-time exchange rates between currencies"""
+
+    async def getRate(self, from_: str, to: str, options: Cap_currency_exchange_CallOptions_In | None = None, /) -> Cap_currency_exchange_currency_exchangeResult_Out:
+        """Returns the current exchange rate between two currencies"""
+
 class Cap_custom_sofa_configurator(Protocol):
     """Configure a real sofa or sectional — pick a fabric, wood stain or leg finish — and get
     the maker's own live price, across every maker whose site publishes a real configurator
@@ -21131,6 +21147,12 @@ class Prv_curiocity(Protocol):
         "toronto"). An empty array is the feed's own answer for a city curiocity does not cover,
         never invented here — a block page or a moved endpoint THROWS instead.
         """
+
+class Prv_currency_exchange(Protocol):
+    """Get real-time exchange rates from ExchangeRate-API"""
+
+    async def getRate(self, from_: str, to: str, /) -> Prv_currency_exchange_currency_exchangeRow_Out:
+        """Returns the current exchange rate between two currencies"""
 
 class Prv_cyberpowerpc(Protocol):
     """Reads and prices CyberPowerPC's real gaming-PC configurators — every component, every
@@ -29009,6 +29031,7 @@ class BowmarkProviders(Protocol):
     cruiselakegeneva: Prv_cruiselakegeneva
     culturefly: Prv_culturefly
     curiocity: Prv_curiocity
+    currency_exchange: Prv_currency_exchange
     cyberpowerpc: Prv_cyberpowerpc
     dahlconsulting: Prv_dahlconsulting
     dansons: Prv_dansons
@@ -29301,6 +29324,7 @@ class Bowmark(Protocol):
     cars: Cap_cars
     costume_size_check: Cap_costume_size_check
     coworking: Cap_coworking
+    currency_exchange: Cap_currency_exchange
     custom_sofa_configurator: Cap_custom_sofa_configurator
     delivery: Cap_delivery
     developer_api_key_signup: Cap_developer_api_key_signup

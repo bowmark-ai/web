@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 14e0e80f51c4a6a3ad1795714639d6c7d46f788150e8de1313f6187000d7e51b
-// 976 checked, 20 unchecked.
+// Manifest version: 59359f905f58074c59dfd9490990b8f34d2359c82d8b4bb2c18a0a1ef2c501e8
+// 978 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "14e0e80f51c4a6a3ad1795714639d6c7d46f788150e8de1313f6187000d7e51b",
+  "version": "59359f905f58074c59dfd9490990b8f34d2359c82d8b4bb2c18a0a1ef2c501e8",
   "units": {
     "booking_links": {
       "defs": {
@@ -390,6 +390,48 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "currency_exchange": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getRate": [
+          {
+            "name": "from",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "to",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },
@@ -9710,6 +9752,27 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CuriocityListEventsQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.currency_exchange": {
+      "defs": {},
+      "functions": {
+        "getRate": [
+          {
+            "name": "from",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "to",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
