@@ -714,7 +714,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.resolveArticleUrl` | news.google.com | The publisher's real article URL behind a Google News link. | ⚪ |
 | `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | ⚪ |
 | `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | 🟢 |
-| `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | ⚪ |
+| `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | 🟢 |
 | `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | ⚪ |
 | `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | ⚪ |
 | `google_translate.getAlternativeTranslations` | translate.google.com | The other ways Google would have translated the same thing — the list that appears… | ⚪ |
@@ -988,7 +988,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.findStores` | shop.lululemon.com | Finds physical lululemon stores near a place the way the site's own store locator… | ⚪ |
 | `lululemon.getCart` | shop.lululemon.com | Reads back what is in the guest cart across several calls — line items, quantities… | ⚪ |
 | `lululemon.getProduct` | shop.lululemon.com | Reads one product's full configurator the way its product page presents it — every… | 🟢 |
-| `lululemon.getProductAttributes` | shop.lululemon.com | Reads what lululemon's OWN product page publishes about a garment and the third-party… | 🟢 |
+| `lululemon.getProductAttributes` | shop.lululemon.com | Reads what lululemon's OWN product page publishes about a garment and the third-party… | 🟡 |
 | `lululemon.getProducts` | shop.lululemon.com | Reads the full configurator for MANY products in one call — the shape for ranking a… | 🟢 |
 | `lululemon.getReviews` | shop.lululemon.com | Reads the customer reviews on one product — rating, title, body, size-and-fit votes… | ⚪ |
 | `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟢 |
