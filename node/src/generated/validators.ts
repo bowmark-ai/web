@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6c0c6d8b085043abd31cce81f4df5c7fd294cca6d3eb0765f790163d155059cf
-// 1003 checked, 20 unchecked.
+// Manifest version: aaa52f8aae839c5e2c6d4f768c23e0df90c026be4f003581db562009068b974c
+// 1005 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6c0c6d8b085043abd31cce81f4df5c7fd294cca6d3eb0765f790163d155059cf",
+  "version": "aaa52f8aae839c5e2c6d4f768c23e0df90c026be4f003581db562009068b974c",
   "units": {
     "booking_links": {
       "defs": {
@@ -4062,7 +4062,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listBestSellerCategories": []
+        "listBestSellerCategories": [],
+        "getProduct": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.americandreamvacations": {
@@ -4553,6 +4562,15 @@ export const VALIDATORS: ValidatorTable = {
         "getTradeInEstimate": [
           {
             "name": "model",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchSupport": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

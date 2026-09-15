@@ -46,7 +46,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.addToCart` | www.amazon.com | Put a product in the cart, in the quantity asked for, and report what the cart then… | ⚪ |
 | `amazon.getCart` | www.amazon.com | Read what is in the cart — line items, quantities, per-item and total price — so an… | ⚪ |
 | `amazon.getDeliveryEstimate` | www.amazon.com | When a product would actually arrive at a given US ZIP, and what it costs to get it… | ⚪ |
-| `amazon.getProduct` | www.amazon.com | Read one product page the way a shopper reads it: title, brand, ASIN, current price… | ⚪ |
+| `amazon.getProduct` | www.amazon.com | Read one product page the way a shopper reads it: title, brand, ASIN, current price… | 🟢 |
 | `amazon.getSeller` | www.amazon.com | Read a marketplace seller's storefront — their name, their lifetime and 12-month… | ⚪ |
 | `amazon.listBestSellerCategories` | www.amazon.com | List the departments Amazon publishes rankings for — Electronics, Kitchen & Dining… | 🟢 |
 | `amazon.listBestSellers` | www.amazon.com | Amazon's hourly-updated top 100 in a department — what is actually selling right now… | ⚪ |

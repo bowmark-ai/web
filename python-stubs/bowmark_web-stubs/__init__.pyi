@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6c0c6d8b085043abd31cce81f4df5c7fd294cca6d3eb0765f790163d155059cf
-# 48 capabilities, 414 providers, 1003 typed functions, 20 refused.
+# Manifest version: aaa52f8aae839c5e2c6d4f768c23e0df90c026be4f003581db562009068b974c
+# 48 capabilities, 414 providers, 1005 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2169,6 +2169,29 @@ class Prv_amazon_AmazonBestSellerCategory_Out(TypedDict):
     name: str
     slug: str
 
+class Prv_amazon_AmazonProductDetail_Out(TypedDict):
+    asin: str
+    title: str
+    url: str
+    brand: str | None
+    price: float | None
+    listPrice: float | None
+    inStock: bool
+    availabilityText: str | None
+    rating: float | None
+    ratingCount: float | None
+    features: list[str]
+    specifications: Mapping[str, str]
+    breadcrumbs: list[str]
+    bestSellersRank: list[Prv_amazon_AmazonBestSellerRankEntry_Out]
+    images: list[str]
+    soldBy: str | None
+    sellerId: str | None
+
+class Prv_amazon_AmazonBestSellerRankEntry_Out(TypedDict):
+    category: str
+    rank: float
+
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
     name: str
@@ -2474,6 +2497,17 @@ class Prv_apple_AppleTradeInEstimate_Out(TypedDict):
     device: str
     upToUsd: float
     sourceUrl: str
+
+class Prv_apple_AppleSupportSearchResponse_Out(TypedDict):
+    query: str
+    results: list[Prv_apple_AppleSupportResult_Out]
+    totalResults: float
+
+class Prv_apple_AppleSupportResult_Out(TypedDict):
+    docid: str
+    title: str
+    url: str
+    snippet: str
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -18878,8 +18912,9 @@ class Prv_amazon(Protocol):
     """Search Amazon's catalogue and read a product the way a shopper does — price, stock,
     rating, the customer reviews, every size and colour the listing sells — plus the
     rankings (best sellers, new releases, movers and shakers, most wished for), today's
-    deals and a marketplace seller's feedback. searchProducts, suggestKeywords and
-    listBestSellerCategories are built; everything else is still a declared stub.
+    deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
+    listBestSellerCategories and getProduct are built; everything else is still a declared
+    stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -18902,6 +18937,13 @@ class Prv_amazon(Protocol):
         "books") that listBestSellers, listNewReleases, listMostWishedFor and
         listMoversAndShakers take. The door for all four ranking functions: a caller holding the
         word "kitchen" cannot reach a ranking without this.
+        """
+
+    async def getProduct(self, asinOrUrl: str, /) -> Prv_amazon_AmazonProductDetail_Out:
+        """Read one product page the way a shopper reads it: title, brand, ASIN, current price and
+        list price, whether it is in stock, the star rating and how many ratings it has, the
+        bullet-point features, the specification table, the images, its category breadcrumb, its
+        Best Sellers Rank, and who it is sold by. The single most-wanted read on the whole site.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -19119,6 +19161,14 @@ class Prv_apple(Protocol):
         the slug `phone_trade_in` already normalizes to ("iphone-14-pro") both resolve. Apple
         publishes ONE number per device, not a matrix by storage or condition: the value is
         Apple's advertised best-case figure, not a quote for a specific unit's actual condition.
+        """
+
+    async def searchSupport(self, query: str, /) -> Prv_apple_AppleSupportSearchResponse_Out:
+        """Searches Apple's own support library the way a person describes a problem ("iphone
+        battery draining") and returns the articles Apple ranks for it — HelpKB pages, User
+        Guide pages and Apple Support Community threads mixed in one list, each with its
+        document id, title, URL and a plain-text snippet. A DOOR: the way into the support half
+        of this provider before getSupportArticle reads one page in full.
         """
 
 class Prv_aquaphoenixsci(Protocol):

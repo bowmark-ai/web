@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6c0c6d8b085043abd31cce81f4df5c7fd294cca6d3eb0765f790163d155059cf
-// 48 capabilities, 414 providers, 1021 typed functions, 20 refused.
+// Manifest version: aaa52f8aae839c5e2c6d4f768c23e0df90c026be4f003581db562009068b974c
+// 48 capabilities, 414 providers, 1023 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3882,13 +3882,36 @@ interface AmazonBestSellerCategory {
   name: string;
   slug: string;
 }
+interface AmazonBestSellerRankEntry {
+  category: string;
+  rank: number;
+}
+interface AmazonProductDetail {
+  asin: string;
+  title: string;
+  url: string;
+  brand: string | null;
+  price: number | null;
+  listPrice: number | null;
+  inStock: boolean;
+  availabilityText: string | null;
+  rating: number | null;
+  ratingCount: number | null;
+  features: string[]; // the site's own free-text bullet points — read them off a result, never guess one from prose
+  specifications: Record<string, string>;
+  breadcrumbs: string[];
+  bestSellersRank: AmazonBestSellerRankEntry[];
+  images: string[];
+  soldBy: string | null;
+  sellerId: string | null;
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
    * the customer reviews, every size and colour the listing sells — plus the rankings (best
    * sellers, new releases, movers and shakers, most wished for), today's deals and a marketplace
-   * seller's feedback. searchProducts, suggestKeywords and listBestSellerCategories are built;
-   * everything else is still a declared stub.
+   * seller's feedback. searchProducts, suggestKeywords, listBestSellerCategories and getProduct
+   * are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -3915,6 +3938,14 @@ interface AmazonBestSellerCategory {
      * reach a ranking without this.
      */
     listBestSellerCategories(): Promise<AmazonBestSellerCategory[]>;
+
+    /**
+     * Read one product page the way a shopper reads it: title, brand, ASIN, current price and list
+     * price, whether it is in stock, the star rating and how many ratings it has, the bullet-point
+     * features, the specification table, the images, its category breadcrumb, its Best Sellers
+     * Rank, and who it is sold by. The single most-wanted read on the whole site.
+     */
+    getProduct(asinOrUrl: string): Promise<AmazonProductDetail>;
   }
 }
 
@@ -4463,6 +4494,17 @@ interface AppleTradeInEstimate {
   upToUsd: number;
   sourceUrl: string;
 }
+interface AppleSupportResult {
+  docid: string;
+  title: string;
+  url: string;
+  snippet: string;
+}
+interface AppleSupportSearchResponse {
+  query: string;
+  results: AppleSupportResult[];
+  totalResults: number;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -4494,6 +4536,15 @@ interface AppleTradeInEstimate {
      * best-case figure, not a quote for a specific unit's actual condition.
      */
     getTradeInEstimate(model: string): Promise<AppleTradeInEstimate>;
+
+    /**
+     * Searches Apple's own support library the way a person describes a problem ("iphone battery
+     * draining") and returns the articles Apple ranks for it — HelpKB pages, User Guide pages and
+     * Apple Support Community threads mixed in one list, each with its document id, title, URL and
+     * a plain-text snippet. A DOOR: the way into the support half of this provider before
+     * getSupportArticle reads one page in full.
+     */
+    searchSupport(query: string): Promise<AppleSupportSearchResponse>;
   }
 }
 

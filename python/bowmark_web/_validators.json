@@ -1,5 +1,5 @@
 {
-  "version": "6c0c6d8b085043abd31cce81f4df5c7fd294cca6d3eb0765f790163d155059cf",
+  "version": "aaa52f8aae839c5e2c6d4f768c23e0df90c026be4f003581db562009068b974c",
   "units": {
     "booking_links": {
       "defs": {
@@ -4050,7 +4050,16 @@
             "optional": false
           }
         ],
-        "listBestSellerCategories": []
+        "listBestSellerCategories": [],
+        "getProduct": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.americandreamvacations": {
@@ -4541,6 +4550,15 @@
         "getTradeInEstimate": [
           {
             "name": "model",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchSupport": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },
