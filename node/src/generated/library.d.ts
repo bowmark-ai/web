@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fbfcd3f4e1dfe7eda596fea6b296cab284cc064fd1546b91841973874fc68242
-// 48 capabilities, 409 providers, 1002 typed functions, 20 refused.
+// Manifest version: cc2f21a6952df09d431726bef42981139d963d250546ad67af064b12a0542034
+// 48 capabilities, 410 providers, 1003 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15403,6 +15403,48 @@ interface SearchPlacesResult {
      * there rather than from a separate coordinate.
      */
     searchPlaces(args: SearchPlacesArgs): Promise<SearchPlacesResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_google_news {
+  // ── Google News — the unit's own declarations, verbatim ──
+interface GoogleNewsClusterEntry {
+  title: string;
+  link: string;
+  publisher: string;
+}
+interface GoogleNewsArticle {
+  articleId: string;
+  title: string;
+  link: string;
+  publisher: string;
+  publisherUrl: string | null;
+  publishedAt: string | null;
+  cluster: GoogleNewsClusterEntry[];
+}
+interface GoogleNewsSearchResult {
+  query: string;
+  articles: GoogleNewsArticle[];
+}
+
+  /**
+   * Headlines from every publisher at once — today's top stories as clusters, a section or a
+   * city's local news, and everything indexed about a subject with Google's own when: and site:
+   * operators. searchNews (the door) is built; everything else is still a declared stub.
+   */
+  interface Unit {
+    /**
+     * Everything Google News has indexed about a subject, across every publisher at once —
+     * headline, publisher, publication time and the Google News link, newest first. `query` is
+     * exactly what a person would type into Google News' own search box, and Google's own
+     * operators work inside it: `when:1h`/`when:1d`/`when:7d` narrows the window,
+     * `site:reuters.com` pins one publisher, quotes pin a phrase and `(a OR b)` unions two
+     * subjects — measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which 100
+     * carried `<source>Reuters</source>`. This is the provider's main door: a caller holding only
+     * words gets in here. A query that matches nothing returns an empty `articles` array rather
+     * than throwing.
+     */
+    searchNews(query: string): Promise<GoogleNewsSearchResult>;
   }
 }
 
@@ -33279,6 +33321,7 @@ interface BowmarkProviders {
   goodway: BowmarkProvider_goodway.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   google_maps: BowmarkProvider_google_maps.Unit;
+  google_news: BowmarkProvider_google_news.Unit;
   gostoreit: BowmarkProvider_gostoreit.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;

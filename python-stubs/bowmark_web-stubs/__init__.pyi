@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fbfcd3f4e1dfe7eda596fea6b296cab284cc064fd1546b91841973874fc68242
-# 48 capabilities, 409 providers, 984 typed functions, 20 refused.
+# Manifest version: cc2f21a6952df09d431726bef42981139d963d250546ad67af064b12a0542034
+# 48 capabilities, 410 providers, 985 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8306,6 +8306,24 @@ class Prv_google_maps_SearchPlacesResult_Out(TypedDict):
 class Prv_google_maps_SearchPlacesResult_Out_coordinates_u0_Out(TypedDict):
     lat: float
     lng: float
+
+class Prv_google_news_GoogleNewsSearchResult_Out(TypedDict):
+    query: str
+    articles: list[Prv_google_news_GoogleNewsArticle_Out]
+
+class Prv_google_news_GoogleNewsArticle_Out(TypedDict):
+    articleId: str
+    title: str
+    link: str
+    publisher: str
+    publisherUrl: str | None
+    publishedAt: str | None
+    cluster: list[Prv_google_news_GoogleNewsClusterEntry_Out]
+
+class Prv_google_news_GoogleNewsClusterEntry_Out(TypedDict):
+    title: str
+    link: str
+    publisher: str
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -22916,6 +22934,25 @@ class Prv_google_maps(Protocol):
         text; Google resolves it from there rather than from a separate coordinate.
         """
 
+class Prv_google_news(Protocol):
+    """Headlines from every publisher at once — today's top stories as clusters, a section or a
+    city's local news, and everything indexed about a subject with Google's own when: and
+    site: operators. searchNews (the door) is built; everything else is still a declared
+    stub.
+    """
+
+    async def searchNews(self, query: str, /) -> Prv_google_news_GoogleNewsSearchResult_Out:
+        """Everything Google News has indexed about a subject, across every publisher at once —
+        headline, publisher, publication time and the Google News link, newest first. `query` is
+        exactly what a person would type into Google News' own search box, and Google's own
+        operators work inside it: `when:1h`/`when:1d`/`when:7d` narrows the window,
+        `site:reuters.com` pins one publisher, quotes pin a phrase and `(a OR b)` unions two
+        subjects — measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which 100
+        carried `<source>Reuters</source>`. This is the provider's main door: a caller holding
+        only words gets in here. A query that matches nothing returns an empty `articles` array
+        rather than throwing.
+        """
+
 class Prv_gostoreit(Protocol):
     """Go Store It — live public self-storage unit inventory, amenity details, and monthly
     online prices from a chosen facility.
@@ -29235,6 +29272,7 @@ class BowmarkProviders(Protocol):
     goodway: Prv_goodway
     google_flights: Prv_google_flights
     google_maps: Prv_google_maps
+    google_news: Prv_google_news
     gostoreit: Prv_gostoreit
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger
