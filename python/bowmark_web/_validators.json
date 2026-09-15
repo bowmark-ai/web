@@ -1,5 +1,5 @@
 {
-  "version": "4623db3b0641253df64c5bbe7c99fd79a27eda69d57916ea487a7433f688d90d",
+  "version": "969107fdc549e5f5c01823c134b8b4483f2decb8644512be48ade29b600dfc6e",
   "units": {
     "booking_links": {
       "defs": {
@@ -4037,6 +4037,15 @@
             "schema": {
               "k": "ref",
               "name": "SearchProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "suggestKeywords": [
+          {
+            "name": "prefix",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

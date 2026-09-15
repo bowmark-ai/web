@@ -743,7 +743,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | ⚪ |
 | `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, as Google News'… | ⚪ |
 | `google_news.listLocalHeadlines` | news.google.com | What is being reported in one place — the local-news edition for a city or region, by… | 🟢 |
-| `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — reuters.com, apnews.com, a… | ⚪ |
+| `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — reuters.com, apnews.com, a… | 🟢 |
 | `google_news.listSavedArticles` | news.google.com | The articles the signed-in person saved for later — Google News' own reading list… | ⚪ |
 | `google_news.listStories` | news.google.com | The story clusters Google News is running right now, as ids — the front page and any… | ⚪ |
 | `google_news.listTopicHeadlines` | news.google.com | The latest headlines in one of Google News' own eight sections — World, Nation… | 🟢 |

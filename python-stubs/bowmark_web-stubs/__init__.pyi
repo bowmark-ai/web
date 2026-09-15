@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4623db3b0641253df64c5bbe7c99fd79a27eda69d57916ea487a7433f688d90d
-# 48 capabilities, 412 providers, 994 typed functions, 20 refused.
+# Manifest version: 969107fdc549e5f5c01823c134b8b4483f2decb8644512be48ade29b600dfc6e
+# 48 capabilities, 412 providers, 995 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2161,6 +2161,9 @@ class Prv_amazon_AmazonProduct_Out(TypedDict):
     rating: float | None
     ratingCount: float | None
     sponsored: bool
+
+class Prv_amazon_AmazonKeywordSuggestion_Out(TypedDict):
+    value: str
 
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
@@ -18755,8 +18758,8 @@ class Prv_amazon(Protocol):
     """Search Amazon's catalogue and read a product the way a shopper does — price, stock,
     rating, the customer reviews, every size and colour the listing sells — plus the
     rankings (best sellers, new releases, movers and shakers, most wished for), today's
-    deals and a marketplace seller's feedback. searchProducts is built; everything else is
-    still a declared stub.
+    deals and a marketplace seller's feedback. searchProducts and suggestKeywords are built;
+    everything else is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -18765,6 +18768,12 @@ class Prv_amazon(Protocol):
         price, star rating, review count, whether the row is a paid placement, and its product
         URL. Optionally narrowed to a department, a brand, a price range and a sort order. THE
         provider's door: every function below that takes an ASIN is fed by this one.
+        """
+
+    async def suggestKeywords(self, prefix: str, /) -> list[Prv_amazon_AmazonKeywordSuggestion_Out]:
+        """Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes
+        back as "cast iron skillets", "cast iron", "cast iron dutch oven". What an agent holding
+        a vague noun calls before it commits to a search, and the cheapest call in the provider.
         """
 
 class Prv_americandreamvacations(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4623db3b0641253df64c5bbe7c99fd79a27eda69d57916ea487a7433f688d90d
-// 48 capabilities, 412 providers, 1012 typed functions, 20 refused.
+// Manifest version: 969107fdc549e5f5c01823c134b8b4483f2decb8644512be48ade29b600dfc6e
+// 48 capabilities, 412 providers, 1013 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3875,12 +3875,16 @@ interface SearchProductsArgs {
   priceMax?: number;
   brand?: string;
 }
+interface AmazonKeywordSuggestion {
+  value: string;
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
    * the customer reviews, every size and colour the listing sells — plus the rankings (best
    * sellers, new releases, movers and shakers, most wished for), today's deals and a marketplace
-   * seller's feedback. searchProducts is built; everything else is still a declared stub.
+   * seller's feedback. searchProducts and suggestKeywords are built; everything else is still a
+   * declared stub.
    */
   interface Unit {
     /**
@@ -3891,6 +3895,13 @@ interface SearchProductsArgs {
      * every function below that takes an ASIN is fed by this one.
      */
     searchProducts(args: SearchProductsArgs): Promise<AmazonProduct[]>;
+
+    /**
+     * Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes back
+     * as "cast iron skillets", "cast iron", "cast iron dutch oven". What an agent holding a vague
+     * noun calls before it commits to a search, and the cheapest call in the provider.
+     */
+    suggestKeywords(prefix: string): Promise<AmazonKeywordSuggestion[]>;
   }
 }
 
