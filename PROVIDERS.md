@@ -168,7 +168,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `blueribbonhomewarranty_com.getPage` | blueribbonhomewarranty.com | Reads one Blue Ribbon Home Warranty page (found via search) and returns its title… | 🟢 |
 | `blueribbonhomewarranty_com.search` | blueribbonhomewarranty.com | Finds Blue Ribbon Home Warranty's own public pages — the apply/quote flows, the claim… | 🟢 |
 | `bluesignal.applyToJob` | bluesignal.com | Would submit a job application (name/email/phone/resume) to the site's own per-job… | ⚪ |
-| `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟢 |
+| `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟡 |
 | `bluesignal.searchJobs` | bluesignal.com | Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by a… | 🟢 |
 | `bmwusa.buildVehicle` | bmwusa.com | Runs BMW's own Build Your Own configurator for a model code (read off /all-bmws.html's… | 🟢 |
 | `bmwusa.checkRecalls` | bmwusa.com | Checks open safety and emissions recalls for a specific BMW by VIN — each campaign's… | ⚪ |
@@ -325,7 +325,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cloudflare.compareTeamsPlans` | cloudflare.com | Compares Cloudflare's Zero Trust / Cloudflare One team plans — Free (up to 50 users)… | 🟢 |
 | `cloudflare.getDomainPricing` | cloudflare.com | Reads Cloudflare Registrar's at-cost, no-markup registration and renewal pricing… | ⚪ |
 | `cloudflare.searchDomainAvailability` | cloudflare.com | Checks whether a given domain name is available to register through Cloudflare… | 🟢 |
-| `clubchampion.checkAvailability` | clubchampion.com | Checks real, live open-slot availability on one FITTER's calendar (an id from… | 🟡 |
+| `clubchampion.checkAvailability` | clubchampion.com | Checks real, live open-slot availability on one FITTER's calendar (an id from… | 🟢 |
 | `clubchampion.getFittings` | clubchampion.com | Reads one studio's real fitting-type menu with live per-store pricing (Driver, Full… | 🟢 |
 | `clubchampion.listFitters` | clubchampion.com | Reads the live list of every Club Champion fitter — id, name, studio, timezone… | 🟢 |
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
@@ -678,7 +678,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
 | `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟢 |
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
-| `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟡 |
+| `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟢 |
 | `handypro.checkServiceArea` | handypro.com | Checks whether a ZIP is served by a real local HandyPro franchisee and returns that… | 🟢 |
 | `handypro.checkTechnicianAvailability` | handypro.com | Would find the next available technician slot for a category + ZIP via… | ⚪ |
 | `handypro.createBooking` | handypro.com | Would confirm a HandyPro appointment and take Stripe payment via… | ⚪ |

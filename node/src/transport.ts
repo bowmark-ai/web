@@ -73,6 +73,14 @@ export interface RunEnvelope<T = unknown> {
   needs?: AuthNeed[];
   incomplete?: { summary: string; [key: string]: unknown };
   meta?: { handoff?: Handoff; wwwAuthenticate?: string };
+  /** Present when the account owner has not accepted Bowmark's current Terms or
+   * Privacy Policy. The run is unaffected; `notice.message` is for your user. */
+  notice?: {
+    kind: "legal_update";
+    message: string;
+    acceptUrl: string;
+    documents: { slug: string; title: string; version: string; url: string }[];
+  };
 }
 
 /** Which (capability, provider) pair has no live grant. */
