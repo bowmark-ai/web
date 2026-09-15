@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5e42f2ddb388d8dfd1498d61fd3223028c9258d49d214f1a34fddc2f5394cdd7
-// 48 capabilities, 410 providers, 1004 typed functions, 20 refused.
+// Manifest version: a7dc892c08a07407700931134f34f8027797c138e58aa9c772475ee26db10d5f
+// 48 capabilities, 410 providers, 1005 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15443,11 +15443,16 @@ interface GoogleNewsSearchResult {
   query: string;
   articles: GoogleNewsArticle[];
 }
+interface GoogleNewsTopStories {
+  title: string;
+  clusters: GoogleNewsArticle[];
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
    * city's local news, and everything indexed about a subject with Google's own when: and site:
-   * operators. searchNews (the door) is built; everything else is still a declared stub.
+   * operators. searchNews (the door) and topStories are built; everything else is still a
+   * declared stub.
    */
   interface Unit {
     /**
@@ -15462,6 +15467,15 @@ interface GoogleNewsSearchResult {
      * than throwing.
      */
     searchNews(query: string): Promise<GoogleNewsSearchResult>;
+
+    /**
+     * What Google News is leading with right now — the front page, as ranked story CLUSTERS rather
+     * than a flat list. Each entry carries the lead headline and publisher plus every other outlet
+     * covering the same story, which is the one thing a single publisher's own feed can never give
+     * a caller asking "what is everyone saying about this today". No arguments: the front page is
+     * the whole ask.
+     */
+    topStories(): Promise<GoogleNewsTopStories>;
   }
 }
 

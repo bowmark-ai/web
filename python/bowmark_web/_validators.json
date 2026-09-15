@@ -1,5 +1,5 @@
 {
-  "version": "5e42f2ddb388d8dfd1498d61fd3223028c9258d49d214f1a34fddc2f5394cdd7",
+  "version": "a7dc892c08a07407700931134f34f8027797c138e58aa9c772475ee26db10d5f",
   "units": {
     "booking_links": {
       "defs": {
@@ -13694,7 +13694,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "topStories": []
       }
     },
     "providers.gostoreit": {

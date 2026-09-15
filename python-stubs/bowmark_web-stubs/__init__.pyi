@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5e42f2ddb388d8dfd1498d61fd3223028c9258d49d214f1a34fddc2f5394cdd7
-# 48 capabilities, 410 providers, 986 typed functions, 20 refused.
+# Manifest version: a7dc892c08a07407700931134f34f8027797c138e58aa9c772475ee26db10d5f
+# 48 capabilities, 410 providers, 987 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8337,6 +8337,10 @@ class Prv_google_news_GoogleNewsClusterEntry_Out(TypedDict):
     title: str
     link: str
     publisher: str
+
+class Prv_google_news_GoogleNewsTopStories_Out(TypedDict):
+    title: str
+    clusters: list[Prv_google_news_GoogleNewsArticle_Out]
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -22958,8 +22962,8 @@ class Prv_google_maps(Protocol):
 class Prv_google_news(Protocol):
     """Headlines from every publisher at once — today's top stories as clusters, a section or a
     city's local news, and everything indexed about a subject with Google's own when: and
-    site: operators. searchNews (the door) is built; everything else is still a declared
-    stub.
+    site: operators. searchNews (the door) and topStories are built; everything else is
+    still a declared stub.
     """
 
     async def searchNews(self, query: str, /) -> Prv_google_news_GoogleNewsSearchResult_Out:
@@ -22972,6 +22976,14 @@ class Prv_google_news(Protocol):
         carried `<source>Reuters</source>`. This is the provider's main door: a caller holding
         only words gets in here. A query that matches nothing returns an empty `articles` array
         rather than throwing.
+        """
+
+    async def topStories(self, /) -> Prv_google_news_GoogleNewsTopStories_Out:
+        """What Google News is leading with right now — the front page, as ranked story CLUSTERS
+        rather than a flat list. Each entry carries the lead headline and publisher plus every
+        other outlet covering the same story, which is the one thing a single publisher's own
+        feed can never give a caller asking "what is everyone saying about this today". No
+        arguments: the front page is the whole ask.
         """
 
 class Prv_gostoreit(Protocol):
