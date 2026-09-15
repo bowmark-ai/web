@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6703ea19a52c9a8dad7453df13635e694222d0e02dda8fe71040392e999a5d85
-// 48 capabilities, 414 providers, 1031 typed functions, 20 refused.
+// Manifest version: da954adfec9f8649172012cf90f386e096c673c2ca4018f2d0846381c76a0aa3
+// 48 capabilities, 414 providers, 1033 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3910,13 +3910,24 @@ interface AmazonVariation {
   dimensions: Record<string, string>; // e.g. { style_name: "Skillet", size_name: "12-inch" } — the site's own dimension names
   isCurrent: boolean;
 }
+interface AmazonReview {
+  reviewId: string;
+  author: string;
+  rating: number;
+  title: string;
+  date: string; // the site's own sentence, e.g. "Reviewed in the United States on August 9, 2026"
+  variant: string | null; // e.g. "Style: Skillet, Size: 15-inch"
+  verifiedPurchase: boolean;
+  body: string; // paragraphs joined with a blank line, in the site's own order
+  helpfulCount: number;
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
    * the customer reviews, every size and colour the listing sells — plus the rankings (best
    * sellers, new releases, movers and shakers, most wished for), today's deals and a marketplace
-   * seller's feedback. searchProducts, suggestKeywords, listBestSellerCategories, getProduct and
-   * listVariations are built; everything else is still a declared stub.
+   * seller's feedback. searchProducts, suggestKeywords, listBestSellerCategories, getProduct,
+   * listVariations and listReviews are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -3960,6 +3971,16 @@ interface AmazonVariation {
      * parse failure.
      */
     listVariations(asinOrUrl: string): Promise<AmazonVariation[]>;
+
+    /**
+     * Read what customers actually wrote about a product — reviewer name, star rating, headline,
+     * date, the variant they bought, whether the purchase was Verified, the review body, and how
+     * many people found it helpful. Amazon shows a logged-out visitor its top eight reviews on the
+     * product page itself; sorting, filtering and paging past them needs a signed-in account,
+     * which sign-up has not shipped for yet. The read an agent needs to answer "is this any good"
+     * rather than "what does it cost".
+     */
+    listReviews(asinOrUrl: string): Promise<AmazonReview[]>;
   }
 }
 
@@ -15794,6 +15815,11 @@ interface GoogleNewsTopic {
   topicId: string;
   name: string;
 }
+interface GoogleNewsTopicFeed {
+  topicId: string;
+  title: string;
+  articles: GoogleNewsArticle[];
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
@@ -15877,12 +15903,24 @@ interface GoogleNewsTopic {
     /**
      * The topics Google News' own home-page nav rail is offering today — the eight standing
      * sections plus "Your local news" (measured 2026-09-15: nine entries, geo-scoped to whichever
-     * exit made the request) — each with the opaque topic id `getTopicHeadlines` (not built yet)
-     * will take. Read off the home page's own embedded `AF_initDataCallback({key: 'ds:2'…})` state
-     * rather than scraped from the rendered nav, so it needs no browser. The finder that makes a
-     * topic id reachable by somebody who only holds words.
+     * exit made the request) — each with the opaque topic id `getTopicHeadlines` takes. Read off
+     * the home page's own embedded `AF_initDataCallback({key: 'ds:2'…})` state rather than scraped
+     * from the rendered nav, so it needs no browser. The finder that makes a topic id reachable by
+     * somebody who only holds words.
      */
     listTopics(): Promise<GoogleNewsTopic[]>;
+
+    /**
+     * The headlines under any Google News topic id — an entity or interest topic (a company, a
+     * person, a sports league) that `listTopics` returns, and that the eight named sections
+     * `listTopicHeadlines` takes by word are only the beginning of. Identical fetch and parse to
+     * `listTopicHeadlines` (`/rss/topics/<topicId>` rather than
+     * `/rss/headlines/section/topic/<NAME>`) — the only difference is the key, since a topic id
+     * has no canonical spelling for the site to correct it to. Measured 2026-09-15: the Technology
+     * section's own topic id answers the identical feed shape as its section-name door, 70 items,
+     * titled "Technology - Latest - Google News".
+     */
+    getTopicHeadlines(topicId: string): Promise<GoogleNewsTopicFeed>;
   }
 }
 

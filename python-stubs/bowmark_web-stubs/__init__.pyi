@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6703ea19a52c9a8dad7453df13635e694222d0e02dda8fe71040392e999a5d85
-# 48 capabilities, 414 providers, 1013 typed functions, 20 refused.
+# Manifest version: da954adfec9f8649172012cf90f386e096c673c2ca4018f2d0846381c76a0aa3
+# 48 capabilities, 414 providers, 1015 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2196,6 +2196,17 @@ class Prv_amazon_AmazonVariation_Out(TypedDict):
     asin: str
     dimensions: Mapping[str, str]
     isCurrent: bool
+
+class Prv_amazon_AmazonReview_Out(TypedDict):
+    reviewId: str
+    author: str
+    rating: float
+    title: str
+    date: str
+    variant: str | None
+    verifiedPurchase: bool
+    body: str
+    helpfulCount: float
 
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
@@ -8556,6 +8567,11 @@ class Prv_google_news_GoogleNewsArticleResolution_Out(TypedDict):
 class Prv_google_news_GoogleNewsTopic_Out(TypedDict):
     topicId: str
     name: str
+
+class Prv_google_news_GoogleNewsTopicFeed_Out(TypedDict):
+    topicId: str
+    title: str
+    articles: list[Prv_google_news_GoogleNewsArticle_Out]
 
 Prv_google_translate_TranslateArgs_In = TypedDict(
     "Prv_google_translate_TranslateArgs_In",
@@ -18999,8 +19015,8 @@ class Prv_amazon(Protocol):
     rating, the customer reviews, every size and colour the listing sells — plus the
     rankings (best sellers, new releases, movers and shakers, most wished for), today's
     deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
-    listBestSellerCategories, getProduct and listVariations are built; everything else is
-    still a declared stub.
+    listBestSellerCategories, getProduct, listVariations and listReviews are built;
+    everything else is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -19038,6 +19054,15 @@ class Prv_amazon(Protocol):
         ASIN that buys it. What an agent needs when the person said "the 12 inch one" and the
         search returned whichever size Amazon ranked first. Empty when the listing has no
         variations — a real answer, not a parse failure.
+        """
+
+    async def listReviews(self, asinOrUrl: str, /) -> list[Prv_amazon_AmazonReview_Out]:
+        """Read what customers actually wrote about a product — reviewer name, star rating,
+        headline, date, the variant they bought, whether the purchase was Verified, the review
+        body, and how many people found it helpful. Amazon shows a logged-out visitor its top
+        eight reviews on the product page itself; sorting, filtering and paging past them needs
+        a signed-in account, which sign-up has not shipped for yet. The read an agent needs to
+        answer "is this any good" rather than "what does it cost".
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -23504,10 +23529,20 @@ class Prv_google_news(Protocol):
         """The topics Google News' own home-page nav rail is offering today — the eight standing
         sections plus "Your local news" (measured 2026-09-15: nine entries, geo-scoped to
         whichever exit made the request) — each with the opaque topic id `getTopicHeadlines`
-        (not built yet) will take. Read off the home page's own embedded
-        `AF_initDataCallback({key: 'ds:2'…})` state rather than scraped from the rendered nav,
-        so it needs no browser. The finder that makes a topic id reachable by somebody who only
-        holds words.
+        takes. Read off the home page's own embedded `AF_initDataCallback({key: 'ds:2'…})` state
+        rather than scraped from the rendered nav, so it needs no browser. The finder that makes
+        a topic id reachable by somebody who only holds words.
+        """
+
+    async def getTopicHeadlines(self, topicId: str, /) -> Prv_google_news_GoogleNewsTopicFeed_Out:
+        """The headlines under any Google News topic id — an entity or interest topic (a company, a
+        person, a sports league) that `listTopics` returns, and that the eight named sections
+        `listTopicHeadlines` takes by word are only the beginning of. Identical fetch and parse
+        to `listTopicHeadlines` (`/rss/topics/<topicId>` rather than
+        `/rss/headlines/section/topic/<NAME>`) — the only difference is the key, since a topic
+        id has no canonical spelling for the site to correct it to. Measured 2026-09-15: the
+        Technology section's own topic id answers the identical feed shape as its section-name
+        door, 70 items, titled "Technology - Latest - Google News".
         """
 
 class Prv_google_translate(Protocol):

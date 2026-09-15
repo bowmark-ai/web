@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6703ea19a52c9a8dad7453df13635e694222d0e02dda8fe71040392e999a5d85
-// 1013 checked, 20 unchecked.
+// Manifest version: da954adfec9f8649172012cf90f386e096c673c2ca4018f2d0846381c76a0aa3
+// 1015 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6703ea19a52c9a8dad7453df13635e694222d0e02dda8fe71040392e999a5d85",
+  "version": "da954adfec9f8649172012cf90f386e096c673c2ca4018f2d0846381c76a0aa3",
   "units": {
     "booking_links": {
       "defs": {
@@ -4073,6 +4073,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listVariations": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listReviews": [
           {
             "name": "asinOrUrl",
             "schema": {
@@ -14104,7 +14113,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listTopics": []
+        "listTopics": [],
+        "getTopicHeadlines": [
+          {
+            "name": "topicId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.google_translate": {
