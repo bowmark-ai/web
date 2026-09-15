@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: de0b25ed7278d7070a3c0b995ef2b103e31faef6fd51cef43619a004d3c07849
-// 983 checked, 20 unchecked.
+// Manifest version: fbfcd3f4e1dfe7eda596fea6b296cab284cc064fd1546b91841973874fc68242
+// 984 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "de0b25ed7278d7070a3c0b995ef2b103e31faef6fd51cef43619a004d3c07849",
+  "version": "fbfcd3f4e1dfe7eda596fea6b296cab284cc064fd1546b91841973874fc68242",
   "units": {
     "booking_links": {
       "defs": {
@@ -13625,6 +13625,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.google_maps": {
       "defs": {
+        "SearchPlacesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SuggestPlacesArgs": {
           "k": "object",
           "props": [
@@ -13645,6 +13657,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SuggestPlacesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchPlaces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchPlacesArgs"
             },
             "optional": false
           }

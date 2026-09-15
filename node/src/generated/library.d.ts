@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: de0b25ed7278d7070a3c0b995ef2b103e31faef6fd51cef43619a004d3c07849
-// 48 capabilities, 409 providers, 1001 typed functions, 20 refused.
+// Manifest version: fbfcd3f4e1dfe7eda596fea6b296cab284cc064fd1546b91841973874fc68242
+// 48 capabilities, 409 providers, 1002 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15370,11 +15370,23 @@ interface GoogleMapsPlace {
 interface SuggestPlacesArgs {
   query: string;
 }
+interface SearchPlacesArgs {
+  query: string;
+}
+interface SearchPlacesResult {
+  featureId: string;
+  name: string;
+  address: string;
+  coordinates: { lat: number; lng: number } | null;
+  categories: string[];
+  rating?: number;
+  reviewCount?: number;
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
-   * address, hours, rating, reviews and route. suggestPlaces (autocomplete) is built; everything
-   * else is still a declared stub.
+   * address, hours, rating, reviews and route. suggestPlaces (autocomplete) and searchPlaces
+   * (the door) are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -15382,6 +15394,15 @@ interface SuggestPlacesArgs {
      * somebody types. Returns the completed queries, ready to hand to searchPlaces once it lands.
      */
     suggestPlaces(args: SuggestPlacesArgs): Promise<string[]>;
+
+    /**
+     * The door every other Maps function chains off. Takes what a person would say — "coffee shops
+     * in Seattle WA", "pizza near Austin TX" — and returns the ranked places Google shows for it:
+     * feature id, name, address, coordinates and categories, plus rating and review count when the
+     * site's response carries them. The location lives in the query text; Google resolves it from
+     * there rather than from a separate coordinate.
+     */
+    searchPlaces(args: SearchPlacesArgs): Promise<SearchPlacesResult[]>;
   }
 }
 

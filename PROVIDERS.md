@@ -673,7 +673,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a /maps/place/ url… | ⚪ |
 | `google_maps.reverseGeocode` | google.com/maps | Coordinates in, the street address and the place that sits there out — what Maps shows… | ⚪ |
 | `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | ⚪ |
-| `google_maps.searchPlaces` | google.com/maps | The entry point. | ⚪ |
+| `google_maps.searchPlaces` | google.com/maps | The door every other Maps function chains off. | 🟢 |
 | `google_maps.suggestPlaceEdit` | google.com/maps | Send Google a correction about a place — wrong hours, wrong address, permanently… | ⚪ |
 | `google_maps.suggestPlaces` | google.com/maps | Google Maps' own autocomplete for a half-typed query — what the search box offers… | 🟢 |
 | `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | ⚪ |
@@ -691,7 +691,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.listTopics` | news.google.com | The topics Google News itself offers — the eight standing sections plus the entity and… | ⚪ |
 | `google_news.resolveArticleUrl` | news.google.com | The publisher's real article URL behind a Google News link. | ⚪ |
 | `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | ⚪ |
-| `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | ⚪ |
+| `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | 🟢 |
 | `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | ⚪ |
 | `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | ⚪ |
 | `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | ⚪ |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: de0b25ed7278d7070a3c0b995ef2b103e31faef6fd51cef43619a004d3c07849
-# 48 capabilities, 409 providers, 983 typed functions, 20 refused.
+# Manifest version: fbfcd3f4e1dfe7eda596fea6b296cab284cc064fd1546b91841973874fc68242
+# 48 capabilities, 409 providers, 984 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8290,6 +8290,22 @@ class Prv_google_flights_GooglePricePoint_Out(TypedDict):
 
 class Prv_google_maps_SuggestPlacesArgs_In(TypedDict):
     query: str
+
+class Prv_google_maps_SearchPlacesArgs_In(TypedDict):
+    query: str
+
+class Prv_google_maps_SearchPlacesResult_Out(TypedDict):
+    featureId: str
+    name: str
+    address: str
+    coordinates: Prv_google_maps_SearchPlacesResult_Out_coordinates_u0_Out | None
+    categories: list[str]
+    rating: NotRequired[float]
+    reviewCount: NotRequired[float]
+
+class Prv_google_maps_SearchPlacesResult_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -22882,14 +22898,22 @@ class Prv_google_flights(Protocol):
 
 class Prv_google_maps(Protocol):
     """Local business search on Google Maps — find places by what a person would say, then read
-    the address, hours, rating, reviews and route. suggestPlaces (autocomplete) is built;
-    everything else is still a declared stub.
+    the address, hours, rating, reviews and route. suggestPlaces (autocomplete) and
+    searchPlaces (the door) are built; everything else is still a declared stub.
     """
 
     async def suggestPlaces(self, args: Prv_google_maps_SuggestPlacesArgs_In, /) -> list[str]:
         """Google Maps' own autocomplete for a half-typed query — what the search box offers while
         somebody types. Returns the completed queries, ready to hand to searchPlaces once it
         lands.
+        """
+
+    async def searchPlaces(self, args: Prv_google_maps_SearchPlacesArgs_In, /) -> list[Prv_google_maps_SearchPlacesResult_Out]:
+        """The door every other Maps function chains off. Takes what a person would say — "coffee
+        shops in Seattle WA", "pizza near Austin TX" — and returns the ranked places Google
+        shows for it: feature id, name, address, coordinates and categories, plus rating and
+        review count when the site's response carries them. The location lives in the query
+        text; Google resolves it from there rather than from a separate coordinate.
         """
 
 class Prv_gostoreit(Protocol):
