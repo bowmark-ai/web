@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a7dc892c08a07407700931134f34f8027797c138e58aa9c772475ee26db10d5f
+// Manifest version: 414317c86300844acbb14f0cd17bbec93557cf5544e0431815b7835be8676b84
 // 48 capabilities, 410 providers, 1005 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
