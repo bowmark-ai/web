@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cc2f21a6952df09d431726bef42981139d963d250546ad67af064b12a0542034
-// 48 capabilities, 410 providers, 1003 typed functions, 20 refused.
+// Manifest version: 5e42f2ddb388d8dfd1498d61fd3223028c9258d49d214f1a34fddc2f5394cdd7
+// 48 capabilities, 410 providers, 1004 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15382,11 +15382,20 @@ interface SearchPlacesResult {
   rating?: number;
   reviewCount?: number;
 }
+interface GeocodeAddressArgs {
+  address: string;
+}
+interface GeocodeAddressResult {
+  featureId: string;
+  name: string;
+  formattedAddress: string;
+  coordinates: { lat: number; lng: number } | null;
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
-   * address, hours, rating, reviews and route. suggestPlaces (autocomplete) and searchPlaces
-   * (the door) are built; everything else is still a declared stub.
+   * address, hours, rating, reviews and route. suggestPlaces (autocomplete), searchPlaces (the
+   * door) and geocodeAddress are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -15403,6 +15412,14 @@ interface SearchPlacesResult {
      * there rather than from a separate coordinate.
      */
     searchPlaces(args: SearchPlacesArgs): Promise<SearchPlacesResult[]>;
+
+    /**
+     * A street address, a city, or a business name in — the matching Google Maps place, its
+     * feature id and its coordinates out. Rides the same door as searchPlaces (a second reading of
+     * the same response), so it only resolves a query that names ONE place; a category or
+     * list-style query throws.
+     */
+    geocodeAddress(args: GeocodeAddressArgs): Promise<GeocodeAddressResult>;
   }
 }
 

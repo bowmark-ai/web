@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cc2f21a6952df09d431726bef42981139d963d250546ad67af064b12a0542034
-# 48 capabilities, 410 providers, 985 typed functions, 20 refused.
+# Manifest version: 5e42f2ddb388d8dfd1498d61fd3223028c9258d49d214f1a34fddc2f5394cdd7
+# 48 capabilities, 410 providers, 986 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8304,6 +8304,19 @@ class Prv_google_maps_SearchPlacesResult_Out(TypedDict):
     reviewCount: NotRequired[float]
 
 class Prv_google_maps_SearchPlacesResult_Out_coordinates_u0_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_google_maps_GeocodeAddressArgs_In(TypedDict):
+    address: str
+
+class Prv_google_maps_GeocodeAddressResult_Out(TypedDict):
+    featureId: str
+    name: str
+    formattedAddress: str
+    coordinates: Prv_google_maps_GeocodeAddressResult_Out_coordinates_u0_Out | None
+
+class Prv_google_maps_GeocodeAddressResult_Out_coordinates_u0_Out(TypedDict):
     lat: float
     lng: float
 
@@ -22916,8 +22929,9 @@ class Prv_google_flights(Protocol):
 
 class Prv_google_maps(Protocol):
     """Local business search on Google Maps — find places by what a person would say, then read
-    the address, hours, rating, reviews and route. suggestPlaces (autocomplete) and
-    searchPlaces (the door) are built; everything else is still a declared stub.
+    the address, hours, rating, reviews and route. suggestPlaces (autocomplete),
+    searchPlaces (the door) and geocodeAddress are built; everything else is still a
+    declared stub.
     """
 
     async def suggestPlaces(self, args: Prv_google_maps_SuggestPlacesArgs_In, /) -> list[str]:
@@ -22932,6 +22946,13 @@ class Prv_google_maps(Protocol):
         shows for it: feature id, name, address, coordinates and categories, plus rating and
         review count when the site's response carries them. The location lives in the query
         text; Google resolves it from there rather than from a separate coordinate.
+        """
+
+    async def geocodeAddress(self, args: Prv_google_maps_GeocodeAddressArgs_In, /) -> Prv_google_maps_GeocodeAddressResult_Out:
+        """A street address, a city, or a business name in — the matching Google Maps place, its
+        feature id and its coordinates out. Rides the same door as searchPlaces (a second
+        reading of the same response), so it only resolves a query that names ONE place; a
+        category or list-style query throws.
         """
 
 class Prv_google_news(Protocol):

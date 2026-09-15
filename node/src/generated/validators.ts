@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cc2f21a6952df09d431726bef42981139d963d250546ad67af064b12a0542034
-// 985 checked, 20 unchecked.
+// Manifest version: 5e42f2ddb388d8dfd1498d61fd3223028c9258d49d214f1a34fddc2f5394cdd7
+// 986 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cc2f21a6952df09d431726bef42981139d963d250546ad67af064b12a0542034",
+  "version": "5e42f2ddb388d8dfd1498d61fd3223028c9258d49d214f1a34fddc2f5394cdd7",
   "units": {
     "booking_links": {
       "defs": {
@@ -13625,6 +13625,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.google_maps": {
       "defs": {
+        "GeocodeAddressArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchPlacesArgs": {
           "k": "object",
           "props": [
@@ -13667,6 +13679,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchPlacesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "geocodeAddress": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GeocodeAddressArgs"
             },
             "optional": false
           }

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1474 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1496 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -43,6 +43,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ajmadison.search` | ajmadison.com | Runs AJ Madison's own category + facet filter (brand, size/capacity, price band… | 🟢 |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
+| `amazon.addToCart` | www.amazon.com | Put a product in the cart, in the quantity asked for, and report what the cart then… | ⚪ |
+| `amazon.getCart` | www.amazon.com | Read what is in the cart — line items, quantities, per-item and total price — so an… | ⚪ |
+| `amazon.getDeliveryEstimate` | www.amazon.com | When a product would actually arrive at a given US ZIP, and what it costs to get it… | ⚪ |
+| `amazon.getProduct` | www.amazon.com | Read one product page the way a shopper reads it: title, brand, ASIN, current price… | ⚪ |
+| `amazon.getSeller` | www.amazon.com | Read a marketplace seller's storefront — their name, their lifetime and 12-month… | ⚪ |
+| `amazon.listBestSellerCategories` | www.amazon.com | List the departments Amazon publishes rankings for — Electronics, Kitchen & Dining… | ⚪ |
+| `amazon.listBestSellers` | www.amazon.com | Amazon's hourly-updated top 100 in a department — what is actually selling right now… | ⚪ |
+| `amazon.listCategoryProducts` | www.amazon.com | Browse a whole department with no keyword at all — "what is in Home & Kitchen… | ⚪ |
+| `amazon.listDeals` | www.amazon.com | Today's Deals — what is discounted right now, with the deal price, the price it was… | ⚪ |
+| `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | ⚪ |
+| `amazon.listMoversAndShakers` | www.amazon.com | The biggest sales-rank gainers in a department over the past 24 hours — what is… | ⚪ |
+| `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | ⚪ |
+| `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | ⚪ |
+| `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | ⚪ |
+| `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together"… | ⚪ |
+| `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | ⚪ |
+| `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | ⚪ |
+| `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | ⚪ |
+| `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
+| `amazon.searchProducts` | www.amazon.com | Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c… | ⚪ |
+| `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | ⚪ |
+| `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | ⚪ |
 | `americandreamvacations.listLocations` | americandreamvacations.net | Returns American Dream Vacations' own list of rental store locations (city, state and… | 🟢 |
 | `americandreamvacations.searchInventory` | americandreamvacations.net | Runs American Dream Vacations' own "Check availability" search for one store location… | 🟢 |
 | `americanstandard.getSystemCostEstimate` | americanstandardair.com | Reads American Standard's own published cost guide for one system type ("Air… | 🟢 |
@@ -661,7 +683,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
 | `google_maps.addMissingPlace` | google.com/maps | Add a business Google Maps does not list yet — name, address, category and hours —… | ⚪ |
-| `google_maps.geocodeAddress` | google.com/maps | A street address or place name in, coordinates and the matching Google Maps place out. | ⚪ |
+| `google_maps.geocodeAddress` | google.com/maps | A street address or place name in, coordinates and the matching Google Maps place out. | 🟢 |
 | `google_maps.getDirections` | google.com/maps | Route between two places — distance, duration, the step-by-step turns and the… | ⚪ |
 | `google_maps.getPlace` | google.com/maps | Everything Google Maps shows on one business's panel, from a feature id searchPlaces… | ⚪ |
 | `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | ⚪ |
