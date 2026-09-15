@@ -6,6 +6,33 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.22.0 (2026-09-15)
+
+**Capabilities**
+
+- New capability **booking_links** (3 functions): `booking_links.find`, `booking_links.read`, `booking_links.scanPage`
+- New capability **currency_exchange** (1 function): `currency_exchange.getRate`
+
+**Providers**
+
+- New provider **www.amazon.com** (1 function): `amazon.searchProducts`
+- New provider **exchangerate-api.com** (1 function): `currency_exchange.getRate`
+- New provider **dell.com** (1 function): `dell.searchForumThreads`
+- New provider **google.com/maps** (5 functions): `google_maps.geocodeAddress`, `google_maps.getPlace`, `google_maps.listReviews`, `google_maps.searchPlaces`, `google_maps.suggestPlaces`
+- New provider **news.google.com** (3 functions): `google_news.listTopicHeadlines`, `google_news.searchNews`, `google_news.topStories`
+- New provider **hccts.org** (1 function): `hccts.checkApplicationAvailability`
+- New provider **serper.dev** (1 function): `serper.searchGoogle`
+- Added `archive_org.getSnapshot`
+- Added `archive_org.listSnapshots`
+- Added `cal_com.findProfiles`
+- Added `cal_com.getBookingForm`
+- Added `calendly.findProfiles`
+- Added `calendly.getBookingForm`
+- Added `github.getProfileReadme`
+- Added `havenenergy.listPricingPrograms`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.21.0 (2026-09-14)
 
 **Providers**
