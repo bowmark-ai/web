@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1422 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1423 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -697,6 +697,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `haydenhomes.calculateAffordability` | hayden-homes.com | Runs Hayden Homes' "What Can I Afford?" mortgage affordability calculator… | ⚪ |
 | `haydenhomes.listFloorPlans` | hayden-homes.com | Lists Hayden Homes' Build-On-Your-Land floor plan catalog (a template plan, not live… | ⚪ |
 | `haydenhomes.searchQuickMoveIns` | hayden-homes.com | Runs Hayden Homes' quick move-in search against the site's own live inventory — real… | 🟢 |
+| `hccts.checkApplicationAvailability` | hccts.org | Checks appointment booking availability and whether the online application form is… | 🟢 |
 | `healthcare_gov.checkDrugCoverage` | healthcare.gov | Which of a household's available ACA Marketplace plans cover a specific prescription… | 🟢 |
 | `healthcare_gov.checkEnrollmentEligibility` | healthcare.gov | Returns whether somebody can enrol in Marketplace coverage right now and until when —… | 🟡 |
 | `healthcare_gov.checkProviderCoverage` | healthcare.gov | Returns which of a household's available Marketplace plans have a specific doctor… | 🟢 |
