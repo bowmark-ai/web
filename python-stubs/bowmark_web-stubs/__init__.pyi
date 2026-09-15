@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e783f382f781bf99420ad6bc30b17b641315b0e1aee520af3be976042ebbc930
-# 48 capabilities, 410 providers, 989 typed functions, 20 refused.
+# Manifest version: 629f1aeb04463086ca99af95377a310bbd807733f6a06b36d16890fbc8e3314d
+# 48 capabilities, 410 providers, 990 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8343,6 +8343,16 @@ class Prv_google_maps_GetPlaceResult_Out_coordinates_u0_Out(TypedDict):
 class Prv_google_maps_GetPlaceResult_Out_hours_item_Out(TypedDict):
     day: str
     hours: list[str]
+
+class Prv_google_maps_ListReviewsArgs_In(TypedDict):
+    query: str
+
+class Prv_google_maps_Review_Out(TypedDict):
+    author: str
+    authorId: NotRequired[str]
+    rating: float
+    text: str
+    relativeDate: NotRequired[str]
 
 class Prv_google_news_GoogleNewsSearchResult_Out(TypedDict):
     query: str
@@ -22963,8 +22973,8 @@ class Prv_google_flights(Protocol):
 class Prv_google_maps(Protocol):
     """Local business search on Google Maps — find places by what a person would say, then read
     the address, hours, rating, reviews and route. suggestPlaces (autocomplete),
-    searchPlaces (the door), geocodeAddress and getPlace are built; everything else is still
-    a declared stub.
+    searchPlaces (the door), geocodeAddress, getPlace and listReviews are built; everything
+    else is still a declared stub.
     """
 
     async def suggestPlaces(self, args: Prv_google_maps_SuggestPlacesArgs_In, /) -> list[str]:
@@ -22996,6 +23006,17 @@ class Prv_google_maps(Protocol):
         since this does not take a feature id — measured live, neither the raw id nor a cid
         string resolves through this door), and throws when the query names a category or list
         rather than one business.
+        """
+
+    async def listReviews(self, args: Prv_google_maps_ListReviewsArgs_In, /) -> list[Prv_google_maps_Review_Out]:
+        """The reviews Google Maps shows on a business's own panel — up to 5, each with author,
+        star rating, review text and the site's own relative date. A FOURTH reading of
+        searchPlaces' door (the same record getPlace reads, one section further in), not the
+        listugcposts route the survey planned: that route needed a session token minted by a
+        place-page bootstrap that was never cracked, but the same reviews the token would have
+        fetched are already sitting in the panel response. Takes the same resolving query
+        getPlace does. Returns [] for a place with no reviews rather than throwing; throws only
+        when the query itself does not resolve to one place.
         """
 
 class Prv_google_news(Protocol):

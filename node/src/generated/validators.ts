@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e783f382f781bf99420ad6bc30b17b641315b0e1aee520af3be976042ebbc930
-// 989 checked, 20 unchecked.
+// Manifest version: 629f1aeb04463086ca99af95377a310bbd807733f6a06b36d16890fbc8e3314d
+// 990 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e783f382f781bf99420ad6bc30b17b641315b0e1aee520af3be976042ebbc930",
+  "version": "629f1aeb04463086ca99af95377a310bbd807733f6a06b36d16890fbc8e3314d",
   "units": {
     "booking_links": {
       "defs": {
@@ -13649,6 +13649,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchPlacesArgs": {
           "k": "object",
           "props": [
@@ -13711,6 +13723,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetPlaceArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListReviewsArgs"
             },
             "optional": false
           }

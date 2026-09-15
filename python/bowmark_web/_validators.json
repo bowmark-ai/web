@@ -1,5 +1,5 @@
 {
-  "version": "e783f382f781bf99420ad6bc30b17b641315b0e1aee520af3be976042ebbc930",
+  "version": "629f1aeb04463086ca99af95377a310bbd807733f6a06b36d16890fbc8e3314d",
   "units": {
     "booking_links": {
       "defs": {
@@ -13637,6 +13637,18 @@
             }
           ]
         },
+        "ListReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchPlacesArgs": {
           "k": "object",
           "props": [
@@ -13699,6 +13711,16 @@
             "schema": {
               "k": "ref",
               "name": "GetPlaceArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListReviewsArgs"
             },
             "optional": false
           }

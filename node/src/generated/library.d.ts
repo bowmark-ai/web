@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e783f382f781bf99420ad6bc30b17b641315b0e1aee520af3be976042ebbc930
-// 48 capabilities, 410 providers, 1007 typed functions, 20 refused.
+// Manifest version: 629f1aeb04463086ca99af95377a310bbd807733f6a06b36d16890fbc8e3314d
+// 48 capabilities, 410 providers, 1008 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15407,11 +15407,22 @@ interface GetPlaceResult {
   reviewCount?: number;
   hours?: { day: string; hours: string[] }[];
 }
+interface ListReviewsArgs {
+  query: string;
+}
+interface Review {
+  author: string;
+  authorId?: string;
+  rating: number;
+  text: string;
+  relativeDate?: string;
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
    * address, hours, rating, reviews and route. suggestPlaces (autocomplete), searchPlaces (the
-   * door), geocodeAddress and getPlace are built; everything else is still a declared stub.
+   * door), geocodeAddress, getPlace and listReviews are built; everything else is still a
+   * declared stub.
    */
   interface Unit {
     /**
@@ -15446,6 +15457,18 @@ interface GetPlaceResult {
      * this door), and throws when the query names a category or list rather than one business.
      */
     getPlace(args: GetPlaceArgs): Promise<GetPlaceResult>;
+
+    /**
+     * The reviews Google Maps shows on a business's own panel — up to 5, each with author, star
+     * rating, review text and the site's own relative date. A FOURTH reading of searchPlaces' door
+     * (the same record getPlace reads, one section further in), not the listugcposts route the
+     * survey planned: that route needed a session token minted by a place-page bootstrap that was
+     * never cracked, but the same reviews the token would have fetched are already sitting in the
+     * panel response. Takes the same resolving query getPlace does. Returns [] for a place with no
+     * reviews rather than throwing; throws only when the query itself does not resolve to one
+     * place.
+     */
+    listReviews(args: ListReviewsArgs): Promise<Review[]>;
   }
 }
 
