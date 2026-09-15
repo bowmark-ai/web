@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 40511f20299edcdd7bded08679ce232d615267dd72c5e5616fd2fa0154d410b7
-// 48 capabilities, 410 providers, 1006 typed functions, 20 refused.
+// Manifest version: e783f382f781bf99420ad6bc30b17b641315b0e1aee520af3be976042ebbc930
+// 48 capabilities, 410 providers, 1007 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15473,6 +15473,11 @@ interface GoogleNewsTopStories {
   title: string;
   clusters: GoogleNewsArticle[];
 }
+interface GoogleNewsTopicHeadlines {
+  section: "World" | "Nation" | "Business" | "Technology" | "Entertainment" | "Sports" | "Science" | "Health";
+  title: string;
+  articles: GoogleNewsArticle[];
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
@@ -15502,6 +15507,17 @@ interface GoogleNewsTopStories {
      * the whole ask.
      */
     topStories(): Promise<GoogleNewsTopStories>;
+
+    /**
+     * The latest headlines in one of Google News' own eight sections — World, Nation, Business,
+     * Technology, Entertainment, Sports, Science or Health — by section NAME, so a caller who has
+     * only the word "technology" never has to hold an opaque topic id. The name is matched
+     * case-insensitively against the closed list of eight; anything else throws before any request
+     * is made, because an unrecognized section answers 200 with Google News' own app-shell HTML
+     * rather than a 404 (measured 2026-09-15) — reading that as an empty section would be silently
+     * wrong rather than refused.
+     */
+    listTopicHeadlines(section: string): Promise<GoogleNewsTopicHeadlines>;
   }
 }
 

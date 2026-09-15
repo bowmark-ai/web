@@ -690,7 +690,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in person has contributed, with… | ⚪ |
 | `google_maps.listPhotos` | google.com/maps | The photos attached to a place — the business's own and the ones visitors uploaded —… | ⚪ |
 | `google_maps.listRelatedPlaces` | google.com/maps | The "people also search for" places Google Maps shows under a business — the… | ⚪ |
-| `google_maps.listReviews` | google.com/maps | The reviews people wrote for a place, newest or highest first — author, star rating… | ⚪ |
+| `google_maps.listReviews` | google.com/maps | The reviews Google Maps shows on a business's own panel — up to 5, each with author… | 🟢 |
 | `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in person saved — Favourites, Want to go, Starred and their own… | ⚪ |
 | `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a /maps/place/ url… | ⚪ |
 | `google_maps.reverseGeocode` | google.com/maps | Coordinates in, the street address and the place that sits there out — what Maps shows… | ⚪ |

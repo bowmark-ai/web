@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 40511f20299edcdd7bded08679ce232d615267dd72c5e5616fd2fa0154d410b7
-# 48 capabilities, 410 providers, 988 typed functions, 20 refused.
+# Manifest version: e783f382f781bf99420ad6bc30b17b641315b0e1aee520af3be976042ebbc930
+# 48 capabilities, 410 providers, 989 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8365,6 +8365,11 @@ class Prv_google_news_GoogleNewsClusterEntry_Out(TypedDict):
 class Prv_google_news_GoogleNewsTopStories_Out(TypedDict):
     title: str
     clusters: list[Prv_google_news_GoogleNewsArticle_Out]
+
+class Prv_google_news_GoogleNewsTopicHeadlines_Out(TypedDict):
+    section: Literal["World"] | Literal["Nation"] | Literal["Business"] | Literal["Technology"] | Literal["Entertainment"] | Literal["Sports"] | Literal["Science"] | Literal["Health"]
+    title: str
+    articles: list[Prv_google_news_GoogleNewsArticle_Out]
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -23018,6 +23023,16 @@ class Prv_google_news(Protocol):
         other outlet covering the same story, which is the one thing a single publisher's own
         feed can never give a caller asking "what is everyone saying about this today". No
         arguments: the front page is the whole ask.
+        """
+
+    async def listTopicHeadlines(self, section: str, /) -> Prv_google_news_GoogleNewsTopicHeadlines_Out:
+        """The latest headlines in one of Google News' own eight sections — World, Nation,
+        Business, Technology, Entertainment, Sports, Science or Health — by section NAME, so a
+        caller who has only the word "technology" never has to hold an opaque topic id. The name
+        is matched case-insensitively against the closed list of eight; anything else throws
+        before any request is made, because an unrecognized section answers 200 with Google
+        News' own app-shell HTML rather than a 404 (measured 2026-09-15) — reading that as an
+        empty section would be silently wrong rather than refused.
         """
 
 class Prv_gostoreit(Protocol):

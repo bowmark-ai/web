@@ -1,5 +1,5 @@
 {
-  "version": "40511f20299edcdd7bded08679ce232d615267dd72c5e5616fd2fa0154d410b7",
+  "version": "e783f382f781bf99420ad6bc30b17b641315b0e1aee520af3be976042ebbc930",
   "units": {
     "booking_links": {
       "defs": {
@@ -13717,7 +13717,16 @@
             "optional": false
           }
         ],
-        "topStories": []
+        "topStories": [],
+        "listTopicHeadlines": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.gostoreit": {
