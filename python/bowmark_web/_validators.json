@@ -1,5 +1,5 @@
 {
-  "version": "9f7a26c01852d39c987dc5e3c48084908c51c90511b674fd77cd50a4b8448506",
+  "version": "3c7663c684ba4998ec13f72bff2d37d8b6aec478f6cf4eead12a7e8358b851b5",
   "units": {
     "booking_links": {
       "defs": {
@@ -14224,7 +14224,20 @@
       }
     },
     "providers.havenenergy": {
-      "defs": {},
+      "defs": {
+        "HavenListPricingProgramsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "getPropertyDetails": [
           {
@@ -14235,7 +14248,17 @@
             "optional": false
           }
         ],
-        "getPricingPrograms": []
+        "getPricingPrograms": [],
+        "listPricingPrograms": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "HavenListPricingProgramsArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.haydenhomes": {

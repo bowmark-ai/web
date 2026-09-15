@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1423 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1441 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -660,6 +660,23 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
+| `google_maps.addMissingPlace` | google.com/maps | Add a business Google Maps does not list yet — name, address, category and hours —… | ⚪ |
+| `google_maps.geocodeAddress` | google.com/maps | A street address or place name in, coordinates and the matching Google Maps place out. | ⚪ |
+| `google_maps.getDirections` | google.com/maps | Route between two places — distance, duration, the step-by-step turns and the… | ⚪ |
+| `google_maps.getPlace` | google.com/maps | Everything Google Maps shows on one business's panel, from a feature id searchPlaces… | ⚪ |
+| `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | ⚪ |
+| `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in person has contributed, with… | ⚪ |
+| `google_maps.listPhotos` | google.com/maps | The photos attached to a place — the business's own and the ones visitors uploaded —… | ⚪ |
+| `google_maps.listRelatedPlaces` | google.com/maps | The "people also search for" places Google Maps shows under a business — the… | ⚪ |
+| `google_maps.listReviews` | google.com/maps | The reviews people wrote for a place, newest or highest first — author, star rating… | ⚪ |
+| `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in person saved — Favourites, Want to go, Starred and their own… | ⚪ |
+| `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a /maps/place/ url… | ⚪ |
+| `google_maps.reverseGeocode` | google.com/maps | Coordinates in, the street address and the place that sits there out — what Maps shows… | ⚪ |
+| `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | ⚪ |
+| `google_maps.searchPlaces` | google.com/maps | The entry point. | ⚪ |
+| `google_maps.suggestPlaceEdit` | google.com/maps | Send Google a correction about a place — wrong hours, wrong address, permanently… | ⚪ |
+| `google_maps.suggestPlaces` | google.com/maps | Google Maps' own autocomplete for a half-typed query — what the search box offers… | ⚪ |
+| `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | ⚪ |
 | `google.search` | google.com | Runs a Google web search and returns the ranked results — title, destination url and… | ⚪ |
 | `gostoreit.findFacilities` | gostoreit.com | Searches Go Store It's public location results by a city, state, or ZIP and returns… | 🟢 |
 | `gostoreit.getFacilityUnits` | gostoreit.com | Reads a public Go Store It facility URL's live rendered unit inventory: size… | 🟢 |
@@ -694,6 +711,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hauslabs.runFoundationShadeFinder` | hauslabs.com | Resolves a buyer's Foundation Lab quiz answers to ONE specific shade: the variant… | 🟢 |
 | `havenenergy.getPricingPrograms` | havenenergy.com | Returns every active battery incentive/pricing program Haven currently prices against… | 🟢 |
 | `havenenergy.getPropertyDetails` | havenenergy.com | Given a US home address, returns the property attributes Haven's own /quote flow… | 🟢 |
+| `havenenergy.listPricingPrograms` | havenenergy.com | Given { address }, returns the property attributes plus ONLY the programs that… | 🟢 |
 | `haydenhomes.calculateAffordability` | hayden-homes.com | Runs Hayden Homes' "What Can I Afford?" mortgage affordability calculator… | ⚪ |
 | `haydenhomes.listFloorPlans` | hayden-homes.com | Lists Hayden Homes' Build-On-Your-Land floor plan catalog (a template plan, not live… | ⚪ |
 | `haydenhomes.searchQuickMoveIns` | hayden-homes.com | Runs Hayden Homes' quick move-in search against the site's own live inventory — real… | 🟢 |

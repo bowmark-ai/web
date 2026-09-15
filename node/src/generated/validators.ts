@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9f7a26c01852d39c987dc5e3c48084908c51c90511b674fd77cd50a4b8448506
-// 981 checked, 20 unchecked.
+// Manifest version: 3c7663c684ba4998ec13f72bff2d37d8b6aec478f6cf4eead12a7e8358b851b5
+// 982 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9f7a26c01852d39c987dc5e3c48084908c51c90511b674fd77cd50a4b8448506",
+  "version": "3c7663c684ba4998ec13f72bff2d37d8b6aec478f6cf4eead12a7e8358b851b5",
   "units": {
     "booking_links": {
       "defs": {
@@ -14236,7 +14236,20 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.havenenergy": {
-      "defs": {},
+      "defs": {
+        "HavenListPricingProgramsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "getPropertyDetails": [
           {
@@ -14247,7 +14260,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getPricingPrograms": []
+        "getPricingPrograms": [],
+        "listPricingPrograms": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "HavenListPricingProgramsArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.haydenhomes": {

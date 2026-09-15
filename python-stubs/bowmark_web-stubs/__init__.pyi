@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9f7a26c01852d39c987dc5e3c48084908c51c90511b674fd77cd50a4b8448506
-# 48 capabilities, 408 providers, 981 typed functions, 20 refused.
+# Manifest version: 3c7663c684ba4998ec13f72bff2d37d8b6aec478f6cf4eead12a7e8358b851b5
+# 48 capabilities, 408 providers, 982 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8728,6 +8728,14 @@ class Prv_havenenergy_HavenPricingTier_Out(TypedDict):
     basePrepaidPayment: float
     installationCost: float
     billSavings: str
+
+class Prv_havenenergy_HavenListPricingProgramsArgs_In(TypedDict):
+    address: str
+
+class Prv_havenenergy_HavenListPricingProgramsResult_Out(TypedDict):
+    property: Prv_havenenergy_HavenPropertyDetails_Out
+    state: str | None
+    programs: list[Prv_havenenergy_HavenPricingProgram_Out]
 
 class Prv_haydenhomes_HaydenhomesSearchFilters_In(TypedDict):
     state: NotRequired[str]
@@ -23144,6 +23152,16 @@ class Prv_havenenergy(Protocol):
         without an expansion unit). This is the site's own live table; combine with
         getPropertyDetails' county/utility context to narrow to the programs a specific home
         actually qualifies for.
+        """
+
+    async def listPricingPrograms(self, arg0: Prv_havenenergy_HavenListPricingProgramsArgs_In, /) -> Prv_havenenergy_HavenListPricingProgramsResult_Out:
+        """One call for the question getPropertyDetails + getPricingPrograms need composing to
+        answer: which of Haven's active programs does THIS address actually qualify for. Reads
+        the property attributes and the full program table (the same two live calls the two
+        other functions make) and filters to the state parsed out of the address string. `state`
+        is null and `programs` is the full unfiltered table when no 2-letter state code could be
+        read from the address — Haven's own property-details response never returns one to fall
+        back on.
         """
 
 class Prv_haydenhomes(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9f7a26c01852d39c987dc5e3c48084908c51c90511b674fd77cd50a4b8448506
-// 48 capabilities, 408 providers, 999 typed functions, 20 refused.
+// Manifest version: 3c7663c684ba4998ec13f72bff2d37d8b6aec478f6cf4eead12a7e8358b851b5
+// 48 capabilities, 408 providers, 1000 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15998,6 +15998,14 @@ interface HavenPricingProgram {
 
 interface HavenPricingProgramsResult { programs: HavenPricingProgram[] }
 
+interface HavenListPricingProgramsResult {
+  property: HavenPropertyDetails;
+  state: string | null;      // read off the caller's own address, e.g. "CA"
+  programs: HavenPricingProgram[]; // filtered to what `state` qualifies for
+}
+
+interface HavenListPricingProgramsArgs { address: string }
+
   /**
    * Haven Energy home battery quoting — read a US address's own property attributes (home size,
    * county, energy-community status) the way Haven's /quote flow does, and read the site's own
@@ -16023,6 +16031,16 @@ interface HavenPricingProgramsResult { programs: HavenPricingProgram[] }
      * county/utility context to narrow to the programs a specific home actually qualifies for.
      */
     getPricingPrograms(): Promise<HavenPricingProgramsResult>;
+
+    /**
+     * One call for the question getPropertyDetails + getPricingPrograms need composing to answer:
+     * which of Haven's active programs does THIS address actually qualify for. Reads the property
+     * attributes and the full program table (the same two live calls the two other functions make)
+     * and filters to the state parsed out of the address string. `state` is null and `programs` is
+     * the full unfiltered table when no 2-letter state code could be read from the address —
+     * Haven's own property-details response never returns one to fall back on.
+     */
+    listPricingPrograms(arg0: HavenListPricingProgramsArgs): Promise<HavenListPricingProgramsResult>;
   }
 }
 
