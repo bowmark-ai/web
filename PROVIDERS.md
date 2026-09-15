@@ -84,7 +84,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aosom.searchProducts` | aosom.com | Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query… | 🟢 |
 | `app_store.getApp` | apps.apple.com | Read one app the way its store listing reads: name, developer, price, average rating… | 🟢 |
 | `app_store.getAppDetails` | apps.apple.com | Everything the store page shows that the API does not: the five-star histogram behind… | ⚪ |
-| `app_store.getApps` | apps.apple.com | Read up to fifty apps in ONE request, for when an agent already holds a list of ids —… | ⚪ |
+| `app_store.getApps` | apps.apple.com | Read up to fifty apps in ONE request, for when an agent already holds a list of ids —… | 🟢 |
 | `app_store.getStory` | apps.apple.com | Read an App Store editorial story — the Today-tab piece Apple's editors wrote ("Master… | ⚪ |
 | `app_store.listCategories` | apps.apple.com | List every category and subcategory the App Store sorts apps into — Business… | ⚪ |
 | `app_store.listDeveloperApps` | apps.apple.com | List every app one developer has on the store — from the developer's numeric id, their… | ⚪ |
@@ -1223,7 +1223,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.listChannels` | www.primevideo.com | List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+… | ⚪ |
 | `prime_video.listContinueWatching` | www.primevideo.com | What the caller started and did not finish, and how far in they got. | ⚪ |
 | `prime_video.listDeals` | www.primevideo.com | What is discounted to rent or buy on Prime Video this week — the sales, the… | ⚪ |
-| `prime_video.listEpisodes` | www.primevideo.com | List a season's episodes with number, title, synopsis, runtime, release date, artwork… | ⚪ |
+| `prime_video.listEpisodes` | www.primevideo.com | List a season's episodes with number, title, synopsis, runtime, release date, artwork… | 🟢 |
 | `prime_video.listFreeToWatch` | www.primevideo.com | What you can watch on Prime Video without paying anything at all — the free-with-ads… | ⚪ |
 | `prime_video.listLiveChannels` | www.primevideo.com | List the free live TV and news stations Prime Video streams — their name, their logo… | ⚪ |
 | `prime_video.listLiveSports` | www.primevideo.com | What sport is on Prime Video now and what is coming — the live events, the leagues it… | ⚪ |
