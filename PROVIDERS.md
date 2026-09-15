@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1542 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1555 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -63,7 +63,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | ⚪ |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
 | `amazon.searchProducts` | www.amazon.com | Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c… | 🟢 |
-| `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | ⚪ |
+| `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | 🟢 |
 | `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | ⚪ |
 | `americandreamvacations.listLocations` | americandreamvacations.net | Returns American Dream Vacations' own list of rental store locations (city, state and… | 🟢 |
 | `americandreamvacations.searchInventory` | americandreamvacations.net | Runs American Dream Vacations' own "Check availability" search for one store location… | 🟢 |
@@ -82,6 +82,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
 | `aosom.getProduct` | aosom.com | Reads one product's live price and the site's own buyability flag straight off its… | 🟢 |
 | `aosom.searchProducts` | aosom.com | Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query… | 🟢 |
+| `app_store.getApp` | apps.apple.com | Read one app the way its store listing reads: name, developer, price, average rating… | ⚪ |
+| `app_store.getAppDetails` | apps.apple.com | Everything the store page shows that the API does not: the five-star histogram behind… | ⚪ |
+| `app_store.getApps` | apps.apple.com | Read up to fifty apps in ONE request, for when an agent already holds a list of ids —… | ⚪ |
+| `app_store.getStory` | apps.apple.com | Read an App Store editorial story — the Today-tab piece Apple's editors wrote ("Master… | ⚪ |
+| `app_store.listCategories` | apps.apple.com | List every category and subcategory the App Store sorts apps into — Business… | ⚪ |
+| `app_store.listDeveloperApps` | apps.apple.com | List every app one developer has on the store — from the developer's numeric id, their… | ⚪ |
+| `app_store.listPurchasedApps` | apps.apple.com | List the apps this Apple Account has bought or downloaded, with what was paid and when… | ⚪ |
+| `app_store.listReviews` | apps.apple.com | Read what people actually wrote about an app — the review body, its title, the star… | ⚪ |
+| `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | ⚪ |
+| `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions this Apple Account is paying for, what each one… | ⚪ |
+| `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | ⚪ |
+| `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | ⚪ |
+| `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
 | `apple.bookGeniusBarAppointment` | apple.com | Book a Genius Bar or repair appointment at a specific store. | ⚪ |
 | `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number. | ⚪ |
 | `apple.compareModels` | apple.com | Put two or more models of the same product side by side on the specs a person actually… | ⚪ |
