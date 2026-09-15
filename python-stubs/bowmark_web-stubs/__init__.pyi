@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8caae597d1a0c833415dc0da7f498a4ba02dcae98dec2bcdbf89b5313ee4a5e0
-# 48 capabilities, 411 providers, 991 typed functions, 20 refused.
+# Manifest version: f338b281647d75045f865de018619e3f324279b18d99c226271256bbb846d8ef
+# 48 capabilities, 411 providers, 992 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8396,6 +8396,11 @@ class Prv_google_news_GoogleNewsTopStories_Out(TypedDict):
 
 class Prv_google_news_GoogleNewsTopicHeadlines_Out(TypedDict):
     section: Literal["World"] | Literal["Nation"] | Literal["Business"] | Literal["Technology"] | Literal["Entertainment"] | Literal["Sports"] | Literal["Science"] | Literal["Health"]
+    title: str
+    articles: list[Prv_google_news_GoogleNewsArticle_Out]
+
+class Prv_google_news_GoogleNewsLocalHeadlines_Out(TypedDict):
+    place: str
     title: str
     articles: list[Prv_google_news_GoogleNewsArticle_Out]
 
@@ -23056,8 +23061,8 @@ class Prv_google_maps(Protocol):
 class Prv_google_news(Protocol):
     """Headlines from every publisher at once — today's top stories as clusters, a section or a
     city's local news, and everything indexed about a subject with Google's own when: and
-    site: operators. searchNews (the door) and topStories are built; everything else is
-    still a declared stub.
+    site: operators. searchNews (the door), topStories, listTopicHeadlines and
+    listLocalHeadlines are built; everything else is still a declared stub.
     """
 
     async def searchNews(self, query: str, /) -> Prv_google_news_GoogleNewsSearchResult_Out:
@@ -23088,6 +23093,18 @@ class Prv_google_news(Protocol):
         before any request is made, because an unrecognized section answers 200 with Google
         News' own app-shell HTML rather than a 404 (measured 2026-09-15) — reading that as an
         empty section would be silently wrong rather than refused.
+        """
+
+    async def listLocalHeadlines(self, place: str, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:
+        """What is being reported in one place — the local-news edition for a city or region, by
+        NAME ("Seattle", "San Francisco"), not a place id. There is no closed list of valid
+        places, so a place Google News has no edition for is refused only after the request
+        comes back: it answers 200 with an in-protocol "This feed is not available." sentinel
+        item and a bare "Google News" channel title rather than the place's own name (measured
+        2026-09-15 on a nonsense place; the same sentinel `_client` already drops out of every
+        other feed by guid) — reading that as an empty result would be silently wrong, so this
+        throws instead. A recognized place's own channel title is echoed back in `place`, in the
+        site's own spelling, so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`.
         """
 
 class Prv_gostoreit(Protocol):

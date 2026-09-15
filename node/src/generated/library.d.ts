@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8caae597d1a0c833415dc0da7f498a4ba02dcae98dec2bcdbf89b5313ee4a5e0
-// 48 capabilities, 411 providers, 1009 typed functions, 20 refused.
+// Manifest version: f338b281647d75045f865de018619e3f324279b18d99c226271256bbb846d8ef
+// 48 capabilities, 411 providers, 1010 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15540,12 +15540,17 @@ interface GoogleNewsTopicHeadlines {
   title: string;
   articles: GoogleNewsArticle[];
 }
+interface GoogleNewsLocalHeadlines {
+  place: string;
+  title: string;
+  articles: GoogleNewsArticle[];
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
    * city's local news, and everything indexed about a subject with Google's own when: and site:
-   * operators. searchNews (the door) and topStories are built; everything else is still a
-   * declared stub.
+   * operators. searchNews (the door), topStories, listTopicHeadlines and listLocalHeadlines are
+   * built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -15580,6 +15585,19 @@ interface GoogleNewsTopicHeadlines {
      * wrong rather than refused.
      */
     listTopicHeadlines(section: string): Promise<GoogleNewsTopicHeadlines>;
+
+    /**
+     * What is being reported in one place — the local-news edition for a city or region, by NAME
+     * ("Seattle", "San Francisco"), not a place id. There is no closed list of valid places, so a
+     * place Google News has no edition for is refused only after the request comes back: it
+     * answers 200 with an in-protocol "This feed is not available." sentinel item and a bare
+     * "Google News" channel title rather than the place's own name (measured 2026-09-15 on a
+     * nonsense place; the same sentinel `_client` already drops out of every other feed by guid) —
+     * reading that as an empty result would be silently wrong, so this throws instead. A
+     * recognized place's own channel title is echoed back in `place`, in the site's own spelling,
+     * so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`.
+     */
+    listLocalHeadlines(place: string): Promise<GoogleNewsLocalHeadlines>;
   }
 }
 

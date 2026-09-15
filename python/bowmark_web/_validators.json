@@ -1,5 +1,5 @@
 {
-  "version": "8caae597d1a0c833415dc0da7f498a4ba02dcae98dec2bcdbf89b5313ee4a5e0",
+  "version": "f338b281647d75045f865de018619e3f324279b18d99c226271256bbb846d8ef",
   "units": {
     "booking_links": {
       "defs": {
@@ -13806,6 +13806,15 @@
         "listTopicHeadlines": [
           {
             "name": "section",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLocalHeadlines": [
+          {
+            "name": "place",
             "schema": {
               "k": "string"
             },
