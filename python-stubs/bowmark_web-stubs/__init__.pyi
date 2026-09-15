@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f846007df0f2c13d9bb19255dc7de11abf983a199308ae4b2c60ad00a827b6b8
-# 48 capabilities, 412 providers, 996 typed functions, 20 refused.
+# Manifest version: f79f547674e2832e7437213225ace242b1b815f5a017fe608ada28a221de1551
+# 48 capabilities, 412 providers, 997 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13403,6 +13403,9 @@ class Prv_prime_video_PrimeVideoTitle_Out(TypedDict):
     entitled: bool
     watchMessage: str | None
 
+class Prv_prime_video_PrimeVideoTitleSuggestion_Out(TypedDict):
+    value: str
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -26750,7 +26753,8 @@ class Prv_prime_video(Protocol):
     watched: included with Prime, free with ads, on a named add-on channel, or rentable and
     buyable with the real price. Plus the browse surfaces (genres, collections, the top ten,
     this week's deals), the add-on channels, and the free live TV, news and sports
-    schedules. searchTitles (the door) is built; everything else is still a declared stub.
+    schedules. searchTitles and suggestTitles are built; everything else is still a declared
+    stub.
     """
 
     async def searchTitles(self, query: str, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
@@ -26765,6 +26769,13 @@ class Prv_prime_video(Protocol):
         `serviceToken`, not a query parameter, and a query parameter silently returns the
         unfiltered set rather than erroring. A query that matches nothing returns an empty array
         rather than throwing.
+        """
+
+    async def suggestTitles(self, prefix: str, /) -> list[Prv_prime_video_PrimeVideoTitleSuggestion_Out]:
+        """Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy"
+        comes back as "the boys", "the boy", "the boy and the heron". What an agent holding a
+        half-remembered title calls before it commits to a search, and the cheapest call in the
+        provider.
         """
 
 class Prv_progressive(Protocol):

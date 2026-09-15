@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f846007df0f2c13d9bb19255dc7de11abf983a199308ae4b2c60ad00a827b6b8
-// 48 capabilities, 412 providers, 1014 typed functions, 20 refused.
+// Manifest version: f79f547674e2832e7437213225ace242b1b815f5a017fe608ada28a221de1551
+// 48 capabilities, 412 providers, 1015 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -25643,6 +25643,9 @@ interface PrimeVideoTitle {
   entitled: boolean;
   watchMessage: string | null;
 }
+interface PrimeVideoTitleSuggestion {
+  value: string;
+}
 
   /**
    * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
@@ -25650,7 +25653,7 @@ interface PrimeVideoTitle {
    * included with Prime, free with ads, on a named add-on channel, or rentable and buyable with
    * the real price. Plus the browse surfaces (genres, collections, the top ten, this week's
    * deals), the add-on channels, and the free live TV, news and sports schedules. searchTitles
-   * (the door) is built; everything else is still a declared stub.
+   * and suggestTitles are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -25666,6 +25669,14 @@ interface PrimeVideoTitle {
      * matches nothing returns an empty array rather than throwing.
      */
     searchTitles(query: string): Promise<PrimeVideoTitle[]>;
+
+    /**
+     * Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy" comes
+     * back as "the boys", "the boy", "the boy and the heron". What an agent holding a
+     * half-remembered title calls before it commits to a search, and the cheapest call in the
+     * provider.
+     */
+    suggestTitles(prefix: string): Promise<PrimeVideoTitleSuggestion[]>;
   }
 }
 
