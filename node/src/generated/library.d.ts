@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 08163ba92b0b7b4522613b6222c328d0af5f93905f49c92c9470ec1ea039c143
-// 48 capabilities, 412 providers, 1017 typed functions, 20 refused.
+// Manifest version: 34ad764859f7f3f5a69ccae375b435c4f96897c82bf8e6ba45abe5e7a1720701
+// 48 capabilities, 413 providers, 1018 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15687,6 +15687,39 @@ interface GoogleNewsLocalHeadlines {
      * so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`.
      */
     listLocalHeadlines(place: string): Promise<GoogleNewsLocalHeadlines>;
+  }
+}
+
+declare namespace BowmarkProvider_google_translate {
+  // ── Google Translate — the unit's own declarations, verbatim ──
+interface TranslateArgs {
+  text: string | readonly string[];
+  to: string;
+  from?: string;
+}
+interface GoogleTranslateResult {
+  source: string;
+  translated: string;
+  targetLanguage: string;
+  sourceLanguage: string;
+  detected: boolean;
+}
+
+  /**
+   * Translate text into any of 249 languages, in a batch if you have a list, and find out what
+   * language something already is — plus the dictionary underneath: senses, definitions,
+   * synonyms, alternative wordings, the romanization and the spoken audio. `translate` is built;
+   * everything else is still a declared stub.
+   */
+  interface Unit {
+    /**
+     * Turn text into another language. `args.text` is one string or a list translated together in
+     * one request, in order; `args.to` names the target language by name ("Spanish") or code
+     * ("es", "pt-BR"); `args.from` is optional and, left out, the source is detected per string,
+     * with `detected: true` and the detected code coming back on each result. Returns one
+     * `GoogleTranslateResult` per input string, aligned by position.
+     */
+    translate(args: TranslateArgs): Promise<GoogleTranslateResult[]>;
   }
 }
 
@@ -33615,6 +33648,7 @@ interface BowmarkProviders {
   google_flights: BowmarkProvider_google_flights.Unit;
   google_maps: BowmarkProvider_google_maps.Unit;
   google_news: BowmarkProvider_google_news.Unit;
+  google_translate: BowmarkProvider_google_translate.Unit;
   gostoreit: BowmarkProvider_gostoreit.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;

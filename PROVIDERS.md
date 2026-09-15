@@ -93,7 +93,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | ⚪ |
 | `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions this Apple Account is paying for, what each one… | ⚪ |
 | `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | ⚪ |
-| `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | ⚪ |
+| `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
 | `apple.bookGeniusBarAppointment` | apple.com | Book a Genius Bar or repair appointment at a specific store. | ⚪ |
 | `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number. | ⚪ |
@@ -748,7 +748,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.listStories` | news.google.com | The story clusters Google News is running right now, as ids — the front page and any… | ⚪ |
 | `google_news.listTopicHeadlines` | news.google.com | The latest headlines in one of Google News' own eight sections — World, Nation… | 🟢 |
 | `google_news.listTopics` | news.google.com | The topics Google News itself offers — the eight standing sections plus the entity and… | ⚪ |
-| `google_news.resolveArticleUrl` | news.google.com | The publisher's real article URL behind a Google News link. | ⚪ |
+| `google_news.resolveArticleUrl` | news.google.com | The publisher's real article URL behind a Google News link. | 🟢 |
 | `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | ⚪ |
 | `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | 🟢 |
 | `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | 🟢 |
@@ -764,7 +764,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.romanize` | translate.google.com | The pronunciation line Google Translate prints under a translation into a non-Latin… | ⚪ |
 | `google_translate.savePhrase` | translate.google.com | Star a translation so it joins the signed-in person's saved phrases — the one write… | ⚪ |
 | `google_translate.speak` | translate.google.com | Hear it — the speaker button, as the MP3 Google Translate itself plays. | ⚪ |
-| `google_translate.translate` | translate.google.com | Turn text into another language — the whole point of the site, and the provider's main… | ⚪ |
+| `google_translate.translate` | translate.google.com | Turn text into another language — the whole point of the site, and the provider's main… | 🟢 |
 | `google_translate.translateDocument` | translate.google.com | Translate a whole document — the Documents tab, which takes a PDF, Word or PowerPoint… | ⚪ |
 | `google_translate.translateImage` | translate.google.com | Read the text in a picture in another language — the Images tab, where a person points… | ⚪ |
 | `google_translate.translateWebPage` | translate.google.com | Read somebody else's web page in your own language — the Websites tab. | ⚪ |
@@ -1215,7 +1215,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.getChannel` | www.primevideo.com | Read one add-on channel: what it is called, its top ten, its originals and series, and… | ⚪ |
 | `prime_video.getLiveSchedule` | www.primevideo.com | Read one live station's schedule — every programme with its start and end time, the… | ⚪ |
 | `prime_video.getPerson` | www.primevideo.com | Read a cast member or director's Prime Video page: their name, what they are credited… | ⚪ |
-| `prime_video.getTitle` | www.primevideo.com | Read one film, series or season the way a viewer reads its page: title, synopsis… | ⚪ |
+| `prime_video.getTitle` | www.primevideo.com | Read one film, series-season or episode the way a viewer reads its page: title… | 🟢 |
 | `prime_video.getWatchlist` | www.primevideo.com | Read the caller's own Prime Video watchlist — what they saved and whether each of… | ⚪ |
 | `prime_video.getWatchOptions` | www.primevideo.com | Say how you would actually watch a title: included with your Prime membership, free… | ⚪ |
 | `prime_video.listCategories` | www.primevideo.com | List the ways Prime Video lets you browse — its genres (action, comedy, horror, anime… | ⚪ |

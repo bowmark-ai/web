@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 08163ba92b0b7b4522613b6222c328d0af5f93905f49c92c9470ec1ea039c143
-# 48 capabilities, 412 providers, 999 typed functions, 20 refused.
+# Manifest version: 34ad764859f7f3f5a69ccae375b435c4f96897c82bf8e6ba45abe5e7a1720701
+# 48 capabilities, 413 providers, 1000 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8441,6 +8441,22 @@ class Prv_google_news_GoogleNewsLocalHeadlines_Out(TypedDict):
     place: str
     title: str
     articles: list[Prv_google_news_GoogleNewsArticle_Out]
+
+Prv_google_translate_TranslateArgs_In = TypedDict(
+    "Prv_google_translate_TranslateArgs_In",
+    {
+    "text": str | Sequence[str],
+    "to": str,
+    "from": NotRequired[str],
+    },
+)
+
+class Prv_google_translate_GoogleTranslateResult_Out(TypedDict):
+    source: str
+    translated: str
+    targetLanguage: str
+    sourceLanguage: str
+    detected: bool
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -23205,6 +23221,21 @@ class Prv_google_news(Protocol):
         site's own spelling, so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`.
         """
 
+class Prv_google_translate(Protocol):
+    """Translate text into any of 249 languages, in a batch if you have a list, and find out
+    what language something already is — plus the dictionary underneath: senses,
+    definitions, synonyms, alternative wordings, the romanization and the spoken audio.
+    `translate` is built; everything else is still a declared stub.
+    """
+
+    async def translate(self, args: Prv_google_translate_TranslateArgs_In, /) -> list[Prv_google_translate_GoogleTranslateResult_Out]:
+        """Turn text into another language. `args.text` is one string or a list translated together
+        in one request, in order; `args.to` names the target language by name ("Spanish") or
+        code ("es", "pt-BR"); `args.from` is optional and, left out, the source is detected per
+        string, with `detected: true` and the detected code coming back on each result. Returns
+        one `GoogleTranslateResult` per input string, aligned by position.
+        """
+
 class Prv_gostoreit(Protocol):
     """Go Store It — live public self-storage unit inventory, amenity details, and monthly
     online prices from a chosen facility.
@@ -29557,6 +29588,7 @@ class BowmarkProviders(Protocol):
     google_flights: Prv_google_flights
     google_maps: Prv_google_maps
     google_news: Prv_google_news
+    google_translate: Prv_google_translate
     gostoreit: Prv_gostoreit
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 08163ba92b0b7b4522613b6222c328d0af5f93905f49c92c9470ec1ea039c143
-// 999 checked, 20 unchecked.
+// Manifest version: 34ad764859f7f3f5a69ccae375b435c4f96897c82bf8e6ba45abe5e7a1720701
+// 1000 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "08163ba92b0b7b4522613b6222c328d0af5f93905f49c92c9470ec1ea039c143",
+  "version": "34ad764859f7f3f5a69ccae375b435c4f96897c82bf8e6ba45abe5e7a1720701",
   "units": {
     "booking_links": {
       "defs": {
@@ -13914,6 +13914,59 @@ export const VALIDATORS: ValidatorTable = {
             "name": "place",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.google_translate": {
+      "defs": {
+        "TranslateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "translate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TranslateArgs"
             },
             "optional": false
           }
