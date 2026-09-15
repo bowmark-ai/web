@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d6f19193f7c86fcd6396152111642cc9a9b4717c65d8a193b0dec2a6b35b3823
-// 48 capabilities, 414 providers, 1024 typed functions, 20 refused.
+// Manifest version: c116af9380903534b76b276429edb61c04ac0917103ae25dc223ac917ba417bc
+// 48 capabilities, 414 providers, 1025 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15720,14 +15720,18 @@ interface GoogleNewsArticleResolution {
   articleId: string;
   url: string;
 }
+interface GoogleNewsTopic {
+  topicId: string;
+  name: string;
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
    * city's local news, one outlet's own coverage, and everything indexed about a subject with
    * Google's own when: and site: operators. searchNews (the door), topStories,
-   * listTopicHeadlines, listLocalHeadlines, listPublisherHeadlines and resolveArticleUrl (the
-   * redirector-to-publisher resolver every other function's links need) are built; everything
-   * else is still a declared stub.
+   * listTopicHeadlines, listLocalHeadlines, listPublisherHeadlines, resolveArticleUrl (the
+   * redirector-to-publisher resolver every other function's links need) and listTopics (the
+   * finder for getTopicHeadlines) are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -15799,6 +15803,16 @@ interface GoogleNewsArticleResolution {
      * signature cannot be skipped or reused across articles, so this is always two requests.
      */
     resolveArticleUrl(articleIdOrLink: string): Promise<GoogleNewsArticleResolution>;
+
+    /**
+     * The topics Google News' own home-page nav rail is offering today — the eight standing
+     * sections plus "Your local news" (measured 2026-09-15: nine entries, geo-scoped to whichever
+     * exit made the request) — each with the opaque topic id `getTopicHeadlines` (not built yet)
+     * will take. Read off the home page's own embedded `AF_initDataCallback({key: 'ds:2'…})` state
+     * rather than scraped from the rendered nav, so it needs no browser. The finder that makes a
+     * topic id reachable by somebody who only holds words.
+     */
+    listTopics(): Promise<GoogleNewsTopic[]>;
   }
 }
 

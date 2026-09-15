@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d6f19193f7c86fcd6396152111642cc9a9b4717c65d8a193b0dec2a6b35b3823
-# 48 capabilities, 414 providers, 1006 typed functions, 20 refused.
+# Manifest version: c116af9380903534b76b276429edb61c04ac0917103ae25dc223ac917ba417bc
+# 48 capabilities, 414 providers, 1007 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8516,6 +8516,10 @@ class Prv_google_news_GoogleNewsLocalHeadlines_Out(TypedDict):
 class Prv_google_news_GoogleNewsArticleResolution_Out(TypedDict):
     articleId: str
     url: str
+
+class Prv_google_news_GoogleNewsTopic_Out(TypedDict):
+    topicId: str
+    name: str
 
 Prv_google_translate_TranslateArgs_In = TypedDict(
     "Prv_google_translate_TranslateArgs_In",
@@ -23337,9 +23341,9 @@ class Prv_google_news(Protocol):
     """Headlines from every publisher at once — today's top stories as clusters, a section or a
     city's local news, one outlet's own coverage, and everything indexed about a subject
     with Google's own when: and site: operators. searchNews (the door), topStories,
-    listTopicHeadlines, listLocalHeadlines, listPublisherHeadlines and resolveArticleUrl
-    (the redirector-to-publisher resolver every other function's links need) are built;
-    everything else is still a declared stub.
+    listTopicHeadlines, listLocalHeadlines, listPublisherHeadlines, resolveArticleUrl (the
+    redirector-to-publisher resolver every other function's links need) and listTopics (the
+    finder for getTopicHeadlines) are built; everything else is still a declared stub.
     """
 
     async def searchNews(self, query: str, /) -> Prv_google_news_GoogleNewsSearchResult_Out:
@@ -23405,6 +23409,16 @@ class Prv_google_news(Protocol):
         `data-n-a-id`/`-ts`/`-sg` signature minted for that article page, then POST it to the
         site's `batchexecute` RPC for the real URL — the signature cannot be skipped or reused
         across articles, so this is always two requests.
+        """
+
+    async def listTopics(self, /) -> list[Prv_google_news_GoogleNewsTopic_Out]:
+        """The topics Google News' own home-page nav rail is offering today — the eight standing
+        sections plus "Your local news" (measured 2026-09-15: nine entries, geo-scoped to
+        whichever exit made the request) — each with the opaque topic id `getTopicHeadlines`
+        (not built yet) will take. Read off the home page's own embedded
+        `AF_initDataCallback({key: 'ds:2'…})` state rather than scraped from the rendered nav,
+        so it needs no browser. The finder that makes a topic id reachable by somebody who only
+        holds words.
         """
 
 class Prv_google_translate(Protocol):
