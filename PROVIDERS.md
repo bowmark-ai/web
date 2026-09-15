@@ -747,7 +747,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.listSavedArticles` | news.google.com | The articles the signed-in person saved for later — Google News' own reading list… | ⚪ |
 | `google_news.listStories` | news.google.com | The story clusters Google News is running right now, as ids — the front page and any… | ⚪ |
 | `google_news.listTopicHeadlines` | news.google.com | The latest headlines in one of Google News' own eight sections — World, Nation… | 🟢 |
-| `google_news.listTopics` | news.google.com | The topics Google News itself offers — the eight standing sections plus the entity and… | ⚪ |
+| `google_news.listTopics` | news.google.com | The topics Google News' own home-page nav rail is offering today — the eight standing… | 🟢 |
 | `google_news.resolveArticleUrl` | news.google.com | The publisher's real article URL behind a Google News link. | 🟢 |
 | `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | ⚪ |
 | `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | 🟢 |
@@ -1217,7 +1217,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.getPerson` | www.primevideo.com | Read a cast member or director's Prime Video page: their name, what they are credited… | ⚪ |
 | `prime_video.getTitle` | www.primevideo.com | Read one film, series-season or episode the way a viewer reads its page: title… | 🟢 |
 | `prime_video.getWatchlist` | www.primevideo.com | Read the caller's own Prime Video watchlist — what they saved and whether each of… | ⚪ |
-| `prime_video.getWatchOptions` | www.primevideo.com | Say how you would actually watch a title: included with your Prime membership, free… | ⚪ |
+| `prime_video.getWatchOptions` | www.primevideo.com | Say how you would actually watch a title: included with your Prime membership, free… | 🟢 |
 | `prime_video.listCategories` | www.primevideo.com | List the ways Prime Video lets you browse — its genres (action, comedy, horror, anime… | ⚪ |
 | `prime_video.listCategoryTitles` | www.primevideo.com | Browse one genre, collection or storefront and get its rows of titles back — "what… | ⚪ |
 | `prime_video.listChannels` | www.primevideo.com | List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+… | ⚪ |
