@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 969107fdc549e5f5c01823c134b8b4483f2decb8644512be48ade29b600dfc6e
-// 48 capabilities, 412 providers, 1013 typed functions, 20 refused.
+// Manifest version: f846007df0f2c13d9bb19255dc7de11abf983a199308ae4b2c60ad00a827b6b8
+// 48 capabilities, 412 providers, 1014 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15581,6 +15581,11 @@ interface GoogleNewsTopicHeadlines {
   title: string;
   articles: GoogleNewsArticle[];
 }
+interface GoogleNewsPublisherHeadlines {
+  publisher: string;
+  query: string;
+  articles: GoogleNewsArticle[];
+}
 interface GoogleNewsLocalHeadlines {
   place: string;
   title: string;
@@ -15589,9 +15594,10 @@ interface GoogleNewsLocalHeadlines {
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
-   * city's local news, and everything indexed about a subject with Google's own when: and site:
-   * operators. searchNews (the door), topStories, listTopicHeadlines and listLocalHeadlines are
-   * built; everything else is still a declared stub.
+   * city's local news, one outlet's own coverage, and everything indexed about a subject with
+   * Google's own when: and site: operators. searchNews (the door), topStories,
+   * listTopicHeadlines, listLocalHeadlines and listPublisherHeadlines are built; everything else
+   * is still a declared stub.
    */
   interface Unit {
     /**
@@ -15626,6 +15632,18 @@ interface GoogleNewsLocalHeadlines {
      * wrong rather than refused.
      */
     listTopicHeadlines(section: string): Promise<GoogleNewsTopicHeadlines>;
+
+    /**
+     * Everything Google News has indexed from one publisher — `publisher` is a domain like
+     * "reuters.com" or "apnews.com" — newest first, optionally narrowed with `query` the same way
+     * `searchNews` takes one. Built on the search door with a `site:` filter
+     * (`/rss/search?q=site:<publisher> <query>`), NOT on the route that looks like its own:
+     * `/rss/headlines/section/publication/<NAME>` answers 200 with the Top stories feed
+     * byte-for-byte for a name it cannot resolve, so it would look like it worked and be wrong for
+     * every publisher. Measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which
+     * 100 carried a `<source>` domain on `reuters.com`.
+     */
+    listPublisherHeadlines(publisher: string, query?: string): Promise<GoogleNewsPublisherHeadlines>;
 
     /**
      * What is being reported in one place — the local-news edition for a city or region, by NAME

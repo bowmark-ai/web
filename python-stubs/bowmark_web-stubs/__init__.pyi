@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 969107fdc549e5f5c01823c134b8b4483f2decb8644512be48ade29b600dfc6e
-# 48 capabilities, 412 providers, 995 typed functions, 20 refused.
+# Manifest version: f846007df0f2c13d9bb19255dc7de11abf983a199308ae4b2c60ad00a827b6b8
+# 48 capabilities, 412 providers, 996 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8417,6 +8417,11 @@ class Prv_google_news_GoogleNewsTopStories_Out(TypedDict):
 class Prv_google_news_GoogleNewsTopicHeadlines_Out(TypedDict):
     section: Literal["World"] | Literal["Nation"] | Literal["Business"] | Literal["Technology"] | Literal["Entertainment"] | Literal["Sports"] | Literal["Science"] | Literal["Health"]
     title: str
+    articles: list[Prv_google_news_GoogleNewsArticle_Out]
+
+class Prv_google_news_GoogleNewsPublisherHeadlines_Out(TypedDict):
+    publisher: str
+    query: str
     articles: list[Prv_google_news_GoogleNewsArticle_Out]
 
 class Prv_google_news_GoogleNewsLocalHeadlines_Out(TypedDict):
@@ -23110,9 +23115,10 @@ class Prv_google_maps(Protocol):
 
 class Prv_google_news(Protocol):
     """Headlines from every publisher at once — today's top stories as clusters, a section or a
-    city's local news, and everything indexed about a subject with Google's own when: and
-    site: operators. searchNews (the door), topStories, listTopicHeadlines and
-    listLocalHeadlines are built; everything else is still a declared stub.
+    city's local news, one outlet's own coverage, and everything indexed about a subject
+    with Google's own when: and site: operators. searchNews (the door), topStories,
+    listTopicHeadlines, listLocalHeadlines and listPublisherHeadlines are built; everything
+    else is still a declared stub.
     """
 
     async def searchNews(self, query: str, /) -> Prv_google_news_GoogleNewsSearchResult_Out:
@@ -23143,6 +23149,17 @@ class Prv_google_news(Protocol):
         before any request is made, because an unrecognized section answers 200 with Google
         News' own app-shell HTML rather than a 404 (measured 2026-09-15) — reading that as an
         empty section would be silently wrong rather than refused.
+        """
+
+    async def listPublisherHeadlines(self, publisher: str, query: str | None = None, /) -> Prv_google_news_GoogleNewsPublisherHeadlines_Out:
+        """Everything Google News has indexed from one publisher — `publisher` is a domain like
+        "reuters.com" or "apnews.com" — newest first, optionally narrowed with `query` the same
+        way `searchNews` takes one. Built on the search door with a `site:` filter
+        (`/rss/search?q=site:<publisher> <query>`), NOT on the route that looks like its own:
+        `/rss/headlines/section/publication/<NAME>` answers 200 with the Top stories feed
+        byte-for-byte for a name it cannot resolve, so it would look like it worked and be wrong
+        for every publisher. Measured 2026-09-15: `site:reuters.com tesla` returned 100 items of
+        which 100 carried a `<source>` domain on `reuters.com`.
         """
 
     async def listLocalHeadlines(self, place: str, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:
