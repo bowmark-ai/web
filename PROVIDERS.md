@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1496 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1518 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1175,6 +1175,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
 | `premierbuildings.listBuildingStyles` | premierbuildings.us | Lists every real building style Premier's ShedView configurator offers (Lofted Barn… | 🟢 |
 | `premierbuildings.priceBuilding` | premierbuildings.us | Prices one real Premier building configuration exactly the way ShedView itself does… | 🟢 |
+| `prime_video.getChannel` | www.primevideo.com | Read one add-on channel: what it is called, its top ten, its originals and series, and… | ⚪ |
+| `prime_video.getLiveSchedule` | www.primevideo.com | Read one live station's schedule — every programme with its start and end time, the… | ⚪ |
+| `prime_video.getPerson` | www.primevideo.com | Read a cast member or director's Prime Video page: their name, what they are credited… | ⚪ |
+| `prime_video.getTitle` | www.primevideo.com | Read one film, series or season the way a viewer reads its page: title, synopsis… | ⚪ |
+| `prime_video.getWatchlist` | www.primevideo.com | Read the caller's own Prime Video watchlist — what they saved and whether each of… | ⚪ |
+| `prime_video.getWatchOptions` | www.primevideo.com | Say how you would actually watch a title: included with your Prime membership, free… | ⚪ |
+| `prime_video.listCategories` | www.primevideo.com | List the ways Prime Video lets you browse — its genres (action, comedy, horror, anime… | ⚪ |
+| `prime_video.listCategoryTitles` | www.primevideo.com | Browse one genre, collection or storefront and get its rows of titles back — "what… | ⚪ |
+| `prime_video.listChannels` | www.primevideo.com | List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+… | ⚪ |
+| `prime_video.listContinueWatching` | www.primevideo.com | What the caller started and did not finish, and how far in they got. | ⚪ |
+| `prime_video.listDeals` | www.primevideo.com | What is discounted to rent or buy on Prime Video this week — the sales, the… | ⚪ |
+| `prime_video.listEpisodes` | www.primevideo.com | List a season's episodes with number, title, synopsis, runtime, release date, artwork… | ⚪ |
+| `prime_video.listFreeToWatch` | www.primevideo.com | What you can watch on Prime Video without paying anything at all — the free-with-ads… | ⚪ |
+| `prime_video.listLiveChannels` | www.primevideo.com | List the free live TV and news stations Prime Video streams — their name, their logo… | ⚪ |
+| `prime_video.listLiveSports` | www.primevideo.com | What sport is on Prime Video now and what is coming — the live events, the leagues it… | ⚪ |
+| `prime_video.listNewReleases` | www.primevideo.com | What has just arrived on Prime Video and what is coming — the read behind "anything… | ⚪ |
+| `prime_video.listPurchases` | www.primevideo.com | The films and series the caller has already rented or bought — their video library… | ⚪ |
+| `prime_video.listSeasons` | www.primevideo.com | List every season of a series with the titleId that opens each one, its number, its… | ⚪ |
+| `prime_video.listTop10` | www.primevideo.com | Prime Video's own top ten right now — the most-watched TV shows in the US, the top… | ⚪ |
+| `prime_video.searchTitles` | www.primevideo.com | Search Prime Video's whole catalogue for what a person would type — "matrix", "the… | ⚪ |
+| `prime_video.suggestTitles` | www.primevideo.com | Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy"… | ⚪ |
+| `prime_video.toggleWatchlist` | www.primevideo.com | Add a title to the caller's watchlist, or take one off it — the one write a person… | ⚪ |
 | `progressive.findAgent` | progressive.com | Finds the independent agents who sell Progressive near a ZIP — name, agency, address… | 🟢 |
 | `progressive.getAtvQuote` | progressive.com | Returns an ATV or UTV insurance quote for the machine and its ZIP — off-road coverage… | ⚪ |
 | `progressive.getAutoQuote` | progressive.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP —… | ⚪ |
