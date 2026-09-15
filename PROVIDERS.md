@@ -417,7 +417,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dumpsters.getQuote` | dumpsters.com | Prices a roll-off dumpster rental for a US address — real per-size prices, next… | 🟢 |
 | `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🟢 |
 | `ebay.soldPrices` | ebay.com | What items ACTUALLY sold for — eBay's completed/sold listings. | ⚪ |
-| `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🟢 |
+| `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🟡 |
 | `elase.findLocation` | elase.com | Resolves a slug/neighborhood query to the matching real Elase location(s) — name… | 🟢 |
 | `elase.listLocations` | elase.com | Reads the live list of every Elase Med Spa location off the site's own /locations/… | 🟢 |
 | `elase.listServices` | elase.com | Reads one location's real, live service catalog (name, description, price, duration)… | 🟢 |
