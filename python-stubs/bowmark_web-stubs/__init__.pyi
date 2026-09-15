@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 91e91d275f6c525bfc0d024b500dadfa2b416e8f59fc4f0583a78866e1716f19
+# Manifest version: 636b089a5550a559cde96804fd1491c9151fd446a8544fe71e352dabb218de6b
 # 48 capabilities, 407 providers, 980 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -21399,7 +21399,10 @@ class Prv_dell(Protocol):
     """Search Dell's community forum for discussion threads."""
 
     async def searchForumThreads(self, args: Prv_dell_SearchForumThreadsArgs_In, /) -> list[Prv_dell_DellForumThread_Out]:
-        """Search Dell community forums for threads matching a query."""
+        """Search Dell community forums for threads matching a query — needs a topic or keywords
+        (e.g. "storage issues", "laptop battery"), never a bare "search the forum" with nothing
+        to search for.
+        """
 
 class Prv_deltadentalma(Protocol):
     """Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network

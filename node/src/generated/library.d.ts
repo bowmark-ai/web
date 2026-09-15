@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 91e91d275f6c525bfc0d024b500dadfa2b416e8f59fc4f0583a78866e1716f19
+// Manifest version: 636b089a5550a559cde96804fd1491c9151fd446a8544fe71e352dabb218de6b
 // 48 capabilities, 407 providers, 998 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -11379,7 +11379,11 @@ interface DellForumThread {
 
   /** Search Dell's community forum for discussion threads. */
   interface Unit {
-    /** Search Dell community forums for threads matching a query. */
+    /**
+     * Search Dell community forums for threads matching a query — needs a topic or keywords (e.g.
+     * "storage issues", "laptop battery"), never a bare "search the forum" with nothing to search
+     * for.
+     */
     searchForumThreads(args: SearchForumThreadsArgs): Promise<DellForumThread[]>;
   }
 }
