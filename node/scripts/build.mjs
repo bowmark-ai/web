@@ -18,10 +18,10 @@
 // `library.d.ts` itself is copied verbatim rather than compiled — it has nothing to
 // compile, and tsc does not treat an ambient `.d.ts` as emittable output.
 
-import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
+import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(fileURLToPath(import.meta.url), "../..");
 const DIST = resolve(ROOT, "dist");

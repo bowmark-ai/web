@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1563 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1595 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1566,7 +1566,39 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟡 |
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |
+| `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | ⚪ |
+| `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | ⚪ |
+| `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | ⚪ |
+| `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, subscriber count, the… | ⚪ |
+| `youtube.getLiveChat` | youtube.com | The messages scrolling past a live stream — each with its author, text and timestamp… | ⚪ |
+| `youtube.getPlaylist` | youtube.com | A playlist's own facts: title, description, the channel that owns it, how many videos… | ⚪ |
 | `youtube.getTranscript` | youtube.com | Returns a YouTube video's own caption transcript — one row per caption line, each… | 🟢 |
+| `youtube.getVideo` | youtube.com | Everything the watch page says about one video without playing it: title, channel name… | ⚪ |
+| `youtube.likeVideo` | youtube.com | Like or dislike a video as the signed-in account, or clear the rating. | ⚪ |
+| `youtube.listCaptionTracks` | youtube.com | Which languages a video's captions are available in, whether each was written by a… | ⚪ |
+| `youtube.listChannelLiveStreams` | youtube.com | A channel's Live tab — the streams it has run, upcoming and past, with their scheduled… | ⚪ |
+| `youtube.listChannelPlaylists` | youtube.com | The playlists a channel has published, each with its id, title, video count and… | ⚪ |
+| `youtube.listChannelPosts` | youtube.com | A channel's Community tab — the text, image and poll posts a creator writes between… | ⚪ |
+| `youtube.listChannelShorts` | youtube.com | A channel's Shorts tab — its vertical short-form videos, which sit in their own tab… | ⚪ |
+| `youtube.listChannelVideos` | youtube.com | What a channel has published, newest first and paged — each video's id, title, view… | ⚪ |
+| `youtube.listChapters` | youtube.com | A video's own chapter markers — the labelled sections YouTube shows on the scrub bar —… | ⚪ |
+| `youtube.listCommentReplies` | youtube.com | The replies under one comment thread, which YouTube hides behind a "N replies" button… | ⚪ |
+| `youtube.listComments` | youtube.com | What people said under a video — each comment's author name and channel, the text, its… | ⚪ |
+| `youtube.listHashtagVideos` | youtube.com | The videos under a hashtag — YouTube's own /hashtag/<tag> page. | ⚪ |
+| `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | ⚪ |
+| `youtube.listPlaylistVideos` | youtube.com | The videos in a playlist, in the order the playlist puts them, paged — each with its… | ⚪ |
+| `youtube.listRelatedVideos` | youtube.com | The videos YouTube itself puts next to this one — the "up next" rail — each with its… | ⚪ |
+| `youtube.listStreamFormats` | youtube.com | The renditions a video is actually available in — resolution, frame rate, codec… | ⚪ |
+| `youtube.listSubscriptions` | youtube.com | The channels the signed-in account subscribes to. | ⚪ |
+| `youtube.listTrending` | youtube.com | YouTube's Trending feed — what is being watched across the site right now, and the… | ⚪ |
+| `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | ⚪ |
+| `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | ⚪ |
+| `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | ⚪ |
+| `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
+| `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back what the… | ⚪ |
+| `youtube.searchWithinChannel` | youtube.com | Search one channel's own videos rather than the whole site — the search box that… | ⚪ |
+| `youtube.subscribeToChannel` | youtube.com | Subscribe the signed-in account to a channel (and unsubscribe it again). | ⚪ |
+| `youtube.suggestSearches` | youtube.com | YouTube's own autocomplete for a partial query — the dropdown list it shows while… | ⚪ |
 | `zennioptical.checkStock` | zennioptical.com | Checks live per-SKU inventory (in stock, quantity, backorder/preorder flags) off the… | 🟢 |
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
 | `zennioptical.priceLensConfig` | zennioptical.com | Runs a real prescription + usage type through the site's own order-configurator flow… | 🟢 |
