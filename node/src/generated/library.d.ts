@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d6caf07a1c816637fb1ca6bb1c5e3b3ea886552d237780eea38e88e544f13872
-// 49 capabilities, 416 providers, 1093 typed functions, 20 refused.
+// Manifest version: dec12db79f9650adb3bb12a4dea05d3038e6d346ccf4d6dd1c99a243d10c212c
+// 49 capabilities, 416 providers, 1094 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4823,6 +4823,18 @@ interface AppStoreStory {
   body: string;
   apps: AppStoreStoryApp[];
 }
+interface ListTodayStoriesArgs {
+  device?: AppStoreChartDevice;
+}
+interface AppStoreTodayStory {
+  id: string;
+  title: string;
+  url: string;
+}
+interface ListTodayStoriesResult {
+  device: AppStoreChartDevice;
+  stories: AppStoreTodayStory[];
+}
 type AppStoreReviewSort = "mostRecent" | "mostHelpful";
 interface ListReviewsArgs {
   app: string | number;
@@ -4941,6 +4953,13 @@ interface ListReviewsResult {
      * into a reason.
      */
     listReviews(args: ListReviewsArgs): Promise<ListReviewsResult>;
+
+    /**
+     * List the editorial stories Apple is featuring on the Today tab right now — the page a person
+     * actually sees when they open the App Store — each with the id and URL getStory takes. The
+     * door into getStory for an agent that holds no app yet, rather than one that already does.
+     */
+    listTodayStories(args?: ListTodayStoriesArgs): Promise<ListTodayStoriesResult>;
   }
 }
 

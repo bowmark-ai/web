@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d6caf07a1c816637fb1ca6bb1c5e3b3ea886552d237780eea38e88e544f13872
-# 49 capabilities, 416 providers, 1075 typed functions, 20 refused.
+# Manifest version: dec12db79f9650adb3bb12a4dea05d3038e6d346ccf4d6dd1c99a243d10c212c
+# 49 capabilities, 416 providers, 1076 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2754,6 +2754,18 @@ class Prv_app_store_AppStoreReview_Out(TypedDict):
     helpfulVotes: float
     totalVotes: float
     updated: str
+
+class Prv_app_store_ListTodayStoriesArgs_In(TypedDict):
+    device: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"]]
+
+class Prv_app_store_ListTodayStoriesResult_Out(TypedDict):
+    device: Literal["iphone"] | Literal["ipad"] | Literal["mac"]
+    stories: list[Prv_app_store_AppStoreTodayStory_Out]
+
+class Prv_app_store_AppStoreTodayStory_Out(TypedDict):
+    id: str
+    title: str
+    url: str
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -20228,6 +20240,13 @@ class Prv_app_store(Protocol):
         rating, the reviewer's name, which app version they were on, and how many others found
         it helpful — fifty at a time, newest first or most helpful first. The one read that
         turns "4.1 stars" into a reason.
+        """
+
+    async def listTodayStories(self, args: Prv_app_store_ListTodayStoriesArgs_In | None = None, /) -> Prv_app_store_ListTodayStoriesResult_Out:
+        """List the editorial stories Apple is featuring on the Today tab right now — the page a
+        person actually sees when they open the App Store — each with the id and URL getStory
+        takes. The door into getStory for an agent that holds no app yet, rather than one that
+        already does.
         """
 
 class Prv_apple(Protocol):

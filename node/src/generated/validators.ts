@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d6caf07a1c816637fb1ca6bb1c5e3b3ea886552d237780eea38e88e544f13872
-// 1075 checked, 20 unchecked.
+// Manifest version: dec12db79f9650adb3bb12a4dea05d3038e6d346ccf4d6dd1c99a243d10c212c
+// 1076 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d6caf07a1c816637fb1ca6bb1c5e3b3ea886552d237780eea38e88e544f13872",
+  "version": "dec12db79f9650adb3bb12a4dea05d3038e6d346ccf4d6dd1c99a243d10c212c",
   "units": {
     "booking_links": {
       "defs": {
@@ -4892,6 +4892,19 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListTodayStoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "device",
+              "schema": {
+                "k": "ref",
+                "name": "AppStoreChartDevice"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListTopChartsArgs": {
           "k": "object",
           "props": [
@@ -5075,6 +5088,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListReviewsArgs"
             },
             "optional": false
+          }
+        ],
+        "listTodayStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTodayStoriesArgs"
+            },
+            "optional": true
           }
         ]
       }
