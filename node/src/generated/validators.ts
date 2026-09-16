@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d021ce8674eee4fa47e91e934b36853499756d81ec18a69f2dbed30cf90429d0
-// 1051 checked, 20 unchecked.
+// Manifest version: 7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba
+// 1052 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d021ce8674eee4fa47e91e934b36853499756d81ec18a69f2dbed30cf90429d0",
+  "version": "7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba",
   "units": {
     "booking_links": {
       "defs": {
@@ -4214,7 +4214,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listDeals": []
+        "listDeals": [],
+        "getSeller": [
+          {
+            "name": "sellerId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.americandreamvacations": {

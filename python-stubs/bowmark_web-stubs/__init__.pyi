@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d021ce8674eee4fa47e91e934b36853499756d81ec18a69f2dbed30cf90429d0
-# 49 capabilities, 415 providers, 1051 typed functions, 20 refused.
+# Manifest version: 7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba
+# 49 capabilities, 415 providers, 1052 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2262,6 +2262,25 @@ class Prv_amazon_AmazonDeal_Out(TypedDict):
     listPrice: float | None
     percentOff: float | None
     limitedTimeText: str | None
+
+class Prv_amazon_AmazonSeller_Out(TypedDict):
+    sellerId: str
+    name: str
+    positivePercentageLast12Months: float | None
+    ratings: Prv_amazon_AmazonSeller_Out_ratings_Out
+    businessName: str | None
+    businessAddress: list[str]
+    aboutSeller: str | None
+
+class Prv_amazon_AmazonSeller_Out_ratings_Out(TypedDict):
+    last30Days: Prv_amazon_AmazonSellerRatingPeriod_Out
+    last90Days: Prv_amazon_AmazonSellerRatingPeriod_Out
+    last12Months: Prv_amazon_AmazonSellerRatingPeriod_Out
+    lifetime: Prv_amazon_AmazonSellerRatingPeriod_Out
+
+class Prv_amazon_AmazonSellerRatingPeriod_Out(TypedDict):
+    averageRating: float | None
+    ratingCount: float | None
 
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
@@ -19491,8 +19510,8 @@ class Prv_amazon(Protocol):
     the listing sells — plus the rankings (best sellers, new releases, movers and shakers,
     most wished for), today's deals and a marketplace seller's feedback. searchProducts,
     suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
-    listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor and listDeals
-    are built; everything else is still a declared stub.
+    listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor, listDeals and
+    getSeller are built; everything else is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -19581,6 +19600,15 @@ class Prv_amazon(Protocol):
         rather than scraped from a card, so the discount is a published field rather than
         something to compute. Page one only (30 deals) — the site's own paging control was not
         found this pass.
+        """
+
+    async def getSeller(self, sellerId: str, /) -> Prv_amazon_AmazonSeller_Out:
+        """Read a marketplace seller's storefront — their name, feedback across four windows (30
+        days, 90 days, the last 12 months and lifetime), the one positive-percentage figure
+        Amazon publishes (last 12 months only), their registered business name and address, and
+        their free-text "About Seller" text. What tells an agent whether the cheap third-party
+        offer is from a shop with 86,000 ratings or one with thirty. The door is getProduct's
+        sellerId field — a listing Amazon sells itself has none.
         """
 
 class Prv_americandreamvacations(Protocol):

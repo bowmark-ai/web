@@ -1,5 +1,5 @@
 {
-  "version": "d021ce8674eee4fa47e91e934b36853499756d81ec18a69f2dbed30cf90429d0",
+  "version": "7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba",
   "units": {
     "booking_links": {
       "defs": {
@@ -4202,7 +4202,16 @@
             "optional": false
           }
         ],
-        "listDeals": []
+        "listDeals": [],
+        "getSeller": [
+          {
+            "name": "sellerId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.americandreamvacations": {

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d021ce8674eee4fa47e91e934b36853499756d81ec18a69f2dbed30cf90429d0
-// 49 capabilities, 415 providers, 1069 typed functions, 20 refused.
+// Manifest version: 7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba
+// 49 capabilities, 415 providers, 1070 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4006,6 +4006,24 @@ interface AmazonDeal {
   percentOff: number | null;
   limitedTimeText: string | null; // e.g. "Limited time deal", or "Ends in 2026-09-16T06:59:59.000Z" for a countdown deal
 }
+interface AmazonSellerRatingPeriod {
+  averageRating: number | null;
+  ratingCount: number | null;
+}
+interface AmazonSeller {
+  sellerId: string;
+  name: string;
+  positivePercentageLast12Months: number | null; // Amazon's own headline figure; no lifetime equivalent is published
+  ratings: {
+    last30Days: AmazonSellerRatingPeriod;
+    last90Days: AmazonSellerRatingPeriod;
+    last12Months: AmazonSellerRatingPeriod;
+    lifetime: AmazonSellerRatingPeriod;
+  };
+  businessName: string | null;
+  businessAddress: string[];
+  aboutSeller: string | null;
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
@@ -4013,8 +4031,8 @@ interface AmazonDeal {
    * sells — plus the rankings (best sellers, new releases, movers and shakers, most wished for),
    * today's deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
    * listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts,
-   * listBestSellers, listNewReleases, listMostWishedFor and listDeals are built; everything else
-   * is still a declared stub.
+   * listBestSellers, listNewReleases, listMostWishedFor, listDeals and getSeller are built;
+   * everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -4114,6 +4132,16 @@ interface AmazonDeal {
      * only (30 deals) — the site's own paging control was not found this pass.
      */
     listDeals(): Promise<AmazonDeal[]>;
+
+    /**
+     * Read a marketplace seller's storefront — their name, feedback across four windows (30 days,
+     * 90 days, the last 12 months and lifetime), the one positive-percentage figure Amazon
+     * publishes (last 12 months only), their registered business name and address, and their
+     * free-text "About Seller" text. What tells an agent whether the cheap third-party offer is
+     * from a shop with 86,000 ratings or one with thirty. The door is getProduct's sellerId field
+     * — a listing Amazon sells itself has none.
+     */
+    getSeller(sellerId: string): Promise<AmazonSeller>;
   }
 }
 
