@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1561afbfcd01e185cf714dcb9f096e159cd52e6d55a3242b4f8299695ea6eb0b
-# 49 capabilities, 415 providers, 1057 typed functions, 20 refused.
+# Manifest version: cf9f3f491813402f7e5108a69930752e704062afd27a7cb285e6228ca97e2fdb
+# 49 capabilities, 415 providers, 1058 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14192,6 +14192,10 @@ class Prv_prime_video_PrimeVideoChannel_Out(TypedDict):
     synopsis: str | None
     offerMessage: str | None
 
+class Prv_prime_video_PrimeVideoChannelDetail_Out(TypedDict):
+    name: str
+    rows: list[Prv_prime_video_PrimeVideoCategoryRow_Out]
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -28189,6 +28193,17 @@ class Prv_prime_video(Protocol):
         All Access) carries only `benefitId`, and one further outlier (NBA League Pass, a
         subscription pass rather than a channel) carries neither — both real, measured gaps,
         never a guess.
+        """
+
+    async def getChannel(self, channelId: str, /) -> Prv_prime_video_PrimeVideoChannelDetail_Out:
+        """Read one add-on channel: what it is called, its top ten, its originals and series, and
+        the live events it is carrying — the rest of a channel's catalogue, for answering "is it
+        worth subscribing to this to watch that" rather than one title. Takes the channel's uuid
+        off listChannels(), e.g. one read off `channelId` there — NOT the same card's
+        `benefitId`, which opens a different route. `GET /channel/<uuid>`, read off the same
+        carousel parser listCategoryTitles() uses: a heading and every title under it, per row,
+        in the site's own order. `rows` never includes the channel's own hero banner, which
+        carries no title list of its own.
         """
 
 class Prv_progressive(Protocol):

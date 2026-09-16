@@ -1,5 +1,5 @@
 {
-  "version": "1561afbfcd01e185cf714dcb9f096e159cd52e6d55a3242b4f8299695ea6eb0b",
+  "version": "cf9f3f491813402f7e5108a69930752e704062afd27a7cb285e6228ca97e2fdb",
   "units": {
     "booking_links": {
       "defs": {
@@ -23006,7 +23006,16 @@
           }
         ],
         "listDeals": [],
-        "listChannels": []
+        "listChannels": [],
+        "getChannel": [
+          {
+            "name": "channelId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.progressive": {

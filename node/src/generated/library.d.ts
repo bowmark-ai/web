@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1561afbfcd01e185cf714dcb9f096e159cd52e6d55a3242b4f8299695ea6eb0b
-// 49 capabilities, 415 providers, 1075 typed functions, 20 refused.
+// Manifest version: cf9f3f491813402f7e5108a69930752e704062afd27a7cb285e6228ca97e2fdb
+// 49 capabilities, 415 providers, 1076 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26863,6 +26863,10 @@ interface PrimeVideoChannel {
   synopsis: string | null;
   offerMessage: string | null;
 }
+interface PrimeVideoChannelDetail {
+  name: string;
+  rows: PrimeVideoCategoryRow[];
+}
 
   /**
    * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
@@ -27036,6 +27040,18 @@ interface PrimeVideoChannel {
      * rather than a channel) carries neither — both real, measured gaps, never a guess.
      */
     listChannels(): Promise<PrimeVideoChannel[]>;
+
+    /**
+     * Read one add-on channel: what it is called, its top ten, its originals and series, and the
+     * live events it is carrying — the rest of a channel's catalogue, for answering "is it worth
+     * subscribing to this to watch that" rather than one title. Takes the channel's uuid off
+     * listChannels(), e.g. one read off `channelId` there — NOT the same card's `benefitId`, which
+     * opens a different route. `GET /channel/<uuid>`, read off the same carousel parser
+     * listCategoryTitles() uses: a heading and every title under it, per row, in the site's own
+     * order. `rows` never includes the channel's own hero banner, which carries no title list of
+     * its own.
+     */
+    getChannel(channelId: string): Promise<PrimeVideoChannelDetail>;
   }
 }
 
