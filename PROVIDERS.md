@@ -725,7 +725,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.getPlace` | google.com/maps | Everything Google Maps shows on one business's panel: name, full address, coordinates… | 🟢 |
 | `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | ⚪ |
 | `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in person has contributed, with… | ⚪ |
-| `google_maps.listPhotos` | google.com/maps | The photos attached to a place — the business's own and the ones visitors uploaded —… | ⚪ |
+| `google_maps.listPhotos` | google.com/maps | The photos Google Maps shows in a place's gallery panel — up to 20, each with a url… | 🟢 |
 | `google_maps.listRelatedPlaces` | google.com/maps | Other businesses Google Maps lists "At this place" — the site's own label for a shared… | 🟢 |
 | `google_maps.listReviews` | google.com/maps | The reviews Google Maps shows on a business's own panel — up to 5, each with author… | 🟢 |
 | `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in person saved — Favourites, Want to go, Starred and their own… | ⚪ |

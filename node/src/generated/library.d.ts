@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3defe58c09ed01691352759086c025c37c2e485cdeecc21a6c2b04ada9ec173d
-// 49 capabilities, 415 providers, 1052 typed functions, 20 refused.
+// Manifest version: fed7dcd1d7715a4c6b3052e3fff9caf17294fdb3254de1fd7d3a5655d8b7527c
+// 49 capabilities, 415 providers, 1054 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4003,8 +4003,8 @@ interface AmazonRelatedProducts {
    * the customer reviews, the other products it recommends, every size and colour the listing
    * sells — plus the rankings (best sellers, new releases, movers and shakers, most wished for),
    * today's deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
-   * listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts and
-   * listBestSellers are built; everything else is still a declared stub.
+   * listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts,
+   * listBestSellers and listNewReleases are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -4077,6 +4077,15 @@ interface AmazonRelatedProducts {
      * pass did not find.
      */
     listBestSellers(department: string): Promise<AmazonBestSellerEntry[]>;
+
+    /**
+     * What is newly out in a department (the slug listBestSellerCategories returns, e.g.
+     * "kitchen"), in Amazon's own hot-new-releases order — each row's ASIN, rank, title, price and
+     * rating. The ranking a caller wants when "best seller" would only ever return the same
+     * entrenched products. Page one only (up to 30 rows), the same limit listBestSellers carries
+     * and for the same reason.
+     */
+    listNewReleases(department: string): Promise<AmazonBestSellerEntry[]>;
   }
 }
 
@@ -4799,6 +4808,14 @@ interface AppleDeliveryEstimate {
   postalCode: string;
   options: AppleDeliveryOption[];
 }
+interface AppleStoreListing {
+  storeNumber: string;
+  name: string;
+  url: string;
+}
+interface AppleStoreList {
+  stores: AppleStoreListing[];
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -4874,6 +4891,14 @@ interface AppleDeliveryEstimate {
      * parameter and ignores a "<city>, <state>" value entirely.
      */
     getDeliveryEstimate(partNumber: string, postalCode: string): Promise<AppleDeliveryEstimate>;
+
+    /**
+     * Every Apple Store in the US on one call — its name, its store number and its page — off
+     * apple.com's own store-locator directory, so a caller can browse or filter them rather than
+     * guess a slug. The store number is the SAME id findStoresNear and getPickupAvailability's
+     * rows carry, so a listing here joins straight to either.
+     */
+    listStores(): Promise<AppleStoreList>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3defe58c09ed01691352759086c025c37c2e485cdeecc21a6c2b04ada9ec173d
-# 49 capabilities, 415 providers, 1034 typed functions, 20 refused.
+# Manifest version: fed7dcd1d7715a4c6b3052e3fff9caf17294fdb3254de1fd7d3a5655d8b7527c
+# 49 capabilities, 415 providers, 1036 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2702,6 +2702,14 @@ class Prv_apple_AppleDeliveryOption_Out(TypedDict):
     displayName: str
     date: str
     shippingCost: str
+
+class Prv_apple_AppleStoreList_Out(TypedDict):
+    stores: list[Prv_apple_AppleStoreListing_Out]
+
+class Prv_apple_AppleStoreListing_Out(TypedDict):
+    storeNumber: str
+    name: str
+    url: str
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -19311,8 +19319,8 @@ class Prv_amazon(Protocol):
     the listing sells — plus the rankings (best sellers, new releases, movers and shakers,
     most wished for), today's deals and a marketplace seller's feedback. searchProducts,
     suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
-    listRelatedProducts and listBestSellers are built; everything else is still a declared
-    stub.
+    listRelatedProducts, listBestSellers and listNewReleases are built; everything else is
+    still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -19376,6 +19384,14 @@ class Prv_amazon(Protocol):
         order. What is actually selling right now, as opposed to searchProducts' relevance
         ranking. Page one only (up to 30 rows) — Amazon publishes more per department across a
         paging control this pass did not find.
+        """
+
+    async def listNewReleases(self, department: str, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
+        """What is newly out in a department (the slug listBestSellerCategories returns, e.g.
+        "kitchen"), in Amazon's own hot-new-releases order — each row's ASIN, rank, title, price
+        and rating. The ranking a caller wants when "best seller" would only ever return the
+        same entrenched products. Page one only (up to 30 rows), the same limit listBestSellers
+        carries and for the same reason.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -19665,6 +19681,13 @@ class Prv_apple(Protocol):
         starting a checkout. Takes a bare 5-digit ZIP, NOT the resolved place string
         getPickupAvailability takes: apple.com's own delivery-message endpoint reads a different
         parameter and ignores a "<city>, <state>" value entirely.
+        """
+
+    async def listStores(self, /) -> Prv_apple_AppleStoreList_Out:
+        """Every Apple Store in the US on one call — its name, its store number and its page — off
+        apple.com's own store-locator directory, so a caller can browse or filter them rather
+        than guess a slug. The store number is the SAME id findStoresNear and
+        getPickupAvailability's rows carry, so a listing here joins straight to either.
         """
 
 class Prv_aquaphoenixsci(Protocol):
