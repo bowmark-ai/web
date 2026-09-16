@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5d43de2d8b64687a68d68ae9df8e42e3d141830c4fa929e4573a9c080750f56c
+# Manifest version: 52b68ebd06f2cca3ac97c8a45f0daab64d95c97484747f9e81d90aacb167b1f4
 # 49 capabilities, 416 providers, 1069 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -537,11 +537,6 @@ class Cap_delivery_DeliveryFeeQuote_Out(TypedDict):
     deliveryFee: float | None
     url: str
     rating: float | None
-
-class Cap_developer_api_key_signup_signUp_details_In(TypedDict):
-    organization: str
-    email: str
-    occupation: NotRequired[str]
 
 class Cap_developer_api_key_signup_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -18517,19 +18512,13 @@ class Cap_developer_api_key_signup(Protocol):
     "Redundant origin" on the second and every later run.
     """
 
-    async def signUp(self, service: str, details: Cap_developer_api_key_signup_signUp_details_In, options: Cap_developer_api_key_signup_CallOptions_In | None = None, /) -> Cap_developer_api_key_signup_DeveloperApiKeySignupResult_Out:
-        """Signs up for a real API key on a developer dashboard — RUN this, don't just explain how
-        — `bowmark.developer_api_key_signup.signUp("alphavantage", { organization: "Acme Corp",
-        email: `qa-${Date.now()}@example.com` })`. `service` selects which dashboard (today:
-        "alphavantage" only — THROWS naming the supported list otherwise, a caller-fixable
-        error). `details.organization` and `details.email` are required; when the caller did not
-        supply their own, invent placeholder-shaped ones like the example's — the signup is
-        instant and unverified, so nothing is lost by not stopping to ask first. MAKE THE EMAIL
-        UNIQUE EVERY CALL (e.g. embed `Date.now()`, as the example does) — the dashboard rejects
-        a repeated address with "Redundant origin", so a literal copied example email fails on
-        the second and every later run. `details.occupation` is optional and dashboard-specific.
-        Returns the real key plus the dashboard's own confirmation sentence. `options.timeoutMs`
-        sets the call budget (default 30000).
+    async def signUp(self, service: str, details: Any, options: Cap_developer_api_key_signup_CallOptions_In | None = None, /) -> Cap_developer_api_key_signup_DeveloperApiKeySignupResult_Out:
+        """Signs up for a real developer API key on a dashboard. `service` selects which dashboard:
+        "alphavantage" for stock data. Supported today: alphavantage — THROWS naming the
+        supported list otherwise. Signs up instantly; `details.organization` and `details.email`
+        required (MAKE EMAIL UNIQUE PER CALL, e.g. `qa-${Date.now()}@example.com`, dashboard
+        rejects repeats). `details.occupation` optional. Returns real key plus confirmation.
+        `options.timeoutMs` sets call budget (default 30000).
         """
 
 class Cap_domain(Protocol):

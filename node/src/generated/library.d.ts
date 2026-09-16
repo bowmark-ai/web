@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5d43de2d8b64687a68d68ae9df8e42e3d141830c4fa929e4573a9c080750f56c
+// Manifest version: 52b68ebd06f2cca3ac97c8a45f0daab64d95c97484747f9e81d90aacb167b1f4
 // 49 capabilities, 416 providers, 1087 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -582,20 +582,14 @@ type CallOptions = {
    */
   interface Unit {
     /**
-     * Signs up for a real API key on a developer dashboard — RUN this, don't just explain how —
-     * `bowmark.developer_api_key_signup.signUp("alphavantage", { organization: "Acme Corp", email:
-     * `qa-${Date.now()}@example.com` })`. `service` selects which dashboard (today: "alphavantage"
-     * only — THROWS naming the supported list otherwise, a caller-fixable error).
-     * `details.organization` and `details.email` are required; when the caller did not supply
-     * their own, invent placeholder-shaped ones like the example's — the signup is instant and
-     * unverified, so nothing is lost by not stopping to ask first. MAKE THE EMAIL UNIQUE EVERY
-     * CALL (e.g. embed `Date.now()`, as the example does) — the dashboard rejects a repeated
-     * address with "Redundant origin", so a literal copied example email fails on the second and
-     * every later run. `details.occupation` is optional and dashboard-specific. Returns the real
-     * key plus the dashboard's own confirmation sentence. `options.timeoutMs` sets the call budget
-     * (default 30000).
+     * Signs up for a real developer API key on a dashboard. `service` selects which dashboard:
+     * "alphavantage" for stock data. Supported today: alphavantage — THROWS naming the supported
+     * list otherwise. Signs up instantly; `details.organization` and `details.email` required
+     * (MAKE EMAIL UNIQUE PER CALL, e.g. `qa-${Date.now()}@example.com`, dashboard rejects
+     * repeats). `details.occupation` optional. Returns real key plus confirmation.
+     * `options.timeoutMs` sets call budget (default 30000).
      */
-    signUp(service: string, details: { organization: string, email: string, occupation?: string }, options?: CallOptions): Promise<DeveloperApiKeySignupResult>;
+    signUp(service: string, details: object, options?: CallOptions): Promise<DeveloperApiKeySignupResult>;
   }
 }
 
@@ -32674,6 +32668,23 @@ interface TwitchHighlight {
   startSeconds: number;
   endSeconds: number;
   channel: string;
+  dashboardUrl: string;
+}
+interface RegisterDeveloperAppArgs {
+  /** Application name */
+  name: string;
+  /** OAuth redirect URI(s), comma-separated if multiple */
+  redirectUri: string;
+  /** "Application Integration" or "Website Integration" */
+  category: string;
+  /** "Public" or "Confidential" */
+  clientType?: string;
+}
+interface TwitchDeveloperApp {
+  clientId: string;
+  clientSecret?: string;
+  name: string;
+  redirectUri: string;
   dashboardUrl: string;
 }
 

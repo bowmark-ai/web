@@ -1,5 +1,5 @@
 {
-  "version": "5d43de2d8b64687a68d68ae9df8e42e3d141830c4fa929e4573a9c080750f56c",
+  "version": "52b68ebd06f2cca3ac97c8a45f0daab64d95c97484747f9e81d90aacb167b1f4",
   "units": {
     "booking_links": {
       "defs": {
@@ -569,30 +569,7 @@
           {
             "name": "details",
             "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "organization",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "email",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "occupation",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                }
-              ]
+              "k": "any"
             },
             "optional": false
           },
