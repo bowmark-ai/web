@@ -1,5 +1,5 @@
 {
-  "version": "e21bdf6cd10378724bcd00e375f89da2ef78e641bac7e2327ec7806997e2ac81",
+  "version": "8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771",
   "units": {
     "booking_links": {
       "defs": {
@@ -14454,7 +14454,34 @@
       }
     },
     "providers.google_news": {
-      "defs": {},
+      "defs": {
+        "GoogleNewsLocaleArg": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "gl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "ceid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "searchNews": [
           {
@@ -14463,9 +14490,26 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
-        "topStories": [],
+        "topStories": [
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
+          }
+        ],
         "listTopicHeadlines": [
           {
             "name": "section",
@@ -14473,6 +14517,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
         "listPublisherHeadlines": [
@@ -14489,6 +14541,14 @@
               "k": "string"
             },
             "optional": true
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
         "listLocalHeadlines": [
@@ -14498,6 +14558,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
         "resolveArticleUrl": [
@@ -14509,7 +14577,16 @@
             "optional": false
           }
         ],
-        "listTopics": [],
+        "listTopics": [
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
+          }
+        ],
         "getTopicHeadlines": [
           {
             "name": "topicId",
@@ -14517,6 +14594,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
         "listStories": [
@@ -14524,6 +14609,14 @@
             "name": "topicId",
             "schema": {
               "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
             },
             "optional": true
           }

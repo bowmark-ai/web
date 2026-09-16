@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e21bdf6cd10378724bcd00e375f89da2ef78e641bac7e2327ec7806997e2ac81
+// Manifest version: 8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771
 // 1044 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e21bdf6cd10378724bcd00e375f89da2ef78e641bac7e2327ec7806997e2ac81",
+  "version": "8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771",
   "units": {
     "booking_links": {
       "defs": {
@@ -14466,7 +14466,34 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.google_news": {
-      "defs": {},
+      "defs": {
+        "GoogleNewsLocaleArg": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "gl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "ceid",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "searchNews": [
           {
@@ -14475,9 +14502,26 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
-        "topStories": [],
+        "topStories": [
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
+          }
+        ],
         "listTopicHeadlines": [
           {
             "name": "section",
@@ -14485,6 +14529,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
         "listPublisherHeadlines": [
@@ -14501,6 +14553,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
         "listLocalHeadlines": [
@@ -14510,6 +14570,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
         "resolveArticleUrl": [
@@ -14521,7 +14589,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listTopics": [],
+        "listTopics": [
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
+          }
+        ],
         "getTopicHeadlines": [
           {
             "name": "topicId",
@@ -14529,6 +14606,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ],
         "listStories": [
@@ -14536,6 +14621,14 @@ export const VALIDATORS: ValidatorTable = {
             "name": "topicId",
             "schema": {
               "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
             },
             "optional": true
           }

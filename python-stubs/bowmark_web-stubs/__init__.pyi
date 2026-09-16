@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e21bdf6cd10378724bcd00e375f89da2ef78e641bac7e2327ec7806997e2ac81
+# Manifest version: 8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771
 # 49 capabilities, 415 providers, 1044 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -8764,6 +8764,11 @@ class Prv_google_maps_Photo_Out(TypedDict):
     height: float
     takenAt: NotRequired[str]
     source: NotRequired[str]
+
+class Prv_google_news_GoogleNewsLocaleArg_In(TypedDict):
+    hl: NotRequired[str]
+    gl: NotRequired[str]
+    ceid: NotRequired[str]
 
 class Prv_google_news_GoogleNewsSearchResult_Out(TypedDict):
     query: str
@@ -23987,7 +23992,7 @@ class Prv_google_news(Protocol):
     declared stub.
     """
 
-    async def searchNews(self, query: str, /) -> Prv_google_news_GoogleNewsSearchResult_Out:
+    async def searchNews(self, query: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsSearchResult_Out:
         """Everything Google News has indexed about a subject, across every publisher at once —
         headline, publisher, publication time and the Google News link, newest first. `query` is
         exactly what a person would type into Google News' own search box, and Google's own
@@ -23996,28 +24001,32 @@ class Prv_google_news(Protocol):
         subjects — measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which 100
         carried `<source>Reuters</source>`. This is the provider's main door: a caller holding
         only words gets in here. A query that matches nothing returns an empty `articles` array
-        rather than throwing.
+        rather than throwing. `locale` — `{ hl, gl, ceid }` — asks for another country/language
+        edition, e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }` for Mexico; omitted, every
+        field defaults to the US English edition.
         """
 
-    async def topStories(self, /) -> Prv_google_news_GoogleNewsTopStories_Out:
+    async def topStories(self, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsTopStories_Out:
         """What Google News is leading with right now — the front page, as ranked story CLUSTERS
         rather than a flat list. Each entry carries the lead headline and publisher plus every
         other outlet covering the same story, which is the one thing a single publisher's own
-        feed can never give a caller asking "what is everyone saying about this today". No
-        arguments: the front page is the whole ask.
+        feed can never give a caller asking "what is everyone saying about this today". `locale`
+        — `{ hl, gl, ceid }` — asks for another country/language edition, e.g. `{ hl: "es-419",
+        gl: "MX", ceid: "MX:es" }` for Mexico; omitted, the US English front page.
         """
 
-    async def listTopicHeadlines(self, section: str, /) -> Prv_google_news_GoogleNewsTopicHeadlines_Out:
+    async def listTopicHeadlines(self, section: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsTopicHeadlines_Out:
         """The latest headlines in one of Google News' own eight sections — World, Nation,
         Business, Technology, Entertainment, Sports, Science or Health — by section NAME, so a
         caller who has only the word "technology" never has to hold an opaque topic id. The name
         is matched case-insensitively against the closed list of eight; anything else throws
         before any request is made, because an unrecognized section answers 200 with Google
         News' own app-shell HTML rather than a 404 (measured 2026-09-15) — reading that as an
-        empty section would be silently wrong rather than refused.
+        empty section would be silently wrong rather than refused. `locale` — `{ hl, gl, ceid }`
+        — asks for another country/language edition; omitted, the US English one.
         """
 
-    async def listPublisherHeadlines(self, publisher: str, query: str | None = None, /) -> Prv_google_news_GoogleNewsPublisherHeadlines_Out:
+    async def listPublisherHeadlines(self, publisher: str, query: str | None = None, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsPublisherHeadlines_Out:
         """Everything Google News has indexed from one publisher — `publisher` is a domain like
         "reuters.com" or "apnews.com" — newest first, optionally narrowed with `query` the same
         way `searchNews` takes one. Built on the search door with a `site:` filter
@@ -24025,10 +24034,11 @@ class Prv_google_news(Protocol):
         `/rss/headlines/section/publication/<NAME>` answers 200 with the Top stories feed
         byte-for-byte for a name it cannot resolve, so it would look like it worked and be wrong
         for every publisher. Measured 2026-09-15: `site:reuters.com tesla` returned 100 items of
-        which 100 carried a `<source>` domain on `reuters.com`.
+        which 100 carried a `<source>` domain on `reuters.com`. `locale` — `{ hl, gl, ceid }` —
+        asks for another country/language edition; omitted, the US English one.
         """
 
-    async def listLocalHeadlines(self, place: str, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:
+    async def listLocalHeadlines(self, place: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:
         """What is being reported in one place — the local-news edition for a city or region, by
         NAME ("Seattle", "San Francisco"), not a place id. There is no closed list of valid
         places, so a place Google News has no edition for is refused only after the request
@@ -24038,6 +24048,8 @@ class Prv_google_news(Protocol):
         other feed by guid) — reading that as an empty result would be silently wrong, so this
         throws instead. A recognized place's own channel title is echoed back in `place`, in the
         site's own spelling, so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`.
+        `locale` — `{ hl, gl, ceid }` — asks for another country/language edition; omitted, the
+        US English one.
         """
 
     async def resolveArticleUrl(self, articleIdOrLink: str, /) -> Prv_google_news_GoogleNewsArticleResolution_Out:
@@ -24052,16 +24064,17 @@ class Prv_google_news(Protocol):
         across articles, so this is always two requests.
         """
 
-    async def listTopics(self, /) -> list[Prv_google_news_GoogleNewsTopic_Out]:
+    async def listTopics(self, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> list[Prv_google_news_GoogleNewsTopic_Out]:
         """The topics Google News' own home-page nav rail is offering today — the eight standing
         sections plus "Your local news" (measured 2026-09-15: nine entries, geo-scoped to
         whichever exit made the request) — each with the opaque topic id `getTopicHeadlines`
         takes. Read off the home page's own embedded `AF_initDataCallback({key: 'ds:2'…})` state
         rather than scraped from the rendered nav, so it needs no browser. The finder that makes
-        a topic id reachable by somebody who only holds words.
+        a topic id reachable by somebody who only holds words. `locale` — `{ hl, gl, ceid }` —
+        asks for another country/language edition's own nav rail; omitted, the US English one.
         """
 
-    async def getTopicHeadlines(self, topicId: str, /) -> Prv_google_news_GoogleNewsTopicFeed_Out:
+    async def getTopicHeadlines(self, topicId: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsTopicFeed_Out:
         """The headlines under any Google News topic id — an entity or interest topic (a company, a
         person, a sports league) that `listTopics` returns, and that the eight named sections
         `listTopicHeadlines` takes by word are only the beginning of. Identical fetch and parse
@@ -24069,10 +24082,11 @@ class Prv_google_news(Protocol):
         `/rss/headlines/section/topic/<NAME>`) — the only difference is the key, since a topic
         id has no canonical spelling for the site to correct it to. Measured 2026-09-15: the
         Technology section's own topic id answers the identical feed shape as its section-name
-        door, 70 items, titled "Technology - Latest - Google News".
+        door, 70 items, titled "Technology - Latest - Google News". `locale` — `{ hl, gl, ceid
+        }` — asks for another country/language edition; omitted, the US English one.
         """
 
-    async def listStories(self, topicId: str | None = None, /) -> list[Prv_google_news_GoogleNewsStory_Out]:
+    async def listStories(self, topicId: str | None = None, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> list[Prv_google_news_GoogleNewsStory_Out]:
         """The story CLUSTERS Google News is running right now, as ids — the finder for
         `getFullCoverage`. Pass a `topicId` (from `listTopics`, or one of the eight section
         names' own topic id) to read a topic page — measured 2026-09-15: 43 distinct stories on
@@ -24081,6 +24095,8 @@ class Prv_google_news(Protocol):
         single-outlet. Reads the "Full Coverage" anchor Google News renders on every
         multi-outlet story directly off the page's HTML, rather than the page's own embedded
         state — no RSS feed on this site emits a story id at all, so this is the only door.
+        `locale` — `{ hl, gl, ceid }` — asks for another country/language edition of whichever
+        page is read; omitted, the US English one.
         """
 
     async def getFullCoverage(self, storyId: str, /) -> Prv_google_news_GoogleNewsFullCoverage_Out:

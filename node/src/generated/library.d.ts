@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e21bdf6cd10378724bcd00e375f89da2ef78e641bac7e2327ec7806997e2ac81
+// Manifest version: 8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771
 // 49 capabilities, 415 providers, 1062 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -16187,6 +16187,11 @@ interface Photo {
 
 declare namespace BowmarkProvider_google_news {
   // ── Google News — the unit's own declarations, verbatim ──
+interface GoogleNewsLocaleArg {
+  hl?: string;
+  gl?: string;
+  ceid?: string;
+}
 interface GoogleNewsClusterEntry {
   title: string;
   link: string;
@@ -16274,18 +16279,21 @@ interface GoogleNewsFullCoverage {
      * subjects — measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which 100
      * carried `<source>Reuters</source>`. This is the provider's main door: a caller holding only
      * words gets in here. A query that matches nothing returns an empty `articles` array rather
-     * than throwing.
+     * than throwing. `locale` — `{ hl, gl, ceid }` — asks for another country/language edition,
+     * e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }` for Mexico; omitted, every field defaults
+     * to the US English edition.
      */
-    searchNews(query: string): Promise<GoogleNewsSearchResult>;
+    searchNews(query: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsSearchResult>;
 
     /**
      * What Google News is leading with right now — the front page, as ranked story CLUSTERS rather
      * than a flat list. Each entry carries the lead headline and publisher plus every other outlet
      * covering the same story, which is the one thing a single publisher's own feed can never give
-     * a caller asking "what is everyone saying about this today". No arguments: the front page is
-     * the whole ask.
+     * a caller asking "what is everyone saying about this today". `locale` — `{ hl, gl, ceid }` —
+     * asks for another country/language edition, e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }`
+     * for Mexico; omitted, the US English front page.
      */
-    topStories(): Promise<GoogleNewsTopStories>;
+    topStories(locale?: GoogleNewsLocaleArg): Promise<GoogleNewsTopStories>;
 
     /**
      * The latest headlines in one of Google News' own eight sections — World, Nation, Business,
@@ -16294,9 +16302,10 @@ interface GoogleNewsFullCoverage {
      * case-insensitively against the closed list of eight; anything else throws before any request
      * is made, because an unrecognized section answers 200 with Google News' own app-shell HTML
      * rather than a 404 (measured 2026-09-15) — reading that as an empty section would be silently
-     * wrong rather than refused.
+     * wrong rather than refused. `locale` — `{ hl, gl, ceid }` — asks for another country/language
+     * edition; omitted, the US English one.
      */
-    listTopicHeadlines(section: string): Promise<GoogleNewsTopicHeadlines>;
+    listTopicHeadlines(section: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsTopicHeadlines>;
 
     /**
      * Everything Google News has indexed from one publisher — `publisher` is a domain like
@@ -16306,9 +16315,10 @@ interface GoogleNewsFullCoverage {
      * `/rss/headlines/section/publication/<NAME>` answers 200 with the Top stories feed
      * byte-for-byte for a name it cannot resolve, so it would look like it worked and be wrong for
      * every publisher. Measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which
-     * 100 carried a `<source>` domain on `reuters.com`.
+     * 100 carried a `<source>` domain on `reuters.com`. `locale` — `{ hl, gl, ceid }` — asks for
+     * another country/language edition; omitted, the US English one.
      */
-    listPublisherHeadlines(publisher: string, query?: string): Promise<GoogleNewsPublisherHeadlines>;
+    listPublisherHeadlines(publisher: string, query?: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsPublisherHeadlines>;
 
     /**
      * What is being reported in one place — the local-news edition for a city or region, by NAME
@@ -16319,9 +16329,10 @@ interface GoogleNewsFullCoverage {
      * nonsense place; the same sentinel `_client` already drops out of every other feed by guid) —
      * reading that as an empty result would be silently wrong, so this throws instead. A
      * recognized place's own channel title is echoed back in `place`, in the site's own spelling,
-     * so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`.
+     * so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`. `locale` — `{ hl, gl, ceid }` —
+     * asks for another country/language edition; omitted, the US English one.
      */
-    listLocalHeadlines(place: string): Promise<GoogleNewsLocalHeadlines>;
+    listLocalHeadlines(place: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsLocalHeadlines>;
 
     /**
      * The publisher's real article URL behind a Google News link — every `link` in every feed
@@ -16341,9 +16352,10 @@ interface GoogleNewsFullCoverage {
      * exit made the request) — each with the opaque topic id `getTopicHeadlines` takes. Read off
      * the home page's own embedded `AF_initDataCallback({key: 'ds:2'…})` state rather than scraped
      * from the rendered nav, so it needs no browser. The finder that makes a topic id reachable by
-     * somebody who only holds words.
+     * somebody who only holds words. `locale` — `{ hl, gl, ceid }` — asks for another
+     * country/language edition's own nav rail; omitted, the US English one.
      */
-    listTopics(): Promise<GoogleNewsTopic[]>;
+    listTopics(locale?: GoogleNewsLocaleArg): Promise<GoogleNewsTopic[]>;
 
     /**
      * The headlines under any Google News topic id — an entity or interest topic (a company, a
@@ -16353,9 +16365,10 @@ interface GoogleNewsFullCoverage {
      * `/rss/headlines/section/topic/<NAME>`) — the only difference is the key, since a topic id
      * has no canonical spelling for the site to correct it to. Measured 2026-09-15: the Technology
      * section's own topic id answers the identical feed shape as its section-name door, 70 items,
-     * titled "Technology - Latest - Google News".
+     * titled "Technology - Latest - Google News". `locale` — `{ hl, gl, ceid }` — asks for another
+     * country/language edition; omitted, the US English one.
      */
-    getTopicHeadlines(topicId: string): Promise<GoogleNewsTopicFeed>;
+    getTopicHeadlines(topicId: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsTopicFeed>;
 
     /**
      * The story CLUSTERS Google News is running right now, as ids — the finder for
@@ -16365,9 +16378,11 @@ interface GoogleNewsFullCoverage {
      * instead, which surfaces far fewer (2 measured) since most front-page items are
      * single-outlet. Reads the "Full Coverage" anchor Google News renders on every multi-outlet
      * story directly off the page's HTML, rather than the page's own embedded state — no RSS feed
-     * on this site emits a story id at all, so this is the only door.
+     * on this site emits a story id at all, so this is the only door. `locale` — `{ hl, gl, ceid
+     * }` — asks for another country/language edition of whichever page is read; omitted, the US
+     * English one.
      */
-    listStories(topicId?: string): Promise<GoogleNewsStory[]>;
+    listStories(topicId?: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsStory[]>;
 
     /**
      * Every outlet reporting one story — Google News' own Full Coverage, chained off a `storyId`
