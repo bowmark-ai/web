@@ -99,7 +99,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number. | ⚪ |
 | `apple.compareModels` | apple.com | Put two or more models of the same product side by side on the specs a person actually… | ⚪ |
 | `apple.findStoresNear` | apple.com | Find the Apple Stores near a place a person named — "Cupertino", "94108", "San… | 🟢 |
-| `apple.getConfigurationOptions` | apple.com | Read every choice a buy page actually offers — chip, memory, storage, colour, size… | ⚪ |
+| `apple.getConfigurationOptions` | apple.com | Read every choice a buy page actually offers — chip, memory, storage, colour, size… | 🟢 |
 | `apple.getDeliveryEstimate` | apple.com | When would this actually arrive if I ordered it now, to my ZIP code — the delivery… | 🟢 |
 | `apple.getNewsroomPost` | apple.com | Read one Apple press release in full from its URL — the announcement text itself, not… | ⚪ |
 | `apple.getOrderStatus` | apple.com | Where is my Apple order, and when does it arrive. | ⚪ |

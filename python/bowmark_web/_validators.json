@@ -1,5 +1,5 @@
 {
-  "version": "534e6c00fceacbd8abc54edd556a01c5436578938b1bddead9d810b2708b71d8",
+  "version": "9b60440c17fa667c3804b3f8d5ebd1b22af2135edc4ac4f28595398ae533e2e2",
   "units": {
     "booking_links": {
       "defs": {
@@ -5020,6 +5020,15 @@
         "getProductByPartNumber": [
           {
             "name": "partNumber",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getConfigurationOptions": [
+          {
+            "name": "urlOrPath",
             "schema": {
               "k": "string"
             },

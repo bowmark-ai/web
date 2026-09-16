@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 534e6c00fceacbd8abc54edd556a01c5436578938b1bddead9d810b2708b71d8
-# 49 capabilities, 415 providers, 1055 typed functions, 20 refused.
+# Manifest version: 9b60440c17fa667c3804b3f8d5ebd1b22af2135edc4ac4f28595398ae533e2e2
+# 49 capabilities, 415 providers, 1056 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2742,6 +2742,28 @@ class Prv_apple_AppleProduct_Out(TypedDict):
     priceCurrency: str | None
     image: str | None
     description: str | None
+
+class Prv_apple_AppleConfigurationOptions_Out(TypedDict):
+    url: str
+    dimensions: list[Prv_apple_AppleConfigDimension_Out]
+    configDimensions: list[Prv_apple_AppleConfigDimension_Out]
+    configurations: list[Prv_apple_AppleConfiguration_Out]
+
+class Prv_apple_AppleConfigDimension_Out(TypedDict):
+    key: str
+    label: str
+    choices: list[Prv_apple_AppleConfigChoice_Out]
+
+class Prv_apple_AppleConfigChoice_Out(TypedDict):
+    key: str
+    label: str
+
+class Prv_apple_AppleConfiguration_Out(TypedDict):
+    dimensions: Mapping[str, str]
+    partNumber: str | None
+    buildToOrder: bool
+    price: float | None
+    priceCurrency: str | None
 
 class Prv_apple_AppleTradeInEstimate_Out(TypedDict):
     device: str
@@ -19952,6 +19974,18 @@ class Prv_apple(Protocol):
         name, price and currency, straight off the configured buy page apple.com redirects a
         part number to. Also accepts a /shop/ path or apple.com URL, resolved the same way
         getProduct's argument is.
+        """
+
+    async def getConfigurationOptions(self, urlOrPath: str, /) -> Prv_apple_AppleConfigurationOptions_Out:
+        """Reads every choice a Mac/iPhone/iPad buy page actually offers — screen size, colour,
+        chip, memory, storage, keyboard layout, connectivity — straight off the page's own
+        configurator data, with the part number and price each fixed combination already
+        resolves to. "Configure and price it" as one read instead of clicking through the
+        on-page configurator: every part number this returns is directly usable by
+        getProductByPartNumber, getPickupAvailability and getDeliveryEstimate. A combination
+        apple.com has not fixed a single part number for yet (memory/storage still open) comes
+        back with `buildToOrder: true` and a null part number, listing the further choices
+        rather than guessing a price for combinations apple.com computes client-side.
         """
 
     async def getTradeInEstimate(self, model: str, /) -> Prv_apple_AppleTradeInEstimate_Out:

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 534e6c00fceacbd8abc54edd556a01c5436578938b1bddead9d810b2708b71d8
-// 49 capabilities, 415 providers, 1073 typed functions, 20 refused.
+// Manifest version: 9b60440c17fa667c3804b3f8d5ebd1b22af2135edc4ac4f28595398ae533e2e2
+// 49 capabilities, 415 providers, 1074 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4901,6 +4901,28 @@ interface AppleProductPage {
   url: string;
   products: AppleProduct[];
 }
+interface AppleConfigChoice {
+  key: string;
+  label: string;
+}
+interface AppleConfigDimension {
+  key: string;
+  label: string;
+  choices: AppleConfigChoice[];
+}
+interface AppleConfiguration {
+  dimensions: Record<string, string>;
+  partNumber: string | null;
+  buildToOrder: boolean;
+  price: number | null;
+  priceCurrency: string | null;
+}
+interface AppleConfigurationOptions {
+  url: string;
+  dimensions: AppleConfigDimension[];
+  configDimensions: AppleConfigDimension[];
+  configurations: AppleConfiguration[];
+}
 interface AppleTradeInEstimate {
   device: string;
   upToUsd: number;
@@ -5025,6 +5047,19 @@ interface AppleStore {
      * argument is.
      */
     getProductByPartNumber(partNumber: string): Promise<AppleProductPage>;
+
+    /**
+     * Reads every choice a Mac/iPhone/iPad buy page actually offers — screen size, colour, chip,
+     * memory, storage, keyboard layout, connectivity — straight off the page's own configurator
+     * data, with the part number and price each fixed combination already resolves to. "Configure
+     * and price it" as one read instead of clicking through the on-page configurator: every part
+     * number this returns is directly usable by getProductByPartNumber, getPickupAvailability and
+     * getDeliveryEstimate. A combination apple.com has not fixed a single part number for yet
+     * (memory/storage still open) comes back with `buildToOrder: true` and a null part number,
+     * listing the further choices rather than guessing a price for combinations apple.com computes
+     * client-side.
+     */
+    getConfigurationOptions(urlOrPath: string): Promise<AppleConfigurationOptions>;
 
     /**
      * Reads apple.com's own trade-in value table and returns the CEILING ("up to $X")
