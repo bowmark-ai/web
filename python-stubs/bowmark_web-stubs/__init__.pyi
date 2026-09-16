@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b2e89feececfc113455d515269c62f9ed07e1022b034d6b20aea16046d4b739a
-# 49 capabilities, 415 providers, 1049 typed functions, 20 refused.
+# Manifest version: 95972d4dcd859d6c8284f468756dd01ee81d6d749eed11f18f0adc7552fa1d1c
+# 49 capabilities, 415 providers, 1050 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24174,15 +24174,20 @@ class Prv_google_news(Protocol):
         """
 
     async def getTopicHeadlines(self, topicId: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsTopicFeed_Out:
-        """The headlines under any Google News topic id — an entity or interest topic (a company, a
-        person, a sports league) that `listTopics` returns, and that the eight named sections
-        `listTopicHeadlines` takes by word are only the beginning of. Identical fetch and parse
-        to `listTopicHeadlines` (`/rss/topics/<topicId>` rather than
+        """The headlines under any Google News topic id — the opaque key `/rss/topics/<id>` takes,
+        which the eight named sections `listTopicHeadlines` takes by word are only a subset of.
+        Identical fetch and parse to `listTopicHeadlines` (`/rss/topics/<topicId>` rather than
         `/rss/headlines/section/topic/<NAME>`) — the only difference is the key, since a topic
         id has no canonical spelling for the site to correct it to. Measured 2026-09-15: the
         Technology section's own topic id answers the identical feed shape as its section-name
-        door, 70 items, titled "Technology - Latest - Google News". `locale` — `{ hl, gl, ceid
-        }` — asks for another country/language edition; omitted, the US English one.
+        door, 70 items, titled "Technology - Latest - Google News". THE ONLY IDS REACHABLE
+        WITHOUT AN ACCOUNT ARE THE NINE `listTopics` RETURNS. Google News also runs entity and
+        interest topics (a company, a person, a sports league), but measured 2026-09-16 nothing
+        logged-out hands their ids out — a topic page, a story page, `/home` and `/publications`
+        each carry only the nav rail's own nine, and the HTML `/search` page that renders the
+        entity's Follow chip answers 429 through the proxy. To follow a company or a person
+        today, use `searchNews`. `locale` — `{ hl, gl, ceid }` — asks for another
+        country/language edition; omitted, the US English one.
         """
 
     async def listStories(self, topicId: str | None = None, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> list[Prv_google_news_GoogleNewsStory_Out]:
@@ -27968,6 +27973,18 @@ class Prv_prime_video(Protocol):
         this build pass, three spaced captures of `/tv` in one minute carried it on only one —
         so a request that lands without it returns `[]`, a real and honest answer, never an
         error.
+        """
+
+    async def listDeals(self, /) -> list[Prv_prime_video_PrimeVideoCategoryRow_Out]:
+        """What is discounted to rent or buy on Prime Video this week — "Prime deals this week",
+        "New release deals", time-boxed sales and film bundles — the read behind "how do I watch
+        this" when the answer turns out to be "buy it" and the follow-up is "is it cheaper right
+        now". No arguments — `GET /store/deals`, read with the same listCategoryTitles() parser:
+        same row shape (a heading and every title under it), same dropped leading hero carousel.
+        **Carries no price.** Exactly three dollar strings exist on the whole page and all three
+        are a row heading ("$15.99 or less TV deals"), never a per-title price, so a caller who
+        wants the number calls getWatchOptions() on a titleId from one of these rows, where the
+        price comes off a decoded offerToken rather than a scraped string.
         """
 
 class Prv_progressive(Protocol):
