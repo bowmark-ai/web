@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f0127b982e5f909cbe4005703466da721d9ee30450c55f7af349b84cb4ca6b6c
-# 49 capabilities, 415 providers, 1043 typed functions, 20 refused.
+# Manifest version: e21bdf6cd10378724bcd00e375f89da2ef78e641bac7e2327ec7806997e2ac81
+# 49 capabilities, 415 providers, 1044 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2613,6 +2613,14 @@ class Prv_app_store_ListDeveloperAppsResult_Out(TypedDict):
 class Prv_app_store_ListDeveloperAppsResult_Out_developer_Out(TypedDict):
     id: str
     name: str
+
+class Prv_app_store_ListCategoriesResult_Out(TypedDict):
+    categories: list[Prv_app_store_AppStoreCategory_Out]
+
+class Prv_app_store_AppStoreCategory_Out(TypedDict):
+    id: str
+    name: str
+    parentId: str | None
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -19695,6 +19703,13 @@ class Prv_app_store(Protocol):
         their apps.apple.com developer URL, or just one of their apps (resolved to its developer
         first). The read behind "what else did the people who made this write" and behind
         checking whether an app is from who it claims to be.
+        """
+
+    async def listCategories(self, /) -> Prv_app_store_ListCategoriesResult_Out:
+        """List every category and subcategory the App Store sorts apps into — Business, Education,
+        Games and its nineteen sub-genres, and the rest — each with the numeric id that narrows
+        searchApps and listTopCharts. The finder that lets an agent holding the word "puzzle"
+        reach a real listing without being told an id.
         """
 
 class Prv_apple(Protocol):

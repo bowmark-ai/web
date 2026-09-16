@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f0127b982e5f909cbe4005703466da721d9ee30450c55f7af349b84cb4ca6b6c
-// 49 capabilities, 415 providers, 1061 typed functions, 20 refused.
+// Manifest version: e21bdf6cd10378724bcd00e375f89da2ef78e641bac7e2327ec7806997e2ac81
+// 49 capabilities, 415 providers, 1062 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4648,6 +4648,14 @@ interface AppStoreAppDetails {
   links: AppStoreLink[];
   featuredIn: AppStoreFeaturedStory[];
 }
+interface AppStoreCategory {
+  id: string;
+  name: string;
+  parentId: string | null;
+}
+interface ListCategoriesResult {
+  categories: AppStoreCategory[];
+}
 interface ListDeveloperAppsArgs {
   developer?: string | number;
   app?: string | number;
@@ -4732,6 +4740,14 @@ interface AppStoreSimilarAppsResult {
      * whether an app is from who it claims to be.
      */
     listDeveloperApps(args: ListDeveloperAppsArgs): Promise<ListDeveloperAppsResult>;
+
+    /**
+     * List every category and subcategory the App Store sorts apps into — Business, Education,
+     * Games and its nineteen sub-genres, and the rest — each with the numeric id that narrows
+     * searchApps and listTopCharts. The finder that lets an agent holding the word "puzzle" reach
+     * a real listing without being told an id.
+     */
+    listCategories(): Promise<ListCategoriesResult>;
   }
 }
 

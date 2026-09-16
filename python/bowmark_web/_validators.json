@@ -1,5 +1,5 @@
 {
-  "version": "f0127b982e5f909cbe4005703466da721d9ee30450c55f7af349b84cb4ca6b6c",
+  "version": "e21bdf6cd10378724bcd00e375f89da2ef78e641bac7e2327ec7806997e2ac81",
   "units": {
     "booking_links": {
       "defs": {
@@ -4852,7 +4852,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listCategories": []
       }
     },
     "providers.apple": {
