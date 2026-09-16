@@ -1,5 +1,5 @@
 {
-  "version": "7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba",
+  "version": "d7fcedd5b8c5442b6735649af4b5f0aeb2fdeb33d2571c2faedc3e29f138d901",
   "units": {
     "booking_links": {
       "defs": {
@@ -4713,6 +4713,34 @@
             }
           ]
         },
+        "GetStoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "story",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "platform",
+              "schema": {
+                "k": "ref",
+                "name": "AppStoreChartDevice"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListDeveloperAppsArgs": {
           "k": "object",
           "props": [
@@ -4945,6 +4973,16 @@
               "name": "ListTopChartsArgs"
             },
             "optional": true
+          }
+        ],
+        "getStory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStoryArgs"
+            },
+            "optional": false
           }
         ]
       }

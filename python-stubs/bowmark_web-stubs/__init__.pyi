@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba
-# 49 capabilities, 415 providers, 1052 typed functions, 20 refused.
+# Manifest version: d7fcedd5b8c5442b6735649af4b5f0aeb2fdeb33d2571c2faedc3e29f138d901
+# 49 capabilities, 415 providers, 1053 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2676,6 +2676,34 @@ class Prv_app_store_AppStoreChartApp_Out(TypedDict):
     url: str
 
 class Prv_app_store_AppStoreChartApp_Out_rating_u0_Out(TypedDict):
+    average: float
+    countLabel: str
+
+class Prv_app_store_GetStoryArgs_In(TypedDict):
+    story: str | float
+    platform: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"]]
+
+class Prv_app_store_AppStoreStory_Out(TypedDict):
+    id: str
+    url: str
+    heading: str
+    title: str
+    subtitle: str
+    body: str
+    apps: list[Prv_app_store_AppStoreStoryApp_Out]
+
+class Prv_app_store_AppStoreStoryApp_Out(TypedDict):
+    id: str
+    bundleId: str
+    name: str
+    subtitle: str
+    developer: str
+    ageRating: str
+    rating: Prv_app_store_AppStoreStoryApp_Out_rating_u0_Out | None
+    price: str
+    url: str
+
+class Prv_app_store_AppStoreStoryApp_Out_rating_u0_Out(TypedDict):
     average: float
     countLabel: str
 
@@ -19852,6 +19880,15 @@ class Prv_app_store(Protocol):
         order, each entry with its position, name, tagline, developer, age rating, price and the
         id every other function here takes. The question this provider exists to answer that no
         search engine answers, because the answer changes every day.
+        """
+
+    async def getStory(self, args: Prv_app_store_GetStoryArgs_In, /) -> Prv_app_store_AppStoreStory_Out:
+        """Read an App Store editorial story — the Today-tab piece Apple's editors wrote ("Master
+        Your Major", "About In-App Purchases") — its heading, title, body and the apps it
+        recommends, each with the id every other function here takes. Takes the story URL
+        getAppDetails().featuredIn[].url returns, or a bare story id plus the platform it was
+        featured under. How an agent answers "what does Apple say about this" and finds apps
+        nobody searches for by name.
         """
 
 class Prv_apple(Protocol):

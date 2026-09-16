@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba
-// 1052 checked, 20 unchecked.
+// Manifest version: d7fcedd5b8c5442b6735649af4b5f0aeb2fdeb33d2571c2faedc3e29f138d901
+// 1053 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba",
+  "version": "d7fcedd5b8c5442b6735649af4b5f0aeb2fdeb33d2571c2faedc3e29f138d901",
   "units": {
     "booking_links": {
       "defs": {
@@ -4725,6 +4725,34 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetStoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "story",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "platform",
+              "schema": {
+                "k": "ref",
+                "name": "AppStoreChartDevice"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListDeveloperAppsArgs": {
           "k": "object",
           "props": [
@@ -4957,6 +4985,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListTopChartsArgs"
             },
             "optional": true
+          }
+        ],
+        "getStory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStoryArgs"
+            },
+            "optional": false
           }
         ]
       }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7ef087f4debe218b3f33ec984633db5ace89baefe58620aa90ef5984de2df1ba
-// 49 capabilities, 415 providers, 1070 typed functions, 20 refused.
+// Manifest version: d7fcedd5b8c5442b6735649af4b5f0aeb2fdeb33d2571c2faedc3e29f138d901
+// 49 capabilities, 415 providers, 1071 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4756,6 +4756,30 @@ interface AppStoreSimilarAppsResult {
   id: string;
   apps: AppStoreSimilarApp[];
 }
+interface GetStoryArgs {
+  story: string | number;
+  platform?: AppStoreChartDevice;
+}
+interface AppStoreStoryApp {
+  id: string;
+  bundleId: string;
+  name: string;
+  subtitle: string;
+  developer: string;
+  ageRating: string;
+  rating: { average: number; countLabel: string } | null;
+  price: string;
+  url: string;
+}
+interface AppStoreStory {
+  id: string;
+  url: string;
+  heading: string;
+  title: string;
+  subtitle: string;
+  body: string;
+  apps: AppStoreStoryApp[];
+}
 
   /**
    * Search every iPhone, iPad and Mac app Apple lists, read one app's price, rating, reviews,
@@ -4830,6 +4854,16 @@ interface AppStoreSimilarAppsResult {
      * answers, because the answer changes every day.
      */
     listTopCharts(args?: ListTopChartsArgs): Promise<ListTopChartsResult>;
+
+    /**
+     * Read an App Store editorial story — the Today-tab piece Apple's editors wrote ("Master Your
+     * Major", "About In-App Purchases") — its heading, title, body and the apps it recommends,
+     * each with the id every other function here takes. Takes the story URL
+     * getAppDetails().featuredIn[].url returns, or a bare story id plus the platform it was
+     * featured under. How an agent answers "what does Apple say about this" and finds apps nobody
+     * searches for by name.
+     */
+    getStory(args: GetStoryArgs): Promise<AppStoreStory>;
   }
 }
 
