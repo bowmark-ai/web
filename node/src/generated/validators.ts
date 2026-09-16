@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d7a4e150ac8b92a335cf1f8c899427d12236d7556bd04d8e873ba0729e5a347b
-// 1072 checked, 20 unchecked.
+// Manifest version: 39d35f69db57ca4f20e1be21170cbecf084222421eb22d300c531186b27affea
+// 1073 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d7a4e150ac8b92a335cf1f8c899427d12236d7556bd04d8e873ba0729e5a347b",
+  "version": "39d35f69db57ca4f20e1be21170cbecf084222421eb22d300c531186b27affea",
   "units": {
     "booking_links": {
       "defs": {
@@ -15206,6 +15206,32 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "TranslateWebPageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -15305,6 +15331,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SpeakArgs"
+            },
+            "optional": false
+          }
+        ],
+        "translateWebPage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TranslateWebPageArgs"
             },
             "optional": false
           }

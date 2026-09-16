@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d7a4e150ac8b92a335cf1f8c899427d12236d7556bd04d8e873ba0729e5a347b
-# 49 capabilities, 416 providers, 1072 typed functions, 20 refused.
+# Manifest version: 39d35f69db57ca4f20e1be21170cbecf084222421eb22d300c531186b27affea
+# 49 capabilities, 416 providers, 1073 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9198,6 +9198,28 @@ class Prv_google_translate_GoogleTranslateSpeech_Out(TypedDict):
     audioBase64: str
     contentType: str
     chunkCount: float
+
+Prv_google_translate_TranslateWebPageArgs_In = TypedDict(
+    "Prv_google_translate_TranslateWebPageArgs_In",
+    {
+    "url": str,
+    "to": str,
+    "from": NotRequired[str],
+    },
+)
+
+class Prv_google_translate_GoogleTranslateWebPage_Out(TypedDict):
+    url: str
+    title: str
+    translatedTitle: str
+    targetLanguage: str
+    sourceLanguage: str
+    detected: bool
+    segments: list[Prv_google_translate_GoogleTranslateWebPageSegment_Out]
+
+class Prv_google_translate_GoogleTranslateWebPageSegment_Out(TypedDict):
+    original: str
+    translated: str
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -24741,6 +24763,17 @@ class Prv_google_translate(Protocol):
         `/translate_tts` calls the answer is built from. Throws when a single SENTENCE in
         `args.text` is itself over 200 characters — there is no boundary left to chunk on, and
         truncating it silently is the one thing this function must not do.
+        """
+
+    async def translateWebPage(self, args: Prv_google_translate_TranslateWebPageArgs_In, /) -> Prv_google_translate_GoogleTranslateWebPage_Out:
+        """Read `args.url` in `args.to` — fetches the page with a plain GET (no browser; a page
+        that renders its text client-side is out of reach), walks its rendered text nodes in
+        reading order, and translates them through this provider's own `translate` door.
+        Measured 2026-09-16 that `<host>.translate.goog` (the site's own page-translation
+        product) serves the ORIGINAL page plus a client-side translator script and never returns
+        translated text browserless, which is why this fetches the caller's url directly
+        instead. `args.from` is optional and, left out, the source is detected off the page's
+        title. `segments` preserves the page's own reading order.
         """
 
 class Prv_gostoreit(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d7a4e150ac8b92a335cf1f8c899427d12236d7556bd04d8e873ba0729e5a347b
-// 49 capabilities, 416 providers, 1090 typed functions, 20 refused.
+// Manifest version: 39d35f69db57ca4f20e1be21170cbecf084222421eb22d300c531186b27affea
+// 49 capabilities, 416 providers, 1091 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16868,6 +16868,24 @@ interface GoogleTranslateSpeech {
   contentType: string;
   chunkCount: number;
 }
+interface TranslateWebPageArgs {
+  url: string;
+  to: string;
+  from?: string;
+}
+interface GoogleTranslateWebPageSegment {
+  original: string;
+  translated: string;
+}
+interface GoogleTranslateWebPage {
+  url: string;
+  title: string;
+  translatedTitle: string;
+  targetLanguage: string;
+  sourceLanguage: string;
+  detected: boolean;
+  segments: GoogleTranslateWebPageSegment[];
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -16976,6 +16994,18 @@ interface GoogleTranslateSpeech {
      * function must not do.
      */
     speak(args: SpeakArgs): Promise<GoogleTranslateSpeech>;
+
+    /**
+     * Read `args.url` in `args.to` — fetches the page with a plain GET (no browser; a page that
+     * renders its text client-side is out of reach), walks its rendered text nodes in reading
+     * order, and translates them through this provider's own `translate` door. Measured 2026-09-16
+     * that `<host>.translate.goog` (the site's own page-translation product) serves the ORIGINAL
+     * page plus a client-side translator script and never returns translated text browserless,
+     * which is why this fetches the caller's url directly instead. `args.from` is optional and,
+     * left out, the source is detected off the page's title. `segments` preserves the page's own
+     * reading order.
+     */
+    translateWebPage(args: TranslateWebPageArgs): Promise<GoogleTranslateWebPage>;
   }
 }
 
