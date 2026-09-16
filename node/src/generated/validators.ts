@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7977c26a9b1ab6ae6acb527595fcd7cad709bb75dbb962bce9f297401850fd04
-// 1042 checked, 20 unchecked.
+// Manifest version: f0127b982e5f909cbe4005703466da721d9ee30450c55f7af349b84cb4ca6b6c
+// 1043 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7977c26a9b1ab6ae6acb527595fcd7cad709bb75dbb962bce9f297401850fd04",
+  "version": "f0127b982e5f909cbe4005703466da721d9ee30450c55f7af349b84cb4ca6b6c",
   "units": {
     "booking_links": {
       "defs": {
@@ -14576,6 +14576,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "LookupWordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "word",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "hl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TranslateArgs": {
           "k": "object",
           "props": [
@@ -14643,6 +14676,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListLanguagesArgs"
             },
             "optional": true
+          }
+        ],
+        "lookupWord": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LookupWordArgs"
+            },
+            "optional": false
           }
         ]
       }

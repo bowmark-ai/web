@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7977c26a9b1ab6ae6acb527595fcd7cad709bb75dbb962bce9f297401850fd04
-# 49 capabilities, 415 providers, 1042 typed functions, 20 refused.
+# Manifest version: f0127b982e5f909cbe4005703466da721d9ee30450c55f7af349b84cb4ca6b6c
+# 49 capabilities, 415 providers, 1043 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8860,6 +8860,31 @@ class Prv_google_translate_GoogleTranslateLanguage_Out(TypedDict):
     name: str
     sourceSupported: bool
     targetSupported: bool
+
+Prv_google_translate_LookupWordArgs_In = TypedDict(
+    "Prv_google_translate_LookupWordArgs_In",
+    {
+    "word": str,
+    "to": str,
+    "from": str,
+    "hl": NotRequired[str],
+    },
+)
+
+class Prv_google_translate_GoogleTranslateWordLookup_Out(TypedDict):
+    word: str
+    targetLanguage: str
+    sourceLanguage: str
+    senses: list[Prv_google_translate_GoogleTranslateWordSense_Out]
+
+class Prv_google_translate_GoogleTranslateWordSense_Out(TypedDict):
+    partOfSpeech: str
+    candidates: list[Prv_google_translate_GoogleTranslateWordCandidate_Out]
+
+class Prv_google_translate_GoogleTranslateWordCandidate_Out(TypedDict):
+    word: str
+    reverseTranslations: list[str]
+    score: float
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -24084,6 +24109,17 @@ class Prv_google_translate(Protocol):
         hl: "es" }` returns "abjasio" for `ab`); left out, names come back in English.
         `sourceSupported`/`targetSupported` are not both always true — `sl` alone carries
         `"auto"` ("Detect language") and `tl` alone carries `"zh-TW"`, measured 2026-09-15.
+        """
+
+    async def lookupWord(self, args: Prv_google_translate_LookupWordArgs_In, /) -> Prv_google_translate_GoogleTranslateWordLookup_Out:
+        """The full "translations of <word>" dictionary panel: every part of speech Google has for
+        `args.word`, the candidate translations under each (ordered by Google's own frequency
+        `score`), and for each candidate the words it itself translates back to — the difference
+        between "run means correr" and knowing `ejecutar` is the software sense and `huir` is
+        the fleeing sense. `args.from` is required, unlike `translate` — there is no "detect it"
+        reading of a dictionary lookup. `senses` comes back empty when Google has no per-sense
+        breakdown for the term (a longer phrase, or a string its dictionary does not recognize);
+        the plain `translate` function still works on those.
         """
 
 class Prv_gostoreit(Protocol):

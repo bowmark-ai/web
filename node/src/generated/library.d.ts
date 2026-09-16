@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7977c26a9b1ab6ae6acb527595fcd7cad709bb75dbb962bce9f297401850fd04
-// 49 capabilities, 415 providers, 1060 typed functions, 20 refused.
+// Manifest version: f0127b982e5f909cbe4005703466da721d9ee30450c55f7af349b84cb4ca6b6c
+// 49 capabilities, 415 providers, 1061 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16402,6 +16402,27 @@ interface GoogleTranslateLanguage {
   sourceSupported: boolean;
   targetSupported: boolean;
 }
+interface LookupWordArgs {
+  word: string;
+  to: string;
+  from: string;
+  hl?: string;
+}
+interface GoogleTranslateWordCandidate {
+  word: string;
+  reverseTranslations: string[];
+  score: number;
+}
+interface GoogleTranslateWordSense {
+  partOfSpeech: string;
+  candidates: GoogleTranslateWordCandidate[];
+}
+interface GoogleTranslateWordLookup {
+  word: string;
+  targetLanguage: string;
+  sourceLanguage: string;
+  senses: GoogleTranslateWordSense[];
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -16437,6 +16458,18 @@ interface GoogleTranslateLanguage {
      * ("Detect language") and `tl` alone carries `"zh-TW"`, measured 2026-09-15.
      */
     listLanguages(args?: ListLanguagesArgs): Promise<GoogleTranslateLanguage[]>;
+
+    /**
+     * The full "translations of <word>" dictionary panel: every part of speech Google has for
+     * `args.word`, the candidate translations under each (ordered by Google's own frequency
+     * `score`), and for each candidate the words it itself translates back to — the difference
+     * between "run means correr" and knowing `ejecutar` is the software sense and `huir` is the
+     * fleeing sense. `args.from` is required, unlike `translate` — there is no "detect it" reading
+     * of a dictionary lookup. `senses` comes back empty when Google has no per-sense breakdown for
+     * the term (a longer phrase, or a string its dictionary does not recognize); the plain
+     * `translate` function still works on those.
+     */
+    lookupWord(args: LookupWordArgs): Promise<GoogleTranslateWordLookup>;
   }
 }
 
