@@ -51,7 +51,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listBestSellerCategories` | www.amazon.com | List the departments Amazon publishes rankings for — Electronics, Kitchen & Dining… | 🟢 |
 | `amazon.listBestSellers` | www.amazon.com | Amazon's hourly-updated top 100 in a department — what is actually selling right now… | 🟢 |
 | `amazon.listCategoryProducts` | www.amazon.com | Browse a whole department with no keyword at all — "what is in Home & Kitchen… | ⚪ |
-| `amazon.listDeals` | www.amazon.com | Today's Deals — what is discounted right now, with the deal price, the price it was… | ⚪ |
+| `amazon.listDeals` | www.amazon.com | Today's Deals — what is discounted right now, with the deal price, the price it was… | 🟢 |
 | `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | 🟢 |
 | `amazon.listMoversAndShakers` | www.amazon.com | The biggest sales-rank gainers in a department over the past 24 hours — what is… | ⚪ |
 | `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | 🟢 |
@@ -755,7 +755,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | ⚪ |
 | `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | 🟢 |
 | `google_translate.getAlternativeTranslations` | translate.google.com | The other ways Google would have translated the same thing — the list that appears… | ⚪ |
-| `google_translate.getDefinitions` | translate.google.com | What a word MEANS, in its own language — the dictionary Google Translate shows… | ⚪ |
+| `google_translate.getDefinitions` | translate.google.com | What a word MEANS, in its own language — every sense grouped by part of speech, each… | 🟢 |
 | `google_translate.getSynonyms` | translate.google.com | Other words that mean the same thing, grouped by sense rather than thrown into one… | ⚪ |
 | `google_translate.listHistory` | translate.google.com | What the signed-in person has translated recently, newest first — Google Translate's… | ⚪ |
 | `google_translate.listLanguages` | translate.google.com | Every language this site supports — the table that turns a caller's "Portuguese" into… | 🟢 |
@@ -1230,7 +1230,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.listNewReleases` | www.primevideo.com | What has just arrived on Prime Video and what is coming — the read behind "anything… | 🟢 |
 | `prime_video.listPurchases` | www.primevideo.com | The films and series the caller has already rented or bought — their video library… | ⚪ |
 | `prime_video.listSeasons` | www.primevideo.com | List every season of a series with the titleId that opens each one, its number, its… | 🟢 |
-| `prime_video.listTop10` | www.primevideo.com | Prime Video's own top ten right now — the most-watched TV shows in the US, the top… | ⚪ |
+| `prime_video.listTop10` | www.primevideo.com | Prime Video's own top ten right now — the most-watched TV shows in the US, the top… | 🟢 |
 | `prime_video.searchTitles` | www.primevideo.com | Search Prime Video's whole catalogue for what a person would type — "matrix", "the… | 🟢 |
 | `prime_video.suggestTitles` | www.primevideo.com | Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy"… | 🟢 |
 | `prime_video.toggleWatchlist` | www.primevideo.com | Add a title to the caller's watchlist, or take one off it — the one write a person… | ⚪ |
