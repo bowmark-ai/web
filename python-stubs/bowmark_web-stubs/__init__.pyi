@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f44507473f3a99414e108c0703127836d1bc62d307594034764a56505a4362cc
-# 49 capabilities, 416 providers, 1074 typed functions, 20 refused.
+# Manifest version: d6caf07a1c816637fb1ca6bb1c5e3b3ea886552d237780eea38e88e544f13872
+# 49 capabilities, 416 providers, 1075 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2942,6 +2942,16 @@ class Prv_apple_AppleStoreHours_Out(TypedDict):
     days: list[str]
     opens: str
     closes: str
+
+class Prv_apple_AppleNewsroomPostList_Out(TypedDict):
+    posts: list[Prv_apple_AppleNewsroomPost_Out]
+
+class Prv_apple_AppleNewsroomPost_Out(TypedDict):
+    title: str
+    category: str
+    date: str
+    url: str
+    summary: str
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -20349,6 +20359,13 @@ class Prv_apple(Protocol):
         """Read one Apple Store: its full address, phone number, map coordinates, store number and
         the hours it is open each day of the week — everything a person needs before driving
         there. Takes a URL or /retail/ path, e.g. one of listStores()'s own rows.
+        """
+
+    async def listNewsroomPosts(self, /) -> Prv_apple_AppleNewsroomPostList_Out:
+        """Apple's official announcements, newest first, off its own published RSS feed — every
+        product launch, financial result and press release, with its headline, category, publish
+        date and link. The primary source for "what did Apple just announce", with no publisher
+        in between.
         """
 
 class Prv_aquaphoenixsci(Protocol):

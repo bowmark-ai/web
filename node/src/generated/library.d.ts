@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f44507473f3a99414e108c0703127836d1bc62d307594034764a56505a4362cc
-// 49 capabilities, 416 providers, 1092 typed functions, 20 refused.
+// Manifest version: d6caf07a1c816637fb1ca6bb1c5e3b3ea886552d237780eea38e88e544f13872
+// 49 capabilities, 416 providers, 1093 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5130,6 +5130,16 @@ interface AppleStore {
   longitude: number | null;
   hours: AppleStoreHours[];
 }
+interface AppleNewsroomPost {
+  title: string;
+  category: string;
+  date: string;
+  url: string;
+  summary: string;
+}
+interface AppleNewsroomPostList {
+  posts: AppleNewsroomPost[];
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -5276,6 +5286,13 @@ interface AppleStore {
      * Takes a URL or /retail/ path, e.g. one of listStores()'s own rows.
      */
     getStore(urlOrPath: string): Promise<AppleStore>;
+
+    /**
+     * Apple's official announcements, newest first, off its own published RSS feed — every product
+     * launch, financial result and press release, with its headline, category, publish date and
+     * link. The primary source for "what did Apple just announce", with no publisher in between.
+     */
+    listNewsroomPosts(): Promise<AppleNewsroomPostList>;
   }
 }
 

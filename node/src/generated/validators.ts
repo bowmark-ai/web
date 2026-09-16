@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f44507473f3a99414e108c0703127836d1bc62d307594034764a56505a4362cc
-// 1074 checked, 20 unchecked.
+// Manifest version: d6caf07a1c816637fb1ca6bb1c5e3b3ea886552d237780eea38e88e544f13872
+// 1075 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f44507473f3a99414e108c0703127836d1bc62d307594034764a56505a4362cc",
+  "version": "d6caf07a1c816637fb1ca6bb1c5e3b3ea886552d237780eea38e88e544f13872",
   "units": {
     "booking_links": {
       "defs": {
@@ -5306,7 +5306,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listNewsroomPosts": []
       }
     },
     "providers.aquaphoenixsci": {
