@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 21536f58777f26b459e8aa91acf62a76aa5408d5dae92f691971ab3fd89775ad
-// 49 capabilities, 415 providers, 1057 typed functions, 20 refused.
+// Manifest version: 7977c26a9b1ab6ae6acb527595fcd7cad709bb75dbb962bce9f297401850fd04
+// 49 capabilities, 415 providers, 1060 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4648,6 +4648,16 @@ interface AppStoreAppDetails {
   links: AppStoreLink[];
   featuredIn: AppStoreFeaturedStory[];
 }
+interface ListDeveloperAppsArgs {
+  developer?: string | number;
+  app?: string | number;
+  country?: string;
+  limit?: number;
+}
+interface ListDeveloperAppsResult {
+  developer: { id: string; name: string };
+  apps: AppStoreApp[];
+}
 interface ListSimilarAppsArgs {
   app: string | number;
 }
@@ -4714,6 +4724,14 @@ interface AppStoreSimilarAppsResult {
      * calling both for one app costs one fetch.
      */
     listSimilarApps(args: ListSimilarAppsArgs): Promise<AppStoreSimilarAppsResult>;
+
+    /**
+     * List every app one developer has on the store — from the developer's numeric artist id,
+     * their apps.apple.com developer URL, or just one of their apps (resolved to its developer
+     * first). The read behind "what else did the people who made this write" and behind checking
+     * whether an app is from who it claims to be.
+     */
+    listDeveloperApps(args: ListDeveloperAppsArgs): Promise<ListDeveloperAppsResult>;
   }
 }
 
@@ -4826,6 +4844,24 @@ interface AppleStoreListing {
 interface AppleStoreList {
   stores: AppleStoreListing[];
 }
+interface AppleStoreHours {
+  days: string[];
+  opens: string;
+  closes: string;
+}
+interface AppleStore {
+  storeNumber: string;
+  name: string;
+  url: string;
+  phoneNumber: string;
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  latitude: number | null;
+  longitude: number | null;
+  hours: AppleStoreHours[];
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -4909,6 +4945,13 @@ interface AppleStoreList {
      * rows carry, so a listing here joins straight to either.
      */
     listStores(): Promise<AppleStoreList>;
+
+    /**
+     * Read one Apple Store: its full address, phone number, map coordinates, store number and the
+     * hours it is open each day of the week — everything a person needs before driving there.
+     * Takes a URL or /retail/ path, e.g. one of listStores()'s own rows.
+     */
+    getStore(urlOrPath: string): Promise<AppleStore>;
   }
 }
 
@@ -26589,6 +26632,19 @@ interface PrimeVideoCategoryRow {
      * so there is no sibling function for that half of the question.
      */
     listNewReleases(): Promise<PrimeVideoCategoryRow[]>;
+
+    /**
+     * What you can watch on Prime Video without paying anything at all — the free-with-ads
+     * catalogue, a different answer from "included with Prime" and the honest one for a caller
+     * with no Amazon subscription. No arguments — `GET /collection/streamfree`, filtered
+     * card-by-card to the site's own `freewithads` entitlement marker rather than trusted by row
+     * heading: a "Free popular TV" row on that page mixes titles a visitor with no subscription
+     * can watch with titles that need Prime, and both carry the identical "Watch for free" message
+     * and "Entitled" verdict, so the row heading alone cannot tell them apart (measured
+     * 2026-09-16: 8 of 20 cards on that row are Prime-included, not free-with-ads). A row whose
+     * cards are all Prime-included, not free-with-ads, is dropped rather than returned empty.
+     */
+    listFreeToWatch(): Promise<PrimeVideoCategoryRow[]>;
   }
 }
 

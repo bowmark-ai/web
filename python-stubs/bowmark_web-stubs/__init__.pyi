@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 21536f58777f26b459e8aa91acf62a76aa5408d5dae92f691971ab3fd89775ad
-# 49 capabilities, 415 providers, 1039 typed functions, 20 refused.
+# Manifest version: 7977c26a9b1ab6ae6acb527595fcd7cad709bb75dbb962bce9f297401850fd04
+# 49 capabilities, 415 providers, 1042 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2600,6 +2600,20 @@ class Prv_app_store_AppStoreSimilarApp_Out_rating_u0_Out(TypedDict):
     average: float
     countLabel: str
 
+class Prv_app_store_ListDeveloperAppsArgs_In(TypedDict):
+    developer: NotRequired[str | float]
+    app: NotRequired[str | float]
+    country: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_app_store_ListDeveloperAppsResult_Out(TypedDict):
+    developer: Prv_app_store_ListDeveloperAppsResult_Out_developer_Out
+    apps: list[Prv_app_store_AppStoreApp_Out]
+
+class Prv_app_store_ListDeveloperAppsResult_Out_developer_Out(TypedDict):
+    id: str
+    name: str
+
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
     results: list[Prv_apple_AppleSearchResult_Out]
@@ -2710,6 +2724,24 @@ class Prv_apple_AppleStoreListing_Out(TypedDict):
     storeNumber: str
     name: str
     url: str
+
+class Prv_apple_AppleStore_Out(TypedDict):
+    storeNumber: str
+    name: str
+    url: str
+    phoneNumber: str
+    address: str
+    city: str
+    state: str
+    postalCode: str
+    latitude: float | None
+    longitude: float | None
+    hours: list[Prv_apple_AppleStoreHours_Out]
+
+class Prv_apple_AppleStoreHours_Out(TypedDict):
+    days: list[str]
+    opens: str
+    closes: str
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -19633,6 +19665,13 @@ class Prv_app_store(Protocol):
         getAppDetails' page cache, so calling both for one app costs one fetch.
         """
 
+    async def listDeveloperApps(self, args: Prv_app_store_ListDeveloperAppsArgs_In, /) -> Prv_app_store_ListDeveloperAppsResult_Out:
+        """List every app one developer has on the store — from the developer's numeric artist id,
+        their apps.apple.com developer URL, or just one of their apps (resolved to its developer
+        first). The read behind "what else did the people who made this write" and behind
+        checking whether an app is from who it claims to be.
+        """
+
 class Prv_apple(Protocol):
     """apple.com's own site search and product pages — no API, no login, no browser."""
 
@@ -19706,6 +19745,12 @@ class Prv_apple(Protocol):
         apple.com's own store-locator directory, so a caller can browse or filter them rather
         than guess a slug. The store number is the SAME id findStoresNear and
         getPickupAvailability's rows carry, so a listing here joins straight to either.
+        """
+
+    async def getStore(self, urlOrPath: str, /) -> Prv_apple_AppleStore_Out:
+        """Read one Apple Store: its full address, phone number, map coordinates, store number and
+        the hours it is open each day of the week — everything a person needs before driving
+        there. Takes a URL or /retail/ path, e.g. one of listStores()'s own rows.
         """
 
 class Prv_aquaphoenixsci(Protocol):
@@ -27720,6 +27765,19 @@ class Prv_prime_video(Protocol):
         "leaving soon" surface — none of "leaving", "expires", "available until" or "last
         chance" appear anywhere the survey read — so there is no sibling function for that half
         of the question.
+        """
+
+    async def listFreeToWatch(self, /) -> list[Prv_prime_video_PrimeVideoCategoryRow_Out]:
+        """What you can watch on Prime Video without paying anything at all — the free-with-ads
+        catalogue, a different answer from "included with Prime" and the honest one for a caller
+        with no Amazon subscription. No arguments — `GET /collection/streamfree`, filtered
+        card-by-card to the site's own `freewithads` entitlement marker rather than trusted by
+        row heading: a "Free popular TV" row on that page mixes titles a visitor with no
+        subscription can watch with titles that need Prime, and both carry the identical "Watch
+        for free" message and "Entitled" verdict, so the row heading alone cannot tell them
+        apart (measured 2026-09-16: 8 of 20 cards on that row are Prime-included, not
+        free-with-ads). A row whose cards are all Prime-included, not free-with-ads, is dropped
+        rather than returned empty.
         """
 
 class Prv_progressive(Protocol):

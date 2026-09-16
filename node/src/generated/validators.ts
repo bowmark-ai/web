@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 21536f58777f26b459e8aa91acf62a76aa5408d5dae92f691971ab3fd89775ad
-// 1039 checked, 20 unchecked.
+// Manifest version: 7977c26a9b1ab6ae6acb527595fcd7cad709bb75dbb962bce9f297401850fd04
+// 1042 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "21536f58777f26b459e8aa91acf62a76aa5408d5dae92f691971ab3fd89775ad",
+  "version": "7977c26a9b1ab6ae6acb527595fcd7cad709bb75dbb962bce9f297401850fd04",
   "units": {
     "booking_links": {
       "defs": {
@@ -4685,6 +4685,55 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListDeveloperAppsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "developer",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "app",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSimilarAppsArgs": {
           "k": "object",
           "props": [
@@ -4805,6 +4854,16 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listDeveloperApps": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListDeveloperAppsArgs"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -4906,7 +4965,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listStores": []
+        "listStores": [],
+        "getStore": [
+          {
+            "name": "urlOrPath",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.aquaphoenixsci": {
@@ -22510,7 +22578,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listNewReleases": []
+        "listNewReleases": [],
+        "listFreeToWatch": []
       }
     },
     "providers.progressive": {
