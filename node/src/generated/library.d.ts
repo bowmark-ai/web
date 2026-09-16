@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e10fec95e8dcad44955511633c6b0158bb5d548f6f839c155bb20f0453045b65
-// 49 capabilities, 415 providers, 1055 typed functions, 20 refused.
+// Manifest version: 572660d2f04a33df23e789ff3d52497c243fc38338f46d4948cfd3538c01f8f1
+// 49 capabilities, 415 providers, 1056 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26566,6 +26566,19 @@ interface PrimeVideoCategoryRow {
      * like searchTitles() — these pages carry no pagination markers either.
      */
     listCategoryTitles(path: string): Promise<PrimeVideoCategoryRow[]>;
+
+    /**
+     * What has just arrived on Prime Video and what is coming — the read behind "anything new
+     * worth watching", which a genre browse can never answer because a genre ranks by popularity
+     * and this ranks by recency. Same row shape as listCategoryTitles(): a heading ("Premium New
+     * Releases", "Recently added to Prime – Movies") and every title under it. No arguments — this
+     * is a named call over listCategoryTitles' own parser, pointed at the site's own newness
+     * surfaces (`/collection/newandupcoming` plus `/tv`'s "Explore: Latest TV" row) rather than a
+     * caller-supplied path. Prime Video publishes no logged-out "leaving soon" surface — none of
+     * "leaving", "expires", "available until" or "last chance" appear anywhere the survey read —
+     * so there is no sibling function for that half of the question.
+     */
+    listNewReleases(): Promise<PrimeVideoCategoryRow[]>;
   }
 }
 
