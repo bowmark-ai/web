@@ -1,5 +1,5 @@
 {
-  "version": "f79bd34c5c7bf0629ef492c52dc03f3cad76d404938da3b3172aa67214b9b882",
+  "version": "8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9",
   "units": {
     "booking_links": {
       "defs": {
@@ -15219,6 +15219,39 @@
             }
           ]
         },
+        "TranslateDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "fileBase64",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "mimeType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TranslateWebPageArgs": {
           "k": "object",
           "props": [
@@ -15353,6 +15386,16 @@
             "schema": {
               "k": "ref",
               "name": "TranslateWebPageArgs"
+            },
+            "optional": false
+          }
+        ],
+        "translateDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TranslateDocumentArgs"
             },
             "optional": false
           }

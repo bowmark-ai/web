@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f79bd34c5c7bf0629ef492c52dc03f3cad76d404938da3b3172aa67214b9b882
-# 49 capabilities, 416 providers, 1076 typed functions, 20 refused.
+# Manifest version: 8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9
+# 49 capabilities, 416 providers, 1077 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9242,6 +9242,20 @@ class Prv_google_translate_GoogleTranslateWebPage_Out(TypedDict):
 class Prv_google_translate_GoogleTranslateWebPageSegment_Out(TypedDict):
     original: str
     translated: str
+
+Prv_google_translate_TranslateDocumentArgs_In = TypedDict(
+    "Prv_google_translate_TranslateDocumentArgs_In",
+    {
+    "fileBase64": str,
+    "mimeType": str,
+    "to": str,
+    "from": NotRequired[str],
+    },
+)
+
+class Prv_google_translate_GoogleTranslateDocumentResult_Out(TypedDict):
+    translatedBase64: str
+    mimeType: str
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -24816,6 +24830,16 @@ class Prv_google_translate(Protocol):
         translated text browserless, which is why this fetches the caller's url directly
         instead. `args.from` is optional and, left out, the source is detected off the page's
         title. `segments` preserves the page's own reading order.
+        """
+
+    async def translateDocument(self, args: Prv_google_translate_TranslateDocumentArgs_In, /) -> Prv_google_translate_GoogleTranslateDocumentResult_Out:
+        """Translate a whole PDF, Word or PowerPoint file — the Documents tab. Takes `fileBase64`
+        (the document, base64-encoded), `mimeType`, `to`, and optional `from` (left out,
+        auto-detects), and returns `translatedBase64` + `mimeType` for the SAME document
+        translated. Built on a real browser (rung 15): the RPC answers 200 to a bare browserless
+        replay too, but silently returns the document UNTRANSLATED without a BotGuard token
+        (`x-goog-batchexecute-bgr`) only a real browser produces — measured 2026-09-16, two
+        earlier browserless-adjacent attempts read that 200 as success.
         """
 
 class Prv_gostoreit(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f79bd34c5c7bf0629ef492c52dc03f3cad76d404938da3b3172aa67214b9b882
-// 49 capabilities, 416 providers, 1094 typed functions, 20 refused.
+// Manifest version: 8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9
+// 49 capabilities, 416 providers, 1095 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16918,6 +16918,16 @@ interface GoogleTranslateWebPage {
   detected: boolean;
   segments: GoogleTranslateWebPageSegment[];
 }
+interface TranslateDocumentArgs {
+  fileBase64: string;
+  mimeType: string;
+  to: string;
+  from?: string;
+}
+interface GoogleTranslateDocumentResult {
+  translatedBase64: string;
+  mimeType: string;
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -17038,6 +17048,17 @@ interface GoogleTranslateWebPage {
      * reading order.
      */
     translateWebPage(args: TranslateWebPageArgs): Promise<GoogleTranslateWebPage>;
+
+    /**
+     * Translate a whole PDF, Word or PowerPoint file — the Documents tab. Takes `fileBase64` (the
+     * document, base64-encoded), `mimeType`, `to`, and optional `from` (left out, auto-detects),
+     * and returns `translatedBase64` + `mimeType` for the SAME document translated. Built on a
+     * real browser (rung 15): the RPC answers 200 to a bare browserless replay too, but silently
+     * returns the document UNTRANSLATED without a BotGuard token (`x-goog-batchexecute-bgr`) only
+     * a real browser produces — measured 2026-09-16, two earlier browserless-adjacent attempts
+     * read that 200 as success.
+     */
+    translateDocument(args: TranslateDocumentArgs): Promise<GoogleTranslateDocumentResult>;
   }
 }
 

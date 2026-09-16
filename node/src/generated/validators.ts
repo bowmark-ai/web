@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f79bd34c5c7bf0629ef492c52dc03f3cad76d404938da3b3172aa67214b9b882
-// 1076 checked, 20 unchecked.
+// Manifest version: 8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9
+// 1077 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f79bd34c5c7bf0629ef492c52dc03f3cad76d404938da3b3172aa67214b9b882",
+  "version": "8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9",
   "units": {
     "booking_links": {
       "defs": {
@@ -15231,6 +15231,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "TranslateDocumentArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "fileBase64",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "mimeType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TranslateWebPageArgs": {
           "k": "object",
           "props": [
@@ -15365,6 +15398,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "TranslateWebPageArgs"
+            },
+            "optional": false
+          }
+        ],
+        "translateDocument": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TranslateDocumentArgs"
             },
             "optional": false
           }
