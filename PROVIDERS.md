@@ -54,7 +54,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listDeals` | www.amazon.com | Today's Deals — what is discounted right now, with the deal price, the price it was… | ⚪ |
 | `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | ⚪ |
 | `amazon.listMoversAndShakers` | www.amazon.com | The biggest sales-rank gainers in a department over the past 24 hours — what is… | ⚪ |
-| `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | ⚪ |
+| `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | 🟢 |
 | `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | ⚪ |
 | `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | ⚪ |
 | `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together" and… | 🟢 |
@@ -115,7 +115,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.listNewsroomPosts` | apple.com | Apple's official announcements, newest first — every product launch, financial result… | ⚪ |
 | `apple.listOrders` | apple.com | Everything I have bought from Apple, with dates and prices. | ⚪ |
 | `apple.listRefurbished` | apple.com | Apple's own certified refurbished store, read as data: every refurbished Mac, iPad… | ⚪ |
-| `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | ⚪ |
+| `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | 🟢 |
 | `apple.listTodaySessions` | apple.com | The free hands-on sessions a given Apple Store is running this week, with what each… | ⚪ |
 | `apple.listTradeInValues` | apple.com | The whole Apple Trade In price list in one call, for a device category — every phone… | ⚪ |
 | `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | 🟢 |
