@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 52b68ebd06f2cca3ac97c8a45f0daab64d95c97484747f9e81d90aacb167b1f4
-// 1069 checked, 20 unchecked.
+// Manifest version: f09d3b25ae6674858c88a158fbdd56add9e5c44d190970cd424c4bfd7d3d400b
+// 1071 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "52b68ebd06f2cca3ac97c8a45f0daab64d95c97484747f9e81d90aacb167b1f4",
+  "version": "f09d3b25ae6674858c88a158fbdd56add9e5c44d190970cd424c4bfd7d3d400b",
   "units": {
     "booking_links": {
       "defs": {
@@ -4226,6 +4226,15 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetDeliveryEstimateArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSellerOffers": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -23274,6 +23283,32 @@ export const VALIDATORS: ValidatorTable = {
                   "v": "news"
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getLiveSchedule": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "livetv"
+                },
+                {
+                  "k": "literal",
+                  "v": "news"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "stationId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

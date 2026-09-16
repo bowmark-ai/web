@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 52b68ebd06f2cca3ac97c8a45f0daab64d95c97484747f9e81d90aacb167b1f4
-// 49 capabilities, 416 providers, 1087 typed functions, 20 refused.
+// Manifest version: f09d3b25ae6674858c88a158fbdd56add9e5c44d190970cd424c4bfd7d3d400b
+// 49 capabilities, 416 providers, 1089 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4030,6 +4030,22 @@ interface AmazonDeliveryEstimate {
   priceLabel: string | null;
   condition: string | null;  // the site's own labels — read the values off a result, never guess one from prose
 }
+interface AmazonSellerOffer {
+  condition: string; // e.g. "New", "Used - Good", "Used - Acceptable" — read the values off a result, never guess one from prose
+  price: number | null;
+  shippingCost: number | null; // derived from shippingLabel ("FREE" -> 0)
+  shippingLabel: string | null; // the site's own delivery-price label, e.g. "FREE" or "$3.99"
+  deliveryEstimate: string | null; // e.g. "September 24 - 29"
+  sellerName: string; // "Amazon.com" when Amazon itself is the seller
+  sellerId: string | null; // null when sold by Amazon.com itself — getSeller's argument otherwise
+  sellerRating: number | null; // 0-5
+  sellerRatingCount: number | null;
+}
+interface AmazonSellerOffersResult {
+  asin: string;
+  totalOfferCount: number | null; // Amazon's own count, including offers this page did not render
+  offers: AmazonSellerOffer[]; // page one only, up to 10 — see the note on listSellerOffers
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
@@ -4038,8 +4054,8 @@ interface AmazonDeliveryEstimate {
    * movers and shakers, most wished for), today's deals and a marketplace seller's feedback.
    * searchProducts, suggestKeywords, listBestSellerCategories, getProduct, listVariations,
    * listReviews, listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor,
-   * listDeals, getSeller and getDeliveryEstimate are built; everything else is still a declared
-   * stub.
+   * listDeals, getSeller, getDeliveryEstimate and listSellerOffers are built; everything else is
+   * still a declared stub.
    */
   interface Unit {
     /**
@@ -4158,6 +4174,17 @@ interface AmazonDeliveryEstimate {
      * three fields are Amazon's DEFAULT location rather than the caller's ZIP, on an invalid ZIP.
      */
     getDeliveryEstimate(args: GetDeliveryEstimateArgs): Promise<AmazonDeliveryEstimate>;
+
+    /**
+     * Every seller offering the same listing side by side — condition (new, used, its grade),
+     * price, shipping cost and estimate, and the seller's own name, id and star rating — read off
+     * the site's "All Offers Display" modal rather than the buy-box winner alone. What tells an
+     * agent who has it cheapest, and whether the cheap one is Amazon itself or a thirty-rating
+     * marketplace seller. Page one only (up to 10 offers, `totalOfferCount` reports the site's own
+     * full count) — no paging control was found in the modal's static markup this pass. Empty
+     * `offers` on a listing with no other sellers is a real answer, not a parse failure.
+     */
+    listSellerOffers(asinOrUrl: string): Promise<AmazonSellerOffersResult>;
   }
 }
 
@@ -27238,6 +27265,18 @@ interface PrimeVideoLiveStation {
      * headed row — an unheaded container is dropped whole.
      */
     listLiveChannels(section: "livetv" | "news"): Promise<PrimeVideoLiveStation[]>;
+
+    /**
+     * Read one live TV or news station's FULL schedule — every program the page carries for it, in
+     * order, never filtered to what is on now (that single entry is `listLiveChannels()`'s own
+     * `nowPlaying`). `start` and `end` are EPOCH MILLISECONDS, never the page's
+     * `localizedTimeRange` ("9 - 9:30 AM EDT"), which is rendered for Amazon's assumed timezone
+     * and useless to a caller in another one. Takes the SAME `section` `listLiveChannels(section)`
+     * was called with and a `stationId` read off one of its rows — `/livetv` and `/news` carry
+     * different stations, so a `livetv` id will not resolve on `/news`. Refuses (caller-fixable)
+     * when the page carries no station with that id.
+     */
+    getLiveSchedule(section: "livetv" | "news", stationId: string): Promise<PrimeVideoLiveProgram[]>;
   }
 }
 

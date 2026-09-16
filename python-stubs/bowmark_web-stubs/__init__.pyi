@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 52b68ebd06f2cca3ac97c8a45f0daab64d95c97484747f9e81d90aacb167b1f4
-# 49 capabilities, 416 providers, 1069 typed functions, 20 refused.
+# Manifest version: f09d3b25ae6674858c88a158fbdd56add9e5c44d190970cd424c4bfd7d3d400b
+# 49 capabilities, 416 providers, 1071 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2288,6 +2288,22 @@ class Prv_amazon_AmazonDeliveryEstimate_Out(TypedDict):
     deliveryDate: str | None
     priceLabel: str | None
     condition: str | None
+
+class Prv_amazon_AmazonSellerOffersResult_Out(TypedDict):
+    asin: str
+    totalOfferCount: float | None
+    offers: list[Prv_amazon_AmazonSellerOffer_Out]
+
+class Prv_amazon_AmazonSellerOffer_Out(TypedDict):
+    condition: str
+    price: float | None
+    shippingCost: float | None
+    shippingLabel: str | None
+    deliveryEstimate: str | None
+    sellerName: str
+    sellerId: str | None
+    sellerRating: float | None
+    sellerRatingCount: float | None
 
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
@@ -19784,8 +19800,9 @@ class Prv_amazon(Protocol):
     sellers, new releases, movers and shakers, most wished for), today's deals and a
     marketplace seller's feedback. searchProducts, suggestKeywords,
     listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts,
-    listBestSellers, listNewReleases, listMostWishedFor, listDeals, getSeller and
-    getDeliveryEstimate are built; everything else is still a declared stub.
+    listBestSellers, listNewReleases, listMostWishedFor, listDeals, getSeller,
+    getDeliveryEstimate and listSellerOffers are built; everything else is still a declared
+    stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -19892,6 +19909,17 @@ class Prv_amazon(Protocol):
         own delivery sentence, the price label and the condition it attaches. `zipResolved` is
         false, and the three fields are Amazon's DEFAULT location rather than the caller's ZIP,
         on an invalid ZIP.
+        """
+
+    async def listSellerOffers(self, asinOrUrl: str, /) -> Prv_amazon_AmazonSellerOffersResult_Out:
+        """Every seller offering the same listing side by side — condition (new, used, its grade),
+        price, shipping cost and estimate, and the seller's own name, id and star rating — read
+        off the site's "All Offers Display" modal rather than the buy-box winner alone. What
+        tells an agent who has it cheapest, and whether the cheap one is Amazon itself or a
+        thirty-rating marketplace seller. Page one only (up to 10 offers, `totalOfferCount`
+        reports the site's own full count) — no paging control was found in the modal's static
+        markup this pass. Empty `offers` on a listing with no other sellers is a real answer,
+        not a parse failure.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -28457,6 +28485,18 @@ class Prv_prime_video(Protocol):
         entry covers this instant. A station whose card appears on more than one row on the same
         page (an unheaded hero container duplicating a station a headed row below it already
         carries) is returned once, off the headed row — an unheaded container is dropped whole.
+        """
+
+    async def getLiveSchedule(self, section: Literal["livetv"] | Literal["news"], stationId: str, /) -> list[Prv_prime_video_PrimeVideoLiveProgram_Out]:
+        """Read one live TV or news station's FULL schedule — every program the page carries for
+        it, in order, never filtered to what is on now (that single entry is
+        `listLiveChannels()`'s own `nowPlaying`). `start` and `end` are EPOCH MILLISECONDS,
+        never the page's `localizedTimeRange` ("9 - 9:30 AM EDT"), which is rendered for
+        Amazon's assumed timezone and useless to a caller in another one. Takes the SAME
+        `section` `listLiveChannels(section)` was called with and a `stationId` read off one of
+        its rows — `/livetv` and `/news` carry different stations, so a `livetv` id will not
+        resolve on `/news`. Refuses (caller-fixable) when the page carries no station with that
+        id.
         """
 
 class Prv_progressive(Protocol):
