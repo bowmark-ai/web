@@ -90,7 +90,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listDeveloperApps` | apps.apple.com | List every app one developer has on the store — from the developer's numeric id, their… | ⚪ |
 | `app_store.listPurchasedApps` | apps.apple.com | List the apps this Apple Account has bought or downloaded, with what was paid and when… | ⚪ |
 | `app_store.listReviews` | apps.apple.com | Read what people actually wrote about an app — the review body, its title, the star… | ⚪ |
-| `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | ⚪ |
+| `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | 🟢 |
 | `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions this Apple Account is paying for, what each one… | ⚪ |
 | `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | ⚪ |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
