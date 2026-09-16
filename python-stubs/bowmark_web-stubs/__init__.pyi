@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f09d3b25ae6674858c88a158fbdd56add9e5c44d190970cd424c4bfd7d3d400b
-# 49 capabilities, 416 providers, 1071 typed functions, 20 refused.
+# Manifest version: d7a4e150ac8b92a335cf1f8c899427d12236d7556bd04d8e873ba0729e5a347b
+# 49 capabilities, 416 providers, 1072 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2858,6 +2858,13 @@ class Prv_apple_AppleSupportResult_Out(TypedDict):
     title: str
     url: str
     snippet: str
+
+class Prv_apple_AppleSupportArticle_Out(TypedDict):
+    docid: str
+    title: str
+    description: str
+    url: str
+    body: str
 
 class Prv_apple_AppleResolvedLocation_Out(TypedDict):
     place: str
@@ -20261,6 +20268,12 @@ class Prv_apple(Protocol):
         of this provider before getSupportArticle reads one page in full.
         """
 
+    async def getSupportArticle(self, docidOrUrl: str, /) -> Prv_apple_AppleSupportArticle_Out:
+        """Reads one Apple support article end to end — the real instructions under its headline,
+        not a search snippet — from the docid or URL one of searchSupport()'s own rows carries.
+        The read an agent reaches for once searchSupport has narrowed the problem to one page.
+        """
+
     async def resolveLocation(self, place: str, /) -> Prv_apple_AppleResolvedLocation_Out:
         """Turns the place a person said — "cupertino", "san francisco" — into the exact "<city>,
         <state>" string apple.com's own store and delivery lookups accept, off apple.com's own
@@ -24612,7 +24625,7 @@ class Prv_google_news(Protocol):
         page is read; omitted, the US English one.
         """
 
-    async def getFullCoverage(self, storyId: str, /) -> Prv_google_news_GoogleNewsFullCoverage_Out:
+    async def getFullCoverage(self, storyId: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsFullCoverage_Out:
         """Every outlet reporting one story — Google News' own Full Coverage, chained off a
         `storyId` from `listStories`. Reads the story page's own `AF_initDataCallback({key:
         'ds:0'…})` state: a mix of named groups ("Top news", "Personal perspective", an
@@ -24620,7 +24633,14 @@ class Prv_google_news(Protocol):
         ungrouped rows, folded into one flat list. Unlike every other function here, each
         article's `url` is the PUBLISHER's own page directly — no `news.google.com` redirector,
         so no `resolveArticleUrl` hop is needed. A story id is as short-lived as a headline;
-        hold one only as long as the `listStories` call that produced it.
+        hold one only as long as the `listStories` call that produced it — a stale id throws,
+        naming that as the likely cause, rather than answering with 0 articles. `locale` — `{
+        hl, gl, ceid }` — matters here even though every article already carries its own
+        publisher URL: the STORY PAGE ITSELF is read in whichever edition is asked for, and
+        reading it in the wrong one silently truncates or empties the coverage (measured
+        2026-09-16: the same story id answered 0 articles under the US default and 53 under `{
+        hl: "es-419", gl: "MX", ceid: "MX:es" }`). Pass the SAME locale the `listStories` call
+        that produced this id used; omitted, the US English edition.
         """
 
 class Prv_google_translate(Protocol):

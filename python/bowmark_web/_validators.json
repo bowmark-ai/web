@@ -1,5 +1,5 @@
 {
-  "version": "f09d3b25ae6674858c88a158fbdd56add9e5c44d190970cd424c4bfd7d3d400b",
+  "version": "d7a4e150ac8b92a335cf1f8c899427d12236d7556bd04d8e873ba0729e5a347b",
   "units": {
     "booking_links": {
       "defs": {
@@ -5220,6 +5220,15 @@
         "searchSupport": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getSupportArticle": [
+          {
+            "name": "docidOrUrl",
             "schema": {
               "k": "string"
             },
@@ -14950,6 +14959,14 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "locale",
+            "schema": {
+              "k": "ref",
+              "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
           }
         ]
       }

@@ -108,7 +108,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.getProductByPartNumber` | apple.com | Turn an Apple part number — the MYAP3LL/A-shaped code printed on every buy page, in… | 🟢 |
 | `apple.getPurchaseOptions` | apple.com | Read the ways Apple will let you pay for one product — buy it outright, monthly… | ⚪ |
 | `apple.getStore` | apple.com | Read one Apple Store: its full address, phone number, map coordinates, store number… | 🟢 |
-| `apple.getSupportArticle` | apple.com | Read one Apple support article end to end — the actual instructions, not a search… | ⚪ |
+| `apple.getSupportArticle` | apple.com | Read one Apple support article end to end — the actual instructions, not a search… | 🟢 |
 | `apple.getTradeInEstimate` | apple.com | Reads apple.com's own trade-in value table and returns the ceiling ("up to $X")… | 🟢 |
 | `apple.listAccessories` | apple.com | Everything Apple sells that is not a device — cases, chargers, bands, keyboards… | ⚪ |
 | `apple.listFamilyModels` | apple.com | List every model Apple currently sells in one product family — every Mac, every… | 🟢 |
@@ -768,7 +768,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.translate` | translate.google.com | Turn text into another language — the whole point of the site, and the provider's main… | 🟢 |
 | `google_translate.translateDocument` | translate.google.com | Translate a whole document — the Documents tab, which takes a PDF, Word or PowerPoint… | ⚪ |
 | `google_translate.translateImage` | translate.google.com | Read the text in a picture in another language — the Images tab, where a person points… | ⚪ |
-| `google_translate.translateWebPage` | translate.google.com | Read somebody else's web page in your own language — the Websites tab. | ⚪ |
+| `google_translate.translateWebPage` | translate.google.com | Read somebody else's web page in your own language — the Websites tab. | 🟢 |
 | `google_translate.unsavePhrase` | translate.google.com | Take a phrase back out of the signed-in person's saved phrases — the undo for… | ⚪ |
 | `google.search` | google.com | Runs a Google web search and returns the ranked results — title, destination url and… | ⚪ |
 | `gostoreit.findFacilities` | gostoreit.com | Searches Go Store It's public location results by a city, state, or ZIP and returns… | 🟢 |
