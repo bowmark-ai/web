@@ -767,7 +767,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.savePhrase` | translate.google.com | Star a translation so it joins the signed-in person's saved phrases — the one write… | ⚪ |
 | `google_translate.speak` | translate.google.com | Hear `args.text` spoken in `args.language`, as the MP3 the site's own speaker button… | 🟢 |
 | `google_translate.translate` | translate.google.com | Turn text into another language — the whole point of the site, and the provider's main… | 🟢 |
-| `google_translate.translateDocument` | translate.google.com | Translate a whole document — the Documents tab, which takes a PDF, Word or PowerPoint… | ⚪ |
+| `google_translate.translateDocument` | translate.google.com | Translate a whole document — the Documents tab, which takes a PDF, Word or PowerPoint… | 🟢 |
 | `google_translate.translateImage` | translate.google.com | Read the text in a picture in another language — the Images tab, where a person points… | ⚪ |
 | `google_translate.translateWebPage` | translate.google.com | Read somebody else's web page in your own language — the Websites tab. | 🟢 |
 | `google_translate.unsavePhrase` | translate.google.com | Take a phrase back out of the signed-in person's saved phrases — the undo for… | ⚪ |

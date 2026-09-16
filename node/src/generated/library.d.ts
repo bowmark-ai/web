@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dec12db79f9650adb3bb12a4dea05d3038e6d346ccf4d6dd1c99a243d10c212c
+// Manifest version: f79bd34c5c7bf0629ef492c52dc03f3cad76d404938da3b3172aa67214b9b882
 // 49 capabilities, 416 providers, 1094 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -571,23 +571,19 @@ type CallOptions = {
 }
 
   /**
-   * Actually RUNS a developer dashboard's signup flow and hands back a real, usable API key — no
-   * email verification, no CAPTCHA, for the dashboards this covers. Today: Alpha Vantage's free
-   * stock-data API. Call it directly; don't just describe the steps. If the caller gave no
-   * organization/email of their own, invent a placeholder — this is an instant, unverified
-   * free-tier signup, not an account tied to a real identity, so there is nothing to ask
-   * permission for. MAKE THE EMAIL UNIQUE PER CALL (see the worked example) — the dashboard
-   * dedupes by address, so a copied literal example email gets "Redundant origin" on the second
-   * and every later run.
+   * Actually RUNS a developer dashboard's signup flow and hands back a real, usable API key.
+   * Supports: Alpha Vantage (instant, no verification). Call it directly; don't just describe
+   * the steps. For Alpha Vantage with a placeholder identity: MAKE THE EMAIL UNIQUE PER CALL
+   * (see the worked example) — the dashboard dedupes by address, so a copied literal example
+   * email gets "Redundant origin" on the second and every later run.
    */
   interface Unit {
     /**
      * Signs up for a real developer API key on a dashboard. `service` selects which dashboard:
-     * "alphavantage" for stock data. Supported today: alphavantage — THROWS naming the supported
-     * list otherwise. Signs up instantly; `details.organization` and `details.email` required
-     * (MAKE EMAIL UNIQUE PER CALL, e.g. `qa-${Date.now()}@example.com`, dashboard rejects
-     * repeats). `details.occupation` optional. Returns real key plus confirmation.
-     * `options.timeoutMs` sets call budget (default 30000).
+     * "alphavantage" for stock data. For alphavantage: `details.organization` and `details.email`
+     * required (MAKE EMAIL UNIQUE PER CALL, e.g. `qa-${Date.now()}@example.com`);
+     * `details.occupation` optional. Returns real key plus confirmation. `options.timeoutMs` sets
+     * call budget (default 30000).
      */
     signUp(service: string, details: object, options?: CallOptions): Promise<DeveloperApiKeySignupResult>;
   }
