@@ -6,6 +6,61 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.22.1 (2026-09-16)
+
+**Capabilities**
+
+- New capability **stream_highlights** (1 function): `stream_highlights.create`
+
+**Providers**
+
+- New provider **apps.apple.com** (10 functions): `app_store.getApp`, `app_store.getAppDetails`, `app_store.getApps`, `app_store.getStory`, `app_store.listCategories`, `app_store.listDeveloperApps`, `app_store.listReviews`, `app_store.listSimilarApps`, and 2 more
+- New provider **translate.google.com** (11 functions): `google_translate.checkSpelling`, `google_translate.detectLanguage`, `google_translate.getAlternativeTranslations`, `google_translate.getDefinitions`, `google_translate.getSynonyms`, `google_translate.listLanguages`, `google_translate.lookupWord`, `google_translate.romanize`, and 3 more
+- New provider **www.primevideo.com** (16 functions): `prime_video.getChannel`, `prime_video.getLiveSchedule`, `prime_video.getTitle`, `prime_video.getWatchOptions`, `prime_video.listCategories`, `prime_video.listCategoryTitles`, `prime_video.listChannels`, `prime_video.listDeals`, and 8 more
+- New provider **www.speedrun.com** (3 functions): `speedrun.categories`, `speedrun.findGame`, `speedrun.platforms`
+- New provider **twitch.tv** (2 functions): `twitch.createHighlight`, `twitch.getVideo`
+- Added `amazon.getDeliveryEstimate`
+- Added `amazon.getProduct`
+- Added `amazon.getSeller`
+- Added `amazon.listBestSellerCategories`
+- Added `amazon.listBestSellers`
+- Added `amazon.listDeals`
+- Added `amazon.listMostWishedFor`
+- Added `amazon.listNewReleases`
+- Added `amazon.listRelatedProducts`
+- Added `amazon.listReviews`
+- Added `amazon.listSellerOffers`
+- Added `amazon.listVariations`
+- Added `amazon.suggestKeywords`
+- Added `apple.findStoresNear`
+- Added `apple.getConfigurationOptions`
+- Added `apple.getDeliveryEstimate`
+- Added `apple.getPickupAvailability`
+- Added `apple.getProductByPartNumber`
+- Added `apple.getStore`
+- Added `apple.getSupportArticle`
+- Added `apple.listFamilyModels`
+- Added `apple.listRefurbished`
+- Added `apple.listStores`
+- Added `apple.listTradeInValues`
+- Added `apple.resolveLocation`
+- Added `apple.searchSupport`
+- Added `apple.suggestSearches`
+- Added `google_maps.getDirections`
+- Added `google_maps.listPhotos`
+- Added `google_maps.listRelatedPlaces`
+- Added `google_maps.resolvePlaceUrl`
+- Added `google_maps.reverseGeocode`
+- Added `google_news.getFullCoverage`
+- Added `google_news.getTopicHeadlines`
+- Added `google_news.listLocalHeadlines`
+- Added `google_news.listPublisherHeadlines`
+- Added `google_news.listStories`
+- Added `google_news.listTopics`
+- Added `google_news.resolveArticleUrl`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.22.0 (2026-09-15)
 
 **Capabilities**
