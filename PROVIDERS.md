@@ -87,7 +87,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.getApps` | apps.apple.com | Read up to fifty apps in ONE request, for when an agent already holds a list of ids —… | 🟢 |
 | `app_store.getStory` | apps.apple.com | Read an App Store editorial story — the Today-tab piece Apple's editors wrote ("Master… | ⚪ |
 | `app_store.listCategories` | apps.apple.com | List every category and subcategory the App Store sorts apps into — Business… | ⚪ |
-| `app_store.listDeveloperApps` | apps.apple.com | List every app one developer has on the store — from the developer's numeric id, their… | ⚪ |
+| `app_store.listDeveloperApps` | apps.apple.com | List every app one developer has on the store — from the developer's numeric artist… | 🟢 |
 | `app_store.listPurchasedApps` | apps.apple.com | List the apps this Apple Account has bought or downloaded, with what was paid and when… | ⚪ |
 | `app_store.listReviews` | apps.apple.com | Read what people actually wrote about an app — the review body, its title, the star… | ⚪ |
 | `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | 🟢 |
@@ -107,7 +107,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.getProduct` | apple.com | Reads one apple.com product/buy page (a URL or path search already returned, e.g.… | 🟢 |
 | `apple.getProductByPartNumber` | apple.com | Turn an Apple part number — the MYAP3LL/A-shaped code printed on every buy page, in… | ⚪ |
 | `apple.getPurchaseOptions` | apple.com | Read the ways Apple will let you pay for one product — buy it outright, monthly… | ⚪ |
-| `apple.getStore` | apple.com | Read one Apple Store: its full address, phone number, map coordinates, store number… | ⚪ |
+| `apple.getStore` | apple.com | Read one Apple Store: its full address, phone number, map coordinates, store number… | 🟢 |
 | `apple.getSupportArticle` | apple.com | Read one Apple support article end to end — the actual instructions, not a search… | ⚪ |
 | `apple.getTradeInEstimate` | apple.com | Reads apple.com's own trade-in value table and returns the ceiling ("up to $X")… | 🟢 |
 | `apple.listAccessories` | apple.com | Everything Apple sells that is not a device — cases, chargers, bands, keyboards… | ⚪ |
@@ -1224,7 +1224,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.listContinueWatching` | www.primevideo.com | What the caller started and did not finish, and how far in they got. | ⚪ |
 | `prime_video.listDeals` | www.primevideo.com | What is discounted to rent or buy on Prime Video this week — the sales, the… | ⚪ |
 | `prime_video.listEpisodes` | www.primevideo.com | List a season's episodes with number, title, synopsis, runtime, release date, artwork… | 🟢 |
-| `prime_video.listFreeToWatch` | www.primevideo.com | What you can watch on Prime Video without paying anything at all — the free-with-ads… | ⚪ |
+| `prime_video.listFreeToWatch` | www.primevideo.com | What you can watch on Prime Video without paying anything at all — the free-with-ads… | 🟢 |
 | `prime_video.listLiveChannels` | www.primevideo.com | List the free live TV and news stations Prime Video streams — their name, their logo… | ⚪ |
 | `prime_video.listLiveSports` | www.primevideo.com | What sport is on Prime Video now and what is coming — the live events, the leagues it… | ⚪ |
 | `prime_video.listNewReleases` | www.primevideo.com | What has just arrived on Prime Video and what is coming — the read behind "anything… | 🟢 |

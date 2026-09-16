@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 572660d2f04a33df23e789ff3d52497c243fc38338f46d4948cfd3538c01f8f1
-# 49 capabilities, 415 providers, 1038 typed functions, 20 refused.
+# Manifest version: 21536f58777f26b459e8aa91acf62a76aa5408d5dae92f691971ab3fd89775ad
+# 49 capabilities, 415 providers, 1039 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19329,8 +19329,8 @@ class Prv_amazon(Protocol):
     the listing sells — plus the rankings (best sellers, new releases, movers and shakers,
     most wished for), today's deals and a marketplace seller's feedback. searchProducts,
     suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
-    listRelatedProducts, listBestSellers and listNewReleases are built; everything else is
-    still a declared stub.
+    listRelatedProducts, listBestSellers, listNewReleases and listMostWishedFor are built;
+    everything else is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -19402,6 +19402,14 @@ class Prv_amazon(Protocol):
         and rating. The ranking a caller wants when "best seller" would only ever return the
         same entrenched products. Page one only (up to 30 rows), the same limit listBestSellers
         carries and for the same reason.
+        """
+
+    async def listMostWishedFor(self, department: str, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
+        """What people in a department (the slug listBestSellerCategories returns, e.g. "kitchen")
+        are adding to wish lists and registries most — each row's ASIN, rank, title, price and
+        rating. Demand that has not turned into a purchase yet, which is a different signal from
+        listBestSellers' sales rank. Page one only (up to 30 rows), the same limit the other
+        rankings carry.
         """
 
 class Prv_americandreamvacations(Protocol):
