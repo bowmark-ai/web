@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7fb63a69519fbf65675b0650440544b9a361b90c01fbf8ab9751c1be27502419
-# 49 capabilities, 415 providers, 1062 typed functions, 20 refused.
+# Manifest version: 8c5ca8e8f6eaf4b74634d3b056eecb89a046485f57941e87d9b0df30e1327984
+# 49 capabilities, 415 providers, 1064 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2718,6 +2718,31 @@ class Prv_app_store_AppStoreStoryApp_Out(TypedDict):
 class Prv_app_store_AppStoreStoryApp_Out_rating_u0_Out(TypedDict):
     average: float
     countLabel: str
+
+class Prv_app_store_ListReviewsArgs_In(TypedDict):
+    app: str | float
+    page: NotRequired[float]
+    sortBy: NotRequired[Literal["mostRecent"] | Literal["mostHelpful"]]
+    country: NotRequired[str]
+
+class Prv_app_store_ListReviewsResult_Out(TypedDict):
+    app: str
+    page: float
+    sortBy: Literal["mostRecent"] | Literal["mostHelpful"]
+    country: str
+    hasMore: bool
+    reviews: list[Prv_app_store_AppStoreReview_Out]
+
+class Prv_app_store_AppStoreReview_Out(TypedDict):
+    id: str
+    author: str
+    title: str
+    body: str
+    rating: float | None
+    version: str
+    helpfulVotes: float
+    totalVotes: float
+    updated: str
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -14250,6 +14275,19 @@ class Prv_prime_video_PrimeVideoChannelDetail_Out(TypedDict):
     name: str
     rows: list[Prv_prime_video_PrimeVideoCategoryRow_Out]
 
+class Prv_prime_video_PrimeVideoLiveStation_Out(TypedDict):
+    id: str
+    name: str
+    logo: str | None
+    group: str
+    nowPlaying: Prv_prime_video_PrimeVideoLiveProgram_Out | None
+
+class Prv_prime_video_PrimeVideoLiveProgram_Out(TypedDict):
+    title: str
+    seriesTitle: str | None
+    start: float
+    end: float
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -20023,6 +20061,13 @@ class Prv_app_store(Protocol):
         getAppDetails().featuredIn[].url returns, or a bare story id plus the platform it was
         featured under. How an agent answers "what does Apple say about this" and finds apps
         nobody searches for by name.
+        """
+
+    async def listReviews(self, args: Prv_app_store_ListReviewsArgs_In, /) -> Prv_app_store_ListReviewsResult_Out:
+        """Read what people actually wrote about an app — the review body, its title, the star
+        rating, the reviewer's name, which app version they were on, and how many others found
+        it helpful — fifty at a time, newest first or most helpful first. The one read that
+        turns "4.1 stars" into a reason.
         """
 
 class Prv_apple(Protocol):
@@ -28293,6 +28338,21 @@ class Prv_prime_video(Protocol):
         carousel parser listCategoryTitles() uses: a heading and every title under it, per row,
         in the site's own order. `rows` never includes the channel's own hero banner, which
         carries no title list of its own.
+        """
+
+    async def listLiveChannels(self, section: Literal["livetv"] | Literal["news"], /) -> list[Prv_prime_video_PrimeVideoLiveStation_Out]:
+        """List the free live TV ("livetv", off `/livetv`) or news ("news", off `/news`) stations
+        Prime Video streams — their name, their logo, the id that addresses them, which row they
+        are grouped under (on `/livetv` the channel selling them, "Prime" or "AMC+"; on `/news`
+        a topic like "National news"), and what is on each one right now. The half of this site
+        that has nothing to do with the on-demand catalogue. `nowPlaying` is derived by walking
+        the station's own schedule for the entry covering this moment, never read off a
+        per-entry badge — measured 2026-09-16, every schedule entry on both pages carries the
+        identical `linearBadge: {label: "ON NOW"}` whether or not it is actually airing, so that
+        field cannot say which slot is current. `nowPlaying` is `null`, a real answer, when no
+        entry covers this instant. A station whose card appears on more than one row on the same
+        page (an unheaded hero container duplicating a station a headed row below it already
+        carries) is returned once, off the headed row — an unheaded container is dropped whole.
         """
 
 class Prv_progressive(Protocol):

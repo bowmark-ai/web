@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7fb63a69519fbf65675b0650440544b9a361b90c01fbf8ab9751c1be27502419
-// 1062 checked, 20 unchecked.
+// Manifest version: 8c5ca8e8f6eaf4b74634d3b056eecb89a046485f57941e87d9b0df30e1327984
+// 1064 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7fb63a69519fbf65675b0650440544b9a361b90c01fbf8ab9751c1be27502419",
+  "version": "8c5ca8e8f6eaf4b74634d3b056eecb89a046485f57941e87d9b0df30e1327984",
   "units": {
     "booking_links": {
       "defs": {
@@ -4677,6 +4677,19 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "AppStoreReviewSort": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "mostRecent"
+            },
+            {
+              "k": "literal",
+              "v": "mostHelpful"
+            }
+          ]
+        },
         "GetAppArgs": {
           "k": "object",
           "props": [
@@ -4826,6 +4839,48 @@ export const VALIDATORS: ValidatorTable = {
               "name": "limit",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "app",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sortBy",
+              "schema": {
+                "k": "ref",
+                "name": "AppStoreReviewSort"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -5022,6 +5077,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetStoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListReviewsArgs"
             },
             "optional": false
           }
@@ -23161,6 +23226,25 @@ export const VALIDATORS: ValidatorTable = {
             "name": "channelId",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listLiveChannels": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "livetv"
+                },
+                {
+                  "k": "literal",
+                  "v": "news"
+                }
+              ]
             },
             "optional": false
           }

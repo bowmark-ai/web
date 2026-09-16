@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1558 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1562 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -89,7 +89,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listCategories` | apps.apple.com | List every category and subcategory the App Store sorts apps into — Business… | 🟢 |
 | `app_store.listDeveloperApps` | apps.apple.com | List every app one developer has on the store — from the developer's numeric artist… | 🟢 |
 | `app_store.listPurchasedApps` | apps.apple.com | List the apps this Apple Account has bought or downloaded, with what was paid and when… | ⚪ |
-| `app_store.listReviews` | apps.apple.com | Read what people actually wrote about an app — the review body, its title, the star… | ⚪ |
+| `app_store.listReviews` | apps.apple.com | Read what people actually wrote about an app — the review body, its title, the star… | 🟢 |
 | `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | 🟢 |
 | `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions this Apple Account is paying for, what each one… | ⚪ |
 | `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | 🟢 |
@@ -117,7 +117,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.listRefurbished` | apple.com | Apple's own certified refurbished store, read as data: every listing currently in… | 🟢 |
 | `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | 🟢 |
 | `apple.listTodaySessions` | apple.com | The free hands-on sessions a given Apple Store is running this week, with what each… | ⚪ |
-| `apple.listTradeInValues` | apple.com | The whole Apple Trade In price list in one call, for a device category — every phone… | ⚪ |
+| `apple.listTradeInValues` | apple.com | The whole Apple Trade In price list in one call. "smartphone" is the rich catalogue… | 🟢 |
 | `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | 🟢 |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |
 | `apple.searchSupport` | apple.com | Search Apple's own support library the way a person describes a problem — "iphone… | 🟢 |
@@ -764,7 +764,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.lookupWord` | translate.google.com | The full "translations of <word>" panel for one word — every part of speech Google has… | 🟢 |
 | `google_translate.romanize` | translate.google.com | A Latin-alphabet (or phonetic) rendering of the translation, or the source, printed… | 🟢 |
 | `google_translate.savePhrase` | translate.google.com | Star a translation so it joins the signed-in person's saved phrases — the one write… | ⚪ |
-| `google_translate.speak` | translate.google.com | Hear it — the speaker button, as the MP3 Google Translate itself plays. | ⚪ |
+| `google_translate.speak` | translate.google.com | Hear `args.text` spoken in `args.language`, as the MP3 the site's own speaker button… | 🟢 |
 | `google_translate.translate` | translate.google.com | Turn text into another language — the whole point of the site, and the provider's main… | 🟢 |
 | `google_translate.translateDocument` | translate.google.com | Translate a whole document — the Documents tab, which takes a PDF, Word or PowerPoint… | ⚪ |
 | `google_translate.translateImage` | translate.google.com | Read the text in a picture in another language — the Images tab, where a person points… | ⚪ |
@@ -1226,7 +1226,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.listDeals` | www.primevideo.com | What is discounted to rent or buy on Prime Video this week — the sales, the… | 🟢 |
 | `prime_video.listEpisodes` | www.primevideo.com | List a season's episodes with number, title, synopsis, runtime, release date, artwork… | 🟢 |
 | `prime_video.listFreeToWatch` | www.primevideo.com | What you can watch on Prime Video without paying anything at all — the free-with-ads… | 🟢 |
-| `prime_video.listLiveChannels` | www.primevideo.com | List the free live TV and news stations Prime Video streams — their name, their logo… | ⚪ |
+| `prime_video.listLiveChannels` | www.primevideo.com | List the free live TV and news stations Prime Video streams — their name, their logo… | 🟢 |
 | `prime_video.listLiveSports` | www.primevideo.com | What sport is on Prime Video now and what is coming — the live events, the leagues it… | ⚪ |
 | `prime_video.listNewReleases` | www.primevideo.com | What has just arrived on Prime Video and what is coming — the read behind "anything… | 🟢 |
 | `prime_video.listPurchases` | www.primevideo.com | The films and series the caller has already rented or bought — their video library… | ⚪ |
@@ -1358,6 +1358,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
+| `speedrun.categories` | www.speedrun.com | List all categories for a game, including variables and values. | 🟢 |
+| `speedrun.findGame` | www.speedrun.com | Search for a game by name, returning metadata including ID, platforms, and rules. | 🟢 |
+| `speedrun.platforms` | www.speedrun.com | List all platforms, optionally filtered to a specific game. | 🟢 |
+| `speedrun.submitRun` | www.speedrun.com | Submits a speedrun to a game category, with optional video URL and user variables. | ⚪ |
 | `spirithalloween.getProduct` | spirithalloween.com | Reads one product page's full live variant matrix — every real color/size combination… | 🟢 |
 | `spirithalloween.search` | spirithalloween.com | Browses Spirit Halloween's category listing for a query resolved against a small… | 🟢 |
 | `starlighthomes.getMetro` | starlighthomes.com | Reads one metro's own page: every named neighborhood in it, each with a real live… | 🟢 |

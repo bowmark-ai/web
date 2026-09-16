@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7fb63a69519fbf65675b0650440544b9a361b90c01fbf8ab9751c1be27502419
-// 49 capabilities, 415 providers, 1080 typed functions, 20 refused.
+// Manifest version: 8c5ca8e8f6eaf4b74634d3b056eecb89a046485f57941e87d9b0df30e1327984
+// 49 capabilities, 415 providers, 1082 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4802,6 +4802,32 @@ interface AppStoreStory {
   body: string;
   apps: AppStoreStoryApp[];
 }
+type AppStoreReviewSort = "mostRecent" | "mostHelpful";
+interface ListReviewsArgs {
+  app: string | number;
+  page?: number;
+  sortBy?: AppStoreReviewSort;
+  country?: string;
+}
+interface AppStoreReview {
+  id: string;
+  author: string;
+  title: string;
+  body: string;
+  rating: number | null;
+  version: string;
+  helpfulVotes: number;
+  totalVotes: number;
+  updated: string;
+}
+interface ListReviewsResult {
+  app: string;
+  page: number;
+  sortBy: AppStoreReviewSort;
+  country: string;
+  hasMore: boolean;
+  reviews: AppStoreReview[];
+}
 
   /**
    * Search every iPhone, iPad and Mac app Apple lists, read one app's price, rating, reviews,
@@ -4886,6 +4912,14 @@ interface AppStoreStory {
      * searches for by name.
      */
     getStory(args: GetStoryArgs): Promise<AppStoreStory>;
+
+    /**
+     * Read what people actually wrote about an app — the review body, its title, the star rating,
+     * the reviewer's name, which app version they were on, and how many others found it helpful —
+     * fifty at a time, newest first or most helpful first. The one read that turns "4.1 stars"
+     * into a reason.
+     */
+    listReviews(args: ListReviewsArgs): Promise<ListReviewsResult>;
   }
 }
 
@@ -26955,6 +26989,19 @@ interface PrimeVideoChannelDetail {
   name: string;
   rows: PrimeVideoCategoryRow[];
 }
+interface PrimeVideoLiveProgram {
+  title: string;
+  seriesTitle: string | null;
+  start: number;
+  end: number;
+}
+interface PrimeVideoLiveStation {
+  id: string;
+  name: string;
+  logo: string | null;
+  group: string;
+  nowPlaying: PrimeVideoLiveProgram | null;
+}
 
   /**
    * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
@@ -27140,6 +27187,22 @@ interface PrimeVideoChannelDetail {
      * its own.
      */
     getChannel(channelId: string): Promise<PrimeVideoChannelDetail>;
+
+    /**
+     * List the free live TV ("livetv", off `/livetv`) or news ("news", off `/news`) stations Prime
+     * Video streams — their name, their logo, the id that addresses them, which row they are
+     * grouped under (on `/livetv` the channel selling them, "Prime" or "AMC+"; on `/news` a topic
+     * like "National news"), and what is on each one right now. The half of this site that has
+     * nothing to do with the on-demand catalogue. `nowPlaying` is derived by walking the station's
+     * own schedule for the entry covering this moment, never read off a per-entry badge — measured
+     * 2026-09-16, every schedule entry on both pages carries the identical `linearBadge: {label:
+     * "ON NOW"}` whether or not it is actually airing, so that field cannot say which slot is
+     * current. `nowPlaying` is `null`, a real answer, when no entry covers this instant. A station
+     * whose card appears on more than one row on the same page (an unheaded hero container
+     * duplicating a station a headed row below it already carries) is returned once, off the
+     * headed row — an unheaded container is dropped whole.
+     */
+    listLiveChannels(section: "livetv" | "news"): Promise<PrimeVideoLiveStation[]>;
   }
 }
 
