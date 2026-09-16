@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1598 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1599 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1216,7 +1216,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `premierbuildings.priceBuilding` | premierbuildings.us | Prices one real Premier building configuration exactly the way ShedView itself does… | 🟢 |
 | `prime_video.getChannel` | www.primevideo.com | Read one add-on channel: what it is called, its top ten, its originals and series, and… | 🟢 |
 | `prime_video.getLiveSchedule` | www.primevideo.com | Read one live station's schedule — every programme with its start and end time, the… | 🟢 |
-| `prime_video.getPerson` | www.primevideo.com | Read a cast member or director's Prime Video page: their name, what they are credited… | ⚪ |
+| `prime_video.getPerson` | www.primevideo.com | Read a cast member's Prime Video page: their name, what they are credited as, when and… | 🟢 |
 | `prime_video.getTitle` | www.primevideo.com | Read one film, series-season or episode the way a viewer reads its page: title… | 🟢 |
 | `prime_video.getWatchlist` | www.primevideo.com | Read the caller's own Prime Video watchlist — what they saved and whether each of… | ⚪ |
 | `prime_video.getWatchOptions` | www.primevideo.com | Say how you would actually watch a title: included with your Prime membership, free… | 🟢 |
@@ -1527,6 +1527,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `visible.listWearables` | visible.com | Returns the smartwatches and connected devices Visible supports and what a line for… | ⚪ |
 | `visible.searchHelp` | visible.com | Searches Visible's support estate and returns the matching articles with their answers… | ⚪ |
 | `visible.searchPhones` | visible.com | Returns the phones Visible currently sells, with the facts a purchase turns on —… | 🟢 |
+| `vistaprint.getShippingBoxPrice` | vistaprint.com | Prices Vistaprint's Full-Print Shipping Boxes (product PRD-Y1LEPL3MX) for a given box… | 🟢 |
 | `voluspa.getFragranceQuizIntro` | voluspa.com | Reads the "Find Your Fragrance" quiz suite's entry screen — the two branching paths… | 🟡 |
 | `voluspa.matchFragranceQuiz` | voluspa.com | Drives the actual multi-step quiz end to end with a caller-supplied path and set of… | ⚪ |
 | `vscode.getDoc` | code.visualstudio.com | Returns one code.visualstudio.com documentation page's structured content by its URL —… | 🟢 |
