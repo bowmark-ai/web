@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cf9f3f491813402f7e5108a69930752e704062afd27a7cb285e6228ca97e2fdb
-# 49 capabilities, 415 providers, 1058 typed functions, 20 refused.
+# Manifest version: 84942107378d0152d366f0ef181f3d0435f5d2d6c26d7875365c768692ee5898
+# 49 capabilities, 415 providers, 1060 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2281,6 +2281,18 @@ class Prv_amazon_AmazonSeller_Out_ratings_Out(TypedDict):
 class Prv_amazon_AmazonSellerRatingPeriod_Out(TypedDict):
     averageRating: float | None
     ratingCount: float | None
+
+class Prv_amazon_GetDeliveryEstimateArgs_In(TypedDict):
+    product: str
+    zip: str
+
+class Prv_amazon_AmazonDeliveryEstimate_Out(TypedDict):
+    asin: str
+    zip: str
+    zipResolved: bool
+    deliveryDate: str | None
+    priceLabel: str | None
+    condition: str | None
 
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
@@ -9083,6 +9095,19 @@ class Prv_google_translate_GoogleTranslateAlternativeSegment_Out_offsets_Out(Typ
 class Prv_google_translate_GoogleTranslateAlternative_Out(TypedDict):
     text: str
     backends: list[float]
+
+class Prv_google_translate_CheckSpellingArgs_In(TypedDict):
+    text: str
+    language: str
+
+class Prv_google_translate_GoogleTranslateSpellCheck_Out(TypedDict):
+    text: str
+    language: str
+    correct: bool
+    corrected: NotRequired[str]
+    correctedHtml: NotRequired[str]
+    correctionType: NotRequired[list[float]]
+    confident: NotRequired[bool]
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -19605,11 +19630,12 @@ class Prv_alphavantage(Protocol):
 class Prv_amazon(Protocol):
     """Search Amazon's catalogue and read a product the way a shopper does — price, stock,
     rating, the customer reviews, the other products it recommends, every size and colour
-    the listing sells — plus the rankings (best sellers, new releases, movers and shakers,
-    most wished for), today's deals and a marketplace seller's feedback. searchProducts,
-    suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
-    listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor, listDeals and
-    getSeller are built; everything else is still a declared stub.
+    the listing sells, when it would arrive at a given ZIP — plus the rankings (best
+    sellers, new releases, movers and shakers, most wished for), today's deals and a
+    marketplace seller's feedback. searchProducts, suggestKeywords,
+    listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts,
+    listBestSellers, listNewReleases, listMostWishedFor, listDeals, getSeller and
+    getDeliveryEstimate are built; everything else is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -19707,6 +19733,15 @@ class Prv_amazon(Protocol):
         their free-text "About Seller" text. What tells an agent whether the cheap third-party
         offer is from a shop with 86,000 ratings or one with thirty. The door is getProduct's
         sellerId field — a listing Amazon sells itself has none.
+        """
+
+    async def getDeliveryEstimate(self, args: Prv_amazon_GetDeliveryEstimateArgs_In, /) -> Prv_amazon_AmazonDeliveryEstimate_Out:
+        """When a product would actually arrive at a given US ZIP, and what it costs to get it
+        there — sets the ZIP for one session (Amazon's own "glow" location picker, no account
+        needed) and reads the delivery block the product page then re-renders for it: the site's
+        own delivery sentence, the price label and the condition it attaches. `zipResolved` is
+        false, and the three fields are Amazon's DEFAULT location rather than the caller's ZIP,
+        on an invalid ZIP.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -24455,6 +24490,13 @@ class Prv_google_translate(Protocol):
         recognizes, each carrying its own `alternatives` — the unit of the answer is the
         SEGMENT, never the whole input. `args.from` is optional and, left out, the source is
         detected, same as `translate`.
+        """
+
+    async def checkSpelling(self, args: Prv_google_translate_CheckSpellingArgs_In, /) -> Prv_google_translate_GoogleTranslateSpellCheck_Out:
+        """Google Translate's own "Did you mean …" line for `args.text`, written in `args.language`
+        — `correct: true` when nothing needed fixing, otherwise the corrected text plain and
+        HTML-marked-up. What a caller runs before trusting a translation of something a human
+        typed in a hurry.
         """
 
 class Prv_gostoreit(Protocol):

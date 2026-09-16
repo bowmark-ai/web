@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cf9f3f491813402f7e5108a69930752e704062afd27a7cb285e6228ca97e2fdb
-// 49 capabilities, 415 providers, 1076 typed functions, 20 refused.
+// Manifest version: 84942107378d0152d366f0ef181f3d0435f5d2d6c26d7875365c768692ee5898
+// 49 capabilities, 415 providers, 1078 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4024,15 +4024,28 @@ interface AmazonSeller {
   businessAddress: string[];
   aboutSeller: string | null;
 }
+interface GetDeliveryEstimateArgs {
+  product: string;
+  zip: string;
+}
+interface AmazonDeliveryEstimate {
+  asin: string;
+  zip: string;
+  zipResolved: boolean; // false = the fields below are Amazon's default location, not this zip
+  deliveryDate: string | null;
+  priceLabel: string | null;
+  condition: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
    * the customer reviews, the other products it recommends, every size and colour the listing
-   * sells — plus the rankings (best sellers, new releases, movers and shakers, most wished for),
-   * today's deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
-   * listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts,
-   * listBestSellers, listNewReleases, listMostWishedFor, listDeals and getSeller are built;
-   * everything else is still a declared stub.
+   * sells, when it would arrive at a given ZIP — plus the rankings (best sellers, new releases,
+   * movers and shakers, most wished for), today's deals and a marketplace seller's feedback.
+   * searchProducts, suggestKeywords, listBestSellerCategories, getProduct, listVariations,
+   * listReviews, listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor,
+   * listDeals, getSeller and getDeliveryEstimate are built; everything else is still a declared
+   * stub.
    */
   interface Unit {
     /**
@@ -4142,6 +4155,15 @@ interface AmazonSeller {
      * — a listing Amazon sells itself has none.
      */
     getSeller(sellerId: string): Promise<AmazonSeller>;
+
+    /**
+     * When a product would actually arrive at a given US ZIP, and what it costs to get it there —
+     * sets the ZIP for one session (Amazon's own "glow" location picker, no account needed) and
+     * reads the delivery block the product page then re-renders for it: the site's own delivery
+     * sentence, the price label and the condition it attaches. `zipResolved` is false, and the
+     * three fields are Amazon's DEFAULT location rather than the caller's ZIP, on an invalid ZIP.
+     */
+    getDeliveryEstimate(args: GetDeliveryEstimateArgs): Promise<AmazonDeliveryEstimate>;
   }
 }
 
@@ -16697,6 +16719,19 @@ interface GoogleTranslateAlternativeTranslations {
   sourceLanguage: string;
   segments: GoogleTranslateAlternativeSegment[];
 }
+interface CheckSpellingArgs {
+  text: string;
+  language: string;
+}
+interface GoogleTranslateSpellCheck {
+  text: string;
+  language: string;
+  correct: boolean;
+  corrected?: string;
+  correctedHtml?: string;
+  correctionType?: number[];
+  confident?: boolean;
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -16772,6 +16807,14 @@ interface GoogleTranslateAlternativeTranslations {
      * as `translate`.
      */
     getAlternativeTranslations(args: GetAlternativeTranslationsArgs): Promise<GoogleTranslateAlternativeTranslations>;
+
+    /**
+     * Google Translate's own "Did you mean …" line for `args.text`, written in `args.language` —
+     * `correct: true` when nothing needed fixing, otherwise the corrected text plain and
+     * HTML-marked-up. What a caller runs before trusting a translation of something a human typed
+     * in a hurry.
+     */
+    checkSpelling(args: CheckSpellingArgs): Promise<GoogleTranslateSpellCheck>;
   }
 }
 

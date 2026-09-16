@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cf9f3f491813402f7e5108a69930752e704062afd27a7cb285e6228ca97e2fdb
-// 1058 checked, 20 unchecked.
+// Manifest version: 84942107378d0152d366f0ef181f3d0435f5d2d6c26d7875365c768692ee5898
+// 1060 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cf9f3f491813402f7e5108a69930752e704062afd27a7cb285e6228ca97e2fdb",
+  "version": "84942107378d0152d366f0ef181f3d0435f5d2d6c26d7875365c768692ee5898",
   "units": {
     "booking_links": {
       "defs": {
@@ -4082,6 +4082,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.amazon": {
       "defs": {
+        "GetDeliveryEstimateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchProductsArgs": {
           "k": "object",
           "props": [
@@ -4220,6 +4239,16 @@ export const VALIDATORS: ValidatorTable = {
             "name": "sellerId",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getDeliveryEstimate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDeliveryEstimateArgs"
             },
             "optional": false
           }
@@ -14822,6 +14851,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.google_translate": {
       "defs": {
+        "CheckSpellingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "DetectLanguageArgs": {
           "k": "object",
           "props": [
@@ -15048,6 +15096,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetAlternativeTranslationsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkSpelling": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckSpellingArgs"
             },
             "optional": false
           }
