@@ -760,7 +760,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.listHistory` | translate.google.com | What the signed-in person has translated recently, newest first — Google Translate's… | ⚪ |
 | `google_translate.listLanguages` | translate.google.com | Every language this site supports — the table that turns a caller's "Portuguese" into… | 🟢 |
 | `google_translate.listSavedPhrases` | translate.google.com | The phrases the signed-in person starred — Google Translate's own saved-phrase book… | ⚪ |
-| `google_translate.lookupWord` | translate.google.com | The full "translations of <word>" panel for one word — every part of speech Google has… | ⚪ |
+| `google_translate.lookupWord` | translate.google.com | The full "translations of <word>" panel for one word — every part of speech Google has… | 🟢 |
 | `google_translate.romanize` | translate.google.com | The pronunciation line Google Translate prints under a translation into a non-Latin… | ⚪ |
 | `google_translate.savePhrase` | translate.google.com | Star a translation so it joins the signed-in person's saved phrases — the one write… | ⚪ |
 | `google_translate.speak` | translate.google.com | Hear it — the speaker button, as the MP3 Google Translate itself plays. | ⚪ |
