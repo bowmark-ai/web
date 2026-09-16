@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fed7dcd1d7715a4c6b3052e3fff9caf17294fdb3254de1fd7d3a5655d8b7527c
-// 1036 checked, 20 unchecked.
+// Manifest version: e10fec95e8dcad44955511633c6b0158bb5d548f6f839c155bb20f0453045b65
+// 1037 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fed7dcd1d7715a4c6b3052e3fff9caf17294fdb3254de1fd7d3a5655d8b7527c",
+  "version": "e10fec95e8dcad44955511633c6b0158bb5d548f6f839c155bb20f0453045b65",
   "units": {
     "booking_links": {
       "defs": {
@@ -14192,6 +14192,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListPhotosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "featureId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListRelatedPlacesArgs": {
           "k": "object",
           "props": [
@@ -14359,6 +14371,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ResolvePlaceUrlArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPhotos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPhotosArgs"
             },
             "optional": false
           }

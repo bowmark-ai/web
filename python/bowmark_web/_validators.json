@@ -1,5 +1,5 @@
 {
-  "version": "fed7dcd1d7715a4c6b3052e3fff9caf17294fdb3254de1fd7d3a5655d8b7527c",
+  "version": "e10fec95e8dcad44955511633c6b0158bb5d548f6f839c155bb20f0453045b65",
   "units": {
     "booking_links": {
       "defs": {
@@ -14180,6 +14180,18 @@
             }
           ]
         },
+        "ListPhotosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "featureId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListRelatedPlacesArgs": {
           "k": "object",
           "props": [
@@ -14347,6 +14359,16 @@
             "schema": {
               "k": "ref",
               "name": "ResolvePlaceUrlArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPhotos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPhotosArgs"
             },
             "optional": false
           }

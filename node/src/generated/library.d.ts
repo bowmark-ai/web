@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fed7dcd1d7715a4c6b3052e3fff9caf17294fdb3254de1fd7d3a5655d8b7527c
-// 49 capabilities, 415 providers, 1054 typed functions, 20 refused.
+// Manifest version: e10fec95e8dcad44955511633c6b0158bb5d548f6f839c155bb20f0453045b65
+// 49 capabilities, 415 providers, 1055 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15988,12 +15988,23 @@ interface GoogleMapsPlace {
   featureId: string;
   name?: string;
 }
+interface ListPhotosArgs {
+  featureId: string;
+}
+interface Photo {
+  url: string;
+  width: number;
+  height: number;
+  takenAt?: string;
+  source?: string;
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
-   * address, hours, rating, reviews, co-located tenants and route. suggestPlaces (autocomplete),
-   * searchPlaces (the door), geocodeAddress, getPlace, listReviews, listRelatedPlaces and
-   * getDirections are built; everything else is still a declared stub.
+   * address, hours, rating, reviews, photos, co-located tenants and route. suggestPlaces
+   * (autocomplete), searchPlaces (the door), geocodeAddress, getPlace, listReviews, listPhotos,
+   * listRelatedPlaces, getDirections, resolvePlaceUrl and reverseGeocode are built; everything
+   * else is still a declared stub.
    */
   interface Unit {
     /**
@@ -16089,6 +16100,19 @@ interface GoogleMapsPlace {
      * something that is not a place — a dropped-pin share or a review share, both measured live.
      */
     resolvePlaceUrl(args: ResolvePlaceUrlArgs): Promise<GoogleMapsPlace>;
+
+    /**
+     * The photos Google Maps shows in a place's gallery panel — up to 20, each with a url, its
+     * real dimensions and the site's own upload-source tag ("photos:gmm_ios_review_post" and
+     * similar — which app and flow it came in through, not a caption; none was found at any
+     * position tried), plus a date when the response carried one. A THIRD door, not searchPlaces'
+     * field mask: opening the place page's own photo panel fires its own batchexecute RPC, which
+     * is not a bootstrap-derived static template the way searchPlaces' and reverseGeocode's are —
+     * a browser genuinely has to run to get the real gallery back, measured 2026-09-16. Takes a
+     * featureId (searchPlaces/geocodeAddress/getPlace/resolvePlaceUrl all hand one back), not a
+     * resolving query.
+     */
+    listPhotos(args: ListPhotosArgs): Promise<Photo[]>;
   }
 }
 

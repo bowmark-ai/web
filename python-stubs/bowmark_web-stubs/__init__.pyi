@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fed7dcd1d7715a4c6b3052e3fff9caf17294fdb3254de1fd7d3a5655d8b7527c
-# 49 capabilities, 415 providers, 1036 typed functions, 20 refused.
+# Manifest version: e10fec95e8dcad44955511633c6b0158bb5d548f6f839c155bb20f0453045b65
+# 49 capabilities, 415 providers, 1037 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8714,6 +8714,16 @@ class Prv_google_maps_ResolvePlaceUrlArgs_In(TypedDict):
 class Prv_google_maps_GoogleMapsPlace_Out(TypedDict):
     featureId: str
     name: NotRequired[str]
+
+class Prv_google_maps_ListPhotosArgs_In(TypedDict):
+    featureId: str
+
+class Prv_google_maps_Photo_Out(TypedDict):
+    url: str
+    width: float
+    height: float
+    takenAt: NotRequired[str]
+    source: NotRequired[str]
 
 class Prv_google_news_GoogleNewsSearchResult_Out(TypedDict):
     query: str
@@ -23765,9 +23775,10 @@ class Prv_google_flights(Protocol):
 
 class Prv_google_maps(Protocol):
     """Local business search on Google Maps — find places by what a person would say, then read
-    the address, hours, rating, reviews, co-located tenants and route. suggestPlaces
+    the address, hours, rating, reviews, photos, co-located tenants and route. suggestPlaces
     (autocomplete), searchPlaces (the door), geocodeAddress, getPlace, listReviews,
-    listRelatedPlaces and getDirections are built; everything else is still a declared stub.
+    listPhotos, listRelatedPlaces, getDirections, resolvePlaceUrl and reverseGeocode are
+    built; everything else is still a declared stub.
     """
 
     async def suggestPlaces(self, args: Prv_google_maps_SuggestPlacesArgs_In, /) -> list[str]:
@@ -23857,6 +23868,19 @@ class Prv_google_maps(Protocol):
         and carries no name, reported as "0x0:0x<lo>" the same way the site's own echo does.
         Throws when the link resolves to something that is not a place — a dropped-pin share or
         a review share, both measured live.
+        """
+
+    async def listPhotos(self, args: Prv_google_maps_ListPhotosArgs_In, /) -> list[Prv_google_maps_Photo_Out]:
+        """The photos Google Maps shows in a place's gallery panel — up to 20, each with a url, its
+        real dimensions and the site's own upload-source tag ("photos:gmm_ios_review_post" and
+        similar — which app and flow it came in through, not a caption; none was found at any
+        position tried), plus a date when the response carried one. A THIRD door, not
+        searchPlaces' field mask: opening the place page's own photo panel fires its own
+        batchexecute RPC, which is not a bootstrap-derived static template the way searchPlaces'
+        and reverseGeocode's are — a browser genuinely has to run to get the real gallery back,
+        measured 2026-09-16. Takes a featureId
+        (searchPlaces/geocodeAddress/getPlace/resolvePlaceUrl all hand one back), not a
+        resolving query.
         """
 
 class Prv_google_news(Protocol):
