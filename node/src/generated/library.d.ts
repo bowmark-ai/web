@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9
-// 49 capabilities, 416 providers, 1095 typed functions, 20 refused.
+// Manifest version: e4ed01e417852d23d228e7d35d0fc9aaefb8004c44f76a7d467453349cbb8699
+// 49 capabilities, 417 providers, 1101 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2587,11 +2587,12 @@ type ShippingQuery = {
 // One normalized shipping-rate quote. Same shape no matter which carrier
 // quoted it.
 type ShippingRate = {
-  source: string                              // "usps" | "ups"
+  source: string                              // "usps" | "ups" | "pirateship"
   serviceCode: string                         // the carrier's own code, verbatim
   serviceName: string                         // the carrier's own name, e.g. "UPS Ground"
   price: { amount: number; currency: string } // integer minor units (cents)
   transitDays: number | null                  // null when the carrier didn't state one
+  deliveryEstimate?: string | null            // the carrier's own delivery-date text, when stated
 }
 
 type ShippingEstimateResult = {
@@ -2609,20 +2610,23 @@ type CallOptions = {
    * Prices a domestic package across USPS and UPS for a ZIP-to-ZIP move, weight and optional
    * dimensions, and returns normalized quotes cheapest first — service name, price and transit
    * days where the carrier states one. Direct JSON, no browser. USPS needs no key and always
-   * quotes; UPS is BYOK, and a caller without a UPS developer key gets the USPS quotes plus a
-   * `warnings` line naming what was dropped rather than a silent skip.
+   * quotes. Pirate Ship (source `pirateship`) also quotes USPS AND UPS with no key, at its
+   * discounted label prices, with a delivery date. UPS direct is BYOK; without a UPS developer
+   * key that one leg is dropped and named in `warnings`.
    */
   interface Unit {
     /**
      * Prices a domestic package — `{ fromZip: "20024", toZip: "10001", weightOz: 16 }` — across
      * every USPS and UPS service that quotes it, and returns `rates` cheapest first.
      * `length`/`width`/`height` (inches) must be given together or omitted entirely. USPS needs no
-     * API key. UPS is BYOK: bring your own UPS developer key or that leg is dropped and named in
-     * `warnings` (it is never served off a fleet credential). `warnings` also names any carrier
-     * dropped for a timeout or an error. THROWS `AllProvidersFailedError` when NEITHER carrier
-     * answered, because that is a different fact from "no service quotes this shipment" and only
-     * one of them means there truly is no rate. `options.timeoutMs` sets the per-carrier budget
-     * (default 30000).
+     * API key. Pirate Ship (`source: "pirateship"`) needs none either and quotes BOTH USPS and UPS
+     * at its discounted label prices, with the carrier named in `serviceName` and a
+     * `deliveryEstimate` date; given no dimensions, it prices a 10x8x4 inch box. UPS direct is
+     * BYOK: bring your own UPS developer key or that leg is dropped and named in `warnings` (it is
+     * never served off a fleet credential). `warnings` also names any carrier dropped for a
+     * timeout or an error. THROWS `AllProvidersFailedError` when NEITHER carrier answered, because
+     * that is a different fact from "no service quotes this shipment" and only one of them means
+     * there truly is no rate. `options.timeoutMs` sets the per-carrier budget (default 30000).
      */
     estimate(query: ShippingQuery, options?: CallOptions): Promise<ShippingEstimateResult>;
   }
@@ -4687,6 +4691,7 @@ interface GetAppsResult {
 }
 interface GetAppDetailsArgs {
   app: string | number;
+  country?: string;
 }
 interface AppStoreRatingHistogram {
   average: number;
@@ -4721,6 +4726,7 @@ interface AppStoreFeaturedStory {
 }
 interface AppStoreAppDetails {
   id: string;
+  country: string;
   url: string;
   ratings: AppStoreRatingHistogram | null;
   chartPosition: AppStoreChartPosition | null;
@@ -4747,6 +4753,7 @@ interface ListTopChartsArgs {
   device?: AppStoreChartDevice;
   chart?: AppStoreChartKind;
   genreId?: string | number;
+  country?: string;
   limit?: number;
 }
 interface AppStoreChartApp {
@@ -4765,6 +4772,7 @@ interface ListTopChartsResult {
   device: AppStoreChartDevice;
   chart: AppStoreChartKind;
   genreId: string;
+  country: string;
   source: "page" | "feed";
   apps: AppStoreChartApp[];
 }
@@ -4780,6 +4788,7 @@ interface ListDeveloperAppsResult {
 }
 interface ListSimilarAppsArgs {
   app: string | number;
+  country?: string;
 }
 interface AppStoreSimilarApp {
   id: string;
@@ -4793,11 +4802,13 @@ interface AppStoreSimilarApp {
 }
 interface AppStoreSimilarAppsResult {
   id: string;
+  country: string;
   apps: AppStoreSimilarApp[];
 }
 interface GetStoryArgs {
   story: string | number;
   platform?: AppStoreChartDevice;
+  country?: string;
 }
 interface AppStoreStoryApp {
   id: string;
@@ -4812,6 +4823,7 @@ interface AppStoreStoryApp {
 }
 interface AppStoreStory {
   id: string;
+  country: string;
   url: string;
   heading: string;
   title: string;
@@ -4821,6 +4833,7 @@ interface AppStoreStory {
 }
 interface ListTodayStoriesArgs {
   device?: AppStoreChartDevice;
+  country?: string;
 }
 interface AppStoreTodayStory {
   id: string;
@@ -4829,6 +4842,7 @@ interface AppStoreTodayStory {
 }
 interface ListTodayStoriesResult {
   device: AppStoreChartDevice;
+  country: string;
   stories: AppStoreTodayStory[];
 }
 type AppStoreReviewSort = "mostRecent" | "mostHelpful";
@@ -5155,6 +5169,13 @@ interface AppleNewsroomPost {
 interface AppleNewsroomPostList {
   posts: AppleNewsroomPost[];
 }
+interface AppleNewsroomArticle {
+  title: string;
+  summary: string;
+  date: string;
+  url: string;
+  body: string;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -5308,6 +5329,12 @@ interface AppleNewsroomPostList {
      * link. The primary source for "what did Apple just announce", with no publisher in between.
      */
     listNewsroomPosts(): Promise<AppleNewsroomPostList>;
+
+    /**
+     * Read one Apple press release or announcement in full from its URL — the article text itself,
+     * not the feed's one-line summary. Takes a URL straight off listNewsroomPosts()'s own rows.
+     */
+    getNewsroomPost(url: string): Promise<AppleNewsroomArticle>;
   }
 }
 
@@ -7011,18 +7038,18 @@ interface bestbuyProduct {
 }
 
   /**
-   * Best Buy's own documented Products API (api.bestbuy.com) — searches the live bestbuy.com
-   * catalog by query and returns price, availability and review data, and looks up one product
-   * by Best Buy's own SKU, without scraping bestbuy.com's search page.
+   * Searches the live bestbuy.com catalog by query and returns price, availability and review
+   * data — off bestbuy.com's own search page with no key, or Best Buy's documented Products API
+   * when a key is available — and looks up one product by Best Buy's own SKU (key required).
    */
   interface Unit {
     /**
-     * Runs a Best Buy product search the way bestbuy.com's own search box does, via Best Buy's
-     * documented Products API, and returns the matching products — name, sale/regular price,
-     * online and in-store availability, manufacturer, model number, UPC and review stats.
-     * `pageSize` caps the row count (default 10, Best Buy's own ceiling 100). Uses Bowmark's Best
-     * Buy key and charges each request to your account; send your own key as the
-     * `x-bowmark-vendor-key-bestbuy` header instead.
+     * Runs a Best Buy product search the way bestbuy.com's own search box does and returns the
+     * matching products — name, sale/regular price, online and in-store availability and review
+     * stats. With a Best Buy developer key (Bowmark's, charged to your account, or your own on the
+     * `x-bowmark-vendor-key-bestbuy` header) it reads the documented Products API and also fills
+     * manufacturer, model number and UPC. With no key it reads bestbuy.com's own search results
+     * page, where those three fields are null. `pageSize` caps the row count (default 10).
      */
     search(args: string | { query: string; pageSize?: number }): Promise<bestbuyProduct[]>;
 
@@ -16928,6 +16955,18 @@ interface GoogleTranslateDocumentResult {
   translatedBase64: string;
   mimeType: string;
 }
+interface TranslateImageArgs {
+  imageBase64: string;
+  mimeType: string;
+  to: string;
+  from?: string;
+}
+interface GoogleTranslateImageResult {
+  translatedImageBase64: string;
+  mimeType: string;
+  sourceText: string;
+  translatedText: string;
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -17059,6 +17098,18 @@ interface GoogleTranslateDocumentResult {
      * read that 200 as success.
      */
     translateDocument(args: TranslateDocumentArgs): Promise<GoogleTranslateDocumentResult>;
+
+    /**
+     * Read the text in a picture and translate it — the Images tab. Takes `imageBase64` (the
+     * image, base64-encoded), `mimeType`, `to`, and optional `from` (left out, auto-detects), and
+     * returns `translatedImageBase64` + `mimeType` (a copy of the image with the detected text
+     * replaced in place) plus the plain `sourceText`/`translatedText` strings Google's OCR found.
+     * Shares `translateDocument`'s RPC channel and BotGuard gate (rung 15, real browser) but its
+     * own rpcid (`WqWDPb`) and upload shape — measured 2026-09-16 uploading a real PNG with
+     * rendered glyphs, verified "Hola mundo" → "Bonjour le monde" (tl=fr) and → "Hello world"
+     * (tl=en).
+     */
+    translateImage(args: TranslateImageArgs): Promise<GoogleTranslateImageResult>;
   }
 }
 
@@ -22717,7 +22768,7 @@ interface LululemonColorway {
   imageAssets: ProductImage[];
   sale: SaleEvidence;
   coordination: CoordinationMetadata;
-  /** ISO 4217, or null. Always null — see SaleEvidence.currency. */
+  /** ISO 4217 from the colourway url's own locale, or null for an unknown one. */
   currency: string | null;
   inStock: boolean;
   optionGroups: LululemonOptionGroup[];
@@ -27129,6 +27180,25 @@ interface PrimeVideoEpisode {
   isPrime: boolean;
   isAd: boolean;
 }
+interface PrimeVideoPersonCredit {
+  titleId: string | null;
+  catalogId: string;
+  title: string;
+  releaseYear: number | null;
+  runtime: string | null;
+  synopsis: string | null;
+  maturityRating: string | null;
+}
+interface PrimeVideoPerson {
+  personId: string;
+  name: string;
+  roles: string[];
+  birthPlace: string | null;
+  dateOfBirth: string | null;
+  bio: string | null;
+  imdbUrl: string | null;
+  filmography: PrimeVideoPersonCredit[];
+}
 interface PrimeVideoCategory {
   name: string;
   slug: string;
@@ -27194,8 +27264,8 @@ interface PrimeVideoLiveSportsEvent {
    * included with Prime, free with ads, on a named add-on channel, or rentable and buyable with
    * the real price. Plus the browse surfaces (genres, collections, the top ten, this week's
    * deals), the add-on channels, and the free live TV, news and sports schedules. searchTitles,
-   * suggestTitles, getTitle, getWatchOptions, listSeasons, listEpisodes and listCategories are
-   * built; everything else is still a declared stub.
+   * suggestTitles, getTitle, getWatchOptions, listSeasons, listEpisodes, getPerson and
+   * listCategories are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -27265,6 +27335,16 @@ interface PrimeVideoLiveSportsEvent {
      * title.
      */
     listEpisodes(titleId: string): Promise<PrimeVideoEpisode[]>;
+
+    /**
+     * Read a cast member's own Prime Video page: their name, what they are credited as, when and
+     * where they were born, their biography, and the titles of theirs the catalogue carries — with
+     * each credit's own synopsis, runtime and maturity rating, not just its title. How an agent
+     * answers "what else is she in" without leaving the site. Takes a personId or a person URL —
+     * read one off getTitle().cast[].searchLink, never .directors[].searchLink, which points at a
+     * search instead: a director gets no page of their own here, only a searchTitles() fallback.
+     */
+    getPerson(personId: string): Promise<PrimeVideoPerson>;
 
     /**
      * List the ways Prime Video lets you browse — its genres (action, comedy, horror, anime,
@@ -32851,6 +32931,25 @@ interface TwitchHighlight {
   channel: string;
   dashboardUrl: string;
 }
+interface SetChannelArgs {
+  /** The channel title shown on the stream page. Twitch's own input field for
+   * this is called "status"; this provider takes the name the UI shows. */
+  title?: string;
+  /** ISO 639-1 language code, e.g. "en". */
+  language?: string;
+  /** Category NAME, e.g. "Wetrix" — not a category id. */
+  game?: string;
+}
+interface TwitchChannelSettings {
+  id: string;
+  /** The channel title shown on the stream page. */
+  title: string;
+  /** ISO 639-1 language code, e.g. "en". */
+  language: string;
+  /** The category. Empty strings when the channel has never set one. */
+  gameId: string;
+  gameName: string;
+}
 interface RegisterDeveloperAppArgs {
   /** Application name */
   name: string;
@@ -32892,6 +32991,21 @@ interface TwitchDeveloperApp {
      * live archive has recorded so far (retry shortly in that case).
      */
     createHighlight(args: CreateHighlightArgs): Promise<TwitchHighlight>;
+
+    /**
+     * Reads the signed-in streamer's channel settings: title, language and current game/category.
+     * Takes no arguments. NEEDS the streamer's Twitch sign-in, which only a capability can hold:
+     * call it as bowmark.stream_channel.get.
+     */
+    getChannel(): Promise<TwitchChannelSettings>;
+
+    /**
+     * Updates the signed-in streamer's channel settings: title, language and game/category.
+     * Returns the updated settings. It cannot set tags — `tags` is not a field of Twitch's own
+     * UpdateBroadcastSettingsInput. NEEDS the streamer's Twitch sign-in, which only a capability
+     * can hold: call it as bowmark.stream_channel.set.
+     */
+    setChannel(args: SetChannelArgs): Promise<TwitchChannelSettings>;
   }
 }
 
@@ -33680,6 +33794,41 @@ interface VisibleGetPlansResult {
      * half-broken response.
      */
     getPlans(): Promise<VisibleGetPlansResult>;
+  }
+}
+
+declare namespace BowmarkProvider_vistaprint {
+  // ── Vistaprint — the unit's own declarations, verbatim ──
+type ShippingBoxSize = "11x8.5x5.5" | "12x12x5.5" | "13x13x10";
+type ShippingBoxPrintArea = "inside-and-outside" | "outside-only";
+
+interface GetShippingBoxPriceArgs {
+  size: ShippingBoxSize;
+  printArea: ShippingBoxPrintArea;
+  quantity: number;
+}
+
+interface ShippingBoxPrice {
+  size: ShippingBoxSize;
+  printArea: ShippingBoxPrintArea;
+  quantity: number;
+  price: { amount: number; currency: string };      // real total for `quantity` units
+  unitPrice: { amount: number; currency: string };
+}
+
+  /**
+   * Prices Vistaprint's Full-Print Shipping Boxes for a real size, print area and quantity — the
+   * live, quantity-tiered price the site's own PDP configurator computes, with no browser,
+   * account or cart.
+   */
+  interface Unit {
+    /**
+     * Reads Vistaprint's own live pricing service for its Full-Print Shipping Boxes — the real,
+     * quantity-tiered total and per-unit price for a chosen box size, print area and quantity, the
+     * same figure the site's PDP configurator computes as a buyer changes those inputs. THROWS a
+     * caller-fixable error for a size/printArea/quantity combination Vistaprint has no price for.
+     */
+    getShippingBoxPrice(args: GetShippingBoxPriceArgs): Promise<ShippingBoxPrice>;
   }
 }
 
@@ -35707,6 +35856,7 @@ interface BowmarkProviders {
   viewrail: BowmarkProvider_viewrail.Unit;
   villagerealtyobx: BowmarkProvider_villagerealtyobx.Unit;
   visible: BowmarkProvider_visible.Unit;
+  vistaprint: BowmarkProvider_vistaprint.Unit;
   voluspa: BowmarkProvider_voluspa.Unit;
   vscode: BowmarkProvider_vscode.Unit;
   walkerhughes: BowmarkProvider_walkerhughes.Unit;

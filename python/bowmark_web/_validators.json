@@ -1,5 +1,5 @@
 {
-  "version": "8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9",
+  "version": "e4ed01e417852d23d228e7d35d0fc9aaefb8004c44f76a7d467453349cbb8699",
   "units": {
     "booking_links": {
       "defs": {
@@ -4708,6 +4708,13 @@
                 ]
               },
               "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -4764,6 +4771,13 @@
               "schema": {
                 "k": "ref",
                 "name": "AppStoreChartDevice"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -4877,6 +4891,13 @@
                 ]
               },
               "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -4888,6 +4909,13 @@
               "schema": {
                 "k": "ref",
                 "name": "AppStoreChartDevice"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -4924,6 +4952,13 @@
                     "k": "number"
                   }
                 ]
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             },
@@ -5318,7 +5353,16 @@
             "optional": false
           }
         ],
-        "listNewsroomPosts": []
+        "listNewsroomPosts": [],
+        "getNewsroomPost": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.aquaphoenixsci": {
@@ -15252,6 +15296,39 @@
             }
           ]
         },
+        "TranslateImageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "imageBase64",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "mimeType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TranslateWebPageArgs": {
           "k": "object",
           "props": [
@@ -15396,6 +15473,16 @@
             "schema": {
               "k": "ref",
               "name": "TranslateDocumentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "translateImage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TranslateImageArgs"
             },
             "optional": false
           }
@@ -23323,6 +23410,15 @@
             "optional": false
           }
         ],
+        "getPerson": [
+          {
+            "name": "personId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listCategories": [],
         "listCategoryTitles": [
           {
@@ -30951,6 +31047,32 @@
               "optional": false
             }
           ]
+        },
+        "SetChannelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "game",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -30970,6 +31092,17 @@
             "schema": {
               "k": "ref",
               "name": "CreateHighlightArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getChannel": [],
+        "setChannel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetChannelArgs"
             },
             "optional": false
           }
@@ -31670,6 +31803,80 @@
           }
         ],
         "getPlans": []
+      }
+    },
+    "providers.vistaprint": {
+      "defs": {
+        "GetShippingBoxPriceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "size",
+              "schema": {
+                "k": "ref",
+                "name": "ShippingBoxSize"
+              },
+              "optional": false
+            },
+            {
+              "name": "printArea",
+              "schema": {
+                "k": "ref",
+                "name": "ShippingBoxPrintArea"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ShippingBoxPrintArea": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "inside-and-outside"
+            },
+            {
+              "k": "literal",
+              "v": "outside-only"
+            }
+          ]
+        },
+        "ShippingBoxSize": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "11x8.5x5.5"
+            },
+            {
+              "k": "literal",
+              "v": "12x12x5.5"
+            },
+            {
+              "k": "literal",
+              "v": "13x13x10"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getShippingBoxPrice": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetShippingBoxPriceArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.voluspa": {

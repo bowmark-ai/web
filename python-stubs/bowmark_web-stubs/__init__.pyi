@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9
-# 49 capabilities, 416 providers, 1077 typed functions, 20 refused.
+# Manifest version: e4ed01e417852d23d228e7d35d0fc9aaefb8004c44f76a7d467453349cbb8699
+# 49 capabilities, 417 providers, 1083 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1496,6 +1496,7 @@ class Cap_shipping_ShippingRate_Out(TypedDict):
     serviceName: str
     price: Cap_shipping_ShippingRate_Out_price_Out
     transitDays: float | None
+    deliveryEstimate: NotRequired[str | None]
 
 class Cap_shipping_ShippingRate_Out_price_Out(TypedDict):
     amount: float
@@ -2584,9 +2585,11 @@ class Prv_app_store_GetAppsResult_Out(TypedDict):
 
 class Prv_app_store_GetAppDetailsArgs_In(TypedDict):
     app: str | float
+    country: NotRequired[str]
 
 class Prv_app_store_AppStoreAppDetails_Out(TypedDict):
     id: str
+    country: str
     url: str
     ratings: Prv_app_store_AppStoreRatingHistogram_Out | None
     chartPosition: Prv_app_store_AppStoreChartPosition_Out | None
@@ -2632,9 +2635,11 @@ class Prv_app_store_AppStoreFeaturedStory_Out(TypedDict):
 
 class Prv_app_store_ListSimilarAppsArgs_In(TypedDict):
     app: str | float
+    country: NotRequired[str]
 
 class Prv_app_store_AppStoreSimilarAppsResult_Out(TypedDict):
     id: str
+    country: str
     apps: list[Prv_app_store_AppStoreSimilarApp_Out]
 
 class Prv_app_store_AppStoreSimilarApp_Out(TypedDict):
@@ -2677,12 +2682,14 @@ class Prv_app_store_ListTopChartsArgs_In(TypedDict):
     device: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"]]
     chart: NotRequired[Literal["free"] | Literal["paid"]]
     genreId: NotRequired[str | float]
+    country: NotRequired[str]
     limit: NotRequired[float]
 
 class Prv_app_store_ListTopChartsResult_Out(TypedDict):
     device: Literal["iphone"] | Literal["ipad"] | Literal["mac"]
     chart: Literal["free"] | Literal["paid"]
     genreId: str
+    country: str
     source: Literal["page"] | Literal["feed"]
     apps: list[Prv_app_store_AppStoreChartApp_Out]
 
@@ -2705,9 +2712,11 @@ class Prv_app_store_AppStoreChartApp_Out_rating_u0_Out(TypedDict):
 class Prv_app_store_GetStoryArgs_In(TypedDict):
     story: str | float
     platform: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"]]
+    country: NotRequired[str]
 
 class Prv_app_store_AppStoreStory_Out(TypedDict):
     id: str
+    country: str
     url: str
     heading: str
     title: str
@@ -2757,9 +2766,11 @@ class Prv_app_store_AppStoreReview_Out(TypedDict):
 
 class Prv_app_store_ListTodayStoriesArgs_In(TypedDict):
     device: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"]]
+    country: NotRequired[str]
 
 class Prv_app_store_ListTodayStoriesResult_Out(TypedDict):
     device: Literal["iphone"] | Literal["ipad"] | Literal["mac"]
+    country: str
     stories: list[Prv_app_store_AppStoreTodayStory_Out]
 
 class Prv_app_store_AppStoreTodayStory_Out(TypedDict):
@@ -2964,6 +2975,13 @@ class Prv_apple_AppleNewsroomPost_Out(TypedDict):
     date: str
     url: str
     summary: str
+
+class Prv_apple_AppleNewsroomArticle_Out(TypedDict):
+    title: str
+    summary: str
+    date: str
+    url: str
+    body: str
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -9257,6 +9275,22 @@ class Prv_google_translate_GoogleTranslateDocumentResult_Out(TypedDict):
     translatedBase64: str
     mimeType: str
 
+Prv_google_translate_TranslateImageArgs_In = TypedDict(
+    "Prv_google_translate_TranslateImageArgs_In",
+    {
+    "imageBase64": str,
+    "mimeType": str,
+    "to": str,
+    "from": NotRequired[str],
+    },
+)
+
+class Prv_google_translate_GoogleTranslateImageResult_Out(TypedDict):
+    translatedImageBase64: str
+    mimeType: str
+    sourceText: str
+    translatedText: str
+
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
     address: str
@@ -14335,6 +14369,25 @@ class Prv_prime_video_PrimeVideoEpisode_Out_images_Out(TypedDict):
     packshot: str | None
     covershot: str | None
 
+class Prv_prime_video_PrimeVideoPerson_Out(TypedDict):
+    personId: str
+    name: str
+    roles: list[str]
+    birthPlace: str | None
+    dateOfBirth: str | None
+    bio: str | None
+    imdbUrl: str | None
+    filmography: list[Prv_prime_video_PrimeVideoPersonCredit_Out]
+
+class Prv_prime_video_PrimeVideoPersonCredit_Out(TypedDict):
+    titleId: str | None
+    catalogId: str
+    title: str
+    releaseYear: float | None
+    runtime: str | None
+    synopsis: str | None
+    maturityRating: str | None
+
 class Prv_prime_video_PrimeVideoCategory_Out(TypedDict):
     name: str
     slug: str
@@ -17446,6 +17499,18 @@ class Prv_twitch_TwitchHighlight_Out(TypedDict):
     channel: str
     dashboardUrl: str
 
+class Prv_twitch_TwitchChannelSettings_Out(TypedDict):
+    id: str
+    title: str
+    language: str
+    gameId: str
+    gameName: str
+
+class Prv_twitch_SetChannelArgs_In(TypedDict):
+    title: NotRequired[str]
+    language: NotRequired[str]
+    game: NotRequired[str]
+
 class Prv_uhc_smallbusiness_UhcSmallbusinessQuote_Out(TypedDict):
     zip: str
     state: str
@@ -17929,6 +17994,26 @@ class Prv_visible_VisiblePlan_Out(TypedDict):
 class Prv_visible_VisiblePlanFeature_Out(TypedDict):
     label: str | None
     items: list[str]
+
+class Prv_vistaprint_GetShippingBoxPriceArgs_In(TypedDict):
+    size: Literal["11x8.5x5.5"] | Literal["12x12x5.5"] | Literal["13x13x10"]
+    printArea: Literal["inside-and-outside"] | Literal["outside-only"]
+    quantity: float
+
+class Prv_vistaprint_ShippingBoxPrice_Out(TypedDict):
+    size: Literal["11x8.5x5.5"] | Literal["12x12x5.5"] | Literal["13x13x10"]
+    printArea: Literal["inside-and-outside"] | Literal["outside-only"]
+    quantity: float
+    price: Prv_vistaprint_ShippingBoxPrice_Out_price_Out
+    unitPrice: Prv_vistaprint_ShippingBoxPrice_Out_unitPrice_Out
+
+class Prv_vistaprint_ShippingBoxPrice_Out_price_Out(TypedDict):
+    amount: float
+    currency: str
+
+class Prv_vistaprint_ShippingBoxPrice_Out_unitPrice_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Prv_voluspa_VoluspaQuizIntro_Out(TypedDict):
     paths: list[Prv_voluspa_VoluspaQuizButton_Out]
@@ -19403,20 +19488,24 @@ class Cap_shipping(Protocol):
     """Prices a domestic package across USPS and UPS for a ZIP-to-ZIP move, weight and optional
     dimensions, and returns normalized quotes cheapest first — service name, price and
     transit days where the carrier states one. Direct JSON, no browser. USPS needs no key
-    and always quotes; UPS is BYOK, and a caller without a UPS developer key gets the USPS
-    quotes plus a `warnings` line naming what was dropped rather than a silent skip.
+    and always quotes. Pirate Ship (source `pirateship`) also quotes USPS AND UPS with no
+    key, at its discounted label prices, with a delivery date. UPS direct is BYOK; without a
+    UPS developer key that one leg is dropped and named in `warnings`.
     """
 
     async def estimate(self, query: Cap_shipping_ShippingQuery_In, options: Cap_shipping_CallOptions_In | None = None, /) -> Cap_shipping_ShippingEstimateResult_Out:
         """Prices a domestic package — `{ fromZip: "20024", toZip: "10001", weightOz: 16 }` —
         across every USPS and UPS service that quotes it, and returns `rates` cheapest first.
         `length`/`width`/`height` (inches) must be given together or omitted entirely. USPS
-        needs no API key. UPS is BYOK: bring your own UPS developer key or that leg is dropped
-        and named in `warnings` (it is never served off a fleet credential). `warnings` also
-        names any carrier dropped for a timeout or an error. THROWS `AllProvidersFailedError`
-        when NEITHER carrier answered, because that is a different fact from "no service quotes
-        this shipment" and only one of them means there truly is no rate. `options.timeoutMs`
-        sets the per-carrier budget (default 30000).
+        needs no API key. Pirate Ship (`source: "pirateship"`) needs none either and quotes BOTH
+        USPS and UPS at its discounted label prices, with the carrier named in `serviceName` and
+        a `deliveryEstimate` date; given no dimensions, it prices a 10x8x4 inch box. UPS direct
+        is BYOK: bring your own UPS developer key or that leg is dropped and named in `warnings`
+        (it is never served off a fleet credential). `warnings` also names any carrier dropped
+        for a timeout or an error. THROWS `AllProvidersFailedError` when NEITHER carrier
+        answered, because that is a different fact from "no service quotes this shipment" and
+        only one of them means there truly is no rate. `options.timeoutMs` sets the per-carrier
+        budget (default 30000).
         """
 
 class Cap_stream_highlights(Protocol):
@@ -20397,6 +20486,12 @@ class Prv_apple(Protocol):
         in between.
         """
 
+    async def getNewsroomPost(self, url: str, /) -> Prv_apple_AppleNewsroomArticle_Out:
+        """Read one Apple press release or announcement in full from its URL — the article text
+        itself, not the feed's one-line summary. Takes a URL straight off listNewsroomPosts()'s
+        own rows.
+        """
+
 class Prv_aquaphoenixsci(Protocol):
     """AquaPhoenix Scientific's real catalog storefront (water/chemical testing and
     feed-control equipment) — browse a category for real SKUs and prices, and read one
@@ -21033,18 +21128,20 @@ class Prv_bennington(Protocol):
         """
 
 class Prv_bestbuy(Protocol):
-    """Best Buy's own documented Products API (api.bestbuy.com) — searches the live bestbuy.com
-    catalog by query and returns price, availability and review data, and looks up one
-    product by Best Buy's own SKU, without scraping bestbuy.com's search page.
+    """Searches the live bestbuy.com catalog by query and returns price, availability and
+    review data — off bestbuy.com's own search page with no key, or Best Buy's documented
+    Products API when a key is available — and looks up one product by Best Buy's own SKU
+    (key required).
     """
 
     async def search(self, args: str | Prv_bestbuy_search_args_u1_In, /) -> list[Prv_bestbuy_bestbuyProduct_Out]:
-        """Runs a Best Buy product search the way bestbuy.com's own search box does, via Best Buy's
-        documented Products API, and returns the matching products — name, sale/regular price,
-        online and in-store availability, manufacturer, model number, UPC and review stats.
-        `pageSize` caps the row count (default 10, Best Buy's own ceiling 100). Uses Bowmark's
-        Best Buy key and charges each request to your account; send your own key as the
-        `x-bowmark-vendor-key-bestbuy` header instead.
+        """Runs a Best Buy product search the way bestbuy.com's own search box does and returns the
+        matching products — name, sale/regular price, online and in-store availability and
+        review stats. With a Best Buy developer key (Bowmark's, charged to your account, or your
+        own on the `x-bowmark-vendor-key-bestbuy` header) it reads the documented Products API
+        and also fills manufacturer, model number and UPC. With no key it reads bestbuy.com's
+        own search results page, where those three fields are null. `pageSize` caps the row
+        count (default 10).
         """
 
     async def getProduct(self, sku: str | float, /) -> Prv_bestbuy_bestbuyProduct_Out:
@@ -24842,6 +24939,17 @@ class Prv_google_translate(Protocol):
         earlier browserless-adjacent attempts read that 200 as success.
         """
 
+    async def translateImage(self, args: Prv_google_translate_TranslateImageArgs_In, /) -> Prv_google_translate_GoogleTranslateImageResult_Out:
+        """Read the text in a picture and translate it — the Images tab. Takes `imageBase64` (the
+        image, base64-encoded), `mimeType`, `to`, and optional `from` (left out, auto-detects),
+        and returns `translatedImageBase64` + `mimeType` (a copy of the image with the detected
+        text replaced in place) plus the plain `sourceText`/`translatedText` strings Google's
+        OCR found. Shares `translateDocument`'s RPC channel and BotGuard gate (rung 15, real
+        browser) but its own rpcid (`WqWDPb`) and upload shape — measured 2026-09-16 uploading a
+        real PNG with rendered glyphs, verified "Hola mundo" → "Bonjour le monde" (tl=fr) and →
+        "Hello world" (tl=en).
+        """
+
 class Prv_gostoreit(Protocol):
     """Go Store It — live public self-storage unit inventory, amenity details, and monthly
     online prices from a chosen facility.
@@ -28419,7 +28527,8 @@ class Prv_prime_video(Protocol):
     buyable with the real price. Plus the browse surfaces (genres, collections, the top ten,
     this week's deals), the add-on channels, and the free live TV, news and sports
     schedules. searchTitles, suggestTitles, getTitle, getWatchOptions, listSeasons,
-    listEpisodes and listCategories are built; everything else is still a declared stub.
+    listEpisodes, getPerson and listCategories are built; everything else is still a
+    declared stub.
     """
 
     async def searchTitles(self, query: str, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
@@ -28484,6 +28593,16 @@ class Prv_prime_video(Protocol):
         season is selected, so reading another season means calling this on THAT season's own
         titleId, off listSeasons(). A film returns an empty array — a real, measured answer,
         matching listSeasons() on the same title.
+        """
+
+    async def getPerson(self, personId: str, /) -> Prv_prime_video_PrimeVideoPerson_Out:
+        """Read a cast member's own Prime Video page: their name, what they are credited as, when
+        and where they were born, their biography, and the titles of theirs the catalogue
+        carries — with each credit's own synopsis, runtime and maturity rating, not just its
+        title. How an agent answers "what else is she in" without leaving the site. Takes a
+        personId or a person URL — read one off getTitle().cast[].searchLink, never
+        .directors[].searchLink, which points at a search instead: a director gets no page of
+        their own here, only a searchTitles() fallback.
         """
 
     async def listCategories(self, /) -> list[Prv_prime_video_PrimeVideoCategory_Out]:
@@ -30629,6 +30748,19 @@ class Prv_twitch(Protocol):
         end offset past what the live archive has recorded so far (retry shortly in that case).
         """
 
+    async def getChannel(self, /) -> Prv_twitch_TwitchChannelSettings_Out:
+        """Reads the signed-in streamer's channel settings: title, language and current
+        game/category. Takes no arguments. NEEDS the streamer's Twitch sign-in, which only a
+        capability can hold: call it as bowmark.stream_channel.get.
+        """
+
+    async def setChannel(self, args: Prv_twitch_SetChannelArgs_In, /) -> Prv_twitch_TwitchChannelSettings_Out:
+        """Updates the signed-in streamer's channel settings: title, language and game/category.
+        Returns the updated settings. It cannot set tags — `tags` is not a field of Twitch's own
+        UpdateBroadcastSettingsInput. NEEDS the streamer's Twitch sign-in, which only a
+        capability can hold: call it as bowmark.stream_channel.set.
+        """
+
 class Prv_uhc_smallbusiness(Protocol):
     """UnitedHealthcare's small-business store — real level-funded and fully-insured group
     health plan premiums for a ZIP and employee count, no sign-in required.
@@ -30926,6 +31058,20 @@ class Prv_visible(Protocol):
         never the site's own /docs/visible_plans.md, which is dated 2025-11-12 and answers the
         same prompt with two stale tiers and no code. Three tiers is hard — a future fourth tier
         changes the answer visibly rather than reading as a half-broken response.
+        """
+
+class Prv_vistaprint(Protocol):
+    """Prices Vistaprint's Full-Print Shipping Boxes for a real size, print area and quantity —
+    the live, quantity-tiered price the site's own PDP configurator computes, with no
+    browser, account or cart.
+    """
+
+    async def getShippingBoxPrice(self, args: Prv_vistaprint_GetShippingBoxPriceArgs_In, /) -> Prv_vistaprint_ShippingBoxPrice_Out:
+        """Reads Vistaprint's own live pricing service for its Full-Print Shipping Boxes — the
+        real, quantity-tiered total and per-unit price for a chosen box size, print area and
+        quantity, the same figure the site's PDP configurator computes as a buyer changes those
+        inputs. THROWS a caller-fixable error for a size/printArea/quantity combination
+        Vistaprint has no price for.
         """
 
 class Prv_voluspa(Protocol):
@@ -31641,6 +31787,7 @@ class BowmarkProviders(Protocol):
     viewrail: Prv_viewrail
     villagerealtyobx: Prv_villagerealtyobx
     visible: Prv_visible
+    vistaprint: Prv_vistaprint
     voluspa: Prv_voluspa
     vscode: Prv_vscode
     walkerhughes: Prv_walkerhughes

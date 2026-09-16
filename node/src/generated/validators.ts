@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9
-// 1077 checked, 20 unchecked.
+// Manifest version: e4ed01e417852d23d228e7d35d0fc9aaefb8004c44f76a7d467453349cbb8699
+// 1083 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8942268153c19b967cc6af07b630de400a58516b9bd279f4c5ab8f41845296c9",
+  "version": "e4ed01e417852d23d228e7d35d0fc9aaefb8004c44f76a7d467453349cbb8699",
   "units": {
     "booking_links": {
       "defs": {
@@ -4720,6 +4720,13 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -4776,6 +4783,13 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "ref",
                 "name": "AppStoreChartDevice"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -4889,6 +4903,13 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -4900,6 +4921,13 @@ export const VALIDATORS: ValidatorTable = {
               "schema": {
                 "k": "ref",
                 "name": "AppStoreChartDevice"
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -4936,6 +4964,13 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   }
                 ]
+              },
+              "optional": true
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             },
@@ -5330,7 +5365,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listNewsroomPosts": []
+        "listNewsroomPosts": [],
+        "getNewsroomPost": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.aquaphoenixsci": {
@@ -15264,6 +15308,39 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "TranslateImageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "imageBase64",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "mimeType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TranslateWebPageArgs": {
           "k": "object",
           "props": [
@@ -15408,6 +15485,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "TranslateDocumentArgs"
+            },
+            "optional": false
+          }
+        ],
+        "translateImage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "TranslateImageArgs"
             },
             "optional": false
           }
@@ -23335,6 +23422,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getPerson": [
+          {
+            "name": "personId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listCategories": [],
         "listCategoryTitles": [
           {
@@ -30963,6 +31059,32 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SetChannelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "game",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -30982,6 +31104,17 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CreateHighlightArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getChannel": [],
+        "setChannel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetChannelArgs"
             },
             "optional": false
           }
@@ -31682,6 +31815,80 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getPlans": []
+      }
+    },
+    "providers.vistaprint": {
+      "defs": {
+        "GetShippingBoxPriceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "size",
+              "schema": {
+                "k": "ref",
+                "name": "ShippingBoxSize"
+              },
+              "optional": false
+            },
+            {
+              "name": "printArea",
+              "schema": {
+                "k": "ref",
+                "name": "ShippingBoxPrintArea"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ShippingBoxPrintArea": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "inside-and-outside"
+            },
+            {
+              "k": "literal",
+              "v": "outside-only"
+            }
+          ]
+        },
+        "ShippingBoxSize": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "11x8.5x5.5"
+            },
+            {
+              "k": "literal",
+              "v": "12x12x5.5"
+            },
+            {
+              "k": "literal",
+              "v": "13x13x10"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getShippingBoxPrice": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetShippingBoxPriceArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.voluspa": {
