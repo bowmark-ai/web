@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c0a546a8a11716e927abe3d9c8b4d6ae3728bedaaa1a7b3a68be0a041c0cb69d
-// 49 capabilities, 415 providers, 1049 typed functions, 20 refused.
+// Manifest version: a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537
+// 49 capabilities, 415 providers, 1051 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3936,6 +3936,15 @@ interface AmazonBestSellerCategory {
   name: string;
   slug: string;
 }
+interface AmazonBestSellerEntry {
+  asin: string;
+  rank: number;
+  title: string;
+  url: string;
+  price: number | null;
+  rating: number | null;
+  ratingCount: number | null;
+}
 interface AmazonBestSellerRankEntry {
   category: string;
   rank: number;
@@ -3994,8 +4003,8 @@ interface AmazonRelatedProducts {
    * the customer reviews, the other products it recommends, every size and colour the listing
    * sells — plus the rankings (best sellers, new releases, movers and shakers, most wished for),
    * today's deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
-   * listBestSellerCategories, getProduct, listVariations, listReviews and listRelatedProducts
-   * are built; everything else is still a declared stub.
+   * listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts and
+   * listBestSellers are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -4059,6 +4068,15 @@ interface AmazonRelatedProducts {
      * query.
      */
     listRelatedProducts(asinOrUrl: string): Promise<AmazonRelatedProducts>;
+
+    /**
+     * Amazon's hourly-updated top sellers in one department (the slug listBestSellerCategories
+     * returns, e.g. "kitchen") — each row's ASIN, rank, title, price and rating, in rank order.
+     * What is actually selling right now, as opposed to searchProducts' relevance ranking. Page
+     * one only (up to 30 rows) — Amazon publishes more per department across a paging control this
+     * pass did not find.
+     */
+    listBestSellers(department: string): Promise<AmazonBestSellerEntry[]>;
   }
 }
 
@@ -26367,6 +26385,10 @@ interface PrimeVideoCategory {
   kind: "genre" | "collection" | "storefront";
   path: string;
 }
+interface PrimeVideoCategoryRow {
+  heading: string;
+  titles: PrimeVideoTitle[];
+}
 
   /**
    * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
@@ -26457,6 +26479,18 @@ interface PrimeVideoCategory {
      * guess its casing) and `kind`. Resolve a caller's typed word against `name`, never `slug`.
      */
     listCategories(): Promise<PrimeVideoCategory[]>;
+
+    /**
+     * Browse one genre, collection or storefront and get its rows of titles back — "what horror is
+     * on Prime Video", "what is in the free-with-ads collection" — each row carrying the site's
+     * own heading ("Popular movies", "Free comedy movies") and every title under it in the site's
+     * own order, with the same fields searchTitles() returns. Takes a `path` off listCategories(),
+     * e.g. "/genre/comedy", "/collection/streamfree", "/movie", "/tv" or "/store" — those five are
+     * the only shapes this pass measured. Drops the leading, unheaded hero carousel every
+     * storefront page opens with; every other row is real. Returns the FIRST page only, exactly
+     * like searchTitles() — these pages carry no pagination markers either.
+     */
+    listCategoryTitles(path: string): Promise<PrimeVideoCategoryRow[]>;
   }
 }
 

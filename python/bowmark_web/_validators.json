@@ -1,5 +1,5 @@
 {
-  "version": "c0a546a8a11716e927abe3d9c8b4d6ae3728bedaaa1a7b3a68be0a041c0cb69d",
+  "version": "a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537",
   "units": {
     "booking_links": {
       "defs": {
@@ -4169,6 +4169,15 @@
         "listRelatedProducts": [
           {
             "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listBestSellers": [
+          {
+            "name": "department",
             "schema": {
               "k": "string"
             },
@@ -22408,7 +22417,16 @@
             "optional": false
           }
         ],
-        "listCategories": []
+        "listCategories": [],
+        "listCategoryTitles": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.progressive": {

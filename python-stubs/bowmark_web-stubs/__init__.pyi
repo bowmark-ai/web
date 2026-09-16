@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c0a546a8a11716e927abe3d9c8b4d6ae3728bedaaa1a7b3a68be0a041c0cb69d
-# 49 capabilities, 415 providers, 1031 typed functions, 20 refused.
+# Manifest version: a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537
+# 49 capabilities, 415 providers, 1033 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2239,6 +2239,15 @@ class Prv_amazon_AmazonRelatedProducts_Out(TypedDict):
 
 class Prv_amazon_AmazonRelatedProduct_Out(TypedDict):
     asin: str
+    title: str
+    url: str
+    price: float | None
+    rating: float | None
+    ratingCount: float | None
+
+class Prv_amazon_AmazonBestSellerEntry_Out(TypedDict):
+    asin: str
+    rank: float
     title: str
     url: str
     price: float | None
@@ -13865,6 +13874,10 @@ class Prv_prime_video_PrimeVideoCategory_Out(TypedDict):
     kind: Literal["genre"] | Literal["collection"] | Literal["storefront"]
     path: str
 
+class Prv_prime_video_PrimeVideoCategoryRow_Out(TypedDict):
+    heading: str
+    titles: list[Prv_prime_video_PrimeVideoTitle_Out]
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -19276,8 +19289,9 @@ class Prv_amazon(Protocol):
     rating, the customer reviews, the other products it recommends, every size and colour
     the listing sells — plus the rankings (best sellers, new releases, movers and shakers,
     most wished for), today's deals and a marketplace seller's feedback. searchProducts,
-    suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews and
-    listRelatedProducts are built; everything else is still a declared stub.
+    suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
+    listRelatedProducts and listBestSellers are built; everything else is still a declared
+    stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -19333,6 +19347,14 @@ class Prv_amazon(Protocol):
         Names any further rail Amazon lazy-loads rather than serving inline rather than silently
         dropping it. How an agent moves from one product to the alternatives without inventing a
         new search query.
+        """
+
+    async def listBestSellers(self, department: str, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
+        """Amazon's hourly-updated top sellers in one department (the slug listBestSellerCategories
+        returns, e.g. "kitchen") — each row's ASIN, rank, title, price and rating, in rank
+        order. What is actually selling right now, as opposed to searchProducts' relevance
+        ranking. Page one only (up to 30 rows) — Amazon publishes more per department across a
+        paging control this pass did not find.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -27589,6 +27611,18 @@ class Prv_prime_video(Protocol):
         display text), `slug` (the literal, inconsistently-cased path token — "science-fiction",
         "mgForYou" — never guess its casing) and `kind`. Resolve a caller's typed word against
         `name`, never `slug`.
+        """
+
+    async def listCategoryTitles(self, path: str, /) -> list[Prv_prime_video_PrimeVideoCategoryRow_Out]:
+        """Browse one genre, collection or storefront and get its rows of titles back — "what
+        horror is on Prime Video", "what is in the free-with-ads collection" — each row carrying
+        the site's own heading ("Popular movies", "Free comedy movies") and every title under it
+        in the site's own order, with the same fields searchTitles() returns. Takes a `path` off
+        listCategories(), e.g. "/genre/comedy", "/collection/streamfree", "/movie", "/tv" or
+        "/store" — those five are the only shapes this pass measured. Drops the leading,
+        unheaded hero carousel every storefront page opens with; every other row is real.
+        Returns the FIRST page only, exactly like searchTitles() — these pages carry no
+        pagination markers either.
         """
 
 class Prv_progressive(Protocol):

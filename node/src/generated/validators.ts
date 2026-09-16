@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c0a546a8a11716e927abe3d9c8b4d6ae3728bedaaa1a7b3a68be0a041c0cb69d
-// 1031 checked, 20 unchecked.
+// Manifest version: a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537
+// 1033 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c0a546a8a11716e927abe3d9c8b4d6ae3728bedaaa1a7b3a68be0a041c0cb69d",
+  "version": "a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537",
   "units": {
     "booking_links": {
       "defs": {
@@ -4181,6 +4181,15 @@ export const VALIDATORS: ValidatorTable = {
         "listRelatedProducts": [
           {
             "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listBestSellers": [
+          {
+            "name": "department",
             "schema": {
               "k": "string"
             },
@@ -22420,7 +22429,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listCategories": []
+        "listCategories": [],
+        "listCategoryTitles": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.progressive": {
