@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 39d35f69db57ca4f20e1be21170cbecf084222421eb22d300c531186b27affea
-// 49 capabilities, 416 providers, 1091 typed functions, 20 refused.
+// Manifest version: f44507473f3a99414e108c0703127836d1bc62d307594034764a56505a4362cc
+// 49 capabilities, 416 providers, 1092 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -27114,6 +27114,26 @@ interface PrimeVideoLiveStation {
   group: string;
   nowPlaying: PrimeVideoLiveProgram | null;
 }
+interface PrimeVideoLiveScheduleEntry {
+  title: string;
+  seriesTitle: string | null;
+  seasonNumber: number | null;
+  episodeNumber: number | null;
+  synopsis: string | null;
+  maturityRating: string | null;
+  start: number;
+  end: number;
+}
+interface PrimeVideoLiveSportsEvent {
+  titleId: string;
+  title: string;
+  group: string;
+  status: "LIVE" | "UPCOMING" | null;
+  timeBadge: string | null;
+  venue: string | null;
+  entitled: boolean;
+  watchMessage: string | null;
+}
 
   /**
    * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
@@ -27327,6 +27347,25 @@ interface PrimeVideoLiveStation {
      * when the page carries no station with that id.
      */
     getLiveSchedule(section: "livetv" | "news", stationId: string): Promise<PrimeVideoLiveProgram[]>;
+
+    /**
+     * What sport is on Prime Video now and what is coming — live and upcoming EVENTS, off
+     * `/sports`, never a station (that is `listLiveChannels`'s own shape, a `LinearStationCard`,
+     * which this function ignores) and never an on-demand documentary sharing the same page. No
+     * arguments. `group` names the row the event is listed under: "Sports with a subscription" is
+     * entitlement a Prime member already carries some of, "Apple TV: Live and upcoming events" is
+     * a different provider's events entirely, and `entitled`/`watchMessage` carry the site's own
+     * per-event verdict — measured 2026-09-16, a Prime-entitled poker event on the "Sports with a
+     * subscription" row reads `entitled: true, watchMessage: "Watch for free"` beside an
+     * Unentitled squash event on the SAME row reading `entitled: false, watchMessage: "Free trial
+     * of SquashTV"`, so the row heading alone never says whether a given event is free. `status`
+     * and `timeBadge` are the site's own words ("LIVE", "Live at 7 PM EDT", "Fri, Sep 18 6:30 PM
+     * EDT") — no epoch timestamp exists on an event card the way one does on a station's
+     * `schedule[]`, so none is invented. `venue` is `null` for an event with no physical location
+     * (an online poker series, a studio broadcast) — a real and common answer, never a parse
+     * failure.
+     */
+    listLiveSports(): Promise<PrimeVideoLiveSportsEvent[]>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 39d35f69db57ca4f20e1be21170cbecf084222421eb22d300c531186b27affea
-# 49 capabilities, 416 providers, 1073 typed functions, 20 refused.
+# Manifest version: f44507473f3a99414e108c0703127836d1bc62d307594034764a56505a4362cc
+# 49 capabilities, 416 providers, 1074 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14346,6 +14346,16 @@ class Prv_prime_video_PrimeVideoLiveProgram_Out(TypedDict):
     start: float
     end: float
 
+class Prv_prime_video_PrimeVideoLiveSportsEvent_Out(TypedDict):
+    titleId: str
+    title: str
+    group: str
+    status: Literal["LIVE"] | Literal["UPCOMING"] | None
+    timeBadge: str | None
+    venue: str | None
+    entitled: bool
+    watchMessage: str | None
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -28550,6 +28560,24 @@ class Prv_prime_video(Protocol):
         its rows — `/livetv` and `/news` carry different stations, so a `livetv` id will not
         resolve on `/news`. Refuses (caller-fixable) when the page carries no station with that
         id.
+        """
+
+    async def listLiveSports(self, /) -> list[Prv_prime_video_PrimeVideoLiveSportsEvent_Out]:
+        """What sport is on Prime Video now and what is coming — live and upcoming EVENTS, off
+        `/sports`, never a station (that is `listLiveChannels`'s own shape, a
+        `LinearStationCard`, which this function ignores) and never an on-demand documentary
+        sharing the same page. No arguments. `group` names the row the event is listed under:
+        "Sports with a subscription" is entitlement a Prime member already carries some of,
+        "Apple TV: Live and upcoming events" is a different provider's events entirely, and
+        `entitled`/`watchMessage` carry the site's own per-event verdict — measured 2026-09-16,
+        a Prime-entitled poker event on the "Sports with a subscription" row reads `entitled:
+        true, watchMessage: "Watch for free"` beside an Unentitled squash event on the SAME row
+        reading `entitled: false, watchMessage: "Free trial of SquashTV"`, so the row heading
+        alone never says whether a given event is free. `status` and `timeBadge` are the site's
+        own words ("LIVE", "Live at 7 PM EDT", "Fri, Sep 18 6:30 PM EDT") — no epoch timestamp
+        exists on an event card the way one does on a station's `schedule[]`, so none is
+        invented. `venue` is `null` for an event with no physical location (an online poker
+        series, a studio broadcast) — a real and common answer, never a parse failure.
         """
 
 class Prv_progressive(Protocol):

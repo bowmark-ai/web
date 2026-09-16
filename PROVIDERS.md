@@ -112,7 +112,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.getTradeInEstimate` | apple.com | Reads apple.com's own trade-in value table and returns the ceiling ("up to $X")… | 🟢 |
 | `apple.listAccessories` | apple.com | Everything Apple sells that is not a device — cases, chargers, bands, keyboards… | ⚪ |
 | `apple.listFamilyModels` | apple.com | List every model Apple currently sells in one product family — every Mac, every… | 🟢 |
-| `apple.listNewsroomPosts` | apple.com | Apple's official announcements, newest first — every product launch, financial result… | ⚪ |
+| `apple.listNewsroomPosts` | apple.com | Apple's official announcements, newest first — every product launch, financial result… | 🟢 |
 | `apple.listOrders` | apple.com | Everything I have bought from Apple, with dates and prices. | ⚪ |
 | `apple.listRefurbished` | apple.com | Apple's own certified refurbished store, read as data: every listing currently in… | 🟢 |
 | `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | 🟢 |
@@ -1227,7 +1227,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.listEpisodes` | www.primevideo.com | List a season's episodes with number, title, synopsis, runtime, release date, artwork… | 🟢 |
 | `prime_video.listFreeToWatch` | www.primevideo.com | What you can watch on Prime Video without paying anything at all — the free-with-ads… | 🟢 |
 | `prime_video.listLiveChannels` | www.primevideo.com | List the free live TV and news stations Prime Video streams — their name, their logo… | 🟢 |
-| `prime_video.listLiveSports` | www.primevideo.com | What sport is on Prime Video now and what is coming — the live events, the leagues it… | ⚪ |
+| `prime_video.listLiveSports` | www.primevideo.com | What sport is on Prime Video now and what is coming — the live and upcoming events… | 🟢 |
 | `prime_video.listNewReleases` | www.primevideo.com | What has just arrived on Prime Video and what is coming — the read behind "anything… | 🟢 |
 | `prime_video.listPurchases` | www.primevideo.com | The films and series the caller has already rented or bought — their video library… | ⚪ |
 | `prime_video.listSeasons` | www.primevideo.com | List every season of a series with the titleId that opens each one, its number, its… | 🟢 |

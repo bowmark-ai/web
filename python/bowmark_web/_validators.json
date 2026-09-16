@@ -1,5 +1,5 @@
 {
-  "version": "39d35f69db57ca4f20e1be21170cbecf084222421eb22d300c531186b27affea",
+  "version": "f44507473f3a99414e108c0703127836d1bc62d307594034764a56505a4362cc",
   "units": {
     "booking_links": {
       "defs": {
@@ -23353,7 +23353,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listLiveSports": []
       }
     },
     "providers.progressive": {
