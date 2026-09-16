@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8c5ca8e8f6eaf4b74634d3b056eecb89a046485f57941e87d9b0df30e1327984
-# 49 capabilities, 415 providers, 1064 typed functions, 20 refused.
+# Manifest version: 5d43de2d8b64687a68d68ae9df8e42e3d141830c4fa929e4573a9c080750f56c
+# 49 capabilities, 416 providers, 1069 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2827,6 +2827,15 @@ class Prv_apple_AppleTradeInEstimate_Out(TypedDict):
     device: str
     upToUsd: float
     sourceUrl: str
+
+class Prv_apple_AppleTradeInCatalog_Out(TypedDict):
+    category: Literal["smartphone"] | Literal["computer"] | Literal["watch"]
+    devices: list[Prv_apple_AppleTradeInDeviceValue_Out]
+
+class Prv_apple_AppleTradeInDeviceValue_Out(TypedDict):
+    modelId: str | None
+    modelName: str
+    maxValueUsd: float
 
 class Prv_apple_AppleSupportSearchResponse_Out(TypedDict):
     query: str
@@ -9162,6 +9171,15 @@ class Prv_google_translate_GoogleTranslateRomanization_Out(TypedDict):
     detected: bool
     targetRomanization: NotRequired[str]
     sourceRomanization: NotRequired[str]
+
+class Prv_google_translate_SpeakArgs_In(TypedDict):
+    text: str
+    language: str
+
+class Prv_google_translate_GoogleTranslateSpeech_Out(TypedDict):
+    audioBase64: str
+    contentType: str
+    chunkCount: float
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -15973,6 +15991,82 @@ class Prv_soundcloud_ScPlaylist_Out(TypedDict):
     createdAt: str | None
     tracks: list[Prv_soundcloud_ScTrack_Out]
 
+class Prv_speedrun_FindGameArgs_In(TypedDict):
+    name: str
+
+Prv_speedrun_Game_Out = TypedDict(
+    "Prv_speedrun_Game_Out",
+    {
+    "id": str,
+    "names": Prv_speedrun_Game_Out_names_Out,
+    "abbreviation": str,
+    "weblink": str,
+    "released": float,
+    "release-date": str,
+    "platforms": NotRequired[list[str]],
+    "ruleset": NotRequired[Prv_speedrun_Game_Out_ruleset_Out],
+    },
+)
+
+class Prv_speedrun_Game_Out_names_Out(TypedDict):
+    international: str
+    japanese: NotRequired[str]
+
+Prv_speedrun_Game_Out_ruleset_Out = TypedDict(
+    "Prv_speedrun_Game_Out_ruleset_Out",
+    {
+    "require-video": bool,
+    "require-verification": bool,
+    "show-milliseconds": bool,
+    },
+)
+
+class Prv_speedrun_CategoriesArgs_In(TypedDict):
+    gameId: str
+
+class Prv_speedrun_Category_Out(TypedDict):
+    id: str
+    name: str
+    weblink: str
+    type: str
+    rules: NotRequired[str]
+    players: NotRequired[Prv_speedrun_Category_Out_players_Out]
+    miscellaneous: NotRequired[bool]
+    variables: NotRequired[Prv_speedrun_Category_Out_variables_Out]
+
+class Prv_speedrun_Category_Out_players_Out(TypedDict):
+    type: str
+    value: NotRequired[float]
+
+class Prv_speedrun_Category_Out_variables_Out(TypedDict):
+    data: list[Prv_speedrun_CategoryVariable_Out]
+
+Prv_speedrun_CategoryVariable_Out = TypedDict(
+    "Prv_speedrun_CategoryVariable_Out",
+    {
+    "id": str,
+    "name": str,
+    "mandatory": bool,
+    "user-defined": bool,
+    "values": NotRequired[Prv_speedrun_CategoryVariable_Out_values_Out],
+    },
+)
+
+class Prv_speedrun_CategoryVariable_Out_values_Out(TypedDict):
+    choices: NotRequired[Mapping[str, Prv_speedrun_CategoryVariable_Out_values_Out_choices_value_Out]]
+    default: NotRequired[str]
+
+class Prv_speedrun_CategoryVariable_Out_values_Out_choices_value_Out(TypedDict):
+    label: str
+
+class Prv_speedrun_PlatformsArgs_In(TypedDict):
+    gameId: NotRequired[str]
+
+class Prv_speedrun_Platform_Out(TypedDict):
+    id: str
+    name: str
+    released: NotRequired[float]
+
 class Prv_spirithalloween_search_args_In(TypedDict):
     query: str
     limit: NotRequired[float]
@@ -20131,6 +20225,15 @@ class Prv_apple(Protocol):
         the slug `phone_trade_in` already normalizes to ("iphone-14-pro") both resolve. Apple
         publishes ONE number per device, not a matrix by storage or condition: the value is
         Apple's advertised best-case figure, not a quote for a specific unit's actual condition.
+        """
+
+    async def listTradeInValues(self, category: Literal["smartphone"] | Literal["computer"] | Literal["watch"], /) -> Prv_apple_AppleTradeInCatalog_Out:
+        """The whole Apple Trade In price list in one call. "smartphone" is the RICH catalog behind
+        the estimator — every individual phone model apple.com will take, INCLUDING non-Apple
+        ones (Samsung, Google, …), each with its own ceiling. "computer" and "watch" are
+        coarser: a ceiling per product LINE ("MacBook Pro", "Apple Watch Ultra 3"), the same
+        table getTradeInEstimate reads for iPhone. apple.com has no measured trade-in catalog
+        for "tablet" at all — neither surface this function uses covers it.
         """
 
     async def searchSupport(self, query: str, /) -> Prv_apple_AppleSupportSearchResponse_Out:
@@ -24589,6 +24692,18 @@ class Prv_google_translate(Protocol):
         are absent on an ordinary sentence between two Latin-script languages, which is a normal
         answer, not a failure. `args.from` is optional and, left out, the source is detected,
         same as `translate`.
+        """
+
+    async def speak(self, args: Prv_google_translate_SpeakArgs_In, /) -> Prv_google_translate_GoogleTranslateSpeech_Out:
+        """Hear `args.text` spoken in `args.language`, as the MP3 the site's own speaker button
+        plays. Google's `/translate_tts` refuses anything over 200 characters with a hard 400,
+        so this function chunks longer text on SENTENCE boundaries (never mid-sentence) and
+        stitches the resulting MP3s into one file — confirmed 2026-09-16 that concatenating raw
+        `/translate_tts` bytes decodes as one continuous, correctly-timed clip, since the door
+        answers a bare MPEG stream with no container. `chunkCount` says how many
+        `/translate_tts` calls the answer is built from. Throws when a single SENTENCE in
+        `args.text` is itself over 200 characters — there is no boundary left to chunk on, and
+        truncating it silently is the one thing this function must not do.
         """
 
 class Prv_gostoreit(Protocol):
@@ -29385,6 +29500,33 @@ class Prv_soundcloud(Protocol):
         could be read — an empty track list would be a failed read wearing a success costume.
         """
 
+class Prv_speedrun(Protocol):
+    """Submit speedruns and search game metadata on speedrun.com"""
+
+    async def findGame(self, args: Prv_speedrun_FindGameArgs_In, /) -> list[Prv_speedrun_Game_Out]:
+        """Searches games by name and returns the matches with the metadata every other call here
+        needs — the opaque `id`, the abbreviation, the weblink, the platform ids, and the
+        `ruleset` that says whether a video is required and whether milliseconds are shown.
+        Start here: speedrun.com addresses everything by id and nothing by title. The search is
+        fuzzy and ranked, so read the first row rather than assuming one match, and an unknown
+        title returns an empty array rather than an error.
+        """
+
+    async def categories(self, args: Prv_speedrun_CategoriesArgs_In, /) -> list[Prv_speedrun_Category_Out]:
+        """Lists every category for one game, with the variables each one carries. The `variables`
+        block is the part that matters before a submit: a category with a `mandatory` variable
+        rejects a run that omits it, and the accepted values are the keys of `values.choices`,
+        not their labels. `type` separates a per-game category from a per-level one, and
+        `is-miscellaneous` marks the ones the leaderboard hides by default.
+        """
+
+    async def platforms(self, args: Prv_speedrun_PlatformsArgs_In | None = None, /) -> list[Prv_speedrun_Platform_Out]:
+        """Lists platforms as `{ id, name, released }` — called with no argument it returns the
+        whole speedrun.com platform table, and with a `gameId` only the platforms that game
+        accepts. Prefer the `gameId` form when you need the platform a specific game accepts —
+        the whole table is ~140 rows and most of them are not playable for any one game.
+        """
+
 class Prv_spirithalloween(Protocol):
     """The licensed Halloween costume specialist — category browse and per-size, per-color live
     stock for the lines it carries (today: KPop Demon Hunters).
@@ -31289,6 +31431,7 @@ class BowmarkProviders(Protocol):
     smithery: Prv_smithery
     solostove: Prv_solostove
     soundcloud: Prv_soundcloud
+    speedrun: Prv_speedrun
     spirithalloween: Prv_spirithalloween
     starlighthomes: Prv_starlighthomes
     statefarm: Prv_statefarm

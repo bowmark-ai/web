@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8c5ca8e8f6eaf4b74634d3b056eecb89a046485f57941e87d9b0df30e1327984
-// 1064 checked, 20 unchecked.
+// Manifest version: 5d43de2d8b64687a68d68ae9df8e42e3d141830c4fa929e4573a9c080750f56c
+// 1069 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8c5ca8e8f6eaf4b74634d3b056eecb89a046485f57941e87d9b0df30e1327984",
+  "version": "5d43de2d8b64687a68d68ae9df8e42e3d141830c4fa929e4573a9c080750f56c",
   "units": {
     "booking_links": {
       "defs": {
@@ -5216,6 +5216,29 @@ export const VALIDATORS: ValidatorTable = {
             "name": "model",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listTradeInValues": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "smartphone"
+                },
+                {
+                  "k": "literal",
+                  "v": "computer"
+                },
+                {
+                  "k": "literal",
+                  "v": "watch"
+                }
+              ]
             },
             "optional": false
           }
@@ -15125,6 +15148,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SpeakArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "TranslateArgs": {
           "k": "object",
           "props": [
@@ -15250,6 +15292,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "RomanizeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "speak": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SpeakArgs"
             },
             "optional": false
           }
@@ -28268,6 +28320,78 @@ export const VALIDATORS: ValidatorTable = {
             "name": "limit",
             "schema": {
               "k": "number"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.speedrun": {
+      "defs": {
+        "CategoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "gameId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "FindGameArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "PlatformsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "gameId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findGame": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindGameArgs"
+            },
+            "optional": false
+          }
+        ],
+        "categories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CategoriesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "platforms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "PlatformsArgs"
             },
             "optional": true
           }

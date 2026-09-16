@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8c5ca8e8f6eaf4b74634d3b056eecb89a046485f57941e87d9b0df30e1327984
-// 49 capabilities, 415 providers, 1082 typed functions, 20 refused.
+// Manifest version: 5d43de2d8b64687a68d68ae9df8e42e3d141830c4fa929e4573a9c080750f56c
+// 49 capabilities, 416 providers, 1087 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5005,6 +5005,15 @@ interface AppleTradeInEstimate {
   upToUsd: number;
   sourceUrl: string;
 }
+interface AppleTradeInDeviceValue {
+  modelId: string | null;
+  modelName: string;
+  maxValueUsd: number;
+}
+interface AppleTradeInCatalog {
+  category: "smartphone" | "computer" | "watch";
+  devices: AppleTradeInDeviceValue[];
+}
 interface AppleSupportResult {
   docid: string;
   title: string;
@@ -5163,6 +5172,16 @@ interface AppleStore {
      * best-case figure, not a quote for a specific unit's actual condition.
      */
     getTradeInEstimate(model: string): Promise<AppleTradeInEstimate>;
+
+    /**
+     * The whole Apple Trade In price list in one call. "smartphone" is the RICH catalog behind the
+     * estimator — every individual phone model apple.com will take, INCLUDING non-Apple ones
+     * (Samsung, Google, …), each with its own ceiling. "computer" and "watch" are coarser: a
+     * ceiling per product LINE ("MacBook Pro", "Apple Watch Ultra 3"), the same table
+     * getTradeInEstimate reads for iPhone. apple.com has no measured trade-in catalog for "tablet"
+     * at all — neither surface this function uses covers it.
+     */
+    listTradeInValues(category: "smartphone" | "computer" | "watch"): Promise<AppleTradeInCatalog>;
 
     /**
      * Searches Apple's own support library the way a person describes a problem ("iphone battery
@@ -16799,6 +16818,15 @@ interface GoogleTranslateRomanization {
   targetRomanization?: string;
   sourceRomanization?: string;
 }
+interface SpeakArgs {
+  text: string;
+  language: string;
+}
+interface GoogleTranslateSpeech {
+  audioBase64: string;
+  contentType: string;
+  chunkCount: number;
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -16894,6 +16922,19 @@ interface GoogleTranslateRomanization {
      * `translate`.
      */
     romanize(args: RomanizeArgs): Promise<GoogleTranslateRomanization>;
+
+    /**
+     * Hear `args.text` spoken in `args.language`, as the MP3 the site's own speaker button plays.
+     * Google's `/translate_tts` refuses anything over 200 characters with a hard 400, so this
+     * function chunks longer text on SENTENCE boundaries (never mid-sentence) and stitches the
+     * resulting MP3s into one file — confirmed 2026-09-16 that concatenating raw `/translate_tts`
+     * bytes decodes as one continuous, correctly-timed clip, since the door answers a bare MPEG
+     * stream with no container. `chunkCount` says how many `/translate_tts` calls the answer is
+     * built from. Throws when a single SENTENCE in `args.text` is itself over 200 characters —
+     * there is no boundary left to chunk on, and truncating it silently is the one thing this
+     * function must not do.
+     */
+    speak(args: SpeakArgs): Promise<GoogleTranslateSpeech>;
   }
 }
 
@@ -30051,6 +30092,88 @@ interface ScPlaylist {
   }
 }
 
+declare namespace BowmarkProvider_speedrun {
+  // ── speedrun.com — the unit's own declarations, verbatim ──
+interface FindGameArgs {
+  name: string;
+}
+
+interface CategoriesArgs {
+  gameId: string;
+}
+
+interface PlatformsArgs {
+  gameId?: string;
+}
+
+interface Game {
+  id: string;
+  names: { international: string; japanese?: string };
+  abbreviation: string;
+  weblink: string;
+  released: number;
+  "release-date": string;
+  platforms?: string[];
+  ruleset?: { "require-video": boolean; "require-verification": boolean; "show-milliseconds": boolean };
+}
+
+interface Category {
+  id: string;
+  name: string;
+  weblink: string;
+  type: string;            // "per-game" | "per-level"
+  rules?: string;
+  players?: { type: string; value?: number }
+  miscellaneous?: boolean; // hidden from the default leaderboard view
+  variables?: { data: CategoryVariable[] }
+}
+
+interface CategoryVariable {
+  id: string;
+  name: string;
+  mandatory: boolean;
+  "user-defined": boolean;
+  // submitRun takes the KEY of a choice, never its label
+  values?: { choices?: Record<string, { label: string }>; default?: string }
+}
+
+interface Platform {
+  id: string;
+  name: string;
+  released?: number;
+}
+
+  /** Submit speedruns and search game metadata on speedrun.com */
+  interface Unit {
+    /**
+     * Searches games by name and returns the matches with the metadata every other call here needs
+     * — the opaque `id`, the abbreviation, the weblink, the platform ids, and the `ruleset` that
+     * says whether a video is required and whether milliseconds are shown. Start here:
+     * speedrun.com addresses everything by id and nothing by title. The search is fuzzy and
+     * ranked, so read the first row rather than assuming one match, and an unknown title returns
+     * an empty array rather than an error.
+     */
+    findGame(args: FindGameArgs): Promise<Game[]>;
+
+    /**
+     * Lists every category for one game, with the variables each one carries. The `variables`
+     * block is the part that matters before a submit: a category with a `mandatory` variable
+     * rejects a run that omits it, and the accepted values are the keys of `values.choices`, not
+     * their labels. `type` separates a per-game category from a per-level one, and
+     * `is-miscellaneous` marks the ones the leaderboard hides by default.
+     */
+    categories(args: CategoriesArgs): Promise<Category[]>;
+
+    /**
+     * Lists platforms as `{ id, name, released }` — called with no argument it returns the whole
+     * speedrun.com platform table, and with a `gameId` only the platforms that game accepts.
+     * Prefer the `gameId` form when you need the platform a specific game accepts — the whole
+     * table is ~140 rows and most of them are not playable for any one game.
+     */
+    platforms(args?: PlatformsArgs): Promise<Platform[]>;
+  }
+}
+
 declare namespace BowmarkProvider_spirithalloween {
   // ── Spirit Halloween — the unit's own declarations, verbatim ──
 interface SpiritHalloweenSearchResult {
@@ -35348,6 +35471,7 @@ interface BowmarkProviders {
   smithery: BowmarkProvider_smithery.Unit;
   solostove: BowmarkProvider_solostove.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
+  speedrun: BowmarkProvider_speedrun.Unit;
   spirithalloween: BowmarkProvider_spirithalloween.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
