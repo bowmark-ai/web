@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 84942107378d0152d366f0ef181f3d0435f5d2d6c26d7875365c768692ee5898
-# 49 capabilities, 415 providers, 1060 typed functions, 20 refused.
+# Manifest version: 7fb63a69519fbf65675b0650440544b9a361b90c01fbf8ab9751c1be27502419
+# 49 capabilities, 415 providers, 1062 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2785,6 +2785,18 @@ class Prv_apple_AppleFamilyModel_Out(TypedDict):
     name: str
     startingPrice: float | None
     url: str
+
+class Prv_apple_AppleRefurbishedCatalog_Out(TypedDict):
+    category: Literal["mac"] | Literal["ipad"] | Literal["iphone"] | Literal["watch"] | Literal["appletv"] | Literal["homepod"] | Literal["airpods"] | Literal["accessories"]
+    listings: list[Prv_apple_AppleRefurbishedListing_Out]
+
+class Prv_apple_AppleRefurbishedListing_Out(TypedDict):
+    partNumber: str
+    name: str
+    price: float | None
+    priceCurrency: str | None
+    url: str
+    image: str | None
 
 class Prv_apple_AppleTradeInEstimate_Out(TypedDict):
     device: str
@@ -9108,6 +9120,23 @@ class Prv_google_translate_GoogleTranslateSpellCheck_Out(TypedDict):
     correctedHtml: NotRequired[str]
     correctionType: NotRequired[list[float]]
     confident: NotRequired[bool]
+
+Prv_google_translate_RomanizeArgs_In = TypedDict(
+    "Prv_google_translate_RomanizeArgs_In",
+    {
+    "text": str,
+    "to": str,
+    "from": NotRequired[str],
+    },
+)
+
+class Prv_google_translate_GoogleTranslateRomanization_Out(TypedDict):
+    text: str
+    targetLanguage: str
+    sourceLanguage: str
+    detected: bool
+    targetRomanization: NotRequired[str]
+    sourceRomanization: NotRequired[str]
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -20044,6 +20073,13 @@ class Prv_apple(Protocol):
         with no lineup to list.
         """
 
+    async def listRefurbished(self, category: Literal["mac"] | Literal["ipad"] | Literal["iphone"] | Literal["watch"] | Literal["appletv"] | Literal["homepod"] | Literal["airpods"] | Literal["accessories"], /) -> Prv_apple_AppleRefurbishedCatalog_Out:
+        """Apple's own certified refurbished store, read as data: every listing currently in stock
+        in one category, each with its real name, its current price and the part number that
+        resolves it straight through getProductByPartNumber. Stock turns over daily and a
+        category can legitimately be empty when Apple has nothing left in it.
+        """
+
     async def getTradeInEstimate(self, model: str, /) -> Prv_apple_AppleTradeInEstimate_Out:
         """Reads apple.com's own trade-in value table and returns the CEILING ("up to $X")
         cash-or-credit estimate it publishes for one device — a human name ("iPhone 14 Pro") or
@@ -24497,6 +24533,17 @@ class Prv_google_translate(Protocol):
         — `correct: true` when nothing needed fixing, otherwise the corrected text plain and
         HTML-marked-up. What a caller runs before trusting a translation of something a human
         typed in a hurry.
+        """
+
+    async def romanize(self, args: Prv_google_translate_RomanizeArgs_In, /) -> Prv_google_translate_GoogleTranslateRomanization_Out:
+        """A Latin-alphabet (or phonetic) rendering of `args.text` or its translation —
+        "Ohayōgozaimasu, ogenkidesuka?" under a Japanese translation, "rən" under the English
+        word "run". `targetRomanization` comes back when the TARGET script is non-Latin,
+        `sourceRomanization` when the SOURCE is — measured 2026-09-16, that includes a short
+        Latin-script dictionary lookup, which still carries an English pronunciation guide. Both
+        are absent on an ordinary sentence between two Latin-script languages, which is a normal
+        answer, not a failure. `args.from` is optional and, left out, the source is detected,
+        same as `translate`.
         """
 
 class Prv_gostoreit(Protocol):

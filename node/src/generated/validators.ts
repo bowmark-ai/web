@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 84942107378d0152d366f0ef181f3d0435f5d2d6c26d7875365c768692ee5898
-// 1060 checked, 20 unchecked.
+// Manifest version: 7fb63a69519fbf65675b0650440544b9a361b90c01fbf8ab9751c1be27502419
+// 1062 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "84942107378d0152d366f0ef181f3d0435f5d2d6c26d7875365c768692ee5898",
+  "version": "7fb63a69519fbf65675b0650440544b9a361b90c01fbf8ab9751c1be27502419",
   "units": {
     "booking_links": {
       "defs": {
@@ -5097,6 +5097,49 @@ export const VALIDATORS: ValidatorTable = {
                 {
                   "k": "literal",
                   "v": "watch"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listRefurbished": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "mac"
+                },
+                {
+                  "k": "literal",
+                  "v": "ipad"
+                },
+                {
+                  "k": "literal",
+                  "v": "iphone"
+                },
+                {
+                  "k": "literal",
+                  "v": "watch"
+                },
+                {
+                  "k": "literal",
+                  "v": "appletv"
+                },
+                {
+                  "k": "literal",
+                  "v": "homepod"
+                },
+                {
+                  "k": "literal",
+                  "v": "airpods"
+                },
+                {
+                  "k": "literal",
+                  "v": "accessories"
                 }
               ]
             },
@@ -14991,6 +15034,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "RomanizeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "TranslateArgs": {
           "k": "object",
           "props": [
@@ -15106,6 +15175,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CheckSpellingArgs"
+            },
+            "optional": false
+          }
+        ],
+        "romanize": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RomanizeArgs"
             },
             "optional": false
           }

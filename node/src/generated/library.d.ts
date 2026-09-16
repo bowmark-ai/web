@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 84942107378d0152d366f0ef181f3d0435f5d2d6c26d7875365c768692ee5898
-// 49 capabilities, 415 providers, 1078 typed functions, 20 refused.
+// Manifest version: 7fb63a69519fbf65675b0650440544b9a361b90c01fbf8ab9751c1be27502419
+// 49 capabilities, 415 providers, 1080 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4954,6 +4954,18 @@ interface AppleFamilyModelList {
   family: "mac" | "iphone" | "ipad" | "watch";
   models: AppleFamilyModel[];
 }
+interface AppleRefurbishedListing {
+  partNumber: string;
+  name: string;
+  price: number | null;
+  priceCurrency: string | null;
+  url: string;
+  image: string | null;
+}
+interface AppleRefurbishedCatalog {
+  category: "mac" | "ipad" | "iphone" | "watch" | "appletv" | "homepod" | "airpods" | "accessories";
+  listings: AppleRefurbishedListing[];
+}
 interface AppleTradeInEstimate {
   device: string;
   upToUsd: number;
@@ -5100,6 +5112,14 @@ interface AppleStore {
      * list.
      */
     listFamilyModels(family: "mac" | "iphone" | "ipad" | "watch"): Promise<AppleFamilyModelList>;
+
+    /**
+     * Apple's own certified refurbished store, read as data: every listing currently in stock in
+     * one category, each with its real name, its current price and the part number that resolves
+     * it straight through getProductByPartNumber. Stock turns over daily and a category can
+     * legitimately be empty when Apple has nothing left in it.
+     */
+    listRefurbished(category: "mac" | "ipad" | "iphone" | "watch" | "appletv" | "homepod" | "airpods" | "accessories"): Promise<AppleRefurbishedCatalog>;
 
     /**
      * Reads apple.com's own trade-in value table and returns the CEILING ("up to $X")
@@ -16732,6 +16752,19 @@ interface GoogleTranslateSpellCheck {
   correctionType?: number[];
   confident?: boolean;
 }
+interface RomanizeArgs {
+  text: string;
+  to: string;
+  from?: string;
+}
+interface GoogleTranslateRomanization {
+  text: string;
+  targetLanguage: string;
+  sourceLanguage: string;
+  detected: boolean;
+  targetRomanization?: string;
+  sourceRomanization?: string;
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -16815,6 +16848,18 @@ interface GoogleTranslateSpellCheck {
      * in a hurry.
      */
     checkSpelling(args: CheckSpellingArgs): Promise<GoogleTranslateSpellCheck>;
+
+    /**
+     * A Latin-alphabet (or phonetic) rendering of `args.text` or its translation —
+     * "Ohayōgozaimasu, ogenkidesuka?" under a Japanese translation, "rən" under the English word
+     * "run". `targetRomanization` comes back when the TARGET script is non-Latin,
+     * `sourceRomanization` when the SOURCE is — measured 2026-09-16, that includes a short
+     * Latin-script dictionary lookup, which still carries an English pronunciation guide. Both are
+     * absent on an ordinary sentence between two Latin-script languages, which is a normal answer,
+     * not a failure. `args.from` is optional and, left out, the source is detected, same as
+     * `translate`.
+     */
+    romanize(args: RomanizeArgs): Promise<GoogleTranslateRomanization>;
   }
 }
 
