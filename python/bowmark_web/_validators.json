@@ -1,5 +1,5 @@
 {
-  "version": "95972d4dcd859d6c8284f468756dd01ee81d6d749eed11f18f0adc7552fa1d1c",
+  "version": "d021ce8674eee4fa47e91e934b36853499756d81ec18a69f2dbed30cf90429d0",
   "units": {
     "booking_links": {
       "defs": {
@@ -14758,6 +14758,25 @@
             }
           ]
         },
+        "GetSynonymsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "word",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListLanguagesArgs": {
           "k": "object",
           "props": [
@@ -14888,6 +14907,16 @@
             "schema": {
               "k": "ref",
               "name": "GetDefinitionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSynonyms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSynonymsArgs"
             },
             "optional": false
           }

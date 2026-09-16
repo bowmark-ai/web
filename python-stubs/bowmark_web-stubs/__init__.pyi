@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 95972d4dcd859d6c8284f468756dd01ee81d6d749eed11f18f0adc7552fa1d1c
-# 49 capabilities, 415 providers, 1050 typed functions, 20 refused.
+# Manifest version: d021ce8674eee4fa47e91e934b36853499756d81ec18a69f2dbed30cf90429d0
+# 49 capabilities, 415 providers, 1051 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8959,6 +8959,24 @@ class Prv_google_translate_GoogleTranslateDefinition_Out(TypedDict):
 
 class Prv_google_translate_GoogleTranslateDefinitionExample_Out(TypedDict):
     text: str
+
+class Prv_google_translate_GetSynonymsArgs_In(TypedDict):
+    word: str
+    language: str
+
+class Prv_google_translate_GoogleTranslateWordSynonyms_Out(TypedDict):
+    word: str
+    language: str
+    senses: list[Prv_google_translate_GoogleTranslateSynonymSense_Out]
+
+class Prv_google_translate_GoogleTranslateSynonymSense_Out(TypedDict):
+    partOfSpeech: str
+    groups: list[Prv_google_translate_GoogleTranslateSynonymGroup_Out]
+
+class Prv_google_translate_GoogleTranslateSynonymGroup_Out(TypedDict):
+    definitionId: str
+    synonyms: list[str]
+    register: NotRequired[list[str]]
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -24263,6 +24281,16 @@ class Prv_google_translate(Protocol):
         plain-English gloss and, where Google has one, a real usage example (its own
         `<b>`-highlight markup stripped). `senses` comes back empty when Google's dictionary has
         nothing for the term.
+        """
+
+    async def getSynonyms(self, args: Prv_google_translate_GetSynonymsArgs_In, /) -> Prv_google_translate_GoogleTranslateWordSynonyms_Out:
+        """Other words that mean the same thing as `args.word`, IN `args.language` — grouped by
+        sense (`definitionId` matches a `GoogleTranslateDefinition.definitionId` from
+        `getDefinitions`) rather than thrown into one list, and labelled where Google knows the
+        register: "informal" synonyms for "run" (belt, zip, leg it, hotfoot it) come back in a
+        separate group from the neutral ones (sprint, race, dart, dash), and a group with no
+        `register` is the neutral case. `senses` comes back empty when Google has no synonyms
+        for the term.
         """
 
 class Prv_gostoreit(Protocol):

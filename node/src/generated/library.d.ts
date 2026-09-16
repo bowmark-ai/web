@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 95972d4dcd859d6c8284f468756dd01ee81d6d749eed11f18f0adc7552fa1d1c
-// 49 capabilities, 415 providers, 1068 typed functions, 20 refused.
+// Manifest version: d021ce8674eee4fa47e91e934b36853499756d81ec18a69f2dbed30cf90429d0
+// 49 capabilities, 415 providers, 1069 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16544,6 +16544,24 @@ interface GoogleTranslateWordDefinitions {
   language: string;
   senses: GoogleTranslateDefinitionSense[];
 }
+interface GetSynonymsArgs {
+  word: string;
+  language: string;
+}
+interface GoogleTranslateSynonymGroup {
+  definitionId: string;
+  synonyms: string[];
+  register?: string[];
+}
+interface GoogleTranslateSynonymSense {
+  partOfSpeech: string;
+  groups: GoogleTranslateSynonymGroup[];
+}
+interface GoogleTranslateWordSynonyms {
+  word: string;
+  language: string;
+  senses: GoogleTranslateSynonymSense[];
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -16599,6 +16617,16 @@ interface GoogleTranslateWordDefinitions {
      * stripped). `senses` comes back empty when Google's dictionary has nothing for the term.
      */
     getDefinitions(args: GetDefinitionsArgs): Promise<GoogleTranslateWordDefinitions>;
+
+    /**
+     * Other words that mean the same thing as `args.word`, IN `args.language` — grouped by sense
+     * (`definitionId` matches a `GoogleTranslateDefinition.definitionId` from `getDefinitions`)
+     * rather than thrown into one list, and labelled where Google knows the register: "informal"
+     * synonyms for "run" (belt, zip, leg it, hotfoot it) come back in a separate group from the
+     * neutral ones (sprint, race, dart, dash), and a group with no `register` is the neutral case.
+     * `senses` comes back empty when Google has no synonyms for the term.
+     */
+    getSynonyms(args: GetSynonymsArgs): Promise<GoogleTranslateWordSynonyms>;
   }
 }
 
