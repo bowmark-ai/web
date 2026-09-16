@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537
-# 49 capabilities, 415 providers, 1033 typed functions, 20 refused.
+# Manifest version: 3defe58c09ed01691352759086c025c37c2e485cdeecc21a6c2b04ada9ec173d
+# 49 capabilities, 415 providers, 1034 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2578,6 +2578,27 @@ class Prv_app_store_AppStoreLink_Out(TypedDict):
 class Prv_app_store_AppStoreFeaturedStory_Out(TypedDict):
     title: str
     url: str
+
+class Prv_app_store_ListSimilarAppsArgs_In(TypedDict):
+    app: str | float
+
+class Prv_app_store_AppStoreSimilarAppsResult_Out(TypedDict):
+    id: str
+    apps: list[Prv_app_store_AppStoreSimilarApp_Out]
+
+class Prv_app_store_AppStoreSimilarApp_Out(TypedDict):
+    id: str
+    bundleId: str
+    name: str
+    subtitle: str
+    ageRating: str
+    price: str
+    rating: Prv_app_store_AppStoreSimilarApp_Out_rating_u0_Out | None
+    url: str
+
+class Prv_app_store_AppStoreSimilarApp_Out_rating_u0_Out(TypedDict):
+    average: float
+    countLabel: str
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -19568,6 +19589,14 @@ class Prv_app_store(Protocol):
         and privacy-policy links, and the editorial stories it has been featured in. Every field
         is optional — a missing shelf on the app's own page is an absent field here, never a
         throw.
+        """
+
+    async def listSimilarApps(self, args: Prv_app_store_ListSimilarAppsArgs_In, /) -> Prv_app_store_AppStoreSimilarAppsResult_Out:
+        """Answer "what else is like this one" with the App Store's own You Might Also Like shelf —
+        the apps Apple itself puts next to this one, each with its name, tagline, developer, age
+        rating, price and the id every function here takes. What an agent reaches for when the
+        app a person named is wrong, too expensive, or not on their device. Shares
+        getAppDetails' page cache, so calling both for one app costs one fetch.
         """
 
 class Prv_apple(Protocol):

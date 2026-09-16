@@ -1,5 +1,5 @@
 {
-  "version": "a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537",
+  "version": "3defe58c09ed01691352759086c025c37c2e485cdeecc21a6c2b04ada9ec173d",
   "units": {
     "booking_links": {
       "defs": {
@@ -4655,6 +4655,26 @@
             }
           ]
         },
+        "ListSimilarAppsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "app",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchAppsArgs": {
           "k": "object",
           "props": [
@@ -4742,6 +4762,16 @@
             "schema": {
               "k": "ref",
               "name": "GetAppDetailsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSimilarApps": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSimilarAppsArgs"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537
-// 49 capabilities, 415 providers, 1051 typed functions, 20 refused.
+// Manifest version: 3defe58c09ed01691352759086c025c37c2e485cdeecc21a6c2b04ada9ec173d
+// 49 capabilities, 415 providers, 1052 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4629,6 +4629,23 @@ interface AppStoreAppDetails {
   links: AppStoreLink[];
   featuredIn: AppStoreFeaturedStory[];
 }
+interface ListSimilarAppsArgs {
+  app: string | number;
+}
+interface AppStoreSimilarApp {
+  id: string;
+  bundleId: string;
+  name: string;
+  subtitle: string;
+  ageRating: string;
+  price: string;
+  rating: { average: number; countLabel: string } | null;
+  url: string;
+}
+interface AppStoreSimilarAppsResult {
+  id: string;
+  apps: AppStoreSimilarApp[];
+}
 
   /**
    * Search every iPhone, iPad and Mac app Apple lists, read one app's price, rating, reviews,
@@ -4669,6 +4686,15 @@ interface AppStoreAppDetails {
      * optional — a missing shelf on the app's own page is an absent field here, never a throw.
      */
     getAppDetails(args: GetAppDetailsArgs): Promise<AppStoreAppDetails>;
+
+    /**
+     * Answer "what else is like this one" with the App Store's own You Might Also Like shelf — the
+     * apps Apple itself puts next to this one, each with its name, tagline, developer, age rating,
+     * price and the id every function here takes. What an agent reaches for when the app a person
+     * named is wrong, too expensive, or not on their device. Shares getAppDetails' page cache, so
+     * calling both for one app costs one fetch.
+     */
+    listSimilarApps(args: ListSimilarAppsArgs): Promise<AppStoreSimilarAppsResult>;
   }
 }
 

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537
-// 1033 checked, 20 unchecked.
+// Manifest version: 3defe58c09ed01691352759086c025c37c2e485cdeecc21a6c2b04ada9ec173d
+// 1034 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a60f8a05a6f145a6e7d8efffebd0198a1d23a9b6c7e8db9cb290f0e379a17537",
+  "version": "3defe58c09ed01691352759086c025c37c2e485cdeecc21a6c2b04ada9ec173d",
   "units": {
     "booking_links": {
       "defs": {
@@ -4667,6 +4667,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListSimilarAppsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "app",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchAppsArgs": {
           "k": "object",
           "props": [
@@ -4754,6 +4774,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetAppDetailsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSimilarApps": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSimilarAppsArgs"
             },
             "optional": false
           }
