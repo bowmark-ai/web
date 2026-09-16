@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: da954adfec9f8649172012cf90f386e096c673c2ca4018f2d0846381c76a0aa3
-// 48 capabilities, 414 providers, 1033 typed functions, 20 refused.
+// Manifest version: c0a546a8a11716e927abe3d9c8b4d6ae3728bedaaa1a7b3a68be0a041c0cb69d
+// 49 capabilities, 415 providers, 1049 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2638,6 +2638,60 @@ type CallOptions = {
   }
 }
 
+declare namespace BowmarkCapability_stream_highlights {
+  // ── Stream highlights — cut a highlight of your own live broadcast — the unit's own declarations, verbatim ──
+interface CreateHighlightOptions {
+  platform?: "twitch"      // the default, and the only one today
+  videoId?: string         // id or video link; omit for the newest broadcast (the live one, while live)
+  startSeconds: number     // seconds into that broadcast
+  endSeconds: number
+  title: string
+  description?: string
+  language?: string        // default "en"
+  tags?: string[]
+  game?: string            // category name, e.g. "Wetrix"
+}
+interface StreamHighlight {
+  // "created" by this call; "existing" = a highlight with this exact title was
+  // already on the channel, nothing new made; "unknown" = no answer came back —
+  // check dashboardUrl. Calling again with the same title is always safe.
+  status: "created" | "existing" | "unknown"
+  platform: "twitch"
+  highlightId: string | null   // null only when status is "unknown"
+  url: string | null
+  title: string
+  videoId: string
+  startSeconds: number
+  endSeconds: number
+  channel: string
+  dashboardUrl: string
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Cuts a permanent Highlight out of a streamer's own broadcast on Twitch — including the one
+   * still live — between two offsets in seconds, with a title. Needs the streamer's Twitch
+   * sign-in: the first run answers needs_user with a link to sign in, and later runs reuse it.
+   */
+  interface Unit {
+    /**
+     * Cuts a highlight from [startSeconds, endSeconds] of the signed-in streamer's broadcast
+     * (`videoId`, or the newest one — the live one while streaming) and titles it. Safe to call
+     * again with the same title: an existing highlight of that title is returned with status
+     * "existing" instead of being cut twice. THROWS with "Retry shortly" when the live broadcast's
+     * archive has not recorded up to endSeconds yet (it trails real time by a minute or two).
+     * Needs a Twitch sign-in.
+     */
+    create(options: CreateHighlightOptions): Promise<StreamHighlight>;
+  }
+}
+
 declare namespace BowmarkCapability_tariff {
   // ── HS/HTS tariff code lookup — the unit's own declarations, verbatim ──
 
@@ -3921,13 +3975,27 @@ interface AmazonReview {
   body: string; // paragraphs joined with a blank line, in the site's own order
   helpfulCount: number;
 }
+interface AmazonRelatedProduct {
+  asin: string;
+  title: string;
+  url: string;
+  price: number | null;
+  rating: number | null; // null on a "Frequently bought together" row — that rail never shows one
+  ratingCount: number | null;
+}
+interface AmazonRelatedProducts {
+  boughtTogether: AmazonRelatedProduct[]; // complements, never the current ASIN
+  related: AmazonRelatedProduct[]; // "Customers who viewed this item also viewed" — substitutes
+  unavailableRails: string[]; // sims-consolidated-N_feature_div ids Amazon lazy-loads rather than serving inline
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
-   * the customer reviews, every size and colour the listing sells — plus the rankings (best
-   * sellers, new releases, movers and shakers, most wished for), today's deals and a marketplace
-   * seller's feedback. searchProducts, suggestKeywords, listBestSellerCategories, getProduct,
-   * listVariations and listReviews are built; everything else is still a declared stub.
+   * the customer reviews, the other products it recommends, every size and colour the listing
+   * sells — plus the rankings (best sellers, new releases, movers and shakers, most wished for),
+   * today's deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
+   * listBestSellerCategories, getProduct, listVariations, listReviews and listRelatedProducts
+   * are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -3981,6 +4049,16 @@ interface AmazonReview {
      * rather than "what does it cost".
      */
     listReviews(asinOrUrl: string): Promise<AmazonReview[]>;
+
+    /**
+     * The other products Amazon puts next to this one — "Frequently bought together" and
+     * "Customers who viewed this item also viewed" — each with its ASIN, title, price and rating,
+     * kept in separate arrays so a caller can tell a complement from a substitute. Names any
+     * further rail Amazon lazy-loads rather than serving inline rather than silently dropping it.
+     * How an agent moves from one product to the alternatives without inventing a new search
+     * query.
+     */
+    listRelatedProducts(asinOrUrl: string): Promise<AmazonRelatedProducts>;
   }
 }
 
@@ -4477,6 +4555,62 @@ interface GetAppArgs {
   app: string | number;
   country?: string;
 }
+interface GetAppsArgs {
+  apps: (string | number)[];
+  country?: string;
+}
+interface GetAppsResult {
+  apps: AppStoreApp[];
+  warnings: string[];
+}
+interface GetAppDetailsArgs {
+  app: string | number;
+}
+interface AppStoreRatingHistogram {
+  average: number;
+  total: number;
+  counts: number[];
+}
+interface AppStoreChartPosition {
+  category: string;
+  position: number;
+}
+interface AppStoreInAppPurchase {
+  name: string;
+  price: string;
+}
+interface AppStorePrivacyCategory {
+  type: string;
+  title: string;
+  categories: string[];
+}
+interface AppStoreVersionInfo {
+  version: string | null;
+  releaseDate: string | null;
+  notes: string;
+}
+interface AppStoreLink {
+  label: string;
+  url: string;
+}
+interface AppStoreFeaturedStory {
+  title: string;
+  url: string;
+}
+interface AppStoreAppDetails {
+  id: string;
+  url: string;
+  ratings: AppStoreRatingHistogram | null;
+  chartPosition: AppStoreChartPosition | null;
+  editorsChoice: boolean;
+  information: Record<string, string>;
+  inAppPurchases: AppStoreInAppPurchase[];
+  privacy: AppStorePrivacyCategory[];
+  mostRecentVersion: AppStoreVersionInfo | null;
+  accessibilityFeatures: string[];
+  links: AppStoreLink[];
+  featuredIn: AppStoreFeaturedStory[];
+}
 
   /**
    * Search every iPhone, iPad and Mac app Apple lists, read one app's price, rating, reviews,
@@ -4499,6 +4633,24 @@ interface GetAppArgs {
      * the cheapest call in it.
      */
     getApp(args: GetAppArgs): Promise<AppStoreApp>;
+
+    /**
+     * Read up to fifty apps in ONE request, for when an agent already holds a list of ids — the
+     * ranks past the top of a chart, the ids in a "you might also like" shelf, a comparison a
+     * person asked for. Same record as getApp, one round trip instead of fifty; an id that does
+     * not resolve is named in warnings rather than silently dropped.
+     */
+    getApps(args: GetAppsArgs): Promise<GetAppsResult>;
+
+    /**
+     * Everything the store page shows that the API does not: the five-star rating histogram, the
+     * app's live chart position, every in-app purchase by name and price, Apple's privacy
+     * nutrition labels, the Editors' Choice citation, the latest version's notes, size, seller,
+     * compatibility, languages, copyright, accessibility features, developer-website and
+     * privacy-policy links, and the editorial stories it has been featured in. Every field is
+     * optional — a missing shelf on the app's own page is an absent field here, never a throw.
+     */
+    getAppDetails(args: GetAppDetailsArgs): Promise<AppStoreAppDetails>;
   }
 }
 
@@ -4564,6 +4716,45 @@ interface AppleResolvedLocation {
   state: string;
   alternates: AppleLocationSuggestion[];
 }
+interface AppleNearbyStore {
+  storeNumber: string;
+  storeName: string;
+  city: string;
+  state: string;
+  address: string;
+  phoneNumber: string;
+  distanceMiles: number | null;
+}
+interface AppleStoresNear {
+  location: string;
+  stores: AppleNearbyStore[];
+}
+interface ApplePickupStore {
+  storeNumber: string;
+  storeName: string;
+  city: string;
+  state: string;
+  address: string;
+  phoneNumber: string;
+  distanceMiles: number | null;
+  available: boolean;
+  pickupQuote: string | null;
+}
+interface ApplePickupAvailability {
+  partNumber: string;
+  location: string;
+  stores: ApplePickupStore[];
+}
+interface AppleDeliveryOption {
+  displayName: string;
+  date: string;
+  shippingCost: string;
+}
+interface AppleDeliveryEstimate {
+  partNumber: string;
+  postalCode: string;
+  options: AppleDeliveryOption[];
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -4613,6 +4804,32 @@ interface AppleResolvedLocation {
      * pre-resolved location string.
      */
     resolveLocation(place: string): Promise<AppleResolvedLocation>;
+
+    /**
+     * Finds the Apple Stores near a place a person named — "Cupertino", "94108", "San Francisco" —
+     * with each store's name, number, city, state, address, phone and distance, nearest first. The
+     * finder that turns a place into the store records every other retail function here takes, for
+     * a caller who holds no part number and must not have to invent one.
+     */
+    findStoresNear(place: string): Promise<AppleStoresNear>;
+
+    /**
+     * Answers the one question apple.com is uniquely able to answer: can I walk into a store today
+     * and pick this up. Give it a part number (or a /shop/ path or apple.com URL — resolved the
+     * same way getProduct's argument is) and a place, and it returns every nearby Apple Store with
+     * whether that exact configuration is in stock, the pickup window, and the store's name,
+     * number, address, phone and distance.
+     */
+    getPickupAvailability(partNumber: string, place: string): Promise<ApplePickupAvailability>;
+
+    /**
+     * When would this actually arrive if ordered now, to a ZIP code — the shipping options and
+     * delivery dates apple.com quotes on the buy page for one exact configuration, without
+     * starting a checkout. Takes a bare 5-digit ZIP, NOT the resolved place string
+     * getPickupAvailability takes: apple.com's own delivery-message endpoint reads a different
+     * parameter and ignores a "<city>, <state>" value entirely.
+     */
+    getDeliveryEstimate(partNumber: string, postalCode: string): Promise<AppleDeliveryEstimate>;
   }
 }
 
@@ -15606,10 +15823,6 @@ interface GooglePriceGraph {
 
 declare namespace BowmarkProvider_google_maps {
   // ── Google Maps — the unit's own declarations, verbatim ──
-interface GoogleMapsPlace {
-  featureId: string;
-  name: string;
-}
 interface SuggestPlacesArgs {
   query: string;
 }
@@ -15633,6 +15846,17 @@ interface GeocodeAddressResult {
   name: string;
   formattedAddress: string;
   coordinates: { lat: number; lng: number } | null;
+}
+interface ReverseGeocodeArgs {
+  lat: number;
+  lng: number;
+}
+interface ReverseGeocodeResult {
+  formatted: string;
+  plusCode: string;
+  locality: string;
+  dms: string;
+  coordinates: { lat: number; lng: number };
 }
 interface GetPlaceArgs {
   query: string;
@@ -15688,6 +15912,13 @@ interface GetDirectionsResult {
   durationSeconds: number;
   steps: DirectionsStep[];
 }
+interface ResolvePlaceUrlArgs {
+  url: string;
+}
+interface GoogleMapsPlace {
+  featureId: string;
+  name?: string;
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
@@ -15718,6 +15949,17 @@ interface GetDirectionsResult {
      * list-style query throws.
      */
     geocodeAddress(args: GeocodeAddressArgs): Promise<GeocodeAddressResult>;
+
+    /**
+     * A point in — the Plus Code and locality Google Maps shows for it out, the same string a
+     * person sees when they drop a pin ("JMC2+57W Seattle, Washington"), never a street address:
+     * that is what the site itself answers for a bare point, verified live against the White
+     * House's own coordinates. Rides the same tbm=map door searchPlaces and geocodeAddress use,
+     * with a different field mask — not the browser rung the survey queued this for; the browser
+     * pass that found the field mask was how the shape was discovered, not what the shipped
+     * function needs.
+     */
+    reverseGeocode(args: ReverseGeocodeArgs): Promise<ReverseGeocodeResult>;
 
     /**
      * Everything Google Maps shows on one business's panel — name, full address, coordinates,
@@ -15765,6 +16007,19 @@ interface GetDirectionsResult {
      * duration text. Throws when either place does not resolve to a route.
      */
     getDirections(args: GetDirectionsArgs): Promise<GetDirectionsResult>;
+
+    /**
+     * A Google Maps link somebody pasted — a maps.app.goo.gl short link, a full /maps/place/ link,
+     * or the older ?ftid=/?cid= link — turned into the feature id and name it points at. Two of
+     * the three shapes need no network call at all: everything returned is already sitting in the
+     * URL string, since fetching a resolved link live only echoes the request back rather than
+     * adding data (measured 2026-09-15). Only a short link costs a request — one redirect-follow,
+     * reading the destination out of the "location" header rather than the (contentless) body. A
+     * bare ?cid= link resolves only the LOW half of the feature id and carries no name, reported
+     * as "0x0:0x<lo>" the same way the site's own echo does. Throws when the link resolves to
+     * something that is not a place — a dropped-pin share or a review share, both measured live.
+     */
+    resolvePlaceUrl(args: ResolvePlaceUrlArgs): Promise<GoogleMapsPlace>;
   }
 }
 
@@ -15820,14 +16075,32 @@ interface GoogleNewsTopicFeed {
   title: string;
   articles: GoogleNewsArticle[];
 }
+interface GoogleNewsStory {
+  storyId: string;
+  title: string;
+}
+interface GoogleNewsCoverageArticle {
+  articleId: string;
+  title: string;
+  snippet: string | null;
+  publisher: string;
+  publisherUrl: string | null;
+  url: string;
+  publishedAt: string | null;
+}
+interface GoogleNewsFullCoverage {
+  storyId: string;
+  articles: GoogleNewsCoverageArticle[];
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
    * city's local news, one outlet's own coverage, and everything indexed about a subject with
    * Google's own when: and site: operators. searchNews (the door), topStories,
    * listTopicHeadlines, listLocalHeadlines, listPublisherHeadlines, resolveArticleUrl (the
-   * redirector-to-publisher resolver every other function's links need) and listTopics (the
-   * finder for getTopicHeadlines) are built; everything else is still a declared stub.
+   * redirector-to-publisher resolver every other function's links need), listTopics (the finder
+   * for getTopicHeadlines), listStories (the finder for getFullCoverage) and getFullCoverage
+   * (every outlet reporting one story) are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -15921,6 +16194,30 @@ interface GoogleNewsTopicFeed {
      * titled "Technology - Latest - Google News".
      */
     getTopicHeadlines(topicId: string): Promise<GoogleNewsTopicFeed>;
+
+    /**
+     * The story CLUSTERS Google News is running right now, as ids — the finder for
+     * `getFullCoverage`. Pass a `topicId` (from `listTopics`, or one of the eight section names'
+     * own topic id) to read a topic page — measured 2026-09-15: 43 distinct stories on the
+     * Technology topic page, the richer of the two doors — or omit it to read the front page
+     * instead, which surfaces far fewer (2 measured) since most front-page items are
+     * single-outlet. Reads the "Full Coverage" anchor Google News renders on every multi-outlet
+     * story directly off the page's HTML, rather than the page's own embedded state — no RSS feed
+     * on this site emits a story id at all, so this is the only door.
+     */
+    listStories(topicId?: string): Promise<GoogleNewsStory[]>;
+
+    /**
+     * Every outlet reporting one story — Google News' own Full Coverage, chained off a `storyId`
+     * from `listStories`. Reads the story page's own `AF_initDataCallback({key: 'ds:0'…})` state:
+     * a mix of named groups ("Top news", "Personal perspective", an occasional "Posts on X" of
+     * social posts rather than articles, which are excluded) and ungrouped rows, folded into one
+     * flat list. Unlike every other function here, each article's `url` is the PUBLISHER's own
+     * page directly — no `news.google.com` redirector, so no `resolveArticleUrl` hop is needed. A
+     * story id is as short-lived as a headline; hold one only as long as the `listStories` call
+     * that produced it.
+     */
+    getFullCoverage(storyId: string): Promise<GoogleNewsFullCoverage>;
   }
 }
 
@@ -15950,6 +16247,15 @@ interface GoogleTranslateLanguageDetection {
   confidence: number;
   candidates: GoogleTranslateLanguageCandidate[];
 }
+interface ListLanguagesArgs {
+  hl?: string;
+}
+interface GoogleTranslateLanguage {
+  code: string;
+  name: string;
+  sourceSupported: boolean;
+  targetSupported: boolean;
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -15975,6 +16281,16 @@ interface GoogleTranslateLanguageDetection {
      * considered, most confident first.
      */
     detectLanguage(args: DetectLanguageArgs): Promise<GoogleTranslateLanguageDetection>;
+
+    /**
+     * Every language this site supports — the table that turns a caller's "Portuguese" into the
+     * `pt`/`pt-BR` code the rest of this provider takes, and the honest answer to "can Google
+     * Translate do Cherokee". `args.hl` optionally localizes the returned `name`s (`{ hl: "es" }`
+     * returns "abjasio" for `ab`); left out, names come back in English.
+     * `sourceSupported`/`targetSupported` are not both always true — `sl` alone carries `"auto"`
+     * ("Detect language") and `tl` alone carries `"zh-TW"`, measured 2026-09-15.
+     */
+    listLanguages(args?: ListLanguagesArgs): Promise<GoogleTranslateLanguage[]>;
   }
 }
 
@@ -26024,6 +26340,33 @@ interface PrimeVideoTitleDetail {
   isPrime: boolean;
   isAd: boolean;
 }
+interface PrimeVideoEpisode {
+  titleId: string | null;
+  episodeNumber: number;
+  title: string;
+  synopsis: string | null;
+  runtime: string | null;
+  durationSeconds: number | null;
+  releaseDate: string | null;
+  releaseYear: number | null;
+  images: { packshot: string | null; covershot: string | null };
+  audioTracks: string[];
+  subtitles: string[];
+  isUhd: boolean;
+  isHdr: boolean;
+  isDolbyVision: boolean;
+  isDolbyAtmos: boolean;
+  isXRay: boolean;
+  isClosedCaption: boolean;
+  isPrime: boolean;
+  isAd: boolean;
+}
+interface PrimeVideoCategory {
+  name: string;
+  slug: string;
+  kind: "genre" | "collection" | "storefront";
+  path: string;
+}
 
   /**
    * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
@@ -26031,8 +26374,8 @@ interface PrimeVideoTitleDetail {
    * included with Prime, free with ads, on a named add-on channel, or rentable and buyable with
    * the real price. Plus the browse surfaces (genres, collections, the top ten, this week's
    * deals), the add-on channels, and the free live TV, news and sports schedules. searchTitles,
-   * suggestTitles, getTitle, getWatchOptions and listSeasons are built; everything else is still
-   * a declared stub.
+   * suggestTitles, getTitle, getWatchOptions, listSeasons, listEpisodes and listCategories are
+   * built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -26090,6 +26433,30 @@ interface PrimeVideoTitleDetail {
      * page carries no seasons at all.
      */
     listSeasons(titleId: string): Promise<PrimeVideoSeason[]>;
+
+    /**
+     * List a season's episodes with number, title, synopsis, runtime, release date, artwork, and
+     * the audio and subtitle languages each one ships. The read behind "what happens in episode 3"
+     * and "how long is the finale". Takes the SEASON's titleId — one read off listSeasons() or
+     * getTitle() — or a title URL. Reads the SAME cached page as getTitle, getWatchOptions and
+     * listSeasons, never fetches it twice; episodes come with whichever season is selected, so
+     * reading another season means calling this on THAT season's own titleId, off listSeasons(). A
+     * film returns an empty array — a real, measured answer, matching listSeasons() on the same
+     * title.
+     */
+    listEpisodes(titleId: string): Promise<PrimeVideoEpisode[]>;
+
+    /**
+     * List the ways Prime Video lets you browse — its genres (action, comedy, horror, anime,
+     * documentary and more, plus kids), its editorial collections (new and upcoming, award
+     * winners, free to watch) and its storefronts (movies, TV, store, sports, news, live TV,
+     * subscriptions) — each with the token the browse function below this one in the queue takes.
+     * The door for every browse read here: an agent holding the word "horror" can reach a real
+     * listing without being told a URL. Every row carries `name` (the site's own display text),
+     * `slug` (the literal, inconsistently-cased path token — "science-fiction", "mgForYou" — never
+     * guess its casing) and `kind`. Resolve a caller's typed word against `name`, never `slug`.
+     */
+    listCategories(): Promise<PrimeVideoCategory[]>;
   }
 }
 
@@ -31391,6 +31758,82 @@ type TwiddyQuote =
   }
 }
 
+declare namespace BowmarkProvider_twitch {
+  // ── Twitch — the unit's own declarations, verbatim ──
+interface TwitchVideo {
+  id: string;
+  title: string;
+  /** Seconds. For a live archive this GROWS, trailing real time by a minute or two. */
+  lengthSeconds: number;
+  /** "RECORDING" while the broadcast is live, "RECORDED" after. */
+  status: string;
+  /** "ARCHIVE" (a past broadcast), "HIGHLIGHT" or "UPLOAD". */
+  type: string;
+  createdAt: string;
+  ownerLogin: string;
+  url: string;
+}
+interface GetVideoArgs {
+  /** A Twitch video id, or a twitch.tv/videos/<id> link. */
+  vodId: string;
+}
+interface CreateHighlightArgs {
+  /** The broadcast to cut from — an id or a twitch.tv/videos/<id> link. Omit it
+   * for the signed-in channel's NEWEST archive, which during a broadcast is the
+   * live one. */
+  vodId?: string;
+  /** Seconds into that video. Rounded outward to whole seconds. */
+  startSeconds: number;
+  endSeconds: number;
+  title: string;
+  description?: string;
+  /** Default "en". */
+  language?: string;
+  tags?: string[];
+  /** Category name, e.g. "Wetrix". */
+  game?: string;
+}
+interface TwitchHighlight {
+  /** "created" by this call; "existing" when a highlight with this exact title
+   * was already on the channel (nothing new made); "unknown" when the request
+   * went out and no answer came back — check dashboardUrl before retrying. */
+  status: "created" | "existing" | "unknown";
+  highlightId: string | null;
+  url: string | null;
+  title: string;
+  vodId: string;
+  startSeconds: number;
+  endSeconds: number;
+  channel: string;
+  dashboardUrl: string;
+}
+
+  /**
+   * Twitch — cut a Highlight of your own broadcast, including the one still live, and read any
+   * public video's length and status.
+   */
+  interface Unit {
+    /**
+     * Reads one public Twitch video by id or twitch.tv/videos link — title, length in seconds,
+     * whether it is still RECORDING (a live broadcast's archive) or RECORDED, its type (ARCHIVE,
+     * HIGHLIGHT, UPLOAD) and its channel. No sign-in. THROWS naming the id when Twitch has no such
+     * video.
+     */
+    getVideo(args: GetVideoArgs): Promise<TwitchVideo>;
+
+    /**
+     * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one
+     * still live — between two offsets in seconds, with a title. Omit vodId to cut from the newest
+     * archive. NEEDS the streamer's Twitch sign-in, which only a capability can hold: call it as
+     * bowmark.stream_highlights.create. Idempotent on the title: a highlight whose title already
+     * exists on the channel is returned with status "existing" rather than made twice. Refuses,
+     * without asking for a sign-in, a vod id Twitch does not have or an end offset past what the
+     * live archive has recorded so far (retry shortly in that case).
+     */
+    createHighlight(args: CreateHighlightArgs): Promise<TwitchHighlight>;
+  }
+}
+
 declare namespace BowmarkProvider_uhc_smallbusiness {
   // ── UnitedHealthcare Small Business — the unit's own declarations, verbatim ──
 interface UhcSmallbusinessPlan {
@@ -34190,6 +34633,7 @@ interface BowmarkProviders {
   tryalma_com: BowmarkProvider_tryalma_com.Unit;
   tweethunter: BowmarkProvider_tweethunter.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
+  twitch: BowmarkProvider_twitch.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
@@ -85980,6 +86424,7 @@ interface BowmarkLibrary {
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
   shipping: BowmarkCapability_shipping.Unit;
+  stream_highlights: BowmarkCapability_stream_highlights.Unit;
   tariff: BowmarkCapability_tariff.Unit;
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
   theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;

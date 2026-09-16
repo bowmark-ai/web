@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: da954adfec9f8649172012cf90f386e096c673c2ca4018f2d0846381c76a0aa3
-# 48 capabilities, 414 providers, 1015 typed functions, 20 refused.
+# Manifest version: c0a546a8a11716e927abe3d9c8b4d6ae3728bedaaa1a7b3a68be0a041c0cb69d
+# 49 capabilities, 415 providers, 1031 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1506,6 +1506,30 @@ class Cap_shipping_ShippingRate_Out_price_Out(TypedDict):
     amount: float
     currency: str
 
+class Cap_stream_highlights_CreateHighlightOptions_In(TypedDict):
+    platform: NotRequired[Literal["twitch"]]
+    videoId: NotRequired[str]
+    startSeconds: float
+    endSeconds: float
+    title: str
+    description: NotRequired[str]
+    language: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    game: NotRequired[str]
+
+class Cap_stream_highlights_StreamHighlight_Out(TypedDict):
+    status: Literal["created"] | Literal["existing"] | Literal["unknown"]
+    platform: Literal["twitch"]
+    highlightId: str | None
+    url: str | None
+    title: str
+    videoId: str
+    startSeconds: float
+    endSeconds: float
+    channel: str
+    dashboardUrl: str
+    warnings: list[str]
+
 class Cap_tariff_TariffLookupResult_Out(TypedDict):
     code: str
     entry: Cap_tariff_TariffEntry_Out | None
@@ -2208,6 +2232,19 @@ class Prv_amazon_AmazonReview_Out(TypedDict):
     body: str
     helpfulCount: float
 
+class Prv_amazon_AmazonRelatedProducts_Out(TypedDict):
+    boughtTogether: list[Prv_amazon_AmazonRelatedProduct_Out]
+    related: list[Prv_amazon_AmazonRelatedProduct_Out]
+    unavailableRails: list[str]
+
+class Prv_amazon_AmazonRelatedProduct_Out(TypedDict):
+    asin: str
+    title: str
+    url: str
+    price: float | None
+    rating: float | None
+    ratingCount: float | None
+
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
     name: str
@@ -2477,6 +2514,62 @@ class Prv_app_store_GetAppArgs_In(TypedDict):
     app: str | float
     country: NotRequired[str]
 
+class Prv_app_store_GetAppsArgs_In(TypedDict):
+    apps: Sequence[str | float]
+    country: NotRequired[str]
+
+class Prv_app_store_GetAppsResult_Out(TypedDict):
+    apps: list[Prv_app_store_AppStoreApp_Out]
+    warnings: list[str]
+
+class Prv_app_store_GetAppDetailsArgs_In(TypedDict):
+    app: str | float
+
+class Prv_app_store_AppStoreAppDetails_Out(TypedDict):
+    id: str
+    url: str
+    ratings: Prv_app_store_AppStoreRatingHistogram_Out | None
+    chartPosition: Prv_app_store_AppStoreChartPosition_Out | None
+    editorsChoice: bool
+    information: Mapping[str, str]
+    inAppPurchases: list[Prv_app_store_AppStoreInAppPurchase_Out]
+    privacy: list[Prv_app_store_AppStorePrivacyCategory_Out]
+    mostRecentVersion: Prv_app_store_AppStoreVersionInfo_Out | None
+    accessibilityFeatures: list[str]
+    links: list[Prv_app_store_AppStoreLink_Out]
+    featuredIn: list[Prv_app_store_AppStoreFeaturedStory_Out]
+
+class Prv_app_store_AppStoreRatingHistogram_Out(TypedDict):
+    average: float
+    total: float
+    counts: list[float]
+
+class Prv_app_store_AppStoreChartPosition_Out(TypedDict):
+    category: str
+    position: float
+
+class Prv_app_store_AppStoreInAppPurchase_Out(TypedDict):
+    name: str
+    price: str
+
+class Prv_app_store_AppStorePrivacyCategory_Out(TypedDict):
+    type: str
+    title: str
+    categories: list[str]
+
+class Prv_app_store_AppStoreVersionInfo_Out(TypedDict):
+    version: str | None
+    releaseDate: str | None
+    notes: str
+
+class Prv_app_store_AppStoreLink_Out(TypedDict):
+    label: str
+    url: str
+
+class Prv_app_store_AppStoreFeaturedStory_Out(TypedDict):
+    title: str
+    url: str
+
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
     results: list[Prv_apple_AppleSearchResult_Out]
@@ -2540,6 +2633,45 @@ class Prv_apple_AppleLocationSuggestion_Out(TypedDict):
     displayValue: str
     city: str
     state: str
+
+class Prv_apple_AppleStoresNear_Out(TypedDict):
+    location: str
+    stores: list[Prv_apple_AppleNearbyStore_Out]
+
+class Prv_apple_AppleNearbyStore_Out(TypedDict):
+    storeNumber: str
+    storeName: str
+    city: str
+    state: str
+    address: str
+    phoneNumber: str
+    distanceMiles: float | None
+
+class Prv_apple_ApplePickupAvailability_Out(TypedDict):
+    partNumber: str
+    location: str
+    stores: list[Prv_apple_ApplePickupStore_Out]
+
+class Prv_apple_ApplePickupStore_Out(TypedDict):
+    storeNumber: str
+    storeName: str
+    city: str
+    state: str
+    address: str
+    phoneNumber: str
+    distanceMiles: float | None
+    available: bool
+    pickupQuote: str | None
+
+class Prv_apple_AppleDeliveryEstimate_Out(TypedDict):
+    partNumber: str
+    postalCode: str
+    options: list[Prv_apple_AppleDeliveryOption_Out]
+
+class Prv_apple_AppleDeliveryOption_Out(TypedDict):
+    displayName: str
+    date: str
+    shippingCost: str
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -8457,6 +8589,21 @@ class Prv_google_maps_GeocodeAddressResult_Out_coordinates_u0_Out(TypedDict):
     lat: float
     lng: float
 
+class Prv_google_maps_ReverseGeocodeArgs_In(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_google_maps_ReverseGeocodeResult_Out(TypedDict):
+    formatted: str
+    plusCode: str
+    locality: str
+    dms: str
+    coordinates: Prv_google_maps_ReverseGeocodeResult_Out_coordinates_Out
+
+class Prv_google_maps_ReverseGeocodeResult_Out_coordinates_Out(TypedDict):
+    lat: float
+    lng: float
+
 class Prv_google_maps_GetPlaceArgs_In(TypedDict):
     query: str
 
@@ -8523,6 +8670,13 @@ class Prv_google_maps_DirectionsStep_Out(TypedDict):
     distance: str
     duration: str
 
+class Prv_google_maps_ResolvePlaceUrlArgs_In(TypedDict):
+    url: str
+
+class Prv_google_maps_GoogleMapsPlace_Out(TypedDict):
+    featureId: str
+    name: NotRequired[str]
+
 class Prv_google_news_GoogleNewsSearchResult_Out(TypedDict):
     query: str
     articles: list[Prv_google_news_GoogleNewsArticle_Out]
@@ -8573,6 +8727,23 @@ class Prv_google_news_GoogleNewsTopicFeed_Out(TypedDict):
     title: str
     articles: list[Prv_google_news_GoogleNewsArticle_Out]
 
+class Prv_google_news_GoogleNewsStory_Out(TypedDict):
+    storyId: str
+    title: str
+
+class Prv_google_news_GoogleNewsFullCoverage_Out(TypedDict):
+    storyId: str
+    articles: list[Prv_google_news_GoogleNewsCoverageArticle_Out]
+
+class Prv_google_news_GoogleNewsCoverageArticle_Out(TypedDict):
+    articleId: str
+    title: str
+    snippet: str | None
+    publisher: str
+    publisherUrl: str | None
+    url: str
+    publishedAt: str | None
+
 Prv_google_translate_TranslateArgs_In = TypedDict(
     "Prv_google_translate_TranslateArgs_In",
     {
@@ -8600,6 +8771,15 @@ class Prv_google_translate_GoogleTranslateLanguageDetection_Out(TypedDict):
 class Prv_google_translate_GoogleTranslateLanguageCandidate_Out(TypedDict):
     language: str
     confidence: float
+
+class Prv_google_translate_ListLanguagesArgs_In(TypedDict):
+    hl: NotRequired[str]
+
+class Prv_google_translate_GoogleTranslateLanguage_Out(TypedDict):
+    code: str
+    name: str
+    sourceSupported: bool
+    targetSupported: bool
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -13654,6 +13834,37 @@ class Prv_prime_video_PrimeVideoSeason_Out(TypedDict):
     sequenceNumber: float
     seasonSelectorIcon: str | None
 
+class Prv_prime_video_PrimeVideoEpisode_Out(TypedDict):
+    titleId: str | None
+    episodeNumber: float
+    title: str
+    synopsis: str | None
+    runtime: str | None
+    durationSeconds: float | None
+    releaseDate: str | None
+    releaseYear: float | None
+    images: Prv_prime_video_PrimeVideoEpisode_Out_images_Out
+    audioTracks: list[str]
+    subtitles: list[str]
+    isUhd: bool
+    isHdr: bool
+    isDolbyVision: bool
+    isDolbyAtmos: bool
+    isXRay: bool
+    isClosedCaption: bool
+    isPrime: bool
+    isAd: bool
+
+class Prv_prime_video_PrimeVideoEpisode_Out_images_Out(TypedDict):
+    packshot: str | None
+    covershot: str | None
+
+class Prv_prime_video_PrimeVideoCategory_Out(TypedDict):
+    name: str
+    slug: str
+    kind: Literal["genre"] | Literal["collection"] | Literal["storefront"]
+    path: str
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -16598,6 +16809,40 @@ class Prv_twiddy_TwiddyQuote_u1_Out(TypedDict):
     checkin: str
     nights: float
 
+class Prv_twitch_GetVideoArgs_In(TypedDict):
+    vodId: str
+
+class Prv_twitch_TwitchVideo_Out(TypedDict):
+    id: str
+    title: str
+    lengthSeconds: float
+    status: str
+    type: str
+    createdAt: str
+    ownerLogin: str
+    url: str
+
+class Prv_twitch_CreateHighlightArgs_In(TypedDict):
+    vodId: NotRequired[str]
+    startSeconds: float
+    endSeconds: float
+    title: str
+    description: NotRequired[str]
+    language: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    game: NotRequired[str]
+
+class Prv_twitch_TwitchHighlight_Out(TypedDict):
+    status: Literal["created"] | Literal["existing"] | Literal["unknown"]
+    highlightId: str | None
+    url: str | None
+    title: str
+    vodId: str
+    startSeconds: float
+    endSeconds: float
+    channel: str
+    dashboardUrl: str
+
 class Prv_uhc_smallbusiness_UhcSmallbusinessQuote_Out(TypedDict):
     zip: str
     state: str
@@ -18581,6 +18826,22 @@ class Cap_shipping(Protocol):
         sets the per-carrier budget (default 30000).
         """
 
+class Cap_stream_highlights(Protocol):
+    """Cuts a permanent Highlight out of a streamer's own broadcast on Twitch — including the
+    one still live — between two offsets in seconds, with a title. Needs the streamer's
+    Twitch sign-in: the first run answers needs_user with a link to sign in, and later runs
+    reuse it.
+    """
+
+    async def create(self, options: Cap_stream_highlights_CreateHighlightOptions_In, /) -> Cap_stream_highlights_StreamHighlight_Out:
+        """Cuts a highlight from [startSeconds, endSeconds] of the signed-in streamer's broadcast
+        (`videoId`, or the newest one — the live one while streaming) and titles it. Safe to
+        call again with the same title: an existing highlight of that title is returned with
+        status "existing" instead of being cut twice. THROWS with "Retry shortly" when the live
+        broadcast's archive has not recorded up to endSeconds yet (it trails real time by a
+        minute or two). Needs a Twitch sign-in.
+        """
+
 class Cap_tariff(Protocol):
     """Resolves a Harmonized Tariff Schedule (HS/HTS) code to its description, duty rates and
     place in the schedule, straight off USITC's own published data.
@@ -19012,11 +19273,11 @@ class Prv_alphavantage(Protocol):
 
 class Prv_amazon(Protocol):
     """Search Amazon's catalogue and read a product the way a shopper does — price, stock,
-    rating, the customer reviews, every size and colour the listing sells — plus the
-    rankings (best sellers, new releases, movers and shakers, most wished for), today's
-    deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
-    listBestSellerCategories, getProduct, listVariations and listReviews are built;
-    everything else is still a declared stub.
+    rating, the customer reviews, the other products it recommends, every size and colour
+    the listing sells — plus the rankings (best sellers, new releases, movers and shakers,
+    most wished for), today's deals and a marketplace seller's feedback. searchProducts,
+    suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews and
+    listRelatedProducts are built; everything else is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -19063,6 +19324,15 @@ class Prv_amazon(Protocol):
         eight reviews on the product page itself; sorting, filtering and paging past them needs
         a signed-in account, which sign-up has not shipped for yet. The read an agent needs to
         answer "is this any good" rather than "what does it cost".
+        """
+
+    async def listRelatedProducts(self, asinOrUrl: str, /) -> Prv_amazon_AmazonRelatedProducts_Out:
+        """The other products Amazon puts next to this one — "Frequently bought together" and
+        "Customers who viewed this item also viewed" — each with its ASIN, title, price and
+        rating, kept in separate arrays so a caller can tell a complement from a substitute.
+        Names any further rail Amazon lazy-loads rather than serving inline rather than silently
+        dropping it. How an agent moves from one product to the alternatives without inventing a
+        new search query.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -19261,6 +19531,23 @@ class Prv_app_store(Protocol):
         provider, and the cheapest call in it.
         """
 
+    async def getApps(self, args: Prv_app_store_GetAppsArgs_In, /) -> Prv_app_store_GetAppsResult_Out:
+        """Read up to fifty apps in ONE request, for when an agent already holds a list of ids —
+        the ranks past the top of a chart, the ids in a "you might also like" shelf, a
+        comparison a person asked for. Same record as getApp, one round trip instead of fifty;
+        an id that does not resolve is named in warnings rather than silently dropped.
+        """
+
+    async def getAppDetails(self, args: Prv_app_store_GetAppDetailsArgs_In, /) -> Prv_app_store_AppStoreAppDetails_Out:
+        """Everything the store page shows that the API does not: the five-star rating histogram,
+        the app's live chart position, every in-app purchase by name and price, Apple's privacy
+        nutrition labels, the Editors' Choice citation, the latest version's notes, size,
+        seller, compatibility, languages, copyright, accessibility features, developer-website
+        and privacy-policy links, and the editorial stories it has been featured in. Every field
+        is optional — a missing shelf on the app's own page is an absent field here, never a
+        throw.
+        """
+
 class Prv_apple(Protocol):
     """apple.com's own site search and product pages — no API, no login, no browser."""
 
@@ -19303,6 +19590,30 @@ class Prv_apple(Protocol):
         location typeahead. A DOOR HOP: the small step that makes findStoresNear,
         getPickupAvailability and getDeliveryEstimate callable from words alone instead of a
         pre-resolved location string.
+        """
+
+    async def findStoresNear(self, place: str, /) -> Prv_apple_AppleStoresNear_Out:
+        """Finds the Apple Stores near a place a person named — "Cupertino", "94108", "San
+        Francisco" — with each store's name, number, city, state, address, phone and distance,
+        nearest first. The finder that turns a place into the store records every other retail
+        function here takes, for a caller who holds no part number and must not have to invent
+        one.
+        """
+
+    async def getPickupAvailability(self, partNumber: str, place: str, /) -> Prv_apple_ApplePickupAvailability_Out:
+        """Answers the one question apple.com is uniquely able to answer: can I walk into a store
+        today and pick this up. Give it a part number (or a /shop/ path or apple.com URL —
+        resolved the same way getProduct's argument is) and a place, and it returns every nearby
+        Apple Store with whether that exact configuration is in stock, the pickup window, and
+        the store's name, number, address, phone and distance.
+        """
+
+    async def getDeliveryEstimate(self, partNumber: str, postalCode: str, /) -> Prv_apple_AppleDeliveryEstimate_Out:
+        """When would this actually arrive if ordered now, to a ZIP code — the shipping options and
+        delivery dates apple.com quotes on the buy page for one exact configuration, without
+        starting a checkout. Takes a bare 5-digit ZIP, NOT the resolved place string
+        getPickupAvailability takes: apple.com's own delivery-message endpoint reads a different
+        parameter and ignores a "<city>, <state>" value entirely.
         """
 
 class Prv_aquaphoenixsci(Protocol):
@@ -23406,6 +23717,16 @@ class Prv_google_maps(Protocol):
         category or list-style query throws.
         """
 
+    async def reverseGeocode(self, args: Prv_google_maps_ReverseGeocodeArgs_In, /) -> Prv_google_maps_ReverseGeocodeResult_Out:
+        """A point in — the Plus Code and locality Google Maps shows for it out, the same string a
+        person sees when they drop a pin ("JMC2+57W Seattle, Washington"), never a street
+        address: that is what the site itself answers for a bare point, verified live against
+        the White House's own coordinates. Rides the same tbm=map door searchPlaces and
+        geocodeAddress use, with a different field mask — not the browser rung the survey queued
+        this for; the browser pass that found the field mask was how the shape was discovered,
+        not what the shipped function needs.
+        """
+
     async def getPlace(self, args: Prv_google_maps_GetPlaceArgs_In, /) -> Prv_google_maps_GetPlaceResult_Out:
         """Everything Google Maps shows on one business's panel — name, full address, coordinates,
         category, neighborhood, phone, website, rating, review count and weekly hours, each
@@ -23451,13 +23772,28 @@ class Prv_google_maps(Protocol):
         a route.
         """
 
+    async def resolvePlaceUrl(self, args: Prv_google_maps_ResolvePlaceUrlArgs_In, /) -> Prv_google_maps_GoogleMapsPlace_Out:
+        """A Google Maps link somebody pasted — a maps.app.goo.gl short link, a full /maps/place/
+        link, or the older ?ftid=/?cid= link — turned into the feature id and name it points at.
+        Two of the three shapes need no network call at all: everything returned is already
+        sitting in the URL string, since fetching a resolved link live only echoes the request
+        back rather than adding data (measured 2026-09-15). Only a short link costs a request —
+        one redirect-follow, reading the destination out of the "location" header rather than
+        the (contentless) body. A bare ?cid= link resolves only the LOW half of the feature id
+        and carries no name, reported as "0x0:0x<lo>" the same way the site's own echo does.
+        Throws when the link resolves to something that is not a place — a dropped-pin share or
+        a review share, both measured live.
+        """
+
 class Prv_google_news(Protocol):
     """Headlines from every publisher at once — today's top stories as clusters, a section or a
     city's local news, one outlet's own coverage, and everything indexed about a subject
     with Google's own when: and site: operators. searchNews (the door), topStories,
     listTopicHeadlines, listLocalHeadlines, listPublisherHeadlines, resolveArticleUrl (the
-    redirector-to-publisher resolver every other function's links need) and listTopics (the
-    finder for getTopicHeadlines) are built; everything else is still a declared stub.
+    redirector-to-publisher resolver every other function's links need), listTopics (the
+    finder for getTopicHeadlines), listStories (the finder for getFullCoverage) and
+    getFullCoverage (every outlet reporting one story) are built; everything else is still a
+    declared stub.
     """
 
     async def searchNews(self, query: str, /) -> Prv_google_news_GoogleNewsSearchResult_Out:
@@ -23545,6 +23881,28 @@ class Prv_google_news(Protocol):
         door, 70 items, titled "Technology - Latest - Google News".
         """
 
+    async def listStories(self, topicId: str | None = None, /) -> list[Prv_google_news_GoogleNewsStory_Out]:
+        """The story CLUSTERS Google News is running right now, as ids — the finder for
+        `getFullCoverage`. Pass a `topicId` (from `listTopics`, or one of the eight section
+        names' own topic id) to read a topic page — measured 2026-09-15: 43 distinct stories on
+        the Technology topic page, the richer of the two doors — or omit it to read the front
+        page instead, which surfaces far fewer (2 measured) since most front-page items are
+        single-outlet. Reads the "Full Coverage" anchor Google News renders on every
+        multi-outlet story directly off the page's HTML, rather than the page's own embedded
+        state — no RSS feed on this site emits a story id at all, so this is the only door.
+        """
+
+    async def getFullCoverage(self, storyId: str, /) -> Prv_google_news_GoogleNewsFullCoverage_Out:
+        """Every outlet reporting one story — Google News' own Full Coverage, chained off a
+        `storyId` from `listStories`. Reads the story page's own `AF_initDataCallback({key:
+        'ds:0'…})` state: a mix of named groups ("Top news", "Personal perspective", an
+        occasional "Posts on X" of social posts rather than articles, which are excluded) and
+        ungrouped rows, folded into one flat list. Unlike every other function here, each
+        article's `url` is the PUBLISHER's own page directly — no `news.google.com` redirector,
+        so no `resolveArticleUrl` hop is needed. A story id is as short-lived as a headline;
+        hold one only as long as the `listStories` call that produced it.
+        """
+
 class Prv_google_translate(Protocol):
     """Translate text into any of 249 languages, in a batch if you have a list, and find out
     what language something already is — plus the dictionary underneath: senses,
@@ -23566,6 +23924,15 @@ class Prv_google_translate(Protocol):
         confidently wrong (measured 2026-09-15: "Bonjour" alone detects as "en"), so a caller
         reading only `language` cannot tell a guess from a sure thing. `candidates` carries
         every language Google's detector considered, most confident first.
+        """
+
+    async def listLanguages(self, args: Prv_google_translate_ListLanguagesArgs_In | None = None, /) -> list[Prv_google_translate_GoogleTranslateLanguage_Out]:
+        """Every language this site supports — the table that turns a caller's "Portuguese" into
+        the `pt`/`pt-BR` code the rest of this provider takes, and the honest answer to "can
+        Google Translate do Cherokee". `args.hl` optionally localizes the returned `name`s (`{
+        hl: "es" }` returns "abjasio" for `ab`); left out, names come back in English.
+        `sourceSupported`/`targetSupported` are not both always true — `sl` alone carries
+        `"auto"` ("Detect language") and `tl` alone carries `"zh-TW"`, measured 2026-09-15.
         """
 
 class Prv_gostoreit(Protocol):
@@ -27144,8 +27511,8 @@ class Prv_prime_video(Protocol):
     watched: included with Prime, free with ads, on a named add-on channel, or rentable and
     buyable with the real price. Plus the browse surfaces (genres, collections, the top ten,
     this week's deals), the add-on channels, and the free live TV, news and sports
-    schedules. searchTitles, suggestTitles, getTitle, getWatchOptions and listSeasons are
-    built; everything else is still a declared stub.
+    schedules. searchTitles, suggestTitles, getTitle, getWatchOptions, listSeasons,
+    listEpisodes and listCategories are built; everything else is still a declared stub.
     """
 
     async def searchTitles(self, query: str, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
@@ -27199,6 +27566,29 @@ class Prv_prime_video(Protocol):
         searchTitles() or getTitle(). Reads the SAME cached page as getTitle and
         getWatchOptions, never fetches it twice. A film returns an empty array — a real,
         measured answer, since a film's own /detail/ page carries no seasons at all.
+        """
+
+    async def listEpisodes(self, titleId: str, /) -> list[Prv_prime_video_PrimeVideoEpisode_Out]:
+        """List a season's episodes with number, title, synopsis, runtime, release date, artwork,
+        and the audio and subtitle languages each one ships. The read behind "what happens in
+        episode 3" and "how long is the finale". Takes the SEASON's titleId — one read off
+        listSeasons() or getTitle() — or a title URL. Reads the SAME cached page as getTitle,
+        getWatchOptions and listSeasons, never fetches it twice; episodes come with whichever
+        season is selected, so reading another season means calling this on THAT season's own
+        titleId, off listSeasons(). A film returns an empty array — a real, measured answer,
+        matching listSeasons() on the same title.
+        """
+
+    async def listCategories(self, /) -> list[Prv_prime_video_PrimeVideoCategory_Out]:
+        """List the ways Prime Video lets you browse — its genres (action, comedy, horror, anime,
+        documentary and more, plus kids), its editorial collections (new and upcoming, award
+        winners, free to watch) and its storefronts (movies, TV, store, sports, news, live TV,
+        subscriptions) — each with the token the browse function below this one in the queue
+        takes. The door for every browse read here: an agent holding the word "horror" can reach
+        a real listing without being told a URL. Every row carries `name` (the site's own
+        display text), `slug` (the literal, inconsistently-cased path token — "science-fiction",
+        "mgForYou" — never guess its casing) and `kind`. Resolve a caller's typed word against
+        `name`, never `slug`.
         """
 
 class Prv_progressive(Protocol):
@@ -29145,6 +29535,28 @@ class Prv_twiddy(Protocol):
         the property has no live rate for that week, an ordinary answer.
         """
 
+class Prv_twitch(Protocol):
+    """Twitch — cut a Highlight of your own broadcast, including the one still live, and read
+    any public video's length and status.
+    """
+
+    async def getVideo(self, args: Prv_twitch_GetVideoArgs_In, /) -> Prv_twitch_TwitchVideo_Out:
+        """Reads one public Twitch video by id or twitch.tv/videos link — title, length in seconds,
+        whether it is still RECORDING (a live broadcast's archive) or RECORDED, its type
+        (ARCHIVE, HIGHLIGHT, UPLOAD) and its channel. No sign-in. THROWS naming the id when
+        Twitch has no such video.
+        """
+
+    async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, /) -> Prv_twitch_TwitchHighlight_Out:
+        """Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the
+        one still live — between two offsets in seconds, with a title. Omit vodId to cut from
+        the newest archive. NEEDS the streamer's Twitch sign-in, which only a capability can
+        hold: call it as bowmark.stream_highlights.create. Idempotent on the title: a highlight
+        whose title already exists on the channel is returned with status "existing" rather than
+        made twice. Refuses, without asking for a sign-in, a vod id Twitch does not have or an
+        end offset past what the live archive has recorded so far (retry shortly in that case).
+        """
+
 class Prv_uhc_smallbusiness(Protocol):
     """UnitedHealthcare's small-business store — real level-funded and fully-insured group
     health plan premiums for a ZIP and employee count, no sign-in required.
@@ -30144,6 +30556,7 @@ class BowmarkProviders(Protocol):
     tryalma_com: Prv_tryalma_com
     tweethunter: Prv_tweethunter
     twiddy: Prv_twiddy
+    twitch: Prv_twitch
     uhc_smallbusiness: Prv_uhc_smallbusiness
     ulrichlifestyle: Prv_ulrichlifestyle
     upkeepstl_com: Prv_upkeepstl_com
@@ -30220,6 +30633,7 @@ class Bowmark(Protocol):
     search: Cap_search
     sheds: Cap_sheds
     shipping: Cap_shipping
+    stream_highlights: Cap_stream_highlights
     tariff: Cap_tariff
     text_to_speech: Cap_text_to_speech
     theme_park_tickets: Cap_theme_park_tickets

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: da954adfec9f8649172012cf90f386e096c673c2ca4018f2d0846381c76a0aa3
-// 1015 checked, 20 unchecked.
+// Manifest version: c0a546a8a11716e927abe3d9c8b4d6ae3728bedaaa1a7b3a68be0a041c0cb69d
+// 1031 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "da954adfec9f8649172012cf90f386e096c673c2ca4018f2d0846381c76a0aa3",
+  "version": "c0a546a8a11716e927abe3d9c8b4d6ae3728bedaaa1a7b3a68be0a041c0cb69d",
   "units": {
     "booking_links": {
       "defs": {
@@ -2732,6 +2732,94 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "stream_highlights": {
+      "defs": {
+        "CreateHighlightOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "platform",
+              "schema": {
+                "k": "literal",
+                "v": "twitch"
+              },
+              "optional": true
+            },
+            {
+              "name": "videoId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "startSeconds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "endSeconds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "tags",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "game",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "create": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CreateHighlightOptions"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "tariff": {
       "defs": {},
       "functions": {
@@ -4089,6 +4177,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listRelatedProducts": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -4511,6 +4608,56 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetAppDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "app",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetAppsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "apps",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "union",
+                  "of": [
+                    {
+                      "k": "string"
+                    },
+                    {
+                      "k": "number"
+                    }
+                  ]
+                }
+              },
+              "optional": false
+            },
+            {
+              "name": "country",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchAppsArgs": {
           "k": "object",
           "props": [
@@ -4581,6 +4728,26 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getApps": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAppsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAppDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAppDetailsArgs"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -4635,6 +4802,47 @@ export const VALIDATORS: ValidatorTable = {
         "resolveLocation": [
           {
             "name": "place",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "findStoresNear": [
+          {
+            "name": "place",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPickupAvailability": [
+          {
+            "name": "partNumber",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "place",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getDeliveryEstimate": [
+          {
+            "name": "partNumber",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "postalCode",
             "schema": {
               "k": "string"
             },
@@ -13959,6 +14167,37 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ResolvePlaceUrlArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ReverseGeocodeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchPlacesArgs": {
           "k": "object",
           "props": [
@@ -14015,6 +14254,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "reverseGeocode": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ReverseGeocodeArgs"
+            },
+            "optional": false
+          }
+        ],
         "getPlace": [
           {
             "name": "args",
@@ -14051,6 +14300,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetDirectionsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "resolvePlaceUrl": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ResolvePlaceUrlArgs"
             },
             "optional": false
           }
@@ -14122,6 +14381,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listStories": [
+          {
+            "name": "topicId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getFullCoverage": [
+          {
+            "name": "storyId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -14136,6 +14413,18 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            }
+          ]
+        },
+        "ListLanguagesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "hl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },
@@ -14196,6 +14485,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "DetectLanguageArgs"
             },
             "optional": false
+          }
+        ],
+        "listLanguages": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListLanguagesArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -22111,7 +22410,17 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listEpisodes": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": []
       }
     },
     "providers.progressive": {
@@ -29486,6 +29795,108 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.twitch": {
+      "defs": {
+        "CreateHighlightArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "vodId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "startSeconds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "endSeconds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "tags",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "game",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "vodId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "createHighlight": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CreateHighlightArgs"
             },
             "optional": false
           }
