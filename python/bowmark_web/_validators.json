@@ -1,5 +1,5 @@
 {
-  "version": "8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771",
+  "version": "7f1939ed67508b585db1c3c55065564de56b7141270c7a99028ac0914f8d9ea4",
   "units": {
     "booking_links": {
       "defs": {
@@ -4201,7 +4201,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listDeals": []
       }
     },
     "providers.americandreamvacations": {
@@ -14646,6 +14647,25 @@
             }
           ]
         },
+        "GetDefinitionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "word",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListLanguagesArgs": {
           "k": "object",
           "props": [
@@ -14766,6 +14786,16 @@
             "schema": {
               "k": "ref",
               "name": "LookupWordArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDefinitions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDefinitionsArgs"
             },
             "optional": false
           }
@@ -22704,7 +22734,37 @@
           }
         ],
         "listNewReleases": [],
-        "listFreeToWatch": []
+        "listFreeToWatch": [],
+        "listTop10": [
+          {
+            "name": "list",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "tv"
+                },
+                {
+                  "k": "literal",
+                  "v": "movies"
+                },
+                {
+                  "k": "literal",
+                  "v": "channel"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "channelId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.progressive": {

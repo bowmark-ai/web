@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771
-# 49 capabilities, 415 providers, 1044 typed functions, 20 refused.
+# Manifest version: 7f1939ed67508b585db1c3c55065564de56b7141270c7a99028ac0914f8d9ea4
+# 49 capabilities, 415 providers, 1047 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2253,6 +2253,15 @@ class Prv_amazon_AmazonBestSellerEntry_Out(TypedDict):
     price: float | None
     rating: float | None
     ratingCount: float | None
+
+class Prv_amazon_AmazonDeal_Out(TypedDict):
+    asin: str
+    title: str
+    url: str
+    dealPrice: float
+    listPrice: float | None
+    percentOff: float | None
+    limitedTimeText: str | None
 
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
@@ -8899,6 +8908,29 @@ class Prv_google_translate_GoogleTranslateWordCandidate_Out(TypedDict):
     reverseTranslations: list[str]
     score: float
 
+class Prv_google_translate_GetDefinitionsArgs_In(TypedDict):
+    word: str
+    language: str
+
+class Prv_google_translate_GoogleTranslateWordDefinitions_Out(TypedDict):
+    word: str
+    language: str
+    senses: list[Prv_google_translate_GoogleTranslateDefinitionSense_Out]
+
+class Prv_google_translate_GoogleTranslateDefinitionSense_Out(TypedDict):
+    partOfSpeech: str
+    definitions: list[Prv_google_translate_GoogleTranslateDefinition_Out]
+
+class Prv_google_translate_GoogleTranslateDefinition_Out(TypedDict):
+    definitionId: str
+    gloss: str
+    examples: list[Prv_google_translate_GoogleTranslateDefinitionExample_Out]
+    subject: NotRequired[list[str]]
+    register: NotRequired[list[str]]
+
+class Prv_google_translate_GoogleTranslateDefinitionExample_Out(TypedDict):
+    text: str
+
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
     address: str
@@ -13986,6 +14018,19 @@ class Prv_prime_video_PrimeVideoCategory_Out(TypedDict):
 class Prv_prime_video_PrimeVideoCategoryRow_Out(TypedDict):
     heading: str
     titles: list[Prv_prime_video_PrimeVideoTitle_Out]
+
+class Prv_prime_video_PrimeVideoTop10Entry_Out(TypedDict):
+    titleId: str
+    catalogId: str | None
+    title: str
+    url: str
+    entityType: str | None
+    releaseYear: float | None
+    maturityRating: str | None
+    entitled: bool
+    watchMessage: str | None
+    position: float
+    list: Literal["tv"] | Literal["movies"] | Literal["channel"]
 
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
@@ -19399,8 +19444,8 @@ class Prv_amazon(Protocol):
     the listing sells — plus the rankings (best sellers, new releases, movers and shakers,
     most wished for), today's deals and a marketplace seller's feedback. searchProducts,
     suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
-    listRelatedProducts, listBestSellers, listNewReleases and listMostWishedFor are built;
-    everything else is still a declared stub.
+    listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor and listDeals
+    are built; everything else is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
@@ -19480,6 +19525,15 @@ class Prv_amazon(Protocol):
         rating. Demand that has not turned into a purchase yet, which is a different signal from
         listBestSellers' sales rank. Page one only (up to 30 rows), the same limit the other
         rankings carry.
+        """
+
+    async def listDeals(self, /) -> list[Prv_amazon_AmazonDeal_Out]:
+        """Today's Deals — what is discounted right now: ASIN, title, the deal price, the price it
+        was, the percentage off, and any "limited time" wording (a plain label, or, for a
+        countdown deal, the fragment plus its ISO deadline). Read off the page's own widget JSON
+        rather than scraped from a card, so the discount is a published field rather than
+        something to compute. Page one only (30 deals) — the site's own paging control was not
+        found this pass.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -24153,6 +24207,14 @@ class Prv_google_translate(Protocol):
         the plain `translate` function still works on those.
         """
 
+    async def getDefinitions(self, args: Prv_google_translate_GetDefinitionsArgs_In, /) -> Prv_google_translate_GoogleTranslateWordDefinitions_Out:
+        """What `args.word` MEANS, IN `args.language` — monolingual, unlike `lookupWord`, which
+        translates between two. Groups every sense by part of speech, each carrying a
+        plain-English gloss and, where Google has one, a real usage example (its own
+        `<b>`-highlight markup stripped). `senses` comes back empty when Google's dictionary has
+        nothing for the term.
+        """
+
 class Prv_gostoreit(Protocol):
     """Go Store It — live public self-storage unit inventory, amenity details, and monthly
     online prices from a chosen facility.
@@ -27845,6 +27907,22 @@ class Prv_prime_video(Protocol):
         apart (measured 2026-09-16: 8 of 20 cards on that row are Prime-included, not
         free-with-ads). A row whose cards are all Prime-included, not free-with-ads, is dropped
         rather than returned empty.
+        """
+
+    async def listTop10(self, list: Literal["tv"] | Literal["movies"] | Literal["channel"], channelId: str | None = None, /) -> list[Prv_prime_video_PrimeVideoTop10Entry_Out]:
+        """Prime Video's own top ten right now — the most-watched TV shows in the US ("tv", off
+        `/tv`), the top films to rent or buy ("movies", off `/store`), or the top ten on one
+        add-on channel ("channel", off that channel's own page — pass its uuid as `channelId`,
+        e.g. one read off listChannels() or a channel URL). The read behind "what is everyone
+        watching", and one search can never give you, because search ranks by relevance and this
+        ranks by what is actually being played. Every row carries `position` (the card's own
+        1-based rank within that list — Prime Video never prints a rank number, so this is the
+        card's own order) and `list` (which of the three it came from) alongside the same fields
+        searchTitles() returns; a merged top ten that does not say whether it means streaming or
+        renting is a wrong answer wearing a right one. **The row is intermittent** — measured
+        this build pass, three spaced captures of `/tv` in one minute carried it on only one —
+        so a request that lands without it returns `[]`, a real and honest answer, never an
+        error.
         """
 
 class Prv_progressive(Protocol):

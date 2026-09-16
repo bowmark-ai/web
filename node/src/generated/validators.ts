@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771
-// 1044 checked, 20 unchecked.
+// Manifest version: 7f1939ed67508b585db1c3c55065564de56b7141270c7a99028ac0914f8d9ea4
+// 1047 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771",
+  "version": "7f1939ed67508b585db1c3c55065564de56b7141270c7a99028ac0914f8d9ea4",
   "units": {
     "booking_links": {
       "defs": {
@@ -4213,7 +4213,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listDeals": []
       }
     },
     "providers.americandreamvacations": {
@@ -14658,6 +14659,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetDefinitionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "word",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListLanguagesArgs": {
           "k": "object",
           "props": [
@@ -14778,6 +14798,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "LookupWordArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDefinitions": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDefinitionsArgs"
             },
             "optional": false
           }
@@ -22716,7 +22746,37 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listNewReleases": [],
-        "listFreeToWatch": []
+        "listFreeToWatch": [],
+        "listTop10": [
+          {
+            "name": "list",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "tv"
+                },
+                {
+                  "k": "literal",
+                  "v": "movies"
+                },
+                {
+                  "k": "literal",
+                  "v": "channel"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "channelId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.progressive": {

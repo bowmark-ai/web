@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8d4b37f257f6ad8832fcc0bd44c4364e43683ef3a111af64b1315728a99ab771
-// 49 capabilities, 415 providers, 1062 typed functions, 20 refused.
+// Manifest version: 7f1939ed67508b585db1c3c55065564de56b7141270c7a99028ac0914f8d9ea4
+// 49 capabilities, 415 providers, 1065 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3997,6 +3997,15 @@ interface AmazonRelatedProducts {
   related: AmazonRelatedProduct[]; // "Customers who viewed this item also viewed" — substitutes
   unavailableRails: string[]; // sims-consolidated-N_feature_div ids Amazon lazy-loads rather than serving inline
 }
+interface AmazonDeal {
+  asin: string;
+  title: string;
+  url: string;
+  dealPrice: number;
+  listPrice: number | null;
+  percentOff: number | null;
+  limitedTimeText: string | null; // e.g. "Limited time deal", or "Ends in 2026-09-16T06:59:59.000Z" for a countdown deal
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
@@ -4004,8 +4013,8 @@ interface AmazonRelatedProducts {
    * sells — plus the rankings (best sellers, new releases, movers and shakers, most wished for),
    * today's deals and a marketplace seller's feedback. searchProducts, suggestKeywords,
    * listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts,
-   * listBestSellers, listNewReleases and listMostWishedFor are built; everything else is still a
-   * declared stub.
+   * listBestSellers, listNewReleases, listMostWishedFor and listDeals are built; everything else
+   * is still a declared stub.
    */
   interface Unit {
     /**
@@ -4096,6 +4105,15 @@ interface AmazonRelatedProducts {
      * rankings carry.
      */
     listMostWishedFor(department: string): Promise<AmazonBestSellerEntry[]>;
+
+    /**
+     * Today's Deals — what is discounted right now: ASIN, title, the deal price, the price it was,
+     * the percentage off, and any "limited time" wording (a plain label, or, for a countdown deal,
+     * the fragment plus its ISO deadline). Read off the page's own widget JSON rather than scraped
+     * from a card, so the discount is a published field rather than something to compute. Page one
+     * only (30 deals) — the site's own paging control was not found this pass.
+     */
+    listDeals(): Promise<AmazonDeal[]>;
   }
 }
 
@@ -16454,6 +16472,29 @@ interface GoogleTranslateWordLookup {
   sourceLanguage: string;
   senses: GoogleTranslateWordSense[];
 }
+interface GetDefinitionsArgs {
+  word: string;
+  language: string;
+}
+interface GoogleTranslateDefinitionExample {
+  text: string;
+}
+interface GoogleTranslateDefinition {
+  definitionId: string;
+  gloss: string;
+  examples: GoogleTranslateDefinitionExample[];
+  subject?: string[];
+  register?: string[];
+}
+interface GoogleTranslateDefinitionSense {
+  partOfSpeech: string;
+  definitions: GoogleTranslateDefinition[];
+}
+interface GoogleTranslateWordDefinitions {
+  word: string;
+  language: string;
+  senses: GoogleTranslateDefinitionSense[];
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -16501,6 +16542,14 @@ interface GoogleTranslateWordLookup {
      * `translate` function still works on those.
      */
     lookupWord(args: LookupWordArgs): Promise<GoogleTranslateWordLookup>;
+
+    /**
+     * What `args.word` MEANS, IN `args.language` — monolingual, unlike `lookupWord`, which
+     * translates between two. Groups every sense by part of speech, each carrying a plain-English
+     * gloss and, where Google has one, a real usage example (its own `<b>`-highlight markup
+     * stripped). `senses` comes back empty when Google's dictionary has nothing for the term.
+     */
+    getDefinitions(args: GetDefinitionsArgs): Promise<GoogleTranslateWordDefinitions>;
   }
 }
 
@@ -26581,6 +26630,10 @@ interface PrimeVideoCategoryRow {
   heading: string;
   titles: PrimeVideoTitle[];
 }
+interface PrimeVideoTop10Entry extends PrimeVideoTitle {
+  position: number;
+  list: "tv" | "movies" | "channel";
+}
 
   /**
    * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
@@ -26709,6 +26762,22 @@ interface PrimeVideoCategoryRow {
      * cards are all Prime-included, not free-with-ads, is dropped rather than returned empty.
      */
     listFreeToWatch(): Promise<PrimeVideoCategoryRow[]>;
+
+    /**
+     * Prime Video's own top ten right now — the most-watched TV shows in the US ("tv", off `/tv`),
+     * the top films to rent or buy ("movies", off `/store`), or the top ten on one add-on channel
+     * ("channel", off that channel's own page — pass its uuid as `channelId`, e.g. one read off
+     * listChannels() or a channel URL). The read behind "what is everyone watching", and one
+     * search can never give you, because search ranks by relevance and this ranks by what is
+     * actually being played. Every row carries `position` (the card's own 1-based rank within that
+     * list — Prime Video never prints a rank number, so this is the card's own order) and `list`
+     * (which of the three it came from) alongside the same fields searchTitles() returns; a merged
+     * top ten that does not say whether it means streaming or renting is a wrong answer wearing a
+     * right one. **The row is intermittent** — measured this build pass, three spaced captures of
+     * `/tv` in one minute carried it on only one — so a request that lands without it returns
+     * `[]`, a real and honest answer, never an error.
+     */
+    listTop10(list: "tv" | "movies" | "channel", channelId?: string): Promise<PrimeVideoTop10Entry[]>;
   }
 }
 
