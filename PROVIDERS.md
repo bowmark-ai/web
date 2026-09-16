@@ -111,7 +111,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.getSupportArticle` | apple.com | Read one Apple support article end to end — the actual instructions, not a search… | ⚪ |
 | `apple.getTradeInEstimate` | apple.com | Reads apple.com's own trade-in value table and returns the ceiling ("up to $X")… | 🟢 |
 | `apple.listAccessories` | apple.com | Everything Apple sells that is not a device — cases, chargers, bands, keyboards… | ⚪ |
-| `apple.listFamilyModels` | apple.com | List every model Apple currently sells in one product family — every Mac, every… | ⚪ |
+| `apple.listFamilyModels` | apple.com | List every model Apple currently sells in one product family — every Mac, every… | 🟢 |
 | `apple.listNewsroomPosts` | apple.com | Apple's official announcements, newest first — every product launch, financial result… | ⚪ |
 | `apple.listOrders` | apple.com | Everything I have bought from Apple, with dates and prices. | ⚪ |
 | `apple.listRefurbished` | apple.com | Apple's own certified refurbished store, read as data: every refurbished Mac, iPad… | ⚪ |

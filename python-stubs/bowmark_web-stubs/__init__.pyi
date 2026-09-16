@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9b60440c17fa667c3804b3f8d5ebd1b22af2135edc4ac4f28595398ae533e2e2
-# 49 capabilities, 415 providers, 1056 typed functions, 20 refused.
+# Manifest version: 1561afbfcd01e185cf714dcb9f096e159cd52e6d55a3242b4f8299695ea6eb0b
+# 49 capabilities, 415 providers, 1057 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2764,6 +2764,15 @@ class Prv_apple_AppleConfiguration_Out(TypedDict):
     buildToOrder: bool
     price: float | None
     priceCurrency: str | None
+
+class Prv_apple_AppleFamilyModelList_Out(TypedDict):
+    family: Literal["mac"] | Literal["iphone"] | Literal["ipad"] | Literal["watch"]
+    models: list[Prv_apple_AppleFamilyModel_Out]
+
+class Prv_apple_AppleFamilyModel_Out(TypedDict):
+    name: str
+    startingPrice: float | None
+    url: str
 
 class Prv_apple_AppleTradeInEstimate_Out(TypedDict):
     device: str
@@ -19986,6 +19995,14 @@ class Prv_apple(Protocol):
         apple.com has not fixed a single part number for yet (memory/storage still open) comes
         back with `buildToOrder: true` and a null part number, listing the further choices
         rather than guessing a price for combinations apple.com computes client-side.
+        """
+
+    async def listFamilyModels(self, family: Literal["mac"] | Literal["iphone"] | Literal["ipad"] | Literal["watch"], /) -> Prv_apple_AppleFamilyModelList_Out:
+        """Lists every model apple.com currently sells in one product family — the chooser page's
+        own cards (e.g. "MacBook Air", "iPad mini"), each with its starting price and the buy
+        page that configures it. Takes "mac", "iphone", "ipad" or "watch" — apple.com publishes
+        no equivalent chooser page for AirPods or Vision Pro, each sold as a single named model
+        with no lineup to list.
         """
 
     async def getTradeInEstimate(self, model: str, /) -> Prv_apple_AppleTradeInEstimate_Out:

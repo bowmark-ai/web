@@ -1,5 +1,5 @@
 {
-  "version": "9b60440c17fa667c3804b3f8d5ebd1b22af2135edc4ac4f28595398ae533e2e2",
+  "version": "1561afbfcd01e185cf714dcb9f096e159cd52e6d55a3242b4f8299695ea6eb0b",
   "units": {
     "booking_links": {
       "defs": {
@@ -5031,6 +5031,33 @@
             "name": "urlOrPath",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listFamilyModels": [
+          {
+            "name": "family",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "mac"
+                },
+                {
+                  "k": "literal",
+                  "v": "iphone"
+                },
+                {
+                  "k": "literal",
+                  "v": "ipad"
+                },
+                {
+                  "k": "literal",
+                  "v": "watch"
+                }
+              ]
             },
             "optional": false
           }

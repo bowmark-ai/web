@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9b60440c17fa667c3804b3f8d5ebd1b22af2135edc4ac4f28595398ae533e2e2
-// 49 capabilities, 415 providers, 1074 typed functions, 20 refused.
+// Manifest version: 1561afbfcd01e185cf714dcb9f096e159cd52e6d55a3242b4f8299695ea6eb0b
+// 49 capabilities, 415 providers, 1075 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4923,6 +4923,15 @@ interface AppleConfigurationOptions {
   configDimensions: AppleConfigDimension[];
   configurations: AppleConfiguration[];
 }
+interface AppleFamilyModel {
+  name: string;
+  startingPrice: number | null;
+  url: string;
+}
+interface AppleFamilyModelList {
+  family: "mac" | "iphone" | "ipad" | "watch";
+  models: AppleFamilyModel[];
+}
 interface AppleTradeInEstimate {
   device: string;
   upToUsd: number;
@@ -5060,6 +5069,15 @@ interface AppleStore {
      * client-side.
      */
     getConfigurationOptions(urlOrPath: string): Promise<AppleConfigurationOptions>;
+
+    /**
+     * Lists every model apple.com currently sells in one product family — the chooser page's own
+     * cards (e.g. "MacBook Air", "iPad mini"), each with its starting price and the buy page that
+     * configures it. Takes "mac", "iphone", "ipad" or "watch" — apple.com publishes no equivalent
+     * chooser page for AirPods or Vision Pro, each sold as a single named model with no lineup to
+     * list.
+     */
+    listFamilyModels(family: "mac" | "iphone" | "ipad" | "watch"): Promise<AppleFamilyModelList>;
 
     /**
      * Reads apple.com's own trade-in value table and returns the CEILING ("up to $X")
