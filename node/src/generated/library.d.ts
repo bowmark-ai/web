@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7f1939ed67508b585db1c3c55065564de56b7141270c7a99028ac0914f8d9ea4
-// 49 capabilities, 415 providers, 1065 typed functions, 20 refused.
+// Manifest version: 1ef7742dd3925191aa2cb1c18632858b2b8c655b31b13347d0905b4cb1753d4e
+// 49 capabilities, 415 providers, 1066 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4918,6 +4918,15 @@ interface AppleStore {
      * every schema.org Product block it publishes.
      */
     getProduct(urlOrPath: string): Promise<AppleProductPage>;
+
+    /**
+     * Turns an Apple part number — the "MYAP3LL/A"-shaped code printed on every buy page and
+     * returned by getPickupAvailability/getDeliveryEstimate — into the product it names: real
+     * name, price and currency, straight off the configured buy page apple.com redirects a part
+     * number to. Also accepts a /shop/ path or apple.com URL, resolved the same way getProduct's
+     * argument is.
+     */
+    getProductByPartNumber(partNumber: string): Promise<AppleProductPage>;
 
     /**
      * Reads apple.com's own trade-in value table and returns the CEILING ("up to $X")

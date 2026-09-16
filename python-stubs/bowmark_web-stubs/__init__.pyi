@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7f1939ed67508b585db1c3c55065564de56b7141270c7a99028ac0914f8d9ea4
-# 49 capabilities, 415 providers, 1047 typed functions, 20 refused.
+# Manifest version: 1ef7742dd3925191aa2cb1c18632858b2b8c655b31b13347d0905b4cb1753d4e
+# 49 capabilities, 415 providers, 1048 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19789,6 +19789,14 @@ class Prv_apple(Protocol):
     async def getProduct(self, urlOrPath: str, /) -> Prv_apple_AppleProductPage_Out:
         """Reads one apple.com product/buy page (a URL or path, e.g. search()'s own rows) and
         returns every schema.org Product block it publishes.
+        """
+
+    async def getProductByPartNumber(self, partNumber: str, /) -> Prv_apple_AppleProductPage_Out:
+        """Turns an Apple part number — the "MYAP3LL/A"-shaped code printed on every buy page and
+        returned by getPickupAvailability/getDeliveryEstimate — into the product it names: real
+        name, price and currency, straight off the configured buy page apple.com redirects a
+        part number to. Also accepts a /shop/ path or apple.com URL, resolved the same way
+        getProduct's argument is.
         """
 
     async def getTradeInEstimate(self, model: str, /) -> Prv_apple_AppleTradeInEstimate_Out:
