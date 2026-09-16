@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1ef7742dd3925191aa2cb1c18632858b2b8c655b31b13347d0905b4cb1753d4e
-# 49 capabilities, 415 providers, 1048 typed functions, 20 refused.
+# Manifest version: b2e89feececfc113455d515269c62f9ed07e1022b034d6b20aea16046d4b739a
+# 49 capabilities, 415 providers, 1049 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2630,6 +2630,35 @@ class Prv_app_store_AppStoreCategory_Out(TypedDict):
     id: str
     name: str
     parentId: str | None
+
+class Prv_app_store_ListTopChartsArgs_In(TypedDict):
+    device: NotRequired[Literal["iphone"] | Literal["ipad"] | Literal["mac"]]
+    chart: NotRequired[Literal["free"] | Literal["paid"]]
+    genreId: NotRequired[str | float]
+    limit: NotRequired[float]
+
+class Prv_app_store_ListTopChartsResult_Out(TypedDict):
+    device: Literal["iphone"] | Literal["ipad"] | Literal["mac"]
+    chart: Literal["free"] | Literal["paid"]
+    genreId: str
+    source: Literal["page"] | Literal["feed"]
+    apps: list[Prv_app_store_AppStoreChartApp_Out]
+
+class Prv_app_store_AppStoreChartApp_Out(TypedDict):
+    position: float
+    id: str
+    bundleId: str
+    name: str
+    subtitle: str
+    developer: str
+    ageRating: str
+    price: str
+    rating: Prv_app_store_AppStoreChartApp_Out_rating_u0_Out | None
+    url: str
+
+class Prv_app_store_AppStoreChartApp_Out_rating_u0_Out(TypedDict):
+    average: float
+    countLabel: str
 
 class Prv_apple_AppleSearchResponse_Out(TypedDict):
     query: str
@@ -19769,6 +19798,14 @@ class Prv_app_store(Protocol):
         Games and its nineteen sub-genres, and the rest — each with the numeric id that narrows
         searchApps and listTopCharts. The finder that lets an agent holding the word "puzzle"
         reach a real listing without being told an id.
+        """
+
+    async def listTopCharts(self, args: Prv_app_store_ListTopChartsArgs_In | None = None, /) -> Prv_app_store_ListTopChartsResult_Out:
+        """What is charting on the App Store right now — top free or top paid, on iPhone, iPad or
+        Mac, for the whole store or narrowed to any genre id listCategories returns — in rank
+        order, each entry with its position, name, tagline, developer, age rating, price and the
+        id every other function here takes. The question this provider exists to answer that no
+        search engine answers, because the answer changes every day.
         """
 
 class Prv_apple(Protocol):

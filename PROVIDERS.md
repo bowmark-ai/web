@@ -92,7 +92,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listReviews` | apps.apple.com | Read what people actually wrote about an app — the review body, its title, the star… | ⚪ |
 | `app_store.listSimilarApps` | apps.apple.com | Answer "what else is like this one" with the App Store's own You Might Also Like shelf… | 🟢 |
 | `app_store.listSubscriptions` | apps.apple.com | List the App Store subscriptions this Apple Account is paying for, what each one… | ⚪ |
-| `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | ⚪ |
+| `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | 🟢 |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
 | `apple.bookGeniusBarAppointment` | apple.com | Book a Genius Bar or repair appointment at a specific store. | ⚪ |
@@ -739,7 +739,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.followTopic` | news.google.com | Follow a topic, a place or a publisher as the signed-in person — how a Google News… | ⚪ |
 | `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | ⚪ |
 | `google_news.getFullCoverage` | news.google.com | Google News' Full Coverage for one story — every outlet reporting it, with each one's… | 🟢 |
-| `google_news.getTopicHeadlines` | news.google.com | The headlines under any Google News topic id — the entity and interest topics (a… | 🟢 |
+| `google_news.getTopicHeadlines` | news.google.com | The headlines under any Google News topic id — the opaque key `/rss/topics/<id>`… | 🟢 |
 | `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | ⚪ |
 | `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, as Google News'… | ⚪ |
 | `google_news.listLocalHeadlines` | news.google.com | What is being reported in one place — the local-news edition for a city or region, by… | 🟢 |
@@ -1222,7 +1222,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.listCategoryTitles` | www.primevideo.com | Browse one genre, collection or storefront and get its rows of titles back — "what… | 🟢 |
 | `prime_video.listChannels` | www.primevideo.com | List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+… | ⚪ |
 | `prime_video.listContinueWatching` | www.primevideo.com | What the caller started and did not finish, and how far in they got. | ⚪ |
-| `prime_video.listDeals` | www.primevideo.com | What is discounted to rent or buy on Prime Video this week — the sales, the… | ⚪ |
+| `prime_video.listDeals` | www.primevideo.com | What is discounted to rent or buy on Prime Video this week — the sales, the… | 🟢 |
 | `prime_video.listEpisodes` | www.primevideo.com | List a season's episodes with number, title, synopsis, runtime, release date, artwork… | 🟢 |
 | `prime_video.listFreeToWatch` | www.primevideo.com | What you can watch on Prime Video without paying anything at all — the free-with-ads… | 🟢 |
 | `prime_video.listLiveChannels` | www.primevideo.com | List the free live TV and news stations Prime Video streams — their name, their logo… | ⚪ |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1ef7742dd3925191aa2cb1c18632858b2b8c655b31b13347d0905b4cb1753d4e
-// 1048 checked, 20 unchecked.
+// Manifest version: b2e89feececfc113455d515269c62f9ed07e1022b034d6b20aea16046d4b739a
+// 1049 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1ef7742dd3925191aa2cb1c18632858b2b8c655b31b13347d0905b4cb1753d4e",
+  "version": "b2e89feececfc113455d515269c62f9ed07e1022b034d6b20aea16046d4b739a",
   "units": {
     "booking_links": {
       "defs": {
@@ -4592,6 +4592,36 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.app_store": {
       "defs": {
+        "AppStoreChartDevice": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "iphone"
+            },
+            {
+              "k": "literal",
+              "v": "ipad"
+            },
+            {
+              "k": "literal",
+              "v": "mac"
+            }
+          ]
+        },
+        "AppStoreChartKind": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "free"
+            },
+            {
+              "k": "literal",
+              "v": "paid"
+            }
+          ]
+        },
         "AppStorePlatform": {
           "k": "union",
           "of": [
@@ -4755,6 +4785,49 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListTopChartsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "device",
+              "schema": {
+                "k": "ref",
+                "name": "AppStoreChartDevice"
+              },
+              "optional": true
+            },
+            {
+              "name": "chart",
+              "schema": {
+                "k": "ref",
+                "name": "AppStoreChartKind"
+              },
+              "optional": true
+            },
+            {
+              "name": "genreId",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchAppsArgs": {
           "k": "object",
           "props": [
@@ -4866,7 +4939,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listCategories": []
+        "listCategories": [],
+        "listTopCharts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTopChartsArgs"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.apple": {

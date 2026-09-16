@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1ef7742dd3925191aa2cb1c18632858b2b8c655b31b13347d0905b4cb1753d4e
-// 49 capabilities, 415 providers, 1066 typed functions, 20 refused.
+// Manifest version: b2e89feececfc113455d515269c62f9ed07e1022b034d6b20aea16046d4b739a
+// 49 capabilities, 415 providers, 1067 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4674,6 +4674,33 @@ interface AppStoreCategory {
 interface ListCategoriesResult {
   categories: AppStoreCategory[];
 }
+type AppStoreChartDevice = "iphone" | "ipad" | "mac";
+type AppStoreChartKind = "free" | "paid";
+interface ListTopChartsArgs {
+  device?: AppStoreChartDevice;
+  chart?: AppStoreChartKind;
+  genreId?: string | number;
+  limit?: number;
+}
+interface AppStoreChartApp {
+  position: number;
+  id: string;
+  bundleId: string;
+  name: string;
+  subtitle: string;
+  developer: string;
+  ageRating: string;
+  price: string;
+  rating: { average: number; countLabel: string } | null;
+  url: string;
+}
+interface ListTopChartsResult {
+  device: AppStoreChartDevice;
+  chart: AppStoreChartKind;
+  genreId: string;
+  source: "page" | "feed";
+  apps: AppStoreChartApp[];
+}
 interface ListDeveloperAppsArgs {
   developer?: string | number;
   app?: string | number;
@@ -4766,6 +4793,15 @@ interface AppStoreSimilarAppsResult {
      * a real listing without being told an id.
      */
     listCategories(): Promise<ListCategoriesResult>;
+
+    /**
+     * What is charting on the App Store right now — top free or top paid, on iPhone, iPad or Mac,
+     * for the whole store or narrowed to any genre id listCategories returns — in rank order, each
+     * entry with its position, name, tagline, developer, age rating, price and the id every other
+     * function here takes. The question this provider exists to answer that no search engine
+     * answers, because the answer changes every day.
+     */
+    listTopCharts(args?: ListTopChartsArgs): Promise<ListTopChartsResult>;
   }
 }
 
