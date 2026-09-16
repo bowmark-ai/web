@@ -1,5 +1,5 @@
 {
-  "version": "d7fcedd5b8c5442b6735649af4b5f0aeb2fdeb33d2571c2faedc3e29f138d901",
+  "version": "288dc70e0a69712a15238160fbe1b1a6e876e60477b83c07b1872b6d16ed5313",
   "units": {
     "booking_links": {
       "defs": {
@@ -22933,7 +22933,8 @@
             "optional": true
           }
         ],
-        "listDeals": []
+        "listDeals": [],
+        "listChannels": []
       }
     },
     "providers.progressive": {

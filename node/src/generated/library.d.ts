@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d7fcedd5b8c5442b6735649af4b5f0aeb2fdeb33d2571c2faedc3e29f138d901
-// 49 capabilities, 415 providers, 1071 typed functions, 20 refused.
+// Manifest version: 288dc70e0a69712a15238160fbe1b1a6e876e60477b83c07b1872b6d16ed5313
+// 49 capabilities, 415 providers, 1072 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26773,6 +26773,13 @@ interface PrimeVideoTop10Entry extends PrimeVideoTitle {
   position: number;
   list: "tv" | "movies" | "channel";
 }
+interface PrimeVideoChannel {
+  name: string;
+  channelId: string | null;
+  benefitId: string | null;
+  synopsis: string | null;
+  offerMessage: string | null;
+}
 
   /**
    * Search Prime Video's catalogue and read a film or series the way a viewer does — synopsis,
@@ -26930,6 +26937,22 @@ interface PrimeVideoTop10Entry extends PrimeVideoTitle {
      * off a decoded offerToken rather than a scraped string.
      */
     listDeals(): Promise<PrimeVideoCategoryRow[]>;
+
+    /**
+     * List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+,
+     * Britbox, ViX Premium and seventy-odd more — with the two ids each one is addressed by:
+     * `channelId`, which opens the channel's own page (getChannel(), listTop10("channel",
+     * channelId)), and `benefitId`, which `GET /offers?benefitId=<benefitId>` takes to start a
+     * subscription. The door for getChannel() and the thing that turns getWatchOptions' "get an
+     * add-on subscription" into a named service a person can decide about. No arguments — `GET
+     * /addons`, read off the "Subscriptions you might like" row with the shared hydration parser.
+     * **Carries no price.** The two dollar strings on the whole page are a card's own compact
+     * offer wording, never a clean number, so `offerMessage` carries the site's own sentence
+     * instead. Most cards carry both ids; a card with no channel page of its own (CNN All Access)
+     * carries only `benefitId`, and one further outlier (NBA League Pass, a subscription pass
+     * rather than a channel) carries neither — both real, measured gaps, never a guess.
+     */
+    listChannels(): Promise<PrimeVideoChannel[]>;
   }
 }
 

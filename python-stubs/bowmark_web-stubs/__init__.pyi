@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d7fcedd5b8c5442b6735649af4b5f0aeb2fdeb33d2571c2faedc3e29f138d901
-# 49 capabilities, 415 providers, 1053 typed functions, 20 refused.
+# Manifest version: 288dc70e0a69712a15238160fbe1b1a6e876e60477b83c07b1872b6d16ed5313
+# 49 capabilities, 415 providers, 1054 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14126,6 +14126,13 @@ class Prv_prime_video_PrimeVideoTop10Entry_Out(TypedDict):
     position: float
     list: Literal["tv"] | Literal["movies"] | Literal["channel"]
 
+class Prv_prime_video_PrimeVideoChannel_Out(TypedDict):
+    name: str
+    channelId: str | None
+    benefitId: str | None
+    synopsis: str | None
+    offerMessage: str | None
+
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
     product: NotRequired[Literal["auto"] | Literal["auto-snapshot"] | Literal["atv"] | Literal["boat"] | Literal["commercial-auto"] | Literal["commercial-truck"] | Literal["condo"] | Literal["dirt-bike"] | Literal["golf-cart"] | Literal["home"] | Literal["manufactured-home"] | Literal["moped"] | Literal["motorcycle"] | Literal["renters"] | Literal["rv"] | Literal["sand-and-gravel"] | Literal["segway"] | Literal["snowmobile"] | Literal["tow-truck"] | Literal["umbrella"]]
@@ -28078,6 +28085,22 @@ class Prv_prime_video(Protocol):
         are a row heading ("$15.99 or less TV deals"), never a per-title price, so a caller who
         wants the number calls getWatchOptions() on a titleId from one of these rows, where the
         price comes off a decoded offerToken rather than a scraped string.
+        """
+
+    async def listChannels(self, /) -> list[Prv_prime_video_PrimeVideoChannel_Out]:
+        """List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+,
+        Britbox, ViX Premium and seventy-odd more — with the two ids each one is addressed by:
+        `channelId`, which opens the channel's own page (getChannel(), listTop10("channel",
+        channelId)), and `benefitId`, which `GET /offers?benefitId=<benefitId>` takes to start a
+        subscription. The door for getChannel() and the thing that turns getWatchOptions' "get
+        an add-on subscription" into a named service a person can decide about. No arguments —
+        `GET /addons`, read off the "Subscriptions you might like" row with the shared hydration
+        parser. **Carries no price.** The two dollar strings on the whole page are a card's own
+        compact offer wording, never a clean number, so `offerMessage` carries the site's own
+        sentence instead. Most cards carry both ids; a card with no channel page of its own (CNN
+        All Access) carries only `benefitId`, and one further outlier (NBA League Pass, a
+        subscription pass rather than a channel) carries neither — both real, measured gaps,
+        never a guess.
         """
 
 class Prv_progressive(Protocol):

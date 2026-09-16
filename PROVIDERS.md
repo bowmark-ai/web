@@ -755,7 +755,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | 🟢 |
 | `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | ⚪ |
 | `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | 🟢 |
-| `google_translate.getAlternativeTranslations` | translate.google.com | The other ways Google would have translated the same thing — the list that appears… | ⚪ |
+| `google_translate.getAlternativeTranslations` | translate.google.com | The other ways Google would have translated the same thing — the list that appears… | 🟢 |
 | `google_translate.getDefinitions` | translate.google.com | What a word MEANS, in its own language — every sense grouped by part of speech, each… | 🟢 |
 | `google_translate.getSynonyms` | translate.google.com | Other words that mean the same thing, grouped by sense rather than thrown into one… | 🟢 |
 | `google_translate.listHistory` | translate.google.com | What the signed-in person has translated recently, newest first — Google Translate's… | ⚪ |
@@ -1221,7 +1221,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.getWatchOptions` | www.primevideo.com | Say how you would actually watch a title: included with your Prime membership, free… | 🟢 |
 | `prime_video.listCategories` | www.primevideo.com | List the ways Prime Video lets you browse — its genres (action, comedy, horror, anime… | 🟢 |
 | `prime_video.listCategoryTitles` | www.primevideo.com | Browse one genre, collection or storefront and get its rows of titles back — "what… | 🟢 |
-| `prime_video.listChannels` | www.primevideo.com | List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+… | ⚪ |
+| `prime_video.listChannels` | www.primevideo.com | List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+… | 🟢 |
 | `prime_video.listContinueWatching` | www.primevideo.com | What the caller started and did not finish, and how far in they got. | ⚪ |
 | `prime_video.listDeals` | www.primevideo.com | What is discounted to rent or buy on Prime Video this week — the sales, the… | 🟢 |
 | `prime_video.listEpisodes` | www.primevideo.com | List a season's episodes with number, title, synopsis, runtime, release date, artwork… | 🟢 |
