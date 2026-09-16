@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 288dc70e0a69712a15238160fbe1b1a6e876e60477b83c07b1872b6d16ed5313
-// 1054 checked, 20 unchecked.
+// Manifest version: 534e6c00fceacbd8abc54edd556a01c5436578938b1bddead9d810b2708b71d8
+// 1055 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "288dc70e0a69712a15238160fbe1b1a6e876e60477b83c07b1872b6d16ed5313",
+  "version": "534e6c00fceacbd8abc54edd556a01c5436578938b1bddead9d810b2708b71d8",
   "units": {
     "booking_links": {
       "defs": {
@@ -14798,6 +14798,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetAlternativeTranslationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetDefinitionsArgs": {
           "k": "object",
           "props": [
@@ -14976,6 +15002,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSynonymsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAlternativeTranslations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAlternativeTranslationsArgs"
             },
             "optional": false
           }

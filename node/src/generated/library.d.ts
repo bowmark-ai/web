@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 288dc70e0a69712a15238160fbe1b1a6e876e60477b83c07b1872b6d16ed5313
-// 49 capabilities, 415 providers, 1072 typed functions, 20 refused.
+// Manifest version: 534e6c00fceacbd8abc54edd556a01c5436578938b1bddead9d810b2708b71d8
+// 49 capabilities, 415 providers, 1073 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16624,6 +16624,26 @@ interface GoogleTranslateWordSynonyms {
   language: string;
   senses: GoogleTranslateSynonymSense[];
 }
+interface GetAlternativeTranslationsArgs {
+  text: string;
+  to: string;
+  from?: string;
+}
+interface GoogleTranslateAlternative {
+  text: string;
+  backends: number[];
+}
+interface GoogleTranslateAlternativeSegment {
+  sourceSegment: string;
+  offsets: { begin: number; end: number };
+  alternatives: GoogleTranslateAlternative[];
+}
+interface GoogleTranslateAlternativeTranslations {
+  text: string;
+  targetLanguage: string;
+  sourceLanguage: string;
+  segments: GoogleTranslateAlternativeSegment[];
+}
 
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
@@ -16689,6 +16709,16 @@ interface GoogleTranslateWordSynonyms {
      * `senses` comes back empty when Google has no synonyms for the term.
      */
     getSynonyms(args: GetSynonymsArgs): Promise<GoogleTranslateWordSynonyms>;
+
+    /**
+     * The other ways Google would have translated `args.text` — the list that appears when a
+     * person clicks a translated phrase to see what else it could have said. Works on a whole
+     * sentence, not just a word: `args.text` splits into `segments`, one per sentence Google
+     * recognizes, each carrying its own `alternatives` — the unit of the answer is the SEGMENT,
+     * never the whole input. `args.from` is optional and, left out, the source is detected, same
+     * as `translate`.
+     */
+    getAlternativeTranslations(args: GetAlternativeTranslationsArgs): Promise<GoogleTranslateAlternativeTranslations>;
   }
 }
 

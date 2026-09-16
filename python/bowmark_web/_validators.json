@@ -1,5 +1,5 @@
 {
-  "version": "288dc70e0a69712a15238160fbe1b1a6e876e60477b83c07b1872b6d16ed5313",
+  "version": "534e6c00fceacbd8abc54edd556a01c5436578938b1bddead9d810b2708b71d8",
   "units": {
     "booking_links": {
       "defs": {
@@ -14786,6 +14786,32 @@
             }
           ]
         },
+        "GetAlternativeTranslationsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "to",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetDefinitionsArgs": {
           "k": "object",
           "props": [
@@ -14964,6 +14990,16 @@
             "schema": {
               "k": "ref",
               "name": "GetSynonymsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAlternativeTranslations": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAlternativeTranslationsArgs"
             },
             "optional": false
           }

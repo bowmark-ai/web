@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 288dc70e0a69712a15238160fbe1b1a6e876e60477b83c07b1872b6d16ed5313
-# 49 capabilities, 415 providers, 1054 typed functions, 20 refused.
+# Manifest version: 534e6c00fceacbd8abc54edd556a01c5436578938b1bddead9d810b2708b71d8
+# 49 capabilities, 415 providers, 1055 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9024,6 +9024,34 @@ class Prv_google_translate_GoogleTranslateSynonymGroup_Out(TypedDict):
     definitionId: str
     synonyms: list[str]
     register: NotRequired[list[str]]
+
+Prv_google_translate_GetAlternativeTranslationsArgs_In = TypedDict(
+    "Prv_google_translate_GetAlternativeTranslationsArgs_In",
+    {
+    "text": str,
+    "to": str,
+    "from": NotRequired[str],
+    },
+)
+
+class Prv_google_translate_GoogleTranslateAlternativeTranslations_Out(TypedDict):
+    text: str
+    targetLanguage: str
+    sourceLanguage: str
+    segments: list[Prv_google_translate_GoogleTranslateAlternativeSegment_Out]
+
+class Prv_google_translate_GoogleTranslateAlternativeSegment_Out(TypedDict):
+    sourceSegment: str
+    offsets: Prv_google_translate_GoogleTranslateAlternativeSegment_Out_offsets_Out
+    alternatives: list[Prv_google_translate_GoogleTranslateAlternative_Out]
+
+class Prv_google_translate_GoogleTranslateAlternativeSegment_Out_offsets_Out(TypedDict):
+    begin: float
+    end: float
+
+class Prv_google_translate_GoogleTranslateAlternative_Out(TypedDict):
+    text: str
+    backends: list[float]
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -24363,6 +24391,15 @@ class Prv_google_translate(Protocol):
         separate group from the neutral ones (sprint, race, dart, dash), and a group with no
         `register` is the neutral case. `senses` comes back empty when Google has no synonyms
         for the term.
+        """
+
+    async def getAlternativeTranslations(self, args: Prv_google_translate_GetAlternativeTranslationsArgs_In, /) -> Prv_google_translate_GoogleTranslateAlternativeTranslations_Out:
+        """The other ways Google would have translated `args.text` — the list that appears when a
+        person clicks a translated phrase to see what else it could have said. Works on a whole
+        sentence, not just a word: `args.text` splits into `segments`, one per sentence Google
+        recognizes, each carrying its own `alternatives` — the unit of the answer is the
+        SEGMENT, never the whole input. `args.from` is optional and, left out, the source is
+        detected, same as `translate`.
         """
 
 class Prv_gostoreit(Protocol):
