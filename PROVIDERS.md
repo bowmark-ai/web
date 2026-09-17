@@ -1603,7 +1603,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listChannelVideos` | youtube.com | What a channel has published, newest first and paged — each video's id, title, view… | ⚪ |
 | `youtube.listChapters` | youtube.com | A video's own chapter markers — the labelled sections YouTube shows on the scrub bar —… | ⚪ |
 | `youtube.listCommentReplies` | youtube.com | The replies under one comment thread, which YouTube hides behind a "N replies" button… | ⚪ |
-| `youtube.listComments` | youtube.com | What people said under a video — each comment's author name and channel, the text, its… | ⚪ |
+| `youtube.listComments` | youtube.com | What people said under a video — each comment's author, the text, its like count… | 🟢 |
 | `youtube.listHashtagVideos` | youtube.com | The videos under a hashtag — YouTube's own /hashtag/<tag> page. | ⚪ |
 | `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | ⚪ |
 | `youtube.listPlaylistVideos` | youtube.com | The videos in a playlist, in the order the playlist puts them, paged — each with its… | ⚪ |
