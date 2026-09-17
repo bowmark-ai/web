@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ccfdaf383660fccc89f50084206bb25b7e111453f2da80a55b24b57723b3378f
-// 1101 checked, 20 unchecked.
+// Manifest version: 92ea0d9262cc8995dd23a2974d4a8c32327ae54f542f603125dc510f1014adb3
+// 1102 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ccfdaf383660fccc89f50084206bb25b7e111453f2da80a55b24b57723b3378f",
+  "version": "92ea0d9262cc8995dd23a2974d4a8c32327ae54f542f603125dc510f1014adb3",
   "units": {
     "booking_links": {
       "defs": {
@@ -23773,6 +23773,36 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "waysToWatch",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "prime"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "channels"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "rentOrBuy"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "suggestTitles": [
@@ -32895,6 +32925,49 @@ export const VALIDATORS: ValidatorTable = {
     "providers.youtube": {
       "defs": {},
       "functions": {
+        "search": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "uploadedWithin",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "today"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "week"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "month"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "year"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getTranscript": [
           {
             "name": "input",

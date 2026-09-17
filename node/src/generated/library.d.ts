@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ccfdaf383660fccc89f50084206bb25b7e111453f2da80a55b24b57723b3378f
-// 50 capabilities, 418 providers, 1119 typed functions, 20 refused.
+// Manifest version: 92ea0d9262cc8995dd23a2974d4a8c32327ae54f542f603125dc510f1014adb3
+// 50 capabilities, 418 providers, 1120 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -832,6 +832,27 @@ type CallOptions = {
 
 declare namespace BowmarkCapability_flights {
   // ── Flights — the unit's own declarations, verbatim ──
+// ── "Which day is cheapest?" ── NOT a flights.* function: it is ONE provider call,
+// bowmark.providers.google_flights.getPriceGraph(query: FlightQuery): Promise<PriceGraph>,
+// typed here so no second lookup is needed. Only from/to/depart/return are read.
+// The window is Google's own: about depart-7 days to depart+52 days, not selectable,
+// so to cover a whole month from its 1st pass depart = the 8th.
+type PricePoint = {
+  date: string             // departure date, "2026-11-08"
+  returnDate: string | null // the return priced with it; null for one-way
+  price: number | null     // cheapest total that day; null where none was priced
+  currency: string
+}
+type PriceGraph = {
+  from: string
+  to: string
+  tripType: "round trip" | "one way"
+  rangeStart: string       // the window Google actually returned
+  rangeEnd: string
+  points: PricePoint[]     // ascending by date
+  cheapest: PricePoint | null // ties go to the earliest date
+  url: string
+}
 type FlightQuery = {
   from: string          // IATA ("SFO") — best for cross-provider matching
   to: string
@@ -985,8 +1006,9 @@ type FlightStatusResult = {
      * route nobody flies. `options.timeoutMs` sets the per-site budget (default 30000) — a site
      * slower than that is dropped and named, so the answer arrives inside the calling client's own
      * tool-call limit rather than not at all. **For 'which day is cheapest' over a range of dates,
-     * do not call this once per date**: `bowmark.providers.google_flights.getPriceGraph(query)`
-     * prices every departure date across about two months in one call.
+     * do not call this once per date**: `bowmark.providers.google_flights.getPriceGraph(query:
+     * FlightQuery): Promise<PriceGraph>` (both typed above) prices every departure date from about
+     * depart-7 to depart+52 in one call.
      */
     search(query: FlightQuery, options?: CallOptions): Promise<FlightSearchResult>;
 
@@ -9343,7 +9365,10 @@ interface CamelPriceHistory {
     /**
      * Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title and
      * current price — the locator this provider was missing: `getPriceHistory` takes an ASIN, and
-     * this is how a caller holding only a shopper's words finds one.
+     * this is how a caller holding only a shopper's words finds one. Pass the product's name; if
+     * the full wording matches nothing it retries on its own with measurements ("24000mAh",
+     * "140W") dropped, so there is no need to re-run it with shorter queries, and no need to
+     * search Amazon as well to find the ASIN.
      */
     search(query: string): Promise<CamelSearchResult[]>;
 
@@ -9351,6 +9376,11 @@ interface CamelPriceHistory {
      * Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the site's
      * own lowest-ever/highest-ever/current/average figures, each dated, for the Amazon,
      * 3rd-party-new and 3rd-party-used price types, plus the full-history chart image URL.
+     * `amazon.current.price` is Amazon's own price today and is null when Amazon itself is not
+     * selling it, which is an answer rather than a gap. These summary figures are ALL the history
+     * the library has: there is no month-by-month series anywhere (the chart is an image), so
+     * answer 'how has the price moved' from lowest/highest/average/current and do not look for
+     * another source.
      */
     getPriceHistory(asinOrUrl: string): Promise<CamelPriceHistory>;
   }
@@ -27520,13 +27550,21 @@ interface PrimeVideoLiveSportsEvent {
      * function here takes, whether it is a film or a series, the year, the maturity rating, and
      * the site's own sentence for how to watch it. THE provider's door: every titleId-taking
      * function below is fed by this one. Returns the FIRST page only — Prime Video's search page
-     * carries no pagination markers at all (measured 2026-09-15) — and the site's six refinement
-     * filters (film-or-series, how you can watch it, which channel, HD/UHD, theme, audio language)
-     * are not built here: they ride an opaque per-page `serviceToken`, not a query parameter, and
-     * a query parameter silently returns the unfiltered set rather than erroring. A query that
-     * matches nothing returns an empty array rather than throwing.
+     * carries no pagination markers at all (measured 2026-09-15). `options.waysToWatch` narrows by
+     * how you can watch it — "prime" (included with a Prime membership), "channels" (an add-on
+     * subscription) or "rentOrBuy" — the commonest thing a viewer does after typing a query and
+     * the one refinement built so far. The site's other five refinement dimensions (which channel,
+     * HD/UHD, theme, subtitle language, film-or-series) are still not built here: every one of
+     * them rides the same opaque per-page `serviceToken` mechanism (rung 11 — an undocumented
+     * endpoint reached by harvesting the token off the page a search already returned), never a
+     * query parameter, and a hand-constructed query parameter silently returns the unfiltered set
+     * rather than erroring. A query that matches nothing returns an empty array rather than
+     * throwing. A filtered call whose real matches are too few can carry the site's own generic
+     * recommendations under a heading still labelled "Top results" — measured 2026-09-16, not a
+     * defect in this parser: the site does this identically on the unfiltered page's own "More to
+     * explore" row.
      */
-    searchTitles(query: string): Promise<PrimeVideoTitle[]>;
+    searchTitles(query: string, options?: { waysToWatch?: "prime" | "channels" | "rentOrBuy" }): Promise<PrimeVideoTitle[]>;
 
     /**
      * Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy" comes
@@ -34796,12 +34834,34 @@ interface YoutubeTranscript {
   fullText: string;
 }
 
+interface YoutubeSearchVideo {
+  videoId: string;
+  url: string;
+  title: string;
+  channel: string | null;
+  channelId: string | null;
+  published: string | null;          // YouTube's own phrase, e.g. "4 weeks ago"
+  publishedAgeSeconds: number | null; // that phrase in seconds, to order newest-first
+  length: string | null;             // e.g. "22:28"; null for a live stream
+  views: number | null;
+  thumbnail: string | null;
+}
+
   /**
    * A YouTube video's own caption transcript, read off the site's own Transcript panel —
    * timestamped lines plus the full text as one string. Language selection is not offered yet;
    * this reads whichever track the panel shows by default.
    */
   interface Unit {
+    /**
+     * Searches YouTube the way its search box does and returns the videos on the results page —
+     * id, url, title, channel, upload age, length and views. `uploadedWithin` applies YouTube's
+     * own upload-date filter. Rows come back in YouTube's own order either way, which is NOT
+     * newest first, so sort on `publishedAgeSeconds` (smaller is newer) to find the most recent.
+     * Pass a video's `url` or `videoId` straight to `getTranscript`.
+     */
+    search(input: { query: string; uploadedWithin?: "today" | "week" | "month" | "year" }): Promise<YoutubeSearchVideo[]>;
+
     /**
      * Returns a YouTube video's own caption transcript. `video` is a bare 11-character video id or
      * any watch/shorts/embed/live/youtu.be URL. `segments` is [] — a real, honest answer — when
