@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 51084b9e58768f43a5edabc5a54b959dedceb0bfff9b4445d445f51437c058ec
-# 51 capabilities, 420 providers, 1108 typed functions, 20 refused.
+# Manifest version: 8cb6e0fc7b23575e03ac6d9996e463b605da4bbe1b1536b527a874e79dfc2f8a
+# 52 capabilities, 420 providers, 1109 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -547,6 +547,27 @@ class Cap_currency_exchange_CallOptions_In(TypedDict):
 class Cap_currency_exchange_currency_exchangeResult_Out(TypedDict):
     rate: float
     warnings: list[str]
+
+class Cap_custom_packaging_quote_quoteCustomBox_args_In(TypedDict):
+    size: str
+    printArea: str
+    quantity: float
+
+class Cap_custom_packaging_quote_custom_packaging_quoteResult_Out(TypedDict):
+    quotes: list[Cap_custom_packaging_quote_CustomPackagingQuote_Out]
+    warnings: list[str]
+
+class Cap_custom_packaging_quote_CustomPackagingQuote_Out(TypedDict):
+    price: Cap_custom_packaging_quote_CustomPackagingQuote_Out_price_Out
+    unitPrice: Cap_custom_packaging_quote_CustomPackagingQuote_Out_unitPrice_Out
+
+class Cap_custom_packaging_quote_CustomPackagingQuote_Out_price_Out(TypedDict):
+    amount: float
+    currency: str
+
+class Cap_custom_packaging_quote_CustomPackagingQuote_Out_unitPrice_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Cap_custom_sofa_configurator_CustomSofaListResult_Out(TypedDict):
     sofas: list[Cap_custom_sofa_configurator_CustomSofa_Out]
@@ -14501,9 +14522,6 @@ class Prv_premierbuildings_PremierbuildingsDealer_Out(TypedDict):
     phoneNumber: str
     dealerURL: str
 
-class Prv_prime_video_searchTitles_options_In(TypedDict):
-    waysToWatch: NotRequired[Literal["prime"] | Literal["channels"] | Literal["rentOrBuy"]]
-
 class Prv_prime_video_PrimeVideoTitle_Out(TypedDict):
     titleId: str
     catalogId: str | None
@@ -19008,6 +19026,14 @@ class Cap_currency_exchange(Protocol):
 
     async def getRate(self, from_: str, to: str, options: Cap_currency_exchange_CallOptions_In | None = None, /) -> Cap_currency_exchange_currency_exchangeResult_Out:
         """Returns the current exchange rate between two currencies"""
+
+class Cap_custom_packaging_quote(Protocol):
+    """Quotes custom printed packaging boxes — shipping boxes, mailer boxes — with real,
+    quantity-tiered pricing from live configurators.
+    """
+
+    async def quoteCustomBox(self, args: Cap_custom_packaging_quote_quoteCustomBox_args_In, /) -> Cap_custom_packaging_quote_custom_packaging_quoteResult_Out:
+        """Gets a real, quantity-tiered price for a custom printed box from available suppliers."""
 
 class Cap_custom_sofa_configurator(Protocol):
     """Configure a real sofa or sectional — pick a fabric, wood stain or leg finish — and get
@@ -29096,26 +29122,19 @@ class Prv_prime_video(Protocol):
     declared stub.
     """
 
-    async def searchTitles(self, query: str, options: Prv_prime_video_searchTitles_options_In | None = None, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
+    async def searchTitles(self, query: str, /) -> list[Prv_prime_video_PrimeVideoTitle_Out]:
         """Search Prime Video's whole catalogue for what a person would type — "matrix", "the boys"
         — and get back the title cards the site itself ranks: display title, the titleId every
         other function here takes, whether it is a film or a series, the year, the maturity
         rating, and the site's own sentence for how to watch it. THE provider's door: every
         titleId-taking function below is fed by this one. Returns the FIRST page only — Prime
-        Video's search page carries no pagination markers at all (measured 2026-09-15).
-        `options.waysToWatch` narrows by how you can watch it — "prime" (included with a Prime
-        membership), "channels" (an add-on subscription) or "rentOrBuy" — the commonest thing a
-        viewer does after typing a query and the one refinement built so far. The site's other
-        five refinement dimensions (which channel, HD/UHD, theme, subtitle language,
-        film-or-series) are still not built here: every one of them rides the same opaque
-        per-page `serviceToken` mechanism (rung 11 — an undocumented endpoint reached by
-        harvesting the token off the page a search already returned), never a query parameter,
-        and a hand-constructed query parameter silently returns the unfiltered set rather than
-        erroring. A query that matches nothing returns an empty array rather than throwing. A
-        filtered call whose real matches are too few can carry the site's own generic
-        recommendations under a heading still labelled "Top results" — measured 2026-09-16, not
-        a defect in this parser: the site does this identically on the unfiltered page's own
-        "More to explore" row.
+        Video's search page carries no pagination markers at all (measured 2026-09-15). This
+        function took a `waysToWatch` refinement option for one day (2026-09-16 to 2026-09-17) —
+        it was WITHDRAWN after the `qa` pass found the whole "Ways to Watch" refinement block
+        gone from the logged-out search page, confirmed on two fresh live captures and a real
+        browser (no `filters`/`p_n_ways_to_watch`/`serviceToken` anywhere in the hydration
+        script or the rendered DOM; only an unrelated "Free to me" filter survives). A query
+        that matches nothing returns an empty array rather than throwing.
         """
 
     async def suggestTitles(self, prefix: str, /) -> list[Prv_prime_video_PrimeVideoTitleSuggestion_Out]:
@@ -32440,6 +32459,7 @@ class Bowmark(Protocol):
     costume_size_check: Cap_costume_size_check
     coworking: Cap_coworking
     currency_exchange: Cap_currency_exchange
+    custom_packaging_quote: Cap_custom_packaging_quote
     custom_sofa_configurator: Cap_custom_sofa_configurator
     delivery: Cap_delivery
     developer_api_key_signup: Cap_developer_api_key_signup

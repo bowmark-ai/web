@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 51084b9e58768f43a5edabc5a54b959dedceb0bfff9b4445d445f51437c058ec
-// 51 capabilities, 420 providers, 1126 typed functions, 20 refused.
+// Manifest version: 8cb6e0fc7b23575e03ac6d9996e463b605da4bbe1b1536b527a874e79dfc2f8a
+// 52 capabilities, 420 providers, 1127 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -541,6 +541,34 @@ type CallOptions = {
   interface Unit {
     /** Returns the current exchange rate between two currencies */
     getRate(from: string, to: string, options?: CallOptions): Promise<currency_exchangeResult>;
+  }
+}
+
+declare namespace BowmarkCapability_custom_packaging_quote {
+  // ── Custom Packaging Quote — the unit's own declarations, verbatim ──
+interface CustomPackagingQuote {
+  price: { amount: number; currency: string };
+  unitPrice: { amount: number; currency: string };
+}
+
+interface custom_packaging_quoteResult {
+  quotes: CustomPackagingQuote[];
+  warnings: string[];
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Quotes custom printed packaging boxes — shipping boxes, mailer boxes — with real,
+   * quantity-tiered pricing from live configurators.
+   */
+  interface Unit {
+    /** Gets a real, quantity-tiered price for a custom printed box from available suppliers. */
+    quoteCustomBox(args: { size: string; printArea: string; quantity: number }): Promise<custom_packaging_quoteResult>;
   }
 }
 
@@ -27803,21 +27831,15 @@ interface PrimeVideoLiveSportsEvent {
      * function here takes, whether it is a film or a series, the year, the maturity rating, and
      * the site's own sentence for how to watch it. THE provider's door: every titleId-taking
      * function below is fed by this one. Returns the FIRST page only — Prime Video's search page
-     * carries no pagination markers at all (measured 2026-09-15). `options.waysToWatch` narrows by
-     * how you can watch it — "prime" (included with a Prime membership), "channels" (an add-on
-     * subscription) or "rentOrBuy" — the commonest thing a viewer does after typing a query and
-     * the one refinement built so far. The site's other five refinement dimensions (which channel,
-     * HD/UHD, theme, subtitle language, film-or-series) are still not built here: every one of
-     * them rides the same opaque per-page `serviceToken` mechanism (rung 11 — an undocumented
-     * endpoint reached by harvesting the token off the page a search already returned), never a
-     * query parameter, and a hand-constructed query parameter silently returns the unfiltered set
-     * rather than erroring. A query that matches nothing returns an empty array rather than
-     * throwing. A filtered call whose real matches are too few can carry the site's own generic
-     * recommendations under a heading still labelled "Top results" — measured 2026-09-16, not a
-     * defect in this parser: the site does this identically on the unfiltered page's own "More to
-     * explore" row.
+     * carries no pagination markers at all (measured 2026-09-15). This function took a
+     * `waysToWatch` refinement option for one day (2026-09-16 to 2026-09-17) — it was WITHDRAWN
+     * after the `qa` pass found the whole "Ways to Watch" refinement block gone from the
+     * logged-out search page, confirmed on two fresh live captures and a real browser (no
+     * `filters`/`p_n_ways_to_watch`/`serviceToken` anywhere in the hydration script or the
+     * rendered DOM; only an unrelated "Free to me" filter survives). A query that matches nothing
+     * returns an empty array rather than throwing.
      */
-    searchTitles(query: string, options?: { waysToWatch?: "prime" | "channels" | "rentOrBuy" }): Promise<PrimeVideoTitle[]>;
+    searchTitles(query: string): Promise<PrimeVideoTitle[]>;
 
     /**
      * Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy" comes
@@ -88258,6 +88280,7 @@ interface BowmarkLibrary {
   costume_size_check: BowmarkCapability_costume_size_check.Unit;
   coworking: BowmarkCapability_coworking.Unit;
   currency_exchange: BowmarkCapability_currency_exchange.Unit;
+  custom_packaging_quote: BowmarkCapability_custom_packaging_quote.Unit;
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
   delivery: BowmarkCapability_delivery.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;

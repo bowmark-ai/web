@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 51084b9e58768f43a5edabc5a54b959dedceb0bfff9b4445d445f51437c058ec
-// 1108 checked, 20 unchecked.
+// Manifest version: 8cb6e0fc7b23575e03ac6d9996e463b605da4bbe1b1536b527a874e79dfc2f8a
+// 1109 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "51084b9e58768f43a5edabc5a54b959dedceb0bfff9b4445d445f51437c058ec",
+  "version": "8cb6e0fc7b23575e03ac6d9996e463b605da4bbe1b1536b527a874e79dfc2f8a",
   "units": {
     "booking_links": {
       "defs": {
@@ -638,6 +638,43 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "custom_packaging_quote": {
+      "defs": {},
+      "functions": {
+        "quoteCustomBox": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "size",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "printArea",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -23996,36 +24033,6 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
-          },
-          {
-            "name": "options",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "waysToWatch",
-                  "schema": {
-                    "k": "union",
-                    "of": [
-                      {
-                        "k": "literal",
-                        "v": "prime"
-                      },
-                      {
-                        "k": "literal",
-                        "v": "channels"
-                      },
-                      {
-                        "k": "literal",
-                        "v": "rentOrBuy"
-                      }
-                    ]
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "suggestTitles": [
