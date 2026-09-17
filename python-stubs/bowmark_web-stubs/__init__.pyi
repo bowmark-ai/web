@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 92ea0d9262cc8995dd23a2974d4a8c32327ae54f542f603125dc510f1014adb3
-# 50 capabilities, 418 providers, 1102 typed functions, 20 refused.
+# Manifest version: 3c03fdf330b632c48db9323e88b3dbc17ee723e6203a93e6cdab0aa1f49cff6a
+# 50 capabilities, 418 providers, 1103 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2933,6 +2933,17 @@ class Prv_apple_ApplePurchaseOptionTerm_Out(TypedDict):
     name: str
     sectionHeader: str
     sectionFooter: str
+
+class Prv_apple_AppleCompareModels_Out(TypedDict):
+    models: list[Prv_apple_AppleCompareModel_Out]
+
+class Prv_apple_AppleCompareModel_Out(TypedDict):
+    name: str
+    specs: list[Prv_apple_AppleCompareSpec_Out]
+
+class Prv_apple_AppleCompareSpec_Out(TypedDict):
+    label: str
+    value: str
 
 class Prv_apple_AppleFamilyModelList_Out(TypedDict):
     family: Literal["mac"] | Literal["iphone"] | Literal["ipad"] | Literal["watch"]
@@ -20646,6 +20657,19 @@ class Prv_apple(Protocol):
         caller-fixable error naming that rather than guessing. Carries no dollar figure —
         apple.com computes a monthly amount only after a term and trade-in are picked on the buy
         page itself; read a configuration's own price off getConfigurationOptions.
+        """
+
+    async def compareModels(self, models: Sequence[str], /) -> Prv_apple_AppleCompareModels_Out:
+        """Puts two or more iPhone models side by side on the specs apple.com itself compares them
+        on — screen size, chip, camera system, battery, capacity, finish, durability rating,
+        connectivity — straight off apple.com's own /iphone/compare/ grid. Model names must
+        match the page's own naming exactly (e.g. "iPhone 17 Pro", not "17 Pro" or
+        "iphone17pro"); an unmatched name throws naming the page's own list. Carries no price:
+        apple.com's own compare page renders its Price row as an unfilled client-side template
+        with no number in the static HTML, so this omits it rather than guess — read a price off
+        getConfigurationOptions or getPurchaseOptions instead. A spec absent for one model (an
+        older phone with no Dynamic Island) is simply missing from that model's own list, never
+        a false "no".
         """
 
     async def listFamilyModels(self, family: Literal["mac"] | Literal["iphone"] | Literal["ipad"] | Literal["watch"], /) -> Prv_apple_AppleFamilyModelList_Out:

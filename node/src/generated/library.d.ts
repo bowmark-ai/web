@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 92ea0d9262cc8995dd23a2974d4a8c32327ae54f542f603125dc510f1014adb3
-// 50 capabilities, 418 providers, 1120 typed functions, 20 refused.
+// Manifest version: 3c03fdf330b632c48db9323e88b3dbc17ee723e6203a93e6cdab0aa1f49cff6a
+// 50 capabilities, 418 providers, 1121 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5330,6 +5330,17 @@ interface AppleNewsroomArticle {
   url: string;
   body: string;
 }
+interface AppleCompareSpec {
+  label: string;
+  value: string;
+}
+interface AppleCompareModel {
+  name: string;
+  specs: AppleCompareSpec[];
+}
+interface AppleCompareModels {
+  models: AppleCompareModel[];
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -5387,6 +5398,19 @@ interface AppleNewsroomArticle {
      * configuration's own price off getConfigurationOptions.
      */
     getPurchaseOptions(urlOrPath: string): Promise<ApplePurchaseOptions>;
+
+    /**
+     * Puts two or more iPhone models side by side on the specs apple.com itself compares them on —
+     * screen size, chip, camera system, battery, capacity, finish, durability rating, connectivity
+     * — straight off apple.com's own /iphone/compare/ grid. Model names must match the page's own
+     * naming exactly (e.g. "iPhone 17 Pro", not "17 Pro" or "iphone17pro"); an unmatched name
+     * throws naming the page's own list. Carries no price: apple.com's own compare page renders
+     * its Price row as an unfilled client-side template with no number in the static HTML, so this
+     * omits it rather than guess — read a price off getConfigurationOptions or getPurchaseOptions
+     * instead. A spec absent for one model (an older phone with no Dynamic Island) is simply
+     * missing from that model's own list, never a false "no".
+     */
+    compareModels(models: string[]): Promise<AppleCompareModels>;
 
     /**
      * Lists every model apple.com currently sells in one product family — the chooser page's own

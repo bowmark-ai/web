@@ -1,5 +1,5 @@
 {
-  "version": "92ea0d9262cc8995dd23a2974d4a8c32327ae54f542f603125dc510f1014adb3",
+  "version": "3c03fdf330b632c48db9323e88b3dbc17ee723e6203a93e6cdab0aa1f49cff6a",
   "units": {
     "booking_links": {
       "defs": {
@@ -5367,6 +5367,18 @@
             "name": "urlOrPath",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "compareModels": [
+          {
+            "name": "models",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
             },
             "optional": false
           }
