@@ -6,6 +6,15 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.24.1 (2026-09-17)
+
+**Providers**
+
+- New provider **onthemarket.com** (1 function): `onthemarket.search`
+- Added `youtube.listComments`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.24.0 (2026-09-17)
 
 **Capabilities**
