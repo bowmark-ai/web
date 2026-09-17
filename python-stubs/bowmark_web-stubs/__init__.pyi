@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4c33dad1481b355c1ae5e70adab601f179df8c5d3a0aefaf05c815e53337a388
+# Manifest version: 0d8827f7a99d497bd9259feb3f5bd13b057c5a6793454c543b7ac1b7c784b9e2
 # 50 capabilities, 419 providers, 1111 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -25186,14 +25186,19 @@ class Prv_google_news(Protocol):
 
     async def listPublisherHeadlines(self, publisher: str, query: str | None = None, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsPublisherHeadlines_Out:
         """Everything Google News has indexed from one publisher — `publisher` is a domain like
-        "reuters.com" or "apnews.com" — newest first, optionally narrowed with `query` the same
-        way `searchNews` takes one. Built on the search door with a `site:` filter
+        "reuters.com" or a name like "Reuters" — newest first, optionally narrowed with `query`
+        the same way `searchNews` takes one. Built on the search door with a `site:` filter
         (`/rss/search?q=site:<publisher> <query>`), NOT on the route that looks like its own:
         `/rss/headlines/section/publication/<NAME>` answers 200 with the Top stories feed
         byte-for-byte for a name it cannot resolve, so it would look like it worked and be wrong
-        for every publisher. Measured 2026-09-15: `site:reuters.com tesla` returned 100 items of
-        which 100 carried a `<source>` domain on `reuters.com`. `locale` — `{ hl, gl, ceid }` —
-        asks for another country/language edition; omitted, the US English one.
+        for every publisher. `site:` takes a DOMAIN, so a NAME is resolved to one through the
+        search door first (the host dominating that name's own search results) rather than
+        passed straight to `site:`, where it is mis-parsed as a TLD plus a keyword (measured
+        2026-09-17: "Al Jazeera" returned 100 rows, all from the .al ccTLD) — a name the door
+        cannot resolve is refused rather than answered with the wrong newsroom. Measured
+        2026-09-15: `site:reuters.com tesla` returned 100 items of which 100 carried a
+        `<source>` domain on `reuters.com`. `locale` — `{ hl, gl, ceid }` — asks for another
+        country/language edition; omitted, the US English one.
         """
 
     async def listLocalHeadlines(self, place: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:
