@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 33dd10755978f3a5353502c856f65886bfa699a2e6d6b4f050848ef5c2614b6b
+# Manifest version: 67b39b8c5c0409d337ea2f9087b74e61b03df6f4fae99de14b0576d53d7c24cb
 # 50 capabilities, 418 providers, 1105 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -18780,9 +18780,10 @@ class Cap_browser_agent(Protocol):
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
         """Starts a hosted browser agent on `task` and returns at once with its session `id` and a
         `watchUrl`. Use ONLY after the library had nothing for this site or a function failed —
-        each turn spends real vendor money, charged to the account. Show `watchUrl` to your
-        user: it lets them watch the agent and take over the browser (log in, solve a captcha).
-        Then poll with `status`.
+        each turn spends real vendor money, charged to the account. Your account may hold up to
+        3 concurrent sessions; call `list()` before starting if looping over multiple tasks.
+        Show `watchUrl` to your user: it lets them watch the agent and take over the browser
+        (log in, solve a captcha). Then poll with `status`. Always `stop()` a session when done.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -18799,14 +18800,16 @@ class Cap_browser_agent(Protocol):
         """
 
     async def stop(self, id: str, /) -> Cap_browser_agent_StopBrowserAgentResult_Out:
-        """Stops the agent and shuts its browser; the watch link stops working. Always stop a
-        session you are done with — an open browser keeps costing money until Bowmark closes it
-        after 20 idle minutes.
+        """Stops the agent and shuts its browser; the watch link stops working. Always `stop()` a
+        session when you are done with it — an open browser keeps costing money until Bowmark
+        closes it after 20 idle minutes, and the session counts against your 3-session
+        concurrent limit even while idle.
         """
 
     async def list(self, options: Cap_browser_agent_ListBrowserAgentsOptions_In | None = None, /) -> Cap_browser_agent_ListBrowserAgentsResult_Out:
-        """Lists this account's browser agent sessions, open ones by default — how to recover an id
-        you lost.
+        """Lists this account's browser agent sessions (open ones by default) — check how many
+        you're holding before starting a new one, especially when looping. Idle sessions count
+        against the 3-session concurrent limit until you `stop()` them.
         """
 
     async def watchLink(self, id: str, /) -> Cap_browser_agent_WatchLinkResult_Out:

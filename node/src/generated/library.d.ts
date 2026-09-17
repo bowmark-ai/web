@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 33dd10755978f3a5353502c856f65886bfa699a2e6d6b4f050848ef5c2614b6b
+// Manifest version: 67b39b8c5c0409d337ea2f9087b74e61b03df6f4fae99de14b0576d53d7c24cb
 // 50 capabilities, 418 providers, 1123 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -225,9 +225,10 @@ type CallOptions = {
     /**
      * Starts a hosted browser agent on `task` and returns at once with its session `id` and a
      * `watchUrl`. Use ONLY after the library had nothing for this site or a function failed — each
-     * turn spends real vendor money, charged to the account. Show `watchUrl` to your user: it lets
-     * them watch the agent and take over the browser (log in, solve a captcha). Then poll with
-     * `status`.
+     * turn spends real vendor money, charged to the account. Your account may hold up to 3
+     * concurrent sessions; call `list()` before starting if looping over multiple tasks. Show
+     * `watchUrl` to your user: it lets them watch the agent and take over the browser (log in,
+     * solve a captcha). Then poll with `status`. Always `stop()` a session when done.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -247,15 +248,17 @@ type CallOptions = {
     send(id: string, message: string, options?: SendBrowserAgentOptions): Promise<SendBrowserAgentResult>;
 
     /**
-     * Stops the agent and shuts its browser; the watch link stops working. Always stop a session
-     * you are done with — an open browser keeps costing money until Bowmark closes it after 20
-     * idle minutes.
+     * Stops the agent and shuts its browser; the watch link stops working. Always `stop()` a
+     * session when you are done with it — an open browser keeps costing money until Bowmark closes
+     * it after 20 idle minutes, and the session counts against your 3-session concurrent limit
+     * even while idle.
      */
     stop(id: string): Promise<StopBrowserAgentResult>;
 
     /**
-     * Lists this account's browser agent sessions, open ones by default — how to recover an id you
-     * lost.
+     * Lists this account's browser agent sessions (open ones by default) — check how many you're
+     * holding before starting a new one, especially when looping. Idle sessions count against the
+     * 3-session concurrent limit until you `stop()` them.
      */
     list(options?: ListBrowserAgentsOptions): Promise<ListBrowserAgentsResult>;
 
