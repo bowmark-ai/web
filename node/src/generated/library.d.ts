@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a31ffb5db8384b002cbae3b83c9b95cc4d6b244068f0e353562a2db8e877273b
-// 51 capabilities, 418 providers, 1121 typed functions, 20 refused.
+// Manifest version: 83b6073de78d83a7366cd17844242d5703320faa6ea88973baea85a98639f7d0
+// 51 capabilities, 419 providers, 1122 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26303,6 +26303,32 @@ interface OliverwineryShippingAvailability {
   }
 }
 
+declare namespace BowmarkProvider_onthemarket {
+  // ── OnTheMarket — the unit's own declarations, verbatim ──
+interface SearchArgs {
+  location: string;
+  type: "sale" | "rent";
+}
+
+interface OnTheMarketProperty {
+  id: string;
+  title: string;
+  price?: string;
+  location: string;
+  propertyType?: string; // the site's own labels — read the values off a result, never guess one from prose
+  bedrooms?: number;
+  bathrooms?: number;
+  description?: string;
+  url?: string;
+}
+
+  /** Search for residential property listings for sale or rent in the UK. */
+  interface Unit {
+    /** Search for residential properties by location and type (sale or rent) */
+    search(args: SearchArgs): Promise<OnTheMarketProperty[]>;
+  }
+}
+
 declare namespace BowmarkProvider_othership {
   // ── Othership — the unit's own declarations, verbatim ──
 // Othership's OWN shapes — not a capability contract.
@@ -36293,6 +36319,7 @@ interface BowmarkProviders {
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
   oanda: BowmarkProvider_oanda.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
+  onthemarket: BowmarkProvider_onthemarket.Unit;
   othership: BowmarkProvider_othership.Unit;
   otto: BowmarkProvider_otto.Unit;
   outdoorresearch: BowmarkProvider_outdoorresearch.Unit;

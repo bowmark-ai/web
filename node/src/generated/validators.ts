@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a31ffb5db8384b002cbae3b83c9b95cc4d6b244068f0e353562a2db8e877273b
-// 1103 checked, 20 unchecked.
+// Manifest version: 83b6073de78d83a7366cd17844242d5703320faa6ea88973baea85a98639f7d0
+// 1104 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a31ffb5db8384b002cbae3b83c9b95cc4d6b244068f0e353562a2db8e877273b",
+  "version": "83b6073de78d83a7366cd17844242d5703320faa6ea88973baea85a98639f7d0",
   "units": {
     "booking_links": {
       "defs": {
@@ -22679,6 +22679,51 @@ export const VALIDATORS: ValidatorTable = {
             "name": "stateCode",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.onthemarket": {
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "sale"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rent"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
             },
             "optional": false
           }

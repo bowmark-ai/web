@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a31ffb5db8384b002cbae3b83c9b95cc4d6b244068f0e353562a2db8e877273b
-# 51 capabilities, 418 providers, 1103 typed functions, 20 refused.
+# Manifest version: 83b6073de78d83a7366cd17844242d5703320faa6ea88973baea85a98639f7d0
+# 51 capabilities, 419 providers, 1104 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13719,6 +13719,21 @@ class Prv_oliverwinery_OliverwineryWineDetail_Out(TypedDict):
 class Prv_oliverwinery_OliverwineryShippingAvailability_Out(TypedDict):
     stateCode: str
     shippable: bool
+
+class Prv_onthemarket_SearchArgs_In(TypedDict):
+    location: str
+    type: Literal["sale"] | Literal["rent"]
+
+class Prv_onthemarket_OnTheMarketProperty_Out(TypedDict):
+    id: str
+    title: str
+    price: NotRequired[str]
+    location: str
+    propertyType: NotRequired[str]
+    bedrooms: NotRequired[float]
+    bathrooms: NotRequired[float]
+    description: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_othership_OthershipLocation_Out(TypedDict):
     id: str
@@ -28508,6 +28523,12 @@ class Prv_oliverwinery(Protocol):
         checkout flow enforces.
         """
 
+class Prv_onthemarket(Protocol):
+    """Search for residential property listings for sale or rent in the UK."""
+
+    async def search(self, args: Prv_onthemarket_SearchArgs_In, /) -> list[Prv_onthemarket_OnTheMarketProperty_Out]:
+        """Search for residential properties by location and type (sale or rent)"""
+
 class Prv_othership(Protocol):
     """Othership's real, live class schedule and seat availability across its Toronto and NYC
     sauna/ice-bath/breathwork studios — the same data its Mariana Tek booking widget shows,
@@ -32191,6 +32212,7 @@ class BowmarkProviders(Protocol):
     nvisioncenters: Prv_nvisioncenters
     oanda: Prv_oanda
     oliverwinery: Prv_oliverwinery
+    onthemarket: Prv_onthemarket
     othership: Prv_othership
     otto: Prv_otto
     outdoorresearch: Prv_outdoorresearch
