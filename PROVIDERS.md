@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1620 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1622 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -117,7 +117,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.listOrders` | apple.com | Everything I have bought from Apple, with dates and prices. | ⚪ |
 | `apple.listRefurbished` | apple.com | Apple's own certified refurbished store, read as data: every listing currently in… | 🟢 |
 | `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | 🟢 |
-| `apple.listTodaySessions` | apple.com | The free hands-on sessions a given Apple Store is running this week, with what each… | ⚪ |
+| `apple.listTodaySessions` | apple.com | The free Today at Apple sessions one store is running — every upcoming one, with what… | 🟢 |
 | `apple.listTradeInValues` | apple.com | The whole Apple Trade In price list in one call. "smartphone" is the rich catalogue… | 🟢 |
 | `apple.resolveLocation` | apple.com | Turn the place a person said — "cupertino", "san francisco" — into the exact location… | 🟢 |
 | `apple.search` | apple.com | Searches apple.com's own site search for a keyword, returning the organic and curated… | 🟢 |
@@ -407,6 +407,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
 | `costco.search` | costco.com | Runs a search on Costco's product catalog and returns matching items (title, brand… | 🟢 |
+| `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
 | `credibly_com.getApplicationForm` | credibly.com | Reads the visible questions and select choices on Credibly's public business-financing… | 🟢 |
 | `credibly_com.getEligibilityRequirements` | credibly.com | Reads Credibly's own published eligibility requirements (time in business, credit… | 🟢 |
@@ -744,6 +745,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a full /maps/place/… | 🟢 |
 | `google_maps.reverseGeocode` | google.com/maps | A point in — the Plus Code and locality Google Maps shows for it out, the same string… | 🟢 |
 | `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | ⚪ |
+| `google_maps.searchNearby` | google.com/maps | searchPlaces anchored to a POINT instead of resolved from the query text — for a… | 🟢 |
 | `google_maps.searchPlaces` | google.com/maps | The door every other Maps function chains off. | 🟢 |
 | `google_maps.suggestPlaceEdit` | google.com/maps | Send Google a correction about a place — wrong hours, wrong address, permanently… | ⚪ |
 | `google_maps.suggestPlaces` | google.com/maps | Google Maps' own autocomplete for a half-typed query — what the search box offers… | 🟢 |
@@ -1596,7 +1598,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
 | `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |
 | `youtube.getLiveChat` | youtube.com | The messages scrolling past a live stream — each with its author, text and timestamp… | ⚪ |
-| `youtube.getPlaylist` | youtube.com | A playlist's own facts: title, description, the channel that owns it, how many videos… | ⚪ |
+| `youtube.getPlaylist` | youtube.com | A playlist's own facts: title, description, the channel that owns it, how many videos… | 🟢 |
 | `youtube.getTranscript` | youtube.com | Returns a YouTube video's own caption transcript — one row per caption line, each… | 🟢 |
 | `youtube.getVideo` | youtube.com | Everything the watch page says about one video without playing it: title, channel name… | 🟢 |
 | `youtube.likeVideo` | youtube.com | Like or dislike a video as the signed-in account, or clear the rating. | ⚪ |
@@ -1605,7 +1607,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listChannelPlaylists` | youtube.com | The playlists a channel has published, each with its id, title, video count and… | ⚪ |
 | `youtube.listChannelPosts` | youtube.com | A channel's Community tab — the text, image and poll posts a creator writes between… | ⚪ |
 | `youtube.listChannelShorts` | youtube.com | A channel's Shorts tab — its vertical short-form videos, which sit in their own tab… | ⚪ |
-| `youtube.listChannelVideos` | youtube.com | What a channel has published, newest first and paged — each video's id, title, view… | ⚪ |
+| `youtube.listChannelVideos` | youtube.com | What a channel has published, newest first and paged — each video's id, title, view… | 🟢 |
 | `youtube.listChapters` | youtube.com | A video's own chapter markers — the labelled sections YouTube shows on the scrub bar —… | ⚪ |
 | `youtube.listCommentReplies` | youtube.com | The replies under one comment thread, which YouTube hides behind a "N replies" button… | ⚪ |
 | `youtube.listComments` | youtube.com | What people said under a video — each comment's author, the text, its like count… | 🟢 |
