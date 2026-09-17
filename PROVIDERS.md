@@ -107,7 +107,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.getPickupAvailability` | apple.com | Answer the one question apple.com is uniquely able to answer and no other site can… | 🟢 |
 | `apple.getProduct` | apple.com | Reads one apple.com product/buy page (a URL or path search already returned, e.g.… | 🟢 |
 | `apple.getProductByPartNumber` | apple.com | Turn an Apple part number — the MYAP3LL/A-shaped code printed on every buy page, in… | 🟢 |
-| `apple.getPurchaseOptions` | apple.com | Read the ways Apple will let you pay for one product — buy it outright, monthly… | ⚪ |
+| `apple.getPurchaseOptions` | apple.com | Read the ways Apple will let you pay for one product — buy it outright, Apple Card… | 🟢 |
 | `apple.getStore` | apple.com | Read one Apple Store: its full address, phone number, map coordinates, store number… | 🟢 |
 | `apple.getSupportArticle` | apple.com | Read one Apple support article end to end — the actual instructions, not a search… | 🟢 |
 | `apple.getTradeInEstimate` | apple.com | Reads apple.com's own trade-in value table and returns the ceiling ("up to $X")… | 🟢 |

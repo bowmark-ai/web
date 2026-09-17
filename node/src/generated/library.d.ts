@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e4ed01e417852d23d228e7d35d0fc9aaefb8004c44f76a7d467453349cbb8699
+// Manifest version: 1df6469ec4cb6ce90402caf4c9a50ee699fb54db10227ae9c2bd89e1f0bb572c
 // 49 capabilities, 417 providers, 1101 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -872,7 +872,9 @@ type FlightStatusResult = {
      * returning `flights: []`, since an empty list would otherwise be indistinguishable from a
      * route nobody flies. `options.timeoutMs` sets the per-site budget (default 30000) — a site
      * slower than that is dropped and named, so the answer arrives inside the calling client's own
-     * tool-call limit rather than not at all.
+     * tool-call limit rather than not at all. **For 'which day is cheapest' over a range of dates,
+     * do not call this once per date**: `bowmark.providers.google_flights.getPriceGraph(query)`
+     * prices every departure date across about two months in one call.
      */
     search(query: FlightQuery, options?: CallOptions): Promise<FlightSearchResult>;
 

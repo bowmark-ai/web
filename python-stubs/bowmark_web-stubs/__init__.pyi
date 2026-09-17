@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e4ed01e417852d23d228e7d35d0fc9aaefb8004c44f76a7d467453349cbb8699
+# Manifest version: 1df6469ec4cb6ce90402caf4c9a50ee699fb54db10227ae9c2bd89e1f0bb572c
 # 49 capabilities, 417 providers, 1083 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -18771,7 +18771,9 @@ class Cap_flights(Protocol):
         list would otherwise be indistinguishable from a route nobody flies. `options.timeoutMs`
         sets the per-site budget (default 30000) — a site slower than that is dropped and named,
         so the answer arrives inside the calling client's own tool-call limit rather than not at
-        all.
+        all. **For 'which day is cheapest' over a range of dates, do not call this once per
+        date**: `bowmark.providers.google_flights.getPriceGraph(query)` prices every departure
+        date across about two months in one call.
         """
 
     async def getBookingOptions(self, flight: Cap_flights_FlightResult_In, options: Cap_flights_CallOptions_In | None = None, /) -> Cap_flights_BookingOptionsResult_Out:
