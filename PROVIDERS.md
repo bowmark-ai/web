@@ -1588,7 +1588,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.getLiveChat` | youtube.com | The messages scrolling past a live stream — each with its author, text and timestamp… | ⚪ |
 | `youtube.getPlaylist` | youtube.com | A playlist's own facts: title, description, the channel that owns it, how many videos… | ⚪ |
 | `youtube.getTranscript` | youtube.com | Returns a YouTube video's own caption transcript — one row per caption line, each… | 🟢 |
-| `youtube.getVideo` | youtube.com | Everything the watch page says about one video without playing it: title, channel name… | ⚪ |
+| `youtube.getVideo` | youtube.com | Everything the watch page says about one video without playing it: title, channel name… | 🟢 |
 | `youtube.likeVideo` | youtube.com | Like or dislike a video as the signed-in account, or clear the rating. | ⚪ |
 | `youtube.listCaptionTracks` | youtube.com | Which languages a video's captions are available in, whether each was written by a… | ⚪ |
 | `youtube.listChannelLiveStreams` | youtube.com | A channel's Live tab — the streams it has run, upcoming and past, with their scheduled… | ⚪ |

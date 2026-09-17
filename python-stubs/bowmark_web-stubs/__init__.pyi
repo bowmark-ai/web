@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c7d0ed986f37df8ad34cf19605a3acf28416e48492ae2b5c8c70f59962a697b5
-# 50 capabilities, 418 providers, 1105 typed functions, 20 refused.
+# Manifest version: 938618f04443fc2fc0ef1423a6f33a7cdb33b0666a7453e857b358e33f83871f
+# 50 capabilities, 418 providers, 1106 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18679,6 +18679,32 @@ class Prv_youtube_YoutubeChannelRef_Out(TypedDict):
     subscriberCountText: str | None
     thumbnail: str | None
 
+class Prv_youtube_getVideo_input_In(TypedDict):
+    video: str
+
+class Prv_youtube_YoutubeVideo_Out(TypedDict):
+    videoId: str
+    title: str
+    channel: str
+    channelId: str
+    description: str
+    viewCount: float
+    likeCount: float | None
+    lengthSeconds: float
+    publishDate: str | None
+    uploadDate: str | None
+    category: str | None
+    keywords: list[str]
+    isLiveNow: bool
+    isLiveContent: bool
+    isUnlisted: bool
+    thumbnails: list[Prv_youtube_YoutubeVideo_Out_thumbnails_item_Out]
+
+class Prv_youtube_YoutubeVideo_Out_thumbnails_item_Out(TypedDict):
+    url: str
+    width: float
+    height: float
+
 class Prv_zennioptical_ZenniFrameSearch_Out(TypedDict):
     frames: list[Prv_zennioptical_ZenniFrameSummary_Out]
     total: float
@@ -31769,6 +31795,14 @@ class Prv_youtube(Protocol):
         makes). A plain name runs a channel-filtered search and returns the first, best-matching
         channel with its title, subscriber count and thumbnail. Returns null when nothing
         resolves — not a real answer to build a `getChannel` call on.
+        """
+
+    async def getVideo(self, input: Prv_youtube_getVideo_input_In, /) -> Prv_youtube_YoutubeVideo_Out:
+        """Everything the watch page says about one video without playing it: title, channel name
+        and id, full description, view count, like count, length in seconds, publish and upload
+        dates, category, the uploader's own keywords, every thumbnail size, and whether it is
+        live now, was ever live, or is unlisted. `video` is a bare 11-character video id or any
+        watch/shorts/embed/live/youtu.be URL, exactly as `getTranscript` takes it.
         """
 
 class Prv_zennioptical(Protocol):

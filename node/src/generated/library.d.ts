@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c7d0ed986f37df8ad34cf19605a3acf28416e48492ae2b5c8c70f59962a697b5
-// 50 capabilities, 418 providers, 1123 typed functions, 20 refused.
+// Manifest version: 938618f04443fc2fc0ef1423a6f33a7cdb33b0666a7453e857b358e33f83871f
+// 50 capabilities, 418 providers, 1124 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -34927,6 +34927,25 @@ interface YoutubeChannelRef {
   thumbnail: string | null;
 }
 
+interface YoutubeVideo {
+  videoId: string;
+  title: string;
+  channel: string;
+  channelId: string;
+  description: string;       // the full watch-page description, not a truncated snippet
+  viewCount: number;
+  likeCount: number | null;  // null when the site itself hides it on this video
+  lengthSeconds: number;
+  publishDate: string | null; // ISO 8601
+  uploadDate: string | null;  // ISO 8601
+  category: string | null;
+  keywords: string[];
+  isLiveNow: boolean;         // live RIGHT NOW
+  isLiveContent: boolean;     // live now, or ever was (stays true for a finished stream's VOD)
+  isUnlisted: boolean;
+  thumbnails: { url: string; width: number; height: number }[];
+}
+
   /**
    * A YouTube video's own caption transcript, read off the site's own Transcript panel —
    * timestamped lines plus the full text as one string. Language selection is not offered yet;
@@ -34959,6 +34978,15 @@ interface YoutubeChannelRef {
      * build a `getChannel` call on.
      */
     findChannel(input: { query: string }): Promise<YoutubeChannelRef | null>;
+
+    /**
+     * Everything the watch page says about one video without playing it: title, channel name and
+     * id, full description, view count, like count, length in seconds, publish and upload dates,
+     * category, the uploader's own keywords, every thumbnail size, and whether it is live now, was
+     * ever live, or is unlisted. `video` is a bare 11-character video id or any
+     * watch/shorts/embed/live/youtu.be URL, exactly as `getTranscript` takes it.
+     */
+    getVideo(input: { video: string }): Promise<YoutubeVideo>;
   }
 }
 

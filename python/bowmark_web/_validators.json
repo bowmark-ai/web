@@ -1,5 +1,5 @@
 {
-  "version": "c7d0ed986f37df8ad34cf19605a3acf28416e48492ae2b5c8c70f59962a697b5",
+  "version": "938618f04443fc2fc0ef1423a6f33a7cdb33b0666a7453e857b358e33f83871f",
   "units": {
     "booking_links": {
       "defs": {
@@ -33076,6 +33076,24 @@
               "props": [
                 {
                   "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
                   "schema": {
                     "k": "string"
                   },
