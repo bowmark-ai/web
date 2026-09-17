@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1610 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1615 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -756,7 +756,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | ⚪ |
 | `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, as Google News'… | ⚪ |
 | `google_news.listLocalHeadlines` | news.google.com | What is being reported in one place — the local-news edition for a city or region, by… | 🟢 |
-| `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — reuters.com, apnews.com, a… | 🟢 |
+| `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — a domain like reuters.com, or… | 🟢 |
 | `google_news.listSavedArticles` | news.google.com | The articles the signed-in person saved for later — Google News' own reading list… | ⚪ |
 | `google_news.listStories` | news.google.com | The story clusters Google News is running right now, as ids — the front page and any… | 🟢 |
 | `google_news.listTopicHeadlines` | news.google.com | The latest headlines in one of Google News' own eight sections — World, Nation… | 🟢 |
@@ -849,6 +849,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hellotend.listMarkets` | hellotend.com | Lists every market Tend serves — the 6 metros the booking chain currently offers (New… | 🟢 |
 | `hellotend.listServices` | hellotend.com | Lists the service codes a specific Tend studio offers (Dental Exam CLNCHK, Clear… | 🟢 |
 | `hellotend.listStudios` | hellotend.com | Lists every Tend dental studio across all markets — 33+ locations with name, slug… | 🟢 |
+| `higgsfield.estimateCost` | higgsfield.ai | Asks Higgsfield what one generation will cost, for exactly the parameters that would… | 🟢 |
+| `higgsfield.generateImage` | higgsfield.ai | Turns a text prompt into finished images and waits for them, returning their URLs plus… | 🟢 |
+| `higgsfield.generateVideo` | higgsfield.ai | Turns a text prompt — or a prompt plus an input image — into a finished video and… | 🟢 |
+| `higgsfield.getRequestStatus` | higgsfield.ai | Checks one submitted generation by the request id a generate call returned, and hands… | 🟢 |
+| `higgsfield.listModels` | higgsfield.ai | Lists every generation model Bowmark's Higgsfield account can actually call — id… | 🟢 |
 | `highlandhomes.search` | highlandhomes.org | Searches Highland Homes' live new-construction inventory (Florida only) by city… | 🟢 |
 | `hilton.findHotels` | hilton.com | Finds Hilton-family properties near a city, region, or landmark — the site's own… | ⚪ |
 | `hilton.getAwardAvailability` | hilton.com | Searches Hilton's live award (Hilton Honors points) availability for a property and… | ⚪ |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 938618f04443fc2fc0ef1423a6f33a7cdb33b0666a7453e857b358e33f83871f
-// 1106 checked, 20 unchecked.
+// Manifest version: 4c33dad1481b355c1ae5e70adab601f179df8c5d3a0aefaf05c815e53337a388
+// 1111 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "938618f04443fc2fc0ef1423a6f33a7cdb33b0666a7453e857b358e33f83871f",
+  "version": "4c33dad1481b355c1ae5e70adab601f179df8c5d3a0aefaf05c815e53337a388",
   "units": {
     "booking_links": {
       "defs": {
@@ -16916,6 +16916,166 @@ export const VALIDATORS: ValidatorTable = {
             "name": "studio",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.higgsfield": {
+      "defs": {},
+      "functions": {
+        "listModels": [],
+        "estimateCost": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "prompt",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "model",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ],
+              "index": {
+                "k": "any"
+              }
+            },
+            "optional": false
+          }
+        ],
+        "generateImage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "prompt",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "model",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "waitMs",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "save",
+                      "schema": {
+                        "k": "boolean"
+                      },
+                      "optional": true
+                    }
+                  ],
+                  "index": {
+                    "k": "any"
+                  }
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "generateVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "prompt",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "model",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "waitMs",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "save",
+                      "schema": {
+                        "k": "boolean"
+                      },
+                      "optional": true
+                    }
+                  ],
+                  "index": {
+                    "k": "any"
+                  }
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getRequestStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "requestId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }

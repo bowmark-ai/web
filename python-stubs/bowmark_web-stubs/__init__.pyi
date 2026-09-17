@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 938618f04443fc2fc0ef1423a6f33a7cdb33b0666a7453e857b358e33f83871f
-# 50 capabilities, 418 providers, 1106 typed functions, 20 refused.
+# Manifest version: 4c33dad1481b355c1ae5e70adab601f179df8c5d3a0aefaf05c815e53337a388
+# 50 capabilities, 419 providers, 1111 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10231,6 +10231,54 @@ class Prv_hellotend_HellotendService_Out(TypedDict):
     description: str | None
     bookingDescription: str | None
     duration: str | None
+
+class Prv_higgsfield_higgsfieldModel_Out(TypedDict):
+    id: str
+    path: str
+    kind: Literal["image"] | Literal["video"]
+    needsInputImage: bool
+    family: str
+    measuredUsd: float
+
+class Prv_higgsfield_higgsfieldEstimate_Out(TypedDict):
+    model: str
+    credits: float
+    usd: float
+    discountUsd: float | None
+
+class Prv_higgsfield_higgsfieldGeneration_Out(TypedDict):
+    requestId: str
+    status: Literal["queued"] | Literal["in_progress"] | Literal["completed"] | Literal["failed"] | Literal["nsfw"] | Literal["canceled"]
+    imageUrls: list[str]
+    videoUrl: str | None
+    error: str | None
+    statusUrl: str | None
+    cancelUrl: str | None
+    model: str
+    estimate: Prv_higgsfield_higgsfieldEstimate_Out
+    settled: bool
+    files: list[Prv_higgsfield_higgsfieldSavedFile_Out]
+    warnings: list[str]
+
+class Prv_higgsfield_higgsfieldSavedFile_Out(TypedDict):
+    id: str
+    name: str
+    contentType: str
+    bytes: float
+    url: str
+    expiresAt: str
+
+class Prv_higgsfield_getRequestStatus_args_u1_In(TypedDict):
+    requestId: str
+
+class Prv_higgsfield_higgsfieldRequest_Out(TypedDict):
+    requestId: str
+    status: Literal["queued"] | Literal["in_progress"] | Literal["completed"] | Literal["failed"] | Literal["nsfw"] | Literal["canceled"]
+    imageUrls: list[str]
+    videoUrl: str | None
+    error: str | None
+    statusUrl: str | None
+    cancelUrl: str | None
 
 class Prv_highlandhomes_HighlandHomesSearchFilter_In(TypedDict):
     city: NotRequired[str]
@@ -25869,6 +25917,72 @@ class Prv_hellotend(Protocol):
         market.
         """
 
+class Prv_higgsfield(Protocol):
+    """Higgsfield's own documented generation API — turns a text prompt (or a prompt plus an
+    input image) into images or video across 25 models live on this account, including Kling
+    2.5 Turbo, MiniMax Hailuo 02/2.3, WAN 2.5 and Higgsfield's own Soul and DoP. Every call
+    is quoted by Higgsfield before it is submitted, and only a generation watched to
+    completion is charged.
+    """
+
+    async def listModels(self, /) -> list[Prv_higgsfield_higgsfieldModel_Out]:
+        """Lists every generation model Bowmark's Higgsfield account can actually call, with what
+        each one produces, whether it needs an input image, and what one call was measured to
+        cost. Measured against the live API on 2026-09-16 by estimating all 48 endpoints
+        Higgsfield's OpenAPI document publishes: 25 answered, and the rest refused as
+        model_not_found, model_blocked or model_disabled — so this is the callable set, not the
+        documented one. Takes no arguments and makes no request.
+        """
+
+    async def estimateCost(self, args: Mapping[str, Any], /) -> Prv_higgsfield_higgsfieldEstimate_Out:
+        """Asks Higgsfield what one generation will cost, for exactly the parameters you would
+        submit, before submitting it — the vendor's own credit and US-dollar figure for this
+        account, with any discount already applied. Generates nothing, produces no media and
+        costs nothing. `model` defaults to `soul`. This is the same quote the generate functions
+        take internally and charge from, so it is the honest answer to "what am I about to
+        spend".
+        """
+
+    async def generateImage(self, args: str | Mapping[str, Any], /) -> Prv_higgsfield_higgsfieldGeneration_Out:
+        """Generates one or more images from a text prompt and waits for them, returning the
+        finished image URLs together with what Higgsfield quoted. `model` defaults to `soul`
+        ($0.094 measured); `listModels()` has the rest. Any other key — `aspect_ratio`,
+        `num_images`, `input_images`, `output_format` — is passed to Higgsfield untouched, since
+        each model takes its own. Waits up to `waitMs` (default 120000) for a terminal state;
+        pass 0 to submit and return the handle immediately. **The finished images are copied
+        into your Bowmark account automatically and come back on `files` — use those URLs, not
+        `imageUrls`.** Higgsfield deletes its own copy after about seven days; a file in your
+        account is yours until you delete it, and costs storage while you keep it. Pass `save:
+        false` to skip the copy and take the expiring links. Uses Bowmark's Higgsfield key and
+        charges the generation to your account; send your own key as the
+        `x-bowmark-vendor-key-higgsfield` header instead.
+        """
+
+    async def generateVideo(self, args: str | Mapping[str, Any], /) -> Prv_higgsfield_higgsfieldGeneration_Out:
+        """Generates a video from a text prompt — or from a prompt plus an input image on the
+        image-to-video models — and waits for it, returning the finished video URL together with
+        what Higgsfield quoted. `model` defaults to `hailuo-02-standard` ($0.090 measured, the
+        cheapest live video model); Kling 2.1 Master is $1.400, so check `listModels()` or
+        `estimateCost` before reaching for a big one. Any other key (`duration`, `resolution`,
+        `input_images`) is passed to Higgsfield untouched. Waits up to `waitMs` (default
+        240000); pass 0 to submit and poll with `getRequestStatus` yourself. **A call that waits
+        copies the finished video into your Bowmark account and returns it on `files` — use that
+        URL, not `videoUrl`**, because Higgsfield deletes its own copy after about seven days.
+        Pass `save: false` to skip the copy. A call with `waitMs: 0` saves nothing, since
+        nothing has rendered yet.
+        """
+
+    async def getRequestStatus(self, args: str | Prv_higgsfield_getRequestStatus_args_u1_In, /) -> Prv_higgsfield_higgsfieldRequest_Out:
+        """Checks one submitted generation by its `requestId` and returns its current state plus
+        any finished media. Use it after a generate call that returned `settled: false`, which
+        means the wait ran out while the generation was still running. `status` is Higgsfield's
+        own: `queued`, `in_progress`, `completed`, `failed`, `nsfw` (refused by moderation —
+        reword the prompt) or `canceled`. This is a free read and it never charges you, even for
+        a generation it finds completed — and for the same reason it never copies the media into
+        your account either, so the URLs it returns are Higgsfield's own and expire after about
+        seven days.
+        """
+
 class Prv_highlandhomes(Protocol):
     """Highland Homes' live new-construction inventory across Florida, filterable by city,
     price, beds, sqft, garage spaces and build status — off the site's own undocumented
@@ -32052,6 +32166,7 @@ class BowmarkProviders(Protocol):
     heatherwood: Prv_heatherwood
     hellofresh: Prv_hellofresh
     hellotend: Prv_hellotend
+    higgsfield: Prv_higgsfield
     highlandhomes: Prv_highlandhomes
     hilton: Prv_hilton
     historymaker: Prv_historymaker
