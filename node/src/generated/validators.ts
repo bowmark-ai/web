@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0d8827f7a99d497bd9259feb3f5bd13b057c5a6793454c543b7ac1b7c784b9e2
-// 1111 checked, 20 unchecked.
+// Manifest version: f6980a2c65d2ab9885a2223bc15725a4a0055840ffb666f8ac974782f5815912
+// 1113 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0d8827f7a99d497bd9259feb3f5bd13b057c5a6793454c543b7ac1b7c784b9e2",
+  "version": "f6980a2c65d2ab9885a2223bc15725a4a0055840ffb666f8ac974782f5815912",
   "units": {
     "booking_links": {
       "defs": {
@@ -2894,6 +2894,57 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "stream_channel": {
+      "defs": {
+        "SetChannelOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "platform",
+              "schema": {
+                "k": "literal",
+                "v": "twitch"
+              },
+              "optional": true
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "game",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "get": [],
+        "set": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "SetChannelOptions"
+            },
+            "optional": false
           }
         ]
       }

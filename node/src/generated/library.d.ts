@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0d8827f7a99d497bd9259feb3f5bd13b057c5a6793454c543b7ac1b7c784b9e2
-// 50 capabilities, 419 providers, 1129 typed functions, 20 refused.
+// Manifest version: f6980a2c65d2ab9885a2223bc15725a4a0055840ffb666f8ac974782f5815912
+// 51 capabilities, 419 providers, 1131 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2359,7 +2359,13 @@ type RetailOffer = {
                                   // across stores as one normalized fact
 }
 type RetailSearchResult = {
-  results: RetailOffer[]   // ONE query across ALL stores, price-sorted (cheapest first)
+  results: RetailOffer[]   // ONE query across ALL stores, price-sorted (cheapest first).
+                           // These are each STORE'S OWN keyword results, so a search for
+                           // a product also returns its ACCESSORIES and its lookalikes —
+                           // and because the list is price-sorted, those sort ABOVE it.
+                           // "AirPods Pro 3" puts ~20 cases from $8.50 ahead of the
+                           // $199 earbuds. FILTER ON title before reading a cheapest
+                           // price off the top row.
   warnings: string[]       // always present; names any store that did not answer. A
                            // store named here priced NOTHING, so read this before
                            // concluding a store has no stock or a worse price
@@ -2374,17 +2380,22 @@ type CallOptions = {
   /**
    * General-merchandise retail across Walmart, Target and Best Buy — one keyword search, fanned
    * out in parallel and returned price-sorted, so an agent can answer 'where can I actually buy
-   * this and what does it cost' without querying each store by hand. Best Buy's leg needs the
-   * caller's own Best Buy developer key; without one the search still returns Walmart + Target
-   * with a `warnings` entry naming the drop.
+   * this and what does it cost' without querying each store by hand. Rows are the stores' own
+   * keyword results, so accessories and lookalikes come back too and sort above the product;
+   * filter on `title`. Best Buy's leg needs the caller's own Best Buy developer key; without one
+   * the search still returns Walmart + Target with a `warnings` entry naming the drop.
    */
   interface Unit {
     /**
      * Searches Walmart, Target and Best Buy in parallel for a keyword and returns one price-sorted
-     * list of offers across all stores, each tagged with which store it's from. `warnings` names
-     * any store that did not answer — including Best Buy when the caller holds no Best Buy
-     * developer key — so a caller can tell a genuinely cheaper/only offer from one where a store
-     * simply didn't answer.
+     * list of offers across all stores, each tagged with which store it's from. THE ROWS ARE EACH
+     * STORE'S OWN KEYWORD RESULTS, so a product search also returns that product's accessories and
+     * its lookalikes, and price-sorting puts those FIRST — filter on `title` for the thing you
+     * were actually asked about before reading a price off the top row. Everything you need is in
+     * one call; a store returning accessories is not a reason to go query that store directly.
+     * `warnings` names any store that did not answer — including Best Buy when the caller holds no
+     * Best Buy developer key — so a caller can tell a genuinely cheaper/only offer from one where
+     * a store simply didn't answer.
      */
     search(args: { query: string }): Promise<RetailSearchResult>;
   }
@@ -2768,6 +2779,52 @@ type CallOptions = {
      * there truly is no rate. `options.timeoutMs` sets the per-carrier budget (default 30000).
      */
     estimate(query: ShippingQuery, options?: CallOptions): Promise<ShippingEstimateResult>;
+  }
+}
+
+declare namespace BowmarkCapability_stream_channel {
+  // ── Stream channel settings — read and change your own channel's title, category and language — the unit's own declarations, verbatim ──
+interface ChannelSettings {
+  platform: "twitch"       // the default, and the only one today
+  id: string               // the site's own id for these broadcast settings
+  title: string            // the channel title shown on the stream page
+  language: string         // ISO 639-1, e.g. "en"
+  gameId: string           // the category; empty strings when never set
+  gameName: string
+  warnings: string[]       // always present
+}
+interface SetChannelOptions {
+  platform?: "twitch"      // the default, and the only one today
+  title?: string           // the channel title shown on the stream page
+  language?: string        // ISO 639-1, e.g. "en"
+  game?: string            // category NAME, e.g. "Wetrix" — not a category id
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Reads and updates a streamer's own Twitch channel settings — the title shown on the stream
+   * page, the category being played, and the language. Needs the streamer's Twitch sign-in: the
+   * first run answers needs_user with a link to sign in, and later runs reuse it.
+   */
+  interface Unit {
+    /**
+     * Reads the signed-in streamer's own channel settings: the title shown on the stream page, the
+     * category being played, and the language. Takes no arguments. Needs a Twitch sign-in.
+     */
+    get(): Promise<ChannelSettings>;
+
+    /**
+     * Updates the signed-in streamer's own channel settings and returns them as they now stand.
+     * Pass only the fields you are changing; anything you leave out is left alone. `game` is the
+     * category NAME, e.g. "Wetrix". It cannot set tags — Twitch's own update input has no tags
+     * field. Needs a Twitch sign-in.
+     */
+    set(options: SetChannelOptions): Promise<ChannelSettings>;
   }
 }
 
@@ -16833,8 +16890,9 @@ interface Photo {
     getPlace(args: GetPlaceArgs): Promise<GetPlaceResult>;
 
     /**
-     * The reviews Google Maps shows on a business's own panel — up to 5, each with author, star
-     * rating, review text and the site's own relative date. A FOURTH reading of searchPlaces' door
+     * The reviews Google Maps shows on a business's own panel — a handful, each with author, star
+     * rating, review text and the site's own relative date; the count varies by response, so this
+     * retries a few times and keeps the longest list seen. A FOURTH reading of searchPlaces' door
      * (the same record getPlace reads, one section further in), not the listugcposts route the
      * survey planned: that route needed a session token minted by a place-page bootstrap that was
      * never cracked, but the same reviews the token would have fetched are already sitting in the
@@ -19228,13 +19286,15 @@ interface higgsfieldSavedFile {
      * image URLs together with what Higgsfield quoted. `model` defaults to `soul` ($0.094
      * measured); `listModels()` has the rest. Any other key — `aspect_ratio`, `num_images`,
      * `input_images`, `output_format` — is passed to Higgsfield untouched, since each model takes
-     * its own. Waits up to `waitMs` (default 120000) for a terminal state; pass 0 to submit and
-     * return the handle immediately. **The finished images are copied into your Bowmark account
-     * automatically and come back on `files` — use those URLs, not `imageUrls`.** Higgsfield
-     * deletes its own copy after about seven days; a file in your account is yours until you
-     * delete it, and costs storage while you keep it. Pass `save: false` to skip the copy and take
-     * the expiring links. Uses Bowmark's Higgsfield key and charges the generation to your
-     * account; send your own key as the `x-bowmark-vendor-key-higgsfield` header instead.
+     * its own. Waits up to `waitMs` (default 90000, and never longer than the run's own ceiling)
+     * for a terminal state. A wait always happens — a submit that never watches its own result is
+     * a generation Higgsfield bills us for and nobody is charged for — so the floor is 20000.
+     * **The finished images are copied into your Bowmark account automatically and come back on
+     * `files` — use those URLs, not `imageUrls`.** Higgsfield deletes its own copy after about
+     * seven days; a file in your account is yours until you delete it, and costs storage while you
+     * keep it. Pass `save: false` to skip the copy and take the expiring links. Uses Bowmark's
+     * Higgsfield key and charges the generation to your account; send your own key as the
+     * `x-bowmark-vendor-key-higgsfield` header instead.
      */
     generateImage(args: string | { prompt: string; model?: string; waitMs?: number; save?: boolean; [param: string]: unknown }): Promise<higgsfieldGeneration>;
 
@@ -19244,12 +19304,13 @@ interface higgsfieldSavedFile {
      * what Higgsfield quoted. `model` defaults to `hailuo-02-standard` ($0.090 measured, the
      * cheapest live video model); Kling 2.1 Master is $1.400, so check `listModels()` or
      * `estimateCost` before reaching for a big one. Any other key (`duration`, `resolution`,
-     * `input_images`) is passed to Higgsfield untouched. Waits up to `waitMs` (default 240000);
-     * pass 0 to submit and poll with `getRequestStatus` yourself. **A call that waits copies the
-     * finished video into your Bowmark account and returns it on `files` — use that URL, not
-     * `videoUrl`**, because Higgsfield deletes its own copy after about seven days. Pass `save:
-     * false` to skip the copy. A call with `waitMs: 0` saves nothing, since nothing has rendered
-     * yet.
+     * `input_images`) is passed to Higgsfield untouched. Waits up to `waitMs` (default 90000,
+     * clamped to the run's own ceiling). Video usually renders past that, which is normal: you get
+     * `settled: false` and the handle, and collect it with `getRequestStatus`. **A call that waits
+     * copies the finished video into your Bowmark account and returns it on `files` — use that
+     * URL, not `videoUrl`**, because Higgsfield deletes its own copy after about seven days. Pass
+     * `save: false` to skip the copy. A call whose wait runs out saves nothing, since nothing has
+     * rendered yet — collect and download it yourself.
      */
     generateVideo(args: string | { prompt: string; model?: string; waitMs?: number; save?: boolean; [param: string]: unknown }): Promise<higgsfieldGeneration>;
 
@@ -88187,6 +88248,7 @@ interface BowmarkLibrary {
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
   shipping: BowmarkCapability_shipping.Unit;
+  stream_channel: BowmarkCapability_stream_channel.Unit;
   stream_highlights: BowmarkCapability_stream_highlights.Unit;
   tariff: BowmarkCapability_tariff.Unit;
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
