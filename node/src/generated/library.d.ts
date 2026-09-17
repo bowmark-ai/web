@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1df6469ec4cb6ce90402caf4c9a50ee699fb54db10227ae9c2bd89e1f0bb572c
-// 49 capabilities, 417 providers, 1101 typed functions, 20 refused.
+// Manifest version: ccfdaf383660fccc89f50084206bb25b7e111453f2da80a55b24b57723b3378f
+// 50 capabilities, 418 providers, 1119 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -152,6 +152,118 @@ type CallOptions = {
      * unless `options.event` names one (slug or part of the name).
      */
     read(url: string, options?: ReadBookingPageOptions): Promise<BookingPage>;
+  }
+}
+
+declare namespace BowmarkCapability_browser_agent {
+  // ── Browser agent — the unit's own declarations, verbatim ──
+type BrowserAgentStatus = "running" | "needs_input" | "idle" | "failed" | "stopped" | "closed";
+interface BrowserAgentQuestion {
+  kind: "question" | "takeover";   // takeover = a person must act in watchUrl (login, captcha)
+  question: string;
+}
+interface StartBrowserAgentOptions {
+  task: string;             // plain language, name the site
+  backend?: string;         // default "browser_use"
+  model?: string;           // e.g. "claude-sonnet-5"; default "gpt-5.6-luna"
+  maxCostUsd?: number;      // vendor spend ceiling per turn, default 2, max 25
+  proxyCountry?: string;    // e.g. "us"
+  timeoutMs?: number;
+}
+interface StartBrowserAgentResult {
+  id: string;               // keep this: status/send/stop take it
+  status: BrowserAgentStatus;
+  watchUrl: string;         // private link to WATCH AND CONTROL the live browser — show it to your user only
+  backend: string;
+  model: string;
+  warnings: string[];
+}
+interface BrowserAgentStep { at: string; kind: "thinking" | "action" | "message"; text: string }
+interface BrowserAgentStatusOptions {
+  cursor?: string;          // from the previous status() — only newer steps return
+  waitMs?: number;          // wait up to this long (max 60000) for the status to change
+  timeoutMs?: number;
+}
+interface BrowserAgentStatusResult {
+  id: string;
+  status: BrowserAgentStatus;
+  question: BrowserAgentQuestion | null;   // set when status is "needs_input"
+  result: string | null;                   // the agent's answer for its last finished turn
+  error: string | null;
+  steps: BrowserAgentStep[];
+  cursor: string;
+  task: string;
+  backend: string;
+  model: string;
+  closed: boolean;
+  warnings: string[];
+}
+interface SendBrowserAgentOptions { interrupt?: boolean; timeoutMs?: number }
+interface SendBrowserAgentResult { id: string; status: BrowserAgentStatus; warnings: string[] }
+interface StopBrowserAgentResult { id: string; status: BrowserAgentStatus; warnings: string[] }
+interface BrowserAgentSummary {
+  id: string; status: BrowserAgentStatus; task: string; backend: string; model: string;
+  question: BrowserAgentQuestion | null; createdAt: string; closedAt: string | null;
+}
+interface ListBrowserAgentsOptions { open?: boolean }   // default true
+interface ListBrowserAgentsResult { sessions: BrowserAgentSummary[]; warnings: string[] }
+interface WatchLinkResult { id: string; watchUrl: string; warnings: string[] }
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * LAST RESORT, and it costs money: hands a plain-language task to a hosted AI browser agent
+   * (Browser Use) when no Bowmark function covers the site or a script against one failed.
+   * Returns a session id and a private link your user can open to watch and take over the live
+   * browser; later scripts poll it, answer its questions and stop it.
+   */
+  interface Unit {
+    /**
+     * Starts a hosted browser agent on `task` and returns at once with its session `id` and a
+     * `watchUrl`. Use ONLY after the library had nothing for this site or a function failed — each
+     * turn spends real vendor money, charged to the account. Show `watchUrl` to your user: it lets
+     * them watch the agent and take over the browser (log in, solve a captcha). Then poll with
+     * `status`.
+     */
+    start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
+
+    /**
+     * Reads a session: `running`, `needs_input` (relay `question` to your user, answer with
+     * `send`), `idle` (done — read `result`), `failed`, `stopped` or `closed`. Pass the previous
+     * `cursor` for only new steps, and `waitMs` (≤ 60000) to wait for a change instead of polling
+     * tightly.
+     */
+    status(id: string, options?: BrowserAgentStatusOptions): Promise<BrowserAgentStatusResult>;
+
+    /**
+     * Sends the agent a follow-up in the same browser: an answer to its question, the go-ahead
+     * after your user took over, or a new instruction. Runs when its current turn ends, or at once
+     * with `interrupt: true`. Each turn is billed.
+     */
+    send(id: string, message: string, options?: SendBrowserAgentOptions): Promise<SendBrowserAgentResult>;
+
+    /**
+     * Stops the agent and shuts its browser; the watch link stops working. Always stop a session
+     * you are done with — an open browser keeps costing money until Bowmark closes it after 20
+     * idle minutes.
+     */
+    stop(id: string): Promise<StopBrowserAgentResult>;
+
+    /**
+     * Lists this account's browser agent sessions, open ones by default — how to recover an id you
+     * lost.
+     */
+    list(options?: ListBrowserAgentsOptions): Promise<ListBrowserAgentsResult>;
+
+    /**
+     * Makes a NEW watch link for an open session, for when the one from `start` was lost. The
+     * previous link stops working.
+     */
+    watchLink(id: string): Promise<WatchLinkResult>;
   }
 }
 
@@ -5031,6 +5143,24 @@ interface AppleConfigurationOptions {
   configDimensions: AppleConfigDimension[];
   configurations: AppleConfiguration[];
 }
+interface ApplePurchaseOptionTerm {
+  id: string;
+  name: string;
+  sectionHeader: string;
+  sectionFooter: string;
+}
+interface ApplePurchaseOption {
+  id: string;
+  formValue: string;
+  sectionHeader: string;
+  sectionFooter: string;
+  hideCarrier: boolean;
+  terms: ApplePurchaseOptionTerm[];
+}
+interface ApplePurchaseOptions {
+  url: string;
+  options: ApplePurchaseOption[];
+}
 interface AppleFamilyModel {
   name: string;
   startingPrice: number | null;
@@ -5222,6 +5352,19 @@ interface AppleNewsroomArticle {
      * client-side.
      */
     getConfigurationOptions(urlOrPath: string): Promise<AppleConfigurationOptions>;
+
+    /**
+     * Reads the ways apple.com will let you pay for the product a buy page has settled on — buy
+     * outright, Apple Card Monthly Installments, or the Apple Upgrade Program lease (with its 24-
+     * vs 36-month term choice) — with apple.com's own copy for each, straight off the buy page's
+     * own window.PURCHASE_OPTIONS_BOOTSTRAP. Only a page that has resolved to ONE product exposes
+     * this: every Mac family buy page has (e.g. "/shop/buy-mac/macbook-air"), an iPhone/iPad
+     * chooser page has not even at one specific part number, and this throws a caller-fixable
+     * error naming that rather than guessing. Carries no dollar figure — apple.com computes a
+     * monthly amount only after a term and trade-in are picked on the buy page itself; read a
+     * configuration's own price off getConfigurationOptions.
+     */
+    getPurchaseOptions(urlOrPath: string): Promise<ApplePurchaseOptions>;
 
     /**
      * Lists every model apple.com currently sells in one product family — the chooser page's own
@@ -8309,6 +8452,107 @@ interface BrixtonCheckoutLink {
      * available — the error names the candidate or in-stock options so the caller can retry.
      */
     getBrixtonCheckoutLink(handle: string, variantTitleOrOptions: string, opts?: { quantity?: number }): Promise<BrixtonCheckoutLink>;
+  }
+}
+
+declare namespace BowmarkProvider_browser_use {
+  // ── Browser Use — the unit's own declarations, verbatim ──
+type BrowserUseRunStatus = "queued" | "dispatching" | "running" | "completed" | "failed" | "cancelled";
+
+interface BrowserUseCreateRunArgs {
+  task: string;
+  model?: string;             // e.g. "claude-sonnet-5"; absent = vendor default
+  sessionId?: string;         // continue a session
+  maxCostUsd?: number;
+  proxyCountryCode?: string;  // e.g. "us"
+}
+
+interface BrowserUseRunStatusReading { runId: string; status: BrowserUseRunStatus }
+interface BrowserUseCreatedRun { id: string; status: BrowserUseRunStatus; model: string; sessionId: string; workspaceId: string }
+
+interface BrowserUseRun {
+  id: string; sessionId: string; task: string; title: string | null; model: string;
+  status: BrowserUseRunStatus; result: string | null; error: string | null;
+  inputTokens: number; outputTokens: number;
+  costUsd: number;            // LLM cost only
+  createdAt: string; updatedAt: string;
+}
+
+interface BrowserUseRunList { runs: BrowserUseRun[]; hasMore: boolean }
+interface BrowserUseEvent { id: number; ts: string; type: string; data: Record<string, unknown> }
+interface BrowserUseEventsPage { events: BrowserUseEvent[]; nextAfter: number | null; hasMore: boolean }
+interface BrowserUseEventsArgs { runId: string; after?: number; limit?: number }
+
+interface BrowserUseSession { sessionId: string; latestRunId: string; status: string; title: string | null; createdAt: string; updatedAt: string }
+
+interface BrowserUseQueueArgs { sessionId: string; text: string; interrupt?: boolean }
+interface BrowserUseQueuedMessage { id: number; sessionId: string; status: string; mode: string }
+
+interface BrowserUseBrowser {
+  id: string; status: string;
+  liveUrl: string | null;     // interactive; whoever holds it drives the browser
+  agentSessionId: string | null;
+  timeoutAt: string; startedAt: string; finishedAt: string | null;
+  browserCostUsd: number; proxyCostUsd: number; proxyUsedMb: number;
+}
+
+  /**
+   * Browser Use Cloud's hosted browser agent. Not callable directly: use
+   * `bowmark.browser_agent`, which runs it for you with a private watch link and bills the
+   * session to your account.
+   */
+  interface Unit {
+    /**
+     * Starts a Browser Use agent run on a natural-language task, optionally continuing an existing
+     * session. Returns immediately; the run executes on Browser Use's cloud for seconds to
+     * minutes. Spends money.
+     */
+    createRun(args: BrowserUseCreateRunArgs): Promise<BrowserUseCreatedRun>;
+
+    /** Reads one run: status, final result or error, token totals and LLM cost. */
+    getRun(runId: string): Promise<BrowserUseRun>;
+
+    /** The cheap status poll for one run. */
+    getRunStatus(runId: string): Promise<BrowserUseRunStatusReading>;
+
+    /**
+     * A run's step-by-step event stream after a cursor — the agent's reasoning, tool calls, and
+     * the `browser.ready` event carrying the live view url.
+     */
+    listRunEvents(args: BrowserUseEventsArgs): Promise<BrowserUseEventsPage>;
+
+    /**
+     * Lists every run (agent turn) in a session, newest first, each with its status and LLM cost —
+     * how a session's whole spend is read.
+     */
+    listSessionRuns(sessionId: string): Promise<BrowserUseRunList>;
+
+    /**
+     * Cancels an in-flight run; idempotent on a finished one. The browser keeps running — stop it
+     * separately.
+     */
+    cancelRun(runId: string): Promise<BrowserUseRun>;
+
+    /** Reads a session, including the id of its latest run (a queued message becomes a new run). */
+    getSession(sessionId: string): Promise<BrowserUseSession>;
+
+    /**
+     * Sends a follow-up instruction into a session: it runs as the next turn when the current one
+     * ends, or at once with `interrupt: true`.
+     */
+    queueMessage(args: BrowserUseQueueArgs): Promise<BrowserUseQueuedMessage>;
+
+    /** The cloud browser attached to a session, with its live view url and running cost, or null. */
+    findSessionBrowser(sessionId: string): Promise<BrowserUseBrowser | null>;
+
+    /** Reads one cloud browser: status, live view url, browser and proxy cost. */
+    getBrowser(browserId: string): Promise<BrowserUseBrowser>;
+
+    /**
+     * Stops a cloud browser (cannot be undone). Its cost is then settled down to the time actually
+     * used.
+     */
+    stopBrowser(browserId: string): Promise<BrowserUseBrowser>;
   }
 }
 
@@ -16973,8 +17217,8 @@ interface GoogleTranslateImageResult {
   /**
    * Translate text into any of 249 languages, in a batch if you have a list, and find out what
    * language something already is — plus the dictionary underneath: senses, definitions,
-   * synonyms, alternative wordings, the romanization and the spoken audio. `translate` is built;
-   * everything else is still a declared stub.
+   * synonyms, alternative wordings, the romanization and the spoken audio. Thirteen functions
+   * are built; the four account-gated ones (saved phrases, history) are still declared stubs.
    */
   interface Unit {
     /**
@@ -33821,7 +34065,7 @@ interface ShippingBoxPrice {
   /**
    * Prices Vistaprint's Full-Print Shipping Boxes for a real size, print area and quantity — the
    * live, quantity-tiered price the site's own PDP configurator computes, with no browser,
-   * account or cart.
+   * account or cart. Custom printed boxes, mailer boxes and packaging boxes.
    */
   interface Unit {
     /**
@@ -35533,6 +35777,7 @@ interface BowmarkProviders {
   boydsleep: BowmarkProvider_boydsleep.Unit;
   brius: BowmarkProvider_brius.Unit;
   brixton: BowmarkProvider_brixton.Unit;
+  browser_use: BowmarkProvider_browser_use.Unit;
   builder_strucsure_com: BowmarkProvider_builder_strucsure_com.Unit;
   bulletproof: BowmarkProvider_bulletproof.Unit;
   bungalow: BowmarkProvider_bungalow.Unit;
@@ -87598,6 +87843,7 @@ interface BowmarkProviders {
  * generated once precisely so those two cannot drift. */
 interface BowmarkLibrary {
   booking_links: BowmarkCapability_booking_links.Unit;
+  browser_agent: BowmarkCapability_browser_agent.Unit;
   bundles: BowmarkCapability_bundles.Unit;
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   cars: BowmarkCapability_cars.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1df6469ec4cb6ce90402caf4c9a50ee699fb54db10227ae9c2bd89e1f0bb572c
-// 1083 checked, 20 unchecked.
+// Manifest version: ccfdaf383660fccc89f50084206bb25b7e111453f2da80a55b24b57723b3378f
+// 1101 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1df6469ec4cb6ce90402caf4c9a50ee699fb54db10227ae9c2bd89e1f0bb572c",
+  "version": "ccfdaf383660fccc89f50084206bb25b7e111453f2da80a55b24b57723b3378f",
   "units": {
     "booking_links": {
       "defs": {
@@ -167,6 +167,195 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ReadBookingPageOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "browser_agent": {
+      "defs": {
+        "BrowserAgentStatusOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "waitMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListBrowserAgentsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "open",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SendBrowserAgentOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "interrupt",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "StartBrowserAgentOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "task",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "backend",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxCostUsd",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "proxyCountry",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "start": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "StartBrowserAgentOptions"
+            },
+            "optional": false
+          }
+        ],
+        "status": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "BrowserAgentStatusOptions"
+            },
+            "optional": true
+          }
+        ],
+        "send": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "message",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "SendBrowserAgentOptions"
+            },
+            "optional": true
+          }
+        ],
+        "stop": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "list": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ListBrowserAgentsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "watchLink": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -5185,6 +5374,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getPurchaseOptions": [
+          {
+            "name": "urlOrPath",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listFamilyModels": [
           {
             "name": "family",
@@ -7733,6 +7931,206 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.browser_use": {
+      "defs": {
+        "BrowserUseCreateRunArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "task",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxCostUsd",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "proxyCountryCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BrowserUseEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "runId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "after",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "BrowserUseQueueArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sessionId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "text",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "interrupt",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "createRun": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowserUseCreateRunArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRun": [
+          {
+            "name": "runId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getRunStatus": [
+          {
+            "name": "runId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listRunEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowserUseEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSessionRuns": [
+          {
+            "name": "sessionId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "cancelRun": [
+          {
+            "name": "runId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getSession": [
+          {
+            "name": "sessionId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "queueMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowserUseQueueArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findSessionBrowser": [
+          {
+            "name": "sessionId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getBrowser": [
+          {
+            "name": "browserId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "stopBrowser": [
+          {
+            "name": "browserId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

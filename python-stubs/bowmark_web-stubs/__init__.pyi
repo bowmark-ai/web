@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1df6469ec4cb6ce90402caf4c9a50ee699fb54db10227ae9c2bd89e1f0bb572c
-# 49 capabilities, 417 providers, 1083 typed functions, 20 refused.
+# Manifest version: ccfdaf383660fccc89f50084206bb25b7e111453f2da80a55b24b57723b3378f
+# 50 capabilities, 418 providers, 1101 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -312,6 +312,86 @@ class Cap_booking_links_BookingQuestion_Out(TypedDict):
     kind: str
     required: bool
     choices: list[str]
+
+class Cap_browser_agent_StartBrowserAgentOptions_In(TypedDict):
+    task: str
+    backend: NotRequired[str]
+    model: NotRequired[str]
+    maxCostUsd: NotRequired[float]
+    proxyCountry: NotRequired[str]
+    timeoutMs: NotRequired[float]
+
+class Cap_browser_agent_StartBrowserAgentResult_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["needs_input"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    watchUrl: str
+    backend: str
+    model: str
+    warnings: list[str]
+
+class Cap_browser_agent_BrowserAgentStatusOptions_In(TypedDict):
+    cursor: NotRequired[str]
+    waitMs: NotRequired[float]
+    timeoutMs: NotRequired[float]
+
+class Cap_browser_agent_BrowserAgentStatusResult_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["needs_input"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    question: Cap_browser_agent_BrowserAgentQuestion_Out | None
+    result: str | None
+    error: str | None
+    steps: list[Cap_browser_agent_BrowserAgentStep_Out]
+    cursor: str
+    task: str
+    backend: str
+    model: str
+    closed: bool
+    warnings: list[str]
+
+class Cap_browser_agent_BrowserAgentQuestion_Out(TypedDict):
+    kind: Literal["question"] | Literal["takeover"]
+    question: str
+
+class Cap_browser_agent_BrowserAgentStep_Out(TypedDict):
+    at: str
+    kind: Literal["thinking"] | Literal["action"] | Literal["message"]
+    text: str
+
+class Cap_browser_agent_SendBrowserAgentOptions_In(TypedDict):
+    interrupt: NotRequired[bool]
+    timeoutMs: NotRequired[float]
+
+class Cap_browser_agent_SendBrowserAgentResult_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["needs_input"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    warnings: list[str]
+
+class Cap_browser_agent_StopBrowserAgentResult_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["needs_input"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    warnings: list[str]
+
+class Cap_browser_agent_ListBrowserAgentsOptions_In(TypedDict):
+    open: NotRequired[bool]
+
+class Cap_browser_agent_ListBrowserAgentsResult_Out(TypedDict):
+    sessions: list[Cap_browser_agent_BrowserAgentSummary_Out]
+    warnings: list[str]
+
+class Cap_browser_agent_BrowserAgentSummary_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["needs_input"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    task: str
+    backend: str
+    model: str
+    question: Cap_browser_agent_BrowserAgentQuestion_Out | None
+    createdAt: str
+    closedAt: str | None
+
+class Cap_browser_agent_WatchLinkResult_Out(TypedDict):
+    id: str
+    watchUrl: str
+    warnings: list[str]
 
 class Cap_bundles_checkAvailability_items_item_In(TypedDict):
     url: str
@@ -2836,6 +2916,24 @@ class Prv_apple_AppleConfiguration_Out(TypedDict):
     price: float | None
     priceCurrency: str | None
 
+class Prv_apple_ApplePurchaseOptions_Out(TypedDict):
+    url: str
+    options: list[Prv_apple_ApplePurchaseOption_Out]
+
+class Prv_apple_ApplePurchaseOption_Out(TypedDict):
+    id: str
+    formValue: str
+    sectionHeader: str
+    sectionFooter: str
+    hideCarrier: bool
+    terms: list[Prv_apple_ApplePurchaseOptionTerm_Out]
+
+class Prv_apple_ApplePurchaseOptionTerm_Out(TypedDict):
+    id: str
+    name: str
+    sectionHeader: str
+    sectionFooter: str
+
 class Prv_apple_AppleFamilyModelList_Out(TypedDict):
     family: Literal["mac"] | Literal["iphone"] | Literal["ipad"] | Literal["watch"]
     models: list[Prv_apple_AppleFamilyModel_Out]
@@ -4604,6 +4702,90 @@ class Prv_brixton_BrixtonCheckoutLink_Out(TypedDict):
     url: str
     variant: Prv_brixton_BrixtonVariant_Out
     product: Prv_brixton_BrixtonProduct_Out
+
+class Prv_browser_use_BrowserUseCreateRunArgs_In(TypedDict):
+    task: str
+    model: NotRequired[str]
+    sessionId: NotRequired[str]
+    maxCostUsd: NotRequired[float]
+    proxyCountryCode: NotRequired[str]
+
+class Prv_browser_use_BrowserUseCreatedRun_Out(TypedDict):
+    id: str
+    status: Literal["queued"] | Literal["dispatching"] | Literal["running"] | Literal["completed"] | Literal["failed"] | Literal["cancelled"]
+    model: str
+    sessionId: str
+    workspaceId: str
+
+class Prv_browser_use_BrowserUseRun_Out(TypedDict):
+    id: str
+    sessionId: str
+    task: str
+    title: str | None
+    model: str
+    status: Literal["queued"] | Literal["dispatching"] | Literal["running"] | Literal["completed"] | Literal["failed"] | Literal["cancelled"]
+    result: str | None
+    error: str | None
+    inputTokens: float
+    outputTokens: float
+    costUsd: float
+    createdAt: str
+    updatedAt: str
+
+class Prv_browser_use_BrowserUseRunStatusReading_Out(TypedDict):
+    runId: str
+    status: Literal["queued"] | Literal["dispatching"] | Literal["running"] | Literal["completed"] | Literal["failed"] | Literal["cancelled"]
+
+class Prv_browser_use_BrowserUseEventsArgs_In(TypedDict):
+    runId: str
+    after: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_browser_use_BrowserUseEventsPage_Out(TypedDict):
+    events: list[Prv_browser_use_BrowserUseEvent_Out]
+    nextAfter: float | None
+    hasMore: bool
+
+class Prv_browser_use_BrowserUseEvent_Out(TypedDict):
+    id: float
+    ts: str
+    type: str
+    data: Mapping[str, Any]
+
+class Prv_browser_use_BrowserUseRunList_Out(TypedDict):
+    runs: list[Prv_browser_use_BrowserUseRun_Out]
+    hasMore: bool
+
+class Prv_browser_use_BrowserUseSession_Out(TypedDict):
+    sessionId: str
+    latestRunId: str
+    status: str
+    title: str | None
+    createdAt: str
+    updatedAt: str
+
+class Prv_browser_use_BrowserUseQueueArgs_In(TypedDict):
+    sessionId: str
+    text: str
+    interrupt: NotRequired[bool]
+
+class Prv_browser_use_BrowserUseQueuedMessage_Out(TypedDict):
+    id: float
+    sessionId: str
+    status: str
+    mode: str
+
+class Prv_browser_use_BrowserUseBrowser_Out(TypedDict):
+    id: str
+    status: str
+    liveUrl: str | None
+    agentSessionId: str | None
+    timeoutAt: str
+    startedAt: str
+    finishedAt: str | None
+    browserCostUsd: float
+    proxyCostUsd: float
+    proxyUsedMb: float
 
 class Prv_builder_strucsure_com_StrucsureRegistrationState_Out(TypedDict):
     id: float
@@ -18532,6 +18714,50 @@ class Cap_booking_links(Protocol):
         `event: null` and the list unless `options.event` names one (slug or part of the name).
         """
 
+class Cap_browser_agent(Protocol):
+    """LAST RESORT, and it costs money: hands a plain-language task to a hosted AI browser
+    agent (Browser Use) when no Bowmark function covers the site or a script against one
+    failed. Returns a session id and a private link your user can open to watch and take
+    over the live browser; later scripts poll it, answer its questions and stop it.
+    """
+
+    async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
+        """Starts a hosted browser agent on `task` and returns at once with its session `id` and a
+        `watchUrl`. Use ONLY after the library had nothing for this site or a function failed —
+        each turn spends real vendor money, charged to the account. Show `watchUrl` to your
+        user: it lets them watch the agent and take over the browser (log in, solve a captcha).
+        Then poll with `status`.
+        """
+
+    async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
+        """Reads a session: `running`, `needs_input` (relay `question` to your user, answer with
+        `send`), `idle` (done — read `result`), `failed`, `stopped` or `closed`. Pass the
+        previous `cursor` for only new steps, and `waitMs` (≤ 60000) to wait for a change
+        instead of polling tightly.
+        """
+
+    async def send(self, id: str, message: str, options: Cap_browser_agent_SendBrowserAgentOptions_In | None = None, /) -> Cap_browser_agent_SendBrowserAgentResult_Out:
+        """Sends the agent a follow-up in the same browser: an answer to its question, the go-ahead
+        after your user took over, or a new instruction. Runs when its current turn ends, or at
+        once with `interrupt: true`. Each turn is billed.
+        """
+
+    async def stop(self, id: str, /) -> Cap_browser_agent_StopBrowserAgentResult_Out:
+        """Stops the agent and shuts its browser; the watch link stops working. Always stop a
+        session you are done with — an open browser keeps costing money until Bowmark closes it
+        after 20 idle minutes.
+        """
+
+    async def list(self, options: Cap_browser_agent_ListBrowserAgentsOptions_In | None = None, /) -> Cap_browser_agent_ListBrowserAgentsResult_Out:
+        """Lists this account's browser agent sessions, open ones by default — how to recover an id
+        you lost.
+        """
+
+    async def watchLink(self, id: str, /) -> Cap_browser_agent_WatchLinkResult_Out:
+        """Makes a NEW watch link for an open session, for when the one from `start` was lost. The
+        previous link stops working.
+        """
+
 class Cap_bundles(Protocol):
     """Given a list of product page urls, reads each one's price and stock the way
     `products.getAvailability` does, then reduces the set to one buildable/not-buildable
@@ -20390,6 +20616,18 @@ class Prv_apple(Protocol):
         rather than guessing a price for combinations apple.com computes client-side.
         """
 
+    async def getPurchaseOptions(self, urlOrPath: str, /) -> Prv_apple_ApplePurchaseOptions_Out:
+        """Reads the ways apple.com will let you pay for the product a buy page has settled on —
+        buy outright, Apple Card Monthly Installments, or the Apple Upgrade Program lease (with
+        its 24- vs 36-month term choice) — with apple.com's own copy for each, straight off the
+        buy page's own window.PURCHASE_OPTIONS_BOOTSTRAP. Only a page that has resolved to ONE
+        product exposes this: every Mac family buy page has (e.g. "/shop/buy-mac/macbook-air"),
+        an iPhone/iPad chooser page has not even at one specific part number, and this throws a
+        caller-fixable error naming that rather than guessing. Carries no dollar figure —
+        apple.com computes a monthly amount only after a term and trade-in are picked on the buy
+        page itself; read a configuration's own price off getConfigurationOptions.
+        """
+
     async def listFamilyModels(self, family: Literal["mac"] | Literal["iphone"] | Literal["ipad"] | Literal["watch"], /) -> Prv_apple_AppleFamilyModelList_Out:
         """Lists every model apple.com currently sells in one product family — the chooser page's
         own cards (e.g. "MacBook Air", "iPad mini"), each with its starting price and the buy
@@ -21650,6 +21888,62 @@ class Prv_brixton(Protocol):
         storefront. THROWS if the handle is unknown, if no variant matches, if the match is
         ambiguous (matches more than one variant), or if the matched variant is not currently
         available — the error names the candidate or in-stock options so the caller can retry.
+        """
+
+class Prv_browser_use(Protocol):
+    """Browser Use Cloud's hosted browser agent. Not callable directly: use
+    `bowmark.browser_agent`, which runs it for you with a private watch link and bills the
+    session to your account.
+    """
+
+    async def createRun(self, args: Prv_browser_use_BrowserUseCreateRunArgs_In, /) -> Prv_browser_use_BrowserUseCreatedRun_Out:
+        """Starts a Browser Use agent run on a natural-language task, optionally continuing an
+        existing session. Returns immediately; the run executes on Browser Use's cloud for
+        seconds to minutes. Spends money.
+        """
+
+    async def getRun(self, runId: str, /) -> Prv_browser_use_BrowserUseRun_Out:
+        """Reads one run: status, final result or error, token totals and LLM cost."""
+
+    async def getRunStatus(self, runId: str, /) -> Prv_browser_use_BrowserUseRunStatusReading_Out:
+        """The cheap status poll for one run."""
+
+    async def listRunEvents(self, args: Prv_browser_use_BrowserUseEventsArgs_In, /) -> Prv_browser_use_BrowserUseEventsPage_Out:
+        """A run's step-by-step event stream after a cursor — the agent's reasoning, tool calls,
+        and the `browser.ready` event carrying the live view url.
+        """
+
+    async def listSessionRuns(self, sessionId: str, /) -> Prv_browser_use_BrowserUseRunList_Out:
+        """Lists every run (agent turn) in a session, newest first, each with its status and LLM
+        cost — how a session's whole spend is read.
+        """
+
+    async def cancelRun(self, runId: str, /) -> Prv_browser_use_BrowserUseRun_Out:
+        """Cancels an in-flight run; idempotent on a finished one. The browser keeps running — stop
+        it separately.
+        """
+
+    async def getSession(self, sessionId: str, /) -> Prv_browser_use_BrowserUseSession_Out:
+        """Reads a session, including the id of its latest run (a queued message becomes a new
+        run).
+        """
+
+    async def queueMessage(self, args: Prv_browser_use_BrowserUseQueueArgs_In, /) -> Prv_browser_use_BrowserUseQueuedMessage_Out:
+        """Sends a follow-up instruction into a session: it runs as the next turn when the current
+        one ends, or at once with `interrupt: true`.
+        """
+
+    async def findSessionBrowser(self, sessionId: str, /) -> Prv_browser_use_BrowserUseBrowser_Out | None:
+        """The cloud browser attached to a session, with its live view url and running cost, or
+        null.
+        """
+
+    async def getBrowser(self, browserId: str, /) -> Prv_browser_use_BrowserUseBrowser_Out:
+        """Reads one cloud browser: status, live view url, browser and proxy cost."""
+
+    async def stopBrowser(self, browserId: str, /) -> Prv_browser_use_BrowserUseBrowser_Out:
+        """Stops a cloud browser (cannot be undone). Its cost is then settled down to the time
+        actually used.
         """
 
 class Prv_builder_strucsure_com(Protocol):
@@ -24824,7 +25118,8 @@ class Prv_google_translate(Protocol):
     """Translate text into any of 249 languages, in a batch if you have a list, and find out
     what language something already is — plus the dictionary underneath: senses,
     definitions, synonyms, alternative wordings, the romanization and the spoken audio.
-    `translate` is built; everything else is still a declared stub.
+    Thirteen functions are built; the four account-gated ones (saved phrases, history) are
+    still declared stubs.
     """
 
     async def translate(self, args: Prv_google_translate_TranslateArgs_In, /) -> list[Prv_google_translate_GoogleTranslateResult_Out]:
@@ -31065,7 +31360,7 @@ class Prv_visible(Protocol):
 class Prv_vistaprint(Protocol):
     """Prices Vistaprint's Full-Print Shipping Boxes for a real size, print area and quantity —
     the live, quantity-tiered price the site's own PDP configurator computes, with no
-    browser, account or cart.
+    browser, account or cart. Custom printed boxes, mailer boxes and packaging boxes.
     """
 
     async def getShippingBoxPrice(self, args: Prv_vistaprint_GetShippingBoxPriceArgs_In, /) -> Prv_vistaprint_ShippingBoxPrice_Out:
@@ -31464,6 +31759,7 @@ class BowmarkProviders(Protocol):
     boydsleep: Prv_boydsleep
     brius: Prv_brius
     brixton: Prv_brixton
+    browser_use: Prv_browser_use
     builder_strucsure_com: Prv_builder_strucsure_com
     bulletproof: Prv_bulletproof
     bungalow: Prv_bungalow
@@ -31815,6 +32111,7 @@ class Bowmark(Protocol):
     generated once precisely so those two cannot drift."""
 
     booking_links: Cap_booking_links
+    browser_agent: Cap_browser_agent
     bundles: Cap_bundles
     cable_railing_quote: Cap_cable_railing_quote
     cars: Cap_cars

@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1599 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1610 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -258,6 +258,17 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `brixton.getBrixtonCheckoutLink` | brixton.com | Resolves a product handle + chosen variant (size and/or color) to a real, purchasable… | 🟢 |
 | `brixton.getBrixtonProduct` | brixton.com | Reads one product by its handle — every size/color variant, its exact price and… | 🟢 |
 | `brixton.listBrixtonProducts` | brixton.com | Reads the live Brixton catalogue as the storefront publishes it — every hat, tee… | 🟢 |
+| `browser_use.cancelRun` | browser-use.com | Cancels an in-flight agent run via POST /api/v4/runs/{id}/cancel; idempotent on a… | 🟢 |
+| `browser_use.createRun` | browser-use.com | Starts a Browser Use Cloud agent run on a natural-language task (optionally continuing… | 🟢 |
+| `browser_use.findSessionBrowser` | browser-use.com | Finds the cloud browser attached to an agent session via GET… | 🟢 |
+| `browser_use.getBrowser` | browser-use.com | Reads one cloud browser via GET /api/v4/browsers/{id}: status, live view url, browser… | 🟢 |
+| `browser_use.getRun` | browser-use.com | Reads one agent run via GET /api/v4/runs/{id}: status, final result or error, token… | 🟢 |
+| `browser_use.getRunStatus` | browser-use.com | The cheap status poll for one agent run, GET /api/v4/runs/{id}/status. | 🟢 |
+| `browser_use.getSession` | browser-use.com | Reads an agent session via GET /api/v4/sessions/{id}, including the id of its latest… | 🟢 |
+| `browser_use.listRunEvents` | browser-use.com | Reads a run's step-by-step event stream after a cursor via GET… | 🟢 |
+| `browser_use.listSessionRuns` | browser-use.com | Lists every agent run in a session via GET /api/v4/runs?sessionId=, each with its… | 🟢 |
+| `browser_use.queueMessage` | browser-use.com | Sends a follow-up instruction into an agent session via POST… | 🟢 |
+| `browser_use.stopBrowser` | browser-use.com | Stops a cloud browser via PATCH /api/v4/browsers/{id} {action: stop}, which cannot be… | 🟢 |
 | `builder_strucsure_com.getNewConstructionRegistrationFields` | builder.strucsure.com | Returns the foundation-type, home-type and warranty-term (enrollment-type) choices for… | 🟢 |
 | `builder_strucsure_com.listRegistrationStates` | builder.strucsure.com | Lists the states StrucSure Home Warranty's builder registration portal recognizes, and… | 🟢 |
 | `bulletproof.findStores` | bulletproof.com | Finds real physical retailers near a US zip code that carry Bulletproof products… | 🟢 |

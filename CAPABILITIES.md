@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 68 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 74 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -11,6 +11,12 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `booking_links.find` | Finds a person's public booking links from their name. | 5 | 🟢 |
 | `booking_links.read` | Reads a Calendly or Cal.com booking page without booking: who owns it, the events it… | 5 | 🟢 |
 | `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 5 | 🟢 |
+| `browser_agent.list` | Lists this account's browser agent sessions, open ones by default — how to recover an… | 1 | 🟢 |
+| `browser_agent.send` | Sends the agent a follow-up in the same browser: an answer to its question, the… | 1 | 🟢 |
+| `browser_agent.start` | Starts a hosted browser agent on `task` and returns at once with its session `id` and… | 1 | 🟢 |
+| `browser_agent.status` | Reads a session: `running`, `needs_input` (relay `question` to your user, answer with… | 1 | 🟢 |
+| `browser_agent.stop` | Stops the agent and shuts its browser; the watch link stops working. | 1 | 🟢 |
+| `browser_agent.watchLink` | Makes a NEW watch link for an open session, for when the one from `start` was lost. | 1 | 🟢 |
 | `bundles.checkAvailability` | Reads every item's product page and returns whether the WHOLE bundle can be built and… | 0 | 🟢 |
 | `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |
