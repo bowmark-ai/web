@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f6980a2c65d2ab9885a2223bc15725a4a0055840ffb666f8ac974782f5815912
-# 51 capabilities, 419 providers, 1113 typed functions, 20 refused.
+# Manifest version: a31ffb5db8384b002cbae3b83c9b95cc4d6b244068f0e353562a2db8e877273b
+# 51 capabilities, 418 providers, 1103 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4742,90 +4742,6 @@ class Prv_brixton_BrixtonCheckoutLink_Out(TypedDict):
     url: str
     variant: Prv_brixton_BrixtonVariant_Out
     product: Prv_brixton_BrixtonProduct_Out
-
-class Prv_browser_use_BrowserUseCreateRunArgs_In(TypedDict):
-    task: str
-    model: NotRequired[str]
-    sessionId: NotRequired[str]
-    maxCostUsd: NotRequired[float]
-    proxyCountryCode: NotRequired[str]
-
-class Prv_browser_use_BrowserUseCreatedRun_Out(TypedDict):
-    id: str
-    status: Literal["queued"] | Literal["dispatching"] | Literal["running"] | Literal["completed"] | Literal["failed"] | Literal["cancelled"]
-    model: str
-    sessionId: str
-    workspaceId: str
-
-class Prv_browser_use_BrowserUseRun_Out(TypedDict):
-    id: str
-    sessionId: str
-    task: str
-    title: str | None
-    model: str
-    status: Literal["queued"] | Literal["dispatching"] | Literal["running"] | Literal["completed"] | Literal["failed"] | Literal["cancelled"]
-    result: str | None
-    error: str | None
-    inputTokens: float
-    outputTokens: float
-    costUsd: float
-    createdAt: str
-    updatedAt: str
-
-class Prv_browser_use_BrowserUseRunStatusReading_Out(TypedDict):
-    runId: str
-    status: Literal["queued"] | Literal["dispatching"] | Literal["running"] | Literal["completed"] | Literal["failed"] | Literal["cancelled"]
-
-class Prv_browser_use_BrowserUseEventsArgs_In(TypedDict):
-    runId: str
-    after: NotRequired[float]
-    limit: NotRequired[float]
-
-class Prv_browser_use_BrowserUseEventsPage_Out(TypedDict):
-    events: list[Prv_browser_use_BrowserUseEvent_Out]
-    nextAfter: float | None
-    hasMore: bool
-
-class Prv_browser_use_BrowserUseEvent_Out(TypedDict):
-    id: float
-    ts: str
-    type: str
-    data: Mapping[str, Any]
-
-class Prv_browser_use_BrowserUseRunList_Out(TypedDict):
-    runs: list[Prv_browser_use_BrowserUseRun_Out]
-    hasMore: bool
-
-class Prv_browser_use_BrowserUseSession_Out(TypedDict):
-    sessionId: str
-    latestRunId: str
-    status: str
-    title: str | None
-    createdAt: str
-    updatedAt: str
-
-class Prv_browser_use_BrowserUseQueueArgs_In(TypedDict):
-    sessionId: str
-    text: str
-    interrupt: NotRequired[bool]
-
-class Prv_browser_use_BrowserUseQueuedMessage_Out(TypedDict):
-    id: float
-    sessionId: str
-    status: str
-    mode: str
-
-class Prv_browser_use_BrowserUseBrowser_Out(TypedDict):
-    id: str
-    status: str
-    liveUrl: str | None
-    agentSessionId: str | None
-    timeoutAt: str
-    startedAt: str
-    finishedAt: str | None
-    browserCostUsd: float
-    proxyCostUsd: float
-    proxyUsedMb: float
 
 class Prv_builder_strucsure_com_StrucsureRegistrationState_Out(TypedDict):
     id: float
@@ -18768,6 +18684,28 @@ class Prv_youtube_YoutubeVideo_Out_thumbnails_item_Out(TypedDict):
     width: float
     height: float
 
+class Prv_youtube_listComments_input_u0_In(TypedDict):
+    video: str
+    sortBy: NotRequired[Literal["top"] | Literal["newest"]]
+
+class Prv_youtube_listComments_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeCommentPage_Out(TypedDict):
+    comments: list[Prv_youtube_YoutubeComment_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubeComment_Out(TypedDict):
+    commentId: str
+    author: str
+    authorChannelId: str | None
+    text: str
+    likeCount: str
+    publishedTime: str
+    replyCount: float
+    isPinned: bool
+    isHeartedByCreator: bool
+
 class Prv_zennioptical_ZenniFrameSearch_Out(TypedDict):
     frames: list[Prv_zennioptical_ZenniFrameSummary_Out]
     total: float
@@ -22086,62 +22024,6 @@ class Prv_brixton(Protocol):
         storefront. THROWS if the handle is unknown, if no variant matches, if the match is
         ambiguous (matches more than one variant), or if the matched variant is not currently
         available — the error names the candidate or in-stock options so the caller can retry.
-        """
-
-class Prv_browser_use(Protocol):
-    """Browser Use Cloud's hosted browser agent. Not callable directly: use
-    `bowmark.browser_agent`, which runs it for you with a private watch link and bills the
-    session to your account.
-    """
-
-    async def createRun(self, args: Prv_browser_use_BrowserUseCreateRunArgs_In, /) -> Prv_browser_use_BrowserUseCreatedRun_Out:
-        """Starts a Browser Use agent run on a natural-language task, optionally continuing an
-        existing session. Returns immediately; the run executes on Browser Use's cloud for
-        seconds to minutes. Spends money.
-        """
-
-    async def getRun(self, runId: str, /) -> Prv_browser_use_BrowserUseRun_Out:
-        """Reads one run: status, final result or error, token totals and LLM cost."""
-
-    async def getRunStatus(self, runId: str, /) -> Prv_browser_use_BrowserUseRunStatusReading_Out:
-        """The cheap status poll for one run."""
-
-    async def listRunEvents(self, args: Prv_browser_use_BrowserUseEventsArgs_In, /) -> Prv_browser_use_BrowserUseEventsPage_Out:
-        """A run's step-by-step event stream after a cursor — the agent's reasoning, tool calls,
-        and the `browser.ready` event carrying the live view url.
-        """
-
-    async def listSessionRuns(self, sessionId: str, /) -> Prv_browser_use_BrowserUseRunList_Out:
-        """Lists every run (agent turn) in a session, newest first, each with its status and LLM
-        cost — how a session's whole spend is read.
-        """
-
-    async def cancelRun(self, runId: str, /) -> Prv_browser_use_BrowserUseRun_Out:
-        """Cancels an in-flight run; idempotent on a finished one. The browser keeps running — stop
-        it separately.
-        """
-
-    async def getSession(self, sessionId: str, /) -> Prv_browser_use_BrowserUseSession_Out:
-        """Reads a session, including the id of its latest run (a queued message becomes a new
-        run).
-        """
-
-    async def queueMessage(self, args: Prv_browser_use_BrowserUseQueueArgs_In, /) -> Prv_browser_use_BrowserUseQueuedMessage_Out:
-        """Sends a follow-up instruction into a session: it runs as the next turn when the current
-        one ends, or at once with `interrupt: true`.
-        """
-
-    async def findSessionBrowser(self, sessionId: str, /) -> Prv_browser_use_BrowserUseBrowser_Out | None:
-        """The cloud browser attached to a session, with its live view url and running cost, or
-        null.
-        """
-
-    async def getBrowser(self, browserId: str, /) -> Prv_browser_use_BrowserUseBrowser_Out:
-        """Reads one cloud browser: status, live view url, browser and proxy cost."""
-
-    async def stopBrowser(self, browserId: str, /) -> Prv_browser_use_BrowserUseBrowser_Out:
-        """Stops a cloud browser (cannot be undone). Its cost is then settled down to the time
-        actually used.
         """
 
 class Prv_builder_strucsure_com(Protocol):
@@ -31967,6 +31849,15 @@ class Prv_youtube(Protocol):
         watch/shorts/embed/live/youtu.be URL, exactly as `getTranscript` takes it.
         """
 
+    async def listComments(self, input: Prv_youtube_listComments_input_u0_In | Prv_youtube_listComments_input_u1_In, /) -> Prv_youtube_YoutubeCommentPage_Out:
+        """What people said under a video — each comment's author, text, like count (YouTube's own
+        abbreviated text, e.g. "316K"), how long ago it was posted, its reply count, and whether
+        the thread is pinned or was hearted by the creator. `sortBy` picks YouTube's own "Top"
+        or "Newest" ordering (default Top) on the first call; pass back `continuation` alone —
+        no `video` needed, it is self-contained — to read the next page. `continuation` is null
+        once there are no more pages.
+        """
+
 class Prv_zennioptical(Protocol):
     """Online prescription eyewear. Prices a real frame + Rx + lens-type configuration off the
     site's own configurator, and checks live per-SKU stock.
@@ -32073,7 +31964,6 @@ class BowmarkProviders(Protocol):
     boydsleep: Prv_boydsleep
     brius: Prv_brius
     brixton: Prv_brixton
-    browser_use: Prv_browser_use
     builder_strucsure_com: Prv_builder_strucsure_com
     bulletproof: Prv_bulletproof
     bungalow: Prv_bungalow

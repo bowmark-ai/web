@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f6980a2c65d2ab9885a2223bc15725a4a0055840ffb666f8ac974782f5815912
-// 1113 checked, 20 unchecked.
+// Manifest version: a31ffb5db8384b002cbae3b83c9b95cc4d6b244068f0e353562a2db8e877273b
+// 1103 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f6980a2c65d2ab9885a2223bc15725a4a0055840ffb666f8ac974782f5815912",
+  "version": "a31ffb5db8384b002cbae3b83c9b95cc4d6b244068f0e353562a2db8e877273b",
   "units": {
     "booking_links": {
       "defs": {
@@ -8076,206 +8076,6 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
-          }
-        ]
-      }
-    },
-    "providers.browser_use": {
-      "defs": {
-        "BrowserUseCreateRunArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "task",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "model",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "sessionId",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "maxCostUsd",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "proxyCountryCode",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "BrowserUseEventsArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "runId",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "after",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            },
-            {
-              "name": "limit",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        },
-        "BrowserUseQueueArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "sessionId",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "text",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "interrupt",
-              "schema": {
-                "k": "boolean"
-              },
-              "optional": true
-            }
-          ]
-        }
-      },
-      "functions": {
-        "createRun": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "BrowserUseCreateRunArgs"
-            },
-            "optional": false
-          }
-        ],
-        "getRun": [
-          {
-            "name": "runId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getRunStatus": [
-          {
-            "name": "runId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "listRunEvents": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "BrowserUseEventsArgs"
-            },
-            "optional": false
-          }
-        ],
-        "listSessionRuns": [
-          {
-            "name": "sessionId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "cancelRun": [
-          {
-            "name": "runId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getSession": [
-          {
-            "name": "sessionId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "queueMessage": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "BrowserUseQueueArgs"
-            },
-            "optional": false
-          }
-        ],
-        "findSessionBrowser": [
-          {
-            "name": "sessionId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getBrowser": [
-          {
-            "name": "browserId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "stopBrowser": [
-          {
-            "name": "browserId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
           }
         ]
       }
@@ -33321,6 +33121,58 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listComments": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "video",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "sortBy",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "top"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "newest"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "continuation",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
                 }
               ]
             },

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f6980a2c65d2ab9885a2223bc15725a4a0055840ffb666f8ac974782f5815912
-// 51 capabilities, 419 providers, 1131 typed functions, 20 refused.
+// Manifest version: a31ffb5db8384b002cbae3b83c9b95cc4d6b244068f0e353562a2db8e877273b
+// 51 capabilities, 418 providers, 1121 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8600,107 +8600,6 @@ interface BrixtonCheckoutLink {
      * available — the error names the candidate or in-stock options so the caller can retry.
      */
     getBrixtonCheckoutLink(handle: string, variantTitleOrOptions: string, opts?: { quantity?: number }): Promise<BrixtonCheckoutLink>;
-  }
-}
-
-declare namespace BowmarkProvider_browser_use {
-  // ── Browser Use — the unit's own declarations, verbatim ──
-type BrowserUseRunStatus = "queued" | "dispatching" | "running" | "completed" | "failed" | "cancelled";
-
-interface BrowserUseCreateRunArgs {
-  task: string;
-  model?: string;             // e.g. "claude-sonnet-5"; absent = vendor default
-  sessionId?: string;         // continue a session
-  maxCostUsd?: number;
-  proxyCountryCode?: string;  // e.g. "us"
-}
-
-interface BrowserUseRunStatusReading { runId: string; status: BrowserUseRunStatus }
-interface BrowserUseCreatedRun { id: string; status: BrowserUseRunStatus; model: string; sessionId: string; workspaceId: string }
-
-interface BrowserUseRun {
-  id: string; sessionId: string; task: string; title: string | null; model: string;
-  status: BrowserUseRunStatus; result: string | null; error: string | null;
-  inputTokens: number; outputTokens: number;
-  costUsd: number;            // LLM cost only
-  createdAt: string; updatedAt: string;
-}
-
-interface BrowserUseRunList { runs: BrowserUseRun[]; hasMore: boolean }
-interface BrowserUseEvent { id: number; ts: string; type: string; data: Record<string, unknown> }
-interface BrowserUseEventsPage { events: BrowserUseEvent[]; nextAfter: number | null; hasMore: boolean }
-interface BrowserUseEventsArgs { runId: string; after?: number; limit?: number }
-
-interface BrowserUseSession { sessionId: string; latestRunId: string; status: string; title: string | null; createdAt: string; updatedAt: string }
-
-interface BrowserUseQueueArgs { sessionId: string; text: string; interrupt?: boolean }
-interface BrowserUseQueuedMessage { id: number; sessionId: string; status: string; mode: string }
-
-interface BrowserUseBrowser {
-  id: string; status: string;
-  liveUrl: string | null;     // interactive; whoever holds it drives the browser
-  agentSessionId: string | null;
-  timeoutAt: string; startedAt: string; finishedAt: string | null;
-  browserCostUsd: number; proxyCostUsd: number; proxyUsedMb: number;
-}
-
-  /**
-   * Browser Use Cloud's hosted browser agent. Not callable directly: use
-   * `bowmark.browser_agent`, which runs it for you with a private watch link and bills the
-   * session to your account.
-   */
-  interface Unit {
-    /**
-     * Starts a Browser Use agent run on a natural-language task, optionally continuing an existing
-     * session. Returns immediately; the run executes on Browser Use's cloud for seconds to
-     * minutes. Spends money.
-     */
-    createRun(args: BrowserUseCreateRunArgs): Promise<BrowserUseCreatedRun>;
-
-    /** Reads one run: status, final result or error, token totals and LLM cost. */
-    getRun(runId: string): Promise<BrowserUseRun>;
-
-    /** The cheap status poll for one run. */
-    getRunStatus(runId: string): Promise<BrowserUseRunStatusReading>;
-
-    /**
-     * A run's step-by-step event stream after a cursor — the agent's reasoning, tool calls, and
-     * the `browser.ready` event carrying the live view url.
-     */
-    listRunEvents(args: BrowserUseEventsArgs): Promise<BrowserUseEventsPage>;
-
-    /**
-     * Lists every run (agent turn) in a session, newest first, each with its status and LLM cost —
-     * how a session's whole spend is read.
-     */
-    listSessionRuns(sessionId: string): Promise<BrowserUseRunList>;
-
-    /**
-     * Cancels an in-flight run; idempotent on a finished one. The browser keeps running — stop it
-     * separately.
-     */
-    cancelRun(runId: string): Promise<BrowserUseRun>;
-
-    /** Reads a session, including the id of its latest run (a queued message becomes a new run). */
-    getSession(sessionId: string): Promise<BrowserUseSession>;
-
-    /**
-     * Sends a follow-up instruction into a session: it runs as the next turn when the current one
-     * ends, or at once with `interrupt: true`.
-     */
-    queueMessage(args: BrowserUseQueueArgs): Promise<BrowserUseQueuedMessage>;
-
-    /** The cloud browser attached to a session, with its live view url and running cost, or null. */
-    findSessionBrowser(sessionId: string): Promise<BrowserUseBrowser | null>;
-
-    /** Reads one cloud browser: status, live view url, browser and proxy cost. */
-    getBrowser(browserId: string): Promise<BrowserUseBrowser>;
-
-    /**
-     * Stops a cloud browser (cannot be undone). Its cost is then settled down to the time actually
-     * used.
-     */
-    stopBrowser(browserId: string): Promise<BrowserUseBrowser>;
   }
 }
 
@@ -35130,6 +35029,23 @@ interface YoutubeVideo {
   thumbnails: { url: string; width: number; height: number }[];
 }
 
+interface YoutubeComment {
+  commentId: string;
+  author: string;
+  authorChannelId: string | null;
+  text: string;
+  likeCount: string;         // YouTube's own abbreviated text, e.g. "316K" — never an exact number
+  publishedTime: string;     // YouTube's own relative phrase, e.g. "1 year ago"
+  replyCount: number;
+  isPinned: boolean;
+  isHeartedByCreator: boolean;
+}
+
+interface YoutubeCommentPage {
+  comments: YoutubeComment[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
   /**
    * A YouTube video's own caption transcript, read off the site's own Transcript panel —
    * timestamped lines plus the full text as one string. Language selection is not offered yet;
@@ -35171,6 +35087,16 @@ interface YoutubeVideo {
      * watch/shorts/embed/live/youtu.be URL, exactly as `getTranscript` takes it.
      */
     getVideo(input: { video: string }): Promise<YoutubeVideo>;
+
+    /**
+     * What people said under a video — each comment's author, text, like count (YouTube's own
+     * abbreviated text, e.g. "316K"), how long ago it was posted, its reply count, and whether the
+     * thread is pinned or was hearted by the creator. `sortBy` picks YouTube's own "Top" or
+     * "Newest" ordering (default Top) on the first call; pass back `continuation` alone — no
+     * `video` needed, it is self-contained — to read the next page. `continuation` is null once
+     * there are no more pages.
+     */
+    listComments(input: { video: string; sortBy?: "top" | "newest" } | { continuation: string }): Promise<YoutubeCommentPage>;
   }
 }
 
@@ -36140,7 +36066,6 @@ interface BowmarkProviders {
   boydsleep: BowmarkProvider_boydsleep.Unit;
   brius: BowmarkProvider_brius.Unit;
   brixton: BowmarkProvider_brixton.Unit;
-  browser_use: BowmarkProvider_browser_use.Unit;
   builder_strucsure_com: BowmarkProvider_builder_strucsure_com.Unit;
   bulletproof: BowmarkProvider_bulletproof.Unit;
   bungalow: BowmarkProvider_bungalow.Unit;
