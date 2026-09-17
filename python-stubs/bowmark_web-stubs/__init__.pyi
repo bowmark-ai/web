@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 33a70781b68188bc68feb315e91e0c61cb56ecb49e10d82f223e4feb9d6b3399
-# 50 capabilities, 418 providers, 1103 typed functions, 20 refused.
+# Manifest version: 8e26e965888a2e776ed2a1ed7727350577cb4298d86365b687e1d3f62558d8c5
+# 50 capabilities, 418 providers, 1104 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18654,6 +18654,17 @@ class Prv_youtube_YoutubeTranscriptSegment_Out(TypedDict):
     startSeconds: float
     text: str
 
+class Prv_youtube_findChannel_input_In(TypedDict):
+    query: str
+
+class Prv_youtube_YoutubeChannelRef_Out(TypedDict):
+    channelId: str
+    url: str
+    handle: str | None
+    title: str | None
+    subscriberCountText: str | None
+    thumbnail: str | None
+
 class Prv_zennioptical_ZenniFrameSearch_Out(TypedDict):
     frames: list[Prv_zennioptical_ZenniFrameSummary_Out]
     total: float
@@ -31720,6 +31731,16 @@ class Prv_youtube(Protocol):
         """Returns a YouTube video's own caption transcript. `video` is a bare 11-character video
         id or any watch/shorts/embed/live/youtu.be URL. `segments` is [] — a real, honest answer
         — when the video has no caption track at all.
+        """
+
+    async def findChannel(self, input: Prv_youtube_findChannel_input_In, /) -> Prv_youtube_YoutubeChannelRef_Out | None:
+        """Resolves a channel `@handle`, a channel/handle URL, or a plain channel name to its
+        canonical id — the door every other channel function here takes a channelId through. An
+        `@handle` or URL goes through YouTube's own `navigation/resolve_url` and returns just
+        the id and canonical URL (no title — that costs a second call, which `getChannel`
+        makes). A plain name runs a channel-filtered search and returns the first, best-matching
+        channel with its title, subscriber count and thumbnail. Returns null when nothing
+        resolves — not a real answer to build a `getChannel` call on.
         """
 
 class Prv_zennioptical(Protocol):

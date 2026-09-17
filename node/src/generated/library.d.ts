@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 33a70781b68188bc68feb315e91e0c61cb56ecb49e10d82f223e4feb9d6b3399
-// 50 capabilities, 418 providers, 1121 typed functions, 20 refused.
+// Manifest version: 8e26e965888a2e776ed2a1ed7727350577cb4298d86365b687e1d3f62558d8c5
+// 50 capabilities, 418 providers, 1122 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -34873,6 +34873,15 @@ interface YoutubeSearchVideo {
   thumbnail: string | null;
 }
 
+interface YoutubeChannelRef {
+  channelId: string;
+  url: string;
+  handle: string | null; // only set when the source we found it through carries one
+  title: string | null;  // only set coming off search; resolve_url gives no title
+  subscriberCountText: string | null;
+  thumbnail: string | null;
+}
+
   /**
    * A YouTube video's own caption transcript, read off the site's own Transcript panel —
    * timestamped lines plus the full text as one string. Language selection is not offered yet;
@@ -34894,6 +34903,17 @@ interface YoutubeSearchVideo {
      * the video has no caption track at all.
      */
     getTranscript(input: { video: string }): Promise<YoutubeTranscript>;
+
+    /**
+     * Resolves a channel `@handle`, a channel/handle URL, or a plain channel name to its canonical
+     * id — the door every other channel function here takes a channelId through. An `@handle` or
+     * URL goes through YouTube's own `navigation/resolve_url` and returns just the id and
+     * canonical URL (no title — that costs a second call, which `getChannel` makes). A plain name
+     * runs a channel-filtered search and returns the first, best-matching channel with its title,
+     * subscriber count and thumbnail. Returns null when nothing resolves — not a real answer to
+     * build a `getChannel` call on.
+     */
+    findChannel(input: { query: string }): Promise<YoutubeChannelRef | null>;
   }
 }
 
