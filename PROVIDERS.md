@@ -98,7 +98,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
 | `apple.bookGeniusBarAppointment` | apple.com | Book a Genius Bar or repair appointment at a specific store. | ⚪ |
 | `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number. | ⚪ |
-| `apple.compareModels` | apple.com | Put two or more models of the same product side by side on the specs a person actually… | ⚪ |
+| `apple.compareModels` | apple.com | Put two or more iPhone models side by side on the specs apple.com itself compares them… | 🟢 |
 | `apple.findStoresNear` | apple.com | Find the Apple Stores near a place a person named — "Cupertino", "94108", "San… | 🟢 |
 | `apple.getConfigurationOptions` | apple.com | Read every choice a buy page actually offers — chip, memory, storage, colour, size… | 🟢 |
 | `apple.getDeliveryEstimate` | apple.com | When would this actually arrive if I ordered it now, to my ZIP code — the delivery… | 🟢 |
