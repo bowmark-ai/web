@@ -88,6 +88,28 @@ still works.
 Every entry point takes the same keyword overrides — `api_key` first, then `base_url`, `headers`,
 `timeout`, `on_log`.
 
+## Making raw HTTP calls without the SDK
+
+If you need to call the API directly without using the client library, you must override Python's default `urllib` User-Agent header. The default `Python-urllib/3.x` is blocked by Cloudflare, which sits in front of our API. Set a custom User-Agent on every request:
+
+```python
+import urllib.request
+import json
+
+url = "https://api.bowmark.ai/v1/session"
+headers = {
+    "Authorization": f"Bearer {api_key}",
+    "Content-Type": "application/json",
+    "User-Agent": "bowmark-client",  # Required: override the default urllib User-Agent
+}
+
+request = urllib.request.Request(url, headers=headers, method="POST", data=json.dumps({}).encode())
+with urllib.request.urlopen(request) as response:
+    session = json.loads(response.read())
+```
+
+This requirement applies **only** to raw HTTP calls using `urllib`. The shipped client library handles this automatically. Any User-Agent header other than Python's default (e.g., `"bowmark-client"`, `"my-app/1.0"`, even `"curl/7.0"`) works fine.
+
 ## Errors
 
 ```python
