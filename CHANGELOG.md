@@ -6,6 +6,32 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.23.0 (2026-09-17)
+
+**Capabilities**
+
+- New capability **browser_agent** (6 functions): `browser_agent.list`, `browser_agent.send`, `browser_agent.start`, `browser_agent.status`, `browser_agent.stop`, `browser_agent.watchLink`
+
+**Providers**
+
+- New provider **browser-use.com** (11 functions): `browser_use.cancelRun`, `browser_use.createRun`, `browser_use.findSessionBrowser`, `browser_use.getBrowser`, `browser_use.getRun`, `browser_use.getRunStatus`, `browser_use.getSession`, `browser_use.listRunEvents`, and 3 more
+- New provider **vistaprint.com** (1 function): `vistaprint.getShippingBoxPrice`
+- Added `app_store.listTodayStories`
+- Added `apple.compareModels`
+- Added `apple.getNewsroomPost`
+- Added `apple.getPurchaseOptions`
+- Added `apple.listNewsroomPosts`
+- Added `google_translate.translateDocument`
+- Added `google_translate.translateImage`
+- Added `prime_video.getPerson`
+- Added `prime_video.listLiveSports`
+- Added `twitch.getChannel`
+- Added `twitch.setChannel`
+- Added `youtube.findChannel`
+- Added `youtube.search`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.22.1 (2026-09-16)
 
 **Capabilities**
