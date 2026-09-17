@@ -1568,7 +1568,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yorkwallcoverings.getProduct` | yorkwallcoverings.com | Reads one York product page in full — SKU, live price, in-stock/out-of-stock status… | 🟢 |
 | `yorkwallcoverings.search` | yorkwallcoverings.com | Searches York's live public catalog (wallpaper, wall murals, grasscloth) by keyword —… | 🟢 |
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
-| `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟡 |
+| `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |
 | `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | ⚪ |
 | `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | ⚪ |
@@ -1599,7 +1599,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | ⚪ |
 | `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | ⚪ |
 | `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
-| `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back what the… | ⚪ |
+| `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back the videos the… | 🟢 |
 | `youtube.searchWithinChannel` | youtube.com | Search one channel's own videos rather than the whole site — the search box that… | ⚪ |
 | `youtube.subscribeToChannel` | youtube.com | Subscribe the signed-in account to a channel (and unsubscribe it again). | ⚪ |
 | `youtube.suggestSearches` | youtube.com | YouTube's own autocomplete for a partial query — the dropdown list it shows while… | ⚪ |
