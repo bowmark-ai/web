@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1616 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1619 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -993,6 +993,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lasikplus.getAvailability` | lasikplus.com | Runs the site's own iSchedule appointment lookup for a given centerCode — returns the… | 🟢 |
 | `legacyhomesal.getAvailability` | legacyhomesal.com | Reads a Legacy Homes AL community sales rep's real open tour-appointment slots… | 🟢 |
 | `legacyhomesal.listCommunities` | legacyhomesal.com | Lists every Legacy Homes AL community (name, area, sales status) paired with the rep… | 🟢 |
+| `letterboxd.film` | letterboxd.com | Reads one film's full record off its letterboxd page — title, year, directors, cast… | 🟢 |
+| `letterboxd.memberDiary` | letterboxd.com | Reads a member's activity feed — every film they logged, with their star rating, the… | 🟢 |
+| `letterboxd.memberFilms` | letterboxd.com | Lists the films a letterboxd member has logged, newest first, off their own films page… | 🟢 |
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | ⚪ |
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
 | `linkedin.getEvent` | linkedin.com | Returns one public LinkedIn event from its URL — name, organizer, start and end time… | ⚪ |
@@ -1173,7 +1176,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `oliverwinery.checkShippingAvailability` | oliverwinery.com | Checks whether Oliver Winery currently ships wine to one US state, read off the… | 🟢 |
 | `oliverwinery.getWine` | oliverwinery.com | Reads one wine's full Commerce7 product record by its storefront slug (e.g.… | 🟢 |
 | `oliverwinery.listWines` | oliverwinery.com | Lists Oliver Winery's own Commerce7 shop catalog — real bottle titles, USD prices and… | 🟢 |
-| `onthemarket.search` | onthemarket.com | Searches for residential property listings by location, returning sale and rental… | 🟢 |
+| `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟢 |
 | `othership.getClassSchedule` | othership.us | Searches one location's real, live class schedule between two dates — sauna, ice bath… | 🟡 |
 | `othership.getLocations` | othership.us | Returns every Othership studio location (Toronto's Adelaide and Yorkville, NYC's… | 🟢 |
 | `otto.browseCategory` | otto.de | Lists products under one of OTTO's own department/category pages (e.g. Damenmode… | ⚪ |
@@ -1596,7 +1599,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.getTranscript` | youtube.com | Returns a YouTube video's own caption transcript — one row per caption line, each… | 🟢 |
 | `youtube.getVideo` | youtube.com | Everything the watch page says about one video without playing it: title, channel name… | 🟢 |
 | `youtube.likeVideo` | youtube.com | Like or dislike a video as the signed-in account, or clear the rating. | ⚪ |
-| `youtube.listCaptionTracks` | youtube.com | Which languages a video's captions are available in, whether each was written by a… | ⚪ |
+| `youtube.listCaptionTracks` | youtube.com | Which languages a video's captions are available in, whether each was written by a… | 🟢 |
 | `youtube.listChannelLiveStreams` | youtube.com | A channel's Live tab — the streams it has run, upcoming and past, with their scheduled… | ⚪ |
 | `youtube.listChannelPlaylists` | youtube.com | The playlists a channel has published, each with its id, title, video count and… | ⚪ |
 | `youtube.listChannelPosts` | youtube.com | A channel's Community tab — the text, image and poll posts a creator writes between… | ⚪ |

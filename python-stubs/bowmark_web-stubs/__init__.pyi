@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 83b6073de78d83a7366cd17844242d5703320faa6ea88973baea85a98639f7d0
-# 51 capabilities, 419 providers, 1104 typed functions, 20 refused.
+# Manifest version: 1479ed048ab3ab797472e94e3aed3648dd9d0ed82e5071a08a9eed5377dd2794
+# 51 capabilities, 420 providers, 1107 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11830,6 +11830,52 @@ class Prv_legacyhomesal_LegacyHomesalCommunity_Out(TypedDict):
     status: str | None
     repSlug: str
     bookingUrl: str
+
+class Prv_letterboxd_film_args_In(TypedDict):
+    slug: str
+
+class Prv_letterboxd_LetterboxdFilm_Out(TypedDict):
+    slug: str
+    title: str
+    year: float | None
+    url: str
+    directors: list[str]
+    cast: list[str]
+    genres: list[str]
+    countries: list[str]
+    languages: list[str]
+    runtimeMinutes: float | None
+    description: str | None
+    posterUrl: str | None
+    averageRating: float | None
+    ratingCount: float | None
+    reviewCount: float | None
+
+class Prv_letterboxd_memberFilms_args_In(TypedDict):
+    member: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_LetterboxdMemberFilm_Out(TypedDict):
+    slug: str
+    title: str
+    year: float | None
+    url: str
+
+class Prv_letterboxd_memberDiary_args_In(TypedDict):
+    member: str
+    limit: NotRequired[float]
+
+class Prv_letterboxd_LetterboxdDiaryEntry_Out(TypedDict):
+    filmTitle: str
+    filmYear: float | None
+    slug: str
+    url: str
+    rating: float | None
+    watchedDate: str | None
+    rewatch: bool
+    liked: bool
+    publishedAt: str | None
+    reviewText: str | None
 
 class Prv_linkedin_LinkedinJobSearchQuery_In(TypedDict):
     keywords: NotRequired[str]
@@ -27140,6 +27186,36 @@ class Prv_legacyhomesal(Protocol):
         name, not a HubSpot booking link.
         """
 
+class Prv_letterboxd(Protocol):
+    """The social network for film. Reads one film's full record including letterboxd's own
+    weighted average rating over millions of members, the films a member has logged, and a
+    member's diary with their star ratings and full review text — all browserless. Also the
+    library's first provider that can CREATE its own account: signUp drives the real
+    registration form, solves its hCaptcha and verifies the account from the persona's
+    inbox.
+    """
+
+    async def film(self, args: Prv_letterboxd_film_args_In, /) -> Prv_letterboxd_LetterboxdFilm_Out:
+        """Reads one film's full record — pass the slug from its letterboxd URL, e.g. { slug:
+        "parasite-2019" }. Returns title, year, directors, cast, genres, countries, languages,
+        runtime, synopsis and poster, plus `averageRating` (letterboxd's weighted average,
+        0.5-5), `ratingCount` and `reviewCount`. That rating is computed over millions of member
+        ratings and is published nowhere else.
+        """
+
+    async def memberFilms(self, args: Prv_letterboxd_memberFilms_args_In, /) -> list[Prv_letterboxd_LetterboxdMemberFilm_Out]:
+        """Lists the films a member has logged, newest first — { member: "davidehrlich" }, with
+        `limit` capping rows (default 72, max 200). Returns slug, title, year and URL per film,
+        which is what `film` takes to go deeper on any one of them.
+        """
+
+    async def memberDiary(self, args: Prv_letterboxd_memberDiary_args_In, /) -> list[Prv_letterboxd_LetterboxdDiaryEntry_Out]:
+        """Reads a member's activity feed: every film they logged, with their own star rating, the
+        date they watched it, whether it was a rewatch, whether they liked it, and the full text
+        of any review they wrote. The review prose is the part no listing page carries. List and
+        like activity is skipped.
+        """
+
 class Prv_linkedin(Protocol):
     """The professional network — people, employers, jobs, posts and LinkedIn Learning. Three
     surfaces are callable: reading one member's public profile, searching the public job
@@ -32166,6 +32242,7 @@ class BowmarkProviders(Protocol):
     landmarkhw_com: Prv_landmarkhw_com
     lasikplus: Prv_lasikplus
     legacyhomesal: Prv_legacyhomesal
+    letterboxd: Prv_letterboxd
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
     liquidspace: Prv_liquidspace

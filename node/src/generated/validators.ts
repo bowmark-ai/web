@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 83b6073de78d83a7366cd17844242d5703320faa6ea88973baea85a98639f7d0
-// 1104 checked, 20 unchecked.
+// Manifest version: 1479ed048ab3ab797472e94e3aed3648dd9d0ed82e5071a08a9eed5377dd2794
+// 1107 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "83b6073de78d83a7366cd17844242d5703320faa6ea88973baea85a98639f7d0",
+  "version": "1479ed048ab3ab797472e94e3aed3648dd9d0ed82e5071a08a9eed5377dd2794",
   "units": {
     "booking_links": {
       "defs": {
@@ -20034,6 +20034,79 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listCommunities": []
+      }
+    },
+    "providers.letterboxd": {
+      "defs": {},
+      "functions": {
+        "film": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "memberFilms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "member",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "memberDiary": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "member",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.linkedin": {

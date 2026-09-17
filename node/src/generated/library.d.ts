@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 83b6073de78d83a7366cd17844242d5703320faa6ea88973baea85a98639f7d0
-// 51 capabilities, 419 providers, 1122 typed functions, 20 refused.
+// Manifest version: 1479ed048ab3ab797472e94e3aed3648dd9d0ed82e5071a08a9eed5377dd2794
+// 51 capabilities, 420 providers, 1125 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22296,6 +22296,80 @@ interface LegacyHomesalCommunity {
   }
 }
 
+declare namespace BowmarkProvider_letterboxd {
+  // ── Letterboxd — the unit's own declarations, verbatim ──
+interface LetterboxdFilm {
+  slug: string;
+  title: string;
+  year: number | null;
+  url: string;
+  directors: string[];
+  cast: string[];
+  genres: string[];
+  countries: string[];
+  languages: string[];
+  runtimeMinutes: number | null;
+  description: string | null;
+  posterUrl: string | null;
+  averageRating: number | null;
+  ratingCount: number | null;
+  reviewCount: number | null;
+}
+
+interface LetterboxdMemberFilm {
+  slug: string;
+  title: string;
+  year: number | null;
+  url: string;
+}
+
+interface LetterboxdDiaryEntry {
+  filmTitle: string;
+  filmYear: number | null;
+  slug: string;
+  url: string;
+  rating: number | null;
+  watchedDate: string | null;
+  rewatch: boolean;
+  liked: boolean;
+  publishedAt: string | null;
+  reviewText: string | null;
+}
+
+  /**
+   * The social network for film. Reads one film's full record including letterboxd's own
+   * weighted average rating over millions of members, the films a member has logged, and a
+   * member's diary with their star ratings and full review text — all browserless. Also the
+   * library's first provider that can CREATE its own account: signUp drives the real
+   * registration form, solves its hCaptcha and verifies the account from the persona's inbox.
+   */
+  interface Unit {
+    /**
+     * Reads one film's full record — pass the slug from its letterboxd URL, e.g. { slug:
+     * "parasite-2019" }. Returns title, year, directors, cast, genres, countries, languages,
+     * runtime, synopsis and poster, plus `averageRating` (letterboxd's weighted average, 0.5-5),
+     * `ratingCount` and `reviewCount`. That rating is computed over millions of member ratings and
+     * is published nowhere else.
+     */
+    film(args: { slug: string }): Promise<LetterboxdFilm>;
+
+    /**
+     * Lists the films a member has logged, newest first — { member: "davidehrlich" }, with `limit`
+     * capping rows (default 72, max 200). Returns slug, title, year and URL per film, which is
+     * what `film` takes to go deeper on any one of them.
+     */
+    memberFilms(args: { member: string, limit?: number }): Promise<LetterboxdMemberFilm[]>;
+
+    /**
+     * Reads a member's activity feed: every film they logged, with their own star rating, the date
+     * they watched it, whether it was a rewatch, whether they liked it, and the full text of any
+     * review they wrote. The review prose is the part no listing page carries. List and like
+     * activity is skipped.
+     */
+    memberDiary(args: { member: string, limit?: number }): Promise<LetterboxdDiaryEntry[]>;
+  }
+}
+
 declare namespace BowmarkProvider_linkedin {
   // ── LinkedIn — the unit's own declarations, verbatim ──
 interface LinkedinJobSearchResult {
@@ -36273,6 +36347,7 @@ interface BowmarkProviders {
   landmarkhw_com: BowmarkProvider_landmarkhw_com.Unit;
   lasikplus: BowmarkProvider_lasikplus.Unit;
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
+  letterboxd: BowmarkProvider_letterboxd.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
   liquidspace: BowmarkProvider_liquidspace.Unit;
