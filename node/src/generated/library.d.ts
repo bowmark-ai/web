@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8e26e965888a2e776ed2a1ed7727350577cb4298d86365b687e1d3f62558d8c5
-// 50 capabilities, 418 providers, 1122 typed functions, 20 refused.
+// Manifest version: 33dd10755978f3a5353502c856f65886bfa699a2e6d6b4f050848ef5c2614b6b
+// 50 capabilities, 418 providers, 1123 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5204,6 +5204,36 @@ interface AppleRefurbishedCatalog {
   category: "mac" | "ipad" | "iphone" | "watch" | "appletv" | "homepod" | "airpods" | "accessories";
   listings: AppleRefurbishedListing[];
 }
+interface AppleAccessoryListing {
+  partNumber: string;
+  name: string;
+  price: number | null;
+  priceCurrency: string | null;
+  url: string;
+  image: string | null;
+}
+interface AppleAccessoryCatalog {
+  category:
+    | "cases-protection"
+    | "chargers-adapters"
+    | "headphones-speakers"
+    | "drives-storage"
+    | "mice-keyboards"
+    | "gaming"
+    | "office"
+    | "travel-essentials"
+    | "college-essentials"
+    | "software"
+    | "homekit"
+    | "content-creation"
+    | "health-fitness"
+    | "new-arrivals"
+    | "made-by-apple"
+    | "accessibility";
+  page: number;
+  hasMore: boolean;
+  listings: AppleAccessoryListing[];
+}
 interface AppleTradeInEstimate {
   device: string;
   upToUsd: number;
@@ -5428,6 +5458,15 @@ interface AppleCompareModels {
      * legitimately be empty when Apple has nothing left in it.
      */
     listRefurbished(category: "mac" | "ipad" | "iphone" | "watch" | "appletv" | "homepod" | "airpods" | "accessories"): Promise<AppleRefurbishedCatalog>;
+
+    /**
+     * Everything Apple sells that is not a device, browsable by the sixteen categories apple.com's
+     * own accessories store uses — cases, chargers, headphones, drives, keyboards and the rest —
+     * each listing with its real name, current price and the part number that resolves it straight
+     * through getProductByPartNumber. Apple paginates this store server-side (up to 30 listings a
+     * page); `hasMore` says whether another page exists, since apple.com publishes no total count.
+     */
+    listAccessories(category: "cases-protection" | "chargers-adapters" | "headphones-speakers" | "drives-storage" | "mice-keyboards" | "gaming" | "office" | "travel-essentials" | "college-essentials" | "software" | "homekit" | "content-creation" | "health-fitness" | "new-arrivals" | "made-by-apple" | "accessibility", page?: number): Promise<AppleAccessoryCatalog>;
 
     /**
      * Reads apple.com's own trade-in value table and returns the CEILING ("up to $X")

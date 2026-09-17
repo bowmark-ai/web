@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8e26e965888a2e776ed2a1ed7727350577cb4298d86365b687e1d3f62558d8c5
-# 50 capabilities, 418 providers, 1104 typed functions, 20 refused.
+# Manifest version: 33dd10755978f3a5353502c856f65886bfa699a2e6d6b4f050848ef5c2614b6b
+# 50 capabilities, 418 providers, 1105 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2959,6 +2959,20 @@ class Prv_apple_AppleRefurbishedCatalog_Out(TypedDict):
     listings: list[Prv_apple_AppleRefurbishedListing_Out]
 
 class Prv_apple_AppleRefurbishedListing_Out(TypedDict):
+    partNumber: str
+    name: str
+    price: float | None
+    priceCurrency: str | None
+    url: str
+    image: str | None
+
+class Prv_apple_AppleAccessoryCatalog_Out(TypedDict):
+    category: Literal["cases-protection"] | Literal["chargers-adapters"] | Literal["headphones-speakers"] | Literal["drives-storage"] | Literal["mice-keyboards"] | Literal["gaming"] | Literal["office"] | Literal["travel-essentials"] | Literal["college-essentials"] | Literal["software"] | Literal["homekit"] | Literal["content-creation"] | Literal["health-fitness"] | Literal["new-arrivals"] | Literal["made-by-apple"] | Literal["accessibility"]
+    page: float
+    hasMore: bool
+    listings: list[Prv_apple_AppleAccessoryListing_Out]
+
+class Prv_apple_AppleAccessoryListing_Out(TypedDict):
     partNumber: str
     name: str
     price: float | None
@@ -20697,6 +20711,15 @@ class Prv_apple(Protocol):
         in one category, each with its real name, its current price and the part number that
         resolves it straight through getProductByPartNumber. Stock turns over daily and a
         category can legitimately be empty when Apple has nothing left in it.
+        """
+
+    async def listAccessories(self, category: Literal["cases-protection"] | Literal["chargers-adapters"] | Literal["headphones-speakers"] | Literal["drives-storage"] | Literal["mice-keyboards"] | Literal["gaming"] | Literal["office"] | Literal["travel-essentials"] | Literal["college-essentials"] | Literal["software"] | Literal["homekit"] | Literal["content-creation"] | Literal["health-fitness"] | Literal["new-arrivals"] | Literal["made-by-apple"] | Literal["accessibility"], page: float | None = None, /) -> Prv_apple_AppleAccessoryCatalog_Out:
+        """Everything Apple sells that is not a device, browsable by the sixteen categories
+        apple.com's own accessories store uses — cases, chargers, headphones, drives, keyboards
+        and the rest — each listing with its real name, current price and the part number that
+        resolves it straight through getProductByPartNumber. Apple paginates this store
+        server-side (up to 30 listings a page); `hasMore` says whether another page exists,
+        since apple.com publishes no total count.
         """
 
     async def getTradeInEstimate(self, model: str, /) -> Prv_apple_AppleTradeInEstimate_Out:

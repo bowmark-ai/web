@@ -111,7 +111,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.getStore` | apple.com | Read one Apple Store: its full address, phone number, map coordinates, store number… | 🟢 |
 | `apple.getSupportArticle` | apple.com | Read one Apple support article end to end — the actual instructions, not a search… | 🟢 |
 | `apple.getTradeInEstimate` | apple.com | Reads apple.com's own trade-in value table and returns the ceiling ("up to $X")… | 🟢 |
-| `apple.listAccessories` | apple.com | Everything Apple sells that is not a device — cases, chargers, bands, keyboards… | ⚪ |
+| `apple.listAccessories` | apple.com | Everything Apple sells that is not a device — cases, chargers, bands, keyboards… | 🟢 |
 | `apple.listFamilyModels` | apple.com | List every model Apple currently sells in one product family — every Mac, every… | 🟢 |
 | `apple.listNewsroomPosts` | apple.com | Apple's official announcements, newest first — every product launch, financial result… | 🟢 |
 | `apple.listOrders` | apple.com | Everything I have bought from Apple, with dates and prices. | ⚪ |
@@ -212,7 +212,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟢 |
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🟡 |
 | `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |
-| `bionicpo.getInquiryServiceDetails` | bionicpo.com | Gets structured details for a specific inquiry service. formFields is [] on the static… | 🟢 |
+| `bionicpo.getInquiryServiceDetails` | bionicpo.com | Gets structured details for a specific inquiry service. formFields is [] on the static… | 🟡 |
 | `bionicpo.listInquiryServices` | bionicpo.com | Lists the inquiry and service categories available on BionicPO's inquiry-services page. | 🟢 |
 | `bishops.checkAvailability` | bishops.co | Checks real, live open time slots for one service at one location on one date — the… | 🟢 |
 | `bishops.findLocation` | bishops.co | Resolves a slug/neighborhood query to the matching real Bishops location(s) — name… | 🟢 |

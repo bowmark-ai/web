@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8e26e965888a2e776ed2a1ed7727350577cb4298d86365b687e1d3f62558d8c5
-// 1104 checked, 20 unchecked.
+// Manifest version: 33dd10755978f3a5353502c856f65886bfa699a2e6d6b4f050848ef5c2614b6b
+// 1105 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8e26e965888a2e776ed2a1ed7727350577cb4298d86365b687e1d3f62558d8c5",
+  "version": "33dd10755978f3a5353502c856f65886bfa699a2e6d6b4f050848ef5c2614b6b",
   "units": {
     "booking_links": {
       "defs": {
@@ -5463,6 +5463,88 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ],
+        "listAccessories": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "cases-protection"
+                },
+                {
+                  "k": "literal",
+                  "v": "chargers-adapters"
+                },
+                {
+                  "k": "literal",
+                  "v": "headphones-speakers"
+                },
+                {
+                  "k": "literal",
+                  "v": "drives-storage"
+                },
+                {
+                  "k": "literal",
+                  "v": "mice-keyboards"
+                },
+                {
+                  "k": "literal",
+                  "v": "gaming"
+                },
+                {
+                  "k": "literal",
+                  "v": "office"
+                },
+                {
+                  "k": "literal",
+                  "v": "travel-essentials"
+                },
+                {
+                  "k": "literal",
+                  "v": "college-essentials"
+                },
+                {
+                  "k": "literal",
+                  "v": "software"
+                },
+                {
+                  "k": "literal",
+                  "v": "homekit"
+                },
+                {
+                  "k": "literal",
+                  "v": "content-creation"
+                },
+                {
+                  "k": "literal",
+                  "v": "health-fitness"
+                },
+                {
+                  "k": "literal",
+                  "v": "new-arrivals"
+                },
+                {
+                  "k": "literal",
+                  "v": "made-by-apple"
+                },
+                {
+                  "k": "literal",
+                  "v": "accessibility"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "page",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ],
         "getTradeInEstimate": [
