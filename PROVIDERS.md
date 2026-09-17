@@ -212,7 +212,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟢 |
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🟡 |
 | `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |
-| `bionicpo.getInquiryServiceDetails` | bionicpo.com | Gets structured details for a specific inquiry service. formFields is [] on the static… | 🟡 |
+| `bionicpo.getInquiryServiceDetails` | bionicpo.com | Looks one inquiry service up by name or id among the inquiry-services page's service… | 🟡 |
 | `bionicpo.listInquiryServices` | bionicpo.com | Lists the inquiry and service categories available on BionicPO's inquiry-services page. | 🟢 |
 | `bishops.checkAvailability` | bishops.co | Checks real, live open time slots for one service at one location on one date — the… | 🟢 |
 | `bishops.findLocation` | bishops.co | Resolves a slug/neighborhood query to the matching real Bishops location(s) — name… | 🟢 |
@@ -1045,8 +1045,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.getSizeGuide` | shop.lululemon.com | Returns lululemon's size chart for a garment — the body measurements each numeric size… | ⚪ |
 | `lululemon.listCategory` | shop.lululemon.com | Browses one category the way the site's own navigation does — Women's Leggings, Men's… | ⚪ |
 | `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
-| `maidenhome.getProduct` | maidenhome.com | Reads one configurable product's complete Size x Wood Finish variant grid — every… | 🟡 |
-| `maidenhome.resolveVariant` | maidenhome.com | Resolves a free-text product + size + wood finish to the exact priced variant and its… | 🟡 |
+| `maidenhome.getProduct` | maidenhome.com | Reads one configurable product's complete Size x Wood Finish variant grid — every… | 🟢 |
+| `maidenhome.resolveVariant` | maidenhome.com | Resolves a free-text product + size + wood finish to the exact priced variant and its… | 🟢 |
 | `maidenhome.searchConfigurations` | maidenhome.com | Lists every Maiden Home product configurable by Size x Wood Finish (sofas… | 🟢 |
 | `mailchimp.getPlanPricing` | mailchimp.com | Reads mailchimp.com/pricing/marketing/'s own plan lineup (Free, Essentials, Standard… | 🟢 |
 | `marketplace_visualstudio.getExtensionStats` | marketplace.visualstudio.com | Looks up one VS Code extension by its "publisher.extension" id (the id shown in the… | 🟢 |

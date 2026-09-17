@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 67b39b8c5c0409d337ea2f9087b74e61b03df6f4fae99de14b0576d53d7c24cb
+// Manifest version: c7d0ed986f37df8ad34cf19605a3acf28416e48492ae2b5c8c70f59962a697b5
 // 50 capabilities, 418 providers, 1123 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -7649,8 +7649,11 @@ interface FormField {
     /** List BionicPO inquiry and service categories from the inquiry-services page. */
     listInquiryServices(): Promise<{ services: InquiryService[]; warnings: string[] }>;
 
-    /** Get a BionicPO inquiry service's form fields and details. */
-    getInquiryServiceDetails(serviceName: string): Promise<ServiceDetails>;
+    /**
+     * Look up one BionicPO inquiry service by name or id and return the site's own description for
+     * it.
+     */
+    getInquiryServiceDetails(service: string): Promise<ServiceDetails>;
   }
 }
 

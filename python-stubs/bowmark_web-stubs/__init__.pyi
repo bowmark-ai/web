@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 67b39b8c5c0409d337ea2f9087b74e61b03df6f4fae99de14b0576d53d7c24cb
+# Manifest version: c7d0ed986f37df8ad34cf19605a3acf28416e48492ae2b5c8c70f59962a697b5
 # 50 capabilities, 418 providers, 1105 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -21631,8 +21631,10 @@ class Prv_bionicpo(Protocol):
     async def listInquiryServices(self, /) -> Prv_bionicpo_listInquiryServices_return_Out:
         """List BionicPO inquiry and service categories from the inquiry-services page."""
 
-    async def getInquiryServiceDetails(self, serviceName: str, /) -> Prv_bionicpo_ServiceDetails_Out:
-        """Get a BionicPO inquiry service's form fields and details."""
+    async def getInquiryServiceDetails(self, service: str, /) -> Prv_bionicpo_ServiceDetails_Out:
+        """Look up one BionicPO inquiry service by name or id and return the site's own description
+        for it.
+        """
 
 class Prv_bishops(Protocol):
     """Bishops Cuts/Color's real location directory, live per-location service catalog, and
