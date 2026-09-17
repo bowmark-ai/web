@@ -1,5 +1,5 @@
 {
-  "version": "8cb6e0fc7b23575e03ac6d9996e463b605da4bbe1b1536b527a874e79dfc2f8a",
+  "version": "8894211d30af4c047f838e5ea4b123cded60390651624cb2be20df0684ba3df5",
   "units": {
     "booking_links": {
       "defs": {
@@ -23725,6 +23725,20 @@
         ]
       }
     },
+    "providers.planning_inspectorate_ni": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.platform_claude_com": {
       "defs": {},
       "functions": {
@@ -33300,6 +33314,24 @@
               "props": [
                 {
                   "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getChannel": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "channel",
                   "schema": {
                     "k": "string"
                   },

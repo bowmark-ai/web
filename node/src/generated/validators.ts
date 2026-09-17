@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8cb6e0fc7b23575e03ac6d9996e463b605da4bbe1b1536b527a874e79dfc2f8a
-// 1109 checked, 20 unchecked.
+// Manifest version: 8894211d30af4c047f838e5ea4b123cded60390651624cb2be20df0684ba3df5
+// 1111 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8cb6e0fc7b23575e03ac6d9996e463b605da4bbe1b1536b527a874e79dfc2f8a",
+  "version": "8894211d30af4c047f838e5ea4b123cded60390651624cb2be20df0684ba3df5",
   "units": {
     "booking_links": {
       "defs": {
@@ -23737,6 +23737,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.planning_inspectorate_ni": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.platform_claude_com": {
       "defs": {},
       "functions": {
@@ -33312,6 +33326,24 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getChannel": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "channel",
                   "schema": {
                     "k": "string"
                   },

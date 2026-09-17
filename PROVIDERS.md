@@ -1594,7 +1594,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | ⚪ |
 | `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | ⚪ |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
-| `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, subscriber count, the… | ⚪ |
+| `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |
 | `youtube.getLiveChat` | youtube.com | The messages scrolling past a live stream — each with its author, text and timestamp… | ⚪ |
 | `youtube.getPlaylist` | youtube.com | A playlist's own facts: title, description, the channel that owns it, how many videos… | ⚪ |
 | `youtube.getTranscript` | youtube.com | Returns a YouTube video's own caption transcript — one row per caption line, each… | 🟢 |

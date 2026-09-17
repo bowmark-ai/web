@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8cb6e0fc7b23575e03ac6d9996e463b605da4bbe1b1536b527a874e79dfc2f8a
-// 52 capabilities, 420 providers, 1127 typed functions, 20 refused.
+// Manifest version: 8894211d30af4c047f838e5ea4b123cded60390651624cb2be20df0684ba3df5
+// 52 capabilities, 421 providers, 1129 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -27344,6 +27344,26 @@ interface PizzahutDealsForRender {
   }
 }
 
+declare namespace BowmarkProvider_planning_inspectorate_ni {
+  // ── Planning Inspectorate — National Infrastructure Planning — the unit's own declarations, verbatim ──
+interface PlanningInspectorateProject {
+  id: string;
+  name: string;
+  applicant?: string;
+  stage?: string;
+  url: string;
+}
+
+  /** Search the UK national infrastructure planning register by project name. */
+  interface Unit {
+    /**
+     * Searches the UK national infrastructure planning register by project name or keywords,
+     * returns matching projects with their id, name and register URL.
+     */
+    search(query: string): Promise<PlanningInspectorateProject[]>;
+  }
+}
+
 declare namespace BowmarkProvider_platform_claude_com {
   // ── Claude Developer Platform Docs — the unit's own declarations, verbatim ──
 interface platform_claude_comDoc {
@@ -35175,6 +35195,26 @@ interface YoutubeCommentPage {
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
+interface YoutubeChannelLink {
+  title: string;
+  url: string; // the real destination, decoded off YouTube's own redirect wrapper
+}
+
+interface YoutubeChannel {
+  channelId: string;
+  handle: string | null;       // null for a legacy /c/ or /user/ vanity URL with no @handle
+  title: string;
+  description: string;
+  subscriberCountText: string | null; // YouTube's own abbreviated text, e.g. "517M subscribers"
+  videoCount: number | null;
+  viewCount: number | null;
+  country: string | null;
+  joinedDate: string | null;   // ISO 8601 date
+  links: YoutubeChannelLink[];
+  avatar: string | null;
+  banner: string | null;
+}
+
   /**
    * A YouTube video's own caption transcript, read off the site's own Transcript panel —
    * timestamped lines plus the full text as one string. Language selection is not offered yet;
@@ -35236,6 +35276,18 @@ interface YoutubeCommentPage {
      * for `getTranscript`, which today always reads the default track.
      */
     listCaptionTracks(input: { video: string }): Promise<YoutubeCaptionTrack[]>;
+
+    /**
+     * A channel's own page as facts: display name, @handle, an abbreviated subscriber count text
+     * (YouTube never publishes an exact one), the About tab's full description, total video count,
+     * lifetime view count, country, the ISO date it joined, the links it lists (resolved to their
+     * real destination, not YouTube's redirect wrapper), and its avatar and banner images.
+     * `channel` is a channel id (`UC…`), an `@handle`, or a channel URL — not a plain name, which
+     * `findChannel` resolves to an id first. Every field past `channelId`/`handle`/`title` comes
+     * off the About panel; on the rare response that carries no panel at all they come back
+     * null/empty rather than throwing.
+     */
+    getChannel(input: { channel: string }): Promise<YoutubeChannel>;
   }
 }
 
@@ -36445,6 +36497,7 @@ interface BowmarkProviders {
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
+  planning_inspectorate_ni: BowmarkProvider_planning_inspectorate_ni.Unit;
   platform_claude_com: BowmarkProvider_platform_claude_com.Unit;
   polymarket: BowmarkProvider_polymarket.Unit;
   polytex: BowmarkProvider_polytex.Unit;
