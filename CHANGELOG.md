@@ -6,6 +6,20 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.24.0 (2026-09-17)
+
+**Capabilities**
+
+- New capability **stream_channel** (2 functions): `stream_channel.get`, `stream_channel.set`
+
+**Providers**
+
+- New provider **higgsfield.ai** (5 functions): `higgsfield.estimateCost`, `higgsfield.generateImage`, `higgsfield.generateVideo`, `higgsfield.getRequestStatus`, `higgsfield.listModels`
+- Added `apple.listAccessories`
+- Added `youtube.getVideo`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.23.0 (2026-09-17)
 
 **Capabilities**
