@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3c03fdf330b632c48db9323e88b3dbc17ee723e6203a93e6cdab0aa1f49cff6a
+// Manifest version: 33a70781b68188bc68feb315e91e0c61cb56ecb49e10d82f223e4feb9d6b3399
 // 50 capabilities, 418 providers, 1121 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -27440,6 +27440,7 @@ interface PrimeVideoTitleDetail {
   releaseYear: number | null;
   releaseDate: string | null;
   runtime: string | null;
+  durationSeconds: number | null;
   genres: string[];
   maturityRating: string | null;
   cast: PrimeVideoCredit[];
@@ -27600,12 +27601,13 @@ interface PrimeVideoLiveSportsEvent {
 
     /**
      * Read one film, series-season or episode the way a viewer reads its page: title, synopsis,
-     * year, release date, runtime, genres, maturity rating, cast, directors, studio, the Amazon
-     * customer rating and its five-star histogram, the IMDb score, which audio languages and
-     * subtitles it ships, and whether it is in UHD, HDR, Dolby Atmos or X-Ray. The core read of
-     * the whole provider. Takes a titleId or a title URL, e.g. one read off searchTitles(). THE
-     * REVIEW TEXT IS NOT HERE — the aggregate rating and histogram are real and logged out, but
-     * review bodies are amazon.com's own surface behind amazon.com's sign-in wall.
+     * year, release date, runtime (both the display string and durationSeconds), genres, maturity
+     * rating, cast, directors, studio, the Amazon customer rating and its five-star histogram, the
+     * IMDb score, which audio languages and subtitles it ships, and whether it is in UHD, HDR,
+     * Dolby Atmos or X-Ray. The core read of the whole provider. Takes a titleId or a title URL,
+     * e.g. one read off searchTitles(). THE REVIEW TEXT IS NOT HERE — the aggregate rating and
+     * histogram are real and logged out, but review bodies are amazon.com's own surface behind
+     * amazon.com's sign-in wall.
      */
     getTitle(titleId: string): Promise<PrimeVideoTitleDetail>;
 
