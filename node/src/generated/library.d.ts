@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8894211d30af4c047f838e5ea4b123cded60390651624cb2be20df0684ba3df5
-// 52 capabilities, 421 providers, 1129 typed functions, 20 refused.
+// Manifest version: fc2fdb3553219f5ac1511a29016df63818b1b15b31bda76763ac7a6bda3a0c47
+// 52 capabilities, 422 providers, 1131 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -219,7 +219,10 @@ type CallOptions = {
    * LAST RESORT, and it costs money: hands a plain-language task to a hosted AI browser agent
    * (Browser Use) when no Bowmark function covers the site or a script against one failed.
    * Returns a session id and a private link your user can open to watch and take over the live
-   * browser; later scripts poll it, answer its questions and stop it.
+   * browser; later scripts poll it, answer its questions and stop it. RUN-ONLY: a typed session
+   * cannot call it (that is refused with code "run_only", and it is never an API-key problem),
+   * and one run is killed at 120s of wall clock — so `start` in one run and poll `status` from
+   * LATER runs, never in a loop inside one.
    */
   interface Unit {
     /**
@@ -11872,6 +11875,39 @@ interface CostcoProduct {
      * number, image). Does not return price — see the module header.
      */
     search(query: string): Promise<CostcoProduct[]>;
+  }
+}
+
+declare namespace BowmarkProvider_countycourt_vic_gov_au {
+  // ── County Court of Victoria — the unit's own declarations, verbatim ──
+type CountycourtListSlug = "crime-and-appeals" | "civil" | "circuit";
+interface CountycourtHearing {
+  list: CountycourtListSlug;
+  publishDate: string | null;  // e.g. "2026-09-18"
+  room: string | null;         // e.g. "County Court G.1"
+  judge: string | null;        // e.g. "Judge Malik"
+  time: string | null;         // ISO timestamp
+  caseId: string | null;       // e.g. "AP-25-1265"
+  caseName: string | null;     // e.g. "HEIDARIKAKOLAKI, Amin"
+  hearingType: string | null;  // e.g. "For Sentence"
+  partHeard: boolean;
+}
+
+  /**
+   * Reads the County Court of Victoria's daily hearing lists — Crime and Appeals, Civil, Circuit
+   * — straight off the site's own headless-Drupal JSON:API, no key, no browser.
+   */
+  interface Unit {
+    /**
+     * Returns the County Court of Victoria's currently-published daily hearing list as structured
+     * rows — one row per case sitting, with its room, judge, case id, case name, hearing type,
+     * listed time and part-heard flag. `list` is OPTIONAL and defaults to "crime-and-appeals"
+     * (criminal trials, pleas, appeals); pass "civil" for common law and commercial hearings or
+     * "circuit" for regional sittings. The site republishes each list by ~5:30pm on the day before
+     * it takes effect (Melbourne time) — check `publishDate` on the returned rows rather than
+     * assuming "today".
+     */
+    dailyList(list?: CountycourtListSlug): Promise<CountycourtHearing[]>;
   }
 }
 
@@ -35215,6 +35251,22 @@ interface YoutubeChannel {
   banner: string | null;
 }
 
+interface YoutubeChannelVideo {
+  videoId: string;
+  url: string;
+  title: string;
+  views: string | null;       // YouTube's own abbreviated text, e.g. "101M views"
+  published: string | null;   // YouTube's own phrase, e.g. "11 days ago"
+  publishedAgeSeconds: number | null;
+  length: string | null;      // e.g. "23:28"; null for a live stream
+  thumbnail: string | null;
+}
+
+interface YoutubeChannelVideoPage {
+  videos: YoutubeChannelVideo[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
   /**
    * A YouTube video's own caption transcript, read off the site's own Transcript panel —
    * timestamped lines plus the full text as one string. Language selection is not offered yet;
@@ -35288,6 +35340,16 @@ interface YoutubeChannel {
      * null/empty rather than throwing.
      */
     getChannel(input: { channel: string }): Promise<YoutubeChannel>;
+
+    /**
+     * What a channel has published, newest first and paged — each video's id, url, title,
+     * YouTube's own abbreviated view-count text (e.g. "101M views"), upload age, length and
+     * thumbnail. `channel` takes a channel id, an @handle, or a channel URL, exactly as
+     * `getChannel` does — not a plain name, which `findChannel` resolves first. Pass back
+     * `continuation` alone — no `channel` needed — to read the next page; it is null once there
+     * are no more pages.
+     */
+    listChannelVideos(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelVideoPage>;
   }
 }
 
@@ -36305,6 +36367,7 @@ interface BowmarkProviders {
   completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
   costco: BowmarkProvider_costco.Unit;
+  countycourt_vic_gov_au: BowmarkProvider_countycourt_vic_gov_au.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
   credibly_com: BowmarkProvider_credibly_com.Unit;
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;

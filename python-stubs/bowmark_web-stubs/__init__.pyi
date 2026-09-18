@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8894211d30af4c047f838e5ea4b123cded60390651624cb2be20df0684ba3df5
-# 52 capabilities, 421 providers, 1111 typed functions, 20 refused.
+# Manifest version: fc2fdb3553219f5ac1511a29016df63818b1b15b31bda76763ac7a6bda3a0c47
+# 52 capabilities, 422 providers, 1113 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6511,6 +6511,17 @@ class Prv_costco_CostcoProduct_Out(TypedDict):
     title: str
     brand: str | None
     imageUrl: str | None
+
+class Prv_countycourt_vic_gov_au_CountycourtHearing_Out(TypedDict):
+    list: Literal["crime-and-appeals"] | Literal["civil"] | Literal["circuit"]
+    publishDate: str | None
+    room: str | None
+    judge: str | None
+    time: str | None
+    caseId: str | None
+    caseName: str | None
+    hearingType: str | None
+    partHeard: bool
 
 class Prv_couponfollow_CouponFollowOffer_Out(TypedDict):
     id: str
@@ -18822,6 +18833,26 @@ class Prv_youtube_YoutubeChannelLink_Out(TypedDict):
     title: str
     url: str
 
+class Prv_youtube_listChannelVideos_input_u0_In(TypedDict):
+    channel: str
+
+class Prv_youtube_listChannelVideos_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeChannelVideoPage_Out(TypedDict):
+    videos: list[Prv_youtube_YoutubeChannelVideo_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubeChannelVideo_Out(TypedDict):
+    videoId: str
+    url: str
+    title: str
+    views: str | None
+    published: str | None
+    publishedAgeSeconds: float | None
+    length: str | None
+    thumbnail: str | None
+
 class Prv_zennioptical_ZenniFrameSearch_Out(TypedDict):
     frames: list[Prv_zennioptical_ZenniFrameSummary_Out]
     total: float
@@ -18918,6 +18949,9 @@ class Cap_browser_agent(Protocol):
     agent (Browser Use) when no Bowmark function covers the site or a script against one
     failed. Returns a session id and a private link your user can open to watch and take
     over the live browser; later scripts poll it, answer its questions and stop it.
+    RUN-ONLY: a typed session cannot call it (that is refused with code "run_only", and it
+    is never an API-key problem), and one run is killed at 120s of wall clock — so `start`
+    in one run and poll `status` from LATER runs, never in a loop inside one.
     """
 
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
@@ -23298,6 +23332,21 @@ class Prv_costco(Protocol):
     async def search(self, query: str, /) -> list[Prv_costco_CostcoProduct_Out]:
         """Runs a search on Costco's product catalog and returns matching items (title, brand, item
         number, image). Does not return price — see the module header.
+        """
+
+class Prv_countycourt_vic_gov_au(Protocol):
+    """Reads the County Court of Victoria's daily hearing lists — Crime and Appeals, Civil,
+    Circuit — straight off the site's own headless-Drupal JSON:API, no key, no browser.
+    """
+
+    async def dailyList(self, list: Literal["crime-and-appeals"] | Literal["civil"] | Literal["circuit"] | None = None, /) -> list[Prv_countycourt_vic_gov_au_CountycourtHearing_Out]:
+        """Returns the County Court of Victoria's currently-published daily hearing list as
+        structured rows — one row per case sitting, with its room, judge, case id, case name,
+        hearing type, listed time and part-heard flag. `list` is OPTIONAL and defaults to
+        "crime-and-appeals" (criminal trials, pleas, appeals); pass "civil" for common law and
+        commercial hearings or "circuit" for regional sittings. The site republishes each list
+        by ~5:30pm on the day before it takes effect (Melbourne time) — check `publishDate` on
+        the returned rows rather than assuming "today".
         """
 
 class Prv_couponfollow(Protocol):
@@ -32039,6 +32088,15 @@ class Prv_youtube(Protocol):
         carries no panel at all they come back null/empty rather than throwing.
         """
 
+    async def listChannelVideos(self, input: Prv_youtube_listChannelVideos_input_u0_In | Prv_youtube_listChannelVideos_input_u1_In, /) -> Prv_youtube_YoutubeChannelVideoPage_Out:
+        """What a channel has published, newest first and paged — each video's id, url, title,
+        YouTube's own abbreviated view-count text (e.g. "101M views"), upload age, length and
+        thumbnail. `channel` takes a channel id, an @handle, or a channel URL, exactly as
+        `getChannel` does — not a plain name, which `findChannel` resolves first. Pass back
+        `continuation` alone — no `channel` needed — to read the next page; it is null once
+        there are no more pages.
+        """
+
 class Prv_zennioptical(Protocol):
     """Online prescription eyewear. Prices a real frame + Rx + lens-type configuration off the
     site's own configurator, and checks live per-SKU stock.
@@ -32193,6 +32251,7 @@ class BowmarkProviders(Protocol):
     completehomewarranty_com: Prv_completehomewarranty_com
     consultnet: Prv_consultnet
     costco: Prv_costco
+    countycourt_vic_gov_au: Prv_countycourt_vic_gov_au
     couponfollow: Prv_couponfollow
     credibly_com: Prv_credibly_com
     cruiselakegeneva: Prv_cruiselakegeneva

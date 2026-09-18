@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8894211d30af4c047f838e5ea4b123cded60390651624cb2be20df0684ba3df5
-// 1111 checked, 20 unchecked.
+// Manifest version: fc2fdb3553219f5ac1511a29016df63818b1b15b31bda76763ac7a6bda3a0c47
+// 1113 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8894211d30af4c047f838e5ea4b123cded60390651624cb2be20df0684ba3df5",
+  "version": "fc2fdb3553219f5ac1511a29016df63818b1b15b31bda76763ac7a6bda3a0c47",
   "units": {
     "booking_links": {
       "defs": {
@@ -10981,6 +10981,39 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.countycourt_vic_gov_au": {
+      "defs": {
+        "CountycourtListSlug": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "crime-and-appeals"
+            },
+            {
+              "k": "literal",
+              "v": "civil"
+            },
+            {
+              "k": "literal",
+              "v": "circuit"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "dailyList": [
+          {
+            "name": "list",
+            "schema": {
+              "k": "ref",
+              "name": "CountycourtListSlug"
+            },
+            "optional": true
           }
         ]
       }
@@ -33348,6 +33381,41 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listChannelVideos": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "channel",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "continuation",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
                 }
               ]
             },
