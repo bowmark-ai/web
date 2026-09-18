@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8374434d1872488b9eed5ac945ea99c62cedb6df3888876d725b3605125ad587
+// Manifest version: 667c12fffecf3d96beeb46a198f5c3c32379a4f95646f0cf489428ce3f6fde2c
 // 54 capabilities, 427 providers, 1153 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -35216,7 +35216,7 @@ interface wellfoundCompanyDetail {
 }
 
 declare namespace BowmarkProvider_wholefoodsmarket {
-  // ── Whole Foods Market — the unit's own declarations, verbatim ──
+  // ── Whole Foods — the unit's own declarations, verbatim ──
 interface Product {
   id: string;
   name: string;
@@ -35232,8 +35232,8 @@ interface SearchResults {
   /** Search Whole Foods products and find stores */
   interface Unit {
     /**
-     * Searches Whole Foods products by query and returns results with name, price, and
-     * availability.
+     * Searches Whole Foods products by name or query — the grocery chain's product catalog with
+     * pricing and availability.
      */
     search(query: string): Promise<SearchResults>;
   }
