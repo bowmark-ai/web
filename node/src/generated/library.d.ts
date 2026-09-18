@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e403f8d7c3d587fbbe6a42ce47fb8f77fa374cdddb43b25393527565edff04a1
+// Manifest version: 9be8428a70ae508dfd978bcc50f5d8c4b3d7fc0716397f6f0c81bab5d38d3137
 // 54 capabilities, 429 providers, 1163 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17062,9 +17062,10 @@ interface Photo {
     /**
      * The door every other Maps function chains off. Takes what a person would say — "coffee shops
      * in Seattle WA", "pizza near Austin TX" — and returns the ranked places Google shows for it:
-     * feature id, name, address, coordinates and categories, plus rating and review count when the
-     * site's response carries them. The location lives in the query text; Google resolves it from
-     * there rather than from a separate coordinate.
+     * feature id, name, address, coordinates and categories, plus rating, review count, weekly
+     * hours and the site's own live open/closed line (openStatus) when the site's response carries
+     * them — so "which of these is open right now" costs no further call. The location lives in
+     * the query text; Google resolves it from there rather than from a separate coordinate.
      */
     searchPlaces(args: SearchPlacesArgs): Promise<SearchPlacesResult[]>;
 
@@ -17073,8 +17074,9 @@ interface Photo {
      * holding coordinates (a pin, a phone's GPS, reverseGeocode's own output) rather than a
      * locality name. Reuses reverseGeocode's own viewport template spliced into searchPlaces'
      * field mask: "coffee" anchored at a point returns results within a few hundred meters of it,
-     * measured live against two cities. Without this, a coordinate query has nowhere to go on
-     * searchPlaces and Google answers from whichever city the request happens to exit near.
+     * measured live against two cities. Same result shape as searchPlaces, hours and openStatus
+     * included. Without this, a coordinate query has nowhere to go on searchPlaces and Google
+     * answers from whichever city the request happens to exit near.
      */
     searchNearby(args: SearchNearbyArgs): Promise<SearchPlacesResult[]>;
 

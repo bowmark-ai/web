@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e403f8d7c3d587fbbe6a42ce47fb8f77fa374cdddb43b25393527565edff04a1
+# Manifest version: 9be8428a70ae508dfd978bcc50f5d8c4b3d7fc0716397f6f0c81bab5d38d3137
 # 54 capabilities, 429 providers, 1145 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -25653,9 +25653,11 @@ class Prv_google_maps(Protocol):
     async def searchPlaces(self, args: Prv_google_maps_SearchPlacesArgs_In, /) -> list[Prv_google_maps_SearchPlacesResult_Out]:
         """The door every other Maps function chains off. Takes what a person would say — "coffee
         shops in Seattle WA", "pizza near Austin TX" — and returns the ranked places Google
-        shows for it: feature id, name, address, coordinates and categories, plus rating and
-        review count when the site's response carries them. The location lives in the query
-        text; Google resolves it from there rather than from a separate coordinate.
+        shows for it: feature id, name, address, coordinates and categories, plus rating, review
+        count, weekly hours and the site's own live open/closed line (openStatus) when the
+        site's response carries them — so "which of these is open right now" costs no further
+        call. The location lives in the query text; Google resolves it from there rather than
+        from a separate coordinate.
         """
 
     async def searchNearby(self, args: Prv_google_maps_SearchNearbyArgs_In, /) -> list[Prv_google_maps_SearchPlacesResult_Out]:
@@ -25663,8 +25665,9 @@ class Prv_google_maps(Protocol):
         holding coordinates (a pin, a phone's GPS, reverseGeocode's own output) rather than a
         locality name. Reuses reverseGeocode's own viewport template spliced into searchPlaces'
         field mask: "coffee" anchored at a point returns results within a few hundred meters of
-        it, measured live against two cities. Without this, a coordinate query has nowhere to go
-        on searchPlaces and Google answers from whichever city the request happens to exit near.
+        it, measured live against two cities. Same result shape as searchPlaces, hours and
+        openStatus included. Without this, a coordinate query has nowhere to go on searchPlaces
+        and Google answers from whichever city the request happens to exit near.
         """
 
     async def geocodeAddress(self, args: Prv_google_maps_GeocodeAddressArgs_In, /) -> Prv_google_maps_GeocodeAddressResult_Out:
