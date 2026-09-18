@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 96850b98a9d52f5bd3315e8c5f129ea658ae3bf5ba8e97647fe413a8ae2acdb0
+# Manifest version: 99a5f5c207ea5dfcf39c4de02bd82b067bd19070b0f113ca5f5d35653d9a7e08
 # 54 capabilities, 428 providers, 1142 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -32463,11 +32463,13 @@ class Prv_wholefoodsmarket(Protocol):
     """
 
     async def search(self, query: str, /) -> Prv_wholefoodsmarket_SearchResults_Out:
-        """Searches Whole Foods product catalog with pricing and availability. REQUIRED: `query`
-        must be a specific product or category name (e.g. "organic apples", "sourdough bread"),
-        never the store name. If the caller only said "Whole Foods" without naming a product, DO
-        NOT call this function — ask the caller first: What product do you want to search for?
-        Then call this with that product name.
+        """⚠️ REQUIRED: This function ONLY accepts a SPECIFIC product or category search query
+        (e.g. 'organic apples', 'sourdough bread'). The store name 'Whole Foods' alone IS NOT A
+        VALID QUERY. You MUST have a product name from the caller before calling this. If caller
+        only said 'Whole Foods' with no product: STOP. Ask the caller FIRST: 'What specific
+        product would you like me to search for at Whole Foods?' Wait for their answer. ONLY
+        THEN call this function with the product name they give you. Calling without a product
+        query will fail.
         """
 
 class Prv_winestyles(Protocol):
