@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9c4cdd23b799c201b0ffe9aa5149b42e10cae71ef5453ccb635e2a5b6e092ab7
+// Manifest version: 090c639f34d29358da52915ebb057dc40555f6a0836891a877eab62138dabd95
 // 54 capabilities, 428 providers, 1155 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -3088,6 +3088,8 @@ interface CreatePlaylistOptions {
   title: string
   description?: string
   privacy?: "private" | "unlisted" | "public"   // default "private"
+  // "unlisted" and "public" need the signed-in account to HAVE a YouTube channel;
+  // "private" does not. Without one the call fails and says so.
 }
 interface CreatedPlaylist {
   playlistId: string
@@ -3141,8 +3143,10 @@ type CallOptions = {
 
     /**
      * Creates an empty playlist on the caller's own account and returns its id and URL. Defaults
-     * to "private". NOT idempotent — calling it twice makes two playlists, because YouTube allows
-     * duplicate titles and picking one for you would be a guess. Needs a YouTube sign-in.
+     * to "private". A "public" or "unlisted" playlist also needs the account to have a YouTube
+     * channel — a private one does not — and the call says so when it is missing. NOT idempotent —
+     * calling it twice makes two playlists, because YouTube allows duplicate titles and picking
+     * one for you would be a guess. Needs a YouTube sign-in.
      */
     createPlaylist(options: CreatePlaylistOptions): Promise<CreatedPlaylist>;
 
