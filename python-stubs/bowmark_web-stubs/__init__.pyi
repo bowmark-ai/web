@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 667c12fffecf3d96beeb46a198f5c3c32379a4f95646f0cf489428ce3f6fde2c
-# 54 capabilities, 427 providers, 1135 typed functions, 20 refused.
+# Manifest version: 5b86fd0bc187d792a0c06c764d6a82d7abcfc688f4c3c652b319642858731c6a
+# 54 capabilities, 428 providers, 1136 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7145,6 +7145,16 @@ class Prv_detailxperts_DetailxpertsQuotePackage_Out(TypedDict):
     points: list[str]
     price: float
     timeMinutes: float
+
+class Prv_deutschepost_getDialogpostRates_options_In(TypedDict):
+    format: NotRequired[str]
+
+class Prv_deutschepost_DialogpostRate_Out(TypedDict):
+    weightCategory: str
+    format: str
+    priceInCents: float
+    currency: str
+    description: NotRequired[str]
 
 class Prv_developersopenai_DevelopersOpenaiDocPage_Out(TypedDict):
     path: str
@@ -24067,6 +24077,14 @@ class Prv_detailxperts(Protocol):
         listVehicleTypes() for real vehiclePosition values.
         """
 
+class Prv_deutschepost(Protocol):
+    """Dialogpost pricing for unaddressed bulk direct mail in Germany."""
+
+    async def getDialogpostRates(self, options: Prv_deutschepost_getDialogpostRates_options_In | None = None, /) -> list[Prv_deutschepost_DialogpostRate_Out]:
+        """Retrieves Deutsche Post Dialogpost pricing rates by weight and format. Returns rates for
+        unaddressed bulk direct mail delivery (household-level distribution).
+        """
+
 class Prv_developersopenai(Protocol):
     """OpenAI's own developer documentation site. getDocPage reads one docs page (title,
     canonical URL, full article text) by path — e.g. /api/docs/mcp for the remote MCP server
@@ -32762,6 +32780,7 @@ class BowmarkProviders(Protocol):
     deltadentalma: Prv_deltadentalma
     dentalplans: Prv_dentalplans
     detailxperts: Prv_detailxperts
+    deutschepost: Prv_deutschepost
     developersopenai: Prv_developersopenai
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods

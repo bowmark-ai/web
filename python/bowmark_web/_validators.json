@@ -1,5 +1,5 @@
 {
-  "version": "667c12fffecf3d96beeb46a198f5c3c32379a4f95646f0cf489428ce3f6fde2c",
+  "version": "5b86fd0bc187d792a0c06c764d6a82d7abcfc688f4c3c652b319642858731c6a",
   "units": {
     "booking_links": {
       "defs": {
@@ -11959,6 +11959,29 @@
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.deutschepost": {
+      "defs": {},
+      "functions": {
+        "getDialogpostRates": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "format",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

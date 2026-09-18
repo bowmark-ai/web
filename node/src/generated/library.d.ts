@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 667c12fffecf3d96beeb46a198f5c3c32379a4f95646f0cf489428ce3f6fde2c
-// 54 capabilities, 427 providers, 1153 typed functions, 20 refused.
+// Manifest version: 5b86fd0bc187d792a0c06c764d6a82d7abcfc688f4c3c652b319642858731c6a
+// 54 capabilities, 428 providers, 1154 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13029,6 +13029,26 @@ interface DetailxpertsQuote {
      * real vehiclePosition values.
      */
     getQuote(args: { vehiclePosition: number; dirtLevel: number; hairLevel: number; dirtInteriorLevel: number }): Promise<DetailxpertsQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_deutschepost {
+  // ── Deutsche Post — the unit's own declarations, verbatim ──
+interface DialogpostRate {
+  weightCategory: string;
+  format: string;
+  priceInCents: number;
+  currency: string;
+  description?: string;
+}
+
+  /** Dialogpost pricing for unaddressed bulk direct mail in Germany. */
+  interface Unit {
+    /**
+     * Retrieves Deutsche Post Dialogpost pricing rates by weight and format. Returns rates for
+     * unaddressed bulk direct mail delivery (household-level distribution).
+     */
+    getDialogpostRates(options?: { format?: string }): Promise<DialogpostRate[]>;
   }
 }
 
@@ -36891,6 +36911,7 @@ interface BowmarkProviders {
   deltadentalma: BowmarkProvider_deltadentalma.Unit;
   dentalplans: BowmarkProvider_dentalplans.Unit;
   detailxperts: BowmarkProvider_detailxperts.Unit;
+  deutschepost: BowmarkProvider_deutschepost.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;

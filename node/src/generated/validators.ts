@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 667c12fffecf3d96beeb46a198f5c3c32379a4f95646f0cf489428ce3f6fde2c
-// 1135 checked, 20 unchecked.
+// Manifest version: 5b86fd0bc187d792a0c06c764d6a82d7abcfc688f4c3c652b319642858731c6a
+// 1136 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "667c12fffecf3d96beeb46a198f5c3c32379a4f95646f0cf489428ce3f6fde2c",
+  "version": "5b86fd0bc187d792a0c06c764d6a82d7abcfc688f4c3c652b319642858731c6a",
   "units": {
     "booking_links": {
       "defs": {
@@ -11971,6 +11971,29 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.deutschepost": {
+      "defs": {},
+      "functions": {
+        "getDialogpostRates": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "format",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
