@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f7bf41af7a96e39fad55cd4d0bb238a7a44b6bf86ae9ced9d27fa1c7c7a6f4ab
+# Manifest version: 0c69bbc31cecdc33189f5e43d1c5d1f8ef712e2f2179688b65c40eef91793f5d
 # 54 capabilities, 428 providers, 1137 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -32361,16 +32361,17 @@ class Prv_wellfound(Protocol):
         """
 
 class Prv_wholefoodsmarket(Protocol):
-    """Search Whole Foods's own product catalog by a specific product or category name — the
-    store name alone is not a query
+    """Search Whole Foods product catalog by a SPECIFIC product or category name (e.g. 'organic
+    apples'). The store name alone ('whole foods') is not a valid query — it requires a
+    product to search for.
     """
 
     async def search(self, query: str, /) -> Prv_wholefoodsmarket_SearchResults_Out:
-        """Searches Whole Foods' product catalog with pricing and availability. `query` is REQUIRED
-        and must name a specific product or category — e.g. "organic apples", "sourdough bread"
-        — never the store name itself. "whole foods" is not a valid query: if the caller only
-        named the store and did not say what to search for, ask them what product they want
-        before calling this rather than calling it with an empty or store-name query.
+        """Searches Whole Foods product catalog with pricing and availability. REQUIRED: `query`
+        must be a specific product or category name (e.g. "organic apples", "sourdough bread"),
+        never the store name. If the caller only said "Whole Foods" without naming a product, DO
+        NOT call this function — ask the caller first: What product do you want to search for?
+        Then call this with that product name.
         """
 
 class Prv_winestyles(Protocol):
