@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 56d0398bdf19e260792daa8ac8ade871d21ab3bedd37d9c1d2800fe2575de121
-// 54 capabilities, 428 providers, 1158 typed functions, 20 refused.
+// Manifest version: 3d0a557973af140faaf20a225b9a9c4b1d06303ff807afdd21174baf76971f5a
+// 54 capabilities, 428 providers, 1159 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35811,6 +35811,18 @@ interface YoutubePlaylistVideoPage {
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
+interface YoutubeStreamFormat {
+  itag: number;
+  mimeType: string;
+  bitrate: number;
+  width: number | null;
+  height: number | null;
+  fps: number | null;
+  qualityLabel: string | null;
+  contentLength: string | null;  // null on the muxed entry — YouTube does not publish it there
+  approxDurationMs: string | null;
+}
+
   /**
    * A YouTube video's own caption transcript, read off the site's own Transcript panel —
    * timestamped lines plus the full text as one string. Language selection is not offered yet;
@@ -35892,6 +35904,15 @@ interface YoutubePlaylistVideoPage {
      * for `getTranscript`, which today always reads the default track.
      */
     listCaptionTracks(input: { video: string }): Promise<YoutubeCaptionTrack[]>;
+
+    /**
+     * The renditions a video is actually available in — resolution, frame rate, codec, bitrate,
+     * approximate file size and duration for each video and audio stream YouTube holds. Answers
+     * "is this available in 4K" and "how big is it". It returns the CATALOGUE of formats, not a
+     * playable or downloadable link: see the manifest note on why playable URLs are a separate
+     * (rung 14) problem.
+     */
+    listStreamFormats(input: { video: string }): Promise<YoutubeStreamFormat[]>;
 
     /**
      * A channel's own page as facts: display name, @handle, an abbreviated subscriber count text
