@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 99a5f5c207ea5dfcf39c4de02bd82b067bd19070b0f113ca5f5d35653d9a7e08
-// 54 capabilities, 428 providers, 1160 typed functions, 20 refused.
+// Manifest version: 53cb20bd88fd9b6d3ac56d0eeb95ffd4835ee83f0f15f2d831d9def4e3925dbe
+// 54 capabilities, 428 providers, 1161 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35765,6 +35765,20 @@ interface YoutubeChannelLiveStreamPage {
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
+interface YoutubeChannelPlaylist {
+  playlistId: string;
+  url: string;
+  title: string;
+  count: string | null;   // YouTube's own badge text, e.g. "197 videos" or "20 episodes" for a podcast
+  updated: string | null; // e.g. "today", "5 days ago" — null when the row carries no update stat
+  thumbnail: string | null;
+}
+
+interface YoutubeChannelPlaylistPage {
+  playlists: YoutubeChannelPlaylist[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
 interface YoutubeRelatedVideo {
   videoId: string;
   url: string;
@@ -35982,6 +35996,18 @@ interface YoutubeStreamFormat {
      * needed — to read the next page; it is null once there are no more pages.
      */
     listChannelLiveStreams(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelLiveStreamPage>;
+
+    /**
+     * The playlists a channel has published, in the site's own order and paged — each one's id,
+     * its `/playlist?list=<id>` url, title, YouTube's own badge text ("197 videos", or "20
+     * episodes" for a podcast the channel runs, which lives on this same tab), and its "Updated …"
+     * stat with the prefix stripped ("today", "5 days ago") — null when a playlist carries no
+     * update stat at all. `channel` takes a channel id, an @handle, or a channel URL, exactly as
+     * `listChannelVideos` does. The door from a channel to `getPlaylist` and `listPlaylistVideos`.
+     * Pass back `continuation` alone — no `channel` needed — to read the next page; it is null
+     * once there are no more pages.
+     */
+    listChannelPlaylists(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelPlaylistPage>;
 
     /**
      * A playlist's own facts: title, description, the channel that owns it, exact video and view

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 99a5f5c207ea5dfcf39c4de02bd82b067bd19070b0f113ca5f5d35653d9a7e08
-# 54 capabilities, 428 providers, 1142 typed functions, 20 refused.
+# Manifest version: 53cb20bd88fd9b6d3ac56d0eeb95ffd4835ee83f0f15f2d831d9def4e3925dbe
+# 54 capabilities, 428 providers, 1143 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19152,6 +19152,24 @@ class Prv_youtube_YoutubeChannelLiveStream_Out(TypedDict):
     length: str | None
     thumbnail: str | None
 
+class Prv_youtube_listChannelPlaylists_input_u0_In(TypedDict):
+    channel: str
+
+class Prv_youtube_listChannelPlaylists_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeChannelPlaylistPage_Out(TypedDict):
+    playlists: list[Prv_youtube_YoutubeChannelPlaylist_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubeChannelPlaylist_Out(TypedDict):
+    playlistId: str
+    url: str
+    title: str
+    count: str | None
+    updated: str | None
+    thumbnail: str | None
+
 class Prv_youtube_getPlaylist_input_In(TypedDict):
     playlist: str
 
@@ -32721,6 +32739,17 @@ class Prv_youtube(Protocol):
         reads back as `{ streams: [], continuation: null }`, the same empty page a channel with
         a Live tab and zero streams on it would return. Pass back `continuation` alone — no
         `channel` needed — to read the next page; it is null once there are no more pages.
+        """
+
+    async def listChannelPlaylists(self, input: Prv_youtube_listChannelPlaylists_input_u0_In | Prv_youtube_listChannelPlaylists_input_u1_In, /) -> Prv_youtube_YoutubeChannelPlaylistPage_Out:
+        """The playlists a channel has published, in the site's own order and paged — each one's
+        id, its `/playlist?list=<id>` url, title, YouTube's own badge text ("197 videos", or "20
+        episodes" for a podcast the channel runs, which lives on this same tab), and its
+        "Updated …" stat with the prefix stripped ("today", "5 days ago") — null when a playlist
+        carries no update stat at all. `channel` takes a channel id, an @handle, or a channel
+        URL, exactly as `listChannelVideos` does. The door from a channel to `getPlaylist` and
+        `listPlaylistVideos`. Pass back `continuation` alone — no `channel` needed — to read the
+        next page; it is null once there are no more pages.
         """
 
     async def getPlaylist(self, input: Prv_youtube_getPlaylist_input_In, /) -> Prv_youtube_YoutubePlaylist_Out:

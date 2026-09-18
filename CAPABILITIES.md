@@ -8,7 +8,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 
 | Function | What it does | Providers | Status |
 |---|---|---|---|
-| `booking_links.find` | Finds a person's public booking links from their name. | 5 | 🟢 |
+| `booking_links.find` | Finds a person's public booking links from their name. | 5 | 🟡 |
 | `booking_links.read` | Reads a Calendly or Cal.com booking page without booking: who owns it, the events it… | 5 | 🟢 |
 | `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 5 | 🟢 |
 | `browser_agent.list` | Lists this account's browser agent sessions (open ones by default) — check how many… | 1 | 🟢 |
