@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 11c60a2cf584255c48cf51f17e3d3df6fbe70394a5099b4ca4fed9fd18019216
+# Manifest version: b1cb36409cf56867003572c406e0182bc686da8cb5113e78a034dfda9f993def
 # 54 capabilities, 428 providers, 1140 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -20109,9 +20109,11 @@ class Cap_read(Protocol):
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
-        """The same read over many urls, six in flight at a time, results in the order the urls
-        were given. One dead url never costs you the others — it comes back with `ok: false` and
-        `error` set.
+        """The same read over many urls: requests to the SAME origin are serialized (one at a time)
+        to avoid triggering bot defenses on sites that block concurrent connections from one IP,
+        while requests to DIFFERENT origins run in parallel. Results arrive in the order the
+        urls were given. One dead url never costs you the others — it comes back with `ok:
+        false` and `error` set.
         """
 
 class Cap_restaurant_booking(Protocol):

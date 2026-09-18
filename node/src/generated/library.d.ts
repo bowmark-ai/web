@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 11c60a2cf584255c48cf51f17e3d3df6fbe70394a5099b4ca4fed9fd18019216
+// Manifest version: b1cb36409cf56867003572c406e0182bc686da8cb5113e78a034dfda9f993def
 // 54 capabilities, 428 providers, 1158 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2343,7 +2343,9 @@ type ReadResult = {
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
     /**
-     * The same read over many urls, six in flight at a time, results in the order the urls were
+     * The same read over many urls: requests to the SAME origin are serialized (one at a time) to
+     * avoid triggering bot defenses on sites that block concurrent connections from one IP, while
+     * requests to DIFFERENT origins run in parallel. Results arrive in the order the urls were
      * given. One dead url never costs you the others — it comes back with `ok: false` and `error`
      * set.
      */
