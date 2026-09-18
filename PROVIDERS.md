@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1625 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1629 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1179,6 +1179,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `oliverwinery.getWine` | oliverwinery.com | Reads one wine's full Commerce7 product record by its storefront slug (e.g.… | 🟢 |
 | `oliverwinery.listWines` | oliverwinery.com | Lists Oliver Winery's own Commerce7 shop catalog — real bottle titles, USD prices and… | 🟢 |
 | `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟢 |
+| `originenergy_com_au.getBusinessElectricityQuote` | originenergy.com.au | Returns every business electricity plan Origin Energy offers in a postcode's… | 🟢 |
 | `othership.getClassSchedule` | othership.us | Searches one location's real, live class schedule between two dates — sauna, ice bath… | 🟡 |
 | `othership.getLocations` | othership.us | Returns every Othership studio location (Toronto's Adelaide and Yorkville, NYC's… | 🟢 |
 | `otto.browseCategory` | otto.de | Lists products under one of OTTO's own department/category pages (e.g. Damenmode… | ⚪ |
@@ -1235,7 +1236,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
 | `postiz.createPost` | postiz.com | Create and schedule a new post across a connected social media account. | 🟢 |
 | `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟢 |
-| `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications by reference, address or area. | 🟢 |
+| `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟢 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
 | `premierbuildings.listBuildingStyles` | premierbuildings.us | Lists every real building style Premier's ShedView configurator offers (Lofted Barn… | 🟢 |
 | `premierbuildings.priceBuilding` | premierbuildings.us | Prices one real Premier building configuration exactly the way ShedView itself does… | 🟢 |
@@ -1582,6 +1583,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellfound.listJobCollections` | wellfound.com | Lists Wellfound's own curated job collections — the editorial groupings the site… | ⚪ |
 | `wellfound.searchCompanies` | wellfound.com | Finds startups the way Wellfound's own search groups them — one row per COMPANY, off… | 🟢 |
 | `wellfound.searchJobs` | wellfound.com | Searches Wellfound's startup job board — by role (`/role/<slug>`) or by city… | 🟢 |
+| `wholefoodsmarket.listStores` | wholefoodsmarket.com | Lists nearby Whole Foods stores by ZIP code or location. | ⚪ |
+| `wholefoodsmarket.search` | wholefoodsmarket.com | Searches Whole Foods products by query and returns results with name, price, and… | 🟢 |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟡 |
@@ -1596,8 +1599,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |
-| `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | ⚪ |
-| `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | ⚪ |
+| `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟢 |
+| `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟢 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
 | `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |
 | `youtube.getLiveChat` | youtube.com | The messages scrolling past a live stream — each with its author, text and timestamp… | ⚪ |
@@ -1612,17 +1615,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listChannelShorts` | youtube.com | A channel's Shorts tab — its vertical short-form videos, which sit in their own tab… | ⚪ |
 | `youtube.listChannelVideos` | youtube.com | What a channel has published, newest first and paged — each video's id, title, view… | 🟢 |
 | `youtube.listChapters` | youtube.com | A video's own chapter markers — the labelled sections YouTube shows on the scrub bar —… | ⚪ |
-| `youtube.listCommentReplies` | youtube.com | The replies under one comment thread, which YouTube hides behind a "N replies" button… | ⚪ |
+| `youtube.listCommentReplies` | youtube.com | The replies under one comment thread, which YouTube hides behind a "N replies" button… | 🟢 |
 | `youtube.listComments` | youtube.com | What people said under a video — each comment's author, the text, its like count… | 🟢 |
 | `youtube.listHashtagVideos` | youtube.com | The videos under a hashtag — YouTube's own /hashtag/<tag> page. | ⚪ |
-| `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | ⚪ |
+| `youtube.listHomeFeed` | youtube.com | The videos on the signed-in account's own YouTube home page — the personalized… | 🟢 |
+| `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | 🟢 |
 | `youtube.listPlaylistVideos` | youtube.com | The videos inside a playlist, in the playlist's own order and paged — each video's id… | 🟢 |
 | `youtube.listRelatedVideos` | youtube.com | The videos YouTube itself puts next to this one — the "up next" rail — each with its… | ⚪ |
 | `youtube.listStreamFormats` | youtube.com | The renditions a video is actually available in — resolution, frame rate, codec… | ⚪ |
 | `youtube.listSubscriptions` | youtube.com | The channels the signed-in account subscribes to. | ⚪ |
 | `youtube.listTrending` | youtube.com | YouTube's Trending feed — what is being watched across the site right now, and the… | ⚪ |
 | `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | ⚪ |
-| `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | ⚪ |
+| `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟢 |
 | `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | ⚪ |
 | `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
 | `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back the videos the… | 🟢 |
