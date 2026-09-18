@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a318a6f2adc3a3a22a8ff5ba96268354ba49243e93014030f8fbd43156da0948
+// Manifest version: 99cac4e98038e4c3f56e178026c225cd513010c3a2f4e2c16243ffdb9943093e
 // 54 capabilities, 428 providers, 1157 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -35954,9 +35954,12 @@ interface YoutubePlaylistVideoPage {
 
     /**
      * Adds one or many videos to one of the signed-in account's own playlists, as a SINGLE edit
-     * rather than one request per video. YouTube permits duplicates, so adding a video already
-     * present adds it again. NEEDS A SIGN-IN — call `bowmark.video_library.addToPlaylist` rather
-     * than this directly.
+     * rather than one request per video. Order is preserved: the videos appear in the order they
+     * were sent, measured 2026-09-18. A playlist READ BACK IN THE SAME RUN can still come back
+     * empty — the write is applied but YouTube indexes it a beat later, measured at ~2s — so do
+     * not treat an immediate empty read as a failed add. YouTube permits duplicates, so adding a
+     * video already present adds it again. NEEDS A SIGN-IN — call
+     * `bowmark.video_library.addToPlaylist` rather than this directly.
      */
     addToPlaylist(input: { playlist: string; video?: string; videos?: string[] }): Promise<YoutubePlaylistEdit>;
   }
