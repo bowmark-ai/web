@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1d78621bf8b4f555b8f33f5ff6ae890529399a4e66fc831fff38985fe5b75cda
-// 54 capabilities, 429 providers, 1162 typed functions, 20 refused.
+// Manifest version: e403f8d7c3d587fbbe6a42ce47fb8f77fa374cdddb43b25393527565edff04a1
+// 54 capabilities, 429 providers, 1163 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4285,6 +4285,15 @@ interface SearchProductsArgs {
   priceMax?: number;
   brand?: string;
 }
+interface ListCategoryProductsArgs {
+  department: string;
+  sort?: string;
+  page?: number;
+}
+interface AmazonCategoryListing {
+  department: string;
+  products: AmazonProduct[];
+}
 interface AmazonKeywordSuggestion {
   value: string;
 }
@@ -4428,6 +4437,16 @@ interface AmazonSellerOffersResult {
      * every function below that takes an ASIN is fed by this one.
      */
     searchProducts(args: SearchProductsArgs): Promise<AmazonProduct[]>;
+
+    /**
+     * Browse a whole department with no keyword at all — "what is in Home & Kitchen, best-reviewed
+     * first" — and page through it, sorted the way searchProducts sorts. Returns the department
+     * Amazon actually searched (never the caller's slug echoed back — a department slug can
+     * resolve to a DIFFERENT department than the same word means to listBestSellers) beside the
+     * product rows. The function a caller reaches for when it has a category rather than a product
+     * in mind.
+     */
+    listCategoryProducts(args: ListCategoryProductsArgs): Promise<AmazonCategoryListing>;
 
     /**
      * Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes back

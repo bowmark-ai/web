@@ -1,5 +1,5 @@
 {
-  "version": "1d78621bf8b4f555b8f33f5ff6ae890529399a4e66fc831fff38985fe5b75cda",
+  "version": "e403f8d7c3d587fbbe6a42ce47fb8f77fa374cdddb43b25393527565edff04a1",
   "units": {
     "booking_links": {
       "defs": {
@@ -4544,6 +4544,32 @@
             }
           ]
         },
+        "ListCategoryProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "department",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchProductsArgs": {
           "k": "object",
           "props": [
@@ -4599,6 +4625,16 @@
             "schema": {
               "k": "ref",
               "name": "SearchProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategoryProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCategoryProductsArgs"
             },
             "optional": false
           }

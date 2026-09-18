@@ -50,7 +50,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.getSeller` | www.amazon.com | Read a marketplace seller's storefront — their name, feedback across four windows (30… | 🟢 |
 | `amazon.listBestSellerCategories` | www.amazon.com | List the departments Amazon publishes rankings for — Electronics, Kitchen & Dining… | 🟢 |
 | `amazon.listBestSellers` | www.amazon.com | Amazon's hourly-updated top 100 in a department — what is actually selling right now… | 🟢 |
-| `amazon.listCategoryProducts` | www.amazon.com | Browse a whole department with no keyword at all — "what is in Home & Kitchen… | ⚪ |
+| `amazon.listCategoryProducts` | www.amazon.com | Browse a whole department with no keyword at all — "what is in Home & Kitchen… | 🟢 |
 | `amazon.listDeals` | www.amazon.com | Today's Deals — what is discounted right now, with the deal price, the price it was… | 🟢 |
 | `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | 🟢 |
 | `amazon.listMoversAndShakers` | www.amazon.com | The biggest sales-rank gainers in a department over the past 24 hours — what is… | ⚪ |

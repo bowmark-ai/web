@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1d78621bf8b4f555b8f33f5ff6ae890529399a4e66fc831fff38985fe5b75cda
-# 54 capabilities, 429 providers, 1144 typed functions, 20 refused.
+# Manifest version: e403f8d7c3d587fbbe6a42ce47fb8f77fa374cdddb43b25393527565edff04a1
+# 54 capabilities, 429 providers, 1145 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2364,6 +2364,15 @@ class Prv_amazon_AmazonProduct_Out(TypedDict):
     rating: float | None
     ratingCount: float | None
     sponsored: bool
+
+class Prv_amazon_ListCategoryProductsArgs_In(TypedDict):
+    department: str
+    sort: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_amazon_AmazonCategoryListing_Out(TypedDict):
+    department: str
+    products: list[Prv_amazon_AmazonProduct_Out]
 
 class Prv_amazon_AmazonKeywordSuggestion_Out(TypedDict):
     value: str
@@ -20930,6 +20939,15 @@ class Prv_amazon(Protocol):
         price, star rating, review count, whether the row is a paid placement, and its product
         URL. Optionally narrowed to a department, a brand, a price range and a sort order. THE
         provider's door: every function below that takes an ASIN is fed by this one.
+        """
+
+    async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:
+        """Browse a whole department with no keyword at all — "what is in Home & Kitchen,
+        best-reviewed first" — and page through it, sorted the way searchProducts sorts. Returns
+        the department Amazon actually searched (never the caller's slug echoed back — a
+        department slug can resolve to a DIFFERENT department than the same word means to
+        listBestSellers) beside the product rows. The function a caller reaches for when it has
+        a category rather than a product in mind.
         """
 
     async def suggestKeywords(self, prefix: str, /) -> list[Prv_amazon_AmazonKeywordSuggestion_Out]:
