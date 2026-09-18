@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b1cb36409cf56867003572c406e0182bc686da8cb5113e78a034dfda9f993def
+# Manifest version: 56d0398bdf19e260792daa8ac8ade871d21ab3bedd37d9c1d2800fe2575de121
 # 54 capabilities, 428 providers, 1140 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -25745,16 +25745,21 @@ class Prv_google_news(Protocol):
 
     async def listLocalHeadlines(self, place: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:
         """What is being reported in one place — the local-news edition for a city or region, by
-        NAME ("Seattle", "San Francisco"), not a place id. There is no closed list of valid
-        places, so a place Google News has no edition for is refused only after the request
-        comes back: it answers 200 with an in-protocol "This feed is not available." sentinel
-        item and a bare "Google News" channel title rather than the place's own name (measured
-        2026-09-15 on a nonsense place; the same sentinel `_client` already drops out of every
-        other feed by guid) — reading that as an empty result would be silently wrong, so this
-        throws instead. A recognized place's own channel title is echoed back in `place`, in the
-        site's own spelling, so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`.
-        `locale` — `{ hl, gl, ceid }` — asks for another country/language edition; omitted, the
-        US English one.
+        NAME ("Seattle", "San Francisco"), NOT a ZIP or postal code. There is no closed list of
+        valid places, so a place Google News has no edition for is refused only after the
+        request comes back: it answers 200 with an in-protocol "This feed is not available."
+        sentinel item and a bare "Google News" channel title rather than the place's own name
+        (measured 2026-09-15 on a nonsense place; the same sentinel `_client` already drops out
+        of every other feed by guid) — reading that as an empty result would be silently wrong,
+        so this throws instead. A US ZIP code gets a second, quieter version of the same
+        failure: Google mints a place-shaped channel for it too ("94103 - Latest - Google News")
+        but with zero headlines, which would otherwise read as a genuinely quiet news day —
+        measured 2026-09-18, four dense-metro ZIPs all answered 0 while "Seattle" answered 70 in
+        the same run, and every real place swept (however small) resolved to at least one
+        headline, so a place-shaped channel with zero items is refused too, naming a city as the
+        fix. A recognized place's own channel title is echoed back in `place`, in the site's own
+        spelling, so `"seattle"` and `"Seattle"` both resolve to `"Seattle"`. `locale` — `{ hl,
+        gl, ceid }` — asks for another country/language edition; omitted, the US English one.
         """
 
     async def resolveArticleUrl(self, articleIdOrLink: str, /) -> Prv_google_news_GoogleNewsArticleResolution_Out:

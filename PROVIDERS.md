@@ -1236,8 +1236,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `poshmark.getBulkUploadTemplateGuide` | poshmark.com | Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required… | 🟢 |
 | `poshmark.getZipFileGuide` | poshmark.com | Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how… | 🟢 |
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
-| `postiz.createPost` | postiz.com | Create and schedule a new post across a connected social media account. | 🟢 |
-| `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟢 |
+| `postiz.createPost` | postiz.com | Create and schedule a new post across a connected social media account. | 🟡 |
+| `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟡 |
 | `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟢 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
 | `premierbuildings.listBuildingStyles` | premierbuildings.us | Lists every real building style Premier's ShedView configurator offers (Lofted Barn… | 🟢 |
