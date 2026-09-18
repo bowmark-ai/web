@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3d0a557973af140faaf20a225b9a9c4b1d06303ff807afdd21174baf76971f5a
-// 1141 checked, 20 unchecked.
+// Manifest version: 96850b98a9d52f5bd3315e8c5f129ea658ae3bf5ba8e97647fe413a8ae2acdb0
+// 1142 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3d0a557973af140faaf20a225b9a9c4b1d06303ff807afdd21174baf76971f5a",
+  "version": "96850b98a9d52f5bd3315e8c5f129ea658ae3bf5ba8e97647fe413a8ae2acdb0",
   "units": {
     "booking_links": {
       "defs": {
@@ -34063,6 +34063,41 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listChannelShorts": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "channel",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "continuation",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listChannelLiveStreams": [
           {
             "name": "input",
             "schema": {

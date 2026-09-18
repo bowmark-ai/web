@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3d0a557973af140faaf20a225b9a9c4b1d06303ff807afdd21174baf76971f5a
-# 54 capabilities, 428 providers, 1141 typed functions, 20 refused.
+# Manifest version: 96850b98a9d52f5bd3315e8c5f129ea658ae3bf5ba8e97647fe413a8ae2acdb0
+# 54 capabilities, 428 providers, 1142 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19129,6 +19129,29 @@ class Prv_youtube_YoutubeChannelShort_Out(TypedDict):
     views: str | None
     thumbnail: str | None
 
+class Prv_youtube_listChannelLiveStreams_input_u0_In(TypedDict):
+    channel: str
+
+class Prv_youtube_listChannelLiveStreams_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeChannelLiveStreamPage_Out(TypedDict):
+    streams: list[Prv_youtube_YoutubeChannelLiveStream_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubeChannelLiveStream_Out(TypedDict):
+    videoId: str
+    url: str
+    title: str
+    status: Literal["upcoming"] | Literal["live"] | Literal["ended"]
+    watching: str | None
+    views: str | None
+    scheduledFor: str | None
+    published: str | None
+    publishedAgeSeconds: float | None
+    length: str | None
+    thumbnail: str | None
+
 class Prv_youtube_getPlaylist_input_In(TypedDict):
     playlist: str
 
@@ -32683,6 +32706,19 @@ class Prv_youtube(Protocol):
         anywhere in the site's data — YouTube does not publish either for this tab, so neither
         field exists on the row. Pass back `continuation` alone — no `channel` needed — to read
         the next page; it is null once there are no more pages.
+        """
+
+    async def listChannelLiveStreams(self, input: Prv_youtube_listChannelLiveStreams_input_u0_In | Prv_youtube_listChannelLiveStreams_input_u1_In, /) -> Prv_youtube_YoutubeChannelLiveStreamPage_Out:
+        """A channel's Live tab, paged — upcoming, in-progress and past broadcasts, in the site's
+        own order. Each row carries `status` (`"upcoming" | "live" | "ended"`): upcoming carries
+        `watching` as a waiting-room count and `scheduledFor`; live carries `watching` as a
+        concurrent viewer count; ended carries `views`, `published` ("Streamed 1 day ago") and
+        `length`, the same fields `listChannelVideos` returns. `channel` takes a channel id, an
+        @handle, or a channel URL, exactly as `listChannelVideos` does. A channel that has never
+        streamed carries no Live tab at all — YouTube answers with its Home tab instead — which
+        reads back as `{ streams: [], continuation: null }`, the same empty page a channel with
+        a Live tab and zero streams on it would return. Pass back `continuation` alone — no
+        `channel` needed — to read the next page; it is null once there are no more pages.
         """
 
     async def getPlaylist(self, input: Prv_youtube_getPlaylist_input_In, /) -> Prv_youtube_YoutubePlaylist_Out:

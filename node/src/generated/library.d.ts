@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3d0a557973af140faaf20a225b9a9c4b1d06303ff807afdd21174baf76971f5a
-// 54 capabilities, 428 providers, 1159 typed functions, 20 refused.
+// Manifest version: 96850b98a9d52f5bd3315e8c5f129ea658ae3bf5ba8e97647fe413a8ae2acdb0
+// 54 capabilities, 428 providers, 1160 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35743,6 +35743,27 @@ interface YoutubeChannelShortPage {
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
+type YoutubeChannelLiveStreamStatus = "upcoming" | "live" | "ended";
+
+interface YoutubeChannelLiveStream {
+  videoId: string;
+  url: string;
+  title: string;
+  status: YoutubeChannelLiveStreamStatus;
+  watching: string | null;    // "N watching" (live) or "N waiting" (upcoming); null once ended
+  views: string | null;       // YouTube's own abbreviated text, e.g. "94K views" — ended only
+  scheduledFor: string | null; // e.g. "Scheduled for 9/19/26, 6:00 AM" — upcoming only
+  published: string | null;   // e.g. "Streamed 1 day ago" — ended only
+  publishedAgeSeconds: number | null;
+  length: string | null;      // e.g. "9:05:30" — ended only
+  thumbnail: string | null;
+}
+
+interface YoutubeChannelLiveStreamPage {
+  streams: YoutubeChannelLiveStream[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
 interface YoutubeRelatedVideo {
   videoId: string;
   url: string;
@@ -35946,6 +35967,20 @@ interface YoutubeStreamFormat {
      * is null once there are no more pages.
      */
     listChannelShorts(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelShortPage>;
+
+    /**
+     * A channel's Live tab, paged — upcoming, in-progress and past broadcasts, in the site's own
+     * order. Each row carries `status` (`"upcoming" | "live" | "ended"`): upcoming carries
+     * `watching` as a waiting-room count and `scheduledFor`; live carries `watching` as a
+     * concurrent viewer count; ended carries `views`, `published` ("Streamed 1 day ago") and
+     * `length`, the same fields `listChannelVideos` returns. `channel` takes a channel id, an
+     * @handle, or a channel URL, exactly as `listChannelVideos` does. A channel that has never
+     * streamed carries no Live tab at all — YouTube answers with its Home tab instead — which
+     * reads back as `{ streams: [], continuation: null }`, the same empty page a channel with a
+     * Live tab and zero streams on it would return. Pass back `continuation` alone — no `channel`
+     * needed — to read the next page; it is null once there are no more pages.
+     */
+    listChannelLiveStreams(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelLiveStreamPage>;
 
     /**
      * A playlist's own facts: title, description, the channel that owns it, exact video and view
