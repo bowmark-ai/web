@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 99cac4e98038e4c3f56e178026c225cd513010c3a2f4e2c16243ffdb9943093e
-// 54 capabilities, 428 providers, 1157 typed functions, 20 refused.
+// Manifest version: 5d02d64793e929b6b858f2c5e2dc9b7cd142f50d0a1172d10eca94f10840dafe
+// 54 capabilities, 428 providers, 1158 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35718,6 +35718,20 @@ interface YoutubeChannelVideoPage {
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
+interface YoutubeChannelShort {
+  videoId: string;
+  url: string;                // https://www.youtube.com/shorts/<id> — a Short has no watch?v= URL
+  title: string;
+  views: string | null;       // YouTube's own abbreviated text WITH "views" already in it, e.g. "13M views"
+  thumbnail: string | null;
+  // no publish date, no length — neither exists anywhere in the Shorts-tab shape
+}
+
+interface YoutubeChannelShortPage {
+  shorts: YoutubeChannelShort[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
 interface YoutubeRelatedVideo {
   videoId: string;
   url: string;
@@ -35889,6 +35903,17 @@ interface YoutubePlaylistVideoPage {
      * are no more pages.
      */
     listChannelVideos(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelVideoPage>;
+
+    /**
+     * What a channel has published to its Shorts tab, in the site's own order and paged — each
+     * short's id, its `/shorts/<id>` url, title, and YouTube's own abbreviated view-count text
+     * (e.g. "13M views"). `channel` takes a channel id, an @handle, or a channel URL, exactly as
+     * `listChannelVideos` does. A Short's own page carries no publish date and no length anywhere
+     * in the site's data — YouTube does not publish either for this tab, so neither field exists
+     * on the row. Pass back `continuation` alone — no `channel` needed — to read the next page; it
+     * is null once there are no more pages.
+     */
+    listChannelShorts(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelShortPage>;
 
     /**
      * A playlist's own facts: title, description, the channel that owns it, exact video and view

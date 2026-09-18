@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 99cac4e98038e4c3f56e178026c225cd513010c3a2f4e2c16243ffdb9943093e
-# 54 capabilities, 428 providers, 1139 typed functions, 20 refused.
+# Manifest version: 5d02d64793e929b6b858f2c5e2dc9b7cd142f50d0a1172d10eca94f10840dafe
+# 54 capabilities, 428 providers, 1140 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19098,6 +19098,23 @@ class Prv_youtube_YoutubeChannelVideo_Out(TypedDict):
     length: str | None
     thumbnail: str | None
 
+class Prv_youtube_listChannelShorts_input_u0_In(TypedDict):
+    channel: str
+
+class Prv_youtube_listChannelShorts_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeChannelShortPage_Out(TypedDict):
+    shorts: list[Prv_youtube_YoutubeChannelShort_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubeChannelShort_Out(TypedDict):
+    videoId: str
+    url: str
+    title: str
+    views: str | None
+    thumbnail: str | None
+
 class Prv_youtube_getPlaylist_input_In(TypedDict):
     playlist: str
 
@@ -32624,6 +32641,16 @@ class Prv_youtube(Protocol):
         `getChannel` does — not a plain name, which `findChannel` resolves first. Pass back
         `continuation` alone — no `channel` needed — to read the next page; it is null once
         there are no more pages.
+        """
+
+    async def listChannelShorts(self, input: Prv_youtube_listChannelShorts_input_u0_In | Prv_youtube_listChannelShorts_input_u1_In, /) -> Prv_youtube_YoutubeChannelShortPage_Out:
+        """What a channel has published to its Shorts tab, in the site's own order and paged — each
+        short's id, its `/shorts/<id>` url, title, and YouTube's own abbreviated view-count text
+        (e.g. "13M views"). `channel` takes a channel id, an @handle, or a channel URL, exactly
+        as `listChannelVideos` does. A Short's own page carries no publish date and no length
+        anywhere in the site's data — YouTube does not publish either for this tab, so neither
+        field exists on the row. Pass back `continuation` alone — no `channel` needed — to read
+        the next page; it is null once there are no more pages.
         """
 
     async def getPlaylist(self, input: Prv_youtube_getPlaylist_input_In, /) -> Prv_youtube_YoutubePlaylist_Out:

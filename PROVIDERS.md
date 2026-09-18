@@ -1317,7 +1317,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `revisionskincare.getSkincareQuizQuestions` | revisionskincare.com | Reads the live 'Product Finder Quiz' at revisionskincare.com/pages/skincare-quiz… | 🟢 |
 | `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟡 |
 | `rishitea.getTeaFinderQuiz` | rishi-tea.com | Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —… | 🟢 |
-| `rishitea.matchTeaFinderQuiz` | rishi-tea.com | Submits a full set of answers to Okendo's quiz engine and returns the same… | 🟡 |
+| `rishitea.matchTeaFinderQuiz` | rishi-tea.com | Submits a full set of answers to Okendo's quiz engine and returns the same… | 🟢 |
 | `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟢 |
 | `ritani.priceConfiguration` | ritani.com | Prices one exact custom-ring build against Ritani's own live Ring Studio pricing… | 🟢 |
 | `rivian.estimateLeasePayment` | rivian.com | Prices a 36- or 24-month Rivian lease for a 2027-model-year R1T Premium — monthly… | 🟢 |
@@ -1615,7 +1615,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listChannelLiveStreams` | youtube.com | A channel's Live tab — the streams it has run, upcoming and past, with their scheduled… | ⚪ |
 | `youtube.listChannelPlaylists` | youtube.com | The playlists a channel has published, each with its id, title, video count and… | ⚪ |
 | `youtube.listChannelPosts` | youtube.com | A channel's Community tab — the text, image and poll posts a creator writes between… | ⚪ |
-| `youtube.listChannelShorts` | youtube.com | A channel's Shorts tab — its vertical short-form videos, which sit in their own tab… | ⚪ |
+| `youtube.listChannelShorts` | youtube.com | A channel's Shorts tab — its vertical short-form videos, which sit in their own tab… | 🟢 |
 | `youtube.listChannelVideos` | youtube.com | What a channel has published, newest first and paged — each video's id, title, view… | 🟢 |
 | `youtube.listChapters` | youtube.com | A video's own chapter markers — the labelled sections YouTube shows on the scrub bar —… | ⚪ |
 | `youtube.listCommentReplies` | youtube.com | The replies under one comment thread, which YouTube hides behind a "N replies" button… | 🟢 |
