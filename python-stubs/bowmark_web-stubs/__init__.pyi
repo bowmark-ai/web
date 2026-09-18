@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fc2fdb3553219f5ac1511a29016df63818b1b15b31bda76763ac7a6bda3a0c47
-# 52 capabilities, 422 providers, 1113 typed functions, 20 refused.
+# Manifest version: 96d924c4b0e9cda1c3578dcb38bbcb7723a32b40f13b0c1d4799a92a604de2da
+# 54 capabilities, 426 providers, 1134 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1103,6 +1103,21 @@ class Cap_local_html_preview_PreviewForm_Out(TypedDict):
     method: str
     fieldCount: float
 
+class Cap_mac_trade_in_estimate_options_In(TypedDict):
+    chip: NotRequired[str]
+    storage: NotRequired[str]
+    ram: NotRequired[str]
+    condition: NotRequired[str]
+
+class Cap_mac_trade_in_MacTradeInEstimate_Out(TypedDict):
+    model: str
+    chip: NotRequired[str]
+    storage: NotRequired[str]
+    ram: NotRequired[str]
+    condition: NotRequired[Literal["like_new"] | Literal["good"] | Literal["fair"] | Literal["broken"]]
+    appleTradeInValue: float | None
+    warnings: list[str]
+
 class Cap_mcp_registry_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
 
@@ -1699,6 +1714,51 @@ class Cap_theme_park_tickets_TicketOption_Out(TypedDict):
     priceModifier: str | None
     wasPriceAmount: float | None
     buyUrl: str | None
+
+class Cap_video_library_homeFeed_options_In(TypedDict):
+    limit: NotRequired[float]
+
+class Cap_video_library_LibraryPage_Out(TypedDict):
+    videos: list[Cap_video_library_LibraryVideo_Out]
+    continuation: str | None
+    warnings: list[str]
+
+class Cap_video_library_LibraryVideo_Out(TypedDict):
+    videoId: str
+    url: str
+    title: str
+    channel: str | None
+    views: str | None
+    length: str | None
+
+class Cap_video_library_watchLater_options_In(TypedDict):
+    continuation: NotRequired[str]
+
+class Cap_video_library_liked_options_In(TypedDict):
+    continuation: NotRequired[str]
+
+class Cap_video_library_CreatePlaylistOptions_In(TypedDict):
+    title: str
+    description: NotRequired[str]
+    privacy: NotRequired[Literal["private"] | Literal["unlisted"] | Literal["public"]]
+
+class Cap_video_library_CreatedPlaylist_Out(TypedDict):
+    playlistId: str
+    title: str
+    privacy: Literal["private"] | Literal["unlisted"] | Literal["public"]
+    url: str
+    warnings: list[str]
+
+class Cap_video_library_AddToPlaylistOptions_In(TypedDict):
+    playlist: str
+    video: NotRequired[str]
+    videos: NotRequired[Sequence[str]]
+
+class Cap_video_library_PlaylistEdit_Out(TypedDict):
+    playlistId: str
+    added: list[str]
+    url: str
+    warnings: list[str]
 
 class Cap_weather_ForecastResult_Out(TypedDict):
     location: str
@@ -3124,6 +3184,23 @@ class Prv_apple_AppleStoreHours_Out(TypedDict):
     days: list[str]
     opens: str
     closes: str
+
+class Prv_apple_AppleTodaySessionList_Out(TypedDict):
+    storeSlug: str
+    sessions: list[Prv_apple_AppleTodaySession_Out]
+
+class Prv_apple_AppleTodaySession_Out(TypedDict):
+    sessionId: str
+    title: str
+    prefix: str
+    description: str
+    startTime: str
+    endTime: str
+    timeZone: str
+    status: str
+    storeNum: str
+    storeName: str
+    icalUrl: str
 
 class Prv_apple_AppleNewsroomPostList_Out(TypedDict):
     posts: list[Prv_apple_AppleNewsroomPost_Out]
@@ -5067,6 +5144,7 @@ class Prv_calendly_CalendlyAvailabilityResult_Out(TypedDict):
     timezone: str
     days: list[Prv_calendly_CalendlyDay_Out]
     otherEventTypes: list[Prv_calendly_CalendlyEventType_Out]
+    unavailableReason: str | None
 
 class Prv_calendly_CalendlyDay_Out(TypedDict):
     date: str
@@ -9056,6 +9134,11 @@ class Prv_google_maps_SearchPlacesResult_Out_coordinates_u0_Out(TypedDict):
     lat: float
     lng: float
 
+class Prv_google_maps_SearchNearbyArgs_In(TypedDict):
+    query: str
+    lat: float
+    lng: float
+
 class Prv_google_maps_GeocodeAddressArgs_In(TypedDict):
     address: str
 
@@ -9099,6 +9182,8 @@ class Prv_google_maps_GetPlaceResult_Out(TypedDict):
     rating: NotRequired[float]
     reviewCount: NotRequired[float]
     hours: NotRequired[list[Prv_google_maps_GetPlaceResult_Out_hours_item_Out]]
+    openStatus: NotRequired[str]
+    warnings: NotRequired[list[str]]
 
 class Prv_google_maps_GetPlaceResult_Out_coordinates_u0_Out(TypedDict):
     lat: float
@@ -9110,6 +9195,10 @@ class Prv_google_maps_GetPlaceResult_Out_hours_item_Out(TypedDict):
 
 class Prv_google_maps_ListReviewsArgs_In(TypedDict):
     query: str
+
+class Prv_google_maps_ListReviewsResult_Out(TypedDict):
+    reviews: list[Prv_google_maps_Review_Out]
+    warnings: list[str]
 
 class Prv_google_maps_Review_Out(TypedDict):
     author: str
@@ -13813,6 +13902,29 @@ class Prv_onthemarket_OnTheMarketProperty_Out(TypedDict):
     description: NotRequired[str]
     url: NotRequired[str]
 
+class Prv_originenergy_com_au_OriginBusinessElectricityQuoteArgs_In(TypedDict):
+    postcode: str
+
+class Prv_originenergy_com_au_OriginBusinessElectricityQuote_Out(TypedDict):
+    postcode: str
+    state: str
+    serviceable: bool
+    plans: list[Prv_originenergy_com_au_OriginBusinessElectricityPlan_Out]
+
+class Prv_originenergy_com_au_OriginBusinessElectricityPlan_Out(TypedDict):
+    title: str
+    code: str
+    description: str
+    contractPeriod: float | None
+    distributor: str | None
+    tariffName: str | None
+    referenceUsage: str
+    annualCost: float | None
+    monthlyCost: float | None
+    referenceCost: float | None
+    percentSavingVsReference: float | None
+    isRegulated: bool
+
 class Prv_othership_OthershipLocation_Out(TypedDict):
     id: str
     name: str
@@ -14021,6 +14133,31 @@ class Prv_pacificlifestylehomes_PacificLifestyleHomesListing_Out(TypedDict):
     sqft: float
     availability: str
     url: str
+
+class Prv_packlane_GetQuoteArgs_In(TypedDict):
+    size: Literal["5x3x1.5"] | Literal["6x4x3"] | Literal["6x5x2.25"] | Literal["7x5x3"] | Literal["8x6x3"] | Literal["9x6x4"] | Literal["9x7x2.25"] | Literal["9.5x7.75x4"] | Literal["10x8x4"] | Literal["11.25x9x3"] | Literal["12x9x2"] | Literal["12x10x4"] | Literal["13x10x5"] | Literal["14x10x4"]
+    material: Literal["white"] | Literal["white-b-flute"] | Literal["dreamcoat"] | Literal["dreamcoat-b-flute"] | Literal["kraft"] | Literal["kraft-b-flute"]
+    printSides: Literal["both-sides"] | Literal["outside"] | Literal["inside"] | Literal["blank"]
+    quantity: float
+
+class Prv_packlane_packlaneQuote_Out(TypedDict):
+    size: Literal["5x3x1.5"] | Literal["6x4x3"] | Literal["6x5x2.25"] | Literal["7x5x3"] | Literal["8x6x3"] | Literal["9x6x4"] | Literal["9x7x2.25"] | Literal["9.5x7.75x4"] | Literal["10x8x4"] | Literal["11.25x9x3"] | Literal["12x9x2"] | Literal["12x10x4"] | Literal["13x10x5"] | Literal["14x10x4"]
+    material: Literal["white"] | Literal["white-b-flute"] | Literal["dreamcoat"] | Literal["dreamcoat-b-flute"] | Literal["kraft"] | Literal["kraft-b-flute"]
+    printSides: Literal["both-sides"] | Literal["outside"] | Literal["inside"] | Literal["blank"]
+    quantity: float
+    unitPrice: Prv_packlane_packlaneQuote_Out_unitPrice_Out
+    totalPrice: Prv_packlane_packlaneQuote_Out_totalPrice_Out
+    sku: str
+    itemName: str
+    turnaroundDays: float
+
+class Prv_packlane_packlaneQuote_Out_unitPrice_Out(TypedDict):
+    amount: float
+    currency: str
+
+class Prv_packlane_packlaneQuote_Out_totalPrice_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Prv_paypal_PaypalEstimateFeeArgs_In(TypedDict):
     amount: float
@@ -14501,6 +14638,18 @@ class Prv_postiz_CreatePostArgs_In(TypedDict):
     date: NotRequired[str]
     settings: NotRequired[Mapping[str, Any]]
     shortLink: NotRequired[bool]
+
+class Prv_powys_powysSearchResult_Out(TypedDict):
+    results: list[Prv_powys_powysApplication_Out]
+
+class Prv_powys_powysApplication_Out(TypedDict):
+    reference: str
+    description: str
+    address: str
+    applicant: str
+    dateSubmitted: str
+    status: str
+    decision: NotRequired[str]
 
 class Prv_premierbuildings_PremierbuildingsStyle_Out(TypedDict):
     key: str
@@ -18302,6 +18451,18 @@ class Prv_vistaprint_ShippingBoxPrice_Out_unitPrice_Out(TypedDict):
     amount: float
     currency: str
 
+class Prv_vistaprint_CheckOrderDeadlineArgs_In(TypedDict):
+    productType: Literal["packaging"] | Literal["cards"] | Literal["posters"] | Literal["envelopes"]
+    quantity: float
+    productSku: NotRequired[str]
+
+class Prv_vistaprint_OrderDeadlineInfo_Out(TypedDict):
+    productType: Literal["packaging"] | Literal["cards"] | Literal["posters"] | Literal["envelopes"]
+    quantity: float
+    orderDeadline: str
+    turnaroundHours: float
+    estimatedDelivery: str
+
 class Prv_voluspa_VoluspaQuizIntro_Out(TypedDict):
     paths: list[Prv_voluspa_VoluspaQuizButton_Out]
     firstQuestionOptions: list[Prv_voluspa_VoluspaQuizButton_Out]
@@ -18581,6 +18742,16 @@ class Prv_wellfound_wellfoundJobDetail_Out_company_Out(TypedDict):
     website: str | None
     logoUrl: str | None
 
+class Prv_wholefoodsmarket_SearchResults_Out(TypedDict):
+    products: list[Prv_wholefoodsmarket_Product_Out]
+    warnings: list[str]
+
+class Prv_wholefoodsmarket_Product_Out(TypedDict):
+    id: str
+    name: str
+    price: NotRequired[float]
+    unit: NotRequired[str]
+
 class Prv_winestyles_WinestylesStore_Out(TypedDict):
     storeId: str
     city: str
@@ -18802,6 +18973,23 @@ class Prv_youtube_YoutubeComment_Out(TypedDict):
     replyCount: float
     isPinned: bool
     isHeartedByCreator: bool
+    repliesContinuation: str | None
+
+class Prv_youtube_listCommentReplies_input_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeCommentReplyPage_Out(TypedDict):
+    replies: list[Prv_youtube_YoutubeCommentReply_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubeCommentReply_Out(TypedDict):
+    commentId: str
+    author: str
+    authorChannelId: str | None
+    text: str
+    likeCount: str
+    publishedTime: str
+    isHeartedByCreator: bool
 
 class Prv_youtube_listCaptionTracks_input_In(TypedDict):
     video: str
@@ -18852,6 +19040,72 @@ class Prv_youtube_YoutubeChannelVideo_Out(TypedDict):
     publishedAgeSeconds: float | None
     length: str | None
     thumbnail: str | None
+
+class Prv_youtube_getPlaylist_input_In(TypedDict):
+    playlist: str
+
+class Prv_youtube_YoutubePlaylist_Out(TypedDict):
+    playlistId: str
+    title: str
+    description: str
+    channelId: str | None
+    channelTitle: str | None
+    videoCount: float | None
+    viewCount: float | None
+    lastUpdated: str | None
+    thumbnail: str | None
+
+class Prv_youtube_listPlaylistVideos_input_u0_In(TypedDict):
+    playlist: str
+
+class Prv_youtube_listPlaylistVideos_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubePlaylistVideoPage_Out(TypedDict):
+    videos: list[Prv_youtube_YoutubePlaylistVideo_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubePlaylistVideo_Out(TypedDict):
+    videoId: str
+    url: str
+    title: str
+    channelId: str | None
+    channelTitle: str | None
+    views: str | None
+    published: str | None
+    publishedAgeSeconds: float | None
+    length: str | None
+    thumbnail: str | None
+
+class Prv_youtube_listHomeFeed_input_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_youtube_listWatchLater_input_In(TypedDict):
+    continuation: NotRequired[str]
+
+class Prv_youtube_listLikedVideos_input_In(TypedDict):
+    continuation: NotRequired[str]
+
+class Prv_youtube_createPlaylist_input_In(TypedDict):
+    title: str
+    description: NotRequired[str]
+    privacy: NotRequired[Literal["private"] | Literal["unlisted"] | Literal["public"]]
+
+class Prv_youtube_YoutubeCreatedPlaylist_Out(TypedDict):
+    playlistId: str
+    title: str
+    privacy: Literal["private"] | Literal["unlisted"] | Literal["public"]
+    url: str
+
+class Prv_youtube_addToPlaylist_input_In(TypedDict):
+    playlist: str
+    video: NotRequired[str]
+    videos: NotRequired[Sequence[str]]
+
+class Prv_youtube_YoutubePlaylistEdit_Out(TypedDict):
+    playlistId: str
+    added: list[str]
+    url: str
 
 class Prv_zennioptical_ZenniFrameSearch_Out(TypedDict):
     frames: list[Prv_zennioptical_ZenniFrameSummary_Out]
@@ -18947,20 +19201,24 @@ class Cap_booking_links(Protocol):
 class Cap_browser_agent(Protocol):
     """LAST RESORT, and it costs money: hands a plain-language task to a hosted AI browser
     agent (Browser Use) when no Bowmark function covers the site or a script against one
-    failed. Returns a session id and a private link your user can open to watch and take
-    over the live browser; later scripts poll it, answer its questions and stop it.
-    RUN-ONLY: a typed session cannot call it (that is refused with code "run_only", and it
-    is never an API-key problem), and one run is killed at 120s of wall clock — so `start`
-    in one run and poll `status` from LATER runs, never in a loop inside one.
+    failed. When it is the only path left, OFFER it to your user rather than silently
+    declining: say what you would do, that it costs money, and that they can watch and take
+    over the live browser (log in, solve a captcha) at the watchUrl `start` returns — then
+    let them decide. Never start a session without your user knowing it happened. RUN-ONLY:
+    a typed session cannot call it (that is refused with code "run_only", and it is never an
+    API-key problem), and one run is killed at 120s of wall clock — so `start` in one run
+    and poll `status` from LATER runs, never in a loop inside one.
     """
 
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
         """Starts a hosted browser agent on `task` and returns at once with its session `id` and a
         `watchUrl`. Use ONLY after the library had nothing for this site or a function failed —
-        each turn spends real vendor money, charged to the account. Your account may hold up to
-        3 concurrent sessions; call `list()` before starting if looping over multiple tasks.
-        Show `watchUrl` to your user: it lets them watch the agent and take over the browser
-        (log in, solve a captcha). Then poll with `status`. Always `stop()` a session when done.
+        each turn spends real vendor money, charged to the account. Tell your user you're doing
+        this and why, before or as you call it — don't decide silently on their behalf just
+        because it's billed. Your account may hold up to 3 concurrent sessions; call `list()`
+        before starting if looping over multiple tasks. Show `watchUrl` to your user: it lets
+        them watch the agent and take over the browser (log in, solve a captcha). Then poll with
+        `status`. Always `stop()` a session when done.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -19564,6 +19822,12 @@ class Cap_local_html_preview(Protocol):
         markup you already have.
         """
 
+class Cap_mac_trade_in(Protocol):
+    """Get Mac trade-in credit estimates from Apple Trade In."""
+
+    async def estimate(self, model: str, options: Cap_mac_trade_in_estimate_options_In | None = None, /) -> Cap_mac_trade_in_MacTradeInEstimate_Out:
+        """Get the Apple Trade In credit value for a Mac model, with optional specs."""
+
 class Cap_mcp_registry(Protocol):
     """Search or browse the official Model Context Protocol server registry — find a published
     MCP server by name and get its install or connect URL.
@@ -20068,6 +20332,42 @@ class Cap_theme_park_tickets(Protocol):
         struck-through "was" price and a buy link, exactly as the park's own site is publishing
         today. Throws naming the closest matches when the park name does not resolve to one of
         the ~33 parks in the covered portfolio.
+        """
+
+class Cap_video_library(Protocol):
+    """Reads and writes the caller's OWN YouTube account: their Watch Later list, their liked
+    videos, and the playlists they keep — including making a new one and adding videos to
+    it. Needs the caller's YouTube sign-in: the first run answers needs_user with a link to
+    sign in, and later runs reuse it with no browser.
+    """
+
+    async def homeFeed(self, options: Cap_video_library_homeFeed_options_In | None = None, /) -> Cap_video_library_LibraryPage_Out:
+        """The videos on the caller's OWN YouTube home page — the personalized recommendation grid,
+        in YouTube's own order, which is what they see when they open youtube.com right now. It
+        exists nowhere else: not in YouTube's public API, and logged out the same request
+        answers an EMPTY grid rather than an error. `continuation` is always null; the home feed
+        is one ranked page. Needs a YouTube sign-in.
+        """
+
+    async def watchLater(self, options: Cap_video_library_watchLater_options_In | None = None, /) -> Cap_video_library_LibraryPage_Out:
+        """The caller's own Watch Later queue, newest first. Not reachable through YouTube's public
+        API at all — Google removed access to this list in 2016. Needs a YouTube sign-in.
+        """
+
+    async def liked(self, options: Cap_video_library_liked_options_In | None = None, /) -> Cap_video_library_LibraryPage_Out:
+        """The videos the caller has liked, newest first. Needs a YouTube sign-in."""
+
+    async def createPlaylist(self, options: Cap_video_library_CreatePlaylistOptions_In, /) -> Cap_video_library_CreatedPlaylist_Out:
+        """Creates an empty playlist on the caller's own account and returns its id and URL.
+        Defaults to "private". NOT idempotent — calling it twice makes two playlists, because
+        YouTube allows duplicate titles and picking one for you would be a guess. Needs a
+        YouTube sign-in.
+        """
+
+    async def addToPlaylist(self, options: Cap_video_library_AddToPlaylistOptions_In, /) -> Cap_video_library_PlaylistEdit_Out:
+        """Adds one or many videos to one of the caller's own playlists, as a single edit. Adding a
+        video already in the playlist adds it again — YouTube permits duplicates and does not
+        report which is which. Needs a YouTube sign-in.
         """
 
 class Cap_weather(Protocol):
@@ -20963,7 +21263,12 @@ class Prv_apple(Protocol):
     async def getSupportArticle(self, docidOrUrl: str, /) -> Prv_apple_AppleSupportArticle_Out:
         """Reads one Apple support article end to end — the real instructions under its headline,
         not a search snippet — from the docid or URL one of searchSupport()'s own rows carries.
-        The read an agent reaches for once searchSupport has narrowed the problem to one page.
+        Opens a HelpKB article (docid or URL) and a User Guide page ("url" field only — its own
+        docid carries no URL apple.com could resolve). An Apple Support Community thread
+        ("thread_<id>" docid) is refused: discussions.apple.com puts every thread behind a
+        bot-verification challenge this provider cannot pass browserless yet, so read the row's
+        own "snippet" for those instead. The read an agent reaches for once searchSupport has
+        narrowed the problem to one page.
         """
 
     async def resolveLocation(self, place: str, /) -> Prv_apple_AppleResolvedLocation_Out:
@@ -21009,6 +21314,13 @@ class Prv_apple(Protocol):
         """Read one Apple Store: its full address, phone number, map coordinates, store number and
         the hours it is open each day of the week — everything a person needs before driving
         there. Takes a URL or /retail/ path, e.g. one of listStores()'s own rows.
+        """
+
+    async def listTodaySessions(self, storeSlugOrUrl: str, /) -> Prv_apple_AppleTodaySessionList_Out:
+        """The free Today at Apple sessions one store is running, with each one's title,
+        description, start/end time and RSVP status — off the store's own calendar page. Takes a
+        bare store slug ("unionsquare") or a URL/path from listStores() or getStore()'s own
+        rows.
         """
 
     async def listNewsroomPosts(self, /) -> Prv_apple_AppleNewsroomPostList_Out:
@@ -22368,7 +22680,10 @@ class Prv_calendly(Protocol):
         """Returns the real, currently-open time slots for one Calendly event type — accepts a bare
         profile slug ("jason-frazier"), a profile url, or a specific event url
         ("https://calendly.com/jason-frazier/15min"). Given a bare profile, it picks that
-        profile's first event type and reports the rest in `otherEventTypes`.
+        profile's first event type and reports the rest in `otherEventTypes`. `days` is empty
+        both when nothing is open and when Calendly reports the calendar cannot be booked at all
+        (a broken calendar connection, a deactivated event) — check `unavailableReason` to tell
+        the two apart.
         """
 
     async def getBookingForm(self, url: str, opts: Prv_calendly_CalendlyBookingFormOptions_In | None = None, /) -> Prv_calendly_CalendlyBookingForm_Out:
@@ -25127,9 +25442,10 @@ class Prv_google_flights(Protocol):
 class Prv_google_maps(Protocol):
     """Local business search on Google Maps — find places by what a person would say, then read
     the address, hours, rating, reviews, photos, co-located tenants and route. suggestPlaces
-    (autocomplete), searchPlaces (the door), geocodeAddress, getPlace, listReviews,
-    listPhotos, listRelatedPlaces, getDirections, resolvePlaceUrl and reverseGeocode are
-    built; everything else is still a declared stub.
+    (autocomplete), searchPlaces (the door), searchNearby (the same door, anchored to a
+    point), geocodeAddress, getPlace, listReviews, listPhotos, listRelatedPlaces,
+    getDirections, resolvePlaceUrl and reverseGeocode are built; everything else is still a
+    declared stub.
     """
 
     async def suggestPlaces(self, args: Prv_google_maps_SuggestPlacesArgs_In, /) -> list[str]:
@@ -25144,6 +25460,15 @@ class Prv_google_maps(Protocol):
         shows for it: feature id, name, address, coordinates and categories, plus rating and
         review count when the site's response carries them. The location lives in the query
         text; Google resolves it from there rather than from a separate coordinate.
+        """
+
+    async def searchNearby(self, args: Prv_google_maps_SearchNearbyArgs_In, /) -> list[Prv_google_maps_SearchPlacesResult_Out]:
+        """searchPlaces anchored to a POINT instead of resolved from the query text — for a caller
+        holding coordinates (a pin, a phone's GPS, reverseGeocode's own output) rather than a
+        locality name. Reuses reverseGeocode's own viewport template spliced into searchPlaces'
+        field mask: "coffee" anchored at a point returns results within a few hundred meters of
+        it, measured live against two cities. Without this, a coordinate query has nowhere to go
+        on searchPlaces and Google answers from whichever city the request happens to exit near.
         """
 
     async def geocodeAddress(self, args: Prv_google_maps_GeocodeAddressArgs_In, /) -> Prv_google_maps_GeocodeAddressResult_Out:
@@ -25165,15 +25490,21 @@ class Prv_google_maps(Protocol):
 
     async def getPlace(self, args: Prv_google_maps_GetPlaceArgs_In, /) -> Prv_google_maps_GetPlaceResult_Out:
         """Everything Google Maps shows on one business's panel — name, full address, coordinates,
-        category, neighborhood, phone, website, rating, review count and weekly hours, each
-        present only when the site's own response carried it. A THIRD reading of searchPlaces'
-        door: takes the same resolving query geocodeAddress does (typically a name plus address,
-        since this does not take a feature id — measured live, neither the raw id nor a cid
-        string resolves through this door), and throws when the query names a category or list
-        rather than one business.
+        category, neighborhood, phone, website, rating, review count, weekly hours and the
+        site's own live open/closed line (e.g. "Closed · Opens 7 AM"), each present only when
+        the site's own response carried it. openStatus is the site's rendered string, not a
+        boolean this provider computed — hours' display strings carry no timezone, so a caller
+        cannot derive open-right-now from them without it. This retries a few times to see past
+        a reduced/rich flap in the site's own response and merges the richest draw; `warnings`
+        is non-empty when every attempt drew the reduced record, meaning
+        reviewCount/hours/openStatus could not be confirmed either way rather than being
+        genuinely absent. A THIRD reading of searchPlaces' door: takes the same resolving query
+        geocodeAddress does (typically a name plus address, since this does not take a feature
+        id — measured live, neither the raw id nor a cid string resolves through this door), and
+        throws when the query names a category or list rather than one business.
         """
 
-    async def listReviews(self, args: Prv_google_maps_ListReviewsArgs_In, /) -> list[Prv_google_maps_Review_Out]:
+    async def listReviews(self, args: Prv_google_maps_ListReviewsArgs_In, /) -> Prv_google_maps_ListReviewsResult_Out:
         """The reviews Google Maps shows on a business's own panel — a handful, each with author,
         star rating, review text and the site's own relative date; the count varies by response,
         so this retries a few times and keeps the longest list seen. A FOURTH reading of
@@ -25181,8 +25512,10 @@ class Prv_google_maps(Protocol):
         listugcposts route the survey planned: that route needed a session token minted by a
         place-page bootstrap that was never cracked, but the same reviews the token would have
         fetched are already sitting in the panel response. Takes the same resolving query
-        getPlace does. Returns [] for a place with no reviews rather than throwing; throws only
-        when the query itself does not resolve to one place.
+        getPlace does. `reviews` is [] for a place with no reviews; `warnings` says so when the
+        site's own panel reports reviews that never rendered across every attempt — a thin draw,
+        not a review-less business. Throws only when the query itself does not resolve to one
+        place.
         """
 
     async def listRelatedPlaces(self, args: Prv_google_maps_ListRelatedPlacesArgs_In, /) -> list[Prv_google_maps_RelatedPlace_Out]:
@@ -25329,8 +25662,11 @@ class Prv_google_news(Protocol):
         whichever exit made the request) — each with the opaque topic id `getTopicHeadlines`
         takes. Read off the home page's own embedded `AF_initDataCallback({key: 'ds:2'…})` state
         rather than scraped from the rendered nav, so it needs no browser. The finder that makes
-        a topic id reachable by somebody who only holds words. `locale` — `{ hl, gl, ceid }` —
-        asks for another country/language edition's own nav rail; omitted, the US English one.
+        a topic id reachable by somebody who only holds words. The "Your local news" entry's id
+        is NOT a topic feed — the site serves it by geo-locating the reader — so
+        `getTopicHeadlines` and `listStories` both refuse it and name `listLocalHeadlines`
+        instead. `locale` — `{ hl, gl, ceid }` — asks for another country/language edition's own
+        nav rail; omitted, the US English one.
         """
 
     async def getTopicHeadlines(self, topicId: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsTopicFeed_Out:
@@ -25340,14 +25676,17 @@ class Prv_google_news(Protocol):
         `/rss/headlines/section/topic/<NAME>`) — the only difference is the key, since a topic
         id has no canonical spelling for the site to correct it to. Measured 2026-09-15: the
         Technology section's own topic id answers the identical feed shape as its section-name
-        door, 70 items, titled "Technology - Latest - Google News". THE ONLY IDS REACHABLE
-        WITHOUT AN ACCOUNT ARE THE NINE `listTopics` RETURNS. Google News also runs entity and
-        interest topics (a company, a person, a sports league), but measured 2026-09-16 nothing
-        logged-out hands their ids out — a topic page, a story page, `/home` and `/publications`
-        each carry only the nav rail's own nine, and the HTML `/search` page that renders the
-        entity's Follow chip answers 429 through the proxy. To follow a company or a person
-        today, use `searchNews`. `locale` — `{ hl, gl, ceid }` — asks for another
-        country/language edition; omitted, the US English one.
+        door, 70 items, titled "Technology - Latest - Google News". EIGHT OF THE NINE
+        `listTopics` IDS ARE REACHABLE WITHOUT AN ACCOUNT; the ninth — "Your local news" — is
+        refused before any request, since the site serves it by geo-locating the reader rather
+        than from a topic feed (measured 2026-09-17: that id 404s here and returns zero stories
+        from `listStories`, with no error). Call `listLocalHeadlines("<city>")` for that entry
+        instead. Google News also runs entity and interest topics (a company, a person, a sports
+        league), but measured 2026-09-16 nothing logged-out hands their ids out — a topic page,
+        a story page, `/home` and `/publications` each carry only the nav rail's own nine, and
+        the HTML `/search` page that renders the entity's Follow chip answers 429 through the
+        proxy. To follow a company or a person today, use `searchNews`. `locale` — `{ hl, gl,
+        ceid }` — asks for another country/language edition; omitted, the US English one.
         """
 
     async def listStories(self, topicId: str | None = None, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> list[Prv_google_news_GoogleNewsStory_Out]:
@@ -25358,9 +25697,14 @@ class Prv_google_news(Protocol):
         page instead, which surfaces far fewer (2 measured) since most front-page items are
         single-outlet. Reads the "Full Coverage" anchor Google News renders on every
         multi-outlet story directly off the page's HTML, rather than the page's own embedded
-        state — no RSS feed on this site emits a story id at all, so this is the only door.
-        `locale` — `{ hl, gl, ceid }` — asks for another country/language edition of whichever
-        page is read; omitted, the US English one.
+        state — no RSS feed on this site emits a story id at all, so this is the only door. A
+        `topicId` from `listTopics`' "Your local news" entry is refused before any request —
+        that entry is not a topic feed; call `listLocalHeadlines("<city>")` instead (measured
+        2026-09-17: without this check the id silently answered 200 with zero stories). `locale`
+        — `{ hl, gl, ceid }` — asks for another country/language edition of whichever page is
+        read; omitted, the US English one. The `storyId` each result carries has that same
+        edition baked in, so passing it straight into `getFullCoverage` with no `locale`
+        argument reads the right edition automatically — see `getFullCoverage`'s own note.
         """
 
     async def getFullCoverage(self, storyId: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsFullCoverage_Out:
@@ -25377,8 +25721,12 @@ class Prv_google_news(Protocol):
         publisher URL: the STORY PAGE ITSELF is read in whichever edition is asked for, and
         reading it in the wrong one silently truncates or empties the coverage (measured
         2026-09-16: the same story id answered 0 articles under the US default and 53 under `{
-        hl: "es-419", gl: "MX", ceid: "MX:es" }`). Pass the SAME locale the `listStories` call
-        that produced this id used; omitted, the US English edition.
+        hl: "es-419", gl: "MX", ceid: "MX:es" }`). A `storyId` FROM `listStories` already
+        carries the edition it was found under, so leaving `locale` unset here reads that SAME
+        edition automatically — pass an explicit `locale` only to read a story you found some
+        other way, and it must agree with the id's own encoded edition or the call is refused
+        rather than silently truncated (measured live 2026-09-17: a wrong edition can render a
+        place or topic label that reads like a real headline).
         """
 
 class Prv_google_translate(Protocol):
@@ -28717,6 +29065,20 @@ class Prv_onthemarket(Protocol):
     async def search(self, args: Prv_onthemarket_SearchArgs_In, /) -> list[Prv_onthemarket_OnTheMarketProperty_Out]:
         """Search for residential properties by location and type (sale or rent)"""
 
+class Prv_originenergy_com_au(Protocol):
+    """Origin Energy business electricity quoting — every plan Origin offers in a postcode's
+    distributor territory, priced at the regulator's standard reference consumption, the
+    same live call the site's own 'Compare business plans' page makes.
+    """
+
+    async def getBusinessElectricityQuote(self, arg0: Prv_originenergy_com_au_OriginBusinessElectricityQuoteArgs_In, /) -> Prv_originenergy_com_au_OriginBusinessElectricityQuote_Out:
+        """Returns every business electricity plan Origin Energy offers in a postcode's distributor
+        territory, each priced at the regulator's standard reference consumption (10,000
+        kWh/year) — the same live call the site's own 'Compare business plans' page makes.
+        `serviceable: false` with an empty `plans` array is Origin's own honest answer for a
+        postcode it does not retail electricity into (WA, TAS, NT), not a failure.
+        """
+
 class Prv_othership(Protocol):
     """Othership's real, live class schedule and seat availability across its Toronto and NYC
     sauna/ice-bath/breathwork studios — the same data its Mariana Tek booking widget shows,
@@ -28843,6 +29205,14 @@ class Prv_pacificlifestylehomes(Protocol):
         """Searches Pacific Lifestyle Homes' live available-home listings in Camas, Ridgefield, or
         Vancouver, Washington. Returns current price, beds, baths, sqft, availability, and the
         detail-page handoff URL.
+        """
+
+class Prv_packlane(Protocol):
+    """Instant custom Mailer Box quotes from packlane.com."""
+
+    async def getQuote(self, args: Prv_packlane_GetQuoteArgs_In, /) -> Prv_packlane_packlaneQuote_Out:
+        """Prices a custom Mailer Box (size, material, printed sides, quantity) via packlane.com's
+        own on-page calculator API.
         """
 
 class Prv_paypal(Protocol):
@@ -29164,6 +29534,15 @@ class Prv_postiz(Protocol):
 
     async def createPost(self, args: Prv_postiz_CreatePostArgs_In, /) -> Prv_postiz_PostizPost_Out:
         """Create and schedule a new post across a connected social media account."""
+
+class Prv_powys(Protocol):
+    """Search Powys County Council planning applications by reference, address, or description."""
+
+    async def search(self, query: str, /) -> Prv_powys_powysSearchResult_Out:
+        """Searches Powys County Council planning applications. Takes a required search term or
+        reference (e.g., 'P/2024/0123' for a reference or 'Main Street' for an address) and
+        returns matching applications with their status and decision details.
+        """
 
 class Prv_premierbuildings(Protocol):
     """Reads Premier Portable Buildings' own ShedView 3D configurator pricing catalogue —
@@ -31738,9 +32117,9 @@ class Prv_visible(Protocol):
         """
 
 class Prv_vistaprint(Protocol):
-    """Prices Vistaprint's Full-Print Shipping Boxes for a real size, print area and quantity —
-    the live, quantity-tiered price the site's own PDP configurator computes, with no
-    browser, account or cart. Custom printed boxes, mailer boxes and packaging boxes.
+    """Prices Vistaprint's Full-Print Shipping Boxes and checks order deadlines for packaging,
+    cards, posters and envelopes — real, quantity-tiered pricing and turnaround times the
+    site's own PDP computes, with no browser, account or cart.
     """
 
     async def getShippingBoxPrice(self, args: Prv_vistaprint_GetShippingBoxPriceArgs_In, /) -> Prv_vistaprint_ShippingBoxPrice_Out:
@@ -31749,6 +32128,12 @@ class Prv_vistaprint(Protocol):
         quantity, the same figure the site's PDP configurator computes as a buyer changes those
         inputs. THROWS a caller-fixable error for a size/printArea/quantity combination
         Vistaprint has no price for.
+        """
+
+    async def checkOrderDeadline(self, args: Prv_vistaprint_CheckOrderDeadlineArgs_In, /) -> Prv_vistaprint_OrderDeadlineInfo_Out:
+        """Checks the order deadline and turnaround time for Vistaprint products — the latest
+        date/time an order must be placed for standard delivery and the estimated delivery date,
+        parsed from the product page.
         """
 
 class Prv_voluspa(Protocol):
@@ -31894,6 +32279,14 @@ class Prv_wellfound(Protocol):
         — returning the full description, salary band, equity range (both parsed off the header
         chip; equity has no structured-data field on this site), location, remote policy, the
         site's own experience-requirement text and the hiring startup.
+        """
+
+class Prv_wholefoodsmarket(Protocol):
+    """Search Whole Foods products and find stores"""
+
+    async def search(self, query: str, /) -> Prv_wholefoodsmarket_SearchResults_Out:
+        """Searches Whole Foods products by query and returns results with name, price, and
+        availability.
         """
 
 class Prv_winestyles(Protocol):
@@ -32068,6 +32461,16 @@ class Prv_youtube(Protocol):
         once there are no more pages.
         """
 
+    async def listCommentReplies(self, input: Prv_youtube_listCommentReplies_input_In, /) -> Prv_youtube_YoutubeCommentReplyPage_Out:
+        """The replies under one comment thread, which YouTube hides behind a "N replies" button
+        and never ships with the thread itself. `continuation` is a thread's own
+        `repliesContinuation` off a `listComments` row (null when it has no replies) for the
+        first page, or this function's own returned `continuation` for the next one; it is null
+        once there are no more pages. Each reply carries its author, text, like count and
+        whether the creator hearted it — no reply count or pinned flag, since a reply cannot
+        itself be a thread or be pinned.
+        """
+
     async def listCaptionTracks(self, input: Prv_youtube_listCaptionTracks_input_In, /) -> list[Prv_youtube_YoutubeCaptionTrack_Out]:
         """Which languages a video's captions are available in, whether each was written by a
         human/uploader or generated by YouTube itself, and which one `getTranscript` reads by
@@ -32095,6 +32498,58 @@ class Prv_youtube(Protocol):
         `getChannel` does — not a plain name, which `findChannel` resolves first. Pass back
         `continuation` alone — no `channel` needed — to read the next page; it is null once
         there are no more pages.
+        """
+
+    async def getPlaylist(self, input: Prv_youtube_getPlaylist_input_In, /) -> Prv_youtube_YoutubePlaylist_Out:
+        """A playlist's own facts: title, description, the channel that owns it, exact video and
+        view counts, and when it was last updated (an absolute date on an ordinary playlist,
+        YouTube's own relative phrase like "5 days ago" on a channel's auto-generated Uploads
+        playlist). `playlist` is a playlist id or any playlist/watch URL carrying a `list` param
+        — including a channel's Uploads playlist, whose id is always `"UU" +
+        channelId.slice(2)`.
+        """
+
+    async def listPlaylistVideos(self, input: Prv_youtube_listPlaylistVideos_input_u0_In | Prv_youtube_listPlaylistVideos_input_u1_In, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
+        """The videos inside a playlist, in the playlist's own order and paged — each video's id,
+        url, title, the channel that PUBLISHED it (not necessarily the playlist owner),
+        YouTube's own abbreviated view-count text, upload age, length and thumbnail. `playlist`
+        takes the same id or URL `getPlaylist` does, including a channel's Uploads playlist
+        (`"UU" + channelId.slice(2)`). Pass back `continuation` alone — no `playlist` needed —
+        to read the next page; it is null once there are no more pages.
+        """
+
+    async def listHomeFeed(self, input: Prv_youtube_listHomeFeed_input_In | None = None, /) -> list[Prv_youtube_YoutubeSearchVideo_Out]:
+        """The videos on the signed-in account's own YouTube home page — the personalized
+        recommendation grid, in YouTube's own order, which is what that account actually sees on
+        youtube.com right now. NEEDS A SIGN-IN and exists nowhere else: it is not in the public
+        Data API, and logged out the same request answers 200 with an EMPTY grid rather than an
+        error. Call `bowmark.video_library.homeFeed` rather than this directly.
+        """
+
+    async def listWatchLater(self, input: Prv_youtube_listWatchLater_input_In | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
+        """The signed-in account's Watch Later queue, newest first, paged like any playlist. NEEDS
+        A SIGN-IN, and a grant is issued to a capability — call
+        `bowmark.video_library.watchLater` rather than this directly. Not reachable through
+        YouTube's public Data API at all: Google removed access to the `WL` list in 2016.
+        """
+
+    async def listLikedVideos(self, input: Prv_youtube_listLikedVideos_input_In | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
+        """The videos the signed-in account has liked, newest first, paged like any playlist. NEEDS
+        A SIGN-IN — call `bowmark.video_library.liked` rather than this directly.
+        """
+
+    async def createPlaylist(self, input: Prv_youtube_createPlaylist_input_In, /) -> Prv_youtube_YoutubeCreatedPlaylist_Out:
+        """Creates an EMPTY playlist on the signed-in account and returns its id and URL. `privacy`
+        defaults to "private". NOT idempotent — YouTube allows duplicate titles, so calling
+        twice makes two playlists. NEEDS A SIGN-IN — call `bowmark.video_library.createPlaylist`
+        rather than this directly.
+        """
+
+    async def addToPlaylist(self, input: Prv_youtube_addToPlaylist_input_In, /) -> Prv_youtube_YoutubePlaylistEdit_Out:
+        """Adds one or many videos to one of the signed-in account's own playlists, as a SINGLE
+        edit rather than one request per video. YouTube permits duplicates, so adding a video
+        already present adds it again. NEEDS A SIGN-IN — call
+        `bowmark.video_library.addToPlaylist` rather than this directly.
         """
 
 class Prv_zennioptical(Protocol):
@@ -32433,12 +32888,14 @@ class BowmarkProviders(Protocol):
     oanda: Prv_oanda
     oliverwinery: Prv_oliverwinery
     onthemarket: Prv_onthemarket
+    originenergy_com_au: Prv_originenergy_com_au
     othership: Prv_othership
     otto: Prv_otto
     outdoorresearch: Prv_outdoorresearch
     pacificabeauty: Prv_pacificabeauty
     pacificcompanies: Prv_pacificcompanies
     pacificlifestylehomes: Prv_pacificlifestylehomes
+    packlane: Prv_packlane
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland
     pilotprotocol: Prv_pilotprotocol
@@ -32451,6 +32908,7 @@ class BowmarkProviders(Protocol):
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
     postiz: Prv_postiz
+    powys: Prv_powys
     premierbuildings: Prv_premierbuildings
     prime_video: Prv_prime_video
     progressive: Prv_progressive
@@ -32541,6 +32999,7 @@ class BowmarkProviders(Protocol):
     waterfurnace: Prv_waterfurnace
     wearehirschfeld: Prv_wearehirschfeld
     wellfound: Prv_wellfound
+    wholefoodsmarket: Prv_wholefoodsmarket
     winestyles: Prv_winestyles
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     ycombinator: Prv_ycombinator
@@ -32583,6 +33042,7 @@ class Bowmark(Protocol):
     istanbul_schedules: Cap_istanbul_schedules
     local_database_gui: Cap_local_database_gui
     local_html_preview: Cap_local_html_preview
+    mac_trade_in: Cap_mac_trade_in
     mcp_registry: Cap_mcp_registry
     music: Cap_music
     pcparts: Cap_pcparts
@@ -32606,6 +33066,7 @@ class Bowmark(Protocol):
     tariff: Cap_tariff
     text_to_speech: Cap_text_to_speech
     theme_park_tickets: Cap_theme_park_tickets
+    video_library: Cap_video_library
     weather: Cap_weather
     web_form_fields: Cap_web_form_fields
     wireless: Cap_wireless

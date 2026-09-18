@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fc2fdb3553219f5ac1511a29016df63818b1b15b31bda76763ac7a6bda3a0c47
-// 1113 checked, 20 unchecked.
+// Manifest version: 96d924c4b0e9cda1c3578dcb38bbcb7723a32b40f13b0c1d4799a92a604de2da
+// 1134 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fc2fdb3553219f5ac1511a29016df63818b1b15b31bda76763ac7a6bda3a0c47",
+  "version": "96d924c4b0e9cda1c3578dcb38bbcb7723a32b40f13b0c1d4799a92a604de2da",
   "units": {
     "booking_links": {
       "defs": {
@@ -1808,6 +1808,57 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "mac_trade_in": {
+      "defs": {},
+      "functions": {
+        "estimate": [
+          {
+            "name": "model",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "chip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "storage",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "ram",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "condition",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "mcp_registry": {
       "defs": {
         "CallOptions": {
@@ -3210,6 +3261,155 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "video_library": {
+      "defs": {
+        "AddToPlaylistOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playlist",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "videos",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        },
+        "CreatePlaylistOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "description",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "privacy",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "private"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "unlisted"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "public"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "homeFeed": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "watchLater": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "continuation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "liked": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "continuation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createPlaylist": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CreatePlaylistOptions"
+            },
+            "optional": false
+          }
+        ],
+        "addToPlaylist": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "AddToPlaylistOptions"
+            },
+            "optional": false
           }
         ]
       }
@@ -5739,6 +5939,15 @@ export const VALIDATORS: ValidatorTable = {
         "getStore": [
           {
             "name": "urlOrPath",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listTodaySessions": [
+          {
+            "name": "storeSlugOrUrl",
             "schema": {
               "k": "string"
             },
@@ -15149,6 +15358,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchNearbyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "lat",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lng",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchPlacesArgs": {
           "k": "object",
           "props": [
@@ -15191,6 +15426,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchPlacesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchNearby": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchNearbyArgs"
             },
             "optional": false
           }
@@ -22873,6 +23118,34 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.originenergy_com_au": {
+      "defs": {
+        "OriginBusinessElectricityQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "postcode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getBusinessElectricityQuote": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "ref",
+              "name": "OriginBusinessElectricityQuoteArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.othership": {
       "defs": {},
       "functions": {
@@ -23139,6 +23412,169 @@ export const VALIDATORS: ValidatorTable = {
               "name": "PacificLifestyleHomesSearchArgs"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.packlane": {
+      "defs": {
+        "GetQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "size",
+              "schema": {
+                "k": "ref",
+                "name": "MailerBoxSize"
+              },
+              "optional": false
+            },
+            {
+              "name": "material",
+              "schema": {
+                "k": "ref",
+                "name": "MailerBoxMaterial"
+              },
+              "optional": false
+            },
+            {
+              "name": "printSides",
+              "schema": {
+                "k": "ref",
+                "name": "PrintSidesOption"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "MailerBoxMaterial": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "white"
+            },
+            {
+              "k": "literal",
+              "v": "white-b-flute"
+            },
+            {
+              "k": "literal",
+              "v": "dreamcoat"
+            },
+            {
+              "k": "literal",
+              "v": "dreamcoat-b-flute"
+            },
+            {
+              "k": "literal",
+              "v": "kraft"
+            },
+            {
+              "k": "literal",
+              "v": "kraft-b-flute"
+            }
+          ]
+        },
+        "MailerBoxSize": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "5x3x1.5"
+            },
+            {
+              "k": "literal",
+              "v": "6x4x3"
+            },
+            {
+              "k": "literal",
+              "v": "6x5x2.25"
+            },
+            {
+              "k": "literal",
+              "v": "7x5x3"
+            },
+            {
+              "k": "literal",
+              "v": "8x6x3"
+            },
+            {
+              "k": "literal",
+              "v": "9x6x4"
+            },
+            {
+              "k": "literal",
+              "v": "9x7x2.25"
+            },
+            {
+              "k": "literal",
+              "v": "9.5x7.75x4"
+            },
+            {
+              "k": "literal",
+              "v": "10x8x4"
+            },
+            {
+              "k": "literal",
+              "v": "11.25x9x3"
+            },
+            {
+              "k": "literal",
+              "v": "12x9x2"
+            },
+            {
+              "k": "literal",
+              "v": "12x10x4"
+            },
+            {
+              "k": "literal",
+              "v": "13x10x5"
+            },
+            {
+              "k": "literal",
+              "v": "14x10x4"
+            }
+          ]
+        },
+        "PrintSidesOption": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "both-sides"
+            },
+            {
+              "k": "literal",
+              "v": "outside"
+            },
+            {
+              "k": "literal",
+              "v": "inside"
+            },
+            {
+              "k": "literal",
+              "v": "blank"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetQuoteArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -24011,6 +24447,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CreatePostArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.powys": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -32524,6 +32974,33 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.vistaprint": {
       "defs": {
+        "CheckOrderDeadlineArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productType",
+              "schema": {
+                "k": "ref",
+                "name": "ProductType"
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "productSku",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetShippingBoxPriceArgs": {
           "k": "object",
           "props": [
@@ -32549,6 +33026,27 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": false
+            }
+          ]
+        },
+        "ProductType": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "packaging"
+            },
+            {
+              "k": "literal",
+              "v": "cards"
+            },
+            {
+              "k": "literal",
+              "v": "posters"
+            },
+            {
+              "k": "literal",
+              "v": "envelopes"
             }
           ]
         },
@@ -32590,6 +33088,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetShippingBoxPriceArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkOrderDeadline": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckOrderDeadlineArgs"
             },
             "optional": false
           }
@@ -32977,6 +33485,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.wholefoodsmarket": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.winestyles": {
       "defs": {},
       "functions": {
@@ -33351,6 +33873,24 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listCommentReplies": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "continuation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listCaptionTracks": [
           {
             "name": "input",
@@ -33416,6 +33956,194 @@ export const VALIDATORS: ValidatorTable = {
                       "optional": false
                     }
                   ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getPlaylist": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "playlist",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listPlaylistVideos": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "playlist",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "continuation",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listHomeFeed": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWatchLater": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "continuation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listLikedVideos": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "continuation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createPlaylist": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "privacy",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "private"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "unlisted"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "public"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "addToPlaylist": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "playlist",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "videos",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
                 }
               ]
             },

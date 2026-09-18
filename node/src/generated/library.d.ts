@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fc2fdb3553219f5ac1511a29016df63818b1b15b31bda76763ac7a6bda3a0c47
-// 52 capabilities, 422 providers, 1131 typed functions, 20 refused.
+// Manifest version: 96d924c4b0e9cda1c3578dcb38bbcb7723a32b40f13b0c1d4799a92a604de2da
+// 54 capabilities, 426 providers, 1152 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -217,21 +217,25 @@ type CallOptions = {
 
   /**
    * LAST RESORT, and it costs money: hands a plain-language task to a hosted AI browser agent
-   * (Browser Use) when no Bowmark function covers the site or a script against one failed.
-   * Returns a session id and a private link your user can open to watch and take over the live
-   * browser; later scripts poll it, answer its questions and stop it. RUN-ONLY: a typed session
-   * cannot call it (that is refused with code "run_only", and it is never an API-key problem),
-   * and one run is killed at 120s of wall clock — so `start` in one run and poll `status` from
-   * LATER runs, never in a loop inside one.
+   * (Browser Use) when no Bowmark function covers the site or a script against one failed. When
+   * it is the only path left, OFFER it to your user rather than silently declining: say what you
+   * would do, that it costs money, and that they can watch and take over the live browser (log
+   * in, solve a captcha) at the watchUrl `start` returns — then let them decide. Never start a
+   * session without your user knowing it happened. RUN-ONLY: a typed session cannot call it
+   * (that is refused with code "run_only", and it is never an API-key problem), and one run is
+   * killed at 120s of wall clock — so `start` in one run and poll `status` from LATER runs,
+   * never in a loop inside one.
    */
   interface Unit {
     /**
      * Starts a hosted browser agent on `task` and returns at once with its session `id` and a
      * `watchUrl`. Use ONLY after the library had nothing for this site or a function failed — each
-     * turn spends real vendor money, charged to the account. Your account may hold up to 3
-     * concurrent sessions; call `list()` before starting if looping over multiple tasks. Show
-     * `watchUrl` to your user: it lets them watch the agent and take over the browser (log in,
-     * solve a captcha). Then poll with `status`. Always `stop()` a session when done.
+     * turn spends real vendor money, charged to the account. Tell your user you're doing this and
+     * why, before or as you call it — don't decide silently on their behalf just because it's
+     * billed. Your account may hold up to 3 concurrent sessions; call `list()` before starting if
+     * looping over multiple tasks. Show `watchUrl` to your user: it lets them watch the agent and
+     * take over the browser (log in, solve a captcha). Then poll with `status`. Always `stop()` a
+     * session when done.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -1763,6 +1767,25 @@ interface HtmlPreviewResult {
   }
 }
 
+declare namespace BowmarkCapability_mac_trade_in {
+  // ── Mac trade-in value — the unit's own declarations, verbatim ──
+interface MacTradeInEstimate {
+  model: string;
+  chip?: string;
+  storage?: string;
+  ram?: string;
+  condition?: "like_new" | "good" | "fair" | "broken";
+  appleTradeInValue: number | null;
+  warnings: string[];
+}
+
+  /** Get Mac trade-in credit estimates from Apple Trade In. */
+  interface Unit {
+    /** Get the Apple Trade In credit value for a Mac model, with optional specs. */
+    estimate(model: string, options?: { chip?: string; storage?: string; ram?: string; condition?: string }): Promise<MacTradeInEstimate>;
+  }
+}
+
 declare namespace BowmarkCapability_mcp_registry {
   // ── MCP Registry — the unit's own declarations, verbatim ──
 interface McpRegistryEntry {
@@ -3043,6 +3066,92 @@ type CallOptions = {
      * ~33 parks in the covered portfolio.
      */
     search(park: string | { park: string }, options?: CallOptions): Promise<ThemeParkTicketsResult>;
+  }
+}
+
+declare namespace BowmarkCapability_video_library {
+  // ── Video library — the caller's own saved, liked and playlisted videos — the unit's own declarations, verbatim ──
+interface LibraryVideo {
+  videoId: string
+  url: string
+  title: string
+  channel: string | null
+  views: string | null    // the site's own text, e.g. "1.2M views" — never a parsed number
+  length: string | null   // e.g. "22:28"; null for a live stream
+}
+interface LibraryPage {
+  videos: LibraryVideo[]
+  continuation: string | null   // pass back for the next page; null on the last
+  warnings: string[]
+}
+interface CreatePlaylistOptions {
+  title: string
+  description?: string
+  privacy?: "private" | "unlisted" | "public"   // default "private"
+}
+interface CreatedPlaylist {
+  playlistId: string
+  title: string
+  privacy: "private" | "unlisted" | "public"
+  url: string            // show this to your user — it opens the playlist
+  warnings: string[]
+}
+interface AddToPlaylistOptions {
+  playlist: string       // a playlist id, or any URL carrying a "list" param
+  video?: string         // one video id or watch URL
+  videos?: string[]      // or several — sent as ONE edit
+}
+interface PlaylistEdit {
+  playlistId: string
+  added: string[]        // what was sent and accepted, in order — not a per-video receipt
+  url: string
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Reads and writes the caller's OWN YouTube account: their Watch Later list, their liked
+   * videos, and the playlists they keep — including making a new one and adding videos to it.
+   * Needs the caller's YouTube sign-in: the first run answers needs_user with a link to sign in,
+   * and later runs reuse it with no browser.
+   */
+  interface Unit {
+    /**
+     * The videos on the caller's OWN YouTube home page — the personalized recommendation grid, in
+     * YouTube's own order, which is what they see when they open youtube.com right now. It exists
+     * nowhere else: not in YouTube's public API, and logged out the same request answers an EMPTY
+     * grid rather than an error. `continuation` is always null; the home feed is one ranked page.
+     * Needs a YouTube sign-in.
+     */
+    homeFeed(options?: { limit?: number }): Promise<LibraryPage>;
+
+    /**
+     * The caller's own Watch Later queue, newest first. Not reachable through YouTube's public API
+     * at all — Google removed access to this list in 2016. Needs a YouTube sign-in.
+     */
+    watchLater(options?: { continuation?: string }): Promise<LibraryPage>;
+
+    /** The videos the caller has liked, newest first. Needs a YouTube sign-in. */
+    liked(options?: { continuation?: string }): Promise<LibraryPage>;
+
+    /**
+     * Creates an empty playlist on the caller's own account and returns its id and URL. Defaults
+     * to "private". NOT idempotent — calling it twice makes two playlists, because YouTube allows
+     * duplicate titles and picking one for you would be a guess. Needs a YouTube sign-in.
+     */
+    createPlaylist(options: CreatePlaylistOptions): Promise<CreatedPlaylist>;
+
+    /**
+     * Adds one or many videos to one of the caller's own playlists, as a single edit. Adding a
+     * video already in the playlist adds it again — YouTube permits duplicates and does not report
+     * which is which. Needs a YouTube sign-in.
+     */
+    addToPlaylist(options: AddToPlaylistOptions): Promise<PlaylistEdit>;
   }
 }
 
@@ -5434,6 +5543,23 @@ interface AppleStore {
   longitude: number | null;
   hours: AppleStoreHours[];
 }
+interface AppleTodaySession {
+  sessionId: string;
+  title: string;
+  prefix: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  timeZone: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  storeNum: string;
+  storeName: string;
+  icalUrl: string;
+}
+interface AppleTodaySessionList {
+  storeSlug: string;
+  sessions: AppleTodaySession[];
+}
 interface AppleNewsroomPost {
   title: string;
   category: string;
@@ -5589,8 +5715,13 @@ interface AppleCompareModels {
 
     /**
      * Reads one Apple support article end to end — the real instructions under its headline, not a
-     * search snippet — from the docid or URL one of searchSupport()'s own rows carries. The read
-     * an agent reaches for once searchSupport has narrowed the problem to one page.
+     * search snippet — from the docid or URL one of searchSupport()'s own rows carries. Opens a
+     * HelpKB article (docid or URL) and a User Guide page ("url" field only — its own docid
+     * carries no URL apple.com could resolve). An Apple Support Community thread ("thread_<id>"
+     * docid) is refused: discussions.apple.com puts every thread behind a bot-verification
+     * challenge this provider cannot pass browserless yet, so read the row's own "snippet" for
+     * those instead. The read an agent reaches for once searchSupport has narrowed the problem to
+     * one page.
      */
     getSupportArticle(docidOrUrl: string): Promise<AppleSupportArticle>;
 
@@ -5643,6 +5774,13 @@ interface AppleCompareModels {
      * Takes a URL or /retail/ path, e.g. one of listStores()'s own rows.
      */
     getStore(urlOrPath: string): Promise<AppleStore>;
+
+    /**
+     * The free Today at Apple sessions one store is running, with each one's title, description,
+     * start/end time and RSVP status — off the store's own calendar page. Takes a bare store slug
+     * ("unionsquare") or a URL/path from listStores() or getStore()'s own rows.
+     */
+    listTodaySessions(storeSlugOrUrl: string): Promise<AppleTodaySessionList>;
 
     /**
      * Apple's official announcements, newest first, off its own published RSS feed — every product
@@ -9175,6 +9313,7 @@ interface CalendlyAvailabilityResult {
   timezone: string;
   days: CalendlyDay[];
   otherEventTypes: CalendlyEventType[];
+  unavailableReason: string | null;   // non-null = Calendly says this event cannot be booked at all; days is [] BECAUSE of that, not because nothing is open
 }
 
 interface CalendlyFormQuestion {
@@ -9243,7 +9382,9 @@ interface CalendlyFindProfilesResult {
      * Returns the real, currently-open time slots for one Calendly event type — accepts a bare
      * profile slug ("jason-frazier"), a profile url, or a specific event url
      * ("https://calendly.com/jason-frazier/15min"). Given a bare profile, it picks that profile's
-     * first event type and reports the rest in `otherEventTypes`.
+     * first event type and reports the rest in `otherEventTypes`. `days` is empty both when
+     * nothing is open and when Calendly reports the calendar cannot be booked at all (a broken
+     * calendar connection, a deactivated event) — check `unavailableReason` to tell the two apart.
      */
     getAvailability(profile: string, opts?: CalendlyAvailabilityOptions): Promise<CalendlyAvailabilityResult>;
 
@@ -16708,6 +16849,11 @@ interface SearchPlacesResult {
   rating?: number;
   reviewCount?: number;
 }
+interface SearchNearbyArgs {
+  query: string;
+  lat: number;
+  lng: number;
+}
 interface GeocodeAddressArgs {
   address: string;
 }
@@ -16743,6 +16889,8 @@ interface GetPlaceResult {
   rating?: number;
   reviewCount?: number;
   hours?: { day: string; hours: string[] }[];
+  openStatus?: string;
+  warnings?: string[];
 }
 interface ListReviewsArgs {
   query: string;
@@ -16753,6 +16901,10 @@ interface Review {
   rating: number;
   text: string;
   relativeDate?: string;
+}
+interface ListReviewsResult {
+  reviews: Review[];
+  warnings: string[];
 }
 interface ListRelatedPlacesArgs {
   query: string;
@@ -16803,9 +16955,9 @@ interface Photo {
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
    * address, hours, rating, reviews, photos, co-located tenants and route. suggestPlaces
-   * (autocomplete), searchPlaces (the door), geocodeAddress, getPlace, listReviews, listPhotos,
-   * listRelatedPlaces, getDirections, resolvePlaceUrl and reverseGeocode are built; everything
-   * else is still a declared stub.
+   * (autocomplete), searchPlaces (the door), searchNearby (the same door, anchored to a point),
+   * geocodeAddress, getPlace, listReviews, listPhotos, listRelatedPlaces, getDirections,
+   * resolvePlaceUrl and reverseGeocode are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -16822,6 +16974,16 @@ interface Photo {
      * there rather than from a separate coordinate.
      */
     searchPlaces(args: SearchPlacesArgs): Promise<SearchPlacesResult[]>;
+
+    /**
+     * searchPlaces anchored to a POINT instead of resolved from the query text — for a caller
+     * holding coordinates (a pin, a phone's GPS, reverseGeocode's own output) rather than a
+     * locality name. Reuses reverseGeocode's own viewport template spliced into searchPlaces'
+     * field mask: "coffee" anchored at a point returns results within a few hundred meters of it,
+     * measured live against two cities. Without this, a coordinate query has nowhere to go on
+     * searchPlaces and Google answers from whichever city the request happens to exit near.
+     */
+    searchNearby(args: SearchNearbyArgs): Promise<SearchPlacesResult[]>;
 
     /**
      * A street address, a city, or a business name in — the matching Google Maps place, its
@@ -16844,11 +17006,18 @@ interface Photo {
 
     /**
      * Everything Google Maps shows on one business's panel — name, full address, coordinates,
-     * category, neighborhood, phone, website, rating, review count and weekly hours, each present
-     * only when the site's own response carried it. A THIRD reading of searchPlaces' door: takes
-     * the same resolving query geocodeAddress does (typically a name plus address, since this does
-     * not take a feature id — measured live, neither the raw id nor a cid string resolves through
-     * this door), and throws when the query names a category or list rather than one business.
+     * category, neighborhood, phone, website, rating, review count, weekly hours and the site's
+     * own live open/closed line (e.g. "Closed · Opens 7 AM"), each present only when the site's
+     * own response carried it. openStatus is the site's rendered string, not a boolean this
+     * provider computed — hours' display strings carry no timezone, so a caller cannot derive
+     * open-right-now from them without it. This retries a few times to see past a reduced/rich
+     * flap in the site's own response and merges the richest draw; `warnings` is non-empty when
+     * every attempt drew the reduced record, meaning reviewCount/hours/openStatus could not be
+     * confirmed either way rather than being genuinely absent. A THIRD reading of searchPlaces'
+     * door: takes the same resolving query geocodeAddress does (typically a name plus address,
+     * since this does not take a feature id — measured live, neither the raw id nor a cid string
+     * resolves through this door), and throws when the query names a category or list rather than
+     * one business.
      */
     getPlace(args: GetPlaceArgs): Promise<GetPlaceResult>;
 
@@ -16859,11 +17028,12 @@ interface Photo {
      * (the same record getPlace reads, one section further in), not the listugcposts route the
      * survey planned: that route needed a session token minted by a place-page bootstrap that was
      * never cracked, but the same reviews the token would have fetched are already sitting in the
-     * panel response. Takes the same resolving query getPlace does. Returns [] for a place with no
-     * reviews rather than throwing; throws only when the query itself does not resolve to one
-     * place.
+     * panel response. Takes the same resolving query getPlace does. `reviews` is [] for a place
+     * with no reviews; `warnings` says so when the site's own panel reports reviews that never
+     * rendered across every attempt — a thin draw, not a review-less business. Throws only when
+     * the query itself does not resolve to one place.
      */
-    listReviews(args: ListReviewsArgs): Promise<Review[]>;
+    listReviews(args: ListReviewsArgs): Promise<ListReviewsResult>;
 
     /**
      * Other businesses Google Maps lists "At this place" — the site's own label for a shared
@@ -17090,8 +17260,10 @@ interface GoogleNewsFullCoverage {
      * exit made the request) — each with the opaque topic id `getTopicHeadlines` takes. Read off
      * the home page's own embedded `AF_initDataCallback({key: 'ds:2'…})` state rather than scraped
      * from the rendered nav, so it needs no browser. The finder that makes a topic id reachable by
-     * somebody who only holds words. `locale` — `{ hl, gl, ceid }` — asks for another
-     * country/language edition's own nav rail; omitted, the US English one.
+     * somebody who only holds words. The "Your local news" entry's id is NOT a topic feed — the
+     * site serves it by geo-locating the reader — so `getTopicHeadlines` and `listStories` both
+     * refuse it and name `listLocalHeadlines` instead. `locale` — `{ hl, gl, ceid }` — asks for
+     * another country/language edition's own nav rail; omitted, the US English one.
      */
     listTopics(locale?: GoogleNewsLocaleArg): Promise<GoogleNewsTopic[]>;
 
@@ -17102,13 +17274,17 @@ interface GoogleNewsFullCoverage {
      * `/rss/headlines/section/topic/<NAME>`) — the only difference is the key, since a topic id
      * has no canonical spelling for the site to correct it to. Measured 2026-09-15: the Technology
      * section's own topic id answers the identical feed shape as its section-name door, 70 items,
-     * titled "Technology - Latest - Google News". THE ONLY IDS REACHABLE WITHOUT AN ACCOUNT ARE
-     * THE NINE `listTopics` RETURNS. Google News also runs entity and interest topics (a company,
-     * a person, a sports league), but measured 2026-09-16 nothing logged-out hands their ids out —
-     * a topic page, a story page, `/home` and `/publications` each carry only the nav rail's own
-     * nine, and the HTML `/search` page that renders the entity's Follow chip answers 429 through
-     * the proxy. To follow a company or a person today, use `searchNews`. `locale` — `{ hl, gl,
-     * ceid }` — asks for another country/language edition; omitted, the US English one.
+     * titled "Technology - Latest - Google News". EIGHT OF THE NINE `listTopics` IDS ARE REACHABLE
+     * WITHOUT AN ACCOUNT; the ninth — "Your local news" — is refused before any request, since the
+     * site serves it by geo-locating the reader rather than from a topic feed (measured
+     * 2026-09-17: that id 404s here and returns zero stories from `listStories`, with no error).
+     * Call `listLocalHeadlines("<city>")` for that entry instead. Google News also runs entity and
+     * interest topics (a company, a person, a sports league), but measured 2026-09-16 nothing
+     * logged-out hands their ids out — a topic page, a story page, `/home` and `/publications`
+     * each carry only the nav rail's own nine, and the HTML `/search` page that renders the
+     * entity's Follow chip answers 429 through the proxy. To follow a company or a person today,
+     * use `searchNews`. `locale` — `{ hl, gl, ceid }` — asks for another country/language edition;
+     * omitted, the US English one.
      */
     getTopicHeadlines(topicId: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsTopicFeed>;
 
@@ -17120,9 +17296,14 @@ interface GoogleNewsFullCoverage {
      * instead, which surfaces far fewer (2 measured) since most front-page items are
      * single-outlet. Reads the "Full Coverage" anchor Google News renders on every multi-outlet
      * story directly off the page's HTML, rather than the page's own embedded state — no RSS feed
-     * on this site emits a story id at all, so this is the only door. `locale` — `{ hl, gl, ceid
-     * }` — asks for another country/language edition of whichever page is read; omitted, the US
-     * English one.
+     * on this site emits a story id at all, so this is the only door. A `topicId` from
+     * `listTopics`' "Your local news" entry is refused before any request — that entry is not a
+     * topic feed; call `listLocalHeadlines("<city>")` instead (measured 2026-09-17: without this
+     * check the id silently answered 200 with zero stories). `locale` — `{ hl, gl, ceid }` — asks
+     * for another country/language edition of whichever page is read; omitted, the US English one.
+     * The `storyId` each result carries has that same edition baked in, so passing it straight
+     * into `getFullCoverage` with no `locale` argument reads the right edition automatically — see
+     * `getFullCoverage`'s own note.
      */
     listStories(topicId?: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsStory[]>;
 
@@ -17139,8 +17320,12 @@ interface GoogleNewsFullCoverage {
      * already carries its own publisher URL: the STORY PAGE ITSELF is read in whichever edition is
      * asked for, and reading it in the wrong one silently truncates or empties the coverage
      * (measured 2026-09-16: the same story id answered 0 articles under the US default and 53
-     * under `{ hl: "es-419", gl: "MX", ceid: "MX:es" }`). Pass the SAME locale the `listStories`
-     * call that produced this id used; omitted, the US English edition.
+     * under `{ hl: "es-419", gl: "MX", ceid: "MX:es" }`). A `storyId` FROM `listStories` already
+     * carries the edition it was found under, so leaving `locale` unset here reads that SAME
+     * edition automatically — pass an explicit `locale` only to read a story you found some other
+     * way, and it must agree with the id's own encoded edition or the call is refused rather than
+     * silently truncated (measured live 2026-09-17: a wrong edition can render a place or topic
+     * label that reads like a real headline).
      */
     getFullCoverage(storyId: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsFullCoverage>;
   }
@@ -26467,6 +26652,51 @@ interface OnTheMarketProperty {
   }
 }
 
+declare namespace BowmarkProvider_originenergy_com_au {
+  // ── Origin Energy — the unit's own declarations, verbatim ──
+// Origin Energy's OWN shapes — not a capability contract.
+
+interface OriginBusinessElectricityPlan {
+  title: string;
+  code: string;               // e.g. "E_SMEGOVARIABLEOG_8PC_VAR_AUSGRID_260701_CP"
+  description: string;
+  contractPeriod: number | null;
+  distributor: string | null;       // e.g. "Ausgrid Operations Partnership"
+  tariffName: string | null;        // e.g. "Business, single rate"
+  referenceUsage: string;           // e.g. "10000 kWh / yearly"
+  annualCost: number | null;
+  monthlyCost: number | null;
+  referenceCost: number | null;     // the DMO/VDO benchmark this plan compares against
+  percentSavingVsReference: number | null;
+  isRegulated: boolean;
+}
+
+interface OriginBusinessElectricityQuote {
+  postcode: string;
+  state: string;               // derived from the postcode, not asked of the caller
+  serviceable: boolean;        // false where Origin does not retail electricity (e.g. WA, TAS, NT)
+  plans: OriginBusinessElectricityPlan[];
+}
+
+interface OriginBusinessElectricityQuoteArgs { postcode: string }
+
+  /**
+   * Origin Energy business electricity quoting — every plan Origin offers in a postcode's
+   * distributor territory, priced at the regulator's standard reference consumption, the same
+   * live call the site's own 'Compare business plans' page makes.
+   */
+  interface Unit {
+    /**
+     * Returns every business electricity plan Origin Energy offers in a postcode's distributor
+     * territory, each priced at the regulator's standard reference consumption (10,000 kWh/year) —
+     * the same live call the site's own 'Compare business plans' page makes. `serviceable: false`
+     * with an empty `plans` array is Origin's own honest answer for a postcode it does not retail
+     * electricity into (WA, TAS, NT), not a failure.
+     */
+    getBusinessElectricityQuote(arg0: OriginBusinessElectricityQuoteArgs): Promise<OriginBusinessElectricityQuote>;
+  }
+}
+
 declare namespace BowmarkProvider_othership {
   // ── Othership — the unit's own declarations, verbatim ──
 // Othership's OWN shapes — not a capability contract.
@@ -26787,6 +27017,42 @@ interface PacificLifestyleHomesListing { id: string; address: string; city: stri
      * detail-page handoff URL.
      */
     searchAvailableHomes(args?: PacificLifestyleHomesSearchArgs): Promise<PacificLifestyleHomesListing[]>;
+  }
+}
+
+declare namespace BowmarkProvider_packlane {
+  // ── Packlane — the unit's own declarations, verbatim ──
+type MailerBoxSize = "5x3x1.5" | "6x4x3" | "6x5x2.25" | "7x5x3" | "8x6x3" | "9x6x4"
+  | "9x7x2.25" | "9.5x7.75x4" | "10x8x4" | "11.25x9x3" | "12x9x2" | "12x10x4" | "13x10x5" | "14x10x4";
+type MailerBoxMaterial = "white" | "white-b-flute" | "dreamcoat" | "dreamcoat-b-flute" | "kraft" | "kraft-b-flute";
+type PrintSidesOption = "both-sides" | "outside" | "inside" | "blank";
+
+interface GetQuoteArgs {
+  size: MailerBoxSize;
+  material: MailerBoxMaterial;
+  printSides: PrintSidesOption;
+  quantity: number;
+}
+
+interface packlaneQuote {
+  size: MailerBoxSize;
+  material: MailerBoxMaterial;
+  printSides: PrintSidesOption;
+  quantity: number;
+  unitPrice: { amount: number; currency: string };
+  totalPrice: { amount: number; currency: string };
+  sku: string;
+  itemName: string;
+  turnaroundDays: number;
+}
+
+  /** Instant custom Mailer Box quotes from packlane.com. */
+  interface Unit {
+    /**
+     * Prices a custom Mailer Box (size, material, printed sides, quantity) via packlane.com's own
+     * on-page calculator API.
+     */
+    getQuote(args: GetQuoteArgs): Promise<packlaneQuote>;
   }
 }
 
@@ -27621,6 +27887,33 @@ interface CreatePostArgs {
 
     /** Create and schedule a new post across a connected social media account. */
     createPost(args: CreatePostArgs): Promise<PostizPost>;
+  }
+}
+
+declare namespace BowmarkProvider_powys {
+  // ── Powys planning applications — the unit's own declarations, verbatim ──
+interface powysApplication {
+  reference: string;
+  description: string;
+  address: string;
+  applicant: string;
+  dateSubmitted: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  decision?: string;
+}
+
+interface powysSearchResult {
+  results: powysApplication[];
+}
+
+  /** Search Powys County Council planning applications by reference, address, or description. */
+  interface Unit {
+    /**
+     * Searches Powys County Council planning applications. Takes a required search term or
+     * reference (e.g., 'P/2024/0123' for a reference or 'Main Street' for an address) and returns
+     * matching applications with their status and decision details.
+     */
+    search(query: string): Promise<powysSearchResult>;
   }
 }
 
@@ -34417,6 +34710,7 @@ declare namespace BowmarkProvider_vistaprint {
   // ── Vistaprint — the unit's own declarations, verbatim ──
 type ShippingBoxSize = "11x8.5x5.5" | "12x12x5.5" | "13x13x10";
 type ShippingBoxPrintArea = "inside-and-outside" | "outside-only";
+type ProductType = "packaging" | "cards" | "posters" | "envelopes";
 
 interface GetShippingBoxPriceArgs {
   size: ShippingBoxSize;
@@ -34432,10 +34726,24 @@ interface ShippingBoxPrice {
   unitPrice: { amount: number; currency: string };
 }
 
+interface CheckOrderDeadlineArgs {
+  productType: ProductType;
+  quantity: number;
+  productSku?: string;
+}
+
+interface OrderDeadlineInfo {
+  productType: ProductType;
+  quantity: number;
+  orderDeadline: string;  // e.g., "Order by 2pm PT today"
+  turnaroundHours: number;
+  estimatedDelivery: string;  // ISO 8601 date
+}
+
   /**
-   * Prices Vistaprint's Full-Print Shipping Boxes for a real size, print area and quantity — the
-   * live, quantity-tiered price the site's own PDP configurator computes, with no browser,
-   * account or cart. Custom printed boxes, mailer boxes and packaging boxes.
+   * Prices Vistaprint's Full-Print Shipping Boxes and checks order deadlines for packaging,
+   * cards, posters and envelopes — real, quantity-tiered pricing and turnaround times the site's
+   * own PDP computes, with no browser, account or cart.
    */
   interface Unit {
     /**
@@ -34445,6 +34753,13 @@ interface ShippingBoxPrice {
      * caller-fixable error for a size/printArea/quantity combination Vistaprint has no price for.
      */
     getShippingBoxPrice(args: GetShippingBoxPriceArgs): Promise<ShippingBoxPrice>;
+
+    /**
+     * Checks the order deadline and turnaround time for Vistaprint products — the latest date/time
+     * an order must be placed for standard delivery and the estimated delivery date, parsed from
+     * the product page.
+     */
+    checkOrderDeadline(args: CheckOrderDeadlineArgs): Promise<OrderDeadlineInfo>;
   }
 }
 
@@ -34860,6 +35175,30 @@ interface wellfoundCompanyDetail {
   }
 }
 
+declare namespace BowmarkProvider_wholefoodsmarket {
+  // ── Whole Foods Market — the unit's own declarations, verbatim ──
+interface Product {
+  id: string;
+  name: string;
+  price?: number;
+  unit?: string;
+}
+
+interface SearchResults {
+  products: Product[];
+  warnings: string[];
+}
+
+  /** Search Whole Foods products and find stores */
+  interface Unit {
+    /**
+     * Searches Whole Foods products by query and returns results with name, price, and
+     * availability.
+     */
+    search(query: string): Promise<SearchResults>;
+  }
+}
+
 declare namespace BowmarkProvider_winestyles {
   // ── WineStyles — the unit's own declarations, verbatim ──
 interface WinestylesStore {
@@ -35224,10 +35563,26 @@ interface YoutubeComment {
   replyCount: number;
   isPinned: boolean;
   isHeartedByCreator: boolean;
+  repliesContinuation: string | null; // pass to listCommentReplies as { continuation }; null when replyCount is 0
 }
 
 interface YoutubeCommentPage {
   comments: YoutubeComment[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
+interface YoutubeCommentReply {
+  commentId: string;
+  author: string;
+  authorChannelId: string | null;
+  text: string;
+  likeCount: string;      // same convention as YoutubeComment.likeCount
+  publishedTime: string;  // YouTube's own relative phrase, e.g. "1 year ago"
+  isHeartedByCreator: boolean;
+}
+
+interface YoutubeCommentReplyPage {
+  replies: YoutubeCommentReply[];
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
@@ -35264,6 +35619,49 @@ interface YoutubeChannelVideo {
 
 interface YoutubeChannelVideoPage {
   videos: YoutubeChannelVideo[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
+interface YoutubePlaylist {
+  playlistId: string;
+  title: string;
+  description: string;       // "" when the playlist has none (e.g. a channel's auto Uploads playlist)
+  channelId: string | null;
+  channelTitle: string | null;
+  videoCount: number | null;
+  viewCount: number | null;
+  lastUpdated: string | null; // YouTube's own text: an absolute date, or "N days ago" on an Uploads playlist
+  thumbnail: string | null;
+}
+
+interface YoutubePlaylistVideo {
+  videoId: string;
+  url: string;
+  title: string;
+  channelId: string | null;   // the PUBLISHING channel, which can differ from the playlist owner
+  channelTitle: string | null;
+  views: string | null;       // YouTube's own abbreviated text, e.g. "4.9M views"
+  published: string | null;   // YouTube's own phrase, e.g. "5 years ago"
+  publishedAgeSeconds: number | null;
+  length: string | null;      // e.g. "1:00:02"; null for a live stream
+  thumbnail: string | null;
+}
+
+interface YoutubeCreatedPlaylist {
+  playlistId: string;
+  title: string;
+  privacy: "private" | "unlisted" | "public";
+  url: string;                 // open this to see it
+}
+
+interface YoutubePlaylistEdit {
+  playlistId: string;
+  added: string[];             // what was sent and accepted, in order — not a per-video receipt
+  url: string;
+}
+
+interface YoutubePlaylistVideoPage {
+  videos: YoutubePlaylistVideo[];
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
@@ -35320,6 +35718,16 @@ interface YoutubeChannelVideoPage {
     listComments(input: { video: string; sortBy?: "top" | "newest" } | { continuation: string }): Promise<YoutubeCommentPage>;
 
     /**
+     * The replies under one comment thread, which YouTube hides behind a "N replies" button and
+     * never ships with the thread itself. `continuation` is a thread's own `repliesContinuation`
+     * off a `listComments` row (null when it has no replies) for the first page, or this
+     * function's own returned `continuation` for the next one; it is null once there are no more
+     * pages. Each reply carries its author, text, like count and whether the creator hearted it —
+     * no reply count or pinned flag, since a reply cannot itself be a thread or be pinned.
+     */
+    listCommentReplies(input: { continuation: string }): Promise<YoutubeCommentReplyPage>;
+
+    /**
      * Which languages a video's captions are available in, whether each was written by a
      * human/uploader or generated by YouTube itself, and which one `getTranscript` reads by
      * default. `video` is a bare 11-character video id or any watch/shorts/embed/live/youtu.be
@@ -35350,6 +35758,64 @@ interface YoutubeChannelVideoPage {
      * are no more pages.
      */
     listChannelVideos(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelVideoPage>;
+
+    /**
+     * A playlist's own facts: title, description, the channel that owns it, exact video and view
+     * counts, and when it was last updated (an absolute date on an ordinary playlist, YouTube's
+     * own relative phrase like "5 days ago" on a channel's auto-generated Uploads playlist).
+     * `playlist` is a playlist id or any playlist/watch URL carrying a `list` param — including a
+     * channel's Uploads playlist, whose id is always `"UU" + channelId.slice(2)`.
+     */
+    getPlaylist(input: { playlist: string }): Promise<YoutubePlaylist>;
+
+    /**
+     * The videos inside a playlist, in the playlist's own order and paged — each video's id, url,
+     * title, the channel that PUBLISHED it (not necessarily the playlist owner), YouTube's own
+     * abbreviated view-count text, upload age, length and thumbnail. `playlist` takes the same id
+     * or URL `getPlaylist` does, including a channel's Uploads playlist (`"UU" +
+     * channelId.slice(2)`). Pass back `continuation` alone — no `playlist` needed — to read the
+     * next page; it is null once there are no more pages.
+     */
+    listPlaylistVideos(input: { playlist: string } | { continuation: string }): Promise<YoutubePlaylistVideoPage>;
+
+    /**
+     * The videos on the signed-in account's own YouTube home page — the personalized
+     * recommendation grid, in YouTube's own order, which is what that account actually sees on
+     * youtube.com right now. NEEDS A SIGN-IN and exists nowhere else: it is not in the public Data
+     * API, and logged out the same request answers 200 with an EMPTY grid rather than an error.
+     * Call `bowmark.video_library.homeFeed` rather than this directly.
+     */
+    listHomeFeed(input?: { limit?: number }): Promise<YoutubeSearchVideo[]>;
+
+    /**
+     * The signed-in account's Watch Later queue, newest first, paged like any playlist. NEEDS A
+     * SIGN-IN, and a grant is issued to a capability — call `bowmark.video_library.watchLater`
+     * rather than this directly. Not reachable through YouTube's public Data API at all: Google
+     * removed access to the `WL` list in 2016.
+     */
+    listWatchLater(input?: { continuation?: string }): Promise<YoutubePlaylistVideoPage>;
+
+    /**
+     * The videos the signed-in account has liked, newest first, paged like any playlist. NEEDS A
+     * SIGN-IN — call `bowmark.video_library.liked` rather than this directly.
+     */
+    listLikedVideos(input?: { continuation?: string }): Promise<YoutubePlaylistVideoPage>;
+
+    /**
+     * Creates an EMPTY playlist on the signed-in account and returns its id and URL. `privacy`
+     * defaults to "private". NOT idempotent — YouTube allows duplicate titles, so calling twice
+     * makes two playlists. NEEDS A SIGN-IN — call `bowmark.video_library.createPlaylist` rather
+     * than this directly.
+     */
+    createPlaylist(input: { title: string; description?: string; privacy?: "private" | "unlisted" | "public" }): Promise<YoutubeCreatedPlaylist>;
+
+    /**
+     * Adds one or many videos to one of the signed-in account's own playlists, as a SINGLE edit
+     * rather than one request per video. YouTube permits duplicates, so adding a video already
+     * present adds it again. NEEDS A SIGN-IN — call `bowmark.video_library.addToPlaylist` rather
+     * than this directly.
+     */
+    addToPlaylist(input: { playlist: string; video?: string; videos?: string[] }): Promise<YoutubePlaylistEdit>;
   }
 }
 
@@ -36549,12 +37015,14 @@ interface BowmarkProviders {
   oanda: BowmarkProvider_oanda.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
   onthemarket: BowmarkProvider_onthemarket.Unit;
+  originenergy_com_au: BowmarkProvider_originenergy_com_au.Unit;
   othership: BowmarkProvider_othership.Unit;
   otto: BowmarkProvider_otto.Unit;
   outdoorresearch: BowmarkProvider_outdoorresearch.Unit;
   pacificabeauty: BowmarkProvider_pacificabeauty.Unit;
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
+  packlane: BowmarkProvider_packlane.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
@@ -36567,6 +37035,7 @@ interface BowmarkProviders {
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
   postiz: BowmarkProvider_postiz.Unit;
+  powys: BowmarkProvider_powys.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
   prime_video: BowmarkProvider_prime_video.Unit;
   progressive: BowmarkProvider_progressive.Unit;
@@ -36657,6 +37126,7 @@ interface BowmarkProviders {
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
   wearehirschfeld: BowmarkProvider_wearehirschfeld.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
+  wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   ycombinator: BowmarkProvider_ycombinator.Unit;
@@ -88413,6 +88883,7 @@ interface BowmarkLibrary {
   istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
   local_database_gui: BowmarkCapability_local_database_gui.Unit;
   local_html_preview: BowmarkCapability_local_html_preview.Unit;
+  mac_trade_in: BowmarkCapability_mac_trade_in.Unit;
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
@@ -88436,6 +88907,7 @@ interface BowmarkLibrary {
   tariff: BowmarkCapability_tariff.Unit;
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
   theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;
+  video_library: BowmarkCapability_video_library.Unit;
   weather: BowmarkCapability_weather.Unit;
   web_form_fields: BowmarkCapability_web_form_fields.Unit;
   wireless: BowmarkCapability_wireless.Unit;
