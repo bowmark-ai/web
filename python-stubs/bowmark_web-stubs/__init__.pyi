@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5b86fd0bc187d792a0c06c764d6a82d7abcfc688f4c3c652b319642858731c6a
-# 54 capabilities, 428 providers, 1136 typed functions, 20 refused.
+# Manifest version: 9c4cdd23b799c201b0ffe9aa5149b42e10cae71ef5453ccb635e2a5b6e092ab7
+# 54 capabilities, 428 providers, 1137 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19019,6 +19019,28 @@ class Prv_youtube_YoutubeCommentReply_Out(TypedDict):
     publishedTime: str
     isHeartedByCreator: bool
 
+class Prv_youtube_listRelatedVideos_input_u0_In(TypedDict):
+    video: str
+
+class Prv_youtube_listRelatedVideos_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeRelatedVideoPage_Out(TypedDict):
+    videos: list[Prv_youtube_YoutubeRelatedVideo_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubeRelatedVideo_Out(TypedDict):
+    videoId: str
+    url: str
+    title: str
+    channel: str | None
+    channelId: str | None
+    views: str | None
+    published: str | None
+    publishedAgeSeconds: float | None
+    length: str | None
+    thumbnail: str | None
+
 class Prv_youtube_listCaptionTracks_input_In(TypedDict):
     video: str
 
@@ -32525,6 +32547,15 @@ class Prv_youtube(Protocol):
         once there are no more pages. Each reply carries its author, text, like count and
         whether the creator hearted it — no reply count or pinned flag, since a reply cannot
         itself be a thread or be pinned.
+        """
+
+    async def listRelatedVideos(self, input: Prv_youtube_listRelatedVideos_input_u0_In | Prv_youtube_listRelatedVideos_input_u1_In, /) -> Prv_youtube_YoutubeRelatedVideoPage_Out:
+        """The videos YouTube itself puts next to this one — the "up next" rail — each with its id,
+        title, channel, YouTube's own abbreviated view-count text (e.g. "206M", without the word
+        "views"), upload age, length and thumbnail. `video` is a bare 11-character video id or
+        any watch/shorts/embed/live/youtu.be URL, exactly as `getTranscript` takes it. Pass back
+        `continuation` alone — no `video` needed — to read the next page; it is null once
+        YouTube offers no further "Show more", which some videos never do even on page 1.
         """
 
     async def listCaptionTracks(self, input: Prv_youtube_listCaptionTracks_input_In, /) -> list[Prv_youtube_YoutubeCaptionTrack_Out]:

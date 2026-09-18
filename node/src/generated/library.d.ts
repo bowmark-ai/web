@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5b86fd0bc187d792a0c06c764d6a82d7abcfc688f4c3c652b319642858731c6a
-// 54 capabilities, 428 providers, 1154 typed functions, 20 refused.
+// Manifest version: 9c4cdd23b799c201b0ffe9aa5149b42e10cae71ef5453ccb635e2a5b6e092ab7
+// 54 capabilities, 428 providers, 1155 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35682,6 +35682,24 @@ interface YoutubeChannelVideoPage {
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
+interface YoutubeRelatedVideo {
+  videoId: string;
+  url: string;
+  title: string;
+  channel: string | null;
+  channelId: string | null;
+  views: string | null;       // YouTube's own abbreviated text, e.g. "206M" — the bare number, not "206M views"
+  published: string | null;   // YouTube's own phrase, e.g. "16y ago"
+  publishedAgeSeconds: number | null;
+  length: string | null;      // e.g. "3:24"; null for a live stream
+  thumbnail: string | null;
+}
+
+interface YoutubeRelatedVideoPage {
+  videos: YoutubeRelatedVideo[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
 interface YoutubePlaylist {
   playlistId: string;
   title: string;
@@ -35786,6 +35804,16 @@ interface YoutubePlaylistVideoPage {
      * no reply count or pinned flag, since a reply cannot itself be a thread or be pinned.
      */
     listCommentReplies(input: { continuation: string }): Promise<YoutubeCommentReplyPage>;
+
+    /**
+     * The videos YouTube itself puts next to this one — the "up next" rail — each with its id,
+     * title, channel, YouTube's own abbreviated view-count text (e.g. "206M", without the word
+     * "views"), upload age, length and thumbnail. `video` is a bare 11-character video id or any
+     * watch/shorts/embed/live/youtu.be URL, exactly as `getTranscript` takes it. Pass back
+     * `continuation` alone — no `video` needed — to read the next page; it is null once YouTube
+     * offers no further "Show more", which some videos never do even on page 1.
+     */
+    listRelatedVideos(input: { video: string } | { continuation: string }): Promise<YoutubeRelatedVideoPage>;
 
     /**
      * Which languages a video's captions are available in, whether each was written by a
