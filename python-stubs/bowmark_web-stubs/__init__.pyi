@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 4c0694e1c0ee2cef92a0b90bfa9452f4fbfa9b0f84207866d4f9f23acd3fcec8
-# 54 capabilities, 426 providers, 1134 typed functions, 20 refused.
+# Manifest version: 8374434d1872488b9eed5ac945ea99c62cedb6df3888876d725b3605125ad587
+# 54 capabilities, 427 providers, 1135 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7573,6 +7573,24 @@ class Prv_embroker_EmbrokerQuoteEntryPoint_Out(TypedDict):
     productLabel: str
     url: str
     reachable: bool
+
+class Prv_energyaustralia_com_au_getBusinessElectricityQuote_arg0_In(TypedDict):
+    postcode: str
+
+class Prv_energyaustralia_com_au_EnergyaustraliaBusinessQuote_Out(TypedDict):
+    postcode: str
+    state: str
+    serviceable: bool
+    plans: list[Prv_energyaustralia_com_au_EnergyaustraliaBusinessQuote_Out_plans_item_Out]
+
+class Prv_energyaustralia_com_au_EnergyaustraliaBusinessQuote_Out_plans_item_Out(TypedDict):
+    name: str
+    displayName: str
+    retailer: str
+    annualCost: float
+    monthlyEstimate: float
+    ratePerUnit: float
+    dmoReference: float
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -24382,6 +24400,15 @@ class Prv_embroker(Protocol):
         quote-wizard products.
         """
 
+class Prv_energyaustralia_com_au(Protocol):
+    """Priced business electricity plans in a postcode's distributor territory."""
+
+    async def getBusinessElectricityQuote(self, arg0: Prv_energyaustralia_com_au_getBusinessElectricityQuote_arg0_In, /) -> Prv_energyaustralia_com_au_EnergyaustraliaBusinessQuote_Out:
+        """Returns every business electricity plan EnergyAustralia offers in a postcode's
+        distributor territory, each priced at the regulator's standard reference consumption
+        (10,000 kWh/year) — the same live call the site's own business quote page makes.
+        """
+
 class Prv_epromos(Protocol):
     """ePromos' own product configurator and bulk-pricing tables off its live product pages —
     real tiered per-unit prices for a caller-given quantity, not a stale mirror — plus the
@@ -32748,6 +32775,7 @@ class BowmarkProviders(Protocol):
     elase: Prv_elase
     elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
+    energyaustralia_com_au: Prv_energyaustralia_com_au
     epromos: Prv_epromos
     eq3: Prv_eq3
     equinox_hotels: Prv_equinox_hotels

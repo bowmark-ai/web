@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1629 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1630 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -498,6 +498,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `embroker.getBusinessInsuranceQuote` | embroker.com | Returns a priced business-insurance coverage package for a company's profile… | ⚪ |
 | `embroker.getQuoteEntryPoint` | embroker.com | Returns the live entry URL for Embroker's self-serve quote wizard for one coverage… | 🟢 |
 | `embroker.listCoverageLines` | embroker.com | Returns the real list of commercial-insurance coverage lines and policy product types… | 🟢 |
+| `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | 🟢 |
 | `epromos.getProductConfiguration` | epromos.com | Reads one ePromos product's own configurator off its product page — every color/style… | 🟢 |
 | `epromos.listCategoryProducts` | epromos.com | Lists the products ePromos features on one of its category landing pages (e.g.… | 🟢 |
 | `epromos.quoteBulkPrice` | epromos.com | Computes the real per-unit and total price for one product at a caller-given quantity… | 🟢 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4c0694e1c0ee2cef92a0b90bfa9452f4fbfa9b0f84207866d4f9f23acd3fcec8
-// 54 capabilities, 426 providers, 1152 typed functions, 20 refused.
+// Manifest version: 8374434d1872488b9eed5ac945ea99c62cedb6df3888876d725b3605125ad587
+// 54 capabilities, 427 providers, 1153 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13911,6 +13911,34 @@ interface EmbrokerQuoteEntryPoint {
      * quote-wizard products.
      */
     getQuoteEntryPoint(args: { product: string }): Promise<EmbrokerQuoteEntryPoint>;
+  }
+}
+
+declare namespace BowmarkProvider_energyaustralia_com_au {
+  // ── EnergyAustralia — business electricity quote — the unit's own declarations, verbatim ──
+interface EnergyaustraliaBusinessQuote {
+  postcode: string;
+  state: string;
+  serviceable: boolean;
+  plans: Array<{
+    name: string;
+    displayName: string;
+    retailer: string;
+    annualCost: number;
+    monthlyEstimate: number;
+    ratePerUnit: number;
+    dmoReference: number;
+  }>;
+}
+
+  /** Priced business electricity plans in a postcode's distributor territory. */
+  interface Unit {
+    /**
+     * Returns every business electricity plan EnergyAustralia offers in a postcode's distributor
+     * territory, each priced at the regulator's standard reference consumption (10,000 kWh/year) —
+     * the same live call the site's own business quote page makes.
+     */
+    getBusinessElectricityQuote(arg0: { postcode: string }): Promise<EnergyaustraliaBusinessQuote>;
   }
 }
 
@@ -36876,6 +36904,7 @@ interface BowmarkProviders {
   elase: BowmarkProvider_elase.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
+  energyaustralia_com_au: BowmarkProvider_energyaustralia_com_au.Unit;
   epromos: BowmarkProvider_epromos.Unit;
   eq3: BowmarkProvider_eq3.Unit;
   equinox_hotels: BowmarkProvider_equinox_hotels.Unit;

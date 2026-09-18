@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4c0694e1c0ee2cef92a0b90bfa9452f4fbfa9b0f84207866d4f9f23acd3fcec8
-// 1134 checked, 20 unchecked.
+// Manifest version: 8374434d1872488b9eed5ac945ea99c62cedb6df3888876d725b3605125ad587
+// 1135 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4c0694e1c0ee2cef92a0b90bfa9452f4fbfa9b0f84207866d4f9f23acd3fcec8",
+  "version": "8374434d1872488b9eed5ac945ea99c62cedb6df3888876d725b3605125ad587",
   "units": {
     "booking_links": {
       "defs": {
@@ -12774,6 +12774,29 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "product",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.energyaustralia_com_au": {
+      "defs": {},
+      "functions": {
+        "getBusinessElectricityQuote": [
+          {
+            "name": "arg0",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "postcode",
                   "schema": {
                     "k": "string"
                   },
