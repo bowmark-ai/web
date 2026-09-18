@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0c69bbc31cecdc33189f5e43d1c5d1f8ef712e2f2179688b65c40eef91793f5d
-// 54 capabilities, 428 providers, 1155 typed functions, 20 refused.
+// Manifest version: da8144ef566fd396e25a1d11399df876b39f410ee2bde6abfb6d60c4dc3af958
+// 54 capabilities, 428 providers, 1157 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3091,6 +3091,13 @@ interface CreatePlaylistOptions {
   // "unlisted" and "public" need the signed-in account to HAVE a YouTube channel;
   // "private" does not. Without one the call fails and says so.
 }
+interface CreatedChannel {
+  channelId: string
+  name: string           // the account's own Google profile name
+  url: string
+  alreadyExisted: boolean // true when it already had one; nothing was created
+  warnings: string[]
+}
 interface CreatedPlaylist {
   playlistId: string
   title: string
@@ -3144,11 +3151,24 @@ type CallOptions = {
     /**
      * Creates an empty playlist on the caller's own account and returns its id and URL. Defaults
      * to "private". A "public" or "unlisted" playlist also needs the account to have a YouTube
-     * channel — a private one does not — and the call says so when it is missing. NOT idempotent —
-     * calling it twice makes two playlists, because YouTube allows duplicate titles and picking
-     * one for you would be a guess. Needs a YouTube sign-in.
+     * channel — a private one does not — and the call says so when it is missing; `createChannel`
+     * makes one, with the account holder's say-so. NOT idempotent — calling it twice makes two
+     * playlists, because YouTube allows duplicate titles and picking one for you would be a guess.
+     * Needs a YouTube sign-in.
      */
     createPlaylist(options: CreatePlaylistOptions): Promise<CreatedPlaylist>;
+
+    /**
+     * Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and photo —
+     * there is nothing to fill in, because YouTube's own dialog offers nothing. Most Google
+     * accounts have never had one, and without one YouTube REFUSES to create a public or unlisted
+     * playlist (a private one still works, because that belongs to the account rather than to a
+     * channel). THIS ACCEPTS YOUTUBE'S TERMS OF SERVICE for the account holder, exactly as their
+     * own Create channel button does — so call it when the person whose account it is has asked
+     * for a channel, and never on your own to clear an error. Safe to call twice: an account that
+     * already has one gets `alreadyExisted: true` and nothing is created. Needs a YouTube sign-in.
+     */
+    createChannel(): Promise<CreatedChannel>;
 
     /**
      * Adds one or many videos to one of the caller's own playlists, as a single edit. Adding a
@@ -35736,6 +35756,13 @@ interface YoutubePlaylistVideo {
   thumbnail: string | null;
 }
 
+interface YoutubeCreatedChannel {
+  channelId: string;
+  name: string;                // the account's own Google profile name
+  url: string;
+  alreadyExisted: boolean;     // true when the account already had one; nothing was created
+}
+
 interface YoutubeCreatedPlaylist {
   playlistId: string;
   title: string;
@@ -35907,6 +35934,18 @@ interface YoutubePlaylistVideoPage {
      * than this directly.
      */
     createPlaylist(input: { title: string; description?: string; privacy?: "private" | "unlisted" | "public" }): Promise<YoutubeCreatedPlaylist>;
+
+    /**
+     * Creates the signed-in Google account's YouTube CHANNEL, using the account's own name and
+     * profile photo — the only thing YouTube's own dialog offers on this path. Most Google
+     * accounts have never had one, and without one YouTube refuses to make a public or unlisted
+     * playlist (a private one works, because that belongs to the account rather than to a
+     * channel). THIS ACCEPTS YOUTUBE'S TERMS OF SERVICE on the account holder's behalf, which is
+     * what their own Create channel button does, so do not call it to work around an error — call
+     * it because the person whose account it is asked for a channel. Idempotent: an account that
+     * already has one gets `alreadyExisted: true` and nothing is created. NEEDS A SIGN-IN.
+     */
+    createChannel(): Promise<YoutubeCreatedChannel>;
 
     /**
      * Adds one or many videos to one of the signed-in account's own playlists, as a SINGLE edit

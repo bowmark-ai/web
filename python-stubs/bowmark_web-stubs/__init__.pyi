@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0c69bbc31cecdc33189f5e43d1c5d1f8ef712e2f2179688b65c40eef91793f5d
-# 54 capabilities, 428 providers, 1137 typed functions, 20 refused.
+# Manifest version: da8144ef566fd396e25a1d11399df876b39f410ee2bde6abfb6d60c4dc3af958
+# 54 capabilities, 428 providers, 1139 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1747,6 +1747,13 @@ class Cap_video_library_CreatedPlaylist_Out(TypedDict):
     title: str
     privacy: Literal["private"] | Literal["unlisted"] | Literal["public"]
     url: str
+    warnings: list[str]
+
+class Cap_video_library_CreatedChannel_Out(TypedDict):
+    channelId: str
+    name: str
+    url: str
+    alreadyExisted: bool
     warnings: list[str]
 
 class Cap_video_library_AddToPlaylistOptions_In(TypedDict):
@@ -19147,6 +19154,12 @@ class Prv_youtube_YoutubeCreatedPlaylist_Out(TypedDict):
     privacy: Literal["private"] | Literal["unlisted"] | Literal["public"]
     url: str
 
+class Prv_youtube_YoutubeCreatedChannel_Out(TypedDict):
+    channelId: str
+    name: str
+    url: str
+    alreadyExisted: bool
+
 class Prv_youtube_addToPlaylist_input_In(TypedDict):
     playlist: str
     video: NotRequired[str]
@@ -20410,9 +20423,22 @@ class Cap_video_library(Protocol):
     async def createPlaylist(self, options: Cap_video_library_CreatePlaylistOptions_In, /) -> Cap_video_library_CreatedPlaylist_Out:
         """Creates an empty playlist on the caller's own account and returns its id and URL.
         Defaults to "private". A "public" or "unlisted" playlist also needs the account to have
-        a YouTube channel — a private one does not — and the call says so when it is missing.
-        NOT idempotent — calling it twice makes two playlists, because YouTube allows duplicate
-        titles and picking one for you would be a guess. Needs a YouTube sign-in.
+        a YouTube channel — a private one does not — and the call says so when it is missing;
+        `createChannel` makes one, with the account holder's say-so. NOT idempotent — calling it
+        twice makes two playlists, because YouTube allows duplicate titles and picking one for
+        you would be a guess. Needs a YouTube sign-in.
+        """
+
+    async def createChannel(self, /) -> Cap_video_library_CreatedChannel_Out:
+        """Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and
+        photo — there is nothing to fill in, because YouTube's own dialog offers nothing. Most
+        Google accounts have never had one, and without one YouTube REFUSES to create a public
+        or unlisted playlist (a private one still works, because that belongs to the account
+        rather than to a channel). THIS ACCEPTS YOUTUBE'S TERMS OF SERVICE for the account
+        holder, exactly as their own Create channel button does — so call it when the person
+        whose account it is has asked for a channel, and never on your own to clear an error.
+        Safe to call twice: an account that already has one gets `alreadyExisted: true` and
+        nothing is created. Needs a YouTube sign-in.
         """
 
     async def addToPlaylist(self, options: Cap_video_library_AddToPlaylistOptions_In, /) -> Cap_video_library_PlaylistEdit_Out:
@@ -32637,6 +32663,18 @@ class Prv_youtube(Protocol):
         defaults to "private". NOT idempotent — YouTube allows duplicate titles, so calling
         twice makes two playlists. NEEDS A SIGN-IN — call `bowmark.video_library.createPlaylist`
         rather than this directly.
+        """
+
+    async def createChannel(self, /) -> Prv_youtube_YoutubeCreatedChannel_Out:
+        """Creates the signed-in Google account's YouTube CHANNEL, using the account's own name and
+        profile photo — the only thing YouTube's own dialog offers on this path. Most Google
+        accounts have never had one, and without one YouTube refuses to make a public or
+        unlisted playlist (a private one works, because that belongs to the account rather than
+        to a channel). THIS ACCEPTS YOUTUBE'S TERMS OF SERVICE on the account holder's behalf,
+        which is what their own Create channel button does, so do not call it to work around an
+        error — call it because the person whose account it is asked for a channel. Idempotent:
+        an account that already has one gets `alreadyExisted: true` and nothing is created.
+        NEEDS A SIGN-IN.
         """
 
     async def addToPlaylist(self, input: Prv_youtube_addToPlaylist_input_In, /) -> Prv_youtube_YoutubePlaylistEdit_Out:
