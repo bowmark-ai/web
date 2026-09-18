@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: da8144ef566fd396e25a1d11399df876b39f410ee2bde6abfb6d60c4dc3af958
+// Manifest version: a318a6f2adc3a3a22a8ff5ba96268354ba49243e93014030f8fbd43156da0948
 // 54 capabilities, 428 providers, 1157 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -28437,14 +28437,19 @@ interface PrimeVideoLiveSportsEvent {
     /**
      * Read one add-on channel: what it is called, its top ten, its originals and series, and the
      * live events it is carrying — the rest of a channel's catalogue, for answering "is it worth
-     * subscribing to this to watch that" rather than one title. Takes the channel's uuid off
-     * listChannels(), e.g. one read off `channelId` there — NOT the same card's `benefitId`, which
-     * opens a different route. `GET /channel/<uuid>`, read off the same carousel parser
-     * listCategoryTitles() uses: a heading and every title under it, per row, in the site's own
-     * order. `rows` never includes the channel's own hero banner, which carries no title list of
-     * its own.
+     * subscribing to this to watch that" rather than one title. Takes EITHER of the site's two
+     * doors: the channel's uuid off listChannels() (its `channelId`, or a `/channel/<uuid>` URL) —
+     * `GET /channel/<uuid>` — OR its benefit slug off a title's own subscribe offer
+     * (getWatchOptions().offers[].channel.benefitId, or its `/storefront/subscription/<slug>` link
+     * — pass that link straight through, no join needed) — `GET /storefront/subscription/<slug>`.
+     * Both routes read the same carousel parser listCategoryTitles() uses: a heading and every
+     * title under it, per row, in the site's own order. `rows` never includes the channel's own
+     * hero banner, which carries no title list of its own. Widened because listChannels() returns
+     * only a rotating half of the add-on shop (see its own summary) — a slug a title names is
+     * often absent from any card a caller could join against, so the slug door needs no
+     * `listChannels()` round-trip at all.
      */
-    getChannel(channelId: string): Promise<PrimeVideoChannelDetail>;
+    getChannel(channel: string): Promise<PrimeVideoChannelDetail>;
 
     /**
      * List the free live TV ("livetv", off `/livetv`) or news ("news", off `/news`) stations Prime
