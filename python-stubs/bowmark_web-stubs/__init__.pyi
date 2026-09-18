@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 96d924c4b0e9cda1c3578dcb38bbcb7723a32b40f13b0c1d4799a92a604de2da
+# Manifest version: 4c0694e1c0ee2cef92a0b90bfa9452f4fbfa9b0f84207866d4f9f23acd3fcec8
 # 54 capabilities, 426 providers, 1134 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -29626,8 +29626,10 @@ class Prv_prime_video(Protocol):
         quality. THE question this provider exists to answer, and the one no general search
         result answers about Amazon's catalogue. Takes a titleId or a title URL, e.g. one read
         off searchTitles() or getTitle(). Reads the SAME page as getTitle, never fetches it
-        twice. Placing any of these orders is never a function of this provider — a flow that
-        costs money stops before the payment step, always.
+        twice. A `subscribe` offer's `channel.benefitId` is the same slug listChannels()
+        surfaces as `benefit` — a best-effort join, not a guaranteed one, see listChannels()'s
+        own doc for the measured exception. Placing any of these orders is never a function of
+        this provider — a flow that costs money stops before the payment step, always.
         """
 
     async def listSeasons(self, titleId: str, /) -> list[Prv_prime_video_PrimeVideoSeason_Out]:
@@ -29741,18 +29743,27 @@ class Prv_prime_video(Protocol):
 
     async def listChannels(self, /) -> list[Prv_prime_video_PrimeVideoChannel_Out]:
         """List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+,
-        Britbox, ViX Premium and seventy-odd more — with the two ids each one is addressed by:
+        Britbox, ViX Premium and seventy-odd more — with the ids each one is addressed by:
         `channelId`, which opens the channel's own page (getChannel(), listTop10("channel",
-        channelId)), and `benefitId`, which `GET /offers?benefitId=<benefitId>` takes to start a
-        subscription. The door for getChannel() and the thing that turns getWatchOptions' "get
-        an add-on subscription" into a named service a person can decide about. No arguments —
-        `GET /addons`, read off the "Subscriptions you might like" row with the shared hydration
+        channelId)); `benefitId`, which `GET /offers?benefitId=<benefitId>` takes to start a
+        subscription; and `benefit`, the short slug read off this card's own image that also
+        names which add-on a title's getWatchOptions() subscribe offer needs
+        (`offers[].channel.benefitId`) — **the ONLY field that joins the two halves of this
+        provider**, and a best-effort one: it matched live for HBO Max, AMC+, STARZ, Apple TV
+        and Crunchyroll, but Paramount+'s own card reads `paramountpremium` while a
+        Paramount-gated title's offer reads the site's legacy `cbsaacf` slug for the same
+        product, so treat a non-match as the site's inconsistency rather than a bug here. The
+        door for getChannel() and the thing that turns getWatchOptions' "get an add-on
+        subscription" into a named service a person can decide about. No arguments — `GET
+        /addons`, read off the "Subscriptions you might like" row with the shared hydration
         parser. **Carries no price.** The two dollar strings on the whole page are a card's own
         compact offer wording, never a clean number, so `offerMessage` carries the site's own
-        sentence instead. Most cards carry both ids; a card with no channel page of its own (CNN
-        All Access) carries only `benefitId`, and one further outlier (NBA League Pass, a
-        subscription pass rather than a channel) carries neither — both real, measured gaps,
-        never a guess.
+        sentence instead. Most cards carry both `channelId` and `benefitId`; a card with no
+        channel page of its own (CNN All Access) carries only `benefitId`; five of eighty
+        measured 2026-09-17 (Peacock Premium Plus, NBA League Pass, FOX One, Tennis Channel, MLB
+        Network) carry a `channel-id`-shaped image with no `benefit` slug in it; and one further
+        outlier (NBA League Pass again, a subscription pass rather than a channel) carries
+        neither `channelId` nor `benefitId` — all real, measured gaps, never a guess.
         """
 
     async def getChannel(self, channelId: str, /) -> Prv_prime_video_PrimeVideoChannelDetail_Out:
