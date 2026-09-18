@@ -1625,7 +1625,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | 🟢 |
 | `youtube.listPlaylistVideos` | youtube.com | The videos inside a playlist, in the playlist's own order and paged — each video's id… | 🟢 |
 | `youtube.listRelatedVideos` | youtube.com | The videos YouTube itself puts next to this one — the "up next" rail — each with its… | 🟢 |
-| `youtube.listStreamFormats` | youtube.com | The renditions a video is actually available in — resolution, frame rate, codec… | ⚪ |
+| `youtube.listStreamFormats` | youtube.com | The renditions a video is actually available in — resolution, frame rate, codec… | 🟢 |
 | `youtube.listSubscriptions` | youtube.com | The channels the signed-in account subscribes to. | ⚪ |
 | `youtube.listTrending` | youtube.com | YouTube's Trending feed — what is being watched across the site right now, and the… | ⚪ |
 | `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | ⚪ |
