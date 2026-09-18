@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5d02d64793e929b6b858f2c5e2dc9b7cd142f50d0a1172d10eca94f10840dafe
+// Manifest version: 11c60a2cf584255c48cf51f17e3d3df6fbe70394a5099b4ca4fed9fd18019216
 // 54 capabilities, 428 providers, 1158 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -28410,27 +28410,29 @@ interface PrimeVideoLiveSportsEvent {
 
     /**
      * List the add-on subscriptions Prime Video sells inside itself — HBO Max, Paramount+,
-     * Britbox, ViX Premium and seventy-odd more — with the ids each one is addressed by:
+     * Britbox, ViX Premium and a hundred-odd more — with the ids each one is addressed by:
      * `channelId`, which opens the channel's own page (getChannel(), listTop10("channel",
      * channelId)); `benefitId`, which `GET /offers?benefitId=<benefitId>` takes to start a
-     * subscription; and `benefit`, the short slug read off this card's own image that also names
-     * which add-on a title's getWatchOptions() subscribe offer needs
-     * (`offers[].channel.benefitId`) — **the ONLY field that joins the two halves of this
-     * provider**, and a best-effort one: it matched live for HBO Max, AMC+, STARZ, Apple TV and
-     * Crunchyroll, but Paramount+'s own card reads `paramountpremium` while a Paramount-gated
-     * title's offer reads the site's legacy `cbsaacf` slug for the same product, so treat a
-     * non-match as the site's inconsistency rather than a bug here. The door for getChannel() and
-     * the thing that turns getWatchOptions' "get an add-on subscription" into a named service a
-     * person can decide about. No arguments — `GET /addons`, read off the "Subscriptions you might
-     * like" row with the shared hydration parser. **Carries no price.** The two dollar strings on
-     * the whole page are a card's own compact offer wording, never a clean number, so
-     * `offerMessage` carries the site's own sentence instead. Most cards carry both `channelId`
-     * and `benefitId`; a card with no channel page of its own (CNN All Access) carries only
-     * `benefitId`; five of eighty measured 2026-09-17 (Peacock Premium Plus, NBA League Pass, FOX
-     * One, Tennis Channel, MLB Network) carry a `channel-id`-shaped image with no `benefit` slug
-     * in it; and one further outlier (NBA League Pass again, a subscription pass rather than a
-     * channel) carries neither `channelId` nor `benefitId` — all real, measured gaps, never a
-     * guess.
+     * subscription; and `benefit`, the slug that also names which add-on a title's
+     * getWatchOptions() subscribe offer needs (`offers[].channel.benefitId`) — **the ONLY field
+     * that joins the two halves of this provider**, and a best-effort one, see its own doc for the
+     * measured miss. The door for getChannel() and the thing that turns getWatchOptions' "get an
+     * add-on subscription" into a named service a person can decide about. No arguments — reads
+     * BOTH `GET /storefront/subscription/default` (the site's own categorized shop, deterministic,
+     * ~102 channels across six categories, each addressed by a `benefit` slug but carrying no
+     * `channelId`/`benefitId`) and `GET /addons` (a rotating shelf of ~80, the only source for
+     * `channelId`/`benefitId`, and offerMessage), merged so a channel present on either carries
+     * the fullest card either door gave it. **Neither door alone was ever complete** — measured
+     * 2026-09-18, the storefront door found 44 channels the addons shelf's shorter rotation
+     * missed, and the addons shelf found 22 the storefront door's own categorization missed
+     * (Peacock Premium Plus, NBA League Pass, Tennis Channel, MLB Network among them) — so this is
+     * the union, not either one. **Still not exhaustive**: one storefront category
+     * ("Entertainment") is short 2 of 22 cards behind its own unbuilt pagination cursor. **Carries
+     * no price.** The dollar strings on either page are a card's own compact offer wording, never
+     * a clean number, so `offerMessage` carries the site's own sentence instead when the card has
+     * one. Most `/addons`-sourced cards carry both `channelId` and `benefitId`; a card with no
+     * channel page of its own (CNN All Access) carries only `benefitId`; a card reached only
+     * through the storefront door carries neither — all real, measured gaps, never a guess.
      */
     listChannels(): Promise<PrimeVideoChannel[]>;
 
@@ -28444,10 +28446,11 @@ interface PrimeVideoLiveSportsEvent {
      * — pass that link straight through, no join needed) — `GET /storefront/subscription/<slug>`.
      * Both routes read the same carousel parser listCategoryTitles() uses: a heading and every
      * title under it, per row, in the site's own order. `rows` never includes the channel's own
-     * hero banner, which carries no title list of its own. Widened because listChannels() returns
-     * only a rotating half of the add-on shop (see its own summary) — a slug a title names is
-     * often absent from any card a caller could join against, so the slug door needs no
-     * `listChannels()` round-trip at all.
+     * hero banner, which carries no title list of its own. Widened because listChannels()'s
+     * `/addons`-sourced cards are only a rotating slice of the shop, and its storefront-sourced
+     * cards carry no `channelId` at all (see its own summary) — a slug a title names is often
+     * absent from any card a caller could join against, so the slug door needs no `listChannels()`
+     * round-trip at all.
      */
     getChannel(channel: string): Promise<PrimeVideoChannelDetail>;
 
