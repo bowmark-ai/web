@@ -1586,7 +1586,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wellfound.searchCompanies` | wellfound.com | Finds startups the way Wellfound's own search groups them — one row per COMPANY, off… | 🟢 |
 | `wellfound.searchJobs` | wellfound.com | Searches Wellfound's startup job board — by role (`/role/<slug>`) or by city… | 🟢 |
 | `wholefoodsmarket.listStores` | wholefoodsmarket.com | Lists nearby Whole Foods stores by ZIP code or location. | ⚪ |
-| `wholefoodsmarket.search` | wholefoodsmarket.com | Searches Whole Foods products by name or query — the grocery chain's product catalog… | 🟢 |
+| `wholefoodsmarket.search` | wholefoodsmarket.com | Searches Whole Foods' product catalog with pricing and availability. `query` is… | 🟢 |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟡 |

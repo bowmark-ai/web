@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 090c639f34d29358da52915ebb057dc40555f6a0836891a877eab62138dabd95
+# Manifest version: f7bf41af7a96e39fad55cd4d0bb238a7a44b6bf86ae9ced9d27fa1c7c7a6f4ab
 # 54 capabilities, 428 providers, 1137 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -32361,11 +32361,16 @@ class Prv_wellfound(Protocol):
         """
 
 class Prv_wholefoodsmarket(Protocol):
-    """Search Whole Foods products and find stores"""
+    """Search Whole Foods's own product catalog by a specific product or category name — the
+    store name alone is not a query
+    """
 
     async def search(self, query: str, /) -> Prv_wholefoodsmarket_SearchResults_Out:
-        """Searches Whole Foods products by name or query — the grocery chain's product catalog
-        with pricing and availability.
+        """Searches Whole Foods' product catalog with pricing and availability. `query` is REQUIRED
+        and must name a specific product or category — e.g. "organic apples", "sourdough bread"
+        — never the store name itself. "whole foods" is not a valid query: if the caller only
+        named the store and did not say what to search for, ask them what product they want
+        before calling this rather than calling it with an empty or store-name query.
         """
 
 class Prv_winestyles(Protocol):
