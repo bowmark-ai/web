@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1632 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1633 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1122,6 +1122,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mixbook.getProductPrice` | mixbook.com | Reads one theme's real product page and returns Mixbook's own server-computed price… | 🟢 |
 | `mixbook.priceCustomBook` | mixbook.com | Prices an exact custom photo book (binding, cover, paper, size, page count) against… | 🟢 |
 | `mixbook.searchPhotoBookThemes` | mixbook.com | Searches Mixbook's real 750+ photo-book theme catalog (Mixbook's own public Algolia… | 🟢 |
+| `mobygames.searchByTitle` | mobygames.com | Search for video games by title and return matching releases with box art cover image… | 🟢 |
 | `modernize_com.getQuoteFlow` | modernize.com | Reads modernize.com's own multi-step homeowner quote wizard for one project type and… | 🟢 |
 | `modernize_com.listProjectTypes` | modernize.com | Reads modernize.com's own trade radio group — every home-improvement project type its… | 🟢 |
 | `modularclosets.getKitConfigurator` | modularclosets.com | Reads one kit's real option tree (Color, Width, and — on some kits — a third option… | 🟢 |
