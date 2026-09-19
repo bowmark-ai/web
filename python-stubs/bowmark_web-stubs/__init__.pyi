@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9045efafcb2175d6a562925071ca632fe989f4fdaa82329a6ac68eb3a7e1eab9
-# 55 capabilities, 430 providers, 1147 typed functions, 20 refused.
+# Manifest version: 07aad2b1d1594bd3ef07bee0d0c2682eca132de8cdd0f211f8541e621f73a9fc
+# 55 capabilities, 430 providers, 1148 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19220,6 +19220,40 @@ class Prv_youtube_YoutubeChannelPlaylist_Out(TypedDict):
     updated: str | None
     thumbnail: str | None
 
+class Prv_youtube_listChannelPosts_input_u0_In(TypedDict):
+    channel: str
+
+class Prv_youtube_listChannelPosts_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeChannelPostPage_Out(TypedDict):
+    posts: list[Prv_youtube_YoutubeChannelPost_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubeChannelPost_Out(TypedDict):
+    postId: str
+    url: str
+    author: str | None
+    text: str | None
+    published: str | None
+    publishedAgeSeconds: float | None
+    likeCount: str | None
+    commentCount: str | None
+    attachment: Prv_youtube_YoutubeChannelPostImage_Out | Prv_youtube_YoutubeChannelPostPoll_Out | Prv_youtube_YoutubeChannelPostVideo_Out | None
+
+class Prv_youtube_YoutubeChannelPostImage_Out(TypedDict):
+    kind: Literal["image"]
+    images: list[str]
+
+class Prv_youtube_YoutubeChannelPostPoll_Out(TypedDict):
+    kind: Literal["poll"]
+    choices: list[str]
+
+class Prv_youtube_YoutubeChannelPostVideo_Out(TypedDict):
+    kind: Literal["video"]
+    videoId: str
+    title: str | None
+
 class Prv_youtube_getPlaylist_input_In(TypedDict):
     playlist: str
 
@@ -32837,6 +32871,20 @@ class Prv_youtube(Protocol):
         URL, exactly as `listChannelVideos` does. The door from a channel to `getPlaylist` and
         `listPlaylistVideos`. Pass back `continuation` alone — no `channel` needed — to read the
         next page; it is null once there are no more pages.
+        """
+
+    async def listChannelPosts(self, input: Prv_youtube_listChannelPosts_input_u0_In | Prv_youtube_listChannelPosts_input_u1_In, /) -> Prv_youtube_YoutubeChannelPostPage_Out:
+        """A channel's Community tab — the text, image and poll posts a creator writes between
+        uploads, never appearing on any video tab. Each post carries its author, plain text,
+        YouTube's own relative age ("2 weeks ago", "(edited)" appended on an edited post),
+        abbreviated like and comment counts ("407K", "6.7K", without the words), and an
+        `attachment` of one of three kinds — `{ kind: "image", images }` (one or several), `{
+        kind: "poll", choices }` (choice text only, no vote counts — hidden from a logged-out
+        viewer), `{ kind: "video", videoId, title }` (a video the channel shared into the tab,
+        which can belong to another channel entirely) — or `null` for a text-only post.
+        `channel` takes a channel id, an @handle, or a channel URL, exactly as
+        `listChannelVideos` does. Pass back `continuation` alone — no `channel` needed — to read
+        the next page; it is null once there are no more pages.
         """
 
     async def getPlaylist(self, input: Prv_youtube_getPlaylist_input_In, /) -> Prv_youtube_YoutubePlaylist_Out:

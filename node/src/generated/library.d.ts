@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9045efafcb2175d6a562925071ca632fe989f4fdaa82329a6ac68eb3a7e1eab9
-// 55 capabilities, 430 providers, 1165 typed functions, 20 refused.
+// Manifest version: 07aad2b1d1594bd3ef07bee0d0c2682eca132de8cdd0f211f8541e621f73a9fc
+// 55 capabilities, 430 providers, 1166 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35886,6 +35886,45 @@ interface YoutubeChannelPlaylistPage {
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
+interface YoutubeChannelPostImage {
+  kind: "image";
+  images: string[]; // one or several, largest available URL each
+}
+
+interface YoutubeChannelPostPoll {
+  kind: "poll";
+  choices: string[]; // choice text only — vote counts are hidden from a logged-out viewer
+}
+
+interface YoutubeChannelPostVideo {
+  kind: "video"; // a video the channel shared into this tab — may belong to another channel
+  videoId: string;
+  title: string | null;
+}
+
+type YoutubeChannelPostAttachment =
+  | YoutubeChannelPostImage
+  | YoutubeChannelPostPoll
+  | YoutubeChannelPostVideo
+  | null;
+
+interface YoutubeChannelPost {
+  postId: string;
+  url: string;
+  author: string | null;
+  text: string | null;
+  published: string | null;   // YouTube's own phrase, e.g. "2 weeks ago", "(edited)" appended on an edited post
+  publishedAgeSeconds: number | null;
+  likeCount: string | null;    // YouTube's own abbreviated text, e.g. "407K" — no "likes"
+  commentCount: string | null; // YouTube's own abbreviated text, e.g. "6.7K" — no "comments"
+  attachment: YoutubeChannelPostAttachment;
+}
+
+interface YoutubeChannelPostPage {
+  posts: YoutubeChannelPost[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
 interface YoutubeRelatedVideo {
   videoId: string;
   url: string;
@@ -36115,6 +36154,20 @@ interface YoutubeStreamFormat {
      * once there are no more pages.
      */
     listChannelPlaylists(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelPlaylistPage>;
+
+    /**
+     * A channel's Community tab — the text, image and poll posts a creator writes between uploads,
+     * never appearing on any video tab. Each post carries its author, plain text, YouTube's own
+     * relative age ("2 weeks ago", "(edited)" appended on an edited post), abbreviated like and
+     * comment counts ("407K", "6.7K", without the words), and an `attachment` of one of three
+     * kinds — `{ kind: "image", images }` (one or several), `{ kind: "poll", choices }` (choice
+     * text only, no vote counts — hidden from a logged-out viewer), `{ kind: "video", videoId,
+     * title }` (a video the channel shared into the tab, which can belong to another channel
+     * entirely) — or `null` for a text-only post. `channel` takes a channel id, an @handle, or a
+     * channel URL, exactly as `listChannelVideos` does. Pass back `continuation` alone — no
+     * `channel` needed — to read the next page; it is null once there are no more pages.
+     */
+    listChannelPosts(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelPostPage>;
 
     /**
      * A playlist's own facts: title, description, the channel that owns it, exact video and view
