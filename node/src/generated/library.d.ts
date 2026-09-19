@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3f0edb108f75b7bf85f421ed9b37c48bed3c0c2ae0578b694a8a8bf900bd96be
-// 56 capabilities, 433 providers, 1179 typed functions, 20 refused.
+// Manifest version: 8c61a3c95093c32cfd7fcc2369d574be3d077b268405825603d7eec54aaaf443
+// 56 capabilities, 434 providers, 1181 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -27431,6 +27431,26 @@ interface packlaneQuote {
   }
 }
 
+declare namespace BowmarkProvider_pawsup {
+  // ── Paws Up — the unit's own declarations, verbatim ──
+interface AvailabilityResult {
+  available: boolean;
+  accommodationType?: string;
+  pricePerNight?: number;
+  currency: string;
+  checkInDate: string;
+  checkOutDate: string;
+  guests: number;
+  warnings?: string[];
+}
+
+  /** Luxury glamping resort availability and accommodations on Paws Up's booking portal. */
+  interface Unit {
+    /** Checks available accommodations and starting rates for a requested stay at Paws Up. */
+    checkAvailability(args: { checkInDate: string; checkOutDate: string; guests?: number }): Promise<AvailabilityResult>;
+  }
+}
+
 declare namespace BowmarkProvider_paypal {
   // ── PayPal — the unit's own declarations, verbatim ──
 interface PaypalEstimateFeeArgs {
@@ -36175,6 +36195,12 @@ interface YoutubeRelatedVideoPage {
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
+interface YoutubeChapter {
+  title: string;
+  startSeconds: number;    // pass to watch?v=<id>&t=<startSeconds>s
+  timeDescription: string; // YouTube's own display text, e.g. "1:03:10"
+}
+
 interface YoutubePlaylist {
   playlistId: string;
   title: string;
@@ -36316,6 +36342,15 @@ interface YoutubeStreamFormat {
      * offers no further "Show more", which some videos never do even on page 1.
      */
     listRelatedVideos(input: { video: string } | { continuation: string }): Promise<YoutubeRelatedVideoPage>;
+
+    /**
+     * A video's own chapter markers — the labelled sections YouTube shows on the scrub bar — each
+     * with its title, start time in seconds and YouTube's own display text for that time (e.g.
+     * "1:03:10"). `video` is a bare 11-character video id or any watch/shorts/embed/live/youtu.be
+     * URL, exactly as `getTranscript` takes it. `[]` when the video has no chapters at all — a
+     * real, honest answer, not a failure.
+     */
+    listChapters(input: { video: string }): Promise<YoutubeChapter[]>;
 
     /**
      * Which languages a video's captions are available in, whether each was written by a
@@ -37714,6 +37749,7 @@ interface BowmarkProviders {
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
   packlane: BowmarkProvider_packlane.Unit;
+  pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;

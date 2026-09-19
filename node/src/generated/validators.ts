@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3f0edb108f75b7bf85f421ed9b37c48bed3c0c2ae0578b694a8a8bf900bd96be
-// 1161 checked, 20 unchecked.
+// Manifest version: 8c61a3c95093c32cfd7fcc2369d574be3d077b268405825603d7eec54aaaf443
+// 1163 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3f0edb108f75b7bf85f421ed9b37c48bed3c0c2ae0578b694a8a8bf900bd96be",
+  "version": "8c61a3c95093c32cfd7fcc2369d574be3d077b268405825603d7eec54aaaf443",
   "units": {
     "booking_links": {
       "defs": {
@@ -23992,6 +23992,43 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.pawsup": {
+      "defs": {},
+      "functions": {
+        "checkAvailability": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "checkInDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkOutDate",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "guests",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.paypal": {
       "defs": {
         "PaypalConversionKind": {
@@ -34393,6 +34430,24 @@ export const VALIDATORS: ValidatorTable = {
                       "optional": false
                     }
                   ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listChapters": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },
