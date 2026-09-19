@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 16023b642402ecc48305f5bcbc124a11150300eac55855856af52310e6ca77bf
+# Manifest version: 8cc406ad353aaf7223bd7938597d0198b89ecc312e3388dff6a1c405b92c38a8
 # 56 capabilities, 434 providers, 1164 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -24974,17 +24974,19 @@ class Prv_etsy(Protocol):
 
 class Prv_evag(Protocol):
     """Real-time public transit departure information, schedules and service disruptions for
-    Essen, Germany via EVAG (Essener Verkehrs-AG).
+    Essen, Germany via EVAG (Essener Verkehrs-AG) / Ruhrbahn, read straight from
+    ifa.ruhrbahn.de's own JSON backend — no key, no browser.
     """
 
     async def listDepartures(self, stopId: str, /) -> list[Prv_evag_Departure_Out]:
-        """Real-time departure information for a given stop, with line numbers, destinations, and
-        minutes until departure.
+        """Real-time departure information for a given stop — line numbers, destinations, and
+        minutes until departure. Takes the id searchStop returns. THROWS a caller-fixable error
+        rather than returning [] when ifa.ruhrbahn.de does not recognize the stop id.
         """
 
     async def searchStop(self, query: str, /) -> list[Prv_evag_StopSearchResult_Out]:
-        """Search for a transit stop by name or partial name; returns a list of matching stops with
-        their ids.
+        """Search for a transit stop or city by name or partial name (e.g. 'Essen', 'Essen
+        Hauptbahnhof'); returns matching stops with the id listDepartures takes.
         """
 
 class Prv_eventsource(Protocol):

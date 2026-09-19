@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 16023b642402ecc48305f5bcbc124a11150300eac55855856af52310e6ca77bf
+// Manifest version: 8cc406ad353aaf7223bd7938597d0198b89ecc312e3388dff6a1c405b92c38a8
 // 56 capabilities, 434 providers, 1182 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -14522,7 +14522,7 @@ interface Departure {
 }
 
 interface StopSearchResult {
-  id: string;
+  id: string;      // what listDepartures takes
   name: string;
   city?: string;
 }
@@ -14535,18 +14535,20 @@ interface LineStatus {
 
   /**
    * Real-time public transit departure information, schedules and service disruptions for Essen,
-   * Germany via EVAG (Essener Verkehrs-AG).
+   * Germany via EVAG (Essener Verkehrs-AG) / Ruhrbahn, read straight from ifa.ruhrbahn.de's own
+   * JSON backend — no key, no browser.
    */
   interface Unit {
     /**
-     * Real-time departure information for a given stop, with line numbers, destinations, and
-     * minutes until departure.
+     * Real-time departure information for a given stop — line numbers, destinations, and minutes
+     * until departure. Takes the id searchStop returns. THROWS a caller-fixable error rather than
+     * returning [] when ifa.ruhrbahn.de does not recognize the stop id.
      */
     listDepartures(stopId: string): Promise<Departure[]>;
 
     /**
-     * Search for a transit stop by name or partial name; returns a list of matching stops with
-     * their ids.
+     * Search for a transit stop or city by name or partial name (e.g. 'Essen', 'Essen
+     * Hauptbahnhof'); returns matching stops with the id listDepartures takes.
      */
     searchStop(query: string): Promise<StopSearchResult[]>;
   }
