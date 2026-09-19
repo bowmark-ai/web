@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7de83156b9f5c28e7b305a1a02776ce0b7ef3c9f3a1303b7a4ce000a7f173a52
-// 1163 checked, 20 unchecked.
+// Manifest version: 6b81da54362f8ab9155732152f5a2419443eaf3c76d8ba5ae58709f8b9753d57
+// 1162 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7de83156b9f5c28e7b305a1a02776ce0b7ef3c9f3a1303b7a4ce000a7f173a52",
+  "version": "6b81da54362f8ab9155732152f5a2419443eaf3c76d8ba5ae58709f8b9753d57",
   "units": {
     "booking_links": {
       "defs": {
@@ -33466,33 +33466,6 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.vistaprint": {
       "defs": {
-        "CheckOrderDeadlineArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "productType",
-              "schema": {
-                "k": "ref",
-                "name": "ProductType"
-              },
-              "optional": false
-            },
-            {
-              "name": "quantity",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
-            },
-            {
-              "name": "productSku",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
         "GetShippingBoxPriceArgs": {
           "k": "object",
           "props": [
@@ -33518,27 +33491,6 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "number"
               },
               "optional": false
-            }
-          ]
-        },
-        "ProductType": {
-          "k": "union",
-          "of": [
-            {
-              "k": "literal",
-              "v": "packaging"
-            },
-            {
-              "k": "literal",
-              "v": "cards"
-            },
-            {
-              "k": "literal",
-              "v": "posters"
-            },
-            {
-              "k": "literal",
-              "v": "envelopes"
             }
           ]
         },
@@ -33580,16 +33532,6 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetShippingBoxPriceArgs"
-            },
-            "optional": false
-          }
-        ],
-        "checkOrderDeadline": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "CheckOrderDeadlineArgs"
             },
             "optional": false
           }

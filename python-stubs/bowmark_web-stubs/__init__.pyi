@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7de83156b9f5c28e7b305a1a02776ce0b7ef3c9f3a1303b7a4ce000a7f173a52
-# 56 capabilities, 434 providers, 1163 typed functions, 20 refused.
+# Manifest version: 6b81da54362f8ab9155732152f5a2419443eaf3c76d8ba5ae58709f8b9753d57
+# 56 capabilities, 434 providers, 1162 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18656,18 +18656,6 @@ class Prv_vistaprint_ShippingBoxPrice_Out_unitPrice_Out(TypedDict):
     amount: float
     currency: str
 
-class Prv_vistaprint_CheckOrderDeadlineArgs_In(TypedDict):
-    productType: Literal["packaging"] | Literal["cards"] | Literal["posters"] | Literal["envelopes"]
-    quantity: float
-    productSku: NotRequired[str]
-
-class Prv_vistaprint_OrderDeadlineInfo_Out(TypedDict):
-    productType: Literal["packaging"] | Literal["cards"] | Literal["posters"] | Literal["envelopes"]
-    quantity: float
-    orderDeadline: str
-    turnaroundHours: float
-    estimatedDelivery: str
-
 class Prv_voluspa_VoluspaQuizIntro_Out(TypedDict):
     paths: list[Prv_voluspa_VoluspaQuizButton_Out]
     firstQuestionOptions: list[Prv_voluspa_VoluspaQuizButton_Out]
@@ -32690,9 +32678,8 @@ class Prv_visible(Protocol):
         """
 
 class Prv_vistaprint(Protocol):
-    """Prices Vistaprint's Full-Print Shipping Boxes and checks order deadlines for packaging,
-    cards, posters and envelopes — real, quantity-tiered pricing and turnaround times the
-    site's own PDP computes, with no browser, account or cart.
+    """Prices Vistaprint's Full-Print Shipping Boxes — real, quantity-tiered pricing the site's
+    own PDP configurator computes, with no browser, account or cart.
     """
 
     async def getShippingBoxPrice(self, args: Prv_vistaprint_GetShippingBoxPriceArgs_In, /) -> Prv_vistaprint_ShippingBoxPrice_Out:
@@ -32701,12 +32688,6 @@ class Prv_vistaprint(Protocol):
         quantity, the same figure the site's PDP configurator computes as a buyer changes those
         inputs. THROWS a caller-fixable error for a size/printArea/quantity combination
         Vistaprint has no price for.
-        """
-
-    async def checkOrderDeadline(self, args: Prv_vistaprint_CheckOrderDeadlineArgs_In, /) -> Prv_vistaprint_OrderDeadlineInfo_Out:
-        """Checks the order deadline and turnaround time for Vistaprint products — the latest
-        date/time an order must be placed for standard delivery and the estimated delivery date,
-        parsed from the product page.
         """
 
 class Prv_voluspa(Protocol):

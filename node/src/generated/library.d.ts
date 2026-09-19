@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7de83156b9f5c28e7b305a1a02776ce0b7ef3c9f3a1303b7a4ce000a7f173a52
-// 56 capabilities, 434 providers, 1181 typed functions, 20 refused.
+// Manifest version: 6b81da54362f8ab9155732152f5a2419443eaf3c76d8ba5ae58709f8b9753d57
+// 56 capabilities, 434 providers, 1180 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35178,7 +35178,6 @@ declare namespace BowmarkProvider_vistaprint {
   // ── Vistaprint — the unit's own declarations, verbatim ──
 type ShippingBoxSize = "11x8.5x5.5" | "12x12x5.5" | "13x13x10";
 type ShippingBoxPrintArea = "inside-and-outside" | "outside-only";
-type ProductType = "packaging" | "cards" | "posters" | "envelopes";
 
 interface GetShippingBoxPriceArgs {
   size: ShippingBoxSize;
@@ -35194,24 +35193,9 @@ interface ShippingBoxPrice {
   unitPrice: { amount: number; currency: string };
 }
 
-interface CheckOrderDeadlineArgs {
-  productType: ProductType;
-  quantity: number;
-  productSku?: string;
-}
-
-interface OrderDeadlineInfo {
-  productType: ProductType;
-  quantity: number;
-  orderDeadline: string;  // e.g., "Order by 2pm PT today"
-  turnaroundHours: number;
-  estimatedDelivery: string;  // ISO 8601 date
-}
-
   /**
-   * Prices Vistaprint's Full-Print Shipping Boxes and checks order deadlines for packaging,
-   * cards, posters and envelopes — real, quantity-tiered pricing and turnaround times the site's
-   * own PDP computes, with no browser, account or cart.
+   * Prices Vistaprint's Full-Print Shipping Boxes — real, quantity-tiered pricing the site's own
+   * PDP configurator computes, with no browser, account or cart.
    */
   interface Unit {
     /**
@@ -35221,13 +35205,6 @@ interface OrderDeadlineInfo {
      * caller-fixable error for a size/printArea/quantity combination Vistaprint has no price for.
      */
     getShippingBoxPrice(args: GetShippingBoxPriceArgs): Promise<ShippingBoxPrice>;
-
-    /**
-     * Checks the order deadline and turnaround time for Vistaprint products — the latest date/time
-     * an order must be placed for standard delivery and the estimated delivery date, parsed from
-     * the product page.
-     */
-    checkOrderDeadline(args: CheckOrderDeadlineArgs): Promise<OrderDeadlineInfo>;
   }
 }
 

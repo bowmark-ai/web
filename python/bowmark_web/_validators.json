@@ -1,5 +1,5 @@
 {
-  "version": "7de83156b9f5c28e7b305a1a02776ce0b7ef3c9f3a1303b7a4ce000a7f173a52",
+  "version": "6b81da54362f8ab9155732152f5a2419443eaf3c76d8ba5ae58709f8b9753d57",
   "units": {
     "booking_links": {
       "defs": {
@@ -33454,33 +33454,6 @@
     },
     "providers.vistaprint": {
       "defs": {
-        "CheckOrderDeadlineArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "productType",
-              "schema": {
-                "k": "ref",
-                "name": "ProductType"
-              },
-              "optional": false
-            },
-            {
-              "name": "quantity",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
-            },
-            {
-              "name": "productSku",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        },
         "GetShippingBoxPriceArgs": {
           "k": "object",
           "props": [
@@ -33506,27 +33479,6 @@
                 "k": "number"
               },
               "optional": false
-            }
-          ]
-        },
-        "ProductType": {
-          "k": "union",
-          "of": [
-            {
-              "k": "literal",
-              "v": "packaging"
-            },
-            {
-              "k": "literal",
-              "v": "cards"
-            },
-            {
-              "k": "literal",
-              "v": "posters"
-            },
-            {
-              "k": "literal",
-              "v": "envelopes"
             }
           ]
         },
@@ -33568,16 +33520,6 @@
             "schema": {
               "k": "ref",
               "name": "GetShippingBoxPriceArgs"
-            },
-            "optional": false
-          }
-        ],
-        "checkOrderDeadline": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "CheckOrderDeadlineArgs"
             },
             "optional": false
           }
