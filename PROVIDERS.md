@@ -1496,7 +1496,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟡 |
 | `trojanstorage.getFacilityUnits` | trojanstorage.com | Reads one Trojan Storage facility's currently-listed units (from `listFacilities`'s… | 🟢 |
 | `trojanstorage.listFacilities` | trojanstorage.com | Lists every Trojan Storage facility (56 today) with its address, phone, lat/lng and… | 🟢 |
-| `trophysignaturehomes.compareHomes` | trophysignaturehomes.com | Runs the site's own compare: reads both homes and computes real price-per-square-foot… | 🟡 |
+| `trophysignaturehomes.compareHomes` | trophysignaturehomes.com | Runs the site's own compare: reads both homes and computes real price-per-square-foot… | 🟢 |
 | `trophysignaturehomes.getHome` | trophysignaturehomes.com | Reads one home's full detail: address, price, sqft, beds/baths, status, stories… | 🟢 |
 | `trophysignaturehomes.listPlans` | trophysignaturehomes.com | Lists the floor plans (as opposed to priced, addressed spec homes) available per… | ⚪ |
 | `trophysignaturehomes.searchHomes` | trophysignaturehomes.com | Searches Trophy Signature Homes' current live inventory (all metros) by city… | 🟢 |

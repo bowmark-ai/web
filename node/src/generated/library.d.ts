@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9be8428a70ae508dfd978bcc50f5d8c4b3d7fc0716397f6f0c81bab5d38d3137
-// 54 capabilities, 429 providers, 1163 typed functions, 20 refused.
+// Manifest version: 0b366fab11ebd7e8aa4c30fb56ba4685a3ab26610bfa592adaafd88d05611c27
+// 55 capabilities, 430 providers, 1165 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -736,6 +736,35 @@ type CallOptions = {
      * call budget (default 30000).
      */
     signUp(service: string, details: object, options?: CallOptions): Promise<DeveloperApiKeySignupResult>;
+  }
+}
+
+declare namespace BowmarkCapability_dfs_ownership_projections {
+  // ── DFS Ownership & Salary Projections — the unit's own declarations, verbatim ──
+interface DFSProjection {
+  player: string;
+  salary: number;
+  ownership: number;
+  sport?: string;
+  position?: string;
+  team?: string;
+}
+
+interface dfs_ownership_projectionsResult {
+  projections: DFSProjection[];
+  warnings: string[];
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /** Projected ownership percentages and salary caps for daily fantasy sports slates */
+  interface Unit {
+    /** Search for DFS ownership percentages and salary data across sports and slates */
+    search(query: string, options?: CallOptions): Promise<dfs_ownership_projectionsResult>;
   }
 }
 
@@ -13120,6 +13149,36 @@ interface DevelopersOpenaiDocPage {
      * ChatGPT" sections of the returned body).
      */
     getDocPage(args?: object): Promise<DevelopersOpenaiDocPage>;
+  }
+}
+
+declare namespace BowmarkProvider_dfs_rotogrinderssearch {
+  // ── RotoGrinders — the unit's own declarations, verbatim ──
+interface SearchArgs {
+  query: string;
+}
+
+interface DFSProjectionRow {
+  player: string;
+  salary: number;
+  ownership: number;
+  sport?: string;
+  position?: string;
+  team?: string;
+}
+
+interface SearchResults {
+  projections: DFSProjectionRow[];
+  warnings: string[];
+}
+
+  /** Search RotoGrinders for DFS projections, ownership percentages, and salary caps */
+  interface Unit {
+    /**
+     * Searches RotoGrinders for DFS projections, ownership percentages, and salary caps across
+     * sports (NFL, NBA, MLB, etc.)
+     */
+    search(args: SearchArgs): Promise<SearchResults>;
   }
 }
 
@@ -37163,6 +37222,7 @@ interface BowmarkProviders {
   detailxperts: BowmarkProvider_detailxperts.Unit;
   deutschepost: BowmarkProvider_deutschepost.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
+  dfs_rotogrinderssearch: BowmarkProvider_dfs_rotogrinderssearch.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
@@ -89183,6 +89243,7 @@ interface BowmarkLibrary {
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
   delivery: BowmarkCapability_delivery.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;
+  dfs_ownership_projections: BowmarkCapability_dfs_ownership_projections.Unit;
   domain: BowmarkCapability_domain.Unit;
   email: BowmarkCapability_email.Unit;
   entertainment_merch: BowmarkCapability_entertainment_merch.Unit;

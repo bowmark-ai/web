@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9be8428a70ae508dfd978bcc50f5d8c4b3d7fc0716397f6f0c81bab5d38d3137
-# 54 capabilities, 429 providers, 1145 typed functions, 20 refused.
+# Manifest version: 0b366fab11ebd7e8aa4c30fb56ba4685a3ab26610bfa592adaafd88d05611c27
+# 55 capabilities, 430 providers, 1147 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -647,6 +647,21 @@ class Cap_developer_api_key_signup_DeveloperApiKeySignupResult_Out(TypedDict):
     apiKey: str
     message: str
     warnings: list[str]
+
+class Cap_dfs_ownership_projections_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_dfs_ownership_projections_dfs_ownership_projectionsResult_Out(TypedDict):
+    projections: list[Cap_dfs_ownership_projections_DFSProjection_Out]
+    warnings: list[str]
+
+class Cap_dfs_ownership_projections_DFSProjection_Out(TypedDict):
+    player: str
+    salary: float
+    ownership: float
+    sport: NotRequired[str]
+    position: NotRequired[str]
+    team: NotRequired[str]
 
 class Cap_domain_DomainAvailabilityResult_Out(TypedDict):
     name: str
@@ -7177,6 +7192,21 @@ class Prv_developersopenai_DevelopersOpenaiDocPage_Out(TypedDict):
     title: str
     canonicalUrl: str
     body: str
+
+class Prv_dfs_rotogrinderssearch_SearchArgs_In(TypedDict):
+    query: str
+
+class Prv_dfs_rotogrinderssearch_SearchResults_Out(TypedDict):
+    projections: list[Prv_dfs_rotogrinderssearch_DFSProjectionRow_Out]
+    warnings: list[str]
+
+class Prv_dfs_rotogrinderssearch_DFSProjectionRow_Out(TypedDict):
+    player: str
+    salary: float
+    ownership: float
+    sport: NotRequired[str]
+    position: NotRequired[str]
+    team: NotRequired[str]
 
 class Prv_dice_DiceSearchResponse_Out(TypedDict):
     jobs: list[Prv_dice_DiceSearchResult_Out]
@@ -19575,6 +19605,12 @@ class Cap_developer_api_key_signup(Protocol):
         confirmation. `options.timeoutMs` sets call budget (default 30000).
         """
 
+class Cap_dfs_ownership_projections(Protocol):
+    """Projected ownership percentages and salary caps for daily fantasy sports slates"""
+
+    async def search(self, query: str, options: Cap_dfs_ownership_projections_CallOptions_In | None = None, /) -> Cap_dfs_ownership_projections_dfs_ownership_projectionsResult_Out:
+        """Search for DFS ownership percentages and salary data across sports and slates"""
+
 class Cap_domain(Protocol):
     """Checks whether a domain name is registered — and, when it is, who holds it and when it
     expires — straight off RDAP, the IANA-standardized WHOIS successor. No key, no browser.
@@ -24248,6 +24284,14 @@ class Prv_developersopenai(Protocol):
         "/api/docs/mcp" — the guide for building a remote MCP server, connecting it to
         ChatGPT/the API, and its OAuth-based auth section (see the "Handle authentication" and
         "Connect in ChatGPT" sections of the returned body).
+        """
+
+class Prv_dfs_rotogrinderssearch(Protocol):
+    """Search RotoGrinders for DFS projections, ownership percentages, and salary caps"""
+
+    async def search(self, args: Prv_dfs_rotogrinderssearch_SearchArgs_In, /) -> Prv_dfs_rotogrinderssearch_SearchResults_Out:
+        """Searches RotoGrinders for DFS projections, ownership percentages, and salary caps across
+        sports (NFL, NBA, MLB, etc.)
         """
 
 class Prv_dice(Protocol):
@@ -33032,6 +33076,7 @@ class BowmarkProviders(Protocol):
     detailxperts: Prv_detailxperts
     deutschepost: Prv_deutschepost
     developersopenai: Prv_developersopenai
+    dfs_rotogrinderssearch: Prv_dfs_rotogrinderssearch
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
@@ -33338,6 +33383,7 @@ class Bowmark(Protocol):
     custom_sofa_configurator: Cap_custom_sofa_configurator
     delivery: Cap_delivery
     developer_api_key_signup: Cap_developer_api_key_signup
+    dfs_ownership_projections: Cap_dfs_ownership_projections
     domain: Cap_domain
     email: Cap_email
     entertainment_merch: Cap_entertainment_merch

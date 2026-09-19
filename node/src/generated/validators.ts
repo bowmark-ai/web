@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9be8428a70ae508dfd978bcc50f5d8c4b3d7fc0716397f6f0c81bab5d38d3137
-// 1145 checked, 20 unchecked.
+// Manifest version: 0b366fab11ebd7e8aa4c30fb56ba4685a3ab26610bfa592adaafd88d05611c27
+// 1147 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9be8428a70ae508dfd978bcc50f5d8c4b3d7fc0716397f6f0c81bab5d38d3137",
+  "version": "0b366fab11ebd7e8aa4c30fb56ba4685a3ab26610bfa592adaafd88d05611c27",
   "units": {
     "booking_links": {
       "defs": {
@@ -808,6 +808,41 @@ export const VALIDATORS: ValidatorTable = {
             "name": "details",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "dfs_ownership_projections": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },
@@ -12045,6 +12080,34 @@ export const VALIDATORS: ValidatorTable = {
               "k": "any"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.dfs_rotogrinderssearch": {
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
+            },
+            "optional": false
           }
         ]
       }
