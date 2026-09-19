@@ -1,5 +1,5 @@
 {
-  "version": "5955ee120800fa9c35793b76937e75d9a8d308ee5f9ea30662f9ae5396c83185",
+  "version": "01dfa69fdaed74e5e1c06c1dd7c27c2812cf80a8815f81447f3e67c1c6dd56a4",
   "units": {
     "booking_links": {
       "defs": {
@@ -4334,6 +4334,192 @@
                 "k": "ref",
                 "name": "AiperPoolAnswerInput"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.airtable": {
+      "defs": {
+        "CreateRecordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "baseId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "tableId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "fields",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "any"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetRecordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "baseId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "tableId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "recordId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListRecordsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "baseId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "tableId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "pageSize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListTablesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "baseId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "UpdateRecordArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "baseId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "tableId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "recordId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "fields",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "any"
+                }
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listBases": [],
+        "listTables": [
+          {
+            "name": "baseId",
+            "schema": {
+              "k": "ref",
+              "name": "ListTablesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listRecords": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListRecordsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRecord": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetRecordArgs"
+            },
+            "optional": false
+          }
+        ],
+        "createRecord": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CreateRecordArgs"
+            },
+            "optional": false
+          }
+        ],
+        "updateRecord": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UpdateRecordArgs"
             },
             "optional": false
           }

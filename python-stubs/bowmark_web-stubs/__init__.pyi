@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5955ee120800fa9c35793b76937e75d9a8d308ee5f9ea30662f9ae5396c83185
-# 55 capabilities, 430 providers, 1151 typed functions, 20 refused.
+# Manifest version: 01dfa69fdaed74e5e1c06c1dd7c27c2812cf80a8815f81447f3e67c1c6dd56a4
+# 55 capabilities, 431 providers, 1157 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2313,6 +2313,51 @@ class Prv_aiper_AiperRecommendedProduct_Out(TypedDict):
 class Prv_aiper_AiperPoolAnswerInput_Out(TypedDict):
     question: str
     choice: str | list[str]
+
+class Prv_airtable_AirtableBase_Out(TypedDict):
+    id: str
+    name: str
+    permissionLevel: str
+
+class Prv_airtable_ListTablesArgs_In(TypedDict):
+    baseId: str
+
+class Prv_airtable_AirtableTable_Out(TypedDict):
+    id: str
+    name: str
+    primaryFieldId: str
+    fields: list[Prv_airtable_AirtableTable_Out_fields_item_Out]
+
+class Prv_airtable_AirtableTable_Out_fields_item_Out(TypedDict):
+    id: str
+    name: str
+    type: str
+
+class Prv_airtable_ListRecordsArgs_In(TypedDict):
+    baseId: str
+    tableId: str
+    pageSize: NotRequired[float]
+
+class Prv_airtable_AirtableRecord_Out(TypedDict):
+    id: str
+    createdTime: str
+    fields: Mapping[str, Any]
+
+class Prv_airtable_GetRecordArgs_In(TypedDict):
+    baseId: str
+    tableId: str
+    recordId: str
+
+class Prv_airtable_CreateRecordArgs_In(TypedDict):
+    baseId: str
+    tableId: str
+    fields: Mapping[str, Any]
+
+class Prv_airtable_UpdateRecordArgs_In(TypedDict):
+    baseId: str
+    tableId: str
+    recordId: str
+    fields: Mapping[str, Any]
 
 class Prv_ajmadison_AjmadisonSearchArgs_In(TypedDict):
     category: str
@@ -20992,6 +21037,27 @@ class Prv_aiper(Protocol):
         label doesn't match, or if the site's computed result carries no product list.
         """
 
+class Prv_airtable(Protocol):
+    """Access Airtable bases, tables, and records via the REST API."""
+
+    async def listBases(self, /) -> list[Prv_airtable_AirtableBase_Out]:
+        """Lists all bases the authenticated user can access."""
+
+    async def listTables(self, baseId: Prv_airtable_ListTablesArgs_In, /) -> list[Prv_airtable_AirtableTable_Out]:
+        """Lists all tables in a specified base."""
+
+    async def listRecords(self, args: Prv_airtable_ListRecordsArgs_In, /) -> list[Prv_airtable_AirtableRecord_Out]:
+        """Lists all records in a specified table with optional filtering and sorting."""
+
+    async def getRecord(self, args: Prv_airtable_GetRecordArgs_In, /) -> Prv_airtable_AirtableRecord_Out:
+        """Retrieves a single record by its ID from a specified table."""
+
+    async def createRecord(self, args: Prv_airtable_CreateRecordArgs_In, /) -> Prv_airtable_AirtableRecord_Out:
+        """Creates a new record in a specified table."""
+
+    async def updateRecord(self, args: Prv_airtable_UpdateRecordArgs_In, /) -> Prv_airtable_AirtableRecord_Out:
+        """Updates an existing record by its ID."""
+
 class Prv_ajmadison(Protocol):
     """AJ Madison's real appliance catalog — search runs the site's own category + facet filter
     (brand, size/capacity, price band, style, availability) and returns real,
@@ -33089,6 +33155,7 @@ class BowmarkProviders(Protocol):
     acqualinaresort: Prv_acqualinaresort
     ai_engineer: Prv_ai_engineer
     aiper: Prv_aiper
+    airtable: Prv_airtable
     ajmadison: Prv_ajmadison
     allied: Prv_allied
     alphavantage: Prv_alphavantage

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5955ee120800fa9c35793b76937e75d9a8d308ee5f9ea30662f9ae5396c83185
-// 55 capabilities, 430 providers, 1169 typed functions, 20 refused.
+// Manifest version: 01dfa69fdaed74e5e1c06c1dd7c27c2812cf80a8815f81447f3e67c1c6dd56a4
+// 55 capabilities, 431 providers, 1175 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4201,6 +4201,78 @@ interface AiperPoolRecommendation {
      * doesn't match, or if the site's computed result carries no product list.
      */
     recommendPoolCleaner(answers: AiperPoolAnswerInput[]): Promise<AiperPoolRecommendation>;
+  }
+}
+
+declare namespace BowmarkProvider_airtable {
+  // ── Airtable — the unit's own declarations, verbatim ──
+interface AirtableBase {
+  id: string;
+  name: string;
+  permissionLevel: string;
+}
+
+interface AirtableTable {
+  id: string;
+  name: string;
+  primaryFieldId: string;
+  fields: Array<{ id: string; name: string; type: string }>;
+}
+
+interface AirtableRecord {
+  id: string;
+  createdTime: string;
+  fields: Record<string, unknown>;
+}
+
+interface ListTablesArgs {
+  baseId: string;
+}
+
+interface ListRecordsArgs {
+  baseId: string;
+  tableId: string;
+  pageSize?: number;
+}
+
+interface GetRecordArgs {
+  baseId: string;
+  tableId: string;
+  recordId: string;
+}
+
+interface CreateRecordArgs {
+  baseId: string;
+  tableId: string;
+  fields: Record<string, unknown>;
+}
+
+interface UpdateRecordArgs {
+  baseId: string;
+  tableId: string;
+  recordId: string;
+  fields: Record<string, unknown>;
+}
+
+  /** Access Airtable bases, tables, and records via the REST API. */
+  interface Unit {
+    /** Lists all bases the authenticated user can access. */
+    listBases(): Promise<AirtableBase[]>;
+
+    /** Lists all tables in a specified base. */
+    listTables(baseId: ListTablesArgs): Promise<AirtableTable[]>;
+
+    /** Lists all records in a specified table with optional filtering and sorting. */
+    listRecords(args: ListRecordsArgs): Promise<AirtableRecord[]>;
+
+    /** Retrieves a single record by its ID from a specified table. */
+    getRecord(args: GetRecordArgs): Promise<AirtableRecord>;
+
+    /** Creates a new record in a specified table. */
+    createRecord(args: CreateRecordArgs): Promise<AirtableRecord>;
+
+    /** Updates an existing record by its ID. */
+    updateRecord(args: UpdateRecordArgs): Promise<AirtableRecord>;
   }
 }
 
@@ -37225,6 +37297,7 @@ interface BowmarkProviders {
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
   ai_engineer: BowmarkProvider_ai_engineer.Unit;
   aiper: BowmarkProvider_aiper.Unit;
+  airtable: BowmarkProvider_airtable.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
   allied: BowmarkProvider_allied.Unit;
   alphavantage: BowmarkProvider_alphavantage.Unit;
