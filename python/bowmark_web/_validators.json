@@ -1,5 +1,5 @@
 {
-  "version": "07aad2b1d1594bd3ef07bee0d0c2682eca132de8cdd0f211f8541e621f73a9fc",
+  "version": "2bf7edab4934b72e58ba2ef40f7002ed938826a0a92cd18f2d998ccbe8cdec5b",
   "units": {
     "booking_links": {
       "defs": {
@@ -22139,20 +22139,6 @@
           }
         ],
         "getActivePromotion": []
-      }
-    },
-    "providers.mobygames": {
-      "defs": {},
-      "functions": {
-        "searchByTitle": [
-          {
-            "name": "title",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ]
       }
     },
     "providers.modernize_com": {

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 07aad2b1d1594bd3ef07bee0d0c2682eca132de8cdd0f211f8541e621f73a9fc
-// 55 capabilities, 430 providers, 1166 typed functions, 20 refused.
+// Manifest version: 2bf7edab4934b72e58ba2ef40f7002ed938826a0a92cd18f2d998ccbe8cdec5b
+// 55 capabilities, 429 providers, 1165 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -25490,30 +25490,6 @@ interface MixbookPromotion {
   }
 }
 
-declare namespace BowmarkProvider_mobygames {
-  // ── MobyGames — the unit's own declarations, verbatim ──
-interface MobygamesGameResult {
-  id: string;
-  title: string;
-  year?: number;
-  platform?: string;
-  imageUrl?: string;
-}
-
-interface MobygamesSearchResults {
-  results: MobygamesGameResult[];
-}
-
-  /** Search MobyGames for video games by title and get box art cover images. */
-  interface Unit {
-    /**
-     * Searches MobyGames for video games matching the provided title and returns matching game
-     * releases with box art cover image URLs, platforms, and release years.
-     */
-    searchByTitle(title: string): Promise<MobygamesSearchResults>;
-  }
-}
-
 declare namespace BowmarkProvider_modernize_com {
   // ── Modernize — the unit's own declarations, verbatim ──
 interface ModernizeProjectType {
@@ -37423,7 +37399,6 @@ interface BowmarkProviders {
   minimax: BowmarkProvider_minimax.Unit;
   minted: BowmarkProvider_minted.Unit;
   mixbook: BowmarkProvider_mixbook.Unit;
-  mobygames: BowmarkProvider_mobygames.Unit;
   modernize_com: BowmarkProvider_modernize_com.Unit;
   modularclosets: BowmarkProvider_modularclosets.Unit;
   momondo: BowmarkProvider_momondo.Unit;

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 07aad2b1d1594bd3ef07bee0d0c2682eca132de8cdd0f211f8541e621f73a9fc
-# 55 capabilities, 430 providers, 1148 typed functions, 20 refused.
+# Manifest version: 2bf7edab4934b72e58ba2ef40f7002ed938826a0a92cd18f2d998ccbe8cdec5b
+# 55 capabilities, 429 providers, 1147 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13359,16 +13359,6 @@ class Prv_mixbook_MixbookPromotion_Out(TypedDict):
     description: str
     code: str
     termsUrl: str
-
-class Prv_mobygames_MobygamesSearchResults_Out(TypedDict):
-    results: list[Prv_mobygames_MobygamesGameResult_Out]
-
-class Prv_mobygames_MobygamesGameResult_Out(TypedDict):
-    id: str
-    title: str
-    year: NotRequired[float]
-    platform: NotRequired[str]
-    imageUrl: NotRequired[str]
 
 class Prv_modernize_com_ModernizeProjectType_Out(TypedDict):
     value: str
@@ -28824,14 +28814,6 @@ class Prv_mixbook(Protocol):
         Mixbook is showing right now. THROWS if no promotion banner is live.
         """
 
-class Prv_mobygames(Protocol):
-    """Search MobyGames for video games by title and get box art cover images."""
-
-    async def searchByTitle(self, title: str, /) -> Prv_mobygames_MobygamesSearchResults_Out:
-        """Searches MobyGames for video games matching the provided title and returns matching game
-        releases with box art cover image URLs, platforms, and release years.
-        """
-
 class Prv_modernize_com(Protocol):
     """Home-improvement lead-gen site — listProjectTypes returns every trade its homeowner
     quote flow covers (roofing, HVAC, windows, …), and getQuoteFlow reads the multi-step
@@ -33273,7 +33255,6 @@ class BowmarkProviders(Protocol):
     minimax: Prv_minimax
     minted: Prv_minted
     mixbook: Prv_mixbook
-    mobygames: Prv_mobygames
     modernize_com: Prv_modernize_com
     modularclosets: Prv_modularclosets
     momondo: Prv_momondo

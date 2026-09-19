@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 07aad2b1d1594bd3ef07bee0d0c2682eca132de8cdd0f211f8541e621f73a9fc
-// 1148 checked, 20 unchecked.
+// Manifest version: 2bf7edab4934b72e58ba2ef40f7002ed938826a0a92cd18f2d998ccbe8cdec5b
+// 1147 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "07aad2b1d1594bd3ef07bee0d0c2682eca132de8cdd0f211f8541e621f73a9fc",
+  "version": "2bf7edab4934b72e58ba2ef40f7002ed938826a0a92cd18f2d998ccbe8cdec5b",
   "units": {
     "booking_links": {
       "defs": {
@@ -22151,20 +22151,6 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getActivePromotion": []
-      }
-    },
-    "providers.mobygames": {
-      "defs": {},
-      "functions": {
-        "searchByTitle": [
-          {
-            "name": "title",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ]
       }
     },
     "providers.modernize_com": {
