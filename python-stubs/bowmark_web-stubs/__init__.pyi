@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d31e180c15a793014dcb095f632e8bc3727633a0b3bdf59a0c17533820ced0d7
+# Manifest version: 5a25668647059bba5d75afa40b76a07193bae61849256995e8ce35f4d77f00f6
 # 55 capabilities, 430 providers, 1150 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -19447,23 +19447,29 @@ class Cap_browser_agent(Protocol):
     (log in, solve a captcha). A site gated on a login only your user holds is exactly this
     case, not a reason to stop short of calling `start` — the watchUrl is how they supply
     the credential, not something you need in hand first. Never start a session without your
-    user knowing it happened. RUN-ONLY: a typed session cannot call it (that is refused with
-    code "run_only", and it is never an API-key problem), and one run is killed at 120s of
-    wall clock — so `start` in one run and poll `status` from LATER runs, never in a loop
-    inside one.
+    user knowing it happened. **CRITICAL: one task = one independent goal. Bundle multiple
+    date ranges, product SKUs, or queries into one task and the agent may silently reuse a
+    single search result across all of them with no warning. For each distinct item, start a
+    separate session.** RUN-ONLY: a typed session cannot call it (that is refused with code
+    "run_only", and it is never an API-key problem), and one run is killed at 120s of wall
+    clock — so `start` in one run and poll `status` from LATER runs, never in a loop inside
+    one.
     """
 
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
         """Starts a hosted browser agent on `task` and returns at once with its session `id` and a
-        `watchUrl`. Use ONLY after the library had nothing for this site or a function failed —
-        each turn spends real vendor money, charged to the account. Call it, don't just describe
-        it: tell your user you're doing this and why, in the same reply as calling it — don't
-        wait for permission first just because it's billed, and don't decide silently on their
-        behalf either. A login only your user holds is what `watchUrl` is for, not a reason to
-        stop before calling `start`. Your account may hold up to 3 concurrent sessions; call
-        `list()` before starting if looping over multiple tasks. Show `watchUrl` to your user:
-        it lets them watch the agent and take over the browser (log in, solve a captcha). Then
-        poll with `status`. Always `stop()` a session when done.
+        `watchUrl`. **CRITICAL: one task = one independent goal.** If you need prices for 5 date
+        ranges, 5 SKUs, or 5 queries, start 5 separate sessions — bundling them into one task
+        causes the agent to silently reuse results across different items with no warning. Use
+        ONLY after the library had nothing for this site or a function failed — each turn spends
+        real vendor money, charged to the account. Call it, don't just describe it: tell your
+        user you're doing this and why, in the same reply as calling it — don't wait for
+        permission first just because it's billed, and don't decide silently on their behalf
+        either. A login only your user holds is what `watchUrl` is for, not a reason to stop
+        before calling `start`. Your account may hold up to 3 concurrent sessions; call `list()`
+        before starting if looping over multiple tasks. Show `watchUrl` to your user: it lets
+        them watch the agent and take over the browser (log in, solve a captcha). Then poll with
+        `status`. Always `stop()` a session when done.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -30028,12 +30034,12 @@ class Prv_prime_video(Protocol):
         "/store" — those five are the only shapes this pass measured. Drops the leading,
         unheaded hero carousel every storefront page opens with; every other row is real. **A
         row carrying more than the 20 titles returned here has `nextPage`** (read the field's
-        own doc) — pass it straight back to this function to read the next 20. That page is a
-        live-shelf OFFSET rather than a clean page 2 (measured: it can repeat up to 19 of the 20
-        you already have), and it never carries its own further `nextPage`, so this reaches one
-        hop past the first 20, honestly, not an unbounded walk. `searchTitles()` carries no such
-        field — its results page publishes no pagination markers at all (measured 2026-09-15),
-        and that absence is a fact about search specifically.
+        own doc) — pass it straight back to this function to read the next page. That page is
+        genuinely new (measured: at most one overlapping title, at the boundary), and it never
+        carries its own further `nextPage`, so this reaches one hop past the first 20, honestly,
+        not an unbounded walk. `searchTitles()` carries no such field — its results page
+        publishes no pagination markers at all (measured 2026-09-15), and that absence is a fact
+        about search specifically.
         """
 
     async def listNewReleases(self, /) -> list[Prv_prime_video_PrimeVideoCategoryRow_Out]:
