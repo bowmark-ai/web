@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5a25668647059bba5d75afa40b76a07193bae61849256995e8ce35f4d77f00f6
-// 1150 checked, 20 unchecked.
+// Manifest version: afb1766f2472da211fb4c670a5d6819df262d52b0030e7968f551c9dc660ccc0
+// 1149 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5a25668647059bba5d75afa40b76a07193bae61849256995e8ce35f4d77f00f6",
+  "version": "afb1766f2472da211fb4c670a5d6819df262d52b0030e7968f551c9dc660ccc0",
   "units": {
     "booking_links": {
       "defs": {
@@ -7689,48 +7689,6 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
-          }
-        ]
-      }
-    },
-    "providers.bigyellow": {
-      "defs": {
-        "GetQuoteArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "location",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "unitSize",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "moveInDate",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        }
-      },
-      "functions": {
-        "getQuote": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetQuoteArgs"
-            },
-            "optional": false
           }
         ]
       }

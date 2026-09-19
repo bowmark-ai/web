@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5a25668647059bba5d75afa40b76a07193bae61849256995e8ce35f4d77f00f6
-# 55 capabilities, 430 providers, 1150 typed functions, 20 refused.
+# Manifest version: afb1766f2472da211fb4c670a5d6819df262d52b0030e7968f551c9dc660ccc0
+# 55 capabilities, 429 providers, 1149 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4368,19 +4368,6 @@ class Prv_bigrentz_BigrentzCategoryRow_Out(TypedDict):
     slug: str
     count: float
     permalink: str
-
-class Prv_bigyellow_GetQuoteArgs_In(TypedDict):
-    location: str
-    unitSize: str
-    moveInDate: str
-
-class Prv_bigyellow_BigYellowQuote_Out(TypedDict):
-    location: str
-    unitSize: str
-    moveInDate: str
-    monthlyPrice: NotRequired[float | None]
-    upfrontPrice: NotRequired[float | None]
-    currency: str
 
 class Prv_bing_searchWeb_args_In(TypedDict):
     query: str
@@ -22382,12 +22369,6 @@ class Prv_bigrentz(Protocol):
         page URL. Pass `parentSlug` to list a category's children.
         """
 
-class Prv_bigyellow(Protocol):
-    """Self-storage unit quotes for UK Big Yellow locations."""
-
-    async def getQuote(self, args: Prv_bigyellow_GetQuoteArgs_In, /) -> Prv_bigyellow_BigYellowQuote_Out:
-        """Returns a storage unit quote with pricing based on location, unit size and move-in date."""
-
 class Prv_bing(Protocol):
     """General web and news search over Bing's index, read off Bing's own RSS output — ten
     ranked results per query with title, destination URL, snippet and date. Keyless,
@@ -33122,7 +33103,6 @@ class BowmarkProviders(Protocol):
     bigairusa: Prv_bigairusa
     bigjoeforklifts: Prv_bigjoeforklifts
     bigrentz: Prv_bigrentz
-    bigyellow: Prv_bigyellow
     bing: Prv_bing
     bionicpo: Prv_bionicpo
     bishops: Prv_bishops

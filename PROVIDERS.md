@@ -210,7 +210,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bigrentz.getRentalPricing` | bigrentz.com | Would return live, location- and date-specific rental pricing/availability for one… | ⚪ |
 | `bigrentz.listCategories` | bigrentz.com | Lists BigRentz's equipment categories (optionally filtered to children of a parent… | 🟢 |
 | `bigrentz.search` | bigrentz.com | Searches BigRentz's equipment catalog by free-text query (e.g. "boom lift", "40 ft… | 🟢 |
-| `bigyellow.getQuote` | bigyellow.co.uk | Returns a storage unit quote with pricing based on location, unit size and move-in date. | 🟢 |
+| `bigyellow.getQuote` | bigyellow.co.uk | Returns a storage unit quote with pricing based on location, unit size and move-in date. | ⚪ |
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟢 |
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🟡 |
 | `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |

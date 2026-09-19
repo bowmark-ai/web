@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5a25668647059bba5d75afa40b76a07193bae61849256995e8ce35f4d77f00f6
-// 55 capabilities, 430 providers, 1168 typed functions, 20 refused.
+// Manifest version: afb1766f2472da211fb4c670a5d6819df262d52b0030e7968f551c9dc660ccc0
+// 55 capabilities, 429 providers, 1167 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7839,30 +7839,6 @@ interface BigrentzCategoryRow {
      * URL. Pass `parentSlug` to list a category's children.
      */
     listCategories(options?: { parentSlug?: string }): Promise<BigrentzCategoryRow[]>;
-  }
-}
-
-declare namespace BowmarkProvider_bigyellow {
-  // ── Big Yellow Self Storage — the unit's own declarations, verbatim ──
-export interface GetQuoteArgs {
-  location: string;
-  unitSize: string;
-  moveInDate: string;
-}
-
-export interface BigYellowQuote {
-  location: string;
-  unitSize: string;
-  moveInDate: string;
-  monthlyPrice?: number | null;
-  upfrontPrice?: number | null;
-  currency: string;
-}
-
-  /** Self-storage unit quotes for UK Big Yellow locations. */
-  interface Unit {
-    /** Returns a storage unit quote with pricing based on location, unit size and move-in date. */
-    getQuote(args: GetQuoteArgs): Promise<BigYellowQuote>;
   }
 }
 
@@ -37259,7 +37235,6 @@ interface BowmarkProviders {
   bigairusa: BowmarkProvider_bigairusa.Unit;
   bigjoeforklifts: BowmarkProvider_bigjoeforklifts.Unit;
   bigrentz: BowmarkProvider_bigrentz.Unit;
-  bigyellow: BowmarkProvider_bigyellow.Unit;
   bing: BowmarkProvider_bing.Unit;
   bionicpo: BowmarkProvider_bionicpo.Unit;
   bishops: BowmarkProvider_bishops.Unit;
