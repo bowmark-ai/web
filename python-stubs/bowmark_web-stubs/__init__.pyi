@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 293453e6fd0125a1f573f37836528a407585f9144ab551902462916bb8880622
+# Manifest version: 16023b642402ecc48305f5bcbc124a11150300eac55855856af52310e6ca77bf
 # 56 capabilities, 434 providers, 1164 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -20767,7 +20767,10 @@ class Cap_video_library(Protocol):
         a YouTube channel — a private one does not — and the call says so when it is missing;
         `createChannel` makes one, with the account holder's say-so. NOT idempotent — calling it
         twice makes two playlists, because YouTube allows duplicate titles and picking one for
-        you would be a guess. Needs a YouTube sign-in.
+        you would be a guess. TITLE IT FOR THE PERSON WHOSE ACCOUNT IT LANDS ON — the subject in
+        their own words, never a tool name, run id or timestamp — and fill in `description`
+        saying what the videos have in common; see `CreatePlaylistOptions`. Needs a YouTube
+        sign-in.
         """
 
     async def createChannel(self, /) -> Cap_video_library_CreatedChannel_Out:
@@ -33249,8 +33252,10 @@ class Prv_youtube(Protocol):
     async def createPlaylist(self, input: Prv_youtube_createPlaylist_input_In, /) -> Prv_youtube_YoutubeCreatedPlaylist_Out:
         """Creates an EMPTY playlist on the signed-in account and returns its id and URL. `privacy`
         defaults to "private". NOT idempotent — YouTube allows duplicate titles, so calling
-        twice makes two playlists. NEEDS A SIGN-IN — call `bowmark.video_library.createPlaylist`
-        rather than this directly.
+        twice makes two playlists. Title it for the PERSON whose account it lands on: the
+        subject in their own words, never a tool name, run id or timestamp, and set
+        `description` to what the videos have in common. NEEDS A SIGN-IN — call
+        `bowmark.video_library.createPlaylist` rather than this directly.
         """
 
     async def createChannel(self, /) -> Prv_youtube_YoutubeCreatedChannel_Out:
