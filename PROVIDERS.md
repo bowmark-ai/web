@@ -170,7 +170,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `azure.listRegions` | azure.microsoft.com | Returns Azure's datacenter regions — the ARM region name a caller has to pass to every… | ⚪ |
 | `azure.listServices` | azure.microsoft.com | Returns the Azure service catalogue derived live from `prices.azure.com`'s own rows —… | 🟢 |
 | `azure.listVmSizes` | azure.microsoft.com | Returns Azure's virtual-machine SKUs with the specifications a sizing decision is… | ⚪ |
-| `bahn.listDisruptions` | bahn.de | Lists current long-distance train disruptions with affected routes, train numbers, and… | ⚪ |
+| `bahn.listDisruptions` | bahn.de | Lists current long-distance (ICE/IC/EC) train disruptions network-wide — cause… | 🟢 |
 | `bankmycell.getTradeInQuote` | bankmycell.com | Reads live trade-in offers for a device's bankmycell.com sell page from every merchant… | 🟢 |
 | `bankmycell.searchDevices` | bankmycell.com | Searches BankMyCell's own device index by free text (e.g. "iPhone 14") and returns… | 🟢 |
 | `barletta.getConfigurator` | barlettapontoonboats.com | Reads one model's whole builder: every option group (Railskin Color, Furniture… | 🟢 |
@@ -1624,7 +1624,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listChapters` | youtube.com | A video's own chapter markers — the labelled sections YouTube shows on the scrub bar —… | ⚪ |
 | `youtube.listCommentReplies` | youtube.com | The replies under one comment thread, which YouTube hides behind a "N replies" button… | 🟢 |
 | `youtube.listComments` | youtube.com | What people said under a video — each comment's author, the text, its like count… | 🟢 |
-| `youtube.listHashtagVideos` | youtube.com | The videos under a hashtag — YouTube's own /hashtag/<tag> page. | ⚪ |
+| `youtube.listHashtagVideos` | youtube.com | The videos under a hashtag — YouTube's own /hashtag/<tag> page. | 🟢 |
 | `youtube.listHomeFeed` | youtube.com | The videos on the signed-in account's own YouTube home page — the personalized… | 🟢 |
 | `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | 🟢 |
 | `youtube.listPlaylistVideos` | youtube.com | The videos inside a playlist, in the playlist's own order and paged — each video's id… | 🟢 |

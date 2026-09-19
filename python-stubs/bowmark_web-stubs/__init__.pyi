@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: afb1766f2472da211fb4c670a5d6819df262d52b0030e7968f551c9dc660ccc0
-# 55 capabilities, 429 providers, 1149 typed functions, 20 refused.
+# Manifest version: 5955ee120800fa9c35793b76937e75d9a8d308ee5f9ea30662f9ae5396c83185
+# 55 capabilities, 430 providers, 1151 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3861,6 +3861,17 @@ class Prv_azure_AzureService_Out(TypedDict):
     serviceName: str
     serviceId: str
     serviceFamily: str
+
+class Prv_bahn_DisruptionRow_Out(TypedDict):
+    id: str
+    headline: str
+    begin: str
+    end: str | None
+    cause: str
+    effect: str
+    trainCategories: list[str]
+    states: list[str]
+    affectedRoutes: list[str]
 
 class Prv_bankmycell_BankmycellSearchResult_Out(TypedDict):
     brand: str
@@ -19118,6 +19129,9 @@ class Prv_youtube_YoutubeStreamFormat_Out(TypedDict):
     contentLength: str | None
     approxDurationMs: str | None
 
+class Prv_youtube_listHashtagVideos_input_In(TypedDict):
+    hashtag: str
+
 class Prv_youtube_getChannel_input_In(TypedDict):
     channel: str
 
@@ -22005,6 +22019,19 @@ class Prv_azure(Protocol):
         Commercial Cloud only, same as `getServicePricing`. THROWS only when `prices.azure.com`
         itself errors; an unmatched `serviceFamily` is a real answer and returns `services: []`,
         never a throw.
+        """
+
+class Prv_bahn(Protocol):
+    """Lists current long-distance (ICE/IC/EC) train disruptions across the Deutsche Bahn
+    network — the same live data its verkehrslage.bahnhof.de disruption map shows, read
+    directly off the map widget's own API rather than through the client-side-rendered map.
+    """
+
+    async def listDisruptions(self, trainCategory: str | None = None, /) -> list[Prv_bahn_DisruptionRow_Out]:
+        """Lists current Deutsche Bahn long-distance (ICE/IC/EC) disruptions network-wide — cause,
+        effect, affected train categories, states and named railway sections — read live off the
+        same API bahn.de's own disruption map calls. Pass a trainCategory (e.g. "ICE") to narrow
+        to disruptions affecting that category.
         """
 
 class Prv_bankmycell(Protocol):
@@ -32868,6 +32895,15 @@ class Prv_youtube(Protocol):
         URLs are a separate (rung 14) problem.
         """
 
+    async def listHashtagVideos(self, input: Prv_youtube_listHashtagVideos_input_In, /) -> list[Prv_youtube_YoutubeSearchVideo_Out]:
+        """The videos on one of YouTube's own hashtag pages (`youtube.com/hashtag/<tag>`) — a topic
+        feed reachable from a bare word, with no channel and no search ranking in the way. Same
+        row shape `search` returns. `hashtag` is the bare tag, with or without a leading "#".
+        This is a curated, CAPPED feed rather than a paged one — no tag measured carries a "show
+        more", so `[]` back means the site had nothing to show ("Not much to see right now"),
+        not that the call failed.
+        """
+
     async def getChannel(self, input: Prv_youtube_getChannel_input_In, /) -> Prv_youtube_YoutubeChannel_Out:
         """A channel's own page as facts: display name, @handle, an abbreviated subscriber count
         text (YouTube never publishes an exact one), the About tab's full description, total
@@ -33087,6 +33123,7 @@ class BowmarkProviders(Protocol):
     ayreshotels: Prv_ayreshotels
     azazie: Prv_azazie
     azure: Prv_azure
+    bahn: Prv_bahn
     bankmycell: Prv_bankmycell
     barletta: Prv_barletta
     barnesfoundation: Prv_barnesfoundation

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: afb1766f2472da211fb4c670a5d6819df262d52b0030e7968f551c9dc660ccc0
-// 1149 checked, 20 unchecked.
+// Manifest version: 5955ee120800fa9c35793b76937e75d9a8d308ee5f9ea30662f9ae5396c83185
+// 1151 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "afb1766f2472da211fb4c670a5d6819df262d52b0030e7968f551c9dc660ccc0",
+  "version": "5955ee120800fa9c35793b76937e75d9a8d308ee5f9ea30662f9ae5396c83185",
   "units": {
     "booking_links": {
       "defs": {
@@ -6885,6 +6885,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AzureListServicesFilters"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.bahn": {
+      "defs": {},
+      "functions": {
+        "listDisruptions": [
+          {
+            "name": "trainCategory",
+            "schema": {
+              "k": "string"
             },
             "optional": true
           }
@@ -34116,6 +34130,24 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listHashtagVideos": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "hashtag",
                   "schema": {
                     "k": "string"
                   },

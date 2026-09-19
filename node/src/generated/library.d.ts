@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: afb1766f2472da211fb4c670a5d6819df262d52b0030e7968f551c9dc660ccc0
-// 55 capabilities, 429 providers, 1167 typed functions, 20 refused.
+// Manifest version: 5955ee120800fa9c35793b76937e75d9a8d308ee5f9ea30662f9ae5396c83185
+// 55 capabilities, 430 providers, 1169 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6941,6 +6941,36 @@ interface AzureListServicesResult {
      * answer and returns `services: []`, never a throw.
      */
     listServices(filters?: AzureListServicesFilters): Promise<AzureListServicesResult>;
+  }
+}
+
+declare namespace BowmarkProvider_bahn {
+  // ── Deutsche Bahn — Disruptions — the unit's own declarations, verbatim ──
+interface DisruptionRow {
+  id: string;
+  headline: string;
+  begin: string;             // ISO 8601 UTC
+  end: string | null;        // ISO 8601 UTC, null if open-ended
+  cause: string;              // the site's own enum, e.g. "TECHNICAL_PROBLEM_RAILWAY_SECTION"
+  effect: string;             // the site's own enum, e.g. "IMPAIRMENT"
+  trainCategories: string[]; // e.g. ["IC", "ICE"]
+  states: string[];           // German federal states affected
+  affectedRoutes: string[];  // e.g. ["Mainz Hbf – Bingen(Rhein) Hbf"]
+}
+
+  /**
+   * Lists current long-distance (ICE/IC/EC) train disruptions across the Deutsche Bahn network —
+   * the same live data its verkehrslage.bahnhof.de disruption map shows, read directly off the
+   * map widget's own API rather than through the client-side-rendered map.
+   */
+  interface Unit {
+    /**
+     * Lists current Deutsche Bahn long-distance (ICE/IC/EC) disruptions network-wide — cause,
+     * effect, affected train categories, states and named railway sections — read live off the
+     * same API bahn.de's own disruption map calls. Pass a trainCategory (e.g. "ICE") to narrow to
+     * disruptions affecting that category.
+     */
+    listDisruptions(trainCategory?: string): Promise<DisruptionRow[]>;
   }
 }
 
@@ -36128,6 +36158,16 @@ interface YoutubeStreamFormat {
     listStreamFormats(input: { video: string }): Promise<YoutubeStreamFormat[]>;
 
     /**
+     * The videos on one of YouTube's own hashtag pages (`youtube.com/hashtag/<tag>`) — a topic
+     * feed reachable from a bare word, with no channel and no search ranking in the way. Same row
+     * shape `search` returns. `hashtag` is the bare tag, with or without a leading "#". This is a
+     * curated, CAPPED feed rather than a paged one — no tag measured carries a "show more", so
+     * `[]` back means the site had nothing to show ("Not much to see right now"), not that the
+     * call failed.
+     */
+    listHashtagVideos(input: { hashtag: string }): Promise<YoutubeSearchVideo[]>;
+
+    /**
      * A channel's own page as facts: display name, @handle, an abbreviated subscriber count text
      * (YouTube never publishes an exact one), the About tab's full description, total video count,
      * lifetime view count, country, the ISO date it joined, the links it lists (resolved to their
@@ -37219,6 +37259,7 @@ interface BowmarkProviders {
   ayreshotels: BowmarkProvider_ayreshotels.Unit;
   azazie: BowmarkProvider_azazie.Unit;
   azure: BowmarkProvider_azure.Unit;
+  bahn: BowmarkProvider_bahn.Unit;
   bankmycell: BowmarkProvider_bankmycell.Unit;
   barletta: BowmarkProvider_barletta.Unit;
   barnesfoundation: BowmarkProvider_barnesfoundation.Unit;
