@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0fc529ee0d7d9d9d67ef58c1c7a233d840ba0dbe9ecbb90a46c8075992987848
+# Manifest version: 80a47d3ec9beab8c9be88c63525882b855078f8cc350ad425024c0169d05c7cb
 # 55 capabilities, 429 providers, 1147 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -14910,6 +14910,7 @@ class Prv_prime_video_PrimeVideoCategory_Out(TypedDict):
 class Prv_prime_video_PrimeVideoCategoryRow_Out(TypedDict):
     heading: str
     titles: list[Prv_prime_video_PrimeVideoTitle_Out]
+    nextPage: NotRequired[str]
 
 class Prv_prime_video_PrimeVideoTop10Entry_Out(TypedDict):
     titleId: str
@@ -29972,9 +29973,14 @@ class Prv_prime_video(Protocol):
         in the site's own order, with the same fields searchTitles() returns. Takes a `path` off
         listCategories(), e.g. "/genre/comedy", "/collection/streamfree", "/movie", "/tv" or
         "/store" — those five are the only shapes this pass measured. Drops the leading,
-        unheaded hero carousel every storefront page opens with; every other row is real.
-        Returns the FIRST page only, exactly like searchTitles() — these pages carry no
-        pagination markers either.
+        unheaded hero carousel every storefront page opens with; every other row is real. **A
+        row carrying more than the 20 titles returned here has `nextPage`** (read the field's
+        own doc) — pass it straight back to this function to read the next 20. That page is a
+        live-shelf OFFSET rather than a clean page 2 (measured: it can repeat up to 19 of the 20
+        you already have), and it never carries its own further `nextPage`, so this reaches one
+        hop past the first 20, honestly, not an unbounded walk. `searchTitles()` carries no such
+        field — its results page publishes no pagination markers at all (measured 2026-09-15),
+        and that absence is a fact about search specifically.
         """
 
     async def listNewReleases(self, /) -> list[Prv_prime_video_PrimeVideoCategoryRow_Out]:

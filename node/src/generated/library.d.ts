@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0fc529ee0d7d9d9d67ef58c1c7a233d840ba0dbe9ecbb90a46c8075992987848
+// Manifest version: 80a47d3ec9beab8c9be88c63525882b855078f8cc350ad425024c0169d05c7cb
 // 55 capabilities, 429 providers, 1165 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -28288,6 +28288,7 @@ interface PrimeVideoCategory {
 interface PrimeVideoCategoryRow {
   heading: string;
   titles: PrimeVideoTitle[];
+  nextPage?: string;
 }
 interface PrimeVideoTop10Entry extends PrimeVideoTitle {
   position: number;
@@ -28450,8 +28451,14 @@ interface PrimeVideoLiveSportsEvent {
      * own order, with the same fields searchTitles() returns. Takes a `path` off listCategories(),
      * e.g. "/genre/comedy", "/collection/streamfree", "/movie", "/tv" or "/store" — those five are
      * the only shapes this pass measured. Drops the leading, unheaded hero carousel every
-     * storefront page opens with; every other row is real. Returns the FIRST page only, exactly
-     * like searchTitles() — these pages carry no pagination markers either.
+     * storefront page opens with; every other row is real. **A row carrying more than the 20
+     * titles returned here has `nextPage`** (read the field's own doc) — pass it straight back to
+     * this function to read the next 20. That page is a live-shelf OFFSET rather than a clean page
+     * 2 (measured: it can repeat up to 19 of the 20 you already have), and it never carries its
+     * own further `nextPage`, so this reaches one hop past the first 20, honestly, not an
+     * unbounded walk. `searchTitles()` carries no such field — its results page publishes no
+     * pagination markers at all (measured 2026-09-15), and that absence is a fact about search
+     * specifically.
      */
     listCategoryTitles(path: string): Promise<PrimeVideoCategoryRow[]>;
 
