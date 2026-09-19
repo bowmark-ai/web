@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 28a39f5adb7443aa6163013e42f6dfd5dc68004cfbea45e421332b978c6ecf69
+# Manifest version: af86c2816366938eac79b7c87bc3d0ef1199844192d4015af849a37240aee585
 # 55 capabilities, 429 providers, 1149 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -25894,14 +25894,16 @@ class Prv_google_news(Protocol):
         `<source>Reuters</source>`. This is the provider's main door: a caller holding only
         words gets in here. A query that matches nothing returns an empty `articles` array
         rather than throwing. **This feed caps around a hundred rows, newest first, with no
-        count of its own** — a `when:` window wider than what fits is NOT silently cut: when the
-        oldest row served does not reach the window's start, the result carries
-        `truncatedBefore` (an ISO timestamp) naming the boundary before which more articles
-        exist; page past it with `after:`/`before:` in a follow-up call (measured 2026-09-18:
-        `"tesla when:7d"` reached only its newest 11.7h and returned `truncatedBefore`).
-        `locale` — `{ hl, gl, ceid }` — asks for another country/language edition, e.g. `{ hl:
-        "es-419", gl: "MX", ceid: "MX:es" }` for Mexico; omitted, every field defaults to the US
-        English edition.
+        count of its own** — a `when:` window OR an explicit `after:`/`before:` range wider than
+        what fits is NOT silently cut: when the oldest row served does not reach the window's or
+        range's start, the result carries `truncatedBefore` (the oldest served article's own
+        timestamp — the answer did not reach the start you named, not a count of what was
+        missed) so a caller can page past it with `after:`/`before:` starting exactly there
+        (measured 2026-09-18: `"tesla when:7d"` reached only its newest 11.7h; measured
+        2026-09-19: an 8-day `after:`/`before:` range reached only its newest ~24.5h, with over
+        a hundred articles proven missing). `locale` — `{ hl, gl, ceid }` — asks for another
+        country/language edition, e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }` for Mexico;
+        omitted, every field defaults to the US English edition.
         """
 
     async def topStories(self, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsTopStories_Out:
@@ -25939,11 +25941,13 @@ class Prv_google_news(Protocol):
         cannot resolve is refused rather than answered with the wrong newsroom. Measured
         2026-09-15: `site:reuters.com tesla` returned 100 items of which 100 carried a
         `<source>` domain on `reuters.com`. **Same truncation caveat as `searchNews`**: a
-        `when:` window wider than the feed's ~100-row cap is never silently cut — the result
-        carries `truncatedBefore` when more exists before that timestamp (measured 2026-09-18:
-        `listPublisherHeadlines("reuters.com", "when:7d")` reached only its newest 22h).
-        `locale` — `{ hl, gl, ceid }` — asks for another country/language edition; omitted, the
-        US English one.
+        `when:` window OR an explicit `after:`/`before:` range wider than the feed's ~100-row
+        cap is never silently cut — the result carries `truncatedBefore` (the answer did not
+        reach the start you named, not a count of what was missed) when more exists before that
+        timestamp (measured 2026-09-18: `listPublisherHeadlines("reuters.com", "when:7d")`
+        reached only its newest 22h; measured 2026-09-19: an 8-day `after:`/`before:` range
+        reached only its newest ~24.5h). `locale` — `{ hl, gl, ceid }` — asks for another
+        country/language edition; omitted, the US English one.
         """
 
     async def listLocalHeadlines(self, place: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:

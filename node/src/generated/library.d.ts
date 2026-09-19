@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 28a39f5adb7443aa6163013e42f6dfd5dc68004cfbea45e421332b978c6ecf69
+// Manifest version: af86c2816366938eac79b7c87bc3d0ef1199844192d4015af849a37240aee585
 // 55 capabilities, 429 providers, 1167 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17357,14 +17357,16 @@ interface GoogleNewsFullCoverage {
      * `site:reuters.com tesla` returned 100 items of which 100 carried `<source>Reuters</source>`.
      * This is the provider's main door: a caller holding only words gets in here. A query that
      * matches nothing returns an empty `articles` array rather than throwing. **This feed caps
-     * around a hundred rows, newest first, with no count of its own** — a `when:` window wider
-     * than what fits is NOT silently cut: when the oldest row served does not reach the window's
-     * start, the result carries `truncatedBefore` (an ISO timestamp) naming the boundary before
-     * which more articles exist; page past it with `after:`/`before:` in a follow-up call
-     * (measured 2026-09-18: `"tesla when:7d"` reached only its newest 11.7h and returned
-     * `truncatedBefore`). `locale` — `{ hl, gl, ceid }` — asks for another country/language
-     * edition, e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }` for Mexico; omitted, every field
-     * defaults to the US English edition.
+     * around a hundred rows, newest first, with no count of its own** — a `when:` window OR an
+     * explicit `after:`/`before:` range wider than what fits is NOT silently cut: when the oldest
+     * row served does not reach the window's or range's start, the result carries
+     * `truncatedBefore` (the oldest served article's own timestamp — the answer did not reach the
+     * start you named, not a count of what was missed) so a caller can page past it with
+     * `after:`/`before:` starting exactly there (measured 2026-09-18: `"tesla when:7d"` reached
+     * only its newest 11.7h; measured 2026-09-19: an 8-day `after:`/`before:` range reached only
+     * its newest ~24.5h, with over a hundred articles proven missing). `locale` — `{ hl, gl, ceid
+     * }` — asks for another country/language edition, e.g. `{ hl: "es-419", gl: "MX", ceid:
+     * "MX:es" }` for Mexico; omitted, every field defaults to the US English edition.
      */
     searchNews(query: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsSearchResult>;
 
@@ -17404,10 +17406,13 @@ interface GoogleNewsFullCoverage {
      * name the door cannot resolve is refused rather than answered with the wrong newsroom.
      * Measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which 100 carried a
      * `<source>` domain on `reuters.com`. **Same truncation caveat as `searchNews`**: a `when:`
-     * window wider than the feed's ~100-row cap is never silently cut — the result carries
-     * `truncatedBefore` when more exists before that timestamp (measured 2026-09-18:
-     * `listPublisherHeadlines("reuters.com", "when:7d")` reached only its newest 22h). `locale` —
-     * `{ hl, gl, ceid }` — asks for another country/language edition; omitted, the US English one.
+     * window OR an explicit `after:`/`before:` range wider than the feed's ~100-row cap is never
+     * silently cut — the result carries `truncatedBefore` (the answer did not reach the start you
+     * named, not a count of what was missed) when more exists before that timestamp (measured
+     * 2026-09-18: `listPublisherHeadlines("reuters.com", "when:7d")` reached only its newest 22h;
+     * measured 2026-09-19: an 8-day `after:`/`before:` range reached only its newest ~24.5h).
+     * `locale` — `{ hl, gl, ceid }` — asks for another country/language edition; omitted, the US
+     * English one.
      */
     listPublisherHeadlines(publisher: string, query?: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsPublisherHeadlines>;
 
