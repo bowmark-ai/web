@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1642 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1645 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -539,6 +539,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `erieinsurance.getWorkersCompensationQuote` | erieinsurance.com | Returns a workers' compensation insurance premium quote for a business's payroll… | ⚪ |
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword, the way etsy.com's own… | 🟢 |
+| `evag.listDepartures` | evag.de | Real-time departure information for a given stop, with line numbers, destinations, and… | 🟢 |
+| `evag.searchStop` | evag.de | Search for a transit stop by name or partial name; returns a list of matching stops… | 🟢 |
 | `eventsource.getShowroom` | eventsource.com | Reads a public Virtual Design Center showroom by its access code — the pre-built room… | 🟢 |
 | `eventsource.getShowroomInquiryContact` | eventsource.com | Reads who a showroom's 'Send Inquiry' button actually emails — the sales inbox and the… | 🟢 |
 | `eventsource.getShowroomVenue` | eventsource.com | Reads the real venue/room a showroom's design is staged in — business name… | 🟢 |
@@ -1246,6 +1248,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `poshmark.getBulkUploadTemplateGuide` | poshmark.com | Reads Poshmark's own 'How to use Bulk Upload Templates' support article — required… | 🟢 |
 | `poshmark.getZipFileGuide` | poshmark.com | Reads Poshmark's own 'How to create a Zip file for Bulk Upload' support article — how… | 🟢 |
 | `positivegrid.findRetailers` | positivegrid.com | Authorized Positive Grid retailers near a place — real dealers who carry Spark amps… | 🟢 |
+| `postcard_direct_mail.getQuote` | postcard-quote-engine | Returns a price quote for printing and mailing postcards — calculates pricing based on… | 🟢 |
 | `postiz.createPost` | postiz.com | Create and schedule a new post across a connected social media account. | 🟡 |
 | `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟡 |
 | `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟢 |

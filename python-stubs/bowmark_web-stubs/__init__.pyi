@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 01dfa69fdaed74e5e1c06c1dd7c27c2812cf80a8815f81447f3e67c1c6dd56a4
-# 55 capabilities, 431 providers, 1157 typed functions, 20 refused.
+# Manifest version: 2db809495a7bfe25fb49b2f7f4eae30c248490bd6665c02c5fcafb2677d2da8f
+# 55 capabilities, 432 providers, 1159 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7862,6 +7862,18 @@ class Prv_etsy_etsyListing_Out(TypedDict):
     quantity: float | None
     tags: list[str]
     url: str
+
+class Prv_evag_Departure_Out(TypedDict):
+    line: str
+    destination: str
+    minutesUntil: float
+    platform: NotRequired[str]
+    delayMinutes: NotRequired[float]
+
+class Prv_evag_StopSearchResult_Out(TypedDict):
+    id: str
+    name: str
+    city: NotRequired[str]
 
 class Prv_eventsource_EventSourceShowroom_Out(TypedDict):
     accessCode: str
@@ -24871,6 +24883,19 @@ class Prv_etsy(Protocol):
         account; send your own key as the `x-bowmark-vendor-key-etsy` header instead.
         """
 
+class Prv_evag(Protocol):
+    """Real-time transit departures and disruptions for Essen, Germany."""
+
+    async def listDepartures(self, stopId: str, /) -> list[Prv_evag_Departure_Out]:
+        """Real-time departure information for a given stop, with line numbers, destinations, and
+        minutes until departure.
+        """
+
+    async def searchStop(self, query: str, /) -> list[Prv_evag_StopSearchResult_Out]:
+        """Search for a transit stop by name or partial name; returns a list of matching stops with
+        their ids.
+        """
+
 class Prv_eventsource(Protocol):
     """Reads a public Event Source Virtual Design Center showroom (design, venue, inquiry
     contact) by its access code — no login.
@@ -33310,6 +33335,7 @@ class BowmarkProviders(Protocol):
     equinox_hotels: Prv_equinox_hotels
     erieinsurance: Prv_erieinsurance
     etsy: Prv_etsy
+    evag: Prv_evag
     eventsource: Prv_eventsource
     evolutionofsmooth: Prv_evolutionofsmooth
     evolvemedspa: Prv_evolvemedspa

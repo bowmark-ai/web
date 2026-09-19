@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 01dfa69fdaed74e5e1c06c1dd7c27c2812cf80a8815f81447f3e67c1c6dd56a4
-// 1157 checked, 20 unchecked.
+// Manifest version: 2db809495a7bfe25fb49b2f7f4eae30c248490bd6665c02c5fcafb2677d2da8f
+// 1159 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "01dfa69fdaed74e5e1c06c1dd7c27c2812cf80a8815f81447f3e67c1c6dd56a4",
+  "version": "2db809495a7bfe25fb49b2f7f4eae30c248490bd6665c02c5fcafb2677d2da8f",
   "units": {
     "booking_links": {
       "defs": {
@@ -13356,6 +13356,29 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.evag": {
+      "defs": {},
+      "functions": {
+        "listDepartures": [
+          {
+            "name": "stopId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchStop": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

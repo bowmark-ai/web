@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 01dfa69fdaed74e5e1c06c1dd7c27c2812cf80a8815f81447f3e67c1c6dd56a4
-// 55 capabilities, 431 providers, 1175 typed functions, 20 refused.
+// Manifest version: 2db809495a7bfe25fb49b2f7f4eae30c248490bd6665c02c5fcafb2677d2da8f
+// 55 capabilities, 432 providers, 1177 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14463,6 +14463,44 @@ interface etsyListing {
      * own key as the `x-bowmark-vendor-key-etsy` header instead.
      */
     search(args: string | { query: string; limit?: number }): Promise<etsyListing[]>;
+  }
+}
+
+declare namespace BowmarkProvider_evag {
+  // ── EVAG — Essener Verkehrs-AG — the unit's own declarations, verbatim ──
+interface Departure {
+  line: string;
+  destination: string;
+  minutesUntil: number;
+  platform?: string;
+  delayMinutes?: number;
+}
+
+interface StopSearchResult {
+  id: string;
+  name: string;
+  city?: string;
+}
+
+interface LineStatus {
+  line: string;
+  status: "normal" | "disruption" | "delay";
+  message?: string;
+}
+
+  /** Real-time transit departures and disruptions for Essen, Germany. */
+  interface Unit {
+    /**
+     * Real-time departure information for a given stop, with line numbers, destinations, and
+     * minutes until departure.
+     */
+    listDepartures(stopId: string): Promise<Departure[]>;
+
+    /**
+     * Search for a transit stop by name or partial name; returns a list of matching stops with
+     * their ids.
+     */
+    searchStop(query: string): Promise<StopSearchResult[]>;
   }
 }
 
@@ -37452,6 +37490,7 @@ interface BowmarkProviders {
   equinox_hotels: BowmarkProvider_equinox_hotels.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
   etsy: BowmarkProvider_etsy.Unit;
+  evag: BowmarkProvider_evag.Unit;
   eventsource: BowmarkProvider_eventsource.Unit;
   evolutionofsmooth: BowmarkProvider_evolutionofsmooth.Unit;
   evolvemedspa: BowmarkProvider_evolvemedspa.Unit;
