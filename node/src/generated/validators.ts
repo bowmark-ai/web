@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6b81da54362f8ab9155732152f5a2419443eaf3c76d8ba5ae58709f8b9753d57
-// 1162 checked, 20 unchecked.
+// Manifest version: eda7efee0a79ea5e52e8169f85f01db2f11d9d4dc1cc98c09ce8c6a517f903ed
+// 1164 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6b81da54362f8ab9155732152f5a2419443eaf3c76d8ba5ae58709f8b9753d57",
+  "version": "eda7efee0a79ea5e52e8169f85f01db2f11d9d4dc1cc98c09ce8c6a517f903ed",
   "units": {
     "booking_links": {
       "defs": {
@@ -25176,7 +25176,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listLiveSports": []
+        "listLiveSports": [],
+        "listRelatedTitles": [
+          {
+            "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.progressive": {
@@ -34390,6 +34399,41 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getLiveChat": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "video",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "continuation",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
                 }
               ]
             },

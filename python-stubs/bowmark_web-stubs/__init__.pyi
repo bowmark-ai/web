@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6b81da54362f8ab9155732152f5a2419443eaf3c76d8ba5ae58709f8b9753d57
-# 56 capabilities, 434 providers, 1162 typed functions, 20 refused.
+# Manifest version: eda7efee0a79ea5e52e8169f85f01db2f11d9d4dc1cc98c09ce8c6a517f903ed
+# 56 capabilities, 434 providers, 1164 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19217,6 +19217,24 @@ class Prv_youtube_YoutubeChapter_Out(TypedDict):
     startSeconds: float
     timeDescription: str
 
+class Prv_youtube_getLiveChat_input_u0_In(TypedDict):
+    video: str
+
+class Prv_youtube_getLiveChat_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeLiveChat_Out(TypedDict):
+    open: bool
+    notice: str | None
+    messages: list[Prv_youtube_YoutubeLiveChatMessage_Out]
+    continuation: str | None
+
+class Prv_youtube_YoutubeLiveChatMessage_Out(TypedDict):
+    authorName: str
+    authorChannelId: str | None
+    text: str
+    timestampUsec: str
+
 class Prv_youtube_listCaptionTracks_input_In(TypedDict):
     video: str
 
@@ -21630,16 +21648,17 @@ class Prv_apple(Protocol):
         """
 
     async def compareModels(self, models: Sequence[str], /) -> Prv_apple_AppleCompareModels_Out:
-        """Puts two or more iPhone models side by side on the specs apple.com itself compares them
-        on — screen size, chip, camera system, battery, capacity, finish, durability rating,
-        connectivity — straight off apple.com's own /iphone/compare/ grid. Model names must
-        match the page's own naming exactly (e.g. "iPhone 17 Pro", not "17 Pro" or
-        "iphone17pro"); an unmatched name throws naming the page's own list. Carries no price:
-        apple.com's own compare page renders its Price row as an unfilled client-side template
-        with no number in the static HTML, so this omits it rather than guess — read a price off
-        getConfigurationOptions or getPurchaseOptions instead. A spec absent for one model (an
-        older phone with no Dynamic Island) is simply missing from that model's own list, never
-        a false "no".
+        """Puts two or more models of the SAME family — Mac, iPhone, iPad or Apple Watch — side by
+        side on the specs apple.com itself compares them on, straight off apple.com's own
+        /<family>/compare/ grid; which family is read off the model names themselves, never a
+        second argument. Model names must match the page's own naming exactly (e.g. "iPhone 17
+        Pro", not "17 Pro" or "iphone17pro"; "MacBook Air 13-in. (M5)", not "MacBook Air"); an
+        unmatched name throws naming the page's own list, and names spanning two families throws
+        too. Carries no price: apple.com's own compare page renders its Price row as an unfilled
+        client-side template with no number in the static HTML, so this omits it rather than
+        guess — read a price off getConfigurationOptions or getPurchaseOptions instead. A spec
+        absent for one model (an older phone with no Dynamic Island) is simply missing from that
+        model's own list, never a false "no".
         """
 
     async def listFamilyModels(self, family: Literal["mac"] | Literal["iphone"] | Literal["ipad"] | Literal["watch"], /) -> Prv_apple_AppleFamilyModelList_Out:
@@ -30372,6 +30391,19 @@ class Prv_prime_video(Protocol):
         series, a studio broadcast) — a real and common answer, never a parse failure.
         """
 
+    async def listRelatedTitles(self, titleId: str, /) -> list[Prv_prime_video_PrimeVideoCategoryRow_Out]:
+        """What to watch next after this one — the commonest thing anyone says after the credits
+        roll, and the one ordinary catalogue question the rest of this provider cannot answer at
+        all: searching the film's own name (searchTitles()) returns its sequels, not a
+        recommendation. Takes a titleId or a title URL, e.g. one read off searchTitles() or
+        getTitle(). Reads the SAME cached page as getTitle, never fetches it twice. Returns one
+        row per carousel the detail page carries below the fold — typically "Customers also
+        watched" (real titles, not the one just watched or its own sequels) and, when the title
+        belongs to one, "Explore the … collection" for the rest of the franchise — in the SAME
+        shape listCategoryTitles() returns, so a caller reads both the same way. A title with no
+        such rows on its page returns an empty array, a real, if unlikely, answer.
+        """
+
 class Prv_progressive(Protocol):
     """Quotes from the second-largest US auto insurer across every line it publishes — auto,
     the specialty vehicle band (motorcycle, boat, RV, ATV, snowmobile, golf cart, PWC,
@@ -33055,6 +33087,17 @@ class Prv_youtube(Protocol):
         (e.g. "1:03:10"). `video` is a bare 11-character video id or any
         watch/shorts/embed/live/youtu.be URL, exactly as `getTranscript` takes it. `[]` when the
         video has no chapters at all — a real, honest answer, not a failure.
+        """
+
+    async def getLiveChat(self, input: Prv_youtube_getLiveChat_input_u0_In | Prv_youtube_getLiveChat_input_u1_In, /) -> Prv_youtube_YoutubeLiveChat_Out:
+        """The messages scrolling past a live stream right now — each with its author, text and
+        YouTube's own microsecond timestamp. `video` is a bare 11-character video id or any
+        watch/shorts/embed/live/youtu.be URL, exactly as `getTranscript` takes it, for the FIRST
+        call; pass back `continuation` alone — no `video` needed — to read what arrived since.
+        `open` is false, with the site's own `notice` sentence (e.g. "Chat is disabled for this
+        live stream."), when the stream has never gone live, its chat is off, or it already
+        ended — nothing in the response tells those three apart. `continuation` is null once the
+        stream stops offering one.
         """
 
     async def listCaptionTracks(self, input: Prv_youtube_listCaptionTracks_input_In, /) -> list[Prv_youtube_YoutubeCaptionTrack_Out]:

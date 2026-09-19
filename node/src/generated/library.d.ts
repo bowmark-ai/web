@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6b81da54362f8ab9155732152f5a2419443eaf3c76d8ba5ae58709f8b9753d57
-// 56 capabilities, 434 providers, 1180 typed functions, 20 refused.
+// Manifest version: eda7efee0a79ea5e52e8169f85f01db2f11d9d4dc1cc98c09ce8c6a517f903ed
+// 56 capabilities, 434 providers, 1182 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5848,15 +5848,17 @@ interface AppleCompareModels {
     getPurchaseOptions(urlOrPath: string): Promise<ApplePurchaseOptions>;
 
     /**
-     * Puts two or more iPhone models side by side on the specs apple.com itself compares them on —
-     * screen size, chip, camera system, battery, capacity, finish, durability rating, connectivity
-     * — straight off apple.com's own /iphone/compare/ grid. Model names must match the page's own
-     * naming exactly (e.g. "iPhone 17 Pro", not "17 Pro" or "iphone17pro"); an unmatched name
-     * throws naming the page's own list. Carries no price: apple.com's own compare page renders
-     * its Price row as an unfilled client-side template with no number in the static HTML, so this
-     * omits it rather than guess — read a price off getConfigurationOptions or getPurchaseOptions
-     * instead. A spec absent for one model (an older phone with no Dynamic Island) is simply
-     * missing from that model's own list, never a false "no".
+     * Puts two or more models of the SAME family — Mac, iPhone, iPad or Apple Watch — side by side
+     * on the specs apple.com itself compares them on, straight off apple.com's own
+     * /<family>/compare/ grid; which family is read off the model names themselves, never a second
+     * argument. Model names must match the page's own naming exactly (e.g. "iPhone 17 Pro", not
+     * "17 Pro" or "iphone17pro"; "MacBook Air 13-in. (M5)", not "MacBook Air"); an unmatched name
+     * throws naming the page's own list, and names spanning two families throws too. Carries no
+     * price: apple.com's own compare page renders its Price row as an unfilled client-side
+     * template with no number in the static HTML, so this omits it rather than guess — read a
+     * price off getConfigurationOptions or getPurchaseOptions instead. A spec absent for one model
+     * (an older phone with no Dynamic Island) is simply missing from that model's own list, never
+     * a false "no".
      */
     compareModels(models: string[]): Promise<AppleCompareModels>;
 
@@ -28876,6 +28878,20 @@ interface PrimeVideoLiveSportsEvent {
      * failure.
      */
     listLiveSports(): Promise<PrimeVideoLiveSportsEvent[]>;
+
+    /**
+     * What to watch next after this one — the commonest thing anyone says after the credits roll,
+     * and the one ordinary catalogue question the rest of this provider cannot answer at all:
+     * searching the film's own name (searchTitles()) returns its sequels, not a recommendation.
+     * Takes a titleId or a title URL, e.g. one read off searchTitles() or getTitle(). Reads the
+     * SAME cached page as getTitle, never fetches it twice. Returns one row per carousel the
+     * detail page carries below the fold — typically "Customers also watched" (real titles, not
+     * the one just watched or its own sequels) and, when the title belongs to one, "Explore the …
+     * collection" for the rest of the franchise — in the SAME shape listCategoryTitles() returns,
+     * so a caller reads both the same way. A title with no such rows on its page returns an empty
+     * array, a real, if unlikely, answer.
+     */
+    listRelatedTitles(titleId: string): Promise<PrimeVideoCategoryRow[]>;
   }
 }
 
@@ -36192,6 +36208,20 @@ interface YoutubeChapter {
   timeDescription: string; // YouTube's own display text, e.g. "1:03:10"
 }
 
+interface YoutubeLiveChatMessage {
+  authorName: string;
+  authorChannelId: string | null;
+  text: string;
+  timestampUsec: string; // YouTube's own microsecond epoch timestamp, as a string
+}
+
+interface YoutubeLiveChat {
+  open: boolean;               // false when there is no chat to read at all — see notice
+  notice: string | null;       // the site's own sentence when open is false
+  messages: YoutubeLiveChatMessage[];
+  continuation: string | null; // pass back as { continuation } for the next batch; null once the chat has ended
+}
+
 interface YoutubePlaylist {
   playlistId: string;
   title: string;
@@ -36342,6 +36372,18 @@ interface YoutubeStreamFormat {
      * real, honest answer, not a failure.
      */
     listChapters(input: { video: string }): Promise<YoutubeChapter[]>;
+
+    /**
+     * The messages scrolling past a live stream right now — each with its author, text and
+     * YouTube's own microsecond timestamp. `video` is a bare 11-character video id or any
+     * watch/shorts/embed/live/youtu.be URL, exactly as `getTranscript` takes it, for the FIRST
+     * call; pass back `continuation` alone — no `video` needed — to read what arrived since.
+     * `open` is false, with the site's own `notice` sentence (e.g. "Chat is disabled for this live
+     * stream."), when the stream has never gone live, its chat is off, or it already ended —
+     * nothing in the response tells those three apart. `continuation` is null once the stream
+     * stops offering one.
+     */
+    getLiveChat(input: { video: string } | { continuation: string }): Promise<YoutubeLiveChat>;
 
     /**
      * Which languages a video's captions are available in, whether each was written by a
