@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a9017166cde5bdeab48b532346ce89b8bfbeda3a7f1e5fda07f8ce6f40e7a332
+// Manifest version: 3f0edb108f75b7bf85f421ed9b37c48bed3c0c2ae0578b694a8a8bf900bd96be
 // 56 capabilities, 433 providers, 1179 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -4433,6 +4433,7 @@ interface SearchProductsArgs {
   priceMin?: number;
   priceMax?: number;
   brand?: string;
+  page?: number;
 }
 interface ListCategoryProductsArgs {
   department: string;
@@ -4582,8 +4583,9 @@ interface AmazonSellerOffersResult {
      * Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c hub" —
      * and get back the result cards as the site ranks them: ASIN, title, price, list price, star
      * rating, review count, whether the row is a paid placement, and its product URL. Optionally
-     * narrowed to a department, a brand, a price range and a sort order. THE provider's door:
-     * every function below that takes an ASIN is fed by this one.
+     * narrowed to a department, a brand, a price range, a sort order and a page (1-based; page 2
+     * is a genuinely different set of rows, not page one repeated). THE provider's door: every
+     * function below that takes an ASIN is fed by this one.
      */
     searchProducts(args: SearchProductsArgs): Promise<AmazonProduct[]>;
 

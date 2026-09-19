@@ -1211,7 +1211,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pacificcompanies.searchJobs` | pacificcompanies.com | Runs Pacific Companies' own job-board search — filters real open physician/APP roles… | 🟢 |
 | `pacificlifestylehomes.searchAvailableHomes` | pacificlifestylehomes.com | Searches Pacific Lifestyle Homes' live available-home inventory in Camas, Ridgefield… | 🟢 |
 | `packlane.getQuote` | packlane.com | Prices Packlane's custom Mailer Boxes (product 35139) for a given box size, material… | 🟢 |
-| `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | ⚪ |
+| `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | 🟢 |
 | `paypal.estimateFee` | paypal.com | Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — an… | 🟢 |
 | `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | ⚪ |
 | `paypal.getCryptoPrices` | paypal.com | Reads the buy and sell prices PayPal itself quotes for the cryptocurrencies it… | ⚪ |
