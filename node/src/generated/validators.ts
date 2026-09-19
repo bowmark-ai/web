@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2db809495a7bfe25fb49b2f7f4eae30c248490bd6665c02c5fcafb2677d2da8f
-// 1159 checked, 20 unchecked.
+// Manifest version: a9017166cde5bdeab48b532346ce89b8bfbeda3a7f1e5fda07f8ce6f40e7a332
+// 1161 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2db809495a7bfe25fb49b2f7f4eae30c248490bd6665c02c5fcafb2677d2da8f",
+  "version": "a9017166cde5bdeab48b532346ce89b8bfbeda3a7f1e5fda07f8ce6f40e7a332",
   "units": {
     "booking_links": {
       "defs": {
@@ -2355,6 +2355,43 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "postcard_direct_mail_quote": {
+      "defs": {},
+      "functions": {
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "quantity",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "size",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "stock",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -24700,6 +24737,48 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "positivegridFindRetailersArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.postcard_direct_mail": {
+      "defs": {
+        "GetQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "stock",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetQuoteArgs"
             },
             "optional": false
           }

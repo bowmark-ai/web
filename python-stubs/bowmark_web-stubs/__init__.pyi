@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2db809495a7bfe25fb49b2f7f4eae30c248490bd6665c02c5fcafb2677d2da8f
-# 55 capabilities, 432 providers, 1159 typed functions, 20 refused.
+# Manifest version: a9017166cde5bdeab48b532346ce89b8bfbeda3a7f1e5fda07f8ce6f40e7a332
+# 56 capabilities, 433 providers, 1161 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1305,6 +1305,25 @@ class Cap_phone_trade_in_TradeInQuote_Out(TypedDict):
 
 class Cap_phone_trade_in_TradeInQuote_Out_price_Out(TypedDict):
     amount: float
+    currency: str
+
+class Cap_postcard_direct_mail_quote_getQuote_args_In(TypedDict):
+    quantity: float
+    size: NotRequired[str]
+    stock: NotRequired[str]
+
+class Cap_postcard_direct_mail_quote_PostcardDirectMailQuote_Out(TypedDict):
+    quantity: float
+    lineItems: list[Cap_postcard_direct_mail_quote_PostcardQuoteLineItem_Out]
+    estimatedDeliveryDays: NotRequired[float]
+    checkoutUrl: NotRequired[str]
+    warnings: list[str]
+
+class Cap_postcard_direct_mail_quote_PostcardQuoteLineItem_Out(TypedDict):
+    size: str
+    stock: str
+    totalPrice: float
+    unitPrice: float
     currency: str
 
 class Cap_pricing_PersonalizationPersona_In(TypedDict):
@@ -14764,6 +14783,24 @@ class Prv_positivegrid_positivegridRetailer_Out(TypedDict):
     longitude: float
     distanceMiles: float
 
+class Prv_postcard_direct_mail_GetQuoteArgs_In(TypedDict):
+    quantity: float
+    size: NotRequired[str]
+    stock: NotRequired[str]
+
+class Prv_postcard_direct_mail_PostcardDirectMailQuoteResponse_Out(TypedDict):
+    quantity: float
+    lineItems: list[Prv_postcard_direct_mail_PostcardQuoteLineItem_Out]
+    estimatedDeliveryDays: NotRequired[float]
+    warnings: list[str]
+
+class Prv_postcard_direct_mail_PostcardQuoteLineItem_Out(TypedDict):
+    size: str
+    stock: str
+    totalPrice: float
+    unitPrice: float
+    currency: str
+
 class Prv_postiz_ListPostsArgs_In(TypedDict):
     startDate: str
     endDate: str
@@ -20269,6 +20306,14 @@ class Cap_phone_trade_in(Protocol):
         wrong guess would silently price the wrong device. `warnings` is always present and
         names anything dropped, including a source that timed out or failed. `options.timeoutMs`
         sets the per-source budget (default 30000).
+        """
+
+class Cap_postcard_direct_mail_quote(Protocol):
+    """Get a quote for printing direct mail postcards — pricing by quantity, size, and stock."""
+
+    async def getQuote(self, args: Cap_postcard_direct_mail_quote_getQuote_args_In, /) -> Cap_postcard_direct_mail_quote_PostcardDirectMailQuote_Out:
+        """Returns pricing for direct mail postcards at a requested quantity, with optional size
+        and stock specifications.
         """
 
 class Cap_pricing(Protocol):
@@ -29975,6 +30020,14 @@ class Prv_positivegrid(Protocol):
         whole feed, unlike a server-side search that would silently truncate.
         """
 
+class Prv_postcard_direct_mail(Protocol):
+    """Get postcard printing quotes with pricing by quantity, size, and stock."""
+
+    async def getQuote(self, args: Prv_postcard_direct_mail_GetQuoteArgs_In, /) -> Prv_postcard_direct_mail_PostcardDirectMailQuoteResponse_Out:
+        """Returns pricing for direct mail postcards at the requested quantity with optional size
+        and stock.
+        """
+
 class Prv_postiz(Protocol):
     """Schedule and publish posts across multiple social media platforms"""
 
@@ -33501,6 +33554,7 @@ class BowmarkProviders(Protocol):
     polytex: Prv_polytex
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
+    postcard_direct_mail: Prv_postcard_direct_mail
     postiz: Prv_postiz
     powys: Prv_powys
     premierbuildings: Prv_premierbuildings
@@ -33644,6 +33698,7 @@ class Bowmark(Protocol):
     pet_boarding: Cap_pet_boarding
     phone_price: Cap_phone_price
     phone_trade_in: Cap_phone_trade_in
+    postcard_direct_mail_quote: Cap_postcard_direct_mail_quote
     pricing: Cap_pricing
     products: Cap_products
     promocodes: Cap_promocodes

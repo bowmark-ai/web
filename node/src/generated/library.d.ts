@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2db809495a7bfe25fb49b2f7f4eae30c248490bd6665c02c5fcafb2677d2da8f
-// 55 capabilities, 432 providers, 1177 typed functions, 20 refused.
+// Manifest version: a9017166cde5bdeab48b532346ce89b8bfbeda3a7f1e5fda07f8ce6f40e7a332
+// 56 capabilities, 433 providers, 1179 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2165,6 +2165,40 @@ type CallOptions = {
      * timed out or failed. `options.timeoutMs` sets the per-source budget (default 30000).
      */
     estimate(query: { model: string; storage: string; condition?: string } | string, options?: CallOptions): Promise<PhoneTradeInEstimate>;
+  }
+}
+
+declare namespace BowmarkCapability_postcard_direct_mail_quote {
+  // ── Direct mail postcard printing quote — the unit's own declarations, verbatim ──
+interface GetQuoteArgs {
+  quantity: number
+  size?: string
+  stock?: string
+}
+
+interface PostcardQuoteLineItem {
+  size: string
+  stock: string
+  totalPrice: number
+  unitPrice: number
+  currency: string
+}
+
+interface PostcardDirectMailQuote {
+  quantity: number
+  lineItems: PostcardQuoteLineItem[]
+  estimatedDeliveryDays?: number
+  checkoutUrl?: string
+  warnings: string[]
+}
+
+  /** Get a quote for printing direct mail postcards — pricing by quantity, size, and stock. */
+  interface Unit {
+    /**
+     * Returns pricing for direct mail postcards at a requested quantity, with optional size and
+     * stock specifications.
+     */
+    getQuote(args: { quantity: number; size?: string; stock?: string }): Promise<PostcardDirectMailQuote>;
   }
 }
 
@@ -28192,6 +28226,39 @@ interface positivegridRetailerSearch {
   }
 }
 
+declare namespace BowmarkProvider_postcard_direct_mail {
+  // ── Direct Mail Postcard Quotes — the unit's own declarations, verbatim ──
+interface GetQuoteArgs {
+  quantity: number
+  size?: string
+  stock?: string
+}
+
+interface PostcardQuoteLineItem {
+  size: string
+  stock: string
+  totalPrice: number
+  unitPrice: number
+  currency: string
+}
+
+interface PostcardDirectMailQuoteResponse {
+  quantity: number
+  lineItems: PostcardQuoteLineItem[]
+  estimatedDeliveryDays?: number
+  warnings: string[]
+}
+
+  /** Get postcard printing quotes with pricing by quantity, size, and stock. */
+  interface Unit {
+    /**
+     * Returns pricing for direct mail postcards at the requested quantity with optional size and
+     * stock.
+     */
+    getQuote(args: GetQuoteArgs): Promise<PostcardDirectMailQuoteResponse>;
+  }
+}
+
 declare namespace BowmarkProvider_postiz {
   // ── Postiz — the unit's own declarations, verbatim ──
 interface PostizPost {
@@ -37656,6 +37723,7 @@ interface BowmarkProviders {
   polytex: BowmarkProvider_polytex.Unit;
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
+  postcard_direct_mail: BowmarkProvider_postcard_direct_mail.Unit;
   postiz: BowmarkProvider_postiz.Unit;
   powys: BowmarkProvider_powys.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
@@ -89513,6 +89581,7 @@ interface BowmarkLibrary {
   pet_boarding: BowmarkCapability_pet_boarding.Unit;
   phone_price: BowmarkCapability_phone_price.Unit;
   phone_trade_in: BowmarkCapability_phone_trade_in.Unit;
+  postcard_direct_mail_quote: BowmarkCapability_postcard_direct_mail_quote.Unit;
   pricing: BowmarkCapability_pricing.Unit;
   products: BowmarkCapability_products.Unit;
   promocodes: BowmarkCapability_promocodes.Unit;
