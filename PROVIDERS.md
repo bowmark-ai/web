@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1636 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1642 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -39,6 +39,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟡 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
+| `airtable.createRecord` | airtable.com | Creates a new record in a specified table. | 🟢 |
+| `airtable.getRecord` | airtable.com | Retrieves a single record by its ID from a specified table. | 🟢 |
+| `airtable.listBases` | airtable.com | Lists all bases the authenticated user can access. | 🟢 |
+| `airtable.listRecords` | airtable.com | Lists all records in a specified table with optional filtering and sorting. | 🟢 |
+| `airtable.listTables` | airtable.com | Lists all tables in a specified base. | 🟢 |
+| `airtable.updateRecord` | airtable.com | Updates an existing record by its ID. | 🟢 |
 | `ajmadison.checkStock` | ajmadison.com | Reads one product's detail page for its real, current stock/availability message. | ⚪ |
 | `ajmadison.search` | ajmadison.com | Runs AJ Madison's own category + facet filter (brand, size/capacity, price band… | 🟢 |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
