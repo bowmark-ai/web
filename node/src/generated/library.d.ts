@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9f801c1eaa420ce4fcf0d674fbfd556b299125336a51bfd284b520f3495cfb32
+// Manifest version: 28a39f5adb7443aa6163013e42f6dfd5dc68004cfbea45e421332b978c6ecf69
 // 55 capabilities, 429 providers, 1167 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2371,7 +2371,10 @@ type ReadResult = {
      * Loads one page and returns its content. Tries a plain GET first and escalates to a real
      * browser only when the response proves it needs one (a bot wall, an interstitial, or markup
      * carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN the result
-     * rather than throwing.
+     * rather than throwing. RUN-ONLY: because the rung is decided per call, neither `session()`
+     * nor the bare top-level `bowmark` client (which opens a session internally, even for one
+     * call) can serve this — both are refused with code "rung_undeclared". Call it through `run()`
+     * instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -2380,7 +2383,9 @@ type ReadResult = {
      * avoid triggering bot defenses on sites that block concurrent connections from one IP, while
      * requests to DIFFERENT origins run in parallel. Results arrive in the order the urls were
      * given. One dead url never costs you the others — it comes back with `ok: false` and `error`
-     * set.
+     * set. RUN-ONLY: same reason as `page` — the rung is decided per call, so `session()` and the
+     * top-level `bowmark` client are both refused with code "rung_undeclared". Call it through
+     * `run()` instead.
      */
     pages(urls: string[], options?: ReadOptions): Promise<ReadResult[]>;
   }

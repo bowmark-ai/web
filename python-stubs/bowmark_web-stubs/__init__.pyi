@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9f801c1eaa420ce4fcf0d674fbfd556b299125336a51bfd284b520f3495cfb32
+# Manifest version: 28a39f5adb7443aa6163013e42f6dfd5dc68004cfbea45e421332b978c6ecf69
 # 55 capabilities, 429 providers, 1149 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -20263,7 +20263,10 @@ class Cap_read(Protocol):
         """Loads one page and returns its content. Tries a plain GET first and escalates to a real
         browser only when the response proves it needs one (a bot wall, an interstitial, or
         markup carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN
-        the result rather than throwing.
+        the result rather than throwing. RUN-ONLY: because the rung is decided per call, neither
+        `session()` nor the bare top-level `bowmark` client (which opens a session internally,
+        even for one call) can serve this — both are refused with code "rung_undeclared". Call
+        it through `run()` instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -20271,7 +20274,9 @@ class Cap_read(Protocol):
         to avoid triggering bot defenses on sites that block concurrent connections from one IP,
         while requests to DIFFERENT origins run in parallel. Results arrive in the order the
         urls were given. One dead url never costs you the others — it comes back with `ok:
-        false` and `error` set.
+        false` and `error` set. RUN-ONLY: same reason as `page` — the rung is decided per call,
+        so `session()` and the top-level `bowmark` client are both refused with code
+        "rung_undeclared". Call it through `run()` instead.
         """
 
 class Cap_restaurant_booking(Protocol):
