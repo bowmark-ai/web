@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 112679d3411cd4bf9fed9ead96d9a627a5ce0458a8c070d79bfa22cc4cb896be
+// Manifest version: ce5baab47ef0b9a0f3a210023bfcfcb41e4803cb29c0a4daad80a84eb6f87c5f
 // 55 capabilities, 429 providers, 1166 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17048,6 +17048,7 @@ interface GetPlaceResult {
   openStatus?: string;
   accessibility?: string[];
   warnings?: string[];
+  businessStatus?: "closed";
 }
 interface ListReviewsArgs {
   query: string;
@@ -17166,13 +17167,18 @@ interface Photo {
     /**
      * Everything Google Maps shows on one business's panel — name, full address, coordinates,
      * category, neighborhood, phone, website, rating, review count, weekly hours, the site's own
-     * live open/closed line (e.g. "Closed · Opens 7 AM") and its accessibility labels (e.g.
-     * "Wheelchair accessible entrance"), each present only when the site's own response carried
-     * it. openStatus is the site's rendered string, not a boolean this provider computed — hours'
-     * display strings carry no timezone, so a caller cannot derive open-right-now from them
-     * without it. accessibility is absent when the site publishes nothing for that place, never a
-     * guess — the field mask carries no other amenity category (Wi-Fi, outdoor seating, takeout,
-     * …) at all. This retries a few times to see past a reduced/rich flap in the site's own
+     * live open/closed line (e.g. "Closed · Opens 7 AM"), its accessibility labels (e.g.
+     * "Wheelchair accessible entrance") and businessStatus, present and always "closed" ONLY when
+     * the site has flagged the listing permanently closed — each present only when the site's own
+     * response carried it. openStatus is the site's rendered string, not a boolean this provider
+     * computed — hours' display strings carry no timezone, so a caller cannot derive
+     * open-right-now from them without it. accessibility is absent when the site publishes nothing
+     * for that place, never a guess — the field mask carries no other amenity category (Wi-Fi,
+     * outdoor seating, takeout, …) at all. businessStatus reports a CONFIRMED closure honestly
+     * (measured live against Mamnoon, Plum Bistro, Harbor City Restaurant and Copine, all recently
+     * closed) but its absence never means the business is open — Google does not flag every
+     * real-world closure, confirmed live against two long-defunct Toys "R" Us locations that carry
+     * no marker at all. This retries a few times to see past a reduced/rich flap in the site's own
      * response and merges the richest draw; `warnings` is non-empty when every attempt drew the
      * reduced record, meaning reviewCount/hours/openStatus could not be confirmed either way
      * rather than being genuinely absent. A THIRD reading of searchPlaces' door: takes the same
