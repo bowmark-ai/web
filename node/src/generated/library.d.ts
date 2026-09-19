@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 08676e9edcf5ab18fec2477a20e26af33acf5affac7090467220b6cbc3d67a04
+// Manifest version: 293453e6fd0125a1f573f37836528a407585f9144ab551902462916bb8880622
 // 56 capabilities, 434 providers, 1182 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -14510,7 +14510,7 @@ interface etsyListing {
 }
 
 declare namespace BowmarkProvider_evag {
-  // ── EVAG — Essener Verkehrs-AG — the unit's own declarations, verbatim ──
+  // ── EVAG Essen — Public Transit Departures and Schedules — the unit's own declarations, verbatim ──
 interface Departure {
   line: string;
   destination: string;
@@ -14531,7 +14531,10 @@ interface LineStatus {
   message?: string;
 }
 
-  /** Real-time transit departures and disruptions for Essen, Germany. */
+  /**
+   * Real-time public transit departure information, schedules and service disruptions for Essen,
+   * Germany via EVAG (Essener Verkehrs-AG).
+   */
   interface Unit {
     /**
      * Real-time departure information for a given stop, with line numbers, destinations, and
