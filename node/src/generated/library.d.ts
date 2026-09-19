@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2bf7edab4934b72e58ba2ef40f7002ed938826a0a92cd18f2d998ccbe8cdec5b
+// Manifest version: 0fc529ee0d7d9d9d67ef58c1c7a233d840ba0dbe9ecbb90a46c8075992987848
 // 55 capabilities, 429 providers, 1165 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17269,6 +17269,7 @@ interface GoogleNewsArticle {
 interface GoogleNewsSearchResult {
   query: string;
   articles: GoogleNewsArticle[];
+  truncatedBefore?: string;
 }
 interface GoogleNewsTopStories {
   title: string;
@@ -17283,6 +17284,7 @@ interface GoogleNewsPublisherHeadlines {
   publisher: string;
   query: string;
   articles: GoogleNewsArticle[];
+  truncatedBefore?: string;
 }
 interface GoogleNewsLocalHeadlines {
   place: string;
@@ -17335,13 +17337,19 @@ interface GoogleNewsFullCoverage {
      * headline, publisher, publication time and the Google News link, newest first. `query` is
      * exactly what a person would type into Google News' own search box, and Google's own
      * operators work inside it: `when:1h`/`when:1d`/`when:7d` narrows the window,
-     * `site:reuters.com` pins one publisher, quotes pin a phrase and `(a OR b)` unions two
-     * subjects — measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which 100
-     * carried `<source>Reuters</source>`. This is the provider's main door: a caller holding only
-     * words gets in here. A query that matches nothing returns an empty `articles` array rather
-     * than throwing. `locale` — `{ hl, gl, ceid }` — asks for another country/language edition,
-     * e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }` for Mexico; omitted, every field defaults
-     * to the US English edition.
+     * `after:YYYY-MM-DD`/`before:YYYY-MM-DD` pin an explicit date range, `site:reuters.com` pins
+     * one publisher, quotes pin a phrase and `(a OR b)` unions two subjects — measured 2026-09-15:
+     * `site:reuters.com tesla` returned 100 items of which 100 carried `<source>Reuters</source>`.
+     * This is the provider's main door: a caller holding only words gets in here. A query that
+     * matches nothing returns an empty `articles` array rather than throwing. **This feed caps
+     * around a hundred rows, newest first, with no count of its own** — a `when:` window wider
+     * than what fits is NOT silently cut: when the oldest row served does not reach the window's
+     * start, the result carries `truncatedBefore` (an ISO timestamp) naming the boundary before
+     * which more articles exist; page past it with `after:`/`before:` in a follow-up call
+     * (measured 2026-09-18: `"tesla when:7d"` reached only its newest 11.7h and returned
+     * `truncatedBefore`). `locale` — `{ hl, gl, ceid }` — asks for another country/language
+     * edition, e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }` for Mexico; omitted, every field
+     * defaults to the US English edition.
      */
     searchNews(query: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsSearchResult>;
 
@@ -17370,18 +17378,21 @@ interface GoogleNewsFullCoverage {
     /**
      * Everything Google News has indexed from one publisher — `publisher` is a domain like
      * "reuters.com" or a name like "Reuters" — newest first, optionally narrowed with `query` the
-     * same way `searchNews` takes one. Built on the search door with a `site:` filter
-     * (`/rss/search?q=site:<publisher> <query>`), NOT on the route that looks like its own:
-     * `/rss/headlines/section/publication/<NAME>` answers 200 with the Top stories feed
-     * byte-for-byte for a name it cannot resolve, so it would look like it worked and be wrong for
-     * every publisher. `site:` takes a DOMAIN, so a NAME is resolved to one through the search
-     * door first (the host dominating that name's own search results) rather than passed straight
-     * to `site:`, where it is mis-parsed as a TLD plus a keyword (measured 2026-09-17: "Al
-     * Jazeera" returned 100 rows, all from the .al ccTLD) — a name the door cannot resolve is
-     * refused rather than answered with the wrong newsroom. Measured 2026-09-15: `site:reuters.com
-     * tesla` returned 100 items of which 100 carried a `<source>` domain on `reuters.com`.
-     * `locale` — `{ hl, gl, ceid }` — asks for another country/language edition; omitted, the US
-     * English one.
+     * same way `searchNews` takes one, including its `when:`/`after:`/`before:` window operators.
+     * Built on the search door with a `site:` filter (`/rss/search?q=site:<publisher> <query>`),
+     * NOT on the route that looks like its own: `/rss/headlines/section/publication/<NAME>`
+     * answers 200 with the Top stories feed byte-for-byte for a name it cannot resolve, so it
+     * would look like it worked and be wrong for every publisher. `site:` takes a DOMAIN, so a
+     * NAME is resolved to one through the search door first (the host dominating that name's own
+     * search results) rather than passed straight to `site:`, where it is mis-parsed as a TLD plus
+     * a keyword (measured 2026-09-17: "Al Jazeera" returned 100 rows, all from the .al ccTLD) — a
+     * name the door cannot resolve is refused rather than answered with the wrong newsroom.
+     * Measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which 100 carried a
+     * `<source>` domain on `reuters.com`. **Same truncation caveat as `searchNews`**: a `when:`
+     * window wider than the feed's ~100-row cap is never silently cut — the result carries
+     * `truncatedBefore` when more exists before that timestamp (measured 2026-09-18:
+     * `listPublisherHeadlines("reuters.com", "when:7d")` reached only its newest 22h). `locale` —
+     * `{ hl, gl, ceid }` — asks for another country/language edition; omitted, the US English one.
      */
     listPublisherHeadlines(publisher: string, query?: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsPublisherHeadlines>;
 

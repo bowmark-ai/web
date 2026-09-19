@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2bf7edab4934b72e58ba2ef40f7002ed938826a0a92cd18f2d998ccbe8cdec5b
+# Manifest version: 0fc529ee0d7d9d9d67ef58c1c7a233d840ba0dbe9ecbb90a46c8075992987848
 # 55 capabilities, 429 providers, 1147 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -9339,6 +9339,7 @@ class Prv_google_news_GoogleNewsLocaleArg_In(TypedDict):
 class Prv_google_news_GoogleNewsSearchResult_Out(TypedDict):
     query: str
     articles: list[Prv_google_news_GoogleNewsArticle_Out]
+    truncatedBefore: NotRequired[str]
 
 class Prv_google_news_GoogleNewsArticle_Out(TypedDict):
     articleId: str
@@ -9367,6 +9368,7 @@ class Prv_google_news_GoogleNewsPublisherHeadlines_Out(TypedDict):
     publisher: str
     query: str
     articles: list[Prv_google_news_GoogleNewsArticle_Out]
+    truncatedBefore: NotRequired[str]
 
 class Prv_google_news_GoogleNewsLocalHeadlines_Out(TypedDict):
     place: str
@@ -25855,13 +25857,20 @@ class Prv_google_news(Protocol):
         headline, publisher, publication time and the Google News link, newest first. `query` is
         exactly what a person would type into Google News' own search box, and Google's own
         operators work inside it: `when:1h`/`when:1d`/`when:7d` narrows the window,
-        `site:reuters.com` pins one publisher, quotes pin a phrase and `(a OR b)` unions two
-        subjects — measured 2026-09-15: `site:reuters.com tesla` returned 100 items of which 100
-        carried `<source>Reuters</source>`. This is the provider's main door: a caller holding
-        only words gets in here. A query that matches nothing returns an empty `articles` array
-        rather than throwing. `locale` — `{ hl, gl, ceid }` — asks for another country/language
-        edition, e.g. `{ hl: "es-419", gl: "MX", ceid: "MX:es" }` for Mexico; omitted, every
-        field defaults to the US English edition.
+        `after:YYYY-MM-DD`/`before:YYYY-MM-DD` pin an explicit date range, `site:reuters.com`
+        pins one publisher, quotes pin a phrase and `(a OR b)` unions two subjects — measured
+        2026-09-15: `site:reuters.com tesla` returned 100 items of which 100 carried
+        `<source>Reuters</source>`. This is the provider's main door: a caller holding only
+        words gets in here. A query that matches nothing returns an empty `articles` array
+        rather than throwing. **This feed caps around a hundred rows, newest first, with no
+        count of its own** — a `when:` window wider than what fits is NOT silently cut: when the
+        oldest row served does not reach the window's start, the result carries
+        `truncatedBefore` (an ISO timestamp) naming the boundary before which more articles
+        exist; page past it with `after:`/`before:` in a follow-up call (measured 2026-09-18:
+        `"tesla when:7d"` reached only its newest 11.7h and returned `truncatedBefore`).
+        `locale` — `{ hl, gl, ceid }` — asks for another country/language edition, e.g. `{ hl:
+        "es-419", gl: "MX", ceid: "MX:es" }` for Mexico; omitted, every field defaults to the US
+        English edition.
         """
 
     async def topStories(self, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsTopStories_Out:
@@ -25887,7 +25896,8 @@ class Prv_google_news(Protocol):
     async def listPublisherHeadlines(self, publisher: str, query: str | None = None, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsPublisherHeadlines_Out:
         """Everything Google News has indexed from one publisher — `publisher` is a domain like
         "reuters.com" or a name like "Reuters" — newest first, optionally narrowed with `query`
-        the same way `searchNews` takes one. Built on the search door with a `site:` filter
+        the same way `searchNews` takes one, including its `when:`/`after:`/`before:` window
+        operators. Built on the search door with a `site:` filter
         (`/rss/search?q=site:<publisher> <query>`), NOT on the route that looks like its own:
         `/rss/headlines/section/publication/<NAME>` answers 200 with the Top stories feed
         byte-for-byte for a name it cannot resolve, so it would look like it worked and be wrong
@@ -25897,8 +25907,12 @@ class Prv_google_news(Protocol):
         2026-09-17: "Al Jazeera" returned 100 rows, all from the .al ccTLD) — a name the door
         cannot resolve is refused rather than answered with the wrong newsroom. Measured
         2026-09-15: `site:reuters.com tesla` returned 100 items of which 100 carried a
-        `<source>` domain on `reuters.com`. `locale` — `{ hl, gl, ceid }` — asks for another
-        country/language edition; omitted, the US English one.
+        `<source>` domain on `reuters.com`. **Same truncation caveat as `searchNews`**: a
+        `when:` window wider than the feed's ~100-row cap is never silently cut — the result
+        carries `truncatedBefore` when more exists before that timestamp (measured 2026-09-18:
+        `listPublisherHeadlines("reuters.com", "when:7d")` reached only its newest 22h).
+        `locale` — `{ hl, gl, ceid }` — asks for another country/language edition; omitted, the
+        US English one.
         """
 
     async def listLocalHeadlines(self, place: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:
