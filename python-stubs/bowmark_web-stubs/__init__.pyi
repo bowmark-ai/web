@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 48a84e3ea17cbc711d42f7239f1e0ad2de175ed81d31924cf424d8e6dec7955e
+# Manifest version: 88e43ae04d060c13da4de91d74f8d4dba7b4029d2995ba9afcdff239ba11dd56
 # 56 capabilities, 434 providers, 1163 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -9362,6 +9362,7 @@ class Prv_google_maps_ListReviewsArgs_In(TypedDict):
 
 class Prv_google_maps_ListReviewsResult_Out(TypedDict):
     reviews: list[Prv_google_maps_Review_Out]
+    reviewCount: NotRequired[float]
     warnings: list[str]
 
 class Prv_google_maps_Review_Out(TypedDict):
@@ -26004,16 +26005,19 @@ class Prv_google_maps(Protocol):
 
     async def listReviews(self, args: Prv_google_maps_ListReviewsArgs_In, /) -> Prv_google_maps_ListReviewsResult_Out:
         """The reviews Google Maps shows on a business's own panel — a handful, each with author,
-        star rating, review text and the site's own relative date; the count varies by response,
-        so this retries a few times and keeps the longest list seen. A FOURTH reading of
-        searchPlaces' door (the same record getPlace reads, one section further in), not the
-        listugcposts route the survey planned: that route needed a session token minted by a
-        place-page bootstrap that was never cracked, but the same reviews the token would have
-        fetched are already sitting in the panel response. Takes the same resolving query
-        getPlace does. `reviews` is [] for a place with no reviews; `warnings` says so when the
-        site's own panel reports reviews that never rendered across every attempt — a thin draw,
-        not a review-less business. Throws only when the query itself does not resolve to one
-        place.
+        star rating, review text and the site's own relative date; the count of reviews RETURNED
+        varies by response, so this retries a few times and keeps the longest list seen.
+        `reviewCount` is the site's own TOTAL for the business (the same figure getPlace's own
+        reviewCount reads), present whenever any attempt carried it — a caller must not read
+        `reviews.length` as the whole picture, since this is always a preview, never the full
+        set. A FOURTH reading of searchPlaces' door (the same record getPlace reads, one section
+        further in), not the listugcposts route the survey planned: that route needed a session
+        token minted by a place-page bootstrap that was never cracked, but the same reviews the
+        token would have fetched are already sitting in the panel response. Takes the same
+        resolving query getPlace does. `reviews` is [] for a place with no reviews; `warnings`
+        says so when the site's own panel reports reviews that never rendered across every
+        attempt — a thin draw, not a review-less business. Throws only when the query itself
+        does not resolve to one place.
         """
 
     async def listRelatedPlaces(self, args: Prv_google_maps_ListRelatedPlacesArgs_In, /) -> list[Prv_google_maps_RelatedPlace_Out]:

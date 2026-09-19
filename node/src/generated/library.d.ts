@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 48a84e3ea17cbc711d42f7239f1e0ad2de175ed81d31924cf424d8e6dec7955e
+// Manifest version: 88e43ae04d060c13da4de91d74f8d4dba7b4029d2995ba9afcdff239ba11dd56
 // 56 capabilities, 434 providers, 1181 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17248,6 +17248,7 @@ interface Review {
 }
 interface ListReviewsResult {
   reviews: Review[];
+  reviewCount?: number;
   warnings: string[];
 }
 interface ListRelatedPlacesArgs {
@@ -17376,15 +17377,18 @@ interface Photo {
 
     /**
      * The reviews Google Maps shows on a business's own panel — a handful, each with author, star
-     * rating, review text and the site's own relative date; the count varies by response, so this
-     * retries a few times and keeps the longest list seen. A FOURTH reading of searchPlaces' door
-     * (the same record getPlace reads, one section further in), not the listugcposts route the
-     * survey planned: that route needed a session token minted by a place-page bootstrap that was
-     * never cracked, but the same reviews the token would have fetched are already sitting in the
-     * panel response. Takes the same resolving query getPlace does. `reviews` is [] for a place
-     * with no reviews; `warnings` says so when the site's own panel reports reviews that never
-     * rendered across every attempt — a thin draw, not a review-less business. Throws only when
-     * the query itself does not resolve to one place.
+     * rating, review text and the site's own relative date; the count of reviews RETURNED varies
+     * by response, so this retries a few times and keeps the longest list seen. `reviewCount` is
+     * the site's own TOTAL for the business (the same figure getPlace's own reviewCount reads),
+     * present whenever any attempt carried it — a caller must not read `reviews.length` as the
+     * whole picture, since this is always a preview, never the full set. A FOURTH reading of
+     * searchPlaces' door (the same record getPlace reads, one section further in), not the
+     * listugcposts route the survey planned: that route needed a session token minted by a
+     * place-page bootstrap that was never cracked, but the same reviews the token would have
+     * fetched are already sitting in the panel response. Takes the same resolving query getPlace
+     * does. `reviews` is [] for a place with no reviews; `warnings` says so when the site's own
+     * panel reports reviews that never rendered across every attempt — a thin draw, not a
+     * review-less business. Throws only when the query itself does not resolve to one place.
      */
     listReviews(args: ListReviewsArgs): Promise<ListReviewsResult>;
 
