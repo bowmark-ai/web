@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e92e33b78ca10894d67a70bca5055e42c0d8ff0332e32ed2206a8ce7539aacd0
-// 55 capabilities, 429 providers, 1166 typed functions, 20 refused.
+// Manifest version: 9f801c1eaa420ce4fcf0d674fbfd556b299125336a51bfd284b520f3495cfb32
+// 55 capabilities, 429 providers, 1167 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36028,6 +36028,14 @@ interface YoutubeStreamFormat {
      * Pass a video's `url` or `videoId` straight to `getTranscript`.
      */
     search(input: { query: string; uploadedWithin?: "today" | "week" | "month" | "year" }): Promise<YoutubeSearchVideo[]>;
+
+    /**
+     * YouTube's own autocomplete for a partial query — the dropdown it shows while somebody is
+     * still typing, in the site's own ranked order. Use it to turn a vague phrase into the wording
+     * YouTube actually indexes before spending a call on `search`. A query matching nothing
+     * returns a real, honest empty array rather than throwing.
+     */
+    suggestSearches(input: { query: string }): Promise<string[]>;
 
     /**
      * Returns a YouTube video's own caption transcript. `video` is a bare 11-character video id or

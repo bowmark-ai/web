@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e92e33b78ca10894d67a70bca5055e42c0d8ff0332e32ed2206a8ce7539aacd0
-# 55 capabilities, 429 providers, 1148 typed functions, 20 refused.
+# Manifest version: 9f801c1eaa420ce4fcf0d674fbfd556b299125336a51bfd284b520f3495cfb32
+# 55 capabilities, 429 providers, 1149 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18981,6 +18981,9 @@ class Prv_youtube_YoutubeSearchVideo_Out(TypedDict):
     views: float | None
     thumbnail: str | None
 
+class Prv_youtube_suggestSearches_input_In(TypedDict):
+    query: str
+
 class Prv_youtube_getTranscript_input_In(TypedDict):
     video: str
 
@@ -32772,6 +32775,13 @@ class Prv_youtube(Protocol):
         YouTube's own upload-date filter. Rows come back in YouTube's own order either way,
         which is NOT newest first, so sort on `publishedAgeSeconds` (smaller is newer) to find
         the most recent. Pass a video's `url` or `videoId` straight to `getTranscript`.
+        """
+
+    async def suggestSearches(self, input: Prv_youtube_suggestSearches_input_In, /) -> list[str]:
+        """YouTube's own autocomplete for a partial query — the dropdown it shows while somebody is
+        still typing, in the site's own ranked order. Use it to turn a vague phrase into the
+        wording YouTube actually indexes before spending a call on `search`. A query matching
+        nothing returns a real, honest empty array rather than throwing.
         """
 
     async def getTranscript(self, input: Prv_youtube_getTranscript_input_In, /) -> Prv_youtube_YoutubeTranscript_Out:
