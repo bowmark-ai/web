@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: eda7efee0a79ea5e52e8169f85f01db2f11d9d4dc1cc98c09ce8c6a517f903ed
+// Manifest version: 08676e9edcf5ab18fec2477a20e26af33acf5affac7090467220b6cbc3d67a04
 // 56 capabilities, 434 providers, 1182 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17192,6 +17192,7 @@ interface SearchPlacesArgs {
 interface SearchPlacesResult {
   featureId: string;
   name: string;
+  url: string;
   address: string;
   coordinates: { lat: number; lng: number } | null;
   categories: string[];
@@ -17229,6 +17230,7 @@ interface GetPlaceArgs {
 interface GetPlaceResult {
   featureId: string;
   name: string;
+  url: string;
   address: string;
   coordinates: { lat: number; lng: number } | null;
   categories: string[];

@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eda7efee0a79ea5e52e8169f85f01db2f11d9d4dc1cc98c09ce8c6a517f903ed
+# Manifest version: 08676e9edcf5ab18fec2477a20e26af33acf5affac7090467220b6cbc3d67a04
 # 56 capabilities, 434 providers, 1164 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -9290,6 +9290,7 @@ class Prv_google_maps_SearchPlacesArgs_In(TypedDict):
 class Prv_google_maps_SearchPlacesResult_Out(TypedDict):
     featureId: str
     name: str
+    url: str
     address: str
     coordinates: Prv_google_maps_SearchPlacesResult_Out_coordinates_u0_Out | None
     categories: list[str]
@@ -9339,6 +9340,7 @@ class Prv_google_maps_GetPlaceArgs_In(TypedDict):
 class Prv_google_maps_GetPlaceResult_Out(TypedDict):
     featureId: str
     name: str
+    url: str
     address: str
     coordinates: Prv_google_maps_GetPlaceResult_Out_coordinates_u0_Out | None
     categories: list[str]
