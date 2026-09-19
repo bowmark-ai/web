@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 80a47d3ec9beab8c9be88c63525882b855078f8cc350ad425024c0169d05c7cb
+// Manifest version: d05334623d208cc88b37e9b2f0fb78c97e5b389f18585ff5b671205b163e783f
 // 55 capabilities, 429 providers, 1165 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -26855,9 +26855,9 @@ interface OriginBusinessElectricityQuote {
 interface OriginBusinessElectricityQuoteArgs { postcode: string }
 
   /**
-   * Origin Energy business electricity quoting — every plan Origin offers in a postcode's
-   * distributor territory, priced at the regulator's standard reference consumption, the same
-   * live call the site's own 'Compare business plans' page makes.
+   * originenergy.com.au business electricity quote — every plan Origin Energy offers in a
+   * postcode's distributor territory, priced at the regulator's standard reference consumption,
+   * the same live call the site's own 'Compare business plans' page makes.
    */
   interface Unit {
     /**

@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 80a47d3ec9beab8c9be88c63525882b855078f8cc350ad425024c0169d05c7cb
+# Manifest version: d05334623d208cc88b37e9b2f0fb78c97e5b389f18585ff5b671205b163e783f
 # 55 capabilities, 429 providers, 1147 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -29357,9 +29357,9 @@ class Prv_onthemarket(Protocol):
         """Search for residential properties by location and type (sale or rent)"""
 
 class Prv_originenergy_com_au(Protocol):
-    """Origin Energy business electricity quoting — every plan Origin offers in a postcode's
-    distributor territory, priced at the regulator's standard reference consumption, the
-    same live call the site's own 'Compare business plans' page makes.
+    """originenergy.com.au business electricity quote — every plan Origin Energy offers in a
+    postcode's distributor territory, priced at the regulator's standard reference
+    consumption, the same live call the site's own 'Compare business plans' page makes.
     """
 
     async def getBusinessElectricityQuote(self, arg0: Prv_originenergy_com_au_OriginBusinessElectricityQuoteArgs_In, /) -> Prv_originenergy_com_au_OriginBusinessElectricityQuote_Out:
