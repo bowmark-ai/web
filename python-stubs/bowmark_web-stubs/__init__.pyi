@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d05334623d208cc88b37e9b2f0fb78c97e5b389f18585ff5b671205b163e783f
-# 55 capabilities, 429 providers, 1147 typed functions, 20 refused.
+# Manifest version: f570328af199200103cd7bd349b7a9f6fedcaaa3a3583c9c1b29f4727b5d3447
+# 55 capabilities, 429 providers, 1148 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19247,6 +19247,17 @@ class Prv_youtube_YoutubeChannelPostVideo_Out(TypedDict):
     videoId: str
     title: str | None
 
+class Prv_youtube_searchWithinChannel_input_u0_In(TypedDict):
+    channel: str
+    query: str
+
+class Prv_youtube_searchWithinChannel_input_u1_In(TypedDict):
+    continuation: str
+
+class Prv_youtube_YoutubeChannelSearchPage_Out(TypedDict):
+    videos: list[Prv_youtube_YoutubeSearchVideo_Out]
+    continuation: str | None
+
 class Prv_youtube_getPlaylist_input_In(TypedDict):
     playlist: str
 
@@ -32887,6 +32898,16 @@ class Prv_youtube(Protocol):
         `channel` takes a channel id, an @handle, or a channel URL, exactly as
         `listChannelVideos` does. Pass back `continuation` alone — no `channel` needed — to read
         the next page; it is null once there are no more pages.
+        """
+
+    async def searchWithinChannel(self, input: Prv_youtube_searchWithinChannel_input_u0_In | Prv_youtube_searchWithinChannel_input_u1_In, /) -> Prv_youtube_YoutubeChannelSearchPage_Out:
+        """Search one channel's own videos rather than the whole site — the search box on a channel
+        page. Returns the same video rows `search` does (id, url, title, channel, upload age,
+        length, views), scoped to that channel and paged. `channel` takes a channel id, an
+        @handle, or a channel URL, exactly as `listChannelVideos` does. A channel with no match
+        at all answers a real, honest empty page rather than throwing. Pass back `continuation`
+        alone — no `channel`/`query` needed — to read the next page; it is null once there are
+        no more pages.
         """
 
     async def getPlaylist(self, input: Prv_youtube_getPlaylist_input_In, /) -> Prv_youtube_YoutubePlaylist_Out:

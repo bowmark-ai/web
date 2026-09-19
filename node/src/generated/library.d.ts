@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d05334623d208cc88b37e9b2f0fb78c97e5b389f18585ff5b671205b163e783f
-// 55 capabilities, 429 providers, 1165 typed functions, 20 refused.
+// Manifest version: f570328af199200103cd7bd349b7a9f6fedcaaa3a3583c9c1b29f4727b5d3447
+// 55 capabilities, 429 providers, 1166 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35919,6 +35919,11 @@ interface YoutubeChannelPostPage {
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
 }
 
+interface YoutubeChannelSearchPage {
+  videos: YoutubeSearchVideo[];
+  continuation: string | null; // pass back as { continuation } for the next page; null on the last
+}
+
 interface YoutubeRelatedVideo {
   videoId: string;
   url: string;
@@ -36162,6 +36167,16 @@ interface YoutubeStreamFormat {
      * `channel` needed — to read the next page; it is null once there are no more pages.
      */
     listChannelPosts(input: { channel: string } | { continuation: string }): Promise<YoutubeChannelPostPage>;
+
+    /**
+     * Search one channel's own videos rather than the whole site — the search box on a channel
+     * page. Returns the same video rows `search` does (id, url, title, channel, upload age,
+     * length, views), scoped to that channel and paged. `channel` takes a channel id, an @handle,
+     * or a channel URL, exactly as `listChannelVideos` does. A channel with no match at all
+     * answers a real, honest empty page rather than throwing. Pass back `continuation` alone — no
+     * `channel`/`query` needed — to read the next page; it is null once there are no more pages.
+     */
+    searchWithinChannel(input: { channel: string; query: string } | { continuation: string }): Promise<YoutubeChannelSearchPage>;
 
     /**
      * A playlist's own facts: title, description, the channel that owns it, exact video and view

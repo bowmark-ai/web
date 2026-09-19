@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d05334623d208cc88b37e9b2f0fb78c97e5b389f18585ff5b671205b163e783f
-// 1147 checked, 20 unchecked.
+// Manifest version: f570328af199200103cd7bd349b7a9f6fedcaaa3a3583c9c1b29f4727b5d3447
+// 1148 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d05334623d208cc88b37e9b2f0fb78c97e5b389f18585ff5b671205b163e783f",
+  "version": "f570328af199200103cd7bd349b7a9f6fedcaaa3a3583c9c1b29f4727b5d3447",
   "units": {
     "booking_links": {
       "defs": {
@@ -34277,6 +34277,48 @@ export const VALIDATORS: ValidatorTable = {
                   "props": [
                     {
                       "name": "channel",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "continuation",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchWithinChannel": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "channel",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "query",
                       "schema": {
                         "k": "string"
                       },

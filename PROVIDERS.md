@@ -1635,7 +1635,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | ⚪ |
 | `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
 | `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back the videos the… | 🟢 |
-| `youtube.searchWithinChannel` | youtube.com | Search one channel's own videos rather than the whole site — the search box that… | ⚪ |
+| `youtube.searchWithinChannel` | youtube.com | Search one channel's own videos rather than the whole site — the search box that… | 🟢 |
 | `youtube.subscribeToChannel` | youtube.com | Subscribe the signed-in account to a channel (and unsubscribe it again). | ⚪ |
 | `youtube.suggestSearches` | youtube.com | YouTube's own autocomplete for a partial query — the dropdown list it shows while… | ⚪ |
 | `zennioptical.checkStock` | zennioptical.com | Checks live per-SKU inventory (in stock, quantity, backorder/preorder flags) off the… | 🟢 |
