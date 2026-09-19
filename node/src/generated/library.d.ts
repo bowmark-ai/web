@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f322e0e1479ca8b82737347ed75dd81212677a28ec508158ffd7c69acc0c0f52
+// Manifest version: 9045efafcb2175d6a562925071ca632fe989f4fdaa82329a6ac68eb3a7e1eab9
 // 55 capabilities, 430 providers, 1165 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -5790,12 +5790,12 @@ interface AppleCompareModels {
     /**
      * Reads one Apple support article end to end — the real instructions under its headline, not a
      * search snippet — from the docid or URL one of searchSupport()'s own rows carries. Opens a
-     * HelpKB article (docid or URL) and a User Guide page ("url" field only — its own docid
-     * carries no URL apple.com could resolve). An Apple Support Community thread ("thread_<id>"
-     * docid) is refused: discussions.apple.com puts every thread behind a bot-verification
-     * challenge this provider cannot pass browserless yet, so read the row's own "snippet" for
-     * those instead. The read an agent reaches for once searchSupport has narrowed the problem to
-     * one page.
+     * HelpKB article (docid or URL), a User Guide page ("url" field only — its own docid carries
+     * no URL apple.com could resolve), and an Apple Support Community thread ("thread_<id>" docid
+     * or a discussions.apple.com URL) — the last of those through a headless browser past
+     * discussions.apple.com's bot-verification redirect, since it is the door Apple ranks first
+     * for an ordinary problem. The read an agent reaches for once searchSupport has narrowed the
+     * problem to one page.
      */
     getSupportArticle(docidOrUrl: string): Promise<AppleSupportArticle>;
 

@@ -1616,7 +1616,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listCaptionTracks` | youtube.com | Which languages a video's captions are available in, whether each was written by a… | 🟢 |
 | `youtube.listChannelLiveStreams` | youtube.com | A channel's Live tab — the streams it has run, upcoming and past, with their scheduled… | 🟢 |
 | `youtube.listChannelPlaylists` | youtube.com | The playlists a channel has published, each with its id, title, video count and… | 🟢 |
-| `youtube.listChannelPosts` | youtube.com | A channel's Community tab — the text, image and poll posts a creator writes between… | ⚪ |
+| `youtube.listChannelPosts` | youtube.com | A channel's Community tab — the text, image and poll posts a creator writes between… | 🟢 |
 | `youtube.listChannelShorts` | youtube.com | A channel's Shorts tab — its vertical short-form videos, which sit in their own tab… | 🟢 |
 | `youtube.listChannelVideos` | youtube.com | What a channel has published, newest first and paged — each video's id, title, view… | 🟢 |
 | `youtube.listChapters` | youtube.com | A video's own chapter markers — the labelled sections YouTube shows on the scrub bar —… | ⚪ |

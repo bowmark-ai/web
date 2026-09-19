@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f322e0e1479ca8b82737347ed75dd81212677a28ec508158ffd7c69acc0c0f52
+# Manifest version: 9045efafcb2175d6a562925071ca632fe989f4fdaa82329a6ac68eb3a7e1eab9
 # 55 capabilities, 430 providers, 1147 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -21479,12 +21479,12 @@ class Prv_apple(Protocol):
     async def getSupportArticle(self, docidOrUrl: str, /) -> Prv_apple_AppleSupportArticle_Out:
         """Reads one Apple support article end to end — the real instructions under its headline,
         not a search snippet — from the docid or URL one of searchSupport()'s own rows carries.
-        Opens a HelpKB article (docid or URL) and a User Guide page ("url" field only — its own
-        docid carries no URL apple.com could resolve). An Apple Support Community thread
-        ("thread_<id>" docid) is refused: discussions.apple.com puts every thread behind a
-        bot-verification challenge this provider cannot pass browserless yet, so read the row's
-        own "snippet" for those instead. The read an agent reaches for once searchSupport has
-        narrowed the problem to one page.
+        Opens a HelpKB article (docid or URL), a User Guide page ("url" field only — its own
+        docid carries no URL apple.com could resolve), and an Apple Support Community thread
+        ("thread_<id>" docid or a discussions.apple.com URL) — the last of those through a
+        headless browser past discussions.apple.com's bot-verification redirect, since it is the
+        door Apple ranks first for an ordinary problem. The read an agent reaches for once
+        searchSupport has narrowed the problem to one page.
         """
 
     async def resolveLocation(self, place: str, /) -> Prv_apple_AppleResolvedLocation_Out:
