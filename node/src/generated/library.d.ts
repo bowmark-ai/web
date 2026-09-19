@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0b366fab11ebd7e8aa4c30fb56ba4685a3ab26610bfa592adaafd88d05611c27
+// Manifest version: f322e0e1479ca8b82737347ed75dd81212677a28ec508158ffd7c69acc0c0f52
 // 55 capabilities, 430 providers, 1165 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17042,6 +17042,7 @@ interface GetPlaceResult {
   reviewCount?: number;
   hours?: { day: string; hours: string[] }[];
   openStatus?: string;
+  accessibility?: string[];
   warnings?: string[];
 }
 interface ListReviewsArgs {
@@ -17160,18 +17161,20 @@ interface Photo {
 
     /**
      * Everything Google Maps shows on one business's panel — name, full address, coordinates,
-     * category, neighborhood, phone, website, rating, review count, weekly hours and the site's
-     * own live open/closed line (e.g. "Closed · Opens 7 AM"), each present only when the site's
-     * own response carried it. openStatus is the site's rendered string, not a boolean this
-     * provider computed — hours' display strings carry no timezone, so a caller cannot derive
-     * open-right-now from them without it. This retries a few times to see past a reduced/rich
-     * flap in the site's own response and merges the richest draw; `warnings` is non-empty when
-     * every attempt drew the reduced record, meaning reviewCount/hours/openStatus could not be
-     * confirmed either way rather than being genuinely absent. A THIRD reading of searchPlaces'
-     * door: takes the same resolving query geocodeAddress does (typically a name plus address,
-     * since this does not take a feature id — measured live, neither the raw id nor a cid string
-     * resolves through this door), and throws when the query names a category or list rather than
-     * one business.
+     * category, neighborhood, phone, website, rating, review count, weekly hours, the site's own
+     * live open/closed line (e.g. "Closed · Opens 7 AM") and its accessibility labels (e.g.
+     * "Wheelchair accessible entrance"), each present only when the site's own response carried
+     * it. openStatus is the site's rendered string, not a boolean this provider computed — hours'
+     * display strings carry no timezone, so a caller cannot derive open-right-now from them
+     * without it. accessibility is absent when the site publishes nothing for that place, never a
+     * guess — the field mask carries no other amenity category (Wi-Fi, outdoor seating, takeout,
+     * …) at all. This retries a few times to see past a reduced/rich flap in the site's own
+     * response and merges the richest draw; `warnings` is non-empty when every attempt drew the
+     * reduced record, meaning reviewCount/hours/openStatus could not be confirmed either way
+     * rather than being genuinely absent. A THIRD reading of searchPlaces' door: takes the same
+     * resolving query geocodeAddress does (typically a name plus address, since this does not take
+     * a feature id — measured live, neither the raw id nor a cid string resolves through this
+     * door), and throws when the query names a category or list rather than one business.
      */
     getPlace(args: GetPlaceArgs): Promise<GetPlaceResult>;
 

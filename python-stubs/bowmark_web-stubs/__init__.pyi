@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0b366fab11ebd7e8aa4c30fb56ba4685a3ab26610bfa592adaafd88d05611c27
+# Manifest version: f322e0e1479ca8b82737347ed75dd81212677a28ec508158ffd7c69acc0c0f52
 # 55 capabilities, 430 providers, 1147 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -9257,6 +9257,7 @@ class Prv_google_maps_GetPlaceResult_Out(TypedDict):
     reviewCount: NotRequired[float]
     hours: NotRequired[list[Prv_google_maps_GetPlaceResult_Out_hours_item_Out]]
     openStatus: NotRequired[str]
+    accessibility: NotRequired[list[str]]
     warnings: NotRequired[list[str]]
 
 class Prv_google_maps_GetPlaceResult_Out_coordinates_u0_Out(TypedDict):
@@ -25733,13 +25734,16 @@ class Prv_google_maps(Protocol):
 
     async def getPlace(self, args: Prv_google_maps_GetPlaceArgs_In, /) -> Prv_google_maps_GetPlaceResult_Out:
         """Everything Google Maps shows on one business's panel — name, full address, coordinates,
-        category, neighborhood, phone, website, rating, review count, weekly hours and the
-        site's own live open/closed line (e.g. "Closed · Opens 7 AM"), each present only when
-        the site's own response carried it. openStatus is the site's rendered string, not a
-        boolean this provider computed — hours' display strings carry no timezone, so a caller
-        cannot derive open-right-now from them without it. This retries a few times to see past
-        a reduced/rich flap in the site's own response and merges the richest draw; `warnings`
-        is non-empty when every attempt drew the reduced record, meaning
+        category, neighborhood, phone, website, rating, review count, weekly hours, the site's
+        own live open/closed line (e.g. "Closed · Opens 7 AM") and its accessibility labels
+        (e.g. "Wheelchair accessible entrance"), each present only when the site's own response
+        carried it. openStatus is the site's rendered string, not a boolean this provider
+        computed — hours' display strings carry no timezone, so a caller cannot derive
+        open-right-now from them without it. accessibility is absent when the site publishes
+        nothing for that place, never a guess — the field mask carries no other amenity category
+        (Wi-Fi, outdoor seating, takeout, …) at all. This retries a few times to see past a
+        reduced/rich flap in the site's own response and merges the richest draw; `warnings` is
+        non-empty when every attempt drew the reduced record, meaning
         reviewCount/hours/openStatus could not be confirmed either way rather than being
         genuinely absent. A THIRD reading of searchPlaces' door: takes the same resolving query
         geocodeAddress does (typically a name plus address, since this does not take a feature
