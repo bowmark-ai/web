@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 88e43ae04d060c13da4de91d74f8d4dba7b4029d2995ba9afcdff239ba11dd56
+# Manifest version: b970c9b152d52cb69ece5697afe6fb048fb7d153a276ee8eca3885911501e6b6
 # 56 capabilities, 434 providers, 1163 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -2434,6 +2434,10 @@ class Prv_amazon_SearchProductsArgs_In(TypedDict):
     priceMax: NotRequired[float]
     brand: NotRequired[str]
     page: NotRequired[float]
+
+class Prv_amazon_AmazonSearchResult_Out(TypedDict):
+    products: list[Prv_amazon_AmazonProduct_Out]
+    totalResultCount: float
 
 class Prv_amazon_AmazonProduct_Out(TypedDict):
     asin: str
@@ -21190,13 +21194,15 @@ class Prv_amazon(Protocol):
     stub.
     """
 
-    async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> list[Prv_amazon_AmazonProduct_Out]:
+    async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
         """Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c
         hub" — and get back the result cards as the site ranks them: ASIN, title, price, list
         price, star rating, review count, whether the row is a paid placement, and its product
-        URL. Optionally narrowed to a department, a brand, a price range, a sort order and a
-        page (1-based; page 2 is a genuinely different set of rows, not page one repeated). THE
-        provider's door: every function below that takes an ASIN is fed by this one.
+        URL, beside the site's own totalResultCount so a caller paging with `page` can tell
+        "this is the last page" from "the site is walled". Optionally narrowed to a department,
+        a brand, a price range, a sort order and a page (1-based; page 2 is a genuinely
+        different set of rows, not page one repeated). THE provider's door: every function below
+        that takes an ASIN is fed by this one.
         """
 
     async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:

@@ -62,6 +62,29 @@ function libraryProxy(dispatch: Dispatch): BowmarkLibrary {
   return node([]) as BowmarkLibrary;
 }
 
+/** `get_library` is real, and it is not here.
+ *
+ * It is an MCP tool and `GET /v1/library?query=`, never an export of this
+ * package — so `bowmark.get_library({ query })` raises the bad-path error above
+ * and, until 2026-09-19, said nothing about where the thing actually lives. A
+ * newcomer who hit it read an 88,000-line generated `.d.ts` by hand instead.
+ *
+ * A LOCAL COPY on purpose: this package has zero runtime dependencies,
+ * deliberately and permanently, so it cannot import `OTHER_CHANNEL` from
+ * `@bowmark/runtime`. `tests/unit/other-channel-hint.test.ts` holds the three
+ * copies (here, the Python client, the runtime) to the same names.
+ * `agents/richard/problems/newcomer-get-library-shown-as-callable-in-own-code.md`. */
+const OTHER_CHANNEL = new Set(["get_library", "getLibrary"]);
+
+function otherChannelSuffix(first: string | undefined): string {
+  if (first === undefined || !OTHER_CHANNEL.has(first)) return "";
+  return (
+    " — `get_library` is a DISCOVERY channel, not something this package exports: it is an MCP " +
+    "tool your agent calls directly, and `GET /v1/library?query=…` over HTTP with your " +
+    "`BOWMARK_API_KEY`. Read the library BEFORE you write the call, then call what you came for."
+  );
+}
+
 /** One dispatch: validate the path, refuse a non-wire argument, then send it. */
 function dispatchThrough(send: (path: string[], args: unknown[]) => Promise<unknown>): Dispatch {
   // `async`, so EVERY refusal is a rejected promise rather than a synchronous
@@ -76,7 +99,8 @@ function dispatchThrough(send: (path: string[], args: unknown[]) => Promise<unkn
     // round trip nothing and names the shape.
     if (path.length < 2) {
       throw new BowmarkError(
-        `${label} is not a callable path. Call a function on a unit — bowmark.music.search(…) or bowmark.providers.gymshark.search(…).`,
+        `${label} is not a callable path. Call a function on a unit — bowmark.music.search(…) or bowmark.providers.gymshark.search(…).` +
+          otherChannelSuffix(path[0]),
         { code: "bad_path", path: label },
       );
     }

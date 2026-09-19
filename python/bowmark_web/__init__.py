@@ -142,6 +142,29 @@ def _trim_trailing_none(args: Sequence[Any]) -> list[Any]:
     return trimmed
 
 
+# `get_library` is real, and it is not here. It is an MCP tool and
+# `GET /v1/library?query=`, never an export of this package — so
+# `bowmark.get_library(query=...)` raises the bad-path error below and, until
+# 2026-09-19, said nothing about where the thing actually lives.
+#
+# A LOCAL COPY on purpose: this client ships with no dependencies, so it cannot
+# import `OTHER_CHANNEL` from the runtime. `tests/unit/other-channel-hint.test.ts`
+# holds the three copies (here, the Node client, the runtime) to the same names.
+# agents/richard/problems/newcomer-get-library-shown-as-callable-in-own-code.md
+_OTHER_CHANNEL = frozenset({"get_library", "getLibrary"})
+
+
+def _other_channel_suffix(first: str | None) -> str:
+    if first is None or first not in _OTHER_CHANNEL:
+        return ""
+    return (
+        " — `get_library` is a DISCOVERY channel, not something this package exports: it is "
+        "an MCP tool your agent calls directly, and `GET /v1/library?query=…` over HTTP with "
+        "your `BOWMARK_API_KEY`. Read the library BEFORE you write the call, then call what "
+        "you came for."
+    )
+
+
 def _dispatch_through(send: Any) -> Any:
     """One dispatch: validate the path, refuse a non-wire argument, then send it."""
 
@@ -153,7 +176,8 @@ def _dispatch_through(send: Any) -> Any:
         if len(path) < 2:
             raise BowmarkError(
                 f"{label} is not a callable path. Call a function on a unit — "
-                "bowmark.music.search(…) or bowmark.providers.gymshark.search(…).",
+                "bowmark.music.search(…) or bowmark.providers.gymshark.search(…)."
+                + _other_channel_suffix(path[0] if path else None),
                 code="bad_path",
                 path=label,
             )
