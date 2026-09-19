@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1645 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1646 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -537,6 +537,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `erieinsurance.getRvQuote` | erieinsurance.com | Returns an RV/motorhome insurance premium quote for a vehicle and owner. | ⚪ |
 | `erieinsurance.getUmbrellaQuote` | erieinsurance.com | Returns a personal umbrella liability insurance premium quote given a requested… | ⚪ |
 | `erieinsurance.getWorkersCompensationQuote` | erieinsurance.com | Returns a workers' compensation insurance premium quote for a business's payroll… | ⚪ |
+| `estes_express.estimateFreightQuote` | estes-express.com | Gets a freight shipping rate quote for an LTL (less than truckload) shipment with… | ⚪ |
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword, the way etsy.com's own… | 🟢 |
 | `evag.listDepartures` | evag.de | Real-time departure information for a given stop, with line numbers, destinations, and… | 🟢 |
