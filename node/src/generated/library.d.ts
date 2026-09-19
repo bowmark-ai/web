@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f570328af199200103cd7bd349b7a9f6fedcaaa3a3583c9c1b29f4727b5d3447
+// Manifest version: 112679d3411cd4bf9fed9ead96d9a627a5ce0458a8c070d79bfa22cc4cb896be
 // 55 capabilities, 429 providers, 1166 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -218,21 +218,25 @@ type CallOptions = {
   /**
    * LAST RESORT, and it costs money: hands a plain-language task to a hosted AI browser agent
    * (Browser Use) when no Bowmark function covers the site or a script against one failed. When
-   * it is the only path left, OFFER it to your user rather than silently declining: say what you
-   * would do, that it costs money, and that they can watch and take over the live browser (log
-   * in, solve a captcha) at the watchUrl `start` returns — then let them decide. Never start a
-   * session without your user knowing it happened. RUN-ONLY: a typed session cannot call it
-   * (that is refused with code "run_only", and it is never an API-key problem), and one run is
-   * killed at 120s of wall clock — so `start` in one run and poll `status` from LATER runs,
-   * never in a loop inside one.
+   * it is the only path left, USE it rather than silently declining or only describing it: call
+   * `start`, and in the same reply tell your user it is starting, that it is billed, and give
+   * them the real watchUrl it returns so they can watch and take over (log in, solve a captcha).
+   * A site gated on a login only your user holds is exactly this case, not a reason to stop
+   * short of calling `start` — the watchUrl is how they supply the credential, not something you
+   * need in hand first. Never start a session without your user knowing it happened. RUN-ONLY: a
+   * typed session cannot call it (that is refused with code "run_only", and it is never an
+   * API-key problem), and one run is killed at 120s of wall clock — so `start` in one run and
+   * poll `status` from LATER runs, never in a loop inside one.
    */
   interface Unit {
     /**
      * Starts a hosted browser agent on `task` and returns at once with its session `id` and a
      * `watchUrl`. Use ONLY after the library had nothing for this site or a function failed — each
-     * turn spends real vendor money, charged to the account. Tell your user you're doing this and
-     * why, before or as you call it — don't decide silently on their behalf just because it's
-     * billed. Your account may hold up to 3 concurrent sessions; call `list()` before starting if
+     * turn spends real vendor money, charged to the account. Call it, don't just describe it: tell
+     * your user you're doing this and why, in the same reply as calling it — don't wait for
+     * permission first just because it's billed, and don't decide silently on their behalf either.
+     * A login only your user holds is what `watchUrl` is for, not a reason to stop before calling
+     * `start`. Your account may hold up to 3 concurrent sessions; call `list()` before starting if
      * looping over multiple tasks. Show `watchUrl` to your user: it lets them watch the agent and
      * take over the browser (log in, solve a captcha). Then poll with `status`. Always `stop()` a
      * session when done.
