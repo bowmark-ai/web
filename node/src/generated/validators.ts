@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1f91771ccd4d42a1bb00e68ac6ab3cbee0846e9624c6b4a28d52c23045abf6de
-// 1168 checked, 20 unchecked.
+// Manifest version: e36f0baebed69eb9e8a604382aa01a247e6b0ee6766311edd403d8a1b37664a1
+// 1169 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1f91771ccd4d42a1bb00e68ac6ab3cbee0846e9624c6b4a28d52c23045abf6de",
+  "version": "e36f0baebed69eb9e8a604382aa01a247e6b0ee6766311edd403d8a1b37664a1",
   "units": {
     "booking_links": {
       "defs": {
@@ -21575,6 +21575,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.maersk": {
+      "defs": {},
+      "functions": {
+        "track": [
+          {
+            "name": "trackingNumber",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

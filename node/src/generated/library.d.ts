@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1f91771ccd4d42a1bb00e68ac6ab3cbee0846e9624c6b4a28d52c23045abf6de
-// 57 capabilities, 435 providers, 1186 typed functions, 20 refused.
+// Manifest version: e36f0baebed69eb9e8a604382aa01a247e6b0ee6766311edd403d8a1b37664a1
+// 57 capabilities, 436 providers, 1187 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -24231,6 +24231,23 @@ interface LululemonSimilarProducts {
   }
 }
 
+declare namespace BowmarkProvider_maersk {
+  // ── Maersk — the unit's own declarations, verbatim ──
+interface MaerskTrackingResult {
+  trackingNumber: string;
+  raw: unknown;
+}
+
+  /** Track a container or bill-of-lading number on Maersk's documented Track & Trace API. */
+  interface Unit {
+    /**
+     * Tracks a container or bill-of-lading number on Maersk's documented Track & Trace API and
+     * returns the raw shipment event payload.
+     */
+    track(trackingNumber: string): Promise<MaerskTrackingResult>;
+  }
+}
+
 declare namespace BowmarkProvider_maidenhome {
   // ── Maiden Home — the unit's own declarations, verbatim ──
 // Maiden Home's OWN shapes — not a capability contract.
@@ -37884,6 +37901,7 @@ interface BowmarkProviders {
   lufthansa: BowmarkProvider_lufthansa.Unit;
   luggageforward: BowmarkProvider_luggageforward.Unit;
   lululemon: BowmarkProvider_lululemon.Unit;
+  maersk: BowmarkProvider_maersk.Unit;
   maidenhome: BowmarkProvider_maidenhome.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;
   marketplace_visualstudio: BowmarkProvider_marketplace_visualstudio.Unit;

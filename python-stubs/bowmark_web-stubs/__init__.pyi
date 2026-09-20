@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1f91771ccd4d42a1bb00e68ac6ab3cbee0846e9624c6b4a28d52c23045abf6de
-# 57 capabilities, 435 providers, 1168 typed functions, 20 refused.
+# Manifest version: e36f0baebed69eb9e8a604382aa01a247e6b0ee6766311edd403d8a1b37664a1
+# 57 capabilities, 436 providers, 1169 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12830,6 +12830,10 @@ class Prv_lululemon_LululemonSimilarProducts_Out(TypedDict):
     products: list[Prv_lululemon_LululemonRow_Out]
     totalRanked: float | None
     warnings: list[str]
+
+class Prv_maersk_MaerskTrackingResult_Out(TypedDict):
+    trackingNumber: str
+    raw: Any
 
 class Prv_maidenhome_MaidenHomeConfiguratorProduct_Out(TypedDict):
     handle: str
@@ -28744,6 +28748,14 @@ class Prv_lululemon(Protocol):
         reaching another length is a `search`.
         """
 
+class Prv_maersk(Protocol):
+    """Track a container or bill-of-lading number on Maersk's documented Track & Trace API."""
+
+    async def track(self, trackingNumber: str, /) -> Prv_maersk_MaerskTrackingResult_Out:
+        """Tracks a container or bill-of-lading number on Maersk's documented Track & Trace API and
+        returns the raw shipment event payload.
+        """
+
 class Prv_maidenhome(Protocol):
     """Maiden Home's Size x Wood Finish product configurator (sofas, sectionals/modular
     components, tables) — list every configurable product, read one product's complete
@@ -33707,6 +33719,7 @@ class BowmarkProviders(Protocol):
     lufthansa: Prv_lufthansa
     luggageforward: Prv_luggageforward
     lululemon: Prv_lululemon
+    maersk: Prv_maersk
     maidenhome: Prv_maidenhome
     mailchimp: Prv_mailchimp
     marketplace_visualstudio: Prv_marketplace_visualstudio
