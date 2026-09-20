@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8cc406ad353aaf7223bd7938597d0198b89ecc312e3388dff6a1c405b92c38a8
-# 56 capabilities, 434 providers, 1164 typed functions, 20 refused.
+# Manifest version: 086e0a704f72ef385d45c66b0522d198ab9714dca5c1d2ca2c22c0487124a159
+# 56 capabilities, 434 providers, 1165 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3318,6 +3318,17 @@ class Prv_apple_AppleNewsroomArticle_Out(TypedDict):
     date: str
     url: str
     body: str
+
+class Prv_apple_AppleSystemStatus_Out(TypedDict):
+    scope: Literal["consumer"] | Literal["developer"]
+    drMessage: str | None
+    services: list[Prv_apple_AppleSystemServiceStatus_Out]
+
+class Prv_apple_AppleSystemServiceStatus_Out(TypedDict):
+    serviceName: str
+    redirectUrl: str | None
+    hasEvent: bool
+    events: list[Any]
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -21789,6 +21800,15 @@ class Prv_apple(Protocol):
         """Read one Apple press release or announcement in full from its URL — the article text
         itself, not the feed's one-line summary. Takes a URL straight off listNewsroomPosts()'s
         own rows.
+        """
+
+    async def getSystemStatus(self, scope: Literal["consumer"] | Literal["developer"] | None = None, /) -> Prv_apple_AppleSystemStatus_Out:
+        """Is App Store / iCloud / FaceTime / Apple Music down right now — apple.com's own
+        machine-readable status feed, straight off the same JSON the System Status page renders.
+        "consumer" (the default) covers the everyday services; "developer" reads the separate
+        feed for App Store Connect, APNS and TestFlight. Every service that is healthy carries
+        an empty events list, which is the ordinary answer on an ordinary day, not a sign this
+        failed — check this before reporting any other apple.com read as broken.
         """
 
 class Prv_aquaphoenixsci(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8cc406ad353aaf7223bd7938597d0198b89ecc312e3388dff6a1c405b92c38a8
-// 56 capabilities, 434 providers, 1182 typed functions, 20 refused.
+// Manifest version: 086e0a704f72ef385d45c66b0522d198ab9714dca5c1d2ca2c22c0487124a159
+// 56 capabilities, 434 providers, 1183 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5791,6 +5791,17 @@ interface AppleCompareModel {
 interface AppleCompareModels {
   models: AppleCompareModel[];
 }
+interface AppleSystemServiceStatus {
+  serviceName: string;
+  redirectUrl: string | null;
+  hasEvent: boolean;
+  events: unknown[];
+}
+interface AppleSystemStatus {
+  scope: "consumer" | "developer";
+  drMessage: string | null;
+  services: AppleSystemServiceStatus[];
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -5999,6 +6010,16 @@ interface AppleCompareModels {
      * not the feed's one-line summary. Takes a URL straight off listNewsroomPosts()'s own rows.
      */
     getNewsroomPost(url: string): Promise<AppleNewsroomArticle>;
+
+    /**
+     * Is App Store / iCloud / FaceTime / Apple Music down right now — apple.com's own
+     * machine-readable status feed, straight off the same JSON the System Status page renders.
+     * "consumer" (the default) covers the everyday services; "developer" reads the separate feed
+     * for App Store Connect, APNS and TestFlight. Every service that is healthy carries an empty
+     * events list, which is the ordinary answer on an ordinary day, not a sign this failed — check
+     * this before reporting any other apple.com read as broken.
+     */
+    getSystemStatus(scope?: "consumer" | "developer"): Promise<AppleSystemStatus>;
   }
 }
 
