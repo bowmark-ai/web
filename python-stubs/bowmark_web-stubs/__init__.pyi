@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bee2adee7211b077943d099492ebcc27b00d1a3113fd4828140b8167a2895467
+# Manifest version: d9b3ad31374ae95d439b94a3b43e97528275f880728792873391b58817385ba6
 # 57 capabilities, 435 providers, 1167 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -26234,7 +26234,14 @@ class Prv_google_news(Protocol):
         reached only its newest ~24.5h). **Do not paste `truncatedBefore` into `before:`** —
         page with the sibling field `resumeBefore` instead, exactly as `searchNews` does; the
         timestamp re-asks the same range forever. `locale` — `{ hl, gl, ceid }` — asks for
-        another country/language edition; omitted, the US English one.
+        another country/language edition; omitted, the US English one. **A bare call (no
+        `query`) that comes back with zero rows is refused rather than answered with an empty
+        list, when the domain does not resolve at all** — Google's own feed answers a
+        nonexistent domain and a real outlet with nothing recent identically (measured
+        2026-09-20: `google.com`, `wikipedia.org` and `example.com` all get the same empty shape
+        while several small real newsroom domains each got at least one row), so a resolving
+        domain is still handed back honestly empty and only a domain with no DNS record is
+        refused.
         """
 
     async def listLocalHeadlines(self, place: str, locale: Prv_google_news_GoogleNewsLocaleArg_In | None = None, /) -> Prv_google_news_GoogleNewsLocalHeadlines_Out:

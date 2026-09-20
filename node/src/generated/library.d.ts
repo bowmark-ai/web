@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bee2adee7211b077943d099492ebcc27b00d1a3113fd4828140b8167a2895467
+// Manifest version: d9b3ad31374ae95d439b94a3b43e97528275f880728792873391b58817385ba6
 // 57 capabilities, 435 providers, 1185 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17669,7 +17669,13 @@ interface GoogleNewsFullCoverage {
      * ~24.5h). **Do not paste `truncatedBefore` into `before:`** — page with the sibling field
      * `resumeBefore` instead, exactly as `searchNews` does; the timestamp re-asks the same range
      * forever. `locale` — `{ hl, gl, ceid }` — asks for another country/language edition; omitted,
-     * the US English one.
+     * the US English one. **A bare call (no `query`) that comes back with zero rows is refused
+     * rather than answered with an empty list, when the domain does not resolve at all** —
+     * Google's own feed answers a nonexistent domain and a real outlet with nothing recent
+     * identically (measured 2026-09-20: `google.com`, `wikipedia.org` and `example.com` all get
+     * the same empty shape while several small real newsroom domains each got at least one row),
+     * so a resolving domain is still handed back honestly empty and only a domain with no DNS
+     * record is refused.
      */
     listPublisherHeadlines(publisher: string, query?: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsPublisherHeadlines>;
 
