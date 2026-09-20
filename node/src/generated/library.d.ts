@@ -7,7 +7,7 @@
 //
 // Manifest version: e36f0baebed69eb9e8a604382aa01a247e6b0ee6766311edd403d8a1b37664a1
 // 57 capabilities, 436 providers, 1187 typed functions, 20 refused.
-// 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -45786,6 +45786,7 @@ interface BowmarkProviders {
   bonniebeautyit: BowmarkFamily_shopify_store.Unit;
   bonnyfibersupplements: BowmarkFamily_shopify_store.Unit;
   bonnysnowdonfineart: BowmarkFamily_shopify_store.Unit;
+  bonobos: BowmarkFamily_shopify_store.Unit;
   bonosjuweeltjes: BowmarkFamily_shopify_store.Unit;
   bonsecourcandlecompany: BowmarkFamily_shopify_store.Unit;
   bonusaccessories: BowmarkFamily_shopify_store.Unit;
@@ -48889,6 +48890,7 @@ interface BowmarkProviders {
   colecolrs: BowmarkFamily_shopify_store.Unit;
   colecustoms: BowmarkFamily_shopify_store.Unit;
   colefacialclinicandskincare: BowmarkFamily_shopify_store.Unit;
+  colehaan: BowmarkFamily_shopify_store.Unit;
   colehamels: BowmarkFamily_shopify_store.Unit;
   colemanbarker: BowmarkFamily_shopify_store.Unit;
   colenimo: BowmarkFamily_shopify_store.Unit;
