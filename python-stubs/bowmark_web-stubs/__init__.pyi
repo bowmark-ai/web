@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1d7c968de1d75b14bed8768edbadd52aee2029019ee61883a781c551c92b8867
-# 57 capabilities, 435 providers, 1167 typed functions, 20 refused.
+# Manifest version: 1f91771ccd4d42a1bb00e68ac6ab3cbee0846e9624c6b4a28d52c23045abf6de
+# 57 capabilities, 435 providers, 1168 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3340,6 +3340,20 @@ class Prv_apple_AppleSystemServiceStatus_Out(TypedDict):
     redirectUrl: str | None
     hasEvent: bool
     events: list[Any]
+
+class Prv_apple_AppleRepairPricing_Out(TypedDict):
+    device: Literal["iphone"] | Literal["ipad"] | Literal["watch"]
+    helpUrl: str | None
+    models: list[Prv_apple_AppleRepairModelPricing_Out]
+
+class Prv_apple_AppleRepairModelPricing_Out(TypedDict):
+    model: str
+    outOfWarranty: list[Prv_apple_AppleRepairService_Out]
+    appleCarePlus: list[Prv_apple_AppleRepairService_Out]
+
+class Prv_apple_AppleRepairService_Out(TypedDict):
+    label: str
+    price: str
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -21856,6 +21870,14 @@ class Prv_apple(Protocol):
         feed for App Store Connect, APNS and TestFlight. Every service that is healthy carries
         an empty events list, which is the ordinary answer on an ordinary day, not a sign this
         failed — check this before reporting any other apple.com read as broken.
+        """
+
+    async def getRepairPricing(self, device: Literal["iphone"] | Literal["ipad"] | Literal["watch"], /) -> Prv_apple_AppleRepairPricing_Out:
+        """What Apple charges to fix a device, per model and per kind of damage — straight off the
+        same widget the site's own repair pages render. Returns BOTH plans for every model:
+        out-of-warranty (paying without AppleCare+) and AppleCare+ pricing, which cover
+        different damage categories and are never merged into one figure. Mac is not offered —
+        apple.com prices Mac service after an in-person diagnosis, not off a public list.
         """
 
 class Prv_aquaphoenixsci(Protocol):

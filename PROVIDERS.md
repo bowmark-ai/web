@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1649 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1650 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -114,6 +114,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.getProduct` | apple.com | Reads one apple.com product/buy page (a URL or path search already returned, e.g.… | 🟢 |
 | `apple.getProductByPartNumber` | apple.com | Turn an Apple part number — the MYAP3LL/A-shaped code printed on every buy page, in… | 🟢 |
 | `apple.getPurchaseOptions` | apple.com | Read the ways Apple will let you pay for one product — buy it outright, Apple Card… | 🟢 |
+| `apple.getRepairPricing` | apple.com | What Apple charges to fix an iPhone, iPad or Apple Watch — every model, every kind of… | 🟢 |
 | `apple.getStore` | apple.com | Read one Apple Store: its full address, phone number, map coordinates, store number… | 🟢 |
 | `apple.getSupportArticle` | apple.com | Read one Apple support article end to end — the actual instructions, not a search… | 🟢 |
 | `apple.getSystemStatus` | apple.com | Is App Store / iCloud / FaceTime / Apple Music down right now, or is it me —… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1d7c968de1d75b14bed8768edbadd52aee2029019ee61883a781c551c92b8867
-// 1167 checked, 20 unchecked.
+// Manifest version: 1f91771ccd4d42a1bb00e68ac6ab3cbee0846e9624c6b4a28d52c23045abf6de
+// 1168 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1d7c968de1d75b14bed8768edbadd52aee2029019ee61883a781c551c92b8867",
+  "version": "1f91771ccd4d42a1bb00e68ac6ab3cbee0846e9624c6b4a28d52c23045abf6de",
   "units": {
     "booking_links": {
       "defs": {
@@ -6297,6 +6297,29 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "getRepairPricing": [
+          {
+            "name": "device",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "iphone"
+                },
+                {
+                  "k": "literal",
+                  "v": "ipad"
+                },
+                {
+                  "k": "literal",
+                  "v": "watch"
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

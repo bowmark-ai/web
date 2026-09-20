@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1d7c968de1d75b14bed8768edbadd52aee2029019ee61883a781c551c92b8867
-// 57 capabilities, 435 providers, 1185 typed functions, 20 refused.
+// Manifest version: 1f91771ccd4d42a1bb00e68ac6ab3cbee0846e9624c6b4a28d52c23045abf6de
+// 57 capabilities, 435 providers, 1186 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5838,6 +5838,20 @@ interface AppleSystemStatus {
   drMessage: string | null;
   services: AppleSystemServiceStatus[];
 }
+interface AppleRepairService {
+  label: string;
+  price: string;
+}
+interface AppleRepairModelPricing {
+  model: string;
+  outOfWarranty: AppleRepairService[];
+  appleCarePlus: AppleRepairService[];
+}
+interface AppleRepairPricing {
+  device: "iphone" | "ipad" | "watch";
+  helpUrl: string | null;
+  models: AppleRepairModelPricing[];
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -6056,6 +6070,15 @@ interface AppleSystemStatus {
      * this before reporting any other apple.com read as broken.
      */
     getSystemStatus(scope?: "consumer" | "developer"): Promise<AppleSystemStatus>;
+
+    /**
+     * What Apple charges to fix a device, per model and per kind of damage — straight off the same
+     * widget the site's own repair pages render. Returns BOTH plans for every model:
+     * out-of-warranty (paying without AppleCare+) and AppleCare+ pricing, which cover different
+     * damage categories and are never merged into one figure. Mac is not offered — apple.com
+     * prices Mac service after an in-person diagnosis, not off a public list.
+     */
+    getRepairPricing(device: "iphone" | "ipad" | "watch"): Promise<AppleRepairPricing>;
   }
 }
 
