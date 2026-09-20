@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 38cf8e3cca9114ea13e7410658151172e9e7b675c4a9bd70c7159ff4f58bdd49
+# Manifest version: a128227b1111b108e347148f19687ba11e1cc5306f8bdec132ae584b398652ba
 # 56 capabilities, 434 providers, 1165 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -6099,6 +6099,9 @@ class Prv_cheapflights_KayakBookingOption_Out(TypedDict):
     checkedBag: str | None
     carryOnIncluded: bool | None
     checkedBagIncluded: bool | None
+    personalItem: bool | None
+    checkedBagCount: float | None
+    checkedBagFee: float | None
     freeCancellation: bool | None
     seatsRemaining: float | None
 
@@ -11844,6 +11847,9 @@ class Prv_kayak_KayakBookingOption_Out(TypedDict):
     checkedBag: str | None
     carryOnIncluded: bool | None
     checkedBagIncluded: bool | None
+    personalItem: bool | None
+    checkedBagCount: float | None
+    checkedBagFee: float | None
     freeCancellation: bool | None
     seatsRemaining: float | None
 
@@ -13575,6 +13581,9 @@ class Prv_momondo_KayakBookingOption_Out(TypedDict):
     checkedBag: str | None
     carryOnIncluded: bool | None
     checkedBagIncluded: bool | None
+    personalItem: bool | None
+    checkedBagCount: float | None
+    checkedBagFee: float | None
     freeCancellation: bool | None
     seatsRemaining: float | None
 
@@ -23697,11 +23706,12 @@ class Prv_cheapflights(Protocol):
     async def getBookingOptions(self, flight: Prv_cheapflights_KayakFlight_In, /) -> list[Prv_cheapflights_KayakBookingOption_Out]:
         """For ONE row returned by search(), every seller Cheapflights found for that exact
         itinerary — each with its own price, fare family ("Basic Economy" vs "Main Flex"),
-        cabin, bag policy and a direct booking link. A search row shows only the cheapest of
-        these, so this is where "who actually sells it, and what does the cheap one leave out"
-        gets answered. Pass the row itself, not its id. THROWS rather than returning [] when the
-        itinerary is no longer offered, so a sold-out fare is never reported as "nobody sells
-        this".
+        cabin, and its own baggage allowance: whether a personal item and a carry-on ride free,
+        how many checked bags are included, and the checked-bag fee when they are not. A search
+        row shows only the cheapest of these, so this is where "who actually sells it, and what
+        does the cheap one leave out — carry-on, checked bag, personal item" gets answered. Pass
+        the row itself, not its id. THROWS rather than returning [] when the itinerary is no
+        longer offered, so a sold-out fare is never reported as "nobody sells this".
         """
 
     async def searchHotels(self, query: Prv_cheapflights_KayakHotelQuery_In, /) -> list[Prv_cheapflights_KayakHotel_Out]:
@@ -27995,11 +28005,13 @@ class Prv_kayak(Protocol):
 
     async def getBookingOptions(self, flight: Prv_kayak_KayakFlight_In, /) -> list[Prv_kayak_KayakBookingOption_Out]:
         """For ONE row returned by search(), every seller Kayak found for that exact itinerary —
-        each with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, bag policy
-        and a direct booking link. A search row shows only the cheapest of these, so this is
-        where "who actually sells it, and what does the cheap one leave out" gets answered. Pass
-        the row itself, not its id. THROWS rather than returning [] when the itinerary is no
-        longer offered, so a sold-out fare is never reported as "nobody sells this".
+        each with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, and its
+        own baggage allowance: whether a personal item and a carry-on ride free, how many
+        checked bags are included, and the checked-bag fee when they are not. A search row shows
+        only the cheapest of these, so this is where "who actually sells it, and what does the
+        cheap one leave out — carry-on, checked bag, personal item" gets answered. Pass the row
+        itself, not its id. THROWS rather than returning [] when the itinerary is no longer
+        offered, so a sold-out fare is never reported as "nobody sells this".
         """
 
     async def searchHotels(self, query: Prv_kayak_KayakHotelQuery_In, /) -> list[Prv_kayak_KayakHotel_Out]:
@@ -29182,11 +29194,13 @@ class Prv_momondo(Protocol):
 
     async def getBookingOptions(self, flight: Prv_momondo_KayakFlight_In, /) -> list[Prv_momondo_KayakBookingOption_Out]:
         """For ONE row returned by search(), every seller Momondo found for that exact itinerary —
-        each with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, bag policy
-        and a direct booking link. A search row shows only the cheapest of these, so this is
-        where "who actually sells it, and what does the cheap one leave out" gets answered. Pass
-        the row itself, not its id. THROWS rather than returning [] when the itinerary is no
-        longer offered, so a sold-out fare is never reported as "nobody sells this".
+        each with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, and its
+        own baggage allowance: whether a personal item and a carry-on ride free, how many
+        checked bags are included, and the checked-bag fee when they are not. A search row shows
+        only the cheapest of these, so this is where "who actually sells it, and what does the
+        cheap one leave out — carry-on, checked bag, personal item" gets answered. Pass the row
+        itself, not its id. THROWS rather than returning [] when the itinerary is no longer
+        offered, so a sold-out fare is never reported as "nobody sells this".
         """
 
     async def searchCars(self, query: Prv_momondo_KayakCarQuery_In, /) -> list[Prv_momondo_KayakCar_Out]:

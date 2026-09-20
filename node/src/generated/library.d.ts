@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 38cf8e3cca9114ea13e7410658151172e9e7b675c4a9bd70c7159ff4f58bdd49
+// Manifest version: a128227b1111b108e347148f19687ba11e1cc5306f8bdec132ae584b398652ba
 // 56 capabilities, 434 providers, 1183 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -11029,6 +11029,9 @@ interface KayakBookingOption {
   checkedBag: string | null;
   carryOnIncluded: boolean | null;    // null = the site says "Unknown"
   checkedBagIncluded: boolean | null;
+  personalItem: boolean | null;       // the under-seat bag, null = not reported
+  checkedBagCount: number | null;     // bags included free; null = not reported
+  checkedBagFee: number | null;       // numeric fee for a checked bag, null if free/unreported
   freeCancellation: boolean | null;
   seatsRemaining: number | null;
 }
@@ -11109,11 +11112,13 @@ interface KayakCar {
 
     /**
      * For ONE row returned by search(), every seller Cheapflights found for that exact itinerary —
-     * each with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, bag policy and
-     * a direct booking link. A search row shows only the cheapest of these, so this is where "who
-     * actually sells it, and what does the cheap one leave out" gets answered. Pass the row
-     * itself, not its id. THROWS rather than returning [] when the itinerary is no longer offered,
-     * so a sold-out fare is never reported as "nobody sells this".
+     * each with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, and its own
+     * baggage allowance: whether a personal item and a carry-on ride free, how many checked bags
+     * are included, and the checked-bag fee when they are not. A search row shows only the
+     * cheapest of these, so this is where "who actually sells it, and what does the cheap one
+     * leave out — carry-on, checked bag, personal item" gets answered. Pass the row itself, not
+     * its id. THROWS rather than returning [] when the itinerary is no longer offered, so a
+     * sold-out fare is never reported as "nobody sells this".
      */
     getBookingOptions(flight: KayakFlight): Promise<KayakBookingOption[]>;
 
@@ -22386,6 +22391,9 @@ interface KayakBookingOption {
   checkedBag: string | null;
   carryOnIncluded: boolean | null;    // null = the site says "Unknown"
   checkedBagIncluded: boolean | null;
+  personalItem: boolean | null;       // the under-seat bag, null = not reported
+  checkedBagCount: number | null;     // bags included free; null = not reported
+  checkedBagFee: number | null;       // numeric fee for a checked bag, null if free/unreported
   freeCancellation: boolean | null;
   seatsRemaining: number | null;
 }
@@ -22466,11 +22474,13 @@ interface KayakCar {
 
     /**
      * For ONE row returned by search(), every seller Kayak found for that exact itinerary — each
-     * with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, bag policy and a
-     * direct booking link. A search row shows only the cheapest of these, so this is where "who
-     * actually sells it, and what does the cheap one leave out" gets answered. Pass the row
-     * itself, not its id. THROWS rather than returning [] when the itinerary is no longer offered,
-     * so a sold-out fare is never reported as "nobody sells this".
+     * with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, and its own baggage
+     * allowance: whether a personal item and a carry-on ride free, how many checked bags are
+     * included, and the checked-bag fee when they are not. A search row shows only the cheapest of
+     * these, so this is where "who actually sells it, and what does the cheap one leave out —
+     * carry-on, checked bag, personal item" gets answered. Pass the row itself, not its id. THROWS
+     * rather than returning [] when the itinerary is no longer offered, so a sold-out fare is
+     * never reported as "nobody sells this".
      */
     getBookingOptions(flight: KayakFlight): Promise<KayakBookingOption[]>;
 
@@ -25925,6 +25935,9 @@ interface KayakBookingOption {
   checkedBag: string | null;
   carryOnIncluded: boolean | null;    // null = the site says "Unknown"
   checkedBagIncluded: boolean | null;
+  personalItem: boolean | null;       // the under-seat bag, null = not reported
+  checkedBagCount: number | null;     // bags included free; null = not reported
+  checkedBagFee: number | null;       // numeric fee for a checked bag, null if free/unreported
   freeCancellation: boolean | null;
   seatsRemaining: number | null;
 }
@@ -25977,11 +25990,13 @@ interface KayakCar {
 
     /**
      * For ONE row returned by search(), every seller Momondo found for that exact itinerary — each
-     * with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, bag policy and a
-     * direct booking link. A search row shows only the cheapest of these, so this is where "who
-     * actually sells it, and what does the cheap one leave out" gets answered. Pass the row
-     * itself, not its id. THROWS rather than returning [] when the itinerary is no longer offered,
-     * so a sold-out fare is never reported as "nobody sells this".
+     * with its own price, fare family ("Basic Economy" vs "Main Flex"), cabin, and its own baggage
+     * allowance: whether a personal item and a carry-on ride free, how many checked bags are
+     * included, and the checked-bag fee when they are not. A search row shows only the cheapest of
+     * these, so this is where "who actually sells it, and what does the cheap one leave out —
+     * carry-on, checked bag, personal item" gets answered. Pass the row itself, not its id. THROWS
+     * rather than returning [] when the itinerary is no longer offered, so a sold-out fare is
+     * never reported as "nobody sells this".
      */
     getBookingOptions(flight: KayakFlight): Promise<KayakBookingOption[]>;
 

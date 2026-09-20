@@ -64,7 +64,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | ⚪ |
 | `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | ⚪ |
 | `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together" and… | 🟢 |
-| `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟢 |
+| `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟡 |
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | 🟢 |
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
@@ -981,7 +981,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `kaleidescape.findDealersNear` | kaleidescape.com | Finds Kaleidescape authorized dealers near a location — pass EITHER a 5-digit US zip… | 🟢 |
 | `kalshi.getMarket` | kalshi.com | Reads one Kalshi market's full detail by its own ticker — title, subtitle, status… | 🟢 |
 | `kalshi.getMarkets` | kalshi.com | Lists Kalshi's own live prediction-market contracts — each market's ticker, title… | 🟢 |
-| `kayak.getBookingOptions` | kayak.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
+| `kayak.getBookingOptions` | kayak.com | For one result, reads who actually sells the fare and at what price, plus its baggage… | 🟢 |
 | `kayak.search` | kayak.com | Runs the itinerary search on kayak.com and returns its result rows price-ascending. | 🟢 |
 | `kayak.searchCars` | kayak.com | Runs the car-hire search on kayak.com and returns priced vehicles for a pickup… | 🟢 |
 | `kayak.searchHotels` | kayak.com | Runs the stays search on kayak.com — the site's own second vertical — and returns… | 🟢 |
