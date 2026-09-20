@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 086e0a704f72ef385d45c66b0522d198ab9714dca5c1d2ca2c22c0487124a159
+// Manifest version: 6f880f7233e9c1f8ae62c263370235c0bf0aec892d09fd828bf687ec1df36b22
 // 56 capabilities, 434 providers, 1183 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -3338,6 +3338,7 @@ type FormFillResult = {
   openedWith: string | null
   multiStep: boolean          // the step now on screen continues past this one
   stepLabel: string | null
+  resultContent: string | null  // what the site answered back, read after submit/advance — null otherwise
   warnings: string[]
 }
 
@@ -3368,7 +3369,10 @@ type FormFillResult = {
      * actually commits the form (submit wins if both are set). One call is one step — call it
      * again with the next step's `values` to walk a wizard forward. `notFound` names any `values`
      * key nothing on the page matched, so a caller who guessed a label wrong sees that rather than
-     * silence.
+     * silence. When a click registers, `resultContent` carries what the site answered back — a
+     * matched branch, a calculated price, a stock status — read off the destination page or widget
+     * and capped at 4000 characters; `null` when neither `submit` nor `advance` was requested or
+     * the click never registered.
      */
     fillForm(url: string, values: Record<string, string>, options?: FormFillOptions): Promise<FormFillResult>;
   }

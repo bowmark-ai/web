@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 086e0a704f72ef385d45c66b0522d198ab9714dca5c1d2ca2c22c0487124a159
+# Manifest version: 6f880f7233e9c1f8ae62c263370235c0bf0aec892d09fd828bf687ec1df36b22
 # 56 capabilities, 434 providers, 1165 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -1864,6 +1864,7 @@ class Cap_web_form_fields_FormFillResult_Out(TypedDict):
     openedWith: str | None
     multiStep: bool
     stepLabel: str | None
+    resultContent: str | None
     warnings: list[str]
 
 class Cap_wireless_compareAllInPrice_arg_In(TypedDict):
@@ -20839,7 +20840,10 @@ class Cap_web_form_fields(Protocol):
         the control that actually commits the form (submit wins if both are set). One call is
         one step — call it again with the next step's `values` to walk a wizard forward.
         `notFound` names any `values` key nothing on the page matched, so a caller who guessed a
-        label wrong sees that rather than silence.
+        label wrong sees that rather than silence. When a click registers, `resultContent`
+        carries what the site answered back — a matched branch, a calculated price, a stock
+        status — read off the destination page or widget and capped at 4000 characters; `null`
+        when neither `submit` nor `advance` was requested or the click never registered.
         """
 
 class Cap_wireless(Protocol):
