@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d9b3ad31374ae95d439b94a3b43e97528275f880728792873391b58817385ba6
+// Manifest version: 1d7c968de1d75b14bed8768edbadd52aee2029019ee61883a781c551c92b8867
 // 57 capabilities, 435 providers, 1185 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -977,6 +977,11 @@ type CallOptions = {
 }
 
 // What getBookingOptions returns, one per fare on offer for a single result.
+// NARROWER than what the kayak/momondo/cheapflights providers return natively —
+// no cabin, no baggage allowance (personal item, carry-on, checked bag count and
+// fee), no free-cancellation or seats-remaining. For those, call
+// bowmark.providers.<kayak|momondo|cheapflights>.getBookingOptions(flight) on the
+// same result instead of this capability function.
 type BookingOption = {
   provider: string          // who would sell you this fare ("Frontier", "Expedia")
   fareType: string          // that seller's own name for it ("Basic Fare")
@@ -1099,7 +1104,13 @@ type FlightStatusResult = {
      * has sold out — because `[]` reads as "nobody sells this flight", which is a fact about the
      * world rather than about the call. `warnings` is always present and names what the list does
      * NOT contain: fields the site left unreported, and the other sites this same flight was found
-     * on, whose sellers are not included.
+     * on, whose sellers are not included. **Baggage allowance is one of those dropped fields.**
+     * For a `flight.site` of `kayak`, `momondo` or `cheapflights`, call `bowmark.providers.<that
+     * site>.getBookingOptions(flight)` directly on the SAME result instead — it returns everything
+     * here plus `cabin`, `personalItem`, `carryOnIncluded`/`checkedBagIncluded`,
+     * `checkedBagCount`, `checkedBagFee`, `freeCancellation` and `seatsRemaining`, which is the
+     * deciding field for choosing between fares on a one-way move and is not yet promoted to this
+     * capability.
      */
     getBookingOptions(flight: FlightResult, options?: CallOptions): Promise<BookingOptionsResult>;
 

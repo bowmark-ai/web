@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d9b3ad31374ae95d439b94a3b43e97528275f880728792873391b58817385ba6
+// Manifest version: 1d7c968de1d75b14bed8768edbadd52aee2029019ee61883a781c551c92b8867
 // 1167 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d9b3ad31374ae95d439b94a3b43e97528275f880728792873391b58817385ba6",
+  "version": "1d7c968de1d75b14bed8768edbadd52aee2029019ee61883a781c551c92b8867",
   "units": {
     "booking_links": {
       "defs": {

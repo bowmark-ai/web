@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d9b3ad31374ae95d439b94a3b43e97528275f880728792873391b58817385ba6
+# Manifest version: 1d7c968de1d75b14bed8768edbadd52aee2029019ee61883a781c551c92b8867
 # 57 capabilities, 435 providers, 1167 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -19949,7 +19949,13 @@ class Cap_flights(Protocol):
         flight", which is a fact about the world rather than about the call. `warnings` is
         always present and names what the list does NOT contain: fields the site left
         unreported, and the other sites this same flight was found on, whose sellers are not
-        included.
+        included. **Baggage allowance is one of those dropped fields.** For a `flight.site` of
+        `kayak`, `momondo` or `cheapflights`, call `bowmark.providers.<that
+        site>.getBookingOptions(flight)` directly on the SAME result instead — it returns
+        everything here plus `cabin`, `personalItem`, `carryOnIncluded`/`checkedBagIncluded`,
+        `checkedBagCount`, `checkedBagFee`, `freeCancellation` and `seatsRemaining`, which is
+        the deciding field for choosing between fares on a one-way move and is not yet promoted
+        to this capability.
         """
 
     async def getFlightStatus(self, query: Cap_flights_FlightStatusQuery_In, options: Cap_flights_CallOptions_In | None = None, /) -> Cap_flights_FlightStatusResult_Out:
