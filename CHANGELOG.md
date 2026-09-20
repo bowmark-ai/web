@@ -6,6 +6,64 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.24.2 (2026-09-20)
+
+**Capabilities**
+
+- New capability **custom_packaging_quote** (1 function): `custom_packaging_quote.quoteCustomBox`
+- New capability **dfs_ownership_projections** (1 function): `dfs_ownership_projections.search`
+- New capability **mac_trade_in** (1 function): `mac_trade_in.estimate`
+- New capability **postcard_direct_mail_quote** (1 function): `postcard_direct_mail_quote.getQuote`
+- New capability **video_library** (6 functions): `video_library.addToPlaylist`, `video_library.createChannel`, `video_library.createPlaylist`, `video_library.homeFeed`, `video_library.liked`, `video_library.watchLater`
+
+**Providers**
+
+- New provider **airtable.com** (6 functions): `airtable.createRecord`, `airtable.getRecord`, `airtable.listBases`, `airtable.listRecords`, `airtable.listTables`, `airtable.updateRecord`
+- New provider **bahn.de** (1 function): `bahn.listDisruptions`
+- New provider **countycourt.vic.gov.au** (1 function): `countycourt_vic_gov_au.dailyList`
+- New provider **deutschepost.de** (1 function): `deutschepost.getDialogpostRates`
+- New provider **rotogrinders.com** (1 function): `dfs_rotogrinderssearch.search`
+- New provider **energyaustralia.com.au** (1 function): `energyaustralia_com_au.getBusinessElectricityQuote`
+- New provider **evag.de** (2 functions): `evag.listDepartures`, `evag.searchStop`
+- New provider **letterboxd.com** (3 functions): `letterboxd.film`, `letterboxd.memberDiary`, `letterboxd.memberFilms`
+- New provider **originenergy.com.au** (1 function): `originenergy_com_au.getBusinessElectricityQuote`
+- New provider **packlane.com** (1 function): `packlane.getQuote`
+- New provider **pawsup.com** (1 function): `pawsup.checkAvailability`
+- New provider **national-infrastructure-consenting.planninginspectorate.gov.uk** (1 function): `planning_inspectorate_ni.search`
+- New provider **postcard-quote-engine** (1 function): `postcard_direct_mail.getQuote`
+- New provider **planning.powys.gov.uk** (1 function): `powys.search`
+- New provider **wholefoodsmarket.com** (1 function): `wholefoodsmarket.search`
+- Added `amazon.listCategoryProducts`
+- Added `apple.getSystemStatus`
+- Added `apple.listTodaySessions`
+- Added `google_maps.searchNearby`
+- Added `prime_video.listRelatedTitles`
+- Added `youtube.addToPlaylist`
+- Added `youtube.createChannel`
+- Added `youtube.createPlaylist`
+- Added `youtube.getChannel`
+- Added `youtube.getLiveChat`
+- Added `youtube.getPlaylist`
+- Added `youtube.listCaptionTracks`
+- Added `youtube.listChannelLiveStreams`
+- Added `youtube.listChannelPlaylists`
+- Added `youtube.listChannelPosts`
+- Added `youtube.listChannelShorts`
+- Added `youtube.listChannelVideos`
+- Added `youtube.listChapters`
+- Added `youtube.listCommentReplies`
+- Added `youtube.listHashtagVideos`
+- Added `youtube.listHomeFeed`
+- Added `youtube.listLikedVideos`
+- Added `youtube.listPlaylistVideos`
+- Added `youtube.listRelatedVideos`
+- Added `youtube.listStreamFormats`
+- Added `youtube.listWatchLater`
+- Added `youtube.searchWithinChannel`
+- Added `youtube.suggestSearches`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.24.1 (2026-09-17)
 
 **Providers**
