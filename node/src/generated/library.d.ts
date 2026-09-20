@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6f880f7233e9c1f8ae62c263370235c0bf0aec892d09fd828bf687ec1df36b22
+// Manifest version: 38cf8e3cca9114ea13e7410658151172e9e7b675c4a9bd70c7159ff4f58bdd49
 // 56 capabilities, 434 providers, 1183 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17708,7 +17708,10 @@ interface GoogleNewsFullCoverage {
      * logged-out hands their ids out — a topic page, a story page, `/home` and `/publications`
      * each carry only the nav rail's own nine, and the HTML `/search` page that renders the
      * entity's Follow chip answers 429 through the proxy. To follow a company or a person today,
-     * use `searchNews`. `locale` — `{ hl, gl, ceid }` — asks for another country/language edition;
+     * use `searchNews`. A CALLER HOLDING ONE OF THE EIGHT SECTION NAMES INSTEAD (e.g.
+     * "Technology") IS REFUSED BEFORE ANY REQUEST, naming `listTopicHeadlines` as the door that
+     * takes a word — measured 2026-09-19: passing a name here used to answer an HTTP 400 naming
+     * neither door. `locale` — `{ hl, gl, ceid }` — asks for another country/language edition;
      * omitted, the US English one.
      */
     getTopicHeadlines(topicId: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsTopicFeed>;
@@ -17724,7 +17727,10 @@ interface GoogleNewsFullCoverage {
      * on this site emits a story id at all, so this is the only door. A `topicId` from
      * `listTopics`' "Your local news" entry is refused before any request — that entry is not a
      * topic feed; call `listLocalHeadlines("<city>")` instead (measured 2026-09-17: without this
-     * check the id silently answered 200 with zero stories). `locale` — `{ hl, gl, ceid }` — asks
+     * check the id silently answered 200 with zero stories). A `topicId` that is instead one of
+     * the eight section NAMES (e.g. "Technology") is likewise refused before any request, naming
+     * `listTopicHeadlines` as the door that takes a word — measured 2026-09-19: passing a name
+     * here used to answer an HTTP 400 naming neither door. `locale` — `{ hl, gl, ceid }` — asks
      * for another country/language edition of whichever page is read; omitted, the US English one.
      * The `storyId` each result carries has that same edition baked in, so passing it straight
      * into `getFullCoverage` with no `locale` argument reads the right edition automatically — see
