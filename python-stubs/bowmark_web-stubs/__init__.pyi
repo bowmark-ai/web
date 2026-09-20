@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a128227b1111b108e347148f19687ba11e1cc5306f8bdec132ae584b398652ba
+# Manifest version: 2e0f871c7c92b47b79dca6492b1948aadea9e942713e5dc41a789a1b72ebe438
 # 56 capabilities, 434 providers, 1165 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -14980,6 +14980,7 @@ class Prv_prime_video_PrimeVideoWatchOptions_Out(TypedDict):
     message: str
     channel: Prv_prime_video_PrimeVideoWatchOptions_Out_channel_u0_Out | None
     offers: list[Prv_prime_video_PrimeVideoWatchOffer_Out]
+    highValueMessage: str | None
 
 class Prv_prime_video_PrimeVideoWatchOptions_Out_channel_u0_Out(TypedDict):
     name: str
@@ -14991,6 +14992,7 @@ class Prv_prime_video_PrimeVideoWatchOffer_Out(TypedDict):
     price: Prv_prime_video_PrimeVideoWatchOffer_Out_price_u0_Out | None
     quality: Literal["SD"] | Literal["HD"] | Literal["UHD"] | None
     channel: Prv_prime_video_PrimeVideoWatchOffer_Out_channel_u0_Out | None
+    preorder: bool
 
 class Prv_prime_video_PrimeVideoWatchOffer_Out_price_u0_Out(TypedDict):
     currency: str
@@ -30236,8 +30238,14 @@ class Prv_prime_video(Protocol):
         off searchTitles() or getTitle(). Reads the SAME page as getTitle, never fetches it
         twice. A `subscribe` offer's `channel.benefitId` is the same slug listChannels()
         surfaces as `benefit` — a best-effort join, not a guaranteed one, see listChannels()'s
-        own doc for the measured exception. Placing any of these orders is never a function of
-        this provider — a flow that costs money stops before the payment step, always.
+        own doc for the measured exception. **A `buy` offer's `preorder` is `true` when the
+        title cannot be watched at any price yet** — read off the site's own transaction
+        refMarker, never inferred from `label` or from `getTitle().releaseDate` (which is the
+        theatrical date and can read as already past on a title still unreleased).
+        `highValueMessage` is the site's own second sentence about WHEN, e.g. "Release date
+        coming soon" — the only place this page answers that, and null on an ordinary title.
+        Placing any of these orders is never a function of this provider — a flow that costs
+        money stops before the payment step, always.
         """
 
     async def listSeasons(self, titleId: str, /) -> list[Prv_prime_video_PrimeVideoSeason_Out]:

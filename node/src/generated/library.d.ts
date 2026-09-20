@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a128227b1111b108e347148f19687ba11e1cc5306f8bdec132ae584b398652ba
+// Manifest version: 2e0f871c7c92b47b79dca6492b1948aadea9e942713e5dc41a789a1b72ebe438
 // 56 capabilities, 434 providers, 1183 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -28509,6 +28509,7 @@ interface PrimeVideoWatchOffer {
   price: { currency: string; value: string } | null;
   quality: "SD" | "HD" | "UHD" | null;
   channel: { benefitId: string; link: string } | null;
+  preorder: boolean;
 }
 interface PrimeVideoWatchOptions {
   titleId: string;
@@ -28517,6 +28518,7 @@ interface PrimeVideoWatchOptions {
   message: string;
   channel: { name: string; link: string } | null;
   offers: PrimeVideoWatchOffer[];
+  highValueMessage: string | null;
 }
 interface PrimeVideoSeason {
   seasonId: string;
@@ -28718,9 +28720,14 @@ interface PrimeVideoLiveSportsEvent {
      * Amazon's catalogue. Takes a titleId or a title URL, e.g. one read off searchTitles() or
      * getTitle(). Reads the SAME page as getTitle, never fetches it twice. A `subscribe` offer's
      * `channel.benefitId` is the same slug listChannels() surfaces as `benefit` — a best-effort
-     * join, not a guaranteed one, see listChannels()'s own doc for the measured exception. Placing
-     * any of these orders is never a function of this provider — a flow that costs money stops
-     * before the payment step, always.
+     * join, not a guaranteed one, see listChannels()'s own doc for the measured exception. **A
+     * `buy` offer's `preorder` is `true` when the title cannot be watched at any price yet** —
+     * read off the site's own transaction refMarker, never inferred from `label` or from
+     * `getTitle().releaseDate` (which is the theatrical date and can read as already past on a
+     * title still unreleased). `highValueMessage` is the site's own second sentence about WHEN,
+     * e.g. "Release date coming soon" — the only place this page answers that, and null on an
+     * ordinary title. Placing any of these orders is never a function of this provider — a flow
+     * that costs money stops before the payment step, always.
      */
     getWatchOptions(titleId: string): Promise<PrimeVideoWatchOptions>;
 
