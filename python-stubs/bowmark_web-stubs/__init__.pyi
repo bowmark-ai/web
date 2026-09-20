@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2e0f871c7c92b47b79dca6492b1948aadea9e942713e5dc41a789a1b72ebe438
-# 56 capabilities, 434 providers, 1165 typed functions, 20 refused.
+# Manifest version: bee2adee7211b077943d099492ebcc27b00d1a3113fd4828140b8167a2895467
+# 57 capabilities, 435 providers, 1167 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1148,6 +1148,16 @@ class Cap_mcp_registry_McpRegistryEntry_Out(TypedDict):
     repositoryUrl: str | None
     remoteUrl: str | None
     status: str
+
+class Cap_municipal_recreation_fees_municipal_recreation_feesResult_Out(TypedDict):
+    municipality: str
+    fees: list[Cap_municipal_recreation_fees_FeeEntry_Out]
+    warnings: list[str]
+
+class Cap_municipal_recreation_fees_FeeEntry_Out(TypedDict):
+    feeType: str
+    annualCost: float
+    description: NotRequired[str]
 
 class Cap_music_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -13662,6 +13672,16 @@ class Prv_mossyoak_MossyoakCatalogue_Out(TypedDict):
     products: list[Prv_mossyoak_MossyoakProduct_Out]
     warnings: list[str]
 
+class Prv_municipal_recreation_fees_fetcher_municipal_recreation_fees_fetcherRow_Out(TypedDict):
+    municipality: str
+    fees: list[Prv_municipal_recreation_fees_fetcher_FeeEntry_Out]
+    warnings: list[str]
+
+class Prv_municipal_recreation_fees_fetcher_FeeEntry_Out(TypedDict):
+    feeType: str
+    annualCost: float
+    description: NotRequired[str]
+
 class Prv_muze_gov_tr_MuzeVisitingHours_Out(TypedDict):
     name: str
     openingTime: str | None
@@ -20257,6 +20277,12 @@ class Cap_mcp_registry(Protocol):
         100). THROWS if the registry cannot be reached — one source, so there is no partial
         answer to hand back. `options.timeoutMs` sets the budget (default 30000).
         """
+
+class Cap_municipal_recreation_fees(Protocol):
+    """Get annual recreation centre membership fees from New Brunswick municipalities."""
+
+    async def getFeeSchedule(self, municipality: str, /) -> Cap_municipal_recreation_fees_municipal_recreation_feesResult_Out:
+        """Returns annual recreation centre membership fees for a New Brunswick municipality"""
 
 class Cap_music(Protocol):
     """Search a music catalogue by artist, title, genre or mood and get back normalized tracks
@@ -29248,6 +29274,12 @@ class Prv_mossyoak(Protocol):
         `warnings` names it when the requested productType matched nothing.
         """
 
+class Prv_municipal_recreation_fees_fetcher(Protocol):
+    """Fetches annual recreation centre membership fees from New Brunswick municipalities."""
+
+    async def getFeeSchedule(self, municipality: str, /) -> Prv_municipal_recreation_fees_fetcher_municipal_recreation_fees_fetcherRow_Out:
+        """Returns annual recreation centre membership fees for a New Brunswick municipality"""
+
 class Prv_muze_gov_tr(Protocol):
     """Turkey's Ministry of Culture and Tourism museums portal — opening/closing hours,
     ticket-office closing time and closed days for the museums and archaeological sites it
@@ -33660,6 +33692,7 @@ class BowmarkProviders(Protocol):
     modularclosets: Prv_modularclosets
     momondo: Prv_momondo
     mossyoak: Prv_mossyoak
+    municipal_recreation_fees_fetcher: Prv_municipal_recreation_fees_fetcher
     muze_gov_tr: Prv_muze_gov_tr
     my_auroramedicalspa_com: Prv_my_auroramedicalspa_com
     myollie: Prv_myollie
@@ -33835,6 +33868,7 @@ class Bowmark(Protocol):
     local_html_preview: Cap_local_html_preview
     mac_trade_in: Cap_mac_trade_in
     mcp_registry: Cap_mcp_registry
+    municipal_recreation_fees: Cap_municipal_recreation_fees
     music: Cap_music
     pcparts: Cap_pcparts
     pet_boarding: Cap_pet_boarding

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2e0f871c7c92b47b79dca6492b1948aadea9e942713e5dc41a789a1b72ebe438
-// 56 capabilities, 434 providers, 1183 typed functions, 20 refused.
+// Manifest version: bee2adee7211b077943d099492ebcc27b00d1a3113fd4828140b8167a2895467
+// 57 capabilities, 435 providers, 1185 typed functions, 20 refused.
 // 51,715 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1865,6 +1865,27 @@ type CallOptions = {
      * (default 30000).
      */
     search(query?: string, limit?: number, options?: CallOptions): Promise<McpRegistrySearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_municipal_recreation_fees {
+  // ── Municipal Recreation Centre Membership Fees — the unit's own declarations, verbatim ──
+interface FeeEntry {
+  feeType: string;
+  annualCost: number;
+  description?: string;
+}
+
+interface municipal_recreation_feesResult {
+  municipality: string;
+  fees: FeeEntry[];
+  warnings: string[];
+}
+
+  /** Get annual recreation centre membership fees from New Brunswick municipalities. */
+  interface Unit {
+    /** Returns annual recreation centre membership fees for a New Brunswick municipality */
+    getFeeSchedule(municipality: string): Promise<municipal_recreation_feesResult>;
   }
 }
 
@@ -26101,6 +26122,27 @@ interface MossyoakCheckoutLink {
   }
 }
 
+declare namespace BowmarkProvider_municipal_recreation_fees_fetcher {
+  // ── New Brunswick Municipal Recreation Centre Fees — the unit's own declarations, verbatim ──
+interface FeeEntry {
+  feeType: string;
+  annualCost: number;
+  description?: string;
+}
+
+interface municipal_recreation_fees_fetcherRow {
+  municipality: string;
+  fees: FeeEntry[];
+  warnings: string[];
+}
+
+  /** Fetches annual recreation centre membership fees from New Brunswick municipalities. */
+  interface Unit {
+    /** Returns annual recreation centre membership fees for a New Brunswick municipality */
+    getFeeSchedule(municipality: string): Promise<municipal_recreation_fees_fetcherRow>;
+  }
+}
+
 declare namespace BowmarkProvider_muze_gov_tr {
   // ── muze.gov.tr — Turkey Ministry of Culture and Tourism museums portal — the unit's own declarations, verbatim ──
 interface MuzeVisitingHours {
@@ -37822,6 +37864,7 @@ interface BowmarkProviders {
   modularclosets: BowmarkProvider_modularclosets.Unit;
   momondo: BowmarkProvider_momondo.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
+  municipal_recreation_fees_fetcher: BowmarkProvider_municipal_recreation_fees_fetcher.Unit;
   muze_gov_tr: BowmarkProvider_muze_gov_tr.Unit;
   my_auroramedicalspa_com: BowmarkProvider_my_auroramedicalspa_com.Unit;
   myollie: BowmarkProvider_myollie.Unit;
@@ -89711,6 +89754,7 @@ interface BowmarkLibrary {
   local_html_preview: BowmarkCapability_local_html_preview.Unit;
   mac_trade_in: BowmarkCapability_mac_trade_in.Unit;
   mcp_registry: BowmarkCapability_mcp_registry.Unit;
+  municipal_recreation_fees: BowmarkCapability_municipal_recreation_fees.Unit;
   music: BowmarkCapability_music.Unit;
   pcparts: BowmarkCapability_pcparts.Unit;
   pet_boarding: BowmarkCapability_pet_boarding.Unit;

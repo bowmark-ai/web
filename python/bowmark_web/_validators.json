@@ -1,5 +1,5 @@
 {
-  "version": "2e0f871c7c92b47b79dca6492b1948aadea9e942713e5dc41a789a1b72ebe438",
+  "version": "bee2adee7211b077943d099492ebcc27b00d1a3113fd4828140b8167a2895467",
   "units": {
     "booking_links": {
       "defs": {
@@ -1920,6 +1920,20 @@
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "municipal_recreation_fees": {
+      "defs": {},
+      "functions": {
+        "getFeeSchedule": [
+          {
+            "name": "municipality",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -22842,6 +22856,20 @@
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.municipal_recreation_fees_fetcher": {
+      "defs": {},
+      "functions": {
+        "getFeeSchedule": [
+          {
+            "name": "municipality",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

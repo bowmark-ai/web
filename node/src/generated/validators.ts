@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2e0f871c7c92b47b79dca6492b1948aadea9e942713e5dc41a789a1b72ebe438
-// 1165 checked, 20 unchecked.
+// Manifest version: bee2adee7211b077943d099492ebcc27b00d1a3113fd4828140b8167a2895467
+// 1167 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2e0f871c7c92b47b79dca6492b1948aadea9e942713e5dc41a789a1b72ebe438",
+  "version": "bee2adee7211b077943d099492ebcc27b00d1a3113fd4828140b8167a2895467",
   "units": {
     "booking_links": {
       "defs": {
@@ -1932,6 +1932,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "municipal_recreation_fees": {
+      "defs": {},
+      "functions": {
+        "getFeeSchedule": [
+          {
+            "name": "municipality",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -22854,6 +22868,20 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.municipal_recreation_fees_fetcher": {
+      "defs": {},
+      "functions": {
+        "getFeeSchedule": [
+          {
+            "name": "municipality",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
