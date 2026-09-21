@@ -1325,7 +1325,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.savePin` | pinterest.com | Save an existing pin to one of the caller's boards — the repin, which is the single… | ⚪ |
 | `pinterest.searchBoards` | pinterest.com | Search for boards rather than pins — "espresso machine" comes back as 49 boards with… | ⚪ |
 | `pinterest.searchMyPins` | pinterest.com | Search only inside the caller's own saved pins — Pinterest's `my_pins` search scope… | ⚪ |
-| `pinterest.searchPins` | pinterest.com | Search Pinterest the way a person types into its search box and get the pins back… | ⚪ |
+| `pinterest.searchPins` | pinterest.com | Search Pinterest the way a person types into its search box and get the pins back… | 🟢 |
 | `pinterest.searchUsers` | pinterest.com | Search for people and brands by name and get their profiles back — the door that turns… | ⚪ |
 | `pinterest.searchVideos` | pinterest.com | Search only the video pins — Pinterest's own `videos` search scope, for a caller who… | ⚪ |
 | `pinterest.sendPin` | pinterest.com | Send a pin to somebody in a Pinterest message — the site's own share action. | ⚪ |
