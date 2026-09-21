@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fae44efe3c7244d649d3d6bf06ddf0fbc9b5ec96b524191f0031e68f208e3bb4
-# 59 capabilities, 437 providers, 1172 typed functions, 20 refused.
+# Manifest version: d80090e1a84b28ad86bdf2c3cdfc172e223020bca34a7c4155aec6c79e321e64
+# 59 capabilities, 438 providers, 1173 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5810,6 +5810,12 @@ class Prv_cars_carsVehicleValue_Out(TypedDict):
 class Prv_cars_carsVehicleValue_Out_dealer_u0_Out(TypedDict):
     name: str | None
     zipCode: str | None
+
+class Prv_cartebtp_CartebtpVerification_Out(TypedDict):
+    valid: bool
+    hash: str
+    cardNumber: str | None
+    message: str
 
 class Prv_carusohomes_SearchCommunitiesArgs_In(TypedDict):
     market: str
@@ -20552,8 +20558,11 @@ class Cap_read(Protocol):
         to avoid triggering bot defenses on sites that block concurrent connections from one IP,
         while requests to DIFFERENT origins run in parallel. Results arrive in the order the
         urls were given. One dead url never costs you the others — it comes back with `ok:
-        false` and `error` set. RUN-ONLY: same reason as `page` — the rung is decided per call,
-        so `session()` and the top-level `bowmark` client are both refused with code
+        false` and `error` set. Serializing costs TIME: a same-origin batch takes the SUM of its
+        reads, so on a bot-defended site that escalates to a browser (~60s per page) more than
+        one url from that origin will blow the 90s `/v1/run` ceiling and you get nothing back —
+        split those across separate runs. RUN-ONLY: same reason as `page` — the rung is decided
+        per call, so `session()` and the top-level `bowmark` client are both refused with code
         "rung_undeclared". Call it through `run()` instead.
         """
 
@@ -23621,6 +23630,16 @@ class Prv_cars(Protocol):
         assign the offer record to. The function NEVER calls contactDealer, optinDealer,
         acceptByCode, smsPictureRequest or media.create — the contact routes the 2026-08-06
         standing decision names as the fence for a cash-offer appraisal.
+        """
+
+class Prv_cartebtp(Protocol):
+    """Verifies French construction worker cards (Carte BTP) by their QR code."""
+
+    async def verifyCard(self, hash: str, /) -> Prv_cartebtp_CartebtpVerification_Out:
+        """Verifies a French construction worker card (Carte BTP) from the hash its QR code encodes
+        — the same lookup cartebtp.fr's own public verification page performs. Returns whether
+        the card is currently valid, its printed card number when the lookup resolves, and the
+        site's own status message.
         """
 
 class Prv_carusohomes(Protocol):
@@ -33600,6 +33619,7 @@ class BowmarkProviders(Protocol):
     carolefabrics: Prv_carolefabrics
     carpetlandusa: Prv_carpetlandusa
     cars: Prv_cars
+    cartebtp: Prv_cartebtp
     carusohomes: Prv_carusohomes
     casadragones: Prv_casadragones
     cascadiaseniorliving_com: Prv_cascadiaseniorliving_com

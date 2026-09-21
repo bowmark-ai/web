@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fae44efe3c7244d649d3d6bf06ddf0fbc9b5ec96b524191f0031e68f208e3bb4
-// 1172 checked, 20 unchecked.
+// Manifest version: d80090e1a84b28ad86bdf2c3cdfc172e223020bca34a7c4155aec6c79e321e64
+// 1173 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fae44efe3c7244d649d3d6bf06ddf0fbc9b5ec96b524191f0031e68f208e3bb4",
+  "version": "d80090e1a84b28ad86bdf2c3cdfc172e223020bca34a7c4155aec6c79e321e64",
   "units": {
     "booking_links": {
       "defs": {
@@ -9877,6 +9877,20 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.cartebtp": {
+      "defs": {},
+      "functions": {
+        "verifyCard": [
+          {
+            "name": "hash",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

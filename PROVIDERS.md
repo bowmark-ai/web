@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1762 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1793 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -358,6 +358,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cars.getVehicleValue` | cars.com | Gets Cars.com's own valuation for a car the caller already owns — supply a VIN, a ZIP… | 🟡 |
 | `cars.search` | cars.com | Searches Cars.com's live for-sale inventory the way its own shopping results page does… | 🟢 |
 | `cars.searchDealers` | cars.com | Finds the car dealerships Cars.com lists near a ZIP — name, full address and distance… | ⚪ |
+| `cartebtp.verifyCard` | cartebtp.fr | Verifies a French construction worker card (Carte BTP) from the hash its QR code… | 🟢 |
 | `carusohomes.assembleTourRequest` | carusohomes.com | Validates a caller's tour request against a community's live form schema and maps it… | 🟢 |
 | `carusohomes.getTourAppointmentSchema` | carusohomes.com | Reads one community page's own 'Schedule a Tour' form — every field, its… | 🟢 |
 | `carusohomes.searchCommunities` | carusohomes.com | Reads a Caruso Homes market listing page and returns every live community in it —… | 🟢 |
@@ -737,10 +738,40 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.listPartnerCompanies` | geico.com | Returns which insurance companies GEICO Insurance Agency actually places each line of… | 🟢 |
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
-| `github.getProfileReadme` | github.com | Reads a person's own GitHub profile — name, company, listed website, bio, X handle —… | 🟢 |
+| `github.createComment` | github.com | Adds a comment to an issue or pull request. | ⚪ |
+| `github.createIssue` | github.com | Creates a new issue on a repository. | ⚪ |
+| `github.createPullRequest` | github.com | Creates a new pull request from a head branch to a base branch. | ⚪ |
+| `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
+| `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
+| `github.deleteComment` | github.com | Deletes a comment on an issue or pull request. | ⚪ |
+| `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | ⚪ |
+| `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | ⚪ |
+| `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
+| `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, reviewers… | ⚪ |
 | `github.getRepo` | github.com | Returns a public repository's own metadata — description, default branch… | ⚪ |
+| `github.getSponsorPage` | github.com | Returns the public sponsor/funding page for a user, showing sponsorship options and… | ⚪ |
+| `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | ⚪ |
+| `github.getUserRepositories` | github.com | Lists all public repositories owned by or visible to a user, with optional sorting and… | ⚪ |
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
-| `github.listReleases` | github.com | Returns a public repository's own release history — each release's tag, name… | 🟢 |
+| `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | ⚪ |
+| `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | ⚪ |
+| `github.listNotifications` | github.com | Lists the signed-in user's notifications — issues, pull requests, and discussions… | ⚪ |
+| `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
+| `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state… | ⚪ |
+| `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
+| `github.listStarredRepositories` | github.com | Lists repositories the signed-in user has starred, with optional sorting and filtering. | ⚪ |
+| `github.listTopics` | github.com | Lists repositories by topic, returning repositories tagged with a specific topic. | ⚪ |
+| `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | ⚪ |
+| `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
+| `github.searchCode` | github.com | Searches for code across public repositories by filename, language, code snippet… | ⚪ |
+| `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | ⚪ |
+| `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | ⚪ |
+| `github.unstarRepository` | github.com | Removes a repository from the signed-in user's starred list. | ⚪ |
+| `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | ⚪ |
+| `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | ⚪ |
+| `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | ⚪ |
+| `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), base branch, or draft status. | ⚪ |
+| `github.watchRepository` | github.com | Adds a repository to the signed-in user's watched/subscribed list for notifications. | ⚪ |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
 | `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟡 |

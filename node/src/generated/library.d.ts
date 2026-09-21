@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fae44efe3c7244d649d3d6bf06ddf0fbc9b5ec96b524191f0031e68f208e3bb4
-// 59 capabilities, 437 providers, 1190 typed functions, 20 refused.
+// Manifest version: d80090e1a84b28ad86bdf2c3cdfc172e223020bca34a7c4155aec6c79e321e64
+// 59 capabilities, 438 providers, 1191 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2505,9 +2505,12 @@ type ReadResult = {
      * avoid triggering bot defenses on sites that block concurrent connections from one IP, while
      * requests to DIFFERENT origins run in parallel. Results arrive in the order the urls were
      * given. One dead url never costs you the others — it comes back with `ok: false` and `error`
-     * set. RUN-ONLY: same reason as `page` — the rung is decided per call, so `session()` and the
-     * top-level `bowmark` client are both refused with code "rung_undeclared". Call it through
-     * `run()` instead.
+     * set. Serializing costs TIME: a same-origin batch takes the SUM of its reads, so on a
+     * bot-defended site that escalates to a browser (~60s per page) more than one url from that
+     * origin will blow the 90s `/v1/run` ceiling and you get nothing back — split those across
+     * separate runs. RUN-ONLY: same reason as `page` — the rung is decided per call, so
+     * `session()` and the top-level `bowmark` client are both refused with code "rung_undeclared".
+     * Call it through `run()` instead.
      */
     pages(urls: string[], options?: ReadOptions): Promise<ReadResult[]>;
   }
@@ -10574,6 +10577,27 @@ interface carsVehicleValue {
      * cash-offer appraisal.
      */
     getVehicleValue(args: { vin: string; identity: QuoteIdentity; postalCode: string; mileage?: number }): Promise<carsVehicleValue>;
+  }
+}
+
+declare namespace BowmarkProvider_cartebtp {
+  // ── Carte BTP — the unit's own declarations, verbatim ──
+interface CartebtpVerification {
+  valid: boolean;
+  hash: string;
+  cardNumber: string | null;
+  message: string;
+}
+
+  /** Verifies French construction worker cards (Carte BTP) by their QR code. */
+  interface Unit {
+    /**
+     * Verifies a French construction worker card (Carte BTP) from the hash its QR code encodes —
+     * the same lookup cartebtp.fr's own public verification page performs. Returns whether the
+     * card is currently valid, its printed card number when the lookup resolves, and the site's
+     * own status message.
+     */
+    verifyCard(hash: string): Promise<CartebtpVerification>;
   }
 }
 
@@ -37813,6 +37837,7 @@ interface BowmarkProviders {
   carolefabrics: BowmarkProvider_carolefabrics.Unit;
   carpetlandusa: BowmarkProvider_carpetlandusa.Unit;
   cars: BowmarkProvider_cars.Unit;
+  cartebtp: BowmarkProvider_cartebtp.Unit;
   carusohomes: BowmarkProvider_carusohomes.Unit;
   casadragones: BowmarkProvider_casadragones.Unit;
   cascadiaseniorliving_com: BowmarkProvider_cascadiaseniorliving_com.Unit;
