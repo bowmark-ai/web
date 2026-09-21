@@ -1019,7 +1019,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `jcrew.listSortOptions` | jcrew.com | Lists the sort orders J.Crew's own result pages offer — price low to high, newest… | ⚪ |
 | `jcrew.searchProducts` | jcrew.com | Searches J.Crew's live catalogue the way its own search bar does — a free-text query… | ⚪ |
 | `jcrew.startCheckout` | jcrew.com | Begins J.Crew's checkout for a filled bag. | ⚪ |
-| `jcrew.suggestSearchTerms` | jcrew.com | Completes a partial search the way J.Crew's own type-ahead does — given a word… | ⚪ |
+| `jcrew.suggestSearchTerms` | jcrew.com | Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50… | 🟢 |
 | `jennikayne.buildGiftCardLink` | jennikayne.com | Configures a gift card — amount, recipient name/email, an optional message, and a… | 🟢 |
 | `jennikayne.getGiftCardOptions` | jennikayne.com | Reads the live digital gift-card product — every denomination from $50 to $1,000 with… | 🟢 |
 | `joybird.getConfigurator` | joybird.com | Reads one product's full configurator — its dimensions, current price, active… | 🟢 |
@@ -1791,7 +1791,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getMarketSummary` | finance.yahoo.com | Reads the market-wide overview the site's own Markets home shows — the major indices… | ⚪ |
 | `yahoo_finance.getNews` | finance.yahoo.com | Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —… | ⚪ |
 | `yahoo_finance.getOptionsChain` | finance.yahoo.com | Reads a ticker's options chain — calls and puts by strike and expiration, with… | ⚪ |
-| `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | ⚪ |
+| `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟢 |
 | `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | ⚪ |
 | `yahoo_finance.listCryptoPrices` | finance.yahoo.com | Reads the live crypto leaderboard the way the site's own Crypto markets page does —… | ⚪ |
 | `yahoo_finance.listCurrencyRates` | finance.yahoo.com | Reads live currency-pair rates the way the site's own Currencies markets page does —… | ⚪ |
@@ -1811,7 +1811,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and season stats the way their own player page does —… | ⚪ |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | ⚪ |
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | ⚪ |
-| `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads today's (or a given day's) games for one league — NFL, NBA, MLB, NHL, college… | ⚪ |
+| `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads today's games for one league — NFL, NBA, MLB, NHL, college football, college… | 🟢 |
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | ⚪ |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | ⚪ |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league with its slug, city and name — the door a caller needs… | ⚪ |
