@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1b8a38ea76d6f04f268b87a15dcc2298f688f54aafcdfed6b928ddcd7441c2e7
+# Manifest version: 2a228ba0a724bb8e3e9bb1fb7c4ca0753c79eecf9cf1c4fc5ad012c45e470a2d
 # 57 capabilities, 436 providers, 1169 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
