@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1827 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1857 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1590,6 +1590,36 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ticketmaster.search` | ticketmaster.com | Searches live events — concerts, sports, arts & theater, family — by keyword, location… | ⚪ |
 | `ticketmaster.searchAttractions` | ticketmaster.com | Finds attractions — artists, sports teams and other performers — by name and returns… | ⚪ |
 | `ticketmaster.searchVenues` | ticketmaster.com | Finds venues by name or location (city/state/postal or geo radius) and returns each… | ⚪ |
+| `tiktok.bookmarkVideo` | tiktok.com | Save a video to the signed-in caller's own Favorites/bookmarks. | ⚪ |
+| `tiktok.deleteComment` | tiktok.com | Delete the caller's own comment — the reverse of postComment, and how a test write is… | ⚪ |
+| `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | ⚪ |
+| `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | ⚪ |
+| `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller. | ⚪ |
+| `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | ⚪ |
+| `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | ⚪ |
+| `tiktok.getProfile` | tiktok.com | A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId… | ⚪ |
+| `tiktok.getSound` | tiktok.com | A sound/music track's own facts — title, artist, duration, how many videos use it —… | ⚪ |
+| `tiktok.getTranscript` | tiktok.com | A video's own caption track, read off `itemStruct.video.subtitleInfos` — per-language… | ⚪ |
+| `tiktok.getVideo` | tiktok.com | One video's own facts, off the watch page's embedded state: caption, hashtags, create… | ⚪ |
+| `tiktok.likeVideo` | tiktok.com | Like a video as the signed-in caller — the heart button. | ⚪ |
+| `tiktok.listBookmarkedVideos` | tiktok.com | The signed-in caller's own saved videos — the companion read to bookmarkVideo. | ⚪ |
+| `tiktok.listCaptionTracks` | tiktok.com | Which languages a video's captions are available in and which TikTok shows by default… | ⚪ |
+| `tiktok.listCommentReplies` | tiktok.com | The replies under one comment thread, hidden behind TikTok's "N replies" button and… | ⚪ |
+| `tiktok.listComments` | tiktok.com | What people said under a video — author, text, like count, reply count, whether pinned… | ⚪ |
+| `tiktok.listConversations` | tiktok.com | The signed-in caller's own DM inbox — threads, last message, unread state. | ⚪ |
+| `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | ⚪ |
+| `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | ⚪ |
+| `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | ⚪ |
+| `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | ⚪ |
+| `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | ⚪ |
+| `tiktok.listUserVideos` | tiktok.com | What a creator has posted, paged — the door from a handle to their videos. | ⚪ |
+| `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | ⚪ |
+| `tiktok.searchUsers` | tiktok.com | Search TikTok for creators matching a query and get back handle, nickname and follower… | ⚪ |
+| `tiktok.searchVideos` | tiktok.com | Search TikTok the way the search box does and get back matching videos. | ⚪ |
+| `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller. | ⚪ |
+| `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | ⚪ |
+| `tiktok.unlikeVideo` | tiktok.com | Remove a like the caller placed — the reverse of likeVideo. | ⚪ |
+| `tiktok.uploadVideo` | tiktok.com | Upload a video to the signed-in caller's own account, with caption, hashtags and… | ⚪ |
 | `tilsonhomes.getElevationDetails` | tilsonhomes.com | Reads one plan's elevation — the exterior style's customization range (how far… | 🟢 |
 | `tilsonhomes.listPlans` | tilsonhomes.com | Lists Tilson Homes' Build-On-Your-Land floor plans — model name, bed/bath/size and the… | 🟢 |
 | `titlenine.calculateBraSize` | titlenine.com | Runs Title Nine's own bra-size calculator — chest, bust and under-bust measurements… | 🟢 |

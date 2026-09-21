@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 444d5b67e5ecbad9e3db629010e39753bf67705af40a57dbaa569dc18eb1b341
-# 59 capabilities, 438 providers, 1173 typed functions, 20 refused.
+# Manifest version: f8fce306ffb2b345a0663d91dadbe7edfa9b1bcd1697c55b54f28ad24855ca1f
+# 60 capabilities, 438 providers, 1174 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1090,6 +1090,15 @@ class Cap_istanbul_schedules_AttractionHoursResult_Out(TypedDict):
     email: str | None
     url: str
     warnings: list[str]
+
+class Cap_kenya_fuel_prices_kenya_fuel_pricesResult_Out(TypedDict):
+    prices: list[Cap_kenya_fuel_prices_FuelPrice_Out]
+    warnings: list[str]
+
+class Cap_kenya_fuel_prices_FuelPrice_Out(TypedDict):
+    product: Literal["petrol"] | Literal["diesel"] | Literal["kerosene"]
+    price: float
+    unit: Literal["KES/liter"]
 
 class Cap_local_database_gui_DbGuiBrowseOptions_In(TypedDict):
     maxTables: NotRequired[float]
@@ -20299,6 +20308,14 @@ class Cap_istanbul_schedules(Protocol):
         highlight subset, not the whole ministry catalog.
         """
 
+class Cap_kenya_fuel_prices(Protocol):
+    """Get current diesel, petrol and kerosene pump prices in Kenya from EPRA's pricing
+    bulletin.
+    """
+
+    async def search(self, product: str | None = None, /) -> Cap_kenya_fuel_prices_kenya_fuel_pricesResult_Out:
+        """Returns current Kenya pump prices for diesel, petrol, or kerosene."""
+
 class Cap_local_database_gui(Protocol):
     """Turns the HTML of a local database GUI (Adminer, phpMyAdmin, pgAdmin, Drizzle Studio,
     mongo-express, or anything similar running on the caller's own localhost) into typed
@@ -33995,6 +34012,7 @@ class Bowmark(Protocol):
     hvac: Cap_hvac
     insurance: Cap_insurance
     istanbul_schedules: Cap_istanbul_schedules
+    kenya_fuel_prices: Cap_kenya_fuel_prices
     local_database_gui: Cap_local_database_gui
     local_html_preview: Cap_local_html_preview
     mac_trade_in: Cap_mac_trade_in

@@ -1,5 +1,5 @@
 {
-  "version": "444d5b67e5ecbad9e3db629010e39753bf67705af40a57dbaa569dc18eb1b341",
+  "version": "f8fce306ffb2b345a0663d91dadbe7edfa9b1bcd1697c55b54f28ad24855ca1f",
   "units": {
     "booking_links": {
       "defs": {
@@ -1792,6 +1792,20 @@
             "schema": {
               "k": "ref",
               "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "kenya_fuel_prices": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "string"
             },
             "optional": true
           }

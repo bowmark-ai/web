@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 444d5b67e5ecbad9e3db629010e39753bf67705af40a57dbaa569dc18eb1b341
-// 1173 checked, 20 unchecked.
+// Manifest version: f8fce306ffb2b345a0663d91dadbe7edfa9b1bcd1697c55b54f28ad24855ca1f
+// 1174 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "444d5b67e5ecbad9e3db629010e39753bf67705af40a57dbaa569dc18eb1b341",
+  "version": "f8fce306ffb2b345a0663d91dadbe7edfa9b1bcd1697c55b54f28ad24855ca1f",
   "units": {
     "booking_links": {
       "defs": {
@@ -1804,6 +1804,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "kenya_fuel_prices": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "product",
+            "schema": {
+              "k": "string"
             },
             "optional": true
           }

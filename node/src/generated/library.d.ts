@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 444d5b67e5ecbad9e3db629010e39753bf67705af40a57dbaa569dc18eb1b341
-// 59 capabilities, 438 providers, 1191 typed functions, 20 refused.
+// Manifest version: f8fce306ffb2b345a0663d91dadbe7edfa9b1bcd1697c55b54f28ad24855ca1f
+// 60 capabilities, 438 providers, 1192 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1780,6 +1780,26 @@ type CallOptions = {
      * highlight subset, not the whole ministry catalog.
      */
     attractionHours(query: string, options?: CallOptions): Promise<AttractionHoursResult>;
+  }
+}
+
+declare namespace BowmarkCapability_kenya_fuel_prices {
+  // ── Kenya fuel prices — the unit's own declarations, verbatim ──
+interface FuelPrice {
+  product: "petrol" | "diesel" | "kerosene";
+  price: number;
+  unit: "KES/liter";
+}
+
+interface kenya_fuel_pricesResult {
+  prices: FuelPrice[];
+  warnings: string[];
+}
+
+  /** Get current diesel, petrol and kerosene pump prices in Kenya from EPRA's pricing bulletin. */
+  interface Unit {
+    /** Returns current Kenya pump prices for diesel, petrol, or kerosene. */
+    search(product?: string): Promise<kenya_fuel_pricesResult>;
   }
 }
 
@@ -89929,6 +89949,7 @@ interface BowmarkLibrary {
   hvac: BowmarkCapability_hvac.Unit;
   insurance: BowmarkCapability_insurance.Unit;
   istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
+  kenya_fuel_prices: BowmarkCapability_kenya_fuel_prices.Unit;
   local_database_gui: BowmarkCapability_local_database_gui.Unit;
   local_html_preview: BowmarkCapability_local_html_preview.Unit;
   mac_trade_in: BowmarkCapability_mac_trade_in.Unit;
