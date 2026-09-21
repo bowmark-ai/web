@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 21dba8f076ada4326da44430131904a6a32837b7642f35fcde55b2cbaedfa219
-// 60 capabilities, 442 providers, 1201 typed functions, 20 refused.
+// Manifest version: 5cdb78861e5f5471e842261d6da5a2356b524b8592cb95807b44ac8e37bf8e53
+// 60 capabilities, 442 providers, 1203 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36219,6 +36219,32 @@ interface YahooFinanceTrendingTicker {
   quoteType: string;
 }
 
+interface YahooFinanceMarketIndex {
+  symbol: string;              // Yahoo's own symbol, "^GSPC", "^DJI", "^IXIC", "^RUT"
+  name: string;                 // Yahoo's own display name, "S&P 500", "Dow 30"
+  price: number | null;
+  change: number | null;
+  changePercent: number | null;
+}
+
+interface YahooFinanceMover {
+  symbol: string;
+  name: string | null;
+  price: number | null;
+  change: number | null;
+  changePercent: number | null;
+  marketCap: string | null;    // "4.823B" — kept as the site renders
+  volume: number | null;
+}
+
+interface YahooFinanceMarketSummary {
+  marketState: string | null;  // Yahoo's own sentence, e.g. "U.S. markets closed"
+  indices: YahooFinanceMarketIndex[];
+  topGainers: YahooFinanceMover[];
+  topLosers: YahooFinanceMover[];
+  mostActive: YahooFinanceMover[];
+}
+
   /**
    * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
    * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
@@ -36255,6 +36281,16 @@ interface YahooFinanceTrendingTicker {
      * ticker's.
      */
     getTrendingTickers(): Promise<YahooFinanceTrendingTicker[]>;
+
+    /**
+     * Reads the market-wide overview the site's own Markets home shows: whether U.S. markets are
+     * open ("U.S. markets closed"), the major-index strip (S&P 500, Dow 30, Nasdaq, Russell 2000,
+     * and whatever else the site is tracking that day — VIX, gold, Bitcoin, crude oil have all
+     * been observed), and the top day gainers, day losers and most-active stocks the site's own
+     * predefined screeners rank. No arguments: this is the market's current state, not one
+     * ticker's.
+     */
+    getMarketSummary(): Promise<YahooFinanceMarketSummary>;
   }
 }
 
@@ -36273,7 +36309,23 @@ interface YahooSportsGameRow {
   url: string;
 }
 
+interface YahooSportsStandingsRow {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  team: string;
+  wins: number;
+  losses: number;
+  ties: number;
+  winPercentage: number;
+  pointsFor: number;
+  pointsAgainst: number;
+  pointsDifferential: number;
+}
+
 interface GetScoreboardArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+}
+
+interface GetStandingsArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
 }
 
@@ -36289,6 +36341,12 @@ interface GetScoreboardArgs {
      * scoreboard page shows it; does not yet take a date.
      */
     getScoreboard(args: GetScoreboardArgs): Promise<YahooSportsGameRow[]>;
+
+    /**
+     * Reads the full standings table for one league off Yahoo Sports' own Standings page — each
+     * team's wins, losses, ties, win percentage, points for/against and point differential.
+     */
+    getStandings(args: GetStandingsArgs): Promise<YahooSportsStandingsRow[]>;
   }
 }
 

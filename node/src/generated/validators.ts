@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 21dba8f076ada4326da44430131904a6a32837b7642f35fcde55b2cbaedfa219
-// 1183 checked, 20 unchecked.
+// Manifest version: 5cdb78861e5f5471e842261d6da5a2356b524b8592cb95807b44ac8e37bf8e53
+// 1185 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "21dba8f076ada4326da44430131904a6a32837b7642f35fcde55b2cbaedfa219",
+  "version": "5cdb78861e5f5471e842261d6da5a2356b524b8592cb95807b44ac8e37bf8e53",
   "units": {
     "booking_links": {
       "defs": {
@@ -34290,12 +34290,51 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getTrendingTickers": []
+        "getTrendingTickers": [],
+        "getMarketSummary": []
       }
     },
     "providers.yahoo_sports": {
       "defs": {
         "GetScoreboardArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetStandingsArgs": {
           "k": "object",
           "props": [
             {
@@ -34341,6 +34380,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetScoreboardArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStandings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStandingsArgs"
             },
             "optional": false
           }

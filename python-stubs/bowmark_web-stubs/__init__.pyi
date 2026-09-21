@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 21dba8f076ada4326da44430131904a6a32837b7642f35fcde55b2cbaedfa219
-# 60 capabilities, 442 providers, 1183 typed functions, 20 refused.
+# Manifest version: 5cdb78861e5f5471e842261d6da5a2356b524b8592cb95807b44ac8e37bf8e53
+# 60 capabilities, 442 providers, 1185 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19202,6 +19202,29 @@ class Prv_yahoo_finance_YahooFinanceTrendingTicker_Out(TypedDict):
     trendingScore: float
     quoteType: str
 
+class Prv_yahoo_finance_YahooFinanceMarketSummary_Out(TypedDict):
+    marketState: str | None
+    indices: list[Prv_yahoo_finance_YahooFinanceMarketIndex_Out]
+    topGainers: list[Prv_yahoo_finance_YahooFinanceMover_Out]
+    topLosers: list[Prv_yahoo_finance_YahooFinanceMover_Out]
+    mostActive: list[Prv_yahoo_finance_YahooFinanceMover_Out]
+
+class Prv_yahoo_finance_YahooFinanceMarketIndex_Out(TypedDict):
+    symbol: str
+    name: str
+    price: float | None
+    change: float | None
+    changePercent: float | None
+
+class Prv_yahoo_finance_YahooFinanceMover_Out(TypedDict):
+    symbol: str
+    name: str | None
+    price: float | None
+    change: float | None
+    changePercent: float | None
+    marketCap: str | None
+    volume: float | None
+
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
 
@@ -19216,6 +19239,20 @@ class Prv_yahoo_sports_YahooSportsGameRow_Out(TypedDict):
     startDate: str
     venue: str | None
     url: str
+
+class Prv_yahoo_sports_GetStandingsArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+
+class Prv_yahoo_sports_YahooSportsStandingsRow_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    team: str
+    wins: float
+    losses: float
+    ties: float
+    winPercentage: float
+    pointsFor: float
+    pointsAgainst: float
+    pointsDifferential: float
 
 class Prv_ycombinator_YCombinatorArticle_Out(TypedDict):
     id: float | None
@@ -33355,6 +33392,15 @@ class Prv_yahoo_finance(Protocol):
         attention, not one ticker's.
         """
 
+    async def getMarketSummary(self, /) -> Prv_yahoo_finance_YahooFinanceMarketSummary_Out:
+        """Reads the market-wide overview the site's own Markets home shows: whether U.S. markets
+        are open ("U.S. markets closed"), the major-index strip (S&P 500, Dow 30, Nasdaq,
+        Russell 2000, and whatever else the site is tracking that day — VIX, gold, Bitcoin,
+        crude oil have all been observed), and the top day gainers, day losers and most-active
+        stocks the site's own predefined screeners rank. No arguments: this is the market's
+        current state, not one ticker's.
+        """
+
 class Prv_yahoo_sports(Protocol):
     """Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages —
     off the site's own server-rendered schema.org markup, no browser and no account.
@@ -33365,6 +33411,12 @@ class Prv_yahoo_sports(Protocol):
         each game's teams, score (once started), status (scheduled/in_progress/final), venue and
         its own game page url. The url is the door `getGame` needs. Covers today's slate as
         Yahoo's own scoreboard page shows it; does not yet take a date.
+        """
+
+    async def getStandings(self, args: Prv_yahoo_sports_GetStandingsArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsStandingsRow_Out]:
+        """Reads the full standings table for one league off Yahoo Sports' own Standings page —
+        each team's wins, losses, ties, win percentage, points for/against and point
+        differential.
         """
 
 class Prv_ycombinator(Protocol):
