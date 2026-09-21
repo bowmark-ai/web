@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 115ca55649afb6927bd6c68edaac0cb8f61ca0bcdff369db007e39dc05707ff4
-# 60 capabilities, 438 providers, 1174 typed functions, 20 refused.
+# Manifest version: e6a9212ee1d71dbf11b0d396ecb5305f28d25b6f4e395825017e7e9865af1130
+# 60 capabilities, 441 providers, 1179 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11651,6 +11651,40 @@ class Prv_jasmine_dilucci_FormField_Out(TypedDict):
     step: NotRequired[str]
     options: NotRequired[list[str]]
 
+class Prv_jcrew_ListCategoriesArgs_In(TypedDict):
+    categoryId: NotRequired[str]
+    levels: NotRequired[float]
+
+class Prv_jcrew_ListCategoriesResult_Out(TypedDict):
+    categoryId: str
+    levels: float
+    categories: list[Prv_jcrew_JcrewCategory_Out]
+
+class Prv_jcrew_JcrewCategory_Out(TypedDict):
+    id: str
+    name: str
+    parentId: str
+
+class Prv_jcrew_SuggestSearchTermsArgs_In(TypedDict):
+    query: str
+
+class Prv_jcrew_SuggestSearchTermsResult_Out(TypedDict):
+    query: str
+    terms: list[str]
+    categories: list[Prv_jcrew_JcrewSuggestedCategory_Out]
+    products: list[Prv_jcrew_JcrewSuggestedProduct_Out]
+
+class Prv_jcrew_JcrewSuggestedCategory_Out(TypedDict):
+    id: str
+    name: str
+    parentCategoryName: str | None
+
+class Prv_jcrew_JcrewSuggestedProduct_Out(TypedDict):
+    id: str
+    name: str
+    price: float | None
+    currency: str | None
+
 class Prv_jennikayne_GiftCardOptions_Out(TypedDict):
     productUrl: str
     denominations: list[Prv_jennikayne_GiftCardDenomination_Out]
@@ -19095,6 +19129,45 @@ class Prv_xpresswellnessurgentcare_XpressWaitTime_Out(TypedDict):
     phone: str | None
     waitTimeText: str
     hoursText: str | None
+    url: str
+
+class Prv_yahoo_finance_yahooFinanceSearchResult_Out(TypedDict):
+    query: str
+    matches: list[Prv_yahoo_finance_yahooFinanceSearchMatch_Out]
+
+class Prv_yahoo_finance_yahooFinanceSearchMatch_Out(TypedDict):
+    symbol: str
+    name: str
+    exchange: str | None
+    exchangeName: str | None
+    quoteType: str
+    score: float
+
+class Prv_yahoo_finance_YahooFinanceQuote_Out(TypedDict):
+    symbol: str
+    price: float | None
+    change: float | None
+    changePercent: float | None
+    marketCap: str | None
+    trailingPE: float | None
+    fiftyTwoWeekRange: str | None
+    volume: float | None
+    averageVolume: float | None
+    targetMeanPrice: float | None
+
+class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+
+class Prv_yahoo_sports_YahooSportsGameRow_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    name: str
+    homeTeam: str
+    awayTeam: str
+    homeScore: float | None
+    awayScore: float | None
+    status: Literal["scheduled"] | Literal["in_progress"] | Literal["final"]
+    startDate: str
+    venue: str | None
     url: str
 
 class Prv_ycombinator_YCombinatorArticle_Out(TypedDict):
@@ -27999,6 +28072,26 @@ class Prv_jasmine_dilucci(Protocol):
         markers.
         """
 
+class Prv_jcrew(Protocol):
+    """Search and read J.Crew's clothing catalogue — products, prices, colours, sizes and stock
+    — off the site's own OCAPI storefront API, no browser and no account.
+    """
+
+    async def listCategories(self, args: Prv_jcrew_ListCategoriesArgs_In | None = None, /) -> Prv_jcrew_ListCategoriesResult_Out:
+        """Walks J.Crew's own category tree from a starting category ("root" by default) down a
+        requested number of levels (0-4, default 2), returning each descendant's id, display
+        name and parent — so a caller holding the word "shirts" can find the id `browseCategory`
+        needs. `mens`, `levels: 3` reaches `mens|categories|clothing|shirts`, the id
+        `browseCategory`'s own example uses.
+        """
+
+    async def suggestSearchTerms(self, args: Prv_jcrew_SuggestSearchTermsArgs_In, /) -> Prv_jcrew_SuggestSearchTermsResult_Out:
+        """Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50
+        characters long, e.g. "oxford" — returning the corrected/completed terms, matching
+        categories and matching products the site itself would suggest. The door in front of
+        `searchProducts` for a caller that does not yet know the site's vocabulary.
+        """
+
 class Prv_jennikayne(Protocol):
     """Jenni Kayne's live gift-card product: read the real denominations and hand the shopper a
     checkout link pre-filled with the recipient, message and scheduled delivery
@@ -33161,6 +33254,46 @@ class Prv_xpresswellnessurgentcare(Protocol):
         (the widget's markup changed).
         """
 
+class Prv_yahoo_finance(Protocol):
+    """Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
+    estimates, holders, news, trending tickers — off the site's own server-rendered markup,
+    no browser and no account. Callable functions: resolving a company name or ticker guess
+    to the matching symbols Yahoo Finance's own search box offers, and reading the live
+    quote header for any ticker with price, change, market cap, P/E, 52-week range, volume
+    and analyst target.
+    """
+
+    async def searchSymbols(self, query: str, /) -> Prv_yahoo_finance_yahooFinanceSearchResult_Out:
+        """Resolves what a person would type — a company name ("Apple"), a ticker ("AAPL") or a
+        rough guess — to the matching tickers Yahoo Finance's own search box would offer, ranked
+        by Yahoo's own relevance score: symbol, display name, exchange (short code and full
+        name), and quote type ("EQUITY", "ETF", "FUTURE", "INDEX", "CURRENCY", "CRYPTOCURRENCY",
+        …). This is the DOOR every other function in this provider that takes a symbol needs — a
+        caller holding only a company name has no other route to a ticker. A query with no
+        matches answers `matches: []`, an honest empty result rather than a throw; an empty or
+        non-string query throws before any request is sent.
+        """
+
+    async def getQuote(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceQuote_Out:
+        """Reads the live quote header for one ticker ("AAPL") the way the site's own quote page
+        does — price, day's change and change percent, market cap, trailing P/E, 52-week range,
+        volume, average volume, and analyst target mean price — everything shown in the quote
+        strip and the right-rail statistics panel. An unknown or empty ticker throws before any
+        request is sent.
+        """
+
+class Prv_yahoo_sports(Protocol):
+    """Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages —
+    off the site's own server-rendered schema.org markup, no browser and no account.
+    """
+
+    async def getScoreboard(self, args: Prv_yahoo_sports_GetScoreboardArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsGameRow_Out]:
+        """Reads the current slate of games for one league off Yahoo Sports' own scoreboard page —
+        each game's teams, score (once started), status (scheduled/in_progress/final), venue and
+        its own game page url. The url is the door `getGame` needs. Covers today's slate as
+        Yahoo's own scoreboard page shows it; does not yet take a date.
+        """
+
 class Prv_ycombinator(Protocol):
     """Y Combinator's own site (ycombinator.com) — reads one Startup Library article or blog
     post by its URL/slug (application and interview guidance, fundraising, pitching,
@@ -33786,6 +33919,7 @@ class BowmarkProviders(Protocol):
     ivoryhomes: Prv_ivoryhomes
     iyc: Prv_iyc
     jasmine_dilucci: Prv_jasmine_dilucci
+    jcrew: Prv_jcrew
     jennikayne: Prv_jennikayne
     joybird: Prv_joybird
     joycefactorydirect: Prv_joycefactorydirect
@@ -33971,6 +34105,8 @@ class BowmarkProviders(Protocol):
     wholefoodsmarket: Prv_wholefoodsmarket
     winestyles: Prv_winestyles
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
+    yahoo_finance: Prv_yahoo_finance
+    yahoo_sports: Prv_yahoo_sports
     ycombinator: Prv_ycombinator
     yelp: Prv_yelp
     yorkwallcoverings: Prv_yorkwallcoverings

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 115ca55649afb6927bd6c68edaac0cb8f61ca0bcdff369db007e39dc05707ff4
-// 1174 checked, 20 unchecked.
+// Manifest version: e6a9212ee1d71dbf11b0d396ecb5305f28d25b6f4e395825017e7e9865af1130
+// 1179 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "115ca55649afb6927bd6c68edaac0cb8f61ca0bcdff369db007e39dc05707ff4",
+  "version": "e6a9212ee1d71dbf11b0d396ecb5305f28d25b6f4e395825017e7e9865af1130",
   "units": {
     "booking_links": {
       "defs": {
@@ -19866,6 +19866,63 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.jcrew": {
+      "defs": {
+        "ListCategoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "levels",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "SuggestSearchTermsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCategoriesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "suggestSearchTerms": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SuggestSearchTermsArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.jennikayne": {
       "defs": {
         "GiftCardConfig": {
@@ -34143,6 +34200,83 @@ export const VALIDATORS: ValidatorTable = {
             "name": "facilityId",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.yahoo_finance": {
+      "defs": {},
+      "functions": {
+        "searchSymbols": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getQuote": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.yahoo_sports": {
+      "defs": {
+        "GetScoreboardArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getScoreboard": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetScoreboardArgs"
             },
             "optional": false
           }

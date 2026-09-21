@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 115ca55649afb6927bd6c68edaac0cb8f61ca0bcdff369db007e39dc05707ff4
-// 60 capabilities, 438 providers, 1192 typed functions, 20 refused.
+// Manifest version: e6a9212ee1d71dbf11b0d396ecb5305f28d25b6f4e395825017e7e9865af1130
+// 60 capabilities, 441 providers, 1197 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22111,6 +22111,76 @@ interface GetApplicationFormSchemaArgs {
   }
 }
 
+declare namespace BowmarkProvider_jcrew {
+  // ── J.Crew — the unit's own declarations, verbatim ──
+interface JcrewProductRow {
+  id: string;
+  name: string;
+  price: number | null;
+  currency: string | null;
+  orderable: boolean | null;
+  image: string | null;
+  url: string;
+}
+interface JcrewCategory {
+  id: string;
+  name: string;
+  parentId: string;
+}
+interface ListCategoriesArgs {
+  categoryId?: string;
+  levels?: number;
+}
+interface ListCategoriesResult {
+  categoryId: string;
+  levels: number;
+  categories: JcrewCategory[];
+}
+interface JcrewSuggestedCategory {
+  id: string;
+  name: string;
+  parentCategoryName: string | null;
+}
+interface JcrewSuggestedProduct {
+  id: string;
+  name: string;
+  price: number | null;
+  currency: string | null;
+}
+interface SuggestSearchTermsArgs {
+  query: string;
+}
+interface SuggestSearchTermsResult {
+  query: string;
+  terms: string[];
+  categories: JcrewSuggestedCategory[];
+  products: JcrewSuggestedProduct[];
+}
+
+  /**
+   * Search and read J.Crew's clothing catalogue — products, prices, colours, sizes and stock —
+   * off the site's own OCAPI storefront API, no browser and no account.
+   */
+  interface Unit {
+    /**
+     * Walks J.Crew's own category tree from a starting category ("root" by default) down a
+     * requested number of levels (0-4, default 2), returning each descendant's id, display name
+     * and parent — so a caller holding the word "shirts" can find the id `browseCategory` needs.
+     * `mens`, `levels: 3` reaches `mens|categories|clothing|shirts`, the id `browseCategory`'s own
+     * example uses.
+     */
+    listCategories(args?: ListCategoriesArgs): Promise<ListCategoriesResult>;
+
+    /**
+     * Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50
+     * characters long, e.g. "oxford" — returning the corrected/completed terms, matching
+     * categories and matching products the site itself would suggest. The door in front of
+     * `searchProducts` for a caller that does not yet know the site's vocabulary.
+     */
+    suggestSearchTerms(args: SuggestSearchTermsArgs): Promise<SuggestSearchTermsResult>;
+  }
+}
+
 declare namespace BowmarkProvider_jennikayne {
   // ── Jenni Kayne — the unit's own declarations, verbatim ──
 interface GiftCardDenomination {
@@ -36057,6 +36127,100 @@ interface XpressWaitTime {
   }
 }
 
+declare namespace BowmarkProvider_yahoo_finance {
+  // ── Yahoo Finance — the unit's own declarations, verbatim ──
+interface YahooFinanceQuote {
+  symbol: string;
+  price: number | null;
+  change: number | null;
+  changePercent: number | null;
+  marketCap: string | null;
+  trailingPE: number | null;
+  fiftyTwoWeekRange: string | null;
+  volume: number | null;
+  averageVolume: number | null;
+  targetMeanPrice: number | null;
+}
+
+interface yahooFinanceSearchMatch {
+  symbol: string;                // "AAPL"
+  name: string;                  // "Apple Inc."
+  exchange: string | null;       // Yahoo's short code, "NMS"
+  exchangeName: string | null;   // Yahoo's own name, "NASDAQ"
+  quoteType: string;             // "EQUITY" | "ETF" | "FUTURE" | "INDEX" | "CURRENCY" | "CRYPTOCURRENCY" | ...
+  score: number;                 // Yahoo's own relevance ranking, descending
+}
+
+interface yahooFinanceSearchResult {
+  query: string;
+  matches: yahooFinanceSearchMatch[];
+}
+
+  /**
+   * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
+   * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
+   * browser and no account. Callable functions: resolving a company name or ticker guess to the
+   * matching symbols Yahoo Finance's own search box offers, and reading the live quote header
+   * for any ticker with price, change, market cap, P/E, 52-week range, volume and analyst
+   * target.
+   */
+  interface Unit {
+    /**
+     * Resolves what a person would type — a company name ("Apple"), a ticker ("AAPL") or a rough
+     * guess — to the matching tickers Yahoo Finance's own search box would offer, ranked by
+     * Yahoo's own relevance score: symbol, display name, exchange (short code and full name), and
+     * quote type ("EQUITY", "ETF", "FUTURE", "INDEX", "CURRENCY", "CRYPTOCURRENCY", …). This is
+     * the DOOR every other function in this provider that takes a symbol needs — a caller holding
+     * only a company name has no other route to a ticker. A query with no matches answers
+     * `matches: []`, an honest empty result rather than a throw; an empty or non-string query
+     * throws before any request is sent.
+     */
+    searchSymbols(query: string): Promise<yahooFinanceSearchResult>;
+
+    /**
+     * Reads the live quote header for one ticker ("AAPL") the way the site's own quote page does —
+     * price, day's change and change percent, market cap, trailing P/E, 52-week range, volume,
+     * average volume, and analyst target mean price — everything shown in the quote strip and the
+     * right-rail statistics panel. An unknown or empty ticker throws before any request is sent.
+     */
+    getQuote(symbol: string): Promise<YahooFinanceQuote>;
+  }
+}
+
+declare namespace BowmarkProvider_yahoo_sports {
+  // ── Yahoo Sports — the unit's own declarations, verbatim ──
+interface YahooSportsGameRow {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  name: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number | null;
+  awayScore: number | null;
+  status: "scheduled" | "in_progress" | "final";
+  startDate: string;
+  venue: string | null;
+  url: string;
+}
+
+interface GetScoreboardArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+}
+
+  /**
+   * Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages — off
+   * the site's own server-rendered schema.org markup, no browser and no account.
+   */
+  interface Unit {
+    /**
+     * Reads the current slate of games for one league off Yahoo Sports' own scoreboard page — each
+     * game's teams, score (once started), status (scheduled/in_progress/final), venue and its own
+     * game page url. The url is the door `getGame` needs. Covers today's slate as Yahoo's own
+     * scoreboard page shows it; does not yet take a date.
+     */
+    getScoreboard(args: GetScoreboardArgs): Promise<YahooSportsGameRow[]>;
+  }
+}
+
 declare namespace BowmarkProvider_ycombinator {
   // ── Y Combinator — the unit's own declarations, verbatim ──
 interface YCombinatorArticle {
@@ -38007,6 +38171,7 @@ interface BowmarkProviders {
   ivoryhomes: BowmarkProvider_ivoryhomes.Unit;
   iyc: BowmarkProvider_iyc.Unit;
   jasmine_dilucci: BowmarkProvider_jasmine_dilucci.Unit;
+  jcrew: BowmarkProvider_jcrew.Unit;
   jennikayne: BowmarkProvider_jennikayne.Unit;
   joybird: BowmarkProvider_joybird.Unit;
   joycefactorydirect: BowmarkProvider_joycefactorydirect.Unit;
@@ -38192,6 +38357,8 @@ interface BowmarkProviders {
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
+  yahoo_finance: BowmarkProvider_yahoo_finance.Unit;
+  yahoo_sports: BowmarkProvider_yahoo_sports.Unit;
   ycombinator: BowmarkProvider_ycombinator.Unit;
   yelp: BowmarkProvider_yelp.Unit;
   yorkwallcoverings: BowmarkProvider_yorkwallcoverings.Unit;
