@@ -1,5 +1,5 @@
 {
-  "version": "c4b7752c03f940a48069b8728eb8ff8394df9c380b665627940dbd3ff4c981da",
+  "version": "8dd76f871da9562ead854fe34b55232a9ac9982309feb5286168bdbd8ec09c56",
   "units": {
     "booking_links": {
       "defs": {
@@ -19875,6 +19875,18 @@
             }
           ]
         },
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SuggestSearchTermsArgs": {
           "k": "object",
           "props": [
@@ -19897,6 +19909,16 @@
               "name": "ListCategoriesArgs"
             },
             "optional": true
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
+            },
+            "optional": false
           }
         ],
         "suggestSearchTerms": [

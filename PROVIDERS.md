@@ -169,7 +169,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ayreshotels.checkRates` | ayreshotels.com | Checks one property's real live rate/availability for a date range, straight off the… | 🟢 |
 | `azazie.getBuildYourOwnConfig` | azazie.com | Reads one bridesmaid-dress style's full Build Your Own configuration — every color… | 🟢 |
 | `azazie.getColorFamily` | azazie.com | Reads every dress style available in one named color, mirroring the product page's own… | ⚪ |
-| `azazie.search` | azazie.com | Searches Azazie's catalog by free text (style, color, fabric, occasion). | 🟡 |
+| `azazie.search` | azazie.com | Searches Azazie's catalog by free text (style, color, fabric, occasion). | 🟢 |
 | `azure.checkRegionAvailability` | azure.microsoft.com | Answers whether a given Azure product is actually available in a given region, and in… | ⚪ |
 | `azure.estimateCost` | azure.microsoft.com | Prices a whole proposed deployment rather than one meter: the caller passes line items… | ⚪ |
 | `azure.getServiceHealth` | azure.microsoft.com | Returns the current operational status of Azure services by service and region — which… | ⚪ |
@@ -1017,7 +1017,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `jcrew.listCategories` | jcrew.com | Walks J.Crew's own category tree from a starting category down a requested number of… | 🟢 |
 | `jcrew.listSearchRefinements` | jcrew.com | Lists the filters J.Crew itself offers for a given search or category — size, colour… | ⚪ |
 | `jcrew.listSortOptions` | jcrew.com | Lists the sort orders J.Crew's own result pages offer — price low to high, newest… | ⚪ |
-| `jcrew.searchProducts` | jcrew.com | Searches J.Crew's live catalogue the way its own search bar does — a free-text query… | ⚪ |
+| `jcrew.searchProducts` | jcrew.com | Searches J.Crew's live catalogue the way its own search bar does — a free-text query… | 🟢 |
 | `jcrew.startCheckout` | jcrew.com | Begins J.Crew's checkout for a filled bag. | ⚪ |
 | `jcrew.suggestSearchTerms` | jcrew.com | Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50… | 🟢 |
 | `jennikayne.buildGiftCardLink` | jennikayne.com | Configures a gift card — amount, recipient name/email, an optional message, and a… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c4b7752c03f940a48069b8728eb8ff8394df9c380b665627940dbd3ff4c981da
-// 1180 checked, 20 unchecked.
+// Manifest version: 8dd76f871da9562ead854fe34b55232a9ac9982309feb5286168bdbd8ec09c56
+// 1181 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c4b7752c03f940a48069b8728eb8ff8394df9c380b665627940dbd3ff4c981da",
+  "version": "8dd76f871da9562ead854fe34b55232a9ac9982309feb5286168bdbd8ec09c56",
   "units": {
     "booking_links": {
       "defs": {
@@ -19887,6 +19887,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SuggestSearchTermsArgs": {
           "k": "object",
           "props": [
@@ -19909,6 +19921,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListCategoriesArgs"
             },
             "optional": true
+          }
+        ],
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
+            },
+            "optional": false
           }
         ],
         "suggestSearchTerms": [

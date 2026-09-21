@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c4b7752c03f940a48069b8728eb8ff8394df9c380b665627940dbd3ff4c981da
-// 60 capabilities, 441 providers, 1198 typed functions, 20 refused.
+// Manifest version: 8dd76f871da9562ead854fe34b55232a9ac9982309feb5286168bdbd8ec09c56
+// 60 capabilities, 441 providers, 1199 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22136,6 +22136,24 @@ interface ListCategoriesResult {
   levels: number;
   categories: JcrewCategory[];
 }
+interface JcrewSearchProduct {
+  id: string;
+  name: string;
+  price: number | null;
+  currency: string | null;
+  orderable: boolean | null;
+  image: string | null;
+  url: string;
+}
+interface SearchProductsArgs {
+  query: string;
+}
+interface SearchProductsResult {
+  query: string;
+  total: number;
+  pageSize: number;
+  products: JcrewSearchProduct[];
+}
 interface JcrewSuggestedCategory {
   id: string;
   name: string;
@@ -22170,6 +22188,15 @@ interface SuggestSearchTermsResult {
      * example uses.
      */
     listCategories(args?: ListCategoriesArgs): Promise<ListCategoriesResult>;
+
+    /**
+     * Searches J.Crew's live catalogue the way its own search bar does — a free-text query such as
+     * "oxford shirt" — and returns matching product rows with name, style id, price, currency,
+     * whether it is orderable, a thumbnail and the product URL, paginated and optionally sorted by
+     * the site's own sort orders. This is the DOOR for `getProduct`: it is where a caller holding
+     * only words gets the style id every other function takes.
+     */
+    searchProducts(args: SearchProductsArgs): Promise<SearchProductsResult>;
 
     /**
      * Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c4b7752c03f940a48069b8728eb8ff8394df9c380b665627940dbd3ff4c981da
-# 60 capabilities, 441 providers, 1180 typed functions, 20 refused.
+# Manifest version: 8dd76f871da9562ead854fe34b55232a9ac9982309feb5286168bdbd8ec09c56
+# 60 capabilities, 441 providers, 1181 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11664,6 +11664,24 @@ class Prv_jcrew_JcrewCategory_Out(TypedDict):
     id: str
     name: str
     parentId: str
+
+class Prv_jcrew_SearchProductsArgs_In(TypedDict):
+    query: str
+
+class Prv_jcrew_SearchProductsResult_Out(TypedDict):
+    query: str
+    total: float
+    pageSize: float
+    products: list[Prv_jcrew_JcrewSearchProduct_Out]
+
+class Prv_jcrew_JcrewSearchProduct_Out(TypedDict):
+    id: str
+    name: str
+    price: float | None
+    currency: str | None
+    orderable: bool | None
+    image: str | None
+    url: str
 
 class Prv_jcrew_SuggestSearchTermsArgs_In(TypedDict):
     query: str
@@ -28090,6 +28108,14 @@ class Prv_jcrew(Protocol):
         name and parent — so a caller holding the word "shirts" can find the id `browseCategory`
         needs. `mens`, `levels: 3` reaches `mens|categories|clothing|shirts`, the id
         `browseCategory`'s own example uses.
+        """
+
+    async def searchProducts(self, args: Prv_jcrew_SearchProductsArgs_In, /) -> Prv_jcrew_SearchProductsResult_Out:
+        """Searches J.Crew's live catalogue the way its own search bar does — a free-text query
+        such as "oxford shirt" — and returns matching product rows with name, style id, price,
+        currency, whether it is orderable, a thumbnail and the product URL, paginated and
+        optionally sorted by the site's own sort orders. This is the DOOR for `getProduct`: it
+        is where a caller holding only words gets the style id every other function takes.
         """
 
     async def suggestSearchTerms(self, args: Prv_jcrew_SuggestSearchTermsArgs_In, /) -> Prv_jcrew_SuggestSearchTermsResult_Out:
