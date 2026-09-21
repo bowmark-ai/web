@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e36f0baebed69eb9e8a604382aa01a247e6b0ee6766311edd403d8a1b37664a1
+// Manifest version: 02de998a22b8e3f1a57abe4ac0dfeef75b1fed1e6023c52133d5c88d679ddbd8
 // 57 capabilities, 436 providers, 1187 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -24077,8 +24077,21 @@ interface LululemonProductAttributes {
   features: LululemonFeature[];
   /** The site's own aggregate — the honest one. The pricing door reports 0
    * reviews on products whose live page shows 22,748. */
+  /** ALWAYS NULL on this door, and provenance marks both "unreachable" with
+   * the reason. The aggregate is published only in the product page ld+json,
+   * which needs a headed browser; this function reads the keyless
+   * product-details feed, which carries a reviewsId slug and no counts. NOT a
+   * claim that the garment has no reviews. */
   ratingValue: number | null;
   reviewCount: number | null;
+  /** What lululemon says the garment is FOR, in its own words — e.g.
+   * ["Dance", "Pilates", "Yoga"]. Published, never inferred from the prose,
+   * and empty when the store names none. OUTSIDE completeness on purpose. */
+  activities: string[];
+  /** Named collections, e.g. ["Align"]. */
+  collections: string[];
+  /** The single activity the store badges the product with, when it does. */
+  designedFor: string | null;
   /** Per-FIELD origin for the eight facts above, keyed by the same names. THIS
    * is how a refused read is told apart from a garment with nothing published:
    * fabrics [] beside status "absent" is lululemon saying it names no fabric,

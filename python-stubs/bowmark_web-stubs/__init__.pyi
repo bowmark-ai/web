@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e36f0baebed69eb9e8a604382aa01a247e6b0ee6766311edd403d8a1b37664a1
+# Manifest version: 02de998a22b8e3f1a57abe4ac0dfeef75b1fed1e6023c52133d5c88d679ddbd8
 # 57 capabilities, 436 providers, 1169 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -12798,6 +12798,9 @@ class Prv_lululemon_LululemonProductAttributes_Out(TypedDict):
     features: list[Prv_lululemon_LululemonFeature_Out]
     ratingValue: float | None
     reviewCount: float | None
+    activities: list[str]
+    collections: list[str]
+    designedFor: str | None
     provenance: Mapping[str, Prv_lululemon_FieldProvenance_Out]
     completeness: Prv_lululemon_Completeness_Out
     warnings: list[str]
