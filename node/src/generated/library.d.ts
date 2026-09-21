@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5cdb78861e5f5471e842261d6da5a2356b524b8592cb95807b44ac8e37bf8e53
-// 60 capabilities, 442 providers, 1203 typed functions, 20 refused.
+// Manifest version: 96f50825869bcae6ba1d097ab7add03ace5e729287696338ba5399bcfb201543
+// 60 capabilities, 443 providers, 1204 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36089,6 +36089,41 @@ interface SearchResults {
   }
 }
 
+declare namespace BowmarkProvider_wikipedia {
+  // ── Wikipedia — the unit's own declarations, verbatim ──
+interface WikipediaArticle {
+  id: number;
+  title: string;
+  url: string;
+}
+
+interface WikipediaSearchResult {
+  id: number;
+  title: string;
+  url: string;
+  excerpt: string;
+  description: string;
+  thumbnail?: {
+    url: string;
+    width: number;
+    height: number;
+  };
+}
+
+  /**
+   * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
+   * images and full edit history, search across ~340 language editions, and (signed in as
+   * yourself) watch, edit and discuss pages.
+   */
+  interface Unit {
+    /**
+     * Search the encyclopedia and get back articles with id, title, url, excerpt with matches
+     * marked, description, and thumbnail where one exists.
+     */
+    search(query: string, options?: { lang?: string; limit?: number }): Promise<{ results: WikipediaSearchResult[]; warnings: string[] }>;
+  }
+}
+
 declare namespace BowmarkProvider_winestyles {
   // ── WineStyles — the unit's own declarations, verbatim ──
 interface WinestylesStore {
@@ -38505,6 +38540,7 @@ interface BowmarkProviders {
   wearehirschfeld: BowmarkProvider_wearehirschfeld.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
+  wikipedia: BowmarkProvider_wikipedia.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yahoo_finance: BowmarkProvider_yahoo_finance.Unit;

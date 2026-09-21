@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5cdb78861e5f5471e842261d6da5a2356b524b8592cb95807b44ac8e37bf8e53
-# 60 capabilities, 442 providers, 1185 typed functions, 20 refused.
+# Manifest version: 96f50825869bcae6ba1d097ab7add03ace5e729287696338ba5399bcfb201543
+# 60 capabilities, 443 providers, 1186 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19130,6 +19130,27 @@ class Prv_wholefoodsmarket_Product_Out(TypedDict):
     price: NotRequired[float]
     unit: NotRequired[str]
 
+class Prv_wikipedia_search_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_search_return_Out(TypedDict):
+    results: list[Prv_wikipedia_WikipediaSearchResult_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaSearchResult_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    excerpt: str
+    description: str
+    thumbnail: NotRequired[Prv_wikipedia_WikipediaSearchResult_Out_thumbnail_Out]
+
+class Prv_wikipedia_WikipediaSearchResult_Out_thumbnail_Out(TypedDict):
+    url: str
+    width: float
+    height: float
+
 class Prv_winestyles_WinestylesStore_Out(TypedDict):
     storeId: str
     city: str
@@ -33315,6 +33336,17 @@ class Prv_wholefoodsmarket(Protocol):
         query will fail.
         """
 
+class Prv_wikipedia(Protocol):
+    """The encyclopedia — read an article, its summary, sections, infobox, links, categories,
+    images and full edit history, search across ~340 language editions, and (signed in as
+    yourself) watch, edit and discuss pages.
+    """
+
+    async def search(self, query: str, options: Prv_wikipedia_search_options_In | None = None, /) -> Prv_wikipedia_search_return_Out:
+        """Search the encyclopedia and get back articles with id, title, url, excerpt with matches
+        marked, description, and thumbnail where one exists.
+        """
+
 class Prv_winestyles(Protocol):
     """Which WineStyles franchise locations offer online order-for-pickup, and a live search of
     one store's own in-stock wine/beer/cheese catalog with real prices and quantities — read
@@ -34229,6 +34261,7 @@ class BowmarkProviders(Protocol):
     wearehirschfeld: Prv_wearehirschfeld
     wellfound: Prv_wellfound
     wholefoodsmarket: Prv_wholefoodsmarket
+    wikipedia: Prv_wikipedia
     winestyles: Prv_winestyles
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     yahoo_finance: Prv_yahoo_finance

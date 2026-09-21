@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5cdb78861e5f5471e842261d6da5a2356b524b8592cb95807b44ac8e37bf8e53
-// 1185 checked, 20 unchecked.
+// Manifest version: 96f50825869bcae6ba1d097ab7add03ace5e729287696338ba5399bcfb201543
+// 1186 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5cdb78861e5f5471e842261d6da5a2356b524b8592cb95807b44ac8e37bf8e53",
+  "version": "96f50825869bcae6ba1d097ab7add03ace5e729287696338ba5399bcfb201543",
   "units": {
     "booking_links": {
       "defs": {
@@ -34228,6 +34228,43 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.wikipedia": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
