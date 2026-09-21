@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 609d22d66b3bb9e94e0f50313a8eeb577d305f4fe9e041019419374ef2ec7b34
-// 58 capabilities, 436 providers, 1188 typed functions, 20 refused.
+// Manifest version: 30c7cd165f0f05a9e25287b760bcf22683a9868d2af1a42468b58298be17f02f
+// 59 capabilities, 437 providers, 1190 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1312,6 +1312,26 @@ type CallOptions = {
      * named.
      */
     releaseNotes(repo: string, options?: ReleaseNotesOptions): Promise<ReleaseNotesResult>;
+  }
+}
+
+declare namespace BowmarkCapability_gstin_verification {
+  // ── Verify GSTIN Registration — the unit's own declarations, verbatim ──
+interface gstin_verificationResult {
+  gstin: string;
+  name: string;
+  status: "active" | "cancelled" | "suspended" | "unknown";
+  state?: string;
+  warnings: string[];
+}
+
+  /** Check if a GSTIN is validly registered in India's GST Network. */
+  interface Unit {
+    /**
+     * Verifies a GSTIN and returns the registrant's legal name, registration status
+     * (active/cancelled/suspended) and state.
+     */
+    lookup(gstin: string): Promise<gstin_verificationResult>;
   }
 }
 
@@ -18522,6 +18542,26 @@ interface GldtProduct {
      * plus the page's own URL — where the real Add to Cart action lives.
      */
     getProduct(url: string): Promise<GldtProduct>;
+  }
+}
+
+declare namespace BowmarkProvider_gst_india {
+  // ── GST India Search — the unit's own declarations, verbatim ──
+interface gst_indiaRow {
+  gstin: string;
+  name: string;
+  status: "active" | "cancelled" | "suspended" | "unknown";
+  state?: string;
+  warnings: string[];
+}
+
+  /** Search India's GST registry for registrant details by GSTIN. */
+  interface Unit {
+    /**
+     * Returns the GSTIN holder's legal name, registration status (active/cancelled/suspended) and
+     * state.
+     */
+    lookup(gstin: string): Promise<gst_indiaRow>;
   }
 }
 
@@ -37886,6 +37926,7 @@ interface BowmarkProviders {
   grandwelcome: BowmarkProvider_grandwelcome.Unit;
   greatlakesbrewing: BowmarkProvider_greatlakesbrewing.Unit;
   greatlakesdentaltech: BowmarkProvider_greatlakesdentaltech.Unit;
+  gst_india: BowmarkProvider_gst_india.Unit;
   hamptonwaterwine: BowmarkProvider_hamptonwaterwine.Unit;
   handypro: BowmarkProvider_handypro.Unit;
   hansons: BowmarkProvider_hansons.Unit;
@@ -89857,6 +89898,7 @@ interface BowmarkLibrary {
   gas_prices: BowmarkCapability_gas_prices.Unit;
   git_commit_history: BowmarkCapability_git_commit_history.Unit;
   git_release_notes: BowmarkCapability_git_release_notes.Unit;
+  gstin_verification: BowmarkCapability_gstin_verification.Unit;
   hotels: BowmarkCapability_hotels.Unit;
   hvac: BowmarkCapability_hvac.Unit;
   insurance: BowmarkCapability_insurance.Unit;

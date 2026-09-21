@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 609d22d66b3bb9e94e0f50313a8eeb577d305f4fe9e041019419374ef2ec7b34
-// 1170 checked, 20 unchecked.
+// Manifest version: 30c7cd165f0f05a9e25287b760bcf22683a9868d2af1a42468b58298be17f02f
+// 1172 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "609d22d66b3bb9e94e0f50313a8eeb577d305f4fe9e041019419374ef2ec7b34",
+  "version": "30c7cd165f0f05a9e25287b760bcf22683a9868d2af1a42468b58298be17f02f",
   "units": {
     "booking_links": {
       "defs": {
@@ -1353,6 +1353,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ReleaseNotesOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "gstin_verification": {
+      "defs": {},
+      "functions": {
+        "lookup": [
+          {
+            "name": "gstin",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -16938,6 +16952,20 @@ export const VALIDATORS: ValidatorTable = {
         "getProduct": [
           {
             "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.gst_india": {
+      "defs": {},
+      "functions": {
+        "lookup": [
+          {
+            "name": "gstin",
             "schema": {
               "k": "string"
             },

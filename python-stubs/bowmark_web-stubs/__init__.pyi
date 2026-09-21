@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 609d22d66b3bb9e94e0f50313a8eeb577d305f4fe9e041019419374ef2ec7b34
-# 58 capabilities, 436 providers, 1170 typed functions, 20 refused.
+# Manifest version: 30c7cd165f0f05a9e25287b760bcf22683a9868d2af1a42468b58298be17f02f
+# 59 capabilities, 437 providers, 1172 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -902,6 +902,13 @@ class Cap_git_release_notes_Release_Out(TypedDict):
     publishedAt: str | None
     notes: str
     url: str
+
+class Cap_gstin_verification_gstin_verificationResult_Out(TypedDict):
+    gstin: str
+    name: str
+    status: Literal["active"] | Literal["cancelled"] | Literal["suspended"] | Literal["unknown"]
+    state: NotRequired[str]
+    warnings: list[str]
 
 class Cap_hotels_HotelQuery_In(TypedDict):
     location: str
@@ -10015,6 +10022,13 @@ class Prv_greatlakesdentaltech_GldtProduct_Out(TypedDict):
     inStock: bool
     stockMessage: str | None
     url: str
+
+class Prv_gst_india_gst_indiaRow_Out(TypedDict):
+    gstin: str
+    name: str
+    status: Literal["active"] | Literal["cancelled"] | Literal["suspended"] | Literal["unknown"]
+    state: NotRequired[str]
+    warnings: list[str]
 
 class Prv_hamptonwaterwine_HamptonWaterNearbyRetailers_Out(TypedDict):
     zip: str
@@ -20077,6 +20091,14 @@ class Cap_git_release_notes(Protocol):
         reply that a different repo can be named.
         """
 
+class Cap_gstin_verification(Protocol):
+    """Check if a GSTIN is validly registered in India's GST Network."""
+
+    async def lookup(self, gstin: str, /) -> Cap_gstin_verification_gstin_verificationResult_Out:
+        """Verifies a GSTIN and returns the registrant's legal name, registration status
+        (active/cancelled/suspended) and state.
+        """
+
 class Cap_hotels(Protocol):
     """Search stays for a place and a date range and get back normalized properties, cheapest
     TOTAL first — the whole-booking price AND the per-room per-night rate, which of the many
@@ -26683,6 +26705,14 @@ class Prv_greatlakesdentaltech(Protocol):
     async def getProduct(self, url: str, /) -> Prv_greatlakesdentaltech_GldtProduct_Out:
         """Reads one product's real, current price and live stock status straight off its own page,
         plus the page's own URL — where the real Add to Cart action lives.
+        """
+
+class Prv_gst_india(Protocol):
+    """Search India's GST registry for registrant details by GSTIN."""
+
+    async def lookup(self, gstin: str, /) -> Prv_gst_india_gst_indiaRow_Out:
+        """Returns the GSTIN holder's legal name, registration status (active/cancelled/suspended)
+        and state.
         """
 
 class Prv_hamptonwaterwine(Protocol):
@@ -33683,6 +33713,7 @@ class BowmarkProviders(Protocol):
     grandwelcome: Prv_grandwelcome
     greatlakesbrewing: Prv_greatlakesbrewing
     greatlakesdentaltech: Prv_greatlakesdentaltech
+    gst_india: Prv_gst_india
     hamptonwaterwine: Prv_hamptonwaterwine
     handypro: Prv_handypro
     hansons: Prv_hansons
@@ -33938,6 +33969,7 @@ class Bowmark(Protocol):
     gas_prices: Cap_gas_prices
     git_commit_history: Cap_git_commit_history
     git_release_notes: Cap_git_release_notes
+    gstin_verification: Cap_gstin_verification
     hotels: Cap_hotels
     hvac: Cap_hvac
     insurance: Cap_insurance
