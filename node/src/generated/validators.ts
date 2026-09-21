@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2a228ba0a724bb8e3e9bb1fb7c4ca0753c79eecf9cf1c4fc5ad012c45e470a2d
-// 1169 checked, 20 unchecked.
+// Manifest version: 609d22d66b3bb9e94e0f50313a8eeb577d305f4fe9e041019419374ef2ec7b34
+// 1170 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2a228ba0a724bb8e3e9bb1fb7c4ca0753c79eecf9cf1c4fc5ad012c45e470a2d",
+  "version": "609d22d66b3bb9e94e0f50313a8eeb577d305f4fe9e041019419374ef2ec7b34",
   "units": {
     "booking_links": {
       "defs": {
@@ -1281,6 +1281,36 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "gas_prices": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "zip",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

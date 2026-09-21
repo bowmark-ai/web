@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2a228ba0a724bb8e3e9bb1fb7c4ca0753c79eecf9cf1c4fc5ad012c45e470a2d
-# 57 capabilities, 436 providers, 1169 typed functions, 20 refused.
+# Manifest version: 609d22d66b3bb9e94e0f50313a8eeb577d305f4fe9e041019419374ef2ec7b34
+# 58 capabilities, 436 providers, 1170 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -848,6 +848,20 @@ class Cap_game_soundtrack_composer_credits_SoundtrackCredits_Out(TypedDict):
 class Cap_game_soundtrack_composer_credits_SoundtrackCredits_Out_relations_item_Out(TypedDict):
     role: str
     artist: str
+
+class Cap_gas_prices_search_options_In(TypedDict):
+    limit: NotRequired[float]
+
+class Cap_gas_prices_gas_pricesResult_Out(TypedDict):
+    stations: list[Cap_gas_prices_GasPriceResult_Out]
+    warnings: list[str]
+
+class Cap_gas_prices_GasPriceResult_Out(TypedDict):
+    brand: str
+    address: str
+    price: float | None
+    reportedAgo: str | None
+    url: str
 
 class Cap_git_commit_history_CommitHistoryOptions_In(TypedDict):
     ref: NotRequired[str]
@@ -20013,6 +20027,12 @@ class Cap_game_soundtrack_composer_credits(Protocol):
         composer/artist credits.
         """
 
+class Cap_gas_prices(Protocol):
+    """Find the cheapest gas stations near a US ZIP code."""
+
+    async def search(self, zip: str, options: Cap_gas_prices_search_options_In | None = None, /) -> Cap_gas_prices_gas_pricesResult_Out:
+        """Returns cheapest gas stations near a US ZIP code, sorted by price ascending."""
+
 class Cap_git_commit_history(Protocol):
     """A git repository's commit history — sha, author, date and message for every commit —
     from a GitHub URL or a bare owner/repo string. What a commit-history view or a changelog
@@ -33915,6 +33935,7 @@ class Bowmark(Protocol):
     entertainment_merch: Cap_entertainment_merch
     flights: Cap_flights
     game_soundtrack_composer_credits: Cap_game_soundtrack_composer_credits
+    gas_prices: Cap_gas_prices
     git_commit_history: Cap_git_commit_history
     git_release_notes: Cap_git_release_notes
     hotels: Cap_hotels

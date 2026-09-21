@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2a228ba0a724bb8e3e9bb1fb7c4ca0753c79eecf9cf1c4fc5ad012c45e470a2d
-// 57 capabilities, 436 providers, 1187 typed functions, 20 refused.
+// Manifest version: 609d22d66b3bb9e94e0f50313a8eeb577d305f4fe9e041019419374ef2ec7b34
+// 58 capabilities, 436 providers, 1188 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1177,6 +1177,34 @@ interface SoundtrackSearchResult {
      * composer/artist credits.
      */
     getCredits(releaseGroupId: string): Promise<SoundtrackCredits>;
+  }
+}
+
+declare namespace BowmarkCapability_gas_prices {
+  // ── Gas prices near a ZIP code — the unit's own declarations, verbatim ──
+interface GasPriceResult {
+  brand: string;
+  address: string;
+  price: number | null;
+  reportedAgo: string | null;
+  url: string;
+}
+
+interface gas_pricesResult {
+  stations: GasPriceResult[];
+  warnings: string[];
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /** Find the cheapest gas stations near a US ZIP code. */
+  interface Unit {
+    /** Returns cheapest gas stations near a US ZIP code, sorted by price ascending. */
+    search(zip: string, options?: { limit?: number }): Promise<gas_pricesResult>;
   }
 }
 
@@ -89826,6 +89854,7 @@ interface BowmarkLibrary {
   entertainment_merch: BowmarkCapability_entertainment_merch.Unit;
   flights: BowmarkCapability_flights.Unit;
   game_soundtrack_composer_credits: BowmarkCapability_game_soundtrack_composer_credits.Unit;
+  gas_prices: BowmarkCapability_gas_prices.Unit;
   git_commit_history: BowmarkCapability_git_commit_history.Unit;
   git_release_notes: BowmarkCapability_git_release_notes.Unit;
   hotels: BowmarkCapability_hotels.Unit;
