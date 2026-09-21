@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1693 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1694 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -820,6 +820,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
 | `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟢 |
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
+| `gst_india.lookup` | services.gst.gov.in | Searches India's GST registry by GSTIN and returns the registrant's legal name… | 🟢 |
 | `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟢 |
 | `handypro.checkServiceArea` | handypro.com | Checks whether a ZIP is served by a real local HandyPro franchisee and returns that… | 🟢 |
 | `handypro.checkTechnicianAvailability` | handypro.com | Would find the next available technician slot for a category + ZIP via… | ⚪ |
