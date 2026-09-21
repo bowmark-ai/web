@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 96f50825869bcae6ba1d097ab7add03ace5e729287696338ba5399bcfb201543
-// 60 capabilities, 443 providers, 1204 typed functions, 20 refused.
+// Manifest version: beda1e40897570cbcb65a9caaa1ce0e767efc861bc31f02d32d38135428cbb0c
+// 60 capabilities, 444 providers, 1205 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -28073,6 +28073,41 @@ interface PilotprotocolAppDetail {
   }
 }
 
+declare namespace BowmarkProvider_pinterest {
+  // ── Pinterest — the unit's own declarations, verbatim ──
+interface PinterestPin {
+  id: string;
+  grid_title: string;
+  link: string;
+  pinner?: { username: string; full_name?: string };
+  board?: { id: string; name: string };
+  images?: Record<string, { width: number; height: number; url: string }>;
+  product_metadata?: {
+    price_val?: number;
+    price_currency?: string;
+    rating?: number;
+    review_count?: number;
+  };
+}
+
+  /**
+   * Pinterest — search its pins, boards, people and videos, read one pin in full with the
+   * product behind it when it is shoppable, walk anyone's boards and board sections, browse its
+   * idea topics, and (signed in as yourself) read your home feed, save pins, make boards,
+   * comment, follow and send.
+   */
+  interface Unit {
+    /**
+     * Search Pinterest the way a person types into its search box and get the pins back:
+     * `grid_title`, the outbound `link`, the pinner's username, the board it lives on, every image
+     * size, `product_metadata` (price, currency, rating, review count) when the pin is shoppable,
+     * and a `bookmark` for the next page. `POST/GET /resource/BaseSearchResource/get/` with
+     * `scope: "pins"`. THROWS `PinterestInputError` on an empty or non-string query.
+     */
+    searchPins(query: string, options?: { bookmark?: string }): Promise<{ pins: PinterestPin[]; bookmark: string | null }>;
+  }
+}
+
 declare namespace BowmarkProvider_pirateship {
   // ── Pirate Ship — the unit's own declarations, verbatim ──
 interface PirateshipDimensions {
@@ -38437,6 +38472,7 @@ interface BowmarkProviders {
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
+  pinterest: BowmarkProvider_pinterest.Unit;
   pirateship: BowmarkProvider_pirateship.Unit;
   pizzahut: BowmarkProvider_pizzahut.Unit;
   planning_inspectorate_ni: BowmarkProvider_planning_inspectorate_ni.Unit;

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 96f50825869bcae6ba1d097ab7add03ace5e729287696338ba5399bcfb201543
-// 1186 checked, 20 unchecked.
+// Manifest version: beda1e40897570cbcb65a9caaa1ce0e767efc861bc31f02d32d38135428cbb0c
+// 1187 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "96f50825869bcae6ba1d097ab7add03ace5e729287696338ba5399bcfb201543",
+  "version": "beda1e40897570cbcb65a9caaa1ce0e767efc861bc31f02d32d38135428cbb0c",
   "units": {
     "booking_links": {
       "defs": {
@@ -24477,6 +24477,36 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.pinterest": {
+      "defs": {},
+      "functions": {
+        "searchPins": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 96f50825869bcae6ba1d097ab7add03ace5e729287696338ba5399bcfb201543
-# 60 capabilities, 443 providers, 1186 typed functions, 20 refused.
+# Manifest version: beda1e40897570cbcb65a9caaa1ce0e767efc861bc31f02d32d38135428cbb0c
+# 60 capabilities, 444 providers, 1187 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14631,6 +14631,41 @@ class Prv_pilotprotocol_PilotprotocolAppDetail_Out(TypedDict):
 class Prv_pilotprotocol_PilotprotocolMethod_Out(TypedDict):
     name: str
     summary: str
+
+class Prv_pinterest_searchPins_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_searchPins_return_Out(TypedDict):
+    pins: list[Prv_pinterest_PinterestPin_Out]
+    bookmark: str | None
+
+class Prv_pinterest_PinterestPin_Out(TypedDict):
+    id: str
+    grid_title: str
+    link: str
+    pinner: NotRequired[Prv_pinterest_PinterestPin_Out_pinner_Out]
+    board: NotRequired[Prv_pinterest_PinterestPin_Out_board_Out]
+    images: NotRequired[Mapping[str, Prv_pinterest_PinterestPin_Out_images_value_Out]]
+    product_metadata: NotRequired[Prv_pinterest_PinterestPin_Out_product_metadata_Out]
+
+class Prv_pinterest_PinterestPin_Out_pinner_Out(TypedDict):
+    username: str
+    full_name: NotRequired[str]
+
+class Prv_pinterest_PinterestPin_Out_board_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_pinterest_PinterestPin_Out_images_value_Out(TypedDict):
+    width: float
+    height: float
+    url: str
+
+class Prv_pinterest_PinterestPin_Out_product_metadata_Out(TypedDict):
+    price_val: NotRequired[float]
+    price_currency: NotRequired[str]
+    rating: NotRequired[float]
+    review_count: NotRequired[float]
 
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
@@ -30270,6 +30305,22 @@ class Prv_pilotprotocol(Protocol):
         source link, install command, granted permissions and its method list.
         """
 
+class Prv_pinterest(Protocol):
+    """Pinterest — search its pins, boards, people and videos, read one pin in full with the
+    product behind it when it is shoppable, walk anyone's boards and board sections, browse
+    its idea topics, and (signed in as yourself) read your home feed, save pins, make
+    boards, comment, follow and send.
+    """
+
+    async def searchPins(self, query: str, options: Prv_pinterest_searchPins_options_In | None = None, /) -> Prv_pinterest_searchPins_return_Out:
+        """Search Pinterest the way a person types into its search box and get the pins back:
+        `grid_title`, the outbound `link`, the pinner's username, the board it lives on, every
+        image size, `product_metadata` (price, currency, rating, review count) when the pin is
+        shoppable, and a `bookmark` for the next page. `POST/GET
+        /resource/BaseSearchResource/get/` with `scope: "pins"`. THROWS `PinterestInputError` on
+        an empty or non-string query.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -34158,6 +34209,7 @@ class BowmarkProviders(Protocol):
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland
     pilotprotocol: Prv_pilotprotocol
+    pinterest: Prv_pinterest
     pirateship: Prv_pirateship
     pizzahut: Prv_pizzahut
     planning_inspectorate_ni: Prv_planning_inspectorate_ni
