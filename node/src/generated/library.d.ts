@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 979741d27b7f18f729e98bf217a3dd44265ab28b9d70226bd73b3d288d77f444
+// Manifest version: 1b8a38ea76d6f04f268b87a15dcc2298f688f54aafcdfed6b928ddcd7441c2e7
 // 57 capabilities, 436 providers, 1187 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2406,6 +2406,9 @@ type ReadOptions = {
   format?: ReadFormat        // default "markdown"
   strategy?: ReadStrategy    // default "auto" — plain GET, browser only if needed
   maxChars?: number          // default 200000; over it, content is cut + truncated:true
+                             // BATCH NOTE: pages() accumulates all content in memory.
+                             // With 1024MB per-run ceiling, reduce maxChars when
+                             // reading many pages: e.g., 10 pages × 60KB ≈ 700MB
   timeoutMs?: number         // default 20000, per leg
 }
 
