@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1859 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1860 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -260,6 +260,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.listOffers` | bmwusa.com | Lists BMW's current US lease and finance offers for a ZIP code (resolved server-side… | 🟢 |
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
+| `bodacc.search` | bodacc.fr | Searches BODACC insolvency notices (redressement judiciaire, liquidation judiciaire… | 🟢 |
 | `boglewinery.checkAvailability` | boglewinery.com | Checks which upcoming dates and times Tock currently shows as open for one Bogle… | 🟢 |
 | `boglewinery.listExperiences` | boglewinery.com | Reads Bogle's real, live tasting/reservation experience catalog off Tock (the booking… | 🟢 |
 | `bollandbranch.getBedDesignerFlow` | bollandbranch.com | Reads the Virtual Bed Designer's own configurator definition — the ordered categories… | 🟢 |
