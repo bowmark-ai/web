@@ -1358,7 +1358,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `postcard_direct_mail.getQuote` | postcard-quote-engine | Returns a price quote for printing and mailing postcards — calculates pricing based on… | 🟢 |
 | `postiz.createPost` | postiz.com | Create and schedule a new post across a connected social media account. | 🟡 |
 | `postiz.listPosts` | postiz.com | List scheduled and published posts for a workspace within a date range. | 🟡 |
-| `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟢 |
+| `powys.search` | planning.powys.gov.uk | Searches Powys County Council planning applications. | 🟡 |
 | `premierbuildings.findDealers` | premierbuildings.us | Looks up Premier's real dealer locations in one US state or Canadian province (full… | 🟢 |
 | `premierbuildings.listBuildingStyles` | premierbuildings.us | Lists every real building style Premier's ShedView configurator offers (Lofted Barn… | 🟢 |
 | `premierbuildings.priceBuilding` | premierbuildings.us | Prices one real Premier building configuration exactly the way ShedView itself does… | 🟢 |
@@ -1773,7 +1773,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listUserContributions` | wikipedia.org | Every edit one named editor has made, newest first — page, timestamp, edit summary and… | ⚪ |
 | `wikipedia.listWatchlist` | wikipedia.org | The caller's own watchlist — the pages they follow and the recent changes to them… | ⚪ |
 | `wikipedia.postTalkMessage` | wikipedia.org | Post a message to an article's talk page or to a user's talk page, under the caller's… | ⚪ |
-| `wikipedia.search` | wikipedia.org | Search the encyclopedia the way a person types into Wikipedia's search box, and get… | ⚪ |
+| `wikipedia.search` | wikipedia.org | Search the encyclopedia the way a person types into Wikipedia's search box, and get… | 🟢 |
 | `wikipedia.searchNearby` | wikipedia.org | Wikipedia articles about places near a point — hand it a latitude and longitude and a… | ⚪ |
 | `wikipedia.suggestTitles` | wikipedia.org | Autocomplete a partial title the way Wikipedia's search box does as you type — hand it… | ⚪ |
 | `wikipedia.thankUser` | wikipedia.org | Send another editor Wikipedia's built-in "thanks" for a specific edit — a one-click… | ⚪ |
