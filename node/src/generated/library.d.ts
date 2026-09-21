@@ -37474,7 +37474,17 @@ interface ShopifyCart {
      * query and returns one slice. The caller advances a cursor and stops on its own budget or on
      * a null cursor. There is deliberately no fetch-everything call: every row is a request
      * against a stranger's storefront, and how many candidates a ranking needs is the caller's
-     * decision rather than one taken once, inside the library, on behalf of every member.
+     * decision rather than one taken once, inside the library, on behalf of every member. THE RATE
+     * LIMIT IS ON THE EXIT ADDRESS, NOT ON THE STORE, which is what decides how to spend a call:
+     * Shopify's edge counts requests per client IP across EVERY storefront at once, so walking
+     * three stores in one call spends one budget and the third store 429s at page 1 having done
+     * nothing wrong (measured 2026-09-20 — gymshark answered 14 clean pages when it ran first and
+     * 429'd at page 1 when it ran after ~24 requests spent on two other stores). A 429 carrying
+     * `Retry-After` is honoured up to 3 times on its own budget, and Shopify's is typically 60s,
+     * so a rate-limited walk can sit waiting for minutes. Since `/v1/run` holds a response open
+     * for 90s, WALK ONE STORE PER CALL and carry the cursor across calls rather than fanning out
+     * over several stores inside one. Measured 2026-09-21 from prod: 9 pages each on two stores,
+     * 4,376 products, 29.8s, no 429 and no warnings.
      */
     listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
 
@@ -37887,7 +37897,17 @@ interface ShopifyCart {
      * query and returns one slice. The caller advances a cursor and stops on its own budget or on
      * a null cursor. There is deliberately no fetch-everything call: every row is a request
      * against a stranger's storefront, and how many candidates a ranking needs is the caller's
-     * decision rather than one taken once, inside the library, on behalf of every member.
+     * decision rather than one taken once, inside the library, on behalf of every member. THE RATE
+     * LIMIT IS ON THE EXIT ADDRESS, NOT ON THE STORE, which is what decides how to spend a call:
+     * Shopify's edge counts requests per client IP across EVERY storefront at once, so walking
+     * three stores in one call spends one budget and the third store 429s at page 1 having done
+     * nothing wrong (measured 2026-09-20 — gymshark answered 14 clean pages when it ran first and
+     * 429'd at page 1 when it ran after ~24 requests spent on two other stores). A 429 carrying
+     * `Retry-After` is honoured up to 3 times on its own budget, and Shopify's is typically 60s,
+     * so a rate-limited walk can sit waiting for minutes. Since `/v1/run` holds a response open
+     * for 90s, WALK ONE STORE PER CALL and carry the cursor across calls rather than fanning out
+     * over several stores inside one. Measured 2026-09-21 from prod: 9 pages each on two stores,
+     * 4,376 products, 29.8s, no 429 and no warnings.
      */
     listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
 
