@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e6a9212ee1d71dbf11b0d396ecb5305f28d25b6f4e395825017e7e9865af1130
-// 60 capabilities, 441 providers, 1197 typed functions, 20 refused.
+// Manifest version: c4b7752c03f940a48069b8728eb8ff8394df9c380b665627940dbd3ff4c981da
+// 60 capabilities, 441 providers, 1198 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36156,6 +36156,14 @@ interface yahooFinanceSearchResult {
   matches: yahooFinanceSearchMatch[];
 }
 
+interface YahooFinanceTrendingTicker {
+  symbol: string;
+  price: number | null;
+  changePercent: number | null;
+  trendingScore: number;
+  quoteType: string;
+}
+
   /**
    * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
    * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
@@ -36184,6 +36192,14 @@ interface yahooFinanceSearchResult {
      * right-rail statistics panel. An unknown or empty ticker throws before any request is sent.
      */
     getQuote(symbol: string): Promise<YahooFinanceQuote>;
+
+    /**
+     * Reads what Yahoo Finance itself is showing as trending right now — the same sidebar every
+     * quote page carries — each row with its symbol, quote type, price, day change percent and
+     * Yahoo's own trending score. No arguments: this is the market's current attention, not one
+     * ticker's.
+     */
+    getTrendingTickers(): Promise<YahooFinanceTrendingTicker[]>;
   }
 }
 

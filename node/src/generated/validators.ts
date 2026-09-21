@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e6a9212ee1d71dbf11b0d396ecb5305f28d25b6f4e395825017e7e9865af1130
-// 1179 checked, 20 unchecked.
+// Manifest version: c4b7752c03f940a48069b8728eb8ff8394df9c380b665627940dbd3ff4c981da
+// 1180 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e6a9212ee1d71dbf11b0d396ecb5305f28d25b6f4e395825017e7e9865af1130",
+  "version": "c4b7752c03f940a48069b8728eb8ff8394df9c380b665627940dbd3ff4c981da",
   "units": {
     "booking_links": {
       "defs": {
@@ -34226,7 +34226,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getTrendingTickers": []
       }
     },
     "providers.yahoo_sports": {

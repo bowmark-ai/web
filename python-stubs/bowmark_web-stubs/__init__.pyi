@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e6a9212ee1d71dbf11b0d396ecb5305f28d25b6f4e395825017e7e9865af1130
-# 60 capabilities, 441 providers, 1179 typed functions, 20 refused.
+# Manifest version: c4b7752c03f940a48069b8728eb8ff8394df9c380b665627940dbd3ff4c981da
+# 60 capabilities, 441 providers, 1180 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19155,6 +19155,13 @@ class Prv_yahoo_finance_YahooFinanceQuote_Out(TypedDict):
     averageVolume: float | None
     targetMeanPrice: float | None
 
+class Prv_yahoo_finance_YahooFinanceTrendingTicker_Out(TypedDict):
+    symbol: str
+    price: float | None
+    changePercent: float | None
+    trendingScore: float
+    quoteType: str
+
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
 
@@ -33280,6 +33287,13 @@ class Prv_yahoo_finance(Protocol):
         volume, average volume, and analyst target mean price — everything shown in the quote
         strip and the right-rail statistics panel. An unknown or empty ticker throws before any
         request is sent.
+        """
+
+    async def getTrendingTickers(self, /) -> list[Prv_yahoo_finance_YahooFinanceTrendingTicker_Out]:
+        """Reads what Yahoo Finance itself is showing as trending right now — the same sidebar
+        every quote page carries — each row with its symbol, quote type, price, day change
+        percent and Yahoo's own trending score. No arguments: this is the market's current
+        attention, not one ticker's.
         """
 
 class Prv_yahoo_sports(Protocol):
