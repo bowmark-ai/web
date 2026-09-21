@@ -68,7 +68,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | 🟢 |
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
-| `amazon.searchProducts` | www.amazon.com | Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c… | 🟢 |
+| `amazon.searchProducts` | www.amazon.com | Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c… | 🟡 |
 | `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | 🟢 |
 | `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | ⚪ |
 | `americandreamvacations.listLocations` | americandreamvacations.net | Returns American Dream Vacations' own list of rental store locations (city, state and… | 🟢 |
