@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 02de998a22b8e3f1a57abe4ac0dfeef75b1fed1e6023c52133d5c88d679ddbd8
+# Manifest version: 979741d27b7f18f729e98bf217a3dd44265ab28b9d70226bd73b3d288d77f444
 # 57 capabilities, 436 providers, 1169 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -15034,6 +15034,7 @@ class Prv_prime_video_PrimeVideoWatchOffer_Out(TypedDict):
     quality: Literal["SD"] | Literal["HD"] | Literal["UHD"] | None
     channel: Prv_prime_video_PrimeVideoWatchOffer_Out_channel_u0_Out | None
     preorder: bool
+    scope: Literal["episode"] | Literal["season"] | Literal["series"] | Literal["bundle"] | Literal["movie"] | None
 
 class Prv_prime_video_PrimeVideoWatchOffer_Out_price_u0_Out(TypedDict):
     currency: str
@@ -30325,9 +30326,14 @@ class Prv_prime_video(Protocol):
         refMarker, never inferred from `label` or from `getTitle().releaseDate` (which is the
         theatrical date and can read as already past on a title still unreleased).
         `highValueMessage` is the site's own second sentence about WHEN, e.g. "Release date
-        coming soon" — the only place this page answers that, and null on an ordinary title.
-        Placing any of these orders is never a function of this provider — a flow that costs
-        money stops before the payment step, always.
+        coming soon" — the only place this page answers that, and null on an ordinary title. **A
+        `buy` offer's `scope` says what it actually buys** — `"episode"`, `"season"`, `"series"`
+        (every season at once), `"bundle"`, or `"movie"` (a plain single title) — since a TV
+        series page can sell all three side by side at wildly different prices with `kind:
+        "buy"` on every one; rank by price only AFTER filtering to one scope, never across them.
+        A `"bundle"` scope also means an offer is not an ordinary buy of THIS title, the same
+        way `preorder: true` does. Placing any of these orders is never a function of this
+        provider — a flow that costs money stops before the payment step, always.
         """
 
     async def listSeasons(self, titleId: str, /) -> list[Prv_prime_video_PrimeVideoSeason_Out]:

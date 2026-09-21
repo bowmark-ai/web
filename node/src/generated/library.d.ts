@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 02de998a22b8e3f1a57abe4ac0dfeef75b1fed1e6023c52133d5c88d679ddbd8
+// Manifest version: 979741d27b7f18f729e98bf217a3dd44265ab28b9d70226bd73b3d288d77f444
 // 57 capabilities, 436 providers, 1187 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -28622,6 +28622,7 @@ interface PrimeVideoWatchOffer {
   quality: "SD" | "HD" | "UHD" | null;
   channel: { benefitId: string; link: string } | null;
   preorder: boolean;
+  scope: "episode" | "season" | "series" | "bundle" | "movie" | null;
 }
 interface PrimeVideoWatchOptions {
   titleId: string;
@@ -28838,8 +28839,13 @@ interface PrimeVideoLiveSportsEvent {
      * `getTitle().releaseDate` (which is the theatrical date and can read as already past on a
      * title still unreleased). `highValueMessage` is the site's own second sentence about WHEN,
      * e.g. "Release date coming soon" — the only place this page answers that, and null on an
-     * ordinary title. Placing any of these orders is never a function of this provider — a flow
-     * that costs money stops before the payment step, always.
+     * ordinary title. **A `buy` offer's `scope` says what it actually buys** — `"episode"`,
+     * `"season"`, `"series"` (every season at once), `"bundle"`, or `"movie"` (a plain single
+     * title) — since a TV series page can sell all three side by side at wildly different prices
+     * with `kind: "buy"` on every one; rank by price only AFTER filtering to one scope, never
+     * across them. A `"bundle"` scope also means an offer is not an ordinary buy of THIS title,
+     * the same way `preorder: true` does. Placing any of these orders is never a function of this
+     * provider — a flow that costs money stops before the payment step, always.
      */
     getWatchOptions(titleId: string): Promise<PrimeVideoWatchOptions>;
 

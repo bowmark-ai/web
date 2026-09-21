@@ -23,7 +23,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟢 |
 | `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
 | `currency_exchange.getRate` | Returns the current exchange rate between two currencies | 1 | 🟢 |
-| `custom_packaging_quote.quoteCustomBox` | Gets a real, quantity-tiered price for a custom printed box from available suppliers. | 1 | 🟢 |
+| `custom_packaging_quote.quoteCustomBox` | Gets a real, quantity-tiered price for a custom printed box from available suppliers. | 2 | 🟢 |
 | `custom_sofa_configurator.getConfigurator` | Reads one sofa's full configurator — every option slot (Fabric, Wood Stain, Color… | 2 | 🟢 |
 | `custom_sofa_configurator.listSofas` | Lists configurable sofas/sectionals across every maker — Joybird's whole catalogue… | 2 | 🟢 |
 | `custom_sofa_configurator.priceConfiguration` | Prices ONE exact configuration against the maker's own live customizer and returns the… | 2 | 🟢 |
