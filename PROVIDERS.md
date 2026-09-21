@@ -870,8 +870,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hellotend.listServices` | hellotend.com | Lists the service codes a specific Tend studio offers (Dental Exam CLNCHK, Clear… | 🟢 |
 | `hellotend.listStudios` | hellotend.com | Lists every Tend dental studio across all markets — 33+ locations with name, slug… | 🟢 |
 | `higgsfield.estimateCost` | higgsfield.ai | Asks Higgsfield what one generation will cost, for exactly the parameters that would… | 🟢 |
-| `higgsfield.generateImage` | higgsfield.ai | Turns a text prompt into finished images and waits for them, returning their URLs plus… | 🟢 |
-| `higgsfield.generateVideo` | higgsfield.ai | Turns a text prompt — or a prompt plus an input image — into a finished video and… | 🟢 |
+| `higgsfield.generateImage` | higgsfield.ai | Turns a text prompt into finished images and waits for them, returning their URLs plus… | 🟡 |
+| `higgsfield.generateVideo` | higgsfield.ai | Turns a text prompt — or a prompt plus an input image — into a finished video and… | 🟡 |
 | `higgsfield.getRequestStatus` | higgsfield.ai | Checks one submitted generation by the request id a generate call returned, and hands… | 🟢 |
 | `higgsfield.listModels` | higgsfield.ai | Lists every generation model Bowmark's Higgsfield account can actually call — id… | 🟢 |
 | `highlandhomes.search` | highlandhomes.org | Searches Highland Homes' live new-construction inventory (Florida only) by city… | 🟢 |
