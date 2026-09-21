@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d80090e1a84b28ad86bdf2c3cdfc172e223020bca34a7c4155aec6c79e321e64
+// Manifest version: 444d5b67e5ecbad9e3db629010e39753bf67705af40a57dbaa569dc18eb1b341
 // 59 capabilities, 438 providers, 1191 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -17409,6 +17409,7 @@ interface GetPlaceResult {
   hours?: { day: string; hours: string[] }[];
   openStatus?: string;
   accessibility?: string[];
+  serviceOptions?: string[];
   warnings?: string[];
   businessStatus?: "closed";
 }
