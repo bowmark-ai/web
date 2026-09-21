@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1694 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1741 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1236,6 +1236,53 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |
 | `pilotprotocol.getApp` | pilotprotocol.network | Reads one app's detail page (/apps/<id>) — vendor, tagline, description, category… | 🟢 |
 | `pilotprotocol.listApps` | pilotprotocol.network | Lists every app in Pilot Protocol's app store (id, name, vendor, category, tagline… | 🟢 |
+| `pinterest.commentOnPin` | pinterest.com | Leave a comment on a pin as the caller. | ⚪ |
+| `pinterest.createBoard` | pinterest.com | Make a new board on the caller's account, public or secret, with a name and description. | ⚪ |
+| `pinterest.createPin` | pinterest.com | Create a new pin on the caller's account from an image and a destination link, with a… | ⚪ |
+| `pinterest.deleteBoard` | pinterest.com | Delete one of the caller's own boards — what makes every board test write reversible. | ⚪ |
+| `pinterest.deletePin` | pinterest.com | Delete a pin the caller created or saved — the undo that makes `createPin` and… | ⚪ |
+| `pinterest.findVisuallySimilar` | pinterest.com | Find pins that look like a region of an image — Pinterest's lens, the thing the site… | ⚪ |
+| `pinterest.followBoard` | pinterest.com | Follow a single board rather than everything its owner posts. | ⚪ |
+| `pinterest.followTopic` | pinterest.com | Follow one of Pinterest's idea topics, which is what steers the caller's home feed. | ⚪ |
+| `pinterest.followUser` | pinterest.com | Follow a person or a brand on the caller's behalf. | ⚪ |
+| `pinterest.getBoard` | pinterest.com | Read one board: name, description, owner, pin count, follower count, section count… | ⚪ |
+| `pinterest.getCurrentUser` | pinterest.com | Who the caller is signed in as — username, display name, counts. | ⚪ |
+| `pinterest.getHomeFeed` | pinterest.com | The caller's own personalised Pinterest home feed — the thing the site is actually for… | ⚪ |
+| `pinterest.getPin` | pinterest.com | Read one pin in full: title, `seo_title`, the description Pinterest renders, the… | ⚪ |
+| `pinterest.getProduct` | pinterest.com | Read the product behind a shoppable pin: price and currency, the merchant and the… | ⚪ |
+| `pinterest.getTopic` | pinterest.com | Read one idea topic: its display name, the description Pinterest wrote for it, its… | ⚪ |
+| `pinterest.getUser` | pinterest.com | Read a person's or a brand's profile: full name, username, the bio they wrote… | ⚪ |
+| `pinterest.hidePin` | pinterest.com | Tell Pinterest the caller does not want to see a pin. | ⚪ |
+| `pinterest.listBoardPins` | pinterest.com | Every pin inside a board, in the board's own order, with a `bookmark` for the next… | ⚪ |
+| `pinterest.listBoardSectionPins` | pinterest.com | The pins inside one section of a board, taking the section id `listBoardSections`… | ⚪ |
+| `pinterest.listBoardSections` | pinterest.com | The sections a board is divided into — a 258-pin board is usually 29 sections, and… | ⚪ |
+| `pinterest.listConversations` | pinterest.com | The caller's Pinterest inbox — the conversations people have sent them pins in. | ⚪ |
+| `pinterest.listNotifications` | pinterest.com | The caller's notifications — who saved, commented on or followed them. | ⚪ |
+| `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | ⚪ |
+| `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | ⚪ |
+| `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | ⚪ |
+| `pinterest.listTopicPins` | pinterest.com | The best pins in a topic — Pinterest's editorial feed for that interest, which is the… | ⚪ |
+| `pinterest.listTopics` | pinterest.com | Pinterest's own top-level idea topics — Food and Drink, Home Decor, Travel, Tattoos… | ⚪ |
+| `pinterest.listUserBoards` | pinterest.com | Every board a person has made public, with id, name, url, pin count, section count and… | ⚪ |
+| `pinterest.listUserCreatedPins` | pinterest.com | The pins a person made themselves rather than saved from somebody else —… | ⚪ |
+| `pinterest.listUserFollowers` | pinterest.com | Who follows this person, page by page — the audience side of a profile. | ⚪ |
+| `pinterest.listUserFollowing` | pinterest.com | Who this person follows — people, boards and topics. | ⚪ |
+| `pinterest.listUserSavedPins` | pinterest.com | The pins a person has saved, newest first, across all their boards — what… | ⚪ |
+| `pinterest.listVisualObjects` | pinterest.com | The objects Pinterest's own computer vision found inside a pin's image — each with a… | ⚪ |
+| `pinterest.reactToPin` | pinterest.com | React to a pin as the caller — Pinterest's good-idea / love / thanks set, which… | ⚪ |
+| `pinterest.savePin` | pinterest.com | Save an existing pin to one of the caller's boards — the repin, which is the single… | ⚪ |
+| `pinterest.searchBoards` | pinterest.com | Search for boards rather than pins — "espresso machine" comes back as 49 boards with… | ⚪ |
+| `pinterest.searchMyPins` | pinterest.com | Search only inside the caller's own saved pins — Pinterest's `my_pins` search scope… | ⚪ |
+| `pinterest.searchPins` | pinterest.com | Search Pinterest the way a person types into its search box and get the pins back… | ⚪ |
+| `pinterest.searchUsers` | pinterest.com | Search for people and brands by name and get their profiles back — the door that turns… | ⚪ |
+| `pinterest.searchVideos` | pinterest.com | Search only the video pins — Pinterest's own `videos` search scope, for a caller who… | ⚪ |
+| `pinterest.sendPin` | pinterest.com | Send a pin to somebody in a Pinterest message — the site's own share action. | ⚪ |
+| `pinterest.suggestSearches` | pinterest.com | Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre"… | ⚪ |
+| `pinterest.unfollowBoard` | pinterest.com | Stop following a board. | ⚪ |
+| `pinterest.unfollowTopic` | pinterest.com | Stop following an idea topic. | ⚪ |
+| `pinterest.unfollowUser` | pinterest.com | Stop following a person or a brand. | ⚪ |
+| `pinterest.updateBoard` | pinterest.com | Rename a board, change its description, or flip it between public and secret. | ⚪ |
+| `pinterest.updateProfile` | pinterest.com | Edit the caller's own profile — display name, bio, website, and the profile picture. | ⚪ |
 | `pirateship.getRates` | pirateship.com | Compares live shipping rates across USPS and UPS for a package — given a from/to… | 🟢 |
 | `pirateship.trackShipment` | pirateship.com | Looks up delivery status for a shipment by tracking number, the way… | ⚪ |
 | `pirateship.validateAddress` | pirateship.com | Validates and standardizes a US shipping address the way Pirate Ship checks an address… | ⚪ |
