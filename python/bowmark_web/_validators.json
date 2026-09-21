@@ -1,5 +1,5 @@
 {
-  "version": "8dd76f871da9562ead854fe34b55232a9ac9982309feb5286168bdbd8ec09c56",
+  "version": "21dba8f076ada4326da44430131904a6a32837b7642f35fcde55b2cbaedfa219",
   "units": {
     "booking_links": {
       "defs": {
@@ -32235,6 +32235,47 @@
             "schema": {
               "k": "ref",
               "name": "ThibautdesignRollCalculationInput"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.ticketmaster_nl": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "event": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8dd76f871da9562ead854fe34b55232a9ac9982309feb5286168bdbd8ec09c56
-# 60 capabilities, 441 providers, 1181 typed functions, 20 refused.
+# Manifest version: 21dba8f076ada4326da44430131904a6a32837b7642f35fcde55b2cbaedfa219
+# 60 capabilities, 442 providers, 1183 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17876,6 +17876,28 @@ class Prv_thibautdesign_ThibautdesignRollCalculationResult_Out(TypedDict):
     howToBuyUrl: str
     calculatorUrl: str
 
+class Prv_ticketmaster_nl_search_args_In(TypedDict):
+    query: str
+
+class Prv_ticketmaster_nl_SearchResult_Out(TypedDict):
+    events: list[Prv_ticketmaster_nl_SearchResult_Out_events_item_Out]
+
+class Prv_ticketmaster_nl_SearchResult_Out_events_item_Out(TypedDict):
+    title: str
+    url: str
+    venue: NotRequired[str]
+
+class Prv_ticketmaster_nl_event_args_In(TypedDict):
+    url: str
+
+class Prv_ticketmaster_nl_EventRow_Out(TypedDict):
+    title: str
+    venue: str
+    date: str
+    time: str
+    saleStatus: str
+    url: str
+
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
     name: str
@@ -32495,6 +32517,17 @@ class Prv_thibautdesign(Protocol):
         there is no DTC checkout on this calculator to route to.
         """
 
+class Prv_ticketmaster_nl(Protocol):
+    """Event details from Ticketmaster Netherlands."""
+
+    async def search(self, args: Prv_ticketmaster_nl_search_args_In, /) -> Prv_ticketmaster_nl_SearchResult_Out:
+        """Searches for events by name on Ticketmaster Netherlands and returns a list of matching
+        events with URLs.
+        """
+
+    async def event(self, args: Prv_ticketmaster_nl_event_args_In, /) -> Prv_ticketmaster_nl_EventRow_Out:
+        """Returns the event title, venue, date, time, and availability from an event page URL."""
+
 class Prv_tilsonhomes(Protocol):
     """Reads Tilson Homes' Build-On-Your-Land floor plan catalog and each plan's Anewgo-powered
     customizer — bed/bath/size range and exterior finish options — the way the live site's
@@ -34109,6 +34142,7 @@ class BowmarkProviders(Protocol):
     thestowcompany: Prv_thestowcompany
     thezebra: Prv_thezebra
     thibautdesign: Prv_thibautdesign
+    ticketmaster_nl: Prv_ticketmaster_nl
     tilsonhomes: Prv_tilsonhomes
     titlenine: Prv_titlenine
     tmobile: Prv_tmobile

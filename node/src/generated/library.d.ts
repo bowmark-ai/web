@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8dd76f871da9562ead854fe34b55232a9ac9982309feb5286168bdbd8ec09c56
-// 60 capabilities, 441 providers, 1199 typed functions, 20 refused.
+// Manifest version: 21dba8f076ada4326da44430131904a6a32837b7642f35fcde55b2cbaedfa219
+// 60 capabilities, 442 providers, 1201 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -34002,6 +34002,34 @@ interface ThibautdesignRollCalculationResult {
   }
 }
 
+declare namespace BowmarkProvider_ticketmaster_nl {
+  // ── Ticketmaster Netherlands — the unit's own declarations, verbatim ──
+interface EventRow {
+  title: string;
+  venue: string;
+  date: string;
+  time: string;
+  saleStatus: string;
+  url: string;
+}
+
+interface SearchResult {
+  events: Array<{ title: string; url: string; venue?: string }>;
+}
+
+  /** Event details from Ticketmaster Netherlands. */
+  interface Unit {
+    /**
+     * Searches for events by name on Ticketmaster Netherlands and returns a list of matching
+     * events with URLs.
+     */
+    search(args: { query: string }): Promise<SearchResult>;
+
+    /** Returns the event title, venue, date, time, and availability from an event page URL. */
+    event(args: { url: string }): Promise<EventRow>;
+  }
+}
+
 declare namespace BowmarkProvider_tilsonhomes {
   // ── Tilson Homes — the unit's own declarations, verbatim ──
 interface TilsonhomesPlan {
@@ -38384,6 +38412,7 @@ interface BowmarkProviders {
   thestowcompany: BowmarkProvider_thestowcompany.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   thibautdesign: BowmarkProvider_thibautdesign.Unit;
+  ticketmaster_nl: BowmarkProvider_ticketmaster_nl.Unit;
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
   titlenine: BowmarkProvider_titlenine.Unit;
   tmobile: BowmarkProvider_tmobile.Unit;
