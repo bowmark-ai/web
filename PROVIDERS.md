@@ -1344,7 +1344,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | 🟢 |
 | `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
 | `pizzahut.priceOrder` | pizzahut.com | Prices a configured basket at a store WITHOUT placing it — line items with their… | 🟢 |
-| `planning_inspectorate_ni.search` | national-infrastructure-consenting.planninginspectorate.gov.uk | Searches the national infrastructure planning register by project name or keywords… | 🟢 |
+| `planning_inspectorate_ni.search` | national-infrastructure-consenting.planninginspectorate.gov.uk | Searches the national infrastructure planning register by project name or keywords… | 🟡 |
 | `platform_claude_com.getDocPage` | platform.claude.com | Reads one page of platform.claude.com's own /docs/** documentation by URL or path and… | 🟢 |
 | `platform_claude_com.getPage` | platform.claude.com | Reads a non-/docs page (e.g. /plugins/submit) and returns its title and meta… | ⚪ |
 | `platform_claude_com.listDocPages` | platform.claude.com | Lists every English /docs page platform.claude.com publishes, parsed from the site's… | 🟢 |
