@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1651 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1653 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -279,6 +279,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `browser_use.listSessionRuns` | browser-use.com | Lists every agent run in a session via GET /api/v4/runs?sessionId=, each with its… | 🟢 |
 | `browser_use.queueMessage` | browser-use.com | Sends a follow-up instruction into an agent session via POST… | 🟢 |
 | `browser_use.stopBrowser` | browser-use.com | Stops a cloud browser via PATCH /api/v4/browsers/{id} {action: stop}, which cannot be… | 🟢 |
+| `buacement.getPriceList` | buacement.com | Would return current cement price list from BUA Cement with prices per bag size and… | ⚪ |
 | `builder_strucsure_com.getNewConstructionRegistrationFields` | builder.strucsure.com | Returns the foundation-type, home-type and warranty-term (enrollment-type) choices for… | 🟢 |
 | `builder_strucsure_com.listRegistrationStates` | builder.strucsure.com | Lists the states StrucSure Home Warranty's builder registration portal recognizes, and… | 🟢 |
 | `bulletproof.findStores` | bulletproof.com | Finds real physical retailers near a US zip code that carry Bulletproof products… | 🟢 |
@@ -433,6 +434,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cyberpowerpc.priceBuild` | cyberpowerpc.com | Prices an exact build for one configurator given a caller's part selections (one part… | 🟢 |
 | `dahlconsulting.getJob` | careers.dahlconsulting.com | Reads one job posting's full detail — the complete description, industry… | 🟢 |
 | `dahlconsulting.searchJobs` | careers.dahlconsulting.com | Searches Dahl Consulting's live job board — every open role at… | 🟢 |
+| `dangotecement.getPriceList` | dangotecement.com | Would return current cement price list from Dangote Cement with prices per bag size… | ⚪ |
 | `dansons.identifyProduct` | pitboss-grills.com | Identifies which Pit Boss product(s) a free-text description matches — the same… | 🟢 |
 | `dansons.listRegisterableProducts` | pitboss-grills.com | Lists every Pit Boss product eligible for warranty registration — the exact catalog… | 🟢 |
 | `davidsonhomes.getCommunity` | davidsonhomes.com | Reads one community's own page: its ACTUAL available homes right now — real street… | 🟢 |
