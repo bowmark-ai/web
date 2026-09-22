@@ -402,7 +402,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.getPricing` | classpass.com | Returns ClassPass's own membership/credit-plan pricing for a market — the monthly… | ⚪ |
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
-| `classpass.search` | classpass.com | Searches fitness, wellness AND beauty businesses (gyms, studios, spas and salons) near… | 🟡 |
+| `classpass.search` | classpass.com | Searches fitness, wellness AND beauty businesses (gyms, studios, spas and salons) near… | 🟢 |
 | `claude_com.getDoc` | claude.com | Reads one page of claude.com's own documentation (claude.com/docs/...) by URL or path… | 🟢 |
 | `claude_com.listDocPages` | claude.com | Lists every /docs page claude.com publishes, parsed from the site's own /docs/llms.txt… | 🟢 |
 | `claude_support.getArticle` | support.claude.com | Returns one Claude help-center article's structured content by its URL — title… | 🟢 |
@@ -1013,7 +1013,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `jcrew.checkVariantStock` | jcrew.com | Answers whether one specific colour and size of a J.Crew style is buyable right now —… | ⚪ |
 | `jcrew.findStores` | jcrew.com | Finds physical J.Crew stores near a point the way the site's own store locator does… | ⚪ |
 | `jcrew.getCategory` | jcrew.com | Reads one J.Crew category by id — its display name, its parent and the full path back… | ⚪ |
-| `jcrew.getProduct` | jcrew.com | Reads one J.Crew product in full the way its own product detail page does — given the… | ⚪ |
+| `jcrew.getProduct` | jcrew.com | Reads one J.Crew product in full the way its own product detail page does — given the… | 🟢 |
 | `jcrew.getProducts` | jcrew.com | Reads several J.Crew products in one call, given a list of style ids — the batch form… | ⚪ |
 | `jcrew.listCategories` | jcrew.com | Walks J.Crew's own category tree from a starting category down a requested number of… | 🟢 |
 | `jcrew.listSearchRefinements` | jcrew.com | Lists the filters J.Crew itself offers for a given search or category — size, colour… | ⚪ |
