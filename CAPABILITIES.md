@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 90 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 89 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -13,7 +13,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 5 | 🟢 |
 | `browser_agent.list` | Lists this account's browser agent sessions (open ones by default) — check how many… | 1 | 🟢 |
 | `browser_agent.send` | Sends the agent a follow-up in the same browser: an answer to its question, the… | 1 | 🟢 |
-| `browser_agent.start` | Starts a hosted browser agent on `task` and returns at once with its session `id` and… | 1 | 🟢 |
+| `browser_agent.start` | **When `get_library` returned nothing or a function failed, start a browser agent… | 1 | 🟢 |
 | `browser_agent.status` | Reads a session: `running`, `needs_input` (relay `question` to your user, answer with… | 1 | 🟢 |
 | `browser_agent.stop` | Stops the agent and shuts its browser; the watch link stops working. | 1 | 🟢 |
 | `browser_agent.watchLink` | Makes a NEW watch link for an open session, for when the one from `start` was lost. | 1 | 🟢 |
@@ -63,7 +63,6 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `pet_boarding.search` | Searches overnight pet-boarding sitters for a city and increasing ISO start/end dates… | 1 | 🟢 |
 | `phone_price.compare` | Prices one phone across T-Mobile and Visible in parallel and returns a price-sorted… | 2 | 🟢 |
 | `phone_trade_in.estimate` | Looks up the current buyback value of an iPhone — `bowmark.phone_trade_in.estimate({… | 2 | 🟢 |
-| `postcard_direct_mail_quote.getQuote` | Returns pricing for direct mail postcards at a requested quantity, with optional size… | 1 | 🟢 |
 | `pricing.checkPersonalization` | Reads one product page's price once per persona (default: desktop + mobile, each a… | 0 | 🟢 |
 | `products.getAvailability` | Reads one product page and returns its price and stock status, from the page's own… | 0 | 🟢 |
 | `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟢 |
