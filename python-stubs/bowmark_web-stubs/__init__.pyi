@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2615dc1ac0cff24f17738afaf4c98cbe66dbed674dcb535101b1e507f0e1c40e
-# 60 capabilities, 445 providers, 1190 typed functions, 20 refused.
+# Manifest version: 5c2dda5fcc32410a182eba73131dab7ce7ef6ee1aa09c4893cd56b1e5bc98659
+# 60 capabilities, 446 providers, 1191 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18404,6 +18404,11 @@ class Prv_twitch_SetChannelArgs_In(TypedDict):
     language: NotRequired[str]
     game: NotRequired[str]
 
+class Prv_uber_DriverEarnings_Out(TypedDict):
+    weekStart: str
+    tripCount: float
+    netEarnings: float
+
 class Prv_uhc_smallbusiness_UhcSmallbusinessQuote_Out(TypedDict):
     zip: str
     state: str
@@ -32981,6 +32986,12 @@ class Prv_twitch(Protocol):
         capability can hold: call it as bowmark.stream_channel.set.
         """
 
+class Prv_uber(Protocol):
+    """Read signed-in driver earnings summaries from the Uber driver dashboard."""
+
+    async def getDriverEarnings(self, weekOffset: float | None = None, /) -> Prv_uber_DriverEarnings_Out:
+        """Returns earnings for a specific week (0 = current, 1 = last week, etc)"""
+
 class Prv_uhc_smallbusiness(Protocol):
     """UnitedHealthcare's small-business store — real level-funded and fully-insured group
     health plan premiums for a ZIP and employee count, no sign-in required.
@@ -34369,6 +34380,7 @@ class BowmarkProviders(Protocol):
     tweethunter: Prv_tweethunter
     twiddy: Prv_twiddy
     twitch: Prv_twitch
+    uber: Prv_uber
     uhc_smallbusiness: Prv_uhc_smallbusiness
     ulrichlifestyle: Prv_ulrichlifestyle
     upkeepstl_com: Prv_upkeepstl_com

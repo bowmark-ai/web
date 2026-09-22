@@ -1,5 +1,5 @@
 {
-  "version": "2615dc1ac0cff24f17738afaf4c98cbe66dbed674dcb535101b1e507f0e1c40e",
+  "version": "5c2dda5fcc32410a182eba73131dab7ce7ef6ee1aa09c4893cd56b1e5bc98659",
   "units": {
     "booking_links": {
       "defs": {
@@ -33202,6 +33202,20 @@
               "name": "SetChannelArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.uber": {
+      "defs": {},
+      "functions": {
+        "getDriverEarnings": [
+          {
+            "name": "weekOffset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }

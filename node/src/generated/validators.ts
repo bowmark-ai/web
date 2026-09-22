@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2615dc1ac0cff24f17738afaf4c98cbe66dbed674dcb535101b1e507f0e1c40e
-// 1190 checked, 20 unchecked.
+// Manifest version: 5c2dda5fcc32410a182eba73131dab7ce7ef6ee1aa09c4893cd56b1e5bc98659
+// 1191 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2615dc1ac0cff24f17738afaf4c98cbe66dbed674dcb535101b1e507f0e1c40e",
+  "version": "5c2dda5fcc32410a182eba73131dab7ce7ef6ee1aa09c4893cd56b1e5bc98659",
   "units": {
     "booking_links": {
       "defs": {
@@ -33214,6 +33214,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SetChannelArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.uber": {
+      "defs": {},
+      "functions": {
+        "getDriverEarnings": [
+          {
+            "name": "weekOffset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }

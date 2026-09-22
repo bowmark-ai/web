@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2615dc1ac0cff24f17738afaf4c98cbe66dbed674dcb535101b1e507f0e1c40e
-// 60 capabilities, 445 providers, 1208 typed functions, 20 refused.
+// Manifest version: 5c2dda5fcc32410a182eba73131dab7ce7ef6ee1aa09c4893cd56b1e5bc98659
+// 60 capabilities, 446 providers, 1209 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -34917,6 +34917,21 @@ interface TwitchDeveloperApp {
   }
 }
 
+declare namespace BowmarkProvider_uber {
+  // ── Uber — the unit's own declarations, verbatim ──
+interface DriverEarnings {
+  weekStart: string;
+  tripCount: number;
+  netEarnings: number;
+}
+
+  /** Read signed-in driver earnings summaries from the Uber driver dashboard. */
+  interface Unit {
+    /** Returns earnings for a specific week (0 = current, 1 = last week, etc) */
+    getDriverEarnings(weekOffset?: number): Promise<DriverEarnings>;
+  }
+}
+
 declare namespace BowmarkProvider_uhc_smallbusiness {
   // ── UnitedHealthcare Small Business — the unit's own declarations, verbatim ──
 interface UhcSmallbusinessPlan {
@@ -38640,6 +38655,7 @@ interface BowmarkProviders {
   tweethunter: BowmarkProvider_tweethunter.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
   twitch: BowmarkProvider_twitch.Unit;
+  uber: BowmarkProvider_uber.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;
