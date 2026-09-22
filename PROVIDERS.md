@@ -1745,7 +1745,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.compareRevisions` | wikipedia.org | The diff between two revisions of an article — what text was added and removed, line… | ⚪ |
 | `wikipedia.createPage` | wikipedia.org | Create an article that does not exist yet, under the caller's account. `POST… | ⚪ |
 | `wikipedia.editPage` | wikipedia.org | Change an article — replace a page or one of its sections with new wikitext, under the… | ⚪ |
-| `wikipedia.getArticle` | wikipedia.org | The whole article as an agent wants to read it: title, Wikipedia's own short… | ⚪ |
+| `wikipedia.getArticle` | wikipedia.org | The whole article as an agent wants to read it: title, Wikipedia's own short… | 🟢 |
 | `wikipedia.getArticleHtml` | wikipedia.org | The article's rendered HTML — the real page body, with tables, references, footnotes… | ⚪ |
 | `wikipedia.getCurrentUser` | wikipedia.org | Who the caller is signed in as on Wikipedia — username, user id, edit count, the… | ⚪ |
 | `wikipedia.getFeaturedContent` | wikipedia.org | Wikipedia's own front page for a given date, as data — the featured article, the… | ⚪ |
