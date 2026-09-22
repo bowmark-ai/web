@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6b3ba86935abee1fe9d5ace3a8775b0cdf628534b6fa1405074718c5b831247a
+# Manifest version: 17419c41c9f901aa20fb4358c17455345214c1007847d44df4bc139ac582bee4
 # 60 capabilities, 448 providers, 1207 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -1905,6 +1905,7 @@ class Cap_web_form_fields_FormFillResult_Out(TypedDict):
     openedWith: str | None
     multiStep: bool
     stepLabel: str | None
+    autocompleteSelected: list[str]
     resultContent: str | None
     warnings: list[str]
 

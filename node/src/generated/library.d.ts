@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6b3ba86935abee1fe9d5ace3a8775b0cdf628534b6fa1405074718c5b831247a
+// Manifest version: 17419c41c9f901aa20fb4358c17455345214c1007847d44df4bc139ac582bee4
 // 60 capabilities, 448 providers, 1225 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -3450,6 +3450,7 @@ type FormFillResult = {
   openedWith: string | null
   multiStep: boolean          // the step now on screen continues past this one
   stepLabel: string | null
+  autocompleteSelected: string[]  // "<field>: <suggestion>" for each address/lookup field a suggestion was picked for
   resultContent: string | null  // what the site answered back, read after submit/advance — null otherwise
   warnings: string[]
 }
