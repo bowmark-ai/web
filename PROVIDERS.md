@@ -522,7 +522,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `embroker.getBusinessInsuranceQuote` | embroker.com | Returns a priced business-insurance coverage package for a company's profile… | ⚪ |
 | `embroker.getQuoteEntryPoint` | embroker.com | Returns the live entry URL for Embroker's self-serve quote wizard for one coverage… | 🟢 |
 | `embroker.listCoverageLines` | embroker.com | Returns the real list of commercial-insurance coverage lines and policy product types… | 🟢 |
-| `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | 🟢 |
+| `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | 🟡 |
 | `epromos.getProductConfiguration` | epromos.com | Reads one ePromos product's own configurator off its product page — every color/style… | 🟢 |
 | `epromos.listCategoryProducts` | epromos.com | Lists the products ePromos features on one of its category landing pages (e.g.… | 🟢 |
 | `epromos.quoteBulkPrice` | epromos.com | Computes the real per-unit and total price for one product at a caller-given quantity… | 🟢 |
