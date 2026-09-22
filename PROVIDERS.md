@@ -749,7 +749,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | ⚪ |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
 | `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, reviewers… | ⚪ |
-| `github.getRepo` | github.com | Returns a public repository's own metadata — description, default branch… | ⚪ |
+| `github.getRepo` | github.com | Returns a public repository's own metadata — description, default branch… | 🟢 |
 | `github.getSponsorPage` | github.com | Returns the public sponsor/funding page for a user, showing sponsorship options and… | ⚪ |
 | `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | ⚪ |
 | `github.getUserRepositories` | github.com | Lists all public repositories owned by or visible to a user, with optional sorting and… | ⚪ |
@@ -1786,7 +1786,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟡 |
-| `yahoo_finance.getAnalystEstimates` | finance.yahoo.com | Reads Wall Street's own consensus numbers for a ticker — revenue and earnings… | ⚪ |
+| `yahoo_finance.getAnalystEstimates` | finance.yahoo.com | Reads Wall Street's own consensus numbers for a ticker — revenue and earnings… | 🟢 |
 | `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | ⚪ |
 | `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | ⚪ |
 | `yahoo_finance.getHistoricalPrices` | finance.yahoo.com | Reads a ticker's daily open/high/low/close/volume history over a requested range, the… | 🟢 |
@@ -1814,7 +1814,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads the sports news and analysis stories Yahoo Sports itself is running right now… | ⚪ |
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and season stats the way their own player page does —… | ⚪ |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | ⚪ |
-| `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | ⚪ |
+| `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟢 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads today's games for one league — NFL, NBA, MLB, NHL, college football, college… | 🟢 |
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟢 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | ⚪ |

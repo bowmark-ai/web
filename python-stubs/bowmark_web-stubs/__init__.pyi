@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ad433c501b64fe039b62f1ea5c6850a8dcca97bcbb33a02fb91259887903dfe5
-# 60 capabilities, 446 providers, 1192 typed functions, 20 refused.
+# Manifest version: 44ca9f3b263034be1aed85883c00a1d3d31e75f183b7b51053f186e4dc3f9e11
+# 60 capabilities, 446 providers, 1193 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11717,6 +11717,37 @@ class Prv_jcrew_JcrewSearchProduct_Out(TypedDict):
     orderable: bool | None
     image: str | None
     url: str
+
+class Prv_jcrew_GetProductArgs_In(TypedDict):
+    id: str
+
+class Prv_jcrew_GetProductResult_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    longDescription: str | None
+    price: float | None
+    priceRange: str | None
+    currency: str | None
+    orderable: bool | None
+    stockLevel: float | None
+    colours: list[str]
+    sizes: list[str]
+    fits: list[str]
+    variants: list[Prv_jcrew_JcrewProductVariant_Out]
+    images: list[Prv_jcrew_JcrewProductImage_Out]
+
+class Prv_jcrew_JcrewProductVariant_Out(TypedDict):
+    id: str
+    colour: str | None
+    size: str | None
+    fit: str | None
+    price: float | None
+    orderable: bool | None
+
+class Prv_jcrew_JcrewProductImage_Out(TypedDict):
+    url: str
+    alt: str | None
 
 class Prv_jcrew_SuggestSearchTermsArgs_In(TypedDict):
     query: str
@@ -28319,6 +28350,14 @@ class Prv_jcrew(Protocol):
         currency, whether it is orderable, a thumbnail and the product URL, paginated and
         optionally sorted by the site's own sort orders. This is the DOOR for `getProduct`: it
         is where a caller holding only words gets the style id every other function takes.
+        """
+
+    async def getProduct(self, args: Prv_jcrew_GetProductArgs_In, /) -> Prv_jcrew_GetProductResult_Out:
+        """Reads one J.Crew product in full — given the style id at the end of a product URL, e.g.
+        `BX291` — returning the name, descriptions, price, currency, online inventory (orderable
+        and stock level), every colour and size the style comes in, every variant with its own
+        price and availability, and the full image set. The normalized variant list replaces the
+        raw 502+ variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
         """
 
     async def suggestSearchTerms(self, args: Prv_jcrew_SuggestSearchTermsArgs_In, /) -> Prv_jcrew_SuggestSearchTermsResult_Out:

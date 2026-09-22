@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ad433c501b64fe039b62f1ea5c6850a8dcca97bcbb33a02fb91259887903dfe5
-// 60 capabilities, 446 providers, 1210 typed functions, 20 refused.
+// Manifest version: 44ca9f3b263034be1aed85883c00a1d3d31e75f183b7b51053f186e4dc3f9e11
+// 60 capabilities, 446 providers, 1211 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22230,6 +22230,37 @@ interface SuggestSearchTermsResult {
   categories: JcrewSuggestedCategory[];
   products: JcrewSuggestedProduct[];
 }
+interface JcrewProductVariant {
+  id: string;
+  colour: string | null;
+  size: string | null;
+  fit: string | null;
+  price: number | null;
+  orderable: boolean | null;
+}
+interface JcrewProductImage {
+  url: string;
+  alt: string | null;
+}
+interface GetProductArgs {
+  id: string;
+}
+interface GetProductResult {
+  id: string;
+  name: string;
+  description: string | null;
+  longDescription: string | null;
+  price: number | null;
+  priceRange: string | null;
+  currency: string | null;
+  orderable: boolean | null;
+  stockLevel: number | null;
+  colours: string[];
+  sizes: string[];
+  fits: string[];
+  variants: JcrewProductVariant[];
+  images: JcrewProductImage[];
+}
 
   /**
    * Search and read J.Crew's clothing catalogue — products, prices, colours, sizes and stock —
@@ -22253,6 +22284,15 @@ interface SuggestSearchTermsResult {
      * only words gets the style id every other function takes.
      */
     searchProducts(args: SearchProductsArgs): Promise<SearchProductsResult>;
+
+    /**
+     * Reads one J.Crew product in full — given the style id at the end of a product URL, e.g.
+     * `BX291` — returning the name, descriptions, price, currency, online inventory (orderable and
+     * stock level), every colour and size the style comes in, every variant with its own price and
+     * availability, and the full image set. The normalized variant list replaces the raw 502+
+     * variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
+     */
+    getProduct(args: GetProductArgs): Promise<GetProductResult>;
 
     /**
      * Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50
