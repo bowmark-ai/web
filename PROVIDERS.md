@@ -765,7 +765,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | ⚪ |
 | `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
 | `github.searchCode` | github.com | Searches for code across public repositories by filename, language, code snippet… | ⚪ |
-| `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | ⚪ |
+| `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
 | `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | ⚪ |
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in user's starred list. | ⚪ |
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | ⚪ |
@@ -1010,7 +1010,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `jasmine_dilucci.getApplicationFormSchema` | jasminedilucci.com | Returns the structure of the application funnel's DQ (disqualification) step: field… | 🟢 |
 | `jcrew.addToCart` | jcrew.com | Adds a chosen J.Crew variant to a shopping bag. | ⚪ |
 | `jcrew.browseCategory` | jcrew.com | Lists the products in one J.Crew category the way the site's own category pages do —… | ⚪ |
-| `jcrew.checkVariantStock` | jcrew.com | Answers whether one specific colour and size of a J.Crew style is buyable right now —… | ⚪ |
+| `jcrew.checkVariantStock` | jcrew.com | Answers whether one specific colour and size of a J.Crew style is buyable right now —… | 🟢 |
 | `jcrew.findStores` | jcrew.com | Finds physical J.Crew stores near a point the way the site's own store locator does… | ⚪ |
 | `jcrew.getCategory` | jcrew.com | Reads one J.Crew category by id — its display name, its parent and the full path back… | ⚪ |
 | `jcrew.getProduct` | jcrew.com | Reads one J.Crew product in full the way its own product detail page does — given the… | 🟢 |
@@ -1793,7 +1793,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | ⚪ |
 | `yahoo_finance.getKeyStatistics` | finance.yahoo.com | Reads the fuller valuation and share-statistics sheet the site's own Statistics tab… | ⚪ |
 | `yahoo_finance.getMarketSummary` | finance.yahoo.com | Reads the market-wide overview the site's own Markets home shows — the major indices… | 🟢 |
-| `yahoo_finance.getNews` | finance.yahoo.com | Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —… | ⚪ |
+| `yahoo_finance.getNews` | finance.yahoo.com | Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —… | 🟢 |
 | `yahoo_finance.getOptionsChain` | finance.yahoo.com | Reads a ticker's options chain — calls and puts by strike and expiration, with… | ⚪ |
 | `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟢 |
 | `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | 🟢 |

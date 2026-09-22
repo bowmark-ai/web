@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c7b2d9a27d6a3d55d255dc278c3e887f1fe57524b3130a7178fb54e8a8b6cec7
-// 60 capabilities, 447 providers, 1217 typed functions, 20 refused.
+// Manifest version: e1cb82bef0d55b92debfb53de51cd57baaf0c1024fcfddee30c9118d72bab199
+// 60 capabilities, 447 providers, 1218 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17064,12 +17064,34 @@ interface GithubProfileReadme {
   readmeUrl: string | null;
   warnings: string[];
 }
+interface GithubRepositorySearchResult {
+  fullName: string;
+  owner: string;
+  description: string | null;
+  stars: number;
+  forks: number;
+  language: string | null;
+  url: string;
+  updatedAt: string;
+}
+interface GithubSearchRepositoriesOptions {
+  sort?: "stars" | "forks" | "help-wanted-issues" | "updated";
+  order?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
+interface GithubSearchRepositoriesResult {
+  totalCount: number;
+  repositories: GithubRepositorySearchResult[];
+  warnings: string[];
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
    * message), paged and windowed; a public repo's release history (tag, name, dates, release
    * notes text), paged; a public repo's metadata (name, description, stars, forks, language,
-   * license, homepage); a profile's README and metadata.
+   * license, homepage); a profile's README and metadata; a repository search across all of
+   * GitHub by name, language, topic, stars and other qualifiers.
    */
   interface Unit {
     /**
@@ -17116,6 +17138,21 @@ interface GithubProfileReadme {
      * spends two. THROWS on an unknown user or a rate limit.
      */
     getProfileReadme(handle: string): Promise<GithubProfileReadme>;
+
+    /**
+     * Runs a repository search across all of GitHub off GitHub's own unauthenticated REST search
+     * endpoint. `query` is GitHub's own search-qualifier syntax — the same thing typed into
+     * github.com's search bar — e.g. `"stars:>50000 language:typescript"`, `"topic:cli"`,
+     * `"org:vercel"`. Returns `totalCount` (GitHub's own match count, which may exceed the page)
+     * and each matching repo's full name, owner, description, star/fork counts, primary language,
+     * URL and last-updated date. `options.sort` (`stars`/`forks`/`help-wanted-issues`/`updated`,
+     * default best-match relevance) and `options.order` (`asc`/`desc`) control ranking;
+     * `options.per_page` (1-100, default 30) and `options.page` page through results — GitHub caps
+     * deep paging at 1,000 total results for any query. The search endpoints share a STRICTER
+     * unauthenticated ceiling than every other function here: 10 requests/minute per IP, not the
+     * 60/hour core-API bucket. THROWS on an invalid query (422) or a rate limit (403/429).
+     */
+    searchRepositories(query: string, options?: GithubSearchRepositoriesOptions): Promise<GithubSearchRepositoriesResult>;
   }
 }
 

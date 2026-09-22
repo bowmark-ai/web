@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c7b2d9a27d6a3d55d255dc278c3e887f1fe57524b3130a7178fb54e8a8b6cec7
-# 60 capabilities, 447 providers, 1199 typed functions, 20 refused.
+# Manifest version: e1cb82bef0d55b92debfb53de51cd57baaf0c1024fcfddee30c9118d72bab199
+# 60 capabilities, 447 providers, 1200 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9199,6 +9199,27 @@ class Prv_github_GithubProfileReadme_Out(TypedDict):
     readme: str | None
     readmeUrl: str | None
     warnings: list[str]
+
+class Prv_github_GithubSearchRepositoriesOptions_In(TypedDict):
+    sort: NotRequired[Literal["stars"] | Literal["forks"] | Literal["help-wanted-issues"] | Literal["updated"]]
+    order: NotRequired[Literal["asc"] | Literal["desc"]]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubSearchRepositoriesResult_Out(TypedDict):
+    totalCount: float
+    repositories: list[Prv_github_GithubRepositorySearchResult_Out]
+    warnings: list[str]
+
+class Prv_github_GithubRepositorySearchResult_Out(TypedDict):
+    fullName: str
+    owner: str
+    description: str | None
+    stars: float
+    forks: float
+    language: str | None
+    url: str
+    updatedAt: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -26381,7 +26402,8 @@ class Prv_github(Protocol):
     """GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
     message), paged and windowed; a public repo's release history (tag, name, dates, release
     notes text), paged; a public repo's metadata (name, description, stars, forks, language,
-    license, homepage); a profile's README and metadata.
+    license, homepage); a profile's README and metadata; a repository search across all of
+    GitHub by name, language, topic, stars and other qualifiers.
     """
 
     async def listCommits(self, owner: str, repo: str, options: Prv_github_GithubListCommitsOptions_In | None = None, /) -> Prv_github_GithubListCommitsResult_Out:
@@ -26423,6 +26445,21 @@ class Prv_github(Protocol):
         link or contact details. Takes a username, `@handle` or github.com url. `readme` is null
         when they have no profile README. Unauthenticated calls share GitHub's 60 requests/hour
         per IP; this spends two. THROWS on an unknown user or a rate limit.
+        """
+
+    async def searchRepositories(self, query: str, options: Prv_github_GithubSearchRepositoriesOptions_In | None = None, /) -> Prv_github_GithubSearchRepositoriesResult_Out:
+        """Runs a repository search across all of GitHub off GitHub's own unauthenticated REST
+        search endpoint. `query` is GitHub's own search-qualifier syntax — the same thing typed
+        into github.com's search bar — e.g. `"stars:>50000 language:typescript"`, `"topic:cli"`,
+        `"org:vercel"`. Returns `totalCount` (GitHub's own match count, which may exceed the
+        page) and each matching repo's full name, owner, description, star/fork counts, primary
+        language, URL and last-updated date. `options.sort`
+        (`stars`/`forks`/`help-wanted-issues`/`updated`, default best-match relevance) and
+        `options.order` (`asc`/`desc`) control ranking; `options.per_page` (1-100, default 30)
+        and `options.page` page through results — GitHub caps deep paging at 1,000 total results
+        for any query. The search endpoints share a STRICTER unauthenticated ceiling than every
+        other function here: 10 requests/minute per IP, not the 60/hour core-API bucket. THROWS
+        on an invalid query (422) or a rate limit (403/429).
         """
 
 class Prv_glama(Protocol):

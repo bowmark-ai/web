@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c7b2d9a27d6a3d55d255dc278c3e887f1fe57524b3130a7178fb54e8a8b6cec7
-// 1199 checked, 20 unchecked.
+// Manifest version: e1cb82bef0d55b92debfb53de51cd57baaf0c1024fcfddee30c9118d72bab199
+// 1200 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c7b2d9a27d6a3d55d255dc278c3e887f1fe57524b3130a7178fb54e8a8b6cec7",
+  "version": "e1cb82bef0d55b92debfb53de51cd57baaf0c1024fcfddee30c9118d72bab199",
   "units": {
     "booking_links": {
       "defs": {
@@ -15500,6 +15500,67 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "GithubSearchRepositoriesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "stars"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "forks"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "help-wanted-issues"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "updated"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "order",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -15574,6 +15635,23 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "searchRepositories": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubSearchRepositoriesOptions"
+            },
+            "optional": true
           }
         ]
       }
