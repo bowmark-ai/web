@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5c2dda5fcc32410a182eba73131dab7ce7ef6ee1aa09c4893cd56b1e5bc98659
-// 60 capabilities, 446 providers, 1209 typed functions, 20 refused.
+// Manifest version: ad433c501b64fe039b62f1ea5c6850a8dcca97bcbb33a02fb91259887903dfe5
+// 60 capabilities, 446 providers, 1210 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8186,6 +8186,23 @@ interface BingNewsSearchResult {
   warnings: string[];
 }
 
+interface BingImageResult {
+  source: "bing";
+  rank: number;
+  title: string;
+  url: string;
+  snippet: string | null;
+  published: null;
+  imageUrl: string | null;
+  pageUrl: string | null;
+}
+
+interface BingImageSearchResult {
+  query: string;
+  results: BingImageResult[];
+  warnings: string[];
+}
+
   /**
    * General web and news search over Bing's index, read off Bing's own RSS output — ten ranked
    * results per query with title, destination URL, snippet and date. Keyless, browserless, ~5 KB
@@ -8239,6 +8256,13 @@ interface BingNewsSearchResult {
      * them into separate calls rather than retrying.
      */
     searchNews(args: { query: string, limit?: number }): Promise<BingNewsSearchResult>;
+
+    /**
+     * Searches Bing's image index and returns each hit's thumbnail URL, full-size image URL, the
+     * page it was found on, and its title. Core because a caller sent to Bing to find a picture of
+     * something has no other function to reach for.
+     */
+    searchImages(args: { query: string, limit?: number }): Promise<BingImageSearchResult>;
   }
 }
 

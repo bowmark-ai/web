@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5c2dda5fcc32410a182eba73131dab7ce7ef6ee1aa09c4893cd56b1e5bc98659
-# 60 capabilities, 446 providers, 1191 typed functions, 20 refused.
+# Manifest version: ad433c501b64fe039b62f1ea5c6850a8dcca97bcbb33a02fb91259887903dfe5
+# 60 capabilities, 446 providers, 1192 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4556,6 +4556,25 @@ class Prv_bing_BingNewsResult_Out(TypedDict):
     published: str | None
     publisher: str | None
     imageUrl: str | None
+
+class Prv_bing_searchImages_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_bing_BingImageSearchResult_Out(TypedDict):
+    query: str
+    results: list[Prv_bing_BingImageResult_Out]
+    warnings: list[str]
+
+class Prv_bing_BingImageResult_Out(TypedDict):
+    source: Literal["bing"]
+    rank: float
+    title: str
+    url: str
+    snippet: str | None
+    published: None
+    imageUrl: str | None
+    pageUrl: str | None
 
 class Prv_bionicpo_listInquiryServices_return_Out(TypedDict):
     services: list[Prv_bionicpo_InquiryService_Out]
@@ -23046,6 +23065,12 @@ class Prv_bing(Protocol):
         are Bing's crawl stamps, this feed's are the story's. Keep each query to 2–3 words:
         OR-joined and more-than-three-term queries return an empty feed and are warned as
         unsupported, so split them into separate calls rather than retrying.
+        """
+
+    async def searchImages(self, args: Prv_bing_searchImages_args_In, /) -> Prv_bing_BingImageSearchResult_Out:
+        """Searches Bing's image index and returns each hit's thumbnail URL, full-size image URL,
+        the page it was found on, and its title. Core because a caller sent to Bing to find a
+        picture of something has no other function to reach for.
         """
 
 class Prv_bionicpo(Protocol):
