@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1b61e0eed3852943921b5e17812b2d2094f607bbba571e79d2ff5f80a8dcc93b
-// 1197 checked, 20 unchecked.
+// Manifest version: c7b2d9a27d6a3d55d255dc278c3e887f1fe57524b3130a7178fb54e8a8b6cec7
+// 1199 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1b61e0eed3852943921b5e17812b2d2094f607bbba571e79d2ff5f80a8dcc93b",
+  "version": "c7b2d9a27d6a3d55d255dc278c3e887f1fe57524b3130a7178fb54e8a8b6cec7",
   "units": {
     "booking_links": {
       "defs": {
@@ -24692,6 +24692,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "searchBoards": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -34492,6 +34517,38 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "suggestTitles": [
           {
             "name": "query",
             "schema": {

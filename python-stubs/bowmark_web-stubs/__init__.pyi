@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1b61e0eed3852943921b5e17812b2d2094f607bbba571e79d2ff5f80a8dcc93b
-# 60 capabilities, 447 providers, 1197 typed functions, 20 refused.
+# Manifest version: c7b2d9a27d6a3d55d255dc278c3e887f1fe57524b3130a7178fb54e8a8b6cec7
+# 60 capabilities, 447 providers, 1199 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14763,6 +14763,20 @@ class Prv_pinterest_PinterestPin_Out_product_metadata_Out(TypedDict):
     rating: NotRequired[float]
     review_count: NotRequired[float]
 
+class Prv_pinterest_searchBoards_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_searchBoards_return_Out(TypedDict):
+    boards: list[Prv_pinterest_PinterestBoard_Out]
+    bookmark: str | None
+
+class Prv_pinterest_PinterestBoard_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    pin_count: NotRequired[float]
+    section_count: NotRequired[float]
+
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
     width: float
@@ -19304,6 +19318,20 @@ class Prv_wikipedia_WikipediaSearchResult_Out_thumbnail_Out(TypedDict):
     url: str
     width: float
     height: float
+
+class Prv_wikipedia_suggestTitles_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_suggestTitles_return_Out(TypedDict):
+    suggestions: list[Prv_wikipedia_WikipediaTitleSuggestion_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaTitleSuggestion_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    description: str
 
 class Prv_winestyles_WinestylesStore_Out(TypedDict):
     storeId: str
@@ -30527,6 +30555,12 @@ class Prv_pinterest(Protocol):
         an empty or non-string query.
         """
 
+    async def searchBoards(self, query: str, options: Prv_pinterest_searchBoards_options_In | None = None, /) -> Prv_pinterest_searchBoards_return_Out:
+        """Search for Pinterest boards by name and get the boards back: `id`, `name`, `url`,
+        `pin_count`, and `section_count`. `POST/GET /resource/BaseSearchResource/get/` with
+        `scope: "boards"`. THROWS `PinterestInputError` on an empty or non-string query.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -33619,6 +33653,12 @@ class Prv_wikipedia(Protocol):
     async def search(self, query: str, options: Prv_wikipedia_search_options_In | None = None, /) -> Prv_wikipedia_search_return_Out:
         """Search the encyclopedia and get back articles with id, title, url, excerpt with matches
         marked, description, and thumbnail where one exists.
+        """
+
+    async def suggestTitles(self, query: str, options: Prv_wikipedia_suggestTitles_options_In | None = None, /) -> Prv_wikipedia_suggestTitles_return_Out:
+        """Autocomplete a partial title the way Wikipedia's search box does as you type — hand it a
+        prefix and get back the article titles it would offer, each with its url and short
+        description.
         """
 
 class Prv_winestyles(Protocol):

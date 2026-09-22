@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1b61e0eed3852943921b5e17812b2d2094f607bbba571e79d2ff5f80a8dcc93b
-// 60 capabilities, 447 providers, 1215 typed functions, 20 refused.
+// Manifest version: c7b2d9a27d6a3d55d255dc278c3e887f1fe57524b3130a7178fb54e8a8b6cec7
+// 60 capabilities, 447 providers, 1217 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -28236,6 +28236,13 @@ interface PinterestPin {
     review_count?: number;
   };
 }
+interface PinterestBoard {
+  id: string;
+  name: string;
+  url: string;
+  pin_count?: number;
+  section_count?: number;
+}
 
   /**
    * Pinterest — search its pins, boards, people and videos, read one pin in full with the
@@ -28252,6 +28259,13 @@ interface PinterestPin {
      * `scope: "pins"`. THROWS `PinterestInputError` on an empty or non-string query.
      */
     searchPins(query: string, options?: { bookmark?: string }): Promise<{ pins: PinterestPin[]; bookmark: string | null }>;
+
+    /**
+     * Search for Pinterest boards by name and get the boards back: `id`, `name`, `url`,
+     * `pin_count`, and `section_count`. `POST/GET /resource/BaseSearchResource/get/` with `scope:
+     * "boards"`. THROWS `PinterestInputError` on an empty or non-string query.
+     */
+    searchBoards(query: string, options?: { bookmark?: string }): Promise<{ boards: PinterestBoard[]; bookmark: string | null }>;
   }
 }
 
@@ -36342,6 +36356,13 @@ interface WikipediaSearchResult {
   };
 }
 
+interface WikipediaTitleSuggestion {
+  id: number;
+  title: string;
+  url: string;
+  description: string;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -36353,6 +36374,13 @@ interface WikipediaSearchResult {
      * marked, description, and thumbnail where one exists.
      */
     search(query: string, options?: { lang?: string; limit?: number }): Promise<{ results: WikipediaSearchResult[]; warnings: string[] }>;
+
+    /**
+     * Autocomplete a partial title the way Wikipedia's search box does as you type — hand it a
+     * prefix and get back the article titles it would offer, each with its url and short
+     * description.
+     */
+    suggestTitles(query: string, options?: { lang?: string; limit?: number }): Promise<{ suggestions: WikipediaTitleSuggestion[]; warnings: string[] }>;
   }
 }
 
