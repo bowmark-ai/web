@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8deca46155298afa1295e834617693d57a9ef9c01df248f3966a88907f841bb5
-# 60 capabilities, 445 providers, 1189 typed functions, 20 refused.
+# Manifest version: 2615dc1ac0cff24f17738afaf4c98cbe66dbed674dcb535101b1e507f0e1c40e
+# 60 capabilities, 445 providers, 1190 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -12945,6 +12945,22 @@ class Prv_lululemon_LululemonSimilarProducts_Out(TypedDict):
     products: list[Prv_lululemon_LululemonRow_Out]
     totalRanked: float | None
     warnings: list[str]
+
+class Prv_lululemon_getReviews_query_In(TypedDict):
+    productId: str
+
+class Prv_lululemon_getReviews_return_Out(TypedDict):
+    reviews: list[Prv_lululemon_LululemonReview_Out]
+    warnings: list[str]
+
+class Prv_lululemon_LululemonReview_Out(TypedDict):
+    rating: float
+    title: str
+    body: str
+    helpfulCount: float
+    date: str
+    reviewerName: str | None
+    sizeAndFit: str | None
 
 class Prv_maersk_MaerskTrackingResult_Out(TypedDict):
     trackingNumber: str
@@ -29120,6 +29136,15 @@ class Prv_lululemon(Protocol):
         surface the same garment in another length: measured on the Align 25" pant, none of the
         six recommended rows was a sibling inseam even though the sitemap carries them, so
         reaching another length is a `search`.
+        """
+
+    async def getReviews(self, query: Prv_lululemon_getReviews_query_In, /) -> Prv_lululemon_getReviews_return_Out:
+        """Reads the customer reviews on one product — rating, title, body, number of helpful
+        votes, date, the reviewer's screen name and (when the review carries it) the size they
+        say they bought — the way the review section of its product page does. Reviews live on
+        Bazaarvoice, a third party, keyed off the `reviewsId` slug lululemon's own product door
+        publishes; a product with no reviewsId, or a Bazaarvoice call that fails, comes back
+        with an empty `reviews` and a `warnings` entry naming why rather than throwing.
         """
 
 class Prv_maersk(Protocol):

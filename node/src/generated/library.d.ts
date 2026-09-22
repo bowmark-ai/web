@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8deca46155298afa1295e834617693d57a9ef9c01df248f3966a88907f841bb5
-// 60 capabilities, 445 providers, 1207 typed functions, 20 refused.
+// Manifest version: 2615dc1ac0cff24f17738afaf4c98cbe66dbed674dcb535101b1e507f0e1c40e
+// 60 capabilities, 445 providers, 1208 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -24418,6 +24418,23 @@ interface LululemonSimilarProducts {
   totalRanked: number | null;
   warnings: string[];
 }
+/** One review on a product, as lululemon's Bazaarvoice-hosted review section
+ * publishes it. */
+interface LululemonReview {
+  /** The reviewer's rating, 1-5. */
+  rating: number;
+  title: string;
+  body: string;
+  /** How many people marked this review helpful. */
+  helpfulCount: number;
+  /** ISO 8601. */
+  date: string;
+  /** The reviewer's screen name — null when Bazaarvoice publishes none. */
+  reviewerName: string | null;
+  /** The size the reviewer says they purchased, when the review carries that
+   * field. Null on a review that answered no size question. */
+  sizeAndFit: string | null;
+}
 
   /**
    * lululemon's athletic apparel catalogue — search it, and read one product's full
@@ -24486,6 +24503,16 @@ interface LululemonSimilarProducts {
      * is a `search`.
      */
     getSimilarProducts(query: { productId: string; limit?: number }): Promise<LululemonSimilarProducts>;
+
+    /**
+     * Reads the customer reviews on one product — rating, title, body, number of helpful votes,
+     * date, the reviewer's screen name and (when the review carries it) the size they say they
+     * bought — the way the review section of its product page does. Reviews live on Bazaarvoice, a
+     * third party, keyed off the `reviewsId` slug lululemon's own product door publishes; a
+     * product with no reviewsId, or a Bazaarvoice call that fails, comes back with an empty
+     * `reviews` and a `warnings` entry naming why rather than throwing.
+     */
+    getReviews(query: { productId: string }): Promise<{ reviews: LululemonReview[]; warnings: string[] }>;
   }
 }
 
