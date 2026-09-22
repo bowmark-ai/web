@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: abe29f5f7068260f4bb24d46a0d73a8842cfeedd6bd861b7112f8ce8a5e14b88
-# 60 capabilities, 447 providers, 1203 typed functions, 20 refused.
+# Manifest version: fc58da52ea6990a51acb508981cf0ff9d41c62a78d13feb6e7d7b7efc0c36cab
+# 60 capabilities, 447 providers, 1204 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19405,6 +19405,30 @@ class Prv_wikipedia_WikipediaTitleSuggestion_Out(TypedDict):
     url: str
     description: str
 
+class Prv_wikipedia_getArticle_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_WikipediaArticle_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    description: str
+    extract: str
+    thumbnail: NotRequired[Prv_wikipedia_WikipediaArticle_Out_thumbnail_Out]
+    coordinates: NotRequired[Prv_wikipedia_WikipediaArticle_Out_coordinates_Out]
+    revisionId: float
+    lastModified: str
+    length: float
+
+class Prv_wikipedia_WikipediaArticle_Out_thumbnail_Out(TypedDict):
+    url: str
+    width: float
+    height: float
+
+class Prv_wikipedia_WikipediaArticle_Out_coordinates_Out(TypedDict):
+    lat: float
+    lon: float
+
 class Prv_winestyles_WinestylesStore_Out(TypedDict):
     storeId: str
     city: str
@@ -33775,6 +33799,14 @@ class Prv_wikipedia(Protocol):
         """Autocomplete a partial title the way Wikipedia's search box does as you type — hand it a
         prefix and get back the article titles it would offer, each with its url and short
         description.
+        """
+
+    async def getArticle(self, titleOrUrl: str, options: Prv_wikipedia_getArticle_options_In | None = None, /) -> Prv_wikipedia_WikipediaArticle_Out:
+        """The whole article as an agent wants to read it: title, Wikipedia's own short
+        description, the full body as plain text with the markup gone, the canonical url, the
+        lead image, coordinates when the subject is a place, the page id, and the id and
+        timestamp of the revision the text came from. Takes an article title OR any
+        wikipedia.org url and follows the site's own redirects.
         """
 
 class Prv_winestyles(Protocol):

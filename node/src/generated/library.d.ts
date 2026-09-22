@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: abe29f5f7068260f4bb24d46a0d73a8842cfeedd6bd861b7112f8ce8a5e14b88
-// 60 capabilities, 447 providers, 1221 typed functions, 20 refused.
+// Manifest version: fc58da52ea6990a51acb508981cf0ff9d41c62a78d13feb6e7d7b7efc0c36cab
+// 60 capabilities, 447 providers, 1222 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36444,6 +36444,20 @@ interface WikipediaArticle {
   id: number;
   title: string;
   url: string;
+  description: string;
+  extract: string;
+  thumbnail?: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  coordinates?: {
+    lat: number;
+    lon: number;
+  };
+  revisionId: number;
+  lastModified: string;
+  length: number;
 }
 
 interface WikipediaSearchResult {
@@ -36484,6 +36498,15 @@ interface WikipediaTitleSuggestion {
      * description.
      */
     suggestTitles(query: string, options?: { lang?: string; limit?: number }): Promise<{ suggestions: WikipediaTitleSuggestion[]; warnings: string[] }>;
+
+    /**
+     * The whole article as an agent wants to read it: title, Wikipedia's own short description,
+     * the full body as plain text with the markup gone, the canonical url, the lead image,
+     * coordinates when the subject is a place, the page id, and the id and timestamp of the
+     * revision the text came from. Takes an article title OR any wikipedia.org url and follows the
+     * site's own redirects.
+     */
+    getArticle(titleOrUrl: string, options?: { lang?: string }): Promise<WikipediaArticle>;
   }
 }
 
