@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7c86d039199d326c2fdd53f33092845cf00b5c395d1bebf60536e05a6d1a2de3
-// 60 capabilities, 445 providers, 1206 typed functions, 20 refused.
+// Manifest version: 8deca46155298afa1295e834617693d57a9ef9c01df248f3966a88907f841bb5
+// 60 capabilities, 445 providers, 1207 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1964,9 +1964,12 @@ interface municipal_recreation_feesResult {
   warnings: string[];
 }
 
-  /** Get annual recreation centre membership fees from New Brunswick municipalities. */
+  /** Annual recreation centre membership fees for Canadian municipalities. */
   interface Unit {
-    /** Returns annual recreation centre membership fees for a New Brunswick municipality */
+    /**
+     * Retrieves annual recreation centre membership fees (adult and family passes) for a
+     * municipality.
+     */
     getFeeSchedule(municipality: string): Promise<municipal_recreation_feesResult>;
   }
 }
@@ -36344,6 +36347,21 @@ interface YahooFinanceMarketSummary {
   mostActive: YahooFinanceMover[];
 }
 
+interface YahooFinancePriceBar {
+  date: string;                 // ISO date "YYYY-MM-DD"
+  open: number | null;
+  high: number | null;
+  low: number | null;
+  close: number | null;
+  volume: number | null;
+  adjClose: number | null;
+}
+
+interface YahooFinanceHistoricalPrices {
+  symbol: string;
+  prices: YahooFinancePriceBar[];
+}
+
   /**
    * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
    * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
@@ -36390,6 +36408,15 @@ interface YahooFinanceMarketSummary {
      * ticker's.
      */
     getMarketSummary(): Promise<YahooFinanceMarketSummary>;
+
+    /**
+     * Reads a ticker's daily open/high/low/close/volume history over a requested range (default:
+     * last 5 days), the way the site's own History tab does — the raw table an agent would
+     * otherwise have to read off a chart. Returns one row per date with OHLCV (open, high, low,
+     * close, volume) data, plus adjusted close. An unknown or empty ticker throws before any
+     * request is sent.
+     */
+    getHistoricalPrices(symbol: string): Promise<YahooFinanceHistoricalPrices>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7c86d039199d326c2fdd53f33092845cf00b5c395d1bebf60536e05a6d1a2de3
-# 60 capabilities, 445 providers, 1188 typed functions, 20 refused.
+# Manifest version: 8deca46155298afa1295e834617693d57a9ef9c01df248f3966a88907f841bb5
+# 60 capabilities, 445 providers, 1189 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19297,6 +19297,19 @@ class Prv_yahoo_finance_YahooFinanceMover_Out(TypedDict):
     marketCap: str | None
     volume: float | None
 
+class Prv_yahoo_finance_YahooFinanceHistoricalPrices_Out(TypedDict):
+    symbol: str
+    prices: list[Prv_yahoo_finance_YahooFinancePriceBar_Out]
+
+class Prv_yahoo_finance_YahooFinancePriceBar_Out(TypedDict):
+    date: str
+    open: float | None
+    high: float | None
+    low: float | None
+    close: float | None
+    volume: float | None
+    adjClose: float | None
+
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
 
@@ -20604,10 +20617,12 @@ class Cap_mcp_registry(Protocol):
         """
 
 class Cap_municipal_recreation_fees(Protocol):
-    """Get annual recreation centre membership fees from New Brunswick municipalities."""
+    """Annual recreation centre membership fees for Canadian municipalities."""
 
     async def getFeeSchedule(self, municipality: str, /) -> Cap_municipal_recreation_fees_municipal_recreation_feesResult_Out:
-        """Returns annual recreation centre membership fees for a New Brunswick municipality"""
+        """Retrieves annual recreation centre membership fees (adult and family passes) for a
+        municipality.
+        """
 
 class Cap_music(Protocol):
     """Search a music catalogue by artist, title, genre or mood and get back normalized tracks
@@ -33509,6 +33524,14 @@ class Prv_yahoo_finance(Protocol):
         crude oil have all been observed), and the top day gainers, day losers and most-active
         stocks the site's own predefined screeners rank. No arguments: this is the market's
         current state, not one ticker's.
+        """
+
+    async def getHistoricalPrices(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceHistoricalPrices_Out:
+        """Reads a ticker's daily open/high/low/close/volume history over a requested range
+        (default: last 5 days), the way the site's own History tab does — the raw table an agent
+        would otherwise have to read off a chart. Returns one row per date with OHLCV (open,
+        high, low, close, volume) data, plus adjusted close. An unknown or empty ticker throws
+        before any request is sent.
         """
 
 class Prv_yahoo_sports(Protocol):

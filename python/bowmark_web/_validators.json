@@ -1,5 +1,5 @@
 {
-  "version": "7c86d039199d326c2fdd53f33092845cf00b5c395d1bebf60536e05a6d1a2de3",
+  "version": "8deca46155298afa1295e834617693d57a9ef9c01df248f3966a88907f841bb5",
   "units": {
     "booking_links": {
       "defs": {
@@ -34449,7 +34449,16 @@
           }
         ],
         "getTrendingTickers": [],
-        "getMarketSummary": []
+        "getMarketSummary": [],
+        "getHistoricalPrices": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.yahoo_sports": {
