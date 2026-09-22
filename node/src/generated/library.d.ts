@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: beda1e40897570cbcb65a9caaa1ce0e767efc861bc31f02d32d38135428cbb0c
-// 60 capabilities, 444 providers, 1205 typed functions, 20 refused.
+// Manifest version: 8db92416afafa4edd249cddbc877e57b4fec42b3ade72e91c1d4345961d82c08
+// 60 capabilities, 445 providers, 1206 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8785,6 +8785,31 @@ interface BmwusaModelListing {
      * appear in the result with null MSRPs and null body style rather than dropping the model.
      */
     listModels(): Promise<BmwusaModelListing[]>;
+  }
+}
+
+declare namespace BowmarkProvider_bodacc {
+  // ── BODACC — Bulletin officiel des annonces civiles et commerciales — the unit's own declarations, verbatim ──
+interface SearchArgs {
+  sirens?: string | string[];
+  companyName?: string;
+  since?: string;
+}
+
+interface BodaccNotice {
+  noticeType: string;
+  companyName: string;
+  siren: string;
+  datePublished: string;
+}
+
+  /** Search BODACC insolvency legal notices by company name or SIREN. */
+  interface Unit {
+    /**
+     * Returns BODACC insolvency notices (redressement judiciaire, liquidation judiciaire,
+     * sauvegarde)
+     */
+    search(args: SearchArgs): Promise<{ notices: BodaccNotice[] }>;
   }
 }
 
@@ -38214,6 +38239,7 @@ interface BowmarkProviders {
   blueribbonhomewarranty_com: BowmarkProvider_blueribbonhomewarranty_com.Unit;
   bluesignal: BowmarkProvider_bluesignal.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
+  bodacc: BowmarkProvider_bodacc.Unit;
   boglewinery: BowmarkProvider_boglewinery.Unit;
   bollandbranch: BowmarkProvider_bollandbranch.Unit;
   borsheims: BowmarkProvider_borsheims.Unit;

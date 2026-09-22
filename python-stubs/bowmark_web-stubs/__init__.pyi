@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: beda1e40897570cbcb65a9caaa1ce0e767efc861bc31f02d32d38135428cbb0c
-# 60 capabilities, 444 providers, 1187 typed functions, 20 refused.
+# Manifest version: 8db92416afafa4edd249cddbc877e57b4fec42b3ade72e91c1d4345961d82c08
+# 60 capabilities, 445 providers, 1188 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4843,6 +4843,20 @@ class Prv_bmwusa_BmwusaModelListing_Out(TypedDict):
     msrpFrom: float | None
     msrpTo: float | None
     trimCount: float
+
+class Prv_bodacc_SearchArgs_In(TypedDict):
+    sirens: NotRequired[str | Sequence[str]]
+    companyName: NotRequired[str]
+    since: NotRequired[str]
+
+class Prv_bodacc_search_return_Out(TypedDict):
+    notices: list[Prv_bodacc_BodaccNotice_Out]
+
+class Prv_bodacc_BodaccNotice_Out(TypedDict):
+    noticeType: str
+    companyName: str
+    siren: str
+    datePublished: str
 
 class Prv_boglewinery_BoglewineryExperience_Out(TypedDict):
     id: float
@@ -23204,6 +23218,14 @@ class Prv_bmwusa(Protocol):
         body style rather than dropping the model.
         """
 
+class Prv_bodacc(Protocol):
+    """Search BODACC insolvency legal notices by company name or SIREN."""
+
+    async def search(self, args: Prv_bodacc_SearchArgs_In, /) -> Prv_bodacc_search_return_Out:
+        """Returns BODACC insolvency notices (redressement judiciaire, liquidation judiciaire,
+        sauvegarde)
+        """
+
 class Prv_boglewinery(Protocol):
     """Bogle Family Vineyards' real Tock tasting-experience catalog and the computed open
     dates/times for one — the same booking calendar Tock's own widget reads before showing
@@ -33951,6 +33973,7 @@ class BowmarkProviders(Protocol):
     blueribbonhomewarranty_com: Prv_blueribbonhomewarranty_com
     bluesignal: Prv_bluesignal
     bmwusa: Prv_bmwusa
+    bodacc: Prv_bodacc
     boglewinery: Prv_boglewinery
     bollandbranch: Prv_bollandbranch
     borsheims: Prv_borsheims

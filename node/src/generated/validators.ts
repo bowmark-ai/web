@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: beda1e40897570cbcb65a9caaa1ce0e767efc861bc31f02d32d38135428cbb0c
-// 1187 checked, 20 unchecked.
+// Manifest version: 8db92416afafa4edd249cddbc877e57b4fec42b3ade72e91c1d4345961d82c08
+// 1188 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "beda1e40897570cbcb65a9caaa1ce0e767efc861bc31f02d32d38135428cbb0c",
+  "version": "8db92416afafa4edd249cddbc877e57b4fec42b3ade72e91c1d4345961d82c08",
   "units": {
     "booking_links": {
       "defs": {
@@ -8452,6 +8452,59 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listModels": []
+      }
+    },
+    "providers.bodacc": {
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sirens",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "companyName",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "since",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.boglewinery": {
