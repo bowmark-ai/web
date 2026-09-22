@@ -225,7 +225,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bing.saveResult` | bing.com | Adds a page, search or image to the signed-in caller's Bing Collections — the write… | ⚪ |
 | `bing.searchImages` | bing.com | Searches Bing's image index the way bing.com/images/search does and returns each hit's… | 🟢 |
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟢 |
-| `bing.searchShopping` | bing.com | Searches Bing Shopping the way bing.com/shop does and returns each product's title… | ⚪ |
+| `bing.searchShopping` | bing.com | Searches Bing Shopping the way bing.com/shop does and returns each product's title… | 🟢 |
 | `bing.searchVideos` | bing.com | Searches Bing's video index the way bing.com/videos/search does and returns each hit's… | 🟢 |
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🟡 |
 | `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |
