@@ -1,5 +1,5 @@
 {
-  "version": "8e8e33ebfcda52d5fc55ac45e8c7e2123eba85cafa9c498a181a308912c2dea4",
+  "version": "abe29f5f7068260f4bb24d46a0d73a8842cfeedd6bd861b7112f8ce8a5e14b88",
   "units": {
     "booking_links": {
       "defs": {
@@ -32655,6 +32655,18 @@
               "optional": false
             }
           ]
+        },
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -32664,6 +32676,16 @@
             "schema": {
               "k": "ref",
               "name": "GetProfileArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
             },
             "optional": false
           }

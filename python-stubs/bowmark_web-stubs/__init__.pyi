@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8e8e33ebfcda52d5fc55ac45e8c7e2123eba85cafa9c498a181a308912c2dea4
-# 60 capabilities, 447 providers, 1202 typed functions, 20 refused.
+# Manifest version: abe29f5f7068260f4bb24d46a0d73a8842cfeedd6bd861b7112f8ce8a5e14b88
+# 60 capabilities, 447 providers, 1203 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -18097,6 +18097,42 @@ class Prv_tiktok_tiktokProfile_Out(TypedDict):
     videoCount: float
     heartCount: float
 
+class Prv_tiktok_GetVideoArgs_In(TypedDict):
+    video: str
+
+class Prv_tiktok_tiktokVideo_Out(TypedDict):
+    id: str
+    caption: str
+    hashtags: list[str]
+    createTime: float
+    duration: float
+    stats: Prv_tiktok_tiktokVideo_Out_stats_Out
+    author: Prv_tiktok_tiktokVideo_Out_author_Out
+    music: Prv_tiktok_tiktokVideo_Out_music_Out
+    playAddr: NotRequired[str]
+    duetEnabled: bool
+    stitchEnabled: bool
+
+class Prv_tiktok_tiktokVideo_Out_stats_Out(TypedDict):
+    playCount: float
+    diggCount: float
+    commentCount: float
+    shareCount: float
+    collectCount: float
+
+class Prv_tiktok_tiktokVideo_Out_author_Out(TypedDict):
+    id: str
+    uniqueId: str
+    nickname: str
+    followerCount: float
+    heartCount: float
+    videoCount: float
+
+class Prv_tiktok_tiktokVideo_Out_music_Out(TypedDict):
+    id: str
+    title: str
+    playUrl: NotRequired[str]
+
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
     name: str
@@ -32958,6 +32994,14 @@ class Prv_tiktok(Protocol):
         """A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId
         (handle), nickname, bio, secUid, verified and private flags, avatar, bioLink, and stats
         (follower, following, video and heart counts).
+        """
+
+    async def getVideo(self, args: Prv_tiktok_GetVideoArgs_In, /) -> Prv_tiktok_tiktokVideo_Out:
+        """One video's own facts, off the watch page's embedded state: caption, hashtags, create
+        time, duration, the full stats block (plays, likes, comments, shares, saves), the
+        uploading author and their stats (follower/heart/video counts), the music track, and
+        playAddr. Takes a `/@<handle>/video/<id>` URL or a bare numeric video id — the id alone
+        is enough, since the page renders off a placeholder handle segment.
         """
 
 class Prv_tilsonhomes(Protocol):

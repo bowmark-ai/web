@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8e8e33ebfcda52d5fc55ac45e8c7e2123eba85cafa9c498a181a308912c2dea4
-// 60 capabilities, 447 providers, 1220 typed functions, 20 refused.
+// Manifest version: abe29f5f7068260f4bb24d46a0d73a8842cfeedd6bd861b7112f8ce8a5e14b88
+// 60 capabilities, 447 providers, 1221 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -34307,6 +34307,39 @@ interface tiktokProfile {
 interface GetProfileArgs {
   username: string;
 }
+interface tiktokVideo {
+  id: string;
+  caption: string;
+  hashtags: string[];
+  createTime: number;
+  duration: number;
+  stats: {
+    playCount: number;
+    diggCount: number;
+    commentCount: number;
+    shareCount: number;
+    collectCount: number;
+  };
+  author: {
+    id: string;
+    uniqueId: string;
+    nickname: string;
+    followerCount: number;
+    heartCount: number;
+    videoCount: number;
+  };
+  music: {
+    id: string;
+    title: string;
+    playUrl?: string;
+  };
+  playAddr?: string;
+  duetEnabled: boolean;
+  stitchEnabled: boolean;
+}
+interface GetVideoArgs {
+  video: string;
+}
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -34319,6 +34352,15 @@ interface GetProfileArgs {
      * following, video and heart counts).
      */
     getProfile(args: GetProfileArgs): Promise<tiktokProfile>;
+
+    /**
+     * One video's own facts, off the watch page's embedded state: caption, hashtags, create time,
+     * duration, the full stats block (plays, likes, comments, shares, saves), the uploading author
+     * and their stats (follower/heart/video counts), the music track, and playAddr. Takes a
+     * `/@<handle>/video/<id>` URL or a bare numeric video id — the id alone is enough, since the
+     * page renders off a placeholder handle segment.
+     */
+    getVideo(args: GetVideoArgs): Promise<tiktokVideo>;
   }
 }
 
