@@ -55,7 +55,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `local_html_preview.render` | Parses supplied HTML (a local file's contents, or a fragment) and returns a structured… | 0 | 🟢 |
 | `mac_trade_in.estimate` | Get the Apple Trade In credit value for a Mac model, with optional specs. | 1 | 🟢 |
 | `mcp_registry.search` | Lists or searches the official MCP server registry (registry.modelcontextprotocol.io)… | 1 | 🟢 |
-| `municipal_recreation_fees.getFeeSchedule` | Returns annual recreation centre membership fees for a New Brunswick municipality | 1 | 🟢 |
+| `municipal_recreation_fees.getFeeSchedule` | Retrieves annual recreation centre membership fees (adult and family passes) for a… | 1 | 🟢 |
 | `music.getTrack` | Reads ONE track you already have a URL for — a public track link, or a `Track` that… | 1 | 🟢 |
 | `music.search` | Searches the catalogue for tracks matching free text ("aphex twin", "lofi hip hop"… | 1 | 🟢 |
 | `pcparts.getProduct` | Reads ONE product page in full — pass a product URL or an offer straight from… | 3 | 🟡 |
