@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 52707dd13c4a12fd25c1d8a5e0f2b4a31929463ae3d1e56ff4f12f9717ba70f4
-// 60 capabilities, 448 providers, 1224 typed functions, 20 refused.
+// Manifest version: 87544a935122d5590214cfdadd4d4033428f3d6c688bad948782d6fc9572f202
+// 60 capabilities, 448 providers, 1225 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -36737,6 +36737,26 @@ interface YahooFinanceNews {
   stories: YahooFinanceNewsStory[];
 }
 
+interface YahooFinanceHoldersBreakdownRow {
+  label: string;               // Yahoo's own wording, "% of Shares Held by All Insider"
+  value: string | null;        // kept as the site renders, "1.65%" or "7,760"
+}
+
+interface YahooFinanceHolderRow {
+  holder: string;
+  shares: string | null;       // "1.16B" — kept as the site renders
+  dateReported: string | null; // "Jun 30, 2026"
+  percentOut: string | null;   // "7.97%"
+  value: string | null;        // "394,232,715,159" — dollar value, kept as a string
+}
+
+interface YahooFinanceHolders {
+  symbol: string;
+  breakdown: YahooFinanceHoldersBreakdownRow[];
+  topInstitutionalHolders: YahooFinanceHolderRow[];
+  topMutualFundHolders: YahooFinanceHolderRow[];
+}
+
   /**
    * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
    * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
@@ -36814,6 +36834,17 @@ interface YahooFinanceNews {
      * throws before any request is sent.
      */
     getNews(symbol: string): Promise<YahooFinanceNews>;
+
+    /**
+     * Reads who owns a ticker the way the site's own Holders tab does: the insider/institution
+     * ownership breakdown (percent held by insiders, percent and count held by institutions —
+     * Yahoo's own metric wording, kept as it renders), the top institutional holders and the top
+     * mutual-fund holders, each row with the holder's name, shares held, the date that holding was
+     * reported, percent of shares outstanding, and dollar value. A section renders empty when
+     * Yahoo Finance has no holders data for this ticker (a very new or thinly-covered listing),
+     * not a throw. An unknown or empty ticker throws before any request is sent.
+     */
+    getHolders(symbol: string): Promise<YahooFinanceHolders>;
   }
 }
 

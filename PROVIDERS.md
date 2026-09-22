@@ -1792,7 +1792,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | ⚪ |
 | `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | ⚪ |
 | `yahoo_finance.getHistoricalPrices` | finance.yahoo.com | Reads a ticker's daily open/high/low/close/volume history over a requested range, the… | 🟢 |
-| `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | ⚪ |
+| `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | 🟢 |
 | `yahoo_finance.getKeyStatistics` | finance.yahoo.com | Reads the fuller valuation and share-statistics sheet the site's own Statistics tab… | ⚪ |
 | `yahoo_finance.getMarketSummary` | finance.yahoo.com | Reads the market-wide overview the site's own Markets home shows — the major indices… | 🟢 |
 | `yahoo_finance.getNews` | finance.yahoo.com | Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —… | 🟢 |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 52707dd13c4a12fd25c1d8a5e0f2b4a31929463ae3d1e56ff4f12f9717ba70f4
-# 60 capabilities, 448 providers, 1206 typed functions, 20 refused.
+# Manifest version: 87544a935122d5590214cfdadd4d4033428f3d6c688bad948782d6fc9572f202
+# 60 capabilities, 448 providers, 1207 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19571,6 +19571,23 @@ class Prv_yahoo_finance_YahooFinanceNewsStory_Out(TypedDict):
     published: str | None
     tickers: list[str]
 
+class Prv_yahoo_finance_YahooFinanceHolders_Out(TypedDict):
+    symbol: str
+    breakdown: list[Prv_yahoo_finance_YahooFinanceHoldersBreakdownRow_Out]
+    topInstitutionalHolders: list[Prv_yahoo_finance_YahooFinanceHolderRow_Out]
+    topMutualFundHolders: list[Prv_yahoo_finance_YahooFinanceHolderRow_Out]
+
+class Prv_yahoo_finance_YahooFinanceHoldersBreakdownRow_Out(TypedDict):
+    label: str
+    value: str | None
+
+class Prv_yahoo_finance_YahooFinanceHolderRow_Out(TypedDict):
+    holder: str
+    shares: str | None
+    dateReported: str | None
+    percentOut: str | None
+    value: str | None
+
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
 
@@ -33940,6 +33957,17 @@ class Prv_yahoo_finance(Protocol):
         story is tagged with, which is often more than the one asked about. A ticker with no
         recent coverage answers an empty story list, an honest empty result rather than a throw.
         An unknown or empty ticker throws before any request is sent.
+        """
+
+    async def getHolders(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceHolders_Out:
+        """Reads who owns a ticker the way the site's own Holders tab does: the insider/institution
+        ownership breakdown (percent held by insiders, percent and count held by institutions —
+        Yahoo's own metric wording, kept as it renders), the top institutional holders and the
+        top mutual-fund holders, each row with the holder's name, shares held, the date that
+        holding was reported, percent of shares outstanding, and dollar value. A section renders
+        empty when Yahoo Finance has no holders data for this ticker (a very new or
+        thinly-covered listing), not a throw. An unknown or empty ticker throws before any
+        request is sent.
         """
 
 class Prv_yahoo_sports(Protocol):
