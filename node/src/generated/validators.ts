@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 44ca9f3b263034be1aed85883c00a1d3d31e75f183b7b51053f186e4dc3f9e11
-// 1193 checked, 20 unchecked.
+// Manifest version: 1b61e0eed3852943921b5e17812b2d2094f607bbba571e79d2ff5f80a8dcc93b
+// 1197 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "44ca9f3b263034be1aed85883c00a1d3d31e75f183b7b51053f186e4dc3f9e11",
+  "version": "1b61e0eed3852943921b5e17812b2d2094f607bbba571e79d2ff5f80a8dcc93b",
   "units": {
     "booking_links": {
       "defs": {
@@ -15549,6 +15549,22 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GithubListReleasesOptions"
             },
             "optional": true
+          }
+        ],
+        "getRepo": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ],
         "getProfileReadme": [
@@ -32492,6 +32508,34 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.tiktok": {
+      "defs": {
+        "GetProfileArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getProfile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProfileArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.tilsonhomes": {
       "defs": {},
       "functions": {
@@ -34549,11 +34593,65 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getAnalystEstimates": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
     "providers.yahoo_sports": {
       "defs": {
+        "GetScheduleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "teamSlug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetScoreboardArgs": {
           "k": "object",
           "props": [
@@ -34648,6 +34746,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetStandingsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSchedule": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetScheduleArgs"
             },
             "optional": false
           }

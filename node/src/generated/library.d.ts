@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 44ca9f3b263034be1aed85883c00a1d3d31e75f183b7b51053f186e4dc3f9e11
-// 60 capabilities, 446 providers, 1211 typed functions, 20 refused.
+// Manifest version: 1b61e0eed3852943921b5e17812b2d2094f607bbba571e79d2ff5f80a8dcc93b
+// 60 capabilities, 447 providers, 1215 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17038,15 +17038,29 @@ interface GithubListReleasesResult {
   warnings: string[];
 }
 
+interface GithubRepository {
+  name: string;
+  description: string | null;
+  defaultBranch: string;
+  stars: number;
+  forks: number;
+  openIssues: number;
+  language: string | null;
+  license: string | null;
+  homepage: string | null;
+  createdAt: string;
+  updatedAt: string;
+  url: string;
+}
 interface GithubProfileReadme {
   login: string;
   name: string | null;
   company: string | null;
-  blog: string | null;            // the website they list on their profile
+  blog: string | null;
   bio: string | null;
   twitterUsername: string | null;
   profileUrl: string;
-  readme: string | null;          // the profile README's raw markdown; null when they have none
+  readme: string | null;
   readmeUrl: string | null;
   warnings: string[];
 }
@@ -17054,7 +17068,8 @@ interface GithubProfileReadme {
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
    * message), paged and windowed; a public repo's release history (tag, name, dates, release
-   * notes text), paged. Declared, not yet built: repo metadata (getRepo).
+   * notes text), paged; a public repo's metadata (name, description, stars, forks, language,
+   * license, homepage); a profile's README and metadata.
    */
   interface Unit {
     /**
@@ -17082,6 +17097,15 @@ interface GithubProfileReadme {
      * `releases: []`, not a throw.
      */
     listReleases(owner: string, repo: string, options?: GithubListReleasesOptions): Promise<GithubListReleasesResult>;
+
+    /**
+     * Returns a public repository's own metadata — its full name, description, default branch,
+     * star/fork/open-issue counts, primary language, license (if declared), homepage URL (if
+     * declared), and creation/update timestamps. Off GitHub's own documented unauthenticated REST
+     * repos endpoint. Takes an owner and repo name, or a github.com URL. THROWS on an unknown
+     * owner/repo (404) or a rate limit (403/429).
+     */
+    getRepo(owner: string, repo: string): Promise<GithubRepository>;
 
     /**
      * Reads a person's own GitHub profile — display name, company, the website they list, bio, X
@@ -34188,6 +34212,41 @@ interface SearchResult {
   }
 }
 
+declare namespace BowmarkProvider_tiktok {
+  // ── TikTok — the unit's own declarations, verbatim ──
+interface tiktokProfile {
+  id: string;
+  uniqueId: string;
+  nickname: string;
+  signature: string;
+  verified: boolean;
+  privateAccount: boolean;
+  secUid: string;
+  avatar?: string;
+  bioLink?: string;
+  followerCount: number;
+  followingCount: number;
+  videoCount: number;
+  heartCount: number;
+}
+interface GetProfileArgs {
+  username: string;
+}
+
+  /**
+   * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
+   * login, no browser.
+   */
+  interface Unit {
+    /**
+     * A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId (handle),
+     * nickname, bio, secUid, verified and private flags, avatar, bioLink, and stats (follower,
+     * following, video and heart counts).
+     */
+    getProfile(args: GetProfileArgs): Promise<tiktokProfile>;
+  }
+}
+
 declare namespace BowmarkProvider_tilsonhomes {
   // ── Tilson Homes — the unit's own declarations, verbatim ──
 interface TilsonhomesPlan {
@@ -36468,6 +36527,27 @@ interface YahooFinanceHistoricalPrices {
   prices: YahooFinancePriceBar[];
 }
 
+interface YahooFinanceEstimateColumn {
+  key: string;                  // Yahoo's own code: "0q" | "+1q" | "0y" | "+1y"
+  label: string;                // "Current Qtr. (Sep 2026)"
+}
+
+interface YahooFinanceEstimateRow {
+  label: string;                // "No. of Analysts", "Avg. Estimate", "Low Estimate", "High Estimate", …
+  values: Record<string, string | null>;  // keyed by column key, kept as the site renders ("113.62B", "27", "8.82")
+}
+
+interface YahooFinanceEstimateTable {
+  columns: YahooFinanceEstimateColumn[];
+  rows: YahooFinanceEstimateRow[];
+}
+
+interface YahooFinanceAnalystEstimates {
+  symbol: string;
+  revenueEstimate: YahooFinanceEstimateTable | null;
+  earningsEstimate: YahooFinanceEstimateTable | null;
+}
+
   /**
    * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
    * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
@@ -36523,6 +36603,18 @@ interface YahooFinanceHistoricalPrices {
      * request is sent.
      */
     getHistoricalPrices(symbol: string): Promise<YahooFinanceHistoricalPrices>;
+
+    /**
+     * Reads Wall Street's consensus numbers for a ticker the way the site's own Analysis tab
+     * presents them: the Revenue Estimate and Earnings Estimate tables, each with one row per
+     * metric ("No. of Analysts", "Avg. Estimate", "Low Estimate", "High Estimate", and for
+     * revenue, "Year Ago Sales") and one column per period (current quarter, next quarter, current
+     * year, next year). Values are kept as the site renders them ("113.62B", "8.82") since revenue
+     * and EPS are different units. A section is null when Yahoo Finance rendered no analyst
+     * coverage for this ticker, not an empty table. An unknown or empty ticker throws before any
+     * request is sent.
+     */
+    getAnalystEstimates(symbol: string): Promise<YahooFinanceAnalystEstimates>;
   }
 }
 
@@ -36553,12 +36645,26 @@ interface YahooSportsStandingsRow {
   pointsDifferential: number;
 }
 
+interface YahooSportsScheduleRow {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  opponent: string;
+  date: string;
+  result: "W" | "L" | null;
+  score: string | null;
+  isHome: boolean;
+}
+
 interface GetScoreboardArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
 }
 
 interface GetStandingsArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+}
+
+interface GetScheduleArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  teamSlug: string;
 }
 
   /**
@@ -36579,6 +36685,12 @@ interface GetStandingsArgs {
      * team's wins, losses, ties, win percentage, points for/against and point differential.
      */
     getStandings(args: GetStandingsArgs): Promise<YahooSportsStandingsRow[]>;
+
+    /**
+     * Reads one team's full schedule for the season off Yahoo Sports' own Schedule page — every
+     * game, opponent, date and result if played. Takes league and team slug.
+     */
+    getSchedule(args: GetScheduleArgs): Promise<YahooSportsScheduleRow[]>;
   }
 }
 
@@ -38705,6 +38817,7 @@ interface BowmarkProviders {
   thezebra: BowmarkProvider_thezebra.Unit;
   thibautdesign: BowmarkProvider_thibautdesign.Unit;
   ticketmaster_nl: BowmarkProvider_ticketmaster_nl.Unit;
+  tiktok: BowmarkProvider_tiktok.Unit;
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
   titlenine: BowmarkProvider_titlenine.Unit;
   tmobile: BowmarkProvider_tmobile.Unit;

@@ -1324,7 +1324,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listVisualObjects` | pinterest.com | The objects Pinterest's own computer vision found inside a pin's image — each with a… | ⚪ |
 | `pinterest.reactToPin` | pinterest.com | React to a pin as the caller — Pinterest's good-idea / love / thanks set, which… | ⚪ |
 | `pinterest.savePin` | pinterest.com | Save an existing pin to one of the caller's boards — the repin, which is the single… | ⚪ |
-| `pinterest.searchBoards` | pinterest.com | Search for boards rather than pins — "espresso machine" comes back as 49 boards with… | ⚪ |
+| `pinterest.searchBoards` | pinterest.com | Search for boards rather than pins — "espresso machine" comes back as 49 boards with… | 🟢 |
 | `pinterest.searchMyPins` | pinterest.com | Search only inside the caller's own saved pins — Pinterest's `my_pins` search scope… | ⚪ |
 | `pinterest.searchPins` | pinterest.com | Search Pinterest the way a person types into its search box and get the pins back… | 🟢 |
 | `pinterest.searchUsers` | pinterest.com | Search for people and brands by name and get their profiles back — the door that turns… | ⚪ |
@@ -1777,7 +1777,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.postTalkMessage` | wikipedia.org | Post a message to an article's talk page or to a user's talk page, under the caller's… | ⚪ |
 | `wikipedia.search` | wikipedia.org | Search the encyclopedia the way a person types into Wikipedia's search box, and get… | 🟢 |
 | `wikipedia.searchNearby` | wikipedia.org | Wikipedia articles about places near a point — hand it a latitude and longitude and a… | ⚪ |
-| `wikipedia.suggestTitles` | wikipedia.org | Autocomplete a partial title the way Wikipedia's search box does as you type — hand it… | ⚪ |
+| `wikipedia.suggestTitles` | wikipedia.org | Autocomplete a partial title the way Wikipedia's search box does as you type — hand it… | 🟢 |
 | `wikipedia.thankUser` | wikipedia.org | Send another editor Wikipedia's built-in "thanks" for a specific edit — a one-click… | ⚪ |
 | `wikipedia.undoRevision` | wikipedia.org | Undo one edit to an article — MediaWiki's own revert, which reverses a single revision… | ⚪ |
 | `wikipedia.unwatchPage` | wikipedia.org | Remove an article from the caller's watchlist. `POST /w/api.php?action=watch&unwatch=1`. | ⚪ |

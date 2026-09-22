@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 44ca9f3b263034be1aed85883c00a1d3d31e75f183b7b51053f186e4dc3f9e11
-# 60 capabilities, 446 providers, 1193 typed functions, 20 refused.
+# Manifest version: 1b61e0eed3852943921b5e17812b2d2094f607bbba571e79d2ff5f80a8dcc93b
+# 60 capabilities, 447 providers, 1197 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9174,6 +9174,20 @@ class Prv_github_GithubRelease_Out(TypedDict):
     notes: str
     url: str
 
+class Prv_github_GithubRepository_Out(TypedDict):
+    name: str
+    description: str | None
+    defaultBranch: str
+    stars: float
+    forks: float
+    openIssues: float
+    language: str | None
+    license: str | None
+    homepage: str | None
+    createdAt: str
+    updatedAt: str
+    url: str
+
 class Prv_github_GithubProfileReadme_Out(TypedDict):
     login: str
     name: str | None
@@ -18015,6 +18029,24 @@ class Prv_ticketmaster_nl_EventRow_Out(TypedDict):
     saleStatus: str
     url: str
 
+class Prv_tiktok_GetProfileArgs_In(TypedDict):
+    username: str
+
+class Prv_tiktok_tiktokProfile_Out(TypedDict):
+    id: str
+    uniqueId: str
+    nickname: str
+    signature: str
+    verified: bool
+    privateAccount: bool
+    secUid: str
+    avatar: NotRequired[str]
+    bioLink: NotRequired[str]
+    followerCount: float
+    followingCount: float
+    videoCount: float
+    heartCount: float
+
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
     name: str
@@ -19381,6 +19413,23 @@ class Prv_yahoo_finance_YahooFinancePriceBar_Out(TypedDict):
     volume: float | None
     adjClose: float | None
 
+class Prv_yahoo_finance_YahooFinanceAnalystEstimates_Out(TypedDict):
+    symbol: str
+    revenueEstimate: Prv_yahoo_finance_YahooFinanceEstimateTable_Out | None
+    earningsEstimate: Prv_yahoo_finance_YahooFinanceEstimateTable_Out | None
+
+class Prv_yahoo_finance_YahooFinanceEstimateTable_Out(TypedDict):
+    columns: list[Prv_yahoo_finance_YahooFinanceEstimateColumn_Out]
+    rows: list[Prv_yahoo_finance_YahooFinanceEstimateRow_Out]
+
+class Prv_yahoo_finance_YahooFinanceEstimateColumn_Out(TypedDict):
+    key: str
+    label: str
+
+class Prv_yahoo_finance_YahooFinanceEstimateRow_Out(TypedDict):
+    label: str
+    values: Mapping[str, str | None]
+
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
 
@@ -19409,6 +19458,18 @@ class Prv_yahoo_sports_YahooSportsStandingsRow_Out(TypedDict):
     pointsFor: float
     pointsAgainst: float
     pointsDifferential: float
+
+class Prv_yahoo_sports_GetScheduleArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    teamSlug: str
+
+class Prv_yahoo_sports_YahooSportsScheduleRow_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    opponent: str
+    date: str
+    result: Literal["W"] | Literal["L"] | None
+    score: str | None
+    isHome: bool
 
 class Prv_ycombinator_YCombinatorArticle_Out(TypedDict):
     id: float | None
@@ -26291,7 +26352,8 @@ class Prv_geico(Protocol):
 class Prv_github(Protocol):
     """GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
     message), paged and windowed; a public repo's release history (tag, name, dates, release
-    notes text), paged. Declared, not yet built: repo metadata (getRepo).
+    notes text), paged; a public repo's metadata (name, description, stars, forks, language,
+    license, homepage); a profile's README and metadata.
     """
 
     async def listCommits(self, owner: str, repo: str, options: Prv_github_GithubListCommitsOptions_In | None = None, /) -> Prv_github_GithubListCommitsResult_Out:
@@ -26316,6 +26378,14 @@ class Prv_github(Protocol):
         Unauthenticated calls are capped at 60 requests/hour per IP, the same shared ceiling
         `listCommits` spends against. THROWS on an unknown owner/repo (404) or a rate limit
         (403/429); a repo with no releases yet returns `releases: []`, not a throw.
+        """
+
+    async def getRepo(self, owner: str, repo: str, /) -> Prv_github_GithubRepository_Out:
+        """Returns a public repository's own metadata — its full name, description, default branch,
+        star/fork/open-issue counts, primary language, license (if declared), homepage URL (if
+        declared), and creation/update timestamps. Off GitHub's own documented unauthenticated
+        REST repos endpoint. Takes an owner and repo name, or a github.com URL. THROWS on an
+        unknown owner/repo (404) or a rate limit (403/429).
         """
 
     async def getProfileReadme(self, handle: str, /) -> Prv_github_GithubProfileReadme_Out:
@@ -32773,6 +32843,17 @@ class Prv_ticketmaster_nl(Protocol):
     async def event(self, args: Prv_ticketmaster_nl_event_args_In, /) -> Prv_ticketmaster_nl_EventRow_Out:
         """Returns the event title, venue, date, time, and availability from an event page URL."""
 
+class Prv_tiktok(Protocol):
+    """Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages —
+    no login, no browser.
+    """
+
+    async def getProfile(self, args: Prv_tiktok_GetProfileArgs_In, /) -> Prv_tiktok_tiktokProfile_Out:
+        """A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId
+        (handle), nickname, bio, secUid, verified and private flags, avatar, bioLink, and stats
+        (follower, following, video and heart counts).
+        """
+
 class Prv_tilsonhomes(Protocol):
     """Reads Tilson Homes' Build-On-Your-Land floor plan catalog and each plan's Anewgo-powered
     customizer — bed/bath/size range and exterior finish options — the way the live site's
@@ -33634,6 +33715,17 @@ class Prv_yahoo_finance(Protocol):
         before any request is sent.
         """
 
+    async def getAnalystEstimates(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceAnalystEstimates_Out:
+        """Reads Wall Street's consensus numbers for a ticker the way the site's own Analysis tab
+        presents them: the Revenue Estimate and Earnings Estimate tables, each with one row per
+        metric ("No. of Analysts", "Avg. Estimate", "Low Estimate", "High Estimate", and for
+        revenue, "Year Ago Sales") and one column per period (current quarter, next quarter,
+        current year, next year). Values are kept as the site renders them ("113.62B", "8.82")
+        since revenue and EPS are different units. A section is null when Yahoo Finance rendered
+        no analyst coverage for this ticker, not an empty table. An unknown or empty ticker
+        throws before any request is sent.
+        """
+
 class Prv_yahoo_sports(Protocol):
     """Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages —
     off the site's own server-rendered schema.org markup, no browser and no account.
@@ -33650,6 +33742,11 @@ class Prv_yahoo_sports(Protocol):
         """Reads the full standings table for one league off Yahoo Sports' own Standings page —
         each team's wins, losses, ties, win percentage, points for/against and point
         differential.
+        """
+
+    async def getSchedule(self, args: Prv_yahoo_sports_GetScheduleArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsScheduleRow_Out]:
+        """Reads one team's full schedule for the season off Yahoo Sports' own Schedule page —
+        every game, opponent, date and result if played. Takes league and team slug.
         """
 
 class Prv_ycombinator(Protocol):
@@ -34430,6 +34527,7 @@ class BowmarkProviders(Protocol):
     thezebra: Prv_thezebra
     thibautdesign: Prv_thibautdesign
     ticketmaster_nl: Prv_ticketmaster_nl
+    tiktok: Prv_tiktok
     tilsonhomes: Prv_tilsonhomes
     titlenine: Prv_titlenine
     tmobile: Prv_tmobile
