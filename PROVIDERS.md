@@ -1833,7 +1833,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |
 | `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟡 |
-| `youtube.createChannel` | youtube.com | Creates the signed-in Google account's YouTube CHANNEL, using the account's own name… | 🟢 |
+| `youtube.createChannel` | youtube.com | Creates the signed-in Google account's YouTube CHANNEL, using the account's own name… | 🟡 |
 | `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟡 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
 | `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |

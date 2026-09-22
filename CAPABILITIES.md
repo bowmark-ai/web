@@ -88,7 +88,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `text_to_speech.synthesize` | Converts `text` into spoken audio, base64-encoded, in an existing or previously-cloned… | 1 | 🟢 |
 | `theme_park_tickets.search` | Looks up a Six Flags/Cedar Fair theme park by name (`"Cedar Point"`, `"Six Flags Magic… | 1 | 🟢 |
 | `video_library.addToPlaylist` | Adds one or many videos to one of the caller's own playlists, as a single edit. | 1 | 🟡 |
-| `video_library.createChannel` | Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and… | 1 | 🟢 |
+| `video_library.createChannel` | Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and… | 1 | 🟡 |
 | `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟡 |
 | `video_library.homeFeed` | The videos on the caller's OWN YouTube home page — the personalized recommendation… | 1 | 🟡 |
 | `video_library.liked` | The videos the caller has liked, newest first. | 1 | 🟡 |
