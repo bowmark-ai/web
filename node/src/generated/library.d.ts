@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 17419c41c9f901aa20fb4358c17455345214c1007847d44df4bc139ac582bee4
-// 60 capabilities, 448 providers, 1225 typed functions, 20 refused.
+// Manifest version: 0dae91e1f6d1ab3367a22a0ee7b2e8cfe8186b899df6bfbd05fef03cc64e13fe
+// 60 capabilities, 448 providers, 1226 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22348,6 +22348,29 @@ interface GetProductResult {
   variants: JcrewProductVariant[];
   images: JcrewProductImage[];
 }
+interface GetProductsItem {
+  id: string;
+  name: string;
+  description: string | null;
+  longDescription: string | null;
+  price: number | null;
+  priceRange: string | null;
+  currency: string | null;
+  orderable: boolean | null;
+  stockLevel: number | null;
+  colours: string[];
+  sizes: string[];
+  fits: string[];
+  variants: JcrewProductVariant[];
+  images: JcrewProductImage[];
+}
+interface GetProductsArgs {
+  ids: string[];
+}
+interface GetProductsResult {
+  products: GetProductsItem[];
+  missing: string[];
+}
 interface CheckVariantStockArgs {
   id: string;
   colour: string;
@@ -22395,6 +22418,14 @@ interface CheckVariantStockResult {
      * variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
      */
     getProduct(args: GetProductArgs): Promise<GetProductResult>;
+
+    /**
+     * Reads several J.Crew products in one call — the batch form of `getProduct`, for an agent
+     * comparing a handful of items without paying a request each. Takes a list of style ids
+     * (maximum 25 per call) and returns each product's full detail in the same shape as
+     * `getProduct`, plus a list of ids that were not found.
+     */
+    getProducts(args: GetProductsArgs): Promise<GetProductsResult>;
 
     /**
      * Answers whether one specific colour and size (and fit, for styles that have one) of a J.Crew

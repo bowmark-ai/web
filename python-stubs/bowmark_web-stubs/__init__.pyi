@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 17419c41c9f901aa20fb4358c17455345214c1007847d44df4bc139ac582bee4
-# 60 capabilities, 448 providers, 1207 typed functions, 20 refused.
+# Manifest version: 0dae91e1f6d1ab3367a22a0ee7b2e8cfe8186b899df6bfbd05fef03cc64e13fe
+# 60 capabilities, 448 providers, 1208 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11790,6 +11790,29 @@ class Prv_jcrew_JcrewProductVariant_Out(TypedDict):
 class Prv_jcrew_JcrewProductImage_Out(TypedDict):
     url: str
     alt: str | None
+
+class Prv_jcrew_GetProductsArgs_In(TypedDict):
+    ids: Sequence[str]
+
+class Prv_jcrew_GetProductsResult_Out(TypedDict):
+    products: list[Prv_jcrew_GetProductsItem_Out]
+    missing: list[str]
+
+class Prv_jcrew_GetProductsItem_Out(TypedDict):
+    id: str
+    name: str
+    description: str | None
+    longDescription: str | None
+    price: float | None
+    priceRange: str | None
+    currency: str | None
+    orderable: bool | None
+    stockLevel: float | None
+    colours: list[str]
+    sizes: list[str]
+    fits: list[str]
+    variants: list[Prv_jcrew_JcrewProductVariant_Out]
+    images: list[Prv_jcrew_JcrewProductImage_Out]
 
 class Prv_jcrew_CheckVariantStockArgs_In(TypedDict):
     id: str
@@ -28616,6 +28639,13 @@ class Prv_jcrew(Protocol):
         and stock level), every colour and size the style comes in, every variant with its own
         price and availability, and the full image set. The normalized variant list replaces the
         raw 502+ variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
+        """
+
+    async def getProducts(self, args: Prv_jcrew_GetProductsArgs_In, /) -> Prv_jcrew_GetProductsResult_Out:
+        """Reads several J.Crew products in one call — the batch form of `getProduct`, for an agent
+        comparing a handful of items without paying a request each. Takes a list of style ids
+        (maximum 25 per call) and returns each product's full detail in the same shape as
+        `getProduct`, plus a list of ids that were not found.
         """
 
     async def checkVariantStock(self, args: Prv_jcrew_CheckVariantStockArgs_In, /) -> Prv_jcrew_CheckVariantStockResult_Out:

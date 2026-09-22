@@ -1,5 +1,5 @@
 {
-  "version": "17419c41c9f901aa20fb4358c17455345214c1007847d44df4bc139ac582bee4",
+  "version": "0dae91e1f6d1ab3367a22a0ee7b2e8cfe8186b899df6bfbd05fef03cc64e13fe",
   "units": {
     "booking_links": {
       "defs": {
@@ -20146,6 +20146,21 @@
             }
           ]
         },
+        "GetProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ids",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListCategoriesArgs": {
           "k": "object",
           "props": [
@@ -20217,6 +20232,16 @@
             "schema": {
               "k": "ref",
               "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductsArgs"
             },
             "optional": false
           }

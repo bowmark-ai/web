@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 17419c41c9f901aa20fb4358c17455345214c1007847d44df4bc139ac582bee4
-// 1207 checked, 20 unchecked.
+// Manifest version: 0dae91e1f6d1ab3367a22a0ee7b2e8cfe8186b899df6bfbd05fef03cc64e13fe
+// 1208 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "17419c41c9f901aa20fb4358c17455345214c1007847d44df4bc139ac582bee4",
+  "version": "0dae91e1f6d1ab3367a22a0ee7b2e8cfe8186b899df6bfbd05fef03cc64e13fe",
   "units": {
     "booking_links": {
       "defs": {
@@ -20158,6 +20158,21 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ids",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListCategoriesArgs": {
           "k": "object",
           "props": [
@@ -20229,6 +20244,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductsArgs"
             },
             "optional": false
           }
