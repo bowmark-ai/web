@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 203f159d12a8f71d080865e5ede404e46bf7c51b2e1638fda486a340da5be1da
+# Manifest version: 7c86d039199d326c2fdd53f33092845cf00b5c395d1bebf60536e05a6d1a2de3
 # 60 capabilities, 445 providers, 1188 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -851,6 +851,7 @@ class Cap_game_soundtrack_composer_credits_SoundtrackCredits_Out_relations_item_
 
 class Cap_gas_prices_search_options_In(TypedDict):
     limit: NotRequired[float]
+    fuelType: NotRequired[Literal["regular"] | Literal["midgrade"] | Literal["premium"] | Literal["diesel"]]
 
 class Cap_gas_prices_gas_pricesResult_Out(TypedDict):
     stations: list[Cap_gas_prices_GasPriceResult_Out]
@@ -20289,7 +20290,9 @@ class Cap_gas_prices(Protocol):
     """Find the cheapest gas stations near a US ZIP code."""
 
     async def search(self, zip: str, options: Cap_gas_prices_search_options_In | None = None, /) -> Cap_gas_prices_gas_pricesResult_Out:
-        """Returns cheapest gas stations near a US ZIP code, sorted by price ascending."""
+        """Returns cheapest gas stations near a US ZIP code, sorted by price ascending. fuelType
+        defaults to "regular".
+        """
 
 class Cap_git_commit_history(Protocol):
     """A git repository's commit history — sha, author, date and message for every commit —

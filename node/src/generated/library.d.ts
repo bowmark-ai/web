@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 203f159d12a8f71d080865e5ede404e46bf7c51b2e1638fda486a340da5be1da
+// Manifest version: 7c86d039199d326c2fdd53f33092845cf00b5c395d1bebf60536e05a6d1a2de3
 // 60 capabilities, 445 providers, 1206 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -1203,8 +1203,11 @@ type CallOptions = {
 
   /** Find the cheapest gas stations near a US ZIP code. */
   interface Unit {
-    /** Returns cheapest gas stations near a US ZIP code, sorted by price ascending. */
-    search(zip: string, options?: { limit?: number }): Promise<gas_pricesResult>;
+    /**
+     * Returns cheapest gas stations near a US ZIP code, sorted by price ascending. fuelType
+     * defaults to "regular".
+     */
+    search(zip: string, options?: { limit?: number; fuelType?: "regular" | "midgrade" | "premium" | "diesel" }): Promise<gas_pricesResult>;
   }
 }
 
