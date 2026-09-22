@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1865 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1874 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1212,6 +1212,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.getMossyoakProduct` | mossyoak.com | Reads one product by its handle — every camo-pattern/size variant, its exact price and… | 🟢 |
 | `mossyoak.listMossyoakProducts` | mossyoak.com | Reads the live Mossy Oak catalogue as the storefront publishes it — every camo-apparel… | 🟢 |
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
+| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | ⚪ |
+| `msn.getMarketSummary` | msn.com | Reads the major index levels (S&P 500, Dow, Nasdaq) and their day's change off MSN… | ⚪ |
+| `msn.getSectionFeed` | msn.com | Returns the current top stories for one of MSN's own sections — money, sports… | ⚪ |
+| `msn.getStockQuote` | msn.com | Reads one ticker's current price, change and key stats off MSN Money the way… | ⚪ |
+| `msn.getTopStories` | msn.com | Returns the top stories the MSN front page is showing right now, the way www.msn.com… | ⚪ |
+| `msn.getWeatherForecast` | msn.com | Reads the multi-day forecast for a named city off MSN Weather the way… | ⚪ |
+| `msn.listSavedArticles` | msn.com | Lists the articles the signed-in caller has saved to their MSN reading list — the… | ⚪ |
+| `msn.saveArticle` | msn.com | Adds an article to the signed-in caller's MSN reading list — the write half of… | ⚪ |
+| `msn.searchNews` | msn.com | Searches MSN's own aggregated news index the way its front-page search does and… | ⚪ |
 | `municipal_recreation_fees_fetcher.getFeeSchedule` | fredericton.ca, dieppe.ca | Retrieves annual recreation centre membership fees (adult and family passes) for a New… | 🟢 |
 | `muze_gov_tr.getVisitingHours` | muze.gov.tr | Matches a museum name against muze.gov.tr's own highlight listing and reads that… | 🟢 |
 | `my_auroramedicalspa_com.getProviders` | my.auroramedicalspa.com | Lists the providers who can perform one service at one location, including the site's… | 🟢 |
@@ -1814,7 +1823,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_mail.sendMessage` | mail.yahoo.com | Sends an email from the CALLER's own Yahoo Mail account. | ⚪ |
 | `yahoo_sports.findPlayers` | sports.yahoo.com | Finds players by name across a league — the door for `getPlayer`, so a caller holding… | ⚪ |
 | `yahoo_sports.getFantasyLeague` | sports.yahoo.com | Reads the CALLER's own fantasy football league — standings, matchups, rosters — the… | ⚪ |
-| `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full the way its own game page does — final or live score, box score… | ⚪ |
+| `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full the way its own game page does — final or live score, box score… | 🟢 |
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads the sports news and analysis stories Yahoo Sports itself is running right now… | ⚪ |
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and season stats the way their own player page does —… | ⚪ |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | ⚪ |
