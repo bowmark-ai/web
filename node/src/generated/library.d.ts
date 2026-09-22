@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fc58da52ea6990a51acb508981cf0ff9d41c62a78d13feb6e7d7b7efc0c36cab
-// 60 capabilities, 447 providers, 1222 typed functions, 20 refused.
+// Manifest version: 52707dd13c4a12fd25c1d8a5e0f2b4a31929463ae3d1e56ff4f12f9717ba70f4
+// 60 capabilities, 448 providers, 1224 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12554,6 +12554,28 @@ interface CouponFollowOffer {
      * marks the card as carrying one.
      */
     getCodes(domain: string): Promise<CouponFollowOffer[]>;
+  }
+}
+
+declare namespace BowmarkProvider_crecipr {
+  // ── CRECI-PR — Conselho Regional de Corretores de Imóveis do Paraná — the unit's own declarations, verbatim ──
+interface CreciprBroker {
+  name: string;
+  creciNumber: string | null;
+  status: "verified" | "unverified" | "unknown";
+  message: string;
+}
+
+  /** Verify real estate brokers and agencies licensed with CRECI-PR in Brazil. */
+  interface Unit {
+    /**
+     * Searches CRECI-PR's accredited brokers registry by name or CRECI registration number.
+     * Returns matching brokers with their license status.
+     */
+    searchCredenciados(query: string): Promise<CreciprBroker[]>;
+
+    /** Verifies whether a broker or agency is currently licensed and in good standing at CRECI-PR. */
+    verifyBroker(identifier: string): Promise<CreciprBroker>;
   }
 }
 
@@ -38724,6 +38746,7 @@ interface BowmarkProviders {
   costco: BowmarkProvider_costco.Unit;
   countycourt_vic_gov_au: BowmarkProvider_countycourt_vic_gov_au.Unit;
   couponfollow: BowmarkProvider_couponfollow.Unit;
+  crecipr: BowmarkProvider_crecipr.Unit;
   credibly_com: BowmarkProvider_credibly_com.Unit;
   cruiselakegeneva: BowmarkProvider_cruiselakegeneva.Unit;
   culturefly: BowmarkProvider_culturefly.Unit;

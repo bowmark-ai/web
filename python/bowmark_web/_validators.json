@@ -1,5 +1,5 @@
 {
-  "version": "fc58da52ea6990a51acb508981cf0ff9d41c62a78d13feb6e7d7b7efc0c36cab",
+  "version": "52707dd13c4a12fd25c1d8a5e0f2b4a31929463ae3d1e56ff4f12f9717ba70f4",
   "units": {
     "booking_links": {
       "defs": {
@@ -11768,6 +11768,29 @@
         "getCodes": [
           {
             "name": "domain",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.crecipr": {
+      "defs": {},
+      "functions": {
+        "searchCredenciados": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "verifyBroker": [
+          {
+            "name": "identifier",
             "schema": {
               "k": "string"
             },

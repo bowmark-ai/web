@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fc58da52ea6990a51acb508981cf0ff9d41c62a78d13feb6e7d7b7efc0c36cab
-// 1204 checked, 20 unchecked.
+// Manifest version: 52707dd13c4a12fd25c1d8a5e0f2b4a31929463ae3d1e56ff4f12f9717ba70f4
+// 1206 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fc58da52ea6990a51acb508981cf0ff9d41c62a78d13feb6e7d7b7efc0c36cab",
+  "version": "52707dd13c4a12fd25c1d8a5e0f2b4a31929463ae3d1e56ff4f12f9717ba70f4",
   "units": {
     "booking_links": {
       "defs": {
@@ -11780,6 +11780,29 @@ export const VALIDATORS: ValidatorTable = {
         "getCodes": [
           {
             "name": "domain",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.crecipr": {
+      "defs": {},
+      "functions": {
+        "searchCredenciados": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "verifyBroker": [
+          {
+            "name": "identifier",
             "schema": {
               "k": "string"
             },

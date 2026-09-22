@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fc58da52ea6990a51acb508981cf0ff9d41c62a78d13feb6e7d7b7efc0c36cab
-# 60 capabilities, 447 providers, 1204 typed functions, 20 refused.
+# Manifest version: 52707dd13c4a12fd25c1d8a5e0f2b4a31929463ae3d1e56ff4f12f9717ba70f4
+# 60 capabilities, 448 providers, 1206 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6833,6 +6833,12 @@ class Prv_couponfollow_CouponFollowOffer_Out(TypedDict):
     exclusive: bool
     createdAt: str | None
     url: str
+
+class Prv_crecipr_CreciprBroker_Out(TypedDict):
+    name: str
+    creciNumber: str | None
+    status: Literal["verified"] | Literal["unverified"] | Literal["unknown"]
+    message: str
 
 class Prv_credibly_com_CrediblyApplicationForm_Out(TypedDict):
     applicationUrl: str
@@ -24852,6 +24858,19 @@ class Prv_couponfollow(Protocol):
         couponfollow itself marks the card as carrying one.
         """
 
+class Prv_crecipr(Protocol):
+    """Verify real estate brokers and agencies licensed with CRECI-PR in Brazil."""
+
+    async def searchCredenciados(self, query: str, /) -> list[Prv_crecipr_CreciprBroker_Out]:
+        """Searches CRECI-PR's accredited brokers registry by name or CRECI registration number.
+        Returns matching brokers with their license status.
+        """
+
+    async def verifyBroker(self, identifier: str, /) -> Prv_crecipr_CreciprBroker_Out:
+        """Verifies whether a broker or agency is currently licensed and in good standing at
+        CRECI-PR.
+        """
+
 class Prv_credibly_com(Protocol):
     """Reads the public Credibly application form's visible questions and its published
     eligibility requirements, without filling or submitting anything.
@@ -34454,6 +34473,7 @@ class BowmarkProviders(Protocol):
     costco: Prv_costco
     countycourt_vic_gov_au: Prv_countycourt_vic_gov_au
     couponfollow: Prv_couponfollow
+    crecipr: Prv_crecipr
     credibly_com: Prv_credibly_com
     cruiselakegeneva: Prv_cruiselakegeneva
     culturefly: Prv_culturefly

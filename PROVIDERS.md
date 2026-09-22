@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1861 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1863 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -430,6 +430,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `costco.search` | costco.com | Runs a search on Costco's product catalog and returns matching items (title, brand… | 🟢 |
 | `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
+| `crecipr.searchCredenciados` | crecipr.gov.br | Searches CRECI-PR's accredited brokers registry by name or CRECI registration number. | 🟢 |
+| `crecipr.verifyBroker` | crecipr.gov.br | Verifies whether a broker or agency is currently licensed and in good standing at… | 🟢 |
 | `credibly_com.getApplicationForm` | credibly.com | Reads the visible questions and select choices on Credibly's public business-financing… | 🟢 |
 | `credibly_com.getEligibilityRequirements` | credibly.com | Reads Credibly's own published eligibility requirements (time in business, credit… | 🟡 |
 | `cruiselakegeneva.getTour` | cruiselakegeneva.com | Reads one tour's own detail page: full pricing (adult/child/group tiers), duration… | 🟢 |
