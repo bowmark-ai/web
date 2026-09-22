@@ -87,12 +87,12 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `text_to_speech.cloneVoice` | Creates a new voice cloned from one or more audio sample URLs (`options.sampleUrls`) —… | 1 | 🟢 |
 | `text_to_speech.synthesize` | Converts `text` into spoken audio, base64-encoded, in an existing or previously-cloned… | 1 | 🟢 |
 | `theme_park_tickets.search` | Looks up a Six Flags/Cedar Fair theme park by name (`"Cedar Point"`, `"Six Flags Magic… | 1 | 🟢 |
-| `video_library.addToPlaylist` | Adds one or many videos to one of the caller's own playlists, as a single edit. | 1 | 🟢 |
+| `video_library.addToPlaylist` | Adds one or many videos to one of the caller's own playlists, as a single edit. | 1 | 🟡 |
 | `video_library.createChannel` | Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and… | 1 | 🟢 |
-| `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟢 |
-| `video_library.homeFeed` | The videos on the caller's OWN YouTube home page — the personalized recommendation… | 1 | 🟢 |
-| `video_library.liked` | The videos the caller has liked, newest first. | 1 | 🟢 |
-| `video_library.watchLater` | The caller's own Watch Later queue, newest first. | 1 | 🟢 |
+| `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟡 |
+| `video_library.homeFeed` | The videos on the caller's OWN YouTube home page — the personalized recommendation… | 1 | 🟡 |
+| `video_library.liked` | The videos the caller has liked, newest first. | 1 | 🟡 |
+| `video_library.watchLater` | The caller's own Watch Later queue, newest first. | 1 | 🟡 |
 | `weather.forecast` | Geocodes a place name and returns its daily forecast (default 5 days, max 16 —… | 0 | 🟢 |
 | `web_form_fields.fillForm` | Opens the page (and the booking/quote widget behind a button, exactly as `getFields`… | 0 | 🟢 |
 | `web_form_fields.getFields` | Reads a page and returns its forms plus a total field count, each field with its… | 0 | 🟢 |

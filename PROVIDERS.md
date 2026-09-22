@@ -1600,7 +1600,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller. | ⚪ |
 | `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | ⚪ |
 | `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | ⚪ |
-| `tiktok.getProfile` | tiktok.com | A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId… | ⚪ |
+| `tiktok.getProfile` | tiktok.com | A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId… | 🟢 |
 | `tiktok.getSound` | tiktok.com | A sound/music track's own facts — title, artist, duration, how many videos use it —… | ⚪ |
 | `tiktok.getTranscript` | tiktok.com | A video's own caption track, read off `itemStruct.video.subtitleInfos` — per-language… | ⚪ |
 | `tiktok.getVideo` | tiktok.com | One video's own facts, off the watch page's embedded state: caption, hashtags, create… | ⚪ |
@@ -1830,9 +1830,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yourarborhome.bookSelfTour` | yourarborhome.com | Would complete a self-guided tour booking on the caller's behalf through NterNow's own… | ⚪ |
 | `yourarborhome.getHome` | yourarborhome.com | Reads one Arbor Homes listing by the `uniqueName` id `searchHomes` returns — the same… | 🟢 |
 | `yourarborhome.searchHomes` | yourarborhome.com | Reads Arbor Homes' live quick move-in inventory off yourarborhome.com/homes and… | 🟢 |
-| `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟢 |
+| `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟡 |
 | `youtube.createChannel` | youtube.com | Creates the signed-in Google account's YouTube CHANNEL, using the account's own name… | 🟢 |
-| `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟢 |
+| `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟡 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
 | `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |
 | `youtube.getLiveChat` | youtube.com | The messages scrolling past a live stream — each with its author, text and timestamp. | 🟢 |
@@ -1850,15 +1850,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listCommentReplies` | youtube.com | The replies under one comment thread, which YouTube hides behind a "N replies" button… | 🟢 |
 | `youtube.listComments` | youtube.com | What people said under a video — each comment's author, the text, its like count… | 🟢 |
 | `youtube.listHashtagVideos` | youtube.com | The videos under a hashtag — YouTube's own /hashtag/<tag> page. | 🟢 |
-| `youtube.listHomeFeed` | youtube.com | The videos on the signed-in account's own YouTube home page — the personalized… | 🟢 |
-| `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | 🟢 |
+| `youtube.listHomeFeed` | youtube.com | The videos on the signed-in account's own YouTube home page — the personalized… | 🟡 |
+| `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | 🟡 |
 | `youtube.listPlaylistVideos` | youtube.com | The videos inside a playlist, in the playlist's own order and paged — each video's id… | 🟢 |
 | `youtube.listRelatedVideos` | youtube.com | The videos YouTube itself puts next to this one — the "up next" rail — each with its… | 🟢 |
 | `youtube.listStreamFormats` | youtube.com | The renditions a video is actually available in — resolution, frame rate, codec… | 🟢 |
 | `youtube.listSubscriptions` | youtube.com | The channels the signed-in account subscribes to. | ⚪ |
 | `youtube.listTrending` | youtube.com | YouTube's Trending feed — what is being watched across the site right now, and the… | ⚪ |
 | `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | ⚪ |
-| `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟢 |
+| `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟡 |
 | `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | ⚪ |
 | `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
 | `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back the videos the… | 🟢 |
