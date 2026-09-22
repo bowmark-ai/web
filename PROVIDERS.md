@@ -687,7 +687,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fourseasonsyachts.getVoyageSailing` | fourseasonsyachts.com | Reads the real, live departure for one voyageCode — exact embark/disembark ports and… | 🟢 |
 | `fourseasonsyachts.searchVoyages` | fourseasonsyachts.com | Reads the live Voyage Finder inventory — every published sailing, its region, vessel… | 🟢 |
 | `framebridge.getConfigurator` | framebridge.com | Reads one frame style's real live configurator inputs: every Size x Conveyance variant… | 🟢 |
-| `framebridge.listFrameStyles` | framebridge.com | Searches Framebridge's real custom-framing catalog via the site's own Shopify… | 🟢 |
+| `framebridge.listFrameStyles` | framebridge.com | Searches Framebridge's real custom-framing catalog via the site's own Shopify… | 🟡 |
 | `framebridge.priceConfiguration` | framebridge.com | Prices one exact build (frame style + size + conveyance + up to a primary and accent… | 🟢 |
 | `fred.browseCategory` | fred.stlouisfed.org | Browses FRED's category tree the way fred.stlouisfed.org/categories does — the… | 🟢 |
 | `fred.getRegionalData` | fred.stlouisfed.org | Reads geographic/regional breakdowns of a series — e.g. unemployment rate by U.S.… | ⚪ |
@@ -970,7 +970,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
 | `instagram.searchProfiles` | instagram.com | Searches Instagram for accounts matching a query and returns each match's username… | ⚪ |
 | `insurify.estimateAutoCost` | insurify.com | Returns an estimated monthly car insurance cost for a driver profile — age, location… | ⚪ |
-| `insurify.getAutoQuotes` | insurify.com | Returns real-time side-by-side car insurance rates from the carriers that will… | 🟡 |
+| `insurify.getAutoQuotes` | insurify.com | Returns real-time side-by-side car insurance rates from the carriers that will… | 🟢 |
 | `insurify.getAutoWarrantyQuotes` | insurify.com | Returns extended vehicle service contract (auto warranty) prices for a vehicle's make… | ⚪ |
 | `insurify.getBusinessQuotes` | insurify.com | Returns small-business insurance rates — general liability, a business owner's policy… | ⚪ |
 | `insurify.getCarrierReview` | insurify.com | Returns Insurify's assessment of a named insurance company — its Insurify Quality… | 🟢 |
@@ -1209,7 +1209,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.getMossyoakProduct` | mossyoak.com | Reads one product by its handle — every camo-pattern/size variant, its exact price and… | 🟢 |
 | `mossyoak.listMossyoakProducts` | mossyoak.com | Reads the live Mossy Oak catalogue as the storefront publishes it — every camo-apparel… | 🟢 |
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
-| `municipal_recreation_fees_fetcher.getFeeSchedule` | moncton.nb.ca, dieppe.nb.ca, riverview.nb.ca, fredericton.nb.ca, saintjohn.nb.ca | Retrieves annual recreation centre membership fees (adult and family passes) for a New… | 🟢 |
+| `municipal_recreation_fees_fetcher.getFeeSchedule` | fredericton.ca, dieppe.ca | Retrieves annual recreation centre membership fees (adult and family passes) for a New… | 🟢 |
 | `muze_gov_tr.getVisitingHours` | muze.gov.tr | Matches a museum name against muze.gov.tr's own highlight listing and reads that… | 🟢 |
 | `my_auroramedicalspa_com.getProviders` | my.auroramedicalspa.com | Lists the providers who can perform one service at one location, including the site's… | 🟢 |
 | `my_auroramedicalspa_com.getServiceCategories` | my.auroramedicalspa.com | Lists the treatment categories one location offers online (Botox, Injectable… | 🟢 |

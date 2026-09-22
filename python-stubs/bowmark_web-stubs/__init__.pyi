@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 87544a935122d5590214cfdadd4d4033428f3d6c688bad948782d6fc9572f202
+# Manifest version: 6b3ba86935abee1fe9d5ace3a8775b0cdf628534b6fa1405074718c5b831247a
 # 60 capabilities, 448 providers, 1207 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -25713,9 +25713,9 @@ class Prv_etsy(Protocol):
         """
 
 class Prv_evag(Protocol):
-    """Real-time public transit departure information, schedules and service disruptions for
-    Essen, Germany via EVAG (Essener Verkehrs-AG) / Ruhrbahn, read straight from
-    ifa.ruhrbahn.de's own JSON backend — no key, no browser.
+    """Real-time public transit departure information and schedules for Essen, Germany via EVAG
+    (Essener Verkehrs-AG) / Ruhrbahn, read straight from ifa.ruhrbahn.de's own JSON backend
+    — no key, no browser.
     """
 
     async def listDepartures(self, stopId: str, /) -> list[Prv_evag_Departure_Out]:

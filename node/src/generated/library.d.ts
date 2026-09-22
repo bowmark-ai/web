@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 87544a935122d5590214cfdadd4d4033428f3d6c688bad948782d6fc9572f202
+// Manifest version: 6b3ba86935abee1fe9d5ace3a8775b0cdf628534b6fa1405074718c5b831247a
 // 60 capabilities, 448 providers, 1225 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -14784,6 +14784,9 @@ interface StopSearchResult {
   city?: string;
 }
 
+// Declared for a future function; nothing implements it yet — no
+// listDepartures or searchStop response carries a line status or a
+// disruption message. Do not call code expecting this shape today.
 interface LineStatus {
   line: string;
   status: "normal" | "disruption" | "delay";
@@ -14791,9 +14794,9 @@ interface LineStatus {
 }
 
   /**
-   * Real-time public transit departure information, schedules and service disruptions for Essen,
-   * Germany via EVAG (Essener Verkehrs-AG) / Ruhrbahn, read straight from ifa.ruhrbahn.de's own
-   * JSON backend — no key, no browser.
+   * Real-time public transit departure information and schedules for Essen, Germany via EVAG
+   * (Essener Verkehrs-AG) / Ruhrbahn, read straight from ifa.ruhrbahn.de's own JSON backend — no
+   * key, no browser.
    */
   interface Unit {
     /**
