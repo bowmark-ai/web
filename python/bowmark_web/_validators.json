@@ -1,5 +1,5 @@
 {
-  "version": "e1cb82bef0d55b92debfb53de51cd57baaf0c1024fcfddee30c9118d72bab199",
+  "version": "8e8e33ebfcda52d5fc55ac45e8c7e2123eba85cafa9c498a181a308912c2dea4",
   "units": {
     "booking_links": {
       "defs": {
@@ -20078,6 +20078,39 @@
     },
     "providers.jcrew": {
       "defs": {
+        "CheckVariantStockArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "colour",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "fit",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetProductArgs": {
           "k": "object",
           "props": [
@@ -20161,6 +20194,16 @@
             "schema": {
               "k": "ref",
               "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkVariantStock": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckVariantStockArgs"
             },
             "optional": false
           }
@@ -34718,6 +34761,15 @@
           }
         ],
         "getAnalystEstimates": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getNews": [
           {
             "name": "symbol",
             "schema": {

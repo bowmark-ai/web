@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e1cb82bef0d55b92debfb53de51cd57baaf0c1024fcfddee30c9118d72bab199
-// 60 capabilities, 447 providers, 1218 typed functions, 20 refused.
+// Manifest version: 8e8e33ebfcda52d5fc55ac45e8c7e2123eba85cafa9c498a181a308912c2dea4
+// 60 capabilities, 447 providers, 1220 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -22322,6 +22322,21 @@ interface GetProductResult {
   variants: JcrewProductVariant[];
   images: JcrewProductImage[];
 }
+interface CheckVariantStockArgs {
+  id: string;
+  colour: string;
+  size: string;
+  fit?: string;
+}
+interface CheckVariantStockResult {
+  id: string;
+  variantId: string;
+  colour: string;
+  size: string;
+  fit: string | null;
+  price: number | null;
+  orderable: boolean | null;
+}
 
   /**
    * Search and read J.Crew's clothing catalogue — products, prices, colours, sizes and stock —
@@ -22354,6 +22369,15 @@ interface GetProductResult {
      * variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
      */
     getProduct(args: GetProductArgs): Promise<GetProductResult>;
+
+    /**
+     * Answers whether one specific colour and size (and fit, for styles that have one) of a J.Crew
+     * style is buyable right now — given the style id plus the values a shopper picked, e.g. `{
+     * id: "BX291", colour: "White", size: "M" }` — resolving them to that variant's own id and
+     * returning whether it is orderable and at what price. Matches case-insensitively; refuses
+     * with the current colours, sizes and fits when the combination does not exist on the style.
+     */
+    checkVariantStock(args: CheckVariantStockArgs): Promise<CheckVariantStockResult>;
 
     /**
      * Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50
@@ -36613,6 +36637,19 @@ interface YahooFinanceAnalystEstimates {
   earningsEstimate: YahooFinanceEstimateTable | null;
 }
 
+interface YahooFinanceNewsStory {
+  headline: string;
+  url: string;
+  source: string | null;       // "Motley Fool" — kept as the site renders
+  published: string | null;    // "55m ago" — relative only, no absolute timestamp on the card
+  tickers: string[];           // every ticker the story is tagged with, not just the one asked about
+}
+
+interface YahooFinanceNews {
+  symbol: string;
+  stories: YahooFinanceNewsStory[];
+}
+
   /**
    * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
    * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
@@ -36680,6 +36717,16 @@ interface YahooFinanceAnalystEstimates {
      * request is sent.
      */
     getAnalystEstimates(symbol: string): Promise<YahooFinanceAnalystEstimates>;
+
+    /**
+     * Reads the news stories Yahoo Finance itself has attached to a ticker's News tab — headline,
+     * link, source and how long ago it was published (Yahoo Finance's own relative wording, e.g.
+     * "55m ago" — no absolute timestamp is on the card), plus every ticker the story is tagged
+     * with, which is often more than the one asked about. A ticker with no recent coverage answers
+     * an empty story list, an honest empty result rather than a throw. An unknown or empty ticker
+     * throws before any request is sent.
+     */
+    getNews(symbol: string): Promise<YahooFinanceNews>;
   }
 }
 

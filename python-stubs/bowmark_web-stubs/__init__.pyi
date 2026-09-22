@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e1cb82bef0d55b92debfb53de51cd57baaf0c1024fcfddee30c9118d72bab199
-# 60 capabilities, 447 providers, 1200 typed functions, 20 refused.
+# Manifest version: 8e8e33ebfcda52d5fc55ac45e8c7e2123eba85cafa9c498a181a308912c2dea4
+# 60 capabilities, 447 providers, 1202 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11784,6 +11784,21 @@ class Prv_jcrew_JcrewProductImage_Out(TypedDict):
     url: str
     alt: str | None
 
+class Prv_jcrew_CheckVariantStockArgs_In(TypedDict):
+    id: str
+    colour: str
+    size: str
+    fit: NotRequired[str]
+
+class Prv_jcrew_CheckVariantStockResult_Out(TypedDict):
+    id: str
+    variantId: str
+    colour: str
+    size: str
+    fit: str | None
+    price: float | None
+    orderable: bool | None
+
 class Prv_jcrew_SuggestSearchTermsArgs_In(TypedDict):
     query: str
 
@@ -19478,6 +19493,17 @@ class Prv_yahoo_finance_YahooFinanceEstimateColumn_Out(TypedDict):
 class Prv_yahoo_finance_YahooFinanceEstimateRow_Out(TypedDict):
     label: str
     values: Mapping[str, str | None]
+
+class Prv_yahoo_finance_YahooFinanceNews_Out(TypedDict):
+    symbol: str
+    stories: list[Prv_yahoo_finance_YahooFinanceNewsStory_Out]
+
+class Prv_yahoo_finance_YahooFinanceNewsStory_Out(TypedDict):
+    headline: str
+    url: str
+    source: str | None
+    published: str | None
+    tickers: list[str]
 
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -28495,6 +28521,15 @@ class Prv_jcrew(Protocol):
         raw 502+ variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
         """
 
+    async def checkVariantStock(self, args: Prv_jcrew_CheckVariantStockArgs_In, /) -> Prv_jcrew_CheckVariantStockResult_Out:
+        """Answers whether one specific colour and size (and fit, for styles that have one) of a
+        J.Crew style is buyable right now — given the style id plus the values a shopper picked,
+        e.g. `{ id: "BX291", colour: "White", size: "M" }` — resolving them to that variant's
+        own id and returning whether it is orderable and at what price. Matches
+        case-insensitively; refuses with the current colours, sizes and fits when the
+        combination does not exist on the style.
+        """
+
     async def suggestSearchTerms(self, args: Prv_jcrew_SuggestSearchTermsArgs_In, /) -> Prv_jcrew_SuggestSearchTermsResult_Out:
         """Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50
         characters long, e.g. "oxford" — returning the corrected/completed terms, matching
@@ -33801,6 +33836,15 @@ class Prv_yahoo_finance(Protocol):
         since revenue and EPS are different units. A section is null when Yahoo Finance rendered
         no analyst coverage for this ticker, not an empty table. An unknown or empty ticker
         throws before any request is sent.
+        """
+
+    async def getNews(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceNews_Out:
+        """Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —
+        headline, link, source and how long ago it was published (Yahoo Finance's own relative
+        wording, e.g. "55m ago" — no absolute timestamp is on the card), plus every ticker the
+        story is tagged with, which is often more than the one asked about. A ticker with no
+        recent coverage answers an empty story list, an honest empty result rather than a throw.
+        An unknown or empty ticker throws before any request is sent.
         """
 
 class Prv_yahoo_sports(Protocol):

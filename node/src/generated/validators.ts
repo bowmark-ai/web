@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e1cb82bef0d55b92debfb53de51cd57baaf0c1024fcfddee30c9118d72bab199
-// 1200 checked, 20 unchecked.
+// Manifest version: 8e8e33ebfcda52d5fc55ac45e8c7e2123eba85cafa9c498a181a308912c2dea4
+// 1202 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e1cb82bef0d55b92debfb53de51cd57baaf0c1024fcfddee30c9118d72bab199",
+  "version": "8e8e33ebfcda52d5fc55ac45e8c7e2123eba85cafa9c498a181a308912c2dea4",
   "units": {
     "booking_links": {
       "defs": {
@@ -20090,6 +20090,39 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.jcrew": {
       "defs": {
+        "CheckVariantStockArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "colour",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "fit",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetProductArgs": {
           "k": "object",
           "props": [
@@ -20173,6 +20206,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "checkVariantStock": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckVariantStockArgs"
             },
             "optional": false
           }
@@ -34730,6 +34773,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getAnalystEstimates": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getNews": [
           {
             "name": "symbol",
             "schema": {
