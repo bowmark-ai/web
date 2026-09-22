@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8db92416afafa4edd249cddbc877e57b4fec42b3ade72e91c1d4345961d82c08
+// Manifest version: 203f159d12a8f71d080865e5ede404e46bf7c51b2e1638fda486a340da5be1da
 // 60 capabilities, 445 providers, 1206 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -16554,22 +16554,23 @@ interface G2Product {
 declare namespace BowmarkProvider_gasbuddy {
   // ── GasBuddy — the unit's own declarations, verbatim ──
 interface GasbuddyFindCheapestNearbyArgs {
-  zip: string;      // a 5-digit US ZIP code, e.g. "78701"
-  limit?: number;    // default 10, clamped to [1, 30]
+  zip: string;                                // a 5-digit US ZIP code, e.g. "78701"
+  limit?: number;                             // default 10, clamped to [1, 30]
+  fuelType?: "regular" | "midgrade" | "premium" | "diesel"; // default "regular"
 }
 
 interface GasbuddyStation {
   brand: string;
   address: string;             // "<street>, <city>, <state>"
-  price: number | null;        // real, current regular-gas price; null if no recent report
+  price: number | null;        // real, current fuel price; null if no recent report
   reportedAgo: string | null;  // e.g. "2 Hours Ago", or null alongside a null price
   url: string;                  // this exact station's own GasBuddy URL
 }
 
   /**
    * GasBuddy's real, crowdsourced per-station gas prices — runs the site's own ZIP-radius search
-   * and returns currently-reported stations (brand, address, regular-gas price, how long ago it
-   * was reported) sorted cheapest first.
+   * and returns currently-reported stations (brand, address, fuel price, how long ago it was
+   * reported) sorted cheapest first. Supports regular, midgrade, premium, and diesel grades.
    */
   interface Unit {
     /**

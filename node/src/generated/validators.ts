@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8db92416afafa4edd249cddbc877e57b4fec42b3ade72e91c1d4345961d82c08
+// Manifest version: 203f159d12a8f71d080865e5ede404e46bf7c51b2e1638fda486a340da5be1da
 // 1188 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8db92416afafa4edd249cddbc877e57b4fec42b3ade72e91c1d4345961d82c08",
+  "version": "203f159d12a8f71d080865e5ede404e46bf7c51b2e1638fda486a340da5be1da",
   "units": {
     "booking_links": {
       "defs": {
@@ -15003,6 +15003,31 @@ export const VALIDATORS: ValidatorTable = {
               "name": "limit",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "fuelType",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "regular"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "midgrade"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "premium"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "diesel"
+                  }
+                ]
               },
               "optional": true
             }

@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8db92416afafa4edd249cddbc877e57b4fec42b3ade72e91c1d4345961d82c08
+# Manifest version: 203f159d12a8f71d080865e5ede404e46bf7c51b2e1638fda486a340da5be1da
 # 60 capabilities, 445 providers, 1188 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -8955,6 +8955,7 @@ class Prv_g2_G2Product_Out(TypedDict):
 class Prv_gasbuddy_GasbuddyFindCheapestNearbyArgs_In(TypedDict):
     zip: str
     limit: NotRequired[float]
+    fuelType: NotRequired[Literal["regular"] | Literal["midgrade"] | Literal["premium"] | Literal["diesel"]]
 
 class Prv_gasbuddy_GasbuddyStation_Out(TypedDict):
     brand: str
@@ -26032,8 +26033,9 @@ class Prv_g2(Protocol):
 
 class Prv_gasbuddy(Protocol):
     """GasBuddy's real, crowdsourced per-station gas prices — runs the site's own ZIP-radius
-    search and returns currently-reported stations (brand, address, regular-gas price, how
-    long ago it was reported) sorted cheapest first.
+    search and returns currently-reported stations (brand, address, fuel price, how long ago
+    it was reported) sorted cheapest first. Supports regular, midgrade, premium, and diesel
+    grades.
     """
 
     async def findCheapestNearby(self, args: Prv_gasbuddy_GasbuddyFindCheapestNearbyArgs_In, /) -> list[Prv_gasbuddy_GasbuddyStation_Out]:
