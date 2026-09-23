@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1889 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1903 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -479,7 +479,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `detailxperts.listVehicleTypes` | detailxperts.com | Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …)… | 🟢 |
 | `deutschepost.getDialogpostRates` | deutschepost.de | Retrieves Deutsche Post Dialogpost pricing rates by weight category and format type. | 🟢 |
 | `developersopenai.getDocPage` | developers.openai.com | Reads one page of OpenAI's own developer documentation (e.g. the MCP connector / OAuth… | 🟢 |
-| `dfs_rotogrinderssearch.search` | rotogrinders.com | Searches RotoGrinders for DFS projections, ownership percentages, and salary caps… | 🟢 |
+| `dfs_rotogrinderssearch.search` | rotogrinders.com | Searches RotoGrinders for DFS projections, ownership percentages, and salary caps… | 🟡 |
 | `dice.getCompany` | dice.com | Returns one technology employer's Dice profile from its `/company-profile/<uuid>` URL… | ⚪ |
 | `dice.getJob` | dice.com | Returns one Dice posting in full from its posting id — the complete HTML description… | 🟡 |
 | `dice.listCompanyJobs` | dice.com | Returns the open technology roles a single named employer is currently advertising on… | ⚪ |
@@ -606,6 +606,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `flightradar24.search` | flightradar24.com | Resolves a free-text query — an airport name, a city, an airline, a flight number, a… | ⚪ |
 | `flightradar24.trackFlight` | flightradar24.com | Answers "where is this flight right now" for a flight number (BA286), callsign… | ⚪ |
 | `fluencecorp.calculateEnergyConsumption` | fluencecorp.com | Computes Normalized Energy Consumption (`NEC`, kWh/kg) for a wastewater treatment… | 🟢 |
+| `fomo.addToWatchlist` | fomo.family | Adds a token to the signed-in trader's watchlist. `POST /watchlist`. | ⚪ |
+| `fomo.claimCreatorFees` | fomo.family | Claims the creator fees a token's deployer has accrued, moving them into the signed-in… | ⚪ |
 | `fomo.commentOnTrade` | fomo.family | Posts a comment on a trade, and reacts to or unreacts from an existing comment. `POST… | ⚪ |
 | `fomo.deleteAccount` | fomo.family | Deletes the signed-in trader's fomo account. `DELETE /v2/users/:userId`. | ⚪ |
 | `fomo.editProfile` | fomo.family | Updates the signed-in trader's own profile — display name, bio, handle — and uploads… | ⚪ |
@@ -619,6 +621,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getClan` | fomo.family | Returns one clan — fomo's team unit — with its name, description, member count… | ⚪ |
 | `fomo.getClanFeed` | fomo.family | Pages a clan's own feed and the theses its members have written. `GET… | ⚪ |
 | `fomo.getClanHoldings` | fomo.family | Returns what a clan collectively holds — one row per token with how many members hold… | ⚪ |
+| `fomo.getClanHoldingsBreakdown` | fomo.family | Breaks one clan's position in ONE token down to the members holding it — who in the… | ⚪ |
+| `fomo.getClanThesis` | fomo.family | The written theses a clan's members have posted — the clan-scoped half of… | ⚪ |
 | `fomo.getCreatorFees` | fomo.family | Returns fees accrued to a token creator through fomo's relay, and claims them. `GET… | ⚪ |
 | `fomo.getCurrentUser` | fomo.family | Returns the signed-in trader's own profile — id, `userHandle`, display name, bio… | ⚪ |
 | `fomo.getDevHolders` | fomo.family | Returns whether the token's own deployer still holds it, and how much. | ⚪ |
@@ -638,11 +642,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getPortfolioSnapshot` | fomo.family | Returns one point of that series in full — the positions held at that moment, not just… | ⚪ |
 | `fomo.getRecommendedUsers` | fomo.family | Returns fomo's own suggestions of traders to follow for one user. | ⚪ |
 | `fomo.getReferrals` | fomo.family | Returns who the signed-in trader referred and what they have earned from it, plus… | ⚪ |
+| `fomo.getReferrerDetails` | fomo.family | Returns who referred the signed-in trader, and the terms attached — the other end of… | ⚪ |
 | `fomo.getRewards` | fomo.family | Returns the signed-in trader's reward history. `GET /v2/users/:userId/rewards`. | ⚪ |
 | `fomo.getSupportedTransferTokens` | fomo.family | Returns the tokens fomo will let a user send to another user or an external address.… | ⚪ |
 | `fomo.getSwapStatus` | fomo.family | Returns where a submitted swap got to — its status word, transaction hash, and failure… | ⚪ |
 | `fomo.getToken` | fomo.family | Returns one token's full detail — name, symbol, decimals, image, description and… | ⚪ |
 | `fomo.getTokenAllowlist` | fomo.family | Returns the tokens fomo will actually let a user trade, and the detailed variant that… | ⚪ |
+| `fomo.getTokenAllowlistDetailed` | fomo.family | The token allowlist with each entry's full record rather than its address alone — the… | ⚪ |
 | `fomo.getTokenFeed` | fomo.family | Pages the posts and trades attached to one specific token — the conversation on a… | ⚪ |
 | `fomo.getTokenThesis` | fomo.family | Returns the written theses traders have posted about one token, ranked by the site's… | ⚪ |
 | `fomo.getTokenWarnings` | fomo.family | Returns fomo's risk flags for one token — the honeypot, mint-authority… | ⚪ |
@@ -652,6 +658,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getTrades` | fomo.family | Pages trades across the platform, optionally filtered to one trader. `GET… | ⚪ |
 | `fomo.getTradingActivityFeed` | fomo.family | Pages raw trading activity rather than the composed social feed — the unfiltered… | ⚪ |
 | `fomo.getTransfers` | fomo.family | Pages the signed-in trader's transfers, and the transfers exchanged with one other… | ⚪ |
+| `fomo.getTransfersWith` | fomo.family | Pages the transfers between the signed-in trader and ONE other user — the two-party… | ⚪ |
 | `fomo.getTrendingTokens` | fomo.family | Returns what is moving on fomo right now — the site's own trending ranking, which is a… | ⚪ |
 | `fomo.getUser` | fomo.family | Returns one trader's public profile by fomo user id — the same record as… | ⚪ |
 | `fomo.getUserByHandle` | fomo.family | Returns one trader's profile from their `@handle` — the half of a… | ⚪ |
@@ -664,13 +671,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getWatchlist` | fomo.family | Returns the tokens the signed-in trader is watching, and adds or removes one. | ⚪ |
 | `fomo.postTokenThesis` | fomo.family | Publishes the signed-in trader's written thesis on a token. | ⚪ |
 | `fomo.quoteSwap` | fomo.family | Prices a swap without executing it — input token, output token, amounts, price impact… | ⚪ |
+| `fomo.quoteUsdcSwap` | fomo.family | Prices a swap denominated in USDC — the stablecoin path fomo's own buy flow uses… | ⚪ |
+| `fomo.reactToComment` | fomo.family | Reacts to a comment under a trade. `POST /trades/comment/react`. | ⚪ |
 | `fomo.reactToPost` | fomo.family | Reacts to, or removes a reaction from, a feed post. `POST /feed/react` and `POST… | ⚪ |
+| `fomo.removeFromWatchlist` | fomo.family | Removes a token from the signed-in trader's watchlist. `DELETE /watchlist`. | ⚪ |
 | `fomo.searchClans` | fomo.family | Searches clans by name. | ⚪ |
 | `fomo.searchTokens` | fomo.family | Searches tokens by name, symbol or contract address and returns matching rows with… | ⚪ |
 | `fomo.searchUsers` | fomo.family | Fuzzy-searches traders by handle or display name and returns matching profiles. | ⚪ |
 | `fomo.sendTransfer` | fomo.family | Sends tokens from the signed-in user's wallet to another user or address. `POST… | ⚪ |
+| `fomo.setAlertPreferences` | fomo.family | Writes the signed-in trader's push-notification preferences — which alerts fomo sends… | ⚪ |
 | `fomo.subscribeTokenStream` | fomo.family | Subscribes to fomo's realtime channel and streams token updates as they happen — the… | ⚪ |
 | `fomo.unfollow` | fomo.family | Unfollows a trader. `DELETE /follows`. | ⚪ |
+| `fomo.unreactToComment` | fomo.family | Removes the signed-in trader's reaction from a comment. `POST /trades/comment/unreact`. | ⚪ |
+| `fomo.unreactToPost` | fomo.family | Removes the signed-in trader's reaction from a feed post. `POST /feed/unreact`. | ⚪ |
+| `fomo.useReferralCode` | fomo.family | Applies a referral code to the signed-in trader's account. `POST… | ⚪ |
 | `ford.buildAndPrice` | ford.com | Walks Ford's own build-and-price configurator for a model and year — choosing trim… | ⚪ |
 | `ford.findDealers` | ford.com | Finds franchised Ford dealers near a US ZIP code — name, address, phone, coordinates… | 🟢 |
 | `ford.getModelDetails` | ford.com | Reads one Ford model's showroom page — its trims with starting MSRP, key specs… | ⚪ |
@@ -751,7 +765,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
 | `github.deleteComment` | github.com | Deletes a comment on an issue or pull request. | ⚪ |
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | ⚪ |
-| `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | ⚪ |
+| `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
 | `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, reviewers… | ⚪ |
 | `github.getRepo` | github.com | Returns a public repository's own metadata — description, default branch… | 🟢 |
@@ -1634,7 +1648,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.getVideo` | tiktok.com | One video's own facts, off the watch page's embedded state: caption, hashtags, create… | 🟢 |
 | `tiktok.likeVideo` | tiktok.com | Like a video as the signed-in caller — the heart button. | ⚪ |
 | `tiktok.listBookmarkedVideos` | tiktok.com | The signed-in caller's own saved videos — the companion read to bookmarkVideo. | ⚪ |
-| `tiktok.listCaptionTracks` | tiktok.com | Which languages a video's captions are available in and which TikTok shows by default… | ⚪ |
+| `tiktok.listCaptionTracks` | tiktok.com | Which languages a video's captions are available in and which TikTok shows by default… | 🟢 |
 | `tiktok.listCommentReplies` | tiktok.com | The replies under one comment thread, hidden behind TikTok's "N replies" button and… | ⚪ |
 | `tiktok.listComments` | tiktok.com | What people said under a video — author, text, like count, reply count, whether pinned… | ⚪ |
 | `tiktok.listConversations` | tiktok.com | The signed-in caller's own DM inbox — threads, last message, unread state. | ⚪ |
