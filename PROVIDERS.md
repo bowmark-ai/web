@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1903 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1965 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -528,6 +528,37 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `embroker.getQuoteEntryPoint` | embroker.com | Returns the live entry URL for Embroker's self-serve quote wizard for one coverage… | 🟢 |
 | `embroker.listCoverageLines` | embroker.com | Returns the real list of commercial-insurance coverage lines and policy product types… | 🟢 |
 | `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | 🟡 |
+| `epicgames.addToCart` | epicgames.com | Put a game or add-on in the signed-in caller's cart. | ⚪ |
+| `epicgames.addToWishlist` | epicgames.com | Add a game to the signed-in caller's wishlist. | ⚪ |
+| `epicgames.claimFreeGame` | epicgames.com | Claim one of this week's free games into the signed-in caller's library — the $0… | ⚪ |
+| `epicgames.getAccount` | epicgames.com | The signed-in caller's Epic account: display name, account id, linked platforms… | ⚪ |
+| `epicgames.getAchievementProgress` | epicgames.com | The signed-in caller's own achievements in one game — which are unlocked, when, and… | ⚪ |
+| `epicgames.getAchievements` | epicgames.com | A game's achievement list as the store shows it — name, description, icon, XP, and the… | ⚪ |
+| `epicgames.getCart` | epicgames.com | The signed-in caller's cart — each line's offer, price and discount, and the cart total. | ⚪ |
+| `epicgames.getGame` | epicgames.com | One game's store page as data: title, description, developer, publisher, release date… | ⚪ |
+| `epicgames.getGameRatings` | epicgames.com | How players rate a game on the Epic Games Store — the average star rating, the count… | ⚪ |
+| `epicgames.getLibrary` | epicgames.com | The games the signed-in caller owns on Epic — title, namespace, slug, and when it was… | ⚪ |
+| `epicgames.getNewsArticle` | epicgames.com | One Epic Games Store news article's full text, date, author and images. | ⚪ |
+| `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | ⚪ |
+| `epicgames.getRewardsBalance` | epicgames.com | The signed-in caller's Epic Rewards balance — the store credit they have earned from… | ⚪ |
+| `epicgames.getServiceStatus` | epicgames.com | Whether Epic's services are up — the Epic Games Store, launcher, login, Fortnite… | ⚪ |
+| `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | ⚪ |
+| `epicgames.getWishlist` | epicgames.com | The signed-in caller's Epic Games Store wishlist, with each game's current price and… | ⚪ |
+| `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Top Upcoming… | ⚪ |
+| `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | ⚪ |
+| `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | ⚪ |
+| `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | ⚪ |
+| `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | ⚪ |
+| `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | ⚪ |
+| `epicgames.listOrders` | epicgames.com | The signed-in caller's Epic purchase history — each transaction's date, items, amount… | ⚪ |
+| `epicgames.listTags` | epicgames.com | The store's browse filters — genres, features, platforms and event tags with their ids… | ⚪ |
+| `epicgames.redeemCode` | epicgames.com | Redeem a product code the caller holds into their Epic library. | ⚪ |
+| `epicgames.removeFriend` | epicgames.com | Remove someone from the signed-in caller's Epic friends. | ⚪ |
+| `epicgames.removeFromCart` | epicgames.com | Remove a line from the signed-in caller's cart. | ⚪ |
+| `epicgames.removeFromWishlist` | epicgames.com | Remove a game from the signed-in caller's wishlist. | ⚪ |
+| `epicgames.searchGames` | epicgames.com | Keyword search of the Epic Games Store catalogue, the door to every other function —… | ⚪ |
+| `epicgames.sendFriendRequest` | epicgames.com | Send a friend request from the signed-in caller to an Epic display name. | ⚪ |
+| `epicgames.updateDisplayName` | epicgames.com | Change the signed-in caller's Epic display name. | ⚪ |
 | `epromos.getProductConfiguration` | epromos.com | Reads one ePromos product's own configurator off its product page — every color/style… | 🟢 |
 | `epromos.listCategoryProducts` | epromos.com | Lists the products ePromos features on one of its category landing pages (e.g.… | 🟢 |
 | `epromos.quoteBulkPrice` | epromos.com | Computes the real per-unit and total price for one product at a caller-given quantity… | 🟢 |
@@ -1448,17 +1479,48 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
+| `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
+| `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | ⚪ |
+| `reddit.browseSubreddits` | reddit.com | Lists communities without a query — Reddit's own most-popular and newest communities… | ⚪ |
+| `reddit.createSubreddit` | reddit.com | Creates a new community owned by the signed-in caller — name, description, and public… | ⚪ |
+| `reddit.deletePostOrComment` | reddit.com | Deletes the signed-in caller's own post or comment. | ⚪ |
+| `reddit.editPostOrComment` | reddit.com | Edits the text of the signed-in caller's own post or comment. | ⚪ |
 | `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | ⚪ |
+| `reddit.followUser` | reddit.com | Follows or unfollows a redditor as the signed-in caller, so their posts reach the… | ⚪ |
+| `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | ⚪ |
+| `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | ⚪ |
+| `reddit.getMyAccount` | reddit.com | Returns the signed-in caller's own account — username, karma, account age, whether… | ⚪ |
 | `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟢 |
 | `reddit.getSubreddit` | reddit.com | Returns the facts about one community rather than its content — the subreddit's title… | 🟢 |
 | `reddit.getSubredditPosts` | reddit.com | Returns a community's own front page — the submissions in one subreddit under a chosen… | 🟢 |
+| `reddit.getSubredditRules` | reddit.com | Returns one community's posting rules — each rule's short name, full description and… | ⚪ |
 | `reddit.getUser` | reddit.com | Returns a redditor's public profile — display name, post and comment karma, account… | ⚪ |
 | `reddit.getUserComments` | reddit.com | Returns the comments one redditor has written, newest or top first, each with its… | ⚪ |
 | `reddit.getUserPosts` | reddit.com | Returns the submissions one redditor has made, newest or top first, with the same… | ⚪ |
 | `reddit.getWikiPage` | reddit.com | Returns a subreddit's wiki page — the community-maintained reference behind most large… | ⚪ |
+| `reddit.giveAward` | reddit.com | Gives an award to a post or comment as the signed-in caller. | ⚪ |
+| `reddit.hidePost` | reddit.com | Hides or un-hides a post from the signed-in caller's feeds. | ⚪ |
+| `reddit.joinSubreddit` | reddit.com | Joins a community as the signed-in caller, so its posts reach their home feed. | ⚪ |
+| `reddit.leaveSubreddit` | reddit.com | Leaves a community the signed-in caller has joined. | ⚪ |
+| `reddit.listInbox` | reddit.com | Reads the signed-in caller's inbox — replies to their posts and comments, username… | ⚪ |
+| `reddit.listMySubscriptions` | reddit.com | Lists the communities the signed-in caller has joined. | ⚪ |
+| `reddit.listPostFlairs` | reddit.com | Lists the post flairs a community offers, with their ids — the door `submitPost` needs… | ⚪ |
+| `reddit.listSaved` | reddit.com | Lists the posts and comments the signed-in caller has saved. | ⚪ |
+| `reddit.listWikiPages` | reddit.com | Lists the pages of one subreddit's wiki — the index a caller needs before… | ⚪ |
+| `reddit.postComment` | reddit.com | Comments on a post as the signed-in caller and returns the new comment's permalink. | ⚪ |
+| `reddit.replyToComment` | reddit.com | Replies to a comment as the signed-in caller and returns the new reply's permalink. | ⚪ |
+| `reddit.reportPostOrComment` | reddit.com | Reports a post or comment to a community's moderators, as the signed-in caller, under… | ⚪ |
+| `reddit.savePostOrComment` | reddit.com | Saves a post or comment to the signed-in caller's Saved list. | ⚪ |
 | `reddit.search` | reddit.com | Searches Reddit's posts for a query — across the whole site or scoped to one subreddit… | 🟢 |
 | `reddit.searchComments` | reddit.com | Searches the text of comments rather than posts, returning each match with its body… | ⚪ |
 | `reddit.searchSubreddits` | reddit.com | Finds communities by topic — a query goes in, matching subreddits come out with their… | 🟢 |
+| `reddit.searchUsers` | reddit.com | Finds redditors by name — a partial or remembered username goes in, matching accounts… | ⚪ |
+| `reddit.sendDirectMessage` | reddit.com | Sends a direct message (Reddit chat) from the signed-in caller to another redditor. | ⚪ |
+| `reddit.setProfilePicture` | reddit.com | Uploads an image as the signed-in caller's profile picture. | ⚪ |
+| `reddit.submitPost` | reddit.com | Posts to a community as the signed-in caller — a text post, a link, an image, or a… | ⚪ |
+| `reddit.unsavePostOrComment` | reddit.com | Removes a post or comment from the signed-in caller's Saved list. | ⚪ |
+| `reddit.updateProfile` | reddit.com | Changes the signed-in caller's public profile — display name and the 'about' bio. | ⚪ |
+| `reddit.vote` | reddit.com | Upvotes, downvotes or clears the caller's vote on a post or a comment, as the… | ⚪ |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟡 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟡 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
