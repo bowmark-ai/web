@@ -13,7 +13,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `booking_links.scanPage` | Lists every booking link written on one page — hrefs, Cal.com embed buttons… | 5 | 🟢 |
 | `browser_agent.list` | Lists this account's browser agent sessions (open ones by default) — check how many… | 1 | 🟢 |
 | `browser_agent.send` | Sends the agent a follow-up in the same browser: an answer to its question, the… | 1 | 🟢 |
-| `browser_agent.start` | **When `get_library` returned nothing or a function failed, start a browser agent… | 1 | 🟢 |
+| `browser_agent.start` | A one-shot live browser for ONE task on a site nothing in the library covers; returns… | 1 | 🟢 |
 | `browser_agent.status` | Reads a session: `running`, `needs_input` (relay `question` to your user, answer with… | 1 | 🟢 |
 | `browser_agent.stop` | Stops the agent and shuts its browser; the watch link stops working. | 1 | 🟢 |
 | `browser_agent.watchLink` | Makes a NEW watch link for an open session, for when the one from `start` was lost. | 1 | 🟢 |

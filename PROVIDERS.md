@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1967 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1969 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -39,6 +39,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟡 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
+| `airbnb.search` | airbnb.com | Runs Airbnb's own stays search (airbnb.com/s/<location>/homes) for a free-text… | 🟢 |
 | `airtable.createRecord` | airtable.com | Creates a new record in a specified table. | 🟢 |
 | `airtable.getRecord` | airtable.com | Retrieves a single record by its ID from a specified table. | 🟢 |
 | `airtable.listBases` | airtable.com | Lists all bases the authenticated user can access. | 🟢 |
@@ -806,11 +807,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | 🟢 |
 | `github.getUserRepositories` | github.com | Lists every public repository a user owns — description, fork/archived flags, default… | 🟢 |
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
-| `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | ⚪ |
+| `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟢 |
 | `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | ⚪ |
 | `github.listNotifications` | github.com | Lists the signed-in user's notifications — issues, pull requests, and discussions… | ⚪ |
 | `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
-| `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state… | ⚪ |
+| `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
 | `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in user has starred, with optional sorting and filtering. | ⚪ |
 | `github.listTopics` | github.com | Lists repositories by topic, returning repositories tagged with a specific topic. | ⚪ |
@@ -851,7 +852,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.listPhotos` | google.com/maps | The photos Google Maps shows in a place's gallery panel — up to 20, each with a url… | 🟢 |
 | `google_maps.listRelatedPlaces` | google.com/maps | Other businesses Google Maps lists "At this place" — the site's own label for a shared… | 🟢 |
 | `google_maps.listReviews` | google.com/maps | The reviews Google Maps shows on a business's own panel — a handful, each with author… | 🟢 |
-| `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in person saved — Favourites, Want to go, Starred and their own… | ⚪ |
+| `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in caller saved — Favourites, Want to go, Starred and their own… | 🟢 |
 | `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a full /maps/place/… | 🟢 |
 | `google_maps.reverseGeocode` | google.com/maps | A point in — the Plus Code and locality Google Maps shows for it out, the same string… | 🟢 |
 | `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | ⚪ |
@@ -900,7 +901,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gotchacovered.getDesignStyleQuizQuestions` | gotchacovered.com | Reads the live 'What Design Style Am I?' quiz's real 6 questions and their option… | 🟢 |
 | `gotchacovered.takeDesignStyleQuiz` | gotchacovered.com | Answers all 6 questions of Gotcha Covered's own Design Style Quiz and returns the… | 🟡 |
 | `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🟡 |
-| `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟡 |
+| `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟢 |
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟢 |
 | `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟢 |
 | `grainger.trackOrder` | grainger.com | Looks up the status of a placed order (order number plus account/email, no sign-in) —… | ⚪ |
@@ -1063,7 +1064,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `jcrew.addToCart` | jcrew.com | Adds a chosen J.Crew variant to a shopping bag. | ⚪ |
 | `jcrew.browseCategory` | jcrew.com | Lists the products in one J.Crew category the way the site's own category pages do —… | 🟢 |
 | `jcrew.checkVariantStock` | jcrew.com | Answers whether one specific colour and size of a J.Crew style is buyable right now —… | 🟢 |
-| `jcrew.findStores` | jcrew.com | Finds physical J.Crew stores near a point the way the site's own store locator does… | ⚪ |
+| `jcrew.findStores` | jcrew.com | Finds physical J.Crew stores near a point the way the site's own store locator does —… | 🟢 |
 | `jcrew.getCategory` | jcrew.com | Reads one J.Crew category by id — its display name, its parent and the full path back… | 🟢 |
 | `jcrew.getProduct` | jcrew.com | Reads one J.Crew product in full the way its own product detail page does — given the… | 🟢 |
 | `jcrew.getProducts` | jcrew.com | Reads several J.Crew products in one call, given a list of style ids — the batch form… | 🟢 |
@@ -1141,6 +1142,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `liquiddeath.addToCart` | liquiddeath.com | Builds a filled cart for the shopper to open — cartUrl lands on the store's own cart… | 🟢 |
 | `liquiddeath.getCart` | liquiddeath.com | Reads a cart the shopper already has, by its id — line items, quantities, per-line and… | 🟢 |
 | `liquiddeath.getProduct` | liquiddeath.com | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
+| `liquiddeath.listProducts` | liquiddeath.com | Lists products from the catalogue without a search term, supporting the same limit… | 🟢 |
 | `liquiddeath.searchPolicies` | liquiddeath.com | Answers questions about shipping, returns, subscriptions and the store's own FAQs… | ⚪ |
 | `liquiddeath.searchProducts` | liquiddeath.com | Searches the live catalogue and returns matching products with their real variants… | 🟢 |
 | `liquidspace.search` | liquidspace.com | Reads LiquidSpace's own city-listing page for a US city/state and returns every… | 🟢 |
@@ -1261,13 +1263,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
 | `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | ⚪ |
 | `msn.getMarketSummary` | msn.com | Reads the major index levels (S&P 500, Dow, Nasdaq) and their day's change off MSN… | ⚪ |
-| `msn.getSectionFeed` | msn.com | Returns the current top stories for one of MSN's own sections — money, sports… | ⚪ |
+| `msn.getSectionFeed` | msn.com | Returns the current top-stories feed the way msn.com/en-us/<section> does for a… | 🟢 |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, change and key stats off MSN Money the way… | ⚪ |
 | `msn.getTopStories` | msn.com | Returns the top stories the MSN front page is showing right now, the way www.msn.com… | 🟢 |
 | `msn.getWeatherForecast` | msn.com | Reads the multi-day forecast for a named city off MSN Weather the way… | ⚪ |
 | `msn.listSavedArticles` | msn.com | Lists the articles the signed-in caller has saved to their MSN reading list — the… | ⚪ |
 | `msn.saveArticle` | msn.com | Adds an article to the signed-in caller's MSN reading list — the write half of… | ⚪ |
-| `msn.searchNews` | msn.com | Searches MSN's own aggregated news index the way its front-page search does and… | ⚪ |
+| `msn.searchNews` | msn.com | Searches MSN's own aggregated news index the way its front-page search does and… | 🟢 |
 | `municipal_recreation_fees_fetcher.getFeeSchedule` | fredericton.ca, dieppe.ca | Retrieves annual recreation centre membership fees (adult and family passes) for a New… | 🟢 |
 | `muze_gov_tr.getVisitingHours` | muze.gov.tr | Matches a museum name against muze.gov.tr's own highlight listing and reads that… | 🟢 |
 | `my_auroramedicalspa_com.getProviders` | my.auroramedicalspa.com | Lists the providers who can perform one service at one location, including the site's… | 🟢 |
@@ -1280,7 +1282,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `naic.getComplaintTrends` | naic.org | Reads NAIC's aggregate closed-complaint reports — by disposition, by reason, and by… | ⚪ |
 | `naic.getLicensing` | naic.org | Lists the states one insurer is licensed in and its status in each, which is the… | 🟢 |
 | `naic.getStateInsuranceChart` | naic.org | Reads one State Insurance Chart back in full — the per-state statute and regulation… | ⚪ |
-| `naic.listStateDepartments` | naic.org | Returns the directory of all 50+ state and territory insurance departments — the… | 🟡 |
+| `naic.listStateDepartments` | naic.org | Returns the directory of all 50+ state and territory insurance departments — the… | 🟢 |
 | `naic.lookupProducer` | naic.org | Verifies an individual insurance agent or agency through NAIC's State Based Systems… | ⚪ |
 | `naic.searchCompanies` | naic.org | Searches the NAIC Consumer Information Source register by company name or headquarters… | 🟢 |
 | `naic.searchStateInsuranceCharts` | naic.org | Searches NAIC's State Insurance Charts — the 100+ issue-specific charts that compile… | ⚪ |
@@ -1382,7 +1384,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listUserFollowers` | pinterest.com | Who follows this person, page by page — the audience side of a profile. | ⚪ |
 | `pinterest.listUserFollowing` | pinterest.com | Who this person follows — people, boards and topics. | ⚪ |
 | `pinterest.listUserSavedPins` | pinterest.com | The pins a person has saved, newest first, across all their boards — what… | ⚪ |
-| `pinterest.listVisualObjects` | pinterest.com | The objects Pinterest's own computer vision found inside a pin's image — each with a… | ⚪ |
+| `pinterest.listVisualObjects` | pinterest.com | The objects Pinterest's own computer vision found inside a pin's image — each with a… | 🟢 |
 | `pinterest.reactToPin` | pinterest.com | React to a pin as the caller — Pinterest's good-idea / love / thanks set, which… | ⚪ |
 | `pinterest.savePin` | pinterest.com | Save an existing pin to one of the caller's boards — the repin, which is the single… | ⚪ |
 | `pinterest.searchBoards` | pinterest.com | Search for boards rather than pins — "espresso machine" comes back as 49 boards with… | 🟢 |
@@ -1562,13 +1564,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | ⚪ |
 | `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | ⚪ |
 | `samsung.listCarrierOffers` | samsung.com | Samsung's own trade-in and carrier promotions — the "save up to $X with eligible… | ⚪ |
-| `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | ⚪ |
+| `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | 🟢 |
 | `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | ⚪ |
 | `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | ⚪ |
 | `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | ⚪ |
 | `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | ⚪ |
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | ⚪ |
-| `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | ⚪ |
+| `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟢 |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
 | `seakeeper.findNearestDealers` | seakeeper.com | Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest N… | 🟢 |
 | `seakeeper.listAllDealers` | seakeeper.com | Every real Seakeeper dealer worldwide (name, address, contact, coordinates, tier)… | 🟢 |
@@ -1713,8 +1715,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.likeVideo` | tiktok.com | Like a video as the signed-in caller — the heart button. | ⚪ |
 | `tiktok.listBookmarkedVideos` | tiktok.com | The signed-in caller's own saved videos — the companion read to bookmarkVideo. | ⚪ |
 | `tiktok.listCaptionTracks` | tiktok.com | Which languages a video's captions are available in and which TikTok shows by default… | 🟢 |
-| `tiktok.listCommentReplies` | tiktok.com | The replies under one comment thread, hidden behind TikTok's "N replies" button and… | ⚪ |
-| `tiktok.listComments` | tiktok.com | What people said under a video — author, text, like count, reply count, whether pinned… | ⚪ |
+| `tiktok.listCommentReplies` | tiktok.com | The replies under one comment thread, hidden behind TikTok's "N replies" button and… | 🟢 |
+| `tiktok.listComments` | tiktok.com | What people said under a video — author, text, like count, reply count, whether pinned… | 🟢 |
 | `tiktok.listConversations` | tiktok.com | The signed-in caller's own DM inbox — threads, last message, unread state. | ⚪ |
 | `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | ⚪ |
 | `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | ⚪ |
@@ -1852,7 +1854,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.createPage` | wikipedia.org | Create an article that does not exist yet, under the caller's account. `POST… | ⚪ |
 | `wikipedia.editPage` | wikipedia.org | Change an article — replace a page or one of its sections with new wikitext, under the… | ⚪ |
 | `wikipedia.getArticle` | wikipedia.org | The whole article as an agent wants to read it: title, Wikipedia's own short… | 🟢 |
-| `wikipedia.getArticleHtml` | wikipedia.org | The article's rendered HTML — the real page body, with tables, references, footnotes… | ⚪ |
+| `wikipedia.getArticleHtml` | wikipedia.org | The article's rendered HTML — the real page body, with tables, references, footnotes… | 🟢 |
 | `wikipedia.getCurrentUser` | wikipedia.org | Who the caller is signed in as on Wikipedia — username, user id, edit count, the… | ⚪ |
 | `wikipedia.getFeaturedContent` | wikipedia.org | Wikipedia's own front page for a given date, as data — the featured article, the… | ⚪ |
 | `wikipedia.getImage` | wikipedia.org | One media file's real details — the full-size url, dimensions, MIME type, and the… | ⚪ |
@@ -1865,7 +1867,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getSections` | wikipedia.org | The article's table of contents — every section with its number, heading, nesting… | 🟢 |
 | `wikipedia.getSummary` | wikipedia.org | The lead of an article and nothing else — the first paragraph as plain text and as… | 🟢 |
 | `wikipedia.getUser` | wikipedia.org | A Wikipedia editor's public record — registration date, total edit count, and the user… | ⚪ |
-| `wikipedia.getWikitext` | wikipedia.org | The article's raw wikitext source — what an editor sees in the edit box, templates and… | ⚪ |
+| `wikipedia.getWikitext` | wikipedia.org | The article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟢 |
 | `wikipedia.listBacklinks` | wikipedia.org | What links HERE — every Wikipedia article pointing at this one, by title and url. | ⚪ |
 | `wikipedia.listCategories` | wikipedia.org | The categories an article belongs to — Wikipedia's own subject taxonomy, which is how… | ⚪ |
 | `wikipedia.listCategoryMembers` | wikipedia.org | Every article in a category — hand it "Coffee" and get the pages Wikipedia files under… | ⚪ |
@@ -1897,7 +1899,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | ⚪ |
 | `yahoo_finance.getHistoricalPrices` | finance.yahoo.com | Reads a ticker's daily open/high/low/close/volume history over a requested range, the… | 🟢 |
 | `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | 🟢 |
-| `yahoo_finance.getKeyStatistics` | finance.yahoo.com | Reads the fuller valuation and share-statistics sheet the site's own Statistics tab… | ⚪ |
+| `yahoo_finance.getKeyStatistics` | finance.yahoo.com | Reads the fuller valuation and share-statistics sheet the site's own Statistics tab… | 🟢 |
 | `yahoo_finance.getMarketSummary` | finance.yahoo.com | Reads the market-wide overview the site's own Markets home shows — the major indices… | 🟢 |
 | `yahoo_finance.getNews` | finance.yahoo.com | Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —… | 🟢 |
 | `yahoo_finance.getOptionsChain` | finance.yahoo.com | Reads a ticker's options chain — calls and puts by strike and expiration, with… | 🟢 |
@@ -1918,7 +1920,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getFantasyLeague` | sports.yahoo.com | Reads the CALLER's own fantasy football league — standings, matchups, rosters — the… | ⚪ |
 | `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full the way its own game page does — final or live score, box score… | 🟢 |
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads the sports news and analysis stories Yahoo Sports itself is running right now… | ⚪ |
-| `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and season stats the way their own player page does —… | ⚪ |
+| `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and current-season stat line off their own player page —… | 🟢 |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | ⚪ |
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟢 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads today's games for one league — NFL, NBA, MLB, NHL, college football, college… | 🟢 |
