@@ -387,7 +387,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `charterhomes.searchHomes` | charterhomes.com | Searches Charter Homes & Neighborhoods' live for-sale home inventory by… | 🟢 |
 | `cheapflights.getBookingOptions` | cheapflights.com | For one result, reads who actually sells the fare and at what price — the provider… | 🟢 |
 | `cheapflights.search` | cheapflights.com | Runs the itinerary search on cheapflights.com and returns its result rows… | 🟢 |
-| `cheapflights.searchCars` | cheapflights.com | Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup… | 🟢 |
+| `cheapflights.searchCars` | cheapflights.com | Runs the car-hire search on cheapflights.com and returns priced vehicles for a pickup… | 🟡 |
 | `cheapflights.searchHotels` | cheapflights.com | Runs the stays search on cheapflights.com — the site's own second vertical — and… | 🟢 |
 | `chesmar.searchQuickMoveInHomes` | chesmar.com | Runs Chesmar Homes' quick-move-in home search against the site's own live inventory… | 🟢 |
 | `chipotle.getBowlBuilder` | chipotle.com | Reads chipotle.com's own universal menu rules and returns every burrito-bowl protein… | 🟢 |
