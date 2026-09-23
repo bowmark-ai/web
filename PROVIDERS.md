@@ -591,7 +591,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fitness1440.listLocations` | fitness1440.com | Reads FITNESS:1440's own day-pass request form (/request-day-pass/) and returns the… | 🟢 |
 | `fivebelow.search` | fivebelow.com | Searches fivebelow.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `fivestarbathsolutions.bookAppointment` | fivestarbathsolutions.com | Would submit the final 3-step booking form (chosen slot +… | ⚪ |
-| `fivestarbathsolutions.getAvailableSlots` | fivestarbathsolutions.com | Checks a franchise region's real free design-consultation scheduler and returns the… | 🟡 |
+| `fivestarbathsolutions.getAvailableSlots` | fivestarbathsolutions.com | Checks a franchise region's real free design-consultation scheduler and returns the… | 🟢 |
 | `fivestarbathsolutions.listLocations` | fivestarbathsolutions.com | Returns every Five Star Bath Solutions franchise territory — the site's own… | 🟢 |
 | `flightradar24.getAircraft` | flightradar24.com | Reads the airframe behind a tail registration (G-XLEA) — aircraft type and model… | ⚪ |
 | `flightradar24.getAirline` | flightradar24.com | Name the carrier behind an airline code. | 🟢 |
@@ -1315,7 +1315,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.getBoard` | pinterest.com | Read one board: name, description, owner, pin count, follower count, section count… | ⚪ |
 | `pinterest.getCurrentUser` | pinterest.com | Who the caller is signed in as — username, display name, counts. | ⚪ |
 | `pinterest.getHomeFeed` | pinterest.com | The caller's own personalised Pinterest home feed — the thing the site is actually for… | ⚪ |
-| `pinterest.getPin` | pinterest.com | Read one pin in full: title, `seo_title`, the description Pinterest renders, the… | ⚪ |
+| `pinterest.getPin` | pinterest.com | Read one pin in full: title, `seo_title`, the description Pinterest renders, the… | 🟢 |
 | `pinterest.getProduct` | pinterest.com | Read the product behind a shoppable pin: price and currency, the merchant and the… | ⚪ |
 | `pinterest.getTopic` | pinterest.com | Read one idea topic: its display name, the description Pinterest wrote for it, its… | ⚪ |
 | `pinterest.getUser` | pinterest.com | Read a person's or a brand's profile: full name, username, the bio they wrote… | ⚪ |
