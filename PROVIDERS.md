@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1965 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1967 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -162,6 +162,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `avalonmalibu_com.getInsuranceForm` | avalonmalibu.com | Reads Avalon Malibu's public insurance-verification form and returns its fields… | 🟢 |
 | `avantstay.getPricing` | avantstay.com | Prices every room type at one AvantStay hotel-style property for a given date range… | 🟢 |
 | `avantstay.searchProperties` | avantstay.com | Runs AvantStay's own portfolio search (the same query the site-wide search widget… | 🟢 |
+| `avenuehealthcare.search` | avenuehealthcare.com | Search for available clinics and services across Avenue Healthcare locations in Kenya. | 🟢 |
 | `avis.getDeals` | avis.com | Reads Avis's current published promotions and discount codes — the site's own "Deals &… | ⚪ |
 | `avis.getLocation` | avis.com | Reads one Avis rental location in full off the site's own location-search API for a… | 🟢 |
 | `avis.getReservation` | avis.com | Reads an existing Avis reservation the way the site's own "View / Modify / Cancel"… | ⚪ |
@@ -424,6 +425,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.getFittings` | clubchampion.com | Reads one studio's real fitting-type menu with live per-store pricing (Driver, Full… | 🟢 |
 | `clubchampion.listFitters` | clubchampion.com | Reads the live list of every Club Champion fitter — id, name, studio, timezone… | 🟢 |
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
+| `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
 | `compass_living.listCommunities` | compass-living.com | Lists up to 10 senior living communities with their contact-form fields and… | 🟢 |
@@ -1261,7 +1263,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `msn.getMarketSummary` | msn.com | Reads the major index levels (S&P 500, Dow, Nasdaq) and their day's change off MSN… | ⚪ |
 | `msn.getSectionFeed` | msn.com | Returns the current top stories for one of MSN's own sections — money, sports… | ⚪ |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, change and key stats off MSN Money the way… | ⚪ |
-| `msn.getTopStories` | msn.com | Returns the top stories the MSN front page is showing right now, the way www.msn.com… | ⚪ |
+| `msn.getTopStories` | msn.com | Returns the top stories the MSN front page is showing right now, the way www.msn.com… | 🟢 |
 | `msn.getWeatherForecast` | msn.com | Reads the multi-day forecast for a named city off MSN Weather the way… | ⚪ |
 | `msn.listSavedArticles` | msn.com | Lists the articles the signed-in caller has saved to their MSN reading list — the… | ⚪ |
 | `msn.saveArticle` | msn.com | Adds an article to the signed-in caller's MSN reading list — the write half of… | ⚪ |
@@ -1361,7 +1363,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.getCurrentUser` | pinterest.com | Who the caller is signed in as — username, display name, counts. | ⚪ |
 | `pinterest.getHomeFeed` | pinterest.com | The caller's own personalised Pinterest home feed — the thing the site is actually for… | ⚪ |
 | `pinterest.getPin` | pinterest.com | Read one pin in full: title, `seo_title`, the description Pinterest renders, the… | 🟢 |
-| `pinterest.getProduct` | pinterest.com | Read the product behind a shoppable pin: price and currency, the merchant and the… | ⚪ |
+| `pinterest.getProduct` | pinterest.com | Read the product behind a shoppable pin: price and currency, the merchant and the… | 🟢 |
 | `pinterest.getTopic` | pinterest.com | Read one idea topic: its display name, the description Pinterest wrote for it, its… | ⚪ |
 | `pinterest.getUser` | pinterest.com | Read a person's or a brand's profile: full name, username, the bio they wrote… | ⚪ |
 | `pinterest.hidePin` | pinterest.com | Tell Pinterest the caller does not want to see a pin. | ⚪ |
@@ -1719,7 +1721,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | ⚪ |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | ⚪ |
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | ⚪ |
-| `tiktok.listUserVideos` | tiktok.com | What a creator has posted, paged — the door from a handle to their videos. | ⚪ |
+| `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id and caption for each — the door from a handle to their… | 🟢 |
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | ⚪ |
 | `tiktok.searchUsers` | tiktok.com | Search TikTok for creators matching a query and get back handle, nickname and follower… | ⚪ |
 | `tiktok.searchVideos` | tiktok.com | Search TikTok the way the search box does and get back matching videos. | ⚪ |
@@ -1859,7 +1861,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getPageviews` | wikipedia.org | How many people actually read an article, per day, over a date range — the closest… | ⚪ |
 | `wikipedia.getRandomArticle` | wikipedia.org | A genuinely random Wikipedia article, or several — title, url and summary. | ⚪ |
 | `wikipedia.getRevision` | wikipedia.org | One specific revision of an article by id — its content, editor, timestamp, size and… | ⚪ |
-| `wikipedia.getSection` | wikipedia.org | One named or numbered section of an article as plain text, without downloading the… | ⚪ |
+| `wikipedia.getSection` | wikipedia.org | One named or numbered section of an article as plain text, without downloading the… | 🟢 |
 | `wikipedia.getSections` | wikipedia.org | The article's table of contents — every section with its number, heading, nesting… | 🟢 |
 | `wikipedia.getSummary` | wikipedia.org | The lead of an article and nothing else — the first paragraph as plain text and as… | 🟢 |
 | `wikipedia.getUser` | wikipedia.org | A Wikipedia editor's public record — registration date, total edit count, and the user… | ⚪ |
