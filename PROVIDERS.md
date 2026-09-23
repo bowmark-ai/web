@@ -1022,7 +1022,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `jcrew.getProducts` | jcrew.com | Reads several J.Crew products in one call, given a list of style ids — the batch form… | 🟢 |
 | `jcrew.listCategories` | jcrew.com | Walks J.Crew's own category tree from a starting category down a requested number of… | 🟢 |
 | `jcrew.listSearchRefinements` | jcrew.com | Lists the filters J.Crew itself offers for a given search or category — size, colour… | 🟢 |
-| `jcrew.listSortOptions` | jcrew.com | Lists the sort orders J.Crew's own result pages offer — price low to high, newest… | ⚪ |
+| `jcrew.listSortOptions` | jcrew.com | Lists the sort orders J.Crew's own result pages offer — price low to high, newest… | 🟢 |
 | `jcrew.searchProducts` | jcrew.com | Searches J.Crew's live catalogue the way its own search bar does — a free-text query… | 🟢 |
 | `jcrew.startCheckout` | jcrew.com | Begins J.Crew's checkout for a filled bag. | ⚪ |
 | `jcrew.suggestSearchTerms` | jcrew.com | Completes a partial search the way J.Crew's own type-ahead does — a word fragment 3-50… | 🟢 |
@@ -1821,7 +1821,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_mail.moveMessage` | mail.yahoo.com | Moves one of the CALLER's own messages to another folder (archive, trash, a custom… | ⚪ |
 | `yahoo_mail.searchMessages` | mail.yahoo.com | Searches the CALLER's own mailbox the way Yahoo Mail's own search bar does — by… | ⚪ |
 | `yahoo_mail.sendMessage` | mail.yahoo.com | Sends an email from the CALLER's own Yahoo Mail account. | ⚪ |
-| `yahoo_sports.findPlayers` | sports.yahoo.com | Finds players by name across a league — the door for `getPlayer`, so a caller holding… | ⚪ |
+| `yahoo_sports.findPlayers` | sports.yahoo.com | Finds players on one team's roster by name — the door for `getPlayer`, so a caller… | 🟢 |
 | `yahoo_sports.getFantasyLeague` | sports.yahoo.com | Reads the CALLER's own fantasy football league — standings, matchups, rosters — the… | ⚪ |
 | `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full the way its own game page does — final or live score, box score… | 🟢 |
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads the sports news and analysis stories Yahoo Sports itself is running right now… | ⚪ |
