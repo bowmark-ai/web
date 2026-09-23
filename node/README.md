@@ -139,7 +139,13 @@ takes them — or set `BOWMARK_API_KEY` and `BOWMARK_API_URL`, read at CALL time
 is required**: without one the first call throws `code: "no_api_key"` and sends nothing.
 A caller header cannot displace the key.
 
-## The two halves, and why they are split
+## Internals — how this package is built, generated and published
+
+Everything above is what you need to call the library. Everything below is for someone
+working on this package itself — the generator, the guards, the publish pipeline. Skip
+it unless you're changing how the SDK is built.
+
+### The two halves, and why they are split
 
 - **`src/{index,session,transport,guard,validate}.ts`** — hand-written, ~700 lines,
   changes almost never.
@@ -174,7 +180,7 @@ argument the wire cannot carry.
 that, `await bowmark.music` would find a callable `then`, invoke it as a thenable, and
 hang forever waiting for a resolve a path segment can never call.
 
-## The wire guard is a checked COPY
+### The wire guard is a checked COPY
 
 `src/guard.ts` duplicates `wireProblem` from `packages/schema/src/wire.ts`, because
 importing the workspace package would break the tarball for everyone outside this repo.
@@ -188,7 +194,7 @@ things (a circular structure and a `BigInt`) and silently mangles everything els
 → dropped. Temporal shipped that exact bug, diagnosed it as a typing problem, and closed
 it won't-fix.
 
-## The argument guard is TWO guards, in this order
+### The argument guard is TWO guards, in this order
 
 `assertWireSafeArgs` asks whether the value can cross at all — a `Date`, a `Map`, a
 function, a circular structure. `assertArgShape` asks whether it matches what the
@@ -244,7 +250,7 @@ refuses one, with no exception set — an exception would be a declaration that 
 parameter is uncallable. Found once, on `pizzahut.priceOrder`, by generating validators
 for all 253 typed parameters.
 
-## What ships is compiled, not `src/` verbatim
+### What ships is compiled, not `src/` verbatim
 
 `main`/`types` point at `dist/index.{js,d.ts}`. `dist/` is never committed — it does not
 exist in this workspace and does not exist in the public mirror's git history either — it
@@ -273,7 +279,7 @@ all and `BowmarkLibrary` — the type this package exists to ship — reads as `
 name`. `build.mjs` re-inserts the reference line and copies `library.d.ts` into
 `dist/generated/` verbatim (it has nothing to compile).
 
-## Regenerating
+### Regenerating
 
 ```bash
 pnpm run gen:public-types         # writes src/generated/{library.d.ts,validators.ts}
@@ -297,7 +303,7 @@ TypeScript with no build step, so a generate-at-build artifact leaves `tsc` and 
 with nothing to read on a fresh clone. Committed plus a staleness gate is the only shape
 that works. Never hand-edit it.
 
-## Four things the generator does that look like bugs and are not
+### Four things the generator does that look like bugs and are not
 
 **One namespace per unit.** `music` and `flights` both declare `CallOptions`; `Track` and
 `Store` are names any provider may take. Each unit's `types` block is emitted VERBATIM
@@ -334,7 +340,7 @@ declare is refused, so their interface is empty. The generated file says so in w
 because an empty interface reads as "this unit does nothing", which is a different and
 wronger claim than "we can make no typed claim about anything it does".
 
-## Scale
+### Scale
 
 Measured 2026-08-05 on synthetic units, one namespace each:
 

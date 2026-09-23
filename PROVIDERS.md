@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1874 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1889 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1476,6 +1476,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsclub.getProduct` | samsclub.com | Reads one product's full page — member price (and non-member price where the site… | 🟢 |
 | `samsclub.search` | samsclub.com | Searches samsclub.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `samsclub.trackOrder` | samsclub.com | Looks up shipment/delivery status for an order by order number plus the email or zip… | ⚪ |
+| `samsung.checkWarrantyStatus` | samsung.com | Whether a specific device's Samsung warranty is active and when it expires — takes the… | ⚪ |
+| `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models in the same family —… | ⚪ |
+| `samsung.findStore` | samsung.com | Samsung-owned and authorized retail locations near a US ZIP or city — address, hours… | ⚪ |
+| `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | ⚪ |
+| `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | ⚪ |
+| `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | ⚪ |
+| `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | ⚪ |
+| `samsung.listCarrierOffers` | samsung.com | Samsung's own trade-in and carrier promotions — the "save up to $X with eligible… | ⚪ |
+| `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | ⚪ |
+| `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | ⚪ |
+| `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | ⚪ |
+| `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | ⚪ |
+| `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | ⚪ |
+| `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | ⚪ |
+| `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | ⚪ |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
 | `seakeeper.findNearestDealers` | seakeeper.com | Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest N… | 🟢 |
 | `seakeeper.listAllDealers` | seakeeper.com | Every real Seakeeper dealer worldwide (name, address, contact, coordinates, tier)… | 🟢 |
@@ -1810,7 +1825,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getOptionsChain` | finance.yahoo.com | Reads a ticker's options chain — calls and puts by strike and expiration, with… | ⚪ |
 | `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟢 |
 | `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | 🟢 |
-| `yahoo_finance.listCryptoPrices` | finance.yahoo.com | Reads the live crypto leaderboard the way the site's own Crypto markets page does —… | ⚪ |
+| `yahoo_finance.listCryptoPrices` | finance.yahoo.com | Reads the live crypto leaderboard the way the site's own Crypto markets page does —… | 🟢 |
 | `yahoo_finance.listCurrencyRates` | finance.yahoo.com | Reads live currency-pair rates the way the site's own Currencies markets page does —… | 🟢 |
 | `yahoo_finance.searchSymbols` | finance.yahoo.com | Resolves what a person would type — a company name ("Apple"), a ticker ("AAPL") or a… | 🟢 |
 | `yahoo_mail.deleteMessage` | mail.yahoo.com | Deletes one of the CALLER's own messages (moves it to Trash, matching what the site's… | ⚪ |
