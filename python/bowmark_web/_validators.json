@@ -1,5 +1,5 @@
 {
-  "version": "9e706f70e05db2a23dba6ffd25ba83afbb3445f19723dba8cdd3a4da71bad99b",
+  "version": "5d96f87a880288aab6e68df24e4ea4a840f99b33628161f2101fd47af60773e5",
   "units": {
     "booking_links": {
       "defs": {
@@ -495,6 +495,43 @@
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "census_tract_household_income": {
+      "defs": {},
+      "functions": {
+        "householdIncome": [
+          {
+            "name": "params",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "address",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "tract",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

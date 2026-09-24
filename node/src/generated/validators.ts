@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9e706f70e05db2a23dba6ffd25ba83afbb3445f19723dba8cdd3a4da71bad99b
-// 1307 checked, 20 unchecked.
+// Manifest version: 5d96f87a880288aab6e68df24e4ea4a840f99b33628161f2101fd47af60773e5
+// 1308 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9e706f70e05db2a23dba6ffd25ba83afbb3445f19723dba8cdd3a4da71bad99b",
+  "version": "5d96f87a880288aab6e68df24e4ea4a840f99b33628161f2101fd47af60773e5",
   "units": {
     "booking_links": {
       "defs": {
@@ -507,6 +507,43 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "census_tract_household_income": {
+      "defs": {},
+      "functions": {
+        "householdIncome": [
+          {
+            "name": "params",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "address",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "tract",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

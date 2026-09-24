@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9e706f70e05db2a23dba6ffd25ba83afbb3445f19723dba8cdd3a4da71bad99b
-# 58 capabilities, 456 providers, 1307 typed functions, 20 refused.
+# Manifest version: 5d96f87a880288aab6e68df24e4ea4a840f99b33628161f2101fd47af60773e5
+# 59 capabilities, 456 providers, 1308 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -481,6 +481,23 @@ class Cap_cars_Car_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Cap_census_tract_household_income_householdIncome_params_In(TypedDict):
+    zip: NotRequired[str]
+    address: NotRequired[str]
+    tract: NotRequired[str]
+
+class Cap_census_tract_household_income_census_tract_household_incomeResult_Out(TypedDict):
+    incomes: list[Cap_census_tract_household_income_HouseholdIncomeData_Out]
+    warnings: list[str]
+
+class Cap_census_tract_household_income_HouseholdIncomeData_Out(TypedDict):
+    zip: NotRequired[str]
+    tract: NotRequired[str]
+    medianHouseholdIncome: NotRequired[float]
+    medianHouseholdIncomeMarginOfError: NotRequired[float]
+    name: NotRequired[str]
+    warnings: list[str]
 
 class Cap_costume_size_check_checkSize_args_In(TypedDict):
     character: str
@@ -21767,6 +21784,16 @@ class Cap_cars(Protocol):
         gave. `options.timeoutMs` sets the per-site budget (default 30000).
         """
 
+class Cap_census_tract_household_income(Protocol):
+    """Get median household income from US Census Bureau data by ZIP code, address, or census
+    tract.
+    """
+
+    async def householdIncome(self, params: Cap_census_tract_household_income_householdIncome_params_In, /) -> Cap_census_tract_household_income_census_tract_household_incomeResult_Out:
+        """Retrieves median household income from US Census Bureau data for a given location (ZIP
+        code, address, or census tract).
+        """
+
 class Cap_costume_size_check(Protocol):
     """Given a costume character and a size, fans out to Target, Walmart, and Spirit Halloween
     and reports whether each retailer has that exact character-and-size combination in stock
@@ -29203,10 +29230,14 @@ class Prv_healthcare_gov(Protocol):
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
 
 class Prv_healthie(Protocol):
-    """Search for health and wellness practices and providers on Healthie's platform."""
+    """Search for therapists, coaches, dietitians, and other health practitioners on Healthie's
+    platform.
+    """
 
     async def searchPractices(self, args: Prv_healthie_SearchPracticesArgs_In, /) -> list[Prv_healthie_Practice_Out]:
-        """Search for health and wellness practices by name, specialty, or location."""
+        """Searches for therapists, coaches, dietitians, and other health practitioners by
+        specialty or practice name.
+        """
 
 class Prv_heatherwood(Protocol):
     """Reads Heritage Westminster's (a Heatherwood property) own floor-plan search: every
@@ -37044,6 +37075,7 @@ class Bowmark(Protocol):
     bundles: Cap_bundles
     cable_railing_quote: Cap_cable_railing_quote
     cars: Cap_cars
+    census_tract_household_income: Cap_census_tract_household_income
     costume_size_check: Cap_costume_size_check
     coworking: Cap_coworking
     currency_exchange: Cap_currency_exchange

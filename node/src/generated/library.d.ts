@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9e706f70e05db2a23dba6ffd25ba83afbb3445f19723dba8cdd3a4da71bad99b
-// 58 capabilities, 456 providers, 1325 typed functions, 20 refused.
+// Manifest version: 5d96f87a880288aab6e68df24e4ea4a840f99b33628161f2101fd47af60773e5
+// 59 capabilities, 456 providers, 1326 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -453,6 +453,35 @@ type CallOptions = {
      * sets the per-site budget (default 30000).
      */
     search(query: CarQuery, limit?: number, options?: CallOptions): Promise<CarSearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_census_tract_household_income {
+  // ── Look up household income by location — the unit's own declarations, verbatim ──
+interface HouseholdIncomeData {
+  zip?: string;
+  tract?: string;
+  medianHouseholdIncome?: number;
+  medianHouseholdIncomeMarginOfError?: number;
+  name?: string;
+  warnings: string[];
+}
+
+interface census_tract_household_incomeResult {
+  incomes: HouseholdIncomeData[];
+  warnings: string[];
+}
+
+  /**
+   * Get median household income from US Census Bureau data by ZIP code, address, or census
+   * tract.
+   */
+  interface Unit {
+    /**
+     * Retrieves median household income from US Census Bureau data for a given location (ZIP code,
+     * address, or census tract).
+     */
+    householdIncome(params: { zip?: string; address?: string; tract?: string }): Promise<census_tract_household_incomeResult>;
   }
 }
 
@@ -20349,9 +20378,15 @@ interface Practice {
   website?: string;
 }
 
-  /** Search for health and wellness practices and providers on Healthie's platform. */
+  /**
+   * Search for therapists, coaches, dietitians, and other health practitioners on Healthie's
+   * platform.
+   */
   interface Unit {
-    /** Search for health and wellness practices by name, specialty, or location. */
+    /**
+     * Searches for therapists, coaches, dietitians, and other health practitioners by specialty or
+     * practice name.
+     */
     searchPractices(args: SearchPracticesArgs): Promise<Practice[]>;
   }
 }
@@ -38665,6 +38700,22 @@ interface YahooFinanceFinancials {
   incomeStatement: YahooFinanceFinancialStatement | null;
   balanceSheet: YahooFinanceFinancialStatement | null;
   cashFlow: YahooFinanceFinancialStatement | null;
+}
+
+interface YahooFinanceExecutive {
+  name: string;
+  title: string;
+}
+
+interface YahooFinanceCompanyProfile {
+  symbol: string;
+  sector: string | null;
+  industry: string | null;
+  website: string | null;
+  description: string | null;
+  employeeCount: number | null;
+  headquarters: string | null;
+  executives: YahooFinanceExecutive[];
 }
 
   /**
@@ -92889,6 +92940,7 @@ interface BowmarkLibrary {
   bundles: BowmarkCapability_bundles.Unit;
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   cars: BowmarkCapability_cars.Unit;
+  census_tract_household_income: BowmarkCapability_census_tract_household_income.Unit;
   costume_size_check: BowmarkCapability_costume_size_check.Unit;
   coworking: BowmarkCapability_coworking.Unit;
   currency_exchange: BowmarkCapability_currency_exchange.Unit;
