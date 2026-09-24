@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 37923b72e1bd833de362e77ed3193d615d626154efb1814a098c96a925e5e7b3
-// 1305 checked, 20 unchecked.
+// Manifest version: 2dd38dc8040153d805d41da91a440ee6aa54f860daeba236e120c6f867f68730
+// 1306 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "37923b72e1bd833de362e77ed3193d615d626154efb1814a098c96a925e5e7b3",
+  "version": "2dd38dc8040153d805d41da91a440ee6aa54f860daeba236e120c6f867f68730",
   "units": {
     "booking_links": {
       "defs": {
@@ -11438,6 +11438,20 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CheckAppointmentAvailabilityArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.christydawn": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 37923b72e1bd833de362e77ed3193d615d626154efb1814a098c96a925e5e7b3
-// 58 capabilities, 455 providers, 1323 typed functions, 20 refused.
+// Manifest version: 2dd38dc8040153d805d41da91a440ee6aa54f860daeba236e120c6f867f68730
+// 58 capabilities, 456 providers, 1324 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11828,6 +11828,25 @@ interface CheckAppointmentAvailabilityArgs {
      * exact scheduler URL to finish booking.
      */
     checkAppointmentAvailability(args: CheckAppointmentAvailabilityArgs): Promise<ChristianBrothersAutoAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_christydawn {
+  // ── Christy Dawn — the unit's own declarations, verbatim ──
+interface christydawnProduct {
+  title: string;
+  url: string;
+  price: string;
+  imageUrl?: string;
+}
+
+  /** Search and browse Christy Dawn clothing and fashion products. */
+  interface Unit {
+    /**
+     * Searches the Christy Dawn catalog for products matching the query and returns a list of
+     * products with title, URL, price, and image.
+     */
+    search(query: string): Promise<christydawnProduct[]>;
   }
 }
 
@@ -30509,7 +30528,11 @@ interface PrimeVideoLiveSportsEvent {
      * the one just watched or its own sequels) and, when the title belongs to one, "Explore the …
      * collection" for the rest of the franchise — in the SAME shape listCategoryTitles() returns,
      * so a caller reads both the same way. A title with no such rows on its page returns an empty
-     * array, a real, if unlikely, answer.
+     * array, a real, if unlikely, answer. **If the caller has not given a titleId, DO NOT just
+     * describe this function or ask for one — CALL it immediately** with The Matrix's own titleId,
+     * `0SC64NC24QA7M9AFWBEK87WWS0`, to demonstrate a genuine "customers also watched" answer, THEN
+     * ask which title they actually meant. A titleId is NOT the site's public ASIN-style product
+     * code; a made-up one refuses with `could not find a 26-character titleId`.
      */
     listRelatedTitles(titleId: string): Promise<PrimeVideoCategoryRow[]>;
   }
@@ -40772,6 +40795,7 @@ interface BowmarkProviders {
   chipotle: BowmarkProvider_chipotle.Unit;
   chriscraft: BowmarkProvider_chriscraft.Unit;
   christianbrothersauto: BowmarkProvider_christianbrothersauto.Unit;
+  christydawn: BowmarkProvider_christydawn.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classicrockfab: BowmarkProvider_classicrockfab.Unit;
   classpass: BowmarkProvider_classpass.Unit;

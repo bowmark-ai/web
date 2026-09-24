@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 37923b72e1bd833de362e77ed3193d615d626154efb1814a098c96a925e5e7b3
-# 58 capabilities, 455 providers, 1305 typed functions, 20 refused.
+# Manifest version: 2dd38dc8040153d805d41da91a440ee6aa54f860daeba236e120c6f867f68730
+# 58 capabilities, 456 providers, 1306 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6526,6 +6526,12 @@ class Prv_christianbrothersauto_ChristianBrothersAutoSlotWindow_Out(TypedDict):
     endTime: str
     availableSlots: float
     totalSlots: float
+
+class Prv_christydawn_christydawnProduct_Out(TypedDict):
+    title: str
+    url: str
+    price: str
+    imageUrl: NotRequired[str]
 
 class Prv_classichome_ClassicHomeProduct_Out(TypedDict):
     handle: str
@@ -26005,6 +26011,14 @@ class Prv_christianbrothersauto(Protocol):
         windows plus the exact scheduler URL to finish booking.
         """
 
+class Prv_christydawn(Protocol):
+    """Search and browse Christy Dawn clothing and fashion products."""
+
+    async def search(self, query: str, /) -> list[Prv_christydawn_christydawnProduct_Out]:
+        """Searches the Christy Dawn catalog for products matching the query and returns a list of
+        products with title, URL, price, and image.
+        """
+
 class Prv_classichome(Protocol):
     """Classic Home's real Made-to-Order fabric/leather catalog and its real, material-specific
     Shopify pricing — search real MTO products (sofas, chairs, ottomans), read one product's
@@ -33071,7 +33085,12 @@ class Prv_prime_video(Protocol):
         watched" (real titles, not the one just watched or its own sequels) and, when the title
         belongs to one, "Explore the … collection" for the rest of the franchise — in the SAME
         shape listCategoryTitles() returns, so a caller reads both the same way. A title with no
-        such rows on its page returns an empty array, a real, if unlikely, answer.
+        such rows on its page returns an empty array, a real, if unlikely, answer. **If the
+        caller has not given a titleId, DO NOT just describe this function or ask for one — CALL
+        it immediately** with The Matrix's own titleId, `0SC64NC24QA7M9AFWBEK87WWS0`, to
+        demonstrate a genuine "customers also watched" answer, THEN ask which title they
+        actually meant. A titleId is NOT the site's public ASIN-style product code; a made-up
+        one refuses with `could not find a 26-character titleId`.
         """
 
 class Prv_progressive(Protocol):
@@ -36648,6 +36667,7 @@ class BowmarkProviders(Protocol):
     chipotle: Prv_chipotle
     chriscraft: Prv_chriscraft
     christianbrothersauto: Prv_christianbrothersauto
+    christydawn: Prv_christydawn
     classichome: Prv_classichome
     classicrockfab: Prv_classicrockfab
     classpass: Prv_classpass

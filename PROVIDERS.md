@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1977 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1993 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -398,6 +398,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chriscraft.searchModels` | chriscraft.com | Lists every current Chris-Craft model reachable from the public "Build Your Own"… | 🟢 |
 | `christianbrothersauto.checkAppointmentAvailability` | cbac.com | Checks real, currently-open appointment slots at one Christian Brothers Automotive… | 🟢 |
 | `christianbrothersauto.getShopDetails` | cbac.com | Resolves a Christian Brothers Automotive shop — by its scheduler slug (e.g.… | 🟢 |
+| `christydawn.getProductDetails` | christydawn.com | Returns detailed product information including description, price, available sizes and… | ⚪ |
+| `christydawn.listProducts` | christydawn.com | Lists products from a specific category or collection page | ⚪ |
+| `christydawn.search` | christydawn.com | Searches the Christy Dawn catalog by query and returns product listings with title… | 🟢 |
 | `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟢 |
 | `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟢 |
 | `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟢 |
@@ -1316,6 +1319,19 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nvisioncenters.calculateLasikSavings` | nvisioncenters.com | Runs NVISION's own LASIK Savings Calculator — age plus glasses/contacts usage and cost… | 🟢 |
 | `nvisioncenters.checkLasikCandidacy` | nvisioncenters.com | Runs NVISION's own LASIK Candidate Quiz disqualification rule — age bracket in, the… | 🟢 |
 | `nvisioncenters.estimateLasikSavings` | nvisioncenters.com | Alias of calculateLasikSavings taking the snake_case argument spelling (glasses_cost… | 🟢 |
+| `nyt_games.getConnections` | games.nytimes.com | Retrieves the daily Connections puzzle with category groupings and answers. | ⚪ |
+| `nyt_games.getCrosswordArchive` | games.nytimes.com | Retrieves historical crossword puzzles dating back to 1995. | ⚪ |
+| `nyt_games.getCrosswordDaily` | games.nytimes.com | Retrieves today's New York Times daily crossword puzzle. | ⚪ |
+| `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | ⚪ |
+| `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | ⚪ |
+| `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | ⚪ |
+| `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle. | ⚪ |
+| `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | ⚪ |
+| `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme and answer words. | ⚪ |
+| `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle. | ⚪ |
+| `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | ⚪ |
+| `nyt_games.getWordle` | games.nytimes.com | Retrieves the daily Wordle puzzle with answer and metadata. | ⚪ |
+| `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | ⚪ |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
 | `odfl.estimateFreightQuote` | odfl.com | Generates a shipping rate quote for an LTL freight shipment from ODFL. | ⚪ |
 | `oliverwinery.checkShippingAvailability` | oliverwinery.com | Checks whether Oliver Winery currently ships wine to one US state, read off the… | 🟢 |
