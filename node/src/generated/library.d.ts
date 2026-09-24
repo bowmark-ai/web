@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 722cab97d628dfbd222068121b1598ee2280c9531c2b760fdcf7266665b3d591
-// 59 capabilities, 457 providers, 1330 typed functions, 20 refused.
+// Manifest version: 3c5e9e76349d40fa8651ad98f3dff7e4b8d50880cf9d516bf8cd68b20ac1cb27
+// 59 capabilities, 457 providers, 1333 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -33,6 +33,72 @@
 //   bowmark.providers.medicare.searchDrugPlans
 //   bowmark.providers.namecheap.getWhois
 //
+
+
+
+/** A single saved login to ACT AS — the trailing option every signed-in function
+ * accepts. Omit it to use the provider's default connection; several live and
+ * none marked default throws a caller-fixable `ConnectionAmbiguous` error listing
+ * them. */
+interface ConnectionOption {
+  connection: string;
+}
+
+/** `login()`'s one argument. Plain string values — this client's transport lifts
+ * `username`/`password`/`totpCode`/`totpSeed` into a per-request credential
+ * header before the call leaves the process, so none of them ride in the request
+ * body. `keepAlive`/`expiresAt` are ordinary values and travel in the body. */
+interface LoginInput {
+  username?: string;
+  password?: string;
+  totpCode?: string;
+  totpSeed?: string;
+  keepAlive?: { everyHours: number } | false;
+  expiresAt?: string;
+  /** Sign back in to THIS existing connection id — its cookies are replaced and its
+   * id and settings kept; a `logged_out` one is revived. Absent = a new connection. */
+  connection?: string;
+}
+
+/** One saved connection, as `bm.connections.list()` returns it. */
+interface ConnectionSummary {
+  id: string;
+  provider: string;
+  scope: string;
+  subject: string | null;
+  status: string;
+  method: string;
+  replayLevel: string;
+  expiresAt: string;
+  validatedAt: string | null;
+  lastUsedAt: string | null;
+  createdAt: string;
+  keepAlive: { everyHours: number } | false;
+  forcedExpiresAt: string | null;
+}
+
+/** What `bm.connections.logout(id)` answers. */
+interface ConnectionLogout {
+  loggedOut: string;
+  provider: string;
+  siteSignedOut: boolean;
+  siteLogout: "supported" | "unsupported";
+  siteError?: string;
+}
+
+/** `bm.connections.*` — REST over `/v1/connections`, bypassing the generic
+ * dispatch entirely. Not generated from any unit's catalog. */
+interface BowmarkConnections {
+  list(filter?: { provider?: string }): Promise<ConnectionSummary[]>;
+  delete(id: string): Promise<{ revoked: string; provider: string; scope: string }>;
+  /** Sign out: drops the cookies, ends the site session where the provider can
+   * (`siteSignedOut` is checked, not assumed), and KEEPS the entry `logged_out`. */
+  logout(id: string): Promise<ConnectionLogout>;
+  update(
+    id: string,
+    patch: { keepAlive?: { everyHours: number } | false; expiresAt?: string | null },
+  ): Promise<{ updated: true }>;
+}
 
 
 
@@ -16092,27 +16158,27 @@ interface FomoPage<T> {
      * Returns the signed-in trader's own profile — id, userHandle, display name, bio, avatar,
      * follower and following counts, linked X handle, and their clan if they are in one.
      */
-    getCurrentUser(): Promise<FomoUser>;
+    getCurrentUser(opts?: ConnectionOption): Promise<FomoUser>;
 
     /**
      * Returns fomo's ranked traders for one window (daily, weekly, monthly or allTime; default
      * weekly) with each one's realized PnL, percentage return, volume, trade count and win rate.
      */
-    getLeaderboard(args?: { window?: FomoLeaderboardWindow }): Promise<FomoLeaderboardEntry[]>;
+    getLeaderboard(args?: { window?: FomoLeaderboardWindow }, opts?: ConnectionOption): Promise<FomoLeaderboardEntry[]>;
 
     /**
      * Returns a trader's profile by their user id — display name, bio, avatar, follower and
      * following counts, linked X handle, their clan if they are in one, and whether the signed-in
      * user follows them.
      */
-    getUser(userId: string): Promise<FomoUser>;
+    getUser(userId: string, opts?: ConnectionOption): Promise<FomoUser>;
 
     /**
      * Returns a trader's profile by their userHandle — display name, bio, avatar, follower and
      * following counts, linked X handle, their clan if they are in one, and whether the signed-in
      * user follows them.
      */
-    getUserByHandle(handle: string): Promise<FomoUser>;
+    getUserByHandle(handle: string, opts?: ConnectionOption): Promise<FomoUser>;
   }
 }
 
@@ -18373,7 +18439,7 @@ interface ListSavedPlacesResult {
      * recognizable histogram, throws rather than fabricating one — nobody here holds a signed-in
      * Maps session to have ever captured the positive shape.
      */
-    getPopularTimes(args: GetPopularTimesArgs): Promise<PopularTimesResult>;
+    getPopularTimes(args: GetPopularTimesArgs, opts?: ConnectionOption): Promise<PopularTimesResult>;
 
     /**
      * The places the signed-in caller saved — Favourites, Want to go, Starred and their own named
@@ -18389,7 +18455,7 @@ interface ListSavedPlacesResult {
      * the response carries no recognizable list at all, throws rather than fabricating one —
      * nobody here holds a signed-in Maps session to have ever captured the positive shape.
      */
-    listSavedPlaces(): Promise<ListSavedPlacesResult>;
+    listSavedPlaces(opts?: ConnectionOption): Promise<ListSavedPlacesResult>;
   }
 }
 
@@ -24337,14 +24403,14 @@ interface LetterboxdDiaryEntry {
      * `ratingCount` and `reviewCount`. That rating is computed over millions of member ratings and
      * is published nowhere else.
      */
-    film(args: { slug: string }): Promise<LetterboxdFilm>;
+    film(args: { slug: string }, opts?: ConnectionOption): Promise<LetterboxdFilm>;
 
     /**
      * Lists the films a member has logged, newest first — { member: "davidehrlich" }, with `limit`
      * capping rows (default 72, max 200). Returns slug, title, year and URL per film, which is
      * what `film` takes to go deeper on any one of them.
      */
-    memberFilms(args: { member: string, limit?: number }): Promise<LetterboxdMemberFilm[]>;
+    memberFilms(args: { member: string, limit?: number }, opts?: ConnectionOption): Promise<LetterboxdMemberFilm[]>;
 
     /**
      * Reads a member's activity feed: every film they logged, with their own star rating, the date
@@ -24352,7 +24418,22 @@ interface LetterboxdDiaryEntry {
      * review they wrote. The review prose is the part no listing page carries. List and like
      * activity is skipped.
      */
-    memberDiary(args: { member: string, limit?: number }): Promise<LetterboxdDiaryEntry[]>;
+    memberDiary(args: { member: string, limit?: number }, opts?: ConnectionOption): Promise<LetterboxdDiaryEntry[]>;
+
+    /**
+     * Signs in with the given credentials and saves a NEW connection — every call creates one,
+     * never replacing an existing login, unless `connection` names an existing id to sign back in
+     * to (its cookies replaced, its id and settings kept, a logged-out one revived). The returned
+     * `connection` is usable on the very next call in the same script or session. `warnings` names
+     * the account's other connections to this site. `username`, `password`, `totpCode` and
+     * `totpSeed` are plain values here; a caller on the run/session script surface instead passes
+     * each as a `bowmark.secret()` reference. Pass the returned `connection` id as `{ connection
+     * }` on a later signed-in call to act as this account. Optionally set `keepAlive: { everyHours
+     * }` (or `false` to turn it off) and/or `expiresAt` (an ISO date/datetime, a hard ceiling);
+     * both default to a 12-hour keep-alive and can be changed later with
+     * `bm.connections.update(id, …)`.
+     */
+    login(creds: LoginInput): Promise<{ connection: string; account: string; expiresAt: string; warnings?: string[] }>;
   }
 }
 
@@ -32015,7 +32096,7 @@ interface RedditProfileText {
      * pauses with a sign-in link when they are not. Call it first to learn whose session a script
      * is acting as.
      */
-    getMyAccount(): Promise<RedditMyAccount>;
+    getMyAccount(opts?: ConnectionOption): Promise<RedditMyAccount>;
 
     /**
      * The signed-in caller's own Reddit home feed: posts from the communities they joined, ranked
@@ -32026,7 +32107,7 @@ interface RedditProfileText {
      * pauses with a sign-in link when they are not. A lapsed sign-in is refused rather than read,
      * because reddit would otherwise answer the logged-out front page.
      */
-    getHomeFeed(opts?: { sort?: "best" | "hot" | "new" | "top" | "rising"; time?: "hour" | "day" | "week" | "month" | "year" | "all"; limit?: number; after?: string }): Promise<RedditHomeFeed>;
+    getHomeFeed(opts?: { sort?: "best" | "hot" | "new" | "top" | "rising"; time?: "hour" | "day" | "week" | "month" | "year" | "all"; limit?: number; after?: string }, connectionOpts?: ConnectionOption): Promise<RedditHomeFeed>;
 
     /**
      * The communities the signed-in caller has joined, each with its subscriber count,
@@ -32034,7 +32115,7 @@ interface RedditProfileText {
      * (default 100); pass `nextCursor` back as `after` for more. NEEDS THE CALLER SIGNED IN TO
      * REDDIT; the run pauses with a sign-in link when they are not.
      */
-    listMySubscriptions(opts?: { limit?: number; after?: string }): Promise<RedditMySubscriptions>;
+    listMySubscriptions(opts?: { limit?: number; after?: string }, connectionOpts?: ConnectionOption): Promise<RedditMySubscriptions>;
 
     /**
      * The posts and comments the signed-in caller has saved, newest save first, in one list: check
@@ -32043,7 +32124,7 @@ interface RedditProfileText {
      * more. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are
      * not.
      */
-    listSaved(opts?: { limit?: number; after?: string }): Promise<RedditSavedList>;
+    listSaved(opts?: { limit?: number; after?: string }, connectionOpts?: ConnectionOption): Promise<RedditSavedList>;
 
     /**
      * The signed-in caller's Reddit inbox, newest first: replies to their posts and comments,
@@ -32053,7 +32134,7 @@ interface RedditProfileText {
      * conversations to its chat, which this does not read. NEEDS THE CALLER SIGNED IN TO REDDIT;
      * the run pauses with a sign-in link when they are not.
      */
-    listInbox(opts?: { filter?: "all" | "unread" | "messages" | "mentions" | "comment_replies" | "post_replies"; limit?: number; after?: string }): Promise<RedditInbox>;
+    listInbox(opts?: { filter?: "all" | "unread" | "messages" | "mentions" | "comment_replies" | "post_replies"; limit?: number; after?: string }, connectionOpts?: ConnectionOption): Promise<RedditInbox>;
 
     /**
      * The post flairs a community offers, with the template `id` submitPost takes, their text,
@@ -32064,7 +32145,7 @@ interface RedditProfileText {
      * IN TO REDDIT (reddit refuses the list to a logged-out visitor); the run pauses with a
      * sign-in link when they are not.
      */
-    listPostFlairs(subreddit: string): Promise<RedditPostFlairs>;
+    listPostFlairs(subreddit: string, opts?: ConnectionOption): Promise<RedditPostFlairs>;
 
     /**
      * Joins a community as the signed-in caller, so its posts reach their home feed. Safe to
@@ -32072,14 +32153,14 @@ interface RedditProfileText {
      * is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses
      * with a sign-in link when they are not.
      */
-    joinSubreddit(subreddit: string): Promise<RedditSubscription>;
+    joinSubreddit(subreddit: string, opts?: ConnectionOption): Promise<RedditSubscription>;
 
     /**
      * Leaves a community the signed-in caller has joined. Safe to repeat: leaving one they are not
      * in changes nothing. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link
      * when they are not.
      */
-    leaveSubreddit(subreddit: string): Promise<RedditSubscription>;
+    leaveSubreddit(subreddit: string, opts?: ConnectionOption): Promise<RedditSubscription>;
 
     /**
      * Saves a post or comment to the signed-in caller's Saved list (private to them). Takes a
@@ -32087,21 +32168,21 @@ interface RedditProfileText {
      * know is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the run
      * pauses with a sign-in link when they are not.
      */
-    savePostOrComment(id: string): Promise<RedditSaveResult>;
+    savePostOrComment(id: string, opts?: ConnectionOption): Promise<RedditSaveResult>;
 
     /**
      * Removes a post or comment from the signed-in caller's Saved list. Takes a fullname or a
      * permalink. Safe to repeat. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
      * sign-in link when they are not.
      */
-    unsavePostOrComment(id: string): Promise<RedditSaveResult>;
+    unsavePostOrComment(id: string, opts?: ConnectionOption): Promise<RedditSaveResult>;
 
     /**
      * Hides a post from the signed-in caller's feeds, or un-hides it with `hidden: false`. Takes a
      * post fullname ("t3_…") or permalink. Safe to repeat. NEEDS THE CALLER SIGNED IN TO REDDIT;
      * the run pauses with a sign-in link when they are not.
      */
-    hidePost(post: string | { id: string; hidden?: boolean }): Promise<RedditHideResult>;
+    hidePost(post: string | { id: string; hidden?: boolean }, opts?: ConnectionOption): Promise<RedditHideResult>;
 
     /**
      * Upvotes, downvotes or clears ("none") the signed-in caller's vote on a post or comment.
@@ -32109,7 +32190,7 @@ interface RedditProfileText {
      * leaves one vote. Reddit ignores votes on archived posts. NEEDS THE CALLER SIGNED IN TO
      * REDDIT; the run pauses with a sign-in link when they are not.
      */
-    vote(opts: { id: string; direction: "up" | "down" | "none" }): Promise<RedditVoteResult>;
+    vote(opts: { id: string; direction: "up" | "down" | "none" }, connectionOpts?: ConnectionOption): Promise<RedditVoteResult>;
 
     /**
      * Follows a redditor as the signed-in caller, so their profile posts reach the caller's feed,
@@ -32117,7 +32198,7 @@ interface RedditProfileText {
      * with no account is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT;
      * the run pauses with a sign-in link when they are not.
      */
-    followUser(user: string | { name: string; follow?: boolean }): Promise<RedditFollowResult>;
+    followUser(user: string | { name: string; follow?: boolean }, opts?: ConnectionOption): Promise<RedditFollowResult>;
 
     /**
      * Blocks a redditor for the signed-in caller, hiding their posts, comments and messages from
@@ -32126,7 +32207,7 @@ interface RedditProfileText {
      * caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
      * sign-in link when they are not.
      */
-    blockUser(user: string): Promise<RedditBlockResult>;
+    blockUser(user: string, opts?: ConnectionOption): Promise<RedditBlockResult>;
 
     /**
      * Creates a new community the signed-in caller owns and moderates: its name (3-21 letters,
@@ -32135,7 +32216,7 @@ interface RedditProfileText {
      * name comes back as reddit's own words. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses
      * with a sign-in link when they are not.
      */
-    createSubreddit(input: { name: string; description?: string; type?: "public" | "restricted" | "private"; nsfw?: boolean }): Promise<RedditNewCommunity>;
+    createSubreddit(input: { name: string; description?: string; type?: "public" | "restricted" | "private"; nsfw?: boolean }, opts?: ConnectionOption): Promise<RedditNewCommunity>;
 
     /**
      * Posts to a community as the signed-in caller and returns the new post's id and permalink.
@@ -32147,21 +32228,21 @@ interface RedditProfileText {
      * private source for a crosspost) answers in reddit's own words. NEEDS THE CALLER SIGNED IN TO
      * REDDIT; the run pauses with a sign-in link when they are not.
      */
-    submitPost(input: { subreddit: string; title: string; kind?: "self" | "link" | "image" | "crosspost"; text?: string; url?: string; image?: { base64: string; mimeType: string } | { url: string }; crosspostOf?: string; flairId?: string; flairText?: string; nsfw?: boolean; spoiler?: boolean; sendReplies?: boolean }): Promise<RedditNewPost>;
+    submitPost(input: { subreddit: string; title: string; kind?: "self" | "link" | "image" | "crosspost"; text?: string; url?: string; image?: { base64: string; mimeType: string } | { url: string }; crosspostOf?: string; flairId?: string; flairText?: string; nsfw?: boolean; spoiler?: boolean; sendReplies?: boolean }, opts?: ConnectionOption): Promise<RedditNewPost>;
 
     /**
      * Comments on a post (its id like "t3_1abcde", or its URL) as the signed-in caller, in
      * markdown, and returns the new comment with its id and permalink. NEEDS THE CALLER SIGNED IN
      * TO REDDIT; the run pauses with a sign-in link when they are not.
      */
-    postComment(input: { post: string; text: string }): Promise<RedditComment>;
+    postComment(input: { post: string; text: string }, opts?: ConnectionOption): Promise<RedditComment>;
 
     /**
      * Replies to a comment (its id like "t1_abc123", or its permalink) as the signed-in caller, in
      * markdown, and returns the new reply with its id and permalink. NEEDS THE CALLER SIGNED IN TO
      * REDDIT; the run pauses with a sign-in link when they are not.
      */
-    replyToComment(input: { comment: string; text: string }): Promise<RedditComment>;
+    replyToComment(input: { comment: string; text: string }, opts?: ConnectionOption): Promise<RedditComment>;
 
     /**
      * Replaces the text of the signed-in caller's own text post or comment with `text` (markdown)
@@ -32170,7 +32251,7 @@ interface RedditProfileText {
      * words. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they
      * are not.
      */
-    editPostOrComment(input: { thing: string; text: string }): Promise<RedditEdited>;
+    editPostOrComment(input: { thing: string; text: string }, opts?: ConnectionOption): Promise<RedditEdited>;
 
     /**
      * Deletes the signed-in caller's own post or comment, then reads it back to prove it now shows
@@ -32178,7 +32259,7 @@ interface RedditProfileText {
      * afterwards (it was not the caller's). Deleting something already deleted succeeds. NEEDS THE
      * CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
      */
-    deletePostOrComment(thing: string | { thing: string }): Promise<{ id: string; deleted: true }>;
+    deletePostOrComment(thing: string | { thing: string }, opts?: ConnectionOption): Promise<{ id: string; deleted: true }>;
 
     /**
      * Reports a post or comment as the signed-in caller. Give exactly one reason: `rule` — one of
@@ -32187,7 +32268,7 @@ interface RedditProfileText {
      * text, which reaches the community's moderators where the community allows free-form reports.
      * NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
      */
-    reportPostOrComment(input: { thing: string; rule?: string; siteReason?: string; reason?: string }): Promise<{ id: string; reported: true }>;
+    reportPostOrComment(input: { thing: string; rule?: string; siteReason?: string; reason?: string }, opts?: ConnectionOption): Promise<{ id: string; reported: true }>;
 
     /**
      * Sends a message from the signed-in caller to another redditor. This is REDDIT CHAT, not the
@@ -32197,7 +32278,7 @@ interface RedditProfileText {
      * reddit's words before anything is sent. `subject` defaults to the first line of `text`.
      * NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
      */
-    sendDirectMessage(input: { to: string; subject?: string; text: string }): Promise<{ to: string; recipientId: string; sent: true }>;
+    sendDirectMessage(input: { to: string; subject?: string; text: string }, opts?: ConnectionOption): Promise<{ to: string; recipientId: string; sent: true }>;
 
     /**
      * Changes the signed-in caller's public profile: `displayName` (up to 30 characters; the
@@ -32205,7 +32286,7 @@ interface RedditProfileText {
      * or both; "" clears one. Returns both as the profile now shows them. NEEDS THE CALLER SIGNED
      * IN TO REDDIT; the run pauses with a sign-in link when they are not.
      */
-    updateProfile(input: { displayName?: string; about?: string }): Promise<RedditProfileText>;
+    updateProfile(input: { displayName?: string; about?: string }, opts?: ConnectionOption): Promise<RedditProfileText>;
 
     /**
      * Uploads an image (PNG, JPEG, GIF or WebP, as base64 + mimeType or a public image URL) as the
@@ -32213,7 +32294,22 @@ interface RedditProfileText {
      * Returns the profile picture's URL as the profile now shows it. NEEDS THE CALLER SIGNED IN TO
      * REDDIT; the run pauses with a sign-in link when they are not.
      */
-    setProfilePicture(input: { image: { base64: string; mimeType: string } | { url: string } } | { reset: true }): Promise<{ iconUrl: string }>;
+    setProfilePicture(input: { image: { base64: string; mimeType: string } | { url: string } } | { reset: true }, opts?: ConnectionOption): Promise<{ iconUrl: string }>;
+
+    /**
+     * Signs in with the given credentials and saves a NEW connection — every call creates one,
+     * never replacing an existing login, unless `connection` names an existing id to sign back in
+     * to (its cookies replaced, its id and settings kept, a logged-out one revived). The returned
+     * `connection` is usable on the very next call in the same script or session. `warnings` names
+     * the account's other connections to this site. `username`, `password`, `totpCode` and
+     * `totpSeed` are plain values here; a caller on the run/session script surface instead passes
+     * each as a `bowmark.secret()` reference. Pass the returned `connection` id as `{ connection
+     * }` on a later signed-in call to act as this account. Optionally set `keepAlive: { everyHours
+     * }` (or `false` to turn it off) and/or `expiresAt` (an ISO date/datetime, a hard ceiling);
+     * both default to a 12-hour keep-alive and can be changed later with
+     * `bm.connections.update(id, …)`.
+     */
+    login(creds: LoginInput): Promise<{ connection: string; account: string; expiresAt: string; warnings?: string[] }>;
   }
 }
 
@@ -36106,7 +36202,7 @@ interface GetHashtagArgs {
      * nickname, bio, secUid, verified and private flags, avatar, bioLink, and stats (follower,
      * following, video and heart counts).
      */
-    getProfile(args: GetProfileArgs): Promise<tiktokProfile>;
+    getProfile(args: GetProfileArgs, opts?: ConnectionOption): Promise<tiktokProfile>;
 
     /**
      * One video's own facts, off the watch page's embedded state: caption, hashtags, create time,
@@ -36115,14 +36211,14 @@ interface GetHashtagArgs {
      * `/@<handle>/video/<id>` URL or a bare numeric video id — the id alone is enough, since the
      * page renders off a placeholder handle segment.
      */
-    getVideo(args: GetVideoArgs): Promise<tiktokVideo>;
+    getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<tiktokVideo>;
 
     /**
      * A video's caption track fetched and parsed from the WebVTT file TikTok embeds in each video
      * page, with timed segments and full text. Returns empty segments when captions are
      * unavailable. Takes a `/@<handle>/video/<id>` URL or a bare numeric video id.
      */
-    getTranscript(args: GetTranscriptArgs): Promise<tiktokTranscript>;
+    getTranscript(args: GetTranscriptArgs, opts?: ConnectionOption): Promise<tiktokTranscript>;
 
     /**
      * Which languages a video's captions are available in and which TikTok shows by default.
@@ -36130,21 +36226,21 @@ interface GetHashtagArgs {
      * auto-generated, and which one is default. Mirrors youtube.listCaptionTracks. Takes a
      * `/@<handle>/video/<id>` URL or a bare numeric video id.
      */
-    listCaptionTracks(args: ListCaptionTracksArgs): Promise<tiktokCaptionTrack[]>;
+    listCaptionTracks(args: ListCaptionTracksArgs, opts?: ConnectionOption): Promise<tiktokCaptionTrack[]>;
 
     /**
      * A creator's most recent videos — id and caption — read off the unsigned `/embed/@<handle>`
      * page, the door from a handle to their videos. Each id then resolves through getVideo for
      * full stats. Returns only the first page the embed page ships; paging past it is unmeasured.
      */
-    listUserVideos(args: ListUserVideosArgs): Promise<tiktokVideoSummary[]>;
+    listUserVideos(args: ListUserVideosArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
 
     /**
      * Comments on a video — text, author (id, handle, nickname), like count, reply count, and
      * creation time. Reads the unsigned `/api/comment/list/` endpoint with no request signature
      * required. Returns up to 20 comments on the first call; paging with cursor is unmeasured.
      */
-    listComments(args: ListCommentsArgs): Promise<tiktokComment[]>;
+    listComments(args: ListCommentsArgs, opts?: ConnectionOption): Promise<tiktokComment[]>;
 
     /**
      * The replies under one comment thread — text, author (id, handle, nickname), like count, and
@@ -36153,7 +36249,7 @@ interface GetHashtagArgs {
      * on the same host. A comment with no replies answers an empty array rather than an error.
      * Returns up to 20 replies on the first call; paging with cursor is unmeasured.
      */
-    listCommentReplies(args: ListCommentRepliesArgs): Promise<tiktokCommentReply[]>;
+    listCommentReplies(args: ListCommentRepliesArgs, opts?: ConnectionOption): Promise<tiktokCommentReply[]>;
 
     /**
      * Search for videos on TikTok by keyword. Returns up to 20 results with id, caption, author
@@ -36161,7 +36257,7 @@ interface GetHashtagArgs {
      * load the search page and intercept the API response, as the signed search endpoint requires
      * derived request signatures.
      */
-    searchVideos(args: SearchVideosArgs): Promise<tiktokSearchResult[]>;
+    searchVideos(args: SearchVideosArgs, opts?: ConnectionOption): Promise<tiktokSearchResult[]>;
 
     /**
      * Search for users on TikTok by query. Returns up to 20 results with id, username, nickname,
@@ -36169,14 +36265,14 @@ interface GetHashtagArgs {
      * search page and intercept the API response, as the signed search endpoint requires derived
      * request signatures.
      */
-    searchUsers(args: SearchUsersArgs): Promise<tiktokUserSearchResult[]>;
+    searchUsers(args: SearchUsersArgs, opts?: ConnectionOption): Promise<tiktokUserSearchResult[]>;
 
     /**
      * A hashtag's facts — view count, description, whether it is currently promoted — off TikTok's
      * hashtag page. Uses the browser to load the hashtag page and intercept the API response, as
      * the hashtag page is served off the signed app API.
      */
-    getHashtag(args: GetHashtagArgs): Promise<tiktokHashtag>;
+    getHashtag(args: GetHashtagArgs, opts?: ConnectionOption): Promise<tiktokHashtag>;
   }
 }
 
@@ -36943,7 +37039,7 @@ interface TwitchDeveloperApp {
      * HIGHLIGHT, UPLOAD) and its channel. No sign-in. THROWS naming the id when Twitch has no such
      * video.
      */
-    getVideo(args: GetVideoArgs): Promise<TwitchVideo>;
+    getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<TwitchVideo>;
 
     /**
      * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one
@@ -36954,14 +37050,14 @@ interface TwitchDeveloperApp {
      * without asking for a sign-in, a vod id Twitch does not have or an end offset past what the
      * live archive has recorded so far (retry shortly in that case).
      */
-    createHighlight(args: CreateHighlightArgs): Promise<TwitchHighlight>;
+    createHighlight(args: CreateHighlightArgs, opts?: ConnectionOption): Promise<TwitchHighlight>;
 
     /**
      * Reads the signed-in streamer's channel settings: title, language and current game/category.
      * Takes no arguments. NEEDS the streamer's Twitch sign-in, which only a capability can hold:
      * call it as bowmark.stream_channel.get.
      */
-    getChannel(): Promise<TwitchChannelSettings>;
+    getChannel(opts?: ConnectionOption): Promise<TwitchChannelSettings>;
 
     /**
      * Updates the signed-in streamer's channel settings: title, language and game/category.
@@ -36969,7 +37065,7 @@ interface TwitchDeveloperApp {
      * UpdateBroadcastSettingsInput. NEEDS the streamer's Twitch sign-in, which only a capability
      * can hold: call it as bowmark.stream_channel.set.
      */
-    setChannel(args: SetChannelArgs): Promise<TwitchChannelSettings>;
+    setChannel(args: SetChannelArgs, opts?: ConnectionOption): Promise<TwitchChannelSettings>;
   }
 }
 
@@ -36984,7 +37080,7 @@ interface DriverEarnings {
   /** Read signed-in driver earnings summaries from the Uber driver dashboard. */
   interface Unit {
     /** Returns earnings for a specific week (0 = current, 1 = last week, etc) */
-    getDriverEarnings(weekOffset?: number): Promise<DriverEarnings>;
+    getDriverEarnings(weekOffset?: number, opts?: ConnectionOption): Promise<DriverEarnings>;
   }
 }
 
@@ -39833,7 +39929,7 @@ interface YoutubeStreamFormat {
      * API, and logged out the same request answers 200 with an EMPTY grid rather than an error.
      * Call `bowmark.video_library.homeFeed` rather than this directly.
      */
-    listHomeFeed(input?: { limit?: number }): Promise<YoutubeSearchVideo[]>;
+    listHomeFeed(input?: { limit?: number }, opts?: ConnectionOption): Promise<YoutubeSearchVideo[]>;
 
     /**
      * The signed-in account's Watch Later queue, newest first, paged like any playlist. NEEDS A
@@ -39841,13 +39937,13 @@ interface YoutubeStreamFormat {
      * rather than this directly. Not reachable through YouTube's public Data API at all: Google
      * removed access to the `WL` list in 2016.
      */
-    listWatchLater(input?: { continuation?: string }): Promise<YoutubePlaylistVideoPage>;
+    listWatchLater(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
 
     /**
      * The videos the signed-in account has liked, newest first, paged like any playlist. NEEDS A
      * SIGN-IN — call `bowmark.video_library.liked` rather than this directly.
      */
-    listLikedVideos(input?: { continuation?: string }): Promise<YoutubePlaylistVideoPage>;
+    listLikedVideos(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
 
     /**
      * Creates an EMPTY playlist on the signed-in account and returns its id and URL. `privacy`
@@ -39857,7 +39953,7 @@ interface YoutubeStreamFormat {
      * have in common. NEEDS A SIGN-IN — call `bowmark.video_library.createPlaylist` rather than
      * this directly.
      */
-    createPlaylist(input: { title: string; description?: string; privacy?: "private" | "unlisted" | "public" }): Promise<YoutubeCreatedPlaylist>;
+    createPlaylist(input: { title: string; description?: string; privacy?: "private" | "unlisted" | "public" }, opts?: ConnectionOption): Promise<YoutubeCreatedPlaylist>;
 
     /**
      * Creates the signed-in Google account's YouTube CHANNEL, using the account's own name and
@@ -39869,7 +39965,7 @@ interface YoutubeStreamFormat {
      * it because the person whose account it is asked for a channel. Idempotent: an account that
      * already has one gets `alreadyExisted: true` and nothing is created. NEEDS A SIGN-IN.
      */
-    createChannel(): Promise<YoutubeCreatedChannel>;
+    createChannel(opts?: ConnectionOption): Promise<YoutubeCreatedChannel>;
 
     /**
      * Adds one or many videos to one of the signed-in account's own playlists, as a SINGLE edit
@@ -39880,7 +39976,22 @@ interface YoutubeStreamFormat {
      * video already present adds it again. NEEDS A SIGN-IN — call
      * `bowmark.video_library.addToPlaylist` rather than this directly.
      */
-    addToPlaylist(input: { playlist: string; video?: string; videos?: string[] }): Promise<YoutubePlaylistEdit>;
+    addToPlaylist(input: { playlist: string; video?: string; videos?: string[] }, opts?: ConnectionOption): Promise<YoutubePlaylistEdit>;
+
+    /**
+     * Signs in with the given credentials and saves a NEW connection — every call creates one,
+     * never replacing an existing login, unless `connection` names an existing id to sign back in
+     * to (its cookies replaced, its id and settings kept, a logged-out one revived). The returned
+     * `connection` is usable on the very next call in the same script or session. `warnings` names
+     * the account's other connections to this site. `username`, `password`, `totpCode` and
+     * `totpSeed` are plain values here; a caller on the run/session script surface instead passes
+     * each as a `bowmark.secret()` reference. Pass the returned `connection` id as `{ connection
+     * }` on a later signed-in call to act as this account. Optionally set `keepAlive: { everyHours
+     * }` (or `false` to turn it off) and/or `expiresAt` (an ISO date/datetime, a hard ceiling);
+     * both default to a 12-hour keep-alive and can be changed later with
+     * `bm.connections.update(id, …)`.
+     */
+    login(creds: LoginInput): Promise<{ connection: string; account: string; expiresAt: string; warnings?: string[] }>;
   }
 }
 
@@ -93042,4 +93153,5 @@ interface BowmarkLibrary {
   wireless: BowmarkCapability_wireless.Unit;
   yoga_outfit_shopping: BowmarkCapability_yoga_outfit_shopping.Unit;
   providers: BowmarkProviders;
+  connections: BowmarkConnections;
 }

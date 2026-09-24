@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 722cab97d628dfbd222068121b1598ee2280c9531c2b760fdcf7266665b3d591
-# 59 capabilities, 457 providers, 1312 typed functions, 20 refused.
+# Manifest version: 3c5e9e76349d40fa8651ad98f3dff7e4b8d50880cf9d516bf8cd68b20ac1cb27
+# 59 capabilities, 457 providers, 1315 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -229,6 +229,32 @@ __all__: list[str]
 
 Library = Bowmark
 Providers = BowmarkProviders
+
+class ConnectionOption(TypedDict):
+    """A single saved login to ACT AS — the trailing option every signed-in method
+    accepts. Omit it to use the provider's default connection; several live and none
+    marked default raises a caller-fixable error listing them."""
+
+    connection: str
+
+
+class KeepAliveEveryHours(TypedDict):
+    everyHours: float
+
+
+class LoginInput(TypedDict, total=False):
+    """`login()`'s one argument. Plain string values — the transport lifts
+    `username`/`password`/`totpCode`/`totpSeed` into a per-request credential
+    header before the call leaves the process, so none of them ride in the request
+    body. `keepAlive`/`expiresAt` are ordinary values and travel in the body."""
+
+    username: str
+    password: str
+    totpCode: str
+    totpSeed: str
+    keepAlive: KeepAliveEveryHours | Literal[False]
+    expiresAt: str
+    connection: str
 
 class Cap_booking_links_FindBookingLinksInput_In(TypedDict):
     name: str
@@ -12884,6 +12910,12 @@ class Prv_letterboxd_LetterboxdDiaryEntry_Out(TypedDict):
     publishedAt: str | None
     reviewText: str | None
 
+class Prv_letterboxd_login_return_Out(TypedDict):
+    connection: str
+    account: str
+    expiresAt: str
+    warnings: NotRequired[list[str]]
+
 class Prv_linkedin_LinkedinJobSearchQuery_In(TypedDict):
     keywords: NotRequired[str]
     location: NotRequired[str]
@@ -17165,6 +17197,12 @@ class Prv_reddit_setProfilePicture_input_u1_In(TypedDict):
 
 class Prv_reddit_setProfilePicture_return_Out(TypedDict):
     iconUrl: str
+
+class Prv_reddit_login_return_Out(TypedDict):
+    connection: str
+    account: str
+    expiresAt: str
+    warnings: NotRequired[list[str]]
 
 class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out(TypedDict):
     entryUrl: str
@@ -21582,6 +21620,12 @@ class Prv_youtube_YoutubePlaylistEdit_Out(TypedDict):
     playlistId: str
     added: list[str]
     url: str
+
+class Prv_youtube_login_return_Out(TypedDict):
+    connection: str
+    account: str
+    expiresAt: str
+    warnings: NotRequired[list[str]]
 
 class Prv_zennioptical_ZenniFrameSearch_Out(TypedDict):
     frames: list[Prv_zennioptical_ZenniFrameSummary_Out]
@@ -27623,24 +27667,24 @@ class Prv_fomo(Protocol):
     key).
     """
 
-    async def getCurrentUser(self, /) -> Prv_fomo_FomoUser_Out:
+    async def getCurrentUser(self, opts: ConnectionOption | None = None, /) -> Prv_fomo_FomoUser_Out:
         """Returns the signed-in trader's own profile — id, userHandle, display name, bio, avatar,
         follower and following counts, linked X handle, and their clan if they are in one.
         """
 
-    async def getLeaderboard(self, args: Prv_fomo_getLeaderboard_args_In | None = None, /) -> list[Prv_fomo_FomoLeaderboardEntry_Out]:
+    async def getLeaderboard(self, args: Prv_fomo_getLeaderboard_args_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoLeaderboardEntry_Out]:
         """Returns fomo's ranked traders for one window (daily, weekly, monthly or allTime; default
         weekly) with each one's realized PnL, percentage return, volume, trade count and win
         rate.
         """
 
-    async def getUser(self, userId: str, /) -> Prv_fomo_FomoUser_Out:
+    async def getUser(self, userId: str, opts: ConnectionOption | None = None, /) -> Prv_fomo_FomoUser_Out:
         """Returns a trader's profile by their user id — display name, bio, avatar, follower and
         following counts, linked X handle, their clan if they are in one, and whether the
         signed-in user follows them.
         """
 
-    async def getUserByHandle(self, handle: str, /) -> Prv_fomo_FomoUser_Out:
+    async def getUserByHandle(self, handle: str, opts: ConnectionOption | None = None, /) -> Prv_fomo_FomoUser_Out:
         """Returns a trader's profile by their userHandle — display name, bio, avatar, follower and
         following counts, linked X handle, their clan if they are in one, and whether the
         signed-in user follows them.
@@ -28516,7 +28560,7 @@ class Prv_google_maps(Protocol):
         resolving query.
         """
 
-    async def getPopularTimes(self, args: Prv_google_maps_GetPopularTimesArgs_In, /) -> Prv_google_maps_PopularTimesResult_Out:
+    async def getPopularTimes(self, args: Prv_google_maps_GetPopularTimesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_google_maps_PopularTimesResult_Out:
         """The "popular times" histogram for a place, from the CALLER's own signed-in Google
         session — an authFunction, not a park: Bowmark signs nobody up for a Google account, but
         the caller's own login works here exactly as it does on youtube's signed-in functions.
@@ -28527,7 +28571,7 @@ class Prv_google_maps(Protocol):
         holds a signed-in Maps session to have ever captured the positive shape.
         """
 
-    async def listSavedPlaces(self, /) -> Prv_google_maps_ListSavedPlacesResult_Out:
+    async def listSavedPlaces(self, opts: ConnectionOption | None = None, /) -> Prv_google_maps_ListSavedPlacesResult_Out:
         """The places the signed-in caller saved — Favourites, Want to go, Starred and their own
         named lists — an authFunction: Bowmark signs nobody up for a Google account, but the
         caller's own login works here exactly as it does on getPopularTimes. A DIFFERENT door
@@ -30785,7 +30829,7 @@ class Prv_letterboxd(Protocol):
     inbox.
     """
 
-    async def film(self, args: Prv_letterboxd_film_args_In, /) -> Prv_letterboxd_LetterboxdFilm_Out:
+    async def film(self, args: Prv_letterboxd_film_args_In, opts: ConnectionOption | None = None, /) -> Prv_letterboxd_LetterboxdFilm_Out:
         """Reads one film's full record — pass the slug from its letterboxd URL, e.g. { slug:
         "parasite-2019" }. Returns title, year, directors, cast, genres, countries, languages,
         runtime, synopsis and poster, plus `averageRating` (letterboxd's weighted average,
@@ -30793,17 +30837,31 @@ class Prv_letterboxd(Protocol):
         ratings and is published nowhere else.
         """
 
-    async def memberFilms(self, args: Prv_letterboxd_memberFilms_args_In, /) -> list[Prv_letterboxd_LetterboxdMemberFilm_Out]:
+    async def memberFilms(self, args: Prv_letterboxd_memberFilms_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_letterboxd_LetterboxdMemberFilm_Out]:
         """Lists the films a member has logged, newest first — { member: "davidehrlich" }, with
         `limit` capping rows (default 72, max 200). Returns slug, title, year and URL per film,
         which is what `film` takes to go deeper on any one of them.
         """
 
-    async def memberDiary(self, args: Prv_letterboxd_memberDiary_args_In, /) -> list[Prv_letterboxd_LetterboxdDiaryEntry_Out]:
+    async def memberDiary(self, args: Prv_letterboxd_memberDiary_args_In, opts: ConnectionOption | None = None, /) -> list[Prv_letterboxd_LetterboxdDiaryEntry_Out]:
         """Reads a member's activity feed: every film they logged, with their own star rating, the
         date they watched it, whether it was a rewatch, whether they liked it, and the full text
         of any review they wrote. The review prose is the part no listing page carries. List and
         like activity is skipped.
+        """
+
+    async def login(self, creds: LoginInput, /) -> Prv_letterboxd_login_return_Out:
+        """Signs in with the given credentials and saves a NEW connection — every call creates one,
+        never replacing an existing login, unless `connection` names an existing id to sign back
+        in to (its cookies replaced, its id and settings kept, a logged-out one revived). The
+        returned `connection` is usable on the very next call in the same script or session.
+        `warnings` names the account's other connections to this site. `username`, `password`,
+        `totpCode` and `totpSeed` are plain values here; a caller on the run/session script
+        surface instead passes each as a `bowmark.secret()` reference. Pass the returned
+        `connection` id as `{ connection }` on a later signed-in call to act as this account.
+        Optionally set `keepAlive: { everyHours }` (or `false` to turn it off) and/or
+        `expiresAt` (an ISO date/datetime, a hard ceiling); both default to a 12-hour keep-alive
+        and can be changed later with `bm.connections.update(id, …)`.
         """
 
 class Prv_linkedin(Protocol):
@@ -33583,7 +33641,7 @@ class Prv_reddit(Protocol):
         its whole reply branch.
         """
 
-    async def getMyAccount(self, /) -> Prv_reddit_RedditMyAccount_Out:
+    async def getMyAccount(self, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditMyAccount_Out:
         """The signed-in caller's own Reddit account: username, karma, account age, avatar, whether
         they have unread mail and how much, whether they moderate anywhere, and whether the
         account is premium, email-verified or suspended. NEEDS THE CALLER SIGNED IN TO REDDIT;
@@ -33591,7 +33649,7 @@ class Prv_reddit(Protocol):
         session a script is acting as.
         """
 
-    async def getHomeFeed(self, opts: Prv_reddit_getHomeFeed_opts_In | None = None, /) -> Prv_reddit_RedditHomeFeed_Out:
+    async def getHomeFeed(self, opts: Prv_reddit_getHomeFeed_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_reddit_RedditHomeFeed_Out:
         """The signed-in caller's own Reddit home feed: posts from the communities they joined,
         ranked the way Reddit ranks them for that person (sort best by default, or hot, new,
         top, rising; `time` only with top, default day). Each post carries the caller's own
@@ -33602,14 +33660,14 @@ class Prv_reddit(Protocol):
         logged-out front page.
         """
 
-    async def listMySubscriptions(self, opts: Prv_reddit_listMySubscriptions_opts_In | None = None, /) -> Prv_reddit_RedditMySubscriptions_Out:
+    async def listMySubscriptions(self, opts: Prv_reddit_listMySubscriptions_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_reddit_RedditMySubscriptions_Out:
         """The communities the signed-in caller has joined, each with its subscriber count,
         description, type and the caller's own subscriber/moderator/banned state. Up to 100 per
         page (default 100); pass `nextCursor` back as `after` for more. NEEDS THE CALLER SIGNED
         IN TO REDDIT; the run pauses with a sign-in link when they are not.
         """
 
-    async def listSaved(self, opts: Prv_reddit_listSaved_opts_In | None = None, /) -> Prv_reddit_RedditSavedList_Out:
+    async def listSaved(self, opts: Prv_reddit_listSaved_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_reddit_RedditSavedList_Out:
         """The posts and comments the signed-in caller has saved, newest save first, in one list:
         check each item's `kind` ("post" or "comment"). A saved comment carries the title and
         link of the thread it is in. Up to 100 per page (default 25); pass `nextCursor` back as
@@ -33617,7 +33675,7 @@ class Prv_reddit(Protocol):
         link when they are not.
         """
 
-    async def listInbox(self, opts: Prv_reddit_listInbox_opts_In | None = None, /) -> Prv_reddit_RedditInbox_Out:
+    async def listInbox(self, opts: Prv_reddit_listInbox_opts_In | None = None, connectionOpts: ConnectionOption | None = None, /) -> Prv_reddit_RedditInbox_Out:
         """The signed-in caller's Reddit inbox, newest first: replies to their posts and comments,
         username mentions and private messages, each marked unread or not. `filter` narrows it
         to one folder (default all). Reading does not mark anything as read. Up to 100 per page
@@ -33626,7 +33684,7 @@ class Prv_reddit(Protocol):
         REDDIT; the run pauses with a sign-in link when they are not.
         """
 
-    async def listPostFlairs(self, subreddit: str, /) -> Prv_reddit_RedditPostFlairs_Out:
+    async def listPostFlairs(self, subreddit: str, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditPostFlairs_Out:
         """The post flairs a community offers, with the template `id` submitPost takes, their text,
         colours, and whether the poster may edit the text or only moderators may use one. Many
         communities refuse a post without a flair, so call this first. `posterCanChoose: false`
@@ -33636,53 +33694,53 @@ class Prv_reddit(Protocol):
         with a sign-in link when they are not.
         """
 
-    async def joinSubreddit(self, subreddit: str, /) -> Prv_reddit_RedditSubscription_Out:
+    async def joinSubreddit(self, subreddit: str, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditSubscription_Out:
         """Joins a community as the signed-in caller, so its posts reach their home feed. Safe to
         repeat: joining a community already joined changes nothing. A community that does not
         exist is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the run
         pauses with a sign-in link when they are not.
         """
 
-    async def leaveSubreddit(self, subreddit: str, /) -> Prv_reddit_RedditSubscription_Out:
+    async def leaveSubreddit(self, subreddit: str, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditSubscription_Out:
         """Leaves a community the signed-in caller has joined. Safe to repeat: leaving one they are
         not in changes nothing. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
         sign-in link when they are not.
         """
 
-    async def savePostOrComment(self, id: str, /) -> Prv_reddit_RedditSaveResult_Out:
+    async def savePostOrComment(self, id: str, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditSaveResult_Out:
         """Saves a post or comment to the signed-in caller's Saved list (private to them). Takes a
         fullname ("t3_…" post, "t1_…" comment) or a permalink. Safe to repeat. An id reddit does
         not know is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the
         run pauses with a sign-in link when they are not.
         """
 
-    async def unsavePostOrComment(self, id: str, /) -> Prv_reddit_RedditSaveResult_Out:
+    async def unsavePostOrComment(self, id: str, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditSaveResult_Out:
         """Removes a post or comment from the signed-in caller's Saved list. Takes a fullname or a
         permalink. Safe to repeat. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
         sign-in link when they are not.
         """
 
-    async def hidePost(self, post: str | Prv_reddit_hidePost_post_u1_In, /) -> Prv_reddit_RedditHideResult_Out:
+    async def hidePost(self, post: str | Prv_reddit_hidePost_post_u1_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditHideResult_Out:
         """Hides a post from the signed-in caller's feeds, or un-hides it with `hidden: false`.
         Takes a post fullname ("t3_…") or permalink. Safe to repeat. NEEDS THE CALLER SIGNED IN
         TO REDDIT; the run pauses with a sign-in link when they are not.
         """
 
-    async def vote(self, opts: Prv_reddit_vote_opts_In, /) -> Prv_reddit_RedditVoteResult_Out:
+    async def vote(self, opts: Prv_reddit_vote_opts_In, connectionOpts: ConnectionOption | None = None, /) -> Prv_reddit_RedditVoteResult_Out:
         """Upvotes, downvotes or clears ("none") the signed-in caller's vote on a post or comment.
         Takes a fullname ("t3_…", "t1_…") or a permalink. Safe to repeat: the same direction
         twice leaves one vote. Reddit ignores votes on archived posts. NEEDS THE CALLER SIGNED
         IN TO REDDIT; the run pauses with a sign-in link when they are not.
         """
 
-    async def followUser(self, user: str | Prv_reddit_followUser_user_u1_In, /) -> Prv_reddit_RedditFollowResult_Out:
+    async def followUser(self, user: str | Prv_reddit_followUser_user_u1_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditFollowResult_Out:
         """Follows a redditor as the signed-in caller, so their profile posts reach the caller's
         feed, or unfollows with `follow: false`. Takes a username, "u/name" or profile URL. A
         username with no account is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN
         TO REDDIT; the run pauses with a sign-in link when they are not.
         """
 
-    async def blockUser(self, user: str, /) -> Prv_reddit_RedditBlockResult_Out:
+    async def blockUser(self, user: str, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditBlockResult_Out:
         """Blocks a redditor for the signed-in caller, hiding their posts, comments and messages
         from the caller. Takes a username, "u/name" or profile URL. Reddit answers a username
         with no account, and the caller's own name, with the same bad-request refusal, which
@@ -33690,7 +33748,7 @@ class Prv_reddit(Protocol):
         run pauses with a sign-in link when they are not.
         """
 
-    async def createSubreddit(self, input: Prv_reddit_createSubreddit_input_In, /) -> Prv_reddit_RedditNewCommunity_Out:
+    async def createSubreddit(self, input: Prv_reddit_createSubreddit_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditNewCommunity_Out:
         """Creates a new community the signed-in caller owns and moderates: its name (3-21 letters,
         digits or underscores), a short public description, and whether it is public, restricted
         or private (default public). Returns the new community's id, name and URL. A taken or
@@ -33698,7 +33756,7 @@ class Prv_reddit(Protocol):
         run pauses with a sign-in link when they are not.
         """
 
-    async def submitPost(self, input: Prv_reddit_submitPost_input_In, /) -> Prv_reddit_RedditNewPost_Out:
+    async def submitPost(self, input: Prv_reddit_submitPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditNewPost_Out:
         """Posts to a community as the signed-in caller and returns the new post's id and
         permalink. `kind` defaults from what is given: `url` → a link post, `image` (base64 +
         mimeType, or a public image URL; PNG, JPEG, GIF or WebP) → an image post, `crosspostOf`
@@ -33710,19 +33768,19 @@ class Prv_reddit(Protocol):
         they are not.
         """
 
-    async def postComment(self, input: Prv_reddit_postComment_input_In, /) -> Prv_reddit_RedditComment_Out:
+    async def postComment(self, input: Prv_reddit_postComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditComment_Out:
         """Comments on a post (its id like "t3_1abcde", or its URL) as the signed-in caller, in
         markdown, and returns the new comment with its id and permalink. NEEDS THE CALLER SIGNED
         IN TO REDDIT; the run pauses with a sign-in link when they are not.
         """
 
-    async def replyToComment(self, input: Prv_reddit_replyToComment_input_In, /) -> Prv_reddit_RedditComment_Out:
+    async def replyToComment(self, input: Prv_reddit_replyToComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditComment_Out:
         """Replies to a comment (its id like "t1_abc123", or its permalink) as the signed-in
         caller, in markdown, and returns the new reply with its id and permalink. NEEDS THE
         CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
         """
 
-    async def editPostOrComment(self, input: Prv_reddit_editPostOrComment_input_In, /) -> Prv_reddit_RedditEdited_Out:
+    async def editPostOrComment(self, input: Prv_reddit_editPostOrComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditEdited_Out:
         """Replaces the text of the signed-in caller's own text post or comment with `text`
         (markdown) and returns it as it now reads. A post's title cannot be edited on reddit,
         and link and image posts have no text to edit. Someone else's post or comment is refused
@@ -33730,7 +33788,7 @@ class Prv_reddit(Protocol):
         sign-in link when they are not.
         """
 
-    async def deletePostOrComment(self, thing: str | Prv_reddit_deletePostOrComment_thing_u1_In, /) -> Prv_reddit_deletePostOrComment_return_Out:
+    async def deletePostOrComment(self, thing: str | Prv_reddit_deletePostOrComment_thing_u1_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_deletePostOrComment_return_Out:
         """Deletes the signed-in caller's own post or comment, then reads it back to prove it now
         shows as [deleted]. Throws when the thing does not exist, or when it still shows its
         author afterwards (it was not the caller's). Deleting something already deleted
@@ -33738,7 +33796,7 @@ class Prv_reddit(Protocol):
         they are not.
         """
 
-    async def reportPostOrComment(self, input: Prv_reddit_reportPostOrComment_input_In, /) -> Prv_reddit_reportPostOrComment_return_Out:
+    async def reportPostOrComment(self, input: Prv_reddit_reportPostOrComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_reportPostOrComment_return_Out:
         """Reports a post or comment as the signed-in caller. Give exactly one reason: `rule` — one
         of that community's rules, by its name (read them with getSubredditRules); `siteReason`
         — a Reddit-wide reason, which goes to Reddit rather than the moderators; or `reason` —
@@ -33747,7 +33805,7 @@ class Prv_reddit(Protocol):
         they are not.
         """
 
-    async def sendDirectMessage(self, input: Prv_reddit_sendDirectMessage_input_In, /) -> Prv_reddit_sendDirectMessage_return_Out:
+    async def sendDirectMessage(self, input: Prv_reddit_sendDirectMessage_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_sendDirectMessage_return_Out:
         """Sends a message from the signed-in caller to another redditor. This is REDDIT CHAT, not
         the old private-message inbox: reddit's own compose page now sends a chat message
         request, and the legacy private-message endpoint refuses. It checks the recipient first:
@@ -33757,18 +33815,32 @@ class Prv_reddit(Protocol):
         sign-in link when they are not.
         """
 
-    async def updateProfile(self, input: Prv_reddit_updateProfile_input_In, /) -> Prv_reddit_RedditProfileText_Out:
+    async def updateProfile(self, input: Prv_reddit_updateProfile_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditProfileText_Out:
         """Changes the signed-in caller's public profile: `displayName` (up to 30 characters; the
         username itself never changes) and `about`, the profile bio (up to 200 characters).
         Either or both; "" clears one. Returns both as the profile now shows them. NEEDS THE
         CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
         """
 
-    async def setProfilePicture(self, input: Prv_reddit_setProfilePicture_input_u0_In | Prv_reddit_setProfilePicture_input_u1_In, /) -> Prv_reddit_setProfilePicture_return_Out:
+    async def setProfilePicture(self, input: Prv_reddit_setProfilePicture_input_u0_In | Prv_reddit_setProfilePicture_input_u1_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_setProfilePicture_return_Out:
         """Uploads an image (PNG, JPEG, GIF or WebP, as base64 + mimeType or a public image URL) as
         the signed-in caller's profile picture, or with `reset: true` puts back reddit's
         default. Returns the profile picture's URL as the profile now shows it. NEEDS THE CALLER
         SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def login(self, creds: LoginInput, /) -> Prv_reddit_login_return_Out:
+        """Signs in with the given credentials and saves a NEW connection — every call creates one,
+        never replacing an existing login, unless `connection` names an existing id to sign back
+        in to (its cookies replaced, its id and settings kept, a logged-out one revived). The
+        returned `connection` is usable on the very next call in the same script or session.
+        `warnings` names the account's other connections to this site. `username`, `password`,
+        `totpCode` and `totpSeed` are plain values here; a caller on the run/session script
+        surface instead passes each as a `bowmark.secret()` reference. Pass the returned
+        `connection` id as `{ connection }` on a later signed-in call to act as this account.
+        Optionally set `keepAlive: { everyHours }` (or `false` to turn it off) and/or
+        `expiresAt` (an ISO date/datetime, a hard ceiling); both default to a 12-hour keep-alive
+        and can be changed later with `bm.connections.update(id, …)`.
         """
 
 class Prv_reliancepartners(Protocol):
@@ -35150,13 +35222,13 @@ class Prv_tiktok(Protocol):
     no login, no browser.
     """
 
-    async def getProfile(self, args: Prv_tiktok_GetProfileArgs_In, /) -> Prv_tiktok_tiktokProfile_Out:
+    async def getProfile(self, args: Prv_tiktok_GetProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokProfile_Out:
         """A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId
         (handle), nickname, bio, secUid, verified and private flags, avatar, bioLink, and stats
         (follower, following, video and heart counts).
         """
 
-    async def getVideo(self, args: Prv_tiktok_GetVideoArgs_In, /) -> Prv_tiktok_tiktokVideo_Out:
+    async def getVideo(self, args: Prv_tiktok_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokVideo_Out:
         """One video's own facts, off the watch page's embedded state: caption, hashtags, create
         time, duration, the full stats block (plays, likes, comments, shares, saves), the
         uploading author and their stats (follower/heart/video counts), the music track, and
@@ -35164,34 +35236,34 @@ class Prv_tiktok(Protocol):
         is enough, since the page renders off a placeholder handle segment.
         """
 
-    async def getTranscript(self, args: Prv_tiktok_GetTranscriptArgs_In, /) -> Prv_tiktok_tiktokTranscript_Out:
+    async def getTranscript(self, args: Prv_tiktok_GetTranscriptArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokTranscript_Out:
         """A video's caption track fetched and parsed from the WebVTT file TikTok embeds in each
         video page, with timed segments and full text. Returns empty segments when captions are
         unavailable. Takes a `/@<handle>/video/<id>` URL or a bare numeric video id.
         """
 
-    async def listCaptionTracks(self, args: Prv_tiktok_ListCaptionTracksArgs_In, /) -> list[Prv_tiktok_tiktokCaptionTrack_Out]:
+    async def listCaptionTracks(self, args: Prv_tiktok_ListCaptionTracksArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokCaptionTrack_Out]:
         """Which languages a video's captions are available in and which TikTok shows by default.
         Returns an array of caption tracks with language codes, display names, whether each is
         auto-generated, and which one is default. Mirrors youtube.listCaptionTracks. Takes a
         `/@<handle>/video/<id>` URL or a bare numeric video id.
         """
 
-    async def listUserVideos(self, args: Prv_tiktok_ListUserVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+    async def listUserVideos(self, args: Prv_tiktok_ListUserVideosArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
         """A creator's most recent videos — id and caption — read off the unsigned
         `/embed/@<handle>` page, the door from a handle to their videos. Each id then resolves
         through getVideo for full stats. Returns only the first page the embed page ships;
         paging past it is unmeasured.
         """
 
-    async def listComments(self, args: Prv_tiktok_ListCommentsArgs_In, /) -> list[Prv_tiktok_tiktokComment_Out]:
+    async def listComments(self, args: Prv_tiktok_ListCommentsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokComment_Out]:
         """Comments on a video — text, author (id, handle, nickname), like count, reply count, and
         creation time. Reads the unsigned `/api/comment/list/` endpoint with no request
         signature required. Returns up to 20 comments on the first call; paging with cursor is
         unmeasured.
         """
 
-    async def listCommentReplies(self, args: Prv_tiktok_ListCommentRepliesArgs_In, /) -> list[Prv_tiktok_tiktokCommentReply_Out]:
+    async def listCommentReplies(self, args: Prv_tiktok_ListCommentRepliesArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokCommentReply_Out]:
         """The replies under one comment thread — text, author (id, handle, nickname), like count,
         and creation time. Takes a video reference plus a commentId (the `id` field off a
         listComments row). Reads the unsigned `/api/comment/list/reply/` endpoint, the same
@@ -35200,21 +35272,21 @@ class Prv_tiktok(Protocol):
         unmeasured.
         """
 
-    async def searchVideos(self, args: Prv_tiktok_SearchVideosArgs_In, /) -> list[Prv_tiktok_tiktokSearchResult_Out]:
+    async def searchVideos(self, args: Prv_tiktok_SearchVideosArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokSearchResult_Out]:
         """Search for videos on TikTok by keyword. Returns up to 20 results with id, caption,
         author (id, handle, nickname), and stats (play count, likes, comments, shares). Uses the
         browser to load the search page and intercept the API response, as the signed search
         endpoint requires derived request signatures.
         """
 
-    async def searchUsers(self, args: Prv_tiktok_SearchUsersArgs_In, /) -> list[Prv_tiktok_tiktokUserSearchResult_Out]:
+    async def searchUsers(self, args: Prv_tiktok_SearchUsersArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokUserSearchResult_Out]:
         """Search for users on TikTok by query. Returns up to 20 results with id, username,
         nickname, verification status, follower count and video count. Uses the browser to load
         the user search page and intercept the API response, as the signed search endpoint
         requires derived request signatures.
         """
 
-    async def getHashtag(self, args: Prv_tiktok_GetHashtagArgs_In, /) -> Prv_tiktok_tiktokHashtag_Out:
+    async def getHashtag(self, args: Prv_tiktok_GetHashtagArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokHashtag_Out:
         """A hashtag's facts — view count, description, whether it is currently promoted — off
         TikTok's hashtag page. Uses the browser to load the hashtag page and intercept the API
         response, as the hashtag page is served off the signed app API.
@@ -35467,14 +35539,14 @@ class Prv_twitch(Protocol):
     any public video's length and status.
     """
 
-    async def getVideo(self, args: Prv_twitch_GetVideoArgs_In, /) -> Prv_twitch_TwitchVideo_Out:
+    async def getVideo(self, args: Prv_twitch_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchVideo_Out:
         """Reads one public Twitch video by id or twitch.tv/videos link — title, length in seconds,
         whether it is still RECORDING (a live broadcast's archive) or RECORDED, its type
         (ARCHIVE, HIGHLIGHT, UPLOAD) and its channel. No sign-in. THROWS naming the id when
         Twitch has no such video.
         """
 
-    async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, /) -> Prv_twitch_TwitchHighlight_Out:
+    async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchHighlight_Out:
         """Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the
         one still live — between two offsets in seconds, with a title. Omit vodId to cut from
         the newest archive. NEEDS the streamer's Twitch sign-in, which only a capability can
@@ -35484,13 +35556,13 @@ class Prv_twitch(Protocol):
         end offset past what the live archive has recorded so far (retry shortly in that case).
         """
 
-    async def getChannel(self, /) -> Prv_twitch_TwitchChannelSettings_Out:
+    async def getChannel(self, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchChannelSettings_Out:
         """Reads the signed-in streamer's channel settings: title, language and current
         game/category. Takes no arguments. NEEDS the streamer's Twitch sign-in, which only a
         capability can hold: call it as bowmark.stream_channel.get.
         """
 
-    async def setChannel(self, args: Prv_twitch_SetChannelArgs_In, /) -> Prv_twitch_TwitchChannelSettings_Out:
+    async def setChannel(self, args: Prv_twitch_SetChannelArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchChannelSettings_Out:
         """Updates the signed-in streamer's channel settings: title, language and game/category.
         Returns the updated settings. It cannot set tags — `tags` is not a field of Twitch's own
         UpdateBroadcastSettingsInput. NEEDS the streamer's Twitch sign-in, which only a
@@ -35500,7 +35572,7 @@ class Prv_twitch(Protocol):
 class Prv_uber(Protocol):
     """Read signed-in driver earnings summaries from the Uber driver dashboard."""
 
-    async def getDriverEarnings(self, weekOffset: float | None = None, /) -> Prv_uber_DriverEarnings_Out:
+    async def getDriverEarnings(self, weekOffset: float | None = None, opts: ConnectionOption | None = None, /) -> Prv_uber_DriverEarnings_Out:
         """Returns earnings for a specific week (0 = current, 1 = last week, etc)"""
 
 class Prv_uhc_smallbusiness(Protocol):
@@ -36562,7 +36634,7 @@ class Prv_youtube(Protocol):
         to read the next page; it is null once there are no more pages.
         """
 
-    async def listHomeFeed(self, input: Prv_youtube_listHomeFeed_input_In | None = None, /) -> list[Prv_youtube_YoutubeSearchVideo_Out]:
+    async def listHomeFeed(self, input: Prv_youtube_listHomeFeed_input_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_youtube_YoutubeSearchVideo_Out]:
         """The videos on the signed-in account's own YouTube home page — the personalized
         recommendation grid, in YouTube's own order, which is what that account actually sees on
         youtube.com right now. NEEDS A SIGN-IN and exists nowhere else: it is not in the public
@@ -36570,19 +36642,19 @@ class Prv_youtube(Protocol):
         error. Call `bowmark.video_library.homeFeed` rather than this directly.
         """
 
-    async def listWatchLater(self, input: Prv_youtube_listWatchLater_input_In | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
+    async def listWatchLater(self, input: Prv_youtube_listWatchLater_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
         """The signed-in account's Watch Later queue, newest first, paged like any playlist. NEEDS
         A SIGN-IN, and a grant is issued to a capability — call
         `bowmark.video_library.watchLater` rather than this directly. Not reachable through
         YouTube's public Data API at all: Google removed access to the `WL` list in 2016.
         """
 
-    async def listLikedVideos(self, input: Prv_youtube_listLikedVideos_input_In | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
+    async def listLikedVideos(self, input: Prv_youtube_listLikedVideos_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
         """The videos the signed-in account has liked, newest first, paged like any playlist. NEEDS
         A SIGN-IN — call `bowmark.video_library.liked` rather than this directly.
         """
 
-    async def createPlaylist(self, input: Prv_youtube_createPlaylist_input_In, /) -> Prv_youtube_YoutubeCreatedPlaylist_Out:
+    async def createPlaylist(self, input: Prv_youtube_createPlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeCreatedPlaylist_Out:
         """Creates an EMPTY playlist on the signed-in account and returns its id and URL. `privacy`
         defaults to "private". NOT idempotent — YouTube allows duplicate titles, so calling
         twice makes two playlists. Title it for the PERSON whose account it lands on: the
@@ -36591,7 +36663,7 @@ class Prv_youtube(Protocol):
         `bowmark.video_library.createPlaylist` rather than this directly.
         """
 
-    async def createChannel(self, /) -> Prv_youtube_YoutubeCreatedChannel_Out:
+    async def createChannel(self, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeCreatedChannel_Out:
         """Creates the signed-in Google account's YouTube CHANNEL, using the account's own name and
         profile photo — the only thing YouTube's own dialog offers on this path. Most Google
         accounts have never had one, and without one YouTube refuses to make a public or
@@ -36603,7 +36675,7 @@ class Prv_youtube(Protocol):
         NEEDS A SIGN-IN.
         """
 
-    async def addToPlaylist(self, input: Prv_youtube_addToPlaylist_input_In, /) -> Prv_youtube_YoutubePlaylistEdit_Out:
+    async def addToPlaylist(self, input: Prv_youtube_addToPlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistEdit_Out:
         """Adds one or many videos to one of the signed-in account's own playlists, as a SINGLE
         edit rather than one request per video. Order is preserved: the videos appear in the
         order they were sent, measured 2026-09-18. A playlist READ BACK IN THE SAME RUN can
@@ -36611,6 +36683,20 @@ class Prv_youtube(Protocol):
         measured at ~2s — so do not treat an immediate empty read as a failed add. YouTube
         permits duplicates, so adding a video already present adds it again. NEEDS A SIGN-IN —
         call `bowmark.video_library.addToPlaylist` rather than this directly.
+        """
+
+    async def login(self, creds: LoginInput, /) -> Prv_youtube_login_return_Out:
+        """Signs in with the given credentials and saves a NEW connection — every call creates one,
+        never replacing an existing login, unless `connection` names an existing id to sign back
+        in to (its cookies replaced, its id and settings kept, a logged-out one revived). The
+        returned `connection` is usable on the very next call in the same script or session.
+        `warnings` names the account's other connections to this site. `username`, `password`,
+        `totpCode` and `totpSeed` are plain values here; a caller on the run/session script
+        surface instead passes each as a `bowmark.secret()` reference. Pass the returned
+        `connection` id as `{ connection }` on a later signed-in call to act as this account.
+        Optionally set `keepAlive: { everyHours }` (or `false` to turn it off) and/or
+        `expiresAt` (an ISO date/datetime, a hard ceiling); both default to a 12-hour keep-alive
+        and can be changed later with `bm.connections.update(id, …)`.
         """
 
 class Prv_zennioptical(Protocol):
