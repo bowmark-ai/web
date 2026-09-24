@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3c5e9e76349d40fa8651ad98f3dff7e4b8d50880cf9d516bf8cd68b20ac1cb27
-// 1315 checked, 20 unchecked.
+// Manifest version: 58b5fdeafaebd50ee3327569557f5886f30a35e22455b90c388725647a40b684
+// 1323 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3c5e9e76349d40fa8651ad98f3dff7e4b8d50880cf9d516bf8cd68b20ac1cb27",
+  "version": "58b5fdeafaebd50ee3327569557f5886f30a35e22455b90c388725647a40b684",
   "units": {
     "booking_links": {
       "defs": {
@@ -802,6 +802,193 @@ export const VALIDATORS: ValidatorTable = {
               }
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "delegate": {
+      "defs": {
+        "DelegateStatusOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "waitMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListDelegatesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "open",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "StartDelegateOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "prompt",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "env",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "repo",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "object",
+                    "props": [
+                      {
+                        "name": "url",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": false
+                      },
+                      {
+                        "name": "ref",
+                        "schema": {
+                          "k": "string"
+                        },
+                        "optional": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxCostUsd",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxMinutes",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "start": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "StartDelegateOptions"
+            },
+            "optional": false
+          }
+        ],
+        "status": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "DelegateStatusOptions"
+            },
+            "optional": true
+          }
+        ],
+        "send": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "message",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "stop": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "list": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ListDelegatesOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -35884,6 +36071,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.ticketmaster_mx": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getEvent": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.ticketmaster_nl": {
       "defs": {},
       "functions": {
@@ -35944,6 +36154,18 @@ export const VALIDATORS: ValidatorTable = {
           "props": [
             {
               "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetSoundArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "soundId",
               "schema": {
                 "k": "string"
               },
@@ -36296,6 +36518,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetHashtagArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSound": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSoundArgs"
             },
             "optional": false
           },

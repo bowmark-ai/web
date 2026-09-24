@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3c5e9e76349d40fa8651ad98f3dff7e4b8d50880cf9d516bf8cd68b20ac1cb27
-// 59 capabilities, 457 providers, 1333 typed functions, 20 refused.
+// Manifest version: 58b5fdeafaebd50ee3327569557f5886f30a35e22455b90c388725647a40b684
+// 60 capabilities, 458 providers, 1341 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -788,6 +788,108 @@ type CallOptions = {
      * one.
      */
     priceConfiguration(id: string, selections: Record<string, string>): Promise<CustomSofaPriceResult>;
+  }
+}
+
+declare namespace BowmarkCapability_delegate {
+  // ── Delegate to a coding agent — the unit's own declarations, verbatim ──
+type DelegateStatus = "running" | "idle" | "failed" | "stopped" | "closed";
+interface StartDelegateOptions {
+  prompt: string;                         // what the agent should do, plainly
+  env?: Record<string, string>;           // env vars its shell sees (tokens, config) — real values
+  repo?: string | { url: string; ref?: string };   // https git URL to clone and work in
+  model?: string;                         // default "anthropic/claude-sonnet-5"
+  maxCostUsd?: number;                    // whole-session ceiling, machine + tokens; default 5, max 50
+  maxMinutes?: number;                    // machine lifetime; default 30, max 55
+  timeoutMs?: number;
+}
+interface StartDelegateResult { id: string; status: DelegateStatus; model: string; warnings: string[] }
+interface DelegateStep { kind: "message" | "action" | "result"; text: string }
+interface DelegateFile {
+  path: string;                           // relative to the agent's output folder
+  bytes: number;
+  content: string | null;                 // inline for a small text file
+  url: string | null;                     // a saved copy, when the run can keep files
+}
+interface DelegateStatusOptions {
+  cursor?: string;                        // from the previous status() — only newer steps return
+  waitMs?: number;                        // wait up to this long (max 60000) for a change
+  timeoutMs?: number;
+}
+interface DelegateStatusResult {
+  id: string;
+  status: DelegateStatus;
+  result: string | null;                  // the agent's final answer for its last finished turn
+  error: string | null;
+  steps: DelegateStep[];
+  cursor: string;
+  files: DelegateFile[];                  // what it left in its output folder, once a turn is done
+  diff: string | null;                    // git diff of the cloned repo, once a turn is done
+  turn: number;
+  model: string;
+  closed: boolean;
+  warnings: string[];
+}
+interface SendDelegateResult { id: string; status: DelegateStatus; turn: number; warnings: string[] }
+interface StopDelegateResult { id: string; status: DelegateStatus; warnings: string[] }
+interface DelegateSummary {
+  id: string; status: DelegateStatus; prompt: string; model: string; repo: string | null;
+  turn: number; createdAt: string; closedAt: string | null;
+}
+interface ListDelegatesOptions { open?: boolean }   // default true
+interface ListDelegatesResult { sessions: DelegateSummary[]; warnings: string[] }
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * **A coding agent (Claude Code) in a fresh, throwaway Linux machine, for a task that needs a
+   * real computer**: write and run code, work in a git repo, install packages, process files,
+   * anything a developer would open a terminal for. `start({ prompt, env?, repo? })` boots the
+   * machine and returns `id` at once; the agent works on its own for seconds to many minutes.
+   * Poll `status(id, { waitMs: 60000 })` from LATER runs — never in a loop in one run (a run is
+   * killed at 120s). When `status` is `idle`, read `result`, `files` (what it left in its output
+   * folder) and `diff` (its changes to the repo), then `stop(id)`. `send(id, message)` continues
+   * the same conversation in the same machine. Billed to your user's account for machine time
+   * and model tokens, under `maxCostUsd` (default $5): tell your user it is running and that it
+   * costs money. `env` values reach the machine as they are — pass tokens it needs there, never
+   * in the prompt. The machine is destroyed on `stop`, after `maxMinutes` (default 30), or after
+   * 20 idle minutes, and everything not returned is lost. RUN-ONLY: a typed session cannot call
+   * it.
+   */
+  interface Unit {
+    /**
+     * Boots a fresh Linux machine running Claude Code on `prompt`, optionally inside a clone of
+     * `repo`, with `env` set in its shell; returns `id` at once. Billed per machine-second and
+     * model token under `maxCostUsd` (default $5) — tell your user it is running and that it costs
+     * money. Then `status(id)` from later runs. Account limit: 3 at once.
+     */
+    start(options: StartDelegateOptions): Promise<StartDelegateResult>;
+
+    /**
+     * Reads a session: `running`, `idle` (done — read `result`, `files`, `diff`), `failed` (see
+     * `error`), `stopped` or `closed`. Pass the previous `cursor` for only new steps, and `waitMs`
+     * (≤ 60000) to wait for a change instead of polling tightly.
+     */
+    status(id: string, options?: DelegateStatusOptions): Promise<DelegateStatusResult>;
+
+    /**
+     * Continues the same conversation in the same machine after a turn has finished: a correction,
+     * a follow-up task, an answer to something it asked. Billed like the first turn.
+     */
+    send(id: string, message: string): Promise<SendDelegateResult>;
+
+    /**
+     * Destroys the machine and closes the session. Always stop a session when you are done — a
+     * machine bills until it is stopped, expires, or sits idle for 20 minutes.
+     */
+    stop(id: string): Promise<StopDelegateResult>;
+
+    /** Lists this account's delegate sessions (open ones by default). */
+    list(options?: ListDelegatesOptions): Promise<ListDelegatesResult>;
   }
 }
 
@@ -36011,6 +36113,44 @@ interface ThibautdesignRollCalculationResult {
   }
 }
 
+declare namespace BowmarkProvider_ticketmaster_mx {
+  // ── Ticketmaster México — the unit's own declarations, verbatim ──
+interface EventLink {
+  url: string;
+  title: string;
+}
+
+interface EventDetails {
+  id: string;
+  name: string;
+  url: string;
+  venue?: string;
+  date?: string;
+  availability?: "InStock" | "SoldOut" | "PreOrder" | "unknown";
+  priceRange?: { minPrice?: number; maxPrice?: number };
+  description?: string;
+  image?: string;
+}
+
+  /** Event details, availability, and pricing on Ticketmaster México. */
+  interface Unit {
+    /**
+     * Searches Ticketmaster México for events matching a query and returns up to 10 event links
+     * with their titles, e.g. search("concert") -> [{ url:
+     * "https://www.ticketmaster.com.mx/…/event/1400648ABED6B4E9", title: "Alejandro Sanz - Ciudad
+     * de México" }].
+     */
+    search(query: string): Promise<EventLink[]>;
+
+    /**
+     * Fetches one event's details — name, venue, date, availability (InStock/SoldOut/PreOrder) and
+     * price range — from a Ticketmaster México event page, parsing the page's own schema.org
+     * JSON-LD.
+     */
+    getEvent(url: string): Promise<EventDetails>;
+  }
+}
+
 declare namespace BowmarkProvider_ticketmaster_nl {
   // ── Ticketmaster Netherlands — the unit's own declarations, verbatim ──
 interface EventRow {
@@ -36191,6 +36331,16 @@ interface tiktokHashtag {
 interface GetHashtagArgs {
   name: string;
 }
+interface tiktokSound {
+  id: string;
+  title: string;
+  artist: string;
+  duration: number;
+  videoCount: number;
+}
+interface GetSoundArgs {
+  soundId: string;
+}
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -36273,6 +36423,14 @@ interface GetHashtagArgs {
      * the hashtag page is served off the signed app API.
      */
     getHashtag(args: GetHashtagArgs, opts?: ConnectionOption): Promise<tiktokHashtag>;
+
+    /**
+     * A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed by
+     * the music id getVideo carries on `music.id`. Uses the browser to load the sound's page and
+     * read the detail response it fetches, as that endpoint answers an unsigned request with an
+     * empty body.
+     */
+    getSound(args: GetSoundArgs, opts?: ConnectionOption): Promise<tiktokSound>;
   }
 }
 
@@ -41320,6 +41478,7 @@ interface BowmarkProviders {
   thestowcompany: BowmarkProvider_thestowcompany.Unit;
   thezebra: BowmarkProvider_thezebra.Unit;
   thibautdesign: BowmarkProvider_thibautdesign.Unit;
+  ticketmaster_mx: BowmarkProvider_ticketmaster_mx.Unit;
   ticketmaster_nl: BowmarkProvider_ticketmaster_nl.Unit;
   tiktok: BowmarkProvider_tiktok.Unit;
   tilsonhomes: BowmarkProvider_tilsonhomes.Unit;
@@ -93104,6 +93263,7 @@ interface BowmarkLibrary {
   currency_exchange: BowmarkCapability_currency_exchange.Unit;
   custom_packaging_quote: BowmarkCapability_custom_packaging_quote.Unit;
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
+  delegate: BowmarkCapability_delegate.Unit;
   delivery: BowmarkCapability_delivery.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;
   domain: BowmarkCapability_domain.Unit;

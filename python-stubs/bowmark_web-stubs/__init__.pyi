@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3c5e9e76349d40fa8651ad98f3dff7e4b8d50880cf9d516bf8cd68b20ac1cb27
-# 59 capabilities, 457 providers, 1315 typed functions, 20 refused.
+# Manifest version: 58b5fdeafaebd50ee3327569557f5886f30a35e22455b90c388725647a40b684
+# 60 capabilities, 458 providers, 1323 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -665,6 +665,82 @@ class Cap_custom_sofa_configurator_CustomSofaPriceLine_Out(TypedDict):
     option: str
     choice: str
     priceDelta: float
+
+class Cap_delegate_StartDelegateOptions_In(TypedDict):
+    prompt: str
+    env: NotRequired[Mapping[str, str]]
+    repo: NotRequired[str | Cap_delegate_StartDelegateOptions_In_repo_u1_In]
+    model: NotRequired[str]
+    maxCostUsd: NotRequired[float]
+    maxMinutes: NotRequired[float]
+    timeoutMs: NotRequired[float]
+
+class Cap_delegate_StartDelegateOptions_In_repo_u1_In(TypedDict):
+    url: str
+    ref: NotRequired[str]
+
+class Cap_delegate_StartDelegateResult_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    model: str
+    warnings: list[str]
+
+class Cap_delegate_DelegateStatusOptions_In(TypedDict):
+    cursor: NotRequired[str]
+    waitMs: NotRequired[float]
+    timeoutMs: NotRequired[float]
+
+class Cap_delegate_DelegateStatusResult_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    result: str | None
+    error: str | None
+    steps: list[Cap_delegate_DelegateStep_Out]
+    cursor: str
+    files: list[Cap_delegate_DelegateFile_Out]
+    diff: str | None
+    turn: float
+    model: str
+    closed: bool
+    warnings: list[str]
+
+class Cap_delegate_DelegateStep_Out(TypedDict):
+    kind: Literal["message"] | Literal["action"] | Literal["result"]
+    text: str
+
+class Cap_delegate_DelegateFile_Out(TypedDict):
+    path: str
+    bytes: float
+    content: str | None
+    url: str | None
+
+class Cap_delegate_SendDelegateResult_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    turn: float
+    warnings: list[str]
+
+class Cap_delegate_StopDelegateResult_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    warnings: list[str]
+
+class Cap_delegate_ListDelegatesOptions_In(TypedDict):
+    open: NotRequired[bool]
+
+class Cap_delegate_ListDelegatesResult_Out(TypedDict):
+    sessions: list[Cap_delegate_DelegateSummary_Out]
+    warnings: list[str]
+
+class Cap_delegate_DelegateSummary_Out(TypedDict):
+    id: str
+    status: Literal["running"] | Literal["idle"] | Literal["failed"] | Literal["stopped"] | Literal["closed"]
+    prompt: str
+    model: str
+    repo: str | None
+    turn: float
+    createdAt: str
+    closedAt: str | None
 
 class Cap_delivery_compareDeliveryFees_query_u1_In(TypedDict):
     query: str
@@ -19250,6 +19326,25 @@ class Prv_thibautdesign_ThibautdesignRollCalculationResult_Out(TypedDict):
     howToBuyUrl: str
     calculatorUrl: str
 
+class Prv_ticketmaster_mx_EventLink_Out(TypedDict):
+    url: str
+    title: str
+
+class Prv_ticketmaster_mx_EventDetails_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    venue: NotRequired[str]
+    date: NotRequired[str]
+    availability: NotRequired[Literal["InStock"] | Literal["SoldOut"] | Literal["PreOrder"] | Literal["unknown"]]
+    priceRange: NotRequired[Prv_ticketmaster_mx_EventDetails_Out_priceRange_Out]
+    description: NotRequired[str]
+    image: NotRequired[str]
+
+class Prv_ticketmaster_mx_EventDetails_Out_priceRange_Out(TypedDict):
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+
 class Prv_ticketmaster_nl_search_args_In(TypedDict):
     query: str
 
@@ -19428,6 +19523,16 @@ class Prv_tiktok_tiktokHashtag_Out(TypedDict):
     description: str
     viewCount: float
     promoted: bool
+
+class Prv_tiktok_GetSoundArgs_In(TypedDict):
+    soundId: str
+
+class Prv_tiktok_tiktokSound_Out(TypedDict):
+    id: str
+    title: str
+    artist: str
+    duration: float
+    videoCount: float
 
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
@@ -21939,6 +22044,49 @@ class Cap_custom_sofa_configurator(Protocol):
         `{ [option.key]: choice.key }` using the keys getConfigurator(id) just returned for THIS
         sofa — never invent one.
         """
+
+class Cap_delegate(Protocol):
+    """**A coding agent (Claude Code) in a fresh, throwaway Linux machine, for a task that
+    needs a real computer**: write and run code, work in a git repo, install packages,
+    process files, anything a developer would open a terminal for. `start({ prompt, env?,
+    repo? })` boots the machine and returns `id` at once; the agent works on its own for
+    seconds to many minutes. Poll `status(id, { waitMs: 60000 })` from LATER runs — never in
+    a loop in one run (a run is killed at 120s). When `status` is `idle`, read `result`,
+    `files` (what it left in its output folder) and `diff` (its changes to the repo), then
+    `stop(id)`. `send(id, message)` continues the same conversation in the same machine.
+    Billed to your user's account for machine time and model tokens, under `maxCostUsd`
+    (default $5): tell your user it is running and that it costs money. `env` values reach
+    the machine as they are — pass tokens it needs there, never in the prompt. The machine
+    is destroyed on `stop`, after `maxMinutes` (default 30), or after 20 idle minutes, and
+    everything not returned is lost. RUN-ONLY: a typed session cannot call it.
+    """
+
+    async def start(self, options: Cap_delegate_StartDelegateOptions_In, /) -> Cap_delegate_StartDelegateResult_Out:
+        """Boots a fresh Linux machine running Claude Code on `prompt`, optionally inside a clone
+        of `repo`, with `env` set in its shell; returns `id` at once. Billed per machine-second
+        and model token under `maxCostUsd` (default $5) — tell your user it is running and that
+        it costs money. Then `status(id)` from later runs. Account limit: 3 at once.
+        """
+
+    async def status(self, id: str, options: Cap_delegate_DelegateStatusOptions_In | None = None, /) -> Cap_delegate_DelegateStatusResult_Out:
+        """Reads a session: `running`, `idle` (done — read `result`, `files`, `diff`), `failed`
+        (see `error`), `stopped` or `closed`. Pass the previous `cursor` for only new steps, and
+        `waitMs` (≤ 60000) to wait for a change instead of polling tightly.
+        """
+
+    async def send(self, id: str, message: str, /) -> Cap_delegate_SendDelegateResult_Out:
+        """Continues the same conversation in the same machine after a turn has finished: a
+        correction, a follow-up task, an answer to something it asked. Billed like the first
+        turn.
+        """
+
+    async def stop(self, id: str, /) -> Cap_delegate_StopDelegateResult_Out:
+        """Destroys the machine and closes the session. Always stop a session when you are done — a
+        machine bills until it is stopped, expires, or sits idle for 20 minutes.
+        """
+
+    async def list(self, options: Cap_delegate_ListDelegatesOptions_In | None = None, /) -> Cap_delegate_ListDelegatesResult_Out:
+        """Lists this account's delegate sessions (open ones by default)."""
 
 class Cap_delivery(Protocol):
     """Runs a free-text restaurant search on DoorDash and returns each store's own advertised
@@ -35206,6 +35354,22 @@ class Prv_thibautdesign(Protocol):
         there is no DTC checkout on this calculator to route to.
         """
 
+class Prv_ticketmaster_mx(Protocol):
+    """Event details, availability, and pricing on Ticketmaster México."""
+
+    async def search(self, query: str, /) -> list[Prv_ticketmaster_mx_EventLink_Out]:
+        """Searches Ticketmaster México for events matching a query and returns up to 10 event
+        links with their titles, e.g. search("concert") -> [{ url:
+        "https://www.ticketmaster.com.mx/…/event/1400648ABED6B4E9", title: "Alejandro Sanz -
+        Ciudad de México" }].
+        """
+
+    async def getEvent(self, url: str, /) -> Prv_ticketmaster_mx_EventDetails_Out:
+        """Fetches one event's details — name, venue, date, availability (InStock/SoldOut/PreOrder)
+        and price range — from a Ticketmaster México event page, parsing the page's own
+        schema.org JSON-LD.
+        """
+
 class Prv_ticketmaster_nl(Protocol):
     """Event details from Ticketmaster Netherlands."""
 
@@ -35290,6 +35454,13 @@ class Prv_tiktok(Protocol):
         """A hashtag's facts — view count, description, whether it is currently promoted — off
         TikTok's hashtag page. Uses the browser to load the hashtag page and intercept the API
         response, as the hashtag page is served off the signed app API.
+        """
+
+    async def getSound(self, args: Prv_tiktok_GetSoundArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokSound_Out:
+        """A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed
+        by the music id getVideo carries on `music.id`. Uses the browser to load the sound's
+        page and read the detail response it fetches, as that endpoint answers an unsigned
+        request with an empty body.
         """
 
 class Prv_tilsonhomes(Protocol):
@@ -37138,6 +37309,7 @@ class BowmarkProviders(Protocol):
     thestowcompany: Prv_thestowcompany
     thezebra: Prv_thezebra
     thibautdesign: Prv_thibautdesign
+    ticketmaster_mx: Prv_ticketmaster_mx
     ticketmaster_nl: Prv_ticketmaster_nl
     tiktok: Prv_tiktok
     tilsonhomes: Prv_tilsonhomes
@@ -37206,6 +37378,7 @@ class Bowmark(Protocol):
     currency_exchange: Cap_currency_exchange
     custom_packaging_quote: Cap_custom_packaging_quote
     custom_sofa_configurator: Cap_custom_sofa_configurator
+    delegate: Cap_delegate
     delivery: Cap_delivery
     developer_api_key_signup: Cap_developer_api_key_signup
     domain: Cap_domain
