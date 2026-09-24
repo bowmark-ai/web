@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2024 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2046 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1088,6 +1088,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `interiordefine.getConfigurator` | interiordefine.com | Reads one product's whole customizer: every option category (fabric color, leg finish… | 🟢 |
 | `interiordefine.priceConfiguration` | interiordefine.com | Prices a specific configuration (a choice per option category) against… | 🟢 |
 | `interiordefine.searchProducts` | interiordefine.com | Searches Interior Define's custom-furniture catalog (sofas, sectionals, chairs) by… | 🟢 |
+| `iproyal_reseller.extendPeriod` | apid.iproyal.com | Extends one order's term (POST /orders/{id}/extend) — spends real money; a new prepaid… | ⚪ |
+| `iproyal_reseller.getAccountBalance` | apid.iproyal.com | Bowmark's own prepaid IPRoyal balance (GET /balance) — used to fence a lease purchase… | 🟢 |
+| `iproyal_reseller.getCatalogue` | apid.iproyal.com | Reads IPRoyal's live reseller catalogue for one lease kind (GET /products) —… | 🟢 |
+| `iproyal_reseller.getOrder` | apid.iproyal.com | Reads one order by IPRoyal's own id (GET /orders/{id}) — status, endpoints, expiry… | 🟢 |
+| `iproyal_reseller.listOrders` | apid.iproyal.com | Every order on Bowmark's account for one product line (GET /orders, paged), including… | 🟢 |
+| `iproyal_reseller.placeOrder` | apid.iproyal.com | Places one real IPRoyal order (POST /orders) — spends real money on Bowmark's shared… | ⚪ |
+| `iproyal_reseller.quotePrice` | apid.iproyal.com | Prices one order before it is placed (GET /orders/calculate-pricing) — the vendor-cost… | 🟢 |
+| `iproyal_reseller.setAutoExtend` | apid.iproyal.com | Sets the vendor's own auto-renew flag on one order (POST /orders/toggle-auto-extend) —… | ⚪ |
 | `iproyal.getPlans` | iproyal.com | Reads IPRoyal's own published proxy pricing — residential, datacenter, ISP and mobile… | 🟢 |
 | `islllc.searchCommunities` | islllc.com | Runs the site's own community locator at islllc.com/communities/ — given a US location… | 🟢 |
 | `istanbulkart.getCardFees` | istanbulkart.istanbul | Reads the current İstanbulkart fee table — the purchase price of every card variant… | 🟢 |
@@ -1534,6 +1542,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `provenwinners.getRecipeDetails` | provenwinners.com | Reads one container recipe's own combination page — its season(s), container size and… | 🟢 |
 | `provenwinners.searchContainerRecipes` | provenwinners.com | Runs Proven Winners' own Container Recipe Finder over its 1,074+ published… | 🟢 |
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
+| `proxy_cheap.changeAuthenticationType` | proxy-cheap.com | Switches one proxy between USERNAME_PASSWORD and IP_WHITELIST auth (POST… | ⚪ |
+| `proxy_cheap.disableAutoExtend` | proxy-cheap.com | Turns off auto-renew for one proxy (POST /proxies/:id/auto-extend/disable, 204 empty… | ⚪ |
+| `proxy_cheap.enableAutoExtend` | proxy-cheap.com | Turns on auto-renew for one proxy (POST /proxies/:id/auto-extend/enable, 204 empty… | ⚪ |
+| `proxy_cheap.extendPeriod` | proxy-cheap.com | Extends one proxy's period and charges for it (POST /proxies/:id/extend-period) —… | ⚪ |
+| `proxy_cheap.getAccountBalance` | proxy-cheap.com | Reads Bowmark's own Proxy-Cheap account balance (GET /account/balance) — used to fence… | ⚪ |
+| `proxy_cheap.getOrder` | proxy-cheap.com | Reads one order's period, bandwidth and total price by id (GET /orders/:id). | ⚪ |
+| `proxy_cheap.getProxy` | proxy-cheap.com | Reads one proxy's status, bandwidth usage and auto-extend flag by id (GET /proxies/:id). | ⚪ |
+| `proxy_cheap.listLocations` | proxy-cheap.com | For one service+plan, lists in-stock countries and, per country, the ISP carriers… | ⚪ |
+| `proxy_cheap.listOrderProxies` | proxy-cheap.com | Lists the proxy endpoints an order produced (GET /orders/:id/proxies) — connection… | ⚪ |
+| `proxy_cheap.listProxies` | proxy-cheap.com | Lists every proxy on the account (GET /proxies). | ⚪ |
+| `proxy_cheap.listServices` | proxy-cheap.com | Lists Proxy-Cheap's service lines and their plan tiers (GET /v2/order) — includes… | ⚪ |
+| `proxy_cheap.placeOrder` | proxy-cheap.com | Places one order for a plan+quantity+term (POST /v2/order/:serviceId/execute) — spends… | ⚪ |
+| `proxy_cheap.quoteExtension` | proxy-cheap.com | Prices extending one proxy's period before committing (POST… | ⚪ |
+| `proxy_cheap.quotePrice` | proxy-cheap.com | Prices a plan+quantity+term before ordering (POST /v2/order/:serviceId/price) —… | ⚪ |
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
