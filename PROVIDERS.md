@@ -697,8 +697,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getTransfers` | fomo.family | Pages the signed-in trader's transfers, and the transfers exchanged with one other… | ⚪ |
 | `fomo.getTransfersWith` | fomo.family | Pages the transfers between the signed-in trader and ONE other user — the two-party… | ⚪ |
 | `fomo.getTrendingTokens` | fomo.family | Returns what is moving on fomo right now — the site's own trending ranking, which is a… | ⚪ |
-| `fomo.getUser` | fomo.family | Returns one trader's public profile by fomo user id — the same record as… | ⚪ |
-| `fomo.getUserByHandle` | fomo.family | Returns one trader's profile from their `@handle` — the half of a… | ⚪ |
+| `fomo.getUser` | fomo.family | Returns one trader's public profile by fomo user id — the same record as… | 🟢 |
+| `fomo.getUserByHandle` | fomo.family | Returns one trader's profile from their `@handle` — the half of a… | 🟢 |
 | `fomo.getUserLeaderboardStanding` | fomo.family | Returns one trader's own rank and stats without walking the board — the narrow… | ⚪ |
 | `fomo.getUserSpotlight` | fomo.family | Returns the highlighted trades and stats fomo pins to the top of one trader's profile… | ⚪ |
 | `fomo.getUserSwaps` | fomo.family | Pages one trader's executed swaps — token, side, amount, USD value, price and realized… | ⚪ |
@@ -955,7 +955,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `healthcare_gov.searchPlans` | healthcare.gov | Returns the ACA Marketplace health plans available to a household — for a ZIP… | 🟢 |
 | `healthcare_gov.searchProviders` | healthcare.gov | Searches the Marketplace's own provider directory by name and location and returns… | ⚪ |
 | `healthie.getPracticeDetails` | gethealthie.com | Returns detailed information about a specific practice including providers, services… | ⚪ |
-| `healthie.searchPractices` | gethealthie.com | Searches for health and wellness practices by name or location on Healthie's platform. | 🟢 |
+| `healthie.searchPractices` | gethealthie.com | Searches for therapists, coaches, dietitians, and other health practitioners by… | 🟢 |
 | `healthie.searchProviders` | gethealthie.com | Searches for individual practitioners (therapists, coaches, dietitians) by… | ⚪ |
 | `heatherwood.getFloorplan` | heatherwood.com | Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently… | 🟡 |
 | `heatherwood.listFloorplans` | heatherwood.com | Lists every floor-plan TYPE Heritage Westminster publishes (studio through 3-bedroom… | 🟢 |
