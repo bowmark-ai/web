@@ -163,6 +163,21 @@ Returns the envelope rather than raising, because a script is composite: `status
 and `result` are read together. Untyped by construction — a string gets no checking, so
 the generated stubs cover `session()` and `bowmark` and never this.
 
+## `login()` is TYPED, but not yet wired here
+
+Multi-account connections' `packages/catalog/src/manifest.ts` synthesizes a `login()`
+method (and a trailing `{ "connection": … }` option on every signed-in one) for the
+manifest BOTH clients generate from, so `bowmark_web-stubs` types them for parity with
+the Node client. **This runtime does not yet implement the credential lift `login()`
+needs**: the Node client's transport (`packages/bowmark-web/node/src/session.ts`) lifts
+`username`/`password`/`totpCode`/`totpSeed` into a per-request
+`x-bowmark-credential-<name>` header before a `login()` call reaches the wire, because
+the server refuses a plain string in that position. Calling the typed `login()` method
+from this Python client today sends those fields as plain strings in the body and gets
+a clear `CredentialError` back — loud, not a silent leak, but not yet a working call.
+`bm.connections.list/delete/update` are Node-only for the same reason: neither is
+generated from the manifest, and neither has a Python-runtime counterpart yet.
+
 ## Development
 
 ```sh

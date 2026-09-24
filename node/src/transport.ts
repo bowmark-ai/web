@@ -219,21 +219,28 @@ export function resolveClient(opts: ClientOptions = {}): ResolvedClient {
   };
 }
 
-/** POST JSON and parse JSON back.
+/** Send one request and parse JSON back. `postJson` and the `bm.connections.*` REST
+ * calls both go through this — the only difference between them is the method and
+ * whether there is a body.
  *
- * The caller's headers are merged FIRST so `authorization` and `content-type` win —
- * a header that silently replaced the api key would make an unauthenticated call
- * look like a permissions problem on our side. */
-async function postJson<T>(
+ * The caller's headers are merged FIRST, then `extraHeaders` — a PER-CALL addition
+ * (multi-account connections' `login()` credential lift is the one caller today) —
+ * so `authorization` and `content-type`, set last, always win. A header that
+ * silently replaced the api key would make an unauthenticated call look like a
+ * permissions problem on our side. */
+async function sendRequest<T>(
   client: ResolvedClient,
+  method: "GET" | "POST" | "PATCH" | "DELETE",
   path: string,
-  body: unknown,
+  body?: unknown,
+  extraHeaders?: Record<string, string>,
 ): Promise<{ status: number; payload: T }> {
   const headers: Record<string, string> = {
     ...client.headers,
-    "content-type": "application/json",
+    ...extraHeaders,
     accept: "application/json",
   };
+  if (body !== undefined) headers["content-type"] = "application/json";
   // Refused HERE rather than sent: the api would answer 401 with the same steps,
   // and a round trip that can only fail is a slower way to say it.
   if (!client.apiKey) throw new BowmarkError(NO_API_KEY_MESSAGE, { code: "no_api_key" });
@@ -242,9 +249,9 @@ async function postJson<T>(
   let response: Response;
   try {
     response = await client.fetch(`${client.baseUrl}${path}`, {
-      method: "POST",
+      method,
       headers,
-      body: JSON.stringify(body),
+      ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
       signal: client.signal,
     });
   } catch (err) {
@@ -269,6 +276,17 @@ async function postJson<T>(
     );
   }
   return { status: response.status, payload: payload as T };
+}
+
+/** POST JSON and parse JSON back. `extraHeaders` rides THIS call only — never
+ * captured, never applied to a later call on the same client. */
+async function postJson<T>(
+  client: ResolvedClient,
+  path: string,
+  body: unknown,
+  extraHeaders?: Record<string, string>,
+): Promise<{ status: number; payload: T }> {
+  return sendRequest<T>(client, "POST", path, body, extraHeaders);
 }
 
 export async function openSession(client: ResolvedClient): Promise<OpenedSession> {
@@ -296,12 +314,14 @@ export async function callInSession(
   sessionId: string,
   path: readonly string[],
   args: readonly unknown[],
+  extraHeaders?: Record<string, string>,
 ): Promise<unknown> {
   const label = ["bowmark", ...path].join(".");
   const { status, payload } = await postJson<CallEnvelope>(
     client,
     `/v1/session/${encodeURIComponent(sessionId)}/call`,
     { path, args },
+    extraHeaders,
   );
 
   if (client.onLog) for (const line of payload?.logs ?? []) client.onLog(line);
@@ -345,6 +365,145 @@ export async function closeSession(
   );
   if (status !== 200 || payload?.ok !== true) return null;
   return { ok: true, calls: payload.calls, ms: payload.ms };
+}
+
+// ── `bm.connections.*` — REST over `/v1/connections`, multi-account connections
+// Phase 7 ─────────────────────────────────────────────────────────────────────
+//
+// Not part of the generic `bowmark.<unit>.<fn>` dispatch: these bypass
+// `/v1/session/:id/call` entirely and hit the plain REST routes
+// `apps/api/src/routes/connections.ts` already serves. A saved login is account
+// state, not a capability call — there is no site to talk to and no session to
+// hold open for it.
+
+/** One saved login, as `GET /v1/connections` reports it. Mirrors the `.d.ts`'s
+ * ambient `ConnectionSummary` — see `scripts/gen-public-types.ts`'s
+ * `AMBIENT_DECLARATIONS`, which must stay in step with this by hand, the same way
+ * `CallEnvelope` above already does. */
+export interface ConnectionSummary {
+  id: string;
+  provider: string;
+  scope: string;
+  subject: string | null;
+  status: string;
+  method: string;
+  replayLevel: string;
+  expiresAt: string;
+  validatedAt: string | null;
+  lastUsedAt: string | null;
+  createdAt: string;
+  keepAlive: { everyHours: number } | false;
+  forcedExpiresAt: string | null;
+}
+
+/** `GET /v1/connections`. The route itself takes no filter — `provider` is applied
+ * CLIENT-SIDE, after the fetch, which is cheap at the scale one account's saved
+ * logins reach. */
+export async function listConnections(
+  client: ResolvedClient,
+  filter: { provider?: string } = {},
+): Promise<ConnectionSummary[]> {
+  const { status, payload } = await sendRequest<{
+    connections?: ConnectionSummary[];
+    error?: string;
+  }>(client, "GET", "/v1/connections");
+  if (status !== 200 || !payload?.connections) {
+    throw new BowmarkError(payload?.error ?? `could not list connections (HTTP ${status})`, {
+      code: `http_${status}`,
+      httpStatus: status,
+    });
+  }
+  return filter.provider
+    ? payload.connections.filter((c) => c.provider === filter.provider)
+    : payload.connections;
+}
+
+/** What `POST /v1/connections/:id/logout` answers. */
+export interface ConnectionLogout {
+  loggedOut: string;
+  provider: string;
+  /** True only when the provider ended the session on the site AND Bowmark checked
+   * the site no longer accepts it. */
+  siteSignedOut: boolean;
+  /** Whether this provider can end a site session at all. */
+  siteLogout: "supported" | "unsupported";
+  /** Why the site session could not be ended, when it could not. */
+  siteError?: string;
+}
+
+/** `POST /v1/connections/:id/logout`. Drops the cookies Bowmark held, ends the
+ * session on the site where the provider can, and KEEPS the entry as `logged_out`
+ * so a later `login({ connection: id })` revives it. The other half of grill
+ * decision 4 is `deleteConnection` below. */
+export async function logoutConnection(
+  client: ResolvedClient,
+  id: string,
+): Promise<ConnectionLogout> {
+  const { status, payload } = await sendRequest<Partial<ConnectionLogout> & { error?: string }>(
+    client,
+    "POST",
+    `/v1/connections/${encodeURIComponent(id)}/logout`,
+  );
+  if (status !== 200 || !payload?.loggedOut) {
+    throw new BowmarkError(
+      payload?.error ?? `could not log out connection ${id} (HTTP ${status})`,
+      {
+        code: `http_${status}`,
+        httpStatus: status,
+      },
+    );
+  }
+  return {
+    loggedOut: payload.loggedOut,
+    provider: payload.provider ?? "",
+    siteSignedOut: payload.siteSignedOut === true,
+    siteLogout: payload.siteLogout === "supported" ? "supported" : "unsupported",
+    ...(payload.siteError ? { siteError: payload.siteError } : {}),
+  };
+}
+
+/** `DELETE /v1/connections/:id`. Forgets the entry and its cookies — it does NOT
+ * sign out on the site. `logoutConnection` above is the action that does. */
+export async function deleteConnection(
+  client: ResolvedClient,
+  id: string,
+): Promise<{ revoked: string; provider: string; scope: string }> {
+  const { status, payload } = await sendRequest<{
+    revoked?: string;
+    provider?: string;
+    scope?: string;
+    error?: string;
+  }>(client, "DELETE", `/v1/connections/${encodeURIComponent(id)}`);
+  if (status !== 200 || !payload?.revoked) {
+    throw new BowmarkError(payload?.error ?? `could not delete connection ${id} (HTTP ${status})`, {
+      code: `http_${status}`,
+      httpStatus: status,
+    });
+  }
+  return { revoked: payload.revoked, provider: payload.provider ?? "", scope: payload.scope ?? "" };
+}
+
+/** `PATCH /v1/connections/:id` — the two knobs `login({ keepAlive, expiresAt })`
+ * sets at acquisition, changeable later. `undefined` leaves a field alone;
+ * `expiresAt: null` clears a forced ceiling, `keepAlive: false` turns it off. */
+export async function updateConnection(
+  client: ResolvedClient,
+  id: string,
+  patch: { keepAlive?: { everyHours: number } | false; expiresAt?: string | null },
+): Promise<{ updated: true }> {
+  const { status, payload } = await sendRequest<{ updated?: boolean; error?: string }>(
+    client,
+    "PATCH",
+    `/v1/connections/${encodeURIComponent(id)}`,
+    patch,
+  );
+  if (status !== 200 || !payload?.updated) {
+    throw new BowmarkError(payload?.error ?? `could not update connection ${id} (HTTP ${status})`, {
+      code: `http_${status}`,
+      httpStatus: status,
+    });
+  }
+  return { updated: true };
 }
 
 /** The string surface. Returns the ENVELOPE rather than throwing, because a script

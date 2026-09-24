@@ -20,7 +20,13 @@ import { client } from "./session.js";
 import { type ClientOptions, postRun, type RunEnvelope, resolveClient } from "./transport.js";
 
 export { type WireProblem, wireProblem } from "./guard.js";
-export { client, openManagedSession, type SessionHandle, session } from "./session.js";
+export {
+  client,
+  type ConnectionsApi,
+  openManagedSession,
+  type SessionHandle,
+  session,
+} from "./session.js";
 export {
   type AuthNeed,
   BowmarkError,
@@ -28,6 +34,7 @@ export {
   type CallEnvelope,
   type ClientOptions,
   type ClosedSession,
+  type ConnectionSummary,
   type FetchLike,
   type Handoff,
   type OpenedSession,

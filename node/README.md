@@ -119,6 +119,52 @@ literal gets no typechecking, so the generated types cover `session()` and `bowm
 and never this. It returns the envelope rather than throwing, because a script is
 composite: `status`, `logs` and `result` are read together.
 
+### Signing in — `login()`, `{ connection }`, and `bm.connections.*`
+
+```ts
+import { session } from "@bowmark/web";
+
+await session(async (bm) => {
+  const a = await bm.providers.reddit.login({ username: "u1", password: "p1" });
+  const b = await bm.providers.reddit.login({ username: "u2", password: "p2" });
+
+  await bm.providers.reddit.vote({ id: "t3_x", direction: "up" }, { connection: a.connection });
+  await bm.providers.reddit.vote({ id: "t3_y", direction: "up" }, { connection: b.connection });
+
+  await bm.connections.update(a.connection, { keepAlive: { everyHours: 6 } });
+  await bm.connections.logout(a.connection); // ends the site session, keeps the entry
+  await bm.connections.delete(b.connection); // forgets the entry, site session untouched
+});
+```
+
+**`login()` exists on any provider with login adapters, and every login is a NEW,
+separate connection** — calling it twice never replaces the first. Pass `connection: id`
+in its argument to sign back in to an existing one instead (its id and settings are kept; a
+`logged_out` one is revived). The returned `connection` works on the very next call, and
+`warnings` names your other connections to that site. Its `username` /
+`password` / `totpCode` / `totpSeed` are plain strings, unlike the `bowmark.secret()`
+references a `run()` script must use: this client's transport lifts each one into a
+per-request `x-bowmark-credential-<name>` header before the call leaves your process,
+so the value never rides in the request body a run row, a log or a trace could carry.
+`keepAlive`/`expiresAt` are ordinary values and travel in the body unchanged — absent
+means a 12-hour keep-alive.
+
+**Every signed-in function accepts a trailing `{ connection }`.** Omit it and the call
+uses the provider's default connection; several live and none marked default throws a
+caller-fixable `ConnectionAmbiguous` error listing them. `login()`'s own return value
+is `{ connection, account, expiresAt }` — pass `connection` straight into a later call.
+
+**`bm.connections.list/logout/delete/update`** are REST over `/v1/connections`, not part
+of the generic capability dispatch. `logout` drops Bowmark's cookies, ends the session on
+the site where the provider can (`siteSignedOut: true` is checked, not assumed;
+`siteLogout: "unsupported"` says the site offers no way), and KEEPS the entry as
+`logged_out` so `login({ connection: id })` can revive it. `delete` forgets Bowmark's own
+row and cookies; it does **not** sign the account out on the site.
+
+**Python note:** `bowmark_web-stubs` types `login()` and `{ connection }` for parity,
+but the Python **runtime** does not yet lift credentials into a header the way this
+client does — see `packages/bowmark-web/python/README.md` if you hit this from Python.
+
 ### What it throws
 
 | Class | When | What to do |

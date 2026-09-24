@@ -18,14 +18,96 @@ import {
   BowmarkError,
   type ClientOptions,
   type ClosedSession,
+  type ConnectionLogout,
+  type ConnectionSummary,
   callInSession,
   closeSession,
+  deleteConnection,
+  listConnections,
+  logoutConnection,
   openSession,
+  type ResolvedClient,
   resolveClient,
+  updateConnection,
 } from "./transport.js";
 
 /** What a proxy node does when it is finally called. */
 type Dispatch = (path: string[], args: unknown[]) => Promise<unknown>;
+
+/** What actually reaches the wire: the generic dispatcher, plus a PER-CALL header
+ * addition — multi-account connections' `login()` credential lift is the one
+ * caller. `Dispatch` (above) stays the public shape every call site already
+ * builds; this is the one extra parameter `dispatchThrough` threads through. */
+type Send = (
+  path: string[],
+  args: unknown[],
+  extraHeaders?: Record<string, string>,
+) => Promise<unknown>;
+
+// ── `login()`'s password channel ─────────────────────────────────────────────
+//
+// `bowmark.providers.<id>.login({ username, password, … })` declares its argument
+// as `LoginInput` — plain strings, because that is what a caller of a TYPED client
+// actually holds. The server's dispatch chokepoint (`packages/runtime/src/
+// login-dispatch.ts`'s `resolveLoginCreds`) instead REQUIRES each credential field
+// to be a `SecretRef` — the same fence a script's `bowmark.secret()` produces — so
+// a literal string in the request body is refused outright rather than silently
+// accepted. This is the client-side half of that contract: lift each credential
+// field into a per-request `x-bowmark-credential-<name>` header, and replace it in
+// the outgoing body with the identical `SecretRef` placeholder shape, so the
+// plaintext never rides in the JSON a run row, a log or a trace could carry.
+
+const CREDENTIAL_HEADER_PREFIX = "x-bowmark-credential-";
+
+/** The `LoginInput` fields that are credentials, and the secret-name suffix each
+ * is stored under — the SAME convention `loginSecretName` (`@bowmark/schema`)
+ * uses server-side (`<provider>_<field>`), restated here for the same
+ * zero-runtime-dependency reason `guard.ts` copies `wire.ts`. */
+const CREDENTIAL_FIELD_SUFFIX = {
+  username: "username",
+  password: "password",
+  totpCode: "totp_code",
+  totpSeed: "totp_seed",
+} as const;
+
+/** `bowmark.providers.<id>.login(creds)` — the one call this client rewrites
+ * before it reaches the wire. */
+function isLoginCall(path: readonly string[]): boolean {
+  return path.length === 3 && path[0] === "providers" && path[2] === "login";
+}
+
+/** The exact shape `bowmark.secret(name)` produces server-side (`SecretRef`,
+ * `@bowmark/schema`) — reconstructed here rather than imported, for the same
+ * reason every other wire shape in this package is a checked copy. */
+function secretRefPlaceholder(name: string): { __secretRef: true; name: string } {
+  return { __secretRef: true, name };
+}
+
+/** Lift `login()`'s plaintext credential fields into per-request headers, and
+ * replace them in the outgoing body with `SecretRef` placeholders. `keepAlive`
+ * and `expiresAt` are plain values on both sides and are left untouched. */
+function liftLoginCredentials(
+  providerId: string,
+  args: readonly unknown[],
+): { args: unknown[]; headers: Record<string, string> } {
+  const creds = args[0];
+  if (creds === null || typeof creds !== "object" || Array.isArray(creds)) {
+    return { args: [...args], headers: {} };
+  }
+  const input = creds as Record<string, unknown>;
+  const rewritten: Record<string, unknown> = { ...input };
+  const headers: Record<string, string> = {};
+  for (const field of Object.keys(
+    CREDENTIAL_FIELD_SUFFIX,
+  ) as (keyof typeof CREDENTIAL_FIELD_SUFFIX)[]) {
+    const value = input[field];
+    if (typeof value !== "string") continue;
+    const name = `${providerId}_${CREDENTIAL_FIELD_SUFFIX[field]}`;
+    headers[`${CREDENTIAL_HEADER_PREFIX}${name}`] = value;
+    rewritten[field] = secretRefPlaceholder(name);
+  }
+  return { args: [rewritten, ...args.slice(1)], headers };
+}
 
 /** Property names a proxy must NOT answer with another node.
  *
@@ -43,7 +125,24 @@ const NOT_A_PATH_SEGMENT = new Set(["then", "catch", "finally", "toJSON"]);
  * enumerating half a million names, and TypeScript makes a wrong one a compile
  * error. Neither half is sufficient alone, and it is the same split
  * `packages/runtime/src/namespace.ts` already ships inside the sandbox. */
-function libraryProxy(dispatch: Dispatch): BowmarkLibrary {
+/** `bm.connections.*`'s shape. Hand-written rather than read off the ambient
+ * `BowmarkConnections` ` .d.ts` declares (`scripts/gen-public-types.ts`'s
+ * `AMBIENT_DECLARATIONS`) — `libraryProxy`'s return is asserted `as BowmarkLibrary`
+ * as a whole, so nothing here is structurally checked against that ambient type at
+ * runtime, and this file's own contract is what actually has to type-check. Keep
+ * the two in step by hand, the same way `CallEnvelope` already tracks the api's
+ * `SessionEnvelope`. */
+export interface ConnectionsApi {
+  list(filter?: { provider?: string }): Promise<ConnectionSummary[]>;
+  delete(id: string): Promise<{ revoked: string; provider: string; scope: string }>;
+  logout(id: string): Promise<ConnectionLogout>;
+  update(
+    id: string,
+    patch: { keepAlive?: { everyHours: number } | false; expiresAt?: string | null },
+  ): Promise<{ updated: true }>;
+}
+
+function libraryProxy(dispatch: Dispatch, connections: ConnectionsApi): BowmarkLibrary {
   const node = (path: string[]): unknown => {
     // The target is a FUNCTION so the proxy is callable at any depth. A plain
     // object target makes `apply` an illegal trap and every call a TypeError.
@@ -52,6 +151,12 @@ function libraryProxy(dispatch: Dispatch): BowmarkLibrary {
       get(_target, property) {
         if (typeof property !== "string") return undefined;
         if (NOT_A_PATH_SEGMENT.has(property)) return undefined;
+        // `bm.connections.*` bypasses the generic dispatch entirely — REST over
+        // `/v1/connections`, never `/v1/session/:id/call`. Special-cased at the
+        // ROOT only: `connections` is not a real unit namespace, so nothing here
+        // would otherwise stop a caller building `bowmark.connections.anything`
+        // and sending it as an ordinary (and meaningless) capability call.
+        if (path.length === 0 && property === "connections") return connections;
         return node([...path, property]);
       },
       apply(_target, _thisArg, args: unknown[]) {
@@ -60,6 +165,19 @@ function libraryProxy(dispatch: Dispatch): BowmarkLibrary {
     });
   };
   return node([]) as BowmarkLibrary;
+}
+
+/** `bm.connections.list/delete/logout/update`, bound to one resolved client. */
+function connectionsApi(client: ResolvedClient): ConnectionsApi {
+  return {
+    list: (filter?: { provider?: string }) => listConnections(client, filter),
+    delete: (id: string) => deleteConnection(client, id),
+    logout: (id: string) => logoutConnection(client, id),
+    update: (
+      id: string,
+      patch: { keepAlive?: { everyHours: number } | false; expiresAt?: string | null },
+    ) => updateConnection(client, id, patch),
+  };
 }
 
 /** `get_library` is real, and it is not here.
@@ -86,7 +204,7 @@ function otherChannelSuffix(first: string | undefined): string {
 }
 
 /** One dispatch: validate the path, refuse a non-wire argument, then send it. */
-function dispatchThrough(send: (path: string[], args: unknown[]) => Promise<unknown>): Dispatch {
+function dispatchThrough(send: Send): Dispatch {
   // `async`, so EVERY refusal is a rejected promise rather than a synchronous
   // throw. A generated signature says the call returns a `Promise`, and a function
   // that sometimes throws before returning one breaks `.catch()` — the caller's
@@ -112,8 +230,18 @@ function dispatchThrough(send: (path: string[], args: unknown[]) => Promise<unkn
     // message is about JSON. `assertArgShape` answers "does it match what this
     // function declares". Shape-first would report a `Date` as "expected a string"
     // and point the caller at the wrong bug.
+    //
+    // Both run against the CALLER's original args — `LoginInput`'s declared shape
+    // is plain strings, and that is the promise being checked here. The rewrite
+    // into `SecretRef` placeholders happens AFTER, and only for the one call it
+    // applies to, so a caller's mistake is still reported against what they wrote.
     assertWireSafeArgs(label, args);
     assertArgShape(label, path, args);
+    if (isLoginCall(path)) {
+      const providerId = path[1] as string;
+      const { args: wireArgs, headers } = liftLoginCredentials(providerId, args);
+      return send(path, wireArgs, headers);
+    }
     return send(path, args);
   };
 }
@@ -151,7 +279,10 @@ export async function session<T>(
   const client = resolveClient(opts);
   const opened = await openSession(client);
   const proxy = libraryProxy(
-    dispatchThrough((path, args) => callInSession(client, opened.sessionId, path, args)),
+    dispatchThrough((path, args, extraHeaders) =>
+      callInSession(client, opened.sessionId, path, args, extraHeaders),
+    ),
+    connectionsApi(client),
   );
   try {
     return await callback(proxy, { sessionId: opened.sessionId, expiresAt: opened.expiresAt });
@@ -181,7 +312,10 @@ export async function openManagedSession(opts: ClientOptions = {}): Promise<{
   const opened = await openSession(client);
   return {
     bowmark: libraryProxy(
-      dispatchThrough((path, args) => callInSession(client, opened.sessionId, path, args)),
+      dispatchThrough((path, args, extraHeaders) =>
+        callInSession(client, opened.sessionId, path, args, extraHeaders),
+      ),
+      connectionsApi(client),
     ),
     sessionId: opened.sessionId,
     expiresAt: opened.expiresAt,
@@ -198,7 +332,7 @@ export async function openManagedSession(opts: ClientOptions = {}): Promise<{
  * multi-step. */
 export function client(opts: ClientOptions = {}): BowmarkLibrary {
   return libraryProxy(
-    dispatchThrough(async (path, args) => {
+    dispatchThrough(async (path, args, extraHeaders) => {
       // Resolved per CALL, not once at construction. The exported `bowmark` is
       // built at module load, and a consumer whose `fetch` or `BOWMARK_API_KEY`
       // arrives after the import would otherwise be frozen against the environment
@@ -206,7 +340,7 @@ export function client(opts: ClientOptions = {}): BowmarkLibrary {
       const resolved = resolveClient(opts);
       const opened = await openSession(resolved);
       try {
-        return await callInSession(resolved, opened.sessionId, path, args);
+        return await callInSession(resolved, opened.sessionId, path, args, extraHeaders);
       } finally {
         await closeSession(resolved, opened.sessionId).catch((err: unknown) => {
           resolved.onLog?.(`[bowmark] could not close session ${opened.sessionId}: ${String(err)}`);
@@ -214,5 +348,12 @@ export function client(opts: ClientOptions = {}): BowmarkLibrary {
         });
       }
     }),
+    // Resolved per call too, for the identical reason.
+    {
+      list: (filter) => listConnections(resolveClient(opts), filter),
+      delete: (id) => deleteConnection(resolveClient(opts), id),
+      logout: (id) => logoutConnection(resolveClient(opts), id),
+      update: (id, patch) => updateConnection(resolveClient(opts), id, patch),
+    },
   );
 }
