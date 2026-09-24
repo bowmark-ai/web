@@ -29,7 +29,6 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `custom_sofa_configurator.priceConfiguration` | Prices ONE exact configuration against the maker's own live customizer and returns the… | 2 | 🟢 |
 | `delivery.compareDeliveryFees` | Runs a free-text search — `bowmark.delivery.compareDeliveryFees("pad thai austin tx")`… | 1 | 🟢 |
 | `developer_api_key_signup.signUp` | Signs up for a real developer API key on a dashboard. `service` selects which… | 1 | 🟢 |
-| `dfs_ownership_projections.search` | Search for DFS ownership percentages and salary data across sports and slates | 1 | 🟡 |
 | `domain.checkAvailability` | Looks up a domain name (e.g. "example.com") against its authoritative RDAP server and… | 0 | 🟢 |
 | `email.findDomain` | Turns a company NAME into the domain it sends mail from — findDomain("Basecamp LLC")… | 1 | 🟢 |
 | `entertainment_merch.search` | Searches Hot Topic and BoxLunch in parallel for a franchise/character/show and returns… | 2 | 🟢 |
@@ -69,6 +68,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `prospect_screening.screenCompany` | Fetches the homepage, reads any schema.org employee-count signal and any… | 0 | 🟢 |
 | `read.page` | Loads one page and returns its content. | 0 | 🟢 |
 | `read.pages` | The same read over many urls: requests to the SAME origin are serialized (one at a… | 0 | 🟢 |
+| `read.urls` | Lists the pages a site has, so you can pick which to `read.page` instead of guessing… | 0 | 🟢 |
 | `restaurant_booking.findAvailability` | Finds a restaurant by name — `bowmark.restaurant_booking.findAvailability("Paco… | 1 | 🟡 |
 | `retail.search` | Searches Walmart, Target and Best Buy in parallel for a keyword and returns one… | 3 | 🟢 |
 | `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟢 |

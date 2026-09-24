@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0dae91e1f6d1ab3367a22a0ee7b2e8cfe8186b899df6bfbd05fef03cc64e13fe
-// 60 capabilities, 448 providers, 1226 typed functions, 20 refused.
+// Manifest version: 0263b108c929e7f7c9119adf562bc80512e8e576bfc7bf523bbab1039b07a38f
+// 58 capabilities, 455 providers, 1323 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -216,43 +216,52 @@ type CallOptions = {
 }
 
   /**
-   * LAST RESORT, and it costs money: hands a plain-language task to a hosted AI browser agent
-   * (Browser Use) when no Bowmark function covers the site or a script against one failed. When
-   * it is the only path left, USE it rather than silently declining or only describing it: call
-   * `start`, and in the same reply tell your user it is starting, that it is billed, and give
-   * them the real watchUrl it returns so they can watch and take over (log in, solve a captcha).
-   * A site gated on a login only your user holds is exactly this case, not a reason to stop
-   * short of calling `start` — the watchUrl is how they supply the credential, not something you
-   * need in hand first. Never start a session without your user knowing it happened. **CRITICAL:
-   * one task = one independent goal. Bundle multiple date ranges, product SKUs, or queries into
-   * one task and the agent may silently reuse a single search result across all of them with no
-   * warning. For each distinct item, start a separate session.** RUN-ONLY: a typed session
-   * cannot call it (that is refused with code "run_only", and it is never an API-key problem),
-   * and one run is killed at 120s of wall clock — so `start` in one run and poll `status` from
-   * LATER runs, never in a loop inside one.
+   * **WHAT IT IS: a one-shot live browser for ONE task on a site nothing in the library covers**
+   * — it reads or operates a page in a few minutes and then it is done. It cannot watch, poll on
+   * a schedule or run unattended: a login inside it needs your user present every time, and one
+   * run is killed at 120s. A standing watch or a daily job is NOT a fit — say so and point at
+   * what would be (a typed provider with stored secrets). **WHEN it fits** (a lookup came back
+   * with nothing, or a function failed on the site): it is billed per turn to your user's
+   * account. If your user asked you to get the thing done, `start({ task })` and in the same
+   * reply tell them it is running, that it costs money, and give them the `watchUrl`. A login
+   * only they hold does not stop it — they sign in themselves on the live browser through that
+   * link, no saved credentials needed. **Either way, never leave it unmentioned:** if you hold
+   * off for any reason, your reply must name this option — what it would do, that it is billed,
+   * and that they can sign in on the live page — rather than ending on a manual workaround
+   * alone. After `start` in one run, call `status(id)` from LATER runs. When `status` returns
+   * `needs_input`, relay `question` to your user and `send` their answer. When it returns
+   * `idle`, read `result` and `stop(id)`. Always `stop` a session when done — an idle browser
+   * keeps costing money. **A turn that runs too long is cancelled automatically:** Bowmark
+   * itself cuts off any turn stuck past a few minutes with no result and reports status `failed`
+   * (see `error` for what it was last doing) rather than leaving you polling forever — the
+   * session stays open, so `send` a narrower instruction or `stop` it. **One task = one
+   * independent goal. Do not bundle multiple date ranges, SKUs, or queries into one task — the
+   * agent may silently reuse a single search result across all of them with no warning. Start
+   * separate sessions for each.** RUN-ONLY: a typed session cannot call it — start in one run
+   * and poll status from later runs, never in a loop.
    */
   interface Unit {
     /**
-     * Starts a hosted browser agent on `task` and returns at once with its session `id` and a
-     * `watchUrl`. **CRITICAL: one task = one independent goal.** If you need prices for 5 date
-     * ranges, 5 SKUs, or 5 queries, start 5 separate sessions — bundling them into one task causes
-     * the agent to silently reuse results across different items with no warning. Use ONLY after
-     * the library had nothing for this site or a function failed — each turn spends real vendor
-     * money, charged to the account. Call it, don't just describe it: tell your user you're doing
-     * this and why, in the same reply as calling it — don't wait for permission first just because
-     * it's billed, and don't decide silently on their behalf either. A login only your user holds
-     * is what `watchUrl` is for, not a reason to stop before calling `start`. Your account may
-     * hold up to 3 concurrent sessions; call `list()` before starting if looping over multiple
-     * tasks. Show `watchUrl` to your user: it lets them watch the agent and take over the browser
-     * (log in, solve a captcha). Then poll with `status`. Always `stop()` a session when done.
+     * A one-shot live browser for ONE task on a site nothing in the library covers; returns `id`
+     * and `watchUrl` at once. Not a watcher — it cannot poll on a schedule or run unattended, and
+     * one run is killed at 120s. Billed per turn: when your user asked you to get the thing done,
+     * start it and in the same reply tell them it is running, that it costs money, and give them
+     * `watchUrl` — a login only they hold is signed in there, on the live page. If you do not
+     * start it, still name it to them with its cost; never end on a manual workaround without
+     * mentioning it. **One task = one goal** — never bundle multiple date ranges, SKUs or queries;
+     * the agent silently reuses results across them. Then `status(id)` from later runs; on
+     * `needs_input` relay `question` and `send` the answer; on `idle` read `result` and
+     * `stop(id)`. Always stop sessions when done — idle browsers keep costing money. Account
+     * limit: 3 concurrent sessions.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
     /**
      * Reads a session: `running`, `needs_input` (relay `question` to your user, answer with
-     * `send`), `idle` (done — read `result`), `failed`, `stopped` or `closed`. Pass the previous
-     * `cursor` for only new steps, and `waitMs` (≤ 60000) to wait for a change instead of polling
-     * tightly.
+     * `send`), `idle` (done — read `result`), `failed`, `stopped` or `closed`. A turn stuck too
+     * long with no result is cancelled automatically and reads `failed` — see `error` for what it
+     * was last doing. Pass the previous `cursor` for only new steps, and `waitMs` (≤ 60000) to
+     * wait for a change instead of polling tightly.
      */
     status(id: string, options?: BrowserAgentStatusOptions): Promise<BrowserAgentStatusResult>;
 
@@ -563,13 +572,28 @@ type CallOptions = {
 declare namespace BowmarkCapability_custom_packaging_quote {
   // ── Custom Packaging Quote — the unit's own declarations, verbatim ──
 interface CustomPackagingQuote {
+  provider: string;   // which supplier quoted it — "vistaprint" | "packlane"
+  size: string;       // the box that was ACTUALLY priced, in that supplier's own
+                      // spelling. Nobody stocks every size, so this is the nearest
+                      // box to the one you asked for and is often a different string
   price: { amount: number; currency: string };
   unitPrice: { amount: number; currency: string };
 }
 
 interface custom_packaging_quoteResult {
   quotes: CustomPackagingQuote[];
-  warnings: string[];
+  warnings: string[];   // names any supplier that was dropped, and any that priced
+                        // a different box than the one requested
+}
+
+type QuoteCustomBoxArgs = {
+  size: string        // dimensions in inches, length x width x height, e.g. "12x12x5.5".
+                      // Each supplier quotes the nearest box it stocks and says so in
+                      // warnings; one that stocks nothing like it is dropped, not faked
+  printArea: "inside-and-outside" | "outside-only"
+  quantity: number    // a positive integer
+  material?: "white" | "white-b-flute" | "dreamcoat" | "dreamcoat-b-flute" | "kraft" |
+             "kraft-b-flute"   // Packlane only; defaults to "kraft" (plain brown)
 }
 
 type CallOptions = {
@@ -583,8 +607,11 @@ type CallOptions = {
    * quantity-tiered pricing from live configurators.
    */
   interface Unit {
-    /** Gets a real, quantity-tiered price for a custom printed box from available suppliers. */
-    quoteCustomBox(args: { size: string; printArea: string; quantity: number }): Promise<custom_packaging_quoteResult>;
+    /**
+     * Gets a real, quantity-tiered price for a custom printed box from every supplier that stocks
+     * something that size — one quote per supplier, each naming the box it actually priced.
+     */
+    quoteCustomBox(args: QuoteCustomBoxArgs): Promise<custom_packaging_quoteResult>;
   }
 }
 
@@ -745,35 +772,6 @@ type CallOptions = {
      * call budget (default 30000).
      */
     signUp(service: string, details: object, options?: CallOptions): Promise<DeveloperApiKeySignupResult>;
-  }
-}
-
-declare namespace BowmarkCapability_dfs_ownership_projections {
-  // ── DFS Ownership & Salary Projections — the unit's own declarations, verbatim ──
-interface DFSProjection {
-  player: string;
-  salary: number;
-  ownership: number;
-  sport?: string;
-  position?: string;
-  team?: string;
-}
-
-interface dfs_ownership_projectionsResult {
-  projections: DFSProjection[];
-  warnings: string[];
-}
-
-type CallOptions = {
-  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
-                       // A provider slower than this is DROPPED from the results and
-                       // NAMED in warnings — never silently absent
-}
-
-  /** Projected ownership percentages and salary caps for daily fantasy sports slates */
-  interface Unit {
-    /** Search for DFS ownership percentages and salary data across sports and slates */
-    search(query: string, options?: CallOptions): Promise<dfs_ownership_projectionsResult>;
   }
 }
 
@@ -2274,40 +2272,6 @@ type CallOptions = {
   }
 }
 
-declare namespace BowmarkCapability_postcard_direct_mail_quote {
-  // ── Direct mail postcard printing quote — the unit's own declarations, verbatim ──
-interface GetQuoteArgs {
-  quantity: number
-  size?: string
-  stock?: string
-}
-
-interface PostcardQuoteLineItem {
-  size: string
-  stock: string
-  totalPrice: number
-  unitPrice: number
-  currency: string
-}
-
-interface PostcardDirectMailQuote {
-  quantity: number
-  lineItems: PostcardQuoteLineItem[]
-  estimatedDeliveryDays?: number
-  checkoutUrl?: string
-  warnings: string[]
-}
-
-  /** Get a quote for printing direct mail postcards — pricing by quantity, size, and stock. */
-  interface Unit {
-    /**
-     * Returns pricing for direct mail postcards at a requested quantity, with optional size and
-     * stock specifications.
-     */
-    getQuote(args: { quantity: number; size?: string; stock?: string }): Promise<PostcardDirectMailQuote>;
-  }
-}
-
 declare namespace BowmarkCapability_pricing {
   // ── Check whether a product page quotes a different price to different shoppers — the unit's own declarations, verbatim ──
 interface PersonalizationPersona {
@@ -2478,19 +2442,36 @@ type ReadStrategy = "auto" | "fetch" | "browser"
 
 type ReadOptions = {
   format?: ReadFormat        // default "markdown"
-  strategy?: ReadStrategy    // default "auto" — plain GET, browser only if needed
+  strategy?: ReadStrategy    // default "auto" — plain GET, browser only if needed.
+                             // "fetch" NEVER opens a browser: the fast-fail escape for
+                             // a slow or JS-heavy page. It still sets escalationReason,
+                             // so you learn the page needed one instead of waiting
   maxChars?: number          // default 200000; over it, content is cut + truncated:true
-                             // BATCH NOTE: pages() accumulates all content in memory.
-                             // With 1024MB per-run ceiling, reduce maxChars when
-                             // reading many pages: e.g., 10 pages × 60KB ≈ 700MB
-  timeoutMs?: number         // default 20000, per leg
+                             // MEMORY: maxChars bounds the RETURNED size, not the
+                             // memory spent loading the full page first. A 50MB
+                             // page with maxChars: 6000 still needs 50MB to load
+                             // before truncation. The executor's 1024MB per-run
+                             // ceiling must cover your entire script, so oversized
+                             // pages fail fast with a clear error. Batch note:
+                             // pages() accumulates all content in memory. With
+                             // 1024MB per-run ceiling, reduce maxChars when
+                             // reading many pages: e.g., 10 pages × 60KB ≈ 700MB.
+                             // For large single pages, use strategy: "fetch" to get
+                             // even oversized responses without the browser overhead.
+  timeoutMs?: number         // default 45000: the budget for the WHOLE read, both
+                             // legs together, not per leg. Clamped to 55000 — past
+                             // that your own client kills the call first and you get
+                             // its bare "The operation timed out." instead of ours.
+                             // Too small for a browser leg -> we skip it and say so
+                             // in warnings rather than half-open one
 }
 
 type ReadResult = {
   url: string                // FINAL url after redirects
   requestedUrl: string       // the url you passed
   status: number             // 0 = never completed; see error
-  ok: boolean
+  ok: boolean                // false for a failure OR a wall/shell/login page, under
+                             // every strategy — "browser" included
   title: string | null       // <title>, else first <h1>, else null
   content: string
   format: ReadFormat
@@ -2506,8 +2487,39 @@ type ReadResult = {
   wall: { vendor: string; cleared: boolean } | null   // the bot wall this page is
                              // behind, if a rendered look found one. Reported even
                              // when we could NOT clear it, so a block is a named
-                             // fact rather than an empty page
-  warnings: string[]
+                             // fact rather than an empty page. Uncleared on a
+                             // browser-served read ⇒ ok:false
+  warnings: string[]         // also names a redirect to a different page than asked
+}
+
+type UrlsOptions = {
+  depth?: number        // link hops from the start page: 0 = sitemaps only,
+                        // 1 = its own links (default), max 3
+  maxUrls?: number      // default 500, max 5000
+  maxPages?: number     // html pages fetched to follow links; default 20, max 100
+  sitemaps?: boolean    // read robots.txt + sitemap.xml; default true
+  sameSite?: boolean    // default true; false also lists off-site links (never crawled)
+  pathPrefix?: string   // e.g. "/blog/" — keep only same-site urls under it
+  timeoutMs?: number    // whole call; default 45000, max 55000
+}
+
+type DiscoveredUrl = {
+  url: string
+  source: "sitemap" | "link" | "both"
+  depth: number | null      // link hops from the start page; null = sitemap only
+  lastmod: string | null    // the sitemap's <lastmod>, verbatim
+}
+
+type UrlsResult = {
+  url: string               // normalized start url
+  ok: boolean               // found at least one url
+  urls: DiscoveredUrl[]     // link-found first (nearest first), then sitemap-only
+  sitemaps: string[]        // sitemap files that parsed; [] = none found
+  pagesCrawled: number
+  truncated: boolean        // hit maxUrls
+  error: string | null      // only when nothing was found
+  warnings: string[]        // every bound that cut the list short, and a
+                            // JS-rendered start page whose links a GET cannot see
 }
 
   /**
@@ -2519,10 +2531,19 @@ type ReadResult = {
      * Loads one page and returns its content. Tries a plain GET first and escalates to a real
      * browser only when the response proves it needs one (a bot wall, an interstitial, or markup
      * carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN the result
-     * rather than throwing. RUN-ONLY: because the rung is decided per call, neither `session()`
-     * nor the bare top-level `bowmark` client (which opens a session internally, even for one
-     * call) can serve this — both are refused with code "rung_undeclared". Call it through `run()`
-     * instead.
+     * rather than throwing. TIME: `timeoutMs` is the budget for the WHOLE read, both legs together
+     * (default 45,000, max 55,000) — deliberately under the ~60s at which a chat client kills a
+     * tool call, so a slow page comes back as a real result naming the browser leg instead of your
+     * client's bare "The operation timed out.". **`strategy: "fetch"` is the fast-fail escape**
+     * for a page you do not want to wait on: it never opens a browser, returns in ~200ms, and
+     * still sets `escalationReason` so you learn the page needed one. **A price you need bound to
+     * a specific item is the one thing the default `"markdown"` format cannot promise** — it
+     * flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
+     * size/color/variant; `warnings` names it when the page carries the structured data to prove
+     * it, but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own
+     * item's markup. RUN-ONLY: because the rung is decided per call, neither `session()` nor the
+     * bare top-level `bowmark` client (which opens a session internally, even for one call) can
+     * serve this — both are refused with code "rung_undeclared". Call it through `run()` instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -2534,11 +2555,28 @@ type ReadResult = {
      * set. Serializing costs TIME: a same-origin batch takes the SUM of its reads, so on a
      * bot-defended site that escalates to a browser (~60s per page) more than one url from that
      * origin will blow the 90s `/v1/run` ceiling and you get nothing back — split those across
-     * separate runs. RUN-ONLY: same reason as `page` — the rung is decided per call, so
-     * `session()` and the top-level `bowmark` client are both refused with code "rung_undeclared".
-     * Call it through `run()` instead.
+     * separate runs. The whole batch is ALSO bounded, at 75s: a url whose turn arrives after that
+     * comes back as its own `ok: false` row naming the batch budget, so you keep every page that
+     * did finish instead of losing the run. Two browser reads in one script is the shape that hits
+     * this — split them, or pass `strategy: "fetch"`. RUN-ONLY: same reason as `page` — the rung
+     * is decided per call, so `session()` and the top-level `bowmark` client are both refused with
+     * code "rung_undeclared". Call it through `run()` instead.
      */
     pages(urls: string[], options?: ReadOptions): Promise<ReadResult[]>;
+
+    /**
+     * Lists the pages a site has, so you can pick which to `read.page` instead of guessing paths.
+     * Two sources, both plain GETs with no browser: the site's own sitemaps (robots.txt `Sitemap:`
+     * lines, else /sitemap.xml and /sitemap_index.xml, indexes followed) and the links on the
+     * start page, followed breadth-first to `depth` hops (default 1 = the start page's own links).
+     * Returns urls only, never page content. Each row says whether it came from a sitemap, a link
+     * or both, how many hops from the start page, and the sitemap's `lastmod`. Bounded three ways
+     * — `maxUrls` (500), `maxPages` (20 fetched for links) and `timeoutMs` (45,000) — and every
+     * bound that cut the list short is named in `warnings`. A start page that renders its
+     * navigation in JavaScript under-lists links, and `warnings` says so; the sitemap half is
+     * unaffected. `pathPrefix: "/blog/"` scopes the list to one section. RUN-ONLY, same as `page`.
+     */
+    urls(url: string, options?: UrlsOptions): Promise<UrlsResult>;
   }
 }
 
@@ -4354,6 +4392,36 @@ interface AiperPoolRecommendation {
      * doesn't match, or if the site's computed result carries no product list.
      */
     recommendPoolCleaner(answers: AiperPoolAnswerInput[]): Promise<AiperPoolRecommendation>;
+  }
+}
+
+declare namespace BowmarkProvider_airbnb {
+  // ── Airbnb — the unit's own declarations, verbatim ──
+interface AirbnbListing {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  price: string | null;
+  photoUrl: string | null;
+  url: string;
+}
+
+  /**
+   * Airbnb's own stays search — a location, optional dates and guest counts in, priced listing
+   * rows (title, rating, review count, display price, photo, url) out, straight off
+   * airbnb.com/s.
+   */
+  interface Unit {
+    /**
+     * Runs Airbnb's own stays search for a free-text `location` (e.g. "San Francisco", "Austin,
+     * Texas") the way airbnb.com/s does — optional `checkin`/`checkout` (`YYYY-MM-DD`) and guest
+     * counts (`adults`, `children`, `infants`, `pets`) narrow it exactly as the site's own search
+     * bar would. Returns each result's title, subtitle, star rating, review count, the site's own
+     * display price string, cover photo and `/rooms/<id>` url.
+     */
+    search(args: { location: string, checkin?: string, checkout?: string, adults?: number, children?: number, infants?: number, pets?: number }): Promise<AirbnbListing[]>;
   }
 }
 
@@ -6925,6 +6993,29 @@ interface AvantstayPricing {
   }
 }
 
+declare namespace BowmarkProvider_avenuehealthcare {
+  // ── Avenue Healthcare — the unit's own declarations, verbatim ──
+interface SearchResult {
+  locations: string[]; // the site's own labels — read the values off a result, never guess one from prose
+  medicalCentres: string[]; // the site's own labels — read the values off a result, never guess one from prose
+  services: string[]; // the site's own labels — read the values off a result, never guess one from prose
+}
+interface SearchArgs {
+  location?: string;
+  service?: string;
+}
+
+  /** Search for available clinics and services at Avenue Healthcare locations in Kenya. */
+  interface Unit {
+    /**
+     * Search for available clinics and services across Avenue Healthcare locations in Kenya
+     * (Nairobi, Kisumu, Thika, Nakuru, Eldoret, Mombasa). Returns the site's own list of
+     * locations, medical centres and services.
+     */
+    search(args: SearchArgs): Promise<SearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_avis {
   // ── Avis — the unit's own declarations, verbatim ──
 interface avisRow {
@@ -8204,6 +8295,59 @@ interface BingImageSearchResult {
   warnings: string[];
 }
 
+interface BingVideoResult {
+  source: "bing";
+  rank: number;
+  title: string;
+  url: string;
+  snippet: string | null;
+  published: null;
+  thumbnailUrl: string | null;
+  duration: string | null;
+}
+
+interface BingVideoSearchResult {
+  query: string;
+  results: BingVideoResult[];
+  warnings: string[];
+}
+
+interface BingShoppingResult {
+  source: "bing";
+  rank: number;
+  title: string;
+  url: string;          // Bing's own /shop/productdetails page — no merchant URL is in the grid
+  price: string;
+  merchant: string;
+  rating: number | null;
+  imageUrl: string | null;
+}
+
+interface BingShoppingSearchResult {
+  query: string;
+  results: BingShoppingResult[];
+  warnings: string[];
+}
+
+interface BingDefinition {
+  partOfSpeech: string;
+  meaning: string;
+}
+
+interface BingDictEntry {
+  word: string;
+  phonetic: string | null;
+  definitions: BingDefinition[];
+  examples: string[];
+  warnings: string[];
+}
+
+interface BingTranslationResult {
+  translatedText: string;
+  detectedSourceLanguage: string | null;
+  warnings: string[];
+}
+
   /**
    * General web and news search over Bing's index, read off Bing's own RSS output — ten ranked
    * results per query with title, destination URL, snippet and date. Keyless, browserless, ~5 KB
@@ -8264,6 +8408,35 @@ interface BingImageSearchResult {
      * something has no other function to reach for.
      */
     searchImages(args: { query: string, limit?: number }): Promise<BingImageSearchResult>;
+
+    /**
+     * Searches Bing's video index and returns each hit's title, destination URL, thumbnail, and
+     * duration. Core because a caller sent to Bing to find a video of something has no other
+     * function to reach for.
+     */
+    searchVideos(args: { query: string, limit?: number }): Promise<BingVideoSearchResult>;
+
+    /**
+     * Searches Bing Shopping and returns each product's title, price, merchant, star rating and
+     * thumbnail — the retail-comparison read for 'who sells X and for how much'. `url` is Bing's
+     * OWN listing page for the offer (`/shop/productdetails?…`), never the merchant's — the grid
+     * never carries the merchant's own product URL, only the retailer's name.
+     */
+    searchShopping(args: { query: string, limit?: number }): Promise<BingShoppingSearchResult>;
+
+    /**
+     * Looks up a word in Bing's dictionary and returns its definitions grouped by part of speech,
+     * example sentences, and phonetic information when available — the reference read for 'what
+     * does this word mean'.
+     */
+    define(word: string): Promise<BingDictEntry>;
+
+    /**
+     * Translates text to Spanish through Bing Translator and returns the translated result and the
+     * detected source language when auto-detected. Use this when a caller needs text translated by
+     * Bing's translation engine.
+     */
+    translateText(text: string): Promise<BingTranslationResult>;
   }
 }
 
@@ -10025,6 +10198,55 @@ interface CamelPriceHistory {
      * another source.
      */
     getPriceHistory(asinOrUrl: string): Promise<CamelPriceHistory>;
+  }
+}
+
+declare namespace BowmarkProvider_campspot {
+  // ── Campspot — the unit's own declarations, verbatim ──
+interface CampspotCampgroundSummary {
+  name: string;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  url: string;
+}
+interface CampspotCampground {
+  name: string;
+  url: string;
+  description: string | null;
+  address: { streetAddress: string | null; city: string | null; region: string | null; postalCode: string | null; country: string | null } | null;
+  latitude: number | null;
+  longitude: number | null;
+  telephone: string | null;
+  email: string | null;
+  petsAllowed: boolean | null;
+  rating: { value: number | null; count: number; best: number | null; worst: number | null } | null;
+  amenities: string[]; // the site's own labels, e.g. "Hiking" — read them off a result, never guess one from prose
+  priceRange: string | null;
+  offers: Array<{ name: string; price: number | null; currency: string | null; unit: string | null }>;
+  checkinTime: string | null;
+  checkoutTime: string | null;
+  events: Array<{ name: string; startDate: string | null; endDate: string | null; description: string | null }>;
+}
+
+  /**
+   * Campspot's own published listings — find campgrounds by region (a US state, a Canadian
+   * province, or a "near <city>" area) and read one campground's real address, amenities, price
+   * range and rating, straight off its own schema.org page data.
+   */
+  interface Unit {
+    /**
+     * Given a free-text region (a US state, a Canadian province, or a Campspot "near <city>"/"near
+     * <national park>" area), returns every campground Campspot's own directory page for that
+     * region lists.
+     */
+    findCampgrounds(region: string): Promise<CampspotCampgroundSummary[]>;
+
+    /**
+     * Given a campspot.com/park/<slug> url from findCampgrounds, returns that campground's own
+     * published listing.
+     */
+    getCampground(url: string): Promise<CampspotCampground>;
   }
 }
 
@@ -13571,36 +13793,6 @@ interface DevelopersOpenaiDocPage {
   }
 }
 
-declare namespace BowmarkProvider_dfs_rotogrinderssearch {
-  // ── RotoGrinders — the unit's own declarations, verbatim ──
-interface SearchArgs {
-  query: string;
-}
-
-interface DFSProjectionRow {
-  player: string;
-  salary: number;
-  ownership: number;
-  sport?: string;
-  position?: string;
-  team?: string;
-}
-
-interface SearchResults {
-  projections: DFSProjectionRow[];
-  warnings: string[];
-}
-
-  /** Search RotoGrinders for DFS projections, ownership percentages, and salary caps */
-  interface Unit {
-    /**
-     * Searches RotoGrinders for DFS projections, ownership percentages, and salary caps across
-     * sports (NFL, NBA, MLB, etc.)
-     */
-    search(args: SearchArgs): Promise<SearchResults>;
-  }
-}
-
 declare namespace BowmarkProvider_dice {
   // ── Dice — the unit's own declarations, verbatim ──
 interface DiceSearchResult {
@@ -14454,34 +14646,6 @@ interface EmbrokerQuoteEntryPoint {
      * quote-wizard products.
      */
     getQuoteEntryPoint(args: { product: string }): Promise<EmbrokerQuoteEntryPoint>;
-  }
-}
-
-declare namespace BowmarkProvider_energyaustralia_com_au {
-  // ── EnergyAustralia — business electricity quote — the unit's own declarations, verbatim ──
-interface EnergyaustraliaBusinessQuote {
-  postcode: string;
-  state: string;
-  serviceable: boolean;
-  plans: Array<{
-    name: string;
-    displayName: string;
-    retailer: string;
-    annualCost: number;
-    monthlyEstimate: number;
-    ratePerUnit: number;
-    dmoReference: number;
-  }>;
-}
-
-  /** Priced business electricity plans in a postcode's distributor territory. */
-  interface Unit {
-    /**
-     * Returns every business electricity plan EnergyAustralia offers in a postcode's distributor
-     * territory, each priced at the regulator's standard reference consumption (10,000 kWh/year) —
-     * the same live call the site's own business quote page makes.
-     */
-    getBusinessElectricityQuote(arg0: { postcode: string }): Promise<EnergyaustraliaBusinessQuote>;
   }
 }
 
@@ -15730,6 +15894,119 @@ interface EnergyConsumptionResult {
      * conditions and a power-consumer list.
      */
     calculateEnergyConsumption(args: EnergyConsumptionInput): Promise<EnergyConsumptionResult>;
+  }
+}
+
+declare namespace BowmarkProvider_fomo {
+  // ── fomo — the unit's own declarations, verbatim ──
+type DecimalString = string;
+type FomoChainSlug = "solana" | "base" | "bnb" | "ethereum" | "monad";
+type FomoLeaderboardWindow = "daily" | "weekly" | "monthly" | "allTime";
+
+interface FomoToken {
+  address: string;
+  /** 1399811149 Solana · 8453 Base · 56 BNB · 1 Ethereum · 143 Monad. */
+  networkId: number;
+  name: string | null;
+  symbol: string | null;
+  decimals: number | null;
+  imageUrl: string | null;
+  info: { description: string | null; websiteUrl: string | null; twitterUrl: string | null; telegramUrl: string | null; discordUrl: string | null } | null;
+}
+
+interface FomoTokenRow {
+  token: FomoToken;
+  priceUSD: DecimalString;
+  /** A PERCENT, not a fraction. */
+  change24: number | null;
+  volume24: number | null;
+  marketCap: number | null;
+  liquidity: number | null;
+  holders: number | null;
+  /** Bonding-curve progress; null once the token has graduated to an AMM pool. */
+  graduationPercent: number | null;
+  createdAt: string | null;
+  url: string;
+}
+
+interface FomoUser {
+  id: string;
+  userHandle: string;
+  displayName: string | null;
+  bio: string | null;
+  avatarUrl: string | null;
+  followerCount: number | null;
+  followingCount: number | null;
+  twitterHandle: string | null;
+  clan: { id: string; name: string; imageUrl: string | null } | null;
+  isFollowing: boolean | null;
+  url: string;
+}
+
+interface FomoTraderStats {
+  pnlUsd: number | null;
+  pnlPercent: number | null;
+  volumeUsd: number | null;
+  tradeCount: number | null;
+  winRate: number | null;
+  window: FomoLeaderboardWindow;
+}
+
+interface FomoLeaderboardEntry {
+  rank: number;
+  user: FomoUser;
+  stats: FomoTraderStats;
+}
+
+interface FomoTrade {
+  id: string;
+  user: FomoUser;
+  token: FomoToken;
+  /** The site's own word — "buy" / "sell". */
+  side: string;
+  amount: DecimalString;
+  amountUsd: number | null;
+  priceUsd: DecimalString | null;
+  pnlUsd: number | null;
+  txHash: string | null;
+  createdAt: string;
+}
+
+/** UNIX SECONDS, matching the TradingView datafeed contract — not milliseconds. */
+interface FomoCandle {
+  time: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+}
+
+/** No route on this API publishes a total. Page until `cursor` is null. */
+interface FomoPage<T> {
+  items: T[];
+  cursor: string | null;
+}
+
+  /**
+   * fomo — a social crypto trading app across Solana, Base, BNB, Ethereum and Monad: a public
+   * leaderboard of traders ranked by realized PnL, each one's underlying trade log, a feed of
+   * what the people you follow are buying, live memecoin market data from the bonding curve
+   * onward, and the swap flow itself. Every route needs a signed-in fomo account (Google, Apple
+   * or X sign-in only — there is no anonymous read surface and no API key).
+   */
+  interface Unit {
+    /**
+     * Returns the signed-in trader's own profile — id, userHandle, display name, bio, avatar,
+     * follower and following counts, linked X handle, and their clan if they are in one.
+     */
+    getCurrentUser(): Promise<FomoUser>;
+
+    /**
+     * Returns fomo's ranked traders for one window (daily, weekly, monthly or allTime; default
+     * weekly) with each one's realized PnL, percentage return, volume, trade count and win rate.
+     */
+    getLeaderboard(args?: { window?: FomoLeaderboardWindow }): Promise<FomoLeaderboardEntry[]>;
   }
 }
 
@@ -17111,13 +17388,124 @@ interface GithubSearchRepositoriesResult {
   repositories: GithubRepositorySearchResult[];
   warnings: string[];
 }
+interface GithubUserRepository {
+  name: string;
+  fullName: string;
+  description: string | null;
+  fork: boolean;
+  archived: boolean;
+  defaultBranch: string;
+  stars: number;
+  forks: number;
+  language: string | null;
+  url: string;
+  updatedAt: string;
+  pushedAt: string | null;
+}
+interface GithubGetUserRepositoriesOptions {
+  sort?: "created" | "updated" | "pushed" | "full_name";
+  direction?: "asc" | "desc";
+  per_page?: number;
+  page?: number;
+}
+interface GithubGetUserRepositoriesResult {
+  repositories: GithubUserRepository[];
+  warnings: string[];
+}
+interface GithubUser {
+  login: string;
+  id: number;
+  avatarUrl: string;
+  profileUrl: string;
+  type: string;
+  name: string | null;
+  company: string | null;
+  blog: string;
+  location: string | null;
+  email: string | null;
+  bio: string | null;
+  twitterUsername: string | null;
+  publicRepos: number;
+  followers: number;
+  following: number;
+  createdAt: string;
+  updatedAt: string;
+}
+interface GithubOrganization {
+  login: string;
+  id: number;
+  avatarUrl: string;
+  profileUrl: string;
+  name: string | null;
+  blog: string;
+  location: string | null;
+  email: string | null;
+  description: string | null;
+  publicRepos: number;
+  createdAt: string;
+  updatedAt: string;
+}
+interface GithubIssue {
+  number: number;
+  title: string;
+  body: string | null;
+  creator: string;
+  assignees: string[];
+  labels: string[];
+  state: string;
+  comments: number;
+  createdAt: string;
+  updatedAt: string;
+  closedAt: string | null;
+  url: string;
+}
+interface GithubListIssuesOptions {
+  state?: "open" | "closed" | "all";
+  assignee?: string;
+  labels?: string;
+  milestone?: string;
+  per_page?: number;
+  page?: number;
+}
+interface GithubListIssuesResult {
+  issues: GithubIssue[];
+  warnings: string[];
+}
+interface GithubPullRequest {
+  number: number;
+  title: string;
+  body: string | null;
+  creator: string;
+  state: string;
+  draft: boolean;
+  merged: boolean;
+  mergedAt: string | null;
+  baseBranch: string;
+  headBranch: string;
+  createdAt: string;
+  updatedAt: string;
+  closedAt: string | null;
+  url: string;
+}
+interface GithubListPullRequestsOptions {
+  state?: "open" | "closed" | "all";
+  base?: string;
+  head?: string;
+  per_page?: number;
+  page?: number;
+}
+interface GithubListPullRequestsResult {
+  pullRequests: GithubPullRequest[];
+  warnings: string[];
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
    * message), paged and windowed; a public repo's release history (tag, name, dates, release
    * notes text), paged; a public repo's metadata (name, description, stars, forks, language,
-   * license, homepage); a profile's README and metadata; a repository search across all of
-   * GitHub by name, language, topic, stars and other qualifiers.
+   * license, homepage); a user's public profile information; every public repo a user owns,
+   * sorted and paged; a repository search across all of GitHub by name, language, topic, stars
+   * and other qualifiers.
    */
   interface Unit {
     /**
@@ -17179,6 +17567,72 @@ interface GithubSearchRepositoriesResult {
      * 60/hour core-API bucket. THROWS on an invalid query (422) or a rate limit (403/429).
      */
     searchRepositories(query: string, options?: GithubSearchRepositoriesOptions): Promise<GithubSearchRepositoriesResult>;
+
+    /**
+     * Lists every PUBLIC repository a user owns, off GitHub's own unauthenticated REST endpoint.
+     * Each row carries the repo's name, description, fork/archived flags, default branch,
+     * star/fork counts, primary language, URL and update/push timestamps. `options.sort`
+     * (`created`/`updated`/`pushed`/`full_name`, default `full_name`) and `options.direction`
+     * (`asc`/`desc`) control ordering; `options.per_page` (1-100, default 30) and `options.page`
+     * page through a user with many repos. Shares the same 60 requests/hour per IP unauthenticated
+     * ceiling as `listCommits`/`listReleases`/`getRepo`. THROWS on an unknown username (404) or a
+     * rate limit (403/429); a user who owns no public repos returns `repositories: []`, not a
+     * throw.
+     */
+    getUserRepositories(username: string, options?: GithubGetUserRepositoriesOptions): Promise<GithubGetUserRepositoriesResult>;
+
+    /**
+     * Returns a person's public GitHub profile metadata off GitHub's own unauthenticated REST
+     * users endpoint — login, name, company, location, email, bio, X handle, follower/following
+     * counts, public repo count, and account creation/update timestamps. Takes a username. Shares
+     * the same 60 requests/hour per IP unauthenticated ceiling as
+     * `listCommits`/`listReleases`/`getRepo`/`getUserRepositories`. THROWS on an unknown username
+     * (404) or a rate limit (403/429).
+     */
+    getUser(username: string): Promise<GithubUser>;
+
+    /**
+     * Returns an organization's public metadata off GitHub's own unauthenticated REST orgs
+     * endpoint — login, name, description, location, blog/website URL, email, avatar URL, public
+     * repo count, and account creation/update timestamps. Takes an organization name. Shares the
+     * same 60 requests/hour per IP unauthenticated ceiling as
+     * `listCommits`/`listReleases`/`getRepo`/`getUserRepositories`. THROWS on an unknown
+     * organization (404) or a rate limit (403/429).
+     */
+    getOrganization(org: string): Promise<GithubOrganization>;
+
+    /**
+     * Lists issues on a public repository off GitHub's own unauthenticated REST issues endpoint —
+     * each issue's number, title, body, creator, assignee logins, label names, state, comment
+     * count, and created/updated/closed timestamps. GitHub's issues endpoint also returns pull
+     * requests internally (a PR is an issue with extra fields); this function drops every row that
+     * is actually a pull request, so the result is issues only — use `listPullRequests` for PRs.
+     * `options.state` (`"open"`/`"closed"`/`"all"`, default `"open"`) filters by state;
+     * `options.assignee` (a login, or `"none"`/`"*"`) filters by assignee; `options.labels` is a
+     * comma-separated list of label names (AND'd together, GitHub's own syntax);
+     * `options.milestone` (a milestone number, or `"none"`/`"*"`) filters by milestone.
+     * `options.per_page` (1-100, default 30) and `options.page` page through results. Shares the
+     * same 60 requests/hour per IP unauthenticated ceiling as
+     * `listCommits`/`listReleases`/`getRepo`. THROWS on an unknown owner/repo (404) or a rate
+     * limit (403/429); a repo with no matching issues returns `issues: []`, not a throw.
+     */
+    listIssues(owner: string, repo: string, options?: GithubListIssuesOptions): Promise<GithubListIssuesResult>;
+
+    /**
+     * Lists pull requests on a public repository off GitHub's own unauthenticated REST
+     * pull-requests endpoint — each PR's number, title, body, creator, state, draft flag,
+     * base/head branch names, and created/updated/closed timestamps. `merged` is derived from
+     * GitHub's own `merged_at`, since GitHub reports `state: "closed"` for both a merged PR and
+     * one closed without merging. `options.state` (`"open"`/`"closed"`/`"all"`, default `"open"`)
+     * filters by state; `options.base` filters by base branch (e.g. `"main"`); `options.head`
+     * filters by head branch (`"user:branch"`, or `"branch"` within the same repo).
+     * `options.per_page` (1-100, default 30) and `options.page` page through results. Shares the
+     * same 60 requests/hour per IP unauthenticated ceiling as
+     * `listCommits`/`listReleases`/`getRepo`/`listIssues`. THROWS on an unknown owner/repo (404)
+     * or a rate limit (403/429); a repo with no matching pull requests returns `pullRequests: []`,
+     * not a throw.
+     */
+    listPullRequests(owner: string, repo: string, options?: GithubListPullRequestsOptions): Promise<GithubListPullRequestsResult>;
   }
 }
 
@@ -17636,6 +18090,26 @@ interface Photo {
   takenAt?: string;
   source?: string;
 }
+interface GetPopularTimesArgs {
+  query: string;
+}
+interface PopularTimesDay {
+  day: number;
+  hours: { hour: number; percent: number }[];
+}
+interface PopularTimesResult {
+  byDay: PopularTimesDay[];
+  liveNow?: { percent: number };
+}
+interface SavedPlace {
+  listName: string;
+  featureId: string;
+  name?: string;
+  note?: string;
+}
+interface ListSavedPlacesResult {
+  lists: { name: string; places: SavedPlace[] }[];
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
@@ -17782,6 +18256,34 @@ interface Photo {
      * resolving query.
      */
     listPhotos(args: ListPhotosArgs): Promise<Photo[]>;
+
+    /**
+     * The "popular times" histogram for a place, from the CALLER's own signed-in Google session —
+     * an authFunction, not a park: Bowmark signs nobody up for a Google account, but the caller's
+     * own login works here exactly as it does on youtube's signed-in functions. Reads the same
+     * resolved-place record getPlace/listReviews already parse, with the caller's cookies
+     * attached, and reports a real histogram when Google's field mask carries one for this
+     * session. With no session (the canary's own state), or when the response carries no
+     * recognizable histogram, throws rather than fabricating one — nobody here holds a signed-in
+     * Maps session to have ever captured the positive shape.
+     */
+    getPopularTimes(args: GetPopularTimesArgs): Promise<PopularTimesResult>;
+
+    /**
+     * The places the signed-in caller saved — Favourites, Want to go, Starred and their own named
+     * lists — an authFunction: Bowmark signs nobody up for a Google account, but the caller's own
+     * login works here exactly as it does on getPopularTimes. A DIFFERENT door from the rest of
+     * this provider — www.google.com/maps/preview/entitylist/getlist, found by reading a
+     * logged-out www.google.com/maps/@ page's own prefetch links, not a further reading of
+     * searchPlaces' tbm=map record. Needs no bootstrap fetch: the pb= value it takes is a static,
+     * reusable template exactly like _client's own (measured live — a real per-page-load token, a
+     * fabricated one and no token at all all answer identically). With no session (the canary's
+     * own state, and every anonymous caller) it returns the site's own well-formed refusal,
+     * distinct from a malformed request; with a session that carries no recognizable list, or when
+     * the response carries no recognizable list at all, throws rather than fabricating one —
+     * nobody here holds a signed-in Maps session to have ever captured the positive shape.
+     */
+    listSavedPlaces(): Promise<ListSavedPlacesResult>;
   }
 }
 
@@ -19797,6 +20299,29 @@ interface healthcare_govLocalHelpResult {
     // its argument, so there is no honest signature to emit.
     // It is CALLABLE at runtime; `bowmark.providers.healthcare_gov.findLocalHelp` is a compile error here on purpose.
     // A `(...args: unknown[])` stand-in would compile and tell you nothing.
+  }
+}
+
+declare namespace BowmarkProvider_healthie {
+  // ── Healthie — the unit's own declarations, verbatim ──
+interface SearchPracticesArgs {
+  query: string;
+  limit?: number;
+}
+
+interface Practice {
+  id: string;
+  name: string;
+  description?: string;
+  specialties: string[];
+  providersCount?: number;
+  website?: string;
+}
+
+  /** Search for health and wellness practices and providers on Healthie's platform. */
+  interface Unit {
+    /** Search for health and wellness practices by name, specialty, or location. */
+    searchPractices(args: SearchPracticesArgs): Promise<Practice[]>;
   }
 }
 
@@ -22386,6 +22911,106 @@ interface CheckVariantStockResult {
   price: number | null;
   orderable: boolean | null;
 }
+interface BrowseCategoryArgs {
+  categoryId: string;
+}
+interface BrowseCategoryResult {
+  categoryId: string;
+  total: number;
+  pageSize: number;
+  products: Array<{
+    id: string;
+    name: string;
+    price: number | null;
+    currency: string | null;
+    orderable: boolean | null;
+    image: string | null;
+    url: string;
+  }>;
+}
+interface JcrewCategoryAncestor {
+  id: string;
+  name: string;
+}
+interface GetCategoryArgs {
+  categoryId: string;
+}
+interface GetCategoryResult {
+  id: string;
+  name: string;
+  parentId: string | null;
+  path: JcrewCategoryAncestor[];
+}
+interface JcrewRefinementValue {
+  value: string;
+  label: string;
+  count: number;
+}
+interface JcrewRefinementGroup {
+  id: string;
+  label: string;
+  values: JcrewRefinementValue[];
+}
+interface ListSearchRefinementsArgs {
+  query?: string;
+  categoryId?: string;
+}
+interface ListSearchRefinementsResult {
+  query: string | null;
+  categoryId: string | null;
+  refinements: JcrewRefinementGroup[];
+}
+interface JcrewSortOption {
+  id: string;
+  label: string;
+}
+interface ListSortOptionsResult {
+  sortOptions: JcrewSortOption[];
+}
+interface JcrewStoreWeek {
+  monday: string;
+  tuesday: string;
+  wednesday: string;
+  thursday: string;
+  friday: string;
+  saturday: string;
+  sunday: string;
+}
+interface JcrewStore {
+  id: string;
+  name: string;
+  address1: string;
+  address2: string | null;
+  city: string;
+  state: string;
+  zip: string;
+  countryCode: string;
+  phone: string;
+  email: string;
+  latitude: number;
+  longitude: number;
+  distance: number;
+  distanceUnit: string;
+  hours: JcrewStoreWeek;
+  curbsidePickup: boolean;
+  inStorePickup: boolean;
+  sameDayDelivery: boolean;
+  availableMerchandise: string[];
+}
+interface FindStoresArgs {
+  zip?: string;
+  latitude?: number;
+  longitude?: number;
+  radiusKm?: number;
+  maxResults?: number;
+}
+interface FindStoresResult {
+  latitude: number;
+  longitude: number;
+  radiusKm: number;
+  total: number;
+  stores: JcrewStore[];
+}
 
   /**
    * Search and read J.Crew's clothing catalogue — products, prices, colours, sizes and stock —
@@ -22409,6 +23034,14 @@ interface CheckVariantStockResult {
      * only words gets the style id every other function takes.
      */
     searchProducts(args: SearchProductsArgs): Promise<SearchProductsResult>;
+
+    /**
+     * Lists the products in one J.Crew category the way the site's own category pages do — given a
+     * category id such as `mens|categories|clothing|shirts` — with the same pagination as
+     * `searchProducts`. This is how an agent walks a department rather than guessing search words
+     * for it.
+     */
+    browseCategory(args: BrowseCategoryArgs): Promise<BrowseCategoryResult>;
 
     /**
      * Reads one J.Crew product in full — given the style id at the end of a product URL, e.g.
@@ -22443,6 +23076,45 @@ interface CheckVariantStockResult {
      * `searchProducts` for a caller that does not yet know the site's vocabulary.
      */
     suggestSearchTerms(args: SuggestSearchTermsArgs): Promise<SuggestSearchTermsResult>;
+
+    /**
+     * Reads one J.Crew category by id — given the id `listCategories` returns, e.g.
+     * `"mens|categories|clothing|shirts"` — returning its display name, its immediate parent's id
+     * (`null` at the top of the tree) and the full ancestor chain back to the top, root first.
+     */
+    getCategory(args: GetCategoryArgs): Promise<GetCategoryResult>;
+
+    /**
+     * Lists the filters J.Crew offers for a search or a category — size, colour, pattern, price,
+     * discount, occasion, brand and more — each with the values the site publishes and how many
+     * products in that result set carry them. Give a `query` (same bound as `searchProducts`) or a
+     * `categoryId` (same as `browseCategory`), not both. Drops the site's own internal
+     * merchandising facets (promotion ids, country allow-lists) that no shopper-facing filter
+     * uses.
+     */
+    listSearchRefinements(args: ListSearchRefinementsArgs): Promise<ListSearchRefinementsResult>;
+
+    /**
+     * Lists the sort orders J.Crew's own result pages offer — price low to high, price high to
+     * low, top rated, newest and best seller — so a caller can ask
+     * `searchProducts`/`browseCategory` for one by the site's own id rather than guessing.
+     * Site-wide and unscoped: the same five options apply to every search and category. Drops the
+     * site's own internal merchandising sort rules, which never carry a real display label.
+     */
+    listSortOptions(): Promise<ListSortOptionsResult>;
+
+    /**
+     * Finds physical J.Crew stores near a point the way the site's own store locator does — pass
+     * EITHER a 5-digit US `zip` (geocoded to a centroid with a keyless third-party lookup, since
+     * J.Crew's own endpoint takes only coordinates) OR `latitude`+`longitude` directly, never
+     * both, e.g. `{ zip: "10001" }` or `{ latitude: 40.7, longitude: -74.0 }`. Returns each
+     * store's name, full address, phone, email, coordinates, distance from the search point,
+     * weekly hours, curbside/in-store pickup and same-day delivery flags, and the site's own raw
+     * merchandise tags. `radiusKm` (default 50, kilometres — the unit the site itself validates)
+     * and `maxResults` (default 25) bound the search; `total` reports how many matched even when
+     * `maxResults` capped the page.
+     */
+    findStores(args: FindStoresArgs): Promise<FindStoresResult>;
   }
 }
 
@@ -23892,6 +24564,13 @@ interface LiquiddeathLiveCart {
      * error.
      */
     searchProducts(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number }): Promise<LiquiddeathProduct[]>;
+
+    /**
+     * Lists products from Liquid Death's live catalogue without a search term, supporting the same
+     * filters as searchProducts (product type, stock, limit). Returns products in stored order.
+     * Returns [] if no products match the filters.
+     */
+    listProducts(opts?: { productType?: string; inStockOnly?: boolean; limit?: number }): Promise<LiquiddeathProduct[]>;
 
     /**
      * Reads one product by its handle — every variant, its exact price and whether that specific
@@ -25981,6 +26660,28 @@ interface mergifyQueueStatus {
   }
 }
 
+declare namespace BowmarkProvider_meteofrance {
+  // ── Météo-France — the unit's own declarations, verbatim ──
+interface MarineWindForecast {
+  region: string;
+  timeDate: string;
+  windSpeed: number | null;
+  windGust: number | null;
+  windDirection: string | null;
+  waveHeight: number | null;
+  warnings: string[];
+}
+
+  /** Marine wind forecasts for French coastal regions from the national weather service. */
+  interface Unit {
+    /**
+     * Fetches marine wind forecasts for a French coastal region (e.g., Méditerranée, Atlantique),
+     * including wind speed, gusts, direction and wave height.
+     */
+    getMarineWindForecast(region: string): Promise<MarineWindForecast[]>;
+  }
+}
+
 declare namespace BowmarkProvider_microcenter {
   // ── Micro Center — the unit's own declarations, verbatim ──
 // Micro Center's OWN row shape — not the `pcparts` capability contract.
@@ -26667,6 +27368,69 @@ interface MossyoakCheckoutLink {
      * names it when the requested productType matched nothing.
      */
     searchProducts(opts?: { productType?: string; limit?: number }): Promise<MossyoakCatalogue>;
+  }
+}
+
+declare namespace BowmarkProvider_msn {
+  // ── MSN — the unit's own declarations, verbatim ──
+interface MsnStory {
+  id: string;
+  type: string;
+  title: string;
+  abstract: string;
+  readTimeMin: number | null;
+  url: string;
+  publishedDateTime: string;
+  providerName: string;
+  imageUrl: string | null;
+}
+
+interface MsnTopStories {
+  stories: MsnStory[];
+  nextPageUrl: string | null;
+}
+
+  /**
+   * MSN's news portal — top stories, section feeds, article text, money quotes and weather,
+   * logged out.
+   */
+  interface Unit {
+    /**
+     * Returns the top stories the MSN front page is showing right now, the way www.msn.com does
+     * for a visitor with no account: each story's headline, its own outlet's byline, the outlet
+     * name, a summary, publish time and a thumbnail. This is the general 'what's happening' read —
+     * the entry point for anything that starts with the portal's own front-page mix rather than a
+     * specific query. `type` is `article` or `video`; a video card carries no `readTimeMin`.
+     * `limit` slices the answer client-side — the feed door itself has no page-size parameter, so
+     * a lower limit costs the same one request. `nextPageUrl` is the site's own pagination cursor
+     * — pass it to a plain GET against the same door to walk further, `null` when the site reports
+     * no further page.
+     */
+    getTopStories(limit?: number): Promise<MsnTopStories>;
+
+    /**
+     * Searches MSN's own aggregated news index the way its front-page search does and returns
+     * matching stories in the same shape as getTopStories — headline, outlet, summary, publish
+     * time, thumbnail. Distinct from a general web search: MSN only returns coverage it has
+     * actually aggregated from its publisher network, never the wider web. There is no separate
+     * search route — `query` steers the same feed door getTopStories reads, so the result set is
+     * whatever that door currently returns for the term.
+     */
+    searchNews(query: string): Promise<MsnTopStories>;
+
+    /**
+     * Returns the current top-stories feed the way msn.com/en-us/<section> does for a visitor with
+     * no account, for one of six sections: sports, entertainment, health, lifestyle, travel,
+     * autos. Measured live 2026-09-23: MSN itself does not filter this content by section for a
+     * logged-out visitor — every one of those six pages requests the identical house feed
+     * (confirmed byte-for-byte across five of them, and the sixth's distinctly-tagged request
+     * returns the same generic mix) — so this returns the same stories as getTopStories, honestly,
+     * rather than fabricating a per-section split the site does not make. "money" and "weather"
+     * are not article-feed sections at all (their pages are server-rendered quote/forecast data) —
+     * use getMarketSummary, getStockQuote or getWeatherForecast. "video" fires its own dedicated
+     * feed door and is not yet built.
+     */
+    getSectionFeed(section: "sports" | "entertainment" | "health" | "lifestyle" | "travel" | "autos"): Promise<MsnTopStories>;
   }
 }
 
@@ -27688,6 +28452,30 @@ interface OnTheMarketProperty {
   }
 }
 
+declare namespace BowmarkProvider_openai {
+  // ── OpenAI — the unit's own declarations, verbatim ──
+interface openaiPlan {
+  plan: string;
+  priceMonthly: number | null;
+  priceAnnual: number | null;
+  codexLimits: string;
+  creditRates: string;
+}
+
+interface openaiHelpArticleArgs {
+  id: string;
+}
+
+  /** OpenAI pricing plans and help documentation from learn.chatgpt.com. */
+  interface Unit {
+    /** Returns available OpenAI pricing plans with monthly/annual rates and Codex limits. */
+    plans(): Promise<openaiPlan[]>;
+
+    /** Retrieves the full text of a help article by its ID from OpenAI's documentation. */
+    helpArticle(args: openaiHelpArticleArgs): Promise<string>;
+  }
+}
+
 declare namespace BowmarkProvider_originenergy_com_au {
   // ── Origin Energy — the unit's own declarations, verbatim ──
 // Origin Energy's OWN shapes — not a capability contract.
@@ -28092,6 +28880,30 @@ interface packlaneQuote {
   }
 }
 
+declare namespace BowmarkProvider_pallet2ship {
+  // ── Pallet2Ship — the unit's own declarations, verbatim ──
+interface Pallet2ShipQuote {
+  price: number;
+  estimatedDays: number;
+  serviceType: string;
+}
+
+interface GetQuoteArgs {
+  collectionPostcode: string;
+  deliveryPostcode: string;
+  weight: number;
+  length: number;
+  width: number;
+  height: number;
+}
+
+  /** Get pallet freight quotes from Pallet2Ship, a UK pallet broker. */
+  interface Unit {
+    /** Returns a price estimate for transporting a pallet between two UK postcodes. */
+    getQuote(args: GetQuoteArgs): Promise<Pallet2ShipQuote>;
+  }
+}
+
 declare namespace BowmarkProvider_pawsup {
   // ── Paws Up — the unit's own declarations, verbatim ──
 interface AvailabilityResult {
@@ -28361,6 +29173,70 @@ interface PinterestBoard {
   pin_count?: number;
   section_count?: number;
 }
+interface PinterestUser {
+  id: string;
+  username: string;
+  full_name: string;
+  follower_count?: number;
+  board_count?: number;
+  pin_count?: number;
+  is_verified_merchant?: boolean;
+  image_large_url?: string;
+}
+interface PinterestSuggestion {
+  text: string;
+  display_text?: string;
+  search_id?: string;
+}
+interface PinterestPinDetail {
+  id: string;
+  title?: string;
+  seo_title?: string;
+  description?: string;
+  link?: string;
+  link_domain?: { id: string };
+  created_at?: string;
+  pinner?: { username: string; full_name?: string };
+  board?: { id: string; name: string };
+  images?: Record<string, { width: number; height: number; url: string }>;
+  repin_count?: number;
+  share_count?: number;
+  reaction_counts?: Record<string, number>;
+  price_value?: number;
+  price_currency?: string;
+  carousel_data?: unknown;
+  videos?: unknown;
+  aggregated_pin_data?: { id: string };
+}
+interface PinterestProduct {
+  id: string;
+  price?: number;
+  currency?: string;
+  rating?: number;
+  review_count?: number;
+  availability?: boolean;
+  item_id?: string;
+  item_set_id?: string;
+}
+interface PinterestVisualObject {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  label?: string;
+  label_id?: number;
+  score?: number;
+}
+interface PinterestRelatedProduct {
+  id: string;
+  title?: string;
+  link?: string;
+  image_url?: string;
+  price?: number;
+  currency?: string;
+  rating?: number;
+  review_count?: number;
+}
 
   /**
    * Pinterest — search its pins, boards, people and videos, read one pin in full with the
@@ -28384,6 +29260,71 @@ interface PinterestBoard {
      * "boards"`. THROWS `PinterestInputError` on an empty or non-string query.
      */
     searchBoards(query: string, options?: { bookmark?: string }): Promise<{ boards: PinterestBoard[]; bookmark: string | null }>;
+
+    /**
+     * Search for people and brands by name and get their account back: `id`, `username`,
+     * `full_name`, `follower_count`, `board_count`, `pin_count`, and `is_verified_merchant`.
+     * `POST/GET /resource/BaseSearchResource/get/` with `scope: "users"`. THROWS
+     * `PinterestInputError` on an empty or non-string query.
+     */
+    searchUsers(query: string, options?: { bookmark?: string }): Promise<{ users: PinterestUser[]; bookmark: string | null }>;
+
+    /**
+     * Search only the video pins in Pinterest's catalogue and get them back in the same shape as
+     * `searchPins`: `grid_title`, the outbound `link`, the pinner's username, the board it lives
+     * on, every image size, and `product_metadata` when shoppable. The videos scope answers a
+     * caller who wants how-to clips instead of still images. `POST/GET
+     * /resource/BaseSearchResource/get/` with `scope: "videos"`. THROWS `PinterestInputError` on
+     * an empty or non-string query.
+     */
+    searchVideos(query: string, options?: { bookmark?: string }): Promise<{ pins: PinterestPin[]; bookmark: string | null }>;
+
+    /**
+     * Get search suggestions as Pinterest returns them for a partial query — the same suggestions
+     * the site's own search box shows a person as they type. Returns the text of each suggestion,
+     * and the id if the site provides one. `POST/GET /resource/TypeaheadResource/get/`. THROWS
+     * `PinterestInputError` on an empty or non-string query.
+     */
+    suggestSearches(query: string): Promise<{ suggestions: PinterestSuggestion[] }>;
+
+    /**
+     * Read one pin in full: title, `seo_title`, the description Pinterest renders, the outbound
+     * `link` and `link_domain`, `created_at`, the pinner and the board it was saved to, every
+     * image size, `repin_count` / `share_count` / `reaction_counts`, `price_value` and
+     * `price_currency` when it is shoppable, `carousel_data` and `videos` when it is not a still,
+     * and the `aggregated_pin_data.id` that `listPinComments` needs (not the pin id). `POST/GET
+     * /resource/PinResource/get/` with `field_set_key: "auth_web_main_pin"`. THROWS
+     * `PinterestInputError` on an empty or non-string id.
+     */
+    getPin(id: string): Promise<PinterestPinDetail>;
+
+    /**
+     * Read the product behind a shoppable pin: `price`, `currency`, `rating` and `review_count`,
+     * `availability` and `item_id`, plus the `item_set_id` if there are variants. Stops at the
+     * merchant's link - it never buys. `POST/GET /resource/PinResource/get/` with `field_set_key:
+     * "auth_web_main_pin"`, extracting product metadata. THROWS `PinterestInputError` on an empty
+     * or non-string id.
+     */
+    getProduct(id: string): Promise<PinterestProduct>;
+
+    /**
+     * The objects Pinterest's own computer vision found inside a pin's image — each with a
+     * `label`, a `label_id`, a confidence `score`, and a bounding box (`x`/`y`/`w`/`h`, fractions
+     * of the image, not pixels) — so an agent can say "the lamp in this photo" and hand that
+     * object on to `findVisuallySimilar`. Some detected objects carry no `label` at all. `POST/GET
+     * /resource/PinResource/get/` with `field_set_key: "auth_web_main_pin"` and
+     * `fetch_visual_search_objects: true`. THROWS `PinterestInputError` on an empty or non-string
+     * id.
+     */
+    listVisualObjects(id: string): Promise<{ objects: PinterestVisualObject[] }>;
+
+    /**
+     * The competing and complementary products Pinterest shows beside a shoppable pin — the items
+     * a shopper wants to compare with the one they found. Takes the pin id and returns an array of
+     * related product recommendations with titles, links, prices, ratings and availability. Uses
+     * the `RelatedProductsResource`. THROWS `PinterestInputError` on an empty or non-string id.
+     */
+    listRelatedProducts(id: string): Promise<{ products: PinterestRelatedProduct[] }>;
   }
 }
 
@@ -28955,39 +29896,6 @@ interface positivegridRetailerSearch {
      * search that would silently truncate.
      */
     findRetailers(arg: positivegridFindRetailersArgs): Promise<positivegridRetailerSearch>;
-  }
-}
-
-declare namespace BowmarkProvider_postcard_direct_mail {
-  // ── Direct Mail Postcard Quotes — the unit's own declarations, verbatim ──
-interface GetQuoteArgs {
-  quantity: number
-  size?: string
-  stock?: string
-}
-
-interface PostcardQuoteLineItem {
-  size: string
-  stock: string
-  totalPrice: number
-  unitPrice: number
-  currency: string
-}
-
-interface PostcardDirectMailQuoteResponse {
-  quantity: number
-  lineItems: PostcardQuoteLineItem[]
-  estimatedDeliveryDays?: number
-  warnings: string[]
-}
-
-  /** Get postcard printing quotes with pricing by quantity, size, and stock. */
-  interface Unit {
-    /**
-     * Returns pricing for direct mail postcards at the requested quantity with optional size and
-     * stock.
-     */
-    getQuote(args: GetQuoteArgs): Promise<PostcardDirectMailQuoteResponse>;
   }
 }
 
@@ -30463,287 +31371,716 @@ interface GetRepairQuoteResult {
 
 declare namespace BowmarkProvider_reddit {
   // ── Reddit — the unit's own declarations, verbatim ──
-interface RedditSearchPost {
-  id: string;                  // reddit fullname, e.g. "t3_1tbuq4g" — pass to getPost
+interface RedditPost {
+  id: string;                  // fullname "t3_…" — what getPost, vote, savePostOrComment and postComment take
   title: string;
-  author: string | null;       // null when the account was deleted
-  subreddit: string;           // bare name, e.g. "webscraping"
-  permalink: string;           // the DISCUSSION on reddit
-  url: string;                 // what the post points AT — the article, or the
-                               // permalink itself when it is a self post
+  author: string | null;       // null = deleted account
+  subreddit: string;
+  permalink: string;           // the discussion
+  url: string;                 // what the post points AT; the permalink for a self post
+  domain: string | null;
   isSelfPost: boolean;
-  selfText: string | null;     // the body, for a self post
-  selfTextHtml: string | null;
+  selfText: string | null;     // markdown body of a self post
+  score: number;
+  upvoteRatio: number | null;
+  numComments: number;
   createdAt: string;
+  editedAt: string | null;
+  flair: string | null;
+  over18: boolean;
+  spoiler: boolean;
+  stickied: boolean;           // pinned by the moderators
+  locked: boolean;
+  archived: boolean;
+  removed: string | null;      // reddit's removal reason, e.g. "moderator"; null = still up
   thumbnail: string | null;
+  isVideo: boolean;
+  viewer: { vote: "up" | "down" | null; saved: boolean; hidden: boolean } | null; // null when not signed in
 }
 
-interface RedditCommunityAccess {
-  state: "public" | "private" | "restricted" | "banned" | "unrecognized";
-  label: string | null;        // reddit's OWN word: "private", "banned",
-                               // "premium members only", "forbidden (reddit.com)".
-                               // null when it served the community normally.
-  readable: boolean;           // check THIS before trusting posts/activity
-  status: number;              // what reddit answered with
+interface RedditComment {
+  id: string;                  // fullname "t1_…"
+  author: string | null;       // null = deleted account
+  body: string;                // markdown as written
+  score: number | null;        // null while reddit hides a new comment's score
+  createdAt: string;
+  editedAt: string | null;
+  permalink: string;           // this exact reply
+  parentId: string;            // "t1_…" for a reply, "t3_…" for a top-level comment
+  postId: string;              // "t3_…" of the thread
+  subreddit: string;
+  depth: number;
+  isSubmitter: boolean;        // written by the thread's own author
+  stickied: boolean;
+  distinguished: string | null; // "moderator", "admin"
+  replies: RedditComment[];    // nested, as reddit nests them
+  moreReplies: { count: number; ids: string[] } | null; // folded replies — pass ids to getCommentReplies
+  viewer: { vote: "up" | "down" | null; saved: boolean } | null;
 }
 
-interface RedditCommunityPost {
-  id: string;                  // reddit fullname, e.g. "t3_1tbuq4g" — pass to getPost
+interface RedditSubredditInfo {
+  id: string;                  // "t5_…"
+  name: string;                // canonical casing — what every other function takes
   title: string;
-  author: string | null;       // null when the account was deleted
-  permalink: string;
+  description: string | null;  // the short public description
+  sidebar: string | null;      // the long markdown sidebar
+  subscribers: number | null;
+  activeUsers: number | null;
   createdAt: string;
-}
-
-interface RedditSubreddit {
-  name: string;                // reddit's canonical casing, e.g. "CenturyClub"
+  type: string;                // public, private, restricted, archived, gold_only, …
+  over18: boolean;
+  quarantined: boolean;
   url: string;
-  description: string | null;  // the moderators' own words — served EVEN when the
-                               // community refuses to be read
   iconUrl: string | null;
-  access: RedditCommunityAccess;
-  posts: RedditCommunityPost[];       // newest first; empty when not readable
-  postsRetrieved: number;
-  newestPostAt: string | null; // the liveness answer
-  oldestPostAt: string | null;
-  activityWindowDays: number | null;
-  postsPerDay: number | null;  // measured across that window
-  windowTruncated: boolean;    // true = older posts exist past this window
-  requests: number;
-  limits: string[];            // what this surface cannot tell you. Never empty.
-  // NO subscriber count, NO online count, NO rules, NO creation date, NO display
-  // title: reddit's syndication surface publishes none of them. See limits.
+  bannerUrl: string | null;
+  submissionType: string | null; // "any", "link", "self"
+  language: string | null;
+  viewer: { subscribed: boolean; moderator: boolean; banned: boolean } | null;
 }
 
-interface RedditCommunityHit {
-  id: string;                  // e.g. "t5_318ly"
-  name: string;                // bare name, e.g. "webscraping" — pass to search({subreddit})
-  title: string;               // display title, which OFTEN DIFFERS from the name:
-                               // t5_323rf is named "scrapingtheweb", titled
-                               // "Scraping the web"
-  url: string;
-  description: string | null;
+interface RedditUserInfo {
+  id: string;                  // "t2_…"
+  name: string;
   createdAt: string;
-  // NO subscriber count, NO over-18 flag, NO private/restricted marker: reddit's
-  // syndication surface publishes none of them. See limits.
+  linkKarma: number;
+  commentKarma: number;
+  totalKarma: number;
+  iconUrl: string | null;
+  description: string | null;  // the profile's own blurb
+  isEmployee: boolean;
+  isModerator: boolean;
+  verified: boolean;
+  hasPremium: boolean;
+  suspended: boolean;
+  over18Profile: boolean;
+  url: string;
+}
+
+interface RedditMessage {
+  id: string;                  // "t4_…" private message, "t1_…" reply or mention
+  kind: "message" | "comment_reply" | "post_reply" | "username_mention" | "other";
+  author: string | null;
+  subject: string;
+  body: string;
+  createdAt: string;
+  unread: boolean;
+  subreddit: string | null;
+  permalink: string | null;    // the comment, for replies and mentions
+}
+
+interface RedditSearchResult {
+  query: string;
+  subreddit: string | null;    // null = the whole site
+  sort: "relevance" | "hot" | "top" | "new" | "comments";
+  time: "hour" | "day" | "week" | "month" | "year" | "all";
+  posts: RedditPost[];
+  nextCursor: string | null;   // pass back as "after"; null = no more
+}
+
+interface RedditSubredditPostsResult {
+  subreddit: string;
+  sort: "hot" | "new" | "top" | "rising" | "controversial";
+  time: "hour" | "day" | "week" | "month" | "year" | "all" | null; // null on sorts with no window
+  posts: RedditPost[];
+  nextCursor: string | null;
+}
+
+interface RedditSubredditAccess {
+  readable: boolean;           // check THIS first
+  reason: string | null;       // reddit's own word: "private", "banned", "quarantined", "gold_only"
+}
+
+interface RedditSubredditProfile {
+  name: string;
+  access: RedditSubredditAccess;
+  info: RedditSubredditInfo | null;   // null when reddit will not describe it
+  quarantineMessage: string | null;
+  newestPostAt: string | null;
+  postsLastWeek: number | null;       // among its 25 newest posts
 }
 
 interface RedditSubredditSearchResult {
   query: string;
-  subreddits: RedditCommunityHit[];   // ranked as reddit ranked them
-  subredditsRetrieved: number;
-  moreAvailable: boolean;      // true = stopped at your limit, reddit had more
-  requests: number;
-  limits: string[];            // what this surface cannot tell you. Never empty.
-}
-
-interface RedditSearchResult {
-  query: string;               // the arguments are part of the answer — see limits
-  subreddit: string | null;    // null = the whole site
-  sort: "relevance" | "hot" | "top" | "new" | "comments";
-  time: "hour" | "day" | "week" | "month" | "year" | "all";
-  posts: RedditSearchPost[];
-  postsRetrieved: number;
-  communities: RedditCommunityHit[];  // reddit injects these into a site-wide search
-  moreAvailable: boolean;      // true = stopped at your limit, reddit had more
-  requests: number;
-  limits: string[];            // what this surface cannot tell you. Never empty.
-}
-
-interface RedditSubredditPostsResult {
-  subreddit: string;           // the arguments are part of the answer — see limits
-  sort: "hot" | "new" | "top" | "rising" | "controversial";
-  time: "hour" | "day" | "week" | "month" | "year" | "all" | null;
-                               // null = this sort has no window, and yours did
-                               // nothing. NOT the same as "all".
-  posts: RedditSearchPost[];   // the same rows search returns
-  postsRetrieved: number;
-  moreAvailable: boolean;      // true = stopped at your limit, reddit had more
-  duplicatesDropped: number;   // > 0 = the live ranking moved while we paged, so
-                               // posts may also be MISSING from this result
-  requests: number;
-  limits: string[];            // what this surface cannot tell you. Never empty.
-}
-
-interface RedditComment {
-  id: string;                  // reddit fullname, e.g. "t1_c60mmaf"
-  author: string | null;       // null when the account was deleted
-  body: string;                // readable text
-  bodyHtml: string;            // as reddit published it
-  permalink: string;           // links to this exact reply
-  createdAt: string;
+  subreddits: RedditSubredditInfo[];
+  nextCursor: string | null;
 }
 
 interface RedditThread {
-  id: string;                  // e.g. "t3_z1c9z"
+  post: RedditPost;
+  sort: "confidence" | "top" | "new" | "controversial" | "old" | "qa";
+  comments: RedditComment[];   // nested
+  moreComments: { count: number; ids: string[] } | null; // folded top-level comments — see getCommentReplies
+}
+
+interface RedditUserProfile extends RedditUserInfo {
+  state: "active";
+  trophies: { name: string; description: string | null; grantedAt: string | null }[];
+}
+
+interface RedditUserAbsent {
+  state: "not_found" | "suspended"; // not_found = deleted OR never existed; reddit answers both identically
+  name: string;
+}
+
+interface RedditUserSearch {
+  query: string;
+  users: RedditUserInfo[];
+  nextCursor: string | null;   // pass back as `after`
+}
+
+interface RedditUserPosts {
+  user: string;
+  sort: "new" | "top" | "hot" | "controversial";
+  time: string | null;         // only for top / controversial
+  posts: RedditPost[];
+  nextCursor: string | null;
+  window: string;              // says: a recent window (~1,000 per sort), not the full history
+  warnings: string[];
+}
+
+interface RedditUserComment extends RedditComment {
+  thread: { id: string; title: string; permalink: string | null; author: string | null; url: string | null; numComments: number | null };
+}
+
+interface RedditUserComments {
+  user: string;
+  sort: "new" | "top" | "hot" | "controversial";
+  time: string | null;
+  comments: RedditUserComment[];
+  nextCursor: string | null;
+  window: string;
+  warnings: string[];
+}
+
+interface RedditPostsByUrl {
+  url: string;                 // as passed
+  matched: { url: string; posts: number }[]; // every spelling asked, and how many threads it matched
+  via: "info" | "duplicates";  // duplicates = a reddit thread URL was passed
+  posts: RedditPost[];         // most-discussed first
+}
+
+interface RedditWikiPages {
+  state: "ok";
+  subreddit: string;
+  pages: string[];
+}
+
+interface RedditWikiPage {
+  state: "ok";
+  subreddit: string;
+  page: string;
+  markdown: string;
+  revisedAt: string | null;
+  revisedBy: string | null;
+  length: number;              // characters of markdown
+  long: boolean;               // over ~20 KB — still returned whole
+}
+
+interface RedditWikiAbsent {
+  state: "no_such_community" | "community_unavailable" | "private" | "not_viewable" | "page_not_found";
+  subreddit: string;
+  page?: string;
+  reason: string | null;       // reddit's own word, e.g. "MAY_NOT_VIEW"
+  pages?: string[];            // on page_not_found: the pages that do exist
+}
+
+interface RedditRule {
+  name: string;
+  description: string;         // markdown
+  appliesTo: "posts" | "comments" | "both";
+  violationReason: string | null;
+  priority: number;
+  createdAt: string | null;
+}
+
+interface RedditRules {
+  subreddit: string;
+  rules: RedditRule[];
+  siteRules: string[];
+}
+
+interface RedditSubredditBrowse {
+  list: "popular" | "new";
+  subreddits: RedditSubredditInfo[];
+  nextCursor: string | null;
+}
+
+interface RedditCommentReplies {
+  postId: string;
+  parent: RedditComment | null; // the comment a "continue this thread" branch hangs under
+  comments: RedditComment[];    // nested
+  more: { count: number; ids: string[] } | null; // still folded — pass ids again
+  remainingIds: string[];       // ids passed but past the 100-per-call ceiling
+}
+
+interface RedditMyAccount {
+  id: string;                  // "t2_…"
+  name: string;
+  createdAt: string;
+  linkKarma: number;
+  commentKarma: number;
+  totalKarma: number;
+  iconUrl: string | null;
+  hasMail: boolean;            // unread mail waiting
+  inboxCount: number;
+  hasModMail: boolean;
+  isModerator: boolean;
+  hasPremium: boolean;
+  hasVerifiedEmail: boolean;
+  over18: boolean;
+  suspended: boolean;
+  canCreateSubreddit: boolean;
+  url: string;
+}
+
+interface RedditHomeFeed {
+  sort: "best" | "hot" | "new" | "top" | "rising";
+  time: "hour" | "day" | "week" | "month" | "year" | "all" | null; // only for "top"
+  posts: RedditPost[];         // viewer carries the caller's vote / saved / hidden
+  nextCursor: string | null;   // pass as `after`; null = no more
+}
+
+interface RedditMySubscriptions {
+  subreddits: RedditSubredditInfo[];
+  nextCursor: string | null;
+}
+
+type RedditSavedItem =
+  | { kind: "post"; post: RedditPost }
+  | { kind: "comment"; comment: RedditComment; postTitle: string | null; postPermalink: string | null };
+
+interface RedditSavedList {
+  items: RedditSavedItem[];    // newest save first
+  nextCursor: string | null;
+}
+
+interface RedditInbox {
+  filter: "all" | "unread" | "messages" | "mentions" | "comment_replies" | "post_replies";
+  messages: RedditMessage[];
+  nextCursor: string | null;
+}
+
+interface RedditPostFlair {
+  id: string;                  // the flair template id submitPost takes
+  text: string;
+  textEditable: boolean;       // the poster may write their own text on it
+  modOnly: boolean;
+  allowableContent: string | null; // "all", "text", "emoji"
+  backgroundColor: string | null;
+  textColor: string | null;    // "light" | "dark"
+  cssClass: string | null;
+}
+
+interface RedditPostFlairs {
+  subreddit: string;
+  posterCanChoose: boolean;    // false = posters cannot pick a flair here; flairs is empty
+  flairs: RedditPostFlair[];
+}
+
+interface RedditSubscription { subreddit: string; subscribed: boolean }
+interface RedditSaveResult { id: string; saved: boolean }
+interface RedditHideResult { id: string; hidden: boolean }
+interface RedditVoteResult { id: string; vote: "up" | "down" | null }
+interface RedditFollowResult { user: string; following: boolean }
+interface RedditBlockResult { user: string; blocked: true }
+
+interface RedditNewCommunity {
+  id: string;                  // "t5_…"
+  name: string;
+  url: string;
+  type: "public" | "restricted" | "private";
+}
+
+interface RedditNewPost {
+  id: string;                  // "t3_…"
   permalink: string;
   subreddit: string;
-  title: string;
-  author: string | null;
-  createdAt: string;
-  selfText: string | null;     // null for a link post
-  selfTextHtml: string | null;
-  comments: RedditComment[];   // FLAT, in reddit's display order — see limits
-  commentsRetrieved: number;
-  commentsTruncated: boolean;  // true = the discussion continues past these
-  limits: string[];            // what this surface cannot tell you. Never empty.
+  kind: "self" | "link" | "image" | "crosspost";
+}
+
+interface RedditEdited {
+  kind: "post" | "comment";    // which of the two below is set
+  post: RedditPost | null;
+  comment: RedditComment | null;
+}
+
+interface RedditProfileText {
+  displayName: string;         // "" when unset
+  about: string;               // the profile bio; "" when unset
 }
 
   /**
-   * Communities, discussion threads and their comment trees — search, subreddit listings, posts,
-   * users and wikis. Five functions are callable, off Reddit's own syndication feed, and they
-   * compose into the whole path an agent actually walks: finding which COMMUNITIES cover a
-   * topic, qualifying one of them before spending anything on it (may you read it at all, and is
-   * anyone still posting), reading that community's own front page under any sort reddit offers
-   * (hot, new, top, rising, controversial), searching submissions by topic across the site or
-   * inside that community, and reading any one of the threads that returns in full, post and
-   * comments.
+   * Communities, threads and comment trees, and the signed-in account. Public reads need
+   * nothing: find communities, qualify one (subscribers, activity, whether you may read it),
+   * read its front page under any sort, search posts site-wide or in one community, read a
+   * thread with its full comment tree and scores, and look up users, wikis and rules. With the
+   * caller signed in to Reddit it also acts as them: their home feed, subscriptions, saved items
+   * and inbox; join, vote, save, hide; post, comment, reply, edit and delete.
    */
   interface Unit {
     /**
-     * Reads the facts about ONE Reddit community rather than its content, from a bare name,
-     * "r/name" or the community's URL. This is the QUALIFYING read and it pairs with
-     * `searchSubreddits`: that one says a community exists, this one says whether it is worth
-     * anything to you — whether you may read it at all, what the moderators say it is for, and
-     * whether anybody has actually posted in it. WHETHER YOU MAY READ IT IS FIVE ANSWERS, NOT A
-     * BOOLEAN, and that is the central design of this function: `access.state` classifies it as
-     * public, private, restricted, banned or unrecognized, and `access.label` carries REDDIT'S OWN
-     * WORD alongside it, verbatim — "private", "premium members only", "banned", "forbidden
-     * (reddit.com)" — because the classification is ours and the label is theirs. A caller reading
-     * a flat `available: false` cannot tell "you may not read this" from "nobody has posted here",
-     * and drops a live community or retries a dead one accordingly. A refused community does NOT
-     * throw: `access.readable` goes false and THE DESCRIPTION IS STILL THERE, because reddit
-     * publishes it even while refusing the listing — r/CenturyClub is private and still tells you
-     * how to ask for an invite, which is the most useful thing you can be told about a closed
-     * door. IS IT ALIVE: `newestPostAt`, `oldestPostAt`, `activityWindowDays` and `postsPerDay`
-     * are measured over the community's hundred most recent submissions, in true chronological
-     * order, and they are the honest substitute for the subscriber count — a community whose
-     * hundred newest posts span four years is a ghost town whatever it once had. THE THING IT
-     * DELIBERATELY DOES NOT GIVE YOU IS THAT SUBSCRIBER COUNT, and it is stated in the returned
-     * `limits` rather than left for you to discover: reddit publishes no member count, no online
-     * count, no posted rules, no creation date and no display title to anyone without an account —
-     * four separate routes were measured for the count and none carries it. Call
-     * `searchSubreddits` for the display title and the creation date. Throws when reddit will not
-     * resolve the name at all (which it signals with a 429 rather than a 404 — check your spelling
-     * before you retry), and throws distinctly when the body is not reddit's own feed, because
-     * that is our access being blocked rather than a fact about the community.
+     * Searches Reddit's posts for a phrase — across the whole site, or inside one community with
+     * `subreddit` — and returns each matching thread with its score, comment count, upvote ratio,
+     * flair, author, subreddit, age, the link or self-text it carries, and a permalink. `sort`
+     * (default relevance) and `time` (default all) come back in the result because reddit's
+     * relevance ranking is not reproducible and the window changes what `top` means. `limit` is
+     * per page (max 100); pass `nextCursor` back as `after` for the next page. Every post's `id`
+     * is exactly what `getPost` takes. No match returns an empty `posts` array; a community that
+     * does not exist throws.
      */
-    getSubreddit(name: string): Promise<RedditSubreddit>;
+    search(query: string | {query: string, subreddit?: string, sort?: "relevance"|"hot"|"top"|"new"|"comments", time?: "hour"|"day"|"week"|"month"|"year"|"all", limit?: number, after?: string}): Promise<RedditSearchResult>;
 
     /**
-     * Returns ONE community's own front page — the submissions in a subreddit under a chosen sort,
-     * with the same per-post fields `search` returns (title, author, subreddit, timestamp, a
-     * permalink to the discussion, the URL the post points at, and the self-text body when it has
-     * one). Takes a bare name for the common case; the object form adds `sort` (hot, new, top,
-     * rising, controversial — default hot), `time` (hour…all, for top and controversial only) and
-     * `limit` (default 25, up to 300, fetched a page at a time). `r/all` and `r/popular` are
-     * ordinary names here rather than separate functions. THE DIFFERENCE FROM `search`, and it is
-     * the reason this exists: `search` needs a topic and answers "who discussed X"; this needs
-     * none and answers "what is this community, right now" — which is the only one of the two that
-     * can tell you what a subreddit is actually about before you know what to ask it, and the only
-     * way to reach "the top posts in r/X this month" at all. THE SORT IS VERIFIED RATHER THAN
-     * ASSUMED: reddit stamps the sort into the feed's own title ("top scoring links", "newest
-     * submissions", "rising submissions", "most controversial links"), and a listing that came
-     * back as some other ordering THROWS rather than being returned under your sort — the failure
-     * that guard catches is otherwise symptomless, because a silently-downgraded sort is still a
-     * 200 carrying a hundred well-formed posts. `time` on a sort that has no window is REFUSED
-     * rather than ignored, and `time` comes back as `null` on those sorts so a window that did
-     * nothing is never reported as one that did. PAGING IS DE-DUPLICATED AND THE DE-DUPLICATION IS
-     * REPORTED, which is this function's central honesty problem: reddit's cursor walks a LIVE
-     * ranking, so a walk across pages of `hot` can be overtaken by the ranking moving underneath
-     * it, and a function that just concatenated pages would return duplicates and HOLES while
-     * looking perfectly healthy. Duplicates are dropped; `duplicatesDropped > 0` is your signal
-     * that the ranking moved and posts may also be missing, and the fix is to ask for `top` or
-     * `controversial` with a window, which are stable sets. THREE THINGS IT DELIBERATELY DOES NOT
-     * GIVE YOU, each repeated in the returned `limits` rather than left for you to discover: there
-     * are NO SCORES, no comment counts, no upvote ratio, no flair and no NSFW marker on any sort,
-     * so a listing ordered by score cannot tell you what the scores were — only the order they
-     * produced; there is no stickied/pinned flag, and pinned posts DO occupy the top of `hot`
-     * (measured: r/programming's rank 1 was a moderator announcement from ten weeks earlier), so
-     * the first row or two of `hot` is often not the current news; and `rising` is capped by
-     * reddit at 25 posts however many you ask for. `moreAvailable: true` means the read stopped at
-     * your `limit` or at this function's 300-post ceiling while reddit still had more. A subreddit
-     * that does not exist throws by name.
+     * Reads one Reddit thread in full from a thread URL, a `t3_…` fullname or a post id: the post
+     * with its score, comment count and body, and the comment TREE — each comment nested under the
+     * one it replies to, with its score, author, body, depth and a permalink to that exact reply.
+     * `sort` is reddit's own comment sort (default confidence, i.e. Best); `limit` caps comments
+     * per request (default 200, max 500). Reddit folds long discussions: a comment's `moreReplies`
+     * and the thread's `moreComments` list what was folded, and `getCommentReplies` expands them.
+     * A deleted author is `null`. Throws when the thread does not exist.
      */
-    getSubredditPosts(input: string | {subreddit: string, sort?: "hot"|"new"|"top"|"rising"|"controversial", time?: "hour"|"day"|"week"|"month"|"year"|"all", limit?: number}): Promise<RedditSubredditPostsResult>;
+    getPost(post: string | {post: string, sort?: "confidence"|"top"|"new"|"controversial"|"old"|"qa", limit?: number}): Promise<RedditThread>;
 
     /**
-     * Finds Reddit COMMUNITIES by topic — the step before every other function here, and the one
-     * an agent cannot skip: Reddit's value is concentrated in communities whose names you would
-     * never guess (r/buildapcsales, r/webscraping, r/AskHistorians), so "which subreddit should I
-     * be reading about X" is a real read in its own right and answering it wrong sends every
-     * downstream call to the wrong place. Returns each community's bare `name`, its display
-     * `title` (which often differs — r/scrapingtheweb is titled "Scraping the web"), its URL, its
-     * description and the date it was created. Takes a bare topic for the common case; the object
-     * form adds `limit` (default 25, up to 250, fetched a page at a time). EVERY RESULT'S `name`
-     * IS EXACTLY WHAT `search({subreddit})` TAKES, which is the pairing that makes this the entry
-     * point to the provider: a topic becomes a real community name, which becomes that community's
-     * threads, which become one thread read in full. WHICH SEARCH THIS IS, because Reddit has more
-     * than one and they disagree: this is Reddit's own community index (`/subreddits/search.rss`),
-     * a NAME AND DESCRIPTION match — measured, `buildapcsales` returns r/buildapcsales first, then
-     * r/buildapcsalesuk and r/BuildAPCSalesMeta. It goes DEEPER than the up-to-three communities
-     * that `search` injects into a site-wide post search: measured, those three are exactly this
-     * function's top three for the same query, capped at three and gone from page 2 onward — so
-     * they are this ranking truncated, and everything past rank 3 (for `buildapcsales`:
-     * BuildAPCSalesMeta, buildapcsalesAE, bapcsalescanada…) is reachable only here. An exact
-     * community name is therefore the strongest query here, and a conceptual phrase Reddit's own
-     * communities do not literally use will under-return. TWO THINGS IT DELIBERATELY DOES NOT GIVE
-     * YOU, because the syndication surface reachable without an account publishes neither, and
-     * both are repeated in the returned `limits` rather than left for you to discover: there are
-     * NO SUBSCRIBER COUNTS, so results cannot be ranked, filtered or thresholded by size and a
-     * community with eight subscribers looks identical to one with eight million; and there is no
-     * over-18, private/restricted or activity marker, so a quarantined or dormant community is
-     * indistinguishable from a busy one. A topic no community matches returns an empty
-     * `subreddits` array rather than throwing — "Reddit has no community for this" is a real
-     * answer.
+     * One community's own front page under a chosen sort (default hot), with the same per-post
+     * fields `search` returns — score, comment count, upvote ratio, flair, stickied (pinned posts
+     * sit at the top of hot). `time` applies only to top and controversial (default day) and is
+     * refused on the others. `r/all` and `r/popular` are ordinary names here. Pages of up to 100;
+     * pass `nextCursor` back as `after`. The difference from `search`: this needs no topic and
+     * answers "what is this community talking about right now".
      */
-    searchSubreddits(query: string | {query: string, limit?: number}): Promise<RedditSubredditSearchResult>;
+    getSubredditPosts(input: string | {subreddit: string, sort?: "hot"|"new"|"top"|"rising"|"controversial", time?: "hour"|"day"|"week"|"month"|"year"|"all", limit?: number, after?: string}): Promise<RedditSubredditPostsResult>;
 
     /**
-     * Searches Reddit's submissions for a phrase — across the whole site, or scoped to one
-     * community with `subreddit` — and returns the matching threads with their title, author,
-     * subreddit, timestamp, a permalink to the discussion, the URL the post points at, and the
-     * self-text body when it has one. Takes a bare phrase for the common case; the object form
-     * adds `sort` (relevance, hot, top, new, comments), `time` (hour…all) and `limit` (default 25,
-     * up to 250, fetched a page at a time). THE RESULT IS THE ENTRY POINT TO THIS PROVIDER: every
-     * post's `id` is exactly what `getPost` takes, so "what does Reddit say about X" becomes a
-     * list of real threads you can then read in full — nothing else in the library turns a topic
-     * into a Reddit thread id. THREE THINGS IT DELIBERATELY DOES NOT GIVE YOU, because Reddit does
-     * not publish them on the surface reachable without an account, and each is repeated in the
-     * returned `limits` rather than left for you to discover: there are NO SCORES and NO COMMENT
-     * COUNTS, so results cannot be ranked, filtered or weighted by popularity beyond the `sort`
-     * Reddit itself applied; there is no flair and no NSFW marker; and Reddit's relevance ranking
-     * is neither stable nor reproducible while the time window silently changes what `top` means —
-     * the same query under relevance/all and top/year shared 2 of 22 posts when measured, which is
-     * why `sort` and `time` come back in the result rather than being defaulted invisibly.
-     * `moreAvailable: true` means the read stopped at your `limit` while Reddit still had more. A
-     * site-wide search also returns up to three COMMUNITY hits, in `communities` and never mixed
-     * into `posts`, because Reddit injects them into the same feed and they are not submissions. A
-     * query that matches nothing returns an empty `posts` array rather than throwing — "no Reddit
-     * thread discusses this" is a real answer — while a subreddit that does not exist throws by
-     * name, because a typo and an undiscussed topic are opposite findings.
+     * The facts about ONE community, from "webscraping", "r/webscraping" or its URL: subscriber
+     * count, active users, title, public description and long sidebar, type (public, restricted,
+     * private…), NSFW and quarantine flags, creation date, icon and banner, plus how alive it is —
+     * `newestPostAt` and `postsLastWeek` among its 25 newest posts. CHECK `access.readable` FIRST:
+     * a community reddit will not show you does NOT throw — `access.reason` carries reddit's own
+     * word ("private", "banned", "quarantined", "gold_only") and `info` is null. A name reddit
+     * does not know at all throws; find the real one with `searchSubreddits`.
      */
-    search(query: string | {query: string, subreddit?: string, sort?: "relevance"|"hot"|"top"|"new"|"comments", time?: "hour"|"day"|"week"|"month"|"year"|"all", limit?: number}): Promise<RedditSearchResult>;
+    getSubreddit(name: string): Promise<RedditSubredditProfile>;
 
     /**
-     * Reads one Reddit thread — the submission and the discussion under it — from a thread URL, a
-     * `t3_…` fullname or a bare post id. Returns the post's title, author, subreddit, timestamp
-     * and self-text, plus up to 480 comments, each with its author, readable body, timestamp and a
-     * permalink to that exact reply, which is what an agent citing evidence actually needs. THREE
-     * THINGS IT DELIBERATELY DOES NOT GIVE YOU, because Reddit does not publish them on the
-     * surface reachable without an account, and every one is stated in the returned `limits` array
-     * rather than left for you to discover: comments are FLAT and in Reddit's own display order —
-     * there is no parent id and no depth, so there is no tree and any nesting here would be
-     * invented; there are NO SCORES, so a comment cannot be ranked or weighted from this result;
-     * and there is no comment TOTAL, so a truncated read can tell you the discussion continues but
-     * never by how much. `commentsTruncated: true` is that flag and it is the field to check
-     * before drawing a conclusion from a long thread — 480 is a hard ceiling Reddit enforces, not
-     * a page size. An author of `null` is a deleted account, which is the common case rather than
-     * an edge one. Throws rather than returning an empty discussion when the thread does not exist
-     * or the feed shape moves, because "nobody replied" and "we could not read it" are opposite
-     * answers.
+     * Finds Reddit communities by topic or name — the step before every other read, because the
+     * community that matters is often one you would never guess (r/buildapcsales,
+     * r/AskHistorians). Each result carries its name (exactly what `getSubredditPosts` and
+     * `search({subreddit})` take), title, description, subscriber count, active users, NSFW flag,
+     * type and creation date, ranked as reddit ranks them. Pages of up to 100; pass `nextCursor`
+     * back as `after`. No match returns an empty list.
      */
-    getPost(ref: string): Promise<RedditThread>;
+    searchSubreddits(query: string | {query: string, limit?: number, after?: string}): Promise<RedditSubredditSearchResult>;
+
+    /**
+     * A redditor's public profile from a username, "u/name" or a profile URL: post, comment and
+     * total karma, when the account was made, its avatar and profile blurb, whether it is a Reddit
+     * employee, a moderator somewhere, verified, premium or suspended, and the trophies on its
+     * profile. Use it to judge whether an account is a real long-standing member before trusting
+     * what it says. CHECK `state` FIRST: "active" carries the profile; "suspended" means reddit
+     * took the account down; "not_found" means no such account — reddit answers a deleted account
+     * and a never-existing one identically, so the two cannot be told apart. None of the three
+     * throws.
+     */
+    getUser(name: string): Promise<RedditUserProfile | RedditUserAbsent>;
+
+    /**
+     * Finds redditors by name: a partial or remembered username goes in, matching accounts come
+     * out with name, karma, account age, avatar and employee/moderator/verified flags — the door
+     * to getUser, getUserPosts and getUserComments when you lack the exact handle. `limit` up to
+     * 100 (default 25); pass `nextCursor` back as `after` for the next page.
+     */
+    searchUsers(query: string | { query: string; limit?: number; after?: string }): Promise<RedditUserSearch>;
+
+    /**
+     * The posts one redditor has submitted, newest (default), top, hot or controversial first —
+     * each with title, subreddit, score, comment count, link and permalink. `time` applies to top
+     * and controversial (default all). `limit` up to 100; pass `nextCursor` back as `after`. The
+     * result is a RECENT WINDOW, not a complete history: reddit serves about the last 1,000 items
+     * per sort, so absence here does not mean they never posted it. A top/controversial all-time
+     * page can come back empty on a big account; `warnings` says so — try time "year". Throws when
+     * the account does not exist (getUser tells not-found from suspended).
+     */
+    getUserPosts(user: string | { user: string; sort?: "new" | "top" | "hot" | "controversial"; time?: "hour" | "day" | "week" | "month" | "year" | "all"; limit?: number; after?: string }): Promise<RedditUserPosts>;
+
+    /**
+     * The comments one redditor has written, newest (default), top, hot or controversial first —
+     * each with body, score, subreddit, a permalink to that exact reply, and `thread`: the title,
+     * permalink, author and comment count of the post it sits in, so a reply means something on
+     * its own. For the conversation around a comment, call getPost on `thread.id`. Same controls
+     * and the same RECENT-WINDOW limit as getUserPosts (about the last 1,000 per sort). Throws
+     * when the account does not exist.
+     */
+    getUserComments(user: string | { user: string; sort?: "new" | "top" | "hot" | "controversial"; time?: "hour" | "day" | "week" | "month" | "year" | "all"; limit?: number; after?: string }): Promise<RedditUserComments>;
+
+    /**
+     * Given a link — an article, a paper, a product page, a repository — returns the Reddit
+     * threads that submitted it, most-discussed first, each with subreddit, score, comment count
+     * and permalink: the fastest route to what Reddit said about one specific thing. Reddit
+     * matches submissions on the exact URL, so this also asks about the spellings reddit treats as
+     * different (tracking parameters stripped, trailing slash toggled, http/https, with and
+     * without www.) — one request each, up to five — and `matched` lists every spelling asked and
+     * how many threads it found. `exact: true` asks only the URL as given. Given a Reddit thread
+     * URL instead, it returns that thread plus its 'other discussions' (the same link posted
+     * elsewhere).
+     */
+    findPostsByUrl(url: string | { url: string; exact?: boolean }): Promise<RedditPostsByUrl>;
+
+    /**
+     * Lists the page names of one community's wiki (`index`, `faq`, `config/sidebar`, …) — the
+     * index you need before getWikiPage, because wiki page names are not guessable. CHECK `state`
+     * FIRST: "ok" carries `pages`; otherwise it says why there is nothing — no_such_community,
+     * community_unavailable (banned), private, or not_viewable (wiki switched off or limited to
+     * moderators/approved users; reddit does not say which). None of those throws.
+     */
+    listWikiPages(subreddit: string | { subreddit: string }): Promise<RedditWikiPages | RedditWikiAbsent>;
+
+    /**
+     * Returns one page of a community's wiki — the FAQ, buying guide, reading list or detailed
+     * rules a community wrote once and maintains — as markdown, with when it was last revised and
+     * by whom. `page` defaults to "index"; listWikiPages lists the names. Pages can be LONG (the
+     * AskHistorians rules page is ~42 KB); `long` is true past ~20 KB and the whole text is still
+     * returned. CHECK `state` FIRST: "ok" carries the page; "page_not_found" carries `pages`, the
+     * names that do exist; no_such_community, community_unavailable, private and not_viewable say
+     * why there is nothing. None of those throws.
+     */
+    getWikiPage(subreddit: string | { subreddit: string; page?: string }): Promise<RedditWikiPage | RedditWikiAbsent>;
+
+    /**
+     * One community's posting rules, in the order the community ranks them: each rule's short
+     * name, full markdown description, whether it applies to posts, comments or both, and the
+     * label reddit's report menu uses for breaking it — plus the reddit-wide rules offered beside
+     * them. The read to do before posting, and the one that explains why a post was removed.
+     * Throws when the community does not exist, is banned or is private (the message carries
+     * reddit's own reason).
+     */
+    getSubredditRules(subreddit: string | { subreddit: string }): Promise<RedditRules>;
+
+    /**
+     * Lists communities without a query: Reddit's own most-popular (default) or newest
+     * communities, each with name, title, description, subscriber count, type and NSFW flag — the
+     * 'explore communities' page, for learning what is big (or just started) on Reddit rather than
+     * what matches a word. `limit` up to 100; pass `nextCursor` back as `after`.
+     */
+    browseSubreddits(list?: "popular" | "new" | { list?: "popular" | "new"; limit?: number; after?: string }): Promise<RedditSubredditBrowse>;
+
+    /**
+     * Expands what getPost could not return in a big thread. Pass the thread (`post`) and the
+     * `ids` from a comment's `moreReplies` or the thread's `moreComments` — the 'load more
+     * comments' stubs — and get those comments back nested under the ones they answer, with
+     * author, body, score and permalink; up to 100 ids per call, the rest come back in
+     * `remainingIds`, and anything still folded in `more`. A `moreReplies` with EMPTY ids is
+     * reddit's 'continue this thread' link: pass `parent` (that comment's id) instead and get its
+     * whole reply branch.
+     */
+    getCommentReplies(args: { post: string; ids?: string[]; parent?: string; sort?: "confidence" | "top" | "new" | "controversial" | "old" | "qa" }): Promise<RedditCommentReplies>;
+
+    /**
+     * The signed-in caller's own Reddit account: username, karma, account age, avatar, whether
+     * they have unread mail and how much, whether they moderate anywhere, and whether the account
+     * is premium, email-verified or suspended. NEEDS THE CALLER SIGNED IN TO REDDIT; the run
+     * pauses with a sign-in link when they are not. Call it first to learn whose session a script
+     * is acting as.
+     */
+    getMyAccount(): Promise<RedditMyAccount>;
+
+    /**
+     * The signed-in caller's own Reddit home feed: posts from the communities they joined, ranked
+     * the way Reddit ranks them for that person (sort best by default, or hot, new, top, rising;
+     * `time` only with top, default day). Each post carries the caller's own vote, saved and
+     * hidden state in `viewer`. Up to 100 per page (default 25); pass `nextCursor` back as `after`
+     * for the next page, null when the feed ran out. NEEDS THE CALLER SIGNED IN TO REDDIT; the run
+     * pauses with a sign-in link when they are not. A lapsed sign-in is refused rather than read,
+     * because reddit would otherwise answer the logged-out front page.
+     */
+    getHomeFeed(opts?: { sort?: "best" | "hot" | "new" | "top" | "rising"; time?: "hour" | "day" | "week" | "month" | "year" | "all"; limit?: number; after?: string }): Promise<RedditHomeFeed>;
+
+    /**
+     * The communities the signed-in caller has joined, each with its subscriber count,
+     * description, type and the caller's own subscriber/moderator/banned state. Up to 100 per page
+     * (default 100); pass `nextCursor` back as `after` for more. NEEDS THE CALLER SIGNED IN TO
+     * REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    listMySubscriptions(opts?: { limit?: number; after?: string }): Promise<RedditMySubscriptions>;
+
+    /**
+     * The posts and comments the signed-in caller has saved, newest save first, in one list: check
+     * each item's `kind` ("post" or "comment"). A saved comment carries the title and link of the
+     * thread it is in. Up to 100 per page (default 25); pass `nextCursor` back as `after` for
+     * more. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are
+     * not.
+     */
+    listSaved(opts?: { limit?: number; after?: string }): Promise<RedditSavedList>;
+
+    /**
+     * The signed-in caller's Reddit inbox, newest first: replies to their posts and comments,
+     * username mentions and private messages, each marked unread or not. `filter` narrows it to
+     * one folder (default all). Reading does not mark anything as read. Up to 100 per page
+     * (default 25); pass `nextCursor` back as `after` for more. Reddit moved new private
+     * conversations to its chat, which this does not read. NEEDS THE CALLER SIGNED IN TO REDDIT;
+     * the run pauses with a sign-in link when they are not.
+     */
+    listInbox(opts?: { filter?: "all" | "unread" | "messages" | "mentions" | "comment_replies" | "post_replies"; limit?: number; after?: string }): Promise<RedditInbox>;
+
+    /**
+     * The post flairs a community offers, with the template `id` submitPost takes, their text,
+     * colours, and whether the poster may edit the text or only moderators may use one. Many
+     * communities refuse a post without a flair, so call this first. `posterCanChoose: false`
+     * means the community does not let posters pick a flair at all (flairs is then empty). A
+     * community that does not exist is a caller-fixable not-found error. NEEDS THE CALLER SIGNED
+     * IN TO REDDIT (reddit refuses the list to a logged-out visitor); the run pauses with a
+     * sign-in link when they are not.
+     */
+    listPostFlairs(subreddit: string): Promise<RedditPostFlairs>;
+
+    /**
+     * Joins a community as the signed-in caller, so its posts reach their home feed. Safe to
+     * repeat: joining a community already joined changes nothing. A community that does not exist
+     * is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses
+     * with a sign-in link when they are not.
+     */
+    joinSubreddit(subreddit: string): Promise<RedditSubscription>;
+
+    /**
+     * Leaves a community the signed-in caller has joined. Safe to repeat: leaving one they are not
+     * in changes nothing. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link
+     * when they are not.
+     */
+    leaveSubreddit(subreddit: string): Promise<RedditSubscription>;
+
+    /**
+     * Saves a post or comment to the signed-in caller's Saved list (private to them). Takes a
+     * fullname ("t3_…" post, "t1_…" comment) or a permalink. Safe to repeat. An id reddit does not
+     * know is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the run
+     * pauses with a sign-in link when they are not.
+     */
+    savePostOrComment(id: string): Promise<RedditSaveResult>;
+
+    /**
+     * Removes a post or comment from the signed-in caller's Saved list. Takes a fullname or a
+     * permalink. Safe to repeat. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
+     * sign-in link when they are not.
+     */
+    unsavePostOrComment(id: string): Promise<RedditSaveResult>;
+
+    /**
+     * Hides a post from the signed-in caller's feeds, or un-hides it with `hidden: false`. Takes a
+     * post fullname ("t3_…") or permalink. Safe to repeat. NEEDS THE CALLER SIGNED IN TO REDDIT;
+     * the run pauses with a sign-in link when they are not.
+     */
+    hidePost(post: string | { id: string; hidden?: boolean }): Promise<RedditHideResult>;
+
+    /**
+     * Upvotes, downvotes or clears ("none") the signed-in caller's vote on a post or comment.
+     * Takes a fullname ("t3_…", "t1_…") or a permalink. Safe to repeat: the same direction twice
+     * leaves one vote. Reddit ignores votes on archived posts. NEEDS THE CALLER SIGNED IN TO
+     * REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    vote(opts: { id: string; direction: "up" | "down" | "none" }): Promise<RedditVoteResult>;
+
+    /**
+     * Follows a redditor as the signed-in caller, so their profile posts reach the caller's feed,
+     * or unfollows with `follow: false`. Takes a username, "u/name" or profile URL. A username
+     * with no account is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT;
+     * the run pauses with a sign-in link when they are not.
+     */
+    followUser(user: string | { name: string; follow?: boolean }): Promise<RedditFollowResult>;
+
+    /**
+     * Blocks a redditor for the signed-in caller, hiding their posts, comments and messages from
+     * the caller. Takes a username, "u/name" or profile URL. Reddit answers a username with no
+     * account, and the caller's own name, with the same bad-request refusal, which surfaces as a
+     * caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
+     * sign-in link when they are not.
+     */
+    blockUser(user: string): Promise<RedditBlockResult>;
+
+    /**
+     * Creates a new community the signed-in caller owns and moderates: its name (3-21 letters,
+     * digits or underscores), a short public description, and whether it is public, restricted or
+     * private (default public). Returns the new community's id, name and URL. A taken or invalid
+     * name comes back as reddit's own words. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses
+     * with a sign-in link when they are not.
+     */
+    createSubreddit(input: { name: string; description?: string; type?: "public" | "restricted" | "private"; nsfw?: boolean }): Promise<RedditNewCommunity>;
+
+    /**
+     * Posts to a community as the signed-in caller and returns the new post's id and permalink.
+     * `kind` defaults from what is given: `url` → a link post, `image` (base64 + mimeType, or a
+     * public image URL; PNG, JPEG, GIF or WebP) → an image post, `crosspostOf` (a post id or URL)
+     * → a crosspost, otherwise a text post with `text` as its body. `flairId` + `flairText` pick
+     * one of the community's post flairs; `nsfw`, `spoiler` mark it; `sendReplies: false` turns
+     * off reply notifications. A community that refuses the post (its rules, its karma bar, a
+     * private source for a crosspost) answers in reddit's own words. NEEDS THE CALLER SIGNED IN TO
+     * REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    submitPost(input: { subreddit: string; title: string; kind?: "self" | "link" | "image" | "crosspost"; text?: string; url?: string; image?: { base64: string; mimeType: string } | { url: string }; crosspostOf?: string; flairId?: string; flairText?: string; nsfw?: boolean; spoiler?: boolean; sendReplies?: boolean }): Promise<RedditNewPost>;
+
+    /**
+     * Comments on a post (its id like "t3_1abcde", or its URL) as the signed-in caller, in
+     * markdown, and returns the new comment with its id and permalink. NEEDS THE CALLER SIGNED IN
+     * TO REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    postComment(input: { post: string; text: string }): Promise<RedditComment>;
+
+    /**
+     * Replies to a comment (its id like "t1_abc123", or its permalink) as the signed-in caller, in
+     * markdown, and returns the new reply with its id and permalink. NEEDS THE CALLER SIGNED IN TO
+     * REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    replyToComment(input: { comment: string; text: string }): Promise<RedditComment>;
+
+    /**
+     * Replaces the text of the signed-in caller's own text post or comment with `text` (markdown)
+     * and returns it as it now reads. A post's title cannot be edited on reddit, and link and
+     * image posts have no text to edit. Someone else's post or comment is refused in reddit's own
+     * words. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they
+     * are not.
+     */
+    editPostOrComment(input: { thing: string; text: string }): Promise<RedditEdited>;
+
+    /**
+     * Deletes the signed-in caller's own post or comment, then reads it back to prove it now shows
+     * as [deleted]. Throws when the thing does not exist, or when it still shows its author
+     * afterwards (it was not the caller's). Deleting something already deleted succeeds. NEEDS THE
+     * CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    deletePostOrComment(thing: string | { thing: string }): Promise<{ id: string; deleted: true }>;
+
+    /**
+     * Reports a post or comment as the signed-in caller. Give exactly one reason: `rule` — one of
+     * that community's rules, by its name (read them with getSubredditRules); `siteReason` — a
+     * Reddit-wide reason, which goes to Reddit rather than the moderators; or `reason` — free
+     * text, which reaches the community's moderators where the community allows free-form reports.
+     * NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    reportPostOrComment(input: { thing: string; rule?: string; siteReason?: string; reason?: string }): Promise<{ id: string; reported: true }>;
+
+    /**
+     * Sends a message from the signed-in caller to another redditor. This is REDDIT CHAT, not the
+     * old private-message inbox: reddit's own compose page now sends a chat message request, and
+     * the legacy private-message endpoint refuses. It checks the recipient first: an account that
+     * does not exist throws not-found, and one that does not accept message requests is refused in
+     * reddit's words before anything is sent. `subject` defaults to the first line of `text`.
+     * NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    sendDirectMessage(input: { to: string; subject?: string; text: string }): Promise<{ to: string; recipientId: string; sent: true }>;
+
+    /**
+     * Changes the signed-in caller's public profile: `displayName` (up to 30 characters; the
+     * username itself never changes) and `about`, the profile bio (up to 200 characters). Either
+     * or both; "" clears one. Returns both as the profile now shows them. NEEDS THE CALLER SIGNED
+     * IN TO REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    updateProfile(input: { displayName?: string; about?: string }): Promise<RedditProfileText>;
+
+    /**
+     * Uploads an image (PNG, JPEG, GIF or WebP, as base64 + mimeType or a public image URL) as the
+     * signed-in caller's profile picture, or with `reset: true` puts back reddit's default.
+     * Returns the profile picture's URL as the profile now shows it. NEEDS THE CALLER SIGNED IN TO
+     * REDDIT; the run pauses with a sign-in link when they are not.
+     */
+    setProfilePicture(input: { image: { base64: string; mimeType: string } | { url: string } } | { reset: true }): Promise<{ iconUrl: string }>;
   }
 }
 
@@ -31544,6 +32881,135 @@ interface SamsclubMembershipPlan {
      * it. Read-only: joining or paying for a membership is out of scope.
      */
     getMembershipPlans(): Promise<SamsclubMembershipPlan[]>;
+  }
+}
+
+declare namespace BowmarkProvider_samsung {
+  // ── Samsung — the unit's own declarations, verbatim ──
+interface SearchArgs {
+  query: string;
+}
+
+interface SamsungSearchResult {
+  name: string;
+  price: string | null;
+  availability: string | null; // the site's own labels — read the values off a result, never guess one from prose
+  rating: number | null;
+  url: string;
+}
+
+interface SearchResponse {
+  results: SamsungSearchResult[];
+}
+
+interface ListCategoriesArgs {}
+
+interface SamsungCategory {
+  name: string;
+  slug: string;
+}
+
+interface ListCategoriesResponse {
+  categories: SamsungCategory[];
+}
+
+interface ListCategoryProductsArgs {
+  category: string;
+}
+
+interface SamsungCategoryProduct {
+  name: string;
+  price: string | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  rating: number | null;
+  reviewCount: number | null;
+  url: string;
+}
+
+interface ListCategoryProductsResponse {
+  products: SamsungCategoryProduct[];
+}
+
+interface GetProductArgs {
+  product: string; // URL or SKU
+}
+
+interface ProductVariant {
+  name: string;
+  sku: string;
+  price: string | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+}
+
+interface SamsungProductDetail {
+  name: string;
+  price: string | null;
+  rating: number | null;
+  reviewCount: number | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  image: string | null;
+  variants: ProductVariant[];
+  specs: Record<string, string>;
+  category: string | null;
+  url: string;
+}
+
+interface GetProductResponse {
+  product: SamsungProductDetail;
+}
+
+interface ListDealsArgs {}
+
+interface SamsungDeal {
+  name: string;
+  originalPrice: string | null;
+  salePrice: string | null;
+  discountPercent: number | null;
+  url: string;
+  image: string | null;
+}
+
+interface ListDealsResponse {
+  deals: SamsungDeal[];
+}
+
+  /**
+   * Samsung's own US storefront and support site — products, prices, trade-in, warranty and
+   * store lookups, plus a signed-in caller's own orders and rewards.
+   */
+  interface Unit {
+    /**
+     * Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/) and
+     * returns what it shows: each result's name, price, availability, rating and its product URL,
+     * in the site's own order.
+     */
+    search(query: SearchArgs): Promise<SearchResponse>;
+
+    /**
+     * The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors, Tablets,
+     * Watches, Audio Devices, and Computing — each with the URL segment that browses it.
+     */
+    listCategories(args: ListCategoriesArgs): Promise<ListCategoriesResponse>;
+
+    /**
+     * Browse a whole product family with no keyword search — every Galaxy S phone, every Neo QLED
+     * TV — and get each model's name, price, star rating, review count, availability and product
+     * URL. Takes the category slug from listCategories (e.g. 'smartphones', 'tvs').
+     */
+    listCategoryProducts(args: ListCategoryProductsArgs): Promise<ListCategoryProductsResponse>;
+
+    /**
+     * Read one exact model's product page the way a shopper reads it: name, price, star rating,
+     * review count, in-stock state, storage/color variants, specification sheet, images, and the
+     * category breadcrumb. Takes the product's own URL (from search or listCategoryProducts).
+     */
+    getProduct(args: GetProductArgs): Promise<GetProductResponse>;
+
+    /**
+     * What is discounted right now across the whole Samsung store — each deal's name, current
+     * price, original price, discount percentage, product URL and image.
+     */
+    listDeals(args: ListDealsArgs): Promise<ListDealsResponse>;
   }
 }
 
@@ -34397,6 +35863,105 @@ interface tiktokVideo {
 interface GetVideoArgs {
   video: string;
 }
+interface tiktokTranscriptSegment {
+  startSeconds: number;
+  endSeconds: number;
+  text: string;
+}
+interface tiktokTranscript {
+  videoId: string;
+  language: string;
+  segments: tiktokTranscriptSegment[];
+  fullText: string;
+}
+interface GetTranscriptArgs {
+  video: string;
+}
+interface tiktokCaptionTrack {
+  languageCode: string;
+  name: string;
+  isAutoGenerated: boolean;
+  isDefault: boolean;
+}
+interface ListCaptionTracksArgs {
+  video: string;
+}
+interface tiktokVideoSummary {
+  id: string;
+  caption: string;
+}
+interface ListUserVideosArgs {
+  username: string;
+}
+interface tiktokComment {
+  id: string;
+  text: string;
+  author: {
+    id: string;
+    uniqueId: string;
+    nickname: string;
+  };
+  likeCount: number;
+  replyCount: number;
+  createTime: number;
+}
+interface ListCommentsArgs {
+  video: string;
+}
+interface tiktokCommentReply {
+  id: string;
+  text: string;
+  author: {
+    id: string;
+    uniqueId: string;
+    nickname: string;
+  };
+  likeCount: number;
+  createTime: number;
+}
+interface ListCommentRepliesArgs {
+  video: string;
+  commentId: string;
+}
+interface tiktokSearchResult {
+  id: string;
+  caption: string;
+  author: {
+    id: string;
+    uniqueId: string;
+    nickname: string;
+  };
+  stats: {
+    playCount: number;
+    likeCount: number;
+    commentCount: number;
+    shareCount: number;
+  };
+}
+interface SearchVideosArgs {
+  query: string;
+}
+interface tiktokUserSearchResult {
+  id: string;
+  uniqueId: string;
+  nickname: string;
+  verified: boolean;
+  followerCount: number;
+  videoCount: number;
+}
+interface SearchUsersArgs {
+  query: string;
+}
+interface tiktokHashtag {
+  id: string;
+  name: string;
+  description: string;
+  viewCount: number;
+  promoted: boolean;
+}
+interface GetHashtagArgs {
+  name: string;
+}
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -34418,6 +35983,67 @@ interface GetVideoArgs {
      * page renders off a placeholder handle segment.
      */
     getVideo(args: GetVideoArgs): Promise<tiktokVideo>;
+
+    /**
+     * A video's caption track fetched and parsed from the WebVTT file TikTok embeds in each video
+     * page, with timed segments and full text. Returns empty segments when captions are
+     * unavailable. Takes a `/@<handle>/video/<id>` URL or a bare numeric video id.
+     */
+    getTranscript(args: GetTranscriptArgs): Promise<tiktokTranscript>;
+
+    /**
+     * Which languages a video's captions are available in and which TikTok shows by default.
+     * Returns an array of caption tracks with language codes, display names, whether each is
+     * auto-generated, and which one is default. Mirrors youtube.listCaptionTracks. Takes a
+     * `/@<handle>/video/<id>` URL or a bare numeric video id.
+     */
+    listCaptionTracks(args: ListCaptionTracksArgs): Promise<tiktokCaptionTrack[]>;
+
+    /**
+     * A creator's most recent videos — id and caption — read off the unsigned `/embed/@<handle>`
+     * page, the door from a handle to their videos. Each id then resolves through getVideo for
+     * full stats. Returns only the first page the embed page ships; paging past it is unmeasured.
+     */
+    listUserVideos(args: ListUserVideosArgs): Promise<tiktokVideoSummary[]>;
+
+    /**
+     * Comments on a video — text, author (id, handle, nickname), like count, reply count, and
+     * creation time. Reads the unsigned `/api/comment/list/` endpoint with no request signature
+     * required. Returns up to 20 comments on the first call; paging with cursor is unmeasured.
+     */
+    listComments(args: ListCommentsArgs): Promise<tiktokComment[]>;
+
+    /**
+     * The replies under one comment thread — text, author (id, handle, nickname), like count, and
+     * creation time. Takes a video reference plus a commentId (the `id` field off a listComments
+     * row). Reads the unsigned `/api/comment/list/reply/` endpoint, the same shape as listComments
+     * on the same host. A comment with no replies answers an empty array rather than an error.
+     * Returns up to 20 replies on the first call; paging with cursor is unmeasured.
+     */
+    listCommentReplies(args: ListCommentRepliesArgs): Promise<tiktokCommentReply[]>;
+
+    /**
+     * Search for videos on TikTok by keyword. Returns up to 20 results with id, caption, author
+     * (id, handle, nickname), and stats (play count, likes, comments, shares). Uses the browser to
+     * load the search page and intercept the API response, as the signed search endpoint requires
+     * derived request signatures.
+     */
+    searchVideos(args: SearchVideosArgs): Promise<tiktokSearchResult[]>;
+
+    /**
+     * Search for users on TikTok by query. Returns up to 20 results with id, username, nickname,
+     * verification status, follower count and video count. Uses the browser to load the user
+     * search page and intercept the API response, as the signed search endpoint requires derived
+     * request signatures.
+     */
+    searchUsers(args: SearchUsersArgs): Promise<tiktokUserSearchResult[]>;
+
+    /**
+     * A hashtag's facts — view count, description, whether it is currently promoted — off TikTok's
+     * hashtag page. Uses the browser to load the hashtag page and intercept the API response, as
+     * the hashtag page is served off the signed app API.
+     */
+    getHashtag(args: GetHashtagArgs): Promise<tiktokHashtag>;
   }
 }
 
@@ -36517,6 +38143,32 @@ interface WikipediaArticle {
   length: number;
 }
 
+interface WikipediaSummary {
+  id: number;
+  title: string;
+  url: string;
+  description: string;
+  extract: string;
+  extractHtml: string;
+  wikidataId?: string;
+  thumbnail?: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  originalImage?: {
+    url: string;
+    width: number;
+    height: number;
+  };
+  coordinates?: {
+    lat: number;
+    lon: number;
+  };
+  revisionId: number;
+  lastModified: string;
+}
+
 interface WikipediaSearchResult {
   id: number;
   title: string;
@@ -36535,6 +38187,43 @@ interface WikipediaTitleSuggestion {
   title: string;
   url: string;
   description: string;
+}
+
+interface WikipediaSection {
+  index: string;
+  title: string;
+  level: string;  // the site's own labels — read the values off a result, never guess one from prose
+  line: string;
+  anchor: string;
+}
+
+interface WikipediaSectionContent {
+  title: string;
+  html: string;
+}
+
+interface WikipediaArticleHtml {
+  title: string;
+  url: string;
+  html: string;
+  revisionId: number;
+  lastModified: string;
+}
+
+interface WikipediaWikitext {
+  title: string;
+  wikitext: string;
+  revisionId: number;
+}
+
+interface WikipediaInfobox {
+  type: string;
+  fields: Record<string, string>;
+}
+
+interface WikipediaLink {
+  title: string;
+  url: string;
 }
 
   /**
@@ -36564,6 +38253,64 @@ interface WikipediaTitleSuggestion {
      * site's own redirects.
      */
     getArticle(titleOrUrl: string, options?: { lang?: string }): Promise<WikipediaArticle>;
+
+    /**
+     * The lead of an article and nothing else — the first paragraph as plain text and as HTML, the
+     * short description, a thumbnail and the original image, coordinates when the subject is a
+     * place, the Wikidata id, and the canonical url. The call for "what is X" where `getArticle`'s
+     * full body is far more than was asked for. Takes the same title-or-url argument as
+     * `getArticle`.
+     */
+    getSummary(titleOrUrl: string, options?: { lang?: string }): Promise<WikipediaSummary>;
+
+    /**
+     * The article's table of contents — every section with its number, heading, nesting level and
+     * anchor, in page order. What a caller reads to decide WHICH part of a long article it
+     * actually wants before pulling the text. Takes the same title-or-url argument as `getArticle`
+     * and follows the site's own redirects.
+     */
+    getSections(titleOrUrl: string, options?: { lang?: string }): Promise<{ sections: WikipediaSection[]; warnings: string[] }>;
+
+    /**
+     * The rendered HTML of one section, after the site's parser has converted wikitext to markup.
+     * Takes an article title or url and a section index (from getSections) and returns that
+     * section's HTML content with its title. Useful for getting a specific part of a long article
+     * without fetching the whole thing.
+     */
+    getSection(titleOrUrl: string, sectionIndex: string, options?: { lang?: string }): Promise<WikipediaSectionContent>;
+
+    /**
+     * The article's rendered HTML — the real page body, with tables, references, footnotes and
+     * infobox markup intact, for a caller that wants to parse structure rather than read prose.
+     * Takes an article title OR any wikipedia.org url and follows the site's own redirects.
+     */
+    getArticleHtml(titleOrUrl: string, options?: { lang?: string }): Promise<WikipediaArticleHtml>;
+
+    /**
+     * The article's raw wikitext source — the exact text an editor sees in the edit box, including
+     * all templates, transclusions, categories, links and redirects. The input for any caller that
+     * wants to analyse, diff or programmatically change a page, and what getInfobox parses to
+     * extract infobox templates.
+     */
+    getWikitext(titleOrUrl: string, options?: { lang?: string }): Promise<WikipediaWikitext>;
+
+    /**
+     * The Wikipedia infobox from an article — the grey fact box at the top right of most articles,
+     * parsed into a key/value structure. Infoboxes contain facts like country capitals and
+     * populations, film directors and release dates, or chemical formulas. Returns the infobox's
+     * type (the template name, e.g., 'beverage', 'country') alongside its fields. Field values
+     * retain their original wikitext — templates and links are not expanded. Takes an article
+     * title OR any wikipedia.org url and follows the site's own redirects.
+     */
+    getInfobox(titleOrUrl: string, options?: { lang?: string }): Promise<WikipediaInfobox>;
+
+    /**
+     * Every other Wikipedia article this one links to, by title and url. The outbound half of the
+     * encyclopedia's link graph, and the usual way to walk from a topic to its neighbours. Takes
+     * an article title OR any wikipedia.org url and follows the site's own redirects. Optional
+     * limit parameter caps the number of links returned (defaults to all).
+     */
+    listLinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ links: WikipediaLink[]; warnings: string[] }>;
   }
 }
 
@@ -36792,6 +38539,82 @@ interface YahooFinanceHolders {
   topMutualFundHolders: YahooFinanceHolderRow[];
 }
 
+interface YahooFinanceKeyStat {
+  label: string;      // "Market Cap", "P/E Ratio", "52 Week Range", etc.
+  value: string | null; // "2.95T", "31.45", "150.00 - 199.62", etc. — kept as the site renders
+}
+
+interface YahooFinanceKeyStatistics {
+  symbol: string;
+  stats: YahooFinanceKeyStat[];
+}
+
+interface YahooFinanceCurrencyRate {
+  symbol: string;               // e.g., "EURUSD=X", "GBPUSD=X"
+  name: string | null;          // display name
+  bid: number | null;
+  ask: number | null;
+  change: number | null;
+  changePercent: number | null;
+}
+
+interface YahooFinanceCurrencyRates {
+  rates: YahooFinanceCurrencyRate[];
+}
+
+interface YahooFinanceCryptoPrice {
+  symbol: string;               // e.g., "BTC-USD", "ETH-USD"
+  name: string | null;          // display name
+  price: number | null;         // current price
+  change: number | null;        // 24h change
+  changePercent: number | null; // 24h change percent
+}
+
+interface YahooFinanceCryptoPrices {
+  prices: YahooFinanceCryptoPrice[];
+}
+
+interface YahooFinanceOptionContract {
+  contractSymbol: string;
+  strike: number;
+  lastPrice: number | null;
+  change: number | null;
+  percentChange: number | null;
+  volume: number | null;
+  openInterest: number | null;
+  bid: number | null;
+  ask: number | null;
+  expiration: string | null;    // ISO date "YYYY-MM-DD"
+  lastTradeDate: string | null; // full ISO datetime — the time of day is real
+  impliedVolatility: number | null;
+  inTheMoney: boolean;
+}
+
+interface YahooFinanceOptionsChain {
+  symbol: string;
+  expirationDate: string | null;  // ISO date "YYYY-MM-DD" this response answers for
+  expirationDates: string[];      // every expiration Yahoo Finance lists, ISO dates, ascending
+  strikes: number[];              // every strike across ALL expirations, not just this one
+  calls: YahooFinanceOptionContract[];
+  puts: YahooFinanceOptionContract[];
+}
+
+interface YahooFinanceFinancialRow {
+  label: string;
+  values: Record<string, string | null>;
+}
+
+interface YahooFinanceFinancialStatement {
+  rows: YahooFinanceFinancialRow[];
+}
+
+interface YahooFinanceFinancials {
+  symbol: string;
+  incomeStatement: YahooFinanceFinancialStatement | null;
+  balanceSheet: YahooFinanceFinancialStatement | null;
+  cashFlow: YahooFinanceFinancialStatement | null;
+}
+
   /**
    * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
    * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
@@ -36880,6 +38703,52 @@ interface YahooFinanceHolders {
      * not a throw. An unknown or empty ticker throws before any request is sent.
      */
     getHolders(symbol: string): Promise<YahooFinanceHolders>;
+
+    /**
+     * Reads a ticker's income statement, balance sheet and cash-flow statement the way the site's
+     * own Financials tab presents them, annual view. Each statement contains rows of financial
+     * metrics (Revenue, Net Income, Total Assets, etc.) with values for multiple fiscal years as
+     * columns. Values are kept as the site renders them ('383.285B', '6.05') because the same
+     * statement mixes revenue, counts, percentages and ratios. A section is null when Yahoo
+     * Finance has no financial statements for this ticker (non-equity quote types). An unknown or
+     * empty ticker throws before any request is sent.
+     */
+    getFinancials(symbol: string): Promise<YahooFinanceFinancials>;
+
+    /**
+     * Reads the live currency-pair rates the way the site's own Currencies markets page does — for
+     * an agent asking what a dollar is worth in another currency right now. Returns the list of
+     * currency pairs with their current bid/ask prices (or regularMarketPrice as a fallback) and
+     * percentage change.
+     */
+    listCurrencyRates(): Promise<YahooFinanceCurrencyRates>;
+
+    /**
+     * Reads the live cryptocurrency prices the way the site's own Crypto markets page does — for
+     * an agent asking what crypto is worth right now. Returns the list of cryptocurrencies with
+     * their current price and percentage change.
+     */
+    listCryptoPrices(): Promise<YahooFinanceCryptoPrices>;
+
+    /**
+     * Reads a ticker's options chain the way the site's own Options tab does — every call and put
+     * contract at the requested expiration, with strike, last price, bid/ask, volume, open
+     * interest and implied volatility. `expirationDate` is an optional ISO date ("YYYY-MM-DD")
+     * naming one of the dates this same function lists under `expirationDates`; omitted, Yahoo
+     * Finance answers its own nearest expiration. An unrecognized ticker answers an empty chain
+     * (no calls, no puts), an honest empty result rather than a throw; an empty or non-string
+     * symbol throws before any request is sent.
+     */
+    getOptionsChain(symbol: string, expirationDate?: string): Promise<YahooFinanceOptionsChain>;
+
+    /**
+     * Reads the key statistics table from a ticker's Key Statistics tab — metrics like market cap,
+     * P/E ratio, 52-week range, dividend yield, beta, and other commonly-referenced statistics.
+     * Metrics are returned with their label and value exactly as Yahoo Finance renders them,
+     * preserving the mix of different units (percentages, currency amounts, counts, ranges). An
+     * unknown or empty ticker throws before any request is sent.
+     */
+    getKeyStatistics(symbol: string): Promise<YahooFinanceKeyStatistics>;
   }
 }
 
@@ -36910,6 +38779,11 @@ interface YahooSportsStandingsRow {
   pointsDifferential: number;
 }
 
+interface YahooSportsTeamRow {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  team: string;
+}
+
 interface YahooSportsScheduleRow {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   opponent: string;
@@ -36927,9 +38801,73 @@ interface GetStandingsArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
 }
 
+interface ListTeamsArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+}
+
 interface GetScheduleArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   teamSlug: string;
+}
+
+interface YahooSportsGameDetail {
+  name: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number | null;
+  awayScore: number | null;
+  status: "scheduled" | "in_progress" | "final";
+  startDate: string;
+  venue: string | null;
+}
+
+interface GetGameArgs {
+  gameUrl: string;
+}
+
+interface YahooSportsPlayerRow {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  playerId: string;
+  name: string;
+  position: string;
+  url: string;
+}
+
+interface FindPlayersArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  // The site's own short team slug off that team's /teams/<slug>/ page —
+  // e.g. "detroit", "ny-yankees" — not a name-derived guess.
+  teamSlug: string;
+  query: string;
+}
+
+interface YahooSportsPlayerStat {
+  name: string;
+  abbreviation: string;
+  value: string;
+}
+
+interface YahooSportsPlayerStatGroup {
+  category: string;
+  stats: YahooSportsPlayerStat[];
+}
+
+interface YahooSportsPlayerDetail {
+  playerId: string;
+  name: string;
+  position: string;
+  team: string;
+  college: string | null;
+  displayHeight: string | null;
+  weight: number | null;
+  birthDate: string | null;
+  jerseyNumber: string | null;
+  status: string | null; // the site's own labels — read the values off a result, never guess one from prose
+  currentSeasonStats: YahooSportsPlayerStatGroup[];
+}
+
+interface GetPlayerArgs {
+  playerUrl: string;
 }
 
   /**
@@ -36946,16 +38884,41 @@ interface GetScheduleArgs {
     getScoreboard(args: GetScoreboardArgs): Promise<YahooSportsGameRow[]>;
 
     /**
+     * Reads one game in full off its own game page — final or live score, status, venue and game
+     * metadata. Takes the game's own URL from `getScoreboard`.
+     */
+    getGame(args: GetGameArgs): Promise<YahooSportsGameDetail>;
+
+    /**
      * Reads the full standings table for one league off Yahoo Sports' own Standings page — each
      * team's wins, losses, ties, win percentage, points for/against and point differential.
      */
     getStandings(args: GetStandingsArgs): Promise<YahooSportsStandingsRow[]>;
+
+    /** Lists every team in a league off Yahoo Sports' standings page — each team's name. */
+    listTeams(args: ListTeamsArgs): Promise<YahooSportsTeamRow[]>;
 
     /**
      * Reads one team's full schedule for the season off Yahoo Sports' own Schedule page — every
      * game, opponent, date and result if played. Takes league and team slug.
      */
     getSchedule(args: GetScheduleArgs): Promise<YahooSportsScheduleRow[]>;
+
+    /**
+     * Finds players on one team's roster by name — the door for `getPlayer`, so a caller holding a
+     * name and a team can reach that player's own page. Yahoo Sports publishes no cross-team
+     * player search, so this reads one team's Roster page and filters it; it does not search a
+     * whole league in one call.
+     */
+    findPlayers(args: FindPlayersArgs): Promise<YahooSportsPlayerRow[]>;
+
+    /**
+     * Reads one player's profile and current-season stat line off their own player page —
+     * position, team, college, height, weight, birth date, jersey number, status, and each stat
+     * category (Passing, Rushing, Receiving, Defense, Kicking, Punting) the player has a line in
+     * this season. Takes the player's own URL from `findPlayers`.
+     */
+    getPlayer(args: GetPlayerArgs): Promise<YahooSportsPlayerDetail>;
   }
 }
 
@@ -38212,17 +40175,20 @@ interface ShopifyCart {
      * query and returns one slice. The caller advances a cursor and stops on its own budget or on
      * a null cursor. There is deliberately no fetch-everything call: every row is a request
      * against a stranger's storefront, and how many candidates a ranking needs is the caller's
-     * decision rather than one taken once, inside the library, on behalf of every member. THE RATE
-     * LIMIT IS ON THE EXIT ADDRESS, NOT ON THE STORE, which is what decides how to spend a call:
-     * Shopify's edge counts requests per client IP across EVERY storefront at once, so walking
-     * three stores in one call spends one budget and the third store 429s at page 1 having done
-     * nothing wrong (measured 2026-09-20 — gymshark answered 14 clean pages when it ran first and
-     * 429'd at page 1 when it ran after ~24 requests spent on two other stores). A 429 carrying
-     * `Retry-After` is honoured up to 3 times on its own budget, and Shopify's is typically 60s,
-     * so a rate-limited walk can sit waiting for minutes. Since `/v1/run` holds a response open
-     * for 90s, WALK ONE STORE PER CALL and carry the cursor across calls rather than fanning out
-     * over several stores inside one. Measured 2026-09-21 from prod: 9 pages each on two stores,
-     * 4,376 products, 29.8s, no 429 and no warnings.
+     * decision rather than one taken once, inside the library, on behalf of every member.
+     * THROTTLING, AND IT IS NARROWER THAN IT LOOKS. A 429 from this door is Shopify rate limiting,
+     * never bot management — its body reads `local_rate_limited`. Whose budget it spends has
+     * measured two ways that do not reduce to one rule: budgets are separate per STORE and per
+     * SURFACE (2026-08-04, `/api/mcp` answered 200 while `/products.json` answered 429 in the same
+     * minute from one address), and yet a walk has also been refused at page 1 after ~24 requests
+     * spent on two OTHER stores (2026-09-20). Treat the budget as shared until somebody proves
+     * otherwise, and keep a walk short. THE RETRY: a 429 whose `Retry-After` is a number is waited
+     * out in full, up to 3 times PER REQUEST, and Shopify's is typically 60s — but one with NO
+     * `Retry-After`, or one in HTTP-date form, is not waited out at all and the call fails `HTTP
+     * 429` after three quick attempts. A run's HTTP response window is 90s, so ONE honoured 60s
+     * wait fits inside a run and a second does not — the run is killed instead. So a rate-limited
+     * walk is not something to wait through: page in smaller calls, carry the cursor, and come
+     * back.
      */
     listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
 
@@ -38635,17 +40601,20 @@ interface ShopifyCart {
      * query and returns one slice. The caller advances a cursor and stops on its own budget or on
      * a null cursor. There is deliberately no fetch-everything call: every row is a request
      * against a stranger's storefront, and how many candidates a ranking needs is the caller's
-     * decision rather than one taken once, inside the library, on behalf of every member. THE RATE
-     * LIMIT IS ON THE EXIT ADDRESS, NOT ON THE STORE, which is what decides how to spend a call:
-     * Shopify's edge counts requests per client IP across EVERY storefront at once, so walking
-     * three stores in one call spends one budget and the third store 429s at page 1 having done
-     * nothing wrong (measured 2026-09-20 — gymshark answered 14 clean pages when it ran first and
-     * 429'd at page 1 when it ran after ~24 requests spent on two other stores). A 429 carrying
-     * `Retry-After` is honoured up to 3 times on its own budget, and Shopify's is typically 60s,
-     * so a rate-limited walk can sit waiting for minutes. Since `/v1/run` holds a response open
-     * for 90s, WALK ONE STORE PER CALL and carry the cursor across calls rather than fanning out
-     * over several stores inside one. Measured 2026-09-21 from prod: 9 pages each on two stores,
-     * 4,376 products, 29.8s, no 429 and no warnings.
+     * decision rather than one taken once, inside the library, on behalf of every member.
+     * THROTTLING, AND IT IS NARROWER THAN IT LOOKS. A 429 from this door is Shopify rate limiting,
+     * never bot management — its body reads `local_rate_limited`. Whose budget it spends has
+     * measured two ways that do not reduce to one rule: budgets are separate per STORE and per
+     * SURFACE (2026-08-04, `/api/mcp` answered 200 while `/products.json` answered 429 in the same
+     * minute from one address), and yet a walk has also been refused at page 1 after ~24 requests
+     * spent on two OTHER stores (2026-09-20). Treat the budget as shared until somebody proves
+     * otherwise, and keep a walk short. THE RETRY: a 429 whose `Retry-After` is a number is waited
+     * out in full, up to 3 times PER REQUEST, and Shopify's is typically 60s — but one with NO
+     * `Retry-After`, or one in HTTP-date form, is not waited out at all and the call fails `HTTP
+     * 429` after three quick attempts. A run's HTTP response window is 90s, so ONE honoured 60s
+     * wait fits inside a run and a second does not — the run is killed instead. So a rate-limited
+     * walk is not something to wait through: page in smaller calls, carry the cursor, and come
+     * back.
      */
     listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
 
@@ -38692,6 +40661,7 @@ interface BowmarkProviders {
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
   ai_engineer: BowmarkProvider_ai_engineer.Unit;
   aiper: BowmarkProvider_aiper.Unit;
+  airbnb: BowmarkProvider_airbnb.Unit;
   airtable: BowmarkProvider_airtable.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
   allied: BowmarkProvider_allied.Unit;
@@ -38723,6 +40693,7 @@ interface BowmarkProviders {
   autocamp: BowmarkProvider_autocamp.Unit;
   avalonmalibu_com: BowmarkProvider_avalonmalibu_com.Unit;
   avantstay: BowmarkProvider_avantstay.Unit;
+  avenuehealthcare: BowmarkProvider_avenuehealthcare.Unit;
   avis: BowmarkProvider_avis.Unit;
   ayreshotels: BowmarkProvider_ayreshotels.Unit;
   azazie: BowmarkProvider_azazie.Unit;
@@ -38772,6 +40743,7 @@ interface BowmarkProviders {
   caliberhealth: BowmarkProvider_caliberhealth.Unit;
   califloors: BowmarkProvider_califloors.Unit;
   camelcamelcamel: BowmarkProvider_camelcamelcamel.Unit;
+  campspot: BowmarkProvider_campspot.Unit;
   cancer: BowmarkProvider_cancer.Unit;
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
   caraway: BowmarkProvider_caraway.Unit;
@@ -38831,7 +40803,6 @@ interface BowmarkProviders {
   detailxperts: BowmarkProvider_detailxperts.Unit;
   deutschepost: BowmarkProvider_deutschepost.Unit;
   developersopenai: BowmarkProvider_developersopenai.Unit;
-  dfs_rotogrinderssearch: BowmarkProvider_dfs_rotogrinderssearch.Unit;
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
@@ -38844,7 +40815,6 @@ interface BowmarkProviders {
   elase: BowmarkProvider_elase.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
-  energyaustralia_com_au: BowmarkProvider_energyaustralia_com_au.Unit;
   epromos: BowmarkProvider_epromos.Unit;
   eq3: BowmarkProvider_eq3.Unit;
   equinox_hotels: BowmarkProvider_equinox_hotels.Unit;
@@ -38867,6 +40837,7 @@ interface BowmarkProviders {
   fivestarbathsolutions: BowmarkProvider_fivestarbathsolutions.Unit;
   flightradar24: BowmarkProvider_flightradar24.Unit;
   fluencecorp: BowmarkProvider_fluencecorp.Unit;
+  fomo: BowmarkProvider_fomo.Unit;
   ford: BowmarkProvider_ford.Unit;
   formax: BowmarkProvider_formax.Unit;
   forms_hubspot_com: BowmarkProvider_forms_hubspot_com.Unit;
@@ -38906,6 +40877,7 @@ interface BowmarkProviders {
   haydenhomes: BowmarkProvider_haydenhomes.Unit;
   hccts: BowmarkProvider_hccts.Unit;
   healthcare_gov: BowmarkProvider_healthcare_gov.Unit;
+  healthie: BowmarkProvider_healthie.Unit;
   heatherwood: BowmarkProvider_heatherwood.Unit;
   hellofresh: BowmarkProvider_hellofresh.Unit;
   hellotend: BowmarkProvider_hellotend.Unit;
@@ -38975,6 +40947,7 @@ interface BowmarkProviders {
   medicare: BowmarkProvider_medicare.Unit;
   mercari: BowmarkProvider_mercari.Unit;
   mergify: BowmarkProvider_mergify.Unit;
+  meteofrance: BowmarkProvider_meteofrance.Unit;
   microcenter: BowmarkProvider_microcenter.Unit;
   millisaraylar: BowmarkProvider_millisaraylar.Unit;
   minimax: BowmarkProvider_minimax.Unit;
@@ -38984,6 +40957,7 @@ interface BowmarkProviders {
   modularclosets: BowmarkProvider_modularclosets.Unit;
   momondo: BowmarkProvider_momondo.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
+  msn: BowmarkProvider_msn.Unit;
   municipal_recreation_fees_fetcher: BowmarkProvider_municipal_recreation_fees_fetcher.Unit;
   muze_gov_tr: BowmarkProvider_muze_gov_tr.Unit;
   my_auroramedicalspa_com: BowmarkProvider_my_auroramedicalspa_com.Unit;
@@ -39001,6 +40975,7 @@ interface BowmarkProviders {
   oanda: BowmarkProvider_oanda.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
   onthemarket: BowmarkProvider_onthemarket.Unit;
+  openai: BowmarkProvider_openai.Unit;
   originenergy_com_au: BowmarkProvider_originenergy_com_au.Unit;
   othership: BowmarkProvider_othership.Unit;
   otto: BowmarkProvider_otto.Unit;
@@ -39009,6 +40984,7 @@ interface BowmarkProviders {
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
   packlane: BowmarkProvider_packlane.Unit;
+  pallet2ship: BowmarkProvider_pallet2ship.Unit;
   pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
@@ -39022,7 +40998,6 @@ interface BowmarkProviders {
   polytex: BowmarkProvider_polytex.Unit;
   poshmark: BowmarkProvider_poshmark.Unit;
   positivegrid: BowmarkProvider_positivegrid.Unit;
-  postcard_direct_mail: BowmarkProvider_postcard_direct_mail.Unit;
   postiz: BowmarkProvider_postiz.Unit;
   powys: BowmarkProvider_powys.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
@@ -39047,6 +41022,7 @@ interface BowmarkProviders {
   safetywing: BowmarkProvider_safetywing.Unit;
   saltandstone: BowmarkProvider_saltandstone.Unit;
   samsclub: BowmarkProvider_samsclub.Unit;
+  samsung: BowmarkProvider_samsung.Unit;
   scentbird: BowmarkProvider_scentbird.Unit;
   seakeeper: BowmarkProvider_seakeeper.Unit;
   sears: BowmarkProvider_sears.Unit;
@@ -90867,7 +92843,6 @@ interface BowmarkLibrary {
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;
   delivery: BowmarkCapability_delivery.Unit;
   developer_api_key_signup: BowmarkCapability_developer_api_key_signup.Unit;
-  dfs_ownership_projections: BowmarkCapability_dfs_ownership_projections.Unit;
   domain: BowmarkCapability_domain.Unit;
   email: BowmarkCapability_email.Unit;
   entertainment_merch: BowmarkCapability_entertainment_merch.Unit;
@@ -90892,7 +92867,6 @@ interface BowmarkLibrary {
   pet_boarding: BowmarkCapability_pet_boarding.Unit;
   phone_price: BowmarkCapability_phone_price.Unit;
   phone_trade_in: BowmarkCapability_phone_trade_in.Unit;
-  postcard_direct_mail_quote: BowmarkCapability_postcard_direct_mail_quote.Unit;
   pricing: BowmarkCapability_pricing.Unit;
   products: BowmarkCapability_products.Unit;
   promocodes: BowmarkCapability_promocodes.Unit;

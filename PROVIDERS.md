@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 1969 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 1977 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -232,7 +232,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bing.searchVideos` | bing.com | Searches Bing's video index the way bing.com/videos/search does and returns each hit's… | 🟢 |
 | `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🟡 |
 | `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |
-| `bing.translateText` | bing.com | Translates text the way bing.com/translator does and returns the translated string… | ⚪ |
+| `bing.translateText` | bing.com | Translates text the way bing.com/translator does and returns the translated string… | 🟢 |
 | `bionicpo.getInquiryServiceDetails` | bionicpo.com | Looks one inquiry service up by name or id among the inquiry-services page's service… | 🟡 |
 | `bionicpo.listInquiryServices` | bionicpo.com | Lists the inquiry and service categories available on BionicPO's inquiry-services page. | 🟢 |
 | `bishops.checkAvailability` | bishops.co | Checks real, live open time slots for one service at one location on one date — the… | 🟢 |
@@ -426,7 +426,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.getFittings` | clubchampion.com | Reads one studio's real fitting-type menu with live per-store pricing (Driver, Full… | 🟢 |
 | `clubchampion.listFitters` | clubchampion.com | Reads the live list of every Club Champion fitter — id, name, studio, timezone… | 🟢 |
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
-| `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | 🟢 |
+| `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
 | `compass_living.listCommunities` | compass-living.com | Lists up to 10 senior living communities with their contact-form fields and… | 🟢 |
@@ -482,9 +482,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `detailxperts.listVehicleTypes` | detailxperts.com | Lists the site's own vehicle-size categories (Micro, Hatchback, Sedan, SUV, Van, …)… | 🟢 |
 | `deutschepost.getDialogpostRates` | deutschepost.de | Retrieves Deutsche Post Dialogpost pricing rates by weight category and format type. | 🟢 |
 | `developersopenai.getDocPage` | developers.openai.com | Reads one page of OpenAI's own developer documentation (e.g. the MCP connector / OAuth… | 🟢 |
-| `dfs_rotogrinderssearch.search` | rotogrinders.com | Searches RotoGrinders for DFS projections, ownership percentages, and salary caps… | 🟡 |
+| `dfs_rotogrinderssearch.search` | rotogrinders.com | Searches RotoGrinders for DFS projections, ownership percentages, and salary caps… | ⚪ |
 | `dice.getCompany` | dice.com | Returns one technology employer's Dice profile from its `/company-profile/<uuid>` URL… | ⚪ |
-| `dice.getJob` | dice.com | Returns one Dice posting in full from its posting id — the complete HTML description… | 🟡 |
+| `dice.getJob` | dice.com | Returns one Dice posting in full from its posting id — the complete HTML description… | 🟢 |
 | `dice.listCompanyJobs` | dice.com | Returns the open technology roles a single named employer is currently advertising on… | ⚪ |
 | `dice.searchCompanies` | dice.com | Finds technology employers on Dice and returns each company's profile — name… | ⚪ |
 | `dice.searchJobs` | dice.com | Searches Dice's tech-only job database and returns the matching postings — title… | 🟢 |
@@ -530,7 +530,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `embroker.getBusinessInsuranceQuote` | embroker.com | Returns a priced business-insurance coverage package for a company's profile… | ⚪ |
 | `embroker.getQuoteEntryPoint` | embroker.com | Returns the live entry URL for Embroker's self-serve quote wizard for one coverage… | 🟢 |
 | `embroker.listCoverageLines` | embroker.com | Returns the real list of commercial-insurance coverage lines and policy product types… | 🟢 |
-| `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | 🟡 |
+| `energyaustralia_com_au.getBusinessElectricityQuote` | energyaustralia.com.au | Returns every business electricity plan EnergyAustralia offers in a postcode's… | ⚪ |
 | `epicgames.addToCart` | epicgames.com | Put a game or add-on in the signed-in caller's cart. | ⚪ |
 | `epicgames.addToWishlist` | epicgames.com | Add a game to the signed-in caller's wishlist. | ⚪ |
 | `epicgames.claimFreeGame` | epicgames.com | Claim one of this week's free games into the signed-in caller's library — the $0… | ⚪ |
@@ -622,7 +622,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `firstdibs.getListing` | 1stdibs.com | Reads one listing's real price and its concrete completing action (Make an Offer… | 🟢 |
 | `firstdibs.search` | 1stdibs.com | Runs 1stDibs' search and returns real listings — name, real price, currency… | 🟢 |
 | `fitness1440.getDayPassRequestInfo` | fitness1440.com | Validates one state/city pair against the same live cascade and returns the day-pass… | 🟢 |
-| `fitness1440.listLocations` | fitness1440.com | Reads FITNESS:1440's own day-pass request form (/request-day-pass/) and returns the… | 🟢 |
+| `fitness1440.listLocations` | fitness1440.com | Reads FITNESS:1440's own day-pass request form (/request-day-pass/) and returns the… | 🟡 |
 | `fivebelow.search` | fivebelow.com | Searches fivebelow.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `fivestarbathsolutions.bookAppointment` | fivestarbathsolutions.com | Would submit the final 3-step booking form (chosen slot +… | ⚪ |
 | `fivestarbathsolutions.getAvailableSlots` | fivestarbathsolutions.com | Checks a franchise region's real free design-consultation scheduler and returns the… | 🟢 |
@@ -658,7 +658,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getClanHoldingsBreakdown` | fomo.family | Breaks one clan's position in ONE token down to the members holding it — who in the… | ⚪ |
 | `fomo.getClanThesis` | fomo.family | The written theses a clan's members have posted — the clan-scoped half of… | ⚪ |
 | `fomo.getCreatorFees` | fomo.family | Returns fees accrued to a token creator through fomo's relay, and claims them. `GET… | ⚪ |
-| `fomo.getCurrentUser` | fomo.family | Returns the signed-in trader's own profile — id, `userHandle`, display name, bio… | ⚪ |
+| `fomo.getCurrentUser` | fomo.family | Returns the signed-in trader's own profile — id, `userHandle`, display name, bio… | 🟢 |
 | `fomo.getDevHolders` | fomo.family | Returns whether the token's own deployer still holds it, and how much. | ⚪ |
 | `fomo.getFeed` | fomo.family | Pages the signed-in trader's social feed — the trades made by people they follow, each… | ⚪ |
 | `fomo.getFollowers` | fomo.family | Pages the traders following one user. `GET /v2/users/:userId/followers`, cursor-paged… | ⚪ |
@@ -667,7 +667,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getFollowingLeaderboard` | fomo.family | The same ranking restricted to traders the signed-in user follows — 'how am I doing… | ⚪ |
 | `fomo.getFriendHolders` | fomo.family | Returns which of the signed-in trader's own follows hold a given token — fomo's core… | ⚪ |
 | `fomo.getGraduatedTokens` | fomo.family | Returns tokens that have just completed their bonding curve and moved to a full AMM… | ⚪ |
-| `fomo.getLeaderboard` | fomo.family | Returns the ranked traders for one window — daily, weekly, monthly or all-time — with… | ⚪ |
+| `fomo.getLeaderboard` | fomo.family | Returns the ranked traders for one window — daily, weekly, monthly or all-time — with… | 🟢 |
 | `fomo.getMajorTokens` | fomo.family | Returns the large-cap majors — BTC, ETH, SOL and the rest of the non-memecoin set… | ⚪ |
 | `fomo.getMostHeldTokens` | fomo.family | Returns the tokens held by the most fomo traders — a positions ranking rather than a… | ⚪ |
 | `fomo.getMutuals` | fomo.family | Pages the traders both the signed-in user and another user follow. `GET… | ⚪ |
@@ -951,6 +951,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `healthcare_gov.searchDrugs` | healthcare.gov | Searches the Marketplace's drug reference by name and returns matching drugs with… | ⚪ |
 | `healthcare_gov.searchPlans` | healthcare.gov | Returns the ACA Marketplace health plans available to a household — for a ZIP… | 🟢 |
 | `healthcare_gov.searchProviders` | healthcare.gov | Searches the Marketplace's own provider directory by name and location and returns… | ⚪ |
+| `healthie.getPracticeDetails` | gethealthie.com | Returns detailed information about a specific practice including providers, services… | ⚪ |
+| `healthie.searchPractices` | gethealthie.com | Searches for health and wellness practices by name or location on Healthie's platform. | 🟢 |
+| `healthie.searchProviders` | gethealthie.com | Searches for individual practitioners (therapists, coaches, dietitians) by… | ⚪ |
 | `heatherwood.getFloorplan` | heatherwood.com | Reads one floor-plan type's own page: its real bed/bath/sqft spec and every currently… | 🟡 |
 | `heatherwood.listFloorplans` | heatherwood.com | Lists every floor-plan TYPE Heritage Westminster publishes (studio through 3-bedroom… | 🟢 |
 | `hellofresh.checkDeliveryAvailability` | hellofresh.com | Answers whether HelloFresh delivers to a given ZIP code, and which delivery days that… | 🟢 |
@@ -985,7 +988,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hodjapasha.getAvailability` | hodjapasha.com | Checks one show's own availability widget for a given date and party size, returning… | 🟢 |
 | `hodjapasha.getShow` | hodjapasha.com | Reads one show's own detail page for its full description, adult/child pricing… | 🟢 |
 | `hodjapasha.listShows` | hodjapasha.com | Reads every show hodjapasha.com's own booking widget lists — title, product id… | 🟢 |
-| `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟡 |
+| `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟢 |
 | `holidaybuilders.searchAvailableHomes` | holidaybuilders.com | Runs Holiday Builders' site-wide Available Homes search — every real move-in-ready or… | 🟢 |
 | `hottopic.search` | hottopic.com | Searches hottopic.com's own storefront for a keyword and returns the real, priced… | 🟢 |
 | `hunter.countEmails` | hunter.io | Returns how many email addresses Hunter holds for a domain, without returning the… | 🟢 |
@@ -1231,6 +1234,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mercari.search` | mercari.com | Runs a Mercari US keyword search the way mercari.com's own search box does and returns… | 🟡 |
 | `mergify.pullStatus` | mergify.com | One pull request's own position in the merge queue — queued-at time, queue position… | ⚪ |
 | `mergify.queueStatus` | mergify.com | The live state of a repo's Mergify merge queue — every active batch (its status code… | 🟢 |
+| `meteofrance.getMarineWindForecast` | meteofrance.com | Marine wind forecast for French coastal regions, including wind speed, gusts, and… | 🟢 |
 | `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟡 |
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
 | `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟡 |
@@ -1313,10 +1317,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nvisioncenters.checkLasikCandidacy` | nvisioncenters.com | Runs NVISION's own LASIK Candidate Quiz disqualification rule — age bracket in, the… | 🟢 |
 | `nvisioncenters.estimateLasikSavings` | nvisioncenters.com | Alias of calculateLasikSavings taking the snake_case argument spelling (glasses_cost… | 🟢 |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
+| `odfl.estimateFreightQuote` | odfl.com | Generates a shipping rate quote for an LTL freight shipment from ODFL. | ⚪ |
 | `oliverwinery.checkShippingAvailability` | oliverwinery.com | Checks whether Oliver Winery currently ships wine to one US state, read off the… | 🟢 |
 | `oliverwinery.getWine` | oliverwinery.com | Reads one wine's full Commerce7 product record by its storefront slug (e.g.… | 🟢 |
 | `oliverwinery.listWines` | oliverwinery.com | Lists Oliver Winery's own Commerce7 shop catalog — real bottle titles, USD prices and… | 🟢 |
 | `onthemarket.search` | onthemarket.com | Search OnTheMarket for residential property listings by location and type (sale or… | 🟢 |
+| `openai.helpArticle` | learn.chatgpt.com | Retrieves the full text of a help article by its ID from OpenAI's documentation. | 🟢 |
+| `openai.plans` | learn.chatgpt.com | Returns available OpenAI pricing plans with monthly/annual rates and Codex limits. | 🟢 |
 | `originenergy_com_au.getBusinessElectricityQuote` | originenergy.com.au | Search originenergy.com.au for business electricity quote: returns every business… | 🟢 |
 | `othership.getClassSchedule` | othership.us | Searches one location's real, live class schedule between two dates — sauna, ice bath… | 🟢 |
 | `othership.getLocations` | othership.us | Returns every Othership studio location (Toronto's Adelaide and Yorkville, NYC's… | 🟢 |
@@ -1335,6 +1342,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pacificcompanies.searchJobs` | pacificcompanies.com | Runs Pacific Companies' own job-board search — filters real open physician/APP roles… | 🟢 |
 | `pacificlifestylehomes.searchAvailableHomes` | pacificlifestylehomes.com | Searches Pacific Lifestyle Homes' live available-home inventory in Camas, Ridgefield… | 🟢 |
 | `packlane.getQuote` | packlane.com | Prices Packlane's custom Mailer Boxes (product 35139) for a given box size, material… | 🟢 |
+| `pallet2ship.getQuote` | pallet2ship.co.uk | Returns a pallet freight quote from Pallet2Ship, a UK pallet broker, based on… | 🟢 |
 | `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | 🟢 |
 | `paypal.estimateFee` | paypal.com | Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — an… | 🟢 |
 | `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | ⚪ |
@@ -1376,7 +1384,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listNotifications` | pinterest.com | The caller's notifications — who saved, commented on or followed them. | ⚪ |
 | `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | ⚪ |
 | `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | ⚪ |
-| `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | ⚪ |
+| `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | 🟢 |
 | `pinterest.listTopicPins` | pinterest.com | The best pins in a topic — Pinterest's editorial feed for that interest, which is the… | ⚪ |
 | `pinterest.listTopics` | pinterest.com | Pinterest's own top-level idea topics — Food and Drink, Home Decor, Travel, Tattoos… | ⚪ |
 | `pinterest.listUserBoards` | pinterest.com | Every board a person has made public, with id, name, url, pin count, section count and… | ⚪ |
@@ -1484,47 +1492,47 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
-| `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | ⚪ |
-| `reddit.browseSubreddits` | reddit.com | Lists communities without a query — Reddit's own most-popular and newest communities… | ⚪ |
-| `reddit.createSubreddit` | reddit.com | Creates a new community owned by the signed-in caller — name, description, and public… | ⚪ |
-| `reddit.deletePostOrComment` | reddit.com | Deletes the signed-in caller's own post or comment. | ⚪ |
-| `reddit.editPostOrComment` | reddit.com | Edits the text of the signed-in caller's own post or comment. | ⚪ |
-| `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | ⚪ |
-| `reddit.followUser` | reddit.com | Follows or unfollows a redditor as the signed-in caller, so their posts reach the… | ⚪ |
-| `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | ⚪ |
-| `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | ⚪ |
-| `reddit.getMyAccount` | reddit.com | Returns the signed-in caller's own account — username, karma, account age, whether… | ⚪ |
+| `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | 🟢 |
+| `reddit.browseSubreddits` | reddit.com | Lists communities without a query — Reddit's own most-popular and newest communities… | 🟢 |
+| `reddit.createSubreddit` | reddit.com | Creates a new community owned by the signed-in caller — name, description, and public… | 🟢 |
+| `reddit.deletePostOrComment` | reddit.com | Deletes the signed-in caller's own post or comment. | 🟢 |
+| `reddit.editPostOrComment` | reddit.com | Edits the text of the signed-in caller's own post or comment. | 🟢 |
+| `reddit.findPostsByUrl` | reddit.com | Given a link, returns the Reddit threads that submitted or discussed it — the 'other… | 🟢 |
+| `reddit.followUser` | reddit.com | Follows or unfollows a redditor as the signed-in caller, so their posts reach the… | 🟢 |
+| `reddit.getCommentReplies` | reddit.com | Expands a branch of a thread that `getPost` could not return — the 'load more… | 🟢 |
+| `reddit.getHomeFeed` | reddit.com | The signed-in caller's own Reddit home feed — posts from the communities they joined… | 🟢 |
+| `reddit.getMyAccount` | reddit.com | Returns the signed-in caller's own account — username, karma, account age, whether… | 🟢 |
 | `reddit.getPost` | reddit.com | Returns one Reddit submission and the discussion under it — the post's title, author… | 🟢 |
 | `reddit.getSubreddit` | reddit.com | Returns the facts about one community rather than its content — the subreddit's title… | 🟢 |
 | `reddit.getSubredditPosts` | reddit.com | Returns a community's own front page — the submissions in one subreddit under a chosen… | 🟢 |
-| `reddit.getSubredditRules` | reddit.com | Returns one community's posting rules — each rule's short name, full description and… | ⚪ |
-| `reddit.getUser` | reddit.com | Returns a redditor's public profile — display name, post and comment karma, account… | ⚪ |
-| `reddit.getUserComments` | reddit.com | Returns the comments one redditor has written, newest or top first, each with its… | ⚪ |
-| `reddit.getUserPosts` | reddit.com | Returns the submissions one redditor has made, newest or top first, with the same… | ⚪ |
-| `reddit.getWikiPage` | reddit.com | Returns a subreddit's wiki page — the community-maintained reference behind most large… | ⚪ |
+| `reddit.getSubredditRules` | reddit.com | Returns one community's posting rules — each rule's short name, full description and… | 🟢 |
+| `reddit.getUser` | reddit.com | Returns a redditor's public profile — display name, post and comment karma, account… | 🟢 |
+| `reddit.getUserComments` | reddit.com | Returns the comments one redditor has written, newest or top first, each with its… | 🟢 |
+| `reddit.getUserPosts` | reddit.com | Returns the submissions one redditor has made, newest or top first, with the same… | 🟢 |
+| `reddit.getWikiPage` | reddit.com | Returns a subreddit's wiki page — the community-maintained reference behind most large… | 🟢 |
 | `reddit.giveAward` | reddit.com | Gives an award to a post or comment as the signed-in caller. | ⚪ |
-| `reddit.hidePost` | reddit.com | Hides or un-hides a post from the signed-in caller's feeds. | ⚪ |
-| `reddit.joinSubreddit` | reddit.com | Joins a community as the signed-in caller, so its posts reach their home feed. | ⚪ |
-| `reddit.leaveSubreddit` | reddit.com | Leaves a community the signed-in caller has joined. | ⚪ |
-| `reddit.listInbox` | reddit.com | Reads the signed-in caller's inbox — replies to their posts and comments, username… | ⚪ |
-| `reddit.listMySubscriptions` | reddit.com | Lists the communities the signed-in caller has joined. | ⚪ |
-| `reddit.listPostFlairs` | reddit.com | Lists the post flairs a community offers, with their ids — the door `submitPost` needs… | ⚪ |
-| `reddit.listSaved` | reddit.com | Lists the posts and comments the signed-in caller has saved. | ⚪ |
-| `reddit.listWikiPages` | reddit.com | Lists the pages of one subreddit's wiki — the index a caller needs before… | ⚪ |
-| `reddit.postComment` | reddit.com | Comments on a post as the signed-in caller and returns the new comment's permalink. | ⚪ |
-| `reddit.replyToComment` | reddit.com | Replies to a comment as the signed-in caller and returns the new reply's permalink. | ⚪ |
-| `reddit.reportPostOrComment` | reddit.com | Reports a post or comment to a community's moderators, as the signed-in caller, under… | ⚪ |
-| `reddit.savePostOrComment` | reddit.com | Saves a post or comment to the signed-in caller's Saved list. | ⚪ |
+| `reddit.hidePost` | reddit.com | Hides or un-hides a post from the signed-in caller's feeds. | 🟢 |
+| `reddit.joinSubreddit` | reddit.com | Joins a community as the signed-in caller, so its posts reach their home feed. | 🟢 |
+| `reddit.leaveSubreddit` | reddit.com | Leaves a community the signed-in caller has joined. | 🟢 |
+| `reddit.listInbox` | reddit.com | Reads the signed-in caller's inbox — replies to their posts and comments, username… | 🟢 |
+| `reddit.listMySubscriptions` | reddit.com | Lists the communities the signed-in caller has joined. | 🟢 |
+| `reddit.listPostFlairs` | reddit.com | Lists the post flairs a community offers, with their ids — the door `submitPost` needs… | 🟢 |
+| `reddit.listSaved` | reddit.com | Lists the posts and comments the signed-in caller has saved. | 🟢 |
+| `reddit.listWikiPages` | reddit.com | Lists the pages of one subreddit's wiki — the index a caller needs before… | 🟢 |
+| `reddit.postComment` | reddit.com | Comments on a post as the signed-in caller and returns the new comment's permalink. | 🟢 |
+| `reddit.replyToComment` | reddit.com | Replies to a comment as the signed-in caller and returns the new reply's permalink. | 🟢 |
+| `reddit.reportPostOrComment` | reddit.com | Reports a post or comment to a community's moderators, as the signed-in caller, under… | 🟢 |
+| `reddit.savePostOrComment` | reddit.com | Saves a post or comment to the signed-in caller's Saved list. | 🟢 |
 | `reddit.search` | reddit.com | Searches Reddit's posts for a query — across the whole site or scoped to one subreddit… | 🟢 |
 | `reddit.searchComments` | reddit.com | Searches the text of comments rather than posts, returning each match with its body… | ⚪ |
 | `reddit.searchSubreddits` | reddit.com | Finds communities by topic — a query goes in, matching subreddits come out with their… | 🟢 |
-| `reddit.searchUsers` | reddit.com | Finds redditors by name — a partial or remembered username goes in, matching accounts… | ⚪ |
-| `reddit.sendDirectMessage` | reddit.com | Sends a direct message (Reddit chat) from the signed-in caller to another redditor. | ⚪ |
-| `reddit.setProfilePicture` | reddit.com | Uploads an image as the signed-in caller's profile picture. | ⚪ |
-| `reddit.submitPost` | reddit.com | Posts to a community as the signed-in caller — a text post, a link, an image, or a… | ⚪ |
-| `reddit.unsavePostOrComment` | reddit.com | Removes a post or comment from the signed-in caller's Saved list. | ⚪ |
-| `reddit.updateProfile` | reddit.com | Changes the signed-in caller's public profile — display name and the 'about' bio. | ⚪ |
-| `reddit.vote` | reddit.com | Upvotes, downvotes or clears the caller's vote on a post or a comment, as the… | ⚪ |
+| `reddit.searchUsers` | reddit.com | Finds redditors by name — a partial or remembered username goes in, matching accounts… | 🟢 |
+| `reddit.sendDirectMessage` | reddit.com | Sends a direct message (Reddit chat) from the signed-in caller to another redditor. | 🟢 |
+| `reddit.setProfilePicture` | reddit.com | Uploads an image as the signed-in caller's profile picture. | 🟢 |
+| `reddit.submitPost` | reddit.com | Posts to a community as the signed-in caller — a text post, a link, an image, or a… | 🟢 |
+| `reddit.unsavePostOrComment` | reddit.com | Removes a post or comment from the signed-in caller's Saved list. | 🟢 |
+| `reddit.updateProfile` | reddit.com | Changes the signed-in caller's public profile — display name and the 'about' bio. | 🟢 |
+| `reddit.vote` | reddit.com | Upvotes, downvotes or clears the caller's vote on a post or a comment, as the… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟡 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟡 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
@@ -1560,13 +1568,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models in the same family —… | ⚪ |
 | `samsung.findStore` | samsung.com | Samsung-owned and authorized retail locations near a US ZIP or city — address, hours… | ⚪ |
 | `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | ⚪ |
-| `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | ⚪ |
+| `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
 | `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | ⚪ |
 | `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | ⚪ |
 | `samsung.listCarrierOffers` | samsung.com | Samsung's own trade-in and carrier promotions — the "save up to $X with eligible… | ⚪ |
 | `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | 🟢 |
-| `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | ⚪ |
-| `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | ⚪ |
+| `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | 🟢 |
+| `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | 🟢 |
 | `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | ⚪ |
 | `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | ⚪ |
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | ⚪ |
@@ -1706,7 +1714,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.deleteVideo` | tiktok.com | Delete a video the signed-in caller uploaded — the reverse of uploadVideo, and how an… | ⚪ |
 | `tiktok.editProfile` | tiktok.com | Change the signed-in caller's own display name, bio or bioLink — the profile-edit form… | ⚪ |
 | `tiktok.followUser` | tiktok.com | Follow a creator as the signed-in caller. | ⚪ |
-| `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | ⚪ |
+| `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟢 |
 | `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | ⚪ |
 | `tiktok.getProfile` | tiktok.com | A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId… | 🟢 |
 | `tiktok.getSound` | tiktok.com | A sound/music track's own facts — title, artist, duration, how many videos use it —… | ⚪ |
@@ -1725,8 +1733,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | ⚪ |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id and caption for each — the door from a handle to their… | 🟢 |
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | ⚪ |
-| `tiktok.searchUsers` | tiktok.com | Search TikTok for creators matching a query and get back handle, nickname and follower… | ⚪ |
-| `tiktok.searchVideos` | tiktok.com | Search TikTok the way the search box does and get back matching videos. | ⚪ |
+| `tiktok.searchUsers` | tiktok.com | Search TikTok for creators matching a query and get back handle, nickname and follower… | 🟢 |
+| `tiktok.searchVideos` | tiktok.com | Search TikTok the way the search box does and get back matching videos — id, caption… | 🟢 |
 | `tiktok.sendDirectMessage` | tiktok.com | Send a DM as the signed-in caller. | ⚪ |
 | `tiktok.unfollowUser` | tiktok.com | Unfollow a creator — the reverse of followUser. | ⚪ |
 | `tiktok.unlikeVideo` | tiktok.com | Remove a like the caller placed — the reverse of likeVideo. | ⚪ |
@@ -1806,7 +1814,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `viewrail.listInfillOptions` | viewrail.com | Lists Victor's infill choices for a run — stainless cable, rod, or glass panel — with… | ⚪ |
 | `viewrail.listMaterials` | viewrail.com | Lists the metal and metal-look composite families Victor's cable railing configurator… | 🟢 |
 | `viewrail.listMountingStyles` | viewrail.com | Lists Victor's post-mounting styles (Surface Mount, Side Mount, SLIM Side Mount, Bump… | 🟢 |
-| `villagerealtyobx.getQuote` | villagerealtyobx.com | Gets a real-time price quote for one Village Realty property and date range — the… | 🟡 |
+| `villagerealtyobx.getQuote` | villagerealtyobx.com | Gets a real-time price quote for one Village Realty property and date range — the… | 🟢 |
 | `villagerealtyobx.searchRentals` | villagerealtyobx.com | Searches Village Realty's own 900+ Outer Banks rental listings the way… | 🟢 |
 | `visible.checkCoverage` | visible.com | Returns Visible's network coverage at a caller-supplied address or ZIP, broken down by… | 🟢 |
 | `visible.checkDeviceCompatibility` | visible.com | Takes a caller's device — by IMEI, or by make and model — and answers whether it can… | ⚪ |
@@ -1858,7 +1866,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getCurrentUser` | wikipedia.org | Who the caller is signed in as on Wikipedia — username, user id, edit count, the… | ⚪ |
 | `wikipedia.getFeaturedContent` | wikipedia.org | Wikipedia's own front page for a given date, as data — the featured article, the… | ⚪ |
 | `wikipedia.getImage` | wikipedia.org | One media file's real details — the full-size url, dimensions, MIME type, and the… | ⚪ |
-| `wikipedia.getInfobox` | wikipedia.org | The grey fact box at the top right of an article, as key/value pairs a caller can… | ⚪ |
+| `wikipedia.getInfobox` | wikipedia.org | The grey fact box at the top right of an article, as key/value pairs a caller can… | 🟢 |
 | `wikipedia.getOnThisDay` | wikipedia.org | What happened on this calendar day in history, according to Wikipedia — events… | ⚪ |
 | `wikipedia.getPageviews` | wikipedia.org | How many people actually read an article, per day, over a date range — the closest… | ⚪ |
 | `wikipedia.getRandomArticle` | wikipedia.org | A genuinely random Wikipedia article, or several — title, url and summary. | ⚪ |
@@ -1874,7 +1882,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listExternalLinks` | wikipedia.org | Every link OFF Wikipedia from one article — the sources, official sites and references… | ⚪ |
 | `wikipedia.listImages` | wikipedia.org | Every image, diagram, audio clip and video in an article, in page order — each with… | ⚪ |
 | `wikipedia.listLanguages` | wikipedia.org | What this article is called in every other language Wikipedia has it in, with the url… | ⚪ |
-| `wikipedia.listLinks` | wikipedia.org | Every other Wikipedia article this one links to, by title and url. | ⚪ |
+| `wikipedia.listLinks` | wikipedia.org | Every other Wikipedia article this one links to, by title and url. | 🟢 |
 | `wikipedia.listMostViewed` | wikipedia.org | What Wikipedia's readers looked at most — the day's or the edition's top articles with… | ⚪ |
 | `wikipedia.listNotifications` | wikipedia.org | The caller's Wikipedia notifications — replies to them, thanks they were sent… | ⚪ |
 | `wikipedia.listRecentChanges` | wikipedia.org | What is being edited on Wikipedia right now — a live feed of recent edits with page… | ⚪ |
@@ -1893,10 +1901,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
-| `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟡 |
+| `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
 | `yahoo_finance.getAnalystEstimates` | finance.yahoo.com | Reads Wall Street's own consensus numbers for a ticker — revenue and earnings… | 🟢 |
 | `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | ⚪ |
-| `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | ⚪ |
+| `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | 🟢 |
 | `yahoo_finance.getHistoricalPrices` | finance.yahoo.com | Reads a ticker's daily open/high/low/close/volume history over a requested range, the… | 🟢 |
 | `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | 🟢 |
 | `yahoo_finance.getKeyStatistics` | finance.yahoo.com | Reads the fuller valuation and share-statistics sheet the site's own Statistics tab… | 🟢 |

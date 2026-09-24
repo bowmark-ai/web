@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0dae91e1f6d1ab3367a22a0ee7b2e8cfe8186b899df6bfbd05fef03cc64e13fe
-# 60 capabilities, 448 providers, 1208 typed functions, 20 refused.
+# Manifest version: 0263b108c929e7f7c9119adf562bc80512e8e576bfc7bf523bbab1039b07a38f
+# 58 capabilities, 455 providers, 1305 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -548,16 +548,19 @@ class Cap_currency_exchange_currency_exchangeResult_Out(TypedDict):
     rate: float
     warnings: list[str]
 
-class Cap_custom_packaging_quote_quoteCustomBox_args_In(TypedDict):
+class Cap_custom_packaging_quote_QuoteCustomBoxArgs_In(TypedDict):
     size: str
-    printArea: str
+    printArea: Literal["inside-and-outside"] | Literal["outside-only"]
     quantity: float
+    material: NotRequired[Literal["white"] | Literal["white-b-flute"] | Literal["dreamcoat"] | Literal["dreamcoat-b-flute"] | Literal["kraft"] | Literal["kraft-b-flute"]]
 
 class Cap_custom_packaging_quote_custom_packaging_quoteResult_Out(TypedDict):
     quotes: list[Cap_custom_packaging_quote_CustomPackagingQuote_Out]
     warnings: list[str]
 
 class Cap_custom_packaging_quote_CustomPackagingQuote_Out(TypedDict):
+    provider: str
+    size: str
     price: Cap_custom_packaging_quote_CustomPackagingQuote_Out_price_Out
     unitPrice: Cap_custom_packaging_quote_CustomPackagingQuote_Out_unitPrice_Out
 
@@ -647,21 +650,6 @@ class Cap_developer_api_key_signup_DeveloperApiKeySignupResult_Out(TypedDict):
     apiKey: str
     message: str
     warnings: list[str]
-
-class Cap_dfs_ownership_projections_CallOptions_In(TypedDict):
-    timeoutMs: NotRequired[float]
-
-class Cap_dfs_ownership_projections_dfs_ownership_projectionsResult_Out(TypedDict):
-    projections: list[Cap_dfs_ownership_projections_DFSProjection_Out]
-    warnings: list[str]
-
-class Cap_dfs_ownership_projections_DFSProjection_Out(TypedDict):
-    player: str
-    salary: float
-    ownership: float
-    sport: NotRequired[str]
-    position: NotRequired[str]
-    team: NotRequired[str]
 
 class Cap_domain_DomainAvailabilityResult_Out(TypedDict):
     name: str
@@ -1348,25 +1336,6 @@ class Cap_phone_trade_in_TradeInQuote_Out_price_Out(TypedDict):
     amount: float
     currency: str
 
-class Cap_postcard_direct_mail_quote_getQuote_args_In(TypedDict):
-    quantity: float
-    size: NotRequired[str]
-    stock: NotRequired[str]
-
-class Cap_postcard_direct_mail_quote_PostcardDirectMailQuote_Out(TypedDict):
-    quantity: float
-    lineItems: list[Cap_postcard_direct_mail_quote_PostcardQuoteLineItem_Out]
-    estimatedDeliveryDays: NotRequired[float]
-    checkoutUrl: NotRequired[str]
-    warnings: list[str]
-
-class Cap_postcard_direct_mail_quote_PostcardQuoteLineItem_Out(TypedDict):
-    size: str
-    stock: str
-    totalPrice: float
-    unitPrice: float
-    currency: str
-
 class Cap_pricing_PersonalizationPersona_In(TypedDict):
     label: str
     device: NotRequired[Literal["desktop"] | Literal["mobile"]]
@@ -1470,6 +1439,31 @@ class Cap_read_ReadResult_Out(TypedDict):
 class Cap_read_ReadResult_Out_wall_u0_Out(TypedDict):
     vendor: str
     cleared: bool
+
+class Cap_read_UrlsOptions_In(TypedDict):
+    depth: NotRequired[float]
+    maxUrls: NotRequired[float]
+    maxPages: NotRequired[float]
+    sitemaps: NotRequired[bool]
+    sameSite: NotRequired[bool]
+    pathPrefix: NotRequired[str]
+    timeoutMs: NotRequired[float]
+
+class Cap_read_UrlsResult_Out(TypedDict):
+    url: str
+    ok: bool
+    urls: list[Cap_read_DiscoveredUrl_Out]
+    sitemaps: list[str]
+    pagesCrawled: float
+    truncated: bool
+    error: str | None
+    warnings: list[str]
+
+class Cap_read_DiscoveredUrl_Out(TypedDict):
+    url: str
+    source: Literal["sitemap"] | Literal["link"] | Literal["both"]
+    depth: float | None
+    lastmod: str | None
 
 class Cap_restaurant_booking_findAvailability_name_u1_In(TypedDict):
     name: str
@@ -2375,6 +2369,25 @@ class Prv_aiper_AiperRecommendedProduct_Out(TypedDict):
 class Prv_aiper_AiperPoolAnswerInput_Out(TypedDict):
     question: str
     choice: str | list[str]
+
+class Prv_airbnb_search_args_In(TypedDict):
+    location: str
+    checkin: NotRequired[str]
+    checkout: NotRequired[str]
+    adults: NotRequired[float]
+    children: NotRequired[float]
+    infants: NotRequired[float]
+    pets: NotRequired[float]
+
+class Prv_airbnb_AirbnbListing_Out(TypedDict):
+    id: str
+    title: str
+    subtitle: str | None
+    rating: float | None
+    reviewCount: float | None
+    price: str | None
+    photoUrl: str | None
+    url: str
 
 class Prv_airtable_AirtableBase_Out(TypedDict):
     id: str
@@ -3811,6 +3824,15 @@ class Prv_avantstay_AvantstayRoomPrice_Out_fees_item_Out(TypedDict):
     name: str
     amount: float
 
+class Prv_avenuehealthcare_SearchArgs_In(TypedDict):
+    location: NotRequired[str]
+    service: NotRequired[str]
+
+class Prv_avenuehealthcare_SearchResult_Out(TypedDict):
+    locations: list[str]
+    medicalCentres: list[str]
+    services: list[str]
+
 class Prv_avis_AvisLocationRow_Out(TypedDict):
     mnemonic: str
     name: str
@@ -4576,6 +4598,60 @@ class Prv_bing_BingImageResult_Out(TypedDict):
     published: None
     imageUrl: str | None
     pageUrl: str | None
+
+class Prv_bing_searchVideos_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_bing_BingVideoSearchResult_Out(TypedDict):
+    query: str
+    results: list[Prv_bing_BingVideoResult_Out]
+    warnings: list[str]
+
+class Prv_bing_BingVideoResult_Out(TypedDict):
+    source: Literal["bing"]
+    rank: float
+    title: str
+    url: str
+    snippet: str | None
+    published: None
+    thumbnailUrl: str | None
+    duration: str | None
+
+class Prv_bing_searchShopping_args_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_bing_BingShoppingSearchResult_Out(TypedDict):
+    query: str
+    results: list[Prv_bing_BingShoppingResult_Out]
+    warnings: list[str]
+
+class Prv_bing_BingShoppingResult_Out(TypedDict):
+    source: Literal["bing"]
+    rank: float
+    title: str
+    url: str
+    price: str
+    merchant: str
+    rating: float | None
+    imageUrl: str | None
+
+class Prv_bing_BingDictEntry_Out(TypedDict):
+    word: str
+    phonetic: str | None
+    definitions: list[Prv_bing_BingDefinition_Out]
+    examples: list[str]
+    warnings: list[str]
+
+class Prv_bing_BingDefinition_Out(TypedDict):
+    partOfSpeech: str
+    meaning: str
+
+class Prv_bing_BingTranslationResult_Out(TypedDict):
+    translatedText: str
+    detectedSourceLanguage: str | None
+    warnings: list[str]
 
 class Prv_bionicpo_listInquiryServices_return_Out(TypedDict):
     services: list[Prv_bionicpo_InquiryService_Out]
@@ -5497,6 +5573,56 @@ class Prv_camelcamelcamel_CamelPriceTypeStats_Out(TypedDict):
 class Prv_camelcamelcamel_CamelPriceStat_Out(TypedDict):
     price: float | None
     date: str | None
+
+class Prv_campspot_CampspotCampgroundSummary_Out(TypedDict):
+    name: str
+    address: str | None
+    latitude: float | None
+    longitude: float | None
+    url: str
+
+class Prv_campspot_CampspotCampground_Out(TypedDict):
+    name: str
+    url: str
+    description: str | None
+    address: Prv_campspot_CampspotCampground_Out_address_u0_Out | None
+    latitude: float | None
+    longitude: float | None
+    telephone: str | None
+    email: str | None
+    petsAllowed: bool | None
+    rating: Prv_campspot_CampspotCampground_Out_rating_u0_Out | None
+    amenities: list[str]
+    priceRange: str | None
+    offers: list[Prv_campspot_CampspotCampground_Out_offers_item_Out]
+    checkinTime: str | None
+    checkoutTime: str | None
+    events: list[Prv_campspot_CampspotCampground_Out_events_item_Out]
+
+class Prv_campspot_CampspotCampground_Out_address_u0_Out(TypedDict):
+    streetAddress: str | None
+    city: str | None
+    region: str | None
+    postalCode: str | None
+    country: str | None
+
+class Prv_campspot_CampspotCampground_Out_rating_u0_Out(TypedDict):
+    value: float | None
+    count: float
+    best: float | None
+    worst: float | None
+
+class Prv_campspot_CampspotCampground_Out_offers_item_Out(TypedDict):
+    name: str
+    price: float | None
+    currency: str | None
+    unit: str | None
+
+class Prv_campspot_CampspotCampground_Out_events_item_Out(TypedDict):
+    name: str
+    startDate: str | None
+    endDate: str | None
+    description: str | None
 
 class Prv_cancer_findCancerCenters_args_In(TypedDict):
     state: NotRequired[str]
@@ -7389,21 +7515,6 @@ class Prv_developersopenai_DevelopersOpenaiDocPage_Out(TypedDict):
     canonicalUrl: str
     body: str
 
-class Prv_dfs_rotogrinderssearch_SearchArgs_In(TypedDict):
-    query: str
-
-class Prv_dfs_rotogrinderssearch_SearchResults_Out(TypedDict):
-    projections: list[Prv_dfs_rotogrinderssearch_DFSProjectionRow_Out]
-    warnings: list[str]
-
-class Prv_dfs_rotogrinderssearch_DFSProjectionRow_Out(TypedDict):
-    player: str
-    salary: float
-    ownership: float
-    sport: NotRequired[str]
-    position: NotRequired[str]
-    team: NotRequired[str]
-
 class Prv_dice_DiceSearchResponse_Out(TypedDict):
     jobs: list[Prv_dice_DiceSearchResult_Out]
     totalResults: float
@@ -7825,24 +7936,6 @@ class Prv_embroker_EmbrokerQuoteEntryPoint_Out(TypedDict):
     productLabel: str
     url: str
     reachable: bool
-
-class Prv_energyaustralia_com_au_getBusinessElectricityQuote_arg0_In(TypedDict):
-    postcode: str
-
-class Prv_energyaustralia_com_au_EnergyaustraliaBusinessQuote_Out(TypedDict):
-    postcode: str
-    state: str
-    serviceable: bool
-    plans: list[Prv_energyaustralia_com_au_EnergyaustraliaBusinessQuote_Out_plans_item_Out]
-
-class Prv_energyaustralia_com_au_EnergyaustraliaBusinessQuote_Out_plans_item_Out(TypedDict):
-    name: str
-    displayName: str
-    retailer: str
-    annualCost: float
-    monthlyEstimate: float
-    ratePerUnit: float
-    dmoReference: float
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -8577,6 +8670,40 @@ class Prv_fluencecorp_EnergyConsumptionResult_Out(TypedDict):
     effluentFlow: float
     level: Literal[0] | Literal[1] | Literal[2] | Literal[3]
 
+class Prv_fomo_FomoUser_Out(TypedDict):
+    id: str
+    userHandle: str
+    displayName: str | None
+    bio: str | None
+    avatarUrl: str | None
+    followerCount: float | None
+    followingCount: float | None
+    twitterHandle: str | None
+    clan: Prv_fomo_FomoUser_Out_clan_u0_Out | None
+    isFollowing: bool | None
+    url: str
+
+class Prv_fomo_FomoUser_Out_clan_u0_Out(TypedDict):
+    id: str
+    name: str
+    imageUrl: str | None
+
+class Prv_fomo_getLeaderboard_args_In(TypedDict):
+    window: NotRequired[Literal["daily"] | Literal["weekly"] | Literal["monthly"] | Literal["allTime"]]
+
+class Prv_fomo_FomoLeaderboardEntry_Out(TypedDict):
+    rank: float
+    user: Prv_fomo_FomoUser_Out
+    stats: Prv_fomo_FomoTraderStats_Out
+
+class Prv_fomo_FomoTraderStats_Out(TypedDict):
+    pnlUsd: float | None
+    pnlPercent: float | None
+    volumeUsd: float | None
+    tradeCount: float | None
+    winRate: float | None
+    window: Literal["daily"] | Literal["weekly"] | Literal["monthly"] | Literal["allTime"]
+
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
     postalCode: str
@@ -9228,6 +9355,116 @@ class Prv_github_GithubRepositorySearchResult_Out(TypedDict):
     url: str
     updatedAt: str
 
+class Prv_github_GithubGetUserRepositoriesOptions_In(TypedDict):
+    sort: NotRequired[Literal["created"] | Literal["updated"] | Literal["pushed"] | Literal["full_name"]]
+    direction: NotRequired[Literal["asc"] | Literal["desc"]]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubGetUserRepositoriesResult_Out(TypedDict):
+    repositories: list[Prv_github_GithubUserRepository_Out]
+    warnings: list[str]
+
+class Prv_github_GithubUserRepository_Out(TypedDict):
+    name: str
+    fullName: str
+    description: str | None
+    fork: bool
+    archived: bool
+    defaultBranch: str
+    stars: float
+    forks: float
+    language: str | None
+    url: str
+    updatedAt: str
+    pushedAt: str | None
+
+class Prv_github_GithubUser_Out(TypedDict):
+    login: str
+    id: float
+    avatarUrl: str
+    profileUrl: str
+    type: str
+    name: str | None
+    company: str | None
+    blog: str
+    location: str | None
+    email: str | None
+    bio: str | None
+    twitterUsername: str | None
+    publicRepos: float
+    followers: float
+    following: float
+    createdAt: str
+    updatedAt: str
+
+class Prv_github_GithubOrganization_Out(TypedDict):
+    login: str
+    id: float
+    avatarUrl: str
+    profileUrl: str
+    name: str | None
+    blog: str
+    location: str | None
+    email: str | None
+    description: str | None
+    publicRepos: float
+    createdAt: str
+    updatedAt: str
+
+class Prv_github_GithubListIssuesOptions_In(TypedDict):
+    state: NotRequired[Literal["open"] | Literal["closed"] | Literal["all"]]
+    assignee: NotRequired[str]
+    labels: NotRequired[str]
+    milestone: NotRequired[str]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListIssuesResult_Out(TypedDict):
+    issues: list[Prv_github_GithubIssue_Out]
+    warnings: list[str]
+
+class Prv_github_GithubIssue_Out(TypedDict):
+    number: float
+    title: str
+    body: str | None
+    creator: str
+    assignees: list[str]
+    labels: list[str]
+    state: str
+    comments: float
+    createdAt: str
+    updatedAt: str
+    closedAt: str | None
+    url: str
+
+class Prv_github_GithubListPullRequestsOptions_In(TypedDict):
+    state: NotRequired[Literal["open"] | Literal["closed"] | Literal["all"]]
+    base: NotRequired[str]
+    head: NotRequired[str]
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListPullRequestsResult_Out(TypedDict):
+    pullRequests: list[Prv_github_GithubPullRequest_Out]
+    warnings: list[str]
+
+class Prv_github_GithubPullRequest_Out(TypedDict):
+    number: float
+    title: str
+    body: str | None
+    creator: str
+    state: str
+    draft: bool
+    merged: bool
+    mergedAt: str | None
+    baseBranch: str
+    headBranch: str
+    createdAt: str
+    updatedAt: str
+    closedAt: str | None
+    url: str
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -9579,6 +9816,37 @@ class Prv_google_maps_Photo_Out(TypedDict):
     height: float
     takenAt: NotRequired[str]
     source: NotRequired[str]
+
+class Prv_google_maps_GetPopularTimesArgs_In(TypedDict):
+    query: str
+
+class Prv_google_maps_PopularTimesResult_Out(TypedDict):
+    byDay: list[Prv_google_maps_PopularTimesDay_Out]
+    liveNow: NotRequired[Prv_google_maps_PopularTimesResult_Out_liveNow_Out]
+
+class Prv_google_maps_PopularTimesDay_Out(TypedDict):
+    day: float
+    hours: list[Prv_google_maps_PopularTimesDay_Out_hours_item_Out]
+
+class Prv_google_maps_PopularTimesDay_Out_hours_item_Out(TypedDict):
+    hour: float
+    percent: float
+
+class Prv_google_maps_PopularTimesResult_Out_liveNow_Out(TypedDict):
+    percent: float
+
+class Prv_google_maps_ListSavedPlacesResult_Out(TypedDict):
+    lists: list[Prv_google_maps_ListSavedPlacesResult_Out_lists_item_Out]
+
+class Prv_google_maps_ListSavedPlacesResult_Out_lists_item_Out(TypedDict):
+    name: str
+    places: list[Prv_google_maps_SavedPlace_Out]
+
+class Prv_google_maps_SavedPlace_Out(TypedDict):
+    listName: str
+    featureId: str
+    name: NotRequired[str]
+    note: NotRequired[str]
 
 class Prv_google_news_GoogleNewsLocaleArg_In(TypedDict):
     hl: NotRequired[str]
@@ -10433,6 +10701,18 @@ class Prv_healthcare_gov_healthcare_govSepAssessment_Out_matches_item_Out(TypedD
     windowDays: float
     windowEndsOn: str
     daysLeft: float
+
+class Prv_healthie_SearchPracticesArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_healthie_Practice_Out(TypedDict):
+    id: str
+    name: str
+    description: NotRequired[str]
+    specialties: list[str]
+    providersCount: NotRequired[float]
+    website: NotRequired[str]
 
 class Prv_heatherwood_HeatherwoodFloorplanSummary_Out(TypedDict):
     id: str
@@ -11760,6 +12040,24 @@ class Prv_jcrew_JcrewSearchProduct_Out(TypedDict):
     image: str | None
     url: str
 
+class Prv_jcrew_BrowseCategoryArgs_In(TypedDict):
+    categoryId: str
+
+class Prv_jcrew_BrowseCategoryResult_Out(TypedDict):
+    categoryId: str
+    total: float
+    pageSize: float
+    products: list[Prv_jcrew_BrowseCategoryResult_Out_products_item_Out]
+
+class Prv_jcrew_BrowseCategoryResult_Out_products_item_Out(TypedDict):
+    id: str
+    name: str
+    price: float | None
+    currency: str | None
+    orderable: bool | None
+    image: str | None
+    url: str
+
 class Prv_jcrew_GetProductArgs_In(TypedDict):
     id: str
 
@@ -11848,6 +12146,89 @@ class Prv_jcrew_JcrewSuggestedProduct_Out(TypedDict):
     name: str
     price: float | None
     currency: str | None
+
+class Prv_jcrew_GetCategoryArgs_In(TypedDict):
+    categoryId: str
+
+class Prv_jcrew_GetCategoryResult_Out(TypedDict):
+    id: str
+    name: str
+    parentId: str | None
+    path: list[Prv_jcrew_JcrewCategoryAncestor_Out]
+
+class Prv_jcrew_JcrewCategoryAncestor_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_jcrew_ListSearchRefinementsArgs_In(TypedDict):
+    query: NotRequired[str]
+    categoryId: NotRequired[str]
+
+class Prv_jcrew_ListSearchRefinementsResult_Out(TypedDict):
+    query: str | None
+    categoryId: str | None
+    refinements: list[Prv_jcrew_JcrewRefinementGroup_Out]
+
+class Prv_jcrew_JcrewRefinementGroup_Out(TypedDict):
+    id: str
+    label: str
+    values: list[Prv_jcrew_JcrewRefinementValue_Out]
+
+class Prv_jcrew_JcrewRefinementValue_Out(TypedDict):
+    value: str
+    label: str
+    count: float
+
+class Prv_jcrew_ListSortOptionsResult_Out(TypedDict):
+    sortOptions: list[Prv_jcrew_JcrewSortOption_Out]
+
+class Prv_jcrew_JcrewSortOption_Out(TypedDict):
+    id: str
+    label: str
+
+class Prv_jcrew_FindStoresArgs_In(TypedDict):
+    zip: NotRequired[str]
+    latitude: NotRequired[float]
+    longitude: NotRequired[float]
+    radiusKm: NotRequired[float]
+    maxResults: NotRequired[float]
+
+class Prv_jcrew_FindStoresResult_Out(TypedDict):
+    latitude: float
+    longitude: float
+    radiusKm: float
+    total: float
+    stores: list[Prv_jcrew_JcrewStore_Out]
+
+class Prv_jcrew_JcrewStore_Out(TypedDict):
+    id: str
+    name: str
+    address1: str
+    address2: str | None
+    city: str
+    state: str
+    zip: str
+    countryCode: str
+    phone: str
+    email: str
+    latitude: float
+    longitude: float
+    distance: float
+    distanceUnit: str
+    hours: Prv_jcrew_JcrewStoreWeek_Out
+    curbsidePickup: bool
+    inStorePickup: bool
+    sameDayDelivery: bool
+    availableMerchandise: list[str]
+
+class Prv_jcrew_JcrewStoreWeek_Out(TypedDict):
+    monday: str
+    tuesday: str
+    wednesday: str
+    thursday: str
+    friday: str
+    saturday: str
+    sunday: str
 
 class Prv_jennikayne_GiftCardOptions_Out(TypedDict):
     productUrl: str
@@ -12585,6 +12966,11 @@ class Prv_liquiddeath_LiquiddeathVariant_Out(TypedDict):
 class Prv_liquiddeath_LiquiddeathProduct_Out_priceRange_u0_Out(TypedDict):
     min: str
     max: str
+
+class Prv_liquiddeath_listProducts_opts_In(TypedDict):
+    productType: NotRequired[str]
+    inStockOnly: NotRequired[bool]
+    limit: NotRequired[float]
 
 class Prv_liquiddeath_LiquiddeathCartItem_In(TypedDict):
     handle: str
@@ -13593,6 +13979,15 @@ class Prv_mergify_mergifyQueuedPull_Out(TypedDict):
     priorityRuleName: str | None
     estimatedMergeAt: str | None
 
+class Prv_meteofrance_MarineWindForecast_Out(TypedDict):
+    region: str
+    timeDate: str
+    windSpeed: float | None
+    windGust: float | None
+    windDirection: str | None
+    waveHeight: float | None
+    warnings: list[str]
+
 class Prv_microcenter_StoreOffer_Out(TypedDict):
     title: str
     price: float | None
@@ -13950,6 +14345,21 @@ class Prv_mossyoak_searchProducts_opts_In(TypedDict):
 class Prv_mossyoak_MossyoakCatalogue_Out(TypedDict):
     products: list[Prv_mossyoak_MossyoakProduct_Out]
     warnings: list[str]
+
+class Prv_msn_MsnTopStories_Out(TypedDict):
+    stories: list[Prv_msn_MsnStory_Out]
+    nextPageUrl: str | None
+
+class Prv_msn_MsnStory_Out(TypedDict):
+    id: str
+    type: str
+    title: str
+    abstract: str
+    readTimeMin: float | None
+    url: str
+    publishedDateTime: str
+    providerName: str
+    imageUrl: str | None
 
 class Prv_municipal_recreation_fees_fetcher_municipal_recreation_fees_fetcherRow_Out(TypedDict):
     municipality: str
@@ -14395,6 +14805,16 @@ class Prv_onthemarket_OnTheMarketProperty_Out(TypedDict):
     description: NotRequired[str]
     url: NotRequired[str]
 
+class Prv_openai_openaiPlan_Out(TypedDict):
+    plan: str
+    priceMonthly: float | None
+    priceAnnual: float | None
+    codexLimits: str
+    creditRates: str
+
+class Prv_openai_openaiHelpArticleArgs_In(TypedDict):
+    id: str
+
 class Prv_originenergy_com_au_OriginBusinessElectricityQuoteArgs_In(TypedDict):
     postcode: str
 
@@ -14652,6 +15072,19 @@ class Prv_packlane_packlaneQuote_Out_totalPrice_Out(TypedDict):
     amount: float
     currency: str
 
+class Prv_pallet2ship_GetQuoteArgs_In(TypedDict):
+    collectionPostcode: str
+    deliveryPostcode: str
+    weight: float
+    length: float
+    width: float
+    height: float
+
+class Prv_pallet2ship_Pallet2ShipQuote_Out(TypedDict):
+    price: float
+    estimatedDays: float
+    serviceType: str
+
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
     checkOutDate: str
@@ -14842,6 +15275,112 @@ class Prv_pinterest_PinterestBoard_Out(TypedDict):
     url: str
     pin_count: NotRequired[float]
     section_count: NotRequired[float]
+
+class Prv_pinterest_searchUsers_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_searchUsers_return_Out(TypedDict):
+    users: list[Prv_pinterest_PinterestUser_Out]
+    bookmark: str | None
+
+class Prv_pinterest_PinterestUser_Out(TypedDict):
+    id: str
+    username: str
+    full_name: str
+    follower_count: NotRequired[float]
+    board_count: NotRequired[float]
+    pin_count: NotRequired[float]
+    is_verified_merchant: NotRequired[bool]
+    image_large_url: NotRequired[str]
+
+class Prv_pinterest_searchVideos_options_In(TypedDict):
+    bookmark: NotRequired[str]
+
+class Prv_pinterest_searchVideos_return_Out(TypedDict):
+    pins: list[Prv_pinterest_PinterestPin_Out]
+    bookmark: str | None
+
+class Prv_pinterest_suggestSearches_return_Out(TypedDict):
+    suggestions: list[Prv_pinterest_PinterestSuggestion_Out]
+
+class Prv_pinterest_PinterestSuggestion_Out(TypedDict):
+    text: str
+    display_text: NotRequired[str]
+    search_id: NotRequired[str]
+
+class Prv_pinterest_PinterestPinDetail_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    seo_title: NotRequired[str]
+    description: NotRequired[str]
+    link: NotRequired[str]
+    link_domain: NotRequired[Prv_pinterest_PinterestPinDetail_Out_link_domain_Out]
+    created_at: NotRequired[str]
+    pinner: NotRequired[Prv_pinterest_PinterestPinDetail_Out_pinner_Out]
+    board: NotRequired[Prv_pinterest_PinterestPinDetail_Out_board_Out]
+    images: NotRequired[Mapping[str, Prv_pinterest_PinterestPinDetail_Out_images_value_Out]]
+    repin_count: NotRequired[float]
+    share_count: NotRequired[float]
+    reaction_counts: NotRequired[Mapping[str, float]]
+    price_value: NotRequired[float]
+    price_currency: NotRequired[str]
+    carousel_data: NotRequired[Any]
+    videos: NotRequired[Any]
+    aggregated_pin_data: NotRequired[Prv_pinterest_PinterestPinDetail_Out_aggregated_pin_data_Out]
+
+class Prv_pinterest_PinterestPinDetail_Out_link_domain_Out(TypedDict):
+    id: str
+
+class Prv_pinterest_PinterestPinDetail_Out_pinner_Out(TypedDict):
+    username: str
+    full_name: NotRequired[str]
+
+class Prv_pinterest_PinterestPinDetail_Out_board_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_pinterest_PinterestPinDetail_Out_images_value_Out(TypedDict):
+    width: float
+    height: float
+    url: str
+
+class Prv_pinterest_PinterestPinDetail_Out_aggregated_pin_data_Out(TypedDict):
+    id: str
+
+class Prv_pinterest_PinterestProduct_Out(TypedDict):
+    id: str
+    price: NotRequired[float]
+    currency: NotRequired[str]
+    rating: NotRequired[float]
+    review_count: NotRequired[float]
+    availability: NotRequired[bool]
+    item_id: NotRequired[str]
+    item_set_id: NotRequired[str]
+
+class Prv_pinterest_listVisualObjects_return_Out(TypedDict):
+    objects: list[Prv_pinterest_PinterestVisualObject_Out]
+
+class Prv_pinterest_PinterestVisualObject_Out(TypedDict):
+    x: float
+    y: float
+    w: float
+    h: float
+    label: NotRequired[str]
+    label_id: NotRequired[float]
+    score: NotRequired[float]
+
+class Prv_pinterest_listRelatedProducts_return_Out(TypedDict):
+    products: list[Prv_pinterest_PinterestRelatedProduct_Out]
+
+class Prv_pinterest_PinterestRelatedProduct_Out(TypedDict):
+    id: str
+    title: NotRequired[str]
+    link: NotRequired[str]
+    image_url: NotRequired[str]
+    price: NotRequired[float]
+    currency: NotRequired[str]
+    rating: NotRequired[float]
+    review_count: NotRequired[float]
 
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
@@ -15174,24 +15713,6 @@ class Prv_positivegrid_positivegridRetailer_Out(TypedDict):
     latitude: float
     longitude: float
     distanceMiles: float
-
-class Prv_postcard_direct_mail_GetQuoteArgs_In(TypedDict):
-    quantity: float
-    size: NotRequired[str]
-    stock: NotRequired[str]
-
-class Prv_postcard_direct_mail_PostcardDirectMailQuoteResponse_Out(TypedDict):
-    quantity: float
-    lineItems: list[Prv_postcard_direct_mail_PostcardQuoteLineItem_Out]
-    estimatedDeliveryDays: NotRequired[float]
-    warnings: list[str]
-
-class Prv_postcard_direct_mail_PostcardQuoteLineItem_Out(TypedDict):
-    size: str
-    stock: str
-    totalPrice: float
-    unitPrice: float
-    currency: str
 
 class Prv_postiz_ListPostsArgs_In(TypedDict):
     startDate: str
@@ -15996,125 +16517,599 @@ class Prv_puls_com_GetRepairQuoteResult_Out(TypedDict):
     marketName: str | None
     serviceCallFee: float | None
 
-class Prv_reddit_RedditSubreddit_Out(TypedDict):
-    name: str
-    url: str
-    description: str | None
-    iconUrl: str | None
-    access: Prv_reddit_RedditCommunityAccess_Out
-    posts: list[Prv_reddit_RedditCommunityPost_Out]
-    postsRetrieved: float
-    newestPostAt: str | None
-    oldestPostAt: str | None
-    activityWindowDays: float | None
-    postsPerDay: float | None
-    windowTruncated: bool
-    requests: float
-    limits: list[str]
-
-class Prv_reddit_RedditCommunityAccess_Out(TypedDict):
-    state: Literal["public"] | Literal["private"] | Literal["restricted"] | Literal["banned"] | Literal["unrecognized"]
-    label: str | None
-    readable: bool
-    status: float
-
-class Prv_reddit_RedditCommunityPost_Out(TypedDict):
-    id: str
-    title: str
-    author: str | None
-    permalink: str
-    createdAt: str
-
-class Prv_reddit_getSubredditPosts_input_u1_In(TypedDict):
-    subreddit: str
-    sort: NotRequired[Literal["hot"] | Literal["new"] | Literal["top"] | Literal["rising"] | Literal["controversial"]]
-    time: NotRequired[Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
-    limit: NotRequired[float]
-
-class Prv_reddit_RedditSubredditPostsResult_Out(TypedDict):
-    subreddit: str
-    sort: Literal["hot"] | Literal["new"] | Literal["top"] | Literal["rising"] | Literal["controversial"]
-    time: Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"] | None
-    posts: list[Prv_reddit_RedditSearchPost_Out]
-    postsRetrieved: float
-    moreAvailable: bool
-    duplicatesDropped: float
-    requests: float
-    limits: list[str]
-
-class Prv_reddit_RedditSearchPost_Out(TypedDict):
-    id: str
-    title: str
-    author: str | None
-    subreddit: str
-    permalink: str
-    url: str
-    isSelfPost: bool
-    selfText: str | None
-    selfTextHtml: str | None
-    createdAt: str
-    thumbnail: str | None
-
-class Prv_reddit_searchSubreddits_query_u1_In(TypedDict):
-    query: str
-    limit: NotRequired[float]
-
-class Prv_reddit_RedditSubredditSearchResult_Out(TypedDict):
-    query: str
-    subreddits: list[Prv_reddit_RedditCommunityHit_Out]
-    subredditsRetrieved: float
-    moreAvailable: bool
-    requests: float
-    limits: list[str]
-
-class Prv_reddit_RedditCommunityHit_Out(TypedDict):
-    id: str
-    name: str
-    title: str
-    url: str
-    description: str | None
-    createdAt: str
-
 class Prv_reddit_search_query_u1_In(TypedDict):
     query: str
     subreddit: NotRequired[str]
     sort: NotRequired[Literal["relevance"] | Literal["hot"] | Literal["top"] | Literal["new"] | Literal["comments"]]
     time: NotRequired[Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
     limit: NotRequired[float]
+    after: NotRequired[str]
 
 class Prv_reddit_RedditSearchResult_Out(TypedDict):
     query: str
     subreddit: str | None
     sort: Literal["relevance"] | Literal["hot"] | Literal["top"] | Literal["new"] | Literal["comments"]
     time: Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]
-    posts: list[Prv_reddit_RedditSearchPost_Out]
-    postsRetrieved: float
-    communities: list[Prv_reddit_RedditCommunityHit_Out]
-    moreAvailable: bool
-    requests: float
-    limits: list[str]
+    posts: list[Prv_reddit_RedditPost_Out]
+    nextCursor: str | None
 
-class Prv_reddit_RedditThread_Out(TypedDict):
+class Prv_reddit_RedditPost_Out(TypedDict):
     id: str
-    permalink: str
-    subreddit: str
     title: str
     author: str | None
-    createdAt: str
+    subreddit: str
+    permalink: str
+    url: str
+    domain: str | None
+    isSelfPost: bool
     selfText: str | None
-    selfTextHtml: str | None
+    score: float
+    upvoteRatio: float | None
+    numComments: float
+    createdAt: str
+    editedAt: str | None
+    flair: str | None
+    over18: bool
+    spoiler: bool
+    stickied: bool
+    locked: bool
+    archived: bool
+    removed: str | None
+    thumbnail: str | None
+    isVideo: bool
+    viewer: Prv_reddit_RedditPost_Out_viewer_u0_Out | None
+
+class Prv_reddit_RedditPost_Out_viewer_u0_Out(TypedDict):
+    vote: Literal["up"] | Literal["down"] | None
+    saved: bool
+    hidden: bool
+
+class Prv_reddit_getPost_post_u1_In(TypedDict):
+    post: str
+    sort: NotRequired[Literal["confidence"] | Literal["top"] | Literal["new"] | Literal["controversial"] | Literal["old"] | Literal["qa"]]
+    limit: NotRequired[float]
+
+class Prv_reddit_RedditThread_Out(TypedDict):
+    post: Prv_reddit_RedditPost_Out
+    sort: Literal["confidence"] | Literal["top"] | Literal["new"] | Literal["controversial"] | Literal["old"] | Literal["qa"]
     comments: list[Prv_reddit_RedditComment_Out]
-    commentsRetrieved: float
-    commentsTruncated: bool
-    limits: list[str]
+    moreComments: Prv_reddit_RedditThread_Out_moreComments_u0_Out | None
 
 class Prv_reddit_RedditComment_Out(TypedDict):
     id: str
     author: str | None
     body: str
-    bodyHtml: str
-    permalink: str
+    score: float | None
     createdAt: str
+    editedAt: str | None
+    permalink: str
+    parentId: str
+    postId: str
+    subreddit: str
+    depth: float
+    isSubmitter: bool
+    stickied: bool
+    distinguished: str | None
+    replies: list[Prv_reddit_RedditComment_Out]
+    moreReplies: Prv_reddit_RedditComment_Out_moreReplies_u0_Out | None
+    viewer: Prv_reddit_RedditComment_Out_viewer_u0_Out | None
+
+class Prv_reddit_RedditComment_Out_moreReplies_u0_Out(TypedDict):
+    count: float
+    ids: list[str]
+
+class Prv_reddit_RedditComment_Out_viewer_u0_Out(TypedDict):
+    vote: Literal["up"] | Literal["down"] | None
+    saved: bool
+
+class Prv_reddit_RedditThread_Out_moreComments_u0_Out(TypedDict):
+    count: float
+    ids: list[str]
+
+class Prv_reddit_getSubredditPosts_input_u1_In(TypedDict):
+    subreddit: str
+    sort: NotRequired[Literal["hot"] | Literal["new"] | Literal["top"] | Literal["rising"] | Literal["controversial"]]
+    time: NotRequired[Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditSubredditPostsResult_Out(TypedDict):
+    subreddit: str
+    sort: Literal["hot"] | Literal["new"] | Literal["top"] | Literal["rising"] | Literal["controversial"]
+    time: Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"] | None
+    posts: list[Prv_reddit_RedditPost_Out]
+    nextCursor: str | None
+
+class Prv_reddit_RedditSubredditProfile_Out(TypedDict):
+    name: str
+    access: Prv_reddit_RedditSubredditAccess_Out
+    info: Prv_reddit_RedditSubredditInfo_Out | None
+    quarantineMessage: str | None
+    newestPostAt: str | None
+    postsLastWeek: float | None
+
+class Prv_reddit_RedditSubredditAccess_Out(TypedDict):
+    readable: bool
+    reason: str | None
+
+class Prv_reddit_RedditSubredditInfo_Out(TypedDict):
+    id: str
+    name: str
+    title: str
+    description: str | None
+    sidebar: str | None
+    subscribers: float | None
+    activeUsers: float | None
+    createdAt: str
+    type: str
+    over18: bool
+    quarantined: bool
+    url: str
+    iconUrl: str | None
+    bannerUrl: str | None
+    submissionType: str | None
+    language: str | None
+    viewer: Prv_reddit_RedditSubredditInfo_Out_viewer_u0_Out | None
+
+class Prv_reddit_RedditSubredditInfo_Out_viewer_u0_Out(TypedDict):
+    subscribed: bool
+    moderator: bool
+    banned: bool
+
+class Prv_reddit_searchSubreddits_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditSubredditSearchResult_Out(TypedDict):
+    query: str
+    subreddits: list[Prv_reddit_RedditSubredditInfo_Out]
+    nextCursor: str | None
+
+class Prv_reddit_RedditUserProfile_Out(TypedDict):
+    id: str
+    name: str
+    createdAt: str
+    linkKarma: float
+    commentKarma: float
+    totalKarma: float
+    iconUrl: str | None
+    description: str | None
+    isEmployee: bool
+    isModerator: bool
+    verified: bool
+    hasPremium: bool
+    suspended: bool
+    over18Profile: bool
+    url: str
+    state: Literal["active"]
+    trophies: list[Prv_reddit_RedditUserProfile_Out_trophies_item_Out]
+
+class Prv_reddit_RedditUserProfile_Out_trophies_item_Out(TypedDict):
+    name: str
+    description: str | None
+    grantedAt: str | None
+
+class Prv_reddit_RedditUserAbsent_Out(TypedDict):
+    state: Literal["not_found"] | Literal["suspended"]
+    name: str
+
+class Prv_reddit_searchUsers_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditUserSearch_Out(TypedDict):
+    query: str
+    users: list[Prv_reddit_RedditUserInfo_Out]
+    nextCursor: str | None
+
+class Prv_reddit_RedditUserInfo_Out(TypedDict):
+    id: str
+    name: str
+    createdAt: str
+    linkKarma: float
+    commentKarma: float
+    totalKarma: float
+    iconUrl: str | None
+    description: str | None
+    isEmployee: bool
+    isModerator: bool
+    verified: bool
+    hasPremium: bool
+    suspended: bool
+    over18Profile: bool
+    url: str
+
+class Prv_reddit_getUserPosts_user_u1_In(TypedDict):
+    user: str
+    sort: NotRequired[Literal["new"] | Literal["top"] | Literal["hot"] | Literal["controversial"]]
+    time: NotRequired[Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditUserPosts_Out(TypedDict):
+    user: str
+    sort: Literal["new"] | Literal["top"] | Literal["hot"] | Literal["controversial"]
+    time: str | None
+    posts: list[Prv_reddit_RedditPost_Out]
+    nextCursor: str | None
+    window: str
+    warnings: list[str]
+
+class Prv_reddit_getUserComments_user_u1_In(TypedDict):
+    user: str
+    sort: NotRequired[Literal["new"] | Literal["top"] | Literal["hot"] | Literal["controversial"]]
+    time: NotRequired[Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditUserComments_Out(TypedDict):
+    user: str
+    sort: Literal["new"] | Literal["top"] | Literal["hot"] | Literal["controversial"]
+    time: str | None
+    comments: list[Prv_reddit_RedditUserComment_Out]
+    nextCursor: str | None
+    window: str
+    warnings: list[str]
+
+class Prv_reddit_RedditUserComment_Out(TypedDict):
+    id: str
+    author: str | None
+    body: str
+    score: float | None
+    createdAt: str
+    editedAt: str | None
+    permalink: str
+    parentId: str
+    postId: str
+    subreddit: str
+    depth: float
+    isSubmitter: bool
+    stickied: bool
+    distinguished: str | None
+    replies: list[Prv_reddit_RedditComment_Out]
+    moreReplies: Prv_reddit_RedditUserComment_Out_moreReplies_u0_Out | None
+    viewer: Prv_reddit_RedditUserComment_Out_viewer_u0_Out | None
+    thread: Prv_reddit_RedditUserComment_Out_thread_Out
+
+class Prv_reddit_RedditUserComment_Out_moreReplies_u0_Out(TypedDict):
+    count: float
+    ids: list[str]
+
+class Prv_reddit_RedditUserComment_Out_viewer_u0_Out(TypedDict):
+    vote: Literal["up"] | Literal["down"] | None
+    saved: bool
+
+class Prv_reddit_RedditUserComment_Out_thread_Out(TypedDict):
+    id: str
+    title: str
+    permalink: str | None
+    author: str | None
+    url: str | None
+    numComments: float | None
+
+class Prv_reddit_findPostsByUrl_url_u1_In(TypedDict):
+    url: str
+    exact: NotRequired[bool]
+
+class Prv_reddit_RedditPostsByUrl_Out(TypedDict):
+    url: str
+    matched: list[Prv_reddit_RedditPostsByUrl_Out_matched_item_Out]
+    via: Literal["info"] | Literal["duplicates"]
+    posts: list[Prv_reddit_RedditPost_Out]
+
+class Prv_reddit_RedditPostsByUrl_Out_matched_item_Out(TypedDict):
+    url: str
+    posts: float
+
+class Prv_reddit_listWikiPages_subreddit_u1_In(TypedDict):
+    subreddit: str
+
+class Prv_reddit_RedditWikiPages_Out(TypedDict):
+    state: Literal["ok"]
+    subreddit: str
+    pages: list[str]
+
+class Prv_reddit_RedditWikiAbsent_Out(TypedDict):
+    state: Literal["no_such_community"] | Literal["community_unavailable"] | Literal["private"] | Literal["not_viewable"] | Literal["page_not_found"]
+    subreddit: str
+    page: NotRequired[str]
+    reason: str | None
+    pages: NotRequired[list[str]]
+
+class Prv_reddit_getWikiPage_subreddit_u1_In(TypedDict):
+    subreddit: str
+    page: NotRequired[str]
+
+class Prv_reddit_RedditWikiPage_Out(TypedDict):
+    state: Literal["ok"]
+    subreddit: str
+    page: str
+    markdown: str
+    revisedAt: str | None
+    revisedBy: str | None
+    length: float
+    long: bool
+
+class Prv_reddit_getSubredditRules_subreddit_u1_In(TypedDict):
+    subreddit: str
+
+class Prv_reddit_RedditRules_Out(TypedDict):
+    subreddit: str
+    rules: list[Prv_reddit_RedditRule_Out]
+    siteRules: list[str]
+
+class Prv_reddit_RedditRule_Out(TypedDict):
+    name: str
+    description: str
+    appliesTo: Literal["posts"] | Literal["comments"] | Literal["both"]
+    violationReason: str | None
+    priority: float
+    createdAt: str | None
+
+class Prv_reddit_browseSubreddits_list_u2_In(TypedDict):
+    list: NotRequired[Literal["popular"] | Literal["new"]]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditSubredditBrowse_Out(TypedDict):
+    list: Literal["popular"] | Literal["new"]
+    subreddits: list[Prv_reddit_RedditSubredditInfo_Out]
+    nextCursor: str | None
+
+class Prv_reddit_getCommentReplies_args_In(TypedDict):
+    post: str
+    ids: NotRequired[Sequence[str]]
+    parent: NotRequired[str]
+    sort: NotRequired[Literal["confidence"] | Literal["top"] | Literal["new"] | Literal["controversial"] | Literal["old"] | Literal["qa"]]
+
+class Prv_reddit_RedditCommentReplies_Out(TypedDict):
+    postId: str
+    parent: Prv_reddit_RedditComment_Out | None
+    comments: list[Prv_reddit_RedditComment_Out]
+    more: Prv_reddit_RedditCommentReplies_Out_more_u0_Out | None
+    remainingIds: list[str]
+
+class Prv_reddit_RedditCommentReplies_Out_more_u0_Out(TypedDict):
+    count: float
+    ids: list[str]
+
+class Prv_reddit_RedditMyAccount_Out(TypedDict):
+    id: str
+    name: str
+    createdAt: str
+    linkKarma: float
+    commentKarma: float
+    totalKarma: float
+    iconUrl: str | None
+    hasMail: bool
+    inboxCount: float
+    hasModMail: bool
+    isModerator: bool
+    hasPremium: bool
+    hasVerifiedEmail: bool
+    over18: bool
+    suspended: bool
+    canCreateSubreddit: bool
+    url: str
+
+class Prv_reddit_getHomeFeed_opts_In(TypedDict):
+    sort: NotRequired[Literal["best"] | Literal["hot"] | Literal["new"] | Literal["top"] | Literal["rising"]]
+    time: NotRequired[Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"]]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditHomeFeed_Out(TypedDict):
+    sort: Literal["best"] | Literal["hot"] | Literal["new"] | Literal["top"] | Literal["rising"]
+    time: Literal["hour"] | Literal["day"] | Literal["week"] | Literal["month"] | Literal["year"] | Literal["all"] | None
+    posts: list[Prv_reddit_RedditPost_Out]
+    nextCursor: str | None
+
+class Prv_reddit_listMySubscriptions_opts_In(TypedDict):
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditMySubscriptions_Out(TypedDict):
+    subreddits: list[Prv_reddit_RedditSubredditInfo_Out]
+    nextCursor: str | None
+
+class Prv_reddit_listSaved_opts_In(TypedDict):
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditSavedList_Out(TypedDict):
+    items: list[Prv_reddit_RedditSavedItem_u0_Out | Prv_reddit_RedditSavedItem_u1_Out]
+    nextCursor: str | None
+
+class Prv_reddit_RedditSavedItem_u0_Out(TypedDict):
+    kind: Literal["post"]
+    post: Prv_reddit_RedditPost_Out
+
+class Prv_reddit_RedditSavedItem_u1_Out(TypedDict):
+    kind: Literal["comment"]
+    comment: Prv_reddit_RedditComment_Out
+    postTitle: str | None
+    postPermalink: str | None
+
+class Prv_reddit_listInbox_opts_In(TypedDict):
+    filter: NotRequired[Literal["all"] | Literal["unread"] | Literal["messages"] | Literal["mentions"] | Literal["comment_replies"] | Literal["post_replies"]]
+    limit: NotRequired[float]
+    after: NotRequired[str]
+
+class Prv_reddit_RedditInbox_Out(TypedDict):
+    filter: Literal["all"] | Literal["unread"] | Literal["messages"] | Literal["mentions"] | Literal["comment_replies"] | Literal["post_replies"]
+    messages: list[Prv_reddit_RedditMessage_Out]
+    nextCursor: str | None
+
+class Prv_reddit_RedditMessage_Out(TypedDict):
+    id: str
+    kind: Literal["message"] | Literal["comment_reply"] | Literal["post_reply"] | Literal["username_mention"] | Literal["other"]
+    author: str | None
+    subject: str
+    body: str
+    createdAt: str
+    unread: bool
+    subreddit: str | None
+    permalink: str | None
+
+class Prv_reddit_RedditPostFlairs_Out(TypedDict):
+    subreddit: str
+    posterCanChoose: bool
+    flairs: list[Prv_reddit_RedditPostFlair_Out]
+
+class Prv_reddit_RedditPostFlair_Out(TypedDict):
+    id: str
+    text: str
+    textEditable: bool
+    modOnly: bool
+    allowableContent: str | None
+    backgroundColor: str | None
+    textColor: str | None
+    cssClass: str | None
+
+class Prv_reddit_RedditSubscription_Out(TypedDict):
+    subreddit: str
+    subscribed: bool
+
+class Prv_reddit_RedditSaveResult_Out(TypedDict):
+    id: str
+    saved: bool
+
+class Prv_reddit_hidePost_post_u1_In(TypedDict):
+    id: str
+    hidden: NotRequired[bool]
+
+class Prv_reddit_RedditHideResult_Out(TypedDict):
+    id: str
+    hidden: bool
+
+class Prv_reddit_vote_opts_In(TypedDict):
+    id: str
+    direction: Literal["up"] | Literal["down"] | Literal["none"]
+
+class Prv_reddit_RedditVoteResult_Out(TypedDict):
+    id: str
+    vote: Literal["up"] | Literal["down"] | None
+
+class Prv_reddit_followUser_user_u1_In(TypedDict):
+    name: str
+    follow: NotRequired[bool]
+
+class Prv_reddit_RedditFollowResult_Out(TypedDict):
+    user: str
+    following: bool
+
+class Prv_reddit_RedditBlockResult_Out(TypedDict):
+    user: str
+    blocked: Literal[True]
+
+class Prv_reddit_createSubreddit_input_In(TypedDict):
+    name: str
+    description: NotRequired[str]
+    type: NotRequired[Literal["public"] | Literal["restricted"] | Literal["private"]]
+    nsfw: NotRequired[bool]
+
+class Prv_reddit_RedditNewCommunity_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    type: Literal["public"] | Literal["restricted"] | Literal["private"]
+
+class Prv_reddit_submitPost_input_In(TypedDict):
+    subreddit: str
+    title: str
+    kind: NotRequired[Literal["self"] | Literal["link"] | Literal["image"] | Literal["crosspost"]]
+    text: NotRequired[str]
+    url: NotRequired[str]
+    image: NotRequired[Prv_reddit_submitPost_input_In_image_u0_In | Prv_reddit_submitPost_input_In_image_u1_In]
+    crosspostOf: NotRequired[str]
+    flairId: NotRequired[str]
+    flairText: NotRequired[str]
+    nsfw: NotRequired[bool]
+    spoiler: NotRequired[bool]
+    sendReplies: NotRequired[bool]
+
+class Prv_reddit_submitPost_input_In_image_u0_In(TypedDict):
+    base64: str
+    mimeType: str
+
+class Prv_reddit_submitPost_input_In_image_u1_In(TypedDict):
+    url: str
+
+class Prv_reddit_RedditNewPost_Out(TypedDict):
+    id: str
+    permalink: str
+    subreddit: str
+    kind: Literal["self"] | Literal["link"] | Literal["image"] | Literal["crosspost"]
+
+class Prv_reddit_postComment_input_In(TypedDict):
+    post: str
+    text: str
+
+class Prv_reddit_replyToComment_input_In(TypedDict):
+    comment: str
+    text: str
+
+class Prv_reddit_editPostOrComment_input_In(TypedDict):
+    thing: str
+    text: str
+
+class Prv_reddit_RedditEdited_Out(TypedDict):
+    kind: Literal["post"] | Literal["comment"]
+    post: Prv_reddit_RedditPost_Out | None
+    comment: Prv_reddit_RedditComment_Out | None
+
+class Prv_reddit_deletePostOrComment_thing_u1_In(TypedDict):
+    thing: str
+
+class Prv_reddit_deletePostOrComment_return_Out(TypedDict):
+    id: str
+    deleted: Literal[True]
+
+class Prv_reddit_reportPostOrComment_input_In(TypedDict):
+    thing: str
+    rule: NotRequired[str]
+    siteReason: NotRequired[str]
+    reason: NotRequired[str]
+
+class Prv_reddit_reportPostOrComment_return_Out(TypedDict):
+    id: str
+    reported: Literal[True]
+
+class Prv_reddit_sendDirectMessage_input_In(TypedDict):
+    to: str
+    subject: NotRequired[str]
+    text: str
+
+class Prv_reddit_sendDirectMessage_return_Out(TypedDict):
+    to: str
+    recipientId: str
+    sent: Literal[True]
+
+class Prv_reddit_updateProfile_input_In(TypedDict):
+    displayName: NotRequired[str]
+    about: NotRequired[str]
+
+class Prv_reddit_RedditProfileText_Out(TypedDict):
+    displayName: str
+    about: str
+
+class Prv_reddit_setProfilePicture_input_u0_In(TypedDict):
+    image: Prv_reddit_setProfilePicture_input_u0_In_image_u0_In | Prv_reddit_setProfilePicture_input_u0_In_image_u1_In
+
+class Prv_reddit_setProfilePicture_input_u0_In_image_u0_In(TypedDict):
+    base64: str
+    mimeType: str
+
+class Prv_reddit_setProfilePicture_input_u0_In_image_u1_In(TypedDict):
+    url: str
+
+class Prv_reddit_setProfilePicture_input_u1_In(TypedDict):
+    reset: Literal[True]
+
+class Prv_reddit_setProfilePicture_return_Out(TypedDict):
+    iconUrl: str
 
 class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out(TypedDict):
     entryUrl: str
@@ -16620,6 +17615,81 @@ class Prv_samsclub_SamsclubMembershipBenefit_Out(TypedDict):
     description: str | None
     included: bool
     extraDetails: str | None
+
+class Prv_samsung_SearchArgs_In(TypedDict):
+    query: str
+
+class Prv_samsung_SearchResponse_Out(TypedDict):
+    results: list[Prv_samsung_SamsungSearchResult_Out]
+
+class Prv_samsung_SamsungSearchResult_Out(TypedDict):
+    name: str
+    price: str | None
+    availability: str | None
+    rating: float | None
+    url: str
+
+class Prv_samsung_ListCategoriesArgs_In(TypedDict):
+    pass
+
+class Prv_samsung_ListCategoriesResponse_Out(TypedDict):
+    categories: list[Prv_samsung_SamsungCategory_Out]
+
+class Prv_samsung_SamsungCategory_Out(TypedDict):
+    name: str
+    slug: str
+
+class Prv_samsung_ListCategoryProductsArgs_In(TypedDict):
+    category: str
+
+class Prv_samsung_ListCategoryProductsResponse_Out(TypedDict):
+    products: list[Prv_samsung_SamsungCategoryProduct_Out]
+
+class Prv_samsung_SamsungCategoryProduct_Out(TypedDict):
+    name: str
+    price: str | None
+    availability: str | None
+    rating: float | None
+    reviewCount: float | None
+    url: str
+
+class Prv_samsung_GetProductArgs_In(TypedDict):
+    product: str
+
+class Prv_samsung_GetProductResponse_Out(TypedDict):
+    product: Prv_samsung_SamsungProductDetail_Out
+
+class Prv_samsung_SamsungProductDetail_Out(TypedDict):
+    name: str
+    price: str | None
+    rating: float | None
+    reviewCount: float | None
+    availability: str | None
+    image: str | None
+    variants: list[Prv_samsung_ProductVariant_Out]
+    specs: Mapping[str, str]
+    category: str | None
+    url: str
+
+class Prv_samsung_ProductVariant_Out(TypedDict):
+    name: str
+    sku: str
+    price: str | None
+    availability: str | None
+
+class Prv_samsung_ListDealsArgs_In(TypedDict):
+    pass
+
+class Prv_samsung_ListDealsResponse_Out(TypedDict):
+    deals: list[Prv_samsung_SamsungDeal_Out]
+
+class Prv_samsung_SamsungDeal_Out(TypedDict):
+    name: str
+    originalPrice: str | None
+    salePrice: str | None
+    discountPercent: float | None
+    url: str
+    image: str | None
 
 class Prv_scentbird_ScentbirdCatalogueResult_Out(TypedDict):
     catalogue: Literal["perfumes"] | Literal["colognes"]
@@ -18163,6 +19233,109 @@ class Prv_tiktok_tiktokVideo_Out_music_Out(TypedDict):
     title: str
     playUrl: NotRequired[str]
 
+class Prv_tiktok_GetTranscriptArgs_In(TypedDict):
+    video: str
+
+class Prv_tiktok_tiktokTranscript_Out(TypedDict):
+    videoId: str
+    language: str
+    segments: list[Prv_tiktok_tiktokTranscriptSegment_Out]
+    fullText: str
+
+class Prv_tiktok_tiktokTranscriptSegment_Out(TypedDict):
+    startSeconds: float
+    endSeconds: float
+    text: str
+
+class Prv_tiktok_ListCaptionTracksArgs_In(TypedDict):
+    video: str
+
+class Prv_tiktok_tiktokCaptionTrack_Out(TypedDict):
+    languageCode: str
+    name: str
+    isAutoGenerated: bool
+    isDefault: bool
+
+class Prv_tiktok_ListUserVideosArgs_In(TypedDict):
+    username: str
+
+class Prv_tiktok_tiktokVideoSummary_Out(TypedDict):
+    id: str
+    caption: str
+
+class Prv_tiktok_ListCommentsArgs_In(TypedDict):
+    video: str
+
+class Prv_tiktok_tiktokComment_Out(TypedDict):
+    id: str
+    text: str
+    author: Prv_tiktok_tiktokComment_Out_author_Out
+    likeCount: float
+    replyCount: float
+    createTime: float
+
+class Prv_tiktok_tiktokComment_Out_author_Out(TypedDict):
+    id: str
+    uniqueId: str
+    nickname: str
+
+class Prv_tiktok_ListCommentRepliesArgs_In(TypedDict):
+    video: str
+    commentId: str
+
+class Prv_tiktok_tiktokCommentReply_Out(TypedDict):
+    id: str
+    text: str
+    author: Prv_tiktok_tiktokCommentReply_Out_author_Out
+    likeCount: float
+    createTime: float
+
+class Prv_tiktok_tiktokCommentReply_Out_author_Out(TypedDict):
+    id: str
+    uniqueId: str
+    nickname: str
+
+class Prv_tiktok_SearchVideosArgs_In(TypedDict):
+    query: str
+
+class Prv_tiktok_tiktokSearchResult_Out(TypedDict):
+    id: str
+    caption: str
+    author: Prv_tiktok_tiktokSearchResult_Out_author_Out
+    stats: Prv_tiktok_tiktokSearchResult_Out_stats_Out
+
+class Prv_tiktok_tiktokSearchResult_Out_author_Out(TypedDict):
+    id: str
+    uniqueId: str
+    nickname: str
+
+class Prv_tiktok_tiktokSearchResult_Out_stats_Out(TypedDict):
+    playCount: float
+    likeCount: float
+    commentCount: float
+    shareCount: float
+
+class Prv_tiktok_SearchUsersArgs_In(TypedDict):
+    query: str
+
+class Prv_tiktok_tiktokUserSearchResult_Out(TypedDict):
+    id: str
+    uniqueId: str
+    nickname: str
+    verified: bool
+    followerCount: float
+    videoCount: float
+
+class Prv_tiktok_GetHashtagArgs_In(TypedDict):
+    name: str
+
+class Prv_tiktok_tiktokHashtag_Out(TypedDict):
+    id: str
+    name: str
+    description: str
+    viewCount: float
+    promoted: bool
+
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
     name: str
@@ -19459,6 +20632,95 @@ class Prv_wikipedia_WikipediaArticle_Out_coordinates_Out(TypedDict):
     lat: float
     lon: float
 
+class Prv_wikipedia_getSummary_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_WikipediaSummary_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    description: str
+    extract: str
+    extractHtml: str
+    wikidataId: NotRequired[str]
+    thumbnail: NotRequired[Prv_wikipedia_WikipediaSummary_Out_thumbnail_Out]
+    originalImage: NotRequired[Prv_wikipedia_WikipediaSummary_Out_originalImage_Out]
+    coordinates: NotRequired[Prv_wikipedia_WikipediaSummary_Out_coordinates_Out]
+    revisionId: float
+    lastModified: str
+
+class Prv_wikipedia_WikipediaSummary_Out_thumbnail_Out(TypedDict):
+    url: str
+    width: float
+    height: float
+
+class Prv_wikipedia_WikipediaSummary_Out_originalImage_Out(TypedDict):
+    url: str
+    width: float
+    height: float
+
+class Prv_wikipedia_WikipediaSummary_Out_coordinates_Out(TypedDict):
+    lat: float
+    lon: float
+
+class Prv_wikipedia_getSections_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_getSections_return_Out(TypedDict):
+    sections: list[Prv_wikipedia_WikipediaSection_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaSection_Out(TypedDict):
+    index: str
+    title: str
+    level: str
+    line: str
+    anchor: str
+
+class Prv_wikipedia_getSection_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_WikipediaSectionContent_Out(TypedDict):
+    title: str
+    html: str
+
+class Prv_wikipedia_getArticleHtml_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_WikipediaArticleHtml_Out(TypedDict):
+    title: str
+    url: str
+    html: str
+    revisionId: float
+    lastModified: str
+
+class Prv_wikipedia_getWikitext_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_WikipediaWikitext_Out(TypedDict):
+    title: str
+    wikitext: str
+    revisionId: float
+
+class Prv_wikipedia_getInfobox_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_WikipediaInfobox_Out(TypedDict):
+    type: str
+    fields: Mapping[str, str]
+
+class Prv_wikipedia_listLinks_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_listLinks_return_Out(TypedDict):
+    links: list[Prv_wikipedia_WikipediaLink_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaLink_Out(TypedDict):
+    title: str
+    url: str
+
 class Prv_winestyles_WinestylesStore_Out(TypedDict):
     storeId: str
     city: str
@@ -19612,6 +20874,71 @@ class Prv_yahoo_finance_YahooFinanceHolderRow_Out(TypedDict):
     percentOut: str | None
     value: str | None
 
+class Prv_yahoo_finance_YahooFinanceFinancials_Out(TypedDict):
+    symbol: str
+    incomeStatement: Prv_yahoo_finance_YahooFinanceFinancialStatement_Out | None
+    balanceSheet: Prv_yahoo_finance_YahooFinanceFinancialStatement_Out | None
+    cashFlow: Prv_yahoo_finance_YahooFinanceFinancialStatement_Out | None
+
+class Prv_yahoo_finance_YahooFinanceFinancialStatement_Out(TypedDict):
+    rows: list[Prv_yahoo_finance_YahooFinanceFinancialRow_Out]
+
+class Prv_yahoo_finance_YahooFinanceFinancialRow_Out(TypedDict):
+    label: str
+    values: Mapping[str, str | None]
+
+class Prv_yahoo_finance_YahooFinanceCurrencyRates_Out(TypedDict):
+    rates: list[Prv_yahoo_finance_YahooFinanceCurrencyRate_Out]
+
+class Prv_yahoo_finance_YahooFinanceCurrencyRate_Out(TypedDict):
+    symbol: str
+    name: str | None
+    bid: float | None
+    ask: float | None
+    change: float | None
+    changePercent: float | None
+
+class Prv_yahoo_finance_YahooFinanceCryptoPrices_Out(TypedDict):
+    prices: list[Prv_yahoo_finance_YahooFinanceCryptoPrice_Out]
+
+class Prv_yahoo_finance_YahooFinanceCryptoPrice_Out(TypedDict):
+    symbol: str
+    name: str | None
+    price: float | None
+    change: float | None
+    changePercent: float | None
+
+class Prv_yahoo_finance_YahooFinanceOptionsChain_Out(TypedDict):
+    symbol: str
+    expirationDate: str | None
+    expirationDates: list[str]
+    strikes: list[float]
+    calls: list[Prv_yahoo_finance_YahooFinanceOptionContract_Out]
+    puts: list[Prv_yahoo_finance_YahooFinanceOptionContract_Out]
+
+class Prv_yahoo_finance_YahooFinanceOptionContract_Out(TypedDict):
+    contractSymbol: str
+    strike: float
+    lastPrice: float | None
+    change: float | None
+    percentChange: float | None
+    volume: float | None
+    openInterest: float | None
+    bid: float | None
+    ask: float | None
+    expiration: str | None
+    lastTradeDate: str | None
+    impliedVolatility: float | None
+    inTheMoney: bool
+
+class Prv_yahoo_finance_YahooFinanceKeyStatistics_Out(TypedDict):
+    symbol: str
+    stats: list[Prv_yahoo_finance_YahooFinanceKeyStat_Out]
+
+class Prv_yahoo_finance_YahooFinanceKeyStat_Out(TypedDict):
+    label: str
+    value: str | None
+
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
 
@@ -19627,6 +20954,19 @@ class Prv_yahoo_sports_YahooSportsGameRow_Out(TypedDict):
     venue: str | None
     url: str
 
+class Prv_yahoo_sports_GetGameArgs_In(TypedDict):
+    gameUrl: str
+
+class Prv_yahoo_sports_YahooSportsGameDetail_Out(TypedDict):
+    name: str
+    homeTeam: str
+    awayTeam: str
+    homeScore: float | None
+    awayScore: float | None
+    status: Literal["scheduled"] | Literal["in_progress"] | Literal["final"]
+    startDate: str
+    venue: str | None
+
 class Prv_yahoo_sports_GetStandingsArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
 
@@ -19641,6 +20981,13 @@ class Prv_yahoo_sports_YahooSportsStandingsRow_Out(TypedDict):
     pointsAgainst: float
     pointsDifferential: float
 
+class Prv_yahoo_sports_ListTeamsArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+
+class Prv_yahoo_sports_YahooSportsTeamRow_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    team: str
+
 class Prv_yahoo_sports_GetScheduleArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
     teamSlug: str
@@ -19652,6 +20999,43 @@ class Prv_yahoo_sports_YahooSportsScheduleRow_Out(TypedDict):
     result: Literal["W"] | Literal["L"] | None
     score: str | None
     isHome: bool
+
+class Prv_yahoo_sports_FindPlayersArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    teamSlug: str
+    query: str
+
+class Prv_yahoo_sports_YahooSportsPlayerRow_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    playerId: str
+    name: str
+    position: str
+    url: str
+
+class Prv_yahoo_sports_GetPlayerArgs_In(TypedDict):
+    playerUrl: str
+
+class Prv_yahoo_sports_YahooSportsPlayerDetail_Out(TypedDict):
+    playerId: str
+    name: str
+    position: str
+    team: str
+    college: str | None
+    displayHeight: str | None
+    weight: float | None
+    birthDate: str | None
+    jerseyNumber: str | None
+    status: str | None
+    currentSeasonStats: list[Prv_yahoo_sports_YahooSportsPlayerStatGroup_Out]
+
+class Prv_yahoo_sports_YahooSportsPlayerStatGroup_Out(TypedDict):
+    category: str
+    stats: list[Prv_yahoo_sports_YahooSportsPlayerStat_Out]
+
+class Prv_yahoo_sports_YahooSportsPlayerStat_Out(TypedDict):
+    name: str
+    abbreviation: str
+    value: str
 
 class Prv_ycombinator_YCombinatorArticle_Out(TypedDict):
     id: float | None
@@ -20236,44 +21620,52 @@ class Cap_booking_links(Protocol):
         """
 
 class Cap_browser_agent(Protocol):
-    """LAST RESORT, and it costs money: hands a plain-language task to a hosted AI browser
-    agent (Browser Use) when no Bowmark function covers the site or a script against one
-    failed. When it is the only path left, USE it rather than silently declining or only
-    describing it: call `start`, and in the same reply tell your user it is starting, that
-    it is billed, and give them the real watchUrl it returns so they can watch and take over
-    (log in, solve a captcha). A site gated on a login only your user holds is exactly this
-    case, not a reason to stop short of calling `start` — the watchUrl is how they supply
-    the credential, not something you need in hand first. Never start a session without your
-    user knowing it happened. **CRITICAL: one task = one independent goal. Bundle multiple
-    date ranges, product SKUs, or queries into one task and the agent may silently reuse a
-    single search result across all of them with no warning. For each distinct item, start a
-    separate session.** RUN-ONLY: a typed session cannot call it (that is refused with code
-    "run_only", and it is never an API-key problem), and one run is killed at 120s of wall
-    clock — so `start` in one run and poll `status` from LATER runs, never in a loop inside
-    one.
+    """**WHAT IT IS: a one-shot live browser for ONE task on a site nothing in the library
+    covers** — it reads or operates a page in a few minutes and then it is done. It cannot
+    watch, poll on a schedule or run unattended: a login inside it needs your user present
+    every time, and one run is killed at 120s. A standing watch or a daily job is NOT a fit
+    — say so and point at what would be (a typed provider with stored secrets). **WHEN it
+    fits** (a lookup came back with nothing, or a function failed on the site): it is billed
+    per turn to your user's account. If your user asked you to get the thing done, `start({
+    task })` and in the same reply tell them it is running, that it costs money, and give
+    them the `watchUrl`. A login only they hold does not stop it — they sign in themselves
+    on the live browser through that link, no saved credentials needed. **Either way, never
+    leave it unmentioned:** if you hold off for any reason, your reply must name this option
+    — what it would do, that it is billed, and that they can sign in on the live page —
+    rather than ending on a manual workaround alone. After `start` in one run, call
+    `status(id)` from LATER runs. When `status` returns `needs_input`, relay `question` to
+    your user and `send` their answer. When it returns `idle`, read `result` and `stop(id)`.
+    Always `stop` a session when done — an idle browser keeps costing money. **A turn that
+    runs too long is cancelled automatically:** Bowmark itself cuts off any turn stuck past
+    a few minutes with no result and reports status `failed` (see `error` for what it was
+    last doing) rather than leaving you polling forever — the session stays open, so `send`
+    a narrower instruction or `stop` it. **One task = one independent goal. Do not bundle
+    multiple date ranges, SKUs, or queries into one task — the agent may silently reuse a
+    single search result across all of them with no warning. Start separate sessions for
+    each.** RUN-ONLY: a typed session cannot call it — start in one run and poll status from
+    later runs, never in a loop.
     """
 
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
-        """Starts a hosted browser agent on `task` and returns at once with its session `id` and a
-        `watchUrl`. **CRITICAL: one task = one independent goal.** If you need prices for 5 date
-        ranges, 5 SKUs, or 5 queries, start 5 separate sessions — bundling them into one task
-        causes the agent to silently reuse results across different items with no warning. Use
-        ONLY after the library had nothing for this site or a function failed — each turn spends
-        real vendor money, charged to the account. Call it, don't just describe it: tell your
-        user you're doing this and why, in the same reply as calling it — don't wait for
-        permission first just because it's billed, and don't decide silently on their behalf
-        either. A login only your user holds is what `watchUrl` is for, not a reason to stop
-        before calling `start`. Your account may hold up to 3 concurrent sessions; call `list()`
-        before starting if looping over multiple tasks. Show `watchUrl` to your user: it lets
-        them watch the agent and take over the browser (log in, solve a captcha). Then poll with
-        `status`. Always `stop()` a session when done.
+        """A one-shot live browser for ONE task on a site nothing in the library covers; returns
+        `id` and `watchUrl` at once. Not a watcher — it cannot poll on a schedule or run
+        unattended, and one run is killed at 120s. Billed per turn: when your user asked you to
+        get the thing done, start it and in the same reply tell them it is running, that it
+        costs money, and give them `watchUrl` — a login only they hold is signed in there, on
+        the live page. If you do not start it, still name it to them with its cost; never end on
+        a manual workaround without mentioning it. **One task = one goal** — never bundle
+        multiple date ranges, SKUs or queries; the agent silently reuses results across them.
+        Then `status(id)` from later runs; on `needs_input` relay `question` and `send` the
+        answer; on `idle` read `result` and `stop(id)`. Always stop sessions when done — idle
+        browsers keep costing money. Account limit: 3 concurrent sessions.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
         """Reads a session: `running`, `needs_input` (relay `question` to your user, answer with
-        `send`), `idle` (done — read `result`), `failed`, `stopped` or `closed`. Pass the
-        previous `cursor` for only new steps, and `waitMs` (≤ 60000) to wait for a change
-        instead of polling tightly.
+        `send`), `idle` (done — read `result`), `failed`, `stopped` or `closed`. A turn stuck
+        too long with no result is cancelled automatically and reads `failed` — see `error` for
+        what it was last doing. Pass the previous `cursor` for only new steps, and `waitMs` (≤
+        60000) to wait for a change instead of polling tightly.
         """
 
     async def send(self, id: str, message: str, options: Cap_browser_agent_SendBrowserAgentOptions_In | None = None, /) -> Cap_browser_agent_SendBrowserAgentResult_Out:
@@ -20400,8 +21792,11 @@ class Cap_custom_packaging_quote(Protocol):
     quantity-tiered pricing from live configurators.
     """
 
-    async def quoteCustomBox(self, args: Cap_custom_packaging_quote_quoteCustomBox_args_In, /) -> Cap_custom_packaging_quote_custom_packaging_quoteResult_Out:
-        """Gets a real, quantity-tiered price for a custom printed box from available suppliers."""
+    async def quoteCustomBox(self, args: Cap_custom_packaging_quote_QuoteCustomBoxArgs_In, /) -> Cap_custom_packaging_quote_custom_packaging_quoteResult_Out:
+        """Gets a real, quantity-tiered price for a custom printed box from every supplier that
+        stocks something that size — one quote per supplier, each naming the box it actually
+        priced.
+        """
 
 class Cap_custom_sofa_configurator(Protocol):
     """Configure a real sofa or sectional — pick a fabric, wood stain or leg finish — and get
@@ -20468,12 +21863,6 @@ class Cap_developer_api_key_signup(Protocol):
         `qa-${Date.now()}@example.com`); `details.occupation` optional. Returns real key plus
         confirmation. `options.timeoutMs` sets call budget (default 30000).
         """
-
-class Cap_dfs_ownership_projections(Protocol):
-    """Projected ownership percentages and salary caps for daily fantasy sports slates"""
-
-    async def search(self, query: str, options: Cap_dfs_ownership_projections_CallOptions_In | None = None, /) -> Cap_dfs_ownership_projections_dfs_ownership_projectionsResult_Out:
-        """Search for DFS ownership percentages and salary data across sports and slates"""
 
 class Cap_domain(Protocol):
     """Checks whether a domain name is registered — and, when it is, who holds it and when it
@@ -21048,14 +22437,6 @@ class Cap_phone_trade_in(Protocol):
         sets the per-source budget (default 30000).
         """
 
-class Cap_postcard_direct_mail_quote(Protocol):
-    """Get a quote for printing direct mail postcards — pricing by quantity, size, and stock."""
-
-    async def getQuote(self, args: Cap_postcard_direct_mail_quote_getQuote_args_In, /) -> Cap_postcard_direct_mail_quote_PostcardDirectMailQuote_Out:
-        """Returns pricing for direct mail postcards at a requested quantity, with optional size
-        and stock specifications.
-        """
-
 class Cap_pricing(Protocol):
     """Given a product page's url, fetches it once per simulated shopper (desktop vs mobile,
     each a fresh cookie-less visit) and reports whether the price they'd see differs — never
@@ -21125,10 +22506,20 @@ class Cap_read(Protocol):
         """Loads one page and returns its content. Tries a plain GET first and escalates to a real
         browser only when the response proves it needs one (a bot wall, an interstitial, or
         markup carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN
-        the result rather than throwing. RUN-ONLY: because the rung is decided per call, neither
-        `session()` nor the bare top-level `bowmark` client (which opens a session internally,
-        even for one call) can serve this — both are refused with code "rung_undeclared". Call
-        it through `run()` instead.
+        the result rather than throwing. TIME: `timeoutMs` is the budget for the WHOLE read,
+        both legs together (default 45,000, max 55,000) — deliberately under the ~60s at which a
+        chat client kills a tool call, so a slow page comes back as a real result naming the
+        browser leg instead of your client's bare "The operation timed out.". **`strategy:
+        "fetch"` is the fast-fail escape** for a page you do not want to wait on: it never opens
+        a browser, returns in ~200ms, and still sets `escalationReason` so you learn the page
+        needed one. **A price you need bound to a specific item is the one thing the default
+        `"markdown"` format cannot promise** — it flattens the DOM, so a price can end up
+        textually next to a link for a DIFFERENT size/color/variant; `warnings` names it when
+        the page carries the structured data to prove it, but the safe read is `{ format:
+        "cleanHtml" }`, which keeps the price inside its own item's markup. RUN-ONLY: because
+        the rung is decided per call, neither `session()` nor the bare top-level `bowmark`
+        client (which opens a session internally, even for one call) can serve this — both are
+        refused with code "rung_undeclared". Call it through `run()` instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -21139,9 +22530,27 @@ class Cap_read(Protocol):
         false` and `error` set. Serializing costs TIME: a same-origin batch takes the SUM of its
         reads, so on a bot-defended site that escalates to a browser (~60s per page) more than
         one url from that origin will blow the 90s `/v1/run` ceiling and you get nothing back —
-        split those across separate runs. RUN-ONLY: same reason as `page` — the rung is decided
-        per call, so `session()` and the top-level `bowmark` client are both refused with code
-        "rung_undeclared". Call it through `run()` instead.
+        split those across separate runs. The whole batch is ALSO bounded, at 75s: a url whose
+        turn arrives after that comes back as its own `ok: false` row naming the batch budget,
+        so you keep every page that did finish instead of losing the run. Two browser reads in
+        one script is the shape that hits this — split them, or pass `strategy: "fetch"`.
+        RUN-ONLY: same reason as `page` — the rung is decided per call, so `session()` and the
+        top-level `bowmark` client are both refused with code "rung_undeclared". Call it through
+        `run()` instead.
+        """
+
+    async def urls(self, url: str, options: Cap_read_UrlsOptions_In | None = None, /) -> Cap_read_UrlsResult_Out:
+        """Lists the pages a site has, so you can pick which to `read.page` instead of guessing
+        paths. Two sources, both plain GETs with no browser: the site's own sitemaps (robots.txt
+        `Sitemap:` lines, else /sitemap.xml and /sitemap_index.xml, indexes followed) and the
+        links on the start page, followed breadth-first to `depth` hops (default 1 = the start
+        page's own links). Returns urls only, never page content. Each row says whether it came
+        from a sitemap, a link or both, how many hops from the start page, and the sitemap's
+        `lastmod`. Bounded three ways — `maxUrls` (500), `maxPages` (20 fetched for links) and
+        `timeoutMs` (45,000) — and every bound that cut the list short is named in `warnings`. A
+        start page that renders its navigation in JavaScript under-lists links, and `warnings`
+        says so; the sitemap half is unaffected. `pathPrefix: "/blog/"` scopes the list to one
+        section. RUN-ONLY, same as `page`.
         """
 
 class Cap_restaurant_booking(Protocol):
@@ -21841,6 +23250,21 @@ class Prv_aiper(Protocol):
         returns the same computed recommendation the quiz's own terminal page renders: model
         name, SKU, real current price, list price, and a PDP URL. THROWS if a question or choice
         label doesn't match, or if the site's computed result carries no product list.
+        """
+
+class Prv_airbnb(Protocol):
+    """Airbnb's own stays search — a location, optional dates and guest counts in, priced
+    listing rows (title, rating, review count, display price, photo, url) out, straight off
+    airbnb.com/s.
+    """
+
+    async def search(self, args: Prv_airbnb_search_args_In, /) -> list[Prv_airbnb_AirbnbListing_Out]:
+        """Runs Airbnb's own stays search for a free-text `location` (e.g. "San Francisco",
+        "Austin, Texas") the way airbnb.com/s does — optional `checkin`/`checkout`
+        (`YYYY-MM-DD`) and guest counts (`adults`, `children`, `infants`, `pets`) narrow it
+        exactly as the site's own search bar would. Returns each result's title, subtitle, star
+        rating, review count, the site's own display price string, cover photo and `/rooms/<id>`
+        url.
         """
 
 class Prv_airtable(Protocol):
@@ -22805,6 +24229,15 @@ class Prv_avantstay(Protocol):
         are not interchangeable on this site.
         """
 
+class Prv_avenuehealthcare(Protocol):
+    """Search for available clinics and services at Avenue Healthcare locations in Kenya."""
+
+    async def search(self, args: Prv_avenuehealthcare_SearchArgs_In, /) -> Prv_avenuehealthcare_SearchResult_Out:
+        """Search for available clinics and services across Avenue Healthcare locations in Kenya
+        (Nairobi, Kisumu, Thika, Nakuru, Eldoret, Mombasa). Returns the site's own list of
+        locations, medical centres and services.
+        """
+
 class Prv_avis(Protocol):
     """Car rental — availability search, existing-reservation lookup and location directory on
     avis.com. searchLocations and getLocation are live; the rest are stubs.
@@ -23345,6 +24778,31 @@ class Prv_bing(Protocol):
         """Searches Bing's image index and returns each hit's thumbnail URL, full-size image URL,
         the page it was found on, and its title. Core because a caller sent to Bing to find a
         picture of something has no other function to reach for.
+        """
+
+    async def searchVideos(self, args: Prv_bing_searchVideos_args_In, /) -> Prv_bing_BingVideoSearchResult_Out:
+        """Searches Bing's video index and returns each hit's title, destination URL, thumbnail,
+        and duration. Core because a caller sent to Bing to find a video of something has no
+        other function to reach for.
+        """
+
+    async def searchShopping(self, args: Prv_bing_searchShopping_args_In, /) -> Prv_bing_BingShoppingSearchResult_Out:
+        """Searches Bing Shopping and returns each product's title, price, merchant, star rating
+        and thumbnail — the retail-comparison read for 'who sells X and for how much'. `url` is
+        Bing's OWN listing page for the offer (`/shop/productdetails?…`), never the merchant's —
+        the grid never carries the merchant's own product URL, only the retailer's name.
+        """
+
+    async def define(self, word: str, /) -> Prv_bing_BingDictEntry_Out:
+        """Looks up a word in Bing's dictionary and returns its definitions grouped by part of
+        speech, example sentences, and phonetic information when available — the reference read
+        for 'what does this word mean'.
+        """
+
+    async def translateText(self, text: str, /) -> Prv_bing_BingTranslationResult_Out:
+        """Translates text to Spanish through Bing Translator and returns the translated result and
+        the detected source language when auto-detected. Use this when a caller needs text
+        translated by Bing's translation engine.
         """
 
 class Prv_bionicpo(Protocol):
@@ -23976,6 +25434,23 @@ class Prv_camelcamelcamel(Protocol):
         history the library has: there is no month-by-month series anywhere (the chart is an
         image), so answer 'how has the price moved' from lowest/highest/average/current and do
         not look for another source.
+        """
+
+class Prv_campspot(Protocol):
+    """Campspot's own published listings — find campgrounds by region (a US state, a Canadian
+    province, or a "near <city>" area) and read one campground's real address, amenities,
+    price range and rating, straight off its own schema.org page data.
+    """
+
+    async def findCampgrounds(self, region: str, /) -> list[Prv_campspot_CampspotCampgroundSummary_Out]:
+        """Given a free-text region (a US state, a Canadian province, or a Campspot "near
+        <city>"/"near <national park>" area), returns every campground Campspot's own directory
+        page for that region lists.
+        """
+
+    async def getCampground(self, url: str, /) -> Prv_campspot_CampspotCampground_Out:
+        """Given a campspot.com/park/<slug> url from findCampgrounds, returns that campground's own
+        published listing.
         """
 
 class Prv_cancer(Protocol):
@@ -25303,14 +26778,6 @@ class Prv_developersopenai(Protocol):
         "Connect in ChatGPT" sections of the returned body).
         """
 
-class Prv_dfs_rotogrinderssearch(Protocol):
-    """Search RotoGrinders for DFS projections, ownership percentages, and salary caps"""
-
-    async def search(self, args: Prv_dfs_rotogrinderssearch_SearchArgs_In, /) -> Prv_dfs_rotogrinderssearch_SearchResults_Out:
-        """Searches RotoGrinders for DFS projections, ownership percentages, and salary caps across
-        sports (NFL, NBA, MLB, etc.)
-        """
-
 class Prv_dice(Protocol):
     """Dice — the US technology-only job board. Reaches each posting's full description and
     skill list through Dice's own keyless MCP server at mcp.dice.com/mcp; declares tech-job
@@ -25628,15 +27095,6 @@ class Prv_embroker(Protocol):
     async def getQuoteEntryPoint(self, args: Prv_embroker_getQuoteEntryPoint_args_In, /) -> Prv_embroker_EmbrokerQuoteEntryPoint_Out:
         """Returns the live, confirmed-reachable entry URL for one of Embroker's self-serve
         quote-wizard products.
-        """
-
-class Prv_energyaustralia_com_au(Protocol):
-    """Priced business electricity plans in a postcode's distributor territory."""
-
-    async def getBusinessElectricityQuote(self, arg0: Prv_energyaustralia_com_au_getBusinessElectricityQuote_arg0_In, /) -> Prv_energyaustralia_com_au_EnergyaustraliaBusinessQuote_Out:
-        """Returns every business electricity plan EnergyAustralia offers in a postcode's
-        distributor territory, each priced at the regulator's standard reference consumption
-        (10,000 kWh/year) — the same live call the site's own business quote page makes.
         """
 
 class Prv_epromos(Protocol):
@@ -26072,6 +27530,26 @@ class Prv_fluencecorp(Protocol):
         """Computes Normalized Energy Consumption (NEC, kWh/kg) for a wastewater treatment plant
         design per ISO 21939, from design flows, influent/sludge/effluent concentrations,
         environmental conditions and a power-consumer list.
+        """
+
+class Prv_fomo(Protocol):
+    """fomo — a social crypto trading app across Solana, Base, BNB, Ethereum and Monad: a
+    public leaderboard of traders ranked by realized PnL, each one's underlying trade log, a
+    feed of what the people you follow are buying, live memecoin market data from the
+    bonding curve onward, and the swap flow itself. Every route needs a signed-in fomo
+    account (Google, Apple or X sign-in only — there is no anonymous read surface and no API
+    key).
+    """
+
+    async def getCurrentUser(self, /) -> Prv_fomo_FomoUser_Out:
+        """Returns the signed-in trader's own profile — id, userHandle, display name, bio, avatar,
+        follower and following counts, linked X handle, and their clan if they are in one.
+        """
+
+    async def getLeaderboard(self, args: Prv_fomo_getLeaderboard_args_In | None = None, /) -> list[Prv_fomo_FomoLeaderboardEntry_Out]:
+        """Returns fomo's ranked traders for one window (daily, weekly, monthly or allTime; default
+        weekly) with each one's realized PnL, percentage return, volume, trade count and win
+        rate.
         """
 
 class Prv_ford(Protocol):
@@ -26548,8 +28026,9 @@ class Prv_github(Protocol):
     """GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
     message), paged and windowed; a public repo's release history (tag, name, dates, release
     notes text), paged; a public repo's metadata (name, description, stars, forks, language,
-    license, homepage); a profile's README and metadata; a repository search across all of
-    GitHub by name, language, topic, stars and other qualifiers.
+    license, homepage); a user's public profile information; every public repo a user owns,
+    sorted and paged; a repository search across all of GitHub by name, language, topic,
+    stars and other qualifiers.
     """
 
     async def listCommits(self, owner: str, repo: str, options: Prv_github_GithubListCommitsOptions_In | None = None, /) -> Prv_github_GithubListCommitsResult_Out:
@@ -26606,6 +28085,67 @@ class Prv_github(Protocol):
         for any query. The search endpoints share a STRICTER unauthenticated ceiling than every
         other function here: 10 requests/minute per IP, not the 60/hour core-API bucket. THROWS
         on an invalid query (422) or a rate limit (403/429).
+        """
+
+    async def getUserRepositories(self, username: str, options: Prv_github_GithubGetUserRepositoriesOptions_In | None = None, /) -> Prv_github_GithubGetUserRepositoriesResult_Out:
+        """Lists every PUBLIC repository a user owns, off GitHub's own unauthenticated REST
+        endpoint. Each row carries the repo's name, description, fork/archived flags, default
+        branch, star/fork counts, primary language, URL and update/push timestamps.
+        `options.sort` (`created`/`updated`/`pushed`/`full_name`, default `full_name`) and
+        `options.direction` (`asc`/`desc`) control ordering; `options.per_page` (1-100, default
+        30) and `options.page` page through a user with many repos. Shares the same 60
+        requests/hour per IP unauthenticated ceiling as `listCommits`/`listReleases`/`getRepo`.
+        THROWS on an unknown username (404) or a rate limit (403/429); a user who owns no public
+        repos returns `repositories: []`, not a throw.
+        """
+
+    async def getUser(self, username: str, /) -> Prv_github_GithubUser_Out:
+        """Returns a person's public GitHub profile metadata off GitHub's own unauthenticated REST
+        users endpoint — login, name, company, location, email, bio, X handle,
+        follower/following counts, public repo count, and account creation/update timestamps.
+        Takes a username. Shares the same 60 requests/hour per IP unauthenticated ceiling as
+        `listCommits`/`listReleases`/`getRepo`/`getUserRepositories`. THROWS on an unknown
+        username (404) or a rate limit (403/429).
+        """
+
+    async def getOrganization(self, org: str, /) -> Prv_github_GithubOrganization_Out:
+        """Returns an organization's public metadata off GitHub's own unauthenticated REST orgs
+        endpoint — login, name, description, location, blog/website URL, email, avatar URL,
+        public repo count, and account creation/update timestamps. Takes an organization name.
+        Shares the same 60 requests/hour per IP unauthenticated ceiling as
+        `listCommits`/`listReleases`/`getRepo`/`getUserRepositories`. THROWS on an unknown
+        organization (404) or a rate limit (403/429).
+        """
+
+    async def listIssues(self, owner: str, repo: str, options: Prv_github_GithubListIssuesOptions_In | None = None, /) -> Prv_github_GithubListIssuesResult_Out:
+        """Lists issues on a public repository off GitHub's own unauthenticated REST issues
+        endpoint — each issue's number, title, body, creator, assignee logins, label names,
+        state, comment count, and created/updated/closed timestamps. GitHub's issues endpoint
+        also returns pull requests internally (a PR is an issue with extra fields); this
+        function drops every row that is actually a pull request, so the result is issues only —
+        use `listPullRequests` for PRs. `options.state` (`"open"`/`"closed"`/`"all"`, default
+        `"open"`) filters by state; `options.assignee` (a login, or `"none"`/`"*"`) filters by
+        assignee; `options.labels` is a comma-separated list of label names (AND'd together,
+        GitHub's own syntax); `options.milestone` (a milestone number, or `"none"`/`"*"`)
+        filters by milestone. `options.per_page` (1-100, default 30) and `options.page` page
+        through results. Shares the same 60 requests/hour per IP unauthenticated ceiling as
+        `listCommits`/`listReleases`/`getRepo`. THROWS on an unknown owner/repo (404) or a rate
+        limit (403/429); a repo with no matching issues returns `issues: []`, not a throw.
+        """
+
+    async def listPullRequests(self, owner: str, repo: str, options: Prv_github_GithubListPullRequestsOptions_In | None = None, /) -> Prv_github_GithubListPullRequestsResult_Out:
+        """Lists pull requests on a public repository off GitHub's own unauthenticated REST
+        pull-requests endpoint — each PR's number, title, body, creator, state, draft flag,
+        base/head branch names, and created/updated/closed timestamps. `merged` is derived from
+        GitHub's own `merged_at`, since GitHub reports `state: "closed"` for both a merged PR
+        and one closed without merging. `options.state` (`"open"`/`"closed"`/`"all"`, default
+        `"open"`) filters by state; `options.base` filters by base branch (e.g. `"main"`);
+        `options.head` filters by head branch (`"user:branch"`, or `"branch"` within the same
+        repo). `options.per_page` (1-100, default 30) and `options.page` page through results.
+        Shares the same 60 requests/hour per IP unauthenticated ceiling as
+        `listCommits`/`listReleases`/`getRepo`/`listIssues`. THROWS on an unknown owner/repo
+        (404) or a rate limit (403/429); a repo with no matching pull requests returns
+        `pullRequests: []`, not a throw.
         """
 
 class Prv_glama(Protocol):
@@ -26880,6 +28420,33 @@ class Prv_google_maps(Protocol):
         measured 2026-09-16. Takes a featureId
         (searchPlaces/geocodeAddress/getPlace/resolvePlaceUrl all hand one back), not a
         resolving query.
+        """
+
+    async def getPopularTimes(self, args: Prv_google_maps_GetPopularTimesArgs_In, /) -> Prv_google_maps_PopularTimesResult_Out:
+        """The "popular times" histogram for a place, from the CALLER's own signed-in Google
+        session — an authFunction, not a park: Bowmark signs nobody up for a Google account, but
+        the caller's own login works here exactly as it does on youtube's signed-in functions.
+        Reads the same resolved-place record getPlace/listReviews already parse, with the
+        caller's cookies attached, and reports a real histogram when Google's field mask carries
+        one for this session. With no session (the canary's own state), or when the response
+        carries no recognizable histogram, throws rather than fabricating one — nobody here
+        holds a signed-in Maps session to have ever captured the positive shape.
+        """
+
+    async def listSavedPlaces(self, /) -> Prv_google_maps_ListSavedPlacesResult_Out:
+        """The places the signed-in caller saved — Favourites, Want to go, Starred and their own
+        named lists — an authFunction: Bowmark signs nobody up for a Google account, but the
+        caller's own login works here exactly as it does on getPopularTimes. A DIFFERENT door
+        from the rest of this provider — www.google.com/maps/preview/entitylist/getlist, found
+        by reading a logged-out www.google.com/maps/@ page's own prefetch links, not a further
+        reading of searchPlaces' tbm=map record. Needs no bootstrap fetch: the pb= value it
+        takes is a static, reusable template exactly like _client's own (measured live — a real
+        per-page-load token, a fabricated one and no token at all all answer identically). With
+        no session (the canary's own state, and every anonymous caller) it returns the site's
+        own well-formed refusal, distinct from a malformed request; with a session that carries
+        no recognizable list, or when the response carries no recognizable list at all, throws
+        rather than fabricating one — nobody here holds a signed-in Maps session to have ever
+        captured the positive shape.
         """
 
 class Prv_google_news(Protocol):
@@ -27605,6 +29172,12 @@ class Prv_healthcare_gov(Protocol):
     # argument, so there is no honest signature to emit.
     # It is CALLABLE at runtime; `bowmark.providers.healthcare_gov.findLocalHelp` is a checker error here on purpose.
     # An `(*args: Any) -> Any` stand-in would pass and tell you nothing.
+
+class Prv_healthie(Protocol):
+    """Search for health and wellness practices and providers on Healthie's platform."""
+
+    async def searchPractices(self, args: Prv_healthie_SearchPracticesArgs_In, /) -> list[Prv_healthie_Practice_Out]:
+        """Search for health and wellness practices by name, specialty, or location."""
 
 class Prv_heatherwood(Protocol):
     """Reads Heritage Westminster's (a Heatherwood property) own floor-plan search: every
@@ -28633,6 +30206,13 @@ class Prv_jcrew(Protocol):
         is where a caller holding only words gets the style id every other function takes.
         """
 
+    async def browseCategory(self, args: Prv_jcrew_BrowseCategoryArgs_In, /) -> Prv_jcrew_BrowseCategoryResult_Out:
+        """Lists the products in one J.Crew category the way the site's own category pages do —
+        given a category id such as `mens|categories|clothing|shirts` — with the same pagination
+        as `searchProducts`. This is how an agent walks a department rather than guessing search
+        words for it.
+        """
+
     async def getProduct(self, args: Prv_jcrew_GetProductArgs_In, /) -> Prv_jcrew_GetProductResult_Out:
         """Reads one J.Crew product in full — given the style id at the end of a product URL, e.g.
         `BX291` — returning the name, descriptions, price, currency, online inventory (orderable
@@ -28662,6 +30242,43 @@ class Prv_jcrew(Protocol):
         characters long, e.g. "oxford" — returning the corrected/completed terms, matching
         categories and matching products the site itself would suggest. The door in front of
         `searchProducts` for a caller that does not yet know the site's vocabulary.
+        """
+
+    async def getCategory(self, args: Prv_jcrew_GetCategoryArgs_In, /) -> Prv_jcrew_GetCategoryResult_Out:
+        """Reads one J.Crew category by id — given the id `listCategories` returns, e.g.
+        `"mens|categories|clothing|shirts"` — returning its display name, its immediate parent's
+        id (`null` at the top of the tree) and the full ancestor chain back to the top, root
+        first.
+        """
+
+    async def listSearchRefinements(self, args: Prv_jcrew_ListSearchRefinementsArgs_In, /) -> Prv_jcrew_ListSearchRefinementsResult_Out:
+        """Lists the filters J.Crew offers for a search or a category — size, colour, pattern,
+        price, discount, occasion, brand and more — each with the values the site publishes and
+        how many products in that result set carry them. Give a `query` (same bound as
+        `searchProducts`) or a `categoryId` (same as `browseCategory`), not both. Drops the
+        site's own internal merchandising facets (promotion ids, country allow-lists) that no
+        shopper-facing filter uses.
+        """
+
+    async def listSortOptions(self, /) -> Prv_jcrew_ListSortOptionsResult_Out:
+        """Lists the sort orders J.Crew's own result pages offer — price low to high, price high to
+        low, top rated, newest and best seller — so a caller can ask
+        `searchProducts`/`browseCategory` for one by the site's own id rather than guessing.
+        Site-wide and unscoped: the same five options apply to every search and category. Drops
+        the site's own internal merchandising sort rules, which never carry a real display
+        label.
+        """
+
+    async def findStores(self, args: Prv_jcrew_FindStoresArgs_In, /) -> Prv_jcrew_FindStoresResult_Out:
+        """Finds physical J.Crew stores near a point the way the site's own store locator does —
+        pass EITHER a 5-digit US `zip` (geocoded to a centroid with a keyless third-party
+        lookup, since J.Crew's own endpoint takes only coordinates) OR `latitude`+`longitude`
+        directly, never both, e.g. `{ zip: "10001" }` or `{ latitude: 40.7, longitude: -74.0 }`.
+        Returns each store's name, full address, phone, email, coordinates, distance from the
+        search point, weekly hours, curbside/in-store pickup and same-day delivery flags, and
+        the site's own raw merchandise tags. `radiusKm` (default 50, kilometres — the unit the
+        site itself validates) and `maxResults` (default 25) bound the search; `total` reports
+        how many matched even when `maxResults` capped the page.
         """
 
 class Prv_jennikayne(Protocol):
@@ -29227,6 +30844,12 @@ class Prv_liquiddeath(Protocol):
         variants, current prices and per-variant stock. Matches whole words, so 'tee' finds tees
         and not 'Steel'. Returns [] when nothing matches, which is an ordinary answer rather
         than an error.
+        """
+
+    async def listProducts(self, opts: Prv_liquiddeath_listProducts_opts_In | None = None, /) -> list[Prv_liquiddeath_LiquiddeathProduct_Out]:
+        """Lists products from Liquid Death's live catalogue without a search term, supporting the
+        same filters as searchProducts (product type, stock, limit). Returns products in stored
+        order. Returns [] if no products match the filters.
         """
 
     async def getProduct(self, handle: str, /) -> Prv_liquiddeath_LiquiddeathProduct_Out:
@@ -29829,6 +31452,14 @@ class Prv_mergify(Protocol):
         `auth`.
         """
 
+class Prv_meteofrance(Protocol):
+    """Marine wind forecasts for French coastal regions from the national weather service."""
+
+    async def getMarineWindForecast(self, region: str, /) -> list[Prv_meteofrance_MarineWindForecast_Out]:
+        """Fetches marine wind forecasts for a French coastal region (e.g., Méditerranée,
+        Atlantique), including wind speed, gusts, direction and wave height.
+        """
+
 class Prv_microcenter(Protocol):
     """Micro Center (microcenter.com) — live product search over this store's own catalogue,
     cheapest matching item first.
@@ -30084,6 +31715,45 @@ class Prv_mossyoak(Protocol):
         before applying the limit — so a caller asking for one category does not have to fetch
         and filter the whole storefront themselves. In-stock products first, then by handle.
         `warnings` names it when the requested productType matched nothing.
+        """
+
+class Prv_msn(Protocol):
+    """MSN's news portal — top stories, section feeds, article text, money quotes and weather,
+    logged out.
+    """
+
+    async def getTopStories(self, limit: float | None = None, /) -> Prv_msn_MsnTopStories_Out:
+        """Returns the top stories the MSN front page is showing right now, the way www.msn.com
+        does for a visitor with no account: each story's headline, its own outlet's byline, the
+        outlet name, a summary, publish time and a thumbnail. This is the general 'what's
+        happening' read — the entry point for anything that starts with the portal's own
+        front-page mix rather than a specific query. `type` is `article` or `video`; a video
+        card carries no `readTimeMin`. `limit` slices the answer client-side — the feed door
+        itself has no page-size parameter, so a lower limit costs the same one request.
+        `nextPageUrl` is the site's own pagination cursor — pass it to a plain GET against the
+        same door to walk further, `null` when the site reports no further page.
+        """
+
+    async def searchNews(self, query: str, /) -> Prv_msn_MsnTopStories_Out:
+        """Searches MSN's own aggregated news index the way its front-page search does and returns
+        matching stories in the same shape as getTopStories — headline, outlet, summary, publish
+        time, thumbnail. Distinct from a general web search: MSN only returns coverage it has
+        actually aggregated from its publisher network, never the wider web. There is no
+        separate search route — `query` steers the same feed door getTopStories reads, so the
+        result set is whatever that door currently returns for the term.
+        """
+
+    async def getSectionFeed(self, section: Literal["sports"] | Literal["entertainment"] | Literal["health"] | Literal["lifestyle"] | Literal["travel"] | Literal["autos"], /) -> Prv_msn_MsnTopStories_Out:
+        """Returns the current top-stories feed the way msn.com/en-us/<section> does for a visitor
+        with no account, for one of six sections: sports, entertainment, health, lifestyle,
+        travel, autos. Measured live 2026-09-23: MSN itself does not filter this content by
+        section for a logged-out visitor — every one of those six pages requests the identical
+        house feed (confirmed byte-for-byte across five of them, and the sixth's
+        distinctly-tagged request returns the same generic mix) — so this returns the same
+        stories as getTopStories, honestly, rather than fabricating a per-section split the site
+        does not make. "money" and "weather" are not article-feed sections at all (their pages
+        are server-rendered quote/forecast data) — use getMarketSummary, getStockQuote or
+        getWeatherForecast. "video" fires its own dedicated feed door and is not yet built.
         """
 
 class Prv_municipal_recreation_fees_fetcher(Protocol):
@@ -30505,6 +32175,15 @@ class Prv_onthemarket(Protocol):
     async def search(self, args: Prv_onthemarket_SearchArgs_In, /) -> list[Prv_onthemarket_OnTheMarketProperty_Out]:
         """Search for residential properties by location and type (sale or rent)"""
 
+class Prv_openai(Protocol):
+    """OpenAI pricing plans and help documentation from learn.chatgpt.com."""
+
+    async def plans(self, /) -> list[Prv_openai_openaiPlan_Out]:
+        """Returns available OpenAI pricing plans with monthly/annual rates and Codex limits."""
+
+    async def helpArticle(self, args: Prv_openai_openaiHelpArticleArgs_In, /) -> str:
+        """Retrieves the full text of a help article by its ID from OpenAI's documentation."""
+
 class Prv_originenergy_com_au(Protocol):
     """originenergy.com.au business electricity quote — every plan Origin Energy offers in a
     postcode's distributor territory, priced at the regulator's standard reference
@@ -30655,6 +32334,12 @@ class Prv_packlane(Protocol):
         own on-page calculator API.
         """
 
+class Prv_pallet2ship(Protocol):
+    """Get pallet freight quotes from Pallet2Ship, a UK pallet broker."""
+
+    async def getQuote(self, args: Prv_pallet2ship_GetQuoteArgs_In, /) -> Prv_pallet2ship_Pallet2ShipQuote_Out:
+        """Returns a price estimate for transporting a pallet between two UK postcodes."""
+
 class Prv_pawsup(Protocol):
     """Luxury glamping resort availability and accommodations on Paws Up's booking portal."""
 
@@ -30758,6 +32443,66 @@ class Prv_pinterest(Protocol):
         """Search for Pinterest boards by name and get the boards back: `id`, `name`, `url`,
         `pin_count`, and `section_count`. `POST/GET /resource/BaseSearchResource/get/` with
         `scope: "boards"`. THROWS `PinterestInputError` on an empty or non-string query.
+        """
+
+    async def searchUsers(self, query: str, options: Prv_pinterest_searchUsers_options_In | None = None, /) -> Prv_pinterest_searchUsers_return_Out:
+        """Search for people and brands by name and get their account back: `id`, `username`,
+        `full_name`, `follower_count`, `board_count`, `pin_count`, and `is_verified_merchant`.
+        `POST/GET /resource/BaseSearchResource/get/` with `scope: "users"`. THROWS
+        `PinterestInputError` on an empty or non-string query.
+        """
+
+    async def searchVideos(self, query: str, options: Prv_pinterest_searchVideos_options_In | None = None, /) -> Prv_pinterest_searchVideos_return_Out:
+        """Search only the video pins in Pinterest's catalogue and get them back in the same shape
+        as `searchPins`: `grid_title`, the outbound `link`, the pinner's username, the board it
+        lives on, every image size, and `product_metadata` when shoppable. The videos scope
+        answers a caller who wants how-to clips instead of still images. `POST/GET
+        /resource/BaseSearchResource/get/` with `scope: "videos"`. THROWS `PinterestInputError`
+        on an empty or non-string query.
+        """
+
+    async def suggestSearches(self, query: str, /) -> Prv_pinterest_suggestSearches_return_Out:
+        """Get search suggestions as Pinterest returns them for a partial query — the same
+        suggestions the site's own search box shows a person as they type. Returns the text of
+        each suggestion, and the id if the site provides one. `POST/GET
+        /resource/TypeaheadResource/get/`. THROWS `PinterestInputError` on an empty or
+        non-string query.
+        """
+
+    async def getPin(self, id: str, /) -> Prv_pinterest_PinterestPinDetail_Out:
+        """Read one pin in full: title, `seo_title`, the description Pinterest renders, the
+        outbound `link` and `link_domain`, `created_at`, the pinner and the board it was saved
+        to, every image size, `repin_count` / `share_count` / `reaction_counts`, `price_value`
+        and `price_currency` when it is shoppable, `carousel_data` and `videos` when it is not a
+        still, and the `aggregated_pin_data.id` that `listPinComments` needs (not the pin id).
+        `POST/GET /resource/PinResource/get/` with `field_set_key: "auth_web_main_pin"`. THROWS
+        `PinterestInputError` on an empty or non-string id.
+        """
+
+    async def getProduct(self, id: str, /) -> Prv_pinterest_PinterestProduct_Out:
+        """Read the product behind a shoppable pin: `price`, `currency`, `rating` and
+        `review_count`, `availability` and `item_id`, plus the `item_set_id` if there are
+        variants. Stops at the merchant's link - it never buys. `POST/GET
+        /resource/PinResource/get/` with `field_set_key: "auth_web_main_pin"`, extracting
+        product metadata. THROWS `PinterestInputError` on an empty or non-string id.
+        """
+
+    async def listVisualObjects(self, id: str, /) -> Prv_pinterest_listVisualObjects_return_Out:
+        """The objects Pinterest's own computer vision found inside a pin's image — each with a
+        `label`, a `label_id`, a confidence `score`, and a bounding box (`x`/`y`/`w`/`h`,
+        fractions of the image, not pixels) — so an agent can say "the lamp in this photo" and
+        hand that object on to `findVisuallySimilar`. Some detected objects carry no `label` at
+        all. `POST/GET /resource/PinResource/get/` with `field_set_key: "auth_web_main_pin"` and
+        `fetch_visual_search_objects: true`. THROWS `PinterestInputError` on an empty or
+        non-string id.
+        """
+
+    async def listRelatedProducts(self, id: str, /) -> Prv_pinterest_listRelatedProducts_return_Out:
+        """The competing and complementary products Pinterest shows beside a shoppable pin — the
+        items a shopper wants to compare with the one they found. Takes the pin id and returns
+        an array of related product recommendations with titles, links, prices, ratings and
+        availability. Uses the `RelatedProductsResource`. THROWS `PinterestInputError` on an
+        empty or non-string id.
         """
 
 class Prv_pirateship(Protocol):
@@ -30992,14 +32737,6 @@ class Prv_positivegrid(Protocol):
         `limit` to 10 (max 100). `totalWithinRadius` reports how many of the vendor's worldwide
         dealer list fell inside the radius, which can exceed `limit` — this module sees the
         whole feed, unlike a server-side search that would silently truncate.
-        """
-
-class Prv_postcard_direct_mail(Protocol):
-    """Get postcard printing quotes with pricing by quantity, size, and stock."""
-
-    async def getQuote(self, args: Prv_postcard_direct_mail_GetQuoteArgs_In, /) -> Prv_postcard_direct_mail_PostcardDirectMailQuoteResponse_Out:
-        """Returns pricing for direct mail postcards at the requested quantity with optional size
-        and stock.
         """
 
 class Prv_postiz(Protocol):
@@ -31580,160 +33317,346 @@ class Prv_puls_com(Protocol):
         """
 
 class Prv_reddit(Protocol):
-    """Communities, discussion threads and their comment trees — search, subreddit listings,
-    posts, users and wikis. Five functions are callable, off Reddit's own syndication feed,
-    and they compose into the whole path an agent actually walks: finding which COMMUNITIES
-    cover a topic, qualifying one of them before spending anything on it (may you read it at
-    all, and is anyone still posting), reading that community's own front page under any
-    sort reddit offers (hot, new, top, rising, controversial), searching submissions by
-    topic across the site or inside that community, and reading any one of the threads that
-    returns in full, post and comments.
+    """Communities, threads and comment trees, and the signed-in account. Public reads need
+    nothing: find communities, qualify one (subscribers, activity, whether you may read it),
+    read its front page under any sort, search posts site-wide or in one community, read a
+    thread with its full comment tree and scores, and look up users, wikis and rules. With
+    the caller signed in to Reddit it also acts as them: their home feed, subscriptions,
+    saved items and inbox; join, vote, save, hide; post, comment, reply, edit and delete.
     """
 
-    async def getSubreddit(self, name: str, /) -> Prv_reddit_RedditSubreddit_Out:
-        """Reads the facts about ONE Reddit community rather than its content, from a bare name,
-        "r/name" or the community's URL. This is the QUALIFYING read and it pairs with
-        `searchSubreddits`: that one says a community exists, this one says whether it is worth
-        anything to you — whether you may read it at all, what the moderators say it is for, and
-        whether anybody has actually posted in it. WHETHER YOU MAY READ IT IS FIVE ANSWERS, NOT
-        A BOOLEAN, and that is the central design of this function: `access.state` classifies it
-        as public, private, restricted, banned or unrecognized, and `access.label` carries
-        REDDIT'S OWN WORD alongside it, verbatim — "private", "premium members only", "banned",
-        "forbidden (reddit.com)" — because the classification is ours and the label is theirs. A
-        caller reading a flat `available: false` cannot tell "you may not read this" from
-        "nobody has posted here", and drops a live community or retries a dead one accordingly.
-        A refused community does NOT throw: `access.readable` goes false and THE DESCRIPTION IS
-        STILL THERE, because reddit publishes it even while refusing the listing — r/CenturyClub
-        is private and still tells you how to ask for an invite, which is the most useful thing
-        you can be told about a closed door. IS IT ALIVE: `newestPostAt`, `oldestPostAt`,
-        `activityWindowDays` and `postsPerDay` are measured over the community's hundred most
-        recent submissions, in true chronological order, and they are the honest substitute for
-        the subscriber count — a community whose hundred newest posts span four years is a ghost
-        town whatever it once had. THE THING IT DELIBERATELY DOES NOT GIVE YOU IS THAT
-        SUBSCRIBER COUNT, and it is stated in the returned `limits` rather than left for you to
-        discover: reddit publishes no member count, no online count, no posted rules, no
-        creation date and no display title to anyone without an account — four separate routes
-        were measured for the count and none carries it. Call `searchSubreddits` for the display
-        title and the creation date. Throws when reddit will not resolve the name at all (which
-        it signals with a 429 rather than a 404 — check your spelling before you retry), and
-        throws distinctly when the body is not reddit's own feed, because that is our access
-        being blocked rather than a fact about the community.
+    async def search(self, query: str | Prv_reddit_search_query_u1_In, /) -> Prv_reddit_RedditSearchResult_Out:
+        """Searches Reddit's posts for a phrase — across the whole site, or inside one community
+        with `subreddit` — and returns each matching thread with its score, comment count,
+        upvote ratio, flair, author, subreddit, age, the link or self-text it carries, and a
+        permalink. `sort` (default relevance) and `time` (default all) come back in the result
+        because reddit's relevance ranking is not reproducible and the window changes what `top`
+        means. `limit` is per page (max 100); pass `nextCursor` back as `after` for the next
+        page. Every post's `id` is exactly what `getPost` takes. No match returns an empty
+        `posts` array; a community that does not exist throws.
+        """
+
+    async def getPost(self, post: str | Prv_reddit_getPost_post_u1_In, /) -> Prv_reddit_RedditThread_Out:
+        """Reads one Reddit thread in full from a thread URL, a `t3_…` fullname or a post id: the
+        post with its score, comment count and body, and the comment TREE — each comment nested
+        under the one it replies to, with its score, author, body, depth and a permalink to that
+        exact reply. `sort` is reddit's own comment sort (default confidence, i.e. Best);
+        `limit` caps comments per request (default 200, max 500). Reddit folds long discussions:
+        a comment's `moreReplies` and the thread's `moreComments` list what was folded, and
+        `getCommentReplies` expands them. A deleted author is `null`. Throws when the thread
+        does not exist.
         """
 
     async def getSubredditPosts(self, input: str | Prv_reddit_getSubredditPosts_input_u1_In, /) -> Prv_reddit_RedditSubredditPostsResult_Out:
-        """Returns ONE community's own front page — the submissions in a subreddit under a chosen
-        sort, with the same per-post fields `search` returns (title, author, subreddit,
-        timestamp, a permalink to the discussion, the URL the post points at, and the self-text
-        body when it has one). Takes a bare name for the common case; the object form adds
-        `sort` (hot, new, top, rising, controversial — default hot), `time` (hour…all, for top
-        and controversial only) and `limit` (default 25, up to 300, fetched a page at a time).
-        `r/all` and `r/popular` are ordinary names here rather than separate functions. THE
-        DIFFERENCE FROM `search`, and it is the reason this exists: `search` needs a topic and
-        answers "who discussed X"; this needs none and answers "what is this community, right
-        now" — which is the only one of the two that can tell you what a subreddit is actually
-        about before you know what to ask it, and the only way to reach "the top posts in r/X
-        this month" at all. THE SORT IS VERIFIED RATHER THAN ASSUMED: reddit stamps the sort
-        into the feed's own title ("top scoring links", "newest submissions", "rising
-        submissions", "most controversial links"), and a listing that came back as some other
-        ordering THROWS rather than being returned under your sort — the failure that guard
-        catches is otherwise symptomless, because a silently-downgraded sort is still a 200
-        carrying a hundred well-formed posts. `time` on a sort that has no window is REFUSED
-        rather than ignored, and `time` comes back as `null` on those sorts so a window that did
-        nothing is never reported as one that did. PAGING IS DE-DUPLICATED AND THE
-        DE-DUPLICATION IS REPORTED, which is this function's central honesty problem: reddit's
-        cursor walks a LIVE ranking, so a walk across pages of `hot` can be overtaken by the
-        ranking moving underneath it, and a function that just concatenated pages would return
-        duplicates and HOLES while looking perfectly healthy. Duplicates are dropped;
-        `duplicatesDropped > 0` is your signal that the ranking moved and posts may also be
-        missing, and the fix is to ask for `top` or `controversial` with a window, which are
-        stable sets. THREE THINGS IT DELIBERATELY DOES NOT GIVE YOU, each repeated in the
-        returned `limits` rather than left for you to discover: there are NO SCORES, no comment
-        counts, no upvote ratio, no flair and no NSFW marker on any sort, so a listing ordered
-        by score cannot tell you what the scores were — only the order they produced; there is
-        no stickied/pinned flag, and pinned posts DO occupy the top of `hot` (measured:
-        r/programming's rank 1 was a moderator announcement from ten weeks earlier), so the
-        first row or two of `hot` is often not the current news; and `rising` is capped by
-        reddit at 25 posts however many you ask for. `moreAvailable: true` means the read
-        stopped at your `limit` or at this function's 300-post ceiling while reddit still had
-        more. A subreddit that does not exist throws by name.
+        """One community's own front page under a chosen sort (default hot), with the same per-post
+        fields `search` returns — score, comment count, upvote ratio, flair, stickied (pinned
+        posts sit at the top of hot). `time` applies only to top and controversial (default day)
+        and is refused on the others. `r/all` and `r/popular` are ordinary names here. Pages of
+        up to 100; pass `nextCursor` back as `after`. The difference from `search`: this needs
+        no topic and answers "what is this community talking about right now".
+        """
+
+    async def getSubreddit(self, name: str, /) -> Prv_reddit_RedditSubredditProfile_Out:
+        """The facts about ONE community, from "webscraping", "r/webscraping" or its URL:
+        subscriber count, active users, title, public description and long sidebar, type
+        (public, restricted, private…), NSFW and quarantine flags, creation date, icon and
+        banner, plus how alive it is — `newestPostAt` and `postsLastWeek` among its 25 newest
+        posts. CHECK `access.readable` FIRST: a community reddit will not show you does NOT
+        throw — `access.reason` carries reddit's own word ("private", "banned", "quarantined",
+        "gold_only") and `info` is null. A name reddit does not know at all throws; find the
+        real one with `searchSubreddits`.
         """
 
     async def searchSubreddits(self, query: str | Prv_reddit_searchSubreddits_query_u1_In, /) -> Prv_reddit_RedditSubredditSearchResult_Out:
-        """Finds Reddit COMMUNITIES by topic — the step before every other function here, and the
-        one an agent cannot skip: Reddit's value is concentrated in communities whose names you
-        would never guess (r/buildapcsales, r/webscraping, r/AskHistorians), so "which subreddit
-        should I be reading about X" is a real read in its own right and answering it wrong
-        sends every downstream call to the wrong place. Returns each community's bare `name`,
-        its display `title` (which often differs — r/scrapingtheweb is titled "Scraping the
-        web"), its URL, its description and the date it was created. Takes a bare topic for the
-        common case; the object form adds `limit` (default 25, up to 250, fetched a page at a
-        time). EVERY RESULT'S `name` IS EXACTLY WHAT `search({subreddit})` TAKES, which is the
-        pairing that makes this the entry point to the provider: a topic becomes a real
-        community name, which becomes that community's threads, which become one thread read in
-        full. WHICH SEARCH THIS IS, because Reddit has more than one and they disagree: this is
-        Reddit's own community index (`/subreddits/search.rss`), a NAME AND DESCRIPTION match —
-        measured, `buildapcsales` returns r/buildapcsales first, then r/buildapcsalesuk and
-        r/BuildAPCSalesMeta. It goes DEEPER than the up-to-three communities that `search`
-        injects into a site-wide post search: measured, those three are exactly this function's
-        top three for the same query, capped at three and gone from page 2 onward — so they are
-        this ranking truncated, and everything past rank 3 (for `buildapcsales`:
-        BuildAPCSalesMeta, buildapcsalesAE, bapcsalescanada…) is reachable only here. An exact
-        community name is therefore the strongest query here, and a conceptual phrase Reddit's
-        own communities do not literally use will under-return. TWO THINGS IT DELIBERATELY DOES
-        NOT GIVE YOU, because the syndication surface reachable without an account publishes
-        neither, and both are repeated in the returned `limits` rather than left for you to
-        discover: there are NO SUBSCRIBER COUNTS, so results cannot be ranked, filtered or
-        thresholded by size and a community with eight subscribers looks identical to one with
-        eight million; and there is no over-18, private/restricted or activity marker, so a
-        quarantined or dormant community is indistinguishable from a busy one. A topic no
-        community matches returns an empty `subreddits` array rather than throwing — "Reddit has
-        no community for this" is a real answer.
+        """Finds Reddit communities by topic or name — the step before every other read, because
+        the community that matters is often one you would never guess (r/buildapcsales,
+        r/AskHistorians). Each result carries its name (exactly what `getSubredditPosts` and
+        `search({subreddit})` take), title, description, subscriber count, active users, NSFW
+        flag, type and creation date, ranked as reddit ranks them. Pages of up to 100; pass
+        `nextCursor` back as `after`. No match returns an empty list.
         """
 
-    async def search(self, query: str | Prv_reddit_search_query_u1_In, /) -> Prv_reddit_RedditSearchResult_Out:
-        """Searches Reddit's submissions for a phrase — across the whole site, or scoped to one
-        community with `subreddit` — and returns the matching threads with their title, author,
-        subreddit, timestamp, a permalink to the discussion, the URL the post points at, and the
-        self-text body when it has one. Takes a bare phrase for the common case; the object form
-        adds `sort` (relevance, hot, top, new, comments), `time` (hour…all) and `limit` (default
-        25, up to 250, fetched a page at a time). THE RESULT IS THE ENTRY POINT TO THIS
-        PROVIDER: every post's `id` is exactly what `getPost` takes, so "what does Reddit say
-        about X" becomes a list of real threads you can then read in full — nothing else in the
-        library turns a topic into a Reddit thread id. THREE THINGS IT DELIBERATELY DOES NOT
-        GIVE YOU, because Reddit does not publish them on the surface reachable without an
-        account, and each is repeated in the returned `limits` rather than left for you to
-        discover: there are NO SCORES and NO COMMENT COUNTS, so results cannot be ranked,
-        filtered or weighted by popularity beyond the `sort` Reddit itself applied; there is no
-        flair and no NSFW marker; and Reddit's relevance ranking is neither stable nor
-        reproducible while the time window silently changes what `top` means — the same query
-        under relevance/all and top/year shared 2 of 22 posts when measured, which is why `sort`
-        and `time` come back in the result rather than being defaulted invisibly.
-        `moreAvailable: true` means the read stopped at your `limit` while Reddit still had
-        more. A site-wide search also returns up to three COMMUNITY hits, in `communities` and
-        never mixed into `posts`, because Reddit injects them into the same feed and they are
-        not submissions. A query that matches nothing returns an empty `posts` array rather than
-        throwing — "no Reddit thread discusses this" is a real answer — while a subreddit that
-        does not exist throws by name, because a typo and an undiscussed topic are opposite
-        findings.
+    async def getUser(self, name: str, /) -> Prv_reddit_RedditUserProfile_Out | Prv_reddit_RedditUserAbsent_Out:
+        """A redditor's public profile from a username, "u/name" or a profile URL: post, comment
+        and total karma, when the account was made, its avatar and profile blurb, whether it is
+        a Reddit employee, a moderator somewhere, verified, premium or suspended, and the
+        trophies on its profile. Use it to judge whether an account is a real long-standing
+        member before trusting what it says. CHECK `state` FIRST: "active" carries the profile;
+        "suspended" means reddit took the account down; "not_found" means no such account —
+        reddit answers a deleted account and a never-existing one identically, so the two cannot
+        be told apart. None of the three throws.
         """
 
-    async def getPost(self, ref: str, /) -> Prv_reddit_RedditThread_Out:
-        """Reads one Reddit thread — the submission and the discussion under it — from a thread
-        URL, a `t3_…` fullname or a bare post id. Returns the post's title, author, subreddit,
-        timestamp and self-text, plus up to 480 comments, each with its author, readable body,
-        timestamp and a permalink to that exact reply, which is what an agent citing evidence
-        actually needs. THREE THINGS IT DELIBERATELY DOES NOT GIVE YOU, because Reddit does not
-        publish them on the surface reachable without an account, and every one is stated in the
-        returned `limits` array rather than left for you to discover: comments are FLAT and in
-        Reddit's own display order — there is no parent id and no depth, so there is no tree and
-        any nesting here would be invented; there are NO SCORES, so a comment cannot be ranked
-        or weighted from this result; and there is no comment TOTAL, so a truncated read can
-        tell you the discussion continues but never by how much. `commentsTruncated: true` is
-        that flag and it is the field to check before drawing a conclusion from a long thread —
-        480 is a hard ceiling Reddit enforces, not a page size. An author of `null` is a deleted
-        account, which is the common case rather than an edge one. Throws rather than returning
-        an empty discussion when the thread does not exist or the feed shape moves, because
-        "nobody replied" and "we could not read it" are opposite answers.
+    async def searchUsers(self, query: str | Prv_reddit_searchUsers_query_u1_In, /) -> Prv_reddit_RedditUserSearch_Out:
+        """Finds redditors by name: a partial or remembered username goes in, matching accounts
+        come out with name, karma, account age, avatar and employee/moderator/verified flags —
+        the door to getUser, getUserPosts and getUserComments when you lack the exact handle.
+        `limit` up to 100 (default 25); pass `nextCursor` back as `after` for the next page.
+        """
+
+    async def getUserPosts(self, user: str | Prv_reddit_getUserPosts_user_u1_In, /) -> Prv_reddit_RedditUserPosts_Out:
+        """The posts one redditor has submitted, newest (default), top, hot or controversial first
+        — each with title, subreddit, score, comment count, link and permalink. `time` applies
+        to top and controversial (default all). `limit` up to 100; pass `nextCursor` back as
+        `after`. The result is a RECENT WINDOW, not a complete history: reddit serves about the
+        last 1,000 items per sort, so absence here does not mean they never posted it. A
+        top/controversial all-time page can come back empty on a big account; `warnings` says so
+        — try time "year". Throws when the account does not exist (getUser tells not-found from
+        suspended).
+        """
+
+    async def getUserComments(self, user: str | Prv_reddit_getUserComments_user_u1_In, /) -> Prv_reddit_RedditUserComments_Out:
+        """The comments one redditor has written, newest (default), top, hot or controversial first
+        — each with body, score, subreddit, a permalink to that exact reply, and `thread`: the
+        title, permalink, author and comment count of the post it sits in, so a reply means
+        something on its own. For the conversation around a comment, call getPost on
+        `thread.id`. Same controls and the same RECENT-WINDOW limit as getUserPosts (about the
+        last 1,000 per sort). Throws when the account does not exist.
+        """
+
+    async def findPostsByUrl(self, url: str | Prv_reddit_findPostsByUrl_url_u1_In, /) -> Prv_reddit_RedditPostsByUrl_Out:
+        """Given a link — an article, a paper, a product page, a repository — returns the Reddit
+        threads that submitted it, most-discussed first, each with subreddit, score, comment
+        count and permalink: the fastest route to what Reddit said about one specific thing.
+        Reddit matches submissions on the exact URL, so this also asks about the spellings
+        reddit treats as different (tracking parameters stripped, trailing slash toggled,
+        http/https, with and without www.) — one request each, up to five — and `matched` lists
+        every spelling asked and how many threads it found. `exact: true` asks only the URL as
+        given. Given a Reddit thread URL instead, it returns that thread plus its 'other
+        discussions' (the same link posted elsewhere).
+        """
+
+    async def listWikiPages(self, subreddit: str | Prv_reddit_listWikiPages_subreddit_u1_In, /) -> Prv_reddit_RedditWikiPages_Out | Prv_reddit_RedditWikiAbsent_Out:
+        """Lists the page names of one community's wiki (`index`, `faq`, `config/sidebar`, …) — the
+        index you need before getWikiPage, because wiki page names are not guessable. CHECK
+        `state` FIRST: "ok" carries `pages`; otherwise it says why there is nothing —
+        no_such_community, community_unavailable (banned), private, or not_viewable (wiki
+        switched off or limited to moderators/approved users; reddit does not say which). None
+        of those throws.
+        """
+
+    async def getWikiPage(self, subreddit: str | Prv_reddit_getWikiPage_subreddit_u1_In, /) -> Prv_reddit_RedditWikiPage_Out | Prv_reddit_RedditWikiAbsent_Out:
+        """Returns one page of a community's wiki — the FAQ, buying guide, reading list or detailed
+        rules a community wrote once and maintains — as markdown, with when it was last revised
+        and by whom. `page` defaults to "index"; listWikiPages lists the names. Pages can be
+        LONG (the AskHistorians rules page is ~42 KB); `long` is true past ~20 KB and the whole
+        text is still returned. CHECK `state` FIRST: "ok" carries the page; "page_not_found"
+        carries `pages`, the names that do exist; no_such_community, community_unavailable,
+        private and not_viewable say why there is nothing. None of those throws.
+        """
+
+    async def getSubredditRules(self, subreddit: str | Prv_reddit_getSubredditRules_subreddit_u1_In, /) -> Prv_reddit_RedditRules_Out:
+        """One community's posting rules, in the order the community ranks them: each rule's short
+        name, full markdown description, whether it applies to posts, comments or both, and the
+        label reddit's report menu uses for breaking it — plus the reddit-wide rules offered
+        beside them. The read to do before posting, and the one that explains why a post was
+        removed. Throws when the community does not exist, is banned or is private (the message
+        carries reddit's own reason).
+        """
+
+    async def browseSubreddits(self, list: Literal["popular"] | Literal["new"] | Prv_reddit_browseSubreddits_list_u2_In | None = None, /) -> Prv_reddit_RedditSubredditBrowse_Out:
+        """Lists communities without a query: Reddit's own most-popular (default) or newest
+        communities, each with name, title, description, subscriber count, type and NSFW flag —
+        the 'explore communities' page, for learning what is big (or just started) on Reddit
+        rather than what matches a word. `limit` up to 100; pass `nextCursor` back as `after`.
+        """
+
+    async def getCommentReplies(self, args: Prv_reddit_getCommentReplies_args_In, /) -> Prv_reddit_RedditCommentReplies_Out:
+        """Expands what getPost could not return in a big thread. Pass the thread (`post`) and the
+        `ids` from a comment's `moreReplies` or the thread's `moreComments` — the 'load more
+        comments' stubs — and get those comments back nested under the ones they answer, with
+        author, body, score and permalink; up to 100 ids per call, the rest come back in
+        `remainingIds`, and anything still folded in `more`. A `moreReplies` with EMPTY ids is
+        reddit's 'continue this thread' link: pass `parent` (that comment's id) instead and get
+        its whole reply branch.
+        """
+
+    async def getMyAccount(self, /) -> Prv_reddit_RedditMyAccount_Out:
+        """The signed-in caller's own Reddit account: username, karma, account age, avatar, whether
+        they have unread mail and how much, whether they moderate anywhere, and whether the
+        account is premium, email-verified or suspended. NEEDS THE CALLER SIGNED IN TO REDDIT;
+        the run pauses with a sign-in link when they are not. Call it first to learn whose
+        session a script is acting as.
+        """
+
+    async def getHomeFeed(self, opts: Prv_reddit_getHomeFeed_opts_In | None = None, /) -> Prv_reddit_RedditHomeFeed_Out:
+        """The signed-in caller's own Reddit home feed: posts from the communities they joined,
+        ranked the way Reddit ranks them for that person (sort best by default, or hot, new,
+        top, rising; `time` only with top, default day). Each post carries the caller's own
+        vote, saved and hidden state in `viewer`. Up to 100 per page (default 25); pass
+        `nextCursor` back as `after` for the next page, null when the feed ran out. NEEDS THE
+        CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not. A
+        lapsed sign-in is refused rather than read, because reddit would otherwise answer the
+        logged-out front page.
+        """
+
+    async def listMySubscriptions(self, opts: Prv_reddit_listMySubscriptions_opts_In | None = None, /) -> Prv_reddit_RedditMySubscriptions_Out:
+        """The communities the signed-in caller has joined, each with its subscriber count,
+        description, type and the caller's own subscriber/moderator/banned state. Up to 100 per
+        page (default 100); pass `nextCursor` back as `after` for more. NEEDS THE CALLER SIGNED
+        IN TO REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def listSaved(self, opts: Prv_reddit_listSaved_opts_In | None = None, /) -> Prv_reddit_RedditSavedList_Out:
+        """The posts and comments the signed-in caller has saved, newest save first, in one list:
+        check each item's `kind` ("post" or "comment"). A saved comment carries the title and
+        link of the thread it is in. Up to 100 per page (default 25); pass `nextCursor` back as
+        `after` for more. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in
+        link when they are not.
+        """
+
+    async def listInbox(self, opts: Prv_reddit_listInbox_opts_In | None = None, /) -> Prv_reddit_RedditInbox_Out:
+        """The signed-in caller's Reddit inbox, newest first: replies to their posts and comments,
+        username mentions and private messages, each marked unread or not. `filter` narrows it
+        to one folder (default all). Reading does not mark anything as read. Up to 100 per page
+        (default 25); pass `nextCursor` back as `after` for more. Reddit moved new private
+        conversations to its chat, which this does not read. NEEDS THE CALLER SIGNED IN TO
+        REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def listPostFlairs(self, subreddit: str, /) -> Prv_reddit_RedditPostFlairs_Out:
+        """The post flairs a community offers, with the template `id` submitPost takes, their text,
+        colours, and whether the poster may edit the text or only moderators may use one. Many
+        communities refuse a post without a flair, so call this first. `posterCanChoose: false`
+        means the community does not let posters pick a flair at all (flairs is then empty). A
+        community that does not exist is a caller-fixable not-found error. NEEDS THE CALLER
+        SIGNED IN TO REDDIT (reddit refuses the list to a logged-out visitor); the run pauses
+        with a sign-in link when they are not.
+        """
+
+    async def joinSubreddit(self, subreddit: str, /) -> Prv_reddit_RedditSubscription_Out:
+        """Joins a community as the signed-in caller, so its posts reach their home feed. Safe to
+        repeat: joining a community already joined changes nothing. A community that does not
+        exist is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the run
+        pauses with a sign-in link when they are not.
+        """
+
+    async def leaveSubreddit(self, subreddit: str, /) -> Prv_reddit_RedditSubscription_Out:
+        """Leaves a community the signed-in caller has joined. Safe to repeat: leaving one they are
+        not in changes nothing. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
+        sign-in link when they are not.
+        """
+
+    async def savePostOrComment(self, id: str, /) -> Prv_reddit_RedditSaveResult_Out:
+        """Saves a post or comment to the signed-in caller's Saved list (private to them). Takes a
+        fullname ("t3_…" post, "t1_…" comment) or a permalink. Safe to repeat. An id reddit does
+        not know is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the
+        run pauses with a sign-in link when they are not.
+        """
+
+    async def unsavePostOrComment(self, id: str, /) -> Prv_reddit_RedditSaveResult_Out:
+        """Removes a post or comment from the signed-in caller's Saved list. Takes a fullname or a
+        permalink. Safe to repeat. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
+        sign-in link when they are not.
+        """
+
+    async def hidePost(self, post: str | Prv_reddit_hidePost_post_u1_In, /) -> Prv_reddit_RedditHideResult_Out:
+        """Hides a post from the signed-in caller's feeds, or un-hides it with `hidden: false`.
+        Takes a post fullname ("t3_…") or permalink. Safe to repeat. NEEDS THE CALLER SIGNED IN
+        TO REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def vote(self, opts: Prv_reddit_vote_opts_In, /) -> Prv_reddit_RedditVoteResult_Out:
+        """Upvotes, downvotes or clears ("none") the signed-in caller's vote on a post or comment.
+        Takes a fullname ("t3_…", "t1_…") or a permalink. Safe to repeat: the same direction
+        twice leaves one vote. Reddit ignores votes on archived posts. NEEDS THE CALLER SIGNED
+        IN TO REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def followUser(self, user: str | Prv_reddit_followUser_user_u1_In, /) -> Prv_reddit_RedditFollowResult_Out:
+        """Follows a redditor as the signed-in caller, so their profile posts reach the caller's
+        feed, or unfollows with `follow: false`. Takes a username, "u/name" or profile URL. A
+        username with no account is a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN
+        TO REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def blockUser(self, user: str, /) -> Prv_reddit_RedditBlockResult_Out:
+        """Blocks a redditor for the signed-in caller, hiding their posts, comments and messages
+        from the caller. Takes a username, "u/name" or profile URL. Reddit answers a username
+        with no account, and the caller's own name, with the same bad-request refusal, which
+        surfaces as a caller-fixable not-found error. NEEDS THE CALLER SIGNED IN TO REDDIT; the
+        run pauses with a sign-in link when they are not.
+        """
+
+    async def createSubreddit(self, input: Prv_reddit_createSubreddit_input_In, /) -> Prv_reddit_RedditNewCommunity_Out:
+        """Creates a new community the signed-in caller owns and moderates: its name (3-21 letters,
+        digits or underscores), a short public description, and whether it is public, restricted
+        or private (default public). Returns the new community's id, name and URL. A taken or
+        invalid name comes back as reddit's own words. NEEDS THE CALLER SIGNED IN TO REDDIT; the
+        run pauses with a sign-in link when they are not.
+        """
+
+    async def submitPost(self, input: Prv_reddit_submitPost_input_In, /) -> Prv_reddit_RedditNewPost_Out:
+        """Posts to a community as the signed-in caller and returns the new post's id and
+        permalink. `kind` defaults from what is given: `url` → a link post, `image` (base64 +
+        mimeType, or a public image URL; PNG, JPEG, GIF or WebP) → an image post, `crosspostOf`
+        (a post id or URL) → a crosspost, otherwise a text post with `text` as its body.
+        `flairId` + `flairText` pick one of the community's post flairs; `nsfw`, `spoiler` mark
+        it; `sendReplies: false` turns off reply notifications. A community that refuses the
+        post (its rules, its karma bar, a private source for a crosspost) answers in reddit's
+        own words. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when
+        they are not.
+        """
+
+    async def postComment(self, input: Prv_reddit_postComment_input_In, /) -> Prv_reddit_RedditComment_Out:
+        """Comments on a post (its id like "t3_1abcde", or its URL) as the signed-in caller, in
+        markdown, and returns the new comment with its id and permalink. NEEDS THE CALLER SIGNED
+        IN TO REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def replyToComment(self, input: Prv_reddit_replyToComment_input_In, /) -> Prv_reddit_RedditComment_Out:
+        """Replies to a comment (its id like "t1_abc123", or its permalink) as the signed-in
+        caller, in markdown, and returns the new reply with its id and permalink. NEEDS THE
+        CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def editPostOrComment(self, input: Prv_reddit_editPostOrComment_input_In, /) -> Prv_reddit_RedditEdited_Out:
+        """Replaces the text of the signed-in caller's own text post or comment with `text`
+        (markdown) and returns it as it now reads. A post's title cannot be edited on reddit,
+        and link and image posts have no text to edit. Someone else's post or comment is refused
+        in reddit's own words. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
+        sign-in link when they are not.
+        """
+
+    async def deletePostOrComment(self, thing: str | Prv_reddit_deletePostOrComment_thing_u1_In, /) -> Prv_reddit_deletePostOrComment_return_Out:
+        """Deletes the signed-in caller's own post or comment, then reads it back to prove it now
+        shows as [deleted]. Throws when the thing does not exist, or when it still shows its
+        author afterwards (it was not the caller's). Deleting something already deleted
+        succeeds. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when
+        they are not.
+        """
+
+    async def reportPostOrComment(self, input: Prv_reddit_reportPostOrComment_input_In, /) -> Prv_reddit_reportPostOrComment_return_Out:
+        """Reports a post or comment as the signed-in caller. Give exactly one reason: `rule` — one
+        of that community's rules, by its name (read them with getSubredditRules); `siteReason`
+        — a Reddit-wide reason, which goes to Reddit rather than the moderators; or `reason` —
+        free text, which reaches the community's moderators where the community allows free-form
+        reports. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when
+        they are not.
+        """
+
+    async def sendDirectMessage(self, input: Prv_reddit_sendDirectMessage_input_In, /) -> Prv_reddit_sendDirectMessage_return_Out:
+        """Sends a message from the signed-in caller to another redditor. This is REDDIT CHAT, not
+        the old private-message inbox: reddit's own compose page now sends a chat message
+        request, and the legacy private-message endpoint refuses. It checks the recipient first:
+        an account that does not exist throws not-found, and one that does not accept message
+        requests is refused in reddit's words before anything is sent. `subject` defaults to the
+        first line of `text`. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a
+        sign-in link when they are not.
+        """
+
+    async def updateProfile(self, input: Prv_reddit_updateProfile_input_In, /) -> Prv_reddit_RedditProfileText_Out:
+        """Changes the signed-in caller's public profile: `displayName` (up to 30 characters; the
+        username itself never changes) and `about`, the profile bio (up to 200 characters).
+        Either or both; "" clears one. Returns both as the profile now shows them. NEEDS THE
+        CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
+        """
+
+    async def setProfilePicture(self, input: Prv_reddit_setProfilePicture_input_u0_In | Prv_reddit_setProfilePicture_input_u1_In, /) -> Prv_reddit_setProfilePicture_return_Out:
+        """Uploads an image (PNG, JPEG, GIF or WebP, as base64 + mimeType or a public image URL) as
+        the signed-in caller's profile picture, or with `reset: true` puts back reddit's
+        default. Returns the profile picture's URL as the profile now shows it. NEEDS THE CALLER
+        SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
         """
 
 class Prv_reliancepartners(Protocol):
@@ -32036,6 +33959,40 @@ class Prv_samsclub(Protocol):
         threshold, pharmacy/optical/tire savings, and more), the way the site's own
         plan-comparison page states it. Read-only: joining or paying for a membership is out of
         scope.
+        """
+
+class Prv_samsung(Protocol):
+    """Samsung's own US storefront and support site — products, prices, trade-in, warranty and
+    store lookups, plus a signed-in caller's own orders and rewards.
+    """
+
+    async def search(self, query: Prv_samsung_SearchArgs_In, /) -> Prv_samsung_SearchResponse_Out:
+        """Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/) and
+        returns what it shows: each result's name, price, availability, rating and its product
+        URL, in the site's own order.
+        """
+
+    async def listCategories(self, args: Prv_samsung_ListCategoriesArgs_In, /) -> Prv_samsung_ListCategoriesResponse_Out:
+        """The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors, Tablets,
+        Watches, Audio Devices, and Computing — each with the URL segment that browses it.
+        """
+
+    async def listCategoryProducts(self, args: Prv_samsung_ListCategoryProductsArgs_In, /) -> Prv_samsung_ListCategoryProductsResponse_Out:
+        """Browse a whole product family with no keyword search — every Galaxy S phone, every Neo
+        QLED TV — and get each model's name, price, star rating, review count, availability and
+        product URL. Takes the category slug from listCategories (e.g. 'smartphones', 'tvs').
+        """
+
+    async def getProduct(self, args: Prv_samsung_GetProductArgs_In, /) -> Prv_samsung_GetProductResponse_Out:
+        """Read one exact model's product page the way a shopper reads it: name, price, star
+        rating, review count, in-stock state, storage/color variants, specification sheet,
+        images, and the category breadcrumb. Takes the product's own URL (from search or
+        listCategoryProducts).
+        """
+
+    async def listDeals(self, args: Prv_samsung_ListDealsArgs_In, /) -> Prv_samsung_ListDealsResponse_Out:
+        """What is discounted right now across the whole Samsung store — each deal's name, current
+        price, original price, discount percentage, product URL and image.
         """
 
 class Prv_scentbird(Protocol):
@@ -33095,6 +35052,62 @@ class Prv_tiktok(Protocol):
         is enough, since the page renders off a placeholder handle segment.
         """
 
+    async def getTranscript(self, args: Prv_tiktok_GetTranscriptArgs_In, /) -> Prv_tiktok_tiktokTranscript_Out:
+        """A video's caption track fetched and parsed from the WebVTT file TikTok embeds in each
+        video page, with timed segments and full text. Returns empty segments when captions are
+        unavailable. Takes a `/@<handle>/video/<id>` URL or a bare numeric video id.
+        """
+
+    async def listCaptionTracks(self, args: Prv_tiktok_ListCaptionTracksArgs_In, /) -> list[Prv_tiktok_tiktokCaptionTrack_Out]:
+        """Which languages a video's captions are available in and which TikTok shows by default.
+        Returns an array of caption tracks with language codes, display names, whether each is
+        auto-generated, and which one is default. Mirrors youtube.listCaptionTracks. Takes a
+        `/@<handle>/video/<id>` URL or a bare numeric video id.
+        """
+
+    async def listUserVideos(self, args: Prv_tiktok_ListUserVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+        """A creator's most recent videos — id and caption — read off the unsigned
+        `/embed/@<handle>` page, the door from a handle to their videos. Each id then resolves
+        through getVideo for full stats. Returns only the first page the embed page ships;
+        paging past it is unmeasured.
+        """
+
+    async def listComments(self, args: Prv_tiktok_ListCommentsArgs_In, /) -> list[Prv_tiktok_tiktokComment_Out]:
+        """Comments on a video — text, author (id, handle, nickname), like count, reply count, and
+        creation time. Reads the unsigned `/api/comment/list/` endpoint with no request
+        signature required. Returns up to 20 comments on the first call; paging with cursor is
+        unmeasured.
+        """
+
+    async def listCommentReplies(self, args: Prv_tiktok_ListCommentRepliesArgs_In, /) -> list[Prv_tiktok_tiktokCommentReply_Out]:
+        """The replies under one comment thread — text, author (id, handle, nickname), like count,
+        and creation time. Takes a video reference plus a commentId (the `id` field off a
+        listComments row). Reads the unsigned `/api/comment/list/reply/` endpoint, the same
+        shape as listComments on the same host. A comment with no replies answers an empty array
+        rather than an error. Returns up to 20 replies on the first call; paging with cursor is
+        unmeasured.
+        """
+
+    async def searchVideos(self, args: Prv_tiktok_SearchVideosArgs_In, /) -> list[Prv_tiktok_tiktokSearchResult_Out]:
+        """Search for videos on TikTok by keyword. Returns up to 20 results with id, caption,
+        author (id, handle, nickname), and stats (play count, likes, comments, shares). Uses the
+        browser to load the search page and intercept the API response, as the signed search
+        endpoint requires derived request signatures.
+        """
+
+    async def searchUsers(self, args: Prv_tiktok_SearchUsersArgs_In, /) -> list[Prv_tiktok_tiktokUserSearchResult_Out]:
+        """Search for users on TikTok by query. Returns up to 20 results with id, username,
+        nickname, verification status, follower count and video count. Uses the browser to load
+        the user search page and intercept the API response, as the signed search endpoint
+        requires derived request signatures.
+        """
+
+    async def getHashtag(self, args: Prv_tiktok_GetHashtagArgs_In, /) -> Prv_tiktok_tiktokHashtag_Out:
+        """A hashtag's facts — view count, description, whether it is currently promoted — off
+        TikTok's hashtag page. Uses the browser to load the hashtag page and intercept the API
+        response, as the hashtag page is served off the signed app API.
+        """
+
 class Prv_tilsonhomes(Protocol):
     """Reads Tilson Homes' Build-On-Your-Land floor plan catalog and each plan's Anewgo-powered
     customizer — bed/bath/size range and exterior finish options — the way the live site's
@@ -33876,6 +35889,59 @@ class Prv_wikipedia(Protocol):
         wikipedia.org url and follows the site's own redirects.
         """
 
+    async def getSummary(self, titleOrUrl: str, options: Prv_wikipedia_getSummary_options_In | None = None, /) -> Prv_wikipedia_WikipediaSummary_Out:
+        """The lead of an article and nothing else — the first paragraph as plain text and as HTML,
+        the short description, a thumbnail and the original image, coordinates when the subject
+        is a place, the Wikidata id, and the canonical url. The call for "what is X" where
+        `getArticle`'s full body is far more than was asked for. Takes the same title-or-url
+        argument as `getArticle`.
+        """
+
+    async def getSections(self, titleOrUrl: str, options: Prv_wikipedia_getSections_options_In | None = None, /) -> Prv_wikipedia_getSections_return_Out:
+        """The article's table of contents — every section with its number, heading, nesting level
+        and anchor, in page order. What a caller reads to decide WHICH part of a long article it
+        actually wants before pulling the text. Takes the same title-or-url argument as
+        `getArticle` and follows the site's own redirects.
+        """
+
+    async def getSection(self, titleOrUrl: str, sectionIndex: str, options: Prv_wikipedia_getSection_options_In | None = None, /) -> Prv_wikipedia_WikipediaSectionContent_Out:
+        """The rendered HTML of one section, after the site's parser has converted wikitext to
+        markup. Takes an article title or url and a section index (from getSections) and returns
+        that section's HTML content with its title. Useful for getting a specific part of a long
+        article without fetching the whole thing.
+        """
+
+    async def getArticleHtml(self, titleOrUrl: str, options: Prv_wikipedia_getArticleHtml_options_In | None = None, /) -> Prv_wikipedia_WikipediaArticleHtml_Out:
+        """The article's rendered HTML — the real page body, with tables, references, footnotes and
+        infobox markup intact, for a caller that wants to parse structure rather than read
+        prose. Takes an article title OR any wikipedia.org url and follows the site's own
+        redirects.
+        """
+
+    async def getWikitext(self, titleOrUrl: str, options: Prv_wikipedia_getWikitext_options_In | None = None, /) -> Prv_wikipedia_WikipediaWikitext_Out:
+        """The article's raw wikitext source — the exact text an editor sees in the edit box,
+        including all templates, transclusions, categories, links and redirects. The input for
+        any caller that wants to analyse, diff or programmatically change a page, and what
+        getInfobox parses to extract infobox templates.
+        """
+
+    async def getInfobox(self, titleOrUrl: str, options: Prv_wikipedia_getInfobox_options_In | None = None, /) -> Prv_wikipedia_WikipediaInfobox_Out:
+        """The Wikipedia infobox from an article — the grey fact box at the top right of most
+        articles, parsed into a key/value structure. Infoboxes contain facts like country
+        capitals and populations, film directors and release dates, or chemical formulas.
+        Returns the infobox's type (the template name, e.g., 'beverage', 'country') alongside
+        its fields. Field values retain their original wikitext — templates and links are not
+        expanded. Takes an article title OR any wikipedia.org url and follows the site's own
+        redirects.
+        """
+
+    async def listLinks(self, titleOrUrl: str, options: Prv_wikipedia_listLinks_options_In | None = None, /) -> Prv_wikipedia_listLinks_return_Out:
+        """Every other Wikipedia article this one links to, by title and url. The outbound half of
+        the encyclopedia's link graph, and the usual way to walk from a topic to its neighbours.
+        Takes an article title OR any wikipedia.org url and follows the site's own redirects.
+        Optional limit parameter caps the number of links returned (defaults to all).
+        """
+
 class Prv_winestyles(Protocol):
     """Which WineStyles franchise locations offer online order-for-pickup, and a live search of
     one store's own in-stock wine/beer/cheese catalog with real prices and quantities — read
@@ -34001,6 +36067,47 @@ class Prv_yahoo_finance(Protocol):
         request is sent.
         """
 
+    async def getFinancials(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceFinancials_Out:
+        """Reads a ticker's income statement, balance sheet and cash-flow statement the way the
+        site's own Financials tab presents them, annual view. Each statement contains rows of
+        financial metrics (Revenue, Net Income, Total Assets, etc.) with values for multiple
+        fiscal years as columns. Values are kept as the site renders them ('383.285B', '6.05')
+        because the same statement mixes revenue, counts, percentages and ratios. A section is
+        null when Yahoo Finance has no financial statements for this ticker (non-equity quote
+        types). An unknown or empty ticker throws before any request is sent.
+        """
+
+    async def listCurrencyRates(self, /) -> Prv_yahoo_finance_YahooFinanceCurrencyRates_Out:
+        """Reads the live currency-pair rates the way the site's own Currencies markets page does —
+        for an agent asking what a dollar is worth in another currency right now. Returns the
+        list of currency pairs with their current bid/ask prices (or regularMarketPrice as a
+        fallback) and percentage change.
+        """
+
+    async def listCryptoPrices(self, /) -> Prv_yahoo_finance_YahooFinanceCryptoPrices_Out:
+        """Reads the live cryptocurrency prices the way the site's own Crypto markets page does —
+        for an agent asking what crypto is worth right now. Returns the list of cryptocurrencies
+        with their current price and percentage change.
+        """
+
+    async def getOptionsChain(self, symbol: str, expirationDate: str | None = None, /) -> Prv_yahoo_finance_YahooFinanceOptionsChain_Out:
+        """Reads a ticker's options chain the way the site's own Options tab does — every call and
+        put contract at the requested expiration, with strike, last price, bid/ask, volume, open
+        interest and implied volatility. `expirationDate` is an optional ISO date ("YYYY-MM-DD")
+        naming one of the dates this same function lists under `expirationDates`; omitted, Yahoo
+        Finance answers its own nearest expiration. An unrecognized ticker answers an empty
+        chain (no calls, no puts), an honest empty result rather than a throw; an empty or
+        non-string symbol throws before any request is sent.
+        """
+
+    async def getKeyStatistics(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceKeyStatistics_Out:
+        """Reads the key statistics table from a ticker's Key Statistics tab — metrics like market
+        cap, P/E ratio, 52-week range, dividend yield, beta, and other commonly-referenced
+        statistics. Metrics are returned with their label and value exactly as Yahoo Finance
+        renders them, preserving the mix of different units (percentages, currency amounts,
+        counts, ranges). An unknown or empty ticker throws before any request is sent.
+        """
+
 class Prv_yahoo_sports(Protocol):
     """Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages —
     off the site's own server-rendered schema.org markup, no browser and no account.
@@ -34013,15 +36120,37 @@ class Prv_yahoo_sports(Protocol):
         Yahoo's own scoreboard page shows it; does not yet take a date.
         """
 
+    async def getGame(self, args: Prv_yahoo_sports_GetGameArgs_In, /) -> Prv_yahoo_sports_YahooSportsGameDetail_Out:
+        """Reads one game in full off its own game page — final or live score, status, venue and
+        game metadata. Takes the game's own URL from `getScoreboard`.
+        """
+
     async def getStandings(self, args: Prv_yahoo_sports_GetStandingsArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsStandingsRow_Out]:
         """Reads the full standings table for one league off Yahoo Sports' own Standings page —
         each team's wins, losses, ties, win percentage, points for/against and point
         differential.
         """
 
+    async def listTeams(self, args: Prv_yahoo_sports_ListTeamsArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsTeamRow_Out]:
+        """Lists every team in a league off Yahoo Sports' standings page — each team's name."""
+
     async def getSchedule(self, args: Prv_yahoo_sports_GetScheduleArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsScheduleRow_Out]:
         """Reads one team's full schedule for the season off Yahoo Sports' own Schedule page —
         every game, opponent, date and result if played. Takes league and team slug.
+        """
+
+    async def findPlayers(self, args: Prv_yahoo_sports_FindPlayersArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsPlayerRow_Out]:
+        """Finds players on one team's roster by name — the door for `getPlayer`, so a caller
+        holding a name and a team can reach that player's own page. Yahoo Sports publishes no
+        cross-team player search, so this reads one team's Roster page and filters it; it does
+        not search a whole league in one call.
+        """
+
+    async def getPlayer(self, args: Prv_yahoo_sports_GetPlayerArgs_In, /) -> Prv_yahoo_sports_YahooSportsPlayerDetail_Out:
+        """Reads one player's profile and current-season stat line off their own player page —
+        position, team, college, height, weight, birth date, jersey number, status, and each
+        stat category (Passing, Rushing, Receiving, Defense, Kicking, Punting) the player has a
+        line in this season. Takes the player's own URL from `findPlayers`.
         """
 
 class Prv_ycombinator(Protocol):
@@ -34412,6 +36541,7 @@ class BowmarkProviders(Protocol):
     acqualinaresort: Prv_acqualinaresort
     ai_engineer: Prv_ai_engineer
     aiper: Prv_aiper
+    airbnb: Prv_airbnb
     airtable: Prv_airtable
     ajmadison: Prv_ajmadison
     allied: Prv_allied
@@ -34443,6 +36573,7 @@ class BowmarkProviders(Protocol):
     autocamp: Prv_autocamp
     avalonmalibu_com: Prv_avalonmalibu_com
     avantstay: Prv_avantstay
+    avenuehealthcare: Prv_avenuehealthcare
     avis: Prv_avis
     ayreshotels: Prv_ayreshotels
     azazie: Prv_azazie
@@ -34492,6 +36623,7 @@ class BowmarkProviders(Protocol):
     caliberhealth: Prv_caliberhealth
     califloors: Prv_califloors
     camelcamelcamel: Prv_camelcamelcamel
+    campspot: Prv_campspot
     cancer: Prv_cancer
     capitalbrands: Prv_capitalbrands
     caraway: Prv_caraway
@@ -34551,7 +36683,6 @@ class BowmarkProviders(Protocol):
     detailxperts: Prv_detailxperts
     deutschepost: Prv_deutschepost
     developersopenai: Prv_developersopenai
-    dfs_rotogrinderssearch: Prv_dfs_rotogrinderssearch
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
@@ -34564,7 +36695,6 @@ class BowmarkProviders(Protocol):
     elase: Prv_elase
     elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
-    energyaustralia_com_au: Prv_energyaustralia_com_au
     epromos: Prv_epromos
     eq3: Prv_eq3
     equinox_hotels: Prv_equinox_hotels
@@ -34587,6 +36717,7 @@ class BowmarkProviders(Protocol):
     fivestarbathsolutions: Prv_fivestarbathsolutions
     flightradar24: Prv_flightradar24
     fluencecorp: Prv_fluencecorp
+    fomo: Prv_fomo
     ford: Prv_ford
     formax: Prv_formax
     forms_hubspot_com: Prv_forms_hubspot_com
@@ -34626,6 +36757,7 @@ class BowmarkProviders(Protocol):
     haydenhomes: Prv_haydenhomes
     hccts: Prv_hccts
     healthcare_gov: Prv_healthcare_gov
+    healthie: Prv_healthie
     heatherwood: Prv_heatherwood
     hellofresh: Prv_hellofresh
     hellotend: Prv_hellotend
@@ -34695,6 +36827,7 @@ class BowmarkProviders(Protocol):
     medicare: Prv_medicare
     mercari: Prv_mercari
     mergify: Prv_mergify
+    meteofrance: Prv_meteofrance
     microcenter: Prv_microcenter
     millisaraylar: Prv_millisaraylar
     minimax: Prv_minimax
@@ -34704,6 +36837,7 @@ class BowmarkProviders(Protocol):
     modularclosets: Prv_modularclosets
     momondo: Prv_momondo
     mossyoak: Prv_mossyoak
+    msn: Prv_msn
     municipal_recreation_fees_fetcher: Prv_municipal_recreation_fees_fetcher
     muze_gov_tr: Prv_muze_gov_tr
     my_auroramedicalspa_com: Prv_my_auroramedicalspa_com
@@ -34721,6 +36855,7 @@ class BowmarkProviders(Protocol):
     oanda: Prv_oanda
     oliverwinery: Prv_oliverwinery
     onthemarket: Prv_onthemarket
+    openai: Prv_openai
     originenergy_com_au: Prv_originenergy_com_au
     othership: Prv_othership
     otto: Prv_otto
@@ -34729,6 +36864,7 @@ class BowmarkProviders(Protocol):
     pacificcompanies: Prv_pacificcompanies
     pacificlifestylehomes: Prv_pacificlifestylehomes
     packlane: Prv_packlane
+    pallet2ship: Prv_pallet2ship
     pawsup: Prv_pawsup
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland
@@ -34742,7 +36878,6 @@ class BowmarkProviders(Protocol):
     polytex: Prv_polytex
     poshmark: Prv_poshmark
     positivegrid: Prv_positivegrid
-    postcard_direct_mail: Prv_postcard_direct_mail
     postiz: Prv_postiz
     powys: Prv_powys
     premierbuildings: Prv_premierbuildings
@@ -34767,6 +36902,7 @@ class BowmarkProviders(Protocol):
     safetywing: Prv_safetywing
     saltandstone: Prv_saltandstone
     samsclub: Prv_samsclub
+    samsung: Prv_samsung
     scentbird: Prv_scentbird
     seakeeper: Prv_seakeeper
     sears: Prv_sears
@@ -34871,7 +37007,6 @@ class Bowmark(Protocol):
     custom_sofa_configurator: Cap_custom_sofa_configurator
     delivery: Cap_delivery
     developer_api_key_signup: Cap_developer_api_key_signup
-    dfs_ownership_projections: Cap_dfs_ownership_projections
     domain: Cap_domain
     email: Cap_email
     entertainment_merch: Cap_entertainment_merch
@@ -34896,7 +37031,6 @@ class Bowmark(Protocol):
     pet_boarding: Cap_pet_boarding
     phone_price: Cap_phone_price
     phone_trade_in: Cap_phone_trade_in
-    postcard_direct_mail_quote: Cap_postcard_direct_mail_quote
     pricing: Cap_pricing
     products: Cap_products
     promocodes: Cap_promocodes

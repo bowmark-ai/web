@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0dae91e1f6d1ab3367a22a0ee7b2e8cfe8186b899df6bfbd05fef03cc64e13fe
-// 1208 checked, 20 unchecked.
+// Manifest version: 0263b108c929e7f7c9119adf562bc80512e8e576bfc7bf523bbab1039b07a38f
+// 1305 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0dae91e1f6d1ab3367a22a0ee7b2e8cfe8186b899df6bfbd05fef03cc64e13fe",
+  "version": "0263b108c929e7f7c9119adf562bc80512e8e576bfc7bf523bbab1039b07a38f",
   "units": {
     "booking_links": {
       "defs": {
@@ -643,36 +643,84 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "custom_packaging_quote": {
-      "defs": {},
+      "defs": {
+        "QuoteCustomBoxArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "size",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "printArea",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "inside-and-outside"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "outside-only"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "quantity",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "material",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "white"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "white-b-flute"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "dreamcoat"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "dreamcoat-b-flute"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "kraft"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "kraft-b-flute"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "quoteCustomBox": [
           {
             "name": "args",
             "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "size",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "printArea",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "quantity",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": false
-                }
-              ]
+              "k": "ref",
+              "name": "QuoteCustomBoxArgs"
             },
             "optional": false
           }
@@ -808,41 +856,6 @@ export const VALIDATORS: ValidatorTable = {
             "name": "details",
             "schema": {
               "k": "any"
-            },
-            "optional": false
-          },
-          {
-            "name": "options",
-            "schema": {
-              "k": "ref",
-              "name": "CallOptions"
-            },
-            "optional": true
-          }
-        ]
-      }
-    },
-    "dfs_ownership_projections": {
-      "defs": {
-        "CallOptions": {
-          "k": "object",
-          "props": [
-            {
-              "name": "timeoutMs",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        }
-      },
-      "functions": {
-        "search": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "string"
             },
             "optional": false
           },
@@ -2456,43 +2469,6 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
-    "postcard_direct_mail_quote": {
-      "defs": {},
-      "functions": {
-        "getQuote": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "quantity",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "size",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "stock",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
     "pricing": {
       "defs": {
         "PersonalizationPersona": {
@@ -2685,6 +2661,60 @@ export const VALIDATORS: ValidatorTable = {
               "v": "browser"
             }
           ]
+        },
+        "UrlsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "depth",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxUrls",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPages",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "sitemaps",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "sameSite",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "pathPrefix",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -2721,6 +2751,23 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ReadOptions"
+            },
+            "optional": true
+          }
+        ],
+        "urls": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "UrlsOptions"
             },
             "optional": true
           }
@@ -4480,6 +4527,71 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "ref",
                 "name": "AiperPoolAnswerInput"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.airbnb": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "checkin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "checkout",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "children",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "infants",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "pets",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }
@@ -7037,6 +7149,41 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.avenuehealthcare": {
+      "defs": {
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "service",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.avis": {
       "defs": {},
       "functions": {
@@ -8175,6 +8322,74 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "searchVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchShopping": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "define": [
+          {
+            "name": "word",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "translateText": [
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -9423,6 +9638,29 @@ export const VALIDATORS: ValidatorTable = {
         "getPriceHistory": [
           {
             "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.campspot": {
+      "defs": {},
+      "functions": {
+        "findCampgrounds": [
+          {
+            "name": "region",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getCampground": [
+          {
+            "name": "url",
             "schema": {
               "k": "string"
             },
@@ -12582,34 +12820,6 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
-    "providers.dfs_rotogrinderssearch": {
-      "defs": {
-        "SearchArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "query",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        }
-      },
-      "functions": {
-        "search": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "SearchArgs"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
     "providers.dice": {
       "defs": {},
       "functions": {
@@ -13395,29 +13605,6 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "product",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.energyaustralia_com_au": {
-      "defs": {},
-      "functions": {
-        "getBusinessElectricityQuote": [
-          {
-            "name": "arg0",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "postcode",
                   "schema": {
                     "k": "string"
                   },
@@ -14551,6 +14738,53 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.fomo": {
+      "defs": {
+        "FomoLeaderboardWindow": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "daily"
+            },
+            {
+              "k": "literal",
+              "v": "weekly"
+            },
+            {
+              "k": "literal",
+              "v": "monthly"
+            },
+            {
+              "k": "literal",
+              "v": "allTime"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getCurrentUser": [],
+        "getLeaderboard": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "window",
+                  "schema": {
+                    "k": "ref",
+                    "name": "FomoLeaderboardWindow"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.ford": {
       "defs": {},
       "functions": {
@@ -15465,6 +15699,67 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.github": {
       "defs": {
+        "GithubGetUserRepositoriesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "created"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "updated"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "pushed"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "full_name"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "direction",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "asc"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "desc"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubListCommitsOptions": {
           "k": "object",
           "props": [
@@ -15484,6 +15779,121 @@ export const VALIDATORS: ValidatorTable = {
             },
             {
               "name": "until",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GithubListIssuesOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "open"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "closed"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "assignee",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "labels",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "milestone",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "per_page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GithubListPullRequestsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "open"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "closed"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "base",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "head",
               "schema": {
                 "k": "string"
               },
@@ -15673,6 +16083,89 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GithubSearchRepositoriesOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getUserRepositories": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubGetUserRepositoriesOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getUser": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getOrganization": [
+          {
+            "name": "org",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listIssues": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListIssuesOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listPullRequests": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListPullRequestsOptions"
             },
             "optional": true
           }
@@ -16077,6 +16570,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPopularTimesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListPhotosArgs": {
           "k": "object",
           "props": [
@@ -16305,7 +16810,18 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getPopularTimes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPopularTimesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSavedPlaces": []
       }
     },
     "providers.google_news": {
@@ -17776,6 +18292,41 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "estimateEligibility": null,
         "findLocalHelp": null
+      }
+    },
+    "providers.healthie": {
+      "defs": {
+        "SearchPracticesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchPractices": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchPracticesArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.heatherwood": {
@@ -20113,6 +20664,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.jcrew": {
       "defs": {
+        "BrowseCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "CheckVariantStockArgs": {
           "k": "object",
           "props": [
@@ -20143,6 +20706,58 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": true
+            }
+          ]
+        },
+        "FindStoresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "latitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "longitude",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "radiusKm",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxResults",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
             }
           ]
         },
@@ -20187,6 +20802,25 @@ export const VALIDATORS: ValidatorTable = {
               "name": "levels",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListSearchRefinementsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "categoryId",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
@@ -20238,6 +20872,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "browseCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "BrowseCategoryArgs"
+            },
+            "optional": false
+          }
+        ],
         "getProduct": [
           {
             "name": "args",
@@ -20274,6 +20918,37 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SuggestSearchTermsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCategoryArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSearchRefinements": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSearchRefinementsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSortOptions": [],
+        "findStores": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindStoresArgs"
             },
             "optional": false
           }
@@ -21607,6 +22282,38 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productType",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "inStockOnly",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "getProduct": [
           {
             "name": "handle",
@@ -22743,6 +23450,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.meteofrance": {
+      "defs": {},
+      "functions": {
+        "getMarineWindForecast": [
+          {
+            "name": "region",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.microcenter": {
       "defs": {},
       "functions": {
@@ -23423,6 +24144,64 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.msn": {
+      "defs": {},
+      "functions": {
+        "getTopStories": [
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "searchNews": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getSectionFeed": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "sports"
+                },
+                {
+                  "k": "literal",
+                  "v": "entertainment"
+                },
+                {
+                  "k": "literal",
+                  "v": "health"
+                },
+                {
+                  "k": "literal",
+                  "v": "lifestyle"
+                },
+                {
+                  "k": "literal",
+                  "v": "travel"
+                },
+                {
+                  "k": "literal",
+                  "v": "autos"
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -24133,6 +24912,35 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.openai": {
+      "defs": {
+        "openaiHelpArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "plans": [],
+        "helpArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "openaiHelpArticleArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.originenergy_com_au": {
       "defs": {
         "OriginBusinessElectricityQuoteArgs": {
@@ -24594,6 +25402,69 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.pallet2ship": {
+      "defs": {
+        "GetQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "collectionPostcode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "deliveryPostcode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "weight",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "length",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "width",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "height",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetQuoteArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.pawsup": {
       "defs": {},
       "functions": {
@@ -24885,6 +25756,101 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "searchUsers": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchVideos": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "bookmark",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "suggestSearches": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPin": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listVisualObjects": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listRelatedProducts": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -25438,48 +26404,6 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "positivegridFindRetailersArgs"
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.postcard_direct_mail": {
-      "defs": {
-        "GetQuoteArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "quantity",
-              "schema": {
-                "k": "number"
-              },
-              "optional": false
-            },
-            {
-              "name": "size",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "stock",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            }
-          ]
-        }
-      },
-      "functions": {
-        "getQuote": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetQuoteArgs"
             },
             "optional": false
           }
@@ -28632,143 +29556,6 @@ export const VALIDATORS: ValidatorTable = {
     "providers.reddit": {
       "defs": {},
       "functions": {
-        "getSubreddit": [
-          {
-            "name": "name",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getSubredditPosts": [
-          {
-            "name": "input",
-            "schema": {
-              "k": "union",
-              "of": [
-                {
-                  "k": "string"
-                },
-                {
-                  "k": "object",
-                  "props": [
-                    {
-                      "name": "subreddit",
-                      "schema": {
-                        "k": "string"
-                      },
-                      "optional": false
-                    },
-                    {
-                      "name": "sort",
-                      "schema": {
-                        "k": "union",
-                        "of": [
-                          {
-                            "k": "literal",
-                            "v": "hot"
-                          },
-                          {
-                            "k": "literal",
-                            "v": "new"
-                          },
-                          {
-                            "k": "literal",
-                            "v": "top"
-                          },
-                          {
-                            "k": "literal",
-                            "v": "rising"
-                          },
-                          {
-                            "k": "literal",
-                            "v": "controversial"
-                          }
-                        ]
-                      },
-                      "optional": true
-                    },
-                    {
-                      "name": "time",
-                      "schema": {
-                        "k": "union",
-                        "of": [
-                          {
-                            "k": "literal",
-                            "v": "hour"
-                          },
-                          {
-                            "k": "literal",
-                            "v": "day"
-                          },
-                          {
-                            "k": "literal",
-                            "v": "week"
-                          },
-                          {
-                            "k": "literal",
-                            "v": "month"
-                          },
-                          {
-                            "k": "literal",
-                            "v": "year"
-                          },
-                          {
-                            "k": "literal",
-                            "v": "all"
-                          }
-                        ]
-                      },
-                      "optional": true
-                    },
-                    {
-                      "name": "limit",
-                      "schema": {
-                        "k": "number"
-                      },
-                      "optional": true
-                    }
-                  ]
-                }
-              ]
-            },
-            "optional": false
-          }
-        ],
-        "searchSubreddits": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "union",
-              "of": [
-                {
-                  "k": "string"
-                },
-                {
-                  "k": "object",
-                  "props": [
-                    {
-                      "name": "query",
-                      "schema": {
-                        "k": "string"
-                      },
-                      "optional": false
-                    },
-                    {
-                      "name": "limit",
-                      "schema": {
-                        "k": "number"
-                      },
-                      "optional": true
-                    }
-                  ]
-                }
-              ]
-            },
-            "optional": false
-          }
-        ],
         "search": [
           {
             "name": "query",
@@ -28863,6 +29650,13 @@ export const VALIDATORS: ValidatorTable = {
                         "k": "number"
                       },
                       "optional": true
+                    },
+                    {
+                      "name": "after",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
                     }
                   ]
                 }
@@ -28873,9 +29667,1523 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getPost": [
           {
-            "name": "ref",
+            "name": "post",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "post",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "sort",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "confidence"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "top"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "new"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "controversial"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "old"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "qa"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getSubredditPosts": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "subreddit",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "sort",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "hot"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "new"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "top"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "rising"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "controversial"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "time",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "hour"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "day"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "week"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "month"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "year"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "all"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "after",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getSubreddit": [
+          {
+            "name": "name",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchSubreddits": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "after",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getUser": [
+          {
+            "name": "name",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchUsers": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "after",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getUserPosts": [
+          {
+            "name": "user",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "user",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "sort",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "new"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "top"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "hot"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "controversial"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "time",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "hour"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "day"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "week"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "month"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "year"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "all"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "after",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getUserComments": [
+          {
+            "name": "user",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "user",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "sort",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "new"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "top"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "hot"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "controversial"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "time",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "hour"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "day"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "week"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "month"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "year"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "all"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "after",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "findPostsByUrl": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "url",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "exact",
+                      "schema": {
+                        "k": "boolean"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listWikiPages": [
+          {
+            "name": "subreddit",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "subreddit",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getWikiPage": [
+          {
+            "name": "subreddit",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "subreddit",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "page",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getSubredditRules": [
+          {
+            "name": "subreddit",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "subreddit",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "browseSubreddits": [
+          {
+            "name": "list",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "popular"
+                },
+                {
+                  "k": "literal",
+                  "v": "new"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "list",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "popular"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "new"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "after",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCommentReplies": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "post",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "ids",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "parent",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sort",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "confidence"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "top"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "new"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "controversial"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "old"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "qa"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getMyAccount": [],
+        "getHomeFeed": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "sort",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "best"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "hot"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "new"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "top"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "rising"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "time",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "hour"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "day"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "week"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "month"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "year"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "all"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "after",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMySubscriptions": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "after",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listSaved": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "after",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listInbox": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "filter",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "all"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "unread"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "messages"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "mentions"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "comment_replies"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "post_replies"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "after",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listPostFlairs": [
+          {
+            "name": "subreddit",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "joinSubreddit": [
+          {
+            "name": "subreddit",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "leaveSubreddit": [
+          {
+            "name": "subreddit",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "savePostOrComment": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "unsavePostOrComment": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "hidePost": [
+          {
+            "name": "post",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "id",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "hidden",
+                      "schema": {
+                        "k": "boolean"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "vote": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "direction",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "up"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "down"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "none"
+                      }
+                    ]
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "followUser": [
+          {
+            "name": "user",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "name",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "follow",
+                      "schema": {
+                        "k": "boolean"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "blockUser": [
+          {
+            "name": "user",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "createSubreddit": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "type",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "public"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "restricted"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "private"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "nsfw",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "submitPost": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "subreddit",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "kind",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "self"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "link"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "image"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "crosspost"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "image",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "base64",
+                            "schema": {
+                              "k": "string"
+                            },
+                            "optional": false
+                          },
+                          {
+                            "name": "mimeType",
+                            "schema": {
+                              "k": "string"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      },
+                      {
+                        "k": "object",
+                        "props": [
+                          {
+                            "name": "url",
+                            "schema": {
+                              "k": "string"
+                            },
+                            "optional": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "crosspostOf",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "flairId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "flairText",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "nsfw",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "spoiler",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sendReplies",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "postComment": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "post",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "replyToComment": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "comment",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "editPostOrComment": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "thing",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "deletePostOrComment": [
+          {
+            "name": "thing",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "thing",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "reportPostOrComment": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "thing",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "rule",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "siteReason",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "reason",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "sendDirectMessage": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "subject",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "text",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "updateProfile": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "displayName",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "about",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "setProfilePicture": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "image",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "object",
+                            "props": [
+                              {
+                                "name": "base64",
+                                "schema": {
+                                  "k": "string"
+                                },
+                                "optional": false
+                              },
+                              {
+                                "name": "mimeType",
+                                "schema": {
+                                  "k": "string"
+                                },
+                                "optional": false
+                              }
+                            ]
+                          },
+                          {
+                            "k": "object",
+                            "props": [
+                              {
+                                "name": "url",
+                                "schema": {
+                                  "k": "string"
+                                },
+                                "optional": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "optional": false
+                    }
+                  ]
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "reset",
+                      "schema": {
+                        "k": "literal",
+                        "v": true
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }
@@ -29907,6 +32215,106 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMembershipPlans": []
+      }
+    },
+    "providers.samsung": {
+      "defs": {
+        "GetProductArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListCategoriesArgs": {
+          "k": "object",
+          "props": []
+        },
+        "ListCategoryProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListDealsArgs": {
+          "k": "object",
+          "props": []
+        },
+        "SearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCategoriesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCategoryProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCategoryProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listDeals": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListDealsArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.scentbird": {
@@ -32704,6 +35112,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.tiktok": {
       "defs": {
+        "GetHashtagArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetProfileArgs": {
           "k": "object",
           "props": [
@@ -32716,11 +35136,102 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetTranscriptArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
             {
               "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListCaptionTracksArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListCommentRepliesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "commentId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListCommentsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ListUserVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "username",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchUsersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
               "schema": {
                 "k": "string"
               },
@@ -32746,6 +35257,86 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTranscript": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTranscriptArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCaptionTracks": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCaptionTracksArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listUserVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListUserVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listComments": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCommentsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCommentReplies": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCommentRepliesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchVideosArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchUsers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchUsersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getHashtag": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHashtagArgs"
             },
             "optional": false
           }
@@ -34795,6 +37386,195 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getSummary": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSections": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSection": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "sectionIndex",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getArticleHtml": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getWikitext": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getInfobox": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listLinks": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -34893,11 +37673,123 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getFinancials": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listCurrencyRates": [],
+        "listCryptoPrices": [],
+        "getOptionsChain": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "expirationDate",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "getKeyStatistics": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
     "providers.yahoo_sports": {
       "defs": {
+        "FindPlayersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "teamSlug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetGameArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "gameUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "GetPlayerArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "playerUrl",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetScheduleArgs": {
           "k": "object",
           "props": [
@@ -35018,6 +37910,44 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "ListTeamsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -35027,6 +37957,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetScoreboardArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getGame": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameArgs"
             },
             "optional": false
           }
@@ -35041,12 +37981,42 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listTeams": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTeamsArgs"
+            },
+            "optional": false
+          }
+        ],
         "getSchedule": [
           {
             "name": "args",
             "schema": {
               "k": "ref",
               "name": "GetScheduleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findPlayers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindPlayersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getPlayer": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPlayerArgs"
             },
             "optional": false
           }
