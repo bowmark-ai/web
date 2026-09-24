@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2046 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2084 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -193,6 +193,37 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `baublebar.getBaublebarProduct` | baublebar.com | Reads one product by its handle — every size/color variant with its exact price and… | 🟢 |
 | `baublebar.listBaublebarCollections` | baublebar.com | The entry door: reads the storefront's own published collection index… | 🟢 |
 | `baublebar.listBaublebarProducts` | baublebar.com | Reads a BaubleBar collection's live catalogue as the storefront publishes it — every… | 🟢 |
+| `bbc.followPodcast` | bbc.com | Follow a BBC podcast or series for the signed-in reader. | ⚪ |
+| `bbc.getArticle` | bbc.com | One BBC article as data: headline, byline, published and updated times, section, topic… | ⚪ |
+| `bbc.getCurrentWeather` | bbc.com | The latest observation BBC Weather shows for a location: temperature, wind, humidity… | ⚪ |
+| `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | ⚪ |
+| `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | ⚪ |
+| `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | ⚪ |
+| `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | ⚪ |
+| `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, and its episodes newest first — title… | ⚪ |
+| `bbc.getPodcastEpisode` | bbc.com | One podcast episode: title, synopsis, duration, broadcast date, and the playable media… | ⚪ |
+| `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | ⚪ |
+| `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | ⚪ |
+| `bbc.getVideo` | bbc.com | One BBC video page as data: title, summary, duration, published time, section, poster… | ⚪ |
+| `bbc.getWeatherWarnings` | bbc.com | The weather warnings BBC Weather shows for a location or region: level, type (rain… | ⚪ |
+| `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | ⚪ |
+| `bbc.listFollowedPodcasts` | bbc.com | The podcasts and series the signed-in reader follows. | ⚪ |
+| `bbc.listHeadlines` | bbc.com | The stories a BBC section page shows right now, in the page's own order and grouping… | ⚪ |
+| `bbc.listMostRead` | bbc.com | The "Most read" list the BBC shows beside its stories: rank, headline, url and article… | ⚪ |
+| `bbc.listNewsletters` | bbc.com | The BBC newsletters a reader can sign up to: name, description, frequency and… | ⚪ |
+| `bbc.listPodcasts` | bbc.com | The podcasts and audio series the BBC's audio hub (/audio) lists: title, description… | ⚪ |
+| `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
+| `bbc.listSections` | bbc.com | The BBC's own section list — News and its sub-sections (World, UK, US & Canada… | ⚪ |
+| `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | ⚪ |
+| `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | ⚪ |
+| `bbc.listVideos` | bbc.com | The videos the BBC's video hub shows: title, summary, duration, url, video id, section… | ⚪ |
+| `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
+| `bbc.saveArticle` | bbc.com | Save a BBC article to the signed-in reader's saved list (the page's bookmark button).… | ⚪ |
+| `bbc.searchArticles` | bbc.com | Search the BBC the way its search box does: headline, summary, url, article id… | ⚪ |
+| `bbc.searchWeatherLocations` | bbc.com | Find BBC Weather locations by place name or postcode: name, region, country and the… | ⚪ |
+| `bbc.subscribeNewsletter` | bbc.com | Sign the signed-in reader up to a BBC newsletter. | ⚪ |
+| `bbc.unfollowPodcast` | bbc.com | Stop following a BBC podcast or series for the signed-in reader. | ⚪ |
+| `bbc.unsubscribeNewsletter` | bbc.com | Take the signed-in reader off a BBC newsletter. | ⚪ |
 | `bcparkscamping.checkAvailability` | camping.bcparks.ca | Given a campground's resourceLocationId (from searchCampgrounds) and a date range… | 🟢 |
 | `bcparkscamping.searchCampgrounds` | camping.bcparks.ca | Given a free-text substring, returns every BC Parks campground (Discover Camping… | 🟢 |
 | `beaconfunding.getApplicationFields` | beaconfunding.com | Reads beaconfunding.com's own credit application and returns the fields it declares… | 🟢 |
@@ -1509,6 +1540,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prime_video.searchTitles` | www.primevideo.com | Search Prime Video's whole catalogue for what a person would type — "matrix", "the… | 🟢 |
 | `prime_video.suggestTitles` | www.primevideo.com | Ask Prime Video's own search box what it would autocomplete a prefix to — "the boy"… | 🟢 |
 | `prime_video.toggleWatchlist` | www.primevideo.com | Add a title to the caller's watchlist, or take one off it — the one write a person… | ⚪ |
+| `printful.getOrder` | printful.com | Fetches details of a single order by order ID from a Printful store, including status… | 🟢 |
+| `printful.searchOrders` | printful.com | Finds orders matching a customer's email or the order's own reference (external_id)… | 🟢 |
 | `progressive.findAgent` | progressive.com | Finds the independent agents who sell Progressive near a ZIP — name, agency, address… | 🟢 |
 | `progressive.getAtvQuote` | progressive.com | Returns an ATV or UTV insurance quote for the machine and its ZIP — off-road coverage… | ⚪ |
 | `progressive.getAutoQuote` | progressive.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP —… | ⚪ |
@@ -1539,6 +1572,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prose.getHaircareProductPrice` | prose.com | Looks up ONE Prose product type's real one-time and subscription USD price (e.g.… | 🟡 |
 | `prose.getHairPrescription` | prose.com | Runs Prose's real online hair consultation end to end — the exact 38 questions its own… | 🟢 |
 | `prose.listHaircareProducts` | prose.com | Lists every haircare formula/tool type Prose sells (shampoo, conditioner, hair mask… | 🟢 |
+| `proton_mail.getMessage` | proton.me | Reads one message in full from the CALLER's own mailbox — sender, recipients, subject… | ⚪ |
+| `proton_mail.listFolders` | proton.me | Lists the CALLER's own folders and labels — Inbox, Sent, Drafts, Spam, Trash and… | ⚪ |
+| `proton_mail.listMessages` | proton.me | Lists messages in the CALLER's own Proton Mail mailbox, newest first, from a chosen… | ⚪ |
+| `proton_mail.searchMessages` | proton.me | Searches the CALLER's own mailbox by sender, recipient or subject, the way Proton… | ⚪ |
+| `proton_mail.sendMessage` | proton.me | Sends an email from the CALLER's own Proton Mail address. | ⚪ |
 | `provenwinners.getRecipeDetails` | provenwinners.com | Reads one container recipe's own combination page — its season(s), container size and… | 🟢 |
 | `provenwinners.searchContainerRecipes` | provenwinners.com | Runs Proven Winners' own Container Recipe Finder over its 1,074+ published… | 🟢 |
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
