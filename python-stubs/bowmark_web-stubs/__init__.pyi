@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2dd38dc8040153d805d41da91a440ee6aa54f860daeba236e120c6f867f68730
-# 58 capabilities, 456 providers, 1306 typed functions, 20 refused.
+# Manifest version: 600b62262b4c7edaf608cd91631cb37c8100261c68df78302da68c27a17abb47
+# 58 capabilities, 456 providers, 1307 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -14367,6 +14367,13 @@ class Prv_msn_MsnStory_Out(TypedDict):
     publishedDateTime: str
     providerName: str
     imageUrl: str | None
+
+class Prv_msn_MsnArticle_Out(TypedDict):
+    title: str
+    body: str
+    byline: str | None
+    publishedDateTime: str | None
+    images: list[str]
 
 class Prv_municipal_recreation_fees_fetcher_municipal_recreation_fees_fetcherRow_Out(TypedDict):
     municipality: str
@@ -31769,6 +31776,15 @@ class Prv_msn(Protocol):
         does not make. "money" and "weather" are not article-feed sections at all (their pages
         are server-rendered quote/forecast data) — use getMarketSummary, getStockQuote or
         getWeatherForecast. "video" fires its own dedicated feed door and is not yet built.
+        """
+
+    async def getArticle(self, url: str, /) -> Prv_msn_MsnArticle_Out:
+        """Reads one MSN article's full text, byline, publish time and images off its own article
+        URL — the door every other read hands a caller: getTopStories, searchNews and
+        getSectionFeed each return a `url` that only this function can turn into the actual
+        story. The article page is rendered in the browser; the full body text, byline and
+        images are extracted from the rendered DOM. A caller holding a headline and nothing else
+        cannot reach the body without it.
         """
 
 class Prv_municipal_recreation_fees_fetcher(Protocol):

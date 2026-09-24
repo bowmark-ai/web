@@ -1,5 +1,5 @@
 {
-  "version": "2dd38dc8040153d805d41da91a440ee6aa54f860daeba236e120c6f867f68730",
+  "version": "600b62262b4c7edaf608cd91631cb37c8100261c68df78302da68c27a17abb47",
   "units": {
     "booking_links": {
       "defs": {
@@ -24209,6 +24209,15 @@
                   "v": "autos"
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2dd38dc8040153d805d41da91a440ee6aa54f860daeba236e120c6f867f68730
-// 58 capabilities, 456 providers, 1324 typed functions, 20 refused.
+// Manifest version: 600b62262b4c7edaf608cd91631cb37c8100261c68df78302da68c27a17abb47
+// 58 capabilities, 456 providers, 1325 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -27414,6 +27414,14 @@ interface MsnTopStories {
   nextPageUrl: string | null;
 }
 
+interface MsnArticle {
+  title: string;
+  body: string;
+  byline: string | null;
+  publishedDateTime: string | null;
+  images: string[];
+}
+
   /**
    * MSN's news portal — top stories, section feeds, article text, money quotes and weather,
    * logged out.
@@ -27455,6 +27463,15 @@ interface MsnTopStories {
      * feed door and is not yet built.
      */
     getSectionFeed(section: "sports" | "entertainment" | "health" | "lifestyle" | "travel" | "autos"): Promise<MsnTopStories>;
+
+    /**
+     * Reads one MSN article's full text, byline, publish time and images off its own article URL —
+     * the door every other read hands a caller: getTopStories, searchNews and getSectionFeed each
+     * return a `url` that only this function can turn into the actual story. The article page is
+     * rendered in the browser; the full body text, byline and images are extracted from the
+     * rendered DOM. A caller holding a headline and nothing else cannot reach the body without it.
+     */
+    getArticle(url: string): Promise<MsnArticle>;
   }
 }
 

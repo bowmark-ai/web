@@ -1268,7 +1268,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.getMossyoakProduct` | mossyoak.com | Reads one product by its handle — every camo-pattern/size variant, its exact price and… | 🟢 |
 | `mossyoak.listMossyoakProducts` | mossyoak.com | Reads the live Mossy Oak catalogue as the storefront publishes it — every camo-apparel… | 🟢 |
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
-| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | ⚪ |
+| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟢 |
 | `msn.getMarketSummary` | msn.com | Reads the major index levels (S&P 500, Dow, Nasdaq) and their day's change off MSN… | ⚪ |
 | `msn.getSectionFeed` | msn.com | Returns the current top-stories feed the way msn.com/en-us/<section> does for a… | 🟢 |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, change and key stats off MSN Money the way… | ⚪ |
