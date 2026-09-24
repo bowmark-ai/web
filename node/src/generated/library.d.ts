@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5d96f87a880288aab6e68df24e4ea4a840f99b33628161f2101fd47af60773e5
-// 59 capabilities, 456 providers, 1326 typed functions, 20 refused.
+// Manifest version: 722cab97d628dfbd222068121b1598ee2280c9531c2b760fdcf7266665b3d591
+// 59 capabilities, 457 providers, 1330 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2493,11 +2493,12 @@ type ReadOptions = {
                              // its bare "The operation timed out." instead of ours.
                              // Too small for a browser leg -> we skip it and say so
                              // in warnings rather than half-open one
-  egress?: string            // optional egress route: "default" | "direct" | "us-datacenter" | "static-residential"
-                             // default uses the configured proxy vendor, "direct" uses
-                             // the server's own IP, other routes use specialized proxies.
-                             // Set this when you need a specific exit IP for a domain
-                             // that refuses our default route
+  egress?: string            // optional egress route: "default" | "us-datacenter" | "static-residential"
+                             // default uses the rotating proxy vendor, "static-residential"
+                             // a dedicated static exit. Set this when you need a specific
+                             // exit IP for a domain that refuses our default route.
+                             // "direct" is accepted and read as "static-residential":
+                             // a read never leaves from our own server's IP
 }
 
 type ReadResult = {
@@ -10533,6 +10534,37 @@ interface CarawayQuizResult {
   }
 }
 
+declare namespace BowmarkProvider_cardiff {
+  // ── Cardiff Council — Planning Register — the unit's own declarations, verbatim ──
+interface CardiffSearchResult {
+  reference: string;
+  address: string;
+  description: string;
+  applicant: string;
+  dateSubmitted: string;
+}
+
+interface CardiffApplication {
+  reference: string;
+  address: string;
+  description: string;
+  applicant: string;
+  dateSubmitted: string;
+  status: string; // the site's own labels — read the values off a result, never guess one from prose
+  decision?: string;
+  decisionDate?: string;
+}
+
+  /** Search Cardiff Council's public planning register by reference, address, or keywords. */
+  interface Unit {
+    /** Searches the Cardiff planning register by reference, address, or keywords. */
+    search(query: string): Promise<CardiffSearchResult[]>;
+
+    /** Retrieves full details of a single planning application by reference. */
+    getApplication(reference: string): Promise<CardiffApplication>;
+  }
+}
+
 declare namespace BowmarkProvider_carepatrol {
   // ── CarePatrol — the unit's own declarations, verbatim ──
 interface CarePatrolOffice {
@@ -16067,6 +16099,20 @@ interface FomoPage<T> {
      * weekly) with each one's realized PnL, percentage return, volume, trade count and win rate.
      */
     getLeaderboard(args?: { window?: FomoLeaderboardWindow }): Promise<FomoLeaderboardEntry[]>;
+
+    /**
+     * Returns a trader's profile by their user id — display name, bio, avatar, follower and
+     * following counts, linked X handle, their clan if they are in one, and whether the signed-in
+     * user follows them.
+     */
+    getUser(userId: string): Promise<FomoUser>;
+
+    /**
+     * Returns a trader's profile by their userHandle — display name, bio, avatar, follower and
+     * following counts, linked X handle, their clan if they are in one, and whether the signed-in
+     * user follows them.
+     */
+    getUserByHandle(handle: string): Promise<FomoUser>;
   }
 }
 
@@ -40850,6 +40896,7 @@ interface BowmarkProviders {
   cancer: BowmarkProvider_cancer.Unit;
   capitalbrands: BowmarkProvider_capitalbrands.Unit;
   caraway: BowmarkProvider_caraway.Unit;
+  cardiff: BowmarkProvider_cardiff.Unit;
   carepatrol: BowmarkProvider_carepatrol.Unit;
   carlsgolfland: BowmarkProvider_carlsgolfland.Unit;
   carmelrealtycompany: BowmarkProvider_carmelrealtycompany.Unit;

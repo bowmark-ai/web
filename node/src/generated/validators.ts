@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5d96f87a880288aab6e68df24e4ea4a840f99b33628161f2101fd47af60773e5
-// 1308 checked, 20 unchecked.
+// Manifest version: 722cab97d628dfbd222068121b1598ee2280c9531c2b760fdcf7266665b3d591
+// 1312 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5d96f87a880288aab6e68df24e4ea4a840f99b33628161f2101fd47af60773e5",
+  "version": "722cab97d628dfbd222068121b1598ee2280c9531c2b760fdcf7266665b3d591",
   "units": {
     "booking_links": {
       "defs": {
@@ -9868,6 +9868,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.cardiff": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getApplication": [
+          {
+            "name": "reference",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.carepatrol": {
       "defs": {},
       "functions": {
@@ -14859,6 +14882,24 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "getUser": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getUserByHandle": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

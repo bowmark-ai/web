@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5d96f87a880288aab6e68df24e4ea4a840f99b33628161f2101fd47af60773e5
-# 59 capabilities, 456 providers, 1308 typed functions, 20 refused.
+# Manifest version: 722cab97d628dfbd222068121b1598ee2280c9531c2b760fdcf7266665b3d591
+# 59 capabilities, 457 providers, 1312 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5748,6 +5748,23 @@ class Prv_caraway_CarawayQuizArchetype_Out(TypedDict):
     label: str
     description: str
     recommendedHandles: list[str]
+
+class Prv_cardiff_CardiffSearchResult_Out(TypedDict):
+    reference: str
+    address: str
+    description: str
+    applicant: str
+    dateSubmitted: str
+
+class Prv_cardiff_CardiffApplication_Out(TypedDict):
+    reference: str
+    address: str
+    description: str
+    applicant: str
+    dateSubmitted: str
+    status: str
+    decision: NotRequired[str]
+    decisionDate: NotRequired[str]
 
 class Prv_carepatrol_findLocalAdvisor_arg_In(TypedDict):
     zipCode: str
@@ -25596,6 +25613,15 @@ class Prv_caraway(Protocol):
         catalogue.
         """
 
+class Prv_cardiff(Protocol):
+    """Search Cardiff Council's public planning register by reference, address, or keywords."""
+
+    async def search(self, query: str, /) -> list[Prv_cardiff_CardiffSearchResult_Out]:
+        """Searches the Cardiff planning register by reference, address, or keywords."""
+
+    async def getApplication(self, reference: str, /) -> Prv_cardiff_CardiffApplication_Out:
+        """Retrieves full details of a single planning application by reference."""
+
 class Prv_carepatrol(Protocol):
     """CarePatrol's own zip/state locator (carepatrol.com/locations/) — given a US ZIP code,
     returns the matched local CarePatrol senior-care-placement advisor(s), each with owner
@@ -27606,6 +27632,18 @@ class Prv_fomo(Protocol):
         """Returns fomo's ranked traders for one window (daily, weekly, monthly or allTime; default
         weekly) with each one's realized PnL, percentage return, volume, trade count and win
         rate.
+        """
+
+    async def getUser(self, userId: str, /) -> Prv_fomo_FomoUser_Out:
+        """Returns a trader's profile by their user id — display name, bio, avatar, follower and
+        following counts, linked X handle, their clan if they are in one, and whether the
+        signed-in user follows them.
+        """
+
+    async def getUserByHandle(self, handle: str, /) -> Prv_fomo_FomoUser_Out:
+        """Returns a trader's profile by their userHandle — display name, bio, avatar, follower and
+        following counts, linked X handle, their clan if they are in one, and whether the
+        signed-in user follows them.
         """
 
 class Prv_ford(Protocol):
@@ -36701,6 +36739,7 @@ class BowmarkProviders(Protocol):
     cancer: Prv_cancer
     capitalbrands: Prv_capitalbrands
     caraway: Prv_caraway
+    cardiff: Prv_cardiff
     carepatrol: Prv_carepatrol
     carlsgolfland: Prv_carlsgolfland
     carmelrealtycompany: Prv_carmelrealtycompany
