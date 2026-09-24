@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3a98efebd0ccd85f260f2d32b4000d449a5d2e520bac6882c4d0330d7f91ae32
+# Manifest version: 9e706f70e05db2a23dba6ffd25ba83afbb3445f19723dba8cdd3a4da71bad99b
 # 58 capabilities, 456 providers, 1307 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -2576,6 +2576,10 @@ class Prv_amazon_AmazonRelatedProduct_Out(TypedDict):
     price: float | None
     rating: float | None
     ratingCount: float | None
+
+class Prv_amazon_ListBestSellersArgs_In(TypedDict):
+    department: str
+    page: NotRequired[float]
 
 class Prv_amazon_AmazonBestSellerEntry_Out(TypedDict):
     asin: str
@@ -23422,12 +23426,12 @@ class Prv_amazon(Protocol):
         new search query.
         """
 
-    async def listBestSellers(self, department: str, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
+    async def listBestSellers(self, args: Prv_amazon_ListBestSellersArgs_In, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
         """Amazon's hourly-updated top sellers in one department (the slug listBestSellerCategories
         returns, e.g. "kitchen") — each row's ASIN, rank, title, price and rating, in rank
         order. What is actually selling right now, as opposed to searchProducts' relevance
-        ranking. Page one only (up to 30 rows) — Amazon publishes more per department across a
-        paging control this pass did not find.
+        ranking. Pagination is available via the `page` argument: page 2 returns ranks 31-60;
+        only these two pages are available on the site.
         """
 
     async def listNewReleases(self, department: str, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:

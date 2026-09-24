@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3a98efebd0ccd85f260f2d32b4000d449a5d2e520bac6882c4d0330d7f91ae32
+// Manifest version: 9e706f70e05db2a23dba6ffd25ba83afbb3445f19723dba8cdd3a4da71bad99b
 // 58 capabilities, 456 providers, 1325 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -4650,6 +4650,10 @@ interface AmazonBestSellerCategory {
   name: string;
   slug: string;
 }
+interface ListBestSellersArgs {
+  department: string;
+  page?: number;
+}
 interface AmazonBestSellerEntry {
   asin: string;
   rank: number;
@@ -4855,11 +4859,11 @@ interface AmazonSellerOffersResult {
     /**
      * Amazon's hourly-updated top sellers in one department (the slug listBestSellerCategories
      * returns, e.g. "kitchen") — each row's ASIN, rank, title, price and rating, in rank order.
-     * What is actually selling right now, as opposed to searchProducts' relevance ranking. Page
-     * one only (up to 30 rows) — Amazon publishes more per department across a paging control this
-     * pass did not find.
+     * What is actually selling right now, as opposed to searchProducts' relevance ranking.
+     * Pagination is available via the `page` argument: page 2 returns ranks 31-60; only these two
+     * pages are available on the site.
      */
-    listBestSellers(department: string): Promise<AmazonBestSellerEntry[]>;
+    listBestSellers(args: ListBestSellersArgs): Promise<AmazonBestSellerEntry[]>;
 
     /**
      * What is newly out in a department (the slug listBestSellerCategories returns, e.g.

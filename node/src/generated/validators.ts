@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3a98efebd0ccd85f260f2d32b4000d449a5d2e520bac6882c4d0330d7f91ae32
+// Manifest version: 9e706f70e05db2a23dba6ffd25ba83afbb3445f19723dba8cdd3a4da71bad99b
 // 1307 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3a98efebd0ccd85f260f2d32b4000d449a5d2e520bac6882c4d0330d7f91ae32",
+  "version": "9e706f70e05db2a23dba6ffd25ba83afbb3445f19723dba8cdd3a4da71bad99b",
   "units": {
     "booking_links": {
       "defs": {
@@ -5030,6 +5030,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListBestSellersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "department",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListCategoryProductsArgs": {
           "k": "object",
           "props": [
@@ -5180,9 +5199,10 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listBestSellers": [
           {
-            "name": "department",
+            "name": "args",
             "schema": {
-              "k": "string"
+              "k": "ref",
+              "name": "ListBestSellersArgs"
             },
             "optional": false
           }
