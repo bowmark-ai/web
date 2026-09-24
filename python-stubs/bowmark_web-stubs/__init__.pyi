@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0263b108c929e7f7c9119adf562bc80512e8e576bfc7bf523bbab1039b07a38f
+# Manifest version: 37923b72e1bd833de362e77ed3193d615d626154efb1814a098c96a925e5e7b3
 # 58 capabilities, 455 providers, 1305 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -1418,6 +1418,7 @@ class Cap_read_ReadOptions_In(TypedDict):
     strategy: NotRequired[Literal["auto"] | Literal["fetch"] | Literal["browser"]]
     maxChars: NotRequired[float]
     timeoutMs: NotRequired[float]
+    egress: NotRequired[str]
 
 class Cap_read_ReadResult_Out(TypedDict):
     url: str

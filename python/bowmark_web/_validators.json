@@ -1,5 +1,5 @@
 {
-  "version": "0263b108c929e7f7c9119adf562bc80512e8e576bfc7bf523bbab1039b07a38f",
+  "version": "37923b72e1bd833de362e77ed3193d615d626154efb1814a098c96a925e5e7b3",
   "units": {
     "booking_links": {
       "defs": {
@@ -2628,6 +2628,13 @@
               "name": "timeoutMs",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "egress",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }

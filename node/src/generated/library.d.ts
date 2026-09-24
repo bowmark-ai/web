@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0263b108c929e7f7c9119adf562bc80512e8e576bfc7bf523bbab1039b07a38f
+// Manifest version: 37923b72e1bd833de362e77ed3193d615d626154efb1814a098c96a925e5e7b3
 // 58 capabilities, 455 providers, 1323 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -2464,6 +2464,11 @@ type ReadOptions = {
                              // its bare "The operation timed out." instead of ours.
                              // Too small for a browser leg -> we skip it and say so
                              // in warnings rather than half-open one
+  egress?: string            // optional egress route: "default" | "direct" | "us-datacenter" | "static-residential"
+                             // default uses the configured proxy vendor, "direct" uses
+                             // the server's own IP, other routes use specialized proxies.
+                             // Set this when you need a specific exit IP for a domain
+                             // that refuses our default route
 }
 
 type ReadResult = {

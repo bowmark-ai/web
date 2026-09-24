@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0263b108c929e7f7c9119adf562bc80512e8e576bfc7bf523bbab1039b07a38f
+// Manifest version: 37923b72e1bd833de362e77ed3193d615d626154efb1814a098c96a925e5e7b3
 // 1305 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0263b108c929e7f7c9119adf562bc80512e8e576bfc7bf523bbab1039b07a38f",
+  "version": "37923b72e1bd833de362e77ed3193d615d626154efb1814a098c96a925e5e7b3",
   "units": {
     "booking_links": {
       "defs": {
@@ -2640,6 +2640,13 @@ export const VALIDATORS: ValidatorTable = {
               "name": "timeoutMs",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "egress",
+              "schema": {
+                "k": "string"
               },
               "optional": true
             }
