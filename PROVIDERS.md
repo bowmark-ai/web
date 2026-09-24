@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2022 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2024 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1747,6 +1747,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `thezebra.listCarriers` | thezebra.com | Returns the insurance companies The Zebra compares — the roster behind the '100+… | ⚪ |
 | `thezebra.listVehicles` | thezebra.com | Returns the makes and models The Zebra publishes insurance rates for — the index that… | ⚪ |
 | `thibautdesign.calculateRollsNeeded` | thibautdesign.com | Runs Thibaut's own wallpaper-calculator (thibautdesign.com/wallpaper-calculator) —… | 🟢 |
+| `ticketmaster_mx.getEvent` | ticketmaster.com.mx | Fetches event details including title, venue, dates, and ticket availability from a… | 🟢 |
+| `ticketmaster_mx.search` | ticketmaster.com.mx | Searches for events on Ticketmaster México by query string. | 🟢 |
 | `ticketmaster_nl.event` | ticketmaster.nl | Returns the event title, venue, date, time, and availability from an event page URL. | 🟢 |
 | `ticketmaster_nl.search` | ticketmaster.nl | Searches for events by name on Ticketmaster Netherlands and returns a list of matching… | 🟢 |
 | `ticketmaster.getEvent` | ticketmaster.com | Returns one event in full: venue (name, address), date/time, the classification… | ⚪ |
