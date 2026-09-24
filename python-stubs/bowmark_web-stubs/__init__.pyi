@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 600b62262b4c7edaf608cd91631cb37c8100261c68df78302da68c27a17abb47
+# Manifest version: 3a98efebd0ccd85f260f2d32b4000d449a5d2e520bac6882c4d0330d7f91ae32
 # 58 capabilities, 456 providers, 1307 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -1853,6 +1853,9 @@ class Cap_weather_ForecastDay_Out(TypedDict):
     precipitationMm: float
     weatherCode: float
     summary: str
+    windSpeedMaxKt: float
+    windGustsMaxKt: float
+    windDirectionDeg: float
 
 class Cap_web_form_fields_FormOptions_In(TypedDict):
     strategy: NotRequired[Literal["auto"] | Literal["fetch"] | Literal["browser"]]

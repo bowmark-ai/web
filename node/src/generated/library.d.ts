@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 600b62262b4c7edaf608cd91631cb37c8100261c68df78302da68c27a17abb47
+// Manifest version: 3a98efebd0ccd85f260f2d32b4000d449a5d2e520bac6882c4d0330d7f91ae32
 // 58 capabilities, 456 providers, 1325 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -3416,7 +3416,7 @@ type CallOptions = {
 }
 
 declare namespace BowmarkCapability_weather {
-  // ── Weather forecast for a place — the unit's own declarations, verbatim ──
+  // ── Weather forecast with temperature, wind and conditions for a place — the unit's own declarations, verbatim ──
 
 interface ForecastDay {
   date: string             // ISO date (YYYY-MM-DD), the location's own timezone
@@ -3425,6 +3425,9 @@ interface ForecastDay {
   precipitationMm: number
   weatherCode: number       // Open-Meteo's own WMO code
   summary: string           // a short gloss of weatherCode, e.g. "light rain"
+  windSpeedMaxKt: number    // max wind speed at 10m, in knots
+  windGustsMaxKt: number    // max wind gusts at 10m, in knots
+  windDirectionDeg: number  // dominant wind direction at 10m, in degrees (0-359)
 }
 
 interface ForecastResult {
