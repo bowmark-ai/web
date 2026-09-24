@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 90 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 95 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -28,6 +28,11 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `custom_sofa_configurator.getConfigurator` | Reads one sofa's full configurator — every option slot (Fabric, Wood Stain, Color… | 2 | 🟢 |
 | `custom_sofa_configurator.listSofas` | Lists configurable sofas/sectionals across every maker — Joybird's whole catalogue… | 2 | 🟢 |
 | `custom_sofa_configurator.priceConfiguration` | Prices ONE exact configuration against the maker's own live customizer and returns the… | 2 | 🟢 |
+| `delegate.list` | Lists this account's delegate sessions (open ones by default). | 1 | 🟢 |
+| `delegate.send` | Continues the same conversation in the same machine after a turn has finished: a… | 1 | 🟢 |
+| `delegate.start` | Boots a fresh Linux machine running Claude Code on `prompt`, optionally inside a clone… | 1 | 🟢 |
+| `delegate.status` | Reads a session: `running`, `idle` (done — read `result`, `files`, `diff`), `failed`… | 1 | 🟢 |
+| `delegate.stop` | Destroys the machine and closes the session. | 1 | 🟢 |
 | `delivery.compareDeliveryFees` | Runs a free-text search — `bowmark.delivery.compareDeliveryFees("pad thai austin tx")`… | 1 | 🟢 |
 | `developer_api_key_signup.signUp` | Signs up for a real developer API key on a dashboard. `service` selects which… | 1 | 🟢 |
 | `domain.checkAvailability` | Looks up a domain name (e.g. "example.com") against its authoritative RDAP server and… | 0 | 🟢 |

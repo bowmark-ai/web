@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2005 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2022 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -534,6 +534,14 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `doordash.getCheckoutTotal` | doordash.com | Would open a specific store, add real menu items to the cart, set a delivery address… | ⚪ |
 | `doordash.search` | doordash.com | Runs DoorDash's own store search for a free-text query and returns the real… | 🟢 |
 | `dumpsters.getQuote` | dumpsters.com | Prices a roll-off dumpster rental for a US address — real per-size prices, next… | 🟢 |
+| `e2b.createSandbox` | e2b.dev | Boots a fresh Linux sandbox from a template (the `claude` template ships Claude Code)… | 🟢 |
+| `e2b.getSandbox` | e2b.dev | Reads one sandbox via GET /sandboxes/{id}: state, vCPU and RAM, start time and… | 🟢 |
+| `e2b.killSandbox` | e2b.dev | Destroys a sandbox via DELETE /sandboxes/{id}, which cannot be undone; idempotent on… | 🟢 |
+| `e2b.listSandboxes` | e2b.dev | Lists running sandboxes on the team via GET /v2/sandboxes, optionally filtered by… | 🟢 |
+| `e2b.readFile` | e2b.dev | Reads a text file from inside a sandbox via the daemon's GET /files; null when it does… | 🟢 |
+| `e2b.runCommand` | e2b.dev | Runs `bash -l -c <cmd>` inside a sandbox through its in-sandbox daemon's Connect-RPC… | 🟢 |
+| `e2b.setSandboxTimeout` | e2b.dev | Moves a sandbox's kill time via POST /sandboxes/{id}/timeout, in seconds from now. | 🟢 |
+| `e2b.writeFile` | e2b.dev | Writes a text file inside a sandbox via the daemon's multipart POST /files. | 🟢 |
 | `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🟢 |
 | `ebay.soldPrices` | ebay.com | What items ACTUALLY sold for — eBay's completed/sold listings. | ⚪ |
 | `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🟡 |
@@ -734,6 +742,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.unreactToComment` | fomo.family | Removes the signed-in trader's reaction from a comment. `POST /trades/comment/unreact`. | ⚪ |
 | `fomo.unreactToPost` | fomo.family | Removes the signed-in trader's reaction from a feed post. `POST /feed/unreact`. | ⚪ |
 | `fomo.useReferralCode` | fomo.family | Applies a referral code to the signed-in trader's account. `POST… | ⚪ |
+| `forbes.getArticle` | forbes.com | Read the full content of a single article. | ⚪ |
+| `forbes.getContributor` | forbes.com | Get a contributor's profile and list their articles. | ⚪ |
+| `forbes.getVideo` | forbes.com | Get details of a Forbes Video. | ⚪ |
+| `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | ⚪ |
+| `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | ⚪ |
+| `forbes.listNews` | forbes.com | List latest news articles. | ⚪ |
+| `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | ⚪ |
+| `forbes.listVideos` | forbes.com | List video content from Forbes Video. | ⚪ |
+| `forbes.searchArticles` | forbes.com | Search articles across Forbes by keyword. | ⚪ |
 | `ford.buildAndPrice` | ford.com | Walks Ford's own build-and-price configurator for a model and year — choosing trim… | ⚪ |
 | `ford.findDealers` | ford.com | Finds franchised Ford dealers near a US ZIP code — name, address, phone, coordinates… | 🟢 |
 | `ford.getModelDetails` | ford.com | Reads one Ford model's showroom page — its trims with starting MSRP, key specs… | ⚪ |
@@ -1745,7 +1762,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.getHashtag` | tiktok.com | A hashtag's own facts — view count, description, whether it is currently promoted —… | 🟢 |
 | `tiktok.getOwnProfile` | tiktok.com | The signed-in caller's own account facts — handle, bio, email/phone binding status… | ⚪ |
 | `tiktok.getProfile` | tiktok.com | A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId… | 🟢 |
-| `tiktok.getSound` | tiktok.com | A sound/music track's own facts — title, artist, duration, how many videos use it —… | ⚪ |
+| `tiktok.getSound` | tiktok.com | A sound/music track's own facts — title, artist, duration, how many videos use it —… | 🟢 |
 | `tiktok.getTranscript` | tiktok.com | A video's own caption track, read off `itemStruct.video.subtitleInfos` — the WebVTT… | 🟢 |
 | `tiktok.getVideo` | tiktok.com | One video's own facts, off the watch page's embedded state: caption, hashtags, create… | 🟢 |
 | `tiktok.likeVideo` | tiktok.com | Like a video as the signed-in caller — the heart button. | ⚪ |
