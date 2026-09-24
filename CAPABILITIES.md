@@ -20,7 +20,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `bundles.checkAvailability` | Reads every item's product page and returns whether the WHOLE bundle can be built and… | 0 | 🟢 |
 | `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |
-| `census_tract_household_income.householdIncome` | Retrieves median household income from US Census Bureau data for a given location (ZIP… | 0 | 🟢 |
+| `census_tract_household_income.householdIncome` | Retrieves median household income from US Census Bureau data for a given location. | 1 | 🟢 |
 | `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟢 |
 | `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
 | `currency_exchange.getRate` | Returns the current exchange rate between two currencies | 1 | 🟢 |
