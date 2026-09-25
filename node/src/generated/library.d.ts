@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f575c23fba43fe0d22ca9efb0b3af03d91eadb5778428f91bf122a2beca11c78
-// 61 capabilities, 461 providers, 1356 typed functions, 20 refused.
+// Manifest version: dedaedb2e1b9ad378a25d723b85b7a5d708fd0b4e407208a37ec01090ce33e1d
+// 61 capabilities, 462 providers, 1358 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -12239,20 +12239,20 @@ interface CheckAppointmentAvailabilityArgs {
 
 declare namespace BowmarkProvider_christydawn {
   // ── Christy Dawn — the unit's own declarations, verbatim ──
-interface christydawnProduct {
+interface ChristydawnProduct {
   title: string;
   url: string;
   price: string;
-  imageUrl?: string;
+  image?: string;
 }
 
-  /** Search and browse Christy Dawn clothing and fashion products. */
+  /** Search the Christy Dawn fashion catalog. */
   interface Unit {
     /**
-     * Searches the Christy Dawn catalog for products matching the query and returns a list of
-     * products with title, URL, price, and image.
+     * Searches the Christy Dawn catalog for clothing and returns matching product rows with title,
+     * URL, price, and image.
      */
-    search(query: string): Promise<christydawnProduct[]>;
+    search(query: string): Promise<ChristydawnProduct[]>;
   }
 }
 
@@ -16451,6 +16451,69 @@ interface FomoPage<T> {
      * user follows them.
      */
     getUserByHandle(handle: string, opts?: ConnectionOption): Promise<FomoUser>;
+  }
+}
+
+declare namespace BowmarkProvider_forbes {
+  // ── Forbes — the unit's own declarations, verbatim ──
+interface ForbesArticle {
+  id: string;
+  title: string;
+  url: string;
+  summary?: string;
+  author?: string;
+  publishedDate?: string;
+}
+
+interface ForbesTopic {
+  id: string;
+  name: string;
+  slug: string;
+  url: string;
+}
+
+interface ForbesContributor {
+  id: string;
+  name: string;
+  slug: string;
+  title?: string;
+  bio?: string;
+  url: string;
+}
+
+interface ForbesVideo {
+  id: string;
+  title: string;
+  url: string;
+  thumbnail?: string;
+  duration?: number;
+  publishedDate?: string;
+}
+
+interface ForbesSearchResults {
+  articles: ForbesArticle[];
+  totalCount?: number;
+}
+
+interface ForbesNewsList {
+  articles: ForbesArticle[];
+}
+
+interface ListArticlesByTopicArgs {
+  /** A Forbes channel slug — the path segment of forbes.com/<topic>/, e.g. "money", "business", "innovation", "leadership". */
+  topic: string;
+}
+
+  /** Search and browse business news, articles, and video content from Forbes. */
+  interface Unit {
+    /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
+    listNews(): Promise<ForbesNewsList>;
+
+    /**
+     * List the latest articles in one Forbes channel (money, business, innovation, leadership, …),
+     * newest first.
+     */
+    listArticlesByTopic(args: ListArticlesByTopicArgs): Promise<ForbesNewsList>;
   }
 }
 
@@ -41582,6 +41645,7 @@ interface BowmarkProviders {
   flightradar24: BowmarkProvider_flightradar24.Unit;
   fluencecorp: BowmarkProvider_fluencecorp.Unit;
   fomo: BowmarkProvider_fomo.Unit;
+  forbes: BowmarkProvider_forbes.Unit;
   ford: BowmarkProvider_ford.Unit;
   formax: BowmarkProvider_formax.Unit;
   forms_hubspot_com: BowmarkProvider_forms_hubspot_com.Unit;

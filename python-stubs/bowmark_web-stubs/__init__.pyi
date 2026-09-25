@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f575c23fba43fe0d22ca9efb0b3af03d91eadb5778428f91bf122a2beca11c78
-# 61 capabilities, 461 providers, 1338 typed functions, 20 refused.
+# Manifest version: dedaedb2e1b9ad378a25d723b85b7a5d708fd0b4e407208a37ec01090ce33e1d
+# 61 capabilities, 462 providers, 1340 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6775,11 +6775,11 @@ class Prv_christianbrothersauto_ChristianBrothersAutoSlotWindow_Out(TypedDict):
     availableSlots: float
     totalSlots: float
 
-class Prv_christydawn_christydawnProduct_Out(TypedDict):
+class Prv_christydawn_ChristydawnProduct_Out(TypedDict):
     title: str
     url: str
     price: str
-    imageUrl: NotRequired[str]
+    image: NotRequired[str]
 
 class Prv_classichome_ClassicHomeProduct_Out(TypedDict):
     handle: str
@@ -8958,6 +8958,20 @@ class Prv_fomo_FomoTraderStats_Out(TypedDict):
     tradeCount: float | None
     winRate: float | None
     window: Literal["daily"] | Literal["weekly"] | Literal["monthly"] | Literal["allTime"]
+
+class Prv_forbes_ForbesNewsList_Out(TypedDict):
+    articles: list[Prv_forbes_ForbesArticle_Out]
+
+class Prv_forbes_ForbesArticle_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    summary: NotRequired[str]
+    author: NotRequired[str]
+    publishedDate: NotRequired[str]
+
+class Prv_forbes_ListArticlesByTopicArgs_In(TypedDict):
+    topic: str
 
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
@@ -26518,11 +26532,11 @@ class Prv_christianbrothersauto(Protocol):
         """
 
 class Prv_christydawn(Protocol):
-    """Search and browse Christy Dawn clothing and fashion products."""
+    """Search the Christy Dawn fashion catalog."""
 
-    async def search(self, query: str, /) -> list[Prv_christydawn_christydawnProduct_Out]:
-        """Searches the Christy Dawn catalog for products matching the query and returns a list of
-        products with title, URL, price, and image.
+    async def search(self, query: str, /) -> list[Prv_christydawn_ChristydawnProduct_Out]:
+        """Searches the Christy Dawn catalog for clothing and returns matching product rows with
+        title, URL, price, and image.
         """
 
 class Prv_classichome(Protocol):
@@ -28083,6 +28097,17 @@ class Prv_fomo(Protocol):
         """Returns a trader's profile by their userHandle — display name, bio, avatar, follower and
         following counts, linked X handle, their clan if they are in one, and whether the
         signed-in user follows them.
+        """
+
+class Prv_forbes(Protocol):
+    """Search and browse business news, articles, and video content from Forbes."""
+
+    async def listNews(self, /) -> Prv_forbes_ForbesNewsList_Out:
+        """List the latest Forbes news articles, newest first, from forbes.com/news/."""
+
+    async def listArticlesByTopic(self, args: Prv_forbes_ListArticlesByTopicArgs_In, /) -> Prv_forbes_ForbesNewsList_Out:
+        """List the latest articles in one Forbes channel (money, business, innovation, leadership,
+        …), newest first.
         """
 
 class Prv_ford(Protocol):
@@ -37410,6 +37435,7 @@ class BowmarkProviders(Protocol):
     flightradar24: Prv_flightradar24
     fluencecorp: Prv_fluencecorp
     fomo: Prv_fomo
+    forbes: Prv_forbes
     ford: Prv_ford
     formax: Prv_formax
     forms_hubspot_com: Prv_forms_hubspot_com

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f575c23fba43fe0d22ca9efb0b3af03d91eadb5778428f91bf122a2beca11c78
-// 1338 checked, 20 unchecked.
+// Manifest version: dedaedb2e1b9ad378a25d723b85b7a5d708fd0b4e407208a37ec01090ce33e1d
+// 1340 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f575c23fba43fe0d22ca9efb0b3af03d91eadb5778428f91bf122a2beca11c78",
+  "version": "dedaedb2e1b9ad378a25d723b85b7a5d708fd0b4e407208a37ec01090ce33e1d",
   "units": {
     "booking_links": {
       "defs": {
@@ -15456,6 +15456,35 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.forbes": {
+      "defs": {
+        "ListArticlesByTopicArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "topic",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listNews": [],
+        "listArticlesByTopic": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListArticlesByTopicArgs"
+            },
+            "optional": false
           }
         ]
       }
