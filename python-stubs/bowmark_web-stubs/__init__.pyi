@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e6e95e18568fb51637eb2c4c1e8fcf3b1070394df1995a23f4e02683ca5b3cbb
-# 64 capabilities, 470 providers, 1356 typed functions, 20 refused.
+# Manifest version: ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0
+# 64 capabilities, 471 providers, 1358 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15184,6 +15184,16 @@ class Prv_nvisioncenters_NvisioncentersEstimateSavingsInput_In(TypedDict):
     contacts: float
     contacts_cost: float
 
+class Prv_nyt_games_GetWordleArgs_In(TypedDict):
+    date: NotRequired[str]
+
+class Prv_nyt_games_NytWordle_Out(TypedDict):
+    id: float
+    solution: str
+    printDate: str
+    daysSinceLaunch: float
+    editor: str | None
+
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
     {
@@ -21473,6 +21483,20 @@ class Prv_yahoo_finance_YahooFinanceOptionContract_Out(TypedDict):
     lastTradeDate: str | None
     impliedVolatility: float | None
     inTheMoney: bool
+
+class Prv_yahoo_finance_YahooFinanceCompanyProfile_Out(TypedDict):
+    symbol: str
+    sector: str | None
+    industry: str | None
+    website: str | None
+    description: str | None
+    employeeCount: float | None
+    headquarters: str | None
+    executives: list[Prv_yahoo_finance_YahooFinanceExecutive_Out]
+
+class Prv_yahoo_finance_YahooFinanceExecutive_Out(TypedDict):
+    name: str
+    title: str
 
 class Prv_yahoo_finance_YahooFinanceKeyStatistics_Out(TypedDict):
     symbol: str
@@ -33013,6 +33037,16 @@ class Prv_nvisioncenters(Protocol):
         does.
         """
 
+class Prv_nyt_games(Protocol):
+    """Access daily puzzles from The New York Times Games collection including Wordle,
+    Connections, Spelling Bee, and crosswords.
+    """
+
+    async def getWordle(self, args: Prv_nyt_games_GetWordleArgs_In | None = None, /) -> Prv_nyt_games_NytWordle_Out:
+        """Reads one day's Wordle answer, puzzle number and editor. Defaults to today in New York;
+        pass { date: "YYYY-MM-DD" } for any day since 2021-06-19.
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -37083,6 +37117,12 @@ class Prv_yahoo_finance(Protocol):
         non-string symbol throws before any request is sent.
         """
 
+    async def getCompanyProfile(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceCompanyProfile_Out:
+        """Reads a company's profile from a ticker's Profile tab — sector, industry, website,
+        business description, employee count, headquarters, and key executives. An unknown or
+        empty ticker throws before any request is sent.
+        """
+
     async def getKeyStatistics(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceKeyStatistics_Out:
         """Reads the key statistics table from a ticker's Key Statistics tab — metrics like market
         cap, P/E ratio, 52-week range, dividend yield, beta, and other commonly-referenced
@@ -37914,6 +37954,7 @@ class BowmarkProviders(Protocol):
     nurturelife: Prv_nurturelife
     nutrafol: Prv_nutrafol
     nvisioncenters: Prv_nvisioncenters
+    nyt_games: Prv_nyt_games
     oanda: Prv_oanda
     oliverwinery: Prv_oliverwinery
     onthemarket: Prv_onthemarket

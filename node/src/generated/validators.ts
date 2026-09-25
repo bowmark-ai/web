@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e6e95e18568fb51637eb2c4c1e8fcf3b1070394df1995a23f4e02683ca5b3cbb
-// 1356 checked, 20 unchecked.
+// Manifest version: ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0
+// 1358 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e6e95e18568fb51637eb2c4c1e8fcf3b1070394df1995a23f4e02683ca5b3cbb",
+  "version": "ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0",
   "units": {
     "booking_links": {
       "defs": {
@@ -25854,6 +25854,34 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.nyt_games": {
+      "defs": {
+        "GetWordleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getWordle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetWordleArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.oanda": {
       "defs": {},
       "functions": {
@@ -39760,6 +39788,15 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ],
+        "getCompanyProfile": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ],
         "getKeyStatistics": [

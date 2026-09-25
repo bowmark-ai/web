@@ -1,5 +1,5 @@
 {
-  "version": "e6e95e18568fb51637eb2c4c1e8fcf3b1070394df1995a23f4e02683ca5b3cbb",
+  "version": "ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0",
   "units": {
     "booking_links": {
       "defs": {
@@ -25842,6 +25842,34 @@
         ]
       }
     },
+    "providers.nyt_games": {
+      "defs": {
+        "GetWordleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getWordle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetWordleArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.oanda": {
       "defs": {},
       "functions": {
@@ -39748,6 +39776,15 @@
               "k": "string"
             },
             "optional": true
+          }
+        ],
+        "getCompanyProfile": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ],
         "getKeyStatistics": [

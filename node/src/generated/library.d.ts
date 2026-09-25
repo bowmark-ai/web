@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e6e95e18568fb51637eb2c4c1e8fcf3b1070394df1995a23f4e02683ca5b3cbb
-// 64 capabilities, 470 providers, 1374 typed functions, 20 refused.
+// Manifest version: ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0
+// 64 capabilities, 471 providers, 1376 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -29144,6 +29144,24 @@ interface NvisioncentersCandidacyResult {
   }
 }
 
+declare namespace BowmarkProvider_nyt_games {
+  // ── The New York Times Games — the unit's own declarations, verbatim ──
+interface NytWordle { id: number; solution: string; printDate: string; daysSinceLaunch: number; editor: string | null; }
+interface GetWordleArgs { date?: string; }
+
+  /**
+   * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
+   * Spelling Bee, and crosswords.
+   */
+  interface Unit {
+    /**
+     * Reads one day's Wordle answer, puzzle number and editor. Defaults to today in New York; pass
+     * { date: "YYYY-MM-DD" } for any day since 2021-06-19.
+     */
+    getWordle(args?: GetWordleArgs): Promise<NytWordle>;
+  }
+}
+
 declare namespace BowmarkProvider_oanda {
   // ── OANDA — the unit's own declarations, verbatim ──
 interface OandaConversion {
@@ -39786,6 +39804,13 @@ interface YahooFinanceCompanyProfile {
     getOptionsChain(symbol: string, expirationDate?: string): Promise<YahooFinanceOptionsChain>;
 
     /**
+     * Reads a company's profile from a ticker's Profile tab — sector, industry, website, business
+     * description, employee count, headquarters, and key executives. An unknown or empty ticker
+     * throws before any request is sent.
+     */
+    getCompanyProfile(symbol: string): Promise<YahooFinanceCompanyProfile>;
+
+    /**
      * Reads the key statistics table from a ticker's Key Statistics tab — metrics like market cap,
      * P/E ratio, 52-week range, dividend yield, beta, and other commonly-referenced statistics.
      * Metrics are returned with their label and value exactly as Yahoo Finance renders them,
@@ -42160,6 +42185,7 @@ interface BowmarkProviders {
   nurturelife: BowmarkProvider_nurturelife.Unit;
   nutrafol: BowmarkProvider_nutrafol.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
+  nyt_games: BowmarkProvider_nyt_games.Unit;
   oanda: BowmarkProvider_oanda.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
   onthemarket: BowmarkProvider_onthemarket.Unit;
