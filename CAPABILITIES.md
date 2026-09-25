@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 101 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 102 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -42,6 +42,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `flights.getBookingOptions` | Every seller on offer for ONE result — pass the whole row from `search()`, not its id. | 5 | 🟢 |
 | `flights.getFlightStatus` | A flight's live status, checked directly with the airline that flies it. | 5 | 🟢 |
 | `flights.search` | Searches for flights matching the query and returns `{ flights, warnings }`. `flights`… | 5 | 🟢 |
+| `furnished_apartment_rental.search` | Search for furnished apartments in the specified city across multiple providers. | 1 | 🟢 |
 | `game_soundtrack_composer_credits.getCredits` | Looks up one soundtrack release-group by id (from search()) and returns its full… | 0 | 🟢 |
 | `game_soundtrack_composer_credits.search` | Searches MusicBrainz for soundtrack releases matching a game title and returns each… | 0 | 🟢 |
 | `gas_prices.search` | Returns cheapest gas stations near a US ZIP code, sorted by price ascending. fuelType… | 1 | 🟢 |
