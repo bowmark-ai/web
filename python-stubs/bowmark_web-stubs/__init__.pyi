@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9edbd2cb08538ccf446eafb9b6b1f82fd607bdb5c7f7702ac90feba25d86cd3d
-# 60 capabilities, 459 providers, 1325 typed functions, 20 refused.
+# Manifest version: f575c23fba43fe0d22ca9efb0b3af03d91eadb5778428f91bf122a2beca11c78
+# 61 capabilities, 461 providers, 1338 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -513,6 +513,9 @@ class Cap_census_tract_household_income_householdIncome_params_In(TypedDict):
     address: NotRequired[str]
     tract: NotRequired[str]
 
+class Cap_census_tract_household_income_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
 class Cap_census_tract_household_income_census_tract_household_incomeResult_Out(TypedDict):
     incomes: list[Cap_census_tract_household_income_HouseholdIncomeData_Out]
     warnings: list[str]
@@ -524,6 +527,23 @@ class Cap_census_tract_household_income_HouseholdIncomeData_Out(TypedDict):
     medianHouseholdIncomeMarginOfError: NotRequired[float]
     name: NotRequired[str]
     warnings: list[str]
+
+class Cap_concert_setlist_concert_setlistResult_Out(TypedDict):
+    concerts: list[Cap_concert_setlist_Concert_Out]
+    warnings: list[str]
+
+class Cap_concert_setlist_Concert_Out(TypedDict):
+    artist: str
+    venue: NotRequired[str]
+    city: NotRequired[str]
+    date: str
+    songs: list[Cap_concert_setlist_Song_Out]
+
+class Cap_concert_setlist_Song_Out(TypedDict):
+    name: str
+    position: NotRequired[float]
+    withLyrics: NotRequired[bool]
+    encore: NotRequired[bool]
 
 class Cap_costume_size_check_checkSize_args_In(TypedDict):
     character: str
@@ -1954,6 +1974,79 @@ class Cap_video_library_PlaylistEdit_Out(TypedDict):
     playlistId: str
     added: list[str]
     url: str
+    warnings: list[str]
+
+class Cap_video_library_myVideos_options_In(TypedDict):
+    limit: NotRequired[float]
+    pageToken: NotRequired[str]
+
+class Cap_video_library_MyVideoPage_Out(TypedDict):
+    videos: list[Cap_video_library_MyVideo_Out]
+    nextPageToken: str | None
+    total: float | None
+    warnings: list[str]
+
+class Cap_video_library_MyVideo_Out(TypedDict):
+    videoId: str
+    title: str
+    description: str | None
+    privacy: Literal["private"] | Literal["unlisted"] | Literal["public"] | None
+    status: str | None
+    lengthSeconds: float | None
+    tags: list[str]
+    thumbnail: str | None
+    createdAt: str | None
+    url: str
+    studioUrl: str
+
+class Cap_video_library_UploadVideoOptions_In(TypedDict):
+    file: NotRequired[str]
+    url: NotRequired[str]
+    title: str
+    description: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    categoryId: NotRequired[float]
+    privacy: NotRequired[Literal["private"] | Literal["unlisted"] | Literal["public"]]
+
+class Cap_video_library_UploadedVideo_Out(TypedDict):
+    videoId: str
+    title: str
+    privacy: Literal["private"] | Literal["unlisted"] | Literal["public"]
+    url: str
+    studioUrl: str
+    status: Literal["processing"]
+    warnings: list[str]
+
+class Cap_video_library_UpdateVideoOptions_In(TypedDict):
+    video: str
+    title: NotRequired[str]
+    description: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    categoryId: NotRequired[float]
+    privacy: NotRequired[Literal["private"] | Literal["unlisted"] | Literal["public"]]
+
+class Cap_video_library_VideoEdit_Out(TypedDict):
+    videoId: str
+    updated: list[str]
+    video: Cap_video_library_MyVideo_Out
+    warnings: list[str]
+
+class Cap_video_library_SetThumbnailOptions_In(TypedDict):
+    video: str
+    file: NotRequired[str]
+    url: NotRequired[str]
+
+class Cap_video_library_ThumbnailSet_Out(TypedDict):
+    videoId: str
+    thumbnail: str | None
+    warnings: list[str]
+
+class Cap_video_library_deleteVideo_options_In(TypedDict):
+    video: str
+
+class Cap_video_library_DeletedVideo_Out(TypedDict):
+    videoId: str
+    status: Literal["deleted"] | Literal["deleting"]
     warnings: list[str]
 
 class Cap_weather_ForecastResult_Out(TypedDict):
@@ -6330,6 +6423,18 @@ class Prv_cbhhomes_AssembledInquiry_Out(TypedDict):
     entryUrl: str
     formFields: Mapping[str, str]
     summary: str
+
+class Prv_census_api_HouseholdIncomeArgs_In(TypedDict):
+    zipCode: NotRequired[str]
+    address: NotRequired[str]
+
+class Prv_census_api_HouseholdIncomeResult_Out(TypedDict):
+    medianHouseholdIncome: float
+    censusYear: float
+    tract: str
+    state: str
+    county: str
+    warnings: NotRequired[list[str]]
 
 class Prv_champxpress_ChampxpressLocation_Out(TypedDict):
     slug: str
@@ -14502,6 +14607,13 @@ class Prv_mossyoak_MossyoakCatalogue_Out(TypedDict):
     products: list[Prv_mossyoak_MossyoakProduct_Out]
     warnings: list[str]
 
+class Prv_msc_TrackingResult_Out(TypedDict):
+    status: str
+    location: str
+    lastUpdate: str
+    estimatedDelivery: NotRequired[str]
+    rawData: NotRequired[Mapping[str, Any]]
+
 class Prv_msn_MsnTopStories_Out(TypedDict):
     stories: list[Prv_msn_MsnStory_Out]
     nextPageUrl: str | None
@@ -21737,6 +21849,75 @@ class Prv_youtube_YoutubePlaylistEdit_Out(TypedDict):
     added: list[str]
     url: str
 
+class Prv_youtube_listMyVideos_input_In(TypedDict):
+    limit: NotRequired[float]
+    pageToken: NotRequired[str]
+
+class Prv_youtube_YoutubeMyVideoPage_Out(TypedDict):
+    videos: list[Prv_youtube_YoutubeMyVideo_Out]
+    nextPageToken: str | None
+    total: float | None
+
+class Prv_youtube_YoutubeMyVideo_Out(TypedDict):
+    videoId: str
+    title: str
+    description: str | None
+    privacy: Literal["private"] | Literal["unlisted"] | Literal["public"] | None
+    status: str | None
+    lengthSeconds: float | None
+    tags: list[str]
+    thumbnail: str | None
+    createdAt: str | None
+    url: str
+    studioUrl: str
+
+class Prv_youtube_uploadVideo_input_In(TypedDict):
+    file: NotRequired[str]
+    url: NotRequired[str]
+    title: str
+    description: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    categoryId: NotRequired[float]
+    privacy: NotRequired[Literal["private"] | Literal["unlisted"] | Literal["public"]]
+
+class Prv_youtube_YoutubeUploadedVideo_Out(TypedDict):
+    videoId: str
+    title: str
+    privacy: Literal["private"] | Literal["unlisted"] | Literal["public"]
+    url: str
+    studioUrl: str
+    status: Literal["processing"]
+    warnings: list[str]
+
+class Prv_youtube_updateVideo_input_In(TypedDict):
+    video: str
+    title: NotRequired[str]
+    description: NotRequired[str]
+    tags: NotRequired[Sequence[str]]
+    categoryId: NotRequired[float]
+    privacy: NotRequired[Literal["private"] | Literal["unlisted"] | Literal["public"]]
+
+class Prv_youtube_YoutubeVideoEdit_Out(TypedDict):
+    videoId: str
+    updated: list[str]
+    video: Prv_youtube_YoutubeMyVideo_Out
+
+class Prv_youtube_setThumbnail_input_In(TypedDict):
+    video: str
+    file: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_youtube_YoutubeThumbnailSet_Out(TypedDict):
+    videoId: str
+    thumbnail: str | None
+
+class Prv_youtube_deleteVideo_input_In(TypedDict):
+    video: str
+
+class Prv_youtube_YoutubeDeletedVideo_Out(TypedDict):
+    videoId: str
+    status: Literal["deleted"] | Literal["deleting"]
+
 class Prv_youtube_login_return_Out(TypedDict):
     connection: str
     account: str
@@ -21966,10 +22147,17 @@ class Cap_census_tract_household_income(Protocol):
     tract.
     """
 
-    async def householdIncome(self, params: Cap_census_tract_household_income_householdIncome_params_In, /) -> Cap_census_tract_household_income_census_tract_household_incomeResult_Out:
-        """Retrieves median household income from US Census Bureau data for a given location (ZIP
-        code, address, or census tract).
+    async def householdIncome(self, params: Cap_census_tract_household_income_householdIncome_params_In, options: Cap_census_tract_household_income_CallOptions_In | None = None, /) -> Cap_census_tract_household_income_census_tract_household_incomeResult_Out:
+        """Retrieves median household income from US Census Bureau data for a given location. Only
+        ZIP code lookups resolve today; address and tract are accepted but return a warning
+        until a provider covers them. `options.timeoutMs` sets the budget (default 30000).
         """
+
+class Cap_concert_setlist(Protocol):
+    """Find the setlist of songs played at a concert from setlist.fm."""
+
+    async def search(self, query: str, /) -> Cap_concert_setlist_concert_setlistResult_Out:
+        """Search for concert setlists by artist name, venue, or date."""
 
 class Cap_costume_size_check(Protocol):
     """Given a costume character and a size, fans out to Target, Walmart, and Spirit Halloween
@@ -23122,10 +23310,11 @@ class Cap_theme_park_tickets(Protocol):
         """
 
 class Cap_video_library(Protocol):
-    """Reads and writes the caller's OWN YouTube account: their Watch Later list, their liked
-    videos, and the playlists they keep — including making a new one and adding videos to
-    it. Needs the caller's YouTube sign-in: the first run answers needs_user with a link to
-    sign in, and later runs reuse it with no browser.
+    """Reads and writes the caller's OWN YouTube account: Watch Later, likes, playlists,
+    channel videos — uploading a video file, changing its title, description, tags,
+    category, privacy or thumbnail, and deleting it. Needs the caller's YouTube sign-in: the
+    first run answers needs_user with a link to sign in, and later runs reuse it with no
+    browser.
     """
 
     async def homeFeed(self, options: Cap_video_library_homeFeed_options_In | None = None, /) -> Cap_video_library_LibraryPage_Out:
@@ -23172,6 +23361,47 @@ class Cap_video_library(Protocol):
         """Adds one or many videos to one of the caller's own playlists, as a single edit. Adding a
         video already in the playlist adds it again — YouTube permits duplicates and does not
         report which is which. Needs a YouTube sign-in.
+        """
+
+    async def myVideos(self, options: Cap_video_library_myVideos_options_In | None = None, /) -> Cap_video_library_MyVideoPage_Out:
+        """The videos on the caller's OWN channel, newest first, including private and unlisted
+        ones, each with its privacy and processing status — what they see on YouTube Studio's
+        Content page. Use it to find a video's id before editing or deleting it, or to see
+        whether an upload has finished processing. `limit` 1-100 (default 30). Needs a YouTube
+        sign-in.
+        """
+
+    async def uploadVideo(self, options: Cap_video_library_UploadVideoOptions_In, /) -> Cap_video_library_UploadedVideo_Out:
+        """Uploads a video file to the caller's own YouTube channel and returns its id and link.
+        Pass the file as a Bowmark file id (`file`) or an https `url` — never as bytes in your
+        script. Defaults to "private"; publish as "public" only when the account holder asked
+        for it, because it is live to everyone at once under their name. Returns once YouTube
+        has the file, with `status: "processing"` — encoding takes a few minutes, and `myVideos`
+        shows when it is done. The whole upload must finish inside the run's deadline (measured
+        ~12s for a small file), so very large files will not fit. YouTube does not trim or cut
+        footage — edit the file before uploading. Needs a YouTube sign-in, and a YouTube channel
+        on the account (`createChannel`).
+        """
+
+    async def updateVideo(self, options: Cap_video_library_UpdateVideoOptions_In, /) -> Cap_video_library_VideoEdit_Out:
+        """Changes the details of one of the caller's own videos — title, description, tags
+        (replaces the whole list), category or privacy (e.g. make a private upload public). Send
+        only what should change; the answer lists what YouTube confirmed and the video as it now
+        reads. If YouTube takes some fields and refuses others, it throws and names which ones
+        ARE live. This edits details, not footage. Needs a YouTube sign-in.
+        """
+
+    async def setThumbnail(self, options: Cap_video_library_SetThumbnailOptions_In, /) -> Cap_video_library_ThumbnailSet_Out:
+        """Sets a custom thumbnail (JPG or PNG, up to 2 MB, 1280x720 recommended) on one of the
+        caller's own videos. YouTube only allows this on a channel verified with a phone number;
+        on one that is not, it refuses up front and tells the account holder where to verify —
+        they have to do that themselves. Needs a YouTube sign-in.
+        """
+
+    async def deleteVideo(self, options: Cap_video_library_deleteVideo_options_In, /) -> Cap_video_library_DeletedVideo_Out:
+        """PERMANENTLY deletes one of the caller's own videos, with its views and comments —
+        YouTube has no undo. Refuses any video that is not on the caller's channel. Only call it
+        when the account holder asked for that specific video to go. Needs a YouTube sign-in.
         """
 
 class Cap_weather(Protocol):
@@ -26081,6 +26311,12 @@ class Prv_cbhhomes(Protocol):
         own field names, pre-filling a supplied listing's own hidden bookkeeping — ready to
         submit. Never submits it.
         """
+
+class Prv_census_api(Protocol):
+    """Query US Census Bureau data on demographics by location"""
+
+    async def householdIncome(self, args: Prv_census_api_HouseholdIncomeArgs_In, /) -> Prv_census_api_HouseholdIncomeResult_Out:
+        """Returns median household income for a US Census tract by ZIP code"""
 
 class Prv_champxpress(Protocol):
     """Reads Champion Xpress Carwash's own live "25 for Life" MVP Unlimited membership picker —
@@ -32032,6 +32268,14 @@ class Prv_mossyoak(Protocol):
         `warnings` names it when the requested productType matched nothing.
         """
 
+class Prv_msc(Protocol):
+    """Track MSC shipments by container, BL, or booking number."""
+
+    async def trackShipment(self, trackingNumber: str, type: Literal["container"] | Literal["bl"] | Literal["booking"] | None = None, /) -> Prv_msc_TrackingResult_Out:
+        """Tracks a shipment by container/BL number, returning the current status and location
+        information.
+        """
+
 class Prv_msn(Protocol):
     """MSN's news portal — top stories, section feeds, article text, money quotes and weather,
     logged out.
@@ -36884,6 +37128,54 @@ class Prv_youtube(Protocol):
         call `bowmark.video_library.addToPlaylist` rather than this directly.
         """
 
+    async def listMyVideos(self, input: Prv_youtube_listMyVideos_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeMyVideoPage_Out:
+        """The videos on the signed-in account's OWN channel, newest first, as YouTube Studio lists
+        them — private and unlisted ones included, each with its privacy and processing status.
+        `limit` is 1-100 (default 30); pass `nextPageToken` back as `pageToken` for more. NEEDS
+        A SIGN-IN — call `bowmark.video_library.myVideos` rather than this directly.
+        """
+
+    async def uploadVideo(self, input: Prv_youtube_uploadVideo_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeUploadedVideo_Out:
+        """Uploads a video file to the signed-in account's own channel. Pass exactly one of `file`
+        (a Bowmark file id — the bytes stream from the account's storage and never pass through
+        your script) or `url` (an https link that reports its size). `privacy` defaults to
+        "private"; a "public" upload is visible to everyone at once under the account holder's
+        name, so only publish when they asked. Returns as soon as YouTube accepts the file, with
+        `status: "processing"` — encoding takes minutes. Resumes a dropped transfer from where
+        it stopped. Measured 2026-09-24: a small file took ~12s end to end, most of it opening
+        YouTube Studio once to get the upload token. The whole upload has to finish inside the
+        run's deadline, so very large files will not fit. YouTube does not cut or trim footage
+        on upload — edit the file first. NEEDS A SIGN-IN — call
+        `bowmark.video_library.uploadVideo` rather than this directly.
+        """
+
+    async def updateVideo(self, input: Prv_youtube_updateVideo_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeVideoEdit_Out:
+        """Changes the details of one of the signed-in account's own videos: title, description,
+        tags (REPLACES the whole list), category (YouTube's numeric id, e.g. 22 People & Blogs,
+        27 Education, 28 Science & Technology) and privacy. Send only the fields to change.
+        Returns the fields YouTube confirmed plus the video as read back afterwards; if YouTube
+        accepts some fields and refuses others it throws and says which ones ARE live. Details
+        only — YouTube does not cut or re-encode footage here. NEEDS A SIGN-IN — call
+        `bowmark.video_library.updateVideo` rather than this directly.
+        """
+
+    async def setThumbnail(self, input: Prv_youtube_setThumbnail_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeThumbnailSet_Out:
+        """Sets a custom thumbnail (JPG or PNG, up to 2 MB, 1280x720 recommended) on one of the
+        signed-in account's own videos, from a Bowmark file id or an https URL. YouTube only
+        allows custom thumbnails on a channel verified with a phone number; on one that is not,
+        this refuses up front and says so (measured 2026-09-24). The success path has not been
+        measured on a verified channel yet. NEEDS A SIGN-IN — call
+        `bowmark.video_library.setThumbnail` rather than this directly.
+        """
+
+    async def deleteVideo(self, input: Prv_youtube_deleteVideo_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeDeletedVideo_Out:
+        """PERMANENTLY deletes one of the signed-in account's own videos — views, comments and all;
+        YouTube offers no undo. Checks first that the video is on this account's channel and
+        refuses anything else. Only call it when the account holder asked for that video to be
+        deleted. NEEDS A SIGN-IN — call `bowmark.video_library.deleteVideo` rather than this
+        directly.
+        """
+
     async def login(self, creds: LoginInput, /) -> Prv_youtube_login_return_Out:
         """Signs in with the given credentials and saves a NEW connection — every call creates one,
         never replacing an existing login, unless `connection` names an existing id to sign back
@@ -37036,6 +37328,7 @@ class BowmarkProviders(Protocol):
     casadragones: Prv_casadragones
     cascadiaseniorliving_com: Prv_cascadiaseniorliving_com
     cbhhomes: Prv_cbhhomes
+    census_api: Prv_census_api
     champxpress: Prv_champxpress
     chantecaille: Prv_chantecaille
     chappellet: Prv_chappellet
@@ -37236,6 +37529,7 @@ class BowmarkProviders(Protocol):
     modularclosets: Prv_modularclosets
     momondo: Prv_momondo
     mossyoak: Prv_mossyoak
+    msc: Prv_msc
     msn: Prv_msn
     municipal_recreation_fees_fetcher: Prv_municipal_recreation_fees_fetcher
     muze_gov_tr: Prv_muze_gov_tr
@@ -37402,6 +37696,7 @@ class Bowmark(Protocol):
     cable_railing_quote: Cap_cable_railing_quote
     cars: Cap_cars
     census_tract_household_income: Cap_census_tract_household_income
+    concert_setlist: Cap_concert_setlist
     costume_size_check: Cap_costume_size_check
     coworking: Cap_coworking
     currency_exchange: Cap_currency_exchange

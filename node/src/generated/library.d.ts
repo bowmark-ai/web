@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9edbd2cb08538ccf446eafb9b6b1f82fd607bdb5c7f7702ac90feba25d86cd3d
-// 60 capabilities, 459 providers, 1343 typed functions, 20 refused.
+// Manifest version: f575c23fba43fe0d22ca9efb0b3af03d91eadb5778428f91bf122a2beca11c78
+// 61 capabilities, 461 providers, 1356 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -538,16 +538,52 @@ interface census_tract_household_incomeResult {
   warnings: string[];
 }
 
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
   /**
    * Get median household income from US Census Bureau data by ZIP code, address, or census
    * tract.
    */
   interface Unit {
     /**
-     * Retrieves median household income from US Census Bureau data for a given location (ZIP code,
-     * address, or census tract).
+     * Retrieves median household income from US Census Bureau data for a given location. Only ZIP
+     * code lookups resolve today; address and tract are accepted but return a warning until a
+     * provider covers them. `options.timeoutMs` sets the budget (default 30000).
      */
-    householdIncome(params: { zip?: string; address?: string; tract?: string }): Promise<census_tract_household_incomeResult>;
+    householdIncome(params: { zip?: string; address?: string; tract?: string }, options?: CallOptions): Promise<census_tract_household_incomeResult>;
+  }
+}
+
+declare namespace BowmarkCapability_concert_setlist {
+  // ── Concert setlist lookup — the unit's own declarations, verbatim ──
+interface Song {
+  name: string;
+  position?: number;
+  withLyrics?: boolean;
+  encore?: boolean;
+}
+
+interface Concert {
+  artist: string;
+  venue?: string;
+  city?: string;
+  date: string;
+  songs: Song[];
+}
+
+interface concert_setlistResult {
+  concerts: Concert[];
+  warnings: string[];
+}
+
+  /** Find the setlist of songs played at a concert from setlist.fm. */
+  interface Unit {
+    /** Search for concert setlists by artist name, venue, or date. */
+    search(query: string): Promise<concert_setlistResult>;
   }
 }
 
@@ -3502,7 +3538,7 @@ type CallOptions = {
 }
 
 declare namespace BowmarkCapability_video_library {
-  // ── Video library — the caller's own saved, liked and playlisted videos — the unit's own declarations, verbatim ──
+  // ── Video library — the caller's own YouTube: saved, liked, playlists, uploads — the unit's own declarations, verbatim ──
 interface LibraryVideo {
   videoId: string
   url: string
@@ -3537,6 +3573,72 @@ interface CreatedPlaylist {
   url: string            // show this to your user — it opens the playlist
   warnings: string[]
 }
+interface MyVideo {
+  videoId: string
+  title: string
+  description: string | null
+  privacy: "private" | "unlisted" | "public" | null
+  status: string | null        // YouTube's own processing state, lower-cased — the site's own labels, read the values off a result, never guess one from prose
+  lengthSeconds: number | null // null while a fresh upload is still encoding
+  tags: string[]
+  thumbnail: string | null
+  createdAt: string | null     // ISO timestamp
+  url: string
+  studioUrl: string            // where the owner edits it by hand
+}
+interface MyVideoPage {
+  videos: MyVideo[]
+  nextPageToken: string | null // pass back as { pageToken } for the next page; null on the last
+  total: number | null         // how many videos the channel has
+  warnings: string[]
+}
+interface UploadVideoOptions {
+  file?: string        // a Bowmark file id (bowmark.files.save / list) — streamed, never through your script
+  url?: string         // OR an https link to the file; its host must report the size
+  title: string        // up to 100 characters; name it for the people who will watch it
+  description?: string
+  tags?: string[]
+  categoryId?: number  // YouTube's numeric id: 22 People & Blogs, 27 Education, 28 Science & Technology, 20 Gaming…
+  privacy?: "private" | "unlisted" | "public"   // default "private"; "public" is live to everyone at once
+}
+interface UploadedVideo {
+  videoId: string
+  title: string
+  privacy: "private" | "unlisted" | "public"
+  url: string
+  studioUrl: string
+  status: "processing" // YouTube is still encoding it; myVideos shows when it is "processed"
+  warnings: string[]
+}
+interface UpdateVideoOptions {
+  video: string        // id or URL of one of the caller's own videos
+  title?: string
+  description?: string
+  tags?: string[]      // REPLACES the whole list
+  categoryId?: number
+  privacy?: "private" | "unlisted" | "public"
+}
+interface VideoEdit {
+  videoId: string
+  updated: string[]    // the fields YouTube confirmed it changed
+  video: MyVideo       // read back afterwards
+  warnings: string[]
+}
+interface SetThumbnailOptions {
+  video: string
+  file?: string        // a Bowmark file id, or…
+  url?: string         // …an https link to a JPG or PNG, up to 2 MB
+}
+interface ThumbnailSet {
+  videoId: string
+  thumbnail: string | null
+  warnings: string[]
+}
+interface DeletedVideo {
+  videoId: string
+  status: "deleted" | "deleting"   // either way it is gone and cannot be undone
+  warnings: string[]
+}
 interface AddToPlaylistOptions {
   playlist: string       // a playlist id, or any URL carrying a "list" param
   video?: string         // one video id or watch URL
@@ -3556,10 +3658,10 @@ type CallOptions = {
 }
 
   /**
-   * Reads and writes the caller's OWN YouTube account: their Watch Later list, their liked
-   * videos, and the playlists they keep — including making a new one and adding videos to it.
-   * Needs the caller's YouTube sign-in: the first run answers needs_user with a link to sign in,
-   * and later runs reuse it with no browser.
+   * Reads and writes the caller's OWN YouTube account: Watch Later, likes, playlists, channel
+   * videos — uploading a video file, changing its title, description, tags, category, privacy or
+   * thumbnail, and deleting it. Needs the caller's YouTube sign-in: the first run answers
+   * needs_user with a link to sign in, and later runs reuse it with no browser.
    */
   interface Unit {
     /**
@@ -3610,6 +3712,51 @@ type CallOptions = {
      * which is which. Needs a YouTube sign-in.
      */
     addToPlaylist(options: AddToPlaylistOptions): Promise<PlaylistEdit>;
+
+    /**
+     * The videos on the caller's OWN channel, newest first, including private and unlisted ones,
+     * each with its privacy and processing status — what they see on YouTube Studio's Content
+     * page. Use it to find a video's id before editing or deleting it, or to see whether an upload
+     * has finished processing. `limit` 1-100 (default 30). Needs a YouTube sign-in.
+     */
+    myVideos(options?: { limit?: number; pageToken?: string }): Promise<MyVideoPage>;
+
+    /**
+     * Uploads a video file to the caller's own YouTube channel and returns its id and link. Pass
+     * the file as a Bowmark file id (`file`) or an https `url` — never as bytes in your script.
+     * Defaults to "private"; publish as "public" only when the account holder asked for it,
+     * because it is live to everyone at once under their name. Returns once YouTube has the file,
+     * with `status: "processing"` — encoding takes a few minutes, and `myVideos` shows when it is
+     * done. The whole upload must finish inside the run's deadline (measured ~12s for a small
+     * file), so very large files will not fit. YouTube does not trim or cut footage — edit the
+     * file before uploading. Needs a YouTube sign-in, and a YouTube channel on the account
+     * (`createChannel`).
+     */
+    uploadVideo(options: UploadVideoOptions): Promise<UploadedVideo>;
+
+    /**
+     * Changes the details of one of the caller's own videos — title, description, tags (replaces
+     * the whole list), category or privacy (e.g. make a private upload public). Send only what
+     * should change; the answer lists what YouTube confirmed and the video as it now reads. If
+     * YouTube takes some fields and refuses others, it throws and names which ones ARE live. This
+     * edits details, not footage. Needs a YouTube sign-in.
+     */
+    updateVideo(options: UpdateVideoOptions): Promise<VideoEdit>;
+
+    /**
+     * Sets a custom thumbnail (JPG or PNG, up to 2 MB, 1280x720 recommended) on one of the
+     * caller's own videos. YouTube only allows this on a channel verified with a phone number; on
+     * one that is not, it refuses up front and tells the account holder where to verify — they
+     * have to do that themselves. Needs a YouTube sign-in.
+     */
+    setThumbnail(options: SetThumbnailOptions): Promise<ThumbnailSet>;
+
+    /**
+     * PERMANENTLY deletes one of the caller's own videos, with its views and comments — YouTube
+     * has no undo. Refuses any video that is not on the caller's channel. Only call it when the
+     * account holder asked for that specific video to go. Needs a YouTube sign-in.
+     */
+    deleteVideo(options: { video: string }): Promise<DeletedVideo>;
   }
 }
 
@@ -11482,6 +11629,29 @@ interface AssembledInquiry {
      * Never submits it.
      */
     assembleInquiry(args: AssembleInquiryArgs): Promise<AssembledInquiry>;
+  }
+}
+
+declare namespace BowmarkProvider_census_api {
+  // ── US Census Bureau — the unit's own declarations, verbatim ──
+interface HouseholdIncomeResult {
+  medianHouseholdIncome: number;
+  censusYear: number;
+  tract: string;
+  state: string;
+  county: string;
+  warnings?: string[];
+}
+
+interface HouseholdIncomeArgs {
+  zipCode?: string;
+  address?: string;
+}
+
+  /** Query US Census Bureau data on demographics by location */
+  interface Unit {
+    /** Returns median household income for a US Census tract by ZIP code */
+    householdIncome(args: HouseholdIncomeArgs): Promise<HouseholdIncomeResult>;
   }
 }
 
@@ -27666,6 +27836,26 @@ interface MossyoakCheckoutLink {
   }
 }
 
+declare namespace BowmarkProvider_msc {
+  // ── MSC (Mediterranean Shipping Company) — the unit's own declarations, verbatim ──
+interface TrackingResult {
+  status: string; // the site's own labels — read the values off a result, never guess one from prose
+  location: string;
+  lastUpdate: string;
+  estimatedDelivery?: string;
+  rawData?: Record<string, unknown>;
+}
+
+  /** Track MSC shipments by container, BL, or booking number. */
+  interface Unit {
+    /**
+     * Tracks a shipment by container/BL number, returning the current status and location
+     * information.
+     */
+    trackShipment(trackingNumber: string, type?: 'container' | 'bl' | 'booking'): Promise<TrackingResult>;
+  }
+}
+
 declare namespace BowmarkProvider_msn {
   // ── MSN — the unit's own declarations, verbatim ──
 interface MsnStory {
@@ -39866,6 +40056,52 @@ interface YoutubePlaylistEdit {
   url: string;
 }
 
+interface YoutubeMyVideo {
+  videoId: string;
+  title: string;
+  description: string | null;
+  privacy: "private" | "unlisted" | "public" | null;
+  status: string | null;       // Studio's own processing state, lower-cased with its prefix dropped — the site's own labels, read the values off a result, never guess one from prose
+  lengthSeconds: number | null; // null while a fresh upload is still processing
+  tags: string[];
+  thumbnail: string | null;
+  createdAt: string | null;    // ISO timestamp
+  url: string;
+  studioUrl: string;           // where the channel owner edits it by hand
+}
+
+interface YoutubeMyVideoPage {
+  videos: YoutubeMyVideo[];
+  nextPageToken: string | null; // pass back as { pageToken } for the next page; null on the last
+  total: number | null;         // how many videos the channel has
+}
+
+interface YoutubeUploadedVideo {
+  videoId: string;
+  title: string;
+  privacy: "private" | "unlisted" | "public";
+  url: string;
+  studioUrl: string;
+  status: "processing";        // YouTube is still encoding it; listMyVideos shows when it is "processed"
+  warnings: string[];          // non-empty only when the video uploaded but its tags/category did not stick
+}
+
+interface YoutubeVideoEdit {
+  videoId: string;
+  updated: string[];           // the fields YouTube confirmed it changed, e.g. ["title", "privacy"]
+  video: YoutubeMyVideo;       // the video as Studio reads it back afterwards
+}
+
+interface YoutubeThumbnailSet {
+  videoId: string;
+  thumbnail: string | null;
+}
+
+interface YoutubeDeletedVideo {
+  videoId: string;
+  status: "deleted" | "deleting"; // either way it is gone and cannot be undone
+}
+
 interface YoutubePlaylistVideoPage {
   videos: YoutubePlaylistVideo[];
   continuation: string | null; // pass back as { continuation } for the next page; null on the last
@@ -40170,6 +40406,58 @@ interface YoutubeStreamFormat {
      * `bowmark.video_library.addToPlaylist` rather than this directly.
      */
     addToPlaylist(input: { playlist: string; video?: string; videos?: string[] }, opts?: ConnectionOption): Promise<YoutubePlaylistEdit>;
+
+    /**
+     * The videos on the signed-in account's OWN channel, newest first, as YouTube Studio lists
+     * them — private and unlisted ones included, each with its privacy and processing status.
+     * `limit` is 1-100 (default 30); pass `nextPageToken` back as `pageToken` for more. NEEDS A
+     * SIGN-IN — call `bowmark.video_library.myVideos` rather than this directly.
+     */
+    listMyVideos(input?: { limit?: number; pageToken?: string }, opts?: ConnectionOption): Promise<YoutubeMyVideoPage>;
+
+    /**
+     * Uploads a video file to the signed-in account's own channel. Pass exactly one of `file` (a
+     * Bowmark file id — the bytes stream from the account's storage and never pass through your
+     * script) or `url` (an https link that reports its size). `privacy` defaults to "private"; a
+     * "public" upload is visible to everyone at once under the account holder's name, so only
+     * publish when they asked. Returns as soon as YouTube accepts the file, with `status:
+     * "processing"` — encoding takes minutes. Resumes a dropped transfer from where it stopped.
+     * Measured 2026-09-24: a small file took ~12s end to end, most of it opening YouTube Studio
+     * once to get the upload token. The whole upload has to finish inside the run's deadline, so
+     * very large files will not fit. YouTube does not cut or trim footage on upload — edit the
+     * file first. NEEDS A SIGN-IN — call `bowmark.video_library.uploadVideo` rather than this
+     * directly.
+     */
+    uploadVideo(input: { file?: string; url?: string; title: string; description?: string; tags?: string[]; categoryId?: number; privacy?: "private" | "unlisted" | "public" }, opts?: ConnectionOption): Promise<YoutubeUploadedVideo>;
+
+    /**
+     * Changes the details of one of the signed-in account's own videos: title, description, tags
+     * (REPLACES the whole list), category (YouTube's numeric id, e.g. 22 People & Blogs, 27
+     * Education, 28 Science & Technology) and privacy. Send only the fields to change. Returns the
+     * fields YouTube confirmed plus the video as read back afterwards; if YouTube accepts some
+     * fields and refuses others it throws and says which ones ARE live. Details only — YouTube
+     * does not cut or re-encode footage here. NEEDS A SIGN-IN — call
+     * `bowmark.video_library.updateVideo` rather than this directly.
+     */
+    updateVideo(input: { video: string; title?: string; description?: string; tags?: string[]; categoryId?: number; privacy?: "private" | "unlisted" | "public" }, opts?: ConnectionOption): Promise<YoutubeVideoEdit>;
+
+    /**
+     * Sets a custom thumbnail (JPG or PNG, up to 2 MB, 1280x720 recommended) on one of the
+     * signed-in account's own videos, from a Bowmark file id or an https URL. YouTube only allows
+     * custom thumbnails on a channel verified with a phone number; on one that is not, this
+     * refuses up front and says so (measured 2026-09-24). The success path has not been measured
+     * on a verified channel yet. NEEDS A SIGN-IN — call `bowmark.video_library.setThumbnail`
+     * rather than this directly.
+     */
+    setThumbnail(input: { video: string; file?: string; url?: string }, opts?: ConnectionOption): Promise<YoutubeThumbnailSet>;
+
+    /**
+     * PERMANENTLY deletes one of the signed-in account's own videos — views, comments and all;
+     * YouTube offers no undo. Checks first that the video is on this account's channel and refuses
+     * anything else. Only call it when the account holder asked for that video to be deleted.
+     * NEEDS A SIGN-IN — call `bowmark.video_library.deleteVideo` rather than this directly.
+     */
+    deleteVideo(input: { video: string }, opts?: ConnectionOption): Promise<YoutubeDeletedVideo>;
 
     /**
      * Signs in with the given credentials and saves a NEW connection — every call creates one,
@@ -41212,6 +41500,7 @@ interface BowmarkProviders {
   casadragones: BowmarkProvider_casadragones.Unit;
   cascadiaseniorliving_com: BowmarkProvider_cascadiaseniorliving_com.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
+  census_api: BowmarkProvider_census_api.Unit;
   champxpress: BowmarkProvider_champxpress.Unit;
   chantecaille: BowmarkProvider_chantecaille.Unit;
   chappellet: BowmarkProvider_chappellet.Unit;
@@ -41412,6 +41701,7 @@ interface BowmarkProviders {
   modularclosets: BowmarkProvider_modularclosets.Unit;
   momondo: BowmarkProvider_momondo.Unit;
   mossyoak: BowmarkProvider_mossyoak.Unit;
+  msc: BowmarkProvider_msc.Unit;
   msn: BowmarkProvider_msn.Unit;
   municipal_recreation_fees_fetcher: BowmarkProvider_municipal_recreation_fees_fetcher.Unit;
   muze_gov_tr: BowmarkProvider_muze_gov_tr.Unit;
@@ -93294,6 +93584,7 @@ interface BowmarkLibrary {
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   cars: BowmarkCapability_cars.Unit;
   census_tract_household_income: BowmarkCapability_census_tract_household_income.Unit;
+  concert_setlist: BowmarkCapability_concert_setlist.Unit;
   costume_size_check: BowmarkCapability_costume_size_check.Unit;
   coworking: BowmarkCapability_coworking.Unit;
   currency_exchange: BowmarkCapability_currency_exchange.Unit;
