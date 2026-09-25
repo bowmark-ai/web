@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2094 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2110 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1884,10 +1884,26 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twiddy.getRentalQuote` | twiddy.com | Runs the site's own real-time weekly pricing engine for one property and a check-in… | 🟢 |
 | `twiddy.searchRentals` | twiddy.com | Runs Twiddy's own Outer Banks vacation rental search (all 1,000+ managed properties in… | 🟢 |
 | `twitch.createHighlight` | twitch.tv | Cuts a permanent Highlight from the signed-in streamer's own broadcast, including the… | 🟢 |
+| `twitch.followChannel` | twitch.tv | Marks a channel as followed by the signed-in user. | ⚪ |
 | `twitch.getChannel` | twitch.tv | Reads the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
+| `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | ⚪ |
+| `twitch.getChannelSchedule` | twitch.tv | Reads a channel's scheduled broadcast times and upcoming events (if public). Logged… | ⚪ |
+| `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | ⚪ |
+| `twitch.getSubscriptionStatus` | twitch.tv | Checks the signed-in user's subscription status to a specific channel (tier, renews… | ⚪ |
 | `twitch.getVideo` | twitch.tv | Reads one public Twitch video by id or twitch.tv/videos link: title, length in… | 🟢 |
+| `twitch.listCategories` | twitch.tv | Lists Twitch games/categories by viewership: name, box art, viewer count. | ⚪ |
+| `twitch.listChannelClips` | twitch.tv | Lists clips from a channel: title, creator, creation date, view count. | ⚪ |
+| `twitch.listChannelVods` | twitch.tv | Lists a channel's past broadcasts/VODs: title, creation date, duration, view count… | ⚪ |
+| `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | ⚪ |
+| `twitch.listSubscriptions` | twitch.tv | Lists channels the signed-in user is subscribed to and the subscription tier. | ⚪ |
+| `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | ⚪ |
+| `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | ⚪ |
+| `twitch.searchChannels` | twitch.tv | Searches for Twitch channels by keyword: login, display name, description, game… | ⚪ |
+| `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | ⚪ |
+| `twitch.sendChatMessage` | twitch.tv | Sends a message to a channel's live chat. | ⚪ |
 | `twitch.setChannel` | twitch.tv | Updates the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
 | `twitch.signUp` | twitch.tv | Registers a new developer application on the Twitch console. | ⚪ |
+| `twitch.unfollowChannel` | twitch.tv | Removes a channel from the signed-in user's followed list. | ⚪ |
 | `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟢 |
 | `ubereats.getCheckoutTotal` | ubereats.com | Would open a specific restaurant, add real menu items to the cart, set a delivery… | ⚪ |
 | `ubereats.search` | ubereats.com | Would run Uber Eats' own restaurant search for a free-text query + address and return… | ⚪ |

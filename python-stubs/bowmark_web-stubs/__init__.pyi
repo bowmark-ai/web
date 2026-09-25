@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2186aa83beca17f6df4974d0b6eb039a8cec2318254e3330b7eb3f93e695a7a4
-# 61 capabilities, 466 providers, 1344 typed functions, 20 refused.
+# Manifest version: 377fbb239925c05ee4deccbfbe57f1426c37f8cda21ebd0c7daeab71920eee8c
+# 61 capabilities, 467 providers, 1345 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7163,6 +7163,14 @@ class Prv_clubchampion_ClubchampionSlot_Out(TypedDict):
     end: str
     status: str
     resourceId: str
+
+class Prv_cnn_cnnHeadline_Out(TypedDict):
+    id: str
+    headline: str
+    snippet: str
+    url: str
+    timestamp: str | None
+    section: str | None
 
 class Prv_code_claude_com_code_claude_comDoc_Out(TypedDict):
     url: str
@@ -26888,6 +26896,15 @@ class Prv_clubchampion(Protocol):
         ~60-day booking horizon — not an error.
         """
 
+class Prv_cnn(Protocol):
+    """Breaking news, articles, video segments and markets data from CNN."""
+
+    async def listHeadlines(self, section: str | None = None, /) -> list[Prv_cnn_cnnHeadline_Out]:
+        """The top headlines from CNN's home page — the lead stories across all sections, newest
+        first, with headline, snippet, publication time and URL. Pass `section` ("us",
+        "politics", "business", etc.) to read that section's own front page instead.
+        """
+
 class Prv_code_claude_com(Protocol):
     """Reads one page of Claude Code's own documentation site (code.claude.com/docs/...) by URL
     and returns its title, description and body as clean markdown — the site's own
@@ -37477,6 +37494,7 @@ class BowmarkProviders(Protocol):
     cleanairlawncare: Prv_cleanairlawncare
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
+    cnn: Prv_cnn
     code_claude_com: Prv_code_claude_com
     compass_living: Prv_compass_living
     completehomewarranty_com: Prv_completehomewarranty_com
