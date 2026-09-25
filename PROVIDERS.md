@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2136 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2151 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -575,8 +575,23 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `e2b.runCommand` | e2b.dev | Runs `bash -l -c <cmd>` inside a sandbox through its in-sandbox daemon's Connect-RPC… | 🟢 |
 | `e2b.setSandboxTimeout` | e2b.dev | Moves a sandbox's kill time via POST /sandboxes/{id}/timeout, in seconds from now. | 🟢 |
 | `e2b.writeFile` | e2b.dev | Writes a text file inside a sandbox via the daemon's multipart POST /files. | 🟢 |
+| `ebay.addToCart` | ebay.com | Add an item to the caller's shopping cart. | ⚪ |
+| `ebay.addToWatchlist` | ebay.com | Add an item to the caller's watch list. | ⚪ |
+| `ebay.getCart` | ebay.com | Get the caller's shopping cart — items they have added but not yet purchased. | ⚪ |
+| `ebay.getDeals` | ebay.com | Get current eBay deals and promotions. | ⚪ |
+| `ebay.getItem` | ebay.com | Get details for a specific eBay listing — title, current price, condition, buying… | ⚪ |
+| `ebay.getMyAccount` | ebay.com | Get the caller's account settings and preferences. | ⚪ |
+| `ebay.getMyListings` | ebay.com | Get the caller's active selling listings (for sellers). | ⚪ |
+| `ebay.getMyMessages` | ebay.com | Get the caller's eBay messages — inbox, sent, and resolved messages. | ⚪ |
+| `ebay.getProfile` | ebay.com | Get the caller's profile information. | ⚪ |
+| `ebay.getSellerListings` | ebay.com | List all active items for sale from a specific seller. | ⚪ |
+| `ebay.getSellerProfile` | ebay.com | Get seller information — feedback score, seller type (individual/business), member… | ⚪ |
+| `ebay.getWatchlist` | ebay.com | Get the caller's watch list — items they are monitoring for price changes. | ⚪ |
+| `ebay.removeFromCart` | ebay.com | Remove an item from the caller's shopping cart. | ⚪ |
+| `ebay.removeFromWatchlist` | ebay.com | Remove an item from the caller's watch list. | ⚪ |
 | `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🟢 |
-| `ebay.soldPrices` | ebay.com | What items ACTUALLY sold for — eBay's completed/sold listings. | ⚪ |
+| `ebay.searchAutocomplete` | ebay.com | Get search suggestions based on a partial query — what people are searching for. | ⚪ |
+| `ebay.searchByCategory` | ebay.com | Browse listings within a specific eBay category. | ⚪ |
 | `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🟡 |
 | `elase.findLocation` | elase.com | Resolves a slug/neighborhood query to the matching real Elase location(s) — name… | 🟢 |
 | `elase.listLocations` | elase.com | Reads the live list of every Elase Med Spa location off the site's own /locations/… | 🟢 |
@@ -1469,7 +1484,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listBoardSections` | pinterest.com | The sections a board is divided into — a 258-pin board is usually 29 sections, and… | ⚪ |
 | `pinterest.listConversations` | pinterest.com | The caller's Pinterest inbox — the conversations people have sent them pins in. | ⚪ |
 | `pinterest.listNotifications` | pinterest.com | The caller's notifications — who saved, commented on or followed them. | ⚪ |
-| `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | ⚪ |
+| `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | 🟢 |
 | `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | 🟢 |
 | `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | 🟢 |
 | `pinterest.listTopicPins` | pinterest.com | The best pins in a topic — Pinterest's editorial feed for that interest, which is the… | ⚪ |
