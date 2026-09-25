@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3c226661abc797c0925f2223d955ff21e52187b5f348a3f6537246873bc32a3d
-// 1353 checked, 20 unchecked.
+// Manifest version: 1ed490888bc3d1ca5cace28671dd061c17c3e315b6ec7424c38e8f5f609ebc4d
+// 1355 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3c226661abc797c0925f2223d955ff21e52187b5f348a3f6537246873bc32a3d",
+  "version": "1ed490888bc3d1ca5cace28671dd061c17c3e315b6ec7424c38e8f5f609ebc4d",
   "units": {
     "booking_links": {
       "defs": {
@@ -1673,6 +1673,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ReleaseNotesOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "goal_diff": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -37845,6 +37859,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetChannelInfoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -37891,6 +37917,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetVideoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getChannelInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetChannelInfoArgs"
             },
             "optional": false
           },

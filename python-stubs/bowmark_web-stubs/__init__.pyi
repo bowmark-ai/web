@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3c226661abc797c0925f2223d955ff21e52187b5f348a3f6537246873bc32a3d
-# 63 capabilities, 469 providers, 1353 typed functions, 20 refused.
+# Manifest version: 1ed490888bc3d1ca5cace28671dd061c17c3e315b6ec7424c38e8f5f609ebc4d
+# 64 capabilities, 469 providers, 1355 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1051,6 +1051,20 @@ class Cap_git_release_notes_Release_Out(TypedDict):
     publishedAt: str | None
     notes: str
     url: str
+
+class Cap_goal_diff_goal_diffResult_Out(TypedDict):
+    league: str
+    standings: list[Cap_goal_diff_StandingsRow_Out]
+    warnings: list[str]
+
+class Cap_goal_diff_StandingsRow_Out(TypedDict):
+    position: float
+    team: str
+    played: float
+    goalsFor: float
+    goalsAgainst: float
+    goalDiff: float
+    points: NotRequired[float]
 
 class Cap_gstin_verification_gstin_verificationResult_Out(TypedDict):
     gstin: str
@@ -3649,8 +3663,17 @@ class Prv_apple_AppleSystemStatus_Out(TypedDict):
 class Prv_apple_AppleSystemServiceStatus_Out(TypedDict):
     serviceName: str
     redirectUrl: str | None
+    status: Literal["operational"] | Literal["ongoing"] | Literal["recent"]
     hasEvent: bool
-    events: list[Any]
+    events: list[Prv_apple_AppleSystemEvent_Out]
+
+class Prv_apple_AppleSystemEvent_Out(TypedDict):
+    messageId: str
+    statusType: str
+    message: str
+    eventStatus: Literal["resolved"] | Literal["completed"] | str
+    epochStartDate: float
+    epochEndDate: float
 
 class Prv_apple_AppleRepairPricing_Out(TypedDict):
     device: Literal["iphone"] | Literal["ipad"] | Literal["watch"]
@@ -20202,6 +20225,19 @@ class Prv_twitch_TwitchVideo_Out(TypedDict):
     ownerLogin: str
     url: str
 
+class Prv_twitch_GetChannelInfoArgs_In(TypedDict):
+    login: str
+
+class Prv_twitch_TwitchChannelInfo_Out(TypedDict):
+    login: str
+    displayName: str
+    description: str
+    gameName: str
+    language: str
+    profileImageUrl: str
+    followerCount: float
+    createdAt: str
+
 class Prv_twitch_CreateHighlightArgs_In(TypedDict):
     vodId: NotRequired[str]
     startSeconds: float
@@ -22696,6 +22732,12 @@ class Cap_git_release_notes(Protocol):
         real, actively-released public repo) to show a real, live answer, and mention in your
         reply that a different repo can be named.
         """
+
+class Cap_goal_diff(Protocol):
+    """Search for sports league standings with goal differential statistics."""
+
+    async def search(self, query: str, /) -> Cap_goal_diff_goal_diffResult_Out:
+        """Search for sports standings with goal differential data."""
 
 class Cap_gstin_verification(Protocol):
     """Check if a GSTIN is validly registered in India's GST Network."""
@@ -36260,6 +36302,11 @@ class Prv_twitch(Protocol):
         Twitch has no such video.
         """
 
+    async def getChannelInfo(self, args: Prv_twitch_GetChannelInfoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchChannelInfo_Out:
+        """Reads a public channel's profile: display name, description, game, language, profile
+        image URL, follower count, creation date. No sign-in.
+        """
+
     async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchHighlight_Out:
         """Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the
         one still live — between two offsets in seconds, with a title. Omit vodId to cut from
@@ -38013,6 +38060,7 @@ class Bowmark(Protocol):
     gas_prices: Cap_gas_prices
     git_commit_history: Cap_git_commit_history
     git_release_notes: Cap_git_release_notes
+    goal_diff: Cap_goal_diff
     gstin_verification: Cap_gstin_verification
     hotels: Cap_hotels
     hvac: Cap_hvac

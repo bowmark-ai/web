@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3c226661abc797c0925f2223d955ff21e52187b5f348a3f6537246873bc32a3d
-// 63 capabilities, 469 providers, 1371 typed functions, 20 refused.
+// Manifest version: 1ed490888bc3d1ca5cace28671dd061c17c3e315b6ec7424c38e8f5f609ebc4d
+// 64 capabilities, 469 providers, 1373 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1581,6 +1581,31 @@ type CallOptions = {
      * named.
      */
     releaseNotes(repo: string, options?: ReleaseNotesOptions): Promise<ReleaseNotesResult>;
+  }
+}
+
+declare namespace BowmarkCapability_goal_diff {
+  // ── Sports standings goal differential search — the unit's own declarations, verbatim ──
+interface StandingsRow {
+  position: number;
+  team: string;
+  played: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDiff: number;
+  points?: number;
+}
+
+interface goal_diffResult {
+  league: string;
+  standings: StandingsRow[];
+  warnings: string[];
+}
+
+  /** Search for sports league standings with goal differential statistics. */
+  interface Unit {
+    /** Search for sports standings with goal differential data. */
+    search(query: string): Promise<goal_diffResult>;
   }
 }
 
@@ -6413,11 +6438,20 @@ interface AppleCompareModel {
 interface AppleCompareModels {
   models: AppleCompareModel[];
 }
+interface AppleSystemEvent {
+  messageId: string;
+  statusType: string;
+  message: string;
+  eventStatus: "resolved" | "completed" | string;
+  epochStartDate: number;
+  epochEndDate: number;
+}
 interface AppleSystemServiceStatus {
   serviceName: string;
   redirectUrl: string | null;
+  status: "operational" | "ongoing" | "recent";
   hasEvent: boolean;
-  events: unknown[];
+  events: AppleSystemEvent[];
 }
 interface AppleSystemStatus {
   scope: "consumer" | "developer";
@@ -37626,6 +37660,28 @@ interface GetVideoArgs {
   /** A Twitch video id, or a twitch.tv/videos/<id> link. */
   vodId: string;
 }
+interface GetChannelInfoArgs {
+  /** A Twitch channel login, e.g. "ninjas2k" or a twitch.tv/<login> link. */
+  login: string;
+}
+interface TwitchChannelInfo {
+  /** Channel login handle. */
+  login: string;
+  /** User's display name. */
+  displayName: string;
+  /** Channel description/bio. */
+  description: string;
+  /** Category/game name. */
+  gameName: string;
+  /** ISO 639-1 language code. */
+  language: string;
+  /** Profile image URL. */
+  profileImageUrl: string;
+  /** Number of followers. */
+  followerCount: number;
+  /** When the channel was created. */
+  createdAt: string;
+}
 interface CreateHighlightArgs {
   /** The broadcast to cut from — an id or a twitch.tv/videos/<id> link. Omit it
    * for the signed-in channel's NEWEST archive, which during a broadcast is the
@@ -37705,6 +37761,12 @@ interface TwitchDeveloperApp {
      * video.
      */
     getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<TwitchVideo>;
+
+    /**
+     * Reads a public channel's profile: display name, description, game, language, profile image
+     * URL, follower count, creation date. No sign-in.
+     */
+    getChannelInfo(args: GetChannelInfoArgs, opts?: ConnectionOption): Promise<TwitchChannelInfo>;
 
     /**
      * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one
@@ -93963,6 +94025,7 @@ interface BowmarkLibrary {
   gas_prices: BowmarkCapability_gas_prices.Unit;
   git_commit_history: BowmarkCapability_git_commit_history.Unit;
   git_release_notes: BowmarkCapability_git_release_notes.Unit;
+  goal_diff: BowmarkCapability_goal_diff.Unit;
   gstin_verification: BowmarkCapability_gstin_verification.Unit;
   hotels: BowmarkCapability_hotels.Unit;
   hvac: BowmarkCapability_hvac.Unit;
