@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c
-// 1351 checked, 20 unchecked.
+// Manifest version: 3c226661abc797c0925f2223d955ff21e52187b5f348a3f6537246873bc32a3d
+// 1353 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c",
+  "version": "3c226661abc797c0925f2223d955ff21e52187b5f348a3f6537246873bc32a3d",
   "units": {
     "booking_links": {
       "defs": {
@@ -1805,6 +1805,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "industrial_supply": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -15595,6 +15609,7 @@ export const VALIDATORS: ValidatorTable = {
       },
       "functions": {
         "listNews": [],
+        "listTopics": [],
         "listArticlesByTopic": [
           {
             "name": "args",

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c
-// 62 capabilities, 469 providers, 1369 typed functions, 20 refused.
+// Manifest version: 3c226661abc797c0925f2223d955ff21e52187b5f348a3f6537246873bc32a3d
+// 63 capabilities, 469 providers, 1371 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1730,6 +1730,23 @@ type CallOptions = {
      * `disclaimer`.) THROWS when the source could not be reached at all.
      */
     getCostEstimate(systemType: string, options?: CallOptions): Promise<HvacCostEstimateResult>;
+  }
+}
+
+declare namespace BowmarkCapability_industrial_supply {
+  // ── Industrial Supply Search — the unit's own declarations, verbatim ──
+interface industrial_supplyResult {
+  products: Array<{ itemNumber: string; name: string; brand: string; price: string; thumbnail?: string }>;
+  warnings: string[];
+}
+
+  /** Search industrial supply and maintenance repair operations (MRO) catalogs. */
+  interface Unit {
+    /**
+     * Searches industrial supply catalogs by product name, part number or category, returning
+     * matching products with prices.
+     */
+    search(query: string): Promise<industrial_supplyResult>;
   }
 }
 
@@ -16680,10 +16697,17 @@ interface ListArticlesByTopicArgs {
   topic: string;
 }
 
+interface ForbesTopicsList {
+  topics: ForbesTopic[];
+}
+
   /** Search and browse business news, articles, and video content from Forbes. */
   interface Unit {
     /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
     listNews(): Promise<ForbesNewsList>;
+
+    /** List all available Forbes topics/sections (money, business, innovation, leadership, …). */
+    listTopics(): Promise<ForbesTopicsList>;
 
     /**
      * List the latest articles in one Forbes channel (money, business, innovation, leadership, …),
@@ -93942,6 +93966,7 @@ interface BowmarkLibrary {
   gstin_verification: BowmarkCapability_gstin_verification.Unit;
   hotels: BowmarkCapability_hotels.Unit;
   hvac: BowmarkCapability_hvac.Unit;
+  industrial_supply: BowmarkCapability_industrial_supply.Unit;
   insurance: BowmarkCapability_insurance.Unit;
   istanbul_schedules: BowmarkCapability_istanbul_schedules.Unit;
   kenya_fuel_prices: BowmarkCapability_kenya_fuel_prices.Unit;

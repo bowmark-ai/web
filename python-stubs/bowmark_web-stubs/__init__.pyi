@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c
-# 62 capabilities, 469 providers, 1351 typed functions, 20 refused.
+# Manifest version: 3c226661abc797c0925f2223d955ff21e52187b5f348a3f6537246873bc32a3d
+# 63 capabilities, 469 providers, 1353 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1113,6 +1113,17 @@ class Cap_hvac_HvacTierCost_Out_estimatedInstalledCost_Out(TypedDict):
     low: float
     high: float
     currency: str
+
+class Cap_industrial_supply_industrial_supplyResult_Out(TypedDict):
+    products: list[Cap_industrial_supply_industrial_supplyResult_Out_products_item_Out]
+    warnings: list[str]
+
+class Cap_industrial_supply_industrial_supplyResult_Out_products_item_Out(TypedDict):
+    itemNumber: str
+    name: str
+    brand: str
+    price: str
+    thumbnail: NotRequired[str]
 
 class Cap_insurance_CarrierQuery_In(TypedDict):
     name: NotRequired[str]
@@ -9068,6 +9079,15 @@ class Prv_forbes_ForbesArticle_Out(TypedDict):
     summary: NotRequired[str]
     author: NotRequired[str]
     publishedDate: NotRequired[str]
+
+class Prv_forbes_ForbesTopicsList_Out(TypedDict):
+    topics: list[Prv_forbes_ForbesTopic_Out]
+
+class Prv_forbes_ForbesTopic_Out(TypedDict):
+    id: str
+    name: str
+    slug: str
+    url: str
 
 class Prv_forbes_ListArticlesByTopicArgs_In(TypedDict):
     topic: str
@@ -22740,6 +22760,14 @@ class Cap_hvac(Protocol):
         reached at all.
         """
 
+class Cap_industrial_supply(Protocol):
+    """Search industrial supply and maintenance repair operations (MRO) catalogs."""
+
+    async def search(self, query: str, /) -> Cap_industrial_supply_industrial_supplyResult_Out:
+        """Searches industrial supply catalogs by product name, part number or category, returning
+        matching products with prices.
+        """
+
 class Cap_insurance(Protocol):
     """Look up insurance carriers in the regulators' own national register — the NAIC company
     code, the legal entity behind a consumer brand, head-office contact details, and the
@@ -28304,6 +28332,9 @@ class Prv_forbes(Protocol):
 
     async def listNews(self, /) -> Prv_forbes_ForbesNewsList_Out:
         """List the latest Forbes news articles, newest first, from forbes.com/news/."""
+
+    async def listTopics(self, /) -> Prv_forbes_ForbesTopicsList_Out:
+        """List all available Forbes topics/sections (money, business, innovation, leadership, …)."""
 
     async def listArticlesByTopic(self, args: Prv_forbes_ListArticlesByTopicArgs_In, /) -> Prv_forbes_ForbesNewsList_Out:
         """List the latest articles in one Forbes channel (money, business, innovation, leadership,
@@ -37985,6 +38016,7 @@ class Bowmark(Protocol):
     gstin_verification: Cap_gstin_verification
     hotels: Cap_hotels
     hvac: Cap_hvac
+    industrial_supply: Cap_industrial_supply
     insurance: Cap_insurance
     istanbul_schedules: Cap_istanbul_schedules
     kenya_fuel_prices: Cap_kenya_fuel_prices

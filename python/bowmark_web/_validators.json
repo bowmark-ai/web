@@ -1,5 +1,5 @@
 {
-  "version": "40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c",
+  "version": "3c226661abc797c0925f2223d955ff21e52187b5f348a3f6537246873bc32a3d",
   "units": {
     "booking_links": {
       "defs": {
@@ -1793,6 +1793,20 @@
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "industrial_supply": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -15583,6 +15597,7 @@
       },
       "functions": {
         "listNews": [],
+        "listTopics": [],
         "listArticlesByTopic": [
           {
             "name": "args",
