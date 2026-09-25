@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5
-// 61 capabilities, 463 providers, 1359 typed functions, 20 refused.
+// Manifest version: 2186aa83beca17f6df4974d0b6eb039a8cec2318254e3330b7eb3f93e695a7a4
+// 61 capabilities, 466 providers, 1362 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15104,6 +15104,45 @@ interface EmbrokerQuoteEntryPoint {
      * quote-wizard products.
      */
     getQuoteEntryPoint(args: { product: string }): Promise<EmbrokerQuoteEntryPoint>;
+  }
+}
+
+declare namespace BowmarkProvider_epicgames {
+  // ── Epic Games Store — the unit's own declarations, verbatim ──
+interface EpicGamesFreeWindow {
+  startDate: string;
+  endDate: string;
+}
+
+interface FreeGame {
+  id: string;
+  title: string;
+  namespace: string;
+  description: string;
+  productSlug: string | null;
+  urlSlug: string;
+  keyImages: Array<{ type: string; url: string }>;
+  seller: { id: string; name: string };
+  originalPrice: number;
+  currencyCode: string;
+  promotions: { current: EpicGamesFreeWindow[]; upcoming: EpicGamesFreeWindow[] };
+}
+
+interface ListFreeGamesResult {
+  elements: FreeGame[];
+}
+
+  /**
+   * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
+   * and the signed-in library and wishlist.
+   */
+  interface Unit {
+    /**
+     * The Epic Games Store's free-game rotation: the games free to claim right now and the ones
+     * announced as free next, each with title, slug, original price, and the start/end instants of
+     * the free window. Optional ISO country code, default US.
+     */
+    listFreeGames(country?: string): Promise<ListFreeGamesResult>;
   }
 }
 
@@ -39062,6 +39101,27 @@ interface WinestylesInventorySearch {
   }
 }
 
+declare namespace BowmarkProvider_x {
+  // ── X — the unit's own declarations, verbatim ──
+interface UserTimelineArgs {
+  handle: string;
+  limit?: number;
+}
+
+interface XTweet {
+  id: string;
+  text: string;
+  createdAt: string;
+  url: string;
+}
+
+  /** Read public user timelines and post data from X (Twitter). */
+  interface Unit {
+    /** Returns a public user's recent tweets from their timeline. */
+    userTimeline(args: UserTimelineArgs): Promise<XTweet[]>;
+  }
+}
+
 declare namespace BowmarkProvider_xpresswellnessurgentcare {
   // ── Xpress Wellness Urgent Care — the unit's own declarations, verbatim ──
 interface XpressFacility {
@@ -40640,6 +40700,28 @@ interface ZenniLensPriceRow {
   }
 }
 
+declare namespace BowmarkProvider_zoopla {
+  // ── Zoopla — the unit's own declarations, verbatim ──
+interface ZooplaProperty {
+  id: string;
+  url: string;
+  price: string;
+  bedrooms?: number;
+  location: string;
+  propertyType?: string;  // the site's own labels — read the values off a result, never guess one from prose
+  agentName?: string;
+}
+
+  /** UK property search with price, location, and bedroom filters. */
+  interface Unit {
+    /**
+     * Searches UK property listings by location and optional filters (bedrooms, price range).
+     * Returns properties with id, url, price, bedroom count and location.
+     */
+    search(location: string, bedrooms?: number, minPrice?: number, maxPrice?: number): Promise<ZooplaProperty[]>;
+  }
+}
+
 declare namespace BowmarkFamily_shopify_store {
   // ── Shopify storefronts — the unit's own declarations, verbatim ──
 interface ShopifyVariant {
@@ -41651,6 +41733,7 @@ interface BowmarkProviders {
   elase: BowmarkProvider_elase.Unit;
   elevenlabs: BowmarkProvider_elevenlabs.Unit;
   embroker: BowmarkProvider_embroker.Unit;
+  epicgames: BowmarkProvider_epicgames.Unit;
   epromos: BowmarkProvider_epromos.Unit;
   eq3: BowmarkProvider_eq3.Unit;
   equinox_hotels: BowmarkProvider_equinox_hotels.Unit;
@@ -41937,6 +42020,7 @@ interface BowmarkProviders {
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   wikipedia: BowmarkProvider_wikipedia.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
+  x: BowmarkProvider_x.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yahoo_finance: BowmarkProvider_yahoo_finance.Unit;
   yahoo_sports: BowmarkProvider_yahoo_sports.Unit;
@@ -41946,6 +42030,7 @@ interface BowmarkProviders {
   yourarborhome: BowmarkProvider_yourarborhome.Unit;
   youtube: BowmarkProvider_youtube.Unit;
   zennioptical: BowmarkProvider_zennioptical.Unit;
+  zoopla: BowmarkProvider_zoopla.Unit;
   "000de82": BowmarkFamily_shopify_store.Unit;
   "001r3iv0": BowmarkFamily_shopify_store.Unit;
   "00246d8e": BowmarkFamily_shopify_store.Unit;

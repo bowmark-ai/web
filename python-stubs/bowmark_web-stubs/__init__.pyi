@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5
-# 61 capabilities, 463 providers, 1341 typed functions, 20 refused.
+# Manifest version: 2186aa83beca17f6df4974d0b6eb039a8cec2318254e3330b7eb3f93e695a7a4
+# 61 capabilities, 466 providers, 1344 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8204,6 +8204,38 @@ class Prv_embroker_EmbrokerQuoteEntryPoint_Out(TypedDict):
     productLabel: str
     url: str
     reachable: bool
+
+class Prv_epicgames_ListFreeGamesResult_Out(TypedDict):
+    elements: list[Prv_epicgames_FreeGame_Out]
+
+class Prv_epicgames_FreeGame_Out(TypedDict):
+    id: str
+    title: str
+    namespace: str
+    description: str
+    productSlug: str | None
+    urlSlug: str
+    keyImages: list[Prv_epicgames_FreeGame_Out_keyImages_item_Out]
+    seller: Prv_epicgames_FreeGame_Out_seller_Out
+    originalPrice: float
+    currencyCode: str
+    promotions: Prv_epicgames_FreeGame_Out_promotions_Out
+
+class Prv_epicgames_FreeGame_Out_keyImages_item_Out(TypedDict):
+    type: str
+    url: str
+
+class Prv_epicgames_FreeGame_Out_seller_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_epicgames_FreeGame_Out_promotions_Out(TypedDict):
+    current: list[Prv_epicgames_EpicGamesFreeWindow_Out]
+    upcoming: list[Prv_epicgames_EpicGamesFreeWindow_Out]
+
+class Prv_epicgames_EpicGamesFreeWindow_Out(TypedDict):
+    startDate: str
+    endDate: str
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -21093,6 +21125,16 @@ class Prv_winestyles_WinestylesProduct_Out_price_Out(TypedDict):
     value: float | None
     formatted: str | None
 
+class Prv_x_UserTimelineArgs_In(TypedDict):
+    handle: str
+    limit: NotRequired[float]
+
+class Prv_x_XTweet_Out(TypedDict):
+    id: str
+    text: str
+    createdAt: str
+    url: str
+
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
     facilityId: str
     name: str
@@ -22001,6 +22043,15 @@ class Prv_zennioptical_ZenniLensPriceRow_Out_subTypes_item_Out(TypedDict):
     minPrice: float
     maxPrice: float
     tints: bool
+
+class Prv_zoopla_ZooplaProperty_Out(TypedDict):
+    id: str
+    url: str
+    price: str
+    bedrooms: NotRequired[float]
+    location: str
+    propertyType: NotRequired[str]
+    agentName: NotRequired[str]
 
 
 class Cap_booking_links(Protocol):
@@ -27656,6 +27707,17 @@ class Prv_embroker(Protocol):
     async def getQuoteEntryPoint(self, args: Prv_embroker_getQuoteEntryPoint_args_In, /) -> Prv_embroker_EmbrokerQuoteEntryPoint_Out:
         """Returns the live, confirmed-reachable entry URL for one of Embroker's self-serve
         quote-wizard products.
+        """
+
+class Prv_epicgames(Protocol):
+    """The Epic Games Store — catalogue search, game pages, prices, sales, the free-games
+    rotation, and the signed-in library and wishlist.
+    """
+
+    async def listFreeGames(self, country: str | None = None, /) -> Prv_epicgames_ListFreeGamesResult_Out:
+        """The Epic Games Store's free-game rotation: the games free to claim right now and the
+        ones announced as free next, each with title, slug, original price, and the start/end
+        instants of the free window. Optional ISO country code, default US.
         """
 
 class Prv_epromos(Protocol):
@@ -36638,6 +36700,12 @@ class Prv_winestyles(Protocol):
         is not a real WineStyles store — call listStores() for real ids.
         """
 
+class Prv_x(Protocol):
+    """Read public user timelines and post data from X (Twitter)."""
+
+    async def userTimeline(self, args: Prv_x_UserTimelineArgs_In, /) -> list[Prv_x_XTweet_Out]:
+        """Returns a public user's recent tweets from their timeline."""
+
 class Prv_xpresswellnessurgentcare(Protocol):
     """Reads the Xpress Wellness / Integrity Urgent Care clinic roster and each clinic's live
     healow wait-time / check-in widget — no key, no browser.
@@ -37266,6 +37334,14 @@ class Prv_zennioptical(Protocol):
         for that exact Rx — a completed, priced configuration rather than a base frame price.
         """
 
+class Prv_zoopla(Protocol):
+    """UK property search with price, location, and bedroom filters."""
+
+    async def search(self, location: str, bedrooms: float | None = None, minPrice: float | None = None, maxPrice: float | None = None, /) -> list[Prv_zoopla_ZooplaProperty_Out]:
+        """Searches UK property listings by location and optional filters (bedrooms, price range).
+        Returns properties with id, url, price, bedroom count and location.
+        """
+
 class BowmarkProviders(Protocol):
     """Every provider, under `bowmark.providers.<id>`. Flat, and snake_case on the
     wire — the id in the manifest, the trace, the namespace and a script are one
@@ -37439,6 +37515,7 @@ class BowmarkProviders(Protocol):
     elase: Prv_elase
     elevenlabs: Prv_elevenlabs
     embroker: Prv_embroker
+    epicgames: Prv_epicgames
     epromos: Prv_epromos
     eq3: Prv_eq3
     equinox_hotels: Prv_equinox_hotels
@@ -37725,6 +37802,7 @@ class BowmarkProviders(Protocol):
     wholefoodsmarket: Prv_wholefoodsmarket
     wikipedia: Prv_wikipedia
     winestyles: Prv_winestyles
+    x: Prv_x
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     yahoo_finance: Prv_yahoo_finance
     yahoo_sports: Prv_yahoo_sports
@@ -37734,6 +37812,7 @@ class BowmarkProviders(Protocol):
     yourarborhome: Prv_yourarborhome
     youtube: Prv_youtube
     zennioptical: Prv_zennioptical
+    zoopla: Prv_zoopla
 
 
 class Bowmark(Protocol):

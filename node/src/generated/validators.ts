@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5
-// 1341 checked, 20 unchecked.
+// Manifest version: 2186aa83beca17f6df4974d0b6eb039a8cec2318254e3330b7eb3f93e695a7a4
+// 1344 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5",
+  "version": "2186aa83beca17f6df4974d0b6eb039a8cec2318254e3330b7eb3f93e695a7a4",
   "units": {
     "booking_links": {
       "defs": {
@@ -14235,6 +14235,20 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.epicgames": {
+      "defs": {},
+      "functions": {
+        "listFreeGames": [
+          {
+            "name": "country",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }
@@ -39333,6 +39347,41 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.x": {
+      "defs": {
+        "UserTimelineArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "userTimeline": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UserTimelineArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.xpresswellnessurgentcare": {
       "defs": {},
       "functions": {
@@ -41260,6 +41309,41 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ZenniRx"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.zoopla": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "bedrooms",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "minPrice",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "maxPrice",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }

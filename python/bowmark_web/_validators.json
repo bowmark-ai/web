@@ -1,5 +1,5 @@
 {
-  "version": "179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5",
+  "version": "2186aa83beca17f6df4974d0b6eb039a8cec2318254e3330b7eb3f93e695a7a4",
   "units": {
     "booking_links": {
       "defs": {
@@ -14223,6 +14223,20 @@
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.epicgames": {
+      "defs": {},
+      "functions": {
+        "listFreeGames": [
+          {
+            "name": "country",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }
@@ -39321,6 +39335,41 @@
         ]
       }
     },
+    "providers.x": {
+      "defs": {
+        "UserTimelineArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "handle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "userTimeline": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UserTimelineArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.xpresswellnessurgentcare": {
       "defs": {},
       "functions": {
@@ -41248,6 +41297,41 @@
               "name": "ZenniRx"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.zoopla": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "bedrooms",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "minPrice",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "maxPrice",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }
