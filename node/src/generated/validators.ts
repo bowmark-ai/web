@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f93b2730050ed2083df2197cd0908d787235c58f7845781fda029633991b883d
-// 1348 checked, 20 unchecked.
+// Manifest version: 40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c
+// 1351 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f93b2730050ed2083df2197cd0908d787235c58f7845781fda029633991b883d",
+  "version": "40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c",
   "units": {
     "booking_links": {
       "defs": {
@@ -1530,6 +1530,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "furnished_apartment_rental": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -26846,6 +26869,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listRelatedPins": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listRelatedProducts": [
           {
             "name": "id",
@@ -39432,6 +39464,29 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.wunderflats": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

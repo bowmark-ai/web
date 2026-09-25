@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f93b2730050ed2083df2197cd0908d787235c58f7845781fda029633991b883d
-// 61 capabilities, 468 providers, 1366 typed functions, 20 refused.
+// Manifest version: 40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c
+// 62 capabilities, 469 providers, 1369 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1362,6 +1362,41 @@ type FlightStatusResult = {
      * clamped `timeoutMs` — a single-carrier route has no fan-out to go thin.
      */
     getFlightStatus(query: FlightStatusQuery, options?: CallOptions): Promise<FlightStatusResult>;
+  }
+}
+
+declare namespace BowmarkCapability_furnished_apartment_rental {
+  // ── Furnished Apartment Rental Search — the unit's own declarations, verbatim ──
+interface FurnishedApartmentListing {
+  id: string;
+  title: string;
+  address: string;
+  city: string;
+  country: string;
+  pricePerMonth: number | null;
+  currency: string;
+  bedrooms: number | null;
+  squareMeters: number | null;
+  availableFrom: string | null;
+  furnished: boolean;
+  url: string;
+}
+
+interface furnished_apartment_rentalResult {
+  apartments: FurnishedApartmentListing[];
+  warnings: string[];
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /** Find furnished apartments available for rent, furnished by multiple providers. */
+  interface Unit {
+    /** Search for furnished apartments in the specified city across multiple providers. */
+    search(args: { city: string }): Promise<furnished_apartment_rentalResult>;
   }
 }
 
@@ -30025,6 +30060,14 @@ interface PinterestRelatedProduct {
     listVisualObjects(id: string): Promise<{ objects: PinterestVisualObject[] }>;
 
     /**
+     * The "More like this" rail under a pin — the pins Pinterest itself recommends next, which is
+     * how a caller browses outward from one good result instead of re-searching. Takes the pin id
+     * and returns an array of related pins with their titles, links, pinner info and images. Uses
+     * the `RelatedPinFeedResource`. THROWS `PinterestInputError` on an empty or non-string id.
+     */
+    listRelatedPins(id: string): Promise<{ pins: PinterestPin[] }>;
+
+    /**
      * The competing and complementary products Pinterest shows beside a shoppable pin — the items
      * a shopper wants to compare with the one they found. Takes the pin id and returns an array of
      * related product recommendations with titles, links, prices, ratings and availability. Uses
@@ -39186,6 +39229,34 @@ interface WinestylesInventorySearch {
   }
 }
 
+declare namespace BowmarkProvider_wunderflats {
+  // ── Wunderflats — the unit's own declarations, verbatim ──
+interface SearchArgs {
+  city: string;
+}
+
+interface wunderflatsListing {
+  id: string;
+  title: string;
+  address: string;
+  city: string;
+  country: string;
+  pricePerMonth: number | null;
+  currency: string;
+  bedrooms: number | null;
+  squareMeters: number | null;
+  availableFrom: string | null;
+  furnished: boolean;
+  url: string;
+}
+
+  /** Search for furnished apartments across German cities. */
+  interface Unit {
+    /** Runs the search and returns the server-rendered listing cards for a city. */
+    search(args: { city: string }): Promise<wunderflatsListing[]>;
+  }
+}
+
 declare namespace BowmarkProvider_x {
   // ── X — the unit's own declarations, verbatim ──
 interface UserTimelineArgs {
@@ -42107,6 +42178,7 @@ interface BowmarkProviders {
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   wikipedia: BowmarkProvider_wikipedia.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
+  wunderflats: BowmarkProvider_wunderflats.Unit;
   x: BowmarkProvider_x.Unit;
   xpresswellnessurgentcare: BowmarkProvider_xpresswellnessurgentcare.Unit;
   yahoo_finance: BowmarkProvider_yahoo_finance.Unit;
@@ -93862,6 +93934,7 @@ interface BowmarkLibrary {
   email: BowmarkCapability_email.Unit;
   entertainment_merch: BowmarkCapability_entertainment_merch.Unit;
   flights: BowmarkCapability_flights.Unit;
+  furnished_apartment_rental: BowmarkCapability_furnished_apartment_rental.Unit;
   game_soundtrack_composer_credits: BowmarkCapability_game_soundtrack_composer_credits.Unit;
   gas_prices: BowmarkCapability_gas_prices.Unit;
   git_commit_history: BowmarkCapability_git_commit_history.Unit;

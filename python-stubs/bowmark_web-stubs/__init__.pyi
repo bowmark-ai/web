@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f93b2730050ed2083df2197cd0908d787235c58f7845781fda029633991b883d
-# 61 capabilities, 468 providers, 1348 typed functions, 20 refused.
+# Manifest version: 40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c
+# 62 capabilities, 469 providers, 1351 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -950,6 +950,27 @@ class Cap_flights_FlightStatusLeg_Out_equipment_Out(TypedDict):
     equipmentCode: str | None
     iataName: str | None
     displayName: str | None
+
+class Cap_furnished_apartment_rental_search_args_In(TypedDict):
+    city: str
+
+class Cap_furnished_apartment_rental_furnished_apartment_rentalResult_Out(TypedDict):
+    apartments: list[Cap_furnished_apartment_rental_FurnishedApartmentListing_Out]
+    warnings: list[str]
+
+class Cap_furnished_apartment_rental_FurnishedApartmentListing_Out(TypedDict):
+    id: str
+    title: str
+    address: str
+    city: str
+    country: str
+    pricePerMonth: float | None
+    currency: str
+    bedrooms: float | None
+    squareMeters: float | None
+    availableFrom: str | None
+    furnished: bool
+    url: str
 
 class Cap_game_soundtrack_composer_credits_SoundtrackSearchResult_Out(TypedDict):
     query: str
@@ -15736,6 +15757,9 @@ class Prv_pinterest_PinterestVisualObject_Out(TypedDict):
     label_id: NotRequired[float]
     score: NotRequired[float]
 
+class Prv_pinterest_listRelatedPins_return_Out(TypedDict):
+    pins: list[Prv_pinterest_PinterestPin_Out]
+
 class Prv_pinterest_listRelatedProducts_return_Out(TypedDict):
     products: list[Prv_pinterest_PinterestRelatedProduct_Out]
 
@@ -21161,6 +21185,23 @@ class Prv_winestyles_WinestylesProduct_Out_price_Out(TypedDict):
     value: float | None
     formatted: str | None
 
+class Prv_wunderflats_search_args_In(TypedDict):
+    city: str
+
+class Prv_wunderflats_wunderflatsListing_Out(TypedDict):
+    id: str
+    title: str
+    address: str
+    city: str
+    country: str
+    pricePerMonth: float | None
+    currency: str
+    bedrooms: float | None
+    squareMeters: float | None
+    availableFrom: str | None
+    furnished: bool
+    url: str
+
 class Prv_x_UserTimelineArgs_In(TypedDict):
     handle: str
     limit: NotRequired[float]
@@ -22562,6 +22603,12 @@ class Cap_flights(Protocol):
         though today it can only ever report a clamped `timeoutMs` — a single-carrier route has
         no fan-out to go thin.
         """
+
+class Cap_furnished_apartment_rental(Protocol):
+    """Find furnished apartments available for rent, furnished by multiple providers."""
+
+    async def search(self, args: Cap_furnished_apartment_rental_search_args_In, /) -> Cap_furnished_apartment_rental_furnished_apartment_rentalResult_Out:
+        """Search for furnished apartments in the specified city across multiple providers."""
 
 class Cap_game_soundtrack_composer_credits(Protocol):
     """Looks up a video game's soundtrack release and who composed it, via MusicBrainz's own
@@ -33243,6 +33290,14 @@ class Prv_pinterest(Protocol):
         non-string id.
         """
 
+    async def listRelatedPins(self, id: str, /) -> Prv_pinterest_listRelatedPins_return_Out:
+        """The "More like this" rail under a pin — the pins Pinterest itself recommends next, which
+        is how a caller browses outward from one good result instead of re-searching. Takes the
+        pin id and returns an array of related pins with their titles, links, pinner info and
+        images. Uses the `RelatedPinFeedResource`. THROWS `PinterestInputError` on an empty or
+        non-string id.
+        """
+
     async def listRelatedProducts(self, id: str, /) -> Prv_pinterest_listRelatedProducts_return_Out:
         """The competing and complementary products Pinterest shows beside a shoppable pin — the
         items a shopper wants to compare with the one they found. Takes the pin id and returns
@@ -36772,6 +36827,12 @@ class Prv_winestyles(Protocol):
         is not a real WineStyles store — call listStores() for real ids.
         """
 
+class Prv_wunderflats(Protocol):
+    """Search for furnished apartments across German cities."""
+
+    async def search(self, args: Prv_wunderflats_search_args_In, /) -> list[Prv_wunderflats_wunderflatsListing_Out]:
+        """Runs the search and returns the server-rendered listing cards for a city."""
+
 class Prv_x(Protocol):
     """Read public user timelines and post data from X (Twitter)."""
 
@@ -37876,6 +37937,7 @@ class BowmarkProviders(Protocol):
     wholefoodsmarket: Prv_wholefoodsmarket
     wikipedia: Prv_wikipedia
     winestyles: Prv_winestyles
+    wunderflats: Prv_wunderflats
     x: Prv_x
     xpresswellnessurgentcare: Prv_xpresswellnessurgentcare
     yahoo_finance: Prv_yahoo_finance
@@ -37915,6 +37977,7 @@ class Bowmark(Protocol):
     email: Cap_email
     entertainment_merch: Cap_entertainment_merch
     flights: Cap_flights
+    furnished_apartment_rental: Cap_furnished_apartment_rental
     game_soundtrack_composer_credits: Cap_game_soundtrack_composer_credits
     gas_prices: Cap_gas_prices
     git_commit_history: Cap_git_commit_history

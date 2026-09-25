@@ -1,5 +1,5 @@
 {
-  "version": "f93b2730050ed2083df2197cd0908d787235c58f7845781fda029633991b883d",
+  "version": "40208cebcea5147d732da998da5900df803a82365f570d570c5aa89f6a01554c",
   "units": {
     "booking_links": {
       "defs": {
@@ -1518,6 +1518,29 @@
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "furnished_apartment_rental": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
@@ -26834,6 +26857,15 @@
             "optional": false
           }
         ],
+        "listRelatedPins": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listRelatedProducts": [
           {
             "name": "id",
@@ -39420,6 +39452,29 @@
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.wunderflats": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "city",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }
