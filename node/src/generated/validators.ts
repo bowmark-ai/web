@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0
-// 1358 checked, 20 unchecked.
+// Manifest version: 5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661
+// 1359 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0",
+  "version": "5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661",
   "units": {
     "booking_links": {
       "defs": {
@@ -15582,6 +15582,31 @@ export const VALIDATORS: ValidatorTable = {
         "getUserByHandle": [
           {
             "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchUsers": [
+          {
+            "name": "searchTerm",
             "schema": {
               "k": "string"
             },

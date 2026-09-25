@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0
-// 64 capabilities, 471 providers, 1376 typed functions, 20 refused.
+// Manifest version: 5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661
+// 64 capabilities, 471 providers, 1377 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16678,6 +16678,12 @@ interface FomoPage<T> {
      * user follows them.
      */
     getUserByHandle(handle: string, opts?: ConnectionOption): Promise<FomoUser>;
+
+    /**
+     * Fuzzy-searches traders by handle or display name and returns matching profiles — the
+     * discovery door for 'find the trader called X' when the exact handle is not known.
+     */
+    searchUsers(searchTerm: string, opts?: ConnectionOption): Promise<FomoUser[]>;
   }
 }
 

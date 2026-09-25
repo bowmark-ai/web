@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0
-# 64 capabilities, 471 providers, 1358 typed functions, 20 refused.
+# Manifest version: 5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661
+# 64 capabilities, 471 providers, 1359 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -28411,6 +28411,11 @@ class Prv_fomo(Protocol):
         """Returns a trader's profile by their userHandle — display name, bio, avatar, follower and
         following counts, linked X handle, their clan if they are in one, and whether the
         signed-in user follows them.
+        """
+
+    async def searchUsers(self, searchTerm: str, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoUser_Out]:
+        """Fuzzy-searches traders by handle or display name and returns matching profiles — the
+        discovery door for 'find the trader called X' when the exact handle is not known.
         """
 
 class Prv_forbes(Protocol):

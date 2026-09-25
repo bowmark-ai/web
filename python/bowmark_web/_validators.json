@@ -1,5 +1,5 @@
 {
-  "version": "ddbfe5708907881376d65a7cfa3f9ae7a63d8dcd5b2e311260610e2d375df2b0",
+  "version": "5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661",
   "units": {
     "booking_links": {
       "defs": {
@@ -15570,6 +15570,31 @@
         "getUserByHandle": [
           {
             "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchUsers": [
+          {
+            "name": "searchTerm",
             "schema": {
               "k": "string"
             },
