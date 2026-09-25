@@ -467,7 +467,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.getMarketsData` | www.cnn.com | Financial and markets data from CNN Money — stock indices, currency rates, commodities… | ⚪ |
 | `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, transcription if… | ⚪ |
 | `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | ⚪ |
-| `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | ⚪ |
+| `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | 🟢 |
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
 | `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | ⚪ |
 | `cnn.listTrendingTopics` | www.cnn.com | Topics and keywords that are trending on CNN right now — what stories are getting the… | ⚪ |
