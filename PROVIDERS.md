@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2112 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2134 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1469,7 +1469,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listConversations` | pinterest.com | The caller's Pinterest inbox — the conversations people have sent them pins in. | ⚪ |
 | `pinterest.listNotifications` | pinterest.com | The caller's notifications — who saved, commented on or followed them. | ⚪ |
 | `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | ⚪ |
-| `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | ⚪ |
+| `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | 🟢 |
 | `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | 🟢 |
 | `pinterest.listTopicPins` | pinterest.com | The best pins in a topic — Pinterest's editorial feed for that interest, which is the… | ⚪ |
 | `pinterest.listTopics` | pinterest.com | Pinterest's own top-level idea topics — Food and Drink, Home Decor, Travel, Tattoos… | ⚪ |
@@ -1879,6 +1879,28 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trophysignaturehomes.searchHomes` | trophysignaturehomes.com | Searches Trophy Signature Homes' current live inventory (all metros) by city… | 🟢 |
 | `tryalma_com.listPages` | tryalma.com | List all pages and sections available on the Alma website by category. | 🟢 |
 | `tryalma_com.search` | tryalma.com | Search Alma's content, including pages, resources, and team member profiles. | 🟢 |
+| `tumblr.createPost` | tumblr.com | Create a new post on the signed-in account's blog. | ⚪ |
+| `tumblr.deletePost` | tumblr.com | Delete a post from the signed-in account's blog. | ⚪ |
+| `tumblr.editPost` | tumblr.com | Edit an existing post on the signed-in account's blog. | ⚪ |
+| `tumblr.findBlog` | tumblr.com | Find a blog by name. | ⚪ |
+| `tumblr.findTag` | tumblr.com | Find posts by searching a tag. | ⚪ |
+| `tumblr.followBlog` | tumblr.com | Follow a blog from the signed-in account. | ⚪ |
+| `tumblr.getBlogInfo` | tumblr.com | Get metadata for a blog including name, description, follower count, and post count. | ⚪ |
+| `tumblr.getBlogPosts` | tumblr.com | List posts from a blog, newest first. | ⚪ |
+| `tumblr.getPost` | tumblr.com | Get a single post by ID with its content and metadata. | ⚪ |
+| `tumblr.getPostNotes` | tumblr.com | Get notes (likes and reblogs) on a post with the blog names that interacted with it. | ⚪ |
+| `tumblr.getTagTimeline` | tumblr.com | Get posts tagged with a specific tag. | ⚪ |
+| `tumblr.getTrendingPosts` | tumblr.com | Get posts that are currently trending on Tumblr. | ⚪ |
+| `tumblr.getTrendingTags` | tumblr.com | Get tags that are currently trending on Tumblr. | ⚪ |
+| `tumblr.likePost` | tumblr.com | Like a post from the signed-in account. | ⚪ |
+| `tumblr.listBlogFollowers` | tumblr.com | List followers of a blog; caller must own the blog. | ⚪ |
+| `tumblr.reblogPost` | tumblr.com | Reblog a post to the signed-in account's blog. | ⚪ |
+| `tumblr.searchBlogPosts` | tumblr.com | Search posts within a specific blog. | ⚪ |
+| `tumblr.searchPosts` | tumblr.com | Search all posts across Tumblr by keyword or phrase. | ⚪ |
+| `tumblr.sendMessage` | tumblr.com | Send an ask (public or anonymous) to a blog. | ⚪ |
+| `tumblr.unfollowBlog` | tumblr.com | Unfollow a blog from the signed-in account. | ⚪ |
+| `tumblr.unlikePost` | tumblr.com | Remove a like from a post on the signed-in account. | ⚪ |
+| `tumblr.unreblogPost` | tumblr.com | Remove a reblog from the signed-in account's blog. | ⚪ |
 | `tweethunter.listFeatureCategories` | tweethunter.io | Lists Tweet Hunter's public feature categories: content creation, X analytics and… | 🟢 |
 | `tweethunter.listFeatures` | tweethunter.io | Lists Tweet Hunter's publicly advertised X-account features, including scheduling… | 🟢 |
 | `twiddy.getRentalDetail` | twiddy.com | Reads one rental's own detail page in full — description, address, pets-allowed flag… | 🟢 |
