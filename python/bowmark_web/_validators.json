@@ -1,5 +1,5 @@
 {
-  "version": "377fbb239925c05ee4deccbfbe57f1426c37f8cda21ebd0c7daeab71920eee8c",
+  "version": "2186aa83beca17f6df4974d0b6eb039a8cec2318254e3330b7eb3f93e695a7a4",
   "units": {
     "booking_links": {
       "defs": {
@@ -12481,20 +12481,6 @@
           },
           {
             "name": "fittingType",
-            "schema": {
-              "k": "string"
-            },
-            "optional": true
-          }
-        ]
-      }
-    },
-    "providers.cnn": {
-      "defs": {},
-      "functions": {
-        "listHeadlines": [
-          {
-            "name": "section",
             "schema": {
               "k": "string"
             },
