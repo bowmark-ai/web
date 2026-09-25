@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9512db316401625ceec1e0fd547e89436bdd4c380426e984ec875f31b9c50323
-// 65 capabilities, 471 providers, 1380 typed functions, 20 refused.
+// Manifest version: 66f49ab0ef4f692631c24a186828eb37e1a6f4a7d777fbbd9e5841d0bc997c91
+// 65 capabilities, 471 providers, 1381 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16659,6 +16659,13 @@ interface FomoLeaderboardEntry {
   stats: FomoTraderStats;
 }
 
+interface FomoBalance {
+  token: FomoToken;
+  amount: DecimalString;
+  valueUsd: number | null;
+  unrealizedPnlUsd: number | null;
+}
+
 interface FomoTrade {
   id: string;
   user: FomoUser;
@@ -16728,6 +16735,12 @@ interface FomoPage<T> {
      * discovery door for 'find the trader called X' when the exact handle is not known.
      */
     searchUsers(searchTerm: string, opts?: ConnectionOption): Promise<FomoUser[]>;
+
+    /**
+     * Returns all token balances for a trader — the tokens they hold across all chains, with
+     * current USD value and unrealized PnL on each position.
+     */
+    getBalances(userId: string, opts?: ConnectionOption): Promise<FomoBalance[]>;
   }
 }
 

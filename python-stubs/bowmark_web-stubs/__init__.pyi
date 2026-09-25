@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9512db316401625ceec1e0fd547e89436bdd4c380426e984ec875f31b9c50323
-# 65 capabilities, 471 providers, 1362 typed functions, 20 refused.
+# Manifest version: 66f49ab0ef4f692631c24a186828eb37e1a6f4a7d777fbbd9e5841d0bc997c91
+# 65 capabilities, 471 providers, 1363 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9116,6 +9116,28 @@ class Prv_fomo_FomoTraderStats_Out(TypedDict):
     tradeCount: float | None
     winRate: float | None
     window: Literal["daily"] | Literal["weekly"] | Literal["monthly"] | Literal["allTime"]
+
+class Prv_fomo_FomoBalance_Out(TypedDict):
+    token: Prv_fomo_FomoToken_Out
+    amount: str
+    valueUsd: float | None
+    unrealizedPnlUsd: float | None
+
+class Prv_fomo_FomoToken_Out(TypedDict):
+    address: str
+    networkId: float
+    name: str | None
+    symbol: str | None
+    decimals: float | None
+    imageUrl: str | None
+    info: Prv_fomo_FomoToken_Out_info_u0_Out | None
+
+class Prv_fomo_FomoToken_Out_info_u0_Out(TypedDict):
+    description: str | None
+    websiteUrl: str | None
+    twitterUrl: str | None
+    telegramUrl: str | None
+    discordUrl: str | None
 
 class Prv_forbes_ForbesNewsList_Out(TypedDict):
     articles: list[Prv_forbes_ForbesArticle_Out]
@@ -28479,6 +28501,11 @@ class Prv_fomo(Protocol):
     async def searchUsers(self, searchTerm: str, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoUser_Out]:
         """Fuzzy-searches traders by handle or display name and returns matching profiles — the
         discovery door for 'find the trader called X' when the exact handle is not known.
+        """
+
+    async def getBalances(self, userId: str, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoBalance_Out]:
+        """Returns all token balances for a trader — the tokens they hold across all chains, with
+        current USD value and unrealized PnL on each position.
         """
 
 class Prv_forbes(Protocol):
