@@ -766,7 +766,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.removeFromWatchlist` | fomo.family | Removes a token from the signed-in trader's watchlist. `DELETE /watchlist`. | ⚪ |
 | `fomo.searchClans` | fomo.family | Searches clans by name. | ⚪ |
 | `fomo.searchTokens` | fomo.family | Searches tokens by name, symbol or contract address and returns matching rows with… | ⚪ |
-| `fomo.searchUsers` | fomo.family | Fuzzy-searches traders by handle or display name and returns matching profiles. | ⚪ |
+| `fomo.searchUsers` | fomo.family | Fuzzy-searches traders by handle or display name and returns matching profiles. | 🟢 |
 | `fomo.sendTransfer` | fomo.family | Sends tokens from the signed-in user's wallet to another user or address. `POST… | ⚪ |
 | `fomo.setAlertPreferences` | fomo.family | Writes the signed-in trader's push-notification preferences — which alerts fomo sends… | ⚪ |
 | `fomo.subscribeTokenStream` | fomo.family | Subscribes to fomo's realtime channel and streams token updates as they happen — the… | ⚪ |
@@ -2053,7 +2053,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
 | `yahoo_finance.getAnalystEstimates` | finance.yahoo.com | Reads Wall Street's own consensus numbers for a ticker — revenue and earnings… | 🟢 |
-| `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | ⚪ |
+| `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | 🟢 |
 | `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | 🟢 |
 | `yahoo_finance.getHistoricalPrices` | finance.yahoo.com | Reads a ticker's daily open/high/low/close/volume history over a requested range, the… | 🟢 |
 | `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | 🟢 |
