@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2110 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2111 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -35,6 +35,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `achosahw.getQuote` | achosahw.com | Prices one real, purchasable Homeowner's plan combination — state, coverage level… | 🟢 |
 | `achosahw.listStates` | achosahw.com | Reads the /shop state selector and returns every state Achosa currently sells a… | 🟢 |
 | `acqualinaresort.searchAvailability` | acqualinaresort.com | Runs Acqualina's own SynXis GEM reservation engine (property 7032, chain 24447) for… | 🟢 |
+| `agakhanhospitals.getHospitalInfo` | agakhanhospitals.org | Returns information about a specific Aga Khan hospital location, including… | 🟢 |
 | `ai_engineer.getSpeaker` | ai.engineer | Returns detailed information about one speaker from the AI Engineer conference… | 🟡 |
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟡 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
@@ -254,7 +255,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bigrentz.search` | bigrentz.com | Searches BigRentz's equipment catalog by free-text query (e.g. "boom lift", "40 ft… | 🟢 |
 | `bigyellow.getQuote` | bigyellow.co.uk | Returns a storage unit quote with pricing based on location, unit size and move-in date. | ⚪ |
 | `bing.define` | bing.com | Looks up a word in Bing's own dictionary panel (bing.com/dict/search) and returns its… | 🟢 |
-| `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | ⚪ |
+| `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | 🟢 |
 | `bing.listSaves` | bing.com | Lists the pages, searches and images the signed-in caller has saved to Bing… | ⚪ |
 | `bing.saveResult` | bing.com | Adds a page, search or image to the signed-in caller's Bing Collections — the write… | ⚪ |
 | `bing.searchImages` | bing.com | Searches Bing's image index the way bing.com/images/search does and returns each hit's… | 🟢 |
@@ -1302,7 +1303,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mercadolibre.getShippingEstimate` | mercadolibre.com | Estimates delivery cost and time for a specific listing to a destination postal code —… | ⚪ |
 | `mercadolibre.listCategories` | mercadolibre.com | Reads the marketplace's category tree for one country site (electronics, home… | ⚪ |
 | `mercadolibre.search` | mercadolibre.com | Searches or browses the marketplace by keyword, returning matching listings with… | ⚪ |
-| `mercari.search` | mercari.com | Runs a Mercari US keyword search the way mercari.com's own search box does and returns… | 🟡 |
+| `mercari.search` | mercari.com | Runs a Mercari US keyword search the way mercari.com's own search box does and returns… | 🟢 |
 | `mergify.pullStatus` | mergify.com | One pull request's own position in the merge queue — queued-at time, queue position… | ⚪ |
 | `mergify.queueStatus` | mergify.com | The live state of a repo's Mergify merge queue — every active batch (its status code… | 🟢 |
 | `meteofrance.getMarineWindForecast` | meteofrance.com | Marine wind forecast for French coastal regions, including wind speed, gusts, and… | 🟢 |
@@ -1378,7 +1379,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `newegg.search` | newegg.com | Searches newegg.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `nfa_futures_org.lookupByNfaId` | nfa.futures.org | One firm or individual's current NFA membership status and registration types, by NFA… | 🟢 |
 | `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟢 |
-| `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟡 |
+| `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟢 |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
 | `nurturelife.getMealBundle` | nurturelife.com | Returns Nurture Life's currently-offered curated meal bundles with their real, current… | 🟢 |
 | `nurturelife.getMealPlans` | nurturelife.com | Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's… | 🟢 |
@@ -1547,7 +1548,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `progressive.getAtvQuote` | progressive.com | Returns an ATV or UTV insurance quote for the machine and its ZIP — off-road coverage… | ⚪ |
 | `progressive.getAutoQuote` | progressive.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP —… | ⚪ |
 | `progressive.getBoatQuote` | progressive.com | Returns a watercraft insurance quote for a boat's type, length, motor and mooring ZIP… | ⚪ |
-| `progressive.getBusinessQuote` | progressive.com | Returns a small-business insurance quote — business owners policy, general liability… | 🟡 |
+| `progressive.getBusinessQuote` | progressive.com | Returns a small-business insurance quote — business owners policy, general liability… | 🟢 |
 | `progressive.getClassicCarQuote` | progressive.com | Returns a classic or collector car insurance quote for an agreed-value vehicle and its… | ⚪ |
 | `progressive.getCommercialAutoQuote` | progressive.com | Returns a commercial auto insurance quote for a business's vehicles, radius of… | ⚪ |
 | `progressive.getCondoQuote` | progressive.com | Returns a condominium unitowners insurance quote for a ZIP and unit — the coverage… | ⚪ |
@@ -1836,7 +1837,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listConversations` | tiktok.com | The signed-in caller's own DM inbox — threads, last message, unread state. | ⚪ |
 | `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | ⚪ |
 | `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | ⚪ |
-| `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | ⚪ |
+| `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟢 |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | ⚪ |
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | ⚪ |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id and caption for each — the door from a handle to their… | 🟢 |

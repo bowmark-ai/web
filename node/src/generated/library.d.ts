@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2186aa83beca17f6df4974d0b6eb039a8cec2318254e3330b7eb3f93e695a7a4
-// 61 capabilities, 466 providers, 1362 typed functions, 20 refused.
+// Manifest version: 377fbb239925c05ee4deccbfbe57f1426c37f8cda21ebd0c7daeab71920eee8c
+// 61 capabilities, 467 providers, 1363 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13024,6 +13024,32 @@ interface ClubchampionAvailability {
      * error.
      */
     checkAvailability(fitterId: string, start: string, end: string, durationMinutes?: number, fittingType?: string): Promise<ClubchampionAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_cnn {
+  // ── CNN — the unit's own declarations, verbatim ──
+interface cnnRow {
+  id: string;
+}
+
+interface cnnHeadline {
+  id: string;
+  headline: string;
+  snippet: string;
+  url: string;
+  timestamp: string | null;
+  section: string | null;
+}
+
+  /** Breaking news, articles, video segments and markets data from CNN. */
+  interface Unit {
+    /**
+     * The top headlines from CNN's home page — the lead stories across all sections, newest first,
+     * with headline, snippet, publication time and URL. Pass `section` ("us", "politics",
+     * "business", etc.) to read that section's own front page instead.
+     */
+    listHeadlines(section?: string): Promise<cnnHeadline[]>;
   }
 }
 
@@ -41695,6 +41721,7 @@ interface BowmarkProviders {
   cleanairlawncare: BowmarkProvider_cleanairlawncare.Unit;
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
+  cnn: BowmarkProvider_cnn.Unit;
   code_claude_com: BowmarkProvider_code_claude_com.Unit;
   compass_living: BowmarkProvider_compass_living.Unit;
   completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
