@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2092 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2090 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -432,9 +432,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `chriscraft.searchModels` | chriscraft.com | Lists every current Chris-Craft model reachable from the public "Build Your Own"… | 🟢 |
 | `christianbrothersauto.checkAppointmentAvailability` | cbac.com | Checks real, currently-open appointment slots at one Christian Brothers Automotive… | 🟢 |
 | `christianbrothersauto.getShopDetails` | cbac.com | Resolves a Christian Brothers Automotive shop — by its scheduler slug (e.g.… | 🟢 |
-| `christydawn.getProductDetails` | christydawn.com | Returns detailed product information including description, price, available sizes and… | ⚪ |
-| `christydawn.listProducts` | christydawn.com | Lists products from a specific category or collection page | ⚪ |
-| `christydawn.search` | christydawn.com | Searches the Christy Dawn catalog by query and returns product listings with title… | 🟢 |
+| `christydawn.search` | christydawn.com | Searches the Christy Dawn catalog for clothing and returns matching product rows with… | 🟢 |
 | `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟢 |
 | `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟢 |
 | `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟢 |
