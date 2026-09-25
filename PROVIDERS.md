@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2085 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2091 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2057,6 +2057,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟡 |
 | `youtube.createChannel` | youtube.com | Creates the signed-in Google account's YouTube CHANNEL, using the account's own name… | 🟡 |
 | `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟡 |
+| `youtube.deleteVideo` | youtube.com | Permanently delete one of the signed-in account's own videos. | 🟢 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
 | `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |
 | `youtube.getLiveChat` | youtube.com | The messages scrolling past a live stream — each with its author, text and timestamp. | 🟢 |
@@ -2076,6 +2077,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listHashtagVideos` | youtube.com | The videos under a hashtag — YouTube's own /hashtag/<tag> page. | 🟢 |
 | `youtube.listHomeFeed` | youtube.com | The videos on the signed-in account's own YouTube home page — the personalized… | 🟡 |
 | `youtube.listLikedVideos` | youtube.com | The videos the signed-in account has liked. | 🟡 |
+| `youtube.listMyVideos` | youtube.com | The videos on the signed-in account's own channel, private and unlisted ones included… | 🟢 |
 | `youtube.listPlaylistVideos` | youtube.com | The videos inside a playlist, in the playlist's own order and paged — each video's id… | 🟢 |
 | `youtube.listRelatedVideos` | youtube.com | The videos YouTube itself puts next to this one — the "up next" rail — each with its… | 🟢 |
 | `youtube.listStreamFormats` | youtube.com | The renditions a video is actually available in — resolution, frame rate, codec… | 🟢 |
@@ -2087,8 +2089,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
 | `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back the videos the… | 🟢 |
 | `youtube.searchWithinChannel` | youtube.com | Search one channel's own videos rather than the whole site — the search box that… | 🟢 |
+| `youtube.setCaptions` | youtube.com | Upload a caption file (SRT or VTT) for one language on one of the signed-in account's… | ⚪ |
+| `youtube.setThumbnail` | youtube.com | Set a custom thumbnail image on one of the signed-in account's own videos. | 🟢 |
 | `youtube.subscribeToChannel` | youtube.com | Subscribe the signed-in account to a channel (and unsubscribe it again). | ⚪ |
 | `youtube.suggestSearches` | youtube.com | YouTube's own autocomplete for a partial query — the dropdown list it shows while… | 🟢 |
+| `youtube.updateVideo` | youtube.com | Change the title, description, tags, category or privacy of one of the signed-in… | 🟢 |
+| `youtube.uploadVideo` | youtube.com | Upload a video file to the signed-in account's own channel, with its title… | 🟢 |
 | `zennioptical.checkStock` | zennioptical.com | Checks live per-SKU inventory (in stock, quantity, backorder/preorder flags) off the… | 🟢 |
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
 | `zennioptical.priceLensConfig` | zennioptical.com | Runs a real prescription + usage type through the site's own order-configurator flow… | 🟢 |
