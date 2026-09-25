@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2091 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2092 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1337,6 +1337,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.getMossyoakProduct` | mossyoak.com | Reads one product by its handle — every camo-pattern/size variant, its exact price and… | 🟢 |
 | `mossyoak.listMossyoakProducts` | mossyoak.com | Reads the live Mossy Oak catalogue as the storefront publishes it — every camo-apparel… | 🟢 |
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
+| `msc.trackShipment` | msc.com | Tracks a shipment by container/BL number, returning the current status and location… | 🟢 |
 | `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟢 |
 | `msn.getMarketSummary` | msn.com | Reads the major index levels (S&P 500, Dow, Nasdaq) and their day's change off MSN… | ⚪ |
 | `msn.getSectionFeed` | msn.com | Returns the current top-stories feed the way msn.com/en-us/<section> does for a… | 🟢 |

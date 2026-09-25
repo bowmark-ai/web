@@ -1,5 +1,5 @@
 {
-  "version": "fc8c4d0f3ca4389a83f61ff2506a39a28d9e8c3d179912cb1a0061097a2be40e",
+  "version": "9edbd2cb08538ccf446eafb9b6b1f82fd607bdb5c7f7702ac90feba25d86cd3d",
   "units": {
     "booking_links": {
       "defs": {
@@ -27288,6 +27288,37 @@
         "listRelatedTitles": [
           {
             "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.printful": {
+      "defs": {},
+      "functions": {
+        "getOrder": [
+          {
+            "name": "orderId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchOrders": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

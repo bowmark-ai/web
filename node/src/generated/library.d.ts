@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fc8c4d0f3ca4389a83f61ff2506a39a28d9e8c3d179912cb1a0061097a2be40e
-// 60 capabilities, 458 providers, 1341 typed functions, 20 refused.
+// Manifest version: 9edbd2cb08538ccf446eafb9b6b1f82fd607bdb5c7f7702ac90feba25d86cd3d
+// 60 capabilities, 459 providers, 1343 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -30826,6 +30826,41 @@ interface PrimeVideoLiveSportsEvent {
   }
 }
 
+declare namespace BowmarkProvider_printful {
+  // ── Printful — the unit's own declarations, verbatim ──
+interface PrintfulOrder {
+  id: number;
+  external_id: string;
+  status: string; // the site's own labels — read the values off a result, never guess one from prose
+  recipient_email?: string;
+  shipping_service_name?: string;
+  tracking_number?: string;
+  tracking_url?: string;
+  created: number;
+  updated: number;
+}
+
+  /**
+   * Printful's documented REST API — retrieves order status (production, shipping, tracking) for
+   * print-on-demand stores by order ID from the store's own Printful account.
+   */
+  interface Unit {
+    /**
+     * Fetches details of a single order from Printful by order ID, including status
+     * (production/shipping/fulfilled/canceled), tracking number, and shipping service name.
+     * Requires the store's Printful API key.
+     */
+    getOrder(orderId: string | number): Promise<PrintfulOrder>;
+
+    /**
+     * Finds orders in the store's Printful account matching a customer's email address or the
+     * order's own reference (external_id) — the locator getOrder needs, for a caller who only
+     * holds what a person said rather than an order ID. Requires the store's Printful API key.
+     */
+    searchOrders(query: string): Promise<PrintfulOrder[]>;
+  }
+}
+
 declare namespace BowmarkProvider_progressive {
   // ── Progressive — the unit's own declarations, verbatim ──
 // Progressive's OWN shapes — not a capability contract.
@@ -41422,6 +41457,7 @@ interface BowmarkProviders {
   powys: BowmarkProvider_powys.Unit;
   premierbuildings: BowmarkProvider_premierbuildings.Unit;
   prime_video: BowmarkProvider_prime_video.Unit;
+  printful: BowmarkProvider_printful.Unit;
   progressive: BowmarkProvider_progressive.Unit;
   prolook: BowmarkProvider_prolook.Unit;
   prose: BowmarkProvider_prose.Unit;

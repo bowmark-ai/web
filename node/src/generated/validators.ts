@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fc8c4d0f3ca4389a83f61ff2506a39a28d9e8c3d179912cb1a0061097a2be40e
-// 1323 checked, 20 unchecked.
+// Manifest version: 9edbd2cb08538ccf446eafb9b6b1f82fd607bdb5c7f7702ac90feba25d86cd3d
+// 1325 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fc8c4d0f3ca4389a83f61ff2506a39a28d9e8c3d179912cb1a0061097a2be40e",
+  "version": "9edbd2cb08538ccf446eafb9b6b1f82fd607bdb5c7f7702ac90feba25d86cd3d",
   "units": {
     "booking_links": {
       "defs": {
@@ -27300,6 +27300,37 @@ export const VALIDATORS: ValidatorTable = {
         "listRelatedTitles": [
           {
             "name": "titleId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.printful": {
+      "defs": {},
+      "functions": {
+        "getOrder": [
+          {
+            "name": "orderId",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "searchOrders": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fc8c4d0f3ca4389a83f61ff2506a39a28d9e8c3d179912cb1a0061097a2be40e
-# 60 capabilities, 458 providers, 1323 typed functions, 20 refused.
+# Manifest version: 9edbd2cb08538ccf446eafb9b6b1f82fd607bdb5c7f7702ac90feba25d86cd3d
+# 60 capabilities, 459 providers, 1325 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16143,6 +16143,17 @@ class Prv_prime_video_PrimeVideoLiveSportsEvent_Out(TypedDict):
     venue: str | None
     entitled: bool
     watchMessage: str | None
+
+class Prv_printful_PrintfulOrder_Out(TypedDict):
+    id: float
+    external_id: str
+    status: str
+    recipient_email: NotRequired[str]
+    shipping_service_name: NotRequired[str]
+    tracking_number: NotRequired[str]
+    tracking_url: NotRequired[str]
+    created: float
+    updated: float
 
 class Prv_progressive_ProgressiveAgentQuery_In(TypedDict):
     zip: str
@@ -33391,6 +33402,23 @@ class Prv_prime_video(Protocol):
         one refuses with `could not find a 26-character titleId`.
         """
 
+class Prv_printful(Protocol):
+    """Printful's documented REST API — retrieves order status (production, shipping, tracking)
+    for print-on-demand stores by order ID from the store's own Printful account.
+    """
+
+    async def getOrder(self, orderId: str | float, /) -> Prv_printful_PrintfulOrder_Out:
+        """Fetches details of a single order from Printful by order ID, including status
+        (production/shipping/fulfilled/canceled), tracking number, and shipping service name.
+        Requires the store's Printful API key.
+        """
+
+    async def searchOrders(self, query: str, /) -> list[Prv_printful_PrintfulOrder_Out]:
+        """Finds orders in the store's Printful account matching a customer's email address or the
+        order's own reference (external_id) — the locator getOrder needs, for a caller who only
+        holds what a person said rather than an order ID. Requires the store's Printful API key.
+        """
+
 class Prv_progressive(Protocol):
     """Quotes from the second-largest US auto insurer across every line it publishes — auto,
     the specialty vehicle band (motorcycle, boat, RV, ATV, snowmobile, golf cart, PWC,
@@ -37253,6 +37281,7 @@ class BowmarkProviders(Protocol):
     powys: Prv_powys
     premierbuildings: Prv_premierbuildings
     prime_video: Prv_prime_video
+    printful: Prv_printful
     progressive: Prv_progressive
     prolook: Prv_prolook
     prose: Prv_prose
