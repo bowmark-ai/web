@@ -6,6 +6,137 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.25.0 (2026-09-25)
+
+**Capabilities**
+
+- New capability **census_tract_household_income** (1 function): `census_tract_household_income.householdIncome`
+- New capability **concert_setlist** (1 function): `concert_setlist.search`
+- New capability **delegate** (5 functions): `delegate.list`, `delegate.send`, `delegate.start`, `delegate.status`, `delegate.stop`
+- New capability **furnished_apartment_rental** (1 function): `furnished_apartment_rental.search`
+- New capability **gas_prices** (1 function): `gas_prices.search`
+- New capability **goal_diff** (1 function): `goal_diff.search`
+- New capability **gstin_verification** (1 function): `gstin_verification.lookup`
+- New capability **industrial_supply** (1 function): `industrial_supply.search`
+- New capability **kenya_fuel_prices** (1 function): `kenya_fuel_prices.search`
+- New capability **municipal_recreation_fees** (1 function): `municipal_recreation_fees.getFeeSchedule`
+- Added `read.urls`
+- Added `video_library.deleteVideo`
+- Added `video_library.myVideos`
+- Added `video_library.setThumbnail`
+- Added `video_library.updateVideo`
+- Added `video_library.uploadVideo`
+- Removed **dfs_ownership_projections**
+- Removed **postcard_direct_mail_quote**
+
+**Providers**
+
+- New provider **agakhanhospitals.org** (2 functions): `agakhanhospitals.getHospitalInfo`, `agakhanhospitals.listSpecialties`
+- New provider **airbnb.com** (1 function): `airbnb.search`
+- New provider **avenuehealthcare.com** (1 function): `avenuehealthcare.search`
+- New provider **bodacc.fr** (1 function): `bodacc.search`
+- New provider **campspot.com** (2 functions): `campspot.findCampgrounds`, `campspot.getCampground`
+- New provider **www.cardiff.gov.uk** (2 functions): `cardiff.getApplication`, `cardiff.search`
+- New provider **cartebtp.fr** (1 function): `cartebtp.verifyCard`
+- New provider **api.census.gov** (1 function): `census_api.householdIncome`
+- New provider **cftc.gov** (1 function): `cftc.searchRules`
+- New provider **christydawn.com** (1 function): `christydawn.search`
+- New provider **www.cnn.com** (1 function): `cnn.listHeadlines`
+- New provider **crecipr.gov.br** (2 functions): `crecipr.searchCredenciados`, `crecipr.verifyBroker`
+- New provider **e2b.dev** (8 functions): `e2b.createSandbox`, `e2b.getSandbox`, `e2b.killSandbox`, `e2b.listSandboxes`, `e2b.readFile`, `e2b.runCommand`, `e2b.setSandboxTimeout`, `e2b.writeFile`
+- New provider **epicgames.com** (1 function): `epicgames.listFreeGames`
+- New provider **fomo.family** (5 functions): `fomo.getCurrentUser`, `fomo.getLeaderboard`, `fomo.getUser`, `fomo.getUserByHandle`, `fomo.searchUsers`
+- New provider **forbes.com** (3 functions): `forbes.listArticlesByTopic`, `forbes.listNews`, `forbes.listTopics`
+- New provider **services.gst.gov.in** (1 function): `gst_india.lookup`
+- New provider **gethealthie.com** (1 function): `healthie.searchPractices`
+- New provider **apid.iproyal.com** (5 functions): `iproyal_reseller.getAccountBalance`, `iproyal_reseller.getCatalogue`, `iproyal_reseller.getOrder`, `iproyal_reseller.listOrders`, `iproyal_reseller.quotePrice`
+- New provider **jcrew.com** (11 functions): `jcrew.browseCategory`, `jcrew.checkVariantStock`, `jcrew.findStores`, `jcrew.getCategory`, `jcrew.getProduct`, `jcrew.getProducts`, `jcrew.listCategories`, `jcrew.listSearchRefinements`, and 3 more
+- New provider **maersk.com** (1 function): `maersk.track`
+- New provider **meteofrance.com** (1 function): `meteofrance.getMarineWindForecast`
+- New provider **msc.com** (1 function): `msc.trackShipment`
+- New provider **msn.com** (4 functions): `msn.getArticle`, `msn.getSectionFeed`, `msn.getTopStories`, `msn.searchNews`
+- New provider **fredericton.ca, dieppe.ca** (1 function): `municipal_recreation_fees_fetcher.getFeeSchedule`
+- New provider **games.nytimes.com** (1 function): `nyt_games.getWordle`
+- New provider **learn.chatgpt.com** (2 functions): `openai.helpArticle`, `openai.plans`
+- New provider **pallet2ship.co.uk** (1 function): `pallet2ship.getQuote`
+- New provider **pinterest.com** (10 functions): `pinterest.getPin`, `pinterest.getProduct`, `pinterest.listRelatedPins`, `pinterest.listRelatedProducts`, `pinterest.listVisualObjects`, `pinterest.searchBoards`, `pinterest.searchPins`, `pinterest.searchUsers`, and 2 more
+- New provider **printful.com** (2 functions): `printful.getOrder`, `printful.searchOrders`
+- New provider **rightmove.co.uk** (1 function): `rightmove.search`
+- New provider **samsung.com** (5 functions): `samsung.getProduct`, `samsung.listCategories`, `samsung.listCategoryProducts`, `samsung.listDeals`, `samsung.search`
+- New provider **ticketmaster.com.mx** (2 functions): `ticketmaster_mx.getEvent`, `ticketmaster_mx.search`
+- New provider **ticketmaster.nl** (2 functions): `ticketmaster_nl.event`, `ticketmaster_nl.search`
+- New provider **tiktok.com** (12 functions): `tiktok.getHashtag`, `tiktok.getProfile`, `tiktok.getSound`, `tiktok.getTranscript`, `tiktok.getVideo`, `tiktok.listCaptionTracks`, `tiktok.listCommentReplies`, `tiktok.listComments`, and 4 more
+- New provider **drivers.uber.com** (1 function): `uber.getDriverEarnings`
+- New provider **wikipedia.org** (10 functions): `wikipedia.getArticle`, `wikipedia.getArticleHtml`, `wikipedia.getInfobox`, `wikipedia.getSection`, `wikipedia.getSections`, `wikipedia.getSummary`, `wikipedia.getWikitext`, `wikipedia.listLinks`, and 2 more
+- New provider **wunderflats.com** (1 function): `wunderflats.search`
+- New provider **x.com** (1 function): `x.userTimeline`
+- New provider **finance.yahoo.com** (14 functions): `yahoo_finance.getAnalystEstimates`, `yahoo_finance.getCompanyProfile`, `yahoo_finance.getFinancials`, `yahoo_finance.getHistoricalPrices`, `yahoo_finance.getHolders`, `yahoo_finance.getKeyStatistics`, `yahoo_finance.getMarketSummary`, `yahoo_finance.getNews`, and 6 more
+- New provider **sports.yahoo.com** (7 functions): `yahoo_sports.findPlayers`, `yahoo_sports.getGame`, `yahoo_sports.getPlayer`, `yahoo_sports.getSchedule`, `yahoo_sports.getScoreboard`, `yahoo_sports.getStandings`, `yahoo_sports.listTeams`
+- New provider **zoopla.co.uk** (1 function): `zoopla.search`
+- Added `apple.getRepairPricing`
+- Added `bing.define`
+- Added `bing.findPlace`
+- Added `bing.searchImages`
+- Added `bing.searchShopping`
+- Added `bing.searchVideos`
+- Added `bing.translateText`
+- Added `github.getOrganization`
+- Added `github.getRepo`
+- Added `github.getUser`
+- Added `github.getUserRepositories`
+- Added `github.listIssues`
+- Added `github.listPullRequests`
+- Added `github.searchRepositories`
+- Added `google_maps.getPopularTimes`
+- Added `google_maps.listSavedPlaces`
+- Added `liquiddeath.listProducts`
+- Added `lululemon.getReviews`
+- Added `reddit.blockUser`
+- Added `reddit.browseSubreddits`
+- Added `reddit.createSubreddit`
+- Added `reddit.deletePostOrComment`
+- Added `reddit.editPostOrComment`
+- Added `reddit.findPostsByUrl`
+- Added `reddit.followUser`
+- Added `reddit.getCommentReplies`
+- Added `reddit.getHomeFeed`
+- Added `reddit.getMyAccount`
+- Added `reddit.getSubredditRules`
+- Added `reddit.getUser`
+- Added `reddit.getUserComments`
+- Added `reddit.getUserPosts`
+- Added `reddit.getWikiPage`
+- Added `reddit.hidePost`
+- Added `reddit.joinSubreddit`
+- Added `reddit.leaveSubreddit`
+- Added `reddit.listInbox`
+- Added `reddit.listMySubscriptions`
+- Added `reddit.listPostFlairs`
+- Added `reddit.listSaved`
+- Added `reddit.listWikiPages`
+- Added `reddit.postComment`
+- Added `reddit.replyToComment`
+- Added `reddit.reportPostOrComment`
+- Added `reddit.savePostOrComment`
+- Added `reddit.searchUsers`
+- Added `reddit.sendDirectMessage`
+- Added `reddit.setProfilePicture`
+- Added `reddit.submitPost`
+- Added `reddit.unsavePostOrComment`
+- Added `reddit.updateProfile`
+- Added `reddit.vote`
+- Added `twitch.getChannelInfo`
+- Added `youtube.deleteVideo`
+- Added `youtube.listMyVideos`
+- Added `youtube.setThumbnail`
+- Added `youtube.updateVideo`
+- Added `youtube.uploadVideo`
+- Removed **dfs_rotogrinderssearch**
+- Removed **energyaustralia_com_au**
+- Removed **postcard_direct_mail**
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.24.2 (2026-09-20)
 
 **Capabilities**
