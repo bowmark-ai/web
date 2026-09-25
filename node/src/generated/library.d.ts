@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9606ee4b80aca1fdc860e3fe3fa127a1dd63a316b12bf383587a3f7b0bcbbf95
-// 61 capabilities, 467 providers, 1365 typed functions, 20 refused.
+// Manifest version: 93d5f97e3da45cbaa9442799ad862013870d320126c8999ba53abd662875de36
+// 61 capabilities, 468 providers, 1366 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4661,6 +4661,34 @@ interface AcqualinaRoomAvailability {
      * with per-night pricing for every rate plan on offer.
      */
     searchAvailability(arrive: string, depart: string, adults: number, children?: number): Promise<AcqualinaRoomAvailability[]>;
+  }
+}
+
+declare namespace BowmarkProvider_agakhanhospitals {
+  // ── Aga Khan Health Services — the unit's own declarations, verbatim ──
+interface GetHospitalInfoArgs {
+  location: string;
+}
+
+interface AgaKhanHospitalInfo {
+  name: string;
+  location?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  departments?: string[];  // the site's own labels — read the values off a result, never guess one from prose
+  services?: string[];  // the site's own labels — read the values off a result, never guess one from prose
+  description?: string;
+  url?: string;
+}
+
+  /** Hospital information from Aga Khan Health Services, with location details and services. */
+  interface Unit {
+    /**
+     * Returns information about a specific Aga Khan hospital location, including departments,
+     * contact details, and services offered.
+     */
+    getHospitalInfo(args: GetHospitalInfoArgs): Promise<AgaKhanHospitalInfo>;
   }
 }
 
@@ -41630,6 +41658,7 @@ interface BowmarkProviders {
   acerentacar: BowmarkProvider_acerentacar.Unit;
   achosahw: BowmarkProvider_achosahw.Unit;
   acqualinaresort: BowmarkProvider_acqualinaresort.Unit;
+  agakhanhospitals: BowmarkProvider_agakhanhospitals.Unit;
   ai_engineer: BowmarkProvider_ai_engineer.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   airbnb: BowmarkProvider_airbnb.Unit;

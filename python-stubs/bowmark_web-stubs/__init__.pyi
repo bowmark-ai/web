@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9606ee4b80aca1fdc860e3fe3fa127a1dd63a316b12bf383587a3f7b0bcbbf95
-# 61 capabilities, 467 providers, 1347 typed functions, 20 refused.
+# Manifest version: 93d5f97e3da45cbaa9442799ad862013870d320126c8999ba53abd662875de36
+# 61 capabilities, 468 providers, 1348 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2539,6 +2539,20 @@ class Prv_acqualinaresort_AcqualinaRate_Out(TypedDict):
     pricePerNight: float | None
     originalPricePerNight: float | None
     currency: Literal["USD"]
+
+class Prv_agakhanhospitals_GetHospitalInfoArgs_In(TypedDict):
+    location: str
+
+class Prv_agakhanhospitals_AgaKhanHospitalInfo_Out(TypedDict):
+    name: str
+    location: NotRequired[str]
+    address: NotRequired[str]
+    phone: NotRequired[str]
+    email: NotRequired[str]
+    departments: NotRequired[list[str]]
+    services: NotRequired[list[str]]
+    description: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_ai_engineer_listSpeakers_return_Out(TypedDict):
     speakers: list[Prv_ai_engineer_AiEngineerSpeaker_Out]
@@ -23815,6 +23829,14 @@ class Prv_acqualinaresort(Protocol):
         availability with per-night pricing for every rate plan on offer.
         """
 
+class Prv_agakhanhospitals(Protocol):
+    """Hospital information from Aga Khan Health Services, with location details and services."""
+
+    async def getHospitalInfo(self, args: Prv_agakhanhospitals_GetHospitalInfoArgs_In, /) -> Prv_agakhanhospitals_AgaKhanHospitalInfo_Out:
+        """Returns information about a specific Aga Khan hospital location, including departments,
+        contact details, and services offered.
+        """
+
 class Prv_ai_engineer(Protocol):
     """Conference speakers and speaker information from the AI Engineer conference."""
 
@@ -37399,6 +37421,7 @@ class BowmarkProviders(Protocol):
     acerentacar: Prv_acerentacar
     achosahw: Prv_achosahw
     acqualinaresort: Prv_acqualinaresort
+    agakhanhospitals: Prv_agakhanhospitals
     ai_engineer: Prv_ai_engineer
     aiper: Prv_aiper
     airbnb: Prv_airbnb

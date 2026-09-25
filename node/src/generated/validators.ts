@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9606ee4b80aca1fdc860e3fe3fa127a1dd63a316b12bf383587a3f7b0bcbbf95
-// 1347 checked, 20 unchecked.
+// Manifest version: 93d5f97e3da45cbaa9442799ad862013870d320126c8999ba53abd662875de36
+// 1348 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9606ee4b80aca1fdc860e3fe3fa127a1dd63a316b12bf383587a3f7b0bcbbf95",
+  "version": "93d5f97e3da45cbaa9442799ad862013870d320126c8999ba53abd662875de36",
   "units": {
     "booking_links": {
       "defs": {
@@ -4955,6 +4955,34 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.agakhanhospitals": {
+      "defs": {
+        "GetHospitalInfoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getHospitalInfo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetHospitalInfoArgs"
+            },
+            "optional": false
           }
         ]
       }
