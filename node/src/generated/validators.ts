@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d79b96bc62deff7975d5ffa38fb2bdfb8520a44c63b9f08ab794b028854c068c
-// 1360 checked, 20 unchecked.
+// Manifest version: 9512db316401625ceec1e0fd547e89436bdd4c380426e984ec875f31b9c50323
+// 1362 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d79b96bc62deff7975d5ffa38fb2bdfb8520a44c63b9f08ab794b028854c068c",
+  "version": "9512db316401625ceec1e0fd547e89436bdd4c380426e984ec875f31b9c50323",
   "units": {
     "booking_links": {
       "defs": {
@@ -499,6 +499,41 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "census_tract_demographics": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "householdIncome": [
+          {
+            "name": "zipCode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           },
           {
             "name": "options",
@@ -26942,6 +26977,15 @@ export const VALIDATORS: ValidatorTable = {
         "listRelatedProducts": [
           {
             "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listPinComments": [
+          {
+            "name": "aggregatedPinDataId",
             "schema": {
               "k": "string"
             },

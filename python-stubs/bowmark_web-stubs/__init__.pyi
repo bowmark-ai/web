@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d79b96bc62deff7975d5ffa38fb2bdfb8520a44c63b9f08ab794b028854c068c
-# 64 capabilities, 471 providers, 1360 typed functions, 20 refused.
+# Manifest version: 9512db316401625ceec1e0fd547e89436bdd4c380426e984ec875f31b9c50323
+# 65 capabilities, 471 providers, 1362 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -507,6 +507,14 @@ class Cap_cars_Car_Out(TypedDict):
     pickupType: str | None
     pickupAddress: str | None
     url: str
+
+class Cap_census_tract_demographics_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_census_tract_demographics_HouseholdIncomeResult_Out(TypedDict):
+    medianHouseholdIncome: float
+    censusYear: float
+    warnings: list[str]
 
 class Cap_census_tract_household_income_householdIncome_params_In(TypedDict):
     zip: NotRequired[str]
@@ -15843,6 +15851,21 @@ class Prv_pinterest_PinterestRelatedProduct_Out(TypedDict):
     rating: NotRequired[float]
     review_count: NotRequired[float]
 
+class Prv_pinterest_listPinComments_return_Out(TypedDict):
+    comments: list[Prv_pinterest_PinterestComment_Out]
+
+class Prv_pinterest_PinterestComment_Out(TypedDict):
+    id: str
+    text: NotRequired[str]
+    created_at: NotRequired[str]
+    user: NotRequired[Prv_pinterest_PinterestComment_Out_user_Out]
+    reply_count: NotRequired[float]
+
+class Prv_pinterest_PinterestComment_Out_user_Out(TypedDict):
+    id: str
+    username: str
+    full_name: NotRequired[str]
+
 class Prv_pirateship_PirateshipDimensions_In(TypedDict):
     length: float
     width: float
@@ -22418,6 +22441,15 @@ class Cap_cars(Protocol):
         THROWS rather than returning `cars: []`, because those two are the same value and only
         one of them means there are no cars: a list you receive is always a list a site actually
         gave. `options.timeoutMs` sets the per-site budget (default 30000).
+        """
+
+class Cap_census_tract_demographics(Protocol):
+    """Query US Census Bureau data on median household income by location"""
+
+    async def householdIncome(self, zipCode: str, options: Cap_census_tract_demographics_CallOptions_In | None = None, /) -> Cap_census_tract_demographics_HouseholdIncomeResult_Out:
+        """Returns median household income for a US Census tract by ZIP code, resolved via the
+        Census Geocoder then the ACS 5-Year Estimates API. `options.timeoutMs` sets the budget
+        (default 30000).
         """
 
 class Cap_census_tract_household_income(Protocol):
@@ -33469,6 +33501,13 @@ class Prv_pinterest(Protocol):
         empty or non-string id.
         """
 
+    async def listPinComments(self, aggregatedPinDataId: str, /) -> Prv_pinterest_listPinComments_return_Out:
+        """The comments on a pin, including text, the person who wrote it, and when they wrote it.
+        Takes the `aggregated_pin_data.id` from `getPin` (not the pin id itself) and returns an
+        array of comments in reverse chronological order. Uses `UnifiedCommentsResource`. THROWS
+        `PinterestInputError` on an empty or non-string id.
+        """
+
 class Prv_pirateship(Protocol):
     """Free multi-carrier (USPS/UPS) shipping rate comparison and label tool."""
 
@@ -38145,6 +38184,7 @@ class Bowmark(Protocol):
     bundles: Cap_bundles
     cable_railing_quote: Cap_cable_railing_quote
     cars: Cap_cars
+    census_tract_demographics: Cap_census_tract_demographics
     census_tract_household_income: Cap_census_tract_household_income
     concert_setlist: Cap_concert_setlist
     costume_size_check: Cap_costume_size_check

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d79b96bc62deff7975d5ffa38fb2bdfb8520a44c63b9f08ab794b028854c068c
-// 64 capabilities, 471 providers, 1378 typed functions, 20 refused.
+// Manifest version: 9512db316401625ceec1e0fd547e89436bdd4c380426e984ec875f31b9c50323
+// 65 capabilities, 471 providers, 1380 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -519,6 +519,31 @@ type CallOptions = {
      * sets the per-site budget (default 30000).
      */
     search(query: CarQuery, limit?: number, options?: CallOptions): Promise<CarSearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_census_tract_demographics {
+  // ── US Census demographics by location — the unit's own declarations, verbatim ──
+interface HouseholdIncomeResult {
+  medianHouseholdIncome: number;
+  censusYear: number;
+  warnings: string[];
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /** Query US Census Bureau data on median household income by location */
+  interface Unit {
+    /**
+     * Returns median household income for a US Census tract by ZIP code, resolved via the Census
+     * Geocoder then the ACS 5-Year Estimates API. `options.timeoutMs` sets the budget (default
+     * 30000).
+     */
+    householdIncome(zipCode: string, options?: CallOptions): Promise<HouseholdIncomeResult>;
   }
 }
 
@@ -30079,6 +30104,13 @@ interface PinterestRelatedProduct {
   rating?: number;
   review_count?: number;
 }
+interface PinterestComment {
+  id: string;
+  text?: string;
+  created_at?: string;
+  user?: { id: string; username: string; full_name?: string };
+  reply_count?: number;
+}
 
   /**
    * Pinterest — search its pins, boards, people and videos, read one pin in full with the
@@ -30175,6 +30207,14 @@ interface PinterestRelatedProduct {
      * the `RelatedProductsResource`. THROWS `PinterestInputError` on an empty or non-string id.
      */
     listRelatedProducts(id: string): Promise<{ products: PinterestRelatedProduct[] }>;
+
+    /**
+     * The comments on a pin, including text, the person who wrote it, and when they wrote it.
+     * Takes the `aggregated_pin_data.id` from `getPin` (not the pin id itself) and returns an
+     * array of comments in reverse chronological order. Uses `UnifiedCommentsResource`. THROWS
+     * `PinterestInputError` on an empty or non-string id.
+     */
+    listPinComments(aggregatedPinDataId: string): Promise<{ comments: PinterestComment[] }>;
   }
 }
 
@@ -94081,6 +94121,7 @@ interface BowmarkLibrary {
   bundles: BowmarkCapability_bundles.Unit;
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
   cars: BowmarkCapability_cars.Unit;
+  census_tract_demographics: BowmarkCapability_census_tract_demographics.Unit;
   census_tract_household_income: BowmarkCapability_census_tract_household_income.Unit;
   concert_setlist: BowmarkCapability_concert_setlist.Unit;
   costume_size_check: BowmarkCapability_costume_size_check.Unit;
