@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2134 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2135 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1400,7 +1400,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme and answer words. | ⚪ |
 | `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle. | ⚪ |
 | `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | ⚪ |
-| `nyt_games.getWordle` | games.nytimes.com | Retrieves the daily Wordle puzzle with answer and metadata. | ⚪ |
+| `nyt_games.getWordle` | games.nytimes.com | Reads one day's Wordle answer, puzzle number and editor from NYT's own game JSON. | 🟢 |
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | ⚪ |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
 | `odfl.estimateFreightQuote` | odfl.com | Generates a shipping rate quote for an LTL freight shipment from ODFL. | ⚪ |
@@ -1646,6 +1646,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `resy.search` | resy.com | Finds Resy venues matching a restaurant name, ranked by Resy's own relevance and… | 🟢 |
 | `revisionskincare.getSkincareQuizQuestions` | revisionskincare.com | Reads the live 'Product Finder Quiz' at revisionskincare.com/pages/skincare-quiz… | 🟢 |
 | `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟡 |
+| `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
 | `rishitea.getTeaFinderQuiz` | rishi-tea.com | Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —… | 🟢 |
 | `rishitea.matchTeaFinderQuiz` | rishi-tea.com | Submits a full set of answers to Okendo's quiz engine and returns the same… | 🟢 |
 | `ritani.getConfigurator` | ritani.com | Reads Ritani's real live Ring Studio option catalog: every center stone shape… | 🟢 |

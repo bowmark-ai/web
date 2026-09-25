@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1ed490888bc3d1ca5cace28671dd061c17c3e315b6ec7424c38e8f5f609ebc4d
-// 1355 checked, 20 unchecked.
+// Manifest version: e6e95e18568fb51637eb2c4c1e8fcf3b1070394df1995a23f4e02683ca5b3cbb
+// 1356 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1ed490888bc3d1ca5cace28671dd061c17c3e315b6ec7424c38e8f5f609ebc4d",
+  "version": "e6e95e18568fb51637eb2c4c1e8fcf3b1070394df1995a23f4e02683ca5b3cbb",
   "units": {
     "booking_links": {
       "defs": {
@@ -32911,6 +32911,74 @@ export const VALIDATORS: ValidatorTable = {
                     }
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.rightmove": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "type",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "sale"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "rent"
+                      }
+                    ]
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "minPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minBedrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxBedrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },

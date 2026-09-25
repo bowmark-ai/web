@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1ed490888bc3d1ca5cace28671dd061c17c3e315b6ec7424c38e8f5f609ebc4d
-# 64 capabilities, 469 providers, 1355 typed functions, 20 refused.
+# Manifest version: e6e95e18568fb51637eb2c4c1e8fcf3b1070394df1995a23f4e02683ca5b3cbb
+# 64 capabilities, 470 providers, 1356 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17688,6 +17688,26 @@ class Prv_revisionskincare_RevisionRecommendedProduct_Out(TypedDict):
     averageRating: float | None
     approvedReviewsCount: float | None
 
+class Prv_rightmove_search_args_In(TypedDict):
+    location: str
+    type: Literal["sale"] | Literal["rent"]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+    minBedrooms: NotRequired[float]
+    maxBedrooms: NotRequired[float]
+
+class Prv_rightmove_RightmoveSearchResult_Out(TypedDict):
+    listings: list[Prv_rightmove_RightmoveListing_Out]
+    hasMore: bool
+
+class Prv_rightmove_RightmoveListing_Out(TypedDict):
+    id: str
+    title: str
+    price: str
+    address: str
+    url: str
+    bedrooms: float | None
+
 class Prv_rishitea_TeaFinderQuiz_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -34627,6 +34647,12 @@ class Prv_revisionskincare(Protocol):
         computed product recommendations.
         """
 
+class Prv_rightmove(Protocol):
+    """Search for properties for sale or rent on Rightmove."""
+
+    async def search(self, args: Prv_rightmove_search_args_In, /) -> Prv_rightmove_RightmoveSearchResult_Out:
+        """Search for properties for sale or rent by location, price range, and bedroom count."""
+
 class Prv_rishitea(Protocol):
     """Rishi Tea's own "Tea Finder" quiz (Okendo Quizzes) — reads the real question set and
     submits real answers to get back the site's own personalized tea recommendation.
@@ -37929,6 +37955,7 @@ class BowmarkProviders(Protocol):
     reliancepartners: Prv_reliancepartners
     resy: Prv_resy
     revisionskincare: Prv_revisionskincare
+    rightmove: Prv_rightmove
     rishitea: Prv_rishitea
     ritani: Prv_ritani
     rivian: Prv_rivian

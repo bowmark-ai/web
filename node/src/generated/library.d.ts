@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1ed490888bc3d1ca5cace28671dd061c17c3e315b6ec7424c38e8f5f609ebc4d
-// 64 capabilities, 469 providers, 1373 typed functions, 20 refused.
+// Manifest version: e6e95e18568fb51637eb2c4c1e8fcf3b1070394df1995a23f4e02683ca5b3cbb
+// 64 capabilities, 470 providers, 1374 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -33114,6 +33114,29 @@ interface RevisionQuizResult {
   }
 }
 
+declare namespace BowmarkProvider_rightmove {
+  // ── Rightmove — the unit's own declarations, verbatim ──
+interface RightmoveListing {
+  id: string;
+  title: string;
+  price: string;
+  address: string;
+  url: string;
+  bedrooms: number | null;
+}
+
+interface RightmoveSearchResult {
+  listings: RightmoveListing[];
+  hasMore: boolean;
+}
+
+  /** Search for properties for sale or rent on Rightmove. */
+  interface Unit {
+    /** Search for properties for sale or rent by location, price range, and bedroom count. */
+    search(args: { location: string, type: 'sale' | 'rent', minPrice?: number, maxPrice?: number, minBedrooms?: number, maxBedrooms?: number }): Promise<RightmoveSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_rishitea {
   // ── Rishi Tea & Botanicals — the unit's own declarations, verbatim ──
 interface TeaFinderQuestion {
@@ -42178,6 +42201,7 @@ interface BowmarkProviders {
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
   resy: BowmarkProvider_resy.Unit;
   revisionskincare: BowmarkProvider_revisionskincare.Unit;
+  rightmove: BowmarkProvider_rightmove.Unit;
   rishitea: BowmarkProvider_rishitea.Unit;
   ritani: BowmarkProvider_ritani.Unit;
   rivian: BowmarkProvider_rivian.Unit;
