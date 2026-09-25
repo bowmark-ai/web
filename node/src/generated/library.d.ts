@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 377fbb239925c05ee4deccbfbe57f1426c37f8cda21ebd0c7daeab71920eee8c
-// 61 capabilities, 467 providers, 1363 typed functions, 20 refused.
+// Manifest version: 9606ee4b80aca1fdc860e3fe3fa127a1dd63a316b12bf383587a3f7b0bcbbf95
+// 61 capabilities, 467 providers, 1365 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8705,6 +8705,19 @@ interface BingTranslationResult {
   warnings: string[];
 }
 
+interface BingMapPlace {
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  category: string | null;
+}
+
+interface BingMapsFindPlaceResult {
+  place: BingMapPlace | null;
+  warnings: string[];
+}
+
   /**
    * General web and news search over Bing's index, read off Bing's own RSS output — ten ranked
    * results per query with title, destination URL, snippet and date. Keyless, browserless, ~5 KB
@@ -8794,6 +8807,13 @@ interface BingTranslationResult {
      * Bing's translation engine.
      */
     translateText(text: string): Promise<BingTranslationResult>;
+
+    /**
+     * Looks up a place on Bing Maps by name or address and returns its name, full address,
+     * latitude/longitude coordinates, and category — the door function a caller holding a place
+     * name needs before any maps read that requires a location.
+     */
+    findPlace(query: string): Promise<BingMapsFindPlaceResult>;
   }
 }
 
@@ -36712,6 +36732,9 @@ interface tiktokHashtag {
 interface GetHashtagArgs {
   name: string;
 }
+interface ListHashtagVideosArgs {
+  name: string;
+}
 interface tiktokSound {
   id: string;
   title: string;
@@ -36804,6 +36827,14 @@ interface GetSoundArgs {
      * the hashtag page is served off the signed app API.
      */
     getHashtag(args: GetHashtagArgs, opts?: ConnectionOption): Promise<tiktokHashtag>;
+
+    /**
+     * The videos under one hashtag — id and caption — the companion read to getHashtag. Uses the
+     * browser to load the hashtag page and intercept the API response, as the hashtag page is
+     * served off the signed app API. Returns videos in the order TikTok serves them (newest or
+     * top, depending on the sort option).
+     */
+    listHashtagVideos(args: ListHashtagVideosArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
 
     /**
      * A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed by

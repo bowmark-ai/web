@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 377fbb239925c05ee4deccbfbe57f1426c37f8cda21ebd0c7daeab71920eee8c
-// 1345 checked, 20 unchecked.
+// Manifest version: 9606ee4b80aca1fdc860e3fe3fa127a1dd63a316b12bf383587a3f7b0bcbbf95
+// 1347 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "377fbb239925c05ee4deccbfbe57f1426c37f8cda21ebd0c7daeab71920eee8c",
+  "version": "9606ee4b80aca1fdc860e3fe3fa127a1dd63a316b12bf383587a3f7b0bcbbf95",
   "units": {
     "booking_links": {
       "defs": {
@@ -8908,6 +8908,15 @@ export const VALIDATORS: ValidatorTable = {
         "translateText": [
           {
             "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "findPlace": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },
@@ -36697,6 +36706,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListHashtagVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "name",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListUserVideosArgs": {
           "k": "object",
           "props": [
@@ -36975,6 +36996,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetHashtagArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listHashtagVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListHashtagVideosArgs"
             },
             "optional": false
           },

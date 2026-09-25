@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 377fbb239925c05ee4deccbfbe57f1426c37f8cda21ebd0c7daeab71920eee8c
-# 61 capabilities, 467 providers, 1345 typed functions, 20 refused.
+# Manifest version: 9606ee4b80aca1fdc860e3fe3fa127a1dd63a316b12bf383587a3f7b0bcbbf95
+# 61 capabilities, 467 providers, 1347 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4872,6 +4872,17 @@ class Prv_bing_BingTranslationResult_Out(TypedDict):
     translatedText: str
     detectedSourceLanguage: str | None
     warnings: list[str]
+
+class Prv_bing_BingMapsFindPlaceResult_Out(TypedDict):
+    place: Prv_bing_BingMapPlace_Out | None
+    warnings: list[str]
+
+class Prv_bing_BingMapPlace_Out(TypedDict):
+    name: str
+    address: str
+    latitude: float
+    longitude: float
+    category: str | None
 
 class Prv_bionicpo_listInquiryServices_return_Out(TypedDict):
     services: list[Prv_bionicpo_InquiryService_Out]
@@ -19714,6 +19725,9 @@ class Prv_tiktok_tiktokHashtag_Out(TypedDict):
     viewCount: float
     promoted: bool
 
+class Prv_tiktok_ListHashtagVideosArgs_In(TypedDict):
+    name: str
+
 class Prv_tiktok_GetSoundArgs_In(TypedDict):
     soundId: str
 
@@ -25387,6 +25401,12 @@ class Prv_bing(Protocol):
         """Translates text to Spanish through Bing Translator and returns the translated result and
         the detected source language when auto-detected. Use this when a caller needs text
         translated by Bing's translation engine.
+        """
+
+    async def findPlace(self, query: str, /) -> Prv_bing_BingMapsFindPlaceResult_Out:
+        """Looks up a place on Bing Maps by name or address and returns its name, full address,
+        latitude/longitude coordinates, and category — the door function a caller holding a
+        place name needs before any maps read that requires a location.
         """
 
 class Prv_bionicpo(Protocol):
@@ -35856,6 +35876,13 @@ class Prv_tiktok(Protocol):
         """A hashtag's facts — view count, description, whether it is currently promoted — off
         TikTok's hashtag page. Uses the browser to load the hashtag page and intercept the API
         response, as the hashtag page is served off the signed app API.
+        """
+
+    async def listHashtagVideos(self, args: Prv_tiktok_ListHashtagVideosArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+        """The videos under one hashtag — id and caption — the companion read to getHashtag. Uses
+        the browser to load the hashtag page and intercept the API response, as the hashtag page
+        is served off the signed app API. Returns videos in the order TikTok serves them (newest
+        or top, depending on the sort option).
         """
 
     async def getSound(self, args: Prv_tiktok_GetSoundArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokSound_Out:
