@@ -775,9 +775,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `forbes.getArticle` | forbes.com | Read the full content of a single article. | ⚪ |
 | `forbes.getContributor` | forbes.com | Get a contributor's profile and list their articles. | ⚪ |
 | `forbes.getVideo` | forbes.com | Get details of a Forbes Video. | ⚪ |
-| `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | ⚪ |
+| `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | 🟢 |
 | `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | ⚪ |
-| `forbes.listNews` | forbes.com | List latest news articles. | ⚪ |
+| `forbes.listNews` | forbes.com | List latest news articles. | 🟢 |
 | `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | ⚪ |
 | `forbes.listVideos` | forbes.com | List video content from Forbes Video. | ⚪ |
 | `forbes.searchArticles` | forbes.com | Search articles across Forbes by keyword. | ⚪ |
