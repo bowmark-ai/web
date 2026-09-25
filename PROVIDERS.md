@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2179 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2213 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -343,10 +343,44 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cal_com.getAvailability` | cal.com | Returns the real, currently-open time slots for one Cal.com event type — accepts a… | 🟢 |
 | `cal_com.getBookingForm` | cal.com | Reads what a Cal.com booking page will ask before anyone books — the event's title… | 🟢 |
 | `cal_com.getEventTypes` | cal.com | Lists every event type a Cal.com username currently publishes — the entry point. | 🟢 |
+| `calendly.addDateOverride` | calendly.com | Sets different hours, or no hours at all, for specific dates on the caller's… | ⚪ |
+| `calendly.bookMeeting` | calendly.com | Books a slot on a Calendly event the way an invitee does on the booking page — the… | ⚪ |
+| `calendly.cancelBooking` | calendly.com | Cancels a booking the caller made, from the cancel link Calendly emailed them… | ⚪ |
+| `calendly.cancelScheduledEvent` | calendly.com | Cancels a meeting someone booked with the caller, with a reason the invitee is told. | ⚪ |
+| `calendly.createEventType` | calendly.com | Creates a new event type on the caller's own Calendly — name, duration, location… | ⚪ |
+| `calendly.createMeetingPoll` | calendly.com | Creates a meeting poll — proposes several times, returns a link to share, and lets… | ⚪ |
+| `calendly.createOneOffMeeting` | calendly.com | Creates a one-off meeting link — a specific set of offered times for one conversation… | ⚪ |
+| `calendly.createSingleUseLink` | calendly.com | Makes a single-use booking link for one of the caller's event types — a link that… | ⚪ |
+| `calendly.deleteEventType` | calendly.com | Deletes one of the caller's own event types. | ⚪ |
 | `calendly.findProfiles` | calendly.com | Finds a person's own Calendly page from their full name and, optionally, their company… | 🟢 |
 | `calendly.getAvailability` | calendly.com | Returns the real, currently-open time slots for one Calendly event type over the next… | 🟢 |
+| `calendly.getBooking` | calendly.com | Reads one booking from the link an invitee was sent — the confirmation page, the… | ⚪ |
 | `calendly.getBookingForm` | calendly.com | Reads what a Calendly booking page will ask before anyone books — the owner's name… | 🟢 |
 | `calendly.getEventTypes` | calendly.com | Lists every event type a Calendly profile currently offers — the entry point. | 🟢 |
+| `calendly.getLandingPage` | calendly.com | Reads a Calendly team or organization page — the page that lists several people's or… | ⚪ |
+| `calendly.getMyAccount` | calendly.com | The signed-in caller's own Calendly account — name, email, scheduling-page url and… | ⚪ |
+| `calendly.getRoutingForm` | calendly.com | Reads a Calendly routing form — the questions an organization asks before it decides… | ⚪ |
+| `calendly.getScheduledEvent` | calendly.com | One meeting booked with the caller in full — every invitee, their answers to the… | ⚪ |
+| `calendly.inviteOrganizationMember` | calendly.com | Invites someone by email to the caller's Calendly organization. | ⚪ |
+| `calendly.listAvailabilitySchedules` | calendly.com | The caller's working-hours schedules — the weekly hours they take meetings and any… | ⚪ |
+| `calendly.listConnectedCalendars` | calendly.com | The calendars connected to the caller's Calendly — which are checked for conflicts and… | ⚪ |
+| `calendly.listContacts` | calendly.com | The people in the caller's Calendly contacts — everyone who has booked with them, with… | ⚪ |
+| `calendly.listMyEventTypes` | calendly.com | Every event type the signed-in caller hosts, including secret and turned-off ones that… | ⚪ |
+| `calendly.listOrganizationMembers` | calendly.com | The people in the caller's Calendly organization, with their role and scheduling url. | ⚪ |
+| `calendly.listPackages` | calendly.com | Lists the paid session packages a Calendly profile sells (several meetings bought… | ⚪ |
+| `calendly.listRoutingForms` | calendly.com | The routing forms the caller's organization owns. | ⚪ |
+| `calendly.listRoutingFormSubmissions` | calendly.com | The answers people have submitted to one of the caller's routing forms, and where each… | ⚪ |
+| `calendly.listScheduledEvents` | calendly.com | The meetings booked with the signed-in caller — upcoming, past or a date range — with… | ⚪ |
+| `calendly.listWorkflows` | calendly.com | The caller's workflows — the automatic reminder and follow-up emails and texts… | ⚪ |
+| `calendly.markNoShow` | calendly.com | Marks (or un-marks) an invitee of one of the caller's past meetings as a no-show. | ⚪ |
+| `calendly.rescheduleBooking` | calendly.com | Moves a booking the caller made to another open time, from the reschedule link… | ⚪ |
+| `calendly.setEventTypeActive` | calendly.com | Turns one of the caller's event types on or off, so it stops or starts taking bookings… | ⚪ |
+| `calendly.setProfilePicture` | calendly.com | Changes the caller's Calendly profile picture. | ⚪ |
+| `calendly.submitRoutingForm` | calendly.com | Answers a Calendly routing form and returns where it sends you — the booking page… | ⚪ |
+| `calendly.updateAvailabilitySchedule` | calendly.com | Changes the caller's weekly working hours on one of their availability schedules. | ⚪ |
+| `calendly.updateEventType` | calendly.com | Edits one of the caller's event types — name, duration, description, location, booking… | ⚪ |
+| `calendly.updateProfile` | calendly.com | Edits the caller's own Calendly profile — display name, welcome message, timezone and… | ⚪ |
+| `calendly.voteOnMeetingPoll` | calendly.com | Votes on a Calendly meeting poll — picks which of the proposed times the caller can… | ⚪ |
 | `caliberhealth.getJob` | caliberhealth.com | Reads one job's own detail page — specialty, location, facility type, schedule… | 🟢 |
 | `caliberhealth.search` | caliberhealth.com | Runs Caliber Healthcare Solutions' own live job-board search (/healthcare-jobs) and… | 🟢 |
 | `califloors.getProduct` | califloors.com | Reads one product's own detail page — its real current price, live stock status… | 🟢 |
@@ -826,7 +860,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fred.getSeriesObservations` | fred.stlouisfed.org | Reads the actual numbers for a FRED series — the dated observations themselves, oldest… | 🟢 |
 | `fred.listReleases` | fred.stlouisfed.org | Lists FRED's economic data releases — the named publications data comes from (e.g.… | 🟢 |
 | `fred.listSources` | fred.stlouisfed.org | Lists the agencies and organizations that originate FRED's data — the Bureau of Labor… | 🟢 |
-| `fred.searchSeries` | fred.stlouisfed.org | Finds the economic data series that match a search text — GDP, CPI, unemployment rate… | ⚪ |
+| `fred.searchSeries` | fred.stlouisfed.org | Finds the economic data series that match a search text — GDP, CPI, unemployment rate… | 🟢 |
 | `furniture.listCategories` | furniture.com | Lists furniture.com's real category taxonomy (Sofas & Couches, Mattresses, Platform… | 🟢 |
 | `furniture.listFilterOptions` | furniture.com | Lists furniture.com's live filter facets and their real, currently offered values —… | 🟢 |
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟢 |

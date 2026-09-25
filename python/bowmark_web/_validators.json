@@ -1,5 +1,5 @@
 {
-  "version": "66f49ab0ef4f692631c24a186828eb37e1a6f4a7d777fbbd9e5841d0bc997c91",
+  "version": "e1c7d270cb3e06bb1e6966931dcc91811523b2b3da79befdaea16c77241ae5bd",
   "units": {
     "booking_links": {
       "defs": {
@@ -16098,6 +16098,39 @@
               "k": "number"
             },
             "optional": true
+          }
+        ],
+        "searchSeries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

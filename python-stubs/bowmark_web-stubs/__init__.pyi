@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 66f49ab0ef4f692631c24a186828eb37e1a6f4a7d777fbbd9e5841d0bc997c91
-# 65 capabilities, 471 providers, 1363 typed functions, 20 refused.
+# Manifest version: e1c7d270cb3e06bb1e6966931dcc91811523b2b3da79befdaea16c77241ae5bd
+# 65 capabilities, 471 providers, 1364 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9508,6 +9508,10 @@ class Prv_fred_fredCategoryRow_Out(TypedDict):
     id: float
     name: str
     parentId: float
+
+class Prv_fred_searchSeries_args_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
 
 class Prv_furniture_searchProducts_args_In(TypedDict):
     query: str
@@ -28713,8 +28717,9 @@ class Prv_framebridge(Protocol):
         """
 
 class Prv_fred(Protocol):
-    """US economic data releases and their publication calendar, the agencies FRED republishes
-    data from, series metadata, and FRED's own category tree, off the St. Louis Fed's FRED.
+    """US economic data series search, releases and their publication calendar, the agencies
+    FRED republishes data from, series metadata, and FRED's own category tree, off the St.
+    Louis Fed's FRED.
     """
 
     async def listReleases(self, args: Prv_fred_listReleases_args_In | None = None, /) -> list[Prv_fred_fredRelease_Out]:
@@ -28778,6 +28783,17 @@ class Prv_fred(Protocol):
         FRED's listing serves at most 1,500 series per category, so the handful of enormous ones
         (Housing is 54,800) come back as the most popular 1,500 and say so. An unknown category
         id comes back as a caller-fixable error.
+        """
+
+    async def searchSeries(self, args: str | Prv_fred_searchSeries_args_u1_In, /) -> list[Prv_fred_fredSeries_Out]:
+        """Runs FRED's own search — the way fred.stlouisfed.org's search bar does — and returns
+        matching series with the same full metadata getSeriesInfo returns (id, title, units,
+        frequency, seasonal adjustment, observation range, last updated), most-relevant-first,
+        which is FRED's own default ordering. Called bare (`searchSeries("unemployment rate")`)
+        it returns the top 20 matches; `limit` (up to 120) asks for more. This is the entry
+        point for finding a series id from a plain-English indicator name — call it before
+        getSeriesInfo or getSeriesObservations when the series id is not already known. A query
+        matching nothing returns an empty array rather than an error.
         """
 
 class Prv_furniture(Protocol):

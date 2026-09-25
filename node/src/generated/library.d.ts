@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 66f49ab0ef4f692631c24a186828eb37e1a6f4a7d777fbbd9e5841d0bc997c91
-// 65 capabilities, 471 providers, 1381 typed functions, 20 refused.
+// Manifest version: e1c7d270cb3e06bb1e6966931dcc91811523b2b3da79befdaea16c77241ae5bd
+// 65 capabilities, 471 providers, 1382 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17508,8 +17508,9 @@ interface fredObservations {
 }
 
   /**
-   * US economic data releases and their publication calendar, the agencies FRED republishes data
-   * from, series metadata, and FRED's own category tree, off the St. Louis Fed's FRED.
+   * US economic data series search, releases and their publication calendar, the agencies FRED
+   * republishes data from, series metadata, and FRED's own category tree, off the St. Louis
+   * Fed's FRED.
    */
   interface Unit {
     /**
@@ -17577,6 +17578,18 @@ interface fredObservations {
      * caller-fixable error.
      */
     browseCategory(categoryId?: number): Promise<fredCategory>;
+
+    /**
+     * Runs FRED's own search — the way fred.stlouisfed.org's search bar does — and returns
+     * matching series with the same full metadata getSeriesInfo returns (id, title, units,
+     * frequency, seasonal adjustment, observation range, last updated), most-relevant-first, which
+     * is FRED's own default ordering. Called bare (`searchSeries("unemployment rate")`) it returns
+     * the top 20 matches; `limit` (up to 120) asks for more. This is the entry point for finding a
+     * series id from a plain-English indicator name — call it before getSeriesInfo or
+     * getSeriesObservations when the series id is not already known. A query matching nothing
+     * returns an empty array rather than an error.
+     */
+    searchSeries(args: string | { query: string; limit?: number }): Promise<fredSeries[]>;
   }
 }
 
