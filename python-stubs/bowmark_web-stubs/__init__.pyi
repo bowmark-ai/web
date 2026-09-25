@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661
-# 64 capabilities, 471 providers, 1359 typed functions, 20 refused.
+# Manifest version: d79b96bc62deff7975d5ffa38fb2bdfb8520a44c63b9f08ab794b028854c068c
+# 64 capabilities, 471 providers, 1360 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2586,19 +2586,36 @@ class Prv_acqualinaresort_AcqualinaRate_Out(TypedDict):
     originalPricePerNight: float | None
     currency: Literal["USD"]
 
-class Prv_agakhanhospitals_GetHospitalInfoArgs_In(TypedDict):
-    location: str
-
-class Prv_agakhanhospitals_AgaKhanHospitalInfo_Out(TypedDict):
+class Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out(TypedDict):
     name: str
-    location: NotRequired[str]
-    address: NotRequired[str]
-    phone: NotRequired[str]
-    email: NotRequired[str]
-    departments: NotRequired[list[str]]
-    services: NotRequired[list[str]]
-    description: NotRequired[str]
-    url: NotRequired[str]
+    location: str | None
+    address: str | None
+    hoursOfOperation: str | None
+    phone: str | None
+    emergency: Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out_emergency_u0_Out | None
+    departmentHeads: list[Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out_departmentHeads_item_Out]
+    patientCareFacilities: list[Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out_patientCareFacilities_item_Out]
+    specialtyHighlights: list[str]
+    sourceUrl: str
+
+class Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out_emergency_u0_Out(TypedDict):
+    heading: str
+    description: str | None
+
+class Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out_departmentHeads_item_Out(TypedDict):
+    name: str
+    role: str | None
+    focus: str | None
+
+class Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out_patientCareFacilities_item_Out(TypedDict):
+    name: str
+    description: str | None
+
+class Prv_agakhanhospitals_AgakhanhospitalsSpecialty_Out(TypedDict):
+    name: str
+    operatingHours: str | None
+    contact: str | None
+    services: list[str]
 
 class Prv_ai_engineer_listSpeakers_return_Out(TypedDict):
     speakers: list[Prv_ai_engineer_AiEngineerSpeaker_Out]
@@ -23997,11 +24014,25 @@ class Prv_acqualinaresort(Protocol):
         """
 
 class Prv_agakhanhospitals(Protocol):
-    """Hospital information from Aga Khan Health Services, with location details and services."""
+    """Reads the Aga Khan Hospital, Kisumu (AKHK)'s public contact info, department leadership
+    and full specialty-clinic catalog straight off agakhanhospitals.org's own Next.js page
+    data — no key, no browser.
+    """
 
-    async def getHospitalInfo(self, args: Prv_agakhanhospitals_GetHospitalInfoArgs_In, /) -> Prv_agakhanhospitals_AgaKhanHospitalInfo_Out:
-        """Returns information about a specific Aga Khan hospital location, including departments,
-        contact details, and services offered.
+    async def getHospitalInfo(self, /) -> Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out:
+        """Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services
+        blurb, department leadership, named patient-care facilities and top-level specialty
+        highlights — read straight off the hospital's own landing page. Takes nothing: there is
+        one Kisumu facility. For the full specialty-clinic catalog with per-clinic hours,
+        contact and service lists, call listSpecialties().
+        """
+
+    async def listSpecialties(self, /) -> list[Prv_agakhanhospitals_AgakhanhospitalsSpecialty_Out]:
+        """Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics,
+        Radiology, and 18 more) with each clinic's own operating hours, contact line and service
+        list (e.g. Cardiology: 30 named services). THROWS rather than returning [] when the page
+        answers without its payload or lists no clinics — 23 is the measured count and zero is
+        never an honest answer.
         """
 
 class Prv_ai_engineer(Protocol):

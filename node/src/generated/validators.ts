@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661
-// 1359 checked, 20 unchecked.
+// Manifest version: d79b96bc62deff7975d5ffa38fb2bdfb8520a44c63b9f08ab794b028854c068c
+// 1360 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661",
+  "version": "d79b96bc62deff7975d5ffa38fb2bdfb8520a44c63b9f08ab794b028854c068c",
   "units": {
     "booking_links": {
       "defs": {
@@ -5011,31 +5011,10 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.agakhanhospitals": {
-      "defs": {
-        "GetHospitalInfoArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "location",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        }
-      },
+      "defs": {},
       "functions": {
-        "getHospitalInfo": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetHospitalInfoArgs"
-            },
-            "optional": false
-          }
-        ]
+        "getHospitalInfo": [],
+        "listSpecialties": []
       }
     },
     "providers.ai_engineer": {

@@ -1,5 +1,5 @@
 {
-  "version": "5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661",
+  "version": "d79b96bc62deff7975d5ffa38fb2bdfb8520a44c63b9f08ab794b028854c068c",
   "units": {
     "booking_links": {
       "defs": {
@@ -4999,31 +4999,10 @@
       }
     },
     "providers.agakhanhospitals": {
-      "defs": {
-        "GetHospitalInfoArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "location",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        }
-      },
+      "defs": {},
       "functions": {
-        "getHospitalInfo": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetHospitalInfoArgs"
-            },
-            "optional": false
-          }
-        ]
+        "getHospitalInfo": [],
+        "listSpecialties": []
       }
     },
     "providers.ai_engineer": {

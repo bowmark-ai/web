@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5b373277727721445af1e7d3b6dad8566c0f93c4dcccf9616246c64937dd7661
-// 64 capabilities, 471 providers, 1377 typed functions, 20 refused.
+// Manifest version: d79b96bc62deff7975d5ffa38fb2bdfb8520a44c63b9f08ab794b028854c068c
+// 64 capabilities, 471 providers, 1378 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4742,30 +4742,49 @@ interface AcqualinaRoomAvailability {
 }
 
 declare namespace BowmarkProvider_agakhanhospitals {
-  // ── Aga Khan Health Services — the unit's own declarations, verbatim ──
-interface GetHospitalInfoArgs {
-  location: string;
-}
-
-interface AgaKhanHospitalInfo {
+  // ── Aga Khan Hospital, Kisumu — the unit's own declarations, verbatim ──
+interface AgakhanhospitalsHospitalInfo {
   name: string;
-  location?: string;
-  address?: string;
-  phone?: string;
-  email?: string;
-  departments?: string[];  // the site's own labels — read the values off a result, never guess one from prose
-  services?: string[];  // the site's own labels — read the values off a result, never guess one from prose
-  description?: string;
-  url?: string;
+  location: string | null;             // e.g. "Kisumu, Kenya"
+  address: string | null;
+  hoursOfOperation: string | null;      // e.g. "Open 24 hours"
+  phone: string | null;
+  emergency: { heading: string; description: string | null } | null;
+  departmentHeads: { name: string; role: string | null; focus: string | null }[];
+  patientCareFacilities: { name: string; description: string | null }[];
+  specialtyHighlights: string[];        // top-level specialty names shown on the landing page
+  sourceUrl: string;
+}
+interface AgakhanhospitalsSpecialty {
+  name: string;                         // e.g. "Cardiology"
+  operatingHours: string | null;
+  contact: string | null;
+  services: string[];                   // the site's own labels — read the values off a result, never guess one from prose
 }
 
-  /** Hospital information from Aga Khan Health Services, with location details and services. */
+  /**
+   * Reads the Aga Khan Hospital, Kisumu (AKHK)'s public contact info, department leadership and
+   * full specialty-clinic catalog straight off agakhanhospitals.org's own Next.js page data — no
+   * key, no browser.
+   */
   interface Unit {
     /**
-     * Returns information about a specific Aga Khan hospital location, including departments,
-     * contact details, and services offered.
+     * Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services blurb,
+     * department leadership, named patient-care facilities and top-level specialty highlights —
+     * read straight off the hospital's own landing page. Takes nothing: there is one Kisumu
+     * facility. For the full specialty-clinic catalog with per-clinic hours, contact and service
+     * lists, call listSpecialties().
      */
-    getHospitalInfo(args: GetHospitalInfoArgs): Promise<AgaKhanHospitalInfo>;
+    getHospitalInfo(): Promise<AgakhanhospitalsHospitalInfo>;
+
+    /**
+     * Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics,
+     * Radiology, and 18 more) with each clinic's own operating hours, contact line and service
+     * list (e.g. Cardiology: 30 named services). THROWS rather than returning [] when the page
+     * answers without its payload or lists no clinics — 23 is the measured count and zero is never
+     * an honest answer.
+     */
+    listSpecialties(): Promise<AgakhanhospitalsSpecialty[]>;
   }
 }
 
