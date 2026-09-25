@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 93d5f97e3da45cbaa9442799ad862013870d320126c8999ba53abd662875de36
+// Manifest version: f93b2730050ed2083df2197cd0908d787235c58f7845781fda029633991b883d
 // 61 capabilities, 468 providers, 1366 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -40803,7 +40803,7 @@ interface ZooplaProperty {
      * Searches UK property listings by location and optional filters (bedrooms, price range).
      * Returns properties with id, url, price, bedroom count and location.
      */
-    search(location: string, bedrooms?: number, minPrice?: number, maxPrice?: number): Promise<ZooplaProperty[]>;
+    search(args: { location: string, bedrooms?: number, minPrice?: number, maxPrice?: number }): Promise<ZooplaProperty[]>;
   }
 }
 

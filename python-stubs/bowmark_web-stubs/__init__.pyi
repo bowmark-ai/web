@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 93d5f97e3da45cbaa9442799ad862013870d320126c8999ba53abd662875de36
+# Manifest version: f93b2730050ed2083df2197cd0908d787235c58f7845781fda029633991b883d
 # 61 capabilities, 468 providers, 1348 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -22080,6 +22080,12 @@ class Prv_zennioptical_ZenniLensPriceRow_Out_subTypes_item_Out(TypedDict):
     maxPrice: float
     tints: bool
 
+class Prv_zoopla_search_args_In(TypedDict):
+    location: str
+    bedrooms: NotRequired[float]
+    minPrice: NotRequired[float]
+    maxPrice: NotRequired[float]
+
 class Prv_zoopla_ZooplaProperty_Out(TypedDict):
     id: str
     url: str
@@ -37403,7 +37409,7 @@ class Prv_zennioptical(Protocol):
 class Prv_zoopla(Protocol):
     """UK property search with price, location, and bedroom filters."""
 
-    async def search(self, location: str, bedrooms: float | None = None, minPrice: float | None = None, maxPrice: float | None = None, /) -> list[Prv_zoopla_ZooplaProperty_Out]:
+    async def search(self, args: Prv_zoopla_search_args_In, /) -> list[Prv_zoopla_ZooplaProperty_Out]:
         """Searches UK property listings by location and optional filters (bedrooms, price range).
         Returns properties with id, url, price, bedroom count and location.
         """

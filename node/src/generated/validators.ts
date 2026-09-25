@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 93d5f97e3da45cbaa9442799ad862013870d320126c8999ba53abd662875de36
+// Manifest version: f93b2730050ed2083df2197cd0908d787235c58f7845781fda029633991b883d
 // 1348 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "93d5f97e3da45cbaa9442799ad862013870d320126c8999ba53abd662875de36",
+  "version": "f93b2730050ed2083df2197cd0908d787235c58f7845781fda029633991b883d",
   "units": {
     "booking_links": {
       "defs": {
@@ -41407,32 +41407,41 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "search": [
           {
-            "name": "location",
+            "name": "args",
             "schema": {
-              "k": "string"
+              "k": "object",
+              "props": [
+                {
+                  "name": "location",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "bedrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "minPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "maxPrice",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
-          },
-          {
-            "name": "bedrooms",
-            "schema": {
-              "k": "number"
-            },
-            "optional": true
-          },
-          {
-            "name": "minPrice",
-            "schema": {
-              "k": "number"
-            },
-            "optional": true
-          },
-          {
-            "name": "maxPrice",
-            "schema": {
-              "k": "number"
-            },
-            "optional": true
           }
         ]
       }
