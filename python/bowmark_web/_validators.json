@@ -1,5 +1,5 @@
 {
-  "version": "dedaedb2e1b9ad378a25d723b85b7a5d708fd0b4e407208a37ec01090ce33e1d",
+  "version": "179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5",
   "units": {
     "booking_links": {
       "defs": {
@@ -11265,6 +11265,36 @@
               "name": "HouseholdIncomeArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.cftc": {
+      "defs": {},
+      "functions": {
+        "searchRules": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "organization",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "status",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

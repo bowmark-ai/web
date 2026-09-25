@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dedaedb2e1b9ad378a25d723b85b7a5d708fd0b4e407208a37ec01090ce33e1d
-# 61 capabilities, 462 providers, 1340 typed functions, 20 refused.
+# Manifest version: 179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5
+# 61 capabilities, 463 providers, 1341 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6435,6 +6435,19 @@ class Prv_census_api_HouseholdIncomeResult_Out(TypedDict):
     state: str
     county: str
     warnings: NotRequired[list[str]]
+
+class Prv_cftc_searchRules_args_In(TypedDict):
+    organization: NotRequired[str]
+    status: NotRequired[str]
+
+class Prv_cftc_CftcRuleFiling_Out(TypedDict):
+    organization: str
+    filingDescription: str
+    receiptDate: str
+    status: str
+    date: str
+    remarks: str | None
+    documentUrl: str | None
 
 class Prv_champxpress_ChampxpressLocation_Out(TypedDict):
     slug: str
@@ -26332,6 +26345,19 @@ class Prv_census_api(Protocol):
     async def householdIncome(self, args: Prv_census_api_HouseholdIncomeArgs_In, /) -> Prv_census_api_HouseholdIncomeResult_Out:
         """Returns median household income for a US Census tract by ZIP code"""
 
+class Prv_cftc(Protocol):
+    """Searches the CFTC's own register of exchange rule filings (self-certifications, rule
+    amendments and approvals) by organization and status.
+    """
+
+    async def searchRules(self, args: Prv_cftc_searchRules_args_In | None = None, /) -> list[Prv_cftc_CftcRuleFiling_Out]:
+        """Searches the CFTC's Designated Contract Market rule filings register —
+        self-certifications, rule amendments and Commission approvals filed by registered
+        exchanges (CME, CBOT, NYMEX, ICE US, …). No argument returns the most recently filed
+        rules across every exchange; `organization` narrows to one exchange's mnemonic (e.g.
+        "CME"), `status` to one filing status (e.g. "Certified", "10 Day Review").
+        """
+
 class Prv_champxpress(Protocol):
     """Reads Champion Xpress Carwash's own live "25 for Life" MVP Unlimited membership picker —
     every currently enrolled wash location, and for a chosen one, the real current monthly
@@ -37354,6 +37380,7 @@ class BowmarkProviders(Protocol):
     cascadiaseniorliving_com: Prv_cascadiaseniorliving_com
     cbhhomes: Prv_cbhhomes
     census_api: Prv_census_api
+    cftc: Prv_cftc
     champxpress: Prv_champxpress
     chantecaille: Prv_chantecaille
     chappellet: Prv_chappellet

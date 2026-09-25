@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dedaedb2e1b9ad378a25d723b85b7a5d708fd0b4e407208a37ec01090ce33e1d
-// 61 capabilities, 462 providers, 1358 typed functions, 20 refused.
+// Manifest version: 179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5
+// 61 capabilities, 463 providers, 1359 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11652,6 +11652,34 @@ interface HouseholdIncomeArgs {
   interface Unit {
     /** Returns median household income for a US Census tract by ZIP code */
     householdIncome(args: HouseholdIncomeArgs): Promise<HouseholdIncomeResult>;
+  }
+}
+
+declare namespace BowmarkProvider_cftc {
+  // ── CFTC — Industry Filings (Designated Contract Market Rules) — the unit's own declarations, verbatim ──
+interface CftcRuleFiling {
+  organization: string;
+  filingDescription: string;
+  receiptDate: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  date: string;
+  remarks: string | null;
+  documentUrl: string | null;
+}
+
+  /**
+   * Searches the CFTC's own register of exchange rule filings (self-certifications, rule
+   * amendments and approvals) by organization and status.
+   */
+  interface Unit {
+    /**
+     * Searches the CFTC's Designated Contract Market rule filings register — self-certifications,
+     * rule amendments and Commission approvals filed by registered exchanges (CME, CBOT, NYMEX,
+     * ICE US, …). No argument returns the most recently filed rules across every exchange;
+     * `organization` narrows to one exchange's mnemonic (e.g. "CME"), `status` to one filing
+     * status (e.g. "Certified", "10 Day Review").
+     */
+    searchRules(args?: { organization?: string; status?: string }): Promise<CftcRuleFiling[]>;
   }
 }
 
@@ -41564,6 +41592,7 @@ interface BowmarkProviders {
   cascadiaseniorliving_com: BowmarkProvider_cascadiaseniorliving_com.Unit;
   cbhhomes: BowmarkProvider_cbhhomes.Unit;
   census_api: BowmarkProvider_census_api.Unit;
+  cftc: BowmarkProvider_cftc.Unit;
   champxpress: BowmarkProvider_champxpress.Unit;
   chantecaille: BowmarkProvider_chantecaille.Unit;
   chappellet: BowmarkProvider_chappellet.Unit;

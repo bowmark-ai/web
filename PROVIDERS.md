@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2090 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2094 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -412,6 +412,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbhhomes.getInquiryFormSchema` | cbhhomes.com | Reads the site's own live 'get in touch about a home' Gravity Forms inquiry form… | 🟢 |
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
 | `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | 🟢 |
+| `cftc.searchRules` | cftc.gov | Searches the CFTC's Designated Contract Market rule filings register —… | 🟢 |
 | `champxpress.getPlanQuote` | champxpress.com | Runs the site's own state → location price computation for one location (matched by… | 🟢 |
 | `champxpress.listLocations` | champxpress.com | Lists every wash location currently enrolled in Champion Xpress's "25 for Life" MVP… | 🟢 |
 | `chantecaille.getFoundationQuizTaxonomy` | chantecaille.com | Reads Chantecaille's real, live Foundation Shade Match Quiz question and answer… | 🟢 |
@@ -602,7 +603,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getWishlist` | epicgames.com | The signed-in caller's Epic Games Store wishlist, with each game's current price and… | ⚪ |
 | `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Top Upcoming… | ⚪ |
 | `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | ⚪ |
-| `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | ⚪ |
+| `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | 🟢 |
 | `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | ⚪ |
 | `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | ⚪ |
 | `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | ⚪ |
@@ -2007,6 +2008,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.watchPage` | wikipedia.org | Add an article to the caller's watchlist so they are told when it changes. `POST… | ⚪ |
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
+| `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts. | 🟢 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
 | `yahoo_finance.getAnalystEstimates` | finance.yahoo.com | Reads Wall Street's own consensus numbers for a ticker — revenue and earnings… | 🟢 |
@@ -2098,3 +2100,5 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `zennioptical.getFrame` | zennioptical.com | Reads one frame's product-page data — name, base price, available colors and Rx range… | 🟢 |
 | `zennioptical.priceLensConfig` | zennioptical.com | Runs a real prescription + usage type through the site's own order-configurator flow… | 🟢 |
 | `zennioptical.searchFrames` | zennioptical.com | Searches Zenni's own storefront catalog for what a shopper would type — "round… | 🟢 |
+| `zoopla.listings` | zoopla.co.uk | Lists property listings from a search query — alternative to search(). | ⚪ |
+| `zoopla.search` | zoopla.co.uk | Searches property listings by location, price range, and bedrooms. | 🟢 |

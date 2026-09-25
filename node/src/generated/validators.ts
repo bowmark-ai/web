@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: dedaedb2e1b9ad378a25d723b85b7a5d708fd0b4e407208a37ec01090ce33e1d
-// 1340 checked, 20 unchecked.
+// Manifest version: 179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5
+// 1341 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "dedaedb2e1b9ad378a25d723b85b7a5d708fd0b4e407208a37ec01090ce33e1d",
+  "version": "179ee7e867108239340b1c2f5266e889f8156a9bd3898db75c1b115d832c13f5",
   "units": {
     "booking_links": {
       "defs": {
@@ -11277,6 +11277,36 @@ export const VALIDATORS: ValidatorTable = {
               "name": "HouseholdIncomeArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.cftc": {
+      "defs": {},
+      "functions": {
+        "searchRules": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "organization",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "status",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
