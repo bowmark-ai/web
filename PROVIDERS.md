@@ -780,7 +780,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | 🟢 |
 | `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | ⚪ |
 | `forbes.listNews` | forbes.com | List latest news articles. | 🟢 |
-| `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | ⚪ |
+| `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | 🟢 |
 | `forbes.listVideos` | forbes.com | List video content from Forbes Video. | ⚪ |
 | `forbes.searchArticles` | forbes.com | Search articles across Forbes by keyword. | ⚪ |
 | `ford.buildAndPrice` | ford.com | Walks Ford's own build-and-price configurator for a model and year — choosing trim… | ⚪ |
@@ -977,7 +977,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
 | `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟢 |
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
-| `gst_india.lookup` | services.gst.gov.in | Searches India's GST registry by GSTIN and returns the registrant's legal name… | 🟢 |
+| `gst_india.lookup` | services.gst.gov.in | Searches India's GST registry by GSTIN and returns the registrant's legal name… | 🟡 |
 | `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟢 |
 | `handypro.checkServiceArea` | handypro.com | Checks whether a ZIP is served by a real local HandyPro franchisee and returns that… | 🟢 |
 | `handypro.checkTechnicianAvailability` | handypro.com | Would find the next available technician slot for a category + ZIP via… | ⚪ |
@@ -1909,7 +1909,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.createHighlight` | twitch.tv | Cuts a permanent Highlight from the signed-in streamer's own broadcast, including the… | 🟢 |
 | `twitch.followChannel` | twitch.tv | Marks a channel as followed by the signed-in user. | ⚪ |
 | `twitch.getChannel` | twitch.tv | Reads the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
-| `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | ⚪ |
+| `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | 🟢 |
 | `twitch.getChannelSchedule` | twitch.tv | Reads a channel's scheduled broadcast times and upcoming events (if public). Logged… | ⚪ |
 | `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | ⚪ |
 | `twitch.getSubscriptionStatus` | twitch.tv | Checks the signed-in user's subscription status to a specific channel (tier, renews… | ⚪ |
