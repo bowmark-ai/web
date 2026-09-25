@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2151 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2179 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -721,7 +721,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.filterTokens` | fomo.family | The full token screener — a POST taking the site's own filter object (chain, market… | ⚪ |
 | `fomo.follow` | fomo.family | Follows another trader on behalf of the signed-in user. | ⚪ |
 | `fomo.getAlertPreferences` | fomo.family | Returns and updates which push alerts the signed-in trader receives — the settings… | ⚪ |
-| `fomo.getBalances` | fomo.family | Returns what one trader actually holds — every open token position with its raw… | ⚪ |
+| `fomo.getBalances` | fomo.family | Returns what one trader actually holds — every open token position with its raw… | 🟢 |
 | `fomo.getCandles` | fomo.family | Returns OHLCV bars for one token at a given resolution — open, high, low, close… | ⚪ |
 | `fomo.getClan` | fomo.family | Returns one clan — fomo's team unit — with its name, description, member count… | ⚪ |
 | `fomo.getClanFeed` | fomo.family | Pages a clan's own feed and the theses its members have written. `GET… | ⚪ |
@@ -1776,6 +1776,34 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `statefarm.getRentalPropertyQuote` | statefarm.com | Returns a landlord insurance quote for a rented-out property — dwelling coverage plus… | ⚪ |
 | `statefarm.getRentersQuote` | statefarm.com | Returns State Farm's own monthly renters insurance estimate for a US ZIP — a low and a… | 🟢 |
 | `statefarm.getUmbrellaQuote` | statefarm.com | Returns a personal umbrella liability quote — the excess liability layer above the… | ⚪ |
+| `steam.addFriend` | steampowered.com | Sends a friend request to another Steam user by username or ID. | ⚪ |
+| `steam.addToWishlist` | steampowered.com | Adds a game to the caller's wishlist, marking it for tracking and price drop… | ⚪ |
+| `steam.editProfile` | steampowered.com | Updates the caller's own profile information like profile name, bio/summary, and… | ⚪ |
+| `steam.getAchievements` | steampowered.com | Retrieves achievement list for a game when publicly viewable, including achievement… | ⚪ |
+| `steam.getCommunityHub` | steampowered.com | Retrieves the community hub for a game, including recent discussions, artwork… | ⚪ |
+| `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | ⚪ |
+| `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | ⚪ |
+| `steam.getGameScreenshots` | steampowered.com | Fetches a game's screenshots and promotional images, returning image URLs, captions… | ⚪ |
+| `steam.getGameStats` | steampowered.com | Provides game statistics like current player count, peak player count (24h)… | ⚪ |
+| `steam.getGameVideos` | steampowered.com | Returns video trailers and gameplay videos for a game, including video URLs, titles… | ⚪ |
+| `steam.getLibrary` | steampowered.com | Lists all games the caller owns, with installation status, play time, and last-played… | ⚪ |
+| `steam.getMarketPrice` | steampowered.com | Retrieves current Community Market price information for an item, including listing… | ⚪ |
+| `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by its ID or URL. | ⚪ |
+| `steam.getPlayTime` | steampowered.com | Returns total playtime in hours for a specific game owned by the caller. | ⚪ |
+| `steam.getProfile` | steampowered.com | Retrieves a Steam profile by username or ID, including profile name, avatar, status… | ⚪ |
+| `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | ⚪ |
+| `steam.listFeaturedGames` | steampowered.com | Fetches the current list of featured games displayed on the Steam store homepage… | ⚪ |
+| `steam.listGamesByCategory` | steampowered.com | Lists games filtered by Steam's official categories (e.g., Action, Adventure, Indie… | ⚪ |
+| `steam.listGameTags` | steampowered.com | Lists all available tags users can apply to games, with tag popularity or usage counts. | ⚪ |
+| `steam.listNews` | steampowered.com | Lists recent news articles from the Steam community news section, including title… | ⚪ |
+| `steam.postComment` | steampowered.com | Posts a comment or discussion in a game's community hub. | ⚪ |
+| `steam.removeFriend` | steampowered.com | Removes a user from the caller's friends list. | ⚪ |
+| `steam.removeFromWishlist` | steampowered.com | Removes a game from the caller's wishlist. | ⚪ |
+| `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | ⚪ |
+| `steam.searchNews` | steampowered.com | Searches the Steam news archive by keyword or date range. | ⚪ |
+| `steam.viewFriends` | steampowered.com | Lists the caller's Steam friends, including online status and last-seen date. | ⚪ |
+| `steam.viewInventory` | steampowered.com | Displays the caller's inventory including trading cards, profile items, and gift… | ⚪ |
+| `steam.viewMarketHistory` | steampowered.com | Shows the caller's Steam Community Market transaction history including listings… | ⚪ |
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
 | `summerfridaysquiz.getSkincareQuizQuestions` | summerfridays.com | Lists the live Skincare Quiz's questions (skin type, sensitivity, skin concerns, eye… | 🟢 |
