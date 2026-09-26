@@ -71,7 +71,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | 🟢 |
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
-| `amazon.searchProducts` | www.amazon.com | Search Amazon's catalogue for keywords with full pagination support, reaching all… | 🟢 |
+| `amazon.searchProducts` | www.amazon.com | Paginate through all Amazon search results by keywords, reaching every row from 1 to… | 🟢 |
 | `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | 🟢 |
 | `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | ⚪ |
 | `americandreamvacations.listLocations` | americandreamvacations.net | Returns American Dream Vacations' own list of rental store locations (city, state and… | 🟢 |
@@ -215,7 +215,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getWeatherWarnings` | bbc.com | The weather warnings BBC Weather shows for a location or region: level, type (rain… | ⚪ |
 | `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | ⚪ |
 | `bbc.listFollowedPodcasts` | bbc.com | The podcasts and series the signed-in reader follows. | ⚪ |
-| `bbc.listHeadlines` | bbc.com | The stories a BBC section page shows right now, in the page's own order and grouping… | ⚪ |
+| `bbc.listHeadlines` | bbc.com | The stories a BBC section page shows right now, in the page's own order and grouping… | 🟢 |
 | `bbc.listMostRead` | bbc.com | The "Most read" list the BBC shows beside its stories: rank, headline, url and article… | ⚪ |
 | `bbc.listNewsletters` | bbc.com | The BBC newsletters a reader can sign up to: name, description, frequency and… | ⚪ |
 | `bbc.listPodcasts` | bbc.com | The podcasts and audio series the BBC's audio hub (/audio) lists: title, description… | ⚪ |
@@ -724,7 +724,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getAchievementProgress` | epicgames.com | The signed-in caller's own achievements in one game — which are unlocked, when, and… | ⚪ |
 | `epicgames.getAchievements` | epicgames.com | A game's achievement list as the store shows it — name, description, icon, XP, and the… | ⚪ |
 | `epicgames.getCart` | epicgames.com | The signed-in caller's cart — each line's offer, price and discount, and the cart total. | ⚪ |
-| `epicgames.getGame` | epicgames.com | One game's store page as data: title, description, developer, publisher, release date… | ⚪ |
+| `epicgames.getGame` | epicgames.com | One game's store page as data: title, description, developer, publisher, editions and… | 🟢 |
 | `epicgames.getGameRatings` | epicgames.com | How players rate a game on the Epic Games Store — the average star rating, the count… | ⚪ |
 | `epicgames.getLibrary` | epicgames.com | The games the signed-in caller owns on Epic — title, namespace, slug, and when it was… | ⚪ |
 | `epicgames.getNewsArticle` | epicgames.com | One Epic Games Store news article's full text, date, author and images. | ⚪ |
@@ -993,7 +993,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
 | `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
 | `github.deleteComment` | github.com | Deletes a comment on an issue or pull request. | ⚪ |
-| `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | ⚪ |
+| `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
 | `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, reviewers… | ⚪ |
@@ -1582,7 +1582,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.searchRecipes` | cooking.nytimes.com | Runs the site's own recipe search (query text plus cuisine/diet/mealType/cookTime… | ⚪ |
 | `nyt_cooking.unsaveRecipe` | cooking.nytimes.com | Removes a recipe from the signed-in reader's Recipe Box. | ⚪ |
 | `nyt_cooking.updateRecipeNote` | cooking.nytimes.com | Edits one of the signed-in reader's own private cook notes. | ⚪ |
-| `nyt_games.getConnections` | games.nytimes.com | Retrieves the daily Connections puzzle with category groupings and answers. | ⚪ |
+| `nyt_games.getConnections` | games.nytimes.com | Retrieves the daily Connections puzzle with category groupings and answers. | 🟢 |
 | `nyt_games.getCrosswordArchive` | games.nytimes.com | Retrieves historical crossword puzzles dating back to 1995. | ⚪ |
 | `nyt_games.getCrosswordDaily` | games.nytimes.com | Retrieves today's New York Times daily crossword puzzle. | ⚪ |
 | `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | ⚪ |
