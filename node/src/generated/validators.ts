@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 3082469fe4932608314003738c8b73e1e720f8e7fbcbe767829a1bd91eea1f0a
-// 1402 checked, 20 unchecked.
+// Manifest version: 9e0242e4f940876994d08800be02f4d9966a174f869f5f73ce2670d612da2e1d
+// 1403 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "3082469fe4932608314003738c8b73e1e720f8e7fbcbe767829a1bd91eea1f0a",
+  "version": "9e0242e4f940876994d08800be02f4d9966a174f869f5f73ce2670d612da2e1d",
   "units": {
     "booking_links": {
       "defs": {
@@ -14803,6 +14803,45 @@ export const VALIDATORS: ValidatorTable = {
             "name": "slug",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getPrice": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offerId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "namespace",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
             },
             "optional": false
           }

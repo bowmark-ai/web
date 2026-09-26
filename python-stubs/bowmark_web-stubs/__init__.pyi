@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3082469fe4932608314003738c8b73e1e720f8e7fbcbe767829a1bd91eea1f0a
-# 67 capabilities, 480 providers, 1402 typed functions, 20 refused.
+# Manifest version: 9e0242e4f940876994d08800be02f4d9966a174f869f5f73ce2670d612da2e1d
+# 67 capabilities, 480 providers, 1403 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8556,6 +8556,23 @@ class Prv_epicgames_GameSystemRequirement_Out_requirements_item_Out(TypedDict):
 class Prv_epicgames_GameDetail_Out_images_item_Out(TypedDict):
     type: str
     url: str
+
+class Prv_epicgames_getPrice_args_In(TypedDict):
+    slug: NotRequired[str]
+    offerId: NotRequired[str]
+    namespace: NotRequired[str]
+    country: NotRequired[str]
+
+class Prv_epicgames_GetPriceResult_Out(TypedDict):
+    price: Prv_epicgames_GamePrice_Out
+
+class Prv_epicgames_GamePrice_Out(TypedDict):
+    offerId: str
+    currentPrice: float
+    originalPrice: float
+    discountPercentage: float
+    currencyCode: str
+    saleEndDate: str | None
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -28711,6 +28728,12 @@ class Prv_epicgames(Protocol):
         """One game's store page as data: title, description, developer, publisher, editions and
         add-ons listed on the page, system requirements, key art, and base price. Takes a
         product slug (e.g. 'hades', 'ghostrunner-2').
+        """
+
+    async def getPrice(self, args: Prv_epicgames_getPrice_args_In, /) -> Prv_epicgames_GetPriceResult_Out:
+        """What a game costs right now in a given country: current price, original price, discount
+        percentage, the currency, and when the sale ends. Takes a product slug OR (offer id +
+        namespace) and an optional ISO country code (default US).
         """
 
 class Prv_epromos(Protocol):

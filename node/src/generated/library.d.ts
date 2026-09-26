@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3082469fe4932608314003738c8b73e1e720f8e7fbcbe767829a1bd91eea1f0a
-// 67 capabilities, 480 providers, 1420 typed functions, 20 refused.
+// Manifest version: 9e0242e4f940876994d08800be02f4d9966a174f869f5f73ce2670d612da2e1d
+// 67 capabilities, 480 providers, 1421 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15657,6 +15657,19 @@ interface GetGameResult {
   game: GameDetail;
 }
 
+interface GamePrice {
+  offerId: string;
+  currentPrice: number;
+  originalPrice: number;
+  discountPercentage: number;
+  currencyCode: string;
+  saleEndDate: string | null;
+}
+
+interface GetPriceResult {
+  price: GamePrice;
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -15682,6 +15695,13 @@ interface GetGameResult {
      * slug (e.g. 'hades', 'ghostrunner-2').
      */
     getGame(slug: string): Promise<GetGameResult>;
+
+    /**
+     * What a game costs right now in a given country: current price, original price, discount
+     * percentage, the currency, and when the sale ends. Takes a product slug OR (offer id +
+     * namespace) and an optional ISO country code (default US).
+     */
+    getPrice(args: { slug?: string; offerId?: string; namespace?: string; country?: string }): Promise<GetPriceResult>;
   }
 }
 
