@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 97cbeb4ddf0e6931a8ca38b2224b2b17c784516555cc7f776a83de19c3fbba64
-// 1382 checked, 20 unchecked.
+// Manifest version: 46b77f11c8402ba610521530da45706e70efa727cfd097ed4b7613dd74f1b5bc
+// 1391 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "97cbeb4ddf0e6931a8ca38b2224b2b17c784516555cc7f776a83de19c3fbba64",
+  "version": "46b77f11c8402ba610521530da45706e70efa727cfd097ed4b7613dd74f1b5bc",
   "units": {
     "booking_links": {
       "defs": {
@@ -1713,7 +1713,20 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "goal_diff": {
-      "defs": {},
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "search": [
           {
@@ -1722,6 +1735,14 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -8530,6 +8551,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listHeadlines": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -9912,6 +9951,50 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listRegistrationStates": [],
         "getNewConstructionRegistrationFields": []
+      }
+    },
+    "providers.buildingengines": {
+      "defs": {},
+      "functions": {
+        "getAccessRequestStatus": [
+          {
+            "name": "requestType",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "vendor"
+                },
+                {
+                  "k": "literal",
+                  "v": "cleaning-crew"
+                },
+                {
+                  "k": "literal",
+                  "v": "other"
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.bulletproof": {
@@ -14586,6 +14669,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getGame": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -14775,6 +14867,79 @@ export const VALIDATORS: ValidatorTable = {
             "name": "limit",
             "schema": {
               "k": "number"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.estes_express": {
+      "defs": {
+        "ShipmentRequest": {
+          "k": "object",
+          "props": [
+            {
+              "name": "origin",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "destination",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "weightPounds",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "freightClass",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "estimateFreightQuote": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "ShipmentRequest"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
@@ -17337,6 +17502,29 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getIssue": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "issueNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -18658,6 +18846,20 @@ export const VALIDATORS: ValidatorTable = {
               "name": "TranslateImageArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.goremutual": {
+      "defs": {},
+      "functions": {
+        "getProductOverview": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
           }
         ]
       }
@@ -26793,6 +26995,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.nyt_games": {
       "defs": {
+        "GetConnectionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetWordleArgs": {
           "k": "object",
           "props": [
@@ -26813,6 +27027,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetWordleArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getConnections": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetConnectionsArgs"
             },
             "optional": true
           }
@@ -40551,6 +40775,52 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "listBacklinks": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.wikipedia_standings": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

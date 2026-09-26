@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 97cbeb4ddf0e6931a8ca38b2224b2b17c784516555cc7f776a83de19c3fbba64
-# 66 capabilities, 473 providers, 1382 typed functions, 20 refused.
+# Manifest version: 46b77f11c8402ba610521530da45706e70efa727cfd097ed4b7613dd74f1b5bc
+# 66 capabilities, 477 providers, 1391 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1059,6 +1059,9 @@ class Cap_git_release_notes_Release_Out(TypedDict):
     publishedAt: str | None
     notes: str
     url: str
+
+class Cap_goal_diff_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
 
 class Cap_goal_diff_goal_diffResult_Out(TypedDict):
     league: str
@@ -4575,6 +4578,21 @@ class Prv_bbc_BbcSection_Out(TypedDict):
     url: str
     children: list[Prv_bbc_BbcSection_Out]
 
+class Prv_bbc_listHeadlines_args_In(TypedDict):
+    path: NotRequired[str]
+
+class Prv_bbc_BbcListHeadlinesResult_Out(TypedDict):
+    headlines: list[Prv_bbc_BbcHeadline_Out]
+
+class Prv_bbc_BbcHeadline_Out(TypedDict):
+    headline: str
+    summary: str
+    url: str
+    articleId: str
+    image: NotRequired[str]
+    section: str
+    lastUpdated: NotRequired[str]
+
 class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
     resourceLocationId: float
     name: str
@@ -5521,6 +5539,14 @@ class Prv_builder_strucsure_com_StrucsureEnrollmentType_Out(TypedDict):
     name: str
     isDefault: bool
     contractorTypeId: float
+
+class Prv_buildingengines_AccessRequest_Out(TypedDict):
+    id: str
+    requesterName: str
+    requestType: Literal["vendor"] | Literal["cleaning-crew"] | Literal["other"]
+    status: Literal["approved"] | Literal["pending"] | Literal["denied"]
+    submittedDate: str
+    notes: NotRequired[str]
 
 class Prv_bulletproof_BulletproofNearbyStores_Out(TypedDict):
     zip: str
@@ -8426,6 +8452,40 @@ class Prv_epicgames_GameSearchResult_Out_images_item_Out(TypedDict):
     type: str
     url: str
 
+class Prv_epicgames_GetGameResult_Out(TypedDict):
+    game: Prv_epicgames_GameDetail_Out
+
+class Prv_epicgames_GameDetail_Out(TypedDict):
+    title: str
+    namespace: str
+    description: str
+    productSlug: str
+    developer: str | None
+    publisher: str | None
+    editions: list[Prv_epicgames_GameEdition_Out]
+    systemRequirements: list[Prv_epicgames_GameSystemRequirement_Out]
+    images: list[Prv_epicgames_GameDetail_Out_images_item_Out]
+    basePrice: float | None
+    currencyCode: str
+
+class Prv_epicgames_GameEdition_Out(TypedDict):
+    title: str
+    offerId: str
+    description: str
+
+class Prv_epicgames_GameSystemRequirement_Out(TypedDict):
+    platform: str
+    requirements: list[Prv_epicgames_GameSystemRequirement_Out_requirements_item_Out]
+
+class Prv_epicgames_GameSystemRequirement_Out_requirements_item_Out(TypedDict):
+    label: str
+    minimum: str
+    recommended: str
+
+class Prv_epicgames_GameDetail_Out_images_item_Out(TypedDict):
+    type: str
+    url: str
+
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
     sku: str
@@ -8571,6 +8631,21 @@ class Prv_erieinsurance_ErieAgent_Out(TypedDict):
     linesOfBusinessWritten: str | None
     hours: list[str]
     photoDataUri: str | None
+
+class Prv_estes_express_ShipmentRequest_In(TypedDict):
+    origin: str
+    destination: str
+    weightPounds: float
+    freightClass: str | float
+
+Prv_estes_express_FreightQuote_Out = TypedDict(
+    "Prv_estes_express_FreightQuote_Out",
+    {
+    "carrierCode": NotRequired[str],
+    "class": NotRequired[str | float],
+    "totalPrice": NotRequired[str | float],
+    },
+)
 
 class Prv_etsy_search_args_u1_In(TypedDict):
     query: str
@@ -10003,6 +10078,34 @@ class Prv_github_GithubPullRequest_Out(TypedDict):
     closedAt: str | None
     url: str
 
+class Prv_github_GithubIssueDetail_Out(TypedDict):
+    number: float
+    title: str
+    body: str | None
+    creator: str
+    assignees: list[str]
+    labels: list[str]
+    state: str
+    comments: float
+    createdAt: str
+    updatedAt: str
+    closedAt: str | None
+    url: str
+    locked: bool
+    closedBy: str | None
+    reactions: Prv_github_GithubIssueReactions_Out
+
+class Prv_github_GithubIssueReactions_Out(TypedDict):
+    total: float
+    plusOne: float
+    minusOne: float
+    laugh: float
+    hooray: float
+    confused: float
+    heart: float
+    rocket: float
+    eyes: float
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -10681,6 +10784,11 @@ class Prv_google_translate_GoogleTranslateImageResult_Out(TypedDict):
     mimeType: str
     sourceText: str
     translatedText: str
+
+class Prv_goremutual_ProductOverviewResult_Out(TypedDict):
+    title: str
+    description: str
+    productLines: list[str]
 
 class Prv_gostoreit_GoStoreItFacility_Out(TypedDict):
     name: str
@@ -15511,6 +15619,23 @@ class Prv_nyt_games_NytWordle_Out(TypedDict):
     printDate: str
     daysSinceLaunch: float
     editor: str | None
+
+class Prv_nyt_games_GetConnectionsArgs_In(TypedDict):
+    date: NotRequired[str]
+
+class Prv_nyt_games_NytConnections_Out(TypedDict):
+    id: float
+    printDate: str
+    editor: str | None
+    categories: list[Prv_nyt_games_ConnectionsCategory_Out]
+
+class Prv_nyt_games_ConnectionsCategory_Out(TypedDict):
+    title: str
+    cards: list[Prv_nyt_games_ConnectionsCategory_Out_cards_item_Out]
+
+class Prv_nyt_games_ConnectionsCategory_Out_cards_item_Out(TypedDict):
+    content: str
+    position: float
 
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
@@ -21580,6 +21705,32 @@ class Prv_wikipedia_WikipediaLink_Out(TypedDict):
     title: str
     url: str
 
+class Prv_wikipedia_listBacklinks_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_listBacklinks_return_Out(TypedDict):
+    backlinks: list[Prv_wikipedia_WikipediaBacklink_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaBacklink_Out(TypedDict):
+    title: str
+    url: str
+
+class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
+    league: str
+    standings: list[Prv_wikipedia_standings_StandingsRow_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_standings_StandingsRow_Out(TypedDict):
+    position: float
+    team: str
+    played: float
+    goalsFor: float
+    goalsAgainst: float
+    goalDiff: float
+    points: NotRequired[float]
+
 class Prv_winestyles_WinestylesStore_Out(TypedDict):
     storeId: str
     city: str
@@ -23122,8 +23273,10 @@ class Cap_git_release_notes(Protocol):
 class Cap_goal_diff(Protocol):
     """Search for sports league standings with goal differential statistics."""
 
-    async def search(self, query: str, /) -> Cap_goal_diff_goal_diffResult_Out:
-        """Search for sports standings with goal differential data."""
+    async def search(self, query: str, options: Cap_goal_diff_CallOptions_In | None = None, /) -> Cap_goal_diff_goal_diffResult_Out:
+        """Search for sports standings with goal differential data. `options.timeoutMs` sets the
+        budget (default 30000).
+        """
 
 class Cap_gstin_verification(Protocol):
     """Check if a GSTIN is validly registered in India's GST Network."""
@@ -24504,19 +24657,19 @@ class Prv_amazon(Protocol):
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
-        """searchProducts searches Amazon's catalogue for keywords and paginates through results
-        with page parameter. Pass page 2 to reach rows 49 and beyond, page 3 for rows 97 and
-        beyond with a full result total count — pagination reaches additional rows beyond the
-        first 48. Returns a result total so a caller knows how many results exist. Search
-        Amazon's catalogue for what a person would type — "cast iron skillet", "usb c hub" — and
-        get back the result cards as the site ranks them: ASIN, title, price, list price, star
-        rating, review count, whether the row is a paid placement, and its product URL.
-        Pagination with the page parameter reaches row 49, row 97, and beyond — pass `page: 2`
-        to reach rows 49+, `page: 3` for rows 97+, etc. (page 2 is a genuinely different set of
-        rows, not page one repeated). Return the site's own totalResultCount so a caller can
-        page through results and tell "this is the last page" from "the site is walled".
-        Optionally narrowed to a department, a brand, a price range, a sort order. THE
-        provider's door: every function below that takes an ASIN is fed by this one.
+        """Paginate through Amazon search results by keyword using the page parameter to reach rows
+        49+, 97+, and beyond. searchProducts({keywords, page}) returns a full result total count
+        (e.g., "48 of 6476 total results") so a caller knows how many results exist and can keep
+        paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Each row includes
+        ASIN, title, price, list price, star rating, review count, whether the row is a paid
+        placement, and its product URL. Search Amazon's catalogue for what a person would type —
+        "cast iron skillet", "usb c hub" — and get back the result cards as the site ranks them.
+        The page parameter is fully supported: page 2 returns rows 49-96 (a genuinely different
+        set, not page one repeated), page 3 returns rows 97-144, and you can continue paging to
+        reach all 6000+ results. The totalResultCount field tells you how many total rows exist
+        so you can page efficiently. Optionally narrowed to a department, a brand, a price
+        range, a sort order. THE provider's door: every function below that takes an ASIN is fed
+        by this one.
         """
 
     async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:
@@ -25657,6 +25810,13 @@ class Prv_bbc(Protocol):
         what listHeadlines takes; the finder for every section-scoped read.
         """
 
+    async def listHeadlines(self, args: Prv_bbc_listHeadlines_args_In | None = None, /) -> Prv_bbc_BbcListHeadlinesResult_Out:
+        """The stories a BBC section page shows right now, in the page's own order and grouping:
+        headline, summary, url, article id, image, section label and last-updated time. Takes a
+        section path from listSections (default the bbc.com front page) — works for news,
+        business, culture, travel and sport section fronts alike.
+        """
+
 class Prv_bcparkscamping(Protocol):
     """camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
     campground by name, then read its real per-site, per-night availability for a stay.
@@ -26367,6 +26527,14 @@ class Prv_builder_strucsure_com(Protocol):
         """Returns the foundation-type, home-type and warranty-term (enrollment-type) choices for
         StrucSure's new-construction builder registration form, before any registration is
         submitted.
+        """
+
+class Prv_buildingengines(Protocol):
+    """After-hours vendor and cleaning-crew access request status portal."""
+
+    async def getAccessRequestStatus(self, requestType: Literal["vendor"] | Literal["cleaning-crew"] | Literal["other"] | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_buildingengines_AccessRequest_Out]:
+        """Retrieves the status of after-hours vendor and cleaning-crew access requests from the
+        caller's signed-in Building Engines portal, optionally filtered by request type.
         """
 
 class Prv_bulletproof(Protocol):
@@ -28350,6 +28518,12 @@ class Prv_epicgames(Protocol):
         images.
         """
 
+    async def getGame(self, slug: str, /) -> Prv_epicgames_GetGameResult_Out:
+        """One game's store page as data: title, description, developer, publisher, editions and
+        add-ons listed on the page, system requirements, key art, and base price. Takes a
+        product slug (e.g. 'hades', 'ghostrunner-2').
+        """
+
 class Prv_epromos(Protocol):
     """ePromos' own product configurator and bulk-pricing tables off its live product pages —
     real tiered per-unit prices for a caller-given quantity, not a stale mirror — plus the
@@ -28430,6 +28604,14 @@ class Prv_erieinsurance(Protocol):
         (e.g. a real California one — ERIE writes personal lines in 12 mid-Atlantic/Midwest
         states plus DC) answers the genuinely honest empty list instead, and that is never an
         error.
+        """
+
+class Prv_estes_express(Protocol):
+    """LTL freight quotes from Estes Express Lines."""
+
+    async def estimateFreightQuote(self, request: Prv_estes_express_ShipmentRequest_In, opts: ConnectionOption | None = None, /) -> Prv_estes_express_FreightQuote_Out:
+        """Gets a freight shipping rate quote for an LTL (less than truckload) shipment with
+        origin, destination, weight, and freight class.
         """
 
 class Prv_etsy(Protocol):
@@ -29449,6 +29631,19 @@ class Prv_github(Protocol):
         `pullRequests: []`, not a throw.
         """
 
+    async def getIssue(self, owner: str, repo: str, issueNumber: float, /) -> Prv_github_GithubIssueDetail_Out:
+        """Returns the full details of one issue off GitHub's own unauthenticated REST single-issue
+        endpoint — number, title, body, creator, assignee logins, label names, state, whether it
+        is locked, who closed it, comment count, a per-emoji reaction count breakdown, and
+        created/updated/closed timestamps. This door also answers a pull request number,
+        carrying GitHub's own `pull_request` key — `getIssue` THROWS on that and names
+        `getPullRequest` instead, rather than returning an issue shape missing every PR-only
+        field. GitHub's own response carries no timeline events, only a link to a separate
+        endpoint this function does not call. Shares the same 60 requests/hour per IP
+        unauthenticated ceiling as `listIssues`. THROWS on an unknown owner/repo/issue number
+        (404) or a rate limit (403/429).
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -30081,6 +30276,14 @@ class Prv_google_translate(Protocol):
         browser) but its own rpcid (`WqWDPb`) and upload shape — measured 2026-09-16 uploading a
         real PNG with rendered glyphs, verified "Hola mundo" → "Bonjour le monde" (tl=fr) and →
         "Hello world" (tl=en).
+        """
+
+class Prv_goremutual(Protocol):
+    """Public product information for Gore Mutual Insurance commercial lines."""
+
+    async def getProductOverview(self, url: str | None = None, /) -> Prv_goremutual_ProductOverviewResult_Out:
+        """Returns the public product overview for Gore Mutual's commercial property and casualty
+        insurance line.
         """
 
 class Prv_gostoreit(Protocol):
@@ -33596,6 +33799,11 @@ class Prv_nyt_games(Protocol):
     async def getWordle(self, args: Prv_nyt_games_GetWordleArgs_In | None = None, /) -> Prv_nyt_games_NytWordle_Out:
         """Reads one day's Wordle answer, puzzle number and editor. Defaults to today in New York;
         pass { date: "YYYY-MM-DD" } for any day since 2021-06-19.
+        """
+
+    async def getConnections(self, args: Prv_nyt_games_GetConnectionsArgs_In | None = None, /) -> Prv_nyt_games_NytConnections_Out:
+        """Retrieves the daily Connections puzzle with four category groupings and their cards.
+        Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
         """
 
 class Prv_oanda(Protocol):
@@ -37505,6 +37713,22 @@ class Prv_wikipedia(Protocol):
         Optional limit parameter caps the number of links returned (defaults to all).
         """
 
+    async def listBacklinks(self, titleOrUrl: str, options: Prv_wikipedia_listBacklinks_options_In | None = None, /) -> Prv_wikipedia_listBacklinks_return_Out:
+        """What links HERE — every Wikipedia article pointing at this one, by title and url. The
+        inbound half of the link graph, and the closest thing the encyclopedia has to "how
+        important is this topic, and to whom". Takes an article title OR any wikipedia.org url
+        and follows the site's own redirects. Optional limit parameter caps the number of
+        backlinks returned (defaults to all).
+        """
+
+class Prv_wikipedia_standings(Protocol):
+    """Search Wikipedia for sports league standings with goal differential data."""
+
+    async def search(self, query: str, /) -> Prv_wikipedia_standings_SearchResult_Out:
+        """Searches Wikipedia for sports standings pages and extracts league standings with goal
+        differential data.
+        """
+
 class Prv_winestyles(Protocol):
     """Which WineStyles franchise locations offer online order-for-pickup, and a live search of
     one store's own in-stock wine/beer/cheese catalog with real prices and quantities — read
@@ -38267,6 +38491,7 @@ class BowmarkProviders(Protocol):
     brius: Prv_brius
     brixton: Prv_brixton
     builder_strucsure_com: Prv_builder_strucsure_com
+    buildingengines: Prv_buildingengines
     bulletproof: Prv_bulletproof
     bungalow: Prv_bungalow
     bykoket: Prv_bykoket
@@ -38359,6 +38584,7 @@ class BowmarkProviders(Protocol):
     eq3: Prv_eq3
     equinox_hotels: Prv_equinox_hotels
     erieinsurance: Prv_erieinsurance
+    estes_express: Prv_estes_express
     etsy: Prv_etsy
     evag: Prv_evag
     eventsource: Prv_eventsource
@@ -38402,6 +38628,7 @@ class BowmarkProviders(Protocol):
     google_maps: Prv_google_maps
     google_news: Prv_google_news
     google_translate: Prv_google_translate
+    goremutual: Prv_goremutual
     gostoreit: Prv_gostoreit
     gotchacovered: Prv_gotchacovered
     grainger: Prv_grainger
@@ -38643,6 +38870,7 @@ class BowmarkProviders(Protocol):
     wellfound: Prv_wellfound
     wholefoodsmarket: Prv_wholefoodsmarket
     wikipedia: Prv_wikipedia
+    wikipedia_standings: Prv_wikipedia_standings
     winestyles: Prv_winestyles
     wunderflats: Prv_wunderflats
     x: Prv_x

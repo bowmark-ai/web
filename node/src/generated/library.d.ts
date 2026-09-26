@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 97cbeb4ddf0e6931a8ca38b2224b2b17c784516555cc7f776a83de19c3fbba64
-// 66 capabilities, 473 providers, 1400 typed functions, 20 refused.
+// Manifest version: 46b77f11c8402ba610521530da45706e70efa727cfd097ed4b7613dd74f1b5bc
+// 66 capabilities, 477 providers, 1409 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1627,10 +1627,19 @@ interface goal_diffResult {
   warnings: string[];
 }
 
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
   /** Search for sports league standings with goal differential statistics. */
   interface Unit {
-    /** Search for sports standings with goal differential data. */
-    search(query: string): Promise<goal_diffResult>;
+    /**
+     * Search for sports standings with goal differential data. `options.timeoutMs` sets the budget
+     * (default 30000).
+     */
+    search(query: string, options?: CallOptions): Promise<goal_diffResult>;
   }
 }
 
@@ -5331,18 +5340,18 @@ interface AmazonSellerOffersResult {
    */
   interface Unit {
     /**
-     * searchProducts searches Amazon's catalogue for keywords and paginates through results with
-     * page parameter. Pass page 2 to reach rows 49 and beyond, page 3 for rows 97 and beyond with
-     * a full result total count — pagination reaches additional rows beyond the first 48. Returns
-     * a result total so a caller knows how many results exist. Search Amazon's catalogue for what
-     * a person would type — "cast iron skillet", "usb c hub" — and get back the result cards as
-     * the site ranks them: ASIN, title, price, list price, star rating, review count, whether the
-     * row is a paid placement, and its product URL. Pagination with the page parameter reaches row
-     * 49, row 97, and beyond — pass `page: 2` to reach rows 49+, `page: 3` for rows 97+, etc.
-     * (page 2 is a genuinely different set of rows, not page one repeated). Return the site's own
-     * totalResultCount so a caller can page through results and tell "this is the last page" from
-     * "the site is walled". Optionally narrowed to a department, a brand, a price range, a sort
-     * order. THE provider's door: every function below that takes an ASIN is fed by this one.
+     * Paginate through Amazon search results by keyword using the page parameter to reach rows
+     * 49+, 97+, and beyond. searchProducts({keywords, page}) returns a full result total count
+     * (e.g., "48 of 6476 total results") so a caller knows how many results exist and can keep
+     * paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Each row includes ASIN,
+     * title, price, list price, star rating, review count, whether the row is a paid placement,
+     * and its product URL. Search Amazon's catalogue for what a person would type — "cast iron
+     * skillet", "usb c hub" — and get back the result cards as the site ranks them. The page
+     * parameter is fully supported: page 2 returns rows 49-96 (a genuinely different set, not page
+     * one repeated), page 3 returns rows 97-144, and you can continue paging to reach all 6000+
+     * results. The totalResultCount field tells you how many total rows exist so you can page
+     * efficiently. Optionally narrowed to a department, a brand, a price range, a sort order. THE
+     * provider's door: every function below that takes an ASIN is fed by this one.
      */
     searchProducts(args: SearchProductsArgs): Promise<AmazonSearchResult>;
 
@@ -8217,6 +8226,20 @@ interface BbcListSectionsResult {
   sections: BbcSection[]; // top-level sections, or the parent's sub-sections
 }
 
+interface BbcHeadline {
+  headline: string;
+  summary: string;
+  url: string;
+  articleId: string;
+  image?: string;
+  section: string;
+  lastUpdated?: string;
+}
+
+interface BbcListHeadlinesResult {
+  headlines: BbcHeadline[]; // stories in the section's own order
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8235,6 +8258,14 @@ interface bbcRow {
      * takes; the finder for every section-scoped read.
      */
     listSections(args?: { parent?: string }): Promise<BbcListSectionsResult>;
+
+    /**
+     * The stories a BBC section page shows right now, in the page's own order and grouping:
+     * headline, summary, url, article id, image, section label and last-updated time. Takes a
+     * section path from listSections (default the bbc.com front page) — works for news, business,
+     * culture, travel and sport section fronts alike.
+     */
+    listHeadlines(args?: { path?: string }): Promise<BbcListHeadlinesResult>;
   }
 }
 
@@ -10058,6 +10089,27 @@ interface StrucsureNewConstructionFields {
      * submitted.
      */
     getNewConstructionRegistrationFields(): Promise<StrucsureNewConstructionFields>;
+  }
+}
+
+declare namespace BowmarkProvider_buildingengines {
+  // ── Building Engines — the unit's own declarations, verbatim ──
+interface AccessRequest {
+  id: string;
+  requesterName: string;
+  requestType: "vendor" | "cleaning-crew" | "other";
+  status: "approved" | "pending" | "denied";
+  submittedDate: string;
+  notes?: string;
+}
+
+  /** After-hours vendor and cleaning-crew access request status portal. */
+  interface Unit {
+    /**
+     * Retrieves the status of after-hours vendor and cleaning-crew access requests from the
+     * caller's signed-in Building Engines portal, optionally filtered by request type.
+     */
+    getAccessRequestStatus(requestType?: "vendor" | "cleaning-crew" | "other", opts?: ConnectionOption): Promise<AccessRequest[]>;
   }
 }
 
@@ -15450,6 +15502,35 @@ interface SearchGamesResult {
   total: number;
 }
 
+interface GameEdition {
+  title: string;
+  offerId: string;
+  description: string;
+}
+
+interface GameSystemRequirement {
+  platform: string;
+  requirements: Array<{ label: string; minimum: string; recommended: string }>;
+}
+
+interface GameDetail {
+  title: string;
+  namespace: string;
+  description: string;
+  productSlug: string;
+  developer: string | null;
+  publisher: string | null;
+  editions: GameEdition[];
+  systemRequirements: GameSystemRequirement[];
+  images: Array<{ type: string; url: string }>;
+  basePrice: number | null;
+  currencyCode: string;
+}
+
+interface GetGameResult {
+  game: GameDetail;
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -15468,6 +15549,13 @@ interface SearchGamesResult {
      * images.
      */
     searchGames(query: string): Promise<SearchGamesResult>;
+
+    /**
+     * One game's store page as data: title, description, developer, publisher, editions and
+     * add-ons listed on the page, system requirements, key art, and base price. Takes a product
+     * slug (e.g. 'hades', 'ghostrunner-2').
+     */
+    getGame(slug: string): Promise<GetGameResult>;
   }
 }
 
@@ -15723,6 +15811,31 @@ interface ErieAgent {
      * that is never an error.
      */
     findAgent(query: ErieAgentQuery, limit?: number): Promise<ErieAgentSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_estes_express {
+  // ── Estes Express Lines — the unit's own declarations, verbatim ──
+interface FreightQuote {
+  carrierCode?: string;
+  class?: string | number;
+  totalPrice?: string | number;
+}
+
+interface ShipmentRequest {
+  origin: string;
+  destination: string;
+  weightPounds: number;
+  freightClass: string | number;
+}
+
+  /** LTL freight quotes from Estes Express Lines. */
+  interface Unit {
+    /**
+     * Gets a freight shipping rate quote for an LTL (less than truckload) shipment with origin,
+     * destination, weight, and freight class.
+     */
+    estimateFreightQuote(request: ShipmentRequest, opts?: ConnectionOption): Promise<FreightQuote>;
   }
 }
 
@@ -18397,6 +18510,22 @@ interface GithubIssue {
   closedAt: string | null;
   url: string;
 }
+interface GithubIssueReactions {
+  total: number;
+  plusOne: number;
+  minusOne: number;
+  laugh: number;
+  hooray: number;
+  confused: number;
+  heart: number;
+  rocket: number;
+  eyes: number;
+}
+interface GithubIssueDetail extends GithubIssue {
+  locked: boolean;
+  closedBy: string | null;
+  reactions: GithubIssueReactions;
+}
 interface GithubListIssuesOptions {
   state?: "open" | "closed" | "all";
   assignee?: string;
@@ -18571,6 +18700,19 @@ interface GithubListPullRequestsResult {
      * not a throw.
      */
     listPullRequests(owner: string, repo: string, options?: GithubListPullRequestsOptions): Promise<GithubListPullRequestsResult>;
+
+    /**
+     * Returns the full details of one issue off GitHub's own unauthenticated REST single-issue
+     * endpoint — number, title, body, creator, assignee logins, label names, state, whether it is
+     * locked, who closed it, comment count, a per-emoji reaction count breakdown, and
+     * created/updated/closed timestamps. This door also answers a pull request number, carrying
+     * GitHub's own `pull_request` key — `getIssue` THROWS on that and names `getPullRequest`
+     * instead, rather than returning an issue shape missing every PR-only field. GitHub's own
+     * response carries no timeline events, only a link to a separate endpoint this function does
+     * not call. Shares the same 60 requests/hour per IP unauthenticated ceiling as `listIssues`.
+     * THROWS on an unknown owner/repo/issue number (404) or a rate limit (403/429).
+     */
+    getIssue(owner: string, repo: string, issueNumber: number): Promise<GithubIssueDetail>;
   }
 }
 
@@ -19842,6 +19984,24 @@ interface GoogleTranslateImageResult {
      * (tl=en).
      */
     translateImage(args: TranslateImageArgs): Promise<GoogleTranslateImageResult>;
+  }
+}
+
+declare namespace BowmarkProvider_goremutual {
+  // ── Gore Mutual Insurance — the unit's own declarations, verbatim ──
+interface ProductOverviewResult {
+  title: string;
+  description: string;
+  productLines: string[];
+}
+
+  /** Public product information for Gore Mutual Insurance commercial lines. */
+  interface Unit {
+    /**
+     * Returns the public product overview for Gore Mutual's commercial property and casualty
+     * insurance line.
+     */
+    getProductOverview(url?: string): Promise<ProductOverviewResult>;
   }
 }
 
@@ -29581,6 +29741,9 @@ declare namespace BowmarkProvider_nyt_games {
   // ── The New York Times Games — the unit's own declarations, verbatim ──
 interface NytWordle { id: number; solution: string; printDate: string; daysSinceLaunch: number; editor: string | null; }
 interface GetWordleArgs { date?: string; }
+interface ConnectionsCategory { title: string; cards: Array<{ content: string; position: number }>; }
+interface NytConnections { id: number; printDate: string; editor: string | null; categories: ConnectionsCategory[]; }
+interface GetConnectionsArgs { date?: string; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -29592,6 +29755,12 @@ interface GetWordleArgs { date?: string; }
      * { date: "YYYY-MM-DD" } for any day since 2021-06-19.
      */
     getWordle(args?: GetWordleArgs): Promise<NytWordle>;
+
+    /**
+     * Retrieves the daily Connections puzzle with four category groupings and their cards.
+     * Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
+     */
+    getConnections(args?: GetConnectionsArgs): Promise<NytConnections>;
   }
 }
 
@@ -39671,6 +39840,11 @@ interface WikipediaLink {
   url: string;
 }
 
+interface WikipediaBacklink {
+  title: string;
+  url: string;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -39756,6 +39930,43 @@ interface WikipediaLink {
      * limit parameter caps the number of links returned (defaults to all).
      */
     listLinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ links: WikipediaLink[]; warnings: string[] }>;
+
+    /**
+     * What links HERE — every Wikipedia article pointing at this one, by title and url. The
+     * inbound half of the link graph, and the closest thing the encyclopedia has to "how important
+     * is this topic, and to whom". Takes an article title OR any wikipedia.org url and follows the
+     * site's own redirects. Optional limit parameter caps the number of backlinks returned
+     * (defaults to all).
+     */
+    listBacklinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ backlinks: WikipediaBacklink[]; warnings: string[] }>;
+  }
+}
+
+declare namespace BowmarkProvider_wikipedia_standings {
+  // ── Wikipedia — the unit's own declarations, verbatim ──
+interface StandingsRow {
+  position: number;
+  team: string;
+  played: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDiff: number;
+  points?: number;
+}
+
+interface SearchResult {
+  league: string;
+  standings: StandingsRow[];
+  warnings: string[];
+}
+
+  /** Search Wikipedia for sports league standings with goal differential data. */
+  interface Unit {
+    /**
+     * Searches Wikipedia for sports standings pages and extracts league standings with goal
+     * differential data.
+     */
+    search(query: string): Promise<SearchResult>;
   }
 }
 
@@ -42387,6 +42598,7 @@ interface BowmarkProviders {
   brius: BowmarkProvider_brius.Unit;
   brixton: BowmarkProvider_brixton.Unit;
   builder_strucsure_com: BowmarkProvider_builder_strucsure_com.Unit;
+  buildingengines: BowmarkProvider_buildingengines.Unit;
   bulletproof: BowmarkProvider_bulletproof.Unit;
   bungalow: BowmarkProvider_bungalow.Unit;
   bykoket: BowmarkProvider_bykoket.Unit;
@@ -42479,6 +42691,7 @@ interface BowmarkProviders {
   eq3: BowmarkProvider_eq3.Unit;
   equinox_hotels: BowmarkProvider_equinox_hotels.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
+  estes_express: BowmarkProvider_estes_express.Unit;
   etsy: BowmarkProvider_etsy.Unit;
   evag: BowmarkProvider_evag.Unit;
   eventsource: BowmarkProvider_eventsource.Unit;
@@ -42522,6 +42735,7 @@ interface BowmarkProviders {
   google_maps: BowmarkProvider_google_maps.Unit;
   google_news: BowmarkProvider_google_news.Unit;
   google_translate: BowmarkProvider_google_translate.Unit;
+  goremutual: BowmarkProvider_goremutual.Unit;
   gostoreit: BowmarkProvider_gostoreit.Unit;
   gotchacovered: BowmarkProvider_gotchacovered.Unit;
   grainger: BowmarkProvider_grainger.Unit;
@@ -42763,6 +42977,7 @@ interface BowmarkProviders {
   wellfound: BowmarkProvider_wellfound.Unit;
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   wikipedia: BowmarkProvider_wikipedia.Unit;
+  wikipedia_standings: BowmarkProvider_wikipedia_standings.Unit;
   winestyles: BowmarkProvider_winestyles.Unit;
   wunderflats: BowmarkProvider_wunderflats.Unit;
   x: BowmarkProvider_x.Unit;
