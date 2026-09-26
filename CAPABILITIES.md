@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 105 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 106 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -97,6 +97,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `text_to_speech.cloneVoice` | Creates a new voice cloned from one or more audio sample URLs (`options.sampleUrls`) —… | 1 | 🟢 |
 | `text_to_speech.synthesize` | Converts `text` into spoken audio, base64-encoded, in an existing or previously-cloned… | 1 | 🟢 |
 | `theme_park_tickets.search` | Looks up a Six Flags/Cedar Fair theme park by name (`"Cedar Point"`, `"Six Flags Magic… | 1 | 🟢 |
+| `video_editing.editFootage` | Trims, cuts or blurs one of the caller's own YouTube videos by starting a hosted… | 1 | 🟢 |
 | `video_library.addToPlaylist` | Adds one or many videos to one of the caller's own playlists, as a single edit. | 1 | 🟡 |
 | `video_library.createChannel` | Gives the signed-in account a YouTube CHANNEL, under its own Google profile name and… | 1 | 🟡 |
 | `video_library.createPlaylist` | Creates an empty playlist on the caller's own account and returns its id and URL. | 1 | 🟡 |
