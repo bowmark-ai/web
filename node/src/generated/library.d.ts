@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 531cc9db52ebe6ce41a477f993e1a4d03520a3e2e34b8f879b7dd705e1940ff7
-// 67 capabilities, 479 providers, 1420 typed functions, 20 refused.
+// Manifest version: 9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974
+// 67 capabilities, 483 providers, 1427 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9775,30 +9775,14 @@ interface Harbor {
   location?: string;
 }
 
-interface BerthStatus {
-  harborId: string;
-  harborName: string;
-  totalBerths: number;
-  availableBerths: number;
-  waitlistCount?: number;
-  lastUpdated?: string;
-}
-
 interface SearchHarborsArgs {
   query: string;
 }
 
-interface GetBerthStatusArgs {
-  harborId: string;
-}
-
-  /** Boat harbor berth availability and information for Lake Constance harbors. */
+  /** Lake Constance harbor town lookup (BSB's own served towns). */
   interface Unit {
-    /** Search for Lake Constance harbors by name. */
+    /** Search the Lake Constance harbor towns BSB serves, by name. */
     searchHarbors(query: string): Promise<Harbor[]>;
-
-    /** Get berth availability status for a specific harbor. */
-    getBerthStatus(harborId: string): Promise<BerthStatus>;
   }
 }
 
@@ -17185,6 +17169,10 @@ interface ForbesTopicsList {
   topics: ForbesTopic[];
 }
 
+interface ForbesVideoList {
+  videos: ForbesVideo[];
+}
+
   /** Search and browse business news, articles, and video content from Forbes. */
   interface Unit {
     /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
@@ -17198,6 +17186,9 @@ interface ForbesTopicsList {
      * newest first.
      */
     listArticlesByTopic(args: ListArticlesByTopicArgs): Promise<ForbesNewsList>;
+
+    /** List the latest Forbes Video content, newest first, from forbes.com/video/. */
+    listVideos(): Promise<ForbesVideoList>;
   }
 }
 
@@ -22777,6 +22768,48 @@ interface ihgRow { id: string; brandCode: string; availabilityStatus: string; lo
   }
 }
 
+declare namespace BowmarkProvider_indeed {
+  // ── Indeed — the unit's own declarations, verbatim ──
+interface IndeedSearchJobsArgs {
+  query: string;
+  location?: string;
+}
+
+interface IndeedSalary {
+  min: number | null;
+  max: number | null;
+  type: string | null;
+  text: string | null;
+}
+
+interface IndeedJobResult {
+  jobkey: string;
+  title: string;
+  company: string;
+  location: string;
+  remote: boolean;
+  salary: IndeedSalary | null;
+  postedRelative: string | null;
+  snippet: string | null;
+  url: string;
+}
+
+  /**
+   * Job search on the US's largest job board — listings with salary, location and posted-date,
+   * straight off Indeed's own search results.
+   */
+  interface Unit {
+    /**
+     * Runs Indeed's own job search and returns each listing's title, company, location, extracted
+     * salary (when the card carries one) and posted-date, off the site's own results page.
+     * `location` is optional free text (e.g. "New York, NY", "Remote"); omitting it searches
+     * everywhere. `salary` is null when Indeed's own listing carries none — that is the site's
+     * answer, not a gap.
+     */
+    searchJobs(args: IndeedSearchJobsArgs): Promise<IndeedJobResult[]>;
+  }
+}
+
 declare namespace BowmarkProvider_inspirecommunities {
   // ── Inspire Communities — the unit's own declarations, verbatim ──
 interface InspirecommunitiesSearchHomesArgs { state?: string; community?: string; minBeds?: number; minBaths?: number; minPrice?: number; maxPrice?: number; listingType?: "sale" | "rent"; limit?: number; }
@@ -26930,6 +26963,45 @@ interface LululemonReview {
   }
 }
 
+declare namespace BowmarkProvider_lyreco {
+  // ── Lyreco — the unit's own declarations, verbatim ──
+interface LyrecoSearchResult {
+  sku: string;
+  name: string;
+  url: string;
+  imageUrl: string;
+}
+
+interface LyrecoVariant {
+  sku: string;
+  name: string;
+  price: number;
+}
+
+interface LyrecoProduct {
+  sku: string;
+  title: string;
+  url: string;
+  variants: LyrecoVariant[];
+}
+
+  /** Nordic B2B office supplies catalog with search and per-variant pricing. */
+  interface Unit {
+    /**
+     * Runs Lyreco's site search for office supplies and returns matching product rows (product
+     * name, product URL, thumbnail image), dedup by URL.
+     */
+    search(query: string): Promise<LyrecoSearchResult[]>;
+
+    /**
+     * Reads one product's detail page and returns its live guest pricing — every variant option
+     * offered (size, color, material; display name; product code) with the price clearly bound to
+     * the specific variant/SKU being viewed.
+     */
+    getProduct(url: string): Promise<LyrecoProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_maersk {
   // ── Maersk — the unit's own declarations, verbatim ──
 interface MaerskTrackingResult {
@@ -29920,6 +29992,8 @@ interface NytConnections { id: number; printDate: string; editor: string | null;
 interface GetConnectionsArgs { date?: string; }
 interface NytSpellingBee { id: number; centerLetter: string; outerLetters: string; answers: string[]; pangrams: string[]; printDate: string; editor: string | null; }
 interface GetSpellingBeeArgs { date?: string; }
+interface NytStrands { id: number; printDate: string; themeWords: string[]; spangram: string; clue: string; editor: string | null; constructors: string | null; startingBoard: string[]; themeCoords: Record<string, Array<[number, number]>>; spangramCoords: Array<[number, number]>; }
+interface GetStrandsArgs { date?: string; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -29943,6 +30017,12 @@ interface GetSpellingBeeArgs { date?: string; }
      * pangrams. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
      */
     getSpellingBee(args?: GetSpellingBeeArgs): Promise<NytSpellingBee>;
+
+    /**
+     * Retrieves the daily Strands puzzle: theme words, spangram, clue, the letter board and each
+     * answer's board path. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
+     */
+    getStrands(args?: GetStrandsArgs): Promise<NytStrands>;
   }
 }
 
@@ -32985,6 +33065,30 @@ interface ProxmoxIsoDownload {
      * release — every card the site publishes comes back, not just the newest one.
      */
     getIsoDownloads(product?: "proxmox-virtual-environment" | "proxmox-backup-server" | "proxmox-mail-gateway" | "proxmox-datacenter-manager"): Promise<ProxmoxIsoDownload[]>;
+  }
+}
+
+declare namespace BowmarkProvider_proxy_cheap {
+  // ── Proxy-Cheap — the unit's own declarations, verbatim ──
+interface ProxyPlan {
+  name: string;
+  bandwidth: string;
+  pricePerMonth: number;
+  features: string[];  // the site's own labels — read the values off a result, never guess one from prose
+}
+
+interface CoverageRegion {
+  country: string;
+  carriers: string[];
+}
+
+  /** Lists proxy plan pricing and geographic coverage from proxy-cheap.com. */
+  interface Unit {
+    /** Lists available proxy service plans with pricing per month and bandwidth included. */
+    listPlans(): Promise<ProxyPlan[]>;
+
+    /** Lists countries/regions where proxy services are available with carrier information. */
+    listCoverage(): Promise<CoverageRegion[]>;
   }
 }
 
@@ -38088,6 +38192,31 @@ interface TotalplasticsQuoteFormFields {
   }
 }
 
+declare namespace BowmarkProvider_tradingview {
+  // ── TradingView — the unit's own declarations, verbatim ──
+interface SymbolSearchResult {
+  symbol: string;
+  name: string;
+  exchange: string;
+  type: string;
+  isin?: string;
+  cusip?: string;
+  description?: string;
+}
+
+  /** Charting, symbol search and market data from TradingView. */
+  interface Unit {
+    /**
+     * Searches TradingView for a symbol by ticker, company name, or description across all
+     * exchanges — the same lookup TradingView's own search box runs. Returns every matching symbol
+     * with its exchange, instrument type, and (when TradingView carries them) ISIN/CUSIP and a
+     * short description. `query` is free text, e.g. "AAPL" or "Apple". Use a result's `symbol` to
+     * call `getQuote`.
+     */
+    searchSymbols(query: string): Promise<SymbolSearchResult[]>;
+  }
+}
+
 declare namespace BowmarkProvider_travelinsured {
   // ── Travel Insured International — the unit's own declarations, verbatim ──
 interface TravelinsuredDestination {
@@ -43010,6 +43139,7 @@ interface BowmarkProviders {
   ibuypower: BowmarkProvider_ibuypower.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
   ihg: BowmarkProvider_ihg.Unit;
+  indeed: BowmarkProvider_indeed.Unit;
   inspirecommunities: BowmarkProvider_inspirecommunities.Unit;
   instagram: BowmarkProvider_instagram.Unit;
   insurify: BowmarkProvider_insurify.Unit;
@@ -43052,6 +43182,7 @@ interface BowmarkProviders {
   lufthansa: BowmarkProvider_lufthansa.Unit;
   luggageforward: BowmarkProvider_luggageforward.Unit;
   lululemon: BowmarkProvider_lululemon.Unit;
+  lyreco: BowmarkProvider_lyreco.Unit;
   maersk: BowmarkProvider_maersk.Unit;
   maidenhome: BowmarkProvider_maidenhome.Unit;
   mailchimp: BowmarkProvider_mailchimp.Unit;
@@ -43127,6 +43258,7 @@ interface BowmarkProviders {
   prose: BowmarkProvider_prose.Unit;
   provenwinners: BowmarkProvider_provenwinners.Unit;
   proxmox: BowmarkProvider_proxmox.Unit;
+  proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
@@ -43188,6 +43320,7 @@ interface BowmarkProviders {
   tmobile: BowmarkProvider_tmobile.Unit;
   topviewtix: BowmarkProvider_topviewtix.Unit;
   totalplastics: BowmarkProvider_totalplastics.Unit;
+  tradingview: BowmarkProvider_tradingview.Unit;
   travelinsured: BowmarkProvider_travelinsured.Unit;
   trawickinternational: BowmarkProvider_trawickinternational.Unit;
   trektravel: BowmarkProvider_trektravel.Unit;

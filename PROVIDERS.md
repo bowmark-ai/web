@@ -389,8 +389,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
 | `bodacc.search` | bodacc.fr | Searches BODACC insolvency notices (redressement judiciaire, liquidation judiciaire… | 🟡 |
-| `bodensee_schiffsbetriebe_berths.getBerthStatus` | bsb.de | Retrieves berth availability and status information for a specific Lake Constance… | 🟢 |
-| `bodensee_schiffsbetriebe_berths.searchHarbors` | bsb.de | Searches for Lake Constance harbors by name. | 🟢 |
+| `bodensee_schiffsbetriebe_berths.getBerthStatus` | bsb.de | Would return live boat-berth (Liegeplatz) availability, waiting-list status and… | ⚪ |
+| `bodensee_schiffsbetriebe_berths.searchHarbors` | bsb.de | Searches the Lake Constance harbor towns BSB serves, by name. | 🟢 |
 | `boglewinery.checkAvailability` | boglewinery.com | Checks which upcoming dates and times Tock currently shows as open for one Bogle… | 🟢 |
 | `boglewinery.listExperiences` | boglewinery.com | Reads Bogle's real, live tasting/reservation experience catalog off Tock (the booking… | 🟢 |
 | `bollandbranch.getBedDesignerFlow` | bollandbranch.com | Reads the Virtual Bed Designer's own configurator definition — the ordered categories… | 🟢 |
@@ -1638,7 +1638,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | ⚪ |
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle. | ⚪ |
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
-| `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme and answer words. | ⚪ |
+| `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme words, spangram, clue, board and… | 🟢 |
 | `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle. | ⚪ |
 | `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | ⚪ |
 | `nyt_games.getWordle` | games.nytimes.com | Reads one day's Wordle answer, puzzle number and editor from NYT's own game JSON. | 🟢 |
@@ -2213,7 +2213,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | ⚪ |
 | `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | ⚪ |
 | `tradingview.getTechnicalAnalysis` | www.tradingview.com | Get technical analysis signals and ratings for a symbol. | ⚪ |
-| `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | ⚪ |
+| `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | 🟢 |
 | `travelinsured.getPlanQuote` | travelinsured.com | Prices Travel Insured's Essential/Deluxe/Platinum plans for a trip (destination… | ⚪ |
 | `travelinsured.getZipInfo` | travelinsured.com | Resolves a US ZIP code to its state and country the way the quote flow's… | 🟢 |
 | `travelinsured.searchDestinations` | travelinsured.com | Looks up a destination (country, city, or US state) the way Travel Insured's own… | 🟢 |

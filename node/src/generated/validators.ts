@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 531cc9db52ebe6ce41a477f993e1a4d03520a3e2e34b8f879b7dd705e1940ff7
-// 1402 checked, 20 unchecked.
+// Manifest version: 9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974
+// 1409 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "531cc9db52ebe6ce41a477f993e1a4d03520a3e2e34b8f879b7dd705e1940ff7",
+  "version": "9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974",
   "units": {
     "booking_links": {
       "defs": {
@@ -9760,15 +9760,6 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ],
-        "getBerthStatus": [
-          {
-            "name": "harborId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
         ]
       }
     },
@@ -16267,7 +16258,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listVideos": []
       }
     },
     "providers.ford": {
@@ -20818,6 +20810,41 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.indeed": {
+      "defs": {
+        "IndeedSearchJobsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchJobs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "IndeedSearchJobsArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.inspirecommunities": {
       "defs": {
         "InspirecommunitiesSearchHomesArgs": {
@@ -25158,6 +25185,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.lyreco": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.maersk": {
       "defs": {},
       "functions": {
@@ -27222,6 +27272,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetStrandsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetWordleArgs": {
           "k": "object",
           "props": [
@@ -27262,6 +27324,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSpellingBeeArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getStrands": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStrandsArgs"
             },
             "optional": true
           }
@@ -32029,6 +32101,13 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ]
+      }
+    },
+    "providers.proxy_cheap": {
+      "defs": {},
+      "functions": {
+        "listPlans": [],
+        "listCoverage": []
       }
     },
     "providers.puls_com": {
@@ -38819,6 +38898,20 @@ export const VALIDATORS: ValidatorTable = {
         "getQuoteFormFieldOptions": [
           {
             "name": "label",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tradingview": {
+      "defs": {},
+      "functions": {
+        "searchSymbols": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 531cc9db52ebe6ce41a477f993e1a4d03520a3e2e34b8f879b7dd705e1940ff7
-# 67 capabilities, 479 providers, 1402 typed functions, 20 refused.
+# Manifest version: 9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974
+# 67 capabilities, 483 providers, 1409 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5408,14 +5408,6 @@ class Prv_bodensee_schiffsbetriebe_berths_Harbor_Out(TypedDict):
     name: str
     location: NotRequired[str]
 
-class Prv_bodensee_schiffsbetriebe_berths_BerthStatus_Out(TypedDict):
-    harborId: str
-    harborName: str
-    totalBerths: float
-    availableBerths: float
-    waitlistCount: NotRequired[float]
-    lastUpdated: NotRequired[str]
-
 class Prv_boglewinery_BoglewineryExperience_Out(TypedDict):
     id: float
     slug: str
@@ -9413,6 +9405,17 @@ class Prv_forbes_ForbesTopic_Out(TypedDict):
 class Prv_forbes_ListArticlesByTopicArgs_In(TypedDict):
     topic: str
 
+class Prv_forbes_ForbesVideoList_Out(TypedDict):
+    videos: list[Prv_forbes_ForbesVideo_Out]
+
+class Prv_forbes_ForbesVideo_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    thumbnail: NotRequired[str]
+    duration: NotRequired[float]
+    publishedDate: NotRequired[str]
+
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
     postalCode: str
@@ -12102,6 +12105,27 @@ class Prv_ihg_ihgRow_Out_highestCashOnlyCost_u0_Out(TypedDict):
     baseAmount: str
     ratePlanType: str | None
 
+class Prv_indeed_IndeedSearchJobsArgs_In(TypedDict):
+    query: str
+    location: NotRequired[str]
+
+class Prv_indeed_IndeedJobResult_Out(TypedDict):
+    jobkey: str
+    title: str
+    company: str
+    location: str
+    remote: bool
+    salary: Prv_indeed_IndeedSalary_Out | None
+    postedRelative: str | None
+    snippet: str | None
+    url: str
+
+class Prv_indeed_IndeedSalary_Out(TypedDict):
+    min: float | None
+    max: float | None
+    type: str | None
+    text: str | None
+
 class Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In(TypedDict):
     state: NotRequired[str]
     community: NotRequired[str]
@@ -14427,6 +14451,23 @@ class Prv_lululemon_LululemonReview_Out(TypedDict):
     reviewerName: str | None
     sizeAndFit: str | None
 
+class Prv_lyreco_LyrecoSearchResult_Out(TypedDict):
+    sku: str
+    name: str
+    url: str
+    imageUrl: str
+
+class Prv_lyreco_LyrecoProduct_Out(TypedDict):
+    sku: str
+    title: str
+    url: str
+    variants: list[Prv_lyreco_LyrecoVariant_Out]
+
+class Prv_lyreco_LyrecoVariant_Out(TypedDict):
+    sku: str
+    name: str
+    price: float
+
 class Prv_maersk_MaerskTrackingResult_Out(TypedDict):
     trackingNumber: str
     raw: Any
@@ -15754,6 +15795,21 @@ class Prv_nyt_games_NytSpellingBee_Out(TypedDict):
     pangrams: list[str]
     printDate: str
     editor: str | None
+
+class Prv_nyt_games_GetStrandsArgs_In(TypedDict):
+    date: NotRequired[str]
+
+class Prv_nyt_games_NytStrands_Out(TypedDict):
+    id: float
+    printDate: str
+    themeWords: list[str]
+    spangram: str
+    clue: str
+    editor: str | None
+    constructors: str | None
+    startingBoard: list[str]
+    themeCoords: Mapping[str, list[tuple[float, float]]]
+    spangramCoords: list[tuple[float, float]]
 
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
@@ -17530,6 +17586,16 @@ class Prv_proxmox_ProxmoxIsoDownload_Out(TypedDict):
     downloadUrl: str
     torrentUrl: str | None
     pageUrl: str
+
+class Prv_proxy_cheap_ProxyPlan_Out(TypedDict):
+    name: str
+    bandwidth: str
+    pricePerMonth: float
+    features: list[str]
+
+class Prv_proxy_cheap_CoverageRegion_Out(TypedDict):
+    country: str
+    carriers: list[str]
 
 class Prv_puls_com_PulsApplianceCategory_Out(TypedDict):
     deviceId: float
@@ -20570,6 +20636,15 @@ class Prv_totalplastics_TotalplasticsQuoteFormField_Out(TypedDict):
     label: str
     required: bool
     options: list[str]
+
+class Prv_tradingview_SymbolSearchResult_Out(TypedDict):
+    symbol: str
+    name: str
+    exchange: str
+    type: str
+    isin: NotRequired[str]
+    cusip: NotRequired[str]
+    description: NotRequired[str]
 
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
@@ -26555,13 +26630,10 @@ class Prv_bodacc(Protocol):
         """
 
 class Prv_bodensee_schiffsbetriebe_berths(Protocol):
-    """Boat harbor berth availability and information for Lake Constance harbors."""
+    """Lake Constance harbor town lookup (BSB's own served towns)."""
 
     async def searchHarbors(self, query: str, /) -> list[Prv_bodensee_schiffsbetriebe_berths_Harbor_Out]:
-        """Search for Lake Constance harbors by name."""
-
-    async def getBerthStatus(self, harborId: str, /) -> Prv_bodensee_schiffsbetriebe_berths_BerthStatus_Out:
-        """Get berth availability status for a specific harbor."""
+        """Search the Lake Constance harbor towns BSB serves, by name."""
 
 class Prv_boglewinery(Protocol):
     """Bogle Family Vineyards' real Tock tasting-experience catalog and the computed open
@@ -29225,6 +29297,9 @@ class Prv_forbes(Protocol):
         …), newest first.
         """
 
+    async def listVideos(self, /) -> Prv_forbes_ForbesVideoList_Out:
+        """List the latest Forbes Video content, newest first, from forbes.com/video/."""
+
 class Prv_ford(Protocol):
     """Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
     VIN, the model/trim directory and its paint palette, the build-and-price configurator,
@@ -31381,6 +31456,19 @@ class Prv_ihg(Protocol):
         display names.
         """
 
+class Prv_indeed(Protocol):
+    """Job search on the US's largest job board — listings with salary, location and
+    posted-date, straight off Indeed's own search results.
+    """
+
+    async def searchJobs(self, args: Prv_indeed_IndeedSearchJobsArgs_In, /) -> list[Prv_indeed_IndeedJobResult_Out]:
+        """Runs Indeed's own job search and returns each listing's title, company, location,
+        extracted salary (when the card carries one) and posted-date, off the site's own results
+        page. `location` is optional free text (e.g. "New York, NY", "Remote"); omitting it
+        searches everywhere. `salary` is null when Indeed's own listing carries none — that is
+        the site's answer, not a gap.
+        """
+
 class Prv_inspirecommunities(Protocol):
     """Searches Inspire Communities' live manufactured-home inventory and returns the real
     listing plus its schedule-a-tour handoff.
@@ -32999,6 +33087,20 @@ class Prv_lululemon(Protocol):
         with an empty `reviews` and a `warnings` entry naming why rather than throwing.
         """
 
+class Prv_lyreco(Protocol):
+    """Nordic B2B office supplies catalog with search and per-variant pricing."""
+
+    async def search(self, query: str, /) -> list[Prv_lyreco_LyrecoSearchResult_Out]:
+        """Runs Lyreco's site search for office supplies and returns matching product rows (product
+        name, product URL, thumbnail image), dedup by URL.
+        """
+
+    async def getProduct(self, url: str, /) -> Prv_lyreco_LyrecoProduct_Out:
+        """Reads one product's detail page and returns its live guest pricing — every variant
+        option offered (size, color, material; display name; product code) with the price
+        clearly bound to the specific variant/SKU being viewed.
+        """
+
 class Prv_maersk(Protocol):
     """Track a container or bill-of-lading number on Maersk's documented Track & Trace API."""
 
@@ -34025,6 +34127,12 @@ class Prv_nyt_games(Protocol):
     async def getSpellingBee(self, args: Prv_nyt_games_GetSpellingBeeArgs_In | None = None, /) -> Prv_nyt_games_NytSpellingBee_Out:
         """Retrieves the daily Spelling Bee puzzle with center letter, outer letters, valid answers
         and pangrams. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
+        """
+
+    async def getStrands(self, args: Prv_nyt_games_GetStrandsArgs_In | None = None, /) -> Prv_nyt_games_NytStrands_Out:
+        """Retrieves the daily Strands puzzle: theme words, spangram, clue, the letter board and
+        each answer's board path. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for
+        any day.
         """
 
 class Prv_oanda(Protocol):
@@ -35229,6 +35337,15 @@ class Prv_proxmox(Protocol):
         arm64 build and three prior major versions (8.4-1, 7.4-1, 6.4-1) alongside the current
         amd64 release — every card the site publishes comes back, not just the newest one.
         """
+
+class Prv_proxy_cheap(Protocol):
+    """Lists proxy plan pricing and geographic coverage from proxy-cheap.com."""
+
+    async def listPlans(self, /) -> list[Prv_proxy_cheap_ProxyPlan_Out]:
+        """Lists available proxy service plans with pricing per month and bandwidth included."""
+
+    async def listCoverage(self, /) -> list[Prv_proxy_cheap_CoverageRegion_Out]:
+        """Lists countries/regions where proxy services are available with carrier information."""
 
 class Prv_puls_com(Protocol):
     """On-demand home-appliance and electronics repair booking. listApplianceCategories lists
@@ -37189,6 +37306,17 @@ class Prv_totalplastics(Protocol):
         value before submitting.
         """
 
+class Prv_tradingview(Protocol):
+    """Charting, symbol search and market data from TradingView."""
+
+    async def searchSymbols(self, query: str, /) -> list[Prv_tradingview_SymbolSearchResult_Out]:
+        """Searches TradingView for a symbol by ticker, company name, or description across all
+        exchanges — the same lookup TradingView's own search box runs. Returns every matching
+        symbol with its exchange, instrument type, and (when TradingView carries them)
+        ISIN/CUSIP and a short description. `query` is free text, e.g. "AAPL" or "Apple". Use a
+        result's `symbol` to call `getQuote`.
+        """
+
 class Prv_travelinsured(Protocol):
     """Travel Insured International's own quote-and-buy flow — destination and ZIP/state
     lookups the way the trip-details step performs them. (Plan pricing itself is not yet
@@ -38899,6 +39027,7 @@ class BowmarkProviders(Protocol):
     ibuypower: Prv_ibuypower
     identitygroup: Prv_identitygroup
     ihg: Prv_ihg
+    indeed: Prv_indeed
     inspirecommunities: Prv_inspirecommunities
     instagram: Prv_instagram
     insurify: Prv_insurify
@@ -38941,6 +39070,7 @@ class BowmarkProviders(Protocol):
     lufthansa: Prv_lufthansa
     luggageforward: Prv_luggageforward
     lululemon: Prv_lululemon
+    lyreco: Prv_lyreco
     maersk: Prv_maersk
     maidenhome: Prv_maidenhome
     mailchimp: Prv_mailchimp
@@ -39016,6 +39146,7 @@ class BowmarkProviders(Protocol):
     prose: Prv_prose
     provenwinners: Prv_provenwinners
     proxmox: Prv_proxmox
+    proxy_cheap: Prv_proxy_cheap
     puls_com: Prv_puls_com
     reddit: Prv_reddit
     reliancepartners: Prv_reliancepartners
@@ -39077,6 +39208,7 @@ class BowmarkProviders(Protocol):
     tmobile: Prv_tmobile
     topviewtix: Prv_topviewtix
     totalplastics: Prv_totalplastics
+    tradingview: Prv_tradingview
     travelinsured: Prv_travelinsured
     trawickinternational: Prv_trawickinternational
     trektravel: Prv_trektravel

@@ -1,5 +1,5 @@
 {
-  "version": "531cc9db52ebe6ce41a477f993e1a4d03520a3e2e34b8f879b7dd705e1940ff7",
+  "version": "9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974",
   "units": {
     "booking_links": {
       "defs": {
@@ -9748,15 +9748,6 @@
             },
             "optional": false
           }
-        ],
-        "getBerthStatus": [
-          {
-            "name": "harborId",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
         ]
       }
     },
@@ -16255,7 +16246,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listVideos": []
       }
     },
     "providers.ford": {
@@ -20806,6 +20798,41 @@
         ]
       }
     },
+    "providers.indeed": {
+      "defs": {
+        "IndeedSearchJobsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchJobs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "IndeedSearchJobsArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.inspirecommunities": {
       "defs": {
         "InspirecommunitiesSearchHomesArgs": {
@@ -25146,6 +25173,29 @@
         ]
       }
     },
+    "providers.lyreco": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.maersk": {
       "defs": {},
       "functions": {
@@ -27210,6 +27260,18 @@
             }
           ]
         },
+        "GetStrandsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetWordleArgs": {
           "k": "object",
           "props": [
@@ -27250,6 +27312,16 @@
             "schema": {
               "k": "ref",
               "name": "GetSpellingBeeArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getStrands": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStrandsArgs"
             },
             "optional": true
           }
@@ -32017,6 +32089,13 @@
             "optional": true
           }
         ]
+      }
+    },
+    "providers.proxy_cheap": {
+      "defs": {},
+      "functions": {
+        "listPlans": [],
+        "listCoverage": []
       }
     },
     "providers.puls_com": {
@@ -38807,6 +38886,20 @@
         "getQuoteFormFieldOptions": [
           {
             "name": "label",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.tradingview": {
+      "defs": {},
+      "functions": {
+        "searchSymbols": [
+          {
+            "name": "query",
             "schema": {
               "k": "string"
             },
