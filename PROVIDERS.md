@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2553 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2555 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -176,7 +176,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archive_org.getItem` | archive.org | Fetches the full metadata of one item in the Internet Archive's library — title… | ⚪ |
 | `archive_org.getSnapshot` | archive.org | Reads one archived page as it was captured — the original HTML without the archive's… | 🟢 |
 | `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🟡 |
-| `archive_org.searchItems` | archive.org | Search the Internet Archive's library of books, films, audio, software and more using… | ⚪ |
+| `archive_org.searchItems` | archive.org | Search the Internet Archive's library of books, films, audio, software and more using… | 🟢 |
 | `archive_org.searchScholar` | archive.org | Search scholar.archive.org for scholarly articles, papers, and academic texts —… | ⚪ |
 | `artpix3d.getSizePricing` | artpix3d.com | Runs the site's own size/price computation for one shape: every size's real current… | 🟢 |
 | `artpix3d.listPhotoCrystalShapes` | artpix3d.com | Lists every ArtPix 3D Photo Crystal shape currently sold (rectangle, heart, square… | 🟢 |
@@ -389,6 +389,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
 | `bodacc.search` | bodacc.fr | Searches BODACC insolvency notices (redressement judiciaire, liquidation judiciaire… | 🟡 |
+| `bodensee_schiffsbetriebe_berths.getBerthStatus` | bsb.de | Retrieves berth availability and status information for a specific Lake Constance… | 🟢 |
+| `bodensee_schiffsbetriebe_berths.searchHarbors` | bsb.de | Searches for Lake Constance harbors by name. | 🟢 |
 | `boglewinery.checkAvailability` | boglewinery.com | Checks which upcoming dates and times Tock currently shows as open for one Bogle… | 🟢 |
 | `boglewinery.listExperiences` | boglewinery.com | Reads Bogle's real, live tasting/reservation experience catalog off Tock (the booking… | 🟢 |
 | `bollandbranch.getBedDesignerFlow` | bollandbranch.com | Reads the Virtual Bed Designer's own configurator definition — the ordered categories… | 🟢 |
@@ -1633,7 +1635,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | ⚪ |
 | `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | ⚪ |
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle. | ⚪ |
-| `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | ⚪ |
+| `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
 | `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme and answer words. | ⚪ |
 | `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle. | ⚪ |
 | `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | ⚪ |
@@ -2501,7 +2503,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟡 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads today's games for one league — NFL, NBA, MLB, NHL, college football, college… | 🟢 |
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟡 |
-| `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | ⚪ |
+| `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟢 |
 | `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: eda64eba97867deb8b31d0d3cfaee613cc8c98d5a20bfe4ee7d4d4a20e4fa333
-# 67 capabilities, 479 providers, 1396 typed functions, 20 refused.
+# Manifest version: 593ef3c4f8224263733c789d122836aaaa5263e0f7ab5f2b4d242d0362b7e84a
+# 67 capabilities, 479 providers, 1397 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10613,6 +10613,12 @@ class Prv_google_news_GoogleNewsCoverageArticle_Out(TypedDict):
     publisherUrl: str | None
     url: str
     publishedAt: str | None
+
+class Prv_google_news_GoogleNewsEdition_Out(TypedDict):
+    hl: str
+    gl: str
+    ceid: str
+    label: str
 
 Prv_google_translate_TranslateArgs_In = TypedDict(
     "Prv_google_translate_TranslateArgs_In",
@@ -30257,6 +30263,20 @@ class Prv_google_news(Protocol):
         other way, and it must agree with the id's own encoded edition or the call is refused
         rather than silently truncated (measured live 2026-09-17: a wrong edition can render a
         place or topic label that reads like a real headline).
+        """
+
+    async def listEditions(self, opts: ConnectionOption | None = None, /) -> list[Prv_google_news_GoogleNewsEdition_Out]:
+        """The country and language editions Google News publishes — the `hl`/`gl`/`ceid` triple
+        every function above already takes — so a caller asking for Mexican or Indian coverage
+        can name one instead of guessing at a locale code. An authFunction: the picker lives
+        behind the signed-in account bar's own "Language & region" page
+        (`news.google.com/settings`), which a logged-out request cannot reach at all — measured
+        2026-09-16, it 302s straight to `accounts.google.com/ServiceLogin`. Bowmark signs nobody
+        up for a Google account; sign in with your own, exactly as `youtube`'s six
+        `authFunctions` already work on the same Google session. With no session this refuses
+        before returning, naming the sign-in; the `hl`/`gl`/`ceid` triple itself works with no
+        session at all (pass it straight to `searchNews`, `topStories`, etc.) — this function
+        only discovers the list of valid triples, never gates using one.
         """
 
 class Prv_google_translate(Protocol):

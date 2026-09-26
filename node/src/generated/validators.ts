@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: eda64eba97867deb8b31d0d3cfaee613cc8c98d5a20bfe4ee7d4d4a20e4fa333
-// 1396 checked, 20 unchecked.
+// Manifest version: 593ef3c4f8224263733c789d122836aaaa5263e0f7ab5f2b4d242d0362b7e84a
+// 1397 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "eda64eba97867deb8b31d0d3cfaee613cc8c98d5a20bfe4ee7d4d4a20e4fa333",
+  "version": "593ef3c4f8224263733c789d122836aaaa5263e0f7ab5f2b4d242d0362b7e84a",
   "units": {
     "booking_links": {
       "defs": {
@@ -18460,6 +18460,24 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
+          }
+        ],
+        "listEditions": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }

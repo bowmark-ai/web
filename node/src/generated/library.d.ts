@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: eda64eba97867deb8b31d0d3cfaee613cc8c98d5a20bfe4ee7d4d4a20e4fa333
-// 67 capabilities, 479 providers, 1414 typed functions, 20 refused.
+// Manifest version: 593ef3c4f8224263733c789d122836aaaa5263e0f7ab5f2b4d242d0362b7e84a
+// 67 capabilities, 479 providers, 1415 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19508,6 +19508,12 @@ interface GoogleNewsFullCoverage {
   storyId: string;
   articles: GoogleNewsCoverageArticle[];
 }
+interface GoogleNewsEdition {
+  hl: string;
+  gl: string;
+  ceid: string;
+  label: string;
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
@@ -19711,6 +19717,21 @@ interface GoogleNewsFullCoverage {
      * label that reads like a real headline).
      */
     getFullCoverage(storyId: string, locale?: GoogleNewsLocaleArg): Promise<GoogleNewsFullCoverage>;
+
+    /**
+     * The country and language editions Google News publishes — the `hl`/`gl`/`ceid` triple every
+     * function above already takes — so a caller asking for Mexican or Indian coverage can name
+     * one instead of guessing at a locale code. An authFunction: the picker lives behind the
+     * signed-in account bar's own "Language & region" page (`news.google.com/settings`), which a
+     * logged-out request cannot reach at all — measured 2026-09-16, it 302s straight to
+     * `accounts.google.com/ServiceLogin`. Bowmark signs nobody up for a Google account; sign in
+     * with your own, exactly as `youtube`'s six `authFunctions` already work on the same Google
+     * session. With no session this refuses before returning, naming the sign-in; the
+     * `hl`/`gl`/`ceid` triple itself works with no session at all (pass it straight to
+     * `searchNews`, `topStories`, etc.) — this function only discovers the list of valid triples,
+     * never gates using one.
+     */
+    listEditions(opts?: ConnectionOption): Promise<GoogleNewsEdition[]>;
   }
 }
 

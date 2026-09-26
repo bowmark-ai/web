@@ -1,5 +1,5 @@
 {
-  "version": "eda64eba97867deb8b31d0d3cfaee613cc8c98d5a20bfe4ee7d4d4a20e4fa333",
+  "version": "593ef3c4f8224263733c789d122836aaaa5263e0f7ab5f2b4d242d0362b7e84a",
   "units": {
     "booking_links": {
       "defs": {
@@ -18448,6 +18448,24 @@
             "schema": {
               "k": "ref",
               "name": "GoogleNewsLocaleArg"
+            },
+            "optional": true
+          }
+        ],
+        "listEditions": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
