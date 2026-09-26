@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2555 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2557 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -958,7 +958,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | ⚪ |
 | `forbes.listNews` | forbes.com | List latest news articles. | 🟢 |
 | `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | 🟢 |
-| `forbes.listVideos` | forbes.com | List video content from Forbes Video. | ⚪ |
+| `forbes.listVideos` | forbes.com | List video content from Forbes Video. | 🟢 |
 | `forbes.searchArticles` | forbes.com | Search articles across Forbes by keyword. | ⚪ |
 | `ford.buildAndPrice` | ford.com | Walks Ford's own build-and-price configurator for a model and year — choosing trim… | ⚪ |
 | `ford.findDealers` | ford.com | Finds franchised Ford dealers near a US ZIP code — name, address, phone, coordinates… | 🟢 |
@@ -1142,7 +1142,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gostoreit.getFacilityUnits` | gostoreit.com | Reads a public Go Store It facility URL's live rendered unit inventory: size… | 🟢 |
 | `gotchacovered.getDesignStyleQuizQuestions` | gotchacovered.com | Reads the live 'What Design Style Am I?' quiz's real 6 questions and their option… | 🟢 |
 | `gotchacovered.takeDesignStyleQuiz` | gotchacovered.com | Answers all 6 questions of Gotcha Covered's own Design Style Quiz and returns the… | 🟡 |
-| `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🟡 |
+| `grainger.checkStock` | grainger.com | Checks real fulfillment availability for one item (itemNumber or url, same as… | 🔴 |
 | `grainger.findBranch` | grainger.com | Finds nearby Grainger branch locations for a ZIP or address — hours, phone, and… | 🟢 |
 | `grainger.getProduct` | grainger.com | Reads one product page in full — price, pack size/unit of measure, spec table… | 🟢 |
 | `grainger.search` | grainger.com | Searches Grainger's industrial MRO catalog by keyword, returning matching products —… | 🟢 |
@@ -1460,6 +1460,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.getSizeGuide` | shop.lululemon.com | Returns lululemon's size chart for a garment — the body measurements each numeric size… | ⚪ |
 | `lululemon.listCategory` | shop.lululemon.com | Browses one category the way the site's own navigation does — Women's Leggings, Men's… | ⚪ |
 | `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
+| `lyreco.getProduct` | lyreco.com | Reads one product's detail page and returns its live guest pricing — every variant… | 🟢 |
+| `lyreco.search` | lyreco.com | Runs Lyreco's site search for office supplies and returns matching product rows… | 🟢 |
 | `maersk.track` | maersk.com | Tracks a container or bill-of-lading number on Maersk's documented Track & Trace API… | 🟢 |
 | `maidenhome.getProduct` | maidenhome.com | Reads one configurable product's complete Size x Wood Finish variant grid — every… | 🟢 |
 | `maidenhome.resolveVariant` | maidenhome.com | Resolves a free-text product + size + wood finish to the exact priced variant and its… | 🟢 |
