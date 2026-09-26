@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2666282e3acd528ca560add4db13d80f4ea484742dbdfc2100a2ffee944f6d19
-// 66 capabilities, 472 providers, 1385 typed functions, 20 refused.
+// Manifest version: 97cbeb4ddf0e6931a8ca38b2224b2b17c784516555cc7f776a83de19c3fbba64
+// 66 capabilities, 473 providers, 1400 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10626,11 +10626,13 @@ interface CalendlyFindProfilesResult {
 
     /**
      * Returns the real, currently-open time slots for one Calendly event type — accepts a bare
-     * profile slug ("jason-frazier"), a profile url, or a specific event url
-     * ("https://calendly.com/jason-frazier/15min"). Given a bare profile, it picks that profile's
-     * first event type and reports the rest in `otherEventTypes`. `days` is empty both when
-     * nothing is open and when Calendly reports the calendar cannot be booked at all (a broken
-     * calendar connection, a deactivated event) — check `unavailableReason` to tell the two apart.
+     * profile slug ("jason-frazier"), a profile url, a specific event url
+     * ("https://calendly.com/jason-frazier/15min"), or a one-off share link
+     * ("https://calendly.com/d/<hash>") or single-use link ("https://calendly.com/s/<slug>").
+     * Given a bare profile, it picks that profile's first event type and reports the rest in
+     * `otherEventTypes`. `days` is empty both when nothing is open and when Calendly reports the
+     * calendar cannot be booked at all (a broken calendar connection, a deactivated event) — check
+     * `unavailableReason` to tell the two apart.
      */
     getAvailability(profile: string, opts?: CalendlyAvailabilityOptions): Promise<CalendlyAvailabilityResult>;
 
@@ -21784,6 +21786,32 @@ interface hiltonRoomOffer {
   }
 }
 
+declare namespace BowmarkProvider_hipcamp {
+  // ── Hipcamp — the unit's own declarations, verbatim ──
+interface HipcampListing {
+  name: string;
+  latitude: number | null;
+  longitude: number | null;
+  ratingValue: number | null;
+  ratingCount: number;
+  image: string | null;
+  priceRange: string | null;
+  detailPath: string;
+}
+
+  /**
+   * Hipcamp listing directory — find campgrounds by destination (a national park, a region, or a
+   * city) and read their location, ratings, and pricing from Hipcamp's own listing pages.
+   */
+  interface Unit {
+    /**
+     * Given a destination name (a national park, region, or city), returns campground listings
+     * from Hipcamp.
+     */
+    search(destination: string): Promise<HipcampListing[]>;
+  }
+}
+
 declare namespace BowmarkProvider_historymaker {
   // ── HistoryMaker Homes — the unit's own declarations, verbatim ──
 // HistoryMaker Homes' OWN shapes — not a capability contract.
@@ -25312,10 +25340,98 @@ interface LinkedinCompanyAddress {
   addressCountry: string | null;
 }
 
+interface LinkedinMember {
+  id: string | null;               // profile id
+  publicIdentifier: string | null; // URL slug — feeds getProfile / getProfileDetails
+  url: string | null;
+  name: string;
+  firstName: string | null;
+  lastName: string | null;
+  headline: string | null;
+  photoUrl: string | null;
+}
+
+interface LinkedinMe extends LinkedinMember { premium: boolean; }
+interface LinkedinConnection extends LinkedinMember { connectedAt: string | null; }
+
+interface LinkedinMemberProfile extends LinkedinMember {
+  summary: string | null;
+  location: string | null;
+  countryCode: string | null;
+  industry: string | null;
+  premium: boolean;
+  influencer: boolean;
+  creator: boolean;
+  positions: { title: string | null; company: string | null; companyUrl: string | null;
+               startDate: string | null; endDate: string | null;  // "2014-02" or "2000"; endDate null while current
+               description: string | null; location: string | null }[];
+  education: { school: string | null; schoolUrl: string | null; degree: string | null;
+               fieldOfStudy: string | null; startDate: string | null; endDate: string | null }[];
+}
+
+interface LinkedinSearchMember {
+  id: string | null;
+  publicIdentifier: string | null;
+  url: string | null;
+  name: string;               // "LinkedIn Member" where LinkedIn hides the name
+  headline: string | null;
+  location: string | null;
+  degree: string | null;      // "1st" | "2nd" | "3rd+"
+  snippet: string | null;
+}
+
+interface LinkedinSearchCompany {
+  id: string | null;          // numeric — listCompanyEmployees / searchMembers({ currentCompany })
+  handle: string | null;      // what getCompany takes
+  url: string | null;
+  name: string;
+  industry: string | null;
+  location: string | null;
+  followers: string | null;   // e.g. "1M followers"
+}
+
+interface LinkedinPost {
+  activityUrn: string | null;
+  url: string | null;
+  author: { name: string | null; headline: string | null; url: string | null };
+  text: string | null;
+  postedAgo: string | null;   // e.g. "2d"
+  reactions: number | null;
+  comments: number | null;
+  reposts: number | null;
+  promoted: boolean;
+}
+
+interface LinkedinMessage { id: string | null; sender: LinkedinMember | null; text: string | null; sentAt: string | null; }
+
+interface LinkedinConversation {
+  id: string;                 // what getConversation takes
+  urn: string;
+  title: string | null;
+  participants: LinkedinMember[];
+  unreadCount: number;
+  lastActivityAt: string | null;
+  lastMessage: LinkedinMessage | null;
+}
+
+interface LinkedinInvitation {
+  id: string | null;
+  sharedSecret: string | null;
+  member: LinkedinMember | null;
+  message: string | null;
+  sentAt: string | null;
+}
+
+// Paged results carry { start, nextStart } — pass nextStart back as start; null means the last page.
+interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: number; nextStart: number | null; }
+
   /**
-   * The professional network — people, employers, jobs, posts and LinkedIn Learning. Three
-   * surfaces are callable: reading one member's public profile, searching the public job board,
-   * and reading a single posting in full.
+   * The professional network — people, employers, jobs and posts. With no sign-in: read one
+   * member's public profile, find people by name, read a company page, search the public job
+   * board and read a posting in full. With the caller signed in to LinkedIn it acts as them:
+   * their own profile, connections, home feed, messages and invitations, who viewed their
+   * profile, full profiles of other members, and LinkedIn's own search for people (by company,
+   * title, place and degree), companies, a company's staff and posts.
    */
   interface Unit {
     /**
@@ -25439,6 +25555,128 @@ interface LinkedinCompanyAddress {
      * returns an empty `profiles` with no warnings.
      */
     searchPeople(query: string | {query: string, limit?: number}): Promise<LinkedinPeopleSearch>;
+
+    /**
+     * Returns the signed-in caller's own LinkedIn member record — name, headline, profile URL and
+     * photo, and whether the account is Premium. Signed in: acts as the caller's own LinkedIn
+     * account; with no saved sign-in the run pauses and hands back a link where they sign in.
+     */
+    getMyProfile(opts?: ConnectionOption): Promise<LinkedinMe>;
+
+    /**
+     * Lists the caller's first-degree connections, most recently connected first, with each
+     * person's name, headline, profile URL and when they connected. `count` up to 100 per page
+     * (default 40). Signed in: acts as the caller's own LinkedIn account; with no saved sign-in
+     * the run pauses and hands back a link where they sign in.
+     */
+    listConnections(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ connections: LinkedinConnection[]; start: number; nextStart: number | null }>;
+
+    /**
+     * Returns one member's full profile as a signed-in member sees it — headline, the About
+     * summary, location, industry, every position with its dates and company, and every school —
+     * from a profile URL or slug. Richer than getProfile, which reads only the public preview and
+     * needs no sign-in. Skills and contact details are not returned: LinkedIn's API no longer
+     * serves contact info (HTTP 410). Signed in: acts as the caller's own LinkedIn account; with
+     * no saved sign-in the run pauses and hands back a link where they sign in.
+     */
+    getProfileDetails(profile: string, opts?: ConnectionOption): Promise<LinkedinMemberProfile>;
+
+    /**
+     * LinkedIn's own people search, run as the caller: keywords plus optional filters — current
+     * company (numeric ids from searchCompanies), job title, a location by name, and connection
+     * degree ("1st", "2nd", "3rd"). Returns 10 ranked people per page with name, headline,
+     * location, profile URL and the caller's degree of connection. Unlike searchPeople, which
+     * needs no sign-in and relies on a web index, this is LinkedIn's ranking and filters. Signed
+     * in: acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+     * hands back a link where they sign in.
+     */
+    searchMembers(input: string | { keywords: string; currentCompany?: string | string[]; title?: string; location?: string; network?: string | string[]; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember>>;
+
+    /**
+     * Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per page
+     * with each one's handle, numeric id, industry, location and follower count. The handle feeds
+     * getCompany; the id feeds listCompanyEmployees and searchMembers. Signed in: acts as the
+     * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
+     * where they sign in.
+     */
+    searchCompanies(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchCompany>>;
+
+    /**
+     * Lists people who give a company as their current employer — from its LinkedIn URL, handle
+     * ("stripe") or numeric id — 10 per page with name, headline, location and profile URL,
+     * optionally narrowed by keywords or job title. It is LinkedIn's people search with the
+     * current-company filter applied. Signed in: acts as the caller's own LinkedIn account; with
+     * no saved sign-in the run pauses and hands back a link where they sign in.
+     */
+    listCompanyEmployees(input: string | { company: string; keywords?: string; title?: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinSearchMember> & { companyId: string }>;
+
+    /**
+     * Searches LinkedIn posts by keyword and returns them with author, text, how long ago each was
+     * posted, its reaction, comment and repost counts, and its URL. Signed in: acts as the
+     * caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a link
+     * where they sign in.
+     */
+    searchPosts(input: string | { keywords: string; start?: number }, opts?: ConnectionOption): Promise<LinkedinSearchPage<LinkedinPost>>;
+
+    /**
+     * Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL for
+     * each post. Promoted posts are left out. `count` up to 100 (default 10). Signed in: acts as
+     * the caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+     * link where they sign in.
+     */
+    getHomeFeed(input?: { count?: number; start?: number }, opts?: ConnectionOption): Promise<{ posts: LinkedinPost[]; start: number; nextStart: number | null }>;
+
+    /**
+     * Lists the caller's LinkedIn message threads, most recent first, with the other participants,
+     * unread count and the latest message in each. Signed in: acts as the caller's own LinkedIn
+     * account; with no saved sign-in the run pauses and hands back a link where they sign in.
+     */
+    listConversations(opts?: ConnectionOption): Promise<{ conversations: LinkedinConversation[] }>;
+
+    /**
+     * Reads one LinkedIn message thread in order, oldest first — who sent each message, its text
+     * and when — from a conversation id or urn out of listConversations, or a /messaging/thread/
+     * URL. Signed in: acts as the caller's own LinkedIn account; with no saved sign-in the run
+     * pauses and hands back a link where they sign in.
+     */
+    getConversation(conversation: string, opts?: ConnectionOption): Promise<{ conversationUrn: string; messages: LinkedinMessage[] }>;
+
+    /**
+     * Lists the connection invitations the caller has received and not yet answered — who sent
+     * each, their note if any, and when. Signed in: acts as the caller's own LinkedIn account;
+     * with no saved sign-in the run pauses and hands back a link where they sign in.
+     */
+    listInvitations(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ invitations: LinkedinInvitation[]; start: number; nextStart: number | null }>;
+
+    /**
+     * Lists the connection invitations the caller has sent that are still pending — who each went
+     * to, the note, and when it was sent. Signed in: acts as the caller's own LinkedIn account;
+     * with no saved sign-in the run pauses and hands back a link where they sign in.
+     */
+    listSentInvitations(input?: { start?: number; count?: number }, opts?: ConnectionOption): Promise<{ invitations: LinkedinInvitation[]; start: number; nextStart: number | null }>;
+
+    /**
+     * Returns "who viewed your profile" for the caller: the view count LinkedIn reports and the
+     * viewers it names. Without Premium LinkedIn names only a few of them, so `viewers` can be
+     * shorter than `views`. Signed in: acts as the caller's own LinkedIn account; with no saved
+     * sign-in the run pauses and hands back a link where they sign in.
+     */
+    getProfileViews(opts?: ConnectionOption): Promise<{ views: number | null; viewers: LinkedinMember[] }>;
+
+    /**
+     * Signs in with the given credentials and saves a NEW connection — every call creates one,
+     * never replacing an existing login, unless `connection` names an existing id to sign back in
+     * to (its cookies replaced, its id and settings kept, a logged-out one revived). The returned
+     * `connection` is usable on the very next call in the same script or session. `warnings` names
+     * the account's other connections to this site. `username`, `password`, `totpCode` and
+     * `totpSeed` are plain values here; a caller on the run/session script surface instead passes
+     * each as a `bowmark.secret()` reference. Pass the returned `connection` id as `{ connection
+     * }` on a later signed-in call to act as this account. Optionally set `keepAlive: { everyHours
+     * }` (or `false` to turn it off) and/or `expiresAt` (an ISO date/datetime, a hard ceiling);
+     * both default to a 12-hour keep-alive and can be changed later with
+     * `bm.connections.update(id, …)`.
+     */
+    login(creds: LoginInput): Promise<{ connection: string; account: string; expiresAt: string; warnings?: string[] }>;
   }
 }
 
@@ -42307,6 +42545,7 @@ interface BowmarkProviders {
   higgsfield: BowmarkProvider_higgsfield.Unit;
   highlandhomes: BowmarkProvider_highlandhomes.Unit;
   hilton: BowmarkProvider_hilton.Unit;
+  hipcamp: BowmarkProvider_hipcamp.Unit;
   historymaker: BowmarkProvider_historymaker.Unit;
   hobie: BowmarkProvider_hobie.Unit;
   hodjapasha: BowmarkProvider_hodjapasha.Unit;

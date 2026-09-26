@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2666282e3acd528ca560add4db13d80f4ea484742dbdfc2100a2ffee944f6d19
-# 66 capabilities, 472 providers, 1367 typed functions, 20 refused.
+# Manifest version: 97cbeb4ddf0e6931a8ca38b2224b2b17c784516555cc7f776a83de19c3fbba64
+# 66 capabilities, 473 providers, 1382 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11533,6 +11533,16 @@ class Prv_hilton_hiltonRoomOffer_Out(TypedDict):
     nightlyRate: str
     totalRate: str
 
+class Prv_hipcamp_HipcampListing_Out(TypedDict):
+    name: str
+    latitude: float | None
+    longitude: float | None
+    ratingValue: float | None
+    ratingCount: float
+    image: str | None
+    priceRange: str | None
+    detailPath: str
+
 class Prv_historymaker_HistorymakerSearchFilters_In(TypedDict):
     minPrice: NotRequired[float]
     maxPrice: NotRequired[float]
@@ -13479,6 +13489,187 @@ class Prv_linkedin_searchPeople_query_u1_In(TypedDict):
 class Prv_linkedin_LinkedinPeopleSearch_Out(TypedDict):
     profiles: list[Prv_linkedin_LinkedinProfile_Out]
     warnings: list[str]
+
+class Prv_linkedin_LinkedinMe_Out(TypedDict):
+    id: str | None
+    publicIdentifier: str | None
+    url: str | None
+    name: str
+    firstName: str | None
+    lastName: str | None
+    headline: str | None
+    photoUrl: str | None
+    premium: bool
+
+class Prv_linkedin_listConnections_input_In(TypedDict):
+    start: NotRequired[float]
+    count: NotRequired[float]
+
+class Prv_linkedin_listConnections_return_Out(TypedDict):
+    connections: list[Prv_linkedin_LinkedinConnection_Out]
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_LinkedinConnection_Out(TypedDict):
+    id: str | None
+    publicIdentifier: str | None
+    url: str | None
+    name: str
+    firstName: str | None
+    lastName: str | None
+    headline: str | None
+    photoUrl: str | None
+    connectedAt: str | None
+
+class Prv_linkedin_LinkedinMemberProfile_Out(TypedDict):
+    id: str | None
+    publicIdentifier: str | None
+    url: str | None
+    name: str
+    firstName: str | None
+    lastName: str | None
+    headline: str | None
+    photoUrl: str | None
+    summary: str | None
+    location: str | None
+    countryCode: str | None
+    industry: str | None
+    premium: bool
+    influencer: bool
+    creator: bool
+    positions: list[Prv_linkedin_LinkedinMemberProfile_Out_positions_item_Out]
+    education: list[Prv_linkedin_LinkedinMemberProfile_Out_education_item_Out]
+
+class Prv_linkedin_LinkedinMemberProfile_Out_positions_item_Out(TypedDict):
+    title: str | None
+    company: str | None
+    companyUrl: str | None
+    startDate: str | None
+    endDate: str | None
+    description: str | None
+    location: str | None
+
+class Prv_linkedin_LinkedinMemberProfile_Out_education_item_Out(TypedDict):
+    school: str | None
+    schoolUrl: str | None
+    degree: str | None
+    fieldOfStudy: str | None
+    startDate: str | None
+    endDate: str | None
+
+class Prv_linkedin_searchMembers_input_u1_In(TypedDict):
+    keywords: str
+    currentCompany: NotRequired[str | Sequence[str]]
+    title: NotRequired[str]
+    location: NotRequired[str]
+    network: NotRequired[str | Sequence[str]]
+    start: NotRequired[float]
+
+class Prv_linkedin_searchCompanies_input_u1_In(TypedDict):
+    keywords: str
+    start: NotRequired[float]
+
+class Prv_linkedin_listCompanyEmployees_input_u1_In(TypedDict):
+    company: str
+    keywords: NotRequired[str]
+    title: NotRequired[str]
+    start: NotRequired[float]
+
+class Prv_linkedin_searchPosts_input_u1_In(TypedDict):
+    keywords: str
+    start: NotRequired[float]
+
+class Prv_linkedin_getHomeFeed_input_In(TypedDict):
+    count: NotRequired[float]
+    start: NotRequired[float]
+
+class Prv_linkedin_getHomeFeed_return_Out(TypedDict):
+    posts: list[Prv_linkedin_LinkedinPost_Out]
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_LinkedinPost_Out(TypedDict):
+    activityUrn: str | None
+    url: str | None
+    author: Prv_linkedin_LinkedinPost_Out_author_Out
+    text: str | None
+    postedAgo: str | None
+    reactions: float | None
+    comments: float | None
+    reposts: float | None
+    promoted: bool
+
+class Prv_linkedin_LinkedinPost_Out_author_Out(TypedDict):
+    name: str | None
+    headline: str | None
+    url: str | None
+
+class Prv_linkedin_listConversations_return_Out(TypedDict):
+    conversations: list[Prv_linkedin_LinkedinConversation_Out]
+
+class Prv_linkedin_LinkedinConversation_Out(TypedDict):
+    id: str
+    urn: str
+    title: str | None
+    participants: list[Prv_linkedin_LinkedinMember_Out]
+    unreadCount: float
+    lastActivityAt: str | None
+    lastMessage: Prv_linkedin_LinkedinMessage_Out | None
+
+class Prv_linkedin_LinkedinMember_Out(TypedDict):
+    id: str | None
+    publicIdentifier: str | None
+    url: str | None
+    name: str
+    firstName: str | None
+    lastName: str | None
+    headline: str | None
+    photoUrl: str | None
+
+class Prv_linkedin_LinkedinMessage_Out(TypedDict):
+    id: str | None
+    sender: Prv_linkedin_LinkedinMember_Out | None
+    text: str | None
+    sentAt: str | None
+
+class Prv_linkedin_getConversation_return_Out(TypedDict):
+    conversationUrn: str
+    messages: list[Prv_linkedin_LinkedinMessage_Out]
+
+class Prv_linkedin_listInvitations_input_In(TypedDict):
+    start: NotRequired[float]
+    count: NotRequired[float]
+
+class Prv_linkedin_listInvitations_return_Out(TypedDict):
+    invitations: list[Prv_linkedin_LinkedinInvitation_Out]
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_LinkedinInvitation_Out(TypedDict):
+    id: str | None
+    sharedSecret: str | None
+    member: Prv_linkedin_LinkedinMember_Out | None
+    message: str | None
+    sentAt: str | None
+
+class Prv_linkedin_listSentInvitations_input_In(TypedDict):
+    start: NotRequired[float]
+    count: NotRequired[float]
+
+class Prv_linkedin_listSentInvitations_return_Out(TypedDict):
+    invitations: list[Prv_linkedin_LinkedinInvitation_Out]
+    start: float
+    nextStart: float | None
+
+class Prv_linkedin_getProfileViews_return_Out(TypedDict):
+    views: float | None
+    viewers: list[Prv_linkedin_LinkedinMember_Out]
+
+class Prv_linkedin_login_return_Out(TypedDict):
+    connection: str
+    account: str
+    expiresAt: str
+    warnings: NotRequired[list[str]]
 
 class Prv_liquiddeath_searchProducts_opts_In(TypedDict):
     productType: NotRequired[str]
@@ -26343,12 +26534,13 @@ class Prv_calendly(Protocol):
 
     async def getAvailability(self, profile: str, opts: Prv_calendly_CalendlyAvailabilityOptions_In | None = None, /) -> Prv_calendly_CalendlyAvailabilityResult_Out:
         """Returns the real, currently-open time slots for one Calendly event type — accepts a bare
-        profile slug ("jason-frazier"), a profile url, or a specific event url
-        ("https://calendly.com/jason-frazier/15min"). Given a bare profile, it picks that
-        profile's first event type and reports the rest in `otherEventTypes`. `days` is empty
-        both when nothing is open and when Calendly reports the calendar cannot be booked at all
-        (a broken calendar connection, a deactivated event) — check `unavailableReason` to tell
-        the two apart.
+        profile slug ("jason-frazier"), a profile url, a specific event url
+        ("https://calendly.com/jason-frazier/15min"), or a one-off share link
+        ("https://calendly.com/d/<hash>") or single-use link ("https://calendly.com/s/<slug>").
+        Given a bare profile, it picks that profile's first event type and reports the rest in
+        `otherEventTypes`. `days` is empty both when nothing is open and when Calendly reports
+        the calendar cannot be booked at all (a broken calendar connection, a deactivated event)
+        — check `unavailableReason` to tell the two apart.
         """
 
     async def getBookingForm(self, url: str, opts: Prv_calendly_CalendlyBookingFormOptions_In | None = None, /) -> Prv_calendly_CalendlyBookingForm_Out:
@@ -30506,6 +30698,17 @@ class Prv_hilton(Protocol):
         error rather than a wrong or empty result. See manifest.json's `reach.why`.
         """
 
+class Prv_hipcamp(Protocol):
+    """Hipcamp listing directory — find campgrounds by destination (a national park, a region,
+    or a city) and read their location, ratings, and pricing from Hipcamp's own listing
+    pages.
+    """
+
+    async def search(self, destination: str, /) -> list[Prv_hipcamp_HipcampListing_Out]:
+        """Given a destination name (a national park, region, or city), returns campground listings
+        from Hipcamp.
+        """
+
 class Prv_historymaker(Protocol):
     """Reads HistoryMaker Homes' own live Dallas/Fort Worth quick-move-in inventory — real
     addresses, real current and original prices, real beds/baths/sqft and availability
@@ -31836,9 +32039,12 @@ class Prv_letterboxd(Protocol):
         """
 
 class Prv_linkedin(Protocol):
-    """The professional network — people, employers, jobs, posts and LinkedIn Learning. Three
-    surfaces are callable: reading one member's public profile, searching the public job
-    board, and reading a single posting in full.
+    """The professional network — people, employers, jobs and posts. With no sign-in: read one
+    member's public profile, find people by name, read a company page, search the public job
+    board and read a posting in full. With the caller signed in to LinkedIn it acts as them:
+    their own profile, connections, home feed, messages and invitations, who viewed their
+    profile, full profiles of other members, and LinkedIn's own search for people (by
+    company, title, place and degree), companies, a company's staff and posts.
     """
 
     async def searchJobs(self, query: Prv_linkedin_LinkedinJobSearchQuery_In | str, /) -> list[Prv_linkedin_LinkedinJobSearchResult_Out]:
@@ -31959,6 +32165,117 @@ class Prv_linkedin(Protocol):
         as everyone by that name without checking it. (4) Throws if the index itself refuses the
         query (a bot challenge or non-200) — a real "the search failed" distinct from "nobody
         matched", which returns an empty `profiles` with no warnings.
+        """
+
+    async def getMyProfile(self, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinMe_Out:
+        """Returns the signed-in caller's own LinkedIn member record — name, headline, profile URL
+        and photo, and whether the account is Premium. Signed in: acts as the caller's own
+        LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
+        sign in.
+        """
+
+    async def listConnections(self, input: Prv_linkedin_listConnections_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listConnections_return_Out:
+        """Lists the caller's first-degree connections, most recently connected first, with each
+        person's name, headline, profile URL and when they connected. `count` up to 100 per page
+        (default 40). Signed in: acts as the caller's own LinkedIn account; with no saved
+        sign-in the run pauses and hands back a link where they sign in.
+        """
+
+    async def getProfileDetails(self, profile: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_LinkedinMemberProfile_Out:
+        """Returns one member's full profile as a signed-in member sees it — headline, the About
+        summary, location, industry, every position with its dates and company, and every school
+        — from a profile URL or slug. Richer than getProfile, which reads only the public
+        preview and needs no sign-in. Skills and contact details are not returned: LinkedIn's
+        API no longer serves contact info (HTTP 410). Signed in: acts as the caller's own
+        LinkedIn account; with no saved sign-in the run pauses and hands back a link where they
+        sign in.
+        """
+
+    async def searchMembers(self, input: str | Prv_linkedin_searchMembers_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
+        """LinkedIn's own people search, run as the caller: keywords plus optional filters —
+        current company (numeric ids from searchCompanies), job title, a location by name, and
+        connection degree ("1st", "2nd", "3rd"). Returns 10 ranked people per page with name,
+        headline, location, profile URL and the caller's degree of connection. Unlike
+        searchPeople, which needs no sign-in and relies on a web index, this is LinkedIn's
+        ranking and filters. Signed in: acts as the caller's own LinkedIn account; with no saved
+        sign-in the run pauses and hands back a link where they sign in.
+        """
+
+    async def searchCompanies(self, input: str | Prv_linkedin_searchCompanies_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per
+        page with each one's handle, numeric id, industry, location and follower count. The
+        handle feeds getCompany; the id feeds listCompanyEmployees and searchMembers. Signed in:
+        acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in.
+        """
+
+    async def listCompanyEmployees(self, input: str | Prv_linkedin_listCompanyEmployees_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Lists people who give a company as their current employer — from its LinkedIn URL,
+        handle ("stripe") or numeric id — 10 per page with name, headline, location and profile
+        URL, optionally narrowed by keywords or job title. It is LinkedIn's people search with
+        the current-company filter applied. Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        """
+
+    async def searchPosts(self, input: str | Prv_linkedin_searchPosts_input_u1_In, opts: ConnectionOption | None = None, /) -> Any:
+        """Searches LinkedIn posts by keyword and returns them with author, text, how long ago each
+        was posted, its reaction, comment and repost counts, and its URL. Signed in: acts as the
+        caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+        link where they sign in.
+        """
+
+    async def getHomeFeed(self, input: Prv_linkedin_getHomeFeed_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getHomeFeed_return_Out:
+        """Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL
+        for each post. Promoted posts are left out. `count` up to 100 (default 10). Signed in:
+        acts as the caller's own LinkedIn account; with no saved sign-in the run pauses and
+        hands back a link where they sign in.
+        """
+
+    async def listConversations(self, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listConversations_return_Out:
+        """Lists the caller's LinkedIn message threads, most recent first, with the other
+        participants, unread count and the latest message in each. Signed in: acts as the
+        caller's own LinkedIn account; with no saved sign-in the run pauses and hands back a
+        link where they sign in.
+        """
+
+    async def getConversation(self, conversation: str, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getConversation_return_Out:
+        """Reads one LinkedIn message thread in order, oldest first — who sent each message, its
+        text and when — from a conversation id or urn out of listConversations, or a
+        /messaging/thread/ URL. Signed in: acts as the caller's own LinkedIn account; with no
+        saved sign-in the run pauses and hands back a link where they sign in.
+        """
+
+    async def listInvitations(self, input: Prv_linkedin_listInvitations_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listInvitations_return_Out:
+        """Lists the connection invitations the caller has received and not yet answered — who sent
+        each, their note if any, and when. Signed in: acts as the caller's own LinkedIn account;
+        with no saved sign-in the run pauses and hands back a link where they sign in.
+        """
+
+    async def listSentInvitations(self, input: Prv_linkedin_listSentInvitations_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_linkedin_listSentInvitations_return_Out:
+        """Lists the connection invitations the caller has sent that are still pending — who each
+        went to, the note, and when it was sent. Signed in: acts as the caller's own LinkedIn
+        account; with no saved sign-in the run pauses and hands back a link where they sign in.
+        """
+
+    async def getProfileViews(self, opts: ConnectionOption | None = None, /) -> Prv_linkedin_getProfileViews_return_Out:
+        """Returns "who viewed your profile" for the caller: the view count LinkedIn reports and
+        the viewers it names. Without Premium LinkedIn names only a few of them, so `viewers`
+        can be shorter than `views`. Signed in: acts as the caller's own LinkedIn account; with
+        no saved sign-in the run pauses and hands back a link where they sign in.
+        """
+
+    async def login(self, creds: LoginInput, /) -> Prv_linkedin_login_return_Out:
+        """Signs in with the given credentials and saves a NEW connection — every call creates one,
+        never replacing an existing login, unless `connection` names an existing id to sign back
+        in to (its cookies replaced, its id and settings kept, a logged-out one revived). The
+        returned `connection` is usable on the very next call in the same script or session.
+        `warnings` names the account's other connections to this site. `username`, `password`,
+        `totpCode` and `totpSeed` are plain values here; a caller on the run/session script
+        surface instead passes each as a `bowmark.secret()` reference. Pass the returned
+        `connection` id as `{ connection }` on a later signed-in call to act as this account.
+        Optionally set `keepAlive: { everyHours }` (or `false` to turn it off) and/or
+        `expiresAt` (an ISO date/datetime, a hard ceiling); both default to a 12-hour keep-alive
+        and can be changed later with `bm.connections.update(id, …)`.
         """
 
 class Prv_liquiddeath(Protocol):
@@ -38108,6 +38425,7 @@ class BowmarkProviders(Protocol):
     higgsfield: Prv_higgsfield
     highlandhomes: Prv_highlandhomes
     hilton: Prv_hilton
+    hipcamp: Prv_hipcamp
     historymaker: Prv_historymaker
     hobie: Prv_hobie
     hodjapasha: Prv_hodjapasha
