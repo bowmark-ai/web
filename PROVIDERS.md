@@ -2339,7 +2339,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getSummary` | wikipedia.org | The lead of an article and nothing else — the first paragraph as plain text and as… | 🟢 |
 | `wikipedia.getUser` | wikipedia.org | A Wikipedia editor's public record — registration date, total edit count, and the user… | ⚪ |
 | `wikipedia.getWikitext` | wikipedia.org | The article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟢 |
-| `wikipedia.listBacklinks` | wikipedia.org | What links HERE — every Wikipedia article pointing at this one, by title and url. | ⚪ |
+| `wikipedia.listBacklinks` | wikipedia.org | What links HERE — every Wikipedia article pointing at this one, by title and url. | 🟢 |
 | `wikipedia.listCategories` | wikipedia.org | The categories an article belongs to — Wikipedia's own subject taxonomy, which is how… | ⚪ |
 | `wikipedia.listCategoryMembers` | wikipedia.org | Every article in a category — hand it "Coffee" and get the pages Wikipedia files under… | ⚪ |
 | `wikipedia.listExternalLinks` | wikipedia.org | Every link OFF Wikipedia from one article — the sources, official sites and references… | ⚪ |
