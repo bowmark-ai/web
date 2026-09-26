@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2219 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2273 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -303,6 +303,24 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bollandbranch.getCategoryOptions` | bollandbranch.com | Lists the real, currently-sellable products for one Virtual Bed Designer category… | 🟢 |
 | `bollandbranch.getSwatchDetails` | bollandbranch.com | Resolves color/fabric swatch names (as offered by getCategoryOptions) to their hex… | 🟢 |
 | `bollandbranch.renderBedPreview` | bollandbranch.com | Would render the Designer's own live combination preview (the stacked-bed visual for a… | ⚪ |
+| `booking_com.addToWishlist` | booking.com | Add a property to the caller's wishlist. | ⚪ |
+| `booking_com.autocompleteDestination` | booking.com | Autocomplete destination search with dest_id, dest_type and name. | ⚪ |
+| `booking_com.checkPrice` | booking.com | Check price and availability for a property on specific dates. | ⚪ |
+| `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | ⚪ |
+| `booking_com.getBooking` | booking.com | Get details of one past or upcoming booking. | ⚪ |
+| `booking_com.getProperty` | booking.com | Fetch detailed property information including amenities, photos and reviews. | ⚪ |
+| `booking_com.getReviewBreakdown` | booking.com | Get overall review score and category breakdown for a property. | ⚪ |
+| `booking_com.listAvailability` | booking.com | List available properties for a given search with availability status and pricing. | ⚪ |
+| `booking_com.listBookings` | booking.com | List the caller's past and upcoming bookings. | ⚪ |
+| `booking_com.listFilterOptions` | booking.com | List available filter options (amenities, price range, ratings) for a search. | ⚪ |
+| `booking_com.listMyReviews` | booking.com | List reviews the caller has written. | ⚪ |
+| `booking_com.listPropertyPhotos` | booking.com | List photos and galleries for a property. | ⚪ |
+| `booking_com.listPropertyReviews` | booking.com | List guest reviews for a property. | ⚪ |
+| `booking_com.listSavedPaymentMethods` | booking.com | List payment methods saved to the caller's account. | ⚪ |
+| `booking_com.listWishlist` | booking.com | List properties the caller has saved to their wishlist. | ⚪ |
+| `booking_com.removeFromWishlist` | booking.com | Remove a property from the caller's wishlist. | ⚪ |
+| `booking_com.search` | booking.com | Search for accommodations by destination, dates and parameters; returns property… | ⚪ |
+| `booking_com.writeReview` | booking.com | Write a review for a property the caller has booked. | ⚪ |
 | `borsheims.configureRing` | borsheims.com | Composes a setting product page and a diamond/center-stone product page into a priced… | 🟢 |
 | `borsheims.getProduct` | borsheims.com | Reads one product's real, live price straight off its product page's own embedded data… | 🟢 |
 | `borsheims.searchProducts` | borsheims.com | Turns a free-text query into real borsheims.com product page URLs by matching every… | 🟢 |
@@ -1942,6 +1960,18 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `topviewtix.reserve` | topviewtix.com | Would pick a date, ticket quantity and seating tier for a package and hand back a… | ⚪ |
 | `totalplastics.getQuoteFormFieldOptions` | totalplastics.com | Reads one named field off the live quote form (e.g. "Material Type" or "Annual… | 🟢 |
 | `totalplastics.getQuoteFormFields` | totalplastics.com | Reads Total Plastics' own "Request a Quote" form (a POWR form-builder widget embedded… | 🟢 |
+| `tradingview.getChartData` | www.tradingview.com | Get historical candlestick/OHLCV data for charting. | ⚪ |
+| `tradingview.getCompanyInfo` | www.tradingview.com | Get fundamental information about a company: description, sector, market cap, employees. | ⚪ |
+| `tradingview.getDividends` | www.tradingview.com | Get dividend history and yield information for a symbol. | ⚪ |
+| `tradingview.getEarnings` | www.tradingview.com | Get earnings history and upcoming earnings dates for a symbol. | ⚪ |
+| `tradingview.getFinancials` | www.tradingview.com | Get financial statements and historical data: revenue, earnings, balance sheet. | ⚪ |
+| `tradingview.getMarketOverview` | www.tradingview.com | Get market overview data: top gainers, losers, most active symbols. | ⚪ |
+| `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | ⚪ |
+| `tradingview.getOptionChain` | www.tradingview.com | Get option chain data for symbols that have options. | ⚪ |
+| `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | ⚪ |
+| `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | ⚪ |
+| `tradingview.getTechnicalAnalysis` | www.tradingview.com | Get technical analysis signals and ratings for a symbol. | ⚪ |
+| `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | ⚪ |
 | `travelinsured.getPlanQuote` | travelinsured.com | Prices Travel Insured's Essential/Deluxe/Platinum plans for a trip (destination… | ⚪ |
 | `travelinsured.getZipInfo` | travelinsured.com | Resolves a US ZIP code to its state and country the way the quote flow's… | 🟢 |
 | `travelinsured.searchDestinations` | travelinsured.com | Looks up a destination (country, city, or US state) the way Travel Insured's own… | 🟢 |
@@ -2080,6 +2110,30 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `waterfurnace.lookupHomeDetails` | waterfurnace.com | Runs the Savings Calculator's own home-details lookup for an address/zip — the same… | 🟢 |
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
+| `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | ⚪ |
+| `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | ⚪ |
+| `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | ⚪ |
+| `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |
+| `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | ⚪ |
+| `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | ⚪ |
+| `weather_channel.getDailyForecast` | weather.com | Daily forecast — high/low, conditions, precipitation chance, wind. 10-day and 15-day… | ⚪ |
+| `weather_channel.getFifteenMinuteForecast` | weather.com | Sub-hourly precipitation forecast — arrival time and intensity of rain/snow in… | ⚪ |
+| `weather_channel.getHistoricalDaily` | weather.com | Historical daily summaries — past 30 days of high, low, and precipitation records. | ⚪ |
+| `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | ⚪ |
+| `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | ⚪ |
+| `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | ⚪ |
+| `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | ⚪ |
+| `weather_channel.getLocation` | weather.com | Gets location details by coordinates (latitude/longitude) — returns location id, name… | ⚪ |
+| `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-level precipitation data — highly granular rainfall/snowfall timing and… | ⚪ |
+| `weather_channel.getObservations` | weather.com | Current observations from weather stations — actual measured conditions from the field. | ⚪ |
+| `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | ⚪ |
+| `weather_channel.getPollenHealth` | weather.com | Cognitive/health indices related to pollen and air quality — allergy forecasts, cold &… | ⚪ |
+| `weather_channel.getRadarTiles` | weather.com | Radar imagery tiles for map overlays — precipitation radar mosaic for a region. | ⚪ |
+| `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | ⚪ |
+| `weather_channel.getWeeklyAd` | weather.com | Weekly promotional content and special notices — featured forecasts or seasonal alerts. | ⚪ |
+| `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | ⚪ |
+| `weather_channel.searchLocations` | weather.com | Autocomplete for location names (cities, ZIP codes) — returns matching locations with… | ⚪ |
+| `weather_channel.searchNews` | weather.com | Weather-related articles and videos from the site's content — search by keyword. | ⚪ |
 | `wellfound.getCompany` | wellfound.com | Reads one startup's `/company/<slug>` profile — the longer product description (HTML)… | ⚪ |
 | `wellfound.getJob` | wellfound.com | Reads one job posting in full the way its own detail page does — takes the `url` a… | 🟢 |
 | `wellfound.getJobCollection` | wellfound.com | Reads one curated collection's postings the way `/job-collections/<slug>` does — the… | ⚪ |
