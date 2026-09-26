@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 593ef3c4f8224263733c789d122836aaaa5263e0f7ab5f2b4d242d0362b7e84a
-// 67 capabilities, 479 providers, 1415 typed functions, 20 refused.
+// Manifest version: 3082469fe4932608314003738c8b73e1e720f8e7fbcbe767829a1bd91eea1f0a
+// 67 capabilities, 480 providers, 1420 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7045,6 +7045,28 @@ interface archive_orgSnapshotPage {
   warnings: string[];
 }
 
+interface archive_orgSearchOptions {
+  mediatype?: string;           // narrow to one Solr mediatype, e.g. "texts", "audio", "movies", "software", "image"
+  sort?: "relevance" | "downloads" | "date";  // default: "relevance"
+  limit?: number;                // 1-200, default 20
+}
+
+interface archive_orgSearchItem {
+  identifier: string;           // pass to getItem / checkLendingAvailability / downloadFile
+  title: string | null;
+  creator: string[] | null;
+  date: string | null;
+  mediatype: string | null;
+  downloads: number | null;
+}
+
+interface archive_orgSearchResults {
+  query: string;
+  totalFound: number;           // Solr's numFound — the full match count, not just items.length
+  items: archive_orgSearchItem[];
+  warnings: string[];
+}
+
   /**
    * The Wayback Machine — is a site or page archived, every capture it holds, and the page
    * itself as it was captured, so a caller can see what a site published before it was changed
@@ -7080,6 +7102,17 @@ interface archive_orgSnapshotPage {
      * not fetch the archived page's own content.
      */
     checkAvailability(site: string, timestamp?: string): Promise<archive_orgAvailability>;
+
+    /**
+     * Searches the Internet Archive's library of books, films, audio, software and more through
+     * its Solr search API — free text or a Solr query string (`'title:(pride and prejudice) AND
+     * mediatype:texts'`). Narrow with `mediatype` ("texts", "audio", "movies", "software",
+     * "image") and order with `sort` ("relevance" default, "downloads" for
+     * most-borrowed/most-played, "date"). Each result carries the `identifier` to pass to getItem,
+     * checkLendingAvailability or downloadFile. `totalFound` is the Solr match count, which is
+     * usually far larger than the page returned.
+     */
+    searchItems(query: string, opts?: archive_orgSearchOptions): Promise<archive_orgSearchResults>;
   }
 }
 
@@ -9731,6 +9764,41 @@ interface BodaccNotice {
      * sauvegarde)
      */
     search(args: SearchArgs): Promise<{ notices: BodaccNotice[] }>;
+  }
+}
+
+declare namespace BowmarkProvider_bodensee_schiffsbetriebe_berths {
+  // ── Bodensee-Schiffsbetriebe — the unit's own declarations, verbatim ──
+interface Harbor {
+  id: string;
+  name: string;
+  location?: string;
+}
+
+interface BerthStatus {
+  harborId: string;
+  harborName: string;
+  totalBerths: number;
+  availableBerths: number;
+  waitlistCount?: number;
+  lastUpdated?: string;
+}
+
+interface SearchHarborsArgs {
+  query: string;
+}
+
+interface GetBerthStatusArgs {
+  harborId: string;
+}
+
+  /** Boat harbor berth availability and information for Lake Constance harbors. */
+  interface Unit {
+    /** Search for Lake Constance harbors by name. */
+    searchHarbors(query: string): Promise<Harbor[]>;
+
+    /** Get berth availability status for a specific harbor. */
+    getBerthStatus(harborId: string): Promise<BerthStatus>;
   }
 }
 
@@ -29830,6 +29898,8 @@ interface GetWordleArgs { date?: string; }
 interface ConnectionsCategory { title: string; cards: Array<{ content: string; position: number }>; }
 interface NytConnections { id: number; printDate: string; editor: string | null; categories: ConnectionsCategory[]; }
 interface GetConnectionsArgs { date?: string; }
+interface NytSpellingBee { id: number; centerLetter: string; outerLetters: string; answers: string[]; pangrams: string[]; printDate: string; editor: string | null; }
+interface GetSpellingBeeArgs { date?: string; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -29847,6 +29917,12 @@ interface GetConnectionsArgs { date?: string; }
      * Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
      */
     getConnections(args?: GetConnectionsArgs): Promise<NytConnections>;
+
+    /**
+     * Retrieves the daily Spelling Bee puzzle with center letter, outer letters, valid answers and
+     * pangrams. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
+     */
+    getSpellingBee(args?: GetSpellingBeeArgs): Promise<NytSpellingBee>;
   }
 }
 
@@ -40690,6 +40766,22 @@ interface GetScheduleArgs {
   teamSlug: string;
 }
 
+interface GetTeamRosterArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  // The site's own short team slug off that team's /teams/<slug>/ page —
+  // e.g. "detroit", "ny-yankees" — not a name-derived guess.
+  teamSlug: string;
+}
+
+interface YahooSportsRosterRow {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  playerId: string;
+  name: string;
+  position: string;
+  jerseyNumber: string | null;
+  url: string;
+}
+
 interface YahooSportsGameDetail {
   name: string;
   homeTeam: string;
@@ -40783,6 +40875,12 @@ interface GetPlayerArgs {
      * game, opponent, date and result if played. Takes league and team slug.
      */
     getSchedule(args: GetScheduleArgs): Promise<YahooSportsScheduleRow[]>;
+
+    /**
+     * Reads one team's current roster off Yahoo Sports' own Roster page — every player, position,
+     * jersey number and status. Takes league and team slug.
+     */
+    getTeamRoster(args: GetTeamRosterArgs): Promise<YahooSportsRosterRow[]>;
 
     /**
      * Finds players on one team's roster by name — the door for `getPlayer`, so a caller holding a
@@ -42742,6 +42840,7 @@ interface BowmarkProviders {
   bluesignal: BowmarkProvider_bluesignal.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
   bodacc: BowmarkProvider_bodacc.Unit;
+  bodensee_schiffsbetriebe_berths: BowmarkProvider_bodensee_schiffsbetriebe_berths.Unit;
   boglewinery: BowmarkProvider_boglewinery.Unit;
   bollandbranch: BowmarkProvider_bollandbranch.Unit;
   borsheims: BowmarkProvider_borsheims.Unit;

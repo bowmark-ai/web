@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 593ef3c4f8224263733c789d122836aaaa5263e0f7ab5f2b4d242d0362b7e84a
-# 67 capabilities, 479 providers, 1397 typed functions, 20 refused.
+# Manifest version: 3082469fe4932608314003738c8b73e1e720f8e7fbcbe767829a1bd91eea1f0a
+# 67 capabilities, 480 providers, 1402 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3883,6 +3883,25 @@ class Prv_archive_org_archive_orgAvailability_Out(TypedDict):
     archivedTimestamp: str | None
     archivedStatus: str | None
 
+class Prv_archive_org_archive_orgSearchOptions_In(TypedDict):
+    mediatype: NotRequired[str]
+    sort: NotRequired[Literal["relevance"] | Literal["downloads"] | Literal["date"]]
+    limit: NotRequired[float]
+
+class Prv_archive_org_archive_orgSearchResults_Out(TypedDict):
+    query: str
+    totalFound: float
+    items: list[Prv_archive_org_archive_orgSearchItem_Out]
+    warnings: list[str]
+
+class Prv_archive_org_archive_orgSearchItem_Out(TypedDict):
+    identifier: str
+    title: str | None
+    creator: list[str] | None
+    date: str | None
+    mediatype: str | None
+    downloads: float | None
+
 class Prv_artpix3d_Artpix3dShape_Out(TypedDict):
     slug: str
     name: str
@@ -5383,6 +5402,19 @@ class Prv_bodacc_BodaccNotice_Out(TypedDict):
     companyName: str
     siren: str
     datePublished: str
+
+class Prv_bodensee_schiffsbetriebe_berths_Harbor_Out(TypedDict):
+    id: str
+    name: str
+    location: NotRequired[str]
+
+class Prv_bodensee_schiffsbetriebe_berths_BerthStatus_Out(TypedDict):
+    harborId: str
+    harborName: str
+    totalBerths: float
+    availableBerths: float
+    waitlistCount: NotRequired[float]
+    lastUpdated: NotRequired[str]
 
 class Prv_boglewinery_BoglewineryExperience_Out(TypedDict):
     id: float
@@ -15694,6 +15726,18 @@ class Prv_nyt_games_ConnectionsCategory_Out_cards_item_Out(TypedDict):
     content: str
     position: float
 
+class Prv_nyt_games_GetSpellingBeeArgs_In(TypedDict):
+    date: NotRequired[str]
+
+class Prv_nyt_games_NytSpellingBee_Out(TypedDict):
+    id: float
+    centerLetter: str
+    outerLetters: str
+    answers: list[str]
+    pangrams: list[str]
+    printDate: str
+    editor: str | None
+
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
     {
@@ -22148,6 +22192,18 @@ class Prv_yahoo_sports_YahooSportsScheduleRow_Out(TypedDict):
     score: str | None
     isHome: bool
 
+class Prv_yahoo_sports_GetTeamRosterArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    teamSlug: str
+
+class Prv_yahoo_sports_YahooSportsRosterRow_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    playerId: str
+    name: str
+    position: str
+    jerseyNumber: str | None
+    url: str
+
 class Prv_yahoo_sports_FindPlayersArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
     teamSlug: str
@@ -25467,6 +25523,16 @@ class Prv_archive_org(Protocol):
         it does not fetch the archived page's own content.
         """
 
+    async def searchItems(self, query: str, opts: Prv_archive_org_archive_orgSearchOptions_In | None = None, /) -> Prv_archive_org_archive_orgSearchResults_Out:
+        """Searches the Internet Archive's library of books, films, audio, software and more
+        through its Solr search API — free text or a Solr query string (`'title:(pride and
+        prejudice) AND mediatype:texts'`). Narrow with `mediatype` ("texts", "audio", "movies",
+        "software", "image") and order with `sort` ("relevance" default, "downloads" for
+        most-borrowed/most-played, "date"). Each result carries the `identifier` to pass to
+        getItem, checkLendingAvailability or downloadFile. `totalFound` is the Solr match count,
+        which is usually far larger than the page returned.
+        """
+
 class Prv_artpix3d(Protocol):
     """Reads ArtPix 3D's own live product configurator — every crystal shape, and for a chosen
     shape, every size's real current price (with active sale discounts) and
@@ -26486,6 +26552,15 @@ class Prv_bodacc(Protocol):
         """Returns BODACC insolvency notices (redressement judiciaire, liquidation judiciaire,
         sauvegarde)
         """
+
+class Prv_bodensee_schiffsbetriebe_berths(Protocol):
+    """Boat harbor berth availability and information for Lake Constance harbors."""
+
+    async def searchHarbors(self, query: str, /) -> list[Prv_bodensee_schiffsbetriebe_berths_Harbor_Out]:
+        """Search for Lake Constance harbors by name."""
+
+    async def getBerthStatus(self, harborId: str, /) -> Prv_bodensee_schiffsbetriebe_berths_BerthStatus_Out:
+        """Get berth availability status for a specific harbor."""
 
 class Prv_boglewinery(Protocol):
     """Bogle Family Vineyards' real Tock tasting-experience catalog and the computed open
@@ -33940,6 +34015,11 @@ class Prv_nyt_games(Protocol):
         Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
         """
 
+    async def getSpellingBee(self, args: Prv_nyt_games_GetSpellingBeeArgs_In | None = None, /) -> Prv_nyt_games_NytSpellingBee_Out:
+        """Retrieves the daily Spelling Bee puzzle with center letter, outer letters, valid answers
+        and pangrams. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -38096,6 +38176,11 @@ class Prv_yahoo_sports(Protocol):
         every game, opponent, date and result if played. Takes league and team slug.
         """
 
+    async def getTeamRoster(self, args: Prv_yahoo_sports_GetTeamRosterArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsRosterRow_Out]:
+        """Reads one team's current roster off Yahoo Sports' own Roster page — every player,
+        position, jersey number and status. Takes league and team slug.
+        """
+
     async def findPlayers(self, args: Prv_yahoo_sports_FindPlayersArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsPlayerRow_Out]:
         """Finds players on one team's roster by name — the door for `getPlayer`, so a caller
         holding a name and a team can reach that player's own page. Yahoo Sports publishes no
@@ -38635,6 +38720,7 @@ class BowmarkProviders(Protocol):
     bluesignal: Prv_bluesignal
     bmwusa: Prv_bmwusa
     bodacc: Prv_bodacc
+    bodensee_schiffsbetriebe_berths: Prv_bodensee_schiffsbetriebe_berths
     boglewinery: Prv_boglewinery
     bollandbranch: Prv_bollandbranch
     borsheims: Prv_borsheims

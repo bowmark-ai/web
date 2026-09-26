@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 593ef3c4f8224263733c789d122836aaaa5263e0f7ab5f2b4d242d0362b7e84a
-// 1397 checked, 20 unchecked.
+// Manifest version: 3082469fe4932608314003738c8b73e1e720f8e7fbcbe767829a1bd91eea1f0a
+// 1402 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "593ef3c4f8224263733c789d122836aaaa5263e0f7ab5f2b4d242d0362b7e84a",
+  "version": "3082469fe4932608314003738c8b73e1e720f8e7fbcbe767829a1bd91eea1f0a",
   "units": {
     "booking_links": {
       "defs": {
@@ -7453,6 +7453,46 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.archive_org": {
       "defs": {
+        "archive_orgSearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "mediatype",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "downloads"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "date"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "archive_orgSnapshotOptions": {
           "k": "object",
           "props": [
@@ -7539,6 +7579,23 @@ export const VALIDATORS: ValidatorTable = {
             "name": "timestamp",
             "schema": {
               "k": "string"
+            },
+            "optional": true
+          }
+        ],
+        "searchItems": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "ref",
+              "name": "archive_orgSearchOptions"
             },
             "optional": true
           }
@@ -9686,6 +9743,29 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.bodensee_schiffsbetriebe_berths": {
+      "defs": {},
+      "functions": {
+        "searchHarbors": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getBerthStatus": [
+          {
+            "name": "harborId",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -27091,6 +27171,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetSpellingBeeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetWordleArgs": {
           "k": "object",
           "props": [
@@ -27121,6 +27213,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetConnectionsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getSpellingBee": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSpellingBeeArgs"
             },
             "optional": true
           }
@@ -41397,6 +41499,51 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetTeamRosterArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "teamSlug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListTeamsArgs": {
           "k": "object",
           "props": [
@@ -41483,6 +41630,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetScheduleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTeamRoster": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTeamRosterArgs"
             },
             "optional": false
           }
