@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2421 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2422 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1091,6 +1091,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_translate.translateWebPage` | translate.google.com | Read somebody else's web page in your own language — the Websites tab. | 🟢 |
 | `google_translate.unsavePhrase` | translate.google.com | Take a phrase back out of the signed-in person's saved phrases — the undo for… | ⚪ |
 | `google.search` | google.com | Runs a Google web search and returns the ranked results — title, destination url and… | ⚪ |
+| `goremutual.getProductOverview` | goremutual.ca | Returns the public product overview for Gore Mutual's commercial property and casualty… | 🟢 |
 | `gostoreit.findFacilities` | gostoreit.com | Searches Go Store It's public location results by a city, state, or ZIP and returns… | 🟢 |
 | `gostoreit.getFacilityUnits` | gostoreit.com | Reads a public Go Store It facility URL's live rendered unit inventory: size… | 🟢 |
 | `gotchacovered.getDesignStyleQuizQuestions` | gotchacovered.com | Reads the live 'What Design Style Am I?' quiz's real 6 questions and their option… | 🟢 |
