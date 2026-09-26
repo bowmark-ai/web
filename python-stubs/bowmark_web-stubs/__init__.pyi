@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: efa98d4eb1812036e0bed43bbcc7a8e1594e45041bb7a21f94d7e41e397eb8de
-# 67 capabilities, 477 providers, 1392 typed functions, 20 refused.
+# Manifest version: 2a0714896113572022c7d3b2711fe23aa49566b38a3eeb979f39df2f336f6ce7
+# 67 capabilities, 478 providers, 1393 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -19174,6 +19174,22 @@ class Prv_soundcloud_ScPlaylist_Out(TypedDict):
     createdAt: str | None
     tracks: list[Prv_soundcloud_ScTrack_Out]
 
+class Prv_spacest_search_args_In(TypedDict):
+    city: str
+    moveIn: NotRequired[str]
+    moveOut: NotRequired[str]
+    guests: NotRequired[float]
+
+class Prv_spacest_SpacestListing_Out(TypedDict):
+    id: str
+    name: str
+    price: float
+    currency: str
+    location: str
+    bedrooms: NotRequired[float]
+    available: NotRequired[bool]
+    url: NotRequired[str]
+
 class Prv_speedrun_FindGameArgs_In(TypedDict):
     name: str
 
@@ -36091,6 +36107,14 @@ class Prv_soundcloud(Protocol):
         could be read — an empty track list would be a failed read wearing a success costume.
         """
 
+class Prv_spacest(Protocol):
+    """Search furnished corporate apartments on Spacest"""
+
+    async def search(self, args: Prv_spacest_search_args_In, /) -> list[Prv_spacest_SpacestListing_Out]:
+        """Searches furnished corporate rentals by city and optional dates, returning listings with
+        price, location, availability, and bedrooms.
+        """
+
 class Prv_speedrun(Protocol):
     """Submit speedruns and search game metadata on speedrun.com"""
 
@@ -38844,6 +38868,7 @@ class BowmarkProviders(Protocol):
     smithery: Prv_smithery
     solostove: Prv_solostove
     soundcloud: Prv_soundcloud
+    spacest: Prv_spacest
     speedrun: Prv_speedrun
     spirithalloween: Prv_spirithalloween
     starlighthomes: Prv_starlighthomes
