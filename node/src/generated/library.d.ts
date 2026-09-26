@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 46b77f11c8402ba610521530da45706e70efa727cfd097ed4b7613dd74f1b5bc
+// Manifest version: 25d2602f991be509447dd3d489a4a15b5c1dc46384250e3e31fa5d7f173fbbc5
 // 66 capabilities, 477 providers, 1409 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -232,7 +232,7 @@ interface StartBrowserAgentOptions {
   task: string;             // plain language, name the site
   backend?: string;         // default "browser_use"
   model?: string;           // e.g. "claude-sonnet-5"; default "gpt-5.6-luna"
-  maxCostUsd?: number;      // vendor spend ceiling per turn, default 2, max 25
+  maxCostUsd?: number;      // spend ceiling per turn, in the dollars YOU are charged; default 2, max 25
   proxyCountry?: string;    // e.g. "us"
   timeoutMs?: number;
 }
