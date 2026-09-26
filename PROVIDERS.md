@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2464 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2495 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -50,6 +50,36 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `airtable.updateRecord` | airtable.com | Updates an existing record by its ID. | 🟢 |
 | `ajmadison.checkStock` | ajmadison.com | Reads one product's detail page for its real, current stock/availability message. | ⚪ |
 | `ajmadison.search` | ajmadison.com | Runs AJ Madison's own category + facet filter (brand, size/capacity, price band… | 🟢 |
+| `alibaba.addToCart` | alibaba.com | Add a product to the shopping cart with specified quantity. | ⚪ |
+| `alibaba.cancelOrder` | alibaba.com | Cancel an order (if eligible). | ⚪ |
+| `alibaba.contactSupplier` | alibaba.com | Send a message to a supplier asking about products or availability. | ⚪ |
+| `alibaba.createRfq` | alibaba.com | Create a Request for Quote to get bids from multiple suppliers. | ⚪ |
+| `alibaba.editProfile` | alibaba.com | Update account profile information like name, company and contact details. | ⚪ |
+| `alibaba.getAccountRating` | alibaba.com | Get the account's seller/buyer rating and reputation score. | ⚪ |
+| `alibaba.getCart` | alibaba.com | Get current shopping cart contents and totals. | ⚪ |
+| `alibaba.getInvoice` | alibaba.com | Get details of a specific invoice. | ⚪ |
+| `alibaba.getOrder` | alibaba.com | Get details for a specific order including tracking, payment status and items. | ⚪ |
+| `alibaba.getProduct` | alibaba.com | Get detailed information for a single product by ID, including specs, images, pricing… | ⚪ |
+| `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | ⚪ |
+| `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
+| `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
+| `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | ⚪ |
+| `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | ⚪ |
+| `alibaba.listCategories` | alibaba.com | List all product categories available on the marketplace. | ⚪ |
+| `alibaba.listInvoices` | alibaba.com | Get list of invoices for past orders. | ⚪ |
+| `alibaba.listMessages` | alibaba.com | Get inbox of messages from suppliers and other contacts. | ⚪ |
+| `alibaba.listOrders` | alibaba.com | Get list of past orders with status, date and items. | ⚪ |
+| `alibaba.listRfqProfessions` | alibaba.com | Get list of available industry/profession categories for RFQ. | ⚪ |
+| `alibaba.listRfqs` | alibaba.com | Get list of RFQs (Requests for Quote) created by the user. | ⚪ |
+| `alibaba.listSavedItems` | alibaba.com | Get list of saved/favorited products. | ⚪ |
+| `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | ⚪ |
+| `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
+| `alibaba.removeFromCart` | alibaba.com | Remove a product from the shopping cart. | ⚪ |
+| `alibaba.saveProduct` | alibaba.com | Add a product to saved items/favorites. | ⚪ |
+| `alibaba.searchProducts` | alibaba.com | Search for products by keyword, returning results with title, price, supplier and… | ⚪ |
+| `alibaba.trackOrder` | alibaba.com | Get shipment tracking information and current delivery status. | ⚪ |
+| `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
+| `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
 | `amazon.addToCart` | www.amazon.com | Put a product in the cart, in the quantity asked for, and report what the cart then… | ⚪ |
@@ -1968,6 +1998,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
+| `spacest.search` | spacest.com | Searches furnished corporate rentals by city and optional dates, returning listings… | 🟢 |
 | `speedrun.categories` | www.speedrun.com | List all categories for a game, including variables and values. | 🟢 |
 | `speedrun.findGame` | www.speedrun.com | Search for a game by name, returning metadata including ID, platforms, and rules. | 🟢 |
 | `speedrun.platforms` | www.speedrun.com | List all platforms, optionally filtered to a specific game. | 🟢 |
