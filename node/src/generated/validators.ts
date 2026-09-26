@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9e0242e4f940876994d08800be02f4d9966a174f869f5f73ce2670d612da2e1d
-// 1403 checked, 20 unchecked.
+// Manifest version: 531cc9db52ebe6ce41a477f993e1a4d03520a3e2e34b8f879b7dd705e1940ff7
+// 1402 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9e0242e4f940876994d08800be02f4d9966a174f869f5f73ce2670d612da2e1d",
+  "version": "531cc9db52ebe6ce41a477f993e1a4d03520a3e2e34b8f879b7dd705e1940ff7",
   "units": {
     "booking_links": {
       "defs": {
@@ -36320,50 +36320,6 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
-          }
-        ]
-      }
-    },
-    "providers.spacest": {
-      "defs": {},
-      "functions": {
-        "search": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "city",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "moveIn",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "moveOut",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "guests",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            "optional": false
           }
         ]
       }

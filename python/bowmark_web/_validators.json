@@ -1,5 +1,5 @@
 {
-  "version": "9e0242e4f940876994d08800be02f4d9966a174f869f5f73ce2670d612da2e1d",
+  "version": "531cc9db52ebe6ce41a477f993e1a4d03520a3e2e34b8f879b7dd705e1940ff7",
   "units": {
     "booking_links": {
       "defs": {
@@ -36308,50 +36308,6 @@
               "k": "number"
             },
             "optional": true
-          }
-        ]
-      }
-    },
-    "providers.spacest": {
-      "defs": {},
-      "functions": {
-        "search": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "city",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "moveIn",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "moveOut",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": true
-                },
-                {
-                  "name": "guests",
-                  "schema": {
-                    "k": "number"
-                  },
-                  "optional": true
-                }
-              ]
-            },
-            "optional": false
           }
         ]
       }

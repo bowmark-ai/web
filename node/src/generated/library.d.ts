@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9e0242e4f940876994d08800be02f4d9966a174f869f5f73ce2670d612da2e1d
-// 67 capabilities, 480 providers, 1421 typed functions, 20 refused.
+// Manifest version: 531cc9db52ebe6ce41a477f993e1a4d03520a3e2e34b8f879b7dd705e1940ff7
+// 67 capabilities, 479 providers, 1420 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -35614,36 +35614,6 @@ interface ScPlaylist {
   }
 }
 
-declare namespace BowmarkProvider_spacest {
-  // ── Spacest — the unit's own declarations, verbatim ──
-interface SearchArgs {
-  city: string;
-  moveIn?: string;
-  moveOut?: string;
-  guests?: number;
-}
-
-interface SpacestListing {
-  id: string;
-  name: string;
-  price: number;
-  currency: string;
-  location: string;
-  bedrooms?: number;
-  available?: boolean;
-  url?: string;
-}
-
-  /** Search furnished corporate apartments on Spacest */
-  interface Unit {
-    /**
-     * Searches furnished corporate rentals by city and optional dates, returning listings with
-     * price, location, availability, and bedrooms.
-     */
-    search(args: { city: string, moveIn?: string, moveOut?: string, guests?: number }): Promise<SpacestListing[]>;
-  }
-}
-
 declare namespace BowmarkProvider_speedrun {
   // ── speedrun.com — the unit's own declarations, verbatim ──
 interface FindGameArgs {
@@ -43190,7 +43160,6 @@ interface BowmarkProviders {
   smithery: BowmarkProvider_smithery.Unit;
   solostove: BowmarkProvider_solostove.Unit;
   soundcloud: BowmarkProvider_soundcloud.Unit;
-  spacest: BowmarkProvider_spacest.Unit;
   speedrun: BowmarkProvider_speedrun.Unit;
   spirithalloween: BowmarkProvider_spirithalloween.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;

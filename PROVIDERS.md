@@ -1838,7 +1838,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `prolook.getStyleCustomizationOptions` | prolook.com | Reads one style's real customization surface — every trim (buttons, piping, etc.) and… | 🟢 |
 | `prolook.getTeamQuote` | prolook.com | Computes a real team order total for N jerseys of one style, from the site's own live… | 🟢 |
 | `prolook.listUniformStyles` | prolook.com | Lists one page of PROLOOK's real team-uniform styles for a sport (e.g. baseball) —… | 🟢 |
-| `prose.getHaircareProductPrice` | prose.com | Looks up ONE Prose product type's real one-time and subscription USD price (e.g.… | 🟡 |
+| `prose.getHaircareProductPrice` | prose.com | Looks up ONE Prose product type's real one-time and subscription USD price (e.g.… | 🟢 |
 | `prose.getHairPrescription` | prose.com | Runs Prose's real online hair consultation end to end — the exact 38 questions its own… | 🟢 |
 | `prose.listHaircareProducts` | prose.com | Lists every haircare formula/tool type Prose sells (shampoo, conditioner, hair mask… | 🟢 |
 | `proton_mail.getMessage` | proton.me | Reads one message in full from the CALLER's own mailbox — sender, recipients, subject… | ⚪ |
@@ -2038,7 +2038,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `soundcloud.getPlaylist` | soundcloud.com | Reads a SoundCloud set or playlist URL and returns its tracks in order — the unit… | 🟢 |
 | `soundcloud.getTrack` | soundcloud.com | Resolves one soundcloud.com track URL to its full metadata — title, artist, duration… | 🟢 |
 | `soundcloud.search` | soundcloud.com | Searches SoundCloud's catalogue for tracks matching a free-text query and returns up… | 🟢 |
-| `spacest.search` | spacest.com | Searches furnished corporate rentals by city and optional dates, returning listings… | 🟢 |
+| `spacest.search` | spacest.com | Searches furnished apartments and corporate rentals by city and optional dates… | ⚪ |
 | `speedrun.categories` | www.speedrun.com | List all categories for a game, including variables and values. | 🟢 |
 | `speedrun.findGame` | www.speedrun.com | Search for a game by name, returning metadata including ID, platforms, and rules. | 🟢 |
 | `speedrun.platforms` | www.speedrun.com | List all platforms, optionally filtered to a specific game. | 🟢 |
