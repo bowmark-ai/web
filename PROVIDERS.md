@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2273 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2292 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1272,22 +1272,41 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `letterboxd.film` | letterboxd.com | Reads one film's full record off its letterboxd page — title, year, directors, cast… | 🟢 |
 | `letterboxd.memberDiary` | letterboxd.com | Reads a member's activity feed — every film they logged, with their star rating, the… | 🟢 |
 | `letterboxd.memberFilms` | letterboxd.com | Lists the films a letterboxd member has logged, newest first, off their own films page… | 🟢 |
+| `linkedin.acceptInvitation` | linkedin.com | Accepts a connection invitation the signed-in caller received, by the id and shared… | ⚪ |
+| `linkedin.commentOnPost` | linkedin.com | Comments on a post as the signed-in caller. | ⚪ |
+| `linkedin.createPost` | linkedin.com | Publishes a text post to the signed-in caller's feed, visible to anyone or to… | ⚪ |
+| `linkedin.followCompany` | linkedin.com | Follows or unfollows a company page as the signed-in caller. | ⚪ |
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | ⚪ |
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
+| `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟢 |
 | `linkedin.getEvent` | linkedin.com | Returns one public LinkedIn event from its URL — name, organizer, start and end time… | ⚪ |
+| `linkedin.getHomeFeed` | linkedin.com | Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL… | 🟢 |
 | `linkedin.getJob` | linkedin.com | Returns one job posting in full from its posting URL — title, employer and employer… | 🟢 |
 | `linkedin.getLearningCourse` | linkedin.com | Returns one LinkedIn Learning course from its URL — title, author, duration, level… | ⚪ |
+| `linkedin.getMyProfile` | linkedin.com | Returns the signed-in caller's own LinkedIn member record — name, headline, profile… | 🟢 |
 | `linkedin.getPost` | linkedin.com | Returns one public LinkedIn post from its URL — the author, the post text, the time it… | ⚪ |
 | `linkedin.getProfile` | linkedin.com | Returns the public professional record of one person from their profile URL — full… | 🟢 |
+| `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟢 |
+| `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟢 |
 | `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | ⚪ |
-| `linkedin.listCompanyEmployees` | linkedin.com | Returns the people who list a given company as their current employer, as a paged list… | ⚪ |
+| `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | ⚪ |
+| `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟢 |
 | `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | ⚪ |
-| `linkedin.searchCompanies` | linkedin.com | Returns the companies matching a search — a name, an industry, a headcount band, a… | ⚪ |
+| `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟢 |
+| `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟢 |
+| `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟢 |
+| `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟢 |
+| `linkedin.reactToPost` | linkedin.com | Reacts to a post as the signed-in caller — like, celebrate, support, love, insightful… | ⚪ |
+| `linkedin.searchCompanies` | linkedin.com | Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per… | 🟢 |
 | `linkedin.searchJobs` | linkedin.com | Returns the job postings matching a search — keywords, location and how recently the… | 🟢 |
 | `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | ⚪ |
+| `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟢 |
 | `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name and returns each match's full public profile. | 🟡 |
-| `linkedin.searchPosts` | linkedin.com | Returns public posts matching a search — keywords, author, date range — as a list of… | ⚪ |
+| `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | ⚪ |
+| `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | ⚪ |
+| `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | ⚪ |
+| `linkedin.withdrawInvitation` | linkedin.com | Withdraws a connection invitation the signed-in caller sent and is still pending. | ⚪ |
 | `liquiddeath.addToCart` | liquiddeath.com | Builds a filled cart for the shopper to open — cartUrl lands on the store's own cart… | 🟢 |
 | `liquiddeath.getCart` | liquiddeath.com | Reads a cart the shopper already has, by its id — line items, quantities, per-line and… | 🟢 |
 | `liquiddeath.getProduct` | liquiddeath.com | Reads one product by handle — every variant, its exact price, its SKU and whether that… | 🟢 |
