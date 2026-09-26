@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2292 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2350 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -284,6 +284,63 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesignal.applyToJob` | bluesignal.com | Would submit a job application (name/email/phone/resume) to the site's own per-job… | ⚪ |
 | `bluesignal.getJob` | bluesignal.com | Gets one job's full posting (description + the site's own apply-form URL) by id or url… | 🟡 |
 | `bluesignal.searchJobs` | bluesignal.com | Searches Blue Signal's 270+ live job openings (bluesignal.com/search-jobs, backed by a… | 🟢 |
+| `bluesky.addToList` | bsky.app | Add a person to one of the caller's lists, or remove them. | ⚪ |
+| `bluesky.blockUser` | bsky.app | Block a person as the caller, or unblock them. | ⚪ |
+| `bluesky.bookmarkPost` | bsky.app | Save a post to the caller's Bookmarks, or remove it. | ⚪ |
+| `bluesky.createList` | bsky.app | Create a curation or moderation list owned by the caller. | ⚪ |
+| `bluesky.createPost` | bsky.app | Publish a post as the caller: text with links and mentions resolved into facets… | ⚪ |
+| `bluesky.deletePost` | bsky.app | Delete one of the caller's own posts. | ⚪ |
+| `bluesky.followUser` | bsky.app | Follow a person as the caller, or unfollow them. | ⚪ |
+| `bluesky.getConversation` | bsky.app | The messages in one of the caller's DM conversations, page by page, with a finder from… | ⚪ |
+| `bluesky.getFeed` | bsky.app | Read a custom feed's posts (Discover, What's Hot, any creator's feed) by URL or at://… | ⚪ |
+| `bluesky.getFeedInfo` | bsky.app | One custom feed's details: name, creator, description, avatar, like count and whether… | ⚪ |
+| `bluesky.getFollowers` | bsky.app | Who follows a person, page by page. | ⚪ |
+| `bluesky.getFollows` | bsky.app | Who a person follows, page by page. | ⚪ |
+| `bluesky.getKnownFollowers` | bsky.app | Which of the caller's own follows also follow a given person — the 'Followed by' line… | ⚪ |
+| `bluesky.getLabelers` | bsky.app | A moderation service's (labeler's) details and the labels it applies. | ⚪ |
+| `bluesky.getList` | bsky.app | A list's details and members, page by page. | ⚪ |
+| `bluesky.getListFeed` | bsky.app | The posts from everyone on a curation list, as the list's own feed tab shows them. | ⚪ |
+| `bluesky.getMe` | bsky.app | Who the signed-in caller is: their DID, handle, email-confirmed flag and PDS host. | ⚪ |
+| `bluesky.getMyLikes` | bsky.app | The posts the caller has liked. | ⚪ |
+| `bluesky.getPost` | bsky.app | One or more posts by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text… | ⚪ |
+| `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | ⚪ |
+| `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | ⚪ |
+| `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | ⚪ |
+| `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | ⚪ |
+| `bluesky.getRelationships` | bsky.app | Whether one account follows, or is followed by, each of a list of others. | ⚪ |
+| `bluesky.getStarterPack` | bsky.app | One starter pack: its creator, description, the accounts and feeds it bundles, and how… | ⚪ |
+| `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | ⚪ |
+| `bluesky.getSuggestedFollows` | bsky.app | Accounts Bluesky suggests alongside a given person — its 'similar accounts' list on a… | ⚪ |
+| `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, optionally by interest category. | ⚪ |
+| `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | ⚪ |
+| `bluesky.getTimeline` | bsky.app | The caller's home Following feed, newest first, page by page. | ⚪ |
+| `bluesky.getTrendingTopics` | bsky.app | What is trending on Bluesky right now: the topics and the links to their search or… | ⚪ |
+| `bluesky.getTrends` | bsky.app | The richer trending list the Explore page shows: each trend's post count, status… | ⚪ |
+| `bluesky.getUserFeeds` | bsky.app | The custom feeds a person has made. | ⚪ |
+| `bluesky.getUserLists` | bsky.app | The lists (curation and moderation lists) a person has made. | ⚪ |
+| `bluesky.getUserPosts` | bsky.app | A person's posts, newest first, as their profile tabs show them — posts only, posts… | ⚪ |
+| `bluesky.getUserStarterPacks` | bsky.app | The starter packs a person has made. | ⚪ |
+| `bluesky.likePost` | bsky.app | Like a post as the caller, or undo the like. | ⚪ |
+| `bluesky.listBlockedUsers` | bsky.app | The accounts the caller has blocked. | ⚪ |
+| `bluesky.listBookmarks` | bsky.app | The posts the caller has saved to Bookmarks. | ⚪ |
+| `bluesky.listConversations` | bsky.app | The caller's direct-message conversations, most recent first, with the last message… | ⚪ |
+| `bluesky.listMutedUsers` | bsky.app | The accounts the caller has muted. | ⚪ |
+| `bluesky.listNotifications` | bsky.app | The caller's notifications — likes, reposts, follows, mentions, replies, quotes — with… | ⚪ |
+| `bluesky.markNotificationsRead` | bsky.app | Mark the caller's notifications as seen up to now. | ⚪ |
+| `bluesky.muteUser` | bsky.app | Mute a person for the caller, or unmute them. | ⚪ |
+| `bluesky.quotePost` | bsky.app | Quote-post an existing post with the caller's own text. | ⚪ |
+| `bluesky.replyToPost` | bsky.app | Reply to a post as the caller, threaded under it. | ⚪ |
+| `bluesky.repost` | bsky.app | Repost a post as the caller, or undo the repost. | ⚪ |
+| `bluesky.resolveHandle` | bsky.app | Turn a Bluesky handle (alice.bsky.social, or a custom domain handle) into its… | ⚪ |
+| `bluesky.saveFeed` | bsky.app | Save or pin a custom feed to the caller's feed list, or remove it. | ⚪ |
+| `bluesky.searchFeeds` | bsky.app | Find custom feeds by words (e.g. 'science', 'art'), the way Explore's feed search… | ⚪ |
+| `bluesky.searchPosts` | bsky.app | Search all public posts by words, with the Search tab's Top/Latest sort and its… | ⚪ |
+| `bluesky.searchStarterPacks` | bsky.app | Find starter packs by words. | ⚪ |
+| `bluesky.searchUsers` | bsky.app | Search people by name, handle or bio words, the way the Search tab's People list does… | ⚪ |
+| `bluesky.sendMessage` | bsky.app | Send a direct message as the caller to a person who accepts DMs from them. | ⚪ |
+| `bluesky.setAvatar` | bsky.app | Change the caller's profile picture (or banner) from an image. | ⚪ |
+| `bluesky.suggestUsers` | bsky.app | Handle autocomplete: the few accounts that best match a partial name, as the compose… | ⚪ |
+| `bluesky.updateProfile` | bsky.app | Change the caller's display name and bio. | ⚪ |
 | `bmwusa.buildVehicle` | bmwusa.com | Runs BMW's own Build Your Own configurator for a model code (read off /all-bmws.html's… | 🟢 |
 | `bmwusa.checkRecalls` | bmwusa.com | Checks open safety and emissions recalls for a specific BMW by VIN — each campaign's… | ⚪ |
 | `bmwusa.estimatePayment` | bmwusa.com | Estimates a monthly lease or finance payment for a given BMW at a given price, term… | ⚪ |
@@ -1110,6 +1167,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hilton.getHotelDetails` | hilton.com | Reads one Hilton-family property in full — full address, phone number, brand tier… | ⚪ |
 | `hilton.getReservation` | hilton.com | Reads an existing Hilton reservation the way the site's own "Find Your Reservation"… | ⚪ |
 | `hilton.search` | hilton.com | Searches Hilton's live cash room availability for one property (a hilton.com URL… | 🟡 |
+| `hipcamp.search` | hipcamp.com | Given a destination name (a national park, region, or city), returns campground… | 🟢 |
 | `historymaker.getHome` | historymaker.com | Reads one quick-move-in home's full detail: address, current and original price… | 🟢 |
 | `historymaker.listCommunities` | historymaker.com | Lists HistoryMaker's active DFW communities with city, price range, beds/baths range… | 🟢 |
 | `historymaker.searchQuickMoveIns` | historymaker.com | Searches HistoryMaker's current Dallas/Fort Worth quick-move-in inventory by min/max… | 🟢 |

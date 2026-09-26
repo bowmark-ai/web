@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 94e200b6be45eab6701cf8e425b9f11d453eba0fa218b9558fa2cc8636abdbff
-// 1366 checked, 20 unchecked.
+// Manifest version: 2666282e3acd528ca560add4db13d80f4ea484742dbdfc2100a2ffee944f6d19
+// 1367 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "94e200b6be45eab6701cf8e425b9f11d453eba0fa218b9558fa2cc8636abdbff",
+  "version": "2666282e3acd528ca560add4db13d80f4ea484742dbdfc2100a2ffee944f6d19",
   "units": {
     "booking_links": {
       "defs": {
@@ -3833,6 +3833,169 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "video_editing": {
+      "defs": {
+        "BlurRegion": {
+          "k": "object",
+          "props": [
+            {
+              "name": "start",
+              "schema": {
+                "k": "ref",
+                "name": "Timestamp"
+              },
+              "optional": false
+            },
+            {
+              "name": "end",
+              "schema": {
+                "k": "ref",
+                "name": "Timestamp"
+              },
+              "optional": false
+            },
+            {
+              "name": "what",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "EditFootageOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "video",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "trim",
+              "schema": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "start",
+                    "schema": {
+                      "k": "ref",
+                      "name": "Timestamp"
+                    },
+                    "optional": true
+                  },
+                  {
+                    "name": "end",
+                    "schema": {
+                      "k": "ref",
+                      "name": "Timestamp"
+                    },
+                    "optional": true
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "cuts",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "TimeRange"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "blurFaces",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "blur",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "ref",
+                  "name": "BlurRegion"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "instructions",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxCostUsd",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "TimeRange": {
+          "k": "object",
+          "props": [
+            {
+              "name": "start",
+              "schema": {
+                "k": "ref",
+                "name": "Timestamp"
+              },
+              "optional": false
+            },
+            {
+              "name": "end",
+              "schema": {
+                "k": "ref",
+                "name": "Timestamp"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "Timestamp": {
+          "k": "union",
+          "of": [
+            {
+              "k": "number"
+            },
+            {
+              "k": "string"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "editFootage": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "EditFootageOptions"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "video_library": {
       "defs": {
         "AddToPlaylistOptions": {
@@ -5048,7 +5211,32 @@ export const VALIDATORS: ValidatorTable = {
     "providers.agakhanhospitals": {
       "defs": {},
       "functions": {
-        "getHospitalInfo": [],
+        "getHospitalInfo": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "location",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listSpecialties": []
       }
     },

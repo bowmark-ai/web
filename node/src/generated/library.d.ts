@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 94e200b6be45eab6701cf8e425b9f11d453eba0fa218b9558fa2cc8636abdbff
-// 65 capabilities, 472 providers, 1384 typed functions, 20 refused.
+// Manifest version: 2666282e3acd528ca560add4db13d80f4ea484742dbdfc2100a2ffee944f6d19
+// 66 capabilities, 472 providers, 1385 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3639,6 +3639,59 @@ type CallOptions = {
   }
 }
 
+declare namespace BowmarkCapability_video_editing {
+  // ── Video editing — trim, cut and blur the footage of the caller's own YouTube videos — the unit's own declarations, verbatim ──
+type Timestamp = number | string        // seconds, or "m:ss" / "h:mm:ss"
+interface TimeRange { start: Timestamp; end: Timestamp }
+interface BlurRegion { start: Timestamp; end: Timestamp; what: string }  // what: "the licence plate on the red car"
+interface EditFootageOptions {
+  video: string          // id or URL of one of the caller's OWN uploads
+  trim?: { start?: Timestamp; end?: Timestamp }   // keep only this part
+  cuts?: TimeRange[]     // remove these parts (times as in the original video)
+  blurFaces?: boolean    // YouTube's automatic face blur, whole video
+  blur?: BlurRegion[]    // blur specific things for specific stretches
+  instructions?: string  // anything else Studio's editor does, in plain language
+  maxCostUsd?: number    // browser agent spend ceiling for the turn, USD; default 2, max 25
+  timeoutMs?: number     // see CallOptions below
+}
+interface FootageEditStarted {
+  id: string             // a browser agent session — follow with bowmark.browser_agent.status(id)
+  status: "running"
+  watchUrl: string       // live browser: the account holder signs in to YouTube HERE when asked. Show only to them.
+  videoId: string
+  studioUrl: string      // where they can check the result themselves
+  edits: string[]        // the steps the agent was told to carry out
+  warnings: string[]
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Changes the FOOTAGE of a video on the caller's own YouTube channel — trim it, cut parts out,
+   * blur faces or specific things — by handing exact instructions for YouTube Studio's editor to
+   * a hosted browser agent. Billed per turn like bowmark.browser_agent, and the account holder
+   * signs in to YouTube on the live browser when asked. For the title, description, tags or
+   * privacy use bowmark.video_library.updateVideo instead — that needs no browser agent.
+   */
+  interface Unit {
+    /**
+     * Trims, cuts or blurs one of the caller's own YouTube videos by starting a hosted browser
+     * agent in YouTube Studio's editor with exact instructions, and returns the session at once.
+     * It is a browser agent session like any other: BILLED per turn to your user's account, one of
+     * their 3 open sessions, and followed from LATER runs with bowmark.browser_agent.status(id) →
+     * send(id, …) → stop(id). Tell your user it is running, that it costs money, and give them
+     * `watchUrl` — the agent will ask them to sign in to YouTube there, because it does not carry
+     * Bowmark's saved sign-in. Only the edits you pass are made; the title, privacy and everything
+     * else are left alone. YouTube keeps processing a saved edit for a while afterwards. RUN-ONLY.
+     */
+    editFootage(options: EditFootageOptions): Promise<FootageEditStarted>;
+  }
+}
+
 declare namespace BowmarkCapability_video_library {
   // ── Video library — the caller's own YouTube: saved, liked, playlists, uploads — the unit's own declarations, verbatim ──
 interface LibraryVideo {
@@ -3830,9 +3883,9 @@ type CallOptions = {
      * because it is live to everyone at once under their name. Returns once YouTube has the file,
      * with `status: "processing"` — encoding takes a few minutes, and `myVideos` shows when it is
      * done. The whole upload must finish inside the run's deadline (measured ~12s for a small
-     * file), so very large files will not fit. YouTube does not trim or cut footage — edit the
-     * file before uploading. Needs a YouTube sign-in, and a YouTube channel on the account
-     * (`createChannel`).
+     * file), so very large files will not fit. To trim, cut or blur the footage afterwards, use
+     * `bowmark.video_editing.editFootage`. Needs a YouTube sign-in, and a YouTube channel on the
+     * account (`createChannel`).
      */
     uploadVideo(options: UploadVideoOptions): Promise<UploadedVideo>;
 
@@ -3841,7 +3894,8 @@ type CallOptions = {
      * the whole list), category or privacy (e.g. make a private upload public). Send only what
      * should change; the answer lists what YouTube confirmed and the video as it now reads. If
      * YouTube takes some fields and refuses others, it throws and names which ones ARE live. This
-     * edits details, not footage. Needs a YouTube sign-in.
+     * edits details, not footage — to trim, cut or blur the video itself use
+     * `bowmark.video_editing.editFootage`. Needs a YouTube sign-in.
      */
     updateVideo(options: UpdateVideoOptions): Promise<VideoEdit>;
 
@@ -4796,11 +4850,11 @@ interface AgakhanhospitalsSpecialty {
     /**
      * Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services blurb,
      * department leadership, named patient-care facilities and top-level specialty highlights —
-     * read straight off the hospital's own landing page. Takes nothing: there is one Kisumu
-     * facility. For the full specialty-clinic catalog with per-clinic hours, contact and service
-     * lists, call listSpecialties().
+     * read straight off the hospital's own landing page. Takes a location name (must be 'Kisumu').
+     * For the full specialty-clinic catalog with per-clinic hours, contact and service lists, call
+     * listSpecialties().
      */
-    getHospitalInfo(): Promise<AgakhanhospitalsHospitalInfo>;
+    getHospitalInfo(location: string | { location: string }): Promise<AgakhanhospitalsHospitalInfo>;
 
     /**
      * Every specialty clinic AKHK runs (Cardiology, Dermatology, Oncology, Orthopaedics,
@@ -5277,13 +5331,18 @@ interface AmazonSellerOffersResult {
    */
   interface Unit {
     /**
-     * Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c hub" —
-     * and get back the result cards as the site ranks them: ASIN, title, price, list price, star
-     * rating, review count, whether the row is a paid placement, and its product URL, beside the
-     * site's own totalResultCount so a caller paging with `page` can tell "this is the last page"
-     * from "the site is walled". Optionally narrowed to a department, a brand, a price range, a
-     * sort order and a page (1-based; page 2 is a genuinely different set of rows, not page one
-     * repeated). THE provider's door: every function below that takes an ASIN is fed by this one.
+     * searchProducts searches Amazon's catalogue for keywords and paginates through results with
+     * page parameter. Pass page 2 to reach rows 49 and beyond, page 3 for rows 97 and beyond with
+     * a full result total count — pagination reaches additional rows beyond the first 48. Returns
+     * a result total so a caller knows how many results exist. Search Amazon's catalogue for what
+     * a person would type — "cast iron skillet", "usb c hub" — and get back the result cards as
+     * the site ranks them: ASIN, title, price, list price, star rating, review count, whether the
+     * row is a paid placement, and its product URL. Pagination with the page parameter reaches row
+     * 49, row 97, and beyond — pass `page: 2` to reach rows 49+, `page: 3` for rows 97+, etc.
+     * (page 2 is a genuinely different set of rows, not page one repeated). Return the site's own
+     * totalResultCount so a caller can page through results and tell "this is the last page" from
+     * "the site is walled". Optionally narrowed to a department, a brand, a price range, a sort
+     * order. THE provider's door: every function below that takes an ASIN is fed by this one.
      */
     searchProducts(args: SearchProductsArgs): Promise<AmazonSearchResult>;
 
@@ -41016,9 +41075,9 @@ interface YoutubeStreamFormat {
      * "processing"` — encoding takes minutes. Resumes a dropped transfer from where it stopped.
      * Measured 2026-09-24: a small file took ~12s end to end, most of it opening YouTube Studio
      * once to get the upload token. The whole upload has to finish inside the run's deadline, so
-     * very large files will not fit. YouTube does not cut or trim footage on upload — edit the
-     * file first. NEEDS A SIGN-IN — call `bowmark.video_library.uploadVideo` rather than this
-     * directly.
+     * very large files will not fit. To trim, cut or blur the footage afterwards,
+     * `bowmark.video_editing.editFootage` hands YouTube Studio's editor to a browser agent. NEEDS
+     * A SIGN-IN — call `bowmark.video_library.uploadVideo` rather than this directly.
      */
     uploadVideo(input: { file?: string; url?: string; title: string; description?: string; tags?: string[]; categoryId?: number; privacy?: "private" | "unlisted" | "public" }, opts?: ConnectionOption): Promise<YoutubeUploadedVideo>;
 
@@ -94263,6 +94322,7 @@ interface BowmarkLibrary {
   tariff: BowmarkCapability_tariff.Unit;
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
   theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;
+  video_editing: BowmarkCapability_video_editing.Unit;
   video_library: BowmarkCapability_video_library.Unit;
   weather: BowmarkCapability_weather.Unit;
   web_form_fields: BowmarkCapability_web_form_fields.Unit;

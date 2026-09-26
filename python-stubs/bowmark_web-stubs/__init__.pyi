@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 94e200b6be45eab6701cf8e425b9f11d453eba0fa218b9558fa2cc8636abdbff
-# 65 capabilities, 472 providers, 1366 typed functions, 20 refused.
+# Manifest version: 2666282e3acd528ca560add4db13d80f4ea484742dbdfc2100a2ffee944f6d19
+# 66 capabilities, 472 providers, 1367 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1978,6 +1978,38 @@ class Cap_theme_park_tickets_TicketOption_Out(TypedDict):
     wasPriceAmount: float | None
     buyUrl: str | None
 
+class Cap_video_editing_EditFootageOptions_In(TypedDict):
+    video: str
+    trim: NotRequired[Cap_video_editing_EditFootageOptions_In_trim_In]
+    cuts: NotRequired[Sequence[Cap_video_editing_TimeRange_In]]
+    blurFaces: NotRequired[bool]
+    blur: NotRequired[Sequence[Cap_video_editing_BlurRegion_In]]
+    instructions: NotRequired[str]
+    maxCostUsd: NotRequired[float]
+    timeoutMs: NotRequired[float]
+
+class Cap_video_editing_EditFootageOptions_In_trim_In(TypedDict):
+    start: NotRequired[float | str]
+    end: NotRequired[float | str]
+
+class Cap_video_editing_TimeRange_In(TypedDict):
+    start: float | str
+    end: float | str
+
+class Cap_video_editing_BlurRegion_In(TypedDict):
+    start: float | str
+    end: float | str
+    what: str
+
+class Cap_video_editing_FootageEditStarted_Out(TypedDict):
+    id: str
+    status: Literal["running"]
+    watchUrl: str
+    videoId: str
+    studioUrl: str
+    edits: list[str]
+    warnings: list[str]
+
 class Cap_video_library_homeFeed_options_In(TypedDict):
     limit: NotRequired[float]
 
@@ -2593,6 +2625,9 @@ class Prv_acqualinaresort_AcqualinaRate_Out(TypedDict):
     pricePerNight: float | None
     originalPricePerNight: float | None
     currency: Literal["USD"]
+
+class Prv_agakhanhospitals_getHospitalInfo_location_u1_In(TypedDict):
+    location: str
 
 class Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out(TypedDict):
     name: str
@@ -23706,6 +23741,27 @@ class Cap_theme_park_tickets(Protocol):
         the ~33 parks in the covered portfolio.
         """
 
+class Cap_video_editing(Protocol):
+    """Changes the FOOTAGE of a video on the caller's own YouTube channel — trim it, cut parts
+    out, blur faces or specific things — by handing exact instructions for YouTube Studio's
+    editor to a hosted browser agent. Billed per turn like bowmark.browser_agent, and the
+    account holder signs in to YouTube on the live browser when asked. For the title,
+    description, tags or privacy use bowmark.video_library.updateVideo instead — that needs
+    no browser agent.
+    """
+
+    async def editFootage(self, options: Cap_video_editing_EditFootageOptions_In, /) -> Cap_video_editing_FootageEditStarted_Out:
+        """Trims, cuts or blurs one of the caller's own YouTube videos by starting a hosted browser
+        agent in YouTube Studio's editor with exact instructions, and returns the session at
+        once. It is a browser agent session like any other: BILLED per turn to your user's
+        account, one of their 3 open sessions, and followed from LATER runs with
+        bowmark.browser_agent.status(id) → send(id, …) → stop(id). Tell your user it is running,
+        that it costs money, and give them `watchUrl` — the agent will ask them to sign in to
+        YouTube there, because it does not carry Bowmark's saved sign-in. Only the edits you
+        pass are made; the title, privacy and everything else are left alone. YouTube keeps
+        processing a saved edit for a while afterwards. RUN-ONLY.
+        """
+
 class Cap_video_library(Protocol):
     """Reads and writes the caller's OWN YouTube account: Watch Later, likes, playlists,
     channel videos — uploading a video file, changing its title, description, tags,
@@ -23775,9 +23831,9 @@ class Cap_video_library(Protocol):
         for it, because it is live to everyone at once under their name. Returns once YouTube
         has the file, with `status: "processing"` — encoding takes a few minutes, and `myVideos`
         shows when it is done. The whole upload must finish inside the run's deadline (measured
-        ~12s for a small file), so very large files will not fit. YouTube does not trim or cut
-        footage — edit the file before uploading. Needs a YouTube sign-in, and a YouTube channel
-        on the account (`createChannel`).
+        ~12s for a small file), so very large files will not fit. To trim, cut or blur the
+        footage afterwards, use `bowmark.video_editing.editFootage`. Needs a YouTube sign-in,
+        and a YouTube channel on the account (`createChannel`).
         """
 
     async def updateVideo(self, options: Cap_video_library_UpdateVideoOptions_In, /) -> Cap_video_library_VideoEdit_Out:
@@ -23785,7 +23841,8 @@ class Cap_video_library(Protocol):
         (replaces the whole list), category or privacy (e.g. make a private upload public). Send
         only what should change; the answer lists what YouTube confirmed and the video as it now
         reads. If YouTube takes some fields and refuses others, it throws and names which ones
-        ARE live. This edits details, not footage. Needs a YouTube sign-in.
+        ARE live. This edits details, not footage — to trim, cut or blur the video itself use
+        `bowmark.video_editing.editFootage`. Needs a YouTube sign-in.
         """
 
     async def setThumbnail(self, options: Cap_video_library_SetThumbnailOptions_In, /) -> Cap_video_library_ThumbnailSet_Out:
@@ -24118,12 +24175,12 @@ class Prv_agakhanhospitals(Protocol):
     data — no key, no browser.
     """
 
-    async def getHospitalInfo(self, /) -> Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out:
+    async def getHospitalInfo(self, location: str | Prv_agakhanhospitals_getHospitalInfo_location_u1_In, /) -> Prv_agakhanhospitals_AgakhanhospitalsHospitalInfo_Out:
         """Aga Khan Hospital, Kisumu's contact info (address, hours, phone), emergency-services
         blurb, department leadership, named patient-care facilities and top-level specialty
-        highlights — read straight off the hospital's own landing page. Takes nothing: there is
-        one Kisumu facility. For the full specialty-clinic catalog with per-clinic hours,
-        contact and service lists, call listSpecialties().
+        highlights — read straight off the hospital's own landing page. Takes a location name
+        (must be 'Kisumu'). For the full specialty-clinic catalog with per-clinic hours, contact
+        and service lists, call listSpecialties().
         """
 
     async def listSpecialties(self, /) -> list[Prv_agakhanhospitals_AgakhanhospitalsSpecialty_Out]:
@@ -24256,14 +24313,19 @@ class Prv_amazon(Protocol):
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
-        """Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c
-        hub" — and get back the result cards as the site ranks them: ASIN, title, price, list
-        price, star rating, review count, whether the row is a paid placement, and its product
-        URL, beside the site's own totalResultCount so a caller paging with `page` can tell
-        "this is the last page" from "the site is walled". Optionally narrowed to a department,
-        a brand, a price range, a sort order and a page (1-based; page 2 is a genuinely
-        different set of rows, not page one repeated). THE provider's door: every function below
-        that takes an ASIN is fed by this one.
+        """searchProducts searches Amazon's catalogue for keywords and paginates through results
+        with page parameter. Pass page 2 to reach rows 49 and beyond, page 3 for rows 97 and
+        beyond with a full result total count — pagination reaches additional rows beyond the
+        first 48. Returns a result total so a caller knows how many results exist. Search
+        Amazon's catalogue for what a person would type — "cast iron skillet", "usb c hub" — and
+        get back the result cards as the site ranks them: ASIN, title, price, list price, star
+        rating, review count, whether the row is a paid placement, and its product URL.
+        Pagination with the page parameter reaches row 49, row 97, and beyond — pass `page: 2`
+        to reach rows 49+, `page: 3` for rows 97+, etc. (page 2 is a genuinely different set of
+        rows, not page one repeated). Return the site's own totalResultCount so a caller can
+        page through results and tell "this is the last page" from "the site is walled".
+        Optionally narrowed to a department, a brand, a price range, a sort order. THE
+        provider's door: every function below that takes an ASIN is fed by this one.
         """
 
     async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:
@@ -37719,9 +37781,10 @@ class Prv_youtube(Protocol):
         `status: "processing"` — encoding takes minutes. Resumes a dropped transfer from where
         it stopped. Measured 2026-09-24: a small file took ~12s end to end, most of it opening
         YouTube Studio once to get the upload token. The whole upload has to finish inside the
-        run's deadline, so very large files will not fit. YouTube does not cut or trim footage
-        on upload — edit the file first. NEEDS A SIGN-IN — call
-        `bowmark.video_library.uploadVideo` rather than this directly.
+        run's deadline, so very large files will not fit. To trim, cut or blur the footage
+        afterwards, `bowmark.video_editing.editFootage` hands YouTube Studio's editor to a
+        browser agent. NEEDS A SIGN-IN — call `bowmark.video_library.uploadVideo` rather than
+        this directly.
         """
 
     async def updateVideo(self, input: Prv_youtube_updateVideo_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeVideoEdit_Out:
@@ -38344,6 +38407,7 @@ class Bowmark(Protocol):
     tariff: Cap_tariff
     text_to_speech: Cap_text_to_speech
     theme_park_tickets: Cap_theme_park_tickets
+    video_editing: Cap_video_editing
     video_library: Cap_video_library
     weather: Cap_weather
     web_form_fields: Cap_web_form_fields
