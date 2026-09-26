@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5df6ccdc9c9e89ab849224ce77d4e5f808ea0b746772f2c4650ee4d74196b1c9
-// 1364 checked, 20 unchecked.
+// Manifest version: bf81136df5a7b6c67aeadb1ab2883536fda9fd48a78a66db3ac1b5a5e473168c
+// 1366 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5df6ccdc9c9e89ab849224ce77d4e5f808ea0b746772f2c4650ee4d74196b1c9",
+  "version": "bf81136df5a7b6c67aeadb1ab2883536fda9fd48a78a66db3ac1b5a5e473168c",
   "units": {
     "booking_links": {
       "defs": {
@@ -8322,6 +8322,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.bbc": {
+      "defs": {},
+      "functions": {
+        "listSections": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "parent",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.bcparkscamping": {
       "defs": {},
       "functions": {
@@ -14365,6 +14388,15 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ],
+        "searchGames": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

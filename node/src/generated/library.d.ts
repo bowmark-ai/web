@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5df6ccdc9c9e89ab849224ce77d4e5f808ea0b746772f2c4650ee4d74196b1c9
-// 65 capabilities, 471 providers, 1382 typed functions, 20 refused.
+// Manifest version: bf81136df5a7b6c67aeadb1ab2883536fda9fd48a78a66db3ac1b5a5e473168c
+// 65 capabilities, 472 providers, 1384 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8145,6 +8145,40 @@ interface BaublebarCheckoutLink {
   }
 }
 
+declare namespace BowmarkProvider_bbc {
+  // ── BBC — the unit's own declarations, verbatim ──
+interface BbcSection {
+  title: string;
+  path: string;          // site-relative, e.g. "/news/world/europe" — what listHeadlines takes
+  url: string;
+  children: BbcSection[]; // sub-sections in the site's order; [] when none
+}
+
+interface BbcListSectionsResult {
+  sections: BbcSection[]; // top-level sections, or the parent's sub-sections
+}
+
+interface bbcRow {
+  id: string;
+}
+
+  /**
+   * BBC News, Sport and Weather — headlines, search, full articles, live pages, scores, fixtures
+   * and league tables, weather forecasts, and a reader's saved articles.
+   */
+  interface Unit {
+    /**
+     * The BBC's own section list, read off the bbc.com top navigation — Home, News (US & Canada,
+     * UK, Africa, Asia, Australia, Europe, Latin America, Middle East, In Pictures, BBC InDepth,
+     * BBC Verify), Sport, Business, Technology, Health, Culture, Arts, Travel, Earth, Audio,
+     * Video, Live, Documentaries — each with its path and nested sub-sections. Pass `parent` (a
+     * path such as "/news") for just that section's sub-sections. The path is what listHeadlines
+     * takes; the finder for every section-scoped read.
+     */
+    listSections(args?: { parent?: string }): Promise<BbcListSectionsResult>;
+  }
+}
+
 declare namespace BowmarkProvider_bcparkscamping {
   // ── BC Parks Camping (Discover Camping) — the unit's own declarations, verbatim ──
 interface BcParksCampground {
@@ -15336,6 +15370,25 @@ interface ListFreeGamesResult {
   elements: FreeGame[];
 }
 
+interface GameSearchResult {
+  id: string;
+  title: string;
+  namespace: string;
+  productSlug: string | null;
+  currentPrice: number;
+  originalPrice: number;
+  discount: number;
+  releaseDate: string | null;
+  seller: { id: string; name: string };
+  tags: Array<{ id: string; name: string }>;
+  images: Array<{ type: string; url: string }>;
+}
+
+interface SearchGamesResult {
+  games: GameSearchResult[];
+  total: number;
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -15347,6 +15400,13 @@ interface ListFreeGamesResult {
      * the free window. Optional ISO country code, default US.
      */
     listFreeGames(country?: string): Promise<ListFreeGamesResult>;
+
+    /**
+     * Keyword search of the Epic Games Store catalogue — games matching the query with title,
+     * namespace, current and original price, discount, release date, seller, tags, and cover
+     * images.
+     */
+    searchGames(query: string): Promise<SearchGamesResult>;
   }
 }
 
@@ -41999,6 +42059,7 @@ interface BowmarkProviders {
   barletta: BowmarkProvider_barletta.Unit;
   barnesfoundation: BowmarkProvider_barnesfoundation.Unit;
   baublebar: BowmarkProvider_baublebar.Unit;
+  bbc: BowmarkProvider_bbc.Unit;
   bcparkscamping: BowmarkProvider_bcparkscamping.Unit;
   beaconfunding: BowmarkProvider_beaconfunding.Unit;
   beatthebomb: BowmarkProvider_beatthebomb.Unit;

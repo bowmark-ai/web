@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5df6ccdc9c9e89ab849224ce77d4e5f808ea0b746772f2c4650ee4d74196b1c9
-# 65 capabilities, 471 providers, 1364 typed functions, 20 refused.
+# Manifest version: bf81136df5a7b6c67aeadb1ab2883536fda9fd48a78a66db3ac1b5a5e473168c
+# 65 capabilities, 472 providers, 1366 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4528,6 +4528,18 @@ class Prv_baublebar_BaublebarCheckoutLink_Out(TypedDict):
     product: Prv_baublebar_BaublebarProduct_Out
     shipBy: str | None
 
+class Prv_bbc_listSections_args_In(TypedDict):
+    parent: NotRequired[str]
+
+class Prv_bbc_BbcListSectionsResult_Out(TypedDict):
+    sections: list[Prv_bbc_BbcSection_Out]
+
+class Prv_bbc_BbcSection_Out(TypedDict):
+    title: str
+    path: str
+    url: str
+    children: list[Prv_bbc_BbcSection_Out]
+
 class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
     resourceLocationId: float
     name: str
@@ -8349,6 +8361,35 @@ class Prv_epicgames_FreeGame_Out_promotions_Out(TypedDict):
 class Prv_epicgames_EpicGamesFreeWindow_Out(TypedDict):
     startDate: str
     endDate: str
+
+class Prv_epicgames_SearchGamesResult_Out(TypedDict):
+    games: list[Prv_epicgames_GameSearchResult_Out]
+    total: float
+
+class Prv_epicgames_GameSearchResult_Out(TypedDict):
+    id: str
+    title: str
+    namespace: str
+    productSlug: str | None
+    currentPrice: float
+    originalPrice: float
+    discount: float
+    releaseDate: str | None
+    seller: Prv_epicgames_GameSearchResult_Out_seller_Out
+    tags: list[Prv_epicgames_GameSearchResult_Out_tags_item_Out]
+    images: list[Prv_epicgames_GameSearchResult_Out_images_item_Out]
+
+class Prv_epicgames_GameSearchResult_Out_seller_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_epicgames_GameSearchResult_Out_tags_item_Out(TypedDict):
+    id: str
+    name: str
+
+class Prv_epicgames_GameSearchResult_Out_images_item_Out(TypedDict):
+    type: str
+    url: str
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -25349,6 +25390,20 @@ class Prv_baublebar(Protocol):
         options or the exact rule that failed.
         """
 
+class Prv_bbc(Protocol):
+    """BBC News, Sport and Weather — headlines, search, full articles, live pages, scores,
+    fixtures and league tables, weather forecasts, and a reader's saved articles.
+    """
+
+    async def listSections(self, args: Prv_bbc_listSections_args_In | None = None, /) -> Prv_bbc_BbcListSectionsResult_Out:
+        """The BBC's own section list, read off the bbc.com top navigation — Home, News (US &
+        Canada, UK, Africa, Asia, Australia, Europe, Latin America, Middle East, In Pictures,
+        BBC InDepth, BBC Verify), Sport, Business, Technology, Health, Culture, Arts, Travel,
+        Earth, Audio, Video, Live, Documentaries — each with its path and nested sub-sections.
+        Pass `parent` (a path such as "/news") for just that section's sub-sections. The path is
+        what listHeadlines takes; the finder for every section-scoped read.
+        """
+
 class Prv_bcparkscamping(Protocol):
     """camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
     campground by name, then read its real per-site, per-night availability for a stay.
@@ -28033,6 +28088,12 @@ class Prv_epicgames(Protocol):
         """The Epic Games Store's free-game rotation: the games free to claim right now and the
         ones announced as free next, each with title, slug, original price, and the start/end
         instants of the free window. Optional ISO country code, default US.
+        """
+
+    async def searchGames(self, query: str, /) -> Prv_epicgames_SearchGamesResult_Out:
+        """Keyword search of the Epic Games Store catalogue — games matching the query with title,
+        namespace, current and original price, discount, release date, seller, tags, and cover
+        images.
         """
 
 class Prv_epromos(Protocol):
@@ -37795,6 +37856,7 @@ class BowmarkProviders(Protocol):
     barletta: Prv_barletta
     barnesfoundation: Prv_barnesfoundation
     baublebar: Prv_baublebar
+    bbc: Prv_bbc
     bcparkscamping: Prv_bcparkscamping
     beaconfunding: Prv_beaconfunding
     beatthebomb: Prv_beatthebomb
