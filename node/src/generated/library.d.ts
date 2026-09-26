@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2a0714896113572022c7d3b2711fe23aa49566b38a3eeb979f39df2f336f6ce7
-// 67 capabilities, 478 providers, 1411 typed functions, 20 refused.
+// Manifest version: eda64eba97867deb8b31d0d3cfaee613cc8c98d5a20bfe4ee7d4d4a20e4fa333
+// 67 capabilities, 479 providers, 1414 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8275,6 +8275,23 @@ interface BbcListHeadlinesResult {
   headlines: BbcHeadline[]; // stories in the section's own order
 }
 
+interface BbcSearchResultRow {
+  headline: string;
+  summary: string;
+  url: string;
+  articleId: string;
+  image?: string;
+  section: string;
+  lastUpdated?: string;
+}
+
+interface BbcSearchArticlesResult {
+  results: BbcSearchResultRow[];
+  total: number;  // the site's own match count, not results.length
+  page: number;   // 1-based, matching the `page` argument
+  pageSize: number;
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8301,6 +8318,12 @@ interface bbcRow {
      * culture, travel and sport section fronts alike.
      */
     listHeadlines(args?: { path?: string }): Promise<BbcListHeadlinesResult>;
+
+    /**
+     * Search the BBC the way its search box does: headline, summary, url, article id, section and
+     * date for each result, with paging. Takes free text.
+     */
+    searchArticles(args: { query: string; page?: number }): Promise<BbcSearchArticlesResult>;
   }
 }
 
@@ -17010,6 +17033,13 @@ interface FomoPage<T> {
      * current USD value and unrealized PnL on each position.
      */
     getBalances(userId: string, opts?: ConnectionOption): Promise<FomoBalance[]>;
+
+    /**
+     * Returns the large-cap majors — BTC, ETH, SOL and the rest of the non-memecoin set behind the
+     * site's public /prices page — each with its current price, 24h change, volume and market cap.
+     * Takes no arguments.
+     */
+    getMajorTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
   }
 }
 
@@ -36050,6 +36080,42 @@ interface StatefarmBusinessCoverage {
   }
 }
 
+declare namespace BowmarkProvider_steam {
+  // ── Steam — the unit's own declarations, verbatim ──
+interface steamRow {
+  id: string;
+}
+
+interface SearchGamesArgs {
+  query: string;
+}
+
+interface SteamSearchResult {
+  appid: string;
+  name: string;
+  price: { currency: string; initial: number; final: number } | null;
+  metascore: number | null;
+  platforms: { windows: boolean; mac: boolean; linux: boolean };
+  url: string;
+}
+
+interface SearchGamesResponse {
+  results: SteamSearchResult[];
+}
+
+  /**
+   * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
+   * community market. Most functions are still declared stubs.
+   */
+  interface Unit {
+    /**
+     * Searches the Steam store by keyword and returns matching games with basic details like
+     * title, price, metascore, and platform availability, in the site's own order.
+     */
+    searchGames(args: SearchGamesArgs, opts?: ConnectionOption): Promise<SearchGamesResponse>;
+  }
+}
+
 declare namespace BowmarkProvider_stickergiant {
   // ── StickerGiant — the unit's own declarations, verbatim ──
 // StickerGiant's OWN shape — not a capability contract.
@@ -42989,6 +43055,7 @@ interface BowmarkProviders {
   spirithalloween: BowmarkProvider_spirithalloween.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
+  steam: BowmarkProvider_steam.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
   summerfridaysquiz: BowmarkProvider_summerfridaysquiz.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;

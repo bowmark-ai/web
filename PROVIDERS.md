@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2495 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2553 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1105,7 +1105,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | ⚪ |
 | `google_news.getFullCoverage` | news.google.com | Google News' Full Coverage for one story — every outlet reporting it, with each one's… | 🟢 |
 | `google_news.getTopicHeadlines` | news.google.com | The headlines under any Google News topic id — the opaque key `/rss/topics/<id>`… | 🟢 |
-| `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | ⚪ |
+| `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | 🟢 |
 | `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, as Google News'… | ⚪ |
 | `google_news.listLocalHeadlines` | news.google.com | What is being reported in one place — the local-news edition for a city or region, by… | 🟢 |
 | `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — a domain like reuters.com, or… | 🟢 |
@@ -1909,6 +1909,44 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟡 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
 | `resy.search` | resy.com | Finds Resy venues matching a restaurant name, ranked by Resy's own relevance and… | 🟢 |
+| `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | ⚪ |
+| `reuters.followTopic` | www.reuters.com | Follow a Reuters topic or section so it appears in the reader's My News feed. | ⚪ |
+| `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | ⚪ |
+| `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, beat, bio and their latest stories. | ⚪ |
+| `reuters.getCompanyEvents` | www.reuters.com | A company's upcoming and past events — earnings dates, dividends, shareholder meetings… | ⚪ |
+| `reuters.getCompanyFinancials` | www.reuters.com | A company's income statement, balance sheet and cash-flow statement, annual and… | ⚪ |
+| `reuters.getCompanyKeyMetrics` | www.reuters.com | A company's key ratios on Reuters — valuation, profitability, growth, dividends and… | ⚪ |
+| `reuters.getCompanyProfile` | www.reuters.com | A company's Reuters profile: description, sector, industry, address, website… | ⚪ |
+| `reuters.getLiveCoverage` | www.reuters.com | Read one Reuters live-coverage page (/live/…) — the running updates, newest first… | ⚪ |
+| `reuters.getMarketOverview` | www.reuters.com | The market tables Reuters shows on its Markets pages — major indices, currencies… | ⚪ |
+| `reuters.getMyNewsFeed` | www.reuters.com | The signed-in reader's My News feed — the latest stories from everything they follow… | ⚪ |
+| `reuters.getPictureGallery` | www.reuters.com | One Reuters photo gallery: every picture with its caption, photographer credit and… | ⚪ |
+| `reuters.getPressRelease` | www.reuters.com | Read one press release on reuters.com in full: title, issuer, date and body. | ⚪ |
+| `reuters.getQuote` | www.reuters.com | The current Reuters quote for one instrument by RIC — a stock, index, currency pair or… | ⚪ |
+| `reuters.getVideo` | www.reuters.com | One Reuters video: title, description, duration, published time, thumbnail and its… | ⚪ |
+| `reuters.listArticlesByDate` | www.reuters.com | Every Reuters story published on one calendar day — headline, url and time — from the… | ⚪ |
+| `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | ⚪ |
+| `reuters.listFollowedTopics` | www.reuters.com | The topics the signed-in reader follows in My News. | ⚪ |
+| `reuters.listGraphics` | www.reuters.com | Reuters Graphics — the interactive data stories and explainers — with title, url and… | ⚪ |
+| `reuters.listHeadlines` | www.reuters.com | The stories a Reuters section front shows right now, in the page's own order… | ⚪ |
+| `reuters.listLatestNews` | www.reuters.com | The newest Reuters stories across the whole site, newest first — headline, url… | ⚪ |
+| `reuters.listMostRead` | www.reuters.com | The "most read" stories Reuters shows beside its articles: rank, headline and url. | ⚪ |
+| `reuters.listNewsletters` | www.reuters.com | The Reuters newsletters a reader can sign up to — name, description and how often it… | ⚪ |
+| `reuters.listNewsletterSubscriptions` | www.reuters.com | The newsletters the signed-in reader is subscribed to. | ⚪ |
+| `reuters.listPictureGalleries` | www.reuters.com | Reuters photo galleries ("Pictures"), newest first: title, url, published time and… | ⚪ |
+| `reuters.listPodcastEpisodes` | www.reuters.com | The episodes of one Reuters podcast show, newest first: title, description, date… | ⚪ |
+| `reuters.listPodcasts` | www.reuters.com | The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On… | ⚪ |
+| `reuters.listPressReleases` | www.reuters.com | Press releases distributed on reuters.com, newest first: title, url and date. | ⚪ |
+| `reuters.listSavedArticles` | www.reuters.com | The signed-in reader's saved Reuters articles: headline, url and when saved. | ⚪ |
+| `reuters.listSections` | www.reuters.com | Reuters' own section and topic list — World, Business, Markets, Sustainability, Legal… | ⚪ |
+| `reuters.listVideos` | www.reuters.com | Reuters videos, newest first — title, description, duration, published time, thumbnail… | ⚪ |
+| `reuters.removeSavedArticle` | www.reuters.com | Remove an article from the signed-in reader's saved list. | ⚪ |
+| `reuters.saveArticle` | www.reuters.com | Save a Reuters article to the signed-in reader's saved list. | ⚪ |
+| `reuters.searchArticles` | www.reuters.com | Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed… | ⚪ |
+| `reuters.searchCompanies` | www.reuters.com | Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF"… | ⚪ |
+| `reuters.subscribeNewsletter` | www.reuters.com | Sign the signed-in reader up to a Reuters newsletter. | ⚪ |
+| `reuters.unfollowTopic` | www.reuters.com | Stop following a topic in the signed-in reader's My News. | ⚪ |
+| `reuters.unsubscribeNewsletter` | www.reuters.com | Unsubscribe the signed-in reader from a Reuters newsletter. | ⚪ |
 | `revisionskincare.getSkincareQuizQuestions` | revisionskincare.com | Reads the live 'Product Finder Quiz' at revisionskincare.com/pages/skincare-quiz… | 🟢 |
 | `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟡 |
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
@@ -2079,6 +2117,26 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teladoc.search` | teladochealth.com | Searches Teladoc Health's public Health Library — recipes, meal plans… | ⚪ |
 | `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
 | `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
+| `theguardian_com.getArticle` | theguardian.com | Read the full text of one article given its URL or ID. | ⚪ |
+| `theguardian_com.getContributorArticles` | theguardian.com | List articles written by a specific journalist or contributor. | ⚪ |
+| `theguardian_com.getLiveBlog` | theguardian.com | Read a live blog covering a news event. | ⚪ |
+| `theguardian_com.getPhotoGallery` | theguardian.com | View images in a photo gallery with captions. | ⚪ |
+| `theguardian_com.getReview` | theguardian.com | Read a full review given its URL or ID. | ⚪ |
+| `theguardian_com.getSavedArticles` | theguardian.com | Get the user's saved articles (requires login). | ⚪ |
+| `theguardian_com.getTopicArticles` | theguardian.com | Get articles tagged with a specific topic or collection. | ⚪ |
+| `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | ⚪ |
+| `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | ⚪ |
+| `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | ⚪ |
+| `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | ⚪ |
+| `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | ⚪ |
+| `theguardian_com.listNewsletters` | theguardian.com | List available email newsletters. | ⚪ |
+| `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | ⚪ |
+| `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | ⚪ |
+| `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | ⚪ |
+| `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | ⚪ |
+| `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | ⚪ |
+| `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | ⚪ |
+| `theguardian_com.searchArticles` | theguardian.com | Search articles across the site by keyword. | ⚪ |
 | `therabody.getTheragunProduct` | therabody.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `therabody.listTheragunProducts` | therabody.com | Reads the live Therabody catalogue as Therabody publishes it — every product, its… | 🟢 |
 | `therabody.recommendTheragun` | therabody.com | Filters the live catalogue by what a shopper actually needs — Theragun device family… | 🟢 |

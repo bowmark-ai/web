@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2a0714896113572022c7d3b2711fe23aa49566b38a3eeb979f39df2f336f6ce7
-# 67 capabilities, 478 providers, 1393 typed functions, 20 refused.
+# Manifest version: eda64eba97867deb8b31d0d3cfaee613cc8c98d5a20bfe4ee7d4d4a20e4fa333
+# 67 capabilities, 479 providers, 1396 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4605,6 +4605,25 @@ class Prv_bbc_BbcListHeadlinesResult_Out(TypedDict):
     headlines: list[Prv_bbc_BbcHeadline_Out]
 
 class Prv_bbc_BbcHeadline_Out(TypedDict):
+    headline: str
+    summary: str
+    url: str
+    articleId: str
+    image: NotRequired[str]
+    section: str
+    lastUpdated: NotRequired[str]
+
+class Prv_bbc_searchArticles_args_In(TypedDict):
+    query: str
+    page: NotRequired[float]
+
+class Prv_bbc_BbcSearchArticlesResult_Out(TypedDict):
+    results: list[Prv_bbc_BbcSearchResultRow_Out]
+    total: float
+    page: float
+    pageSize: float
+
+class Prv_bbc_BbcSearchResultRow_Out(TypedDict):
     headline: str
     summary: str
     url: str
@@ -9309,6 +9328,18 @@ class Prv_fomo_FomoToken_Out_info_u0_Out(TypedDict):
     twitterUrl: str | None
     telegramUrl: str | None
     discordUrl: str | None
+
+class Prv_fomo_FomoTokenRow_Out(TypedDict):
+    token: Prv_fomo_FomoToken_Out
+    priceUSD: str
+    change24: float | None
+    volume24: float | None
+    marketCap: float | None
+    liquidity: float | None
+    holders: float | None
+    graduationPercent: float | None
+    createdAt: str | None
+    url: str
 
 class Prv_forbes_ForbesNewsList_Out(TypedDict):
     articles: list[Prv_forbes_ForbesArticle_Out]
@@ -19458,6 +19489,30 @@ class Prv_statefarm_StatefarmBusinessCoverage_Out(TypedDict):
     selected: bool
     required: bool
 
+class Prv_steam_SearchGamesArgs_In(TypedDict):
+    query: str
+
+class Prv_steam_SearchGamesResponse_Out(TypedDict):
+    results: list[Prv_steam_SteamSearchResult_Out]
+
+class Prv_steam_SteamSearchResult_Out(TypedDict):
+    appid: str
+    name: str
+    price: Prv_steam_SteamSearchResult_Out_price_u0_Out | None
+    metascore: float | None
+    platforms: Prv_steam_SteamSearchResult_Out_platforms_Out
+    url: str
+
+class Prv_steam_SteamSearchResult_Out_price_u0_Out(TypedDict):
+    currency: str
+    initial: float
+    final: float
+
+class Prv_steam_SteamSearchResult_Out_platforms_Out(TypedDict):
+    windows: bool
+    mac: bool
+    linux: bool
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -25865,6 +25920,11 @@ class Prv_bbc(Protocol):
         business, culture, travel and sport section fronts alike.
         """
 
+    async def searchArticles(self, args: Prv_bbc_searchArticles_args_In, /) -> Prv_bbc_BbcSearchArticlesResult_Out:
+        """Search the BBC the way its search box does: headline, summary, url, article id, section
+        and date for each result, with paging. Takes free text.
+        """
+
 class Prv_bcparkscamping(Protocol):
     """camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
     campground by name, then read its real per-site, per-night availability for a stay.
@@ -29055,6 +29115,12 @@ class Prv_fomo(Protocol):
     async def getBalances(self, userId: str, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoBalance_Out]:
         """Returns all token balances for a trader — the tokens they hold across all chains, with
         current USD value and unrealized PnL on each position.
+        """
+
+    async def getMajorTokens(self, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenRow_Out]:
+        """Returns the large-cap majors — BTC, ETH, SOL and the rest of the non-memecoin set behind
+        the site's public /prices page — each with its current price, 24h change, volume and
+        market cap. Takes no arguments.
         """
 
 class Prv_forbes(Protocol):
@@ -36297,6 +36363,16 @@ class Prv_statefarm(Protocol):
         workers' comp, contractors or farm-and-ranch.
         """
 
+class Prv_steam(Protocol):
+    """Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and
+    the community market. Most functions are still declared stubs.
+    """
+
+    async def searchGames(self, args: Prv_steam_SearchGamesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_SearchGamesResponse_Out:
+        """Searches the Steam store by keyword and returns matching games with basic details like
+        title, price, metascore, and platform availability, in the site's own order.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -38873,6 +38949,7 @@ class BowmarkProviders(Protocol):
     spirithalloween: Prv_spirithalloween
     starlighthomes: Prv_starlighthomes
     statefarm: Prv_statefarm
+    steam: Prv_steam
     stickergiant: Prv_stickergiant
     summerfridaysquiz: Prv_summerfridaysquiz
     sunhomesaunas: Prv_sunhomesaunas

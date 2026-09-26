@@ -1,5 +1,5 @@
 {
-  "version": "2a0714896113572022c7d3b2711fe23aa49566b38a3eeb979f39df2f336f6ce7",
+  "version": "eda64eba97867deb8b31d0d3cfaee613cc8c98d5a20bfe4ee7d4d4a20e4fa333",
   "units": {
     "booking_links": {
       "defs": {
@@ -8580,6 +8580,31 @@
             },
             "optional": true
           }
+        ],
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -16047,6 +16072,24 @@
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMajorTokens": [
           {
             "name": "opts",
             "schema": {
@@ -36733,6 +36776,50 @@
               "name": "StatefarmBusinessQuoteQuery"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.steam": {
+      "defs": {
+        "SearchGamesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchGames": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchGamesArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
