@@ -659,7 +659,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `deangroup.searchAvailability` | deangroup.com | Searches one property for a date range and party size and returns every bookable rate… | 🟢 |
 | `decked.getVehicleClass` | decked.com | Reads one vehicle class's complete fit list — every model it fits, each with its own… | 🟢 |
 | `decked.priceCabSideOption` | decked.com | Prices the Load Floor vs Cab-side Gap 8'-bed accessory-pack option for one vehicle +… | 🟢 |
-| `decked.resolveFitment` | decked.com | Resolves a free-text vehicle to its real fitted SKU and live price, mirroring the… | 🟡 |
+| `decked.resolveFitment` | decked.com | Resolves a free-text vehicle to its real fitted SKU and live price, mirroring the… | 🟢 |
 | `decked.searchFits` | decked.com | Lists every real DECKED vehicle fit across all six vehicle classes (SUV, Full-Size… | 🟢 |
 | `decksdirect.addToCart` | decksdirect.com | Hands the shopper the entry-point link for a priced configuration plus the exact… | 🟢 |
 | `decksdirect.checkout` | decksdirect.com | Would place a priced configuration into DecksDirect's cart and return a checkout URL. | ⚪ |
@@ -774,7 +774,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getGameRatings` | epicgames.com | How players rate a game on the Epic Games Store — the average star rating, the count… | ⚪ |
 | `epicgames.getLibrary` | epicgames.com | The games the signed-in caller owns on Epic — title, namespace, slug, and when it was… | ⚪ |
 | `epicgames.getNewsArticle` | epicgames.com | One Epic Games Store news article's full text, date, author and images. | ⚪ |
-| `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | ⚪ |
+| `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | 🟢 |
 | `epicgames.getRewardsBalance` | epicgames.com | The signed-in caller's Epic Rewards balance — the store credit they have earned from… | ⚪ |
 | `epicgames.getServiceStatus` | epicgames.com | Whether Epic's services are up — the Epic Games Store, launcher, login, Fortnite… | ⚪ |
 | `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | ⚪ |
