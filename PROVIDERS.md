@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2557 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2545 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1266,7 +1266,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `indeed.getJobDetails` | indeed.com | Fetches complete details for a specific job listing including salary, company info… | ⚪ |
 | `indeed.getSalaryDetails` | indeed.com | Retrieves detailed salary information for a specific job title and location. | ⚪ |
 | `indeed.searchCompanies` | indeed.com | Searches for companies on Indeed by name or keyword. | ⚪ |
-| `indeed.searchJobs` | indeed.com | Searches for job listings on Indeed with keyword and location filters. | ⚪ |
+| `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |
 | `indeed.searchSalaries` | indeed.com | Searches salary data on Indeed by job title and location. | ⚪ |
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
@@ -1851,20 +1851,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `provenwinners.getRecipeDetails` | provenwinners.com | Reads one container recipe's own combination page — its season(s), container size and… | 🟢 |
 | `provenwinners.searchContainerRecipes` | provenwinners.com | Runs Proven Winners' own Container Recipe Finder over its 1,074+ published… | 🟢 |
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
-| `proxy_cheap.changeAuthenticationType` | proxy-cheap.com | Switches one proxy between USERNAME_PASSWORD and IP_WHITELIST auth (POST… | ⚪ |
-| `proxy_cheap.disableAutoExtend` | proxy-cheap.com | Turns off auto-renew for one proxy (POST /proxies/:id/auto-extend/disable, 204 empty… | ⚪ |
-| `proxy_cheap.enableAutoExtend` | proxy-cheap.com | Turns on auto-renew for one proxy (POST /proxies/:id/auto-extend/enable, 204 empty… | ⚪ |
-| `proxy_cheap.extendPeriod` | proxy-cheap.com | Extends one proxy's period and charges for it (POST /proxies/:id/extend-period) —… | ⚪ |
-| `proxy_cheap.getAccountBalance` | proxy-cheap.com | Reads Bowmark's own Proxy-Cheap account balance (GET /account/balance) — used to fence… | ⚪ |
-| `proxy_cheap.getOrder` | proxy-cheap.com | Reads one order's period, bandwidth and total price by id (GET /orders/:id). | ⚪ |
-| `proxy_cheap.getProxy` | proxy-cheap.com | Reads one proxy's status, bandwidth usage and auto-extend flag by id (GET /proxies/:id). | ⚪ |
-| `proxy_cheap.listLocations` | proxy-cheap.com | For one service+plan, lists in-stock countries and, per country, the ISP carriers… | ⚪ |
-| `proxy_cheap.listOrderProxies` | proxy-cheap.com | Lists the proxy endpoints an order produced (GET /orders/:id/proxies) — connection… | ⚪ |
-| `proxy_cheap.listProxies` | proxy-cheap.com | Lists every proxy on the account (GET /proxies). | ⚪ |
-| `proxy_cheap.listServices` | proxy-cheap.com | Lists Proxy-Cheap's service lines and their plan tiers (GET /v2/order) — includes… | ⚪ |
-| `proxy_cheap.placeOrder` | proxy-cheap.com | Places one order for a plan+quantity+term (POST /v2/order/:serviceId/execute) — spends… | ⚪ |
-| `proxy_cheap.quoteExtension` | proxy-cheap.com | Prices extending one proxy's period before committing (POST… | ⚪ |
-| `proxy_cheap.quotePrice` | proxy-cheap.com | Prices a plan+quantity+term before ordering (POST /v2/order/:serviceId/price) —… | ⚪ |
+| `proxy_cheap.listCoverage` | proxy-cheap.com | Lists countries/regions where proxy services are available with carrier information. | 🟢 |
+| `proxy_cheap.listPlans` | proxy-cheap.com | Lists available proxy service plans with pricing per month and bandwidth included. | 🟢 |
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
