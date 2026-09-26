@@ -256,7 +256,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listVideos` | bbc.com | The videos the BBC's video hub shows: title, summary, duration, url, video id, section… | ⚪ |
 | `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `bbc.saveArticle` | bbc.com | Save a BBC article to the signed-in reader's saved list (the page's bookmark button).… | ⚪ |
-| `bbc.searchArticles` | bbc.com | Search the BBC the way its search box does: headline, summary, url, article id… | ⚪ |
+| `bbc.searchArticles` | bbc.com | Search the BBC the way its search box does: headline, summary, url, article id… | 🟢 |
 | `bbc.searchWeatherLocations` | bbc.com | Find BBC Weather locations by place name or postcode: name, region, country and the… | ⚪ |
 | `bbc.subscribeNewsletter` | bbc.com | Sign the signed-in reader up to a BBC newsletter. | ⚪ |
 | `bbc.unfollowPodcast` | bbc.com | Stop following a BBC podcast or series for the signed-in reader. | ⚪ |
@@ -2049,7 +2049,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.postComment` | steampowered.com | Posts a comment or discussion in a game's community hub. | ⚪ |
 | `steam.removeFriend` | steampowered.com | Removes a user from the caller's friends list. | ⚪ |
 | `steam.removeFromWishlist` | steampowered.com | Removes a game from the caller's wishlist. | ⚪ |
-| `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | ⚪ |
+| `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | 🟢 |
 | `steam.searchNews` | steampowered.com | Searches the Steam news archive by keyword or date range. | ⚪ |
 | `steam.viewFriends` | steampowered.com | Lists the caller's Steam friends, including online status and last-seen date. | ⚪ |
 | `steam.viewInventory` | steampowered.com | Displays the caller's inventory including trading cards, profile items, and gift… | ⚪ |
