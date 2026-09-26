@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2213 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2219 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -215,7 +215,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listNewsletters` | bbc.com | The BBC newsletters a reader can sign up to: name, description, frequency and… | ⚪ |
 | `bbc.listPodcasts` | bbc.com | The podcasts and audio series the BBC's audio hub (/audio) lists: title, description… | ⚪ |
 | `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
-| `bbc.listSections` | bbc.com | The BBC's own section list — News and its sub-sections (World, UK, US & Canada… | ⚪ |
+| `bbc.listSections` | bbc.com | The BBC's own section list, read off the bbc.com top navigation — Home, News (US &… | 🟢 |
 | `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | ⚪ |
 | `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | ⚪ |
 | `bbc.listVideos` | bbc.com | The videos the BBC's video hub shows: title, summary, duration, url, video id, section… | ⚪ |
@@ -664,7 +664,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.removeFriend` | epicgames.com | Remove someone from the signed-in caller's Epic friends. | ⚪ |
 | `epicgames.removeFromCart` | epicgames.com | Remove a line from the signed-in caller's cart. | ⚪ |
 | `epicgames.removeFromWishlist` | epicgames.com | Remove a game from the signed-in caller's wishlist. | ⚪ |
-| `epicgames.searchGames` | epicgames.com | Keyword search of the Epic Games Store catalogue, the door to every other function —… | ⚪ |
+| `epicgames.searchGames` | epicgames.com | Keyword search of the Epic Games Store catalogue — title, namespace, current and… | 🟢 |
 | `epicgames.sendFriendRequest` | epicgames.com | Send a friend request from the signed-in caller to an Epic display name. | ⚪ |
 | `epicgames.updateDisplayName` | epicgames.com | Change the signed-in caller's Epic display name. | ⚪ |
 | `epromos.getProductConfiguration` | epromos.com | Reads one ePromos product's own configurator off its product page — every color/style… | 🟢 |
@@ -1133,6 +1133,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟢 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
+| `indeed.getCompanyDetails` | indeed.com | Fetches company details including ratings, reviews, and company information. | ⚪ |
+| `indeed.getJobDetails` | indeed.com | Fetches complete details for a specific job listing including salary, company info… | ⚪ |
+| `indeed.getSalaryDetails` | indeed.com | Retrieves detailed salary information for a specific job title and location. | ⚪ |
+| `indeed.searchCompanies` | indeed.com | Searches for companies on Indeed by name or keyword. | ⚪ |
+| `indeed.searchJobs` | indeed.com | Searches for job listings on Indeed with keyword and location filters. | ⚪ |
+| `indeed.searchSalaries` | indeed.com | Searches salary data on Indeed by job title and location. | ⚪ |
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
