@@ -71,7 +71,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listSellerOffers` | www.amazon.com | Every seller offering the same product, side by side — each one's price, shipping… | 🟢 |
 | `amazon.listVariations` | www.amazon.com | List every version of a product that is really the same listing — the 8-inch… | 🟢 |
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
-| `amazon.searchProducts` | www.amazon.com | Search Amazon's catalogue for what a person would type — "cast iron skillet", "usb c… | 🟢 |
+| `amazon.searchProducts` | www.amazon.com | searchProducts searches Amazon's catalogue for keywords and paginates through results… | 🟢 |
 | `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | 🟢 |
 | `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | ⚪ |
 | `americandreamvacations.listLocations` | americandreamvacations.net | Returns American Dream Vacations' own list of rental store locations (city, state and… | 🟢 |
@@ -1914,7 +1914,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `thibautdesign.calculateRollsNeeded` | thibautdesign.com | Runs Thibaut's own wallpaper-calculator (thibautdesign.com/wallpaper-calculator) —… | 🟢 |
 | `ticketmaster_mx.getEvent` | ticketmaster.com.mx | Fetches event details including title, venue, dates, and ticket availability from a… | 🟢 |
 | `ticketmaster_mx.search` | ticketmaster.com.mx | Searches for events on Ticketmaster México by query string. | 🟢 |
-| `ticketmaster_nl.event` | ticketmaster.nl | Returns the event title, venue, date, time, and availability from an event page URL. | 🟢 |
+| `ticketmaster_nl.event` | ticketmaster.nl | Returns the event title, venue, date, time, and availability from an event page URL. | 🟡 |
 | `ticketmaster_nl.search` | ticketmaster.nl | Searches for events by name on Ticketmaster Netherlands and returns a list of matching… | 🟢 |
 | `ticketmaster.getEvent` | ticketmaster.com | Returns one event in full: venue (name, address), date/time, the classification… | ⚪ |
 | `ticketmaster.listClassifications` | ticketmaster.com | Returns the segment/genre/sub-genre taxonomy Ticketmaster uses to categorize events… | ⚪ |
@@ -1985,7 +1985,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trawickinternational.getPlanPremium` | trawickinternational.com | Reads the exact dollar premium and purchase handoff link for one plan off Trawick's… | 🟢 |
 | `trawickinternational.getQuote` | trawickinternational.com | Submits Trawick's own homepage 'Get a Quote' travel-insurance form (destination… | 🟢 |
 | `trektravel.getDeparturePricing` | trektravel.com | Reads one trip's real scheduled departure dates straight off its own page: each date's… | 🟢 |
-| `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟡 |
+| `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟢 |
 | `trojanstorage.getFacilityUnits` | trojanstorage.com | Reads one Trojan Storage facility's currently-listed units (from `listFacilities`'s… | 🟢 |
 | `trojanstorage.listFacilities` | trojanstorage.com | Lists every Trojan Storage facility (56 today) with its address, phone, lat/lng and… | 🟢 |
 | `trophysignaturehomes.compareHomes` | trophysignaturehomes.com | Runs the site's own compare: reads both homes and computes real price-per-square-foot… | 🟢 |
@@ -2199,8 +2199,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getMarketSummary` | finance.yahoo.com | Reads the market-wide overview the site's own Markets home shows — the major indices… | 🟢 |
 | `yahoo_finance.getNews` | finance.yahoo.com | Reads the news stories Yahoo Finance itself has attached to a ticker's News tab —… | 🟢 |
 | `yahoo_finance.getOptionsChain` | finance.yahoo.com | Reads a ticker's options chain — calls and puts by strike and expiration, with… | 🟢 |
-| `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟢 |
-| `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | 🟢 |
+| `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟡 |
+| `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | 🟡 |
 | `yahoo_finance.listCryptoPrices` | finance.yahoo.com | Reads the live crypto leaderboard the way the site's own Crypto markets page does —… | 🟢 |
 | `yahoo_finance.listCurrencyRates` | finance.yahoo.com | Reads live currency-pair rates the way the site's own Currencies markets page does —… | 🟢 |
 | `yahoo_finance.searchSymbols` | finance.yahoo.com | Resolves what a person would type — a company name ("Apple"), a ticker ("AAPL") or a… | 🟢 |
@@ -2220,7 +2220,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | ⚪ |
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟢 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads today's games for one league — NFL, NBA, MLB, NHL, college football, college… | 🟢 |
-| `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟢 |
+| `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟡 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | ⚪ |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟢 |
 | `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |
