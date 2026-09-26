@@ -925,7 +925,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getTradingActivityFeed` | fomo.family | Pages raw trading activity rather than the composed social feed — the unfiltered… | ⚪ |
 | `fomo.getTransfers` | fomo.family | Pages the signed-in trader's transfers, and the transfers exchanged with one other… | ⚪ |
 | `fomo.getTransfersWith` | fomo.family | Pages the transfers between the signed-in trader and ONE other user — the two-party… | ⚪ |
-| `fomo.getTrendingTokens` | fomo.family | Returns what is moving on fomo right now — the site's own trending ranking, which is a… | ⚪ |
+| `fomo.getTrendingTokens` | fomo.family | Returns what is moving on fomo right now — the site's own trending ranking, which is a… | 🟢 |
 | `fomo.getUser` | fomo.family | Returns one trader's public profile by fomo user id — the same record as… | 🟢 |
 | `fomo.getUserByHandle` | fomo.family | Returns one trader's profile from their `@handle` — the half of a… | 🟢 |
 | `fomo.getUserLeaderboardStanding` | fomo.family | Returns one trader's own rank and stats without walking the board — the narrow… | ⚪ |
@@ -1851,8 +1851,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `provenwinners.getRecipeDetails` | provenwinners.com | Reads one container recipe's own combination page — its season(s), container size and… | 🟢 |
 | `provenwinners.searchContainerRecipes` | provenwinners.com | Runs Proven Winners' own Container Recipe Finder over its 1,074+ published… | 🟢 |
 | `proxmox.getIsoDownloads` | proxmox.com | Lists the current ISO installer download(s) for one or all of Proxmox's four products… | 🟢 |
-| `proxy_cheap.listCoverage` | proxy-cheap.com | Lists countries/regions where proxy services are available with carrier information. | 🟢 |
-| `proxy_cheap.listPlans` | proxy-cheap.com | Lists available proxy service plans with pricing per month and bandwidth included. | 🟢 |
+| `proxy_cheap.listCoverage` | proxy-cheap.com | Lists the proxy locations (countries, by region) Proxy-Cheap features on its site. | 🟢 |
+| `proxy_cheap.listPlans` | proxy-cheap.com | Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting… | 🟢 |
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
