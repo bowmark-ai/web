@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 25d2602f991be509447dd3d489a4a15b5c1dc46384250e3e31fa5d7f173fbbc5
-# 66 capabilities, 477 providers, 1391 typed functions, 20 refused.
+# Manifest version: 467351c27334e892078cebdee4fdceee7cd9adbd389e4bf9d32b1d5cc7fd4d12
+# 67 capabilities, 477 providers, 1392 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -470,6 +470,26 @@ class Cap_cable_railing_quote_CableRailingPricing_Out(TypedDict):
     automated: Literal[False]
     how: str
     designAppUrl: str
+
+class Cap_candy_prices_search_arg_In(TypedDict):
+    query: str
+
+class Cap_candy_prices_candy_pricesResult_Out(TypedDict):
+    results: list[Cap_candy_prices_CandyResult_Out]
+    warnings: list[str]
+
+class Cap_candy_prices_CandyResult_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    price: Cap_candy_prices_CandyResult_Out_price_Out
+    retailer: str
+    inStock: bool
+    imageUrl: NotRequired[str]
+
+class Cap_candy_prices_CandyResult_Out_price_Out(TypedDict):
+    amount: float
+    currency: str
 
 class Cap_cars_CarQuery_In(TypedDict):
     pickup: str
@@ -22863,6 +22883,18 @@ class Cap_cable_railing_quote(Protocol):
         in Victor and submit it for a human-priced quote — instead of fabricating a number.
         """
 
+class Cap_candy_prices(Protocol):
+    """Find candy and sweets with prices from Target and Walmart, merged into one list for
+    price comparison across both stores.
+    """
+
+    async def search(self, arg: Cap_candy_prices_search_arg_In, /) -> Cap_candy_prices_candy_pricesResult_Out:
+        """Search for candy and sweets across Target and Walmart, returning priced, in-stock rows
+        from both retailers merged into one list. Never throws on one retailer being unreachable
+        — that retailer's rows are dropped and named in warnings; throws only when both
+        retailers failed.
+        """
+
 class Cap_cars(Protocol):
     """Search car hire at an airport for a date range and get back normalized offers, cheapest
     total first — total and per-day price, the agency you collect from AND the separate
@@ -38897,6 +38929,7 @@ class Bowmark(Protocol):
     browser_agent: Cap_browser_agent
     bundles: Cap_bundles
     cable_railing_quote: Cap_cable_railing_quote
+    candy_prices: Cap_candy_prices
     cars: Cap_cars
     census_tract_demographics: Cap_census_tract_demographics
     census_tract_household_income: Cap_census_tract_household_income

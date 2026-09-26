@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 25d2602f991be509447dd3d489a4a15b5c1dc46384250e3e31fa5d7f173fbbc5
-// 1391 checked, 20 unchecked.
+// Manifest version: 467351c27334e892078cebdee4fdceee7cd9adbd389e4bf9d32b1d5cc7fd4d12
+// 1392 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "25d2602f991be509447dd3d489a4a15b5c1dc46384250e3e31fa5d7f173fbbc5",
+  "version": "467351c27334e892078cebdee4fdceee7cd9adbd389e4bf9d32b1d5cc7fd4d12",
   "units": {
     "booking_links": {
       "defs": {
@@ -410,6 +410,29 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "candy_prices": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

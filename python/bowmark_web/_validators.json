@@ -1,5 +1,5 @@
 {
-  "version": "25d2602f991be509447dd3d489a4a15b5c1dc46384250e3e31fa5d7f173fbbc5",
+  "version": "467351c27334e892078cebdee4fdceee7cd9adbd389e4bf9d32b1d5cc7fd4d12",
   "units": {
     "booking_links": {
       "defs": {
@@ -398,6 +398,29 @@
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "candy_prices": {
+      "defs": {},
+      "functions": {
+        "search": [
+          {
+            "name": "arg",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
           }
         ]
       }

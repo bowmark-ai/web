@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 25d2602f991be509447dd3d489a4a15b5c1dc46384250e3e31fa5d7f173fbbc5
-// 66 capabilities, 477 providers, 1409 typed functions, 20 refused.
+// Manifest version: 467351c27334e892078cebdee4fdceee7cd9adbd389e4bf9d32b1d5cc7fd4d12
+// 67 capabilities, 477 providers, 1410 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -444,6 +444,41 @@ type CallOptions = {
      * and submit it for a human-priced quote — instead of fabricating a number.
      */
     getDesignOptions(options?: CallOptions): Promise<CableRailingDesignOptionsResult>;
+  }
+}
+
+declare namespace BowmarkCapability_candy_prices {
+  // ── Search candy and sweets by price across retailers — the unit's own declarations, verbatim ──
+interface CandyResult {
+  id: string
+  title: string
+  url: string
+  price: { amount: number; currency: string }
+  retailer: string
+  inStock: boolean
+  imageUrl?: string
+}
+interface candy_pricesResult {
+  results: CandyResult[]
+  warnings: string[]
+}
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Find candy and sweets with prices from Target and Walmart, merged into one list for price
+   * comparison across both stores.
+   */
+  interface Unit {
+    /**
+     * Search for candy and sweets across Target and Walmart, returning priced, in-stock rows from
+     * both retailers merged into one list. Never throws on one retailer being unreachable — that
+     * retailer's rows are dropped and named in warnings; throws only when both retailers failed.
+     */
+    search(arg: { query: string }): Promise<candy_pricesResult>;
   }
 }
 
@@ -94720,6 +94755,7 @@ interface BowmarkLibrary {
   browser_agent: BowmarkCapability_browser_agent.Unit;
   bundles: BowmarkCapability_bundles.Unit;
   cable_railing_quote: BowmarkCapability_cable_railing_quote.Unit;
+  candy_prices: BowmarkCapability_candy_prices.Unit;
   cars: BowmarkCapability_cars.Unit;
   census_tract_demographics: BowmarkCapability_census_tract_demographics.Unit;
   census_tract_household_income: BowmarkCapability_census_tract_household_income.Unit;
