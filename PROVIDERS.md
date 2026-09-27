@@ -745,7 +745,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.getMyListings` | ebay.com | Get the caller's active selling listings (for sellers). | ⚪ |
 | `ebay.getMyMessages` | ebay.com | Get the caller's eBay messages — inbox, sent, and resolved messages. | ⚪ |
 | `ebay.getProfile` | ebay.com | Get the caller's profile information. | ⚪ |
-| `ebay.getSellerListings` | ebay.com | List all active items for sale from a specific seller. | ⚪ |
+| `ebay.getSellerListings` | ebay.com | Runs an eBay Browse API search filtered to one seller's own listings, matching a… | 🟢 |
 | `ebay.getSellerProfile` | ebay.com | Get seller information — feedback score, seller type (individual/business), member… | ⚪ |
 | `ebay.getWatchlist` | ebay.com | Get the caller's watch list — items they are monitoring for price changes. | ⚪ |
 | `ebay.removeFromCart` | ebay.com | Remove an item from the caller's shopping cart. | ⚪ |
@@ -933,7 +933,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getUserSwaps` | fomo.family | Pages one trader's executed swaps — token, side, amount, USD value, price and realized… | ⚪ |
 | `fomo.getUserTransfers` | fomo.family | Pages one trader's token transfers in and out — distinct from swaps, which are trades.… | ⚪ |
 | `fomo.getUserWithdrawals` | fomo.family | Returns one trader's withdrawals off the platform for a given chain. `GET… | ⚪ |
-| `fomo.getVerifiedTokens` | fomo.family | Returns the tokens fomo has verified — its own trust list, as distinct from the… | ⚪ |
+| `fomo.getVerifiedTokens` | fomo.family | Returns the tokens fomo has verified — its own trust list, as distinct from the… | 🟢 |
 | `fomo.getWatchlist` | fomo.family | Returns the tokens the signed-in trader is watching, and adds or removes one. | ⚪ |
 | `fomo.postTokenThesis` | fomo.family | Publishes the signed-in trader's written thesis on a token. | ⚪ |
 | `fomo.quoteSwap` | fomo.family | Prices a swap without executing it — input token, output token, amounts, price impact… | ⚪ |
@@ -1634,7 +1634,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getCrosswordArchive` | games.nytimes.com | Retrieves historical crossword puzzles dating back to 1995. | ⚪ |
 | `nyt_games.getCrosswordDaily` | games.nytimes.com | Retrieves today's New York Times daily crossword puzzle. | 🟢 |
 | `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | ⚪ |
-| `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | ⚪ |
+| `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | 🟢 |
 | `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | 🟢 |
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle. | ⚪ |
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
