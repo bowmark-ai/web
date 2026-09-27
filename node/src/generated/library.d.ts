@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 58ee140e1dacf06347cbe6adac9adc9151fd83ff17837f7bb14070e2938ccaae
-// 67 capabilities, 485 providers, 1436 typed functions, 20 refused.
+// Manifest version: 846679bf4c21634fd61d46a470701037ef2dd7f1e723fd4d0dbbf2efcb370817
+// 67 capabilities, 485 providers, 1437 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8325,6 +8325,36 @@ interface BbcSearchArticlesResult {
   pageSize: number;
 }
 
+interface BbcArticleBlock {
+  type: string;    // the site's own block type: "paragraph", "subheading", "video", …
+  text?: string;
+  imageUrl?: string;
+  caption?: string;
+}
+
+interface BbcArticleTopic {
+  id: string;
+  title: string;
+}
+
+interface BbcRelatedLink {
+  headline: string;
+  url: string;
+}
+
+interface BbcGetArticleResult {
+  articleId: string;
+  headline: string;
+  byline?: string;
+  section?: string;
+  published?: string;   // ISO
+  updated?: string;      // ISO
+  topics: BbcArticleTopic[];
+  body: BbcArticleBlock[];       // the article's body, in reading order
+  relatedLinks: BbcRelatedLink[];
+  url: string;
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8357,6 +8387,14 @@ interface bbcRow {
      * date for each result, with paging. Takes free text.
      */
     searchArticles(args: { query: string; page?: number }): Promise<BbcSearchArticlesResult>;
+
+    /**
+     * One BBC article as data: headline, byline, published and updated times, section, topic tags
+     * (ids listTopicStories takes), the body text as ordered blocks (paragraphs, subheadings,
+     * quotes, image captions) and related links. Takes an article id (`c6d79l2jd2pyo`) or any
+     * bbc.com / bbc.co.uk article URL.
+     */
+    getArticle(articleIdOrUrl: string): Promise<BbcGetArticleResult>;
   }
 }
 

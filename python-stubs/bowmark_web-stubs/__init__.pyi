@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 58ee140e1dacf06347cbe6adac9adc9151fd83ff17837f7bb14070e2938ccaae
-# 67 capabilities, 485 providers, 1418 typed functions, 20 refused.
+# Manifest version: 846679bf4c21634fd61d46a470701037ef2dd7f1e723fd4d0dbbf2efcb370817
+# 67 capabilities, 485 providers, 1419 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4650,6 +4650,32 @@ class Prv_bbc_BbcSearchResultRow_Out(TypedDict):
     image: NotRequired[str]
     section: str
     lastUpdated: NotRequired[str]
+
+class Prv_bbc_BbcGetArticleResult_Out(TypedDict):
+    articleId: str
+    headline: str
+    byline: NotRequired[str]
+    section: NotRequired[str]
+    published: NotRequired[str]
+    updated: NotRequired[str]
+    topics: list[Prv_bbc_BbcArticleTopic_Out]
+    body: list[Prv_bbc_BbcArticleBlock_Out]
+    relatedLinks: list[Prv_bbc_BbcRelatedLink_Out]
+    url: str
+
+class Prv_bbc_BbcArticleTopic_Out(TypedDict):
+    id: str
+    title: str
+
+class Prv_bbc_BbcArticleBlock_Out(TypedDict):
+    type: str
+    text: NotRequired[str]
+    imageUrl: NotRequired[str]
+    caption: NotRequired[str]
+
+class Prv_bbc_BbcRelatedLink_Out(TypedDict):
+    headline: str
+    url: str
 
 class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
     resourceLocationId: float
@@ -26226,6 +26252,13 @@ class Prv_bbc(Protocol):
     async def searchArticles(self, args: Prv_bbc_searchArticles_args_In, /) -> Prv_bbc_BbcSearchArticlesResult_Out:
         """Search the BBC the way its search box does: headline, summary, url, article id, section
         and date for each result, with paging. Takes free text.
+        """
+
+    async def getArticle(self, articleIdOrUrl: str, /) -> Prv_bbc_BbcGetArticleResult_Out:
+        """One BBC article as data: headline, byline, published and updated times, section, topic
+        tags (ids listTopicStories takes), the body text as ordered blocks (paragraphs,
+        subheadings, quotes, image captions) and related links. Takes an article id
+        (`c6d79l2jd2pyo`) or any bbc.com / bbc.co.uk article URL.
         """
 
 class Prv_bcparkscamping(Protocol):
