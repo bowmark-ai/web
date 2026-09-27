@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 846679bf4c21634fd61d46a470701037ef2dd7f1e723fd4d0dbbf2efcb370817
-// 1419 checked, 20 unchecked.
+// Manifest version: 5ac70bd027e829b846653e6bb1f45a01ba32ecbb4abca6de4dadded04b31192c
+// 1422 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "846679bf4c21634fd61d46a470701037ef2dd7f1e723fd4d0dbbf2efcb370817",
+  "version": "5ac70bd027e829b846653e6bb1f45a01ba32ecbb4abca6de4dadded04b31192c",
   "units": {
     "booking_links": {
       "defs": {
@@ -6019,17 +6019,34 @@ export const VALIDATORS: ValidatorTable = {
           {
             "name": "args",
             "schema": {
-              "k": "ref",
-              "name": "ListBestSellersArgs"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ListBestSellersArgs"
+                }
+              ]
             },
             "optional": false
           }
         ],
         "listNewReleases": [
           {
-            "name": "department",
+            "name": "args",
             "schema": {
-              "k": "string"
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "ref",
+                  "name": "ListBestSellersArgs"
+                }
+              ]
             },
             "optional": false
           }
@@ -7598,6 +7615,15 @@ export const VALIDATORS: ValidatorTable = {
               "name": "archive_orgSearchOptions"
             },
             "optional": true
+          }
+        ],
+        "getItem": [
+          {
+            "name": "identifier",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -17808,6 +17834,29 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "issueNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          }
+        ],
+        "getPullRequest": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pullRequestNumber",
             "schema": {
               "k": "number"
             },
@@ -41353,6 +41402,38 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listBacklinks": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listExternalLinks": [
           {
             "name": "titleOrUrl",
             "schema": {

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 846679bf4c21634fd61d46a470701037ef2dd7f1e723fd4d0dbbf2efcb370817
-// 67 capabilities, 485 providers, 1437 typed functions, 20 refused.
+// Manifest version: 5ac70bd027e829b846653e6bb1f45a01ba32ecbb4abca6de4dadded04b31192c
+// 67 capabilities, 485 providers, 1440 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5456,20 +5456,22 @@ interface AmazonSellerOffersResult {
     /**
      * Amazon's hourly-updated top sellers in one department (the slug listBestSellerCategories
      * returns, e.g. "kitchen") — each row's ASIN, rank, title, price and rating, in rank order.
-     * What is actually selling right now, as opposed to searchProducts' relevance ranking.
-     * Pagination is available via the `page` argument: page 2 returns ranks 31-60; only these two
-     * pages are available on the site.
+     * What is actually selling right now, as opposed to searchProducts' relevance ranking. Takes a
+     * bare department slug, or { department, page } for a second page: page 2 returns ranks 51-80,
+     * NOT contiguous with page 1's 1-30 — ranks 31-50 and 81-100 are never rendered on either
+     * page. Only these two pages are available on the site.
      */
-    listBestSellers(args: ListBestSellersArgs): Promise<AmazonBestSellerEntry[]>;
+    listBestSellers(args: string | ListBestSellersArgs): Promise<AmazonBestSellerEntry[]>;
 
     /**
      * What is newly out in a department (the slug listBestSellerCategories returns, e.g.
      * "kitchen"), in Amazon's own hot-new-releases order — each row's ASIN, rank, title, price and
      * rating. The ranking a caller wants when "best seller" would only ever return the same
-     * entrenched products. Page one only (up to 30 rows), the same limit listBestSellers carries
-     * and for the same reason.
+     * entrenched products. Takes a bare department slug, or { department, page } for a second
+     * page: page 2 returns ranks 51-80, the same non-contiguous window listBestSellers carries and
+     * for the same reason.
      */
-    listNewReleases(department: string): Promise<AmazonBestSellerEntry[]>;
+    listNewReleases(args: string | ListBestSellersArgs): Promise<AmazonBestSellerEntry[]>;
 
     /**
      * What people in a department (the slug listBestSellerCategories returns, e.g. "kitchen") are
@@ -7067,6 +7069,24 @@ interface archive_orgSearchResults {
   warnings: string[];
 }
 
+interface archive_orgFile {
+  name: string;                 // pass to downloadFile, or use downloadUrl directly
+  format: string | null;        // e.g. "EPUB", "Text PDF", "Animated GIF"
+  size: number | null;          // bytes
+  downloadUrl: string;
+}
+
+interface archive_orgItem {
+  identifier: string;
+  title: string | null;
+  creator: string[] | null;
+  description: string | null;
+  date: string | null;
+  mediatype: string | null;
+  collection: string[] | null;
+  files: archive_orgFile[];
+}
+
   /**
    * The Wayback Machine — is a site or page archived, every capture it holds, and the page
    * itself as it was captured, so a caller can see what a site published before it was changed
@@ -7113,6 +7133,14 @@ interface archive_orgSearchResults {
      * usually far larger than the page returned.
      */
     searchItems(query: string, opts?: archive_orgSearchOptions): Promise<archive_orgSearchResults>;
+
+    /**
+     * Fetches one item's full metadata — title, creator, description, date, mediatype, collection
+     * — and its complete file list, each file carrying a ready-to-fetch `downloadUrl`. Takes the
+     * `identifier` from searchItems, or the last path segment of an
+     * archive.org/details/<identifier> url. Throws when no item exists at that identifier.
+     */
+    getItem(identifier: string): Promise<archive_orgItem>;
   }
 }
 
@@ -18869,6 +18897,22 @@ interface GithubListPullRequestsResult {
   pullRequests: GithubPullRequest[];
   warnings: string[];
 }
+interface GithubPullRequestReactions {
+  total: number;
+  plusOne: number;
+  minusOne: number;
+  laugh: number;
+  hooray: number;
+  confused: number;
+  heart: number;
+  rocket: number;
+  eyes: number;
+}
+interface GithubPullRequestDetail extends GithubPullRequest {
+  locked: boolean;
+  closedBy: string | null;
+  reactions: GithubPullRequestReactions;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -19017,6 +19061,18 @@ interface GithubListPullRequestsResult {
      * THROWS on an unknown owner/repo/issue number (404) or a rate limit (403/429).
      */
     getIssue(owner: string, repo: string, issueNumber: number): Promise<GithubIssueDetail>;
+
+    /**
+     * Returns the full details of one pull request off GitHub's own unauthenticated REST single-PR
+     * endpoint — number, title, body, creator, state, draft flag, base/head branch names, merge
+     * status, whether it is locked, who closed it, a per-emoji reaction count breakdown, and
+     * created/updated/closed timestamps. The `merged` field is derived from GitHub's own
+     * `merged_at`, since GitHub reports `state: "closed"` for both a merged PR and one closed
+     * without merging. Shares the same 60 requests/hour per IP unauthenticated ceiling as
+     * `listPullRequests`. THROWS on an unknown owner/repo/PR number (404) or a rate limit
+     * (403/429).
+     */
+    getPullRequest(owner: string, repo: string, pullRequestNumber: number): Promise<GithubPullRequestDetail>;
   }
 }
 
@@ -40445,6 +40501,10 @@ interface WikipediaBacklink {
   url: string;
 }
 
+interface WikipediaExternalLink {
+  url: string;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -40539,6 +40599,15 @@ interface WikipediaBacklink {
      * (defaults to all).
      */
     listBacklinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ backlinks: WikipediaBacklink[]; warnings: string[] }>;
+
+    /**
+     * Every link OFF Wikipedia from one article — the sources, official sites and references the
+     * page points at, as raw urls. The cheapest way to turn 'tell me about X' into a list of
+     * primary sources about X. Takes an article title OR any wikipedia.org url and follows the
+     * site's own redirects. Optional limit parameter caps the number of links returned (defaults
+     * to 500).
+     */
+    listExternalLinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ externalLinks: WikipediaExternalLink[]; warnings: string[] }>;
   }
 }
 

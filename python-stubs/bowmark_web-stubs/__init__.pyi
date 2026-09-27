@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 846679bf4c21634fd61d46a470701037ef2dd7f1e723fd4d0dbbf2efcb370817
-# 67 capabilities, 485 providers, 1419 typed functions, 20 refused.
+# Manifest version: 5ac70bd027e829b846653e6bb1f45a01ba32ecbb4abca6de4dadded04b31192c
+# 67 capabilities, 485 providers, 1422 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3901,6 +3901,22 @@ class Prv_archive_org_archive_orgSearchItem_Out(TypedDict):
     date: str | None
     mediatype: str | None
     downloads: float | None
+
+class Prv_archive_org_archive_orgItem_Out(TypedDict):
+    identifier: str
+    title: str | None
+    creator: list[str] | None
+    description: str | None
+    date: str | None
+    mediatype: str | None
+    collection: list[str] | None
+    files: list[Prv_archive_org_archive_orgFile_Out]
+
+class Prv_archive_org_archive_orgFile_Out(TypedDict):
+    name: str
+    format: str | None
+    size: float | None
+    downloadUrl: str
 
 class Prv_artpix3d_Artpix3dShape_Out(TypedDict):
     slug: str
@@ -10306,6 +10322,36 @@ class Prv_github_GithubIssueDetail_Out(TypedDict):
     reactions: Prv_github_GithubIssueReactions_Out
 
 class Prv_github_GithubIssueReactions_Out(TypedDict):
+    total: float
+    plusOne: float
+    minusOne: float
+    laugh: float
+    hooray: float
+    confused: float
+    heart: float
+    rocket: float
+    eyes: float
+
+class Prv_github_GithubPullRequestDetail_Out(TypedDict):
+    number: float
+    title: str
+    body: str | None
+    creator: str
+    state: str
+    draft: bool
+    merged: bool
+    mergedAt: str | None
+    baseBranch: str
+    headBranch: str
+    createdAt: str
+    updatedAt: str
+    closedAt: str | None
+    url: str
+    locked: bool
+    closedBy: str | None
+    reactions: Prv_github_GithubPullRequestReactions_Out
+
+class Prv_github_GithubPullRequestReactions_Out(TypedDict):
     total: float
     plusOne: float
     minusOne: float
@@ -22115,6 +22161,17 @@ class Prv_wikipedia_WikipediaBacklink_Out(TypedDict):
     title: str
     url: str
 
+class Prv_wikipedia_listExternalLinks_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_listExternalLinks_return_Out(TypedDict):
+    externalLinks: list[Prv_wikipedia_WikipediaExternalLink_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaExternalLink_Out(TypedDict):
+    url: str
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -25150,19 +25207,21 @@ class Prv_amazon(Protocol):
         new search query.
         """
 
-    async def listBestSellers(self, args: Prv_amazon_ListBestSellersArgs_In, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
+    async def listBestSellers(self, args: str | Prv_amazon_ListBestSellersArgs_In, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
         """Amazon's hourly-updated top sellers in one department (the slug listBestSellerCategories
         returns, e.g. "kitchen") — each row's ASIN, rank, title, price and rating, in rank
         order. What is actually selling right now, as opposed to searchProducts' relevance
-        ranking. Pagination is available via the `page` argument: page 2 returns ranks 31-60;
-        only these two pages are available on the site.
+        ranking. Takes a bare department slug, or { department, page } for a second page: page 2
+        returns ranks 51-80, NOT contiguous with page 1's 1-30 — ranks 31-50 and 81-100 are
+        never rendered on either page. Only these two pages are available on the site.
         """
 
-    async def listNewReleases(self, department: str, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
+    async def listNewReleases(self, args: str | Prv_amazon_ListBestSellersArgs_In, /) -> list[Prv_amazon_AmazonBestSellerEntry_Out]:
         """What is newly out in a department (the slug listBestSellerCategories returns, e.g.
         "kitchen"), in Amazon's own hot-new-releases order — each row's ASIN, rank, title, price
         and rating. The ranking a caller wants when "best seller" would only ever return the
-        same entrenched products. Page one only (up to 30 rows), the same limit listBestSellers
+        same entrenched products. Takes a bare department slug, or { department, page } for a
+        second page: page 2 returns ranks 51-80, the same non-contiguous window listBestSellers
         carries and for the same reason.
         """
 
@@ -25788,6 +25847,13 @@ class Prv_archive_org(Protocol):
         most-borrowed/most-played, "date"). Each result carries the `identifier` to pass to
         getItem, checkLendingAvailability or downloadFile. `totalFound` is the Solr match count,
         which is usually far larger than the page returned.
+        """
+
+    async def getItem(self, identifier: str, /) -> Prv_archive_org_archive_orgItem_Out:
+        """Fetches one item's full metadata — title, creator, description, date, mediatype,
+        collection — and its complete file list, each file carrying a ready-to-fetch
+        `downloadUrl`. Takes the `identifier` from searchItems, or the last path segment of an
+        archive.org/details/<identifier> url. Throws when no item exists at that identifier.
         """
 
 class Prv_artpix3d(Protocol):
@@ -30157,6 +30223,17 @@ class Prv_github(Protocol):
         endpoint this function does not call. Shares the same 60 requests/hour per IP
         unauthenticated ceiling as `listIssues`. THROWS on an unknown owner/repo/issue number
         (404) or a rate limit (403/429).
+        """
+
+    async def getPullRequest(self, owner: str, repo: str, pullRequestNumber: float, /) -> Prv_github_GithubPullRequestDetail_Out:
+        """Returns the full details of one pull request off GitHub's own unauthenticated REST
+        single-PR endpoint — number, title, body, creator, state, draft flag, base/head branch
+        names, merge status, whether it is locked, who closed it, a per-emoji reaction count
+        breakdown, and created/updated/closed timestamps. The `merged` field is derived from
+        GitHub's own `merged_at`, since GitHub reports `state: "closed"` for both a merged PR
+        and one closed without merging. Shares the same 60 requests/hour per IP unauthenticated
+        ceiling as `listPullRequests`. THROWS on an unknown owner/repo/PR number (404) or a rate
+        limit (403/429).
         """
 
 class Prv_glama(Protocol):
@@ -38345,6 +38422,14 @@ class Prv_wikipedia(Protocol):
         important is this topic, and to whom". Takes an article title OR any wikipedia.org url
         and follows the site's own redirects. Optional limit parameter caps the number of
         backlinks returned (defaults to all).
+        """
+
+    async def listExternalLinks(self, titleOrUrl: str, options: Prv_wikipedia_listExternalLinks_options_In | None = None, /) -> Prv_wikipedia_listExternalLinks_return_Out:
+        """Every link OFF Wikipedia from one article — the sources, official sites and references
+        the page points at, as raw urls. The cheapest way to turn 'tell me about X' into a list
+        of primary sources about X. Takes an article title OR any wikipedia.org url and follows
+        the site's own redirects. Optional limit parameter caps the number of links returned
+        (defaults to 500).
         """
 
 class Prv_wikipedia_standings(Protocol):

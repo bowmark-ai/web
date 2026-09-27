@@ -173,7 +173,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🟡 |
 | `archive_org.checkLendingAvailability` | archive.org | Checks whether a book item is available to borrow (lend) from the Internet Archive at… | ⚪ |
 | `archive_org.downloadFile` | archive.org | Builds a download URL for one file within an item — a book PDF, an audio file, a… | ⚪ |
-| `archive_org.getItem` | archive.org | Fetches the full metadata of one item in the Internet Archive's library — title… | ⚪ |
+| `archive_org.getItem` | archive.org | Fetches one item's full metadata — title, creator, description, date, mediatype… | 🟢 |
 | `archive_org.getSnapshot` | archive.org | Reads one archived page as it was captured — the original HTML without the archive's… | 🟢 |
 | `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🟡 |
 | `archive_org.searchItems` | archive.org | Search the Internet Archive's library of books, films, audio, software and more using… | 🟢 |
@@ -1042,7 +1042,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
-| `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, reviewers… | ⚪ |
+| `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, state, merge… | 🟢 |
 | `github.getRepo` | github.com | Returns a public repository's own metadata — description, default branch… | 🟢 |
 | `github.getSponsorPage` | github.com | Returns the public sponsor/funding page for a user, showing sponsorship options and… | ⚪ |
 | `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | 🟢 |
@@ -2154,8 +2154,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `thezebra.listCarriers` | thezebra.com | Returns the insurance companies The Zebra compares — the roster behind the '100+… | ⚪ |
 | `thezebra.listVehicles` | thezebra.com | Returns the makes and models The Zebra publishes insurance rates for — the index that… | ⚪ |
 | `thibautdesign.calculateRollsNeeded` | thibautdesign.com | Runs Thibaut's own wallpaper-calculator (thibautdesign.com/wallpaper-calculator) —… | 🟢 |
-| `ticketmaster_mx.getEvent` | ticketmaster.com.mx | Fetches event details including title, venue, dates, and ticket availability from a… | 🟢 |
-| `ticketmaster_mx.search` | ticketmaster.com.mx | Searches for events on Ticketmaster México by query string. | 🟢 |
+| `ticketmaster_mx.getEvent` | ticketmaster.com.mx | Retrieves complete details for a specific Ticketmaster México event: ticket… | 🟢 |
+| `ticketmaster_mx.search` | ticketmaster.com.mx | Finds upcoming events on Ticketmaster México matching a search term (e.g., artist… | 🟢 |
 | `ticketmaster_nl.event` | ticketmaster.nl | Returns the event title, venue, date, time, and availability from an event page URL. | 🟡 |
 | `ticketmaster_nl.search` | ticketmaster.nl | Searches for events by name on Ticketmaster Netherlands and returns a list of matching… | 🟢 |
 | `ticketmaster.getEvent` | ticketmaster.com | Returns one event in full: venue (name, address), date/time, the classification… | ⚪ |
@@ -2437,7 +2437,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listBacklinks` | wikipedia.org | What links HERE — every Wikipedia article pointing at this one, by title and url. | 🟢 |
 | `wikipedia.listCategories` | wikipedia.org | The categories an article belongs to — Wikipedia's own subject taxonomy, which is how… | ⚪ |
 | `wikipedia.listCategoryMembers` | wikipedia.org | Every article in a category — hand it "Coffee" and get the pages Wikipedia files under… | ⚪ |
-| `wikipedia.listExternalLinks` | wikipedia.org | Every link OFF Wikipedia from one article — the sources, official sites and references… | ⚪ |
+| `wikipedia.listExternalLinks` | wikipedia.org | Every link OFF Wikipedia from one article — the sources, official sites and references… | 🟢 |
 | `wikipedia.listImages` | wikipedia.org | Every image, diagram, audio clip and video in an article, in page order — each with… | ⚪ |
 | `wikipedia.listLanguages` | wikipedia.org | What this article is called in every other language Wikipedia has it in, with the url… | ⚪ |
 | `wikipedia.listLinks` | wikipedia.org | Every other Wikipedia article this one links to, by title and url. | 🟢 |
