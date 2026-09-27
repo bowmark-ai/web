@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a
-# 67 capabilities, 483 providers, 1410 typed functions, 20 refused.
+# Manifest version: 58ee140e1dacf06347cbe6adac9adc9151fd83ff17837f7bb14070e2938ccaae
+# 67 capabilities, 485 providers, 1418 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5263,6 +5263,9 @@ class Prv_bluesignal_BlueSignalJobDetail_Out(TypedDict):
     descriptionHtml: str
     applyUrl: str
 
+class Prv_bluesky_BlueskyResolvedHandle_Out(TypedDict):
+    did: str
+
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
     modelName: str
@@ -5460,6 +5463,24 @@ class Prv_bollandbranch_BollAndBranchSwatch_Out(TypedDict):
     name: str
     hex: str | None
     imageUrl: str | None
+
+class Prv_booking_com_AutocompleteDestinationArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_booking_com_autocompleteDestination_return_Out(TypedDict):
+    destinations: list[Prv_booking_com_BookingDestination_Out]
+
+class Prv_booking_com_BookingDestination_Out(TypedDict):
+    destId: str
+    destType: str
+    name: str
+    label: str
+    region: str
+    countryCode: str
+    latitude: float | None
+    longitude: float | None
+    hotelCount: float | None
 
 class Prv_borsheims_BorsheimsSearchResult_Out(TypedDict):
     name: str
@@ -7413,6 +7434,11 @@ class Prv_cnn_cnnHeadline_Out(TypedDict):
     timestamp: str | None
     section: str | None
 
+class Prv_cnn_cnnCategory_Out(TypedDict):
+    id: str
+    name: str
+    path: str
+
 class Prv_code_claude_com_code_claude_comDoc_Out(TypedDict):
     url: str
     title: str | None
@@ -8392,6 +8418,47 @@ class Prv_ebay_ebayItem_Out_price_u0_Out(TypedDict):
     value: str
     currency: str
 
+class Prv_ebay_ebayItemDetail_Out(TypedDict):
+    itemId: str
+    title: str
+    shortDescription: str | None
+    price: Prv_ebay_ebayItemDetail_Out_price_u0_Out | None
+    condition: str | None
+    buyingOptions: list[str]
+    url: str
+    imageUrl: str | None
+    seller: Prv_ebay_ebayItemDetail_Out_seller_Out
+    itemLocation: Prv_ebay_ebayItemDetail_Out_itemLocation_u0_Out | None
+    shipping: Prv_ebay_ebayItemDetail_Out_shipping_u0_Out | None
+    currentBidPrice: Prv_ebay_ebayItemDetail_Out_currentBidPrice_u0_Out | None
+    bidCount: float | None
+
+class Prv_ebay_ebayItemDetail_Out_price_u0_Out(TypedDict):
+    value: str
+    currency: str
+
+class Prv_ebay_ebayItemDetail_Out_seller_Out(TypedDict):
+    username: str | None
+    feedbackScore: float | None
+    feedbackPercentage: str | None
+
+class Prv_ebay_ebayItemDetail_Out_itemLocation_u0_Out(TypedDict):
+    city: str | None
+    stateOrProvince: str | None
+    country: str | None
+
+class Prv_ebay_ebayItemDetail_Out_shipping_u0_Out(TypedDict):
+    costType: str | None
+    cost: Prv_ebay_ebayItemDetail_Out_shipping_u0_Out_cost_u0_Out | None
+
+class Prv_ebay_ebayItemDetail_Out_shipping_u0_Out_cost_u0_Out(TypedDict):
+    value: str
+    currency: str
+
+class Prv_ebay_ebayItemDetail_Out_currentBidPrice_u0_Out(TypedDict):
+    value: str
+    currency: str
+
 class Prv_elase_ElaseLocationLink_Out(TypedDict):
     slug: str
     url: str
@@ -8565,6 +8632,20 @@ class Prv_epicgames_GamePrice_Out(TypedDict):
     discountPercentage: float
     currencyCode: str
     saleEndDate: str | None
+
+class Prv_epicgames_listGameOffers_args_In(TypedDict):
+    slug: NotRequired[str]
+    namespace: NotRequired[str]
+
+class Prv_epicgames_ListGameOffersResult_Out(TypedDict):
+    offers: list[Prv_epicgames_GameOffer_Out]
+
+class Prv_epicgames_GameOffer_Out(TypedDict):
+    offerId: str
+    offerType: str
+    title: str
+    basePrice: float
+    releaseDate: str | None
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -19635,6 +19716,61 @@ class Prv_steam_SteamSearchResult_Out_platforms_Out(TypedDict):
     mac: bool
     linux: bool
 
+class Prv_steam_GetGameDetailsArgs_In(TypedDict):
+    appid: str | float
+
+class Prv_steam_GetGameDetailsResponse_Out(TypedDict):
+    game: Prv_steam_SteamGameDetails_Out
+
+class Prv_steam_SteamGameDetails_Out(TypedDict):
+    appid: str
+    name: str
+    type: str | None
+    isFree: bool
+    shortDescription: str | None
+    detailedDescription: str | None
+    headerImage: str | None
+    website: str | None
+    developers: list[str]
+    publishers: list[str]
+    price: Prv_steam_SteamGameDetails_Out_price_u0_Out | None
+    releaseDate: Prv_steam_SteamGameDetails_Out_releaseDate_u0_Out | None
+    platforms: Prv_steam_SteamGameDetails_Out_platforms_Out
+    genres: list[str]
+    categories: list[str]
+    metacriticScore: float | None
+    recommendationsTotal: float | None
+    systemRequirements: Prv_steam_SteamGameDetails_Out_systemRequirements_Out
+    screenshots: list[str]
+    videos: list[Prv_steam_SteamGameDetails_Out_videos_item_Out]
+    url: str
+
+class Prv_steam_SteamGameDetails_Out_price_u0_Out(TypedDict):
+    currency: str
+    initial: float
+    final: float
+    discountPercent: float
+
+class Prv_steam_SteamGameDetails_Out_releaseDate_u0_Out(TypedDict):
+    comingSoon: bool
+    date: str
+
+class Prv_steam_SteamGameDetails_Out_platforms_Out(TypedDict):
+    windows: bool
+    mac: bool
+    linux: bool
+
+class Prv_steam_SteamGameDetails_Out_systemRequirements_Out(TypedDict):
+    pcMinimum: str | None
+    pcRecommended: str | None
+    macMinimum: str | None
+    linuxMinimum: str | None
+
+class Prv_steam_SteamGameDetails_Out_videos_item_Out(TypedDict):
+    name: str | None
+    thumbnail: str | None
+    hlsUrl: str | None
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -20947,6 +21083,20 @@ class Prv_twitch_TwitchChannelInfo_Out(TypedDict):
     profileImageUrl: str
     followerCount: float
     createdAt: str
+
+class Prv_twitch_SearchChannelsArgs_In(TypedDict):
+    query: str
+
+class Prv_twitch_TwitchChannelSearchResult_Out(TypedDict):
+    id: str
+    login: str
+    displayName: str
+    description: str
+    profileImageUrl: str
+    followerCount: float
+    live: bool
+    viewerCount: float | None
+    gameName: str | None
 
 class Prv_twitch_CreateHighlightArgs_In(TypedDict):
     vodId: NotRequired[str]
@@ -26570,6 +26720,21 @@ class Prv_bluesignal(Protocol):
         user's, reached by the returned handoff link.
         """
 
+class Prv_bluesky(Protocol):
+    """Bluesky — look people up, read their profiles and posts, open whole threads, search
+    posts, read custom feeds, lists, starter packs and what is trending, and (signed in as
+    yourself) read your timeline, notifications and DMs, post, reply, like, repost, follow
+    and edit your profile.
+    """
+
+    async def resolveHandle(self, actor: str, /) -> Prv_bluesky_BlueskyResolvedHandle_Out:
+        """Turns a Bluesky handle (e.g. "bsky.app", "alice.bsky.social", or a custom domain handle)
+        — the name a person types or says, same as any other social handle — into its permanent
+        DID, the id every other function in this provider accepts for "a person". Also accepts a
+        DID (passed through unchanged) or a bsky.app profile URL. THROWS `blueskyInputError` on
+        a handle the AppView cannot resolve — check the spelling with `searchUsers`.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -26679,6 +26844,16 @@ class Prv_bollandbranch(Protocol):
     async def getSwatchDetails(self, names: Sequence[str], /) -> list[Prv_bollandbranch_BollAndBranchSwatch_Out]:
         """Resolves color/fabric names (as offered by getCategoryOptions) to their hex value or
         reference swatch image. THROWS on an unknown name.
+        """
+
+class Prv_booking_com(Protocol):
+    """Global online travel reservation service with property search, reviews and booking
+    management.
+    """
+
+    async def autocompleteDestination(self, args: Prv_booking_com_AutocompleteDestinationArgs_In, /) -> Prv_booking_com_autocompleteDestination_return_Out:
+        """Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text
+        place name, with booking.com's own dest_id/dest_type, coordinates and hotel count.
         """
 
 class Prv_borsheims(Protocol):
@@ -27947,6 +28122,12 @@ class Prv_cnn(Protocol):
         "politics", "business", etc.) to read that section's own front page instead.
         """
 
+    async def listCategories(self, /) -> list[Prv_cnn_cnnCategory_Out]:
+        """CNN's section categories — Politics, World, US, Business, Markets, Tech, Health,
+        Science, Entertainment, Sports, Travel, Style, Opinions — with their path slugs for
+        browsing by topic.
+        """
+
 class Prv_code_claude_com(Protocol):
     """Reads one page of Claude Code's own documentation site (code.claude.com/docs/...) by URL
     and returns its title, description and body as clean markdown — the site's own
@@ -28703,6 +28884,14 @@ class Prv_ebay(Protocol):
         key — see this provider's `auth`.
         """
 
+    async def getItem(self, itemId: str, /) -> Prv_ebay_ebayItemDetail_Out:
+        """Reads one eBay listing by its Browse API `itemId` (the id `search` returns, e.g.
+        `v1|110034424734|0`) via eBay's documented Browse API — title, price, condition, buying
+        options, seller feedback, item location, the site's own default shipping option, and
+        current bid / bid count for an active auction. Requires an eBay OAuth application key —
+        see this provider's `auth`.
+        """
+
 class Prv_elase(Protocol):
     """Elase Med Spa's real location directory, live per-location service catalog, and real
     open-slot appointment availability — the same Zenoti booking backend the site's own
@@ -28795,6 +28984,11 @@ class Prv_epicgames(Protocol):
         """What a game costs right now in a given country: current price, original price, discount
         percentage, the currency, and when the sale ends. Takes a product slug OR (offer id +
         namespace) and an optional ISO country code (default US).
+        """
+
+    async def listGameOffers(self, args: Prv_epicgames_listGameOffers_args_In, /) -> Prv_epicgames_ListGameOffersResult_Out:
+        """Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles —
+        with offer type, title, base price and release date. Takes a product slug or namespace.
         """
 
 class Prv_epromos(Protocol):
@@ -30445,6 +30639,19 @@ class Prv_google_news(Protocol):
         before returning, naming the sign-in; the `hl`/`gl`/`ceid` triple itself works with no
         session at all (pass it straight to `searchNews`, `topStories`, etc.) — this function
         only discovers the list of valid triples, never gates using one.
+        """
+
+    async def getForYou(self, opts: ConnectionOption | None = None, /) -> list[Prv_google_news_GoogleNewsStory_Out]:
+        """The personalised "For You" feed — what Google News picks for the signed-in caller from
+        the topics and outlets they follow and what they have read, as story doors ready to hand
+        to `getFullCoverage`. An authFunction, on the same Google session `listEditions` and
+        `youtube`'s six already work on: `news.google.com/foryou` 302s straight to
+        `accounts.google.com/ServiceLogin` for a logged-out request (measured 2026-09-26 through
+        CRAWLER_PROXY) — Bowmark signs nobody up for a Google account; sign in with your own.
+        The page renders the SAME story-cluster template `listStories` already reads off `/home`
+        and `/topics/<id>`, just personalised rather than scoped to the front page or one
+        section, so this reuses that parser rather than a second one. With no session, or a dead
+        one, this refuses before returning anything, naming the sign-in.
         """
 
 class Prv_google_translate(Protocol):
@@ -36602,6 +36809,12 @@ class Prv_steam(Protocol):
         title, price, metascore, and platform availability, in the site's own order.
         """
 
+    async def getGameDetails(self, args: Prv_steam_GetGameDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameDetailsResponse_Out:
+        """Reads a game's full store page by appid: title, description, price, developer,
+        publisher, release date, platforms, genres, categories, metacritic score, system
+        requirements, screenshots and trailers.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -37503,6 +37716,14 @@ class Prv_twitch(Protocol):
     async def getChannelInfo(self, args: Prv_twitch_GetChannelInfoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchChannelInfo_Out:
         """Reads a public channel's profile: display name, description, game, language, profile
         image URL, follower count, creation date. No sign-in.
+        """
+
+    async def searchChannels(self, args: Prv_twitch_SearchChannelsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_twitch_TwitchChannelSearchResult_Out]:
+        """Searches Twitch channels by keyword — a name, game or description term — and returns up
+        to Twitch's own single page of results (typically ~10), ranked by Twitch's own
+        relevance: login, display name, description, profile image, follower count, and whether
+        live now (with viewer count and current game). No sign-in. Twitch's own search offers no
+        further paging on this door.
         """
 
     async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchHighlight_Out:
@@ -38858,11 +39079,13 @@ class BowmarkProviders(Protocol):
     bluehaven: Prv_bluehaven
     blueribbonhomewarranty_com: Prv_blueribbonhomewarranty_com
     bluesignal: Prv_bluesignal
+    bluesky: Prv_bluesky
     bmwusa: Prv_bmwusa
     bodacc: Prv_bodacc
     bodensee_schiffsbetriebe_berths: Prv_bodensee_schiffsbetriebe_berths
     boglewinery: Prv_boglewinery
     bollandbranch: Prv_bollandbranch
+    booking_com: Prv_booking_com
     borsheims: Prv_borsheims
     boxlunch: Prv_boxlunch
     boydsleep: Prv_boydsleep

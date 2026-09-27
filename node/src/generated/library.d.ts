@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a
-// 67 capabilities, 483 providers, 1428 typed functions, 20 refused.
+// Manifest version: 58ee140e1dacf06347cbe6adac9adc9151fd83ff17837f7bb14070e2938ccaae
+// 67 capabilities, 485 providers, 1436 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9547,6 +9547,34 @@ interface BlueSignalJobDetail extends BlueSignalJobSummary {
   }
 }
 
+declare namespace BowmarkProvider_bluesky {
+  // ── Bluesky — the unit's own declarations, verbatim ──
+interface blueskyRow {
+  id: string;
+}
+
+interface BlueskyResolvedHandle {
+  did: string;
+}
+
+  /**
+   * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
+   * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
+   * read your timeline, notifications and DMs, post, reply, like, repost, follow and edit your
+   * profile.
+   */
+  interface Unit {
+    /**
+     * Turns a Bluesky handle (e.g. "bsky.app", "alice.bsky.social", or a custom domain handle) —
+     * the name a person types or says, same as any other social handle — into its permanent DID,
+     * the id every other function in this provider accepts for "a person". Also accepts a DID
+     * (passed through unchanged) or a bsky.app profile URL. THROWS `blueskyInputError` on a handle
+     * the AppView cannot resolve — check the spelling with `searchUsers`.
+     */
+    resolveHandle(actor: string): Promise<BlueskyResolvedHandle>;
+  }
+}
+
 declare namespace BowmarkProvider_bmwusa {
   // ── BMW USA — the unit's own declarations, verbatim ──
 interface BmwusaBuiltVehicleOption {
@@ -9886,6 +9914,37 @@ interface BollAndBranchSwatch {
      * reference swatch image. THROWS on an unknown name.
      */
     getSwatchDetails(names: string[]): Promise<BollAndBranchSwatch[]>;
+  }
+}
+
+declare namespace BowmarkProvider_booking_com {
+  // ── Booking.com — the unit's own declarations, verbatim ──
+interface BookingDestination {
+  destId: string;
+  destType: string;
+  name: string;
+  label: string;
+  region: string;
+  countryCode: string;
+  latitude: number | null;
+  longitude: number | null;
+  hotelCount: number | null;
+}
+interface AutocompleteDestinationArgs {
+  query: string;
+  limit?: number;
+}
+
+  /**
+   * Global online travel reservation service with property search, reviews and booking
+   * management.
+   */
+  interface Unit {
+    /**
+     * Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text place
+     * name, with booking.com's own dest_id/dest_type, coordinates and hotel count.
+     */
+    autocompleteDestination(args: AutocompleteDestinationArgs): Promise<{ destinations: BookingDestination[] }>;
   }
 }
 
@@ -13477,6 +13536,12 @@ interface cnnHeadline {
   section: string | null;
 }
 
+interface cnnCategory {
+  id: string;
+  name: string;
+  path: string;
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -13485,6 +13550,13 @@ interface cnnHeadline {
      * "business", etc.) to read that section's own front page instead.
      */
     listHeadlines(section?: string): Promise<cnnHeadline[]>;
+
+    /**
+     * CNN's section categories — Politics, World, US, Business, Markets, Tech, Health, Science,
+     * Entertainment, Sports, Travel, Style, Opinions — with their path slugs for browsing by
+     * topic.
+     */
+    listCategories(): Promise<cnnCategory[]>;
   }
 }
 
@@ -15411,6 +15483,22 @@ interface ebayItem {
   seller: string | null;
 }
 
+interface ebayItemDetail {
+  itemId: string;
+  title: string;
+  shortDescription: string | null;
+  price: { value: string; currency: string } | null;
+  condition: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  buyingOptions: string[];
+  url: string;
+  imageUrl: string | null;
+  seller: { username: string | null; feedbackScore: number | null; feedbackPercentage: string | null };
+  itemLocation: { city: string | null; stateOrProvince: string | null; country: string | null } | null;
+  shipping: { costType: string | null; cost: { value: string; currency: string } | null } | null;
+  currentBidPrice: { value: string; currency: string } | null;  // auctions only
+  bidCount: number | null;  // auctions only
+}
+
   /**
    * eBay's own documented Browse API (api.ebay.com) — searches live eBay listings by query and
    * returns title, price, condition, buying option, seller and the item's own ebay.com URL,
@@ -15425,6 +15513,15 @@ interface ebayItem {
      * this provider's `auth`.
      */
     search(args: string | { query: string; limit?: number }): Promise<ebayItem[]>;
+
+    /**
+     * Reads one eBay listing by its Browse API `itemId` (the id `search` returns, e.g.
+     * `v1|110034424734|0`) via eBay's documented Browse API — title, price, condition, buying
+     * options, seller feedback, item location, the site's own default shipping option, and current
+     * bid / bid count for an active auction. Requires an eBay OAuth application key — see this
+     * provider's `auth`.
+     */
+    getItem(itemId: string): Promise<ebayItemDetail>;
   }
 }
 
@@ -15654,6 +15751,18 @@ interface GetPriceResult {
   price: GamePrice;
 }
 
+interface GameOffer {
+  offerId: string;
+  offerType: string;
+  title: string;
+  basePrice: number;
+  releaseDate: string | null;
+}
+
+interface ListGameOffersResult {
+  offers: GameOffer[];
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -15686,6 +15795,12 @@ interface GetPriceResult {
      * namespace) and an optional ISO country code (default US).
      */
     getPrice(args: { slug?: string; offerId?: string; namespace?: string; country?: string }): Promise<GetPriceResult>;
+
+    /**
+     * Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles —
+     * with offer type, title, base price and release date. Takes a product slug or namespace.
+     */
+    listGameOffers(args: { slug?: string; namespace?: string }): Promise<ListGameOffersResult>;
   }
 }
 
@@ -19818,6 +19933,20 @@ interface GoogleNewsEdition {
      * never gates using one.
      */
     listEditions(opts?: ConnectionOption): Promise<GoogleNewsEdition[]>;
+
+    /**
+     * The personalised "For You" feed — what Google News picks for the signed-in caller from the
+     * topics and outlets they follow and what they have read, as story doors ready to hand to
+     * `getFullCoverage`. An authFunction, on the same Google session `listEditions` and
+     * `youtube`'s six already work on: `news.google.com/foryou` 302s straight to
+     * `accounts.google.com/ServiceLogin` for a logged-out request (measured 2026-09-26 through
+     * CRAWLER_PROXY) — Bowmark signs nobody up for a Google account; sign in with your own. The
+     * page renders the SAME story-cluster template `listStories` already reads off `/home` and
+     * `/topics/<id>`, just personalised rather than scoped to the front page or one section, so
+     * this reuses that parser rather than a second one. With no session, or a dead one, this
+     * refuses before returning anything, naming the sign-in.
+     */
+    getForYou(opts?: ConnectionOption): Promise<GoogleNewsStory[]>;
   }
 }
 
@@ -36309,6 +36438,43 @@ interface SearchGamesResponse {
   results: SteamSearchResult[];
 }
 
+interface GetGameDetailsArgs {
+  appid: string | number;
+}
+
+interface SteamGameDetails {
+  appid: string;
+  name: string;
+  type: string | null;
+  isFree: boolean;
+  shortDescription: string | null;
+  detailedDescription: string | null;
+  headerImage: string | null;
+  website: string | null;
+  developers: string[];
+  publishers: string[];
+  price: { currency: string; initial: number; final: number; discountPercent: number } | null;
+  releaseDate: { comingSoon: boolean; date: string } | null;
+  platforms: { windows: boolean; mac: boolean; linux: boolean };
+  genres: string[];
+  categories: string[];
+  metacriticScore: number | null;
+  recommendationsTotal: number | null;
+  systemRequirements: {
+    pcMinimum: string | null;
+    pcRecommended: string | null;
+    macMinimum: string | null;
+    linuxMinimum: string | null;
+  };
+  screenshots: string[];
+  videos: { name: string | null; thumbnail: string | null; hlsUrl: string | null }[];
+  url: string;
+}
+
+interface GetGameDetailsResponse {
+  game: SteamGameDetails;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -36319,6 +36485,13 @@ interface SearchGamesResponse {
      * title, price, metascore, and platform availability, in the site's own order.
      */
     searchGames(args: SearchGamesArgs, opts?: ConnectionOption): Promise<SearchGamesResponse>;
+
+    /**
+     * Reads a game's full store page by appid: title, description, price, developer, publisher,
+     * release date, platforms, genres, categories, metacritic score, system requirements,
+     * screenshots and trailers.
+     */
+    getGameDetails(args: GetGameDetailsArgs, opts?: ConnectionOption): Promise<GetGameDetailsResponse>;
   }
 }
 
@@ -38702,6 +38875,24 @@ interface TwitchChannelInfo {
   /** When the channel was created. */
   createdAt: string;
 }
+interface SearchChannelsArgs {
+  /** A keyword to search Twitch channels for — a name, game or description term. */
+  query: string;
+}
+interface TwitchChannelSearchResult {
+  id: string;
+  login: string;
+  displayName: string;
+  description: string;
+  profileImageUrl: string;
+  followerCount: number;
+  /** Whether Twitch reports the channel live right now. */
+  live: boolean;
+  /** Only set while live is true. */
+  viewerCount: number | null;
+  /** Only set while live is true. */
+  gameName: string | null;
+}
 interface CreateHighlightArgs {
   /** The broadcast to cut from — an id or a twitch.tv/videos/<id> link. Omit it
    * for the signed-in channel's NEWEST archive, which during a broadcast is the
@@ -38787,6 +38978,15 @@ interface TwitchDeveloperApp {
      * URL, follower count, creation date. No sign-in.
      */
     getChannelInfo(args: GetChannelInfoArgs, opts?: ConnectionOption): Promise<TwitchChannelInfo>;
+
+    /**
+     * Searches Twitch channels by keyword — a name, game or description term — and returns up to
+     * Twitch's own single page of results (typically ~10), ranked by Twitch's own relevance:
+     * login, display name, description, profile image, follower count, and whether live now (with
+     * viewer count and current game). No sign-in. Twitch's own search offers no further paging on
+     * this door.
+     */
+    searchChannels(args: SearchChannelsArgs, opts?: ConnectionOption): Promise<TwitchChannelSearchResult[]>;
 
     /**
      * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one
@@ -42972,11 +43172,13 @@ interface BowmarkProviders {
   bluehaven: BowmarkProvider_bluehaven.Unit;
   blueribbonhomewarranty_com: BowmarkProvider_blueribbonhomewarranty_com.Unit;
   bluesignal: BowmarkProvider_bluesignal.Unit;
+  bluesky: BowmarkProvider_bluesky.Unit;
   bmwusa: BowmarkProvider_bmwusa.Unit;
   bodacc: BowmarkProvider_bodacc.Unit;
   bodensee_schiffsbetriebe_berths: BowmarkProvider_bodensee_schiffsbetriebe_berths.Unit;
   boglewinery: BowmarkProvider_boglewinery.Unit;
   bollandbranch: BowmarkProvider_bollandbranch.Unit;
+  booking_com: BowmarkProvider_booking_com.Unit;
   borsheims: BowmarkProvider_borsheims.Unit;
   boxlunch: BowmarkProvider_boxlunch.Unit;
   boydsleep: BowmarkProvider_boydsleep.Unit;

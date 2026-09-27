@@ -1,5 +1,5 @@
 {
-  "version": "672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a",
+  "version": "58ee140e1dacf06347cbe6adac9adc9151fd83ff17837f7bb14070e2938ccaae",
   "units": {
     "booking_links": {
       "defs": {
@@ -9574,6 +9574,20 @@
         ]
       }
     },
+    "providers.bluesky": {
+      "defs": {},
+      "functions": {
+        "resolveHandle": [
+          {
+            "name": "actor",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.bmwusa": {
       "defs": {},
       "functions": {
@@ -9794,6 +9808,41 @@
               "of": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.booking_com": {
+      "defs": {
+        "AutocompleteDestinationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "autocompleteDestination": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AutocompleteDestinationArgs"
             },
             "optional": false
           }
@@ -13015,7 +13064,8 @@
             },
             "optional": true
           }
-        ]
+        ],
+        "listCategories": []
       }
     },
     "providers.code_claude_com": {
@@ -14603,6 +14653,15 @@
             },
             "optional": false
           }
+        ],
+        "getItem": [
+          {
+            "name": "itemId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -14815,6 +14874,31 @@
                 },
                 {
                   "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listGameOffers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "namespace",
                   "schema": {
                     "k": "string"
                   },
@@ -18582,6 +18666,24 @@
           }
         ],
         "listEditions": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getForYou": [
           {
             "name": "opts",
             "schema": {
@@ -36994,6 +37096,26 @@
     },
     "providers.steam": {
       "defs": {
+        "GetGameDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchGamesArgs": {
           "k": "object",
           "props": [
@@ -37014,6 +37136,32 @@
             "schema": {
               "k": "ref",
               "name": "SearchGamesArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGameDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameDetailsArgs"
             },
             "optional": false
           },
@@ -39517,6 +39665,18 @@
             }
           ]
         },
+        "SearchChannelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SetChannelArgs": {
           "k": "object",
           "props": [
@@ -39577,6 +39737,32 @@
             "schema": {
               "k": "ref",
               "name": "GetChannelInfoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchChannels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchChannelsArgs"
             },
             "optional": false
           },

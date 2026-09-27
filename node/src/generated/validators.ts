@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a
-// 1410 checked, 20 unchecked.
+// Manifest version: 58ee140e1dacf06347cbe6adac9adc9151fd83ff17837f7bb14070e2938ccaae
+// 1418 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a",
+  "version": "58ee140e1dacf06347cbe6adac9adc9151fd83ff17837f7bb14070e2938ccaae",
   "units": {
     "booking_links": {
       "defs": {
@@ -9586,6 +9586,20 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.bluesky": {
+      "defs": {},
+      "functions": {
+        "resolveHandle": [
+          {
+            "name": "actor",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.bmwusa": {
       "defs": {},
       "functions": {
@@ -9806,6 +9820,41 @@ export const VALIDATORS: ValidatorTable = {
               "of": {
                 "k": "string"
               }
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.booking_com": {
+      "defs": {
+        "AutocompleteDestinationArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "autocompleteDestination": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AutocompleteDestinationArgs"
             },
             "optional": false
           }
@@ -13027,7 +13076,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
-        ]
+        ],
+        "listCategories": []
       }
     },
     "providers.code_claude_com": {
@@ -14615,6 +14665,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getItem": [
+          {
+            "name": "itemId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -14827,6 +14886,31 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listGameOffers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "slug",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "namespace",
                   "schema": {
                     "k": "string"
                   },
@@ -18594,6 +18678,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listEditions": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getForYou": [
           {
             "name": "opts",
             "schema": {
@@ -37006,6 +37108,26 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.steam": {
       "defs": {
+        "GetGameDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchGamesArgs": {
           "k": "object",
           "props": [
@@ -37026,6 +37148,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchGamesArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGameDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameDetailsArgs"
             },
             "optional": false
           },
@@ -39529,6 +39677,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchChannelsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SetChannelArgs": {
           "k": "object",
           "props": [
@@ -39589,6 +39749,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetChannelInfoArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchChannels": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchChannelsArgs"
             },
             "optional": false
           },
