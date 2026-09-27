@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0572044329d7061785a267442fc19836b2fb6bcf4262e8d8204ad891f9538e6c
-// 1429 checked, 20 unchecked.
+// Manifest version: 38ee761744540c7403e3ad063753a2624ede481b95e457e6f02dd173d432e6a0
+// 1433 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0572044329d7061785a267442fc19836b2fb6bcf4262e8d8204ad891f9538e6c",
+  "version": "38ee761744540c7403e3ad063753a2624ede481b95e457e6f02dd173d432e6a0",
   "units": {
     "booking_links": {
       "defs": {
@@ -8709,6 +8709,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getLivePage": [
+          {
+            "name": "liveIdOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -15017,6 +15026,48 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listDeals": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "tag",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "priceCeiling",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortBy",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "discount"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "price"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -16411,6 +16462,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getTrendingTokens": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGraduatedTokens": [
           {
             "name": "opts",
             "schema": {
@@ -18856,6 +18925,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getForYou": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowedTopics": [
           {
             "name": "opts",
             "schema": {

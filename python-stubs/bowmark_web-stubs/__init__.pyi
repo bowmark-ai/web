@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0572044329d7061785a267442fc19836b2fb6bcf4262e8d8204ad891f9538e6c
-# 67 capabilities, 485 providers, 1429 typed functions, 20 refused.
+# Manifest version: 38ee761744540c7403e3ad063753a2624ede481b95e457e6f02dd173d432e6a0
+# 67 capabilities, 485 providers, 1433 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4693,6 +4693,22 @@ class Prv_bbc_BbcRelatedLink_Out(TypedDict):
     headline: str
     url: str
 
+class Prv_bbc_BbcGetLivePageResult_Out(TypedDict):
+    liveId: str
+    title: str
+    summaryPoints: list[str]
+    live: bool
+    posts: list[Prv_bbc_BbcLivePost_Out]
+    url: str
+
+class Prv_bbc_BbcLivePost_Out(TypedDict):
+    id: str
+    heading: str
+    text: str
+    author: NotRequired[str]
+    published: NotRequired[str]
+    updated: NotRequired[str]
+
 class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
     resourceLocationId: float
     name: str
@@ -8708,6 +8724,31 @@ class Prv_epicgames_GameOffer_Out(TypedDict):
     basePrice: float
     releaseDate: str | None
 
+class Prv_epicgames_listDeals_args_In(TypedDict):
+    tag: NotRequired[str]
+    priceCeiling: NotRequired[float]
+    sortBy: NotRequired[Literal["discount"] | Literal["price"]]
+
+class Prv_epicgames_ListDealsResult_Out(TypedDict):
+    deals: list[Prv_epicgames_GameDeal_Out]
+    total: float
+
+class Prv_epicgames_GameDeal_Out(TypedDict):
+    id: str
+    title: str
+    namespace: str
+    productSlug: str | None
+    currentPrice: float
+    originalPrice: float
+    discountPercentage: float
+    currencyCode: str
+    saleEndDate: str | None
+    tags: list[Prv_epicgames_GameDeal_Out_tags_item_Out]
+
+class Prv_epicgames_GameDeal_Out_tags_item_Out(TypedDict):
+    id: str
+    name: str
+
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
     sku: str
@@ -10859,6 +10900,11 @@ class Prv_google_news_GoogleNewsEdition_Out(TypedDict):
     gl: str
     ceid: str
     label: str
+
+class Prv_google_news_GoogleNewsFollowedTopic_Out(TypedDict):
+    name: str
+    topicId: str | None
+    kind: Literal["topic"] | Literal["place"] | Literal["publisher"]
 
 Prv_google_translate_TranslateArgs_In = TypedDict(
     "Prv_google_translate_TranslateArgs_In",
@@ -14459,6 +14505,7 @@ class Prv_lululemon_LululemonProduct_Out(TypedDict):
     attributes: Prv_lululemon_PublishedProductAttributes_Out
     coordination: Prv_lululemon_CoordinationMetadata_Out
     retailerSetEvidence: list[Prv_lululemon_RetailerSetEvidence_Out]
+    warnings: list[str]
 
 class Prv_lululemon_LululemonColorway_Out(TypedDict):
     colorId: str
@@ -26398,6 +26445,12 @@ class Prv_bbc(Protocol):
         (`c6d79l2jd2pyo`) or any bbc.com / bbc.co.uk article URL.
         """
 
+    async def getLivePage(self, liveIdOrUrl: str, /) -> Prv_bbc_BbcGetLivePageResult_Out:
+        """A BBC live page (rolling coverage) as data: title, summary, whether it is still live,
+        and its posts newest first — time, heading, text, author. Takes a live-page id or URL;
+        listHeadlines surfaces the ones running now.
+        """
+
 class Prv_bcparkscamping(Protocol):
     """camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
     campground by name, then read its real per-site, per-night availability for a stay.
@@ -29174,6 +29227,12 @@ class Prv_epicgames(Protocol):
         with offer type, title, base price and release date. Takes a product slug or namespace.
         """
 
+    async def listDeals(self, args: Prv_epicgames_listDeals_args_In | None = None, /) -> Prv_epicgames_ListDealsResult_Out:
+        """Games on sale right now in the Epic Games Store's Special Offers — current price,
+        original price, discount percentage, currency and sale end date. Optionally filtered by
+        tag or a maximum price, sorted by discount (default) or price.
+        """
+
 class Prv_epromos(Protocol):
     """ePromos' own product configurator and bulk-pricing tables off its live product pages —
     real tiered per-unit prices for a caller-given quantity, not a stale mirror — plus the
@@ -29669,6 +29728,12 @@ class Prv_fomo(Protocol):
         """Returns what is moving on fomo right now — the site's own trending ranking, a social
         signal (what its traders are buying) rather than a pure volume sort — each with its
         current price, 24h change, volume and market cap. Takes no arguments.
+        """
+
+    async def getGraduatedTokens(self, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenRow_Out]:
+        """Returns tokens that have just completed their bonding curve and moved to a full AMM pool
+        — the moment a launchpad token stops being a curve and starts being a market, and the
+        event memecoin traders time entries around. Takes no arguments.
         """
 
 class Prv_forbes(Protocol):
@@ -30867,6 +30932,21 @@ class Prv_google_news(Protocol):
         and `/topics/<id>`, just personalised rather than scoped to the front page or one
         section, so this reuses that parser rather than a second one. With no session, or a dead
         one, this refuses before returning anything, naming the sign-in.
+        """
+
+    async def listFollowedTopics(self, opts: ConnectionOption | None = None, /) -> list[Prv_google_news_GoogleNewsFollowedTopic_Out]:
+        """The topics, places and publishers the signed-in person follows, exactly as Google News'
+        own Following page lists them. An authFunction, on the same Google session
+        `listEditions` and `getForYou` already work on: the home page's own nav rail resolves
+        the "Following" tab to `news.google.com/my/library` (there is no separate `/following`
+        route — that path 301s to the plain homepage rather than gating on sign-in, measured
+        2026-09-27), and a logged-out GET of `/my/library` 302s straight to
+        `accounts.google.com/ServiceLogin`, the identical shape `listEditions` and `getForYou`
+        measure on `/settings` and `/foryou` — Bowmark signs nobody up for a Google account;
+        sign in with your own. With no session, or a dead one, this refuses before returning
+        anything, naming the sign-in. **The signed-in shape is honestly UNMEASURED**, exactly as
+        `listEditions`' is: nobody here holds a signed-in Google News session, so nobody has
+        ever captured what `/my/library` renders for an account that follows anything.
         """
 
 class Prv_google_translate(Protocol):
@@ -33477,6 +33557,10 @@ class Prv_lululemon(Protocol):
         measured across all three captured fixtures, the picker and the SKU list are the same
         set in all 61 colourways and `available` is true on 363 of 363 SKUs — so presence is the
         stock signal and `available` is passed through rather than relied on.
+        `retailerSetEvidence` carries the store's own "shop this look" pairing per colourway,
+        resolved to the real companion product it names — not the algorithmic "You may also
+        like" rail (`getSimilarProducts`), an explicit styling choice the merchandiser made.
+        Empty when a colourway named none, or named only ids the store no longer carries.
         """
 
     async def getProducts(self, query: Prv_lululemon_getProducts_query_In, /) -> Prv_lululemon_LululemonProductBatch_Out:
@@ -33487,7 +33571,8 @@ class Prv_lululemon(Protocol):
         catalogue holds roughly 39% of the ids in lululemon's own sitemap, so ids it does not
         carry come back in `missing` with the catalogue's own sentence, and one of them never
         costs the other rows. At most 24 ids — the same cap `search` returns — so one full
-        search page is always one batch.
+        search page is always one batch. Same `retailerSetEvidence` resolution as `getProduct`,
+        per id.
         """
 
     async def getProductAttributes(self, query: Prv_lululemon_getProductAttributes_query_In, /) -> Prv_lululemon_LululemonProductAttributes_Out:

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0572044329d7061785a267442fc19836b2fb6bcf4262e8d8204ad891f9538e6c
-// 67 capabilities, 485 providers, 1447 typed functions, 20 refused.
+// Manifest version: 38ee761744540c7403e3ad063753a2624ede481b95e457e6f02dd173d432e6a0
+// 67 capabilities, 485 providers, 1451 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8383,6 +8383,24 @@ interface BbcGetArticleResult {
   url: string;
 }
 
+interface BbcLivePost {
+  id: string;         // the site's own asset urn, e.g. "asset:4978fe54-a49d-46c6-866b-7cd295400a4b"
+  heading: string;
+  text: string;
+  author?: string;
+  published?: string;   // ISO
+  updated?: string;      // ISO
+}
+
+interface BbcGetLivePageResult {
+  liveId: string;
+  title: string;
+  summaryPoints: string[]; // the site's own "key points" bullets; [] when none
+  live: boolean;
+  posts: BbcLivePost[];    // newest first, the site's own order
+  url: string;
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8423,6 +8441,13 @@ interface bbcRow {
      * bbc.com / bbc.co.uk article URL.
      */
     getArticle(articleIdOrUrl: string): Promise<BbcGetArticleResult>;
+
+    /**
+     * A BBC live page (rolling coverage) as data: title, summary, whether it is still live, and
+     * its posts newest first — time, heading, text, author. Takes a live-page id or URL;
+     * listHeadlines surfaces the ones running now.
+     */
+    getLivePage(liveIdOrUrl: string): Promise<BbcGetLivePageResult>;
   }
 }
 
@@ -15860,6 +15885,24 @@ interface ListGameOffersResult {
   offers: GameOffer[];
 }
 
+interface GameDeal {
+  id: string;
+  title: string;
+  namespace: string;
+  productSlug: string | null;
+  currentPrice: number;
+  originalPrice: number;
+  discountPercentage: number;
+  currencyCode: string;
+  saleEndDate: string | null;
+  tags: Array<{ id: string; name: string }>;
+}
+
+interface ListDealsResult {
+  deals: GameDeal[];
+  total: number;
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -15898,6 +15941,13 @@ interface ListGameOffersResult {
      * with offer type, title, base price and release date. Takes a product slug or namespace.
      */
     listGameOffers(args: { slug?: string; namespace?: string }): Promise<ListGameOffersResult>;
+
+    /**
+     * Games on sale right now in the Epic Games Store's Special Offers — current price, original
+     * price, discount percentage, currency and sale end date. Optionally filtered by tag or a
+     * maximum price, sorted by discount (default) or price.
+     */
+    listDeals(args?: { tag?: string; priceCeiling?: number; sortBy?: 'discount' | 'price' }): Promise<ListDealsResult>;
   }
 }
 
@@ -17331,6 +17381,13 @@ interface FomoPage<T> {
      * 24h change, volume and market cap. Takes no arguments.
      */
     getTrendingTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
+
+    /**
+     * Returns tokens that have just completed their bonding curve and moved to a full AMM pool —
+     * the moment a launchpad token stops being a curve and starts being a market, and the event
+     * memecoin traders time entries around. Takes no arguments.
+     */
+    getGraduatedTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
   }
 }
 
@@ -19879,6 +19936,11 @@ interface GoogleNewsEdition {
   ceid: string;
   label: string;
 }
+interface GoogleNewsFollowedTopic {
+  name: string;
+  topicId: string | null;
+  kind: "topic" | "place" | "publisher";
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
@@ -20111,6 +20173,22 @@ interface GoogleNewsEdition {
      * refuses before returning anything, naming the sign-in.
      */
     getForYou(opts?: ConnectionOption): Promise<GoogleNewsStory[]>;
+
+    /**
+     * The topics, places and publishers the signed-in person follows, exactly as Google News' own
+     * Following page lists them. An authFunction, on the same Google session `listEditions` and
+     * `getForYou` already work on: the home page's own nav rail resolves the "Following" tab to
+     * `news.google.com/my/library` (there is no separate `/following` route — that path 301s to
+     * the plain homepage rather than gating on sign-in, measured 2026-09-27), and a logged-out GET
+     * of `/my/library` 302s straight to `accounts.google.com/ServiceLogin`, the identical shape
+     * `listEditions` and `getForYou` measure on `/settings` and `/foryou` — Bowmark signs nobody
+     * up for a Google account; sign in with your own. With no session, or a dead one, this refuses
+     * before returning anything, naming the sign-in. **The signed-in shape is honestly
+     * UNMEASURED**, exactly as `listEditions`' is: nobody here holds a signed-in Google News
+     * session, so nobody has ever captured what `/my/library` renders for an account that follows
+     * anything.
+     */
+    listFollowedTopics(opts?: ConnectionOption): Promise<GoogleNewsFollowedTopic[]>;
   }
 }
 
@@ -27044,7 +27122,13 @@ interface LululemonProduct {
   sizeTypes: LululemonSizeType[];
   attributes: PublishedProductAttributes;
   coordination: CoordinationMetadata;
+  /** An explicit retailer-published pairing — shopThisLook, resolved to the
+   * companion products it names. Empty when the colourway named none, or named
+   * only ids the store no longer carries. */
   retailerSetEvidence: RetailerSetEvidence[];
+  /** Non-empty only when resolving shopThisLook failed to answer — the
+   * companion products could not be looked up this call. Empty otherwise. */
+  warnings: string[];
 }
 /** One published product-detail block from the page, verbatim. */
 interface LululemonFeature {
@@ -27213,7 +27297,11 @@ interface LululemonReview {
      * expresses sold-out by OMISSION rather than by a flag — measured across all three captured
      * fixtures, the picker and the SKU list are the same set in all 61 colourways and `available`
      * is true on 363 of 363 SKUs — so presence is the stock signal and `available` is passed
-     * through rather than relied on.
+     * through rather than relied on. `retailerSetEvidence` carries the store's own "shop this
+     * look" pairing per colourway, resolved to the real companion product it names — not the
+     * algorithmic "You may also like" rail (`getSimilarProducts`), an explicit styling choice the
+     * merchandiser made. Empty when a colourway named none, or named only ids the store no longer
+     * carries.
      */
     getProduct(query: { productId: string }): Promise<LululemonProduct>;
 
@@ -27225,6 +27313,7 @@ interface LululemonReview {
      * roughly 39% of the ids in lululemon's own sitemap, so ids it does not carry come back in
      * `missing` with the catalogue's own sentence, and one of them never costs the other rows. At
      * most 24 ids — the same cap `search` returns — so one full search page is always one batch.
+     * Same `retailerSetEvidence` resolution as `getProduct`, per id.
      */
     getProducts(query: { productIds: string[] }): Promise<LululemonProductBatch>;
 
