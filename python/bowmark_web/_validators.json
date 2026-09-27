@@ -1,5 +1,5 @@
 {
-  "version": "5ac70bd027e829b846653e6bb1f45a01ba32ecbb4abca6de4dadded04b31192c",
+  "version": "7fa2706ae0cc6bd2947f3d9d2e66221031d51994994a06ce5ceccf134a147e91",
   "units": {
     "booking_links": {
       "defs": {
@@ -13797,9 +13797,31 @@
               "optional": false
             }
           ]
+        },
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
+            },
+            "optional": false
+          }
+        ],
         "searchForumThreads": [
           {
             "name": "args",
@@ -16358,6 +16380,18 @@
     },
     "providers.forbes": {
       "defs": {
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesByTopicArgs": {
           "k": "object",
           "props": [
@@ -16384,7 +16418,17 @@
             "optional": false
           }
         ],
-        "listVideos": []
+        "listVideos": [],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.ford": {
@@ -18519,6 +18563,24 @@
           }
         ],
         "listSavedPlaces": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyContributions": [
           {
             "name": "opts",
             "schema": {
@@ -27426,6 +27488,18 @@
             }
           ]
         },
+        "GetLetterBoxedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetSpellingBeeArgs": {
           "k": "object",
           "props": [
@@ -27490,6 +27564,16 @@
             "schema": {
               "k": "ref",
               "name": "GetSpellingBeeArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getLetterBoxed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetLetterBoxedArgs"
             },
             "optional": true
           }
@@ -39129,6 +39213,22 @@
             },
             "optional": false
           }
+        ],
+        "getQuote": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -43055,6 +43155,24 @@
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listSubscriptions": [
           {
             "name": "opts",
             "schema": {

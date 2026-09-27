@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5ac70bd027e829b846653e6bb1f45a01ba32ecbb4abca6de4dadded04b31192c
-# 67 capabilities, 485 providers, 1422 typed functions, 20 refused.
+# Manifest version: 7fa2706ae0cc6bd2947f3d9d2e66221031d51994994a06ce5ceccf134a147e91
+# 67 capabilities, 485 providers, 1428 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7979,6 +7979,20 @@ class Prv_decksdirect_DdCartHandoff_Out_applied_item_Out(TypedDict):
     group: str
     choice: str
 
+class Prv_dell_SearchProductsArgs_In(TypedDict):
+    query: str
+
+class Prv_dell_DellSearchResult_Out(TypedDict):
+    productId: str
+    title: str
+    url: str
+    price: str | None
+    marketPrice: str | None
+    totalSavings: str | None
+    image: str | None
+    isDeal: bool
+    soldOut: bool
+
 class Prv_dell_SearchForumThreadsArgs_In(TypedDict):
     query: str
 
@@ -9539,6 +9553,9 @@ class Prv_forbes_ForbesVideo_Out(TypedDict):
     duration: NotRequired[float]
     publishedDate: NotRequired[str]
 
+class Prv_forbes_GetVideoArgs_In(TypedDict):
+    id: str
+
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
     postalCode: str
@@ -10744,6 +10761,19 @@ class Prv_google_maps_SavedPlace_Out(TypedDict):
     featureId: str
     name: NotRequired[str]
     note: NotRequired[str]
+
+class Prv_google_maps_MyContributionsResult_Out(TypedDict):
+    name: str
+    bio: NotRequired[str]
+    level: NotRequired[float]
+    points: NotRequired[float]
+    pointsToNextLevel: NotRequired[str]
+    contributions: list[Prv_google_maps_ContributionType_Out]
+
+class Prv_google_maps_ContributionType_Out(TypedDict):
+    label: str
+    count: float
+    viewCount: NotRequired[float]
 
 class Prv_google_news_GoogleNewsLocaleArg_In(TypedDict):
     hl: NotRequired[str]
@@ -15949,6 +15979,19 @@ class Prv_nyt_games_NytSpellingBee_Out(TypedDict):
     printDate: str
     editor: str | None
 
+class Prv_nyt_games_GetLetterBoxedArgs_In(TypedDict):
+    date: NotRequired[str]
+
+class Prv_nyt_games_NytLetterBoxed_Out(TypedDict):
+    id: float
+    printDate: str
+    par: float
+    sides: tuple[str, str, str, str]
+    dictionary: list[str]
+    ourSolution: list[str]
+    editor: str | None
+    isFree: bool
+
 class Prv_nyt_games_GetStrandsArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -20858,6 +20901,29 @@ class Prv_tradingview_SymbolSearchResult_Out(TypedDict):
     isin: NotRequired[str]
     cusip: NotRequired[str]
     description: NotRequired[str]
+
+class Prv_tradingview_Quote_Out(TypedDict):
+    symbol: str
+    exchange: str
+    description: str
+    type: str
+    currency: NotRequired[str]
+    price: float
+    changePercent: NotRequired[float]
+    changeAbsolute: NotRequired[float]
+    open: NotRequired[float]
+    high: NotRequired[float]
+    low: NotRequired[float]
+    volume: NotRequired[float]
+    marketCap: NotRequired[float]
+    sector: NotRequired[str]
+    industry: NotRequired[str]
+    peRatio: NotRequired[float]
+    dividendYield: NotRequired[float]
+    week52High: NotRequired[float]
+    week52Low: NotRequired[float]
+    beta1Year: NotRequired[float]
+    updateMode: NotRequired[str]
 
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
@@ -28635,7 +28701,12 @@ class Prv_decksdirect(Protocol):
         """
 
 class Prv_dell(Protocol):
-    """Search Dell's community forum for discussion threads."""
+    """Search Dell's storefront and community forums."""
+
+    async def searchProducts(self, args: Prv_dell_SearchProductsArgs_In, /) -> list[Prv_dell_DellSearchResult_Out]:
+        """Search Dell's storefront for products by keyword — returns product names, prices, and
+        availability. Results are sorted as the storefront displays them.
+        """
 
     async def searchForumThreads(self, args: Prv_dell_SearchForumThreadsArgs_In, /) -> list[Prv_dell_DellForumThread_Out]:
         """Search Dell community forums for threads matching a query — needs a topic or keywords
@@ -29604,6 +29675,9 @@ class Prv_forbes(Protocol):
     async def listVideos(self, /) -> Prv_forbes_ForbesVideoList_Out:
         """List the latest Forbes Video content, newest first, from forbes.com/video/."""
 
+    async def getVideo(self, args: Prv_forbes_GetVideoArgs_In, /) -> Prv_forbes_ForbesVideo_Out:
+        """Get one Forbes Video's title, description, thumbnail and duration by its id."""
+
 class Prv_ford(Protocol):
     """Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
     VIN, the model/trim directory and its paint palette, the build-and-price configurator,
@@ -30535,6 +30609,24 @@ class Prv_google_maps(Protocol):
         no recognizable list, or when the response carries no recognizable list at all, throws
         rather than fabricating one — nobody here holds a signed-in Maps session to have ever
         captured the positive shape.
+        """
+
+    async def listMyContributions(self, opts: ConnectionOption | None = None, /) -> Prv_google_maps_MyContributionsResult_Out:
+        """The reviews, photos, answers and edits the signed-in caller has contributed, with their
+        view counts — the Local Guides profile, read back. An authFunction, same shape as
+        getPopularTimes/listSavedPlaces: Bowmark signs nobody up for a Google account, but the
+        caller's own login works here. Found by intercepting a real browser's own network call
+        while it loaded a PUBLIC Local Guide profile (www.google.com/maps/contrib/<id>) logged
+        out — a THIRD door, www.google.com/locationhistory/preview/mas, distinct from both
+        searchPlaces' tbm=map record and listSavedPlaces' entitylist door. Needs no bootstrap
+        fetch: verified live against three real contributors that a fabricated per-page token
+        answers byte-identically to a real one. Sends the literal contributor id "me", exactly
+        what a signed-in browser sends on /maps/contrib/me — measured live to draw the identical
+        well-formed refusal a nonexistent numeric id draws when nobody is signed in. With no
+        session (the canary's own state, and every anonymous caller) it returns that refusal;
+        with a session that carries no recognizable profile, throws rather than fabricating one
+        — nobody here holds a signed-in Maps session to have captured the signed-in-and-empty
+        case.
         """
 
 class Prv_google_news(Protocol):
@@ -34457,6 +34549,12 @@ class Prv_nyt_games(Protocol):
         and pangrams. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
         """
 
+    async def getLetterBoxed(self, args: Prv_nyt_games_GetLetterBoxedArgs_In | None = None, /) -> Prv_nyt_games_NytLetterBoxed_Out:
+        """Retrieves the daily Letter Boxed puzzle with the four letter sides, complete dictionary,
+        and the official solution. Defaults to today in New York; pass { date: "YYYY-MM-DD" }
+        for any day.
+        """
+
     async def getStrands(self, args: Prv_nyt_games_GetStrandsArgs_In | None = None, /) -> Prv_nyt_games_NytStrands_Out:
         """Retrieves the daily Strands puzzle: theme words, spangram, clue, the letter board and
         each answer's board path. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for
@@ -37446,16 +37544,15 @@ class Prv_ticketmaster_mx(Protocol):
     """Event details, availability, and pricing on Ticketmaster México."""
 
     async def search(self, query: str, /) -> list[Prv_ticketmaster_mx_EventLink_Out]:
-        """Searches Ticketmaster México for events matching a query and returns up to 10 event
-        links with their titles, e.g. search("concert") -> [{ url:
-        "https://www.ticketmaster.com.mx/…/event/1400648ABED6B4E9", title: "Alejandro Sanz -
-        Ciudad de México" }].
+        """Search Ticketmaster México for upcoming events by artist, event type, date or location.
+        Returns a list of matching events with URLs and titles. Example: search("Beyoncé 2026")
+        finds all Beyoncé concerts, or search("concierto") finds concerts.
         """
 
     async def getEvent(self, url: str, /) -> Prv_ticketmaster_mx_EventDetails_Out:
-        """Fetches one event's details — name, venue, date, availability (InStock/SoldOut/PreOrder)
-        and price range — from a Ticketmaster México event page, parsing the page's own
-        schema.org JSON-LD.
+        """Get full details for a Ticketmaster México event: event name, venue location, date,
+        ticket availability (sold out, in stock, or pre-order), price range, and description.
+        Pass any Ticketmaster event page URL.
         """
 
 class Prv_ticketmaster_nl(Protocol):
@@ -37651,6 +37748,16 @@ class Prv_tradingview(Protocol):
         symbol with its exchange, instrument type, and (when TradingView carries them)
         ISIN/CUSIP and a short description. `query` is free text, e.g. "AAPL" or "Apple". Use a
         result's `symbol` to call `getQuote`.
+        """
+
+    async def getQuote(self, exchange: str, symbol: str, /) -> Prv_tradingview_Quote_Out:
+        """Gets the current session price, change, and key metrics for one symbol on one exchange —
+        e.g. `getQuote("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact
+        `exchange` and `symbol` fields. `price` is the current/last-session price and
+        `changePercent`/`changeAbsolute` are against the prior close; TradingView's live
+        tick-by-tick feed only exists over its websocket and is not carried here. Also returns
+        OHLCV, market cap, sector/industry, P/E, dividend yield, 52-week high/low and beta where
+        TradingView carries them.
         """
 
 class Prv_travelinsured(Protocol):
@@ -39020,6 +39127,15 @@ class Prv_youtube(Protocol):
         measured at ~2s — so do not treat an immediate empty read as a failed add. YouTube
         permits duplicates, so adding a video already present adds it again. NEEDS A SIGN-IN —
         call `bowmark.video_library.addToPlaylist` rather than this directly.
+        """
+
+    async def listSubscriptions(self, opts: ConnectionOption | None = None, /) -> list[Prv_youtube_YoutubeChannelRef_Out]:
+        """The channels the signed-in account subscribes to — id, url, handle (when the row carries
+        one), title, subscriber count text and thumbnail, off YouTube's own Manage subscriptions
+        page (`browse` on `browseId: "FEchannels"`). NEEDS A SIGN-IN and exists nowhere else
+        logged out. NOT paged — declared this way because the unsigned reach could not measure
+        whether a very large subscription list continues, and no continuation renderer has been
+        observed on this door yet.
         """
 
     async def listMyVideos(self, input: Prv_youtube_listMyVideos_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeMyVideoPage_Out:

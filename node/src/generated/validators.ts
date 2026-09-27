@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5ac70bd027e829b846653e6bb1f45a01ba32ecbb4abca6de4dadded04b31192c
-// 1422 checked, 20 unchecked.
+// Manifest version: 7fa2706ae0cc6bd2947f3d9d2e66221031d51994994a06ce5ceccf134a147e91
+// 1428 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5ac70bd027e829b846653e6bb1f45a01ba32ecbb4abca6de4dadded04b31192c",
+  "version": "7fa2706ae0cc6bd2947f3d9d2e66221031d51994994a06ce5ceccf134a147e91",
   "units": {
     "booking_links": {
       "defs": {
@@ -13809,9 +13809,31 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SearchProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchProductsArgs"
+            },
+            "optional": false
+          }
+        ],
         "searchForumThreads": [
           {
             "name": "args",
@@ -16370,6 +16392,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.forbes": {
       "defs": {
+        "GetVideoArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesByTopicArgs": {
           "k": "object",
           "props": [
@@ -16396,7 +16430,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listVideos": []
+        "listVideos": [],
+        "getVideo": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetVideoArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.ford": {
@@ -18531,6 +18575,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listSavedPlaces": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMyContributions": [
           {
             "name": "opts",
             "schema": {
@@ -27438,6 +27500,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetLetterBoxedArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetSpellingBeeArgs": {
           "k": "object",
           "props": [
@@ -27502,6 +27576,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSpellingBeeArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getLetterBoxed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetLetterBoxedArgs"
             },
             "optional": true
           }
@@ -39141,6 +39225,22 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getQuote": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -43067,6 +43167,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listSubscriptions": [
           {
             "name": "opts",
             "schema": {

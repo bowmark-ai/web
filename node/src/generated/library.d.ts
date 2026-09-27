@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5ac70bd027e829b846653e6bb1f45a01ba32ecbb4abca6de4dadded04b31192c
-// 67 capabilities, 485 providers, 1440 typed functions, 20 refused.
+// Manifest version: 7fa2706ae0cc6bd2947f3d9d2e66221031d51994994a06ce5ceccf134a147e91
+// 67 capabilities, 485 providers, 1446 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14613,6 +14613,22 @@ interface DdCartHandoff {
 
 declare namespace BowmarkProvider_dell {
   // ── Dell — the unit's own declarations, verbatim ──
+interface SearchProductsArgs {
+  query: string;
+}
+
+interface DellSearchResult {
+  productId: string;
+  title: string;
+  url: string;
+  price: string | null;
+  marketPrice: string | null;
+  totalSavings: string | null;
+  image: string | null;
+  isDeal: boolean;
+  soldOut: boolean;
+}
+
 interface SearchForumThreadsArgs {
   query: string;
 }
@@ -14623,8 +14639,14 @@ interface DellForumThread {
   postCount: number;
 }
 
-  /** Search Dell's community forum for discussion threads. */
+  /** Search Dell's storefront and community forums. */
   interface Unit {
+    /**
+     * Search Dell's storefront for products by keyword — returns product names, prices, and
+     * availability. Results are sorted as the storefront displays them.
+     */
+    searchProducts(args: SearchProductsArgs): Promise<DellSearchResult[]>;
+
     /**
      * Search Dell community forums for threads matching a query — needs a topic or keywords (e.g.
      * "storage issues", "laptop battery"), never a bare "search the forum" with nothing to search
@@ -17353,6 +17375,11 @@ interface ListArticlesByTopicArgs {
   topic: string;
 }
 
+interface GetVideoArgs {
+  /** A video id from listVideos, e.g. "2bc25399-b7f5-48d1-8eb8-f1ddb0e71e33". */
+  id: string;
+}
+
 interface ForbesTopicsList {
   topics: ForbesTopic[];
 }
@@ -17377,6 +17404,9 @@ interface ForbesVideoList {
 
     /** List the latest Forbes Video content, newest first, from forbes.com/video/. */
     listVideos(): Promise<ForbesVideoList>;
+
+    /** Get one Forbes Video's title, description, thumbnail and duration by its id. */
+    getVideo(args: GetVideoArgs): Promise<ForbesVideo>;
   }
 }
 
@@ -19550,6 +19580,19 @@ interface SavedPlace {
 interface ListSavedPlacesResult {
   lists: { name: string; places: SavedPlace[] }[];
 }
+interface ContributionType {
+  label: string;
+  count: number;
+  viewCount?: number;
+}
+interface MyContributionsResult {
+  name: string;
+  bio?: string;
+  level?: number;
+  points?: number;
+  pointsToNextLevel?: string;
+  contributions: ContributionType[];
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
@@ -19724,6 +19767,24 @@ interface ListSavedPlacesResult {
      * nobody here holds a signed-in Maps session to have ever captured the positive shape.
      */
     listSavedPlaces(opts?: ConnectionOption): Promise<ListSavedPlacesResult>;
+
+    /**
+     * The reviews, photos, answers and edits the signed-in caller has contributed, with their view
+     * counts — the Local Guides profile, read back. An authFunction, same shape as
+     * getPopularTimes/listSavedPlaces: Bowmark signs nobody up for a Google account, but the
+     * caller's own login works here. Found by intercepting a real browser's own network call while
+     * it loaded a PUBLIC Local Guide profile (www.google.com/maps/contrib/<id>) logged out — a
+     * THIRD door, www.google.com/locationhistory/preview/mas, distinct from both searchPlaces'
+     * tbm=map record and listSavedPlaces' entitylist door. Needs no bootstrap fetch: verified live
+     * against three real contributors that a fabricated per-page token answers byte-identically to
+     * a real one. Sends the literal contributor id "me", exactly what a signed-in browser sends on
+     * /maps/contrib/me — measured live to draw the identical well-formed refusal a nonexistent
+     * numeric id draws when nobody is signed in. With no session (the canary's own state, and
+     * every anonymous caller) it returns that refusal; with a session that carries no recognizable
+     * profile, throws rather than fabricating one — nobody here holds a signed-in Maps session to
+     * have captured the signed-in-and-empty case.
+     */
+    listMyContributions(opts?: ConnectionOption): Promise<MyContributionsResult>;
   }
 }
 
@@ -30222,6 +30283,8 @@ interface NytConnections { id: number; printDate: string; editor: string | null;
 interface GetConnectionsArgs { date?: string; }
 interface NytSpellingBee { id: number; centerLetter: string; outerLetters: string; answers: string[]; pangrams: string[]; printDate: string; editor: string | null; }
 interface GetSpellingBeeArgs { date?: string; }
+interface NytLetterBoxed { id: number; printDate: string; par: number; sides: [string, string, string, string]; dictionary: string[]; ourSolution: string[]; editor: string | null; isFree: boolean; }
+interface GetLetterBoxedArgs { date?: string; }
 interface NytStrands { id: number; printDate: string; themeWords: string[]; spangram: string; clue: string; editor: string | null; constructors: string | null; startingBoard: string[]; themeCoords: Record<string, Array<[number, number]>>; spangramCoords: Array<[number, number]>; }
 interface GetStrandsArgs { date?: string; }
 
@@ -30247,6 +30310,13 @@ interface GetStrandsArgs { date?: string; }
      * pangrams. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
      */
     getSpellingBee(args?: GetSpellingBeeArgs): Promise<NytSpellingBee>;
+
+    /**
+     * Retrieves the daily Letter Boxed puzzle with the four letter sides, complete dictionary, and
+     * the official solution. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any
+     * day.
+     */
+    getLetterBoxed(args?: GetLetterBoxedArgs): Promise<NytLetterBoxed>;
 
     /**
      * Retrieves the daily Strands puzzle: theme words, spangram, clue, the letter board and each
@@ -37927,17 +37997,16 @@ interface EventDetails {
   /** Event details, availability, and pricing on Ticketmaster México. */
   interface Unit {
     /**
-     * Searches Ticketmaster México for events matching a query and returns up to 10 event links
-     * with their titles, e.g. search("concert") -> [{ url:
-     * "https://www.ticketmaster.com.mx/…/event/1400648ABED6B4E9", title: "Alejandro Sanz - Ciudad
-     * de México" }].
+     * Search Ticketmaster México for upcoming events by artist, event type, date or location.
+     * Returns a list of matching events with URLs and titles. Example: search("Beyoncé 2026")
+     * finds all Beyoncé concerts, or search("concierto") finds concerts.
      */
     search(query: string): Promise<EventLink[]>;
 
     /**
-     * Fetches one event's details — name, venue, date, availability (InStock/SoldOut/PreOrder) and
-     * price range — from a Ticketmaster México event page, parsing the page's own schema.org
-     * JSON-LD.
+     * Get full details for a Ticketmaster México event: event name, venue location, date, ticket
+     * availability (sold out, in stock, or pre-order), price range, and description. Pass any
+     * Ticketmaster event page URL.
      */
     getEvent(url: string): Promise<EventDetails>;
   }
@@ -38486,6 +38555,30 @@ interface SymbolSearchResult {
   description?: string;
 }
 
+interface Quote {
+  symbol: string;
+  exchange: string;
+  description: string;
+  type: string;
+  currency?: string;
+  price: number;
+  changePercent?: number;
+  changeAbsolute?: number;
+  open?: number;
+  high?: number;
+  low?: number;
+  volume?: number;
+  marketCap?: number;
+  sector?: string;
+  industry?: string;
+  peRatio?: number;
+  dividendYield?: number;
+  week52High?: number;
+  week52Low?: number;
+  beta1Year?: number;
+  updateMode?: string;
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -38496,6 +38589,17 @@ interface SymbolSearchResult {
      * call `getQuote`.
      */
     searchSymbols(query: string): Promise<SymbolSearchResult[]>;
+
+    /**
+     * Gets the current session price, change, and key metrics for one symbol on one exchange —
+     * e.g. `getQuote("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact `exchange`
+     * and `symbol` fields. `price` is the current/last-session price and
+     * `changePercent`/`changeAbsolute` are against the prior close; TradingView's live
+     * tick-by-tick feed only exists over its websocket and is not carried here. Also returns
+     * OHLCV, market cap, sector/industry, P/E, dividend yield, 52-week high/low and beta where
+     * TradingView carries them.
+     */
+    getQuote(exchange: string, symbol: string): Promise<Quote>;
   }
 }
 
@@ -42197,6 +42301,16 @@ interface YoutubeStreamFormat {
      * `bowmark.video_library.addToPlaylist` rather than this directly.
      */
     addToPlaylist(input: { playlist: string; video?: string; videos?: string[] }, opts?: ConnectionOption): Promise<YoutubePlaylistEdit>;
+
+    /**
+     * The channels the signed-in account subscribes to — id, url, handle (when the row carries
+     * one), title, subscriber count text and thumbnail, off YouTube's own Manage subscriptions
+     * page (`browse` on `browseId: "FEchannels"`). NEEDS A SIGN-IN and exists nowhere else logged
+     * out. NOT paged — declared this way because the unsigned reach could not measure whether a
+     * very large subscription list continues, and no continuation renderer has been observed on
+     * this door yet.
+     */
+    listSubscriptions(opts?: ConnectionOption): Promise<YoutubeChannelRef[]>;
 
     /**
      * The videos on the signed-in account's OWN channel, newest first, as YouTube Studio lists
