@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7fa2706ae0cc6bd2947f3d9d2e66221031d51994994a06ce5ceccf134a147e91
-// 67 capabilities, 485 providers, 1446 typed functions, 20 refused.
+// Manifest version: 0572044329d7061785a267442fc19836b2fb6bcf4262e8d8204ad891f9538e6c
+// 67 capabilities, 485 providers, 1447 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15610,6 +15610,15 @@ interface ebayItemDetail {
      * provider's `auth`.
      */
     getItem(itemId: string): Promise<ebayItemDetail>;
+
+    /**
+     * Runs eBay's Browse API `item_summary/search` scoped to one category id (the id
+     * `search`/`getItem` rows carry under `categories`, e.g. `"15709"` for Men's Athletic Shoes),
+     * with an optional keyword query narrowing within the category. Same rows, same fields, as
+     * `search`. `limit` caps the row count (default 20, eBay's own ceiling 200). Requires an eBay
+     * OAuth application key — see this provider's `auth`.
+     */
+    searchByCategory(args: string | { categoryId: string; query?: string; limit?: number }): Promise<ebayItem[]>;
   }
 }
 

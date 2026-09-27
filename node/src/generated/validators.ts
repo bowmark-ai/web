@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7fa2706ae0cc6bd2947f3d9d2e66221031d51994994a06ce5ceccf134a147e91
-// 1428 checked, 20 unchecked.
+// Manifest version: 0572044329d7061785a267442fc19836b2fb6bcf4262e8d8204ad891f9538e6c
+// 1429 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7fa2706ae0cc6bd2947f3d9d2e66221031d51994994a06ce5ceccf134a147e91",
+  "version": "0572044329d7061785a267442fc19836b2fb6bcf4262e8d8204ad891f9538e6c",
   "units": {
     "booking_links": {
       "defs": {
@@ -14728,6 +14728,46 @@ export const VALIDATORS: ValidatorTable = {
             "name": "itemId",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchByCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "categoryId",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }

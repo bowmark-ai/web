@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7fa2706ae0cc6bd2947f3d9d2e66221031d51994994a06ce5ceccf134a147e91
-# 67 capabilities, 485 providers, 1428 typed functions, 20 refused.
+# Manifest version: 0572044329d7061785a267442fc19836b2fb6bcf4262e8d8204ad891f9538e6c
+# 67 capabilities, 485 providers, 1429 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8514,6 +8514,11 @@ class Prv_ebay_ebayItemDetail_Out_shipping_u0_Out_cost_u0_Out(TypedDict):
 class Prv_ebay_ebayItemDetail_Out_currentBidPrice_u0_Out(TypedDict):
     value: str
     currency: str
+
+class Prv_ebay_searchByCategory_args_u1_In(TypedDict):
+    categoryId: str
+    query: NotRequired[str]
+    limit: NotRequired[float]
 
 class Prv_elase_ElaseLocationLink_Out(TypedDict):
     slug: str
@@ -29060,6 +29065,14 @@ class Prv_ebay(Protocol):
         options, seller feedback, item location, the site's own default shipping option, and
         current bid / bid count for an active auction. Requires an eBay OAuth application key —
         see this provider's `auth`.
+        """
+
+    async def searchByCategory(self, args: str | Prv_ebay_searchByCategory_args_u1_In, /) -> list[Prv_ebay_ebayItem_Out]:
+        """Runs eBay's Browse API `item_summary/search` scoped to one category id (the id
+        `search`/`getItem` rows carry under `categories`, e.g. `"15709"` for Men's Athletic
+        Shoes), with an optional keyword query narrowing within the category. Same rows, same
+        fields, as `search`. `limit` caps the row count (default 20, eBay's own ceiling 200).
+        Requires an eBay OAuth application key — see this provider's `auth`.
         """
 
 class Prv_elase(Protocol):
