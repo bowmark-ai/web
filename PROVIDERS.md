@@ -494,7 +494,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `calendly.updateEventType` | calendly.com | Edits one of the caller's event types — name, duration, description, location, booking… | ⚪ |
 | `calendly.updateProfile` | calendly.com | Edits the caller's own Calendly profile — display name, welcome message, timezone and… | ⚪ |
 | `calendly.voteOnMeetingPoll` | calendly.com | Votes on a Calendly meeting poll — picks which of the proposed times the caller can… | ⚪ |
-| `caliberhealth.getJob` | caliberhealth.com | Reads one job's own detail page — specialty, location, facility type, schedule… | 🟢 |
+| `caliberhealth.getJob` | caliberhealth.com | Reads one job's own detail page — specialty, location, facility type, schedule… | 🟡 |
 | `caliberhealth.search` | caliberhealth.com | Runs Caliber Healthcare Solutions' own live job-board search (/healthcare-jobs) and… | 🟢 |
 | `califloors.getProduct` | califloors.com | Reads one product's own detail page — its real current price, live stock status… | 🟢 |
 | `califloors.listCategories` | califloors.com | Lists CALI's own flooring and decking category tree — Vinyl, Hardwood, Laminate… | 🟢 |
