@@ -366,7 +366,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.quotePost` | bsky.app | Quote-post an existing post with the caller's own text. | ⚪ |
 | `bluesky.replyToPost` | bsky.app | Reply to a post as the caller, threaded under it. | ⚪ |
 | `bluesky.repost` | bsky.app | Repost a post as the caller, or undo the repost. | ⚪ |
-| `bluesky.resolveHandle` | bsky.app | Turn a Bluesky handle (alice.bsky.social, or a custom domain handle) into its… | ⚪ |
+| `bluesky.resolveHandle` | bsky.app | Turn a Bluesky handle (alice.bsky.social, or a custom domain handle) into its… | 🟢 |
 | `bluesky.saveFeed` | bsky.app | Save or pin a custom feed to the caller's feed list, or remove it. | ⚪ |
 | `bluesky.searchFeeds` | bsky.app | Find custom feeds by words (e.g. 'science', 'art'), the way Explore's feed search… | ⚪ |
 | `bluesky.searchPosts` | bsky.app | Search all public posts by words, with the Search tab's Top/Latest sort and its… | ⚪ |
@@ -398,7 +398,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bollandbranch.getSwatchDetails` | bollandbranch.com | Resolves color/fabric swatch names (as offered by getCategoryOptions) to their hex… | 🟢 |
 | `bollandbranch.renderBedPreview` | bollandbranch.com | Would render the Designer's own live combination preview (the stacked-bed visual for a… | ⚪ |
 | `booking_com.addToWishlist` | booking.com | Add a property to the caller's wishlist. | ⚪ |
-| `booking_com.autocompleteDestination` | booking.com | Autocomplete destination search with dest_id, dest_type and name. | ⚪ |
+| `booking_com.autocompleteDestination` | booking.com | Find booking.com destinations (cities, districts, landmarks, hotels) for a free-text… | 🟢 |
 | `booking_com.checkPrice` | booking.com | Check price and availability for a property on specific dates. | ⚪ |
 | `booking_com.getAccountProfile` | booking.com | Get the caller's account profile information. | ⚪ |
 | `booking_com.getBooking` | booking.com | Get details of one past or upcoming booking. | ⚪ |
@@ -615,7 +615,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.getArticle` | www.cnn.com | Read the full text and metadata of one CNN article — headline, body text, author… | ⚪ |
 | `cnn.getMarketsData` | www.cnn.com | Financial and markets data from CNN Money — stock indices, currency rates, commodities… | ⚪ |
 | `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, transcription if… | ⚪ |
-| `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | ⚪ |
+| `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | 🟢 |
 | `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | 🟢 |
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
 | `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | ⚪ |
@@ -740,7 +740,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.addToWatchlist` | ebay.com | Add an item to the caller's watch list. | ⚪ |
 | `ebay.getCart` | ebay.com | Get the caller's shopping cart — items they have added but not yet purchased. | ⚪ |
 | `ebay.getDeals` | ebay.com | Get current eBay deals and promotions. | ⚪ |
-| `ebay.getItem` | ebay.com | Get details for a specific eBay listing — title, current price, condition, buying… | ⚪ |
+| `ebay.getItem` | ebay.com | Reads one eBay listing by its Browse API item id — title, current price, condition… | 🟢 |
 | `ebay.getMyAccount` | ebay.com | Get the caller's account settings and preferences. | ⚪ |
 | `ebay.getMyListings` | ebay.com | Get the caller's active selling listings (for sellers). | ⚪ |
 | `ebay.getMyMessages` | ebay.com | Get the caller's eBay messages — inbox, sent, and resolved messages. | ⚪ |
@@ -783,7 +783,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | ⚪ |
 | `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | 🟢 |
 | `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | ⚪ |
-| `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | ⚪ |
+| `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | 🟢 |
 | `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | ⚪ |
 | `epicgames.listOrders` | epicgames.com | The signed-in caller's Epic purchase history — each transaction's date, items, amount… | ⚪ |
 | `epicgames.listTags` | epicgames.com | The store's browse filters — genres, features, platforms and event tags with their ids… | ⚪ |
@@ -1104,7 +1104,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | ⚪ |
 | `google_news.findTopic` | news.google.com | The finder `getTopicHeadlines` is missing for an ENTITY topic — a company, a person, a… | ⚪ |
 | `google_news.followTopic` | news.google.com | Follow a topic, a place or a publisher as the signed-in person — how a Google News… | ⚪ |
-| `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | ⚪ |
+| `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | 🟢 |
 | `google_news.getFullCoverage` | news.google.com | Google News' Full Coverage for one story — every outlet reporting it, with each one's… | 🟢 |
 | `google_news.getTopicHeadlines` | news.google.com | The headlines under any Google News topic id — the opaque key `/rss/topics/<id>`… | 🟢 |
 | `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | 🟢 |
@@ -2061,7 +2061,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.editProfile` | steampowered.com | Updates the caller's own profile information like profile name, bio/summary, and… | ⚪ |
 | `steam.getAchievements` | steampowered.com | Retrieves achievement list for a game when publicly viewable, including achievement… | ⚪ |
 | `steam.getCommunityHub` | steampowered.com | Retrieves the community hub for a game, including recent discussions, artwork… | ⚪ |
-| `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | ⚪ |
+| `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | 🟢 |
 | `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | ⚪ |
 | `steam.getGameScreenshots` | steampowered.com | Fetches a game's screenshots and promotional images, returning image URLs, captions… | ⚪ |
 | `steam.getGameStats` | steampowered.com | Provides game statistics like current player count, peak player count (24h)… | ⚪ |
@@ -2278,7 +2278,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listSubscriptions` | twitch.tv | Lists channels the signed-in user is subscribed to and the subscription tier. | ⚪ |
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | ⚪ |
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | ⚪ |
-| `twitch.searchChannels` | twitch.tv | Searches for Twitch channels by keyword: login, display name, description, game… | ⚪ |
+| `twitch.searchChannels` | twitch.tv | Searches Twitch channels by keyword — a name, game or description term — and returns… | 🟢 |
 | `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | ⚪ |
 | `twitch.sendChatMessage` | twitch.tv | Sends a message to a channel's live chat. | ⚪ |
 | `twitch.setChannel` | twitch.tv | Updates the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
