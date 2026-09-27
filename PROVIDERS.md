@@ -290,7 +290,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bigrentz.listCategories` | bigrentz.com | Lists BigRentz's equipment categories (optionally filtered to children of a parent… | 🟢 |
 | `bigrentz.search` | bigrentz.com | Searches BigRentz's equipment catalog by free-text query (e.g. "boom lift", "40 ft… | 🟢 |
 | `bigyellow.getQuote` | bigyellow.co.uk | Returns a storage unit quote with pricing based on location, unit size and move-in date. | ⚪ |
-| `bing.define` | bing.com | Looks up a word in Bing's own dictionary panel (bing.com/dict/search) and returns its… | 🟢 |
+| `bing.define` | bing.com | Looks up a word in Bing's own dictionary panel (bing.com/dict/search) and returns its… | 🟡 |
 | `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | 🟢 |
 | `bing.listSaves` | bing.com | Lists the pages, searches and images the signed-in caller has saved to Bing… | ⚪ |
 | `bing.saveResult` | bing.com | Adds a page, search or image to the signed-in caller's Bing Collections — the write… | ⚪ |
@@ -1089,7 +1089,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.getDirections` | google.com/maps | Route between two places — the site's own trip total (distance, duration… | 🟢 |
 | `google_maps.getPlace` | google.com/maps | Everything Google Maps shows on one business's panel: name, a shareable url back to… | 🟢 |
 | `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | 🟢 |
-| `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in person has contributed, with… | ⚪ |
+| `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in caller has contributed, with… | 🟢 |
 | `google_maps.listPhotos` | google.com/maps | The photos Google Maps shows in a place's gallery panel — up to 20, each with a url… | 🟢 |
 | `google_maps.listRelatedPlaces` | google.com/maps | Other businesses Google Maps lists "At this place" — the site's own label for a shared… | 🟢 |
 | `google_maps.listReviews` | google.com/maps | The reviews Google Maps shows on a business's own panel — a handful, each with author… | 🟢 |
@@ -2533,7 +2533,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listPlaylistVideos` | youtube.com | The videos inside a playlist, in the playlist's own order and paged — each video's id… | 🟢 |
 | `youtube.listRelatedVideos` | youtube.com | The videos YouTube itself puts next to this one — the "up next" rail — each with its… | 🟢 |
 | `youtube.listStreamFormats` | youtube.com | The renditions a video is actually available in — resolution, frame rate, codec… | 🟢 |
-| `youtube.listSubscriptions` | youtube.com | The channels the signed-in account subscribes to. | ⚪ |
+| `youtube.listSubscriptions` | youtube.com | The channels the signed-in account subscribes to — each channel's id, url, handle… | 🟢 |
 | `youtube.listTrending` | youtube.com | YouTube's Trending feed — what is being watched across the site right now, and the… | ⚪ |
 | `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | ⚪ |
 | `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟡 |
