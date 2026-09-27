@@ -76,7 +76,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
 | `alibaba.removeFromCart` | alibaba.com | Remove a product from the shopping cart. | ⚪ |
 | `alibaba.saveProduct` | alibaba.com | Add a product to saved items/favorites. | ⚪ |
-| `alibaba.searchProducts` | alibaba.com | Search for products by keyword, returning results with title, price, supplier and… | ⚪ |
+| `alibaba.searchProducts` | alibaba.com | Search for products by keyword, returning results with title, price, supplier and… | 🟢 |
 | `alibaba.trackOrder` | alibaba.com | Get shipment tracking information and current delivery status. | ⚪ |
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
@@ -341,7 +341,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | ⚪ |
 | `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | ⚪ |
 | `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | ⚪ |
-| `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | ⚪ |
+| `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | 🟢 |
 | `bluesky.getRelationships` | bsky.app | Whether one account follows, or is followed by, each of a list of others. | ⚪ |
 | `bluesky.getStarterPack` | bsky.app | One starter pack: its creator, description, the accounts and feeds it bundles, and how… | ⚪ |
 | `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | ⚪ |
@@ -612,7 +612,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.listFitters` | clubchampion.com | Reads the live list of every Club Champion fitter — id, name, studio, timezone… | 🟢 |
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
-| `cnn.getArticle` | www.cnn.com | Read the full text and metadata of one CNN article — headline, body text, author… | ⚪ |
+| `cnn.getArticle` | www.cnn.com | Read the full text and metadata of one CNN article — headline, body text, author… | 🟢 |
 | `cnn.getMarketsData` | www.cnn.com | Financial and markets data from CNN Money — stock indices, currency rates, commodities… | ⚪ |
 | `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, transcription if… | ⚪ |
 | `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | 🟢 |
@@ -667,7 +667,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `decksdirect.priceConfiguration` | decksdirect.com | Resolves a specific configuration (a choice per option group, e.g. { Color: "Havana… | 🟢 |
 | `decksdirect.searchProducts` | decksdirect.com | Searches DecksDirect's decking/railing/hardware catalog by free text and returns each… | 🟢 |
 | `dell.getOrderDetails` | dell.com | Retrieves detailed information about a specific order, including items, pricing, and… | ⚪ |
-| `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | ⚪ |
+| `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟢 |
 | `dell.getProductDrivers` | dell.com | Searches for and retrieves drivers for a Dell product by service tag or model number. | ⚪ |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves detailed information about a registered Dell product including warranty and… | ⚪ |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | ⚪ |
@@ -901,7 +901,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getGraduatedTokens` | fomo.family | Returns tokens that have just completed their bonding curve and moved to a full AMM… | 🟢 |
 | `fomo.getLeaderboard` | fomo.family | Returns the ranked traders for one window — daily, weekly, monthly or all-time — with… | 🟢 |
 | `fomo.getMajorTokens` | fomo.family | Returns the large-cap majors — BTC, ETH, SOL and the rest of the non-memecoin set… | 🟢 |
-| `fomo.getMostHeldTokens` | fomo.family | Returns the tokens held by the most fomo traders — a positions ranking rather than a… | ⚪ |
+| `fomo.getMostHeldTokens` | fomo.family | Returns the tokens held by the most fomo traders — a positions ranking rather than a… | 🟢 |
 | `fomo.getMutuals` | fomo.family | Pages the traders both the signed-in user and another user follow. `GET… | ⚪ |
 | `fomo.getPerpetuals` | fomo.family | Perpetual futures — open positions, funding, leverage and the perps order flow fomo… | ⚪ |
 | `fomo.getPortfolioHistory` | fomo.family | Returns the time series behind a trader's portfolio-value chart — total USD value at… | ⚪ |
@@ -955,7 +955,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `forbes.getContributor` | forbes.com | Get a contributor's profile and list their articles. | ⚪ |
 | `forbes.getVideo` | forbes.com | Get details of a Forbes Video. | 🟢 |
 | `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | 🟢 |
-| `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | ⚪ |
+| `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | 🟢 |
 | `forbes.listNews` | forbes.com | List latest news articles. | 🟢 |
 | `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | 🟢 |
 | `forbes.listVideos` | forbes.com | List video content from Forbes Video. | 🟢 |
@@ -1056,7 +1056,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in user has starred, with optional sorting and filtering. | ⚪ |
 | `github.listTopics` | github.com | Lists repositories by topic, returning repositories tagged with a specific topic. | ⚪ |
-| `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | ⚪ |
+| `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
 | `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
 | `github.searchCode` | github.com | Searches for code across public repositories by filename, language, code snippet… | ⚪ |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
@@ -1111,7 +1111,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, exactly as Google… | 🟢 |
 | `google_news.listLocalHeadlines` | news.google.com | What is being reported in one place — the local-news edition for a city or region, by… | 🟢 |
 | `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — a domain like reuters.com, or… | 🟢 |
-| `google_news.listSavedArticles` | news.google.com | The articles the signed-in person saved for later — Google News' own reading list… | ⚪ |
+| `google_news.listSavedArticles` | news.google.com | The articles the signed-in person saved for later — Google News' own reading list… | 🟢 |
 | `google_news.listStories` | news.google.com | The story clusters Google News is running right now, as ids — the front page and any… | 🟢 |
 | `google_news.listTopicHeadlines` | news.google.com | The latest headlines in one of Google News' own eight sections — World, Nation… | 🟢 |
 | `google_news.listTopics` | news.google.com | The topics Google News' own home-page nav rail is offering today — the eight standing… | 🟢 |
@@ -1329,7 +1329,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `jcrew.getProduct` | jcrew.com | Reads one J.Crew product in full the way its own product detail page does — given the… | 🟡 |
 | `jcrew.getProducts` | jcrew.com | Reads several J.Crew products in one call, given a list of style ids — the batch form… | 🟢 |
 | `jcrew.listCategories` | jcrew.com | Walks J.Crew's own category tree from a starting category down a requested number of… | 🟢 |
-| `jcrew.listSearchRefinements` | jcrew.com | Lists the filters J.Crew itself offers for a given search or category — size, colour… | 🟢 |
+| `jcrew.listSearchRefinements` | jcrew.com | Lists the filters J.Crew itself offers for a given search or category — size, colour… | 🟡 |
 | `jcrew.listSortOptions` | jcrew.com | Lists the sort orders J.Crew's own result pages offer — price low to high, newest… | 🟢 |
 | `jcrew.searchProducts` | jcrew.com | Searches J.Crew's live catalogue the way its own search bar does — a free-text query… | 🟢 |
 | `jcrew.startCheckout` | jcrew.com | Begins J.Crew's checkout for a filled bag. | ⚪ |
@@ -1515,7 +1515,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `meteofrance.getMarineWindForecast` | meteofrance.com | Marine wind forecast for French coastal regions, including wind speed, gusts, and… | 🟢 |
 | `microcenter.checkStock` | microcenter.com | Answers whether a specific item is buyable right now, rather than merely listed at a… | 🟡 |
 | `microcenter.checkStoreStock` | microcenter.com | Answers which Micro Center store has an item on the shelf today — the one thing this… | 🟡 |
-| `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟡 |
+| `microcenter.getProduct` | microcenter.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `microcenter.search` | microcenter.com | Searches microcenter.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `millisaraylar.getPalaces` | millisaraylar.gov.tr | Reads the full palace/kiosk/pavilion/museum list off millisaraylar.gov.tr's own site… | 🟢 |
 | `millisaraylar.getTicketPrices` | millisaraylar.gov.tr | Matches a name against millisaraylar.gov.tr's own ticket-purchase location list and… | 🟢 |
@@ -1627,12 +1627,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.renameRecipeBoxFolder` | cooking.nytimes.com | Renames one of the signed-in reader's Recipe Box folders. | ⚪ |
 | `nyt_cooking.saveRecipe` | cooking.nytimes.com | Saves a recipe to the signed-in reader's Recipe Box. | ⚪ |
 | `nyt_cooking.searchMyRecipeBox` | cooking.nytimes.com | Searches inside the signed-in reader's own saved Recipe Box, rather than the whole site. | ⚪ |
-| `nyt_cooking.searchRecipes` | cooking.nytimes.com | Runs the site's own recipe search (query text plus cuisine/diet/mealType/cookTime… | ⚪ |
+| `nyt_cooking.searchRecipes` | cooking.nytimes.com | Runs the site's own recipe search (query text plus cuisine/diet/mealType/cookTime… | 🟢 |
 | `nyt_cooking.unsaveRecipe` | cooking.nytimes.com | Removes a recipe from the signed-in reader's Recipe Box. | ⚪ |
 | `nyt_cooking.updateRecipeNote` | cooking.nytimes.com | Edits one of the signed-in reader's own private cook notes. | ⚪ |
 | `nyt_games.getConnections` | games.nytimes.com | Retrieves the daily Connections puzzle with category groupings and answers. | 🟢 |
 | `nyt_games.getCrosswordArchive` | games.nytimes.com | Retrieves historical crossword puzzles dating back to 1995. | ⚪ |
-| `nyt_games.getCrosswordDaily` | games.nytimes.com | Retrieves today's New York Times daily crossword puzzle. | ⚪ |
+| `nyt_games.getCrosswordDaily` | games.nytimes.com | Retrieves today's New York Times daily crossword puzzle. | 🟢 |
 | `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | ⚪ |
 | `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | ⚪ |
 | `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | 🟢 |
@@ -1756,7 +1756,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.searchUsers` | pinterest.com | Search for people and brands by name and get their account back — the door that turns… | 🟢 |
 | `pinterest.searchVideos` | pinterest.com | Search only the video pins — Pinterest's own `videos` search scope, for a caller who… | 🟢 |
 | `pinterest.sendPin` | pinterest.com | Send a pin to somebody in a Pinterest message — the site's own share action. | ⚪ |
-| `pinterest.suggestSearches` | pinterest.com | Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre"… | 🟢 |
+| `pinterest.suggestSearches` | pinterest.com | Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre"… | 🟡 |
 | `pinterest.unfollowBoard` | pinterest.com | Stop following a board. | ⚪ |
 | `pinterest.unfollowTopic` | pinterest.com | Stop following an idea topic. | ⚪ |
 | `pinterest.unfollowUser` | pinterest.com | Stop following a person or a brand. | ⚪ |
@@ -1916,7 +1916,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getPressRelease` | www.reuters.com | Read one press release on reuters.com in full: title, issuer, date and body. | ⚪ |
 | `reuters.getQuote` | www.reuters.com | The current Reuters quote for one instrument by RIC — a stock, index, currency pair or… | ⚪ |
 | `reuters.getVideo` | www.reuters.com | One Reuters video: title, description, duration, published time, thumbnail and its… | ⚪ |
-| `reuters.listArticlesByDate` | www.reuters.com | Every Reuters story published on one calendar day — headline, url and time — from the… | ⚪ |
+| `reuters.listArticlesByDate` | www.reuters.com | Every Reuters story published on one calendar day — headline, url and time — from the… | 🟢 |
 | `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | ⚪ |
 | `reuters.listFollowedTopics` | www.reuters.com | The topics the signed-in reader follows in My News. | ⚪ |
 | `reuters.listGraphics` | www.reuters.com | Reuters Graphics — the interactive data stories and explainers — with title, url and… | ⚪ |
@@ -1940,7 +1940,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.unfollowTopic` | www.reuters.com | Stop following a topic in the signed-in reader's My News. | ⚪ |
 | `reuters.unsubscribeNewsletter` | www.reuters.com | Unsubscribe the signed-in reader from a Reuters newsletter. | ⚪ |
 | `revisionskincare.getSkincareQuizQuestions` | revisionskincare.com | Reads the live 'Product Finder Quiz' at revisionskincare.com/pages/skincare-quiz… | 🟢 |
-| `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟡 |
+| `revisionskincare.takeSkincareQuiz` | revisionskincare.com | Submits a shopper's answers to Revision Skincare's own Product Finder Quiz and returns… | 🟢 |
 | `rightmove.search` | rightmove.co.uk | Searches for properties for sale or rent by location, price range, and bedroom count. | 🟢 |
 | `rishitea.getTeaFinderQuiz` | rishi-tea.com | Reads the live Tea Finder quiz's real question set straight from Okendo's quiz API —… | 🟢 |
 | `rishitea.matchTeaFinderQuiz` | rishi-tea.com | Submits a full set of answers to Okendo's quiz engine and returns the same… | 🟢 |
@@ -2208,7 +2208,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getEarnings` | www.tradingview.com | Get earnings history and upcoming earnings dates for a symbol. | ⚪ |
 | `tradingview.getFinancials` | www.tradingview.com | Get financial statements and historical data: revenue, earnings, balance sheet. | ⚪ |
 | `tradingview.getMarketOverview` | www.tradingview.com | Get market overview data: top gainers, losers, most active symbols. | ⚪ |
-| `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | ⚪ |
+| `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | 🟢 |
 | `tradingview.getOptionChain` | www.tradingview.com | Get option chain data for symbols that have options. | ⚪ |
 | `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | 🟢 |
 | `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | ⚪ |
@@ -2430,7 +2430,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getRandomArticle` | wikipedia.org | A genuinely random Wikipedia article, or several — title, url and summary. | ⚪ |
 | `wikipedia.getRevision` | wikipedia.org | One specific revision of an article by id — its content, editor, timestamp, size and… | ⚪ |
 | `wikipedia.getSection` | wikipedia.org | One named or numbered section of an article as plain text, without downloading the… | 🟢 |
-| `wikipedia.getSections` | wikipedia.org | The article's table of contents — every section with its number, heading, nesting… | 🟢 |
+| `wikipedia.getSections` | wikipedia.org | The article's table of contents — every section with its number, heading, nesting… | 🟡 |
 | `wikipedia.getSummary` | wikipedia.org | The lead of an article and nothing else — the first paragraph as plain text and as… | 🟢 |
 | `wikipedia.getUser` | wikipedia.org | A Wikipedia editor's public record — registration date, total edit count, and the user… | ⚪ |
 | `wikipedia.getWikitext` | wikipedia.org | The article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟢 |
@@ -2489,12 +2489,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full the way its own game page does — final or live score, box score… | 🟢 |
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads the sports news and analysis stories Yahoo Sports itself is running right now… | ⚪ |
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and current-season stat line off their own player page —… | 🟢 |
-| `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | ⚪ |
+| `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | 🟢 |
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟡 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads today's games for one league — NFL, NBA, MLB, NHL, college football, college… | 🟢 |
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟡 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
-| `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟢 |
+| `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟡 |
 | `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |

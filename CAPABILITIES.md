@@ -69,7 +69,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `municipal_recreation_fees.getFeeSchedule` | Retrieves annual recreation centre membership fees (adult and family passes) for a… | 1 | 🟢 |
 | `music.getTrack` | Reads ONE track you already have a URL for — a public track link, or a `Track` that… | 1 | 🟢 |
 | `music.search` | Searches the catalogue for tracks matching free text ("aphex twin", "lofi hip hop"… | 1 | 🟢 |
-| `pcparts.getProduct` | Reads ONE product page in full — pass a product URL or an offer straight from… | 3 | 🟡 |
+| `pcparts.getProduct` | Reads ONE product page in full — pass a product URL or an offer straight from… | 3 | 🟢 |
 | `pcparts.search` | Searches Newegg + Micro Center + B&H for ONE part (e.g. "Ryzen 7 7800X3D" or "RTX… | 3 | 🟢 |
 | `pet_boarding.search` | Searches overnight pet-boarding sitters for a city and increasing ISO start/end dates… | 1 | 🟢 |
 | `phone_price.compare` | Prices one phone across T-Mobile and Visible in parallel and returns a price-sorted… | 2 | 🟢 |
