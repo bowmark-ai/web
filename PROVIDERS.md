@@ -752,7 +752,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.removeFromWatchlist` | ebay.com | Remove an item from the caller's watch list. | ⚪ |
 | `ebay.search` | ebay.com | Runs an eBay item search the way ebay.com's own search box does and returns the… | 🟢 |
 | `ebay.searchAutocomplete` | ebay.com | Get search suggestions based on a partial query — what people are searching for. | ⚪ |
-| `ebay.searchByCategory` | ebay.com | Browse listings within a specific eBay category. | ⚪ |
+| `ebay.searchByCategory` | ebay.com | Runs eBay's Browse API `item_summary/search` scoped to one category id, with an… | 🟢 |
 | `elase.checkAvailability` | elase.com | Checks real, live open time slots for one service at one location on one date — the… | 🟡 |
 | `elase.findLocation` | elase.com | Resolves a slug/neighborhood query to the matching real Elase location(s) — name… | 🟢 |
 | `elase.listLocations` | elase.com | Reads the live list of every Elase Med Spa location off the site's own /locations/… | 🟢 |
