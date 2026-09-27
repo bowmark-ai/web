@@ -620,7 +620,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
 | `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | 🟢 |
 | `cnn.listTrendingTopics` | www.cnn.com | Topics and keywords that are trending on CNN right now — what stories are getting the… | ⚪ |
-| `cnn.listVideos` | www.cnn.com | Search or list videos from CNN — video clips, segments and full shows with title… | ⚪ |
+| `cnn.listVideos` | www.cnn.com | The videos CNN currently lists on its video hub — clips and segments with headline… | 🟢 |
 | `cnn.searchArticles` | www.cnn.com | Search for news articles across CNN — takes what a person would say ("breaking news"… | ⚪ |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
@@ -784,7 +784,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | 🟢 |
 | `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | ⚪ |
 | `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | 🟢 |
-| `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | ⚪ |
+| `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | 🟢 |
 | `epicgames.listOrders` | epicgames.com | The signed-in caller's Epic purchase history — each transaction's date, items, amount… | ⚪ |
 | `epicgames.listTags` | epicgames.com | The store's browse filters — genres, features, platforms and event tags with their ids… | ⚪ |
 | `epicgames.redeemCode` | epicgames.com | Redeem a product code the caller holds into their Epic library. | ⚪ |
@@ -2385,15 +2385,15 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | ⚪ |
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | ⚪ |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |
-| `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | ⚪ |
+| `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |
 | `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | ⚪ |
-| `weather_channel.getDailyForecast` | weather.com | Daily forecast — high/low, conditions, precipitation chance, wind. 10-day and 15-day… | ⚪ |
+| `weather_channel.getDailyForecast` | weather.com | Daily forecast — high/low, conditions, precipitation chance, wind. 10-day and 15-day… | 🟢 |
 | `weather_channel.getFifteenMinuteForecast` | weather.com | Sub-hourly precipitation forecast — arrival time and intensity of rain/snow in… | ⚪ |
 | `weather_channel.getHistoricalDaily` | weather.com | Historical daily summaries — past 30 days of high, low, and precipitation records. | ⚪ |
 | `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | ⚪ |
 | `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | ⚪ |
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | ⚪ |
-| `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | ⚪ |
+| `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
 | `weather_channel.getLocation` | weather.com | Gets location details by coordinates (latitude/longitude) — returns location id, name… | ⚪ |
 | `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-level precipitation data — highly granular rainfall/snowfall timing and… | ⚪ |
 | `weather_channel.getObservations` | weather.com | Current observations from weather stations — actual measured conditions from the field. | ⚪ |
@@ -2402,8 +2402,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getRadarTiles` | weather.com | Radar imagery tiles for map overlays — precipitation radar mosaic for a region. | ⚪ |
 | `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | ⚪ |
 | `weather_channel.getWeeklyAd` | weather.com | Weekly promotional content and special notices — featured forecasts or seasonal alerts. | ⚪ |
-| `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | ⚪ |
-| `weather_channel.searchLocations` | weather.com | Autocomplete for location names (cities, ZIP codes) — returns matching locations with… | ⚪ |
+| `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | 🟢 |
+| `weather_channel.searchLocations` | weather.com | Autocomplete for location names (cities, ZIP codes) — returns matching locations with… | 🟢 |
 | `weather_channel.searchNews` | weather.com | Weather-related articles and videos from the site's content — search by keyword. | ⚪ |
 | `wellfound.getCompany` | wellfound.com | Reads one startup's `/company/<slug>` profile — the longer product description (HTML)… | ⚪ |
 | `wellfound.getJob` | wellfound.com | Reads one job posting in full the way its own detail page does — takes the `url` a… | 🟢 |
