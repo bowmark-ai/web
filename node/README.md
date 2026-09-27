@@ -14,18 +14,6 @@
 lmstudio://add_mcp?name=bowmark&config=eyJ1cmwiOiJodHRwczovL2FwaS5ib3dtYXJrLmFpL21jcC9iYWRnZS1sbXN0dWRpbyJ9
 ```
 
-> **Status:** PUBLISHED · `@bowmark/web@1.0.0` on npm, 2026-08-06, alongside
-> `bowmark-web` and `bowmark-web-stubs` on PyPI at the same version. The plan that built it
-> is deleted; the reasoning is in the four
-> [`docs/decisions/2026-08-06-*`](../../../docs/decisions/) records and the enforceable half
-> is [`.claude/rules/public-types.md`](../../../.claude/rules/public-types.md). Since
-> 2026-09-01 the TARBALL ships compiled `dist/`, not raw `src/` — see
-> [`docs/decisions/2026-09-01-the-published-npm-client-ships-compiled-js.md`](../../../docs/decisions/2026-09-01-the-published-npm-client-ships-compiled-js.md).
-> **What would make THIS doc wrong:** the declarations moving out into a second package,
-> a runtime dependency landing in `package.json`, or a build step reappearing where a
-> CONSUMER or this MONOREPO has to run it — the one that ships is at publish time only,
-> in the public mirror's own CI, and neither of those two ever sees it.
-
 ```sh
 npm i @bowmark/web
 ```
@@ -119,6 +107,18 @@ literal gets no typechecking, so the generated types cover `session()` and `bowm
 and never this. It returns the envelope rather than throwing, because a script is
 composite: `status`, `logs` and `result` are read together.
 
+**`run()` is designed for agents, not for you.** If you're writing code in your editor,
+use `session()` instead. For **reading a page** — fetching and parsing HTML — use the
+`read.page()` capability from within a `session()` callback:
+
+```ts
+import { session } from "@bowmark/web";
+
+const parsed = await session(async (bm) => {
+  return await bm.read.page(url);  // fetches and parses the page
+}, { apiKey: "bmk_…" });
+```
+
 ### Signing in — `login()`, `{ connection }`, and `bm.connections.*`
 
 ```ts
@@ -184,6 +184,13 @@ Pass `{ apiKey, baseUrl, fetch, headers, signal, onLog }` explicitly — every e
 takes them — or set `BOWMARK_API_KEY` and `BOWMARK_API_URL`, read at CALL time. **The key
 is required**: without one the first call throws `code: "no_api_key"` and sends nothing.
 A caller header cannot displace the key.
+
+---
+
+## For maintainers of this package
+
+Everything below describes how `@bowmark/web` is built, generated and published. Skip
+this section unless you are changing how the SDK itself works.
 
 ## Internals — how this package is built, generated and published
 

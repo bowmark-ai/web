@@ -1610,7 +1610,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getGroceryList` | cooking.nytimes.com | Reads the signed-in reader's own grocery list. | ⚪ |
 | `nyt_cooking.getMyNotes` | cooking.nytimes.com | Reads the signed-in reader's own private cook notes on a recipe. | ⚪ |
 | `nyt_cooking.getMyRating` | cooking.nytimes.com | Reads the signed-in reader's own rating for a recipe. | ⚪ |
-| `nyt_cooking.getRecipe` | cooking.nytimes.com | Reads one recipe's full detail — ingredients, steps, yield, times, ratings and public… | ⚪ |
+| `nyt_cooking.getRecipe` | cooking.nytimes.com | Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors… | 🟢 |
 | `nyt_cooking.getRecipeNotes` | cooking.nytimes.com | Reads the public helpful/all cook notes left on a recipe by other readers. | ⚪ |
 | `nyt_cooking.getRelatedRecipes` | cooking.nytimes.com | Reads the related-recipe carousel the site itself shows on a recipe page. | ⚪ |
 | `nyt_cooking.getSavedRecipes` | cooking.nytimes.com | Lists the signed-in reader's saved recipes (their Recipe Box). Needs the CALLER's own… | ⚪ |
