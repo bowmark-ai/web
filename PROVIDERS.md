@@ -231,7 +231,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `baublebar.listBaublebarCollections` | baublebar.com | The entry door: reads the storefront's own published collection index… | 🟢 |
 | `baublebar.listBaublebarProducts` | baublebar.com | Reads a BaubleBar collection's live catalogue as the storefront publishes it — every… | 🟢 |
 | `bbc.followPodcast` | bbc.com | Follow a BBC podcast or series for the signed-in reader. | ⚪ |
-| `bbc.getArticle` | bbc.com | One BBC article as data: headline, byline, published and updated times, section, topic… | ⚪ |
+| `bbc.getArticle` | bbc.com | One BBC article as data: headline, byline, published and updated times, section, topic… | 🟢 |
 | `bbc.getCurrentWeather` | bbc.com | The latest observation BBC Weather shows for a location: temperature, wind, humidity… | ⚪ |
 | `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | ⚪ |
 | `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | ⚪ |
