@@ -156,7 +156,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.listAccessories` | apple.com | Everything Apple sells that is not a device — cases, chargers, bands, keyboards… | 🟢 |
 | `apple.listFamilyModels` | apple.com | List every model Apple currently sells in one product family — every Mac, every… | 🟢 |
 | `apple.listNewsroomPosts` | apple.com | Apple's official announcements, newest first — every product launch, financial result… | 🟢 |
-| `apple.listOrders` | apple.com | Everything I have bought from Apple, with dates and prices. | ⚪ |
+| `apple.listOrders` | apple.com | Everything I have bought from Apple, with dates and prices — off the signed-in Order… | 🟢 |
 | `apple.listRefurbished` | apple.com | Apple's own certified refurbished store, read as data: every listing currently in… | 🟢 |
 | `apple.listStores` | apple.com | Every Apple Store in the US on one call — its name and its page — so a caller can… | 🟢 |
 | `apple.listTodaySessions` | apple.com | The free Today at Apple sessions one store is running — every upcoming one, with what… | 🟢 |
@@ -951,7 +951,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.unreactToComment` | fomo.family | Removes the signed-in trader's reaction from a comment. `POST /trades/comment/unreact`. | ⚪ |
 | `fomo.unreactToPost` | fomo.family | Removes the signed-in trader's reaction from a feed post. `POST /feed/unreact`. | ⚪ |
 | `fomo.useReferralCode` | fomo.family | Applies a referral code to the signed-in trader's account. `POST… | ⚪ |
-| `forbes.getArticle` | forbes.com | Read the full content of a single article. | ⚪ |
+| `forbes.getArticle` | forbes.com | Read the full content of a single article. | 🟢 |
 | `forbes.getContributor` | forbes.com | Get a contributor's profile and list their articles. | ⚪ |
 | `forbes.getVideo` | forbes.com | Get details of a Forbes Video. | 🟢 |
 | `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | 🟢 |
@@ -2436,7 +2436,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getWikitext` | wikipedia.org | The article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟢 |
 | `wikipedia.listBacklinks` | wikipedia.org | What links HERE — every Wikipedia article pointing at this one, by title and url. | 🟢 |
 | `wikipedia.listCategories` | wikipedia.org | The categories an article belongs to — Wikipedia's own subject taxonomy, which is how… | 🟢 |
-| `wikipedia.listCategoryMembers` | wikipedia.org | Every article in a category — hand it "Coffee" and get the pages Wikipedia files under… | ⚪ |
+| `wikipedia.listCategoryMembers` | wikipedia.org | Every article in a category — hand it "Coffee" and get the pages Wikipedia files under… | 🟢 |
 | `wikipedia.listExternalLinks` | wikipedia.org | Every link OFF Wikipedia from one article — the sources, official sites and references… | 🟢 |
 | `wikipedia.listImages` | wikipedia.org | Every image, diagram, audio clip and video in an article, in page order — each with… | ⚪ |
 | `wikipedia.listLanguages` | wikipedia.org | What this article is called in every other language Wikipedia has it in, with the url… | ⚪ |

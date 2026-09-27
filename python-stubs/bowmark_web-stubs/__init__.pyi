@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 178d1a4b418395377cf6647114afdb797c83c85259d7dd5971456b835caf71fd
-# 67 capabilities, 489 providers, 1457 typed functions, 20 refused.
+# Manifest version: c0ae29eb859c03642a588450ab42aee0490b76acdfe49cba9f1b3b55f79bc938
+# 67 capabilities, 489 providers, 1458 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22542,6 +22542,19 @@ class Prv_wikipedia_WikipediaCategory_Out(TypedDict):
     title: str
     url: str
 
+class Prv_wikipedia_listCategoryMembers_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_listCategoryMembers_return_Out(TypedDict):
+    members: list[Prv_wikipedia_WikipediaCategoryMember_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaCategoryMember_Out(TypedDict):
+    title: str
+    url: str
+    type: Literal["page"] | Literal["subcategory"] | Literal["file"]
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -39064,6 +39077,15 @@ class Prv_wikipedia(Protocol):
         in the other direction. Takes an article title OR any wikipedia.org url and follows the
         site's own redirects. Optional limit parameter caps the number of categories returned
         (defaults to all).
+        """
+
+    async def listCategoryMembers(self, category: str, options: Prv_wikipedia_listCategoryMembers_options_In | None = None, /) -> Prv_wikipedia_listCategoryMembers_return_Out:
+        """Every page Wikipedia files under a category — the door `listCategories` walks in
+        reverse. Hand it a category name a person would say ("Coffee preparation") or the site's
+        own "Category:" form, and get back the articles, subcategories and files filed there,
+        each labeled by kind. A door in its own right: it reaches a whole subject area without
+        anybody holding a title first. Optional limit parameter caps the number of members
+        returned (defaults to all).
         """
 
 class Prv_wikipedia_standings(Protocol):

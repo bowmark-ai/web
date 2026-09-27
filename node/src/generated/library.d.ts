@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 178d1a4b418395377cf6647114afdb797c83c85259d7dd5971456b835caf71fd
-// 67 capabilities, 489 providers, 1475 typed functions, 20 refused.
+// Manifest version: c0ae29eb859c03642a588450ab42aee0490b76acdfe49cba9f1b3b55f79bc938
+// 67 capabilities, 489 providers, 1476 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -41123,6 +41123,12 @@ interface WikipediaCategory {
   url: string;
 }
 
+interface WikipediaCategoryMember {
+  title: string;
+  url: string;
+  type: "page" | "subcategory" | "file";
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -41235,6 +41241,16 @@ interface WikipediaCategory {
      * all).
      */
     listCategories(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ categories: WikipediaCategory[]; warnings: string[] }>;
+
+    /**
+     * Every page Wikipedia files under a category — the door `listCategories` walks in reverse.
+     * Hand it a category name a person would say ("Coffee preparation") or the site's own
+     * "Category:" form, and get back the articles, subcategories and files filed there, each
+     * labeled by kind. A door in its own right: it reaches a whole subject area without anybody
+     * holding a title first. Optional limit parameter caps the number of members returned
+     * (defaults to all).
+     */
+    listCategoryMembers(category: string, options?: { lang?: string; limit?: number }): Promise<{ members: WikipediaCategoryMember[]; warnings: string[] }>;
   }
 }
 
