@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 38ee761744540c7403e3ad063753a2624ede481b95e457e6f02dd173d432e6a0
-// 1433 checked, 20 unchecked.
+// Manifest version: 2c4a6150e66f51661fbe0f04706a93b13d249d0c50750c6431afdc6e48e6a38f
+// 1434 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "38ee761744540c7403e3ad063753a2624ede481b95e457e6f02dd173d432e6a0",
+  "version": "2c4a6150e66f51661fbe0f04706a93b13d249d0c50750c6431afdc6e48e6a38f",
   "units": {
     "booking_links": {
       "defs": {
@@ -9638,6 +9638,46 @@ export const VALIDATORS: ValidatorTable = {
             "name": "actor",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchUsers": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
             },
             "optional": false
           }

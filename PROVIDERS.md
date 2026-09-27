@@ -1643,34 +1643,34 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | ⚪ |
 | `nyt_games.getWordle` | games.nytimes.com | Reads one day's Wordle answer, puzzle number and editor from NYT's own game JSON. | 🟢 |
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | ⚪ |
-| `nytimes.followWriter` | TODO example.com | Follows a writer (requires auth). | ⚪ |
-| `nytimes.getArticle` | TODO example.com | Gets full article text, metadata and comments count. | ⚪ |
-| `nytimes.getArticleComments` | TODO example.com | Reads comments on an article: trending, recent or top-rated. | ⚪ |
-| `nytimes.getConnections` | TODO example.com | Gets today's Connections puzzle. | ⚪ |
-| `nytimes.getLiveBlog` | TODO example.com | Gets live blog updates (breaking news, events). | ⚪ |
-| `nytimes.getNewsletter` | TODO example.com | Gets newsletter description and signup info. | ⚪ |
-| `nytimes.getPodcast` | TODO example.com | Gets podcast details and episode list. | ⚪ |
-| `nytimes.getSection` | TODO example.com | Gets articles in a specific section with metadata. | ⚪ |
-| `nytimes.getSpellingBee` | TODO example.com | Gets today's Spelling Bee puzzle. | ⚪ |
-| `nytimes.getTopicArticles` | TODO example.com | Gets all articles tagged with a specific topic. | ⚪ |
-| `nytimes.getTrending` | TODO example.com | Gets articles tagged with a trending topic. | ⚪ |
-| `nytimes.getWordle` | TODO example.com | Gets today's Wordle puzzle. | ⚪ |
-| `nytimes.getWriter` | TODO example.com | Gets writer profile and byline. | ⚪ |
-| `nytimes.listArticles` | TODO example.com | Lists articles by section or topic with pagination. | ⚪ |
-| `nytimes.listEpisodes` | TODO example.com | Gets episodes for a specific podcast. | ⚪ |
-| `nytimes.listNewsletters` | TODO example.com | Lists available email newsletters. | ⚪ |
-| `nytimes.listPodcasts` | TODO example.com | Lists NYT podcasts. | ⚪ |
-| `nytimes.listRSSFeeds` | TODO example.com | Lists available RSS feed URLs by section. | ⚪ |
-| `nytimes.listSavedArticles` | TODO example.com | Lists articles saved by signed-in reader. | ⚪ |
-| `nytimes.listSections` | TODO example.com | Lists all news sections (World, US, Business, etc.). | ⚪ |
-| `nytimes.listTopics` | TODO example.com | Lists all available topics/tags. | ⚪ |
-| `nytimes.listTrending` | TODO example.com | Lists trending topics or articles of the day. | ⚪ |
-| `nytimes.listWriterArticles` | TODO example.com | Gets all articles by a specific writer. | ⚪ |
-| `nytimes.saveArticle` | TODO example.com | Saves an article to the reader's collection (requires auth). | ⚪ |
-| `nytimes.searchArticles` | TODO example.com | Searches articles by keyword with pagination. | ⚪ |
-| `nytimes.searchWriters` | TODO example.com | Searches writers by name. | ⚪ |
-| `nytimes.unfollowWriter` | TODO example.com | Unfollows a writer (requires auth). | ⚪ |
-| `nytimes.unsaveArticle` | TODO example.com | Removes an article from the reader's collection (requires auth). | ⚪ |
+| `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
+| `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
+| `nytimes.getArticleComments` | nytimes.com | Reads comments on an article: trending, recent or top-rated. | ⚪ |
+| `nytimes.getConnections` | nytimes.com | Gets today's Connections puzzle. | ⚪ |
+| `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | ⚪ |
+| `nytimes.getNewsletter` | nytimes.com | Gets newsletter description and signup info. | ⚪ |
+| `nytimes.getPodcast` | nytimes.com | Gets podcast details and episode list. | ⚪ |
+| `nytimes.getSection` | nytimes.com | Gets articles in a specific section with metadata. | ⚪ |
+| `nytimes.getSpellingBee` | nytimes.com | Gets today's Spelling Bee puzzle. | ⚪ |
+| `nytimes.getTopicArticles` | nytimes.com | Gets all articles tagged with a specific topic. | ⚪ |
+| `nytimes.getTrending` | nytimes.com | Gets articles tagged with a trending topic. | ⚪ |
+| `nytimes.getWordle` | nytimes.com | Gets today's Wordle puzzle. | ⚪ |
+| `nytimes.getWriter` | nytimes.com | Gets writer profile and byline. | ⚪ |
+| `nytimes.listArticles` | nytimes.com | Lists articles by section or topic with pagination. | ⚪ |
+| `nytimes.listEpisodes` | nytimes.com | Gets episodes for a specific podcast. | ⚪ |
+| `nytimes.listNewsletters` | nytimes.com | Lists available email newsletters. | ⚪ |
+| `nytimes.listPodcasts` | nytimes.com | Lists NYT podcasts. | ⚪ |
+| `nytimes.listRSSFeeds` | nytimes.com | Lists available RSS feed URLs by section. | ⚪ |
+| `nytimes.listSavedArticles` | nytimes.com | Lists articles saved by signed-in reader. | ⚪ |
+| `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟢 |
+| `nytimes.listTopics` | nytimes.com | Lists all available topics/tags. | ⚪ |
+| `nytimes.listTrending` | nytimes.com | Lists trending topics or articles of the day. | ⚪ |
+| `nytimes.listWriterArticles` | nytimes.com | Gets all articles by a specific writer. | ⚪ |
+| `nytimes.saveArticle` | nytimes.com | Saves an article to the reader's collection (requires auth). | ⚪ |
+| `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | ⚪ |
+| `nytimes.searchWriters` | nytimes.com | Searches writers by name. | ⚪ |
+| `nytimes.unfollowWriter` | nytimes.com | Unfollows a writer (requires auth). | ⚪ |
+| `nytimes.unsaveArticle` | nytimes.com | Removes an article from the reader's collection (requires auth). | ⚪ |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |
 | `odfl.estimateFreightQuote` | odfl.com | Generates a shipping rate quote for an LTL freight shipment from ODFL. | ⚪ |
 | `oliverwinery.checkShippingAvailability` | oliverwinery.com | Checks whether Oliver Winery currently ships wine to one US state, read off the… | 🟢 |

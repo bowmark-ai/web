@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 38ee761744540c7403e3ad063753a2624ede481b95e457e6f02dd173d432e6a0
-// 67 capabilities, 485 providers, 1451 typed functions, 20 refused.
+// Manifest version: 2c4a6150e66f51661fbe0f04706a93b13d249d0c50750c6431afdc6e48e6a38f
+// 67 capabilities, 485 providers, 1452 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9648,6 +9648,19 @@ interface BlueskyResolvedHandle {
   did: string;
 }
 
+interface BlueskyUserResult {
+  did: string;
+  handle: string;
+  displayName: string | null;
+  avatar: string | null;
+  bio: string | null;
+}
+
+interface BlueskyUserSearchResults {
+  users: BlueskyUserResult[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -9663,6 +9676,13 @@ interface BlueskyResolvedHandle {
      * the AppView cannot resolve — check the spelling with `searchUsers`.
      */
     resolveHandle(actor: string): Promise<BlueskyResolvedHandle>;
+
+    /**
+     * Searches people by name, handle or bio words, the way the Search tab's People list does.
+     * Returns each match's handle, DID, display name, avatar and bio, plus a `cursor` for the next
+     * page when more results exist.
+     */
+    searchUsers(query: string | { query: string; limit?: number; cursor?: string }): Promise<BlueskyUserSearchResults>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 38ee761744540c7403e3ad063753a2624ede481b95e457e6f02dd173d432e6a0
-# 67 capabilities, 485 providers, 1433 typed functions, 20 refused.
+# Manifest version: 2c4a6150e66f51661fbe0f04706a93b13d249d0c50750c6431afdc6e48e6a38f
+# 67 capabilities, 485 providers, 1434 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5323,6 +5323,22 @@ class Prv_bluesignal_BlueSignalJobDetail_Out(TypedDict):
 
 class Prv_bluesky_BlueskyResolvedHandle_Out(TypedDict):
     did: str
+
+class Prv_bluesky_searchUsers_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyUserSearchResults_Out(TypedDict):
+    users: list[Prv_bluesky_BlueskyUserResult_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyUserResult_Out(TypedDict):
+    did: str
+    handle: str
+    displayName: str | None
+    avatar: str | None
+    bio: str | None
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -26956,6 +26972,12 @@ class Prv_bluesky(Protocol):
         DID, the id every other function in this provider accepts for "a person". Also accepts a
         DID (passed through unchanged) or a bsky.app profile URL. THROWS `blueskyInputError` on
         a handle the AppView cannot resolve — check the spelling with `searchUsers`.
+        """
+
+    async def searchUsers(self, query: str | Prv_bluesky_searchUsers_query_u1_In, /) -> Prv_bluesky_BlueskyUserSearchResults_Out:
+        """Searches people by name, handle or bio words, the way the Search tab's People list does.
+        Returns each match's handle, DID, display name, avatar and bio, plus a `cursor` for the
+        next page when more results exist.
         """
 
 class Prv_bmwusa(Protocol):
