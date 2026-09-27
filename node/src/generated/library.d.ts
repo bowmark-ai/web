@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2c4a6150e66f51661fbe0f04706a93b13d249d0c50750c6431afdc6e48e6a38f
-// 67 capabilities, 485 providers, 1452 typed functions, 20 refused.
+// Manifest version: 178d1a4b418395377cf6647114afdb797c83c85259d7dd5971456b835caf71fd
+// 67 capabilities, 489 providers, 1475 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5128,6 +5128,28 @@ interface AjmadisonSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_alibaba {
+  // ── Alibaba.com — the unit's own declarations, verbatim ──
+interface alibabaSearchRow {
+  id: number;
+  title: string;
+  price: string;
+  supplierName: string;
+  supplierId: number;
+  mainImage: string | null;
+}
+
+interface alibabaRow {
+  id: string;
+}
+
+  /** TODO — one line an agent reads to decide whether to call this. */
+  interface Unit {
+    /** Search for products by keyword, returning results with title, price, supplier and details. */
+    searchProducts(args: { query: string, language?: string, country?: string, currency?: string }): Promise<alibabaSearchRow[]>;
+  }
+}
+
 declare namespace BowmarkProvider_allied {
   // ── Allied Van Lines — the unit's own declarations, verbatim ──
 interface AlliedSupplyLine {
@@ -6621,6 +6643,10 @@ interface AppleRepairPricing {
   helpUrl: string | null;
   models: AppleRepairModelPricing[];
 }
+interface AppleOrderStatus {
+  orderNumber: string;
+  raw: unknown;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -6848,6 +6874,15 @@ interface AppleRepairPricing {
      * prices Mac service after an in-person diagnosis, not off a public list.
      */
     getRepairPricing(device: "iphone" | "ipad" | "watch"): Promise<AppleRepairPricing>;
+
+    /**
+     * Where is one Apple order, off the signed-in Order List page — NEEDS THE CALLER SIGNED IN
+     * (Apple has no guest order lookup: order/guest, order/status and order/track are all bare
+     * 404s). `raw` carries whatever apple.com's order-list bootstrap holds for the matching order
+     * number — the exact field shape is UNMEASURED (no fleet-held Apple Account session exists to
+     * capture one from), so read it defensively rather than trusting fixed field names.
+     */
+    getOrderStatus(orderNumber: string, opts?: ConnectionOption): Promise<AppleOrderStatus>;
   }
 }
 
@@ -7087,6 +7122,16 @@ interface archive_orgItem {
   files: archive_orgFile[];
 }
 
+interface archive_orgLendingAvailability {
+  identifier: string;
+  isLendable: boolean;             // false for a public-domain item nothing controls lending on
+  availableToBorrow: boolean;      // false when not lendable at all, OR when every copy is checked out — see waitlistSize
+  availableToBrowse: boolean;
+  availableBorrowableCopies: number;
+  maxBorrowableCopies: number;
+  waitlistSize: number;
+}
+
   /**
    * The Wayback Machine — is a site or page archived, every capture it holds, and the page
    * itself as it was captured, so a caller can see what a site published before it was changed
@@ -7141,6 +7186,16 @@ interface archive_orgItem {
      * archive.org/details/<identifier> url. Throws when no item exists at that identifier.
      */
     getItem(identifier: string): Promise<archive_orgItem>;
+
+    /**
+     * Checks whether a book item is available to borrow from the Internet Archive right now.
+     * `isLendable` is false for a public-domain item nothing controls lending on (it is simply
+     * readable). `availableToBorrow` is false either when the item is not lendable at all, or when
+     * every copy is currently checked out — `waitlistSize` tells the two apart. Takes the
+     * `identifier` from searchItems, or the last path segment of an
+     * archive.org/details/<identifier> url. Throws when no item exists at that identifier.
+     */
+    checkLendingAvailability(identifier: string): Promise<archive_orgLendingAvailability>;
   }
 }
 
@@ -9661,6 +9716,20 @@ interface BlueskyUserSearchResults {
   cursor?: string;
 }
 
+interface BlueskyProfile {
+  did: string;
+  handle: string;
+  displayName: string | null;
+  bio: string | null;
+  avatar: string | null;
+  banner: string | null;
+  followersCount: number;
+  followsCount: number;
+  postsCount: number;
+  pinnedPost: string | null;
+  labels: string[];
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -9683,6 +9752,14 @@ interface BlueskyUserSearchResults {
      * page when more results exist.
      */
     searchUsers(query: string | { query: string; limit?: number; cursor?: string }): Promise<BlueskyUserSearchResults>;
+
+    /**
+     * One person's profile: display name, handle, bio, avatar, banner, follower/following/post
+     * counts, pinned post (as an at:// URI) and labels. Takes a handle, a DID, or a bsky.app
+     * profile URL. THROWS `blueskyInputError` on an actor the AppView cannot find — check the
+     * spelling with `searchUsers` or `resolveHandle`.
+     */
+    getProfile(actor: string): Promise<BlueskyProfile>;
   }
 }
 
@@ -13653,6 +13730,29 @@ interface cnnCategory {
   path: string;
 }
 
+interface ListSectionHeadlinesArgs {
+  section: string;
+}
+
+interface cnnArticleImage {
+  url: string;
+  caption: string | null;
+  credit: string | null;
+}
+
+interface cnnArticle {
+  url: string;
+  headline: string;
+  description: string | null;
+  articleBody: string;
+  author: string[];
+  section: string | null;
+  datePublished: string | null;
+  dateModified: string | null;
+  wordCount: number | null;
+  images: cnnArticleImage[];
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -13668,6 +13768,19 @@ interface cnnCategory {
      * topic.
      */
     listCategories(): Promise<cnnCategory[]>;
+
+    /**
+     * The latest headlines in one CNN section by section name (Politics, World, Business, etc.) —
+     * newest first, with headline, snippet, publication time and URL.
+     */
+    listSectionHeadlines(args: ListSectionHeadlinesArgs): Promise<cnnHeadline[]>;
+
+    /**
+     * The full text and metadata of one CNN article by its URL — headline, description, full body
+     * text, author(s), section, publish/modified dates, word count and every embedded image with
+     * caption and credit.
+     */
+    getArticle(url: string): Promise<cnnArticle>;
   }
 }
 
@@ -14674,6 +14787,23 @@ interface DellSearchResult {
   soldOut: boolean;
 }
 
+interface GetProductArgs {
+  productId: string;
+}
+
+interface DellProduct {
+  productId: string;
+  title: string | null;
+  description: string | null;
+  price: string | null;
+  currency: string | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  image: string | null;
+  rating: number | null;
+  ratingCount: number | null;
+  url: string | null;
+}
+
 interface SearchForumThreadsArgs {
   query: string;
 }
@@ -14691,6 +14821,12 @@ interface DellForumThread {
      * availability. Results are sorted as the storefront displays them.
      */
     searchProducts(args: SearchProductsArgs): Promise<DellSearchResult[]>;
+
+    /**
+     * Retrieves detailed information about a specific Dell product including title, price,
+     * availability, image, and customer ratings.
+     */
+    getProduct(args: GetProductArgs): Promise<DellProduct>;
 
     /**
      * Search Dell community forums for threads matching a query — needs a topic or keywords (e.g.
@@ -17408,6 +17544,12 @@ interface FomoPage<T> {
      * memecoin traders time entries around. Takes no arguments.
      */
     getGraduatedTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
+
+    /**
+     * Returns the tokens held by the most fomo traders — a positions ranking rather than a volume
+     * or price one, which is a different and harder-to-fake signal. Takes no arguments.
+     */
+    getMostHeldTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
   }
 }
 
@@ -17474,6 +17616,10 @@ interface ForbesVideoList {
   videos: ForbesVideo[];
 }
 
+interface ForbesContributorsList {
+  contributors: ForbesContributor[];
+}
+
   /** Search and browse business news, articles, and video content from Forbes. */
   interface Unit {
     /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
@@ -17493,6 +17639,9 @@ interface ForbesVideoList {
 
     /** Get one Forbes Video's title, description, thumbnail and duration by its id. */
     getVideo(args: GetVideoArgs): Promise<ForbesVideo>;
+
+    /** List the Forbes contributors bylined on the current front news stream (forbes.com/news/). */
+    listContributors(): Promise<ForbesContributorsList>;
   }
 }
 
@@ -19029,6 +19178,19 @@ interface GithubPullRequestDetail extends GithubPullRequest {
   closedBy: string | null;
   reactions: GithubPullRequestReactions;
 }
+interface GithubTrendingRepository {
+  handle: string;
+  description: string;
+  language: string | null;
+  stars: number;
+  forks: number;
+  trendingStarsToday: number;
+  url: string;
+}
+interface GithubListTrendingRepositoriesResult {
+  repositories: GithubTrendingRepository[];
+  warnings: string[];
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -19189,6 +19351,15 @@ interface GithubPullRequestDetail extends GithubPullRequest {
      * (403/429).
      */
     getPullRequest(owner: string, repo: string, pullRequestNumber: number): Promise<GithubPullRequestDetail>;
+
+    /**
+     * Returns the repositories on GitHub's public /trending page right now — each one's owner/repo
+     * handle, description, primary language, star count, fork count, stars gained today, and its
+     * own github.com URL. Off the trending page's server-rendered HTML, no API, no login. THROWS
+     * if the page structure does not carry the expected `<article class="Box-row">` rows — the
+     * page has changed.
+     */
+    listTrendingRepositories(): Promise<GithubListTrendingRepositoriesResult>;
   }
 }
 
@@ -19961,6 +20132,11 @@ interface GoogleNewsFollowedTopic {
   topicId: string | null;
   kind: "topic" | "place" | "publisher";
 }
+interface GoogleNewsSavedArticle {
+  title: string;
+  publisher: string;
+  url: string;
+}
 
   /**
    * Headlines from every publisher at once — today's top stories as clusters, a section or a
@@ -20209,6 +20385,21 @@ interface GoogleNewsFollowedTopic {
      * anything.
      */
     listFollowedTopics(opts?: ConnectionOption): Promise<GoogleNewsFollowedTopic[]>;
+
+    /**
+     * The articles the signed-in person saved for later, exactly as Google News' own Saved tab
+     * lists them. An authFunction, on the same Google session `listEditions`, `getForYou` and
+     * `listFollowedTopics` already work on. Measured 2026-09-27 through CRAWLER_PROXY: the site
+     * exposes no route for Saved distinct from Following — `/saved` and `/my/library/saved` both
+     * 301 to the plain homepage rather than gating on sign-in — so Saved is a TAB inside the same
+     * `news.google.com/my/library` door `listFollowedTopics` already reads, not a separate one,
+     * and this reuses `fetchGoogleNewsLibrary` rather than a second door. With no session, or a
+     * dead one, this refuses before returning anything, naming the sign-in. **The signed-in shape
+     * is honestly UNMEASURED**, exactly as `listFollowedTopics`' is: nobody here holds a signed-in
+     * Google News session, so nobody has ever captured which section of that page lists saved
+     * articles.
+     */
+    listSavedArticles(opts?: ConnectionOption): Promise<GoogleNewsSavedArticle[]>;
   }
 }
 
@@ -30392,6 +30583,34 @@ interface NvisioncentersCandidacyResult {
   }
 }
 
+declare namespace BowmarkProvider_nyt_cooking {
+  // ── NYT Cooking — the unit's own declarations, verbatim ──
+interface nyt_cookingRow {
+  id: string;
+}
+
+interface NytCookingSearchArgs {
+  query: string;
+  cuisine?: string;
+  mealType?: string;
+  author?: string;
+}
+
+interface NytCookingSearchResult {
+  results: unknown[];
+  warnings?: string[];
+}
+
+  /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
+  interface Unit {
+    /**
+     * Runs the site's own recipe search with query and optional cuisine/mealType/author filters,
+     * returning recipe and collection rows.
+     */
+    searchRecipes(args: NytCookingSearchArgs): Promise<NytCookingSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_nyt_games {
   // ── The New York Times Games — the unit's own declarations, verbatim ──
 interface NytWordle { id: number; solution: string; printDate: string; daysSinceLaunch: number; editor: string | null; }
@@ -30405,6 +30624,9 @@ interface NytLetterBoxed { id: number; printDate: string; par: number; sides: [s
 interface GetLetterBoxedArgs { date?: string; }
 interface NytStrands { id: number; printDate: string; themeWords: string[]; spangram: string; clue: string; editor: string | null; constructors: string | null; startingBoard: string[]; themeCoords: Record<string, Array<[number, number]>>; spangramCoords: Array<[number, number]>; }
 interface GetStrandsArgs { date?: string; }
+interface NytCrosswordClue { label: string; direction: "Across" | "Down"; text: string; answer: string; }
+interface NytCrossword { id: number; printDate: string; editor: string | null; constructors: string[]; width: number; height: number; clues: NytCrosswordClue[]; }
+interface GetCrosswordDailyArgs { date?: string; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -30441,6 +30663,46 @@ interface GetStrandsArgs { date?: string; }
      * answer's board path. Defaults to today in New York; pass { date: "YYYY-MM-DD" } for any day.
      */
     getStrands(args?: GetStrandsArgs): Promise<NytStrands>;
+
+    /**
+     * Retrieves the daily crossword: grid dimensions, editor, constructors, and every clue with
+     * its answer spelled out from the grid. Defaults to today in New York; the archive runs back
+     * to 1993.
+     */
+    getCrosswordDaily(args?: GetCrosswordDailyArgs): Promise<NytCrossword>;
+  }
+}
+
+declare namespace BowmarkProvider_nytimes {
+  // ── The New York Times — the unit's own declarations, verbatim ──
+interface NytimesArticle {
+  id: string;
+  headline?: string;
+  description?: string;
+  body?: string;
+  tone?: string;
+  section?: { name: string };
+  bylines?: Array<{ name: string }>;
+  firstPublished?: string;
+  lastModified?: string;
+  commentsCount?: number;
+}
+interface NytimesSection {
+  name: string;
+  slug: string;
+  url: string;
+}
+
+  /** Reads news articles, sections, search results, and trending topics from The New York Times. */
+  interface Unit {
+    /** Lists NYT's own top-nav sections (World, U.S., Business, and their subsections). */
+    listSections(): Promise<NytimesSection[]>;
+
+    /**
+     * Gets full article text, metadata and comments count. Takes an article path like
+     * /2026/09/26/world/article-slug.html.
+     */
+    getArticle(path: string): Promise<NytimesArticle>;
   }
 }
 
@@ -34394,6 +34656,69 @@ interface ResyAvailability {
   }
 }
 
+declare namespace BowmarkProvider_reuters {
+  // ── Reuters — the unit's own declarations, verbatim ──
+interface ReutersSection {
+  path: string;            // pass to listLatestNews({ section }) / listHeadlines
+  name: string;            // title-cased last path segment, e.g. "Energy"
+  parent: string | null;   // "/business/" for "/business/energy/"
+  url: string;
+}
+interface ListSectionsArgs {
+  query?: string;          // every word must appear in the path or name
+}
+interface ReutersLatestStory {
+  headline: string;
+  url: string;             // pass to getArticle
+  section: string;         // the story's section path, e.g. "/world/europe/"
+  publishedAt: string | null;
+  tickers: string[];       // RICs the story is tagged with, e.g. "F.N"
+  image: string | null;
+}
+interface ListLatestNewsArgs {
+  section?: string;        // a path from listSections, e.g. "/business/"
+  limit?: number;          // 1-500, default 50
+}
+interface ReutersArchivedArticle {
+  headline: string;         // title-cased off the article URL's own slug — the archive carries no title field
+  url: string;
+  section: string;          // e.g. "/business/", or "/" if the URL carries no section segment
+  publishedAt: string | null;
+}
+interface ListArticlesByDateArgs {
+  date: string;              // "YYYY-MM-DD" — reuters.com's own archive index runs 2005-02-23 through 2023-10-31
+  limit?: number;            // 1-1000, default 200
+}
+
+  /**
+   * Reuters news and market data — headlines, latest wire stories, search, full articles, live
+   * coverage, video, company quotes, profiles and financials, and a reader's saved articles,
+   * follows and newsletters.
+   */
+  interface Unit {
+    /**
+     * Reuters' own section and topic list (about 550 paths — World, Business, Markets, Legal,
+     * Technology, Sports and their sub-sections) straight off the site's topic sitemap, each with
+     * the path the section-scoped reads take. Optional word filter.
+     */
+    listSections(args?: ListSectionsArgs): Promise<ReutersSection[]>;
+
+    /**
+     * The newest Reuters stories across the whole site, newest first — headline, url, section,
+     * published time, lead image and the stock tickers each story is tagged with — from the site's
+     * own news sitemap. Covers roughly the last two days; optional section filter.
+     */
+    listLatestNews(args?: ListLatestNewsArgs): Promise<ReutersLatestStory[]>;
+
+    /**
+     * Every Reuters story published on one calendar day — headline, url, section and time — from
+     * the site's own daily archive sitemap. The door to anything older than listLatestNews
+     * reaches; the archive's own index runs 2005-02-23 through 2023-10-31.
+     */
+    listArticlesByDate(args: ListArticlesByDateArgs): Promise<ReutersArchivedArticle[]>;
+  }
+}
+
 declare namespace BowmarkProvider_revisionskincare {
   // ── Revision Skincare — the unit's own declarations, verbatim ──
 type RevisionQuestionType = "single-select" | "multi-select";
@@ -35204,6 +35529,27 @@ interface ListDealsResponse {
   deals: SamsungDeal[];
 }
 
+interface FindStoreArgs {
+  zip?: string; // 5-digit US zip — EITHER this OR city+state, never both
+  city?: string;
+  state?: string; // two-letter abbreviation, required alongside city
+}
+
+interface SamsungStoreLocation {
+  name: string;
+  city: string;
+  state: string;
+  address: string;
+  phone: string;
+  hours: string;
+  url: string;
+  distanceMiles: number; // NaN when this store's own zip could not be geocoded
+}
+
+interface FindStoreResponse {
+  stores: SamsungStoreLocation[];
+}
+
   /**
    * Samsung's own US storefront and support site — products, prices, trade-in, warranty and
    * store lookups, plus a signed-in caller's own orders and rewards.
@@ -35241,6 +35587,14 @@ interface ListDealsResponse {
      * price, original price, discount percentage, product URL and image.
      */
     listDeals(args: ListDealsArgs): Promise<ListDealsResponse>;
+
+    /**
+     * Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not a
+     * general authorized-retailer directory — ranked by distance from a US zip or a city+state
+     * (EITHER, never both). Each result carries the store's address, phone, hours and a distance
+     * in miles.
+     */
+    findStore(args: FindStoreArgs): Promise<FindStoreResponse>;
   }
 }
 
@@ -38697,6 +39051,16 @@ interface Quote {
   updateMode?: string;
 }
 
+interface NewsItem {
+  id: string;
+  title: string;
+  source: string;
+  published: number;
+  urgency: number;
+  link: string;
+  relatedSymbols: string[];
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -38718,6 +39082,16 @@ interface Quote {
      * TradingView carries them.
      */
     getQuote(exchange: string, symbol: string): Promise<Quote>;
+
+    /**
+     * Gets recent news headlines for one symbol — e.g. `getNews("NASDAQ", "AAPL")` — the same feed
+     * TradingView's own symbol page renders. Use `searchSymbols` first and pass its exact
+     * `exchange` and `symbol` fields. Each item carries the headline, its source, a Unix
+     * `published` timestamp, an `urgency` score, a `link` (the original publisher's article where
+     * TradingView carries one, else TradingView's own story page), and every symbol the item is
+     * tagged against. An unknown or delisted pair returns an empty list rather than an error.
+     */
+    getNews(exchange: string, symbol: string): Promise<NewsItem[]>;
   }
 }
 
@@ -40303,6 +40677,16 @@ interface WalkerhughesOfficeSearch {
 
 declare namespace BowmarkProvider_walmart {
   // ── Walmart — the unit's own declarations, verbatim ──
+interface walmartDepartmentLink {
+  title: string;
+  url: string;
+  browseId: string | null;
+}
+
+interface walmartDepartment extends walmartDepartmentLink {
+  subcategories: walmartDepartmentLink[];
+}
+
 interface walmartStore {
   id: string;
   displayName: string;
@@ -40343,9 +40727,10 @@ interface walmartSearchResult {
 }
 
   /**
-   * Walmart.com — product search, product detail, store-level stock, store locator and more. Two
-   * functions built: keyword search across the catalog, and finding nearby stores by ZIP with
-   * address, hours, phone and department availability.
+   * Walmart.com — product search, product detail, store-level stock, store locator and more.
+   * Three functions built: keyword search across the catalog, finding nearby stores by ZIP with
+   * address, hours, phone and department availability, and listing every department and
+   * sub-category with its browse id.
    */
   interface Unit {
     /**
@@ -40366,6 +40751,12 @@ interface walmartSearchResult {
      * the site's own default 50-mile radius, nearest first.
      */
     findStores(args: { zip: string }): Promise<walmartStore[]>;
+
+    /**
+     * Lists Walmart's departments and their sub-categories with the browse id each one opens — the
+     * door `browseCategory` needs — the way the site's own 'Browse Departments' page does.
+     */
+    listDepartments(): Promise<walmartDepartment[]>;
   }
 }
 
@@ -40727,6 +41118,11 @@ interface WikipediaExternalLink {
   url: string;
 }
 
+interface WikipediaCategory {
+  title: string;
+  url: string;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -40830,6 +41226,15 @@ interface WikipediaExternalLink {
      * to 500).
      */
     listExternalLinks(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ externalLinks: WikipediaExternalLink[]; warnings: string[] }>;
+
+    /**
+     * The categories an article belongs to — Wikipedia's own subject taxonomy, which is how the
+     * site says what KIND of thing this is. `listCategoryMembers` walks the same taxonomy in the
+     * other direction. Takes an article title OR any wikipedia.org url and follows the site's own
+     * redirects. Optional limit parameter caps the number of categories returned (defaults to
+     * all).
+     */
+    listCategories(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ categories: WikipediaCategory[]; warnings: string[] }>;
   }
 }
 
@@ -41505,6 +41910,16 @@ interface GetPlayerArgs {
   playerUrl: string;
 }
 
+interface YahooSportsRssFeedItem {
+  title: string | null;
+  link: string | null;
+  published: string | null;
+}
+
+interface GetRssFeedArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+}
+
   /**
    * Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages — off
    * the site's own server-rendered schema.org markup, no browser and no account.
@@ -41560,6 +41975,12 @@ interface GetPlayerArgs {
      * this season. Takes the player's own URL from `findPlayers`.
      */
     getPlayer(args: GetPlayerArgs): Promise<YahooSportsPlayerDetail>;
+
+    /**
+     * Reads a league's own RSS feed — headline, link and publish time, for a caller that wants a
+     * feed rather than a page to parse. Covers all six leagues Yahoo Sports publishes feeds for.
+     */
+    getRssFeed(args: GetRssFeedArgs): Promise<YahooSportsRssFeedItem[]>;
   }
 }
 
@@ -43451,6 +43872,7 @@ interface BowmarkProviders {
   airbnb: BowmarkProvider_airbnb.Unit;
   airtable: BowmarkProvider_airtable.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
+  alibaba: BowmarkProvider_alibaba.Unit;
   allied: BowmarkProvider_allied.Unit;
   alphavantage: BowmarkProvider_alphavantage.Unit;
   amazon: BowmarkProvider_amazon.Unit;
@@ -43777,7 +44199,9 @@ interface BowmarkProviders {
   nurturelife: BowmarkProvider_nurturelife.Unit;
   nutrafol: BowmarkProvider_nutrafol.Unit;
   nvisioncenters: BowmarkProvider_nvisioncenters.Unit;
+  nyt_cooking: BowmarkProvider_nyt_cooking.Unit;
   nyt_games: BowmarkProvider_nyt_games.Unit;
+  nytimes: BowmarkProvider_nytimes.Unit;
   oanda: BowmarkProvider_oanda.Unit;
   oliverwinery: BowmarkProvider_oliverwinery.Unit;
   onthemarket: BowmarkProvider_onthemarket.Unit;
@@ -43819,6 +44243,7 @@ interface BowmarkProviders {
   reddit: BowmarkProvider_reddit.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
   resy: BowmarkProvider_resy.Unit;
+  reuters: BowmarkProvider_reuters.Unit;
   revisionskincare: BowmarkProvider_revisionskincare.Unit;
   rightmove: BowmarkProvider_rightmove.Unit;
   rishitea: BowmarkProvider_rishitea.Unit;

@@ -1048,7 +1048,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | 🟢 |
 | `github.getUserRepositories` | github.com | Lists every public repository a user owns — description, fork/archived flags, default… | 🟢 |
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
-| `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟢 |
+| `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟡 |
 | `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | ⚪ |
 | `github.listNotifications` | github.com | Lists the signed-in user's notifications — issues, pull requests, and discussions… | ⚪ |
 | `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
@@ -1088,12 +1088,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.geocodeAddress` | google.com/maps | A street address or place name in, coordinates and the matching Google Maps place out. | 🟢 |
 | `google_maps.getDirections` | google.com/maps | Route between two places — the site's own trip total (distance, duration… | 🟢 |
 | `google_maps.getPlace` | google.com/maps | Everything Google Maps shows on one business's panel: name, a shareable url back to… | 🟢 |
-| `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | 🟢 |
+| `google_maps.getPopularTimes` | google.com/maps | The "popular times" histogram for a place — how busy it is by hour and day, and how… | 🟡 |
 | `google_maps.listMyContributions` | google.com/maps | The reviews, photos, answers and edits the signed-in caller has contributed, with… | 🟢 |
 | `google_maps.listPhotos` | google.com/maps | The photos Google Maps shows in a place's gallery panel — up to 20, each with a url… | 🟢 |
 | `google_maps.listRelatedPlaces` | google.com/maps | Other businesses Google Maps lists "At this place" — the site's own label for a shared… | 🟢 |
 | `google_maps.listReviews` | google.com/maps | The reviews Google Maps shows on a business's own panel — a handful, each with author… | 🟢 |
-| `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in caller saved — Favourites, Want to go, Starred and their own… | 🟢 |
+| `google_maps.listSavedPlaces` | google.com/maps | The places the signed-in caller saved — Favourites, Want to go, Starred and their own… | 🟡 |
 | `google_maps.resolvePlaceUrl` | google.com/maps | A Google Maps link somebody pasted — a maps.app.goo.gl short link, a full /maps/place/… | 🟢 |
 | `google_maps.reverseGeocode` | google.com/maps | A point in — the Plus Code and locality Google Maps shows for it out, the same string… | 🟢 |
 | `google_maps.savePlace` | google.com/maps | Save a place to one of the signed-in person's own lists — the Maps equivalent of a… | ⚪ |
