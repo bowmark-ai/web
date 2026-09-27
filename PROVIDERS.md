@@ -171,7 +171,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archipelago.getClientRelease` | archipelago.gg | Returns the latest published Archipelago client release — the version tag, the GitHub… | 🟢 |
 | `archipelago.getGameOptions` | archipelago.gg | Returns one game's per-player randomizer options — the commented YAML template… | 🟢 |
 | `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🟡 |
-| `archive_org.checkLendingAvailability` | archive.org | Checks whether a book item is available to borrow (lend) from the Internet Archive at… | ⚪ |
+| `archive_org.checkLendingAvailability` | archive.org | Checks whether a book item is available to borrow from the Internet Archive right now… | 🟢 |
 | `archive_org.downloadFile` | archive.org | Builds a download URL for one file within an item — a book PDF, an audio file, a… | ⚪ |
 | `archive_org.getItem` | archive.org | Fetches one item's full metadata — title, creator, description, date, mediatype… | 🟢 |
 | `archive_org.getSnapshot` | archive.org | Reads one archived page as it was captured — the original HTML without the archive's… | 🟢 |
@@ -618,7 +618,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | 🟢 |
 | `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | 🟢 |
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
-| `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | ⚪ |
+| `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | 🟢 |
 | `cnn.listTrendingTopics` | www.cnn.com | Topics and keywords that are trending on CNN right now — what stories are getting the… | ⚪ |
 | `cnn.listVideos` | www.cnn.com | Search or list videos from CNN — video clips, segments and full shows with title… | ⚪ |
 | `cnn.searchArticles` | www.cnn.com | Search for news articles across CNN — takes what a person would say ("breaking news"… | ⚪ |
@@ -1921,7 +1921,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listFollowedTopics` | www.reuters.com | The topics the signed-in reader follows in My News. | ⚪ |
 | `reuters.listGraphics` | www.reuters.com | Reuters Graphics — the interactive data stories and explainers — with title, url and… | ⚪ |
 | `reuters.listHeadlines` | www.reuters.com | The stories a Reuters section front shows right now, in the page's own order… | ⚪ |
-| `reuters.listLatestNews` | www.reuters.com | The newest Reuters stories across the whole site, newest first — headline, url… | ⚪ |
+| `reuters.listLatestNews` | www.reuters.com | The newest Reuters stories across the whole site, newest first — headline, url… | 🟢 |
 | `reuters.listMostRead` | www.reuters.com | The "most read" stories Reuters shows beside its articles: rank, headline and url. | ⚪ |
 | `reuters.listNewsletters` | www.reuters.com | The Reuters newsletters a reader can sign up to — name, description and how often it… | ⚪ |
 | `reuters.listNewsletterSubscriptions` | www.reuters.com | The newsletters the signed-in reader is subscribed to. | ⚪ |
@@ -1930,7 +1930,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listPodcasts` | www.reuters.com | The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On… | ⚪ |
 | `reuters.listPressReleases` | www.reuters.com | Press releases distributed on reuters.com, newest first: title, url and date. | ⚪ |
 | `reuters.listSavedArticles` | www.reuters.com | The signed-in reader's saved Reuters articles: headline, url and when saved. | ⚪ |
-| `reuters.listSections` | www.reuters.com | Reuters' own section and topic list — World, Business, Markets, Sustainability, Legal… | ⚪ |
+| `reuters.listSections` | www.reuters.com | Reuters' own section and topic list — World, Business, Markets, Sustainability, Legal… | 🟢 |
 | `reuters.listVideos` | www.reuters.com | Reuters videos, newest first — title, description, duration, published time, thumbnail… | ⚪ |
 | `reuters.removeSavedArticle` | www.reuters.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `reuters.saveArticle` | www.reuters.com | Save a Reuters article to the signed-in reader's saved list. | ⚪ |
@@ -2360,7 +2360,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getWeeklyAd` | walmart.com | Reads the current local weekly ad / rollback & clearance circular for a store or zip —… | ⚪ |
 | `walmart.listAddresses` | walmart.com | Lists the delivery addresses saved on the signed-in account. | ⚪ |
 | `walmart.listDeals` | walmart.com | Lists what is on sale right now — Rollbacks, clearance and the site's current deal… | ⚪ |
-| `walmart.listDepartments` | walmart.com | Lists Walmart's departments and their sub-categories with the browse id each one opens… | ⚪ |
+| `walmart.listDepartments` | walmart.com | Lists Walmart's departments and their sub-categories with the browse id each one opens… | 🟢 |
 | `walmart.listLists` | walmart.com | Lists the signed-in shopper's saved lists — the door `getList` needs. | ⚪ |
 | `walmart.listOrders` | walmart.com | Lists the signed-in shopper's orders — date, total, status and the items in each — the… | ⚪ |
 | `walmart.listPurchasedItems` | walmart.com | Lists the items the signed-in shopper has bought before — Walmart's 'My Items' /… | ⚪ |
@@ -2435,7 +2435,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getUser` | wikipedia.org | A Wikipedia editor's public record — registration date, total edit count, and the user… | ⚪ |
 | `wikipedia.getWikitext` | wikipedia.org | The article's raw wikitext source — what an editor sees in the edit box, templates and… | 🟢 |
 | `wikipedia.listBacklinks` | wikipedia.org | What links HERE — every Wikipedia article pointing at this one, by title and url. | 🟢 |
-| `wikipedia.listCategories` | wikipedia.org | The categories an article belongs to — Wikipedia's own subject taxonomy, which is how… | ⚪ |
+| `wikipedia.listCategories` | wikipedia.org | The categories an article belongs to — Wikipedia's own subject taxonomy, which is how… | 🟢 |
 | `wikipedia.listCategoryMembers` | wikipedia.org | Every article in a category — hand it "Coffee" and get the pages Wikipedia files under… | ⚪ |
 | `wikipedia.listExternalLinks` | wikipedia.org | Every link OFF Wikipedia from one article — the sources, official sites and references… | 🟢 |
 | `wikipedia.listImages` | wikipedia.org | Every image, diagram, audio clip and video in an article, in page order — each with… | ⚪ |
