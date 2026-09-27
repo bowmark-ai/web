@@ -353,7 +353,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getTrends` | bsky.app | The richer trending list the Explore page shows: each trend's post count, status… | ⚪ |
 | `bluesky.getUserFeeds` | bsky.app | The custom feeds a person has made. | ⚪ |
 | `bluesky.getUserLists` | bsky.app | The lists (curation and moderation lists) a person has made. | ⚪ |
-| `bluesky.getUserPosts` | bsky.app | A person's posts, newest first, as their profile tabs show them — posts only, posts… | ⚪ |
+| `bluesky.getUserPosts` | bsky.app | A person's posts, newest first, as their profile tabs show them — posts only, posts… | 🟢 |
 | `bluesky.getUserStarterPacks` | bsky.app | The starter packs a person has made. | ⚪ |
 | `bluesky.likePost` | bsky.app | Like a post as the caller, or undo the like. | ⚪ |
 | `bluesky.listBlockedUsers` | bsky.app | The accounts the caller has blocked. | ⚪ |
