@@ -235,7 +235,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getCurrentWeather` | bbc.com | The latest observation BBC Weather shows for a location: temperature, wind, humidity… | ⚪ |
 | `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | ⚪ |
 | `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | ⚪ |
-| `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | ⚪ |
+| `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | 🟢 |
 | `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | ⚪ |
 | `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, and its episodes newest first — title… | ⚪ |
 | `bbc.getPodcastEpisode` | bbc.com | One podcast episode: title, synopsis, duration, broadcast date, and the playable media… | ⚪ |
@@ -780,7 +780,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | ⚪ |
 | `epicgames.getWishlist` | epicgames.com | The signed-in caller's Epic Games Store wishlist, with each game's current price and… | ⚪ |
 | `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Top Upcoming… | ⚪ |
-| `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | ⚪ |
+| `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | 🟢 |
 | `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | 🟢 |
 | `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | ⚪ |
 | `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | 🟢 |
@@ -898,7 +898,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getFollowingIds` | fomo.family | Returns just the ids of everyone the signed-in trader follows, in one call with no… | ⚪ |
 | `fomo.getFollowingLeaderboard` | fomo.family | The same ranking restricted to traders the signed-in user follows — 'how am I doing… | ⚪ |
 | `fomo.getFriendHolders` | fomo.family | Returns which of the signed-in trader's own follows hold a given token — fomo's core… | ⚪ |
-| `fomo.getGraduatedTokens` | fomo.family | Returns tokens that have just completed their bonding curve and moved to a full AMM… | ⚪ |
+| `fomo.getGraduatedTokens` | fomo.family | Returns tokens that have just completed their bonding curve and moved to a full AMM… | 🟢 |
 | `fomo.getLeaderboard` | fomo.family | Returns the ranked traders for one window — daily, weekly, monthly or all-time — with… | 🟢 |
 | `fomo.getMajorTokens` | fomo.family | Returns the large-cap majors — BTC, ETH, SOL and the rest of the non-memecoin set… | 🟢 |
 | `fomo.getMostHeldTokens` | fomo.family | Returns the tokens held by the most fomo traders — a positions ranking rather than a… | ⚪ |
