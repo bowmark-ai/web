@@ -679,7 +679,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.listProductCategories` | dell.com | Lists the main product categories (laptops, desktops, servers, peripherals, etc.). | ⚪ |
 | `dell.listSupportCategories` | dell.com | Lists the main support categories (drivers, firmware, manuals, community forum, etc.). | ⚪ |
 | `dell.searchForumThreads` | dell.com | Searches Dell's community forum for threads matching a query, returning titles, URLs… | 🟢 |
-| `dell.searchProducts` | dell.com | Searches the Dell store for products by keyword, returning product names, URLs… | ⚪ |
+| `dell.searchProducts` | dell.com | Searches the Dell store for products by keyword, returning product names, URLs… | 🟢 |
 | `dell.searchSupport` | dell.com | Searches Dell's support knowledge base for articles, drivers, and troubleshooting… | ⚪ |
 | `deltadentalma.lastUpdated` | deltadentalma.com | Returns the timestamp the directory data was last refreshed, so a caller can say how… | 🟢 |
 | `deltadentalma.search` | deltadentalma.com | Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network… | 🟡 |
@@ -953,7 +953,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.useReferralCode` | fomo.family | Applies a referral code to the signed-in trader's account. `POST… | ⚪ |
 | `forbes.getArticle` | forbes.com | Read the full content of a single article. | ⚪ |
 | `forbes.getContributor` | forbes.com | Get a contributor's profile and list their articles. | ⚪ |
-| `forbes.getVideo` | forbes.com | Get details of a Forbes Video. | ⚪ |
+| `forbes.getVideo` | forbes.com | Get details of a Forbes Video. | 🟢 |
 | `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | 🟢 |
 | `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | ⚪ |
 | `forbes.listNews` | forbes.com | List latest news articles. | 🟢 |
@@ -1635,7 +1635,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getCrosswordDaily` | games.nytimes.com | Retrieves today's New York Times daily crossword puzzle. | ⚪ |
 | `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | ⚪ |
 | `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | ⚪ |
-| `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | ⚪ |
+| `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | 🟢 |
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle. | ⚪ |
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
 | `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme words, spangram, clue, board and… | 🟢 |
@@ -2210,7 +2210,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getMarketOverview` | www.tradingview.com | Get market overview data: top gainers, losers, most active symbols. | ⚪ |
 | `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | ⚪ |
 | `tradingview.getOptionChain` | www.tradingview.com | Get option chain data for symbols that have options. | ⚪ |
-| `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | ⚪ |
+| `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | 🟢 |
 | `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | ⚪ |
 | `tradingview.getTechnicalAnalysis` | www.tradingview.com | Get technical analysis signals and ratings for a symbol. | ⚪ |
 | `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | 🟢 |
