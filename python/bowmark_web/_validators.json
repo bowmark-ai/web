@@ -1,5 +1,5 @@
 {
-  "version": "9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974",
+  "version": "672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a",
   "units": {
     "booking_links": {
       "defs": {
@@ -16200,6 +16200,24 @@
           }
         ],
         "getMajorTokens": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTrendingTokens": [
           {
             "name": "opts",
             "schema": {

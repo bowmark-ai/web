@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974
-// 1409 checked, 20 unchecked.
+// Manifest version: 672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a
+// 1410 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974",
+  "version": "672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a",
   "units": {
     "booking_links": {
       "defs": {
@@ -16212,6 +16212,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMajorTokens": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTrendingTokens": [
           {
             "name": "opts",
             "schema": {

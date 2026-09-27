@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974
-// 67 capabilities, 483 providers, 1427 typed functions, 20 refused.
+// Manifest version: 672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a
+// 67 capabilities, 483 providers, 1428 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17112,6 +17112,13 @@ interface FomoPage<T> {
      * Takes no arguments.
      */
     getMajorTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
+
+    /**
+     * Returns what is moving on fomo right now — the site's own trending ranking, a social signal
+     * (what its traders are buying) rather than a pure volume sort — each with its current price,
+     * 24h change, volume and market cap. Takes no arguments.
+     */
+    getTrendingTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
   }
 }
 
@@ -33071,23 +33078,31 @@ interface ProxmoxIsoDownload {
 declare namespace BowmarkProvider_proxy_cheap {
   // ── Proxy-Cheap — the unit's own declarations, verbatim ──
 interface ProxyPlan {
-  name: string;
-  bandwidth: string;
-  pricePerMonth: number;
-  features: string[];  // the site's own labels — read the values off a result, never guess one from prose
+  name: string;               // proxy type, e.g. "Static Residential", "Rotating Mobile"
+  serviceId: string | null;   // the site's own id, e.g. "static-residential-ipv4"
+  description: string;
+  price: number;              // USD "starts at" price, after any discount
+  originalPrice: number | null; // pre-discount price when a discount is shown
+  unit: string;               // "month", "GB", "proxy" — what the price is per
+  discountPercent: number | null;
+  orderUrl: string;
 }
 
 interface CoverageRegion {
-  country: string;
-  carriers: string[];
+  country: string;   // e.g. "United States"
+  region: string;    // continent slug, e.g. "north-america"
+  url: string;       // the site's location page
 }
 
   /** Lists proxy plan pricing and geographic coverage from proxy-cheap.com. */
   interface Unit {
-    /** Lists available proxy service plans with pricing per month and bandwidth included. */
+    /**
+     * Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting price,
+     * unit and discount.
+     */
     listPlans(): Promise<ProxyPlan[]>;
 
-    /** Lists countries/regions where proxy services are available with carrier information. */
+    /** Lists the proxy locations (countries, by region) Proxy-Cheap features on its site. */
     listCoverage(): Promise<CoverageRegion[]>;
   }
 }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9e41f34906a21527e033141b86d3eb0f1914759eac51ccce14678008584eb974
-# 67 capabilities, 483 providers, 1409 typed functions, 20 refused.
+# Manifest version: 672ca2239b5fe91929a37fc2a7e8b433b6bf2422d9c222e0f03ee6e7a7097d6a
+# 67 capabilities, 483 providers, 1410 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17589,13 +17589,18 @@ class Prv_proxmox_ProxmoxIsoDownload_Out(TypedDict):
 
 class Prv_proxy_cheap_ProxyPlan_Out(TypedDict):
     name: str
-    bandwidth: str
-    pricePerMonth: float
-    features: list[str]
+    serviceId: str | None
+    description: str
+    price: float
+    originalPrice: float | None
+    unit: str
+    discountPercent: float | None
+    orderUrl: str
 
 class Prv_proxy_cheap_CoverageRegion_Out(TypedDict):
     country: str
-    carriers: list[str]
+    region: str
+    url: str
 
 class Prv_puls_com_PulsApplianceCategory_Out(TypedDict):
     deviceId: float
@@ -29283,6 +29288,12 @@ class Prv_fomo(Protocol):
         market cap. Takes no arguments.
         """
 
+    async def getTrendingTokens(self, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenRow_Out]:
+        """Returns what is moving on fomo right now — the site's own trending ranking, a social
+        signal (what its traders are buying) rather than a pure volume sort — each with its
+        current price, 24h change, volume and market cap. Takes no arguments.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -35342,10 +35353,12 @@ class Prv_proxy_cheap(Protocol):
     """Lists proxy plan pricing and geographic coverage from proxy-cheap.com."""
 
     async def listPlans(self, /) -> list[Prv_proxy_cheap_ProxyPlan_Out]:
-        """Lists available proxy service plans with pricing per month and bandwidth included."""
+        """Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting
+        price, unit and discount.
+        """
 
     async def listCoverage(self, /) -> list[Prv_proxy_cheap_CoverageRegion_Out]:
-        """Lists countries/regions where proxy services are available with carrier information."""
+        """Lists the proxy locations (countries, by region) Proxy-Cheap features on its site."""
 
 class Prv_puls_com(Protocol):
     """On-demand home-appliance and electronics repair booking. listApplianceCategories lists
