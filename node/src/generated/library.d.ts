@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c0ae29eb859c03642a588450ab42aee0490b76acdfe49cba9f1b3b55f79bc938
-// 67 capabilities, 489 providers, 1476 typed functions, 20 refused.
+// Manifest version: b44ba4e90d4db32d616043aae8daf3e67a3bc416a82b72d1e752a4862a98a80a
+// 67 capabilities, 489 providers, 1478 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -255,7 +255,8 @@ interface BrowserAgentStatusResult {
   status: BrowserAgentStatus;
   question: BrowserAgentQuestion | null;   // set when status is "needs_input"
   result: string | null;                   // the agent's answer for its last finished turn
-  error: string | null;
+  error: string | null;                    // set when status is "failed"; starts "blocked: " when
+                                            // the SITE itself refused (a bot wall), e.g. "blocked: akamai access denied"
   steps: BrowserAgentStep[];
   cursor: string;
   task: string;
@@ -326,8 +327,11 @@ type CallOptions = {
      * Reads a session: `running`, `needs_input` (relay `question` to your user, answer with
      * `send`), `idle` (done — read `result`), `failed`, `stopped` or `closed`. A turn stuck too
      * long with no result is cancelled automatically and reads `failed` — see `error` for what it
-     * was last doing. Pass the previous `cursor` for only new steps, and `waitMs` (≤ 60000) to
-     * wait for a change instead of polling tightly.
+     * was last doing. A site that blocks the browser outright (a bot wall, not a login or captcha)
+     * also reads `failed`, quickly, with `error` starting `blocked: ` — nobody can take over and
+     * clear that, so treat it as a hard failure for that site rather than retrying. Pass the
+     * previous `cursor` for only new steps, and `waitMs` (≤ 60000) to wait for a change instead of
+     * polling tightly.
      */
     status(id: string, options?: BrowserAgentStatusOptions): Promise<BrowserAgentStatusResult>;
 
@@ -6647,6 +6651,10 @@ interface AppleOrderStatus {
   orderNumber: string;
   raw: unknown;
 }
+interface AppleOrderList {
+  rootKey: string;
+  raw: unknown;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -6883,6 +6891,15 @@ interface AppleOrderStatus {
      * capture one from), so read it defensively rather than trusting fixed field names.
      */
     getOrderStatus(orderNumber: string, opts?: ConnectionOption): Promise<AppleOrderStatus>;
+
+    /**
+     * Everything I have bought from Apple, off the signed-in Order List page — NEEDS THE CALLER
+     * SIGNED IN, the same door and the same wall as getOrderStatus (Apple has no guest order
+     * history at all). `raw` carries the order-list page's own data payload verbatim — the exact
+     * field shape is UNMEASURED (no fleet-held Apple Account session exists to capture one from),
+     * so read it defensively rather than trusting fixed field names.
+     */
+    listOrders(opts?: ConnectionOption): Promise<AppleOrderList>;
   }
 }
 
@@ -17620,6 +17637,24 @@ interface ForbesContributorsList {
   contributors: ForbesContributor[];
 }
 
+interface GetArticleArgs {
+  /** A full article URL from listNews/listArticlesByTopic, e.g.
+   * "https://www.forbes.com/sites/peterchawaga/2026/09/27/blue-jays-george-springer-sends-3-word-retirement-decision-update-after-toronto-house-sale/". */
+  url: string;
+}
+
+interface ForbesArticleDetail {
+  id: string;
+  title: string;
+  url: string;
+  summary?: string;
+  author?: string;
+  publishedDate?: string;
+  /** Body paragraphs (and subheadings) in reading order, plain text — ads,
+   * embeds, related-article promos and image captions are stripped. */
+  body: string[];
+}
+
   /** Search and browse business news, articles, and video content from Forbes. */
   interface Unit {
     /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
@@ -17642,6 +17677,12 @@ interface ForbesContributorsList {
 
     /** List the Forbes contributors bylined on the current front news stream (forbes.com/news/). */
     listContributors(): Promise<ForbesContributorsList>;
+
+    /**
+     * Read one Forbes article's full body text (plus title, author and publish date) by its own
+     * /sites/*.../ URL.
+     */
+    getArticle(args: GetArticleArgs): Promise<ForbesArticleDetail>;
   }
 }
 

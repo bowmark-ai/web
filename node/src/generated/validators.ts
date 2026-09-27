@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c0ae29eb859c03642a588450ab42aee0490b76acdfe49cba9f1b3b55f79bc938
-// 1458 checked, 20 unchecked.
+// Manifest version: b44ba4e90d4db32d616043aae8daf3e67a3bc416a82b72d1e752a4862a98a80a
+// 1460 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c0ae29eb859c03642a588450ab42aee0490b76acdfe49cba9f1b3b55f79bc938",
+  "version": "b44ba4e90d4db32d616043aae8daf3e67a3bc416a82b72d1e752a4862a98a80a",
   "units": {
     "booking_links": {
       "defs": {
@@ -1693,7 +1693,70 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
-    "git": {
+    "git_commit_history": {
+      "defs": {
+        "CommitHistoryOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ref",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "since",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "until",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "commitHistory": [
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CommitHistoryOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "git_release_notes": {
       "defs": {
         "ReleaseNotesOptions": {
           "k": "object",
@@ -7431,6 +7494,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listOrders": [
           {
             "name": "opts",
             "schema": {
@@ -16700,6 +16781,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.forbes": {
       "defs": {
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -16749,7 +16842,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listContributors": []
+        "listContributors": [],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.ford": {

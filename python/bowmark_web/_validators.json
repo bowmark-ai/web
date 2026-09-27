@@ -1,5 +1,5 @@
 {
-  "version": "c0ae29eb859c03642a588450ab42aee0490b76acdfe49cba9f1b3b55f79bc938",
+  "version": "b44ba4e90d4db32d616043aae8daf3e67a3bc416a82b72d1e752a4862a98a80a",
   "units": {
     "booking_links": {
       "defs": {
@@ -1681,7 +1681,70 @@
         ]
       }
     },
-    "git": {
+    "git_commit_history": {
+      "defs": {
+        "CommitHistoryOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ref",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "since",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "until",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "commitHistory": [
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CommitHistoryOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "git_release_notes": {
       "defs": {
         "ReleaseNotesOptions": {
           "k": "object",
@@ -7419,6 +7482,24 @@
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listOrders": [
           {
             "name": "opts",
             "schema": {
@@ -16688,6 +16769,18 @@
     },
     "providers.forbes": {
       "defs": {
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -16737,7 +16830,17 @@
             "optional": false
           }
         ],
-        "listContributors": []
+        "listContributors": [],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.ford": {

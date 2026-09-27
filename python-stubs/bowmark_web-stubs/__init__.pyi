@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c0ae29eb859c03642a588450ab42aee0490b76acdfe49cba9f1b3b55f79bc938
-# 67 capabilities, 489 providers, 1458 typed functions, 20 refused.
+# Manifest version: b44ba4e90d4db32d616043aae8daf3e67a3bc416a82b72d1e752a4862a98a80a
+# 67 capabilities, 489 providers, 1460 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3788,6 +3788,10 @@ class Prv_apple_AppleRepairService_Out(TypedDict):
 
 class Prv_apple_AppleOrderStatus_Out(TypedDict):
     orderNumber: str
+    raw: Any
+
+class Prv_apple_AppleOrderList_Out(TypedDict):
+    rootKey: str
     raw: Any
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
@@ -9703,6 +9707,18 @@ class Prv_forbes_ForbesContributor_Out(TypedDict):
     title: NotRequired[str]
     bio: NotRequired[str]
     url: str
+
+class Prv_forbes_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_forbes_ForbesArticleDetail_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    summary: NotRequired[str]
+    author: NotRequired[str]
+    publishedDate: NotRequired[str]
+    body: list[str]
 
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
@@ -23663,8 +23679,11 @@ class Cap_browser_agent(Protocol):
         """Reads a session: `running`, `needs_input` (relay `question` to your user, answer with
         `send`), `idle` (done — read `result`), `failed`, `stopped` or `closed`. A turn stuck
         too long with no result is cancelled automatically and reads `failed` — see `error` for
-        what it was last doing. Pass the previous `cursor` for only new steps, and `waitMs` (≤
-        60000) to wait for a change instead of polling tightly.
+        what it was last doing. A site that blocks the browser outright (a bot wall, not a login
+        or captcha) also reads `failed`, quickly, with `error` starting `blocked: ` — nobody can
+        take over and clear that, so treat it as a hard failure for that site rather than
+        retrying. Pass the previous `cursor` for only new steps, and `waitMs` (≤ 60000) to wait
+        for a change instead of polling tightly.
         """
 
     async def send(self, id: str, message: str, options: Cap_browser_agent_SendBrowserAgentOptions_In | None = None, /) -> Cap_browser_agent_SendBrowserAgentResult_Out:
@@ -26151,6 +26170,14 @@ class Prv_apple(Protocol):
         order number — the exact field shape is UNMEASURED (no fleet-held Apple Account session
         exists to capture one from), so read it defensively rather than trusting fixed field
         names.
+        """
+
+    async def listOrders(self, opts: ConnectionOption | None = None, /) -> Prv_apple_AppleOrderList_Out:
+        """Everything I have bought from Apple, off the signed-in Order List page — NEEDS THE
+        CALLER SIGNED IN, the same door and the same wall as getOrderStatus (Apple has no guest
+        order history at all). `raw` carries the order-list page's own data payload verbatim —
+        the exact field shape is UNMEASURED (no fleet-held Apple Account session exists to
+        capture one from), so read it defensively rather than trusting fixed field names.
         """
 
 class Prv_aquaphoenixsci(Protocol):
@@ -30092,6 +30119,11 @@ class Prv_forbes(Protocol):
     async def listContributors(self, /) -> Prv_forbes_ForbesContributorsList_Out:
         """List the Forbes contributors bylined on the current front news stream
         (forbes.com/news/).
+        """
+
+    async def getArticle(self, args: Prv_forbes_GetArticleArgs_In, /) -> Prv_forbes_ForbesArticleDetail_Out:
+        """Read one Forbes article's full body text (plus title, author and publish date) by its
+        own /sites/*.../ URL.
         """
 
 class Prv_ford(Protocol):
