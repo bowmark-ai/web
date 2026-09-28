@@ -739,7 +739,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ebay.addToCart` | ebay.com | Add an item to the caller's shopping cart. | ⚪ |
 | `ebay.addToWatchlist` | ebay.com | Add an item to the caller's watch list. | ⚪ |
 | `ebay.getCart` | ebay.com | Get the caller's shopping cart — items they have added but not yet purchased. | ⚪ |
-| `ebay.getDeals` | ebay.com | Get current eBay deals and promotions. | ⚪ |
+| `ebay.getDeals` | ebay.com | Reads eBay's own `/deals` page — the spotlight, trending and featured deals a shopper… | 🟢 |
 | `ebay.getItem` | ebay.com | Reads one eBay listing by its Browse API item id — title, current price, condition… | 🟢 |
 | `ebay.getMyAccount` | ebay.com | Get the caller's account settings and preferences. | ⚪ |
 | `ebay.getMyListings` | ebay.com | Get the caller's active selling listings (for sellers). | ⚪ |
@@ -1116,7 +1116,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.listTopicHeadlines` | news.google.com | The latest headlines in one of Google News' own eight sections — World, Nation… | 🟢 |
 | `google_news.listTopics` | news.google.com | The topics Google News' own home-page nav rail is offering today — the eight standing… | 🟢 |
 | `google_news.resolveArticleUrl` | news.google.com | The publisher's real article URL behind a Google News link. | 🟢 |
-| `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | ⚪ |
+| `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | 🟢 |
 | `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | 🟢 |
 | `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | 🟢 |
 | `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | 🟢 |
@@ -1932,7 +1932,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listPressReleases` | www.reuters.com | Press releases distributed on reuters.com, newest first: title, url and date. | ⚪ |
 | `reuters.listSavedArticles` | www.reuters.com | The signed-in reader's saved Reuters articles: headline, url and when saved. | ⚪ |
 | `reuters.listSections` | www.reuters.com | Reuters' own section and topic list — World, Business, Markets, Sustainability, Legal… | 🟢 |
-| `reuters.listVideos` | www.reuters.com | Reuters videos, newest first — title, description, duration, published time, thumbnail… | ⚪ |
+| `reuters.listVideos` | www.reuters.com | Reuters videos, newest first — title, description, duration, published time, thumbnail… | 🟢 |
 | `reuters.removeSavedArticle` | www.reuters.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `reuters.saveArticle` | www.reuters.com | Save a Reuters article to the signed-in reader's saved list. | ⚪ |
 | `reuters.searchArticles` | www.reuters.com | Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed… | ⚪ |
@@ -2116,7 +2116,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.getPhotoGallery` | theguardian.com | View images in a photo gallery with captions. | ⚪ |
 | `theguardian_com.getReview` | theguardian.com | Read a full review given its URL or ID. | ⚪ |
 | `theguardian_com.getSavedArticles` | theguardian.com | Get the user's saved articles (requires login). | ⚪ |
-| `theguardian_com.getTopicArticles` | theguardian.com | Get articles tagged with a specific topic or collection. | ⚪ |
+| `theguardian_com.getTopicArticles` | theguardian.com | Get articles tagged with a specific topic or collection. | 🟢 |
 | `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | ⚪ |
 | `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | 🟢 |
 | `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | ⚪ |
@@ -2395,7 +2395,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | ⚪ |
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | ⚪ |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
-| `weather_channel.getLocation` | weather.com | Gets location details by coordinates (latitude/longitude) — returns location id, name… | ⚪ |
+| `weather_channel.getLocation` | weather.com | Gets location details by place name, postal code, or coordinates — returns full… | 🟢 |
 | `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-level precipitation data — highly granular rainfall/snowfall timing and… | ⚪ |
 | `weather_channel.getObservations` | weather.com | Current observations from weather stations — actual measured conditions from the field. | ⚪ |
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | ⚪ |
