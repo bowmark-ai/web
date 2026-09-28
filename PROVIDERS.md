@@ -1650,7 +1650,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle — all three difficulties, each with its dominoes… | 🟢 |
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
 | `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme words, spangram, clue, board and… | 🟢 |
-| `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle. | ⚪ |
+| `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle — all three difficulties, each with its board… | 🟢 |
 | `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | ⚪ |
 | `nyt_games.getWordle` | games.nytimes.com | Reads one day's Wordle answer, puzzle number and editor from NYT's own game JSON. | 🟢 |
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | ⚪ |
