@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2546 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2551 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -467,7 +467,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `calendly.deleteEventType` | calendly.com | Deletes one of the caller's own event types. | ⚪ |
 | `calendly.findProfiles` | calendly.com | Finds a person's own Calendly page from their full name and, optionally, their company… | 🟢 |
 | `calendly.getAvailability` | calendly.com | Returns the real, currently-open time slots for one Calendly event type over the next… | 🟢 |
-| `calendly.getBooking` | calendly.com | Reads one booking from the link an invitee was sent — the confirmation page, the… | ⚪ |
+| `calendly.getBooking` | calendly.com | Reads one booking from the link an invitee was sent — the confirmation page, the… | 🟢 |
 | `calendly.getBookingForm` | calendly.com | Reads what a Calendly booking page will ask before anyone books — the owner's name… | 🟢 |
 | `calendly.getEventTypes` | calendly.com | Lists every event type a Calendly profile currently offers — the entry point. | 🟢 |
 | `calendly.getLandingPage` | calendly.com | Reads a Calendly team or organization page — the page that lists several people's or… | ⚪ |
@@ -1119,6 +1119,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | 🟢 |
 | `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | 🟢 |
 | `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | 🟢 |
+| `google_sheets.findSpreadsheets` | docs.google.com | Finds public Google Sheets spreadsheets about a topic ("nfl schedule", "budget… | 🟢 |
+| `google_sheets.listMySpreadsheets` | docs.google.com | Lists the spreadsheets in the caller's own Google Drive. | ⚪ |
+| `google_sheets.listSheets` | docs.google.com | Lists the tabs of a public or link-shared Google Sheets spreadsheet — each tab's name… | 🟢 |
+| `google_sheets.readSheet` | docs.google.com | Reads the cell values of one tab of a public or link-shared Google Sheets spreadsheet… | 🟢 |
+| `google_sheets.writeRange` | docs.google.com | Writes values into an A1 range of a spreadsheet the caller can edit. | ⚪ |
 | `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | 🟢 |
 | `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | 🟢 |
 | `google_translate.getAlternativeTranslations` | translate.google.com | The other ways Google would have translated the same thing — the list that appears… | 🟢 |
@@ -1668,7 +1673,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listTrending` | nytimes.com | Lists trending topics or articles of the day. | ⚪ |
 | `nytimes.listWriterArticles` | nytimes.com | Gets all articles by a specific writer. | ⚪ |
 | `nytimes.saveArticle` | nytimes.com | Saves an article to the reader's collection (requires auth). | ⚪ |
-| `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | ⚪ |
+| `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟢 |
 | `nytimes.searchWriters` | nytimes.com | Searches writers by name. | ⚪ |
 | `nytimes.unfollowWriter` | nytimes.com | Unfollows a writer (requires auth). | ⚪ |
 | `nytimes.unsaveArticle` | nytimes.com | Removes an article from the reader's collection (requires auth). | ⚪ |
