@@ -251,7 +251,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listPodcasts` | bbc.com | The podcasts and audio series the BBC's audio hub (/audio) lists: title, description… | ⚪ |
 | `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
 | `bbc.listSections` | bbc.com | The BBC's own section list, read off the bbc.com top navigation — Home, News (US &… | 🟢 |
-| `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | ⚪ |
+| `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | 🟢 |
 | `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | ⚪ |
 | `bbc.listVideos` | bbc.com | The videos the BBC's video hub shows: title, summary, duration, url, video id, section… | ⚪ |
 | `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
@@ -592,7 +592,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `classpass.getPricing` | classpass.com | Returns ClassPass's own membership/credit-plan pricing for a market — the monthly… | ⚪ |
 | `classpass.getSchedule` | classpass.com | Returns one studio's upcoming bookable class/appointment timetable — class name… | 🟢 |
 | `classpass.getStudio` | classpass.com | Returns one gym/studio/spa/salon's ClassPass profile in a single request — name and… | 🟢 |
-| `classpass.search` | classpass.com | Searches fitness, wellness AND beauty businesses (gyms, studios, spas and salons) near… | 🟢 |
+| `classpass.search` | classpass.com | Searches fitness, wellness AND beauty businesses (gyms, studios, spas and salons) near… | 🟡 |
 | `claude_com.getDoc` | claude.com | Reads one page of claude.com's own documentation (claude.com/docs/...) by URL or path… | 🟢 |
 | `claude_com.listDocPages` | claude.com | Lists every /docs page claude.com publishes, parsed from the site's own /docs/llms.txt… | 🟢 |
 | `claude_support.getArticle` | support.claude.com | Returns one Claude help-center article's structured content by its URL — title… | 🟢 |
@@ -1902,7 +1902,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟡 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
 | `resy.search` | resy.com | Finds Resy venues matching a restaurant name, ranked by Resy's own relevance and… | 🟢 |
-| `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | ⚪ |
+| `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟢 |
 | `reuters.followTopic` | www.reuters.com | Follow a Reuters topic or section so it appears in the reader's My News feed. | ⚪ |
 | `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | ⚪ |
 | `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, beat, bio and their latest stories. | ⚪ |
@@ -2073,7 +2073,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getPlayTime` | steampowered.com | Returns total playtime in hours for a specific game owned by the caller. | ⚪ |
 | `steam.getProfile` | steampowered.com | Retrieves a Steam profile by username or ID, including profile name, avatar, status… | ⚪ |
 | `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | ⚪ |
-| `steam.listFeaturedGames` | steampowered.com | Fetches the current list of featured games displayed on the Steam store homepage… | ⚪ |
+| `steam.listFeaturedGames` | steampowered.com | Fetches the current list of featured games displayed on the Steam store homepage… | 🟢 |
 | `steam.listGamesByCategory` | steampowered.com | Lists games filtered by Steam's official categories (e.g., Action, Adventure, Indie… | ⚪ |
 | `steam.listGameTags` | steampowered.com | Lists all available tags users can apply to games, with tag popularity or usage counts. | ⚪ |
 | `steam.listNews` | steampowered.com | Lists recent news articles from the Steam community news section, including title… | ⚪ |
@@ -2275,7 +2275,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listCategories` | twitch.tv | Lists Twitch games/categories by viewership: name, box art, viewer count. | ⚪ |
 | `twitch.listChannelClips` | twitch.tv | Lists clips from a channel: title, creator, creation date, view count. | ⚪ |
 | `twitch.listChannelVods` | twitch.tv | Lists a channel's past broadcasts/VODs: title, creation date, duration, view count… | ⚪ |
-| `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | ⚪ |
+| `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟢 |
 | `twitch.listSubscriptions` | twitch.tv | Lists channels the signed-in user is subscribed to and the subscription tier. | ⚪ |
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | ⚪ |
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | ⚪ |
@@ -2345,7 +2345,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.addToCart` | walmart.com | Puts an item in the cart in the quantity asked for and reports what the cart then holds. | ⚪ |
 | `walmart.addToList` | walmart.com | Adds an item to one of the shopper's saved lists. | ⚪ |
 | `walmart.browseBrand` | walmart.com | Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a… | ⚪ |
-| `walmart.browseCategory` | walmart.com | Lists products under one of the site's own department/category pages (e.g.… | ⚪ |
+| `walmart.browseCategory` | walmart.com | Lists products under one of the site's own department/category pages (e.g.… | 🟢 |
 | `walmart.checkStock` | walmart.com | Answers whether a specific item is actually available right now at a given store or… | ⚪ |
 | `walmart.createList` | walmart.com | Creates a new saved list with a name. | ⚪ |
 | `walmart.findStores` | walmart.com | Finds nearby Walmart stores for a 5-digit US ZIP code — address, phone, hours… | 🔴 |
