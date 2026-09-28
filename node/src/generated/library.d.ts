@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: cbefa295c98ef50ede18343e0cc7be6125ce5e0d51015b4fa9416b02408b8c7d
-// 67 capabilities, 491 providers, 1527 typed functions, 20 refused.
+// Manifest version: fa6ae2923c2631946d2d194d78c47cd89ec6c8733a374845dae34080600b2a20
+// 67 capabilities, 494 providers, 1536 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -11182,6 +11182,18 @@ interface CalendlyBookingForm {
   warnings: string[];
 }
 
+interface CalendlyBooking {
+  uuid: string;
+  eventType: CalendlyBookingEvent;    // the booked event's details
+  invitee: {
+    name: string;
+    email: string;
+  };
+  startTime: string | null;           // ISO datetime of the booked slot
+  durationMinutes: number | null;
+  cancellationReason: string | null;  // non-null = the booking has been cancelled and this is why
+}
+
 interface CalendlyProfileCandidate {
   slug: string;
   url: string;
@@ -11235,6 +11247,15 @@ interface CalendlyFindProfilesResult {
      * returns `event: null` and the list unless `opts.event` names one. Never books anything.
      */
     getBookingForm(url: string, opts?: CalendlyBookingFormOptions): Promise<CalendlyBookingForm>;
+
+    /**
+     * Reads a booking from an invitee confirmation, cancellation or reschedule link that Calendly
+     * emails. Takes the full link a caller was sent (e.g.
+     * "https://calendly.com/user/cancellations/<uuid>") and returns the event details, invitee
+     * name and email, the booked time, and any cancellation reason if the booking has been
+     * cancelled.
+     */
+    getBooking(link: string): Promise<CalendlyBooking>;
 
     /**
      * Finds a person's own Calendly page from their full name, and optionally their company (pass
@@ -17280,6 +17301,33 @@ interface FbsapplianceSearchResult {
   }
 }
 
+declare namespace BowmarkProvider_fedex {
+  // ── FedEx — the unit's own declarations, verbatim ──
+interface fedexRatedShipment {
+  serviceType: string;
+  serviceName: string;
+  price: number;
+  currency: string;
+  deliveryDate: string | null;
+  transitTime: string | null;
+}
+
+  /**
+   * FedEx's own documented Rates and Transit Times API (apis.fedex.com) — prices a domestic
+   * shipment across FedEx's service levels for a ZIP-to-ZIP move and weight, including FedEx's
+   * own delivery-date estimate. No browser, no scraping.
+   */
+  interface Unit {
+    /**
+     * Prices a domestic shipment across every FedEx service level that quotes it, between two
+     * 5-digit ZIP Codes, for a weight in ounces. `accountNumber` is a FedEx shipping account
+     * number tied to the caller's own FedEx developer application — published rates vary by
+     * whether one is sent. Requires a FedEx OAuth2 bearer token — see this provider's `auth`.
+     */
+    getRate(args: { fromZip: string; toZip: string; weightOz: number; accountNumber?: string }): Promise<fedexRatedShipment[]>;
+  }
+}
+
 declare namespace BowmarkProvider_fieldstonehomes {
   // ── Fieldstone Homes — the unit's own declarations, verbatim ──
 interface FieldstonehomesSearchArgs { city?: string; homeType?: string; minPrice?: number; maxPrice?: number; minBeds?: number; minSqft?: number; }
@@ -20023,6 +20071,41 @@ interface GoodwayProduct extends GoodwayProductSummary {
   }
 }
 
+declare namespace BowmarkProvider_google_docs {
+  // ── Google Docs — the unit's own declarations, verbatim ──
+interface DocumentHit {
+  documentId: string;
+  title: string;
+  url: string;
+}
+
+interface GoogleDocument {
+  documentId: string;
+  title: string;
+  url: string;
+  /** The whole document as plain text, LF line ends. */
+  text: string;
+}
+
+  /**
+   * Google Docs documents: find public docs by topic and read a document's full text and title
+   * by URL or id.
+   */
+  interface Unit {
+    /**
+     * Finds public Google Docs documents about a topic — title, document id and URL — so a caller
+     * holding only words gets a doc to read.
+     */
+    findDocuments(query: string): Promise<DocumentHit[]>;
+
+    /**
+     * Reads the full text and title of a public or link-shared Google Docs document, by URL or
+     * document id.
+     */
+    getDocument(document: string): Promise<GoogleDocument>;
+  }
+}
+
 declare namespace BowmarkProvider_google_flights {
   // ── Google Flights — the unit's own declarations, verbatim ──
 interface GoogleFlightQuery {
@@ -20849,6 +20932,68 @@ interface GoogleNewsSavedArticle {
      * before returning, naming the sign-in.
      */
     saveArticle(articleHandle: string, opts?: ConnectionOption): Promise<void>;
+  }
+}
+
+declare namespace BowmarkProvider_google_sheets {
+  // ── Google Sheets — the unit's own declarations, verbatim ──
+interface SpreadsheetHit {
+  spreadsheetId: string;
+  title: string;
+  url: string;
+}
+
+interface SheetTab {
+  name: string;
+  gid: string;
+}
+
+interface SpreadsheetTabs {
+  spreadsheetId: string;
+  title: string;
+  sheets: SheetTab[];
+}
+
+interface ReadSheetArgs {
+  /** A Google Sheets URL or its bare spreadsheet id. */
+  spreadsheet: string;
+  /** The tab NAME, as listSheets returns it. Omitted: the first tab. */
+  sheet?: string;
+  /** A1 notation, e.g. "A1:C10" or "B:D". Omitted: the whole tab. */
+  range?: string;
+}
+
+interface SheetValues {
+  spreadsheetId: string;
+  sheet: string | null;
+  range: string | null;
+  /** The first row of the returned block. */
+  headers: string[];
+  rows: string[][];
+}
+
+  /**
+   * Google Sheets spreadsheets: find public sheets by topic, list a spreadsheet's tabs, and read
+   * a tab or an A1 range as rows.
+   */
+  interface Unit {
+    /**
+     * Finds public Google Sheets spreadsheets about a topic — title, spreadsheet id and URL — so a
+     * caller holding only words gets a sheet to read.
+     */
+    findSpreadsheets(query: string): Promise<SpreadsheetHit[]>;
+
+    /**
+     * Lists the tabs (sheets) of a public or link-shared Google Sheets spreadsheet, by URL or id,
+     * with the spreadsheet's title.
+     */
+    listSheets(spreadsheet: string): Promise<SpreadsheetTabs>;
+
+    /**
+     * Reads the cell values of one tab of a public or link-shared Google Sheets spreadsheet,
+     * optionally just an A1 range, as a header row plus rows of strings.
+     */
+    readSheet(args: ReadSheetArgs): Promise<SheetValues>;
   }
 }
 
@@ -23819,6 +23964,10 @@ interface IndeedSearchJobsArgs {
   location?: string;
 }
 
+interface GetJobDetailsArgs {
+  url: string;
+}
+
 interface IndeedSalary {
   min: number | null;
   max: number | null;
@@ -23838,6 +23987,20 @@ interface IndeedJobResult {
   url: string;
 }
 
+interface IndeedJobDetails {
+  jobkey: string;
+  title: string;
+  company: string;
+  location: string;
+  remote: boolean;
+  salary: IndeedSalary | null;
+  postedRelative: string | null;
+  description: string | null;
+  jobType: string | null;
+  experienceLevel: string | null;
+  url: string;
+}
+
   /**
    * Job search on the US's largest job board — listings with salary, location and posted-date,
    * straight off Indeed's own search results.
@@ -23851,6 +24014,12 @@ interface IndeedJobResult {
      * answer, not a gap.
      */
     searchJobs(args: IndeedSearchJobsArgs): Promise<IndeedJobResult[]>;
+
+    /**
+     * Fetches complete details for a specific job listing including full description, job type,
+     * and experience level. Takes a job URL (from searchJobs).
+     */
+    getJobDetails(args: GetJobDetailsArgs): Promise<IndeedJobDetails>;
   }
 }
 
@@ -31234,6 +31403,15 @@ interface NytimesSection {
   slug: string;
   url: string;
 }
+interface NytimesSearchResult {
+  id: string;
+  headline?: string;
+  description?: string;
+  url?: string;
+  section?: string;
+  bylines?: Array<{ name: string }>;
+  firstPublished?: string;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -31245,6 +31423,12 @@ interface NytimesSection {
      * /2026/09/26/world/article-slug.html.
      */
     getArticle(path: string): Promise<NytimesArticle>;
+
+    /**
+     * Searches articles by keyword and returns paginated results with headlines, descriptions, and
+     * metadata.
+     */
+    searchArticles(query: string, limit?: number, offset?: number): Promise<NytimesSearchResult[]>;
   }
 }
 
@@ -45092,6 +45276,7 @@ interface BowmarkProviders {
   faceforwardaesthetics: BowmarkProvider_faceforwardaesthetics.Unit;
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
   fbsappliance: BowmarkProvider_fbsappliance.Unit;
+  fedex: BowmarkProvider_fedex.Unit;
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
   firstamericahomes: BowmarkProvider_firstamericahomes.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
@@ -45121,9 +45306,11 @@ interface BowmarkProviders {
   golf_com: BowmarkProvider_golf_com.Unit;
   goloadup: BowmarkProvider_goloadup.Unit;
   goodway: BowmarkProvider_goodway.Unit;
+  google_docs: BowmarkProvider_google_docs.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   google_maps: BowmarkProvider_google_maps.Unit;
   google_news: BowmarkProvider_google_news.Unit;
+  google_sheets: BowmarkProvider_google_sheets.Unit;
   google_translate: BowmarkProvider_google_translate.Unit;
   goremutual: BowmarkProvider_goremutual.Unit;
   gostoreit: BowmarkProvider_gostoreit.Unit;

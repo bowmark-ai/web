@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: cbefa295c98ef50ede18343e0cc7be6125ce5e0d51015b4fa9416b02408b8c7d
-// 1509 checked, 20 unchecked.
+// Manifest version: fa6ae2923c2631946d2d194d78c47cd89ec6c8733a374845dae34080600b2a20
+// 1518 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "cbefa295c98ef50ede18343e0cc7be6125ce5e0d51015b4fa9416b02408b8c7d",
+  "version": "fa6ae2923c2631946d2d194d78c47cd89ec6c8733a374845dae34080600b2a20",
   "units": {
     "booking_links": {
       "defs": {
@@ -10971,6 +10971,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "getBooking": [
+          {
+            "name": "link",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "findProfiles": [
           {
             "name": "name",
@@ -16243,6 +16252,50 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.fedex": {
+      "defs": {},
+      "functions": {
+        "getRate": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "fromZip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "toZip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "weightOz",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "accountNumber",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.fieldstonehomes": {
       "defs": {
         "FieldstonehomesPrepareAppointmentArgs": {
@@ -18847,6 +18900,29 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.google_docs": {
+      "defs": {},
+      "functions": {
+        "findDocuments": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getDocument": [
+          {
+            "name": "document",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.google_flights": {
       "defs": {
         "GoogleFlightQuery": {
@@ -19665,6 +19741,66 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.google_sheets": {
+      "defs": {
+        "ReadSheetArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "spreadsheet",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "sheet",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "range",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findSpreadsheets": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listSheets": [
+          {
+            "name": "spreadsheet",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "readSheet": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ReadSheetArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -21886,6 +22022,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.indeed": {
       "defs": {
+        "GetJobDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "IndeedSearchJobsArgs": {
           "k": "object",
           "props": [
@@ -21913,6 +22061,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "IndeedSearchJobsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getJobDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetJobDetailsArgs"
             },
             "optional": false
           }
@@ -28643,6 +28801,29 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "searchArticles": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           }
         ]
       }

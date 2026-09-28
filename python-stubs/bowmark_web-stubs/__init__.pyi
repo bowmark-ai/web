@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: cbefa295c98ef50ede18343e0cc7be6125ce5e0d51015b4fa9416b02408b8c7d
-# 67 capabilities, 491 providers, 1509 typed functions, 20 refused.
+# Manifest version: fa6ae2923c2631946d2d194d78c47cd89ec6c8733a374845dae34080600b2a20
+# 67 capabilities, 494 providers, 1518 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6170,6 +6170,18 @@ class Prv_calendly_CalendlyFormQuestion_Out(TypedDict):
     required: bool
     choices: list[str]
 
+class Prv_calendly_CalendlyBooking_Out(TypedDict):
+    uuid: str
+    eventType: Prv_calendly_CalendlyBookingEvent_Out
+    invitee: Prv_calendly_CalendlyBooking_Out_invitee_Out
+    startTime: str | None
+    durationMinutes: float | None
+    cancellationReason: str | None
+
+class Prv_calendly_CalendlyBooking_Out_invitee_Out(TypedDict):
+    name: str
+    email: str
+
 class Prv_calendly_CalendlyFindProfilesResult_Out(TypedDict):
     name: str
     company: str | None
@@ -9547,6 +9559,20 @@ class Prv_fbsappliance_FbsapplianceSearchResult_Out(TypedDict):
     availableAt: str | None
     url: str
 
+class Prv_fedex_getRate_args_In(TypedDict):
+    fromZip: str
+    toZip: str
+    weightOz: float
+    accountNumber: NotRequired[str]
+
+class Prv_fedex_fedexRatedShipment_Out(TypedDict):
+    serviceType: str
+    serviceName: str
+    price: float
+    currency: str
+    deliveryDate: str | None
+    transitTime: str | None
+
 class Prv_fieldstonehomes_FieldstonehomesSearchArgs_In(TypedDict):
     city: NotRequired[str]
     homeType: NotRequired[str]
@@ -10937,6 +10963,17 @@ class Prv_goodway_GoodwayProduct_Out(TypedDict):
     price: str | None
     purchaseType: Literal["buy"] | Literal["quote"]
 
+class Prv_google_docs_DocumentHit_Out(TypedDict):
+    documentId: str
+    title: str
+    url: str
+
+class Prv_google_docs_GoogleDocument_Out(TypedDict):
+    documentId: str
+    title: str
+    url: str
+    text: str
+
 Prv_google_flights_GoogleFlightQuery_In = TypedDict(
     "Prv_google_flights_GoogleFlightQuery_In",
     {
@@ -11277,6 +11314,32 @@ class Prv_google_news_GoogleNewsSavedArticle_Out(TypedDict):
     title: str
     publisher: str
     url: str
+
+class Prv_google_sheets_SpreadsheetHit_Out(TypedDict):
+    spreadsheetId: str
+    title: str
+    url: str
+
+class Prv_google_sheets_SpreadsheetTabs_Out(TypedDict):
+    spreadsheetId: str
+    title: str
+    sheets: list[Prv_google_sheets_SheetTab_Out]
+
+class Prv_google_sheets_SheetTab_Out(TypedDict):
+    name: str
+    gid: str
+
+class Prv_google_sheets_ReadSheetArgs_In(TypedDict):
+    spreadsheet: str
+    sheet: NotRequired[str]
+    range: NotRequired[str]
+
+class Prv_google_sheets_SheetValues_Out(TypedDict):
+    spreadsheetId: str
+    sheet: str | None
+    range: str | None
+    headers: list[str]
+    rows: list[list[str]]
 
 Prv_google_translate_TranslateArgs_In = TypedDict(
     "Prv_google_translate_TranslateArgs_In",
@@ -12736,6 +12799,22 @@ class Prv_indeed_IndeedSalary_Out(TypedDict):
     max: float | None
     type: str | None
     text: str | None
+
+class Prv_indeed_GetJobDetailsArgs_In(TypedDict):
+    url: str
+
+class Prv_indeed_IndeedJobDetails_Out(TypedDict):
+    jobkey: str
+    title: str
+    company: str
+    location: str
+    remote: bool
+    salary: Prv_indeed_IndeedSalary_Out | None
+    postedRelative: str | None
+    description: str | None
+    jobType: str | None
+    experienceLevel: str | None
+    url: str
 
 class Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In(TypedDict):
     state: NotRequired[str]
@@ -16557,6 +16636,18 @@ class Prv_nytimes_NytimesArticle_Out_section_Out(TypedDict):
     name: str
 
 class Prv_nytimes_NytimesArticle_Out_bylines_item_Out(TypedDict):
+    name: str
+
+class Prv_nytimes_NytimesSearchResult_Out(TypedDict):
+    id: str
+    headline: NotRequired[str]
+    description: NotRequired[str]
+    url: NotRequired[str]
+    section: NotRequired[str]
+    bylines: NotRequired[list[Prv_nytimes_NytimesSearchResult_Out_bylines_item_Out]]
+    firstPublished: NotRequired[str]
+
+class Prv_nytimes_NytimesSearchResult_Out_bylines_item_Out(TypedDict):
     name: str
 
 Prv_oanda_OandaConversion_Out = TypedDict(
@@ -28406,6 +28497,14 @@ class Prv_calendly(Protocol):
         returns `event: null` and the list unless `opts.event` names one. Never books anything.
         """
 
+    async def getBooking(self, link: str, /) -> Prv_calendly_CalendlyBooking_Out:
+        """Reads a booking from an invitee confirmation, cancellation or reschedule link that
+        Calendly emails. Takes the full link a caller was sent (e.g.
+        "https://calendly.com/user/cancellations/<uuid>") and returns the event details, invitee
+        name and email, the booked time, and any cancellation reason if the booking has been
+        cancelled.
+        """
+
     async def findProfiles(self, name: str, company: str | None = None, /) -> Prv_calendly_CalendlyFindProfilesResult_Out:
         """Finds a person's own Calendly page from their full name, and optionally their company
         (pass it — "caleb-firecrawl" is found only by the company shape). Checks the slug shapes
@@ -30626,6 +30725,19 @@ class Prv_fbsappliance(Protocol):
         never adds to cart or checks out.
         """
 
+class Prv_fedex(Protocol):
+    """FedEx's own documented Rates and Transit Times API (apis.fedex.com) — prices a domestic
+    shipment across FedEx's service levels for a ZIP-to-ZIP move and weight, including
+    FedEx's own delivery-date estimate. No browser, no scraping.
+    """
+
+    async def getRate(self, args: Prv_fedex_getRate_args_In, /) -> list[Prv_fedex_fedexRatedShipment_Out]:
+        """Prices a domestic shipment across every FedEx service level that quotes it, between two
+        5-digit ZIP Codes, for a weight in ounces. `accountNumber` is a FedEx shipping account
+        number tied to the caller's own FedEx developer application — published rates vary by
+        whether one is sent. Requires a FedEx OAuth2 bearer token — see this provider's `auth`.
+        """
+
 class Prv_fieldstonehomes(Protocol):
     """Live Fieldstone Homes quick-move-in inventory plus a validated appointment handoff;
     prefer it when current availability, incentives or booking details matter.
@@ -31638,6 +31750,21 @@ class Prv_goodway(Protocol):
         needs a written quote.
         """
 
+class Prv_google_docs(Protocol):
+    """Google Docs documents: find public docs by topic and read a document's full text and
+    title by URL or id.
+    """
+
+    async def findDocuments(self, query: str, /) -> list[Prv_google_docs_DocumentHit_Out]:
+        """Finds public Google Docs documents about a topic — title, document id and URL — so a
+        caller holding only words gets a doc to read.
+        """
+
+    async def getDocument(self, document: str, /) -> Prv_google_docs_GoogleDocument_Out:
+        """Reads the full text and title of a public or link-shared Google Docs document, by URL or
+        document id.
+        """
+
 class Prv_google_flights(Protocol):
     """Google Flights (flights.google.com) — itinerary search plus the per-result booking
     panel, read from each row's ARIA label.
@@ -32129,6 +32256,26 @@ class Prv_google_news(Protocol):
         or publisher — a logged-out request refuses with the same 302 to
         `accounts.google.com/ServiceLogin` measured 2026-09-28 through CRAWLER_PROXY. With no
         session, or a dead one, this refuses before returning, naming the sign-in.
+        """
+
+class Prv_google_sheets(Protocol):
+    """Google Sheets spreadsheets: find public sheets by topic, list a spreadsheet's tabs, and
+    read a tab or an A1 range as rows.
+    """
+
+    async def findSpreadsheets(self, query: str, /) -> list[Prv_google_sheets_SpreadsheetHit_Out]:
+        """Finds public Google Sheets spreadsheets about a topic — title, spreadsheet id and URL —
+        so a caller holding only words gets a sheet to read.
+        """
+
+    async def listSheets(self, spreadsheet: str, /) -> Prv_google_sheets_SpreadsheetTabs_Out:
+        """Lists the tabs (sheets) of a public or link-shared Google Sheets spreadsheet, by URL or
+        id, with the spreadsheet's title.
+        """
+
+    async def readSheet(self, args: Prv_google_sheets_ReadSheetArgs_In, /) -> Prv_google_sheets_SheetValues_Out:
+        """Reads the cell values of one tab of a public or link-shared Google Sheets spreadsheet,
+        optionally just an A1 range, as a header row plus rows of strings.
         """
 
 class Prv_google_translate(Protocol):
@@ -33163,6 +33310,11 @@ class Prv_indeed(Protocol):
         page. `location` is optional free text (e.g. "New York, NY", "Remote"); omitting it
         searches everywhere. `salary` is null when Indeed's own listing carries none — that is
         the site's answer, not a gap.
+        """
+
+    async def getJobDetails(self, args: Prv_indeed_GetJobDetailsArgs_In, /) -> Prv_indeed_IndeedJobDetails_Out:
+        """Fetches complete details for a specific job listing including full description, job
+        type, and experience level. Takes a job URL (from searchJobs).
         """
 
 class Prv_inspirecommunities(Protocol):
@@ -35901,6 +36053,11 @@ class Prv_nytimes(Protocol):
     async def getArticle(self, path: str, /) -> Prv_nytimes_NytimesArticle_Out:
         """Gets full article text, metadata and comments count. Takes an article path like
         /2026/09/26/world/article-slug.html.
+        """
+
+    async def searchArticles(self, query: str, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesSearchResult_Out]:
+        """Searches articles by keyword and returns paginated results with headlines, descriptions,
+        and metadata.
         """
 
 class Prv_oanda(Protocol):
@@ -41020,6 +41177,7 @@ class BowmarkProviders(Protocol):
     faceforwardaesthetics: Prv_faceforwardaesthetics
     facerealityskincare: Prv_facerealityskincare
     fbsappliance: Prv_fbsappliance
+    fedex: Prv_fedex
     fieldstonehomes: Prv_fieldstonehomes
     firstamericahomes: Prv_firstamericahomes
     firstdibs: Prv_firstdibs
@@ -41049,9 +41207,11 @@ class BowmarkProviders(Protocol):
     golf_com: Prv_golf_com
     goloadup: Prv_goloadup
     goodway: Prv_goodway
+    google_docs: Prv_google_docs
     google_flights: Prv_google_flights
     google_maps: Prv_google_maps
     google_news: Prv_google_news
+    google_sheets: Prv_google_sheets
     google_translate: Prv_google_translate
     goremutual: Prv_goremutual
     gostoreit: Prv_gostoreit
