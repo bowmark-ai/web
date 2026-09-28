@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5ec7480b36c46777addd5b279c21773cbc3a21bb2917dc1a8ffc34e6317375d5
-# 67 capabilities, 491 providers, 1505 typed functions, 20 refused.
+# Manifest version: 0f6b243cf857712b03d20a560537dbe5a9a1c37b14a95a967b14a34a65cf49e1
+# 67 capabilities, 491 providers, 1507 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7684,6 +7684,17 @@ class Prv_cnn_cnnVideo_Out(TypedDict):
     duration: str | None
     url: str
     thumbnailUrl: str | None
+
+class Prv_cnn_cnnVideoDetail_Out(TypedDict):
+    id: str
+    headline: str
+    description: str | None
+    duration: str | None
+    url: str
+    thumbnailUrl: str | None
+    datePublished: str | None
+    author: str | None
+    keywords: list[str]
 
 class Prv_code_claude_com_code_claude_comDoc_Out(TypedDict):
     url: str
@@ -22657,6 +22668,9 @@ class Prv_walmart_walmartDepartmentLink_Out(TypedDict):
 class Prv_walmart_browseCategory_args_In(TypedDict):
     browseId: str
 
+class Prv_walmart_browseBrand_args_In(TypedDict):
+    brandId: str
+
 class Prv_waterfurnace_lookupHomeDetails_input_In(TypedDict):
     address: str
     city: NotRequired[str]
@@ -29342,6 +29356,11 @@ class Prv_cnn(Protocol):
     async def listVideos(self, /) -> list[Prv_cnn_cnnVideo_Out]:
         """The videos CNN currently lists on its video hub — clips and segments with headline,
         description, duration, playback URL and thumbnail.
+        """
+
+    async def getVideo(self, url: str, /) -> Prv_cnn_cnnVideoDetail_Out:
+        """Metadata for one CNN video by its URL — title, description, duration, publication date,
+        author, keywords and thumbnail.
         """
 
 class Prv_code_claude_com(Protocol):
@@ -39749,10 +39768,10 @@ class Prv_walkerhughes(Protocol):
 
 class Prv_walmart(Protocol):
     """Walmart.com — product search, product detail, store-level stock, store locator and more.
-    Four functions built: keyword search across the catalog, finding nearby stores by ZIP
+    Five functions built: keyword search across the catalog, finding nearby stores by ZIP
     with address, hours, phone and department availability, listing every department and
-    sub-category with its browse id, and browsing a department's own product grid by that
-    id.
+    sub-category with its browse id, browsing a department's own product grid by that id,
+    and browsing a brand's own product grid by its id.
     """
 
     async def search(self, args: Prv_walmart_search_args_In, /) -> list[Prv_walmart_walmartSearchResult_Out]:
@@ -39783,6 +39802,13 @@ class Prv_walmart(Protocol):
         department' without already knowing what to search for. Takes the `browseId` a
         `listDepartments` row returns; the site's own default sort and page size, same shape as
         `search`.
+        """
+
+    async def browseBrand(self, args: Prv_walmart_browseBrand_args_In, /) -> list[Prv_walmart_walmartSearchResult_Out]:
+        """Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a
+        shopper browses by brand rather than by keyword. Takes the numeric `brandId` off the
+        site's own `/brand/<slug>/<id>` URL — the slug is decorative and only the id selects the
+        shelf.
         """
 
 class Prv_waterfurnace(Protocol):

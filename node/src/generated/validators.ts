@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5ec7480b36c46777addd5b279c21773cbc3a21bb2917dc1a8ffc34e6317375d5
-// 1505 checked, 20 unchecked.
+// Manifest version: 0f6b243cf857712b03d20a560537dbe5a9a1c37b14a95a967b14a34a65cf49e1
+// 1507 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5ec7480b36c46777addd5b279c21773cbc3a21bb2917dc1a8ffc34e6317375d5",
+  "version": "0f6b243cf857712b03d20a560537dbe5a9a1c37b14a95a967b14a34a65cf49e1",
   "units": {
     "booking_links": {
       "defs": {
@@ -13481,7 +13481,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listVideos": []
+        "listVideos": [],
+        "getVideo": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.code_claude_com": {
@@ -42277,6 +42286,24 @@ export const VALIDATORS: ValidatorTable = {
               "props": [
                 {
                   "name": "browseId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "browseBrand": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "brandId",
                   "schema": {
                     "k": "string"
                   },

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5ec7480b36c46777addd5b279c21773cbc3a21bb2917dc1a8ffc34e6317375d5
-// 67 capabilities, 491 providers, 1523 typed functions, 20 refused.
+// Manifest version: 0f6b243cf857712b03d20a560537dbe5a9a1c37b14a95a967b14a34a65cf49e1
+// 67 capabilities, 491 providers, 1525 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13942,6 +13942,12 @@ interface cnnVideo {
   thumbnailUrl: string | null;
 }
 
+interface cnnVideoDetail extends cnnVideo {
+  datePublished: string | null;
+  author: string | null;
+  keywords: string[];
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -13976,6 +13982,12 @@ interface cnnVideo {
      * description, duration, playback URL and thumbnail.
      */
     listVideos(): Promise<cnnVideo[]>;
+
+    /**
+     * Metadata for one CNN video by its URL — title, description, duration, publication date,
+     * author, keywords and thumbnail.
+     */
+    getVideo(url: string): Promise<cnnVideoDetail>;
   }
 }
 
@@ -41482,9 +41494,10 @@ interface walmartSearchResult {
 
   /**
    * Walmart.com — product search, product detail, store-level stock, store locator and more.
-   * Four functions built: keyword search across the catalog, finding nearby stores by ZIP with
+   * Five functions built: keyword search across the catalog, finding nearby stores by ZIP with
    * address, hours, phone and department availability, listing every department and sub-category
-   * with its browse id, and browsing a department's own product grid by that id.
+   * with its browse id, browsing a department's own product grid by that id, and browsing a
+   * brand's own product grid by its id.
    */
   interface Unit {
     /**
@@ -41520,6 +41533,13 @@ interface walmartSearchResult {
      * `search`.
      */
     browseCategory(args: { browseId: string }): Promise<walmartSearchResult[]>;
+
+    /**
+     * Lists the products on a brand's own Walmart page (e.g. Samsung) with prices, the way a
+     * shopper browses by brand rather than by keyword. Takes the numeric `brandId` off the site's
+     * own `/brand/<slug>/<id>` URL — the slug is decorative and only the id selects the shelf.
+     */
+    browseBrand(args: { brandId: string }): Promise<walmartSearchResult[]>;
   }
 }
 
