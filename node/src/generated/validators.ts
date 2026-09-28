@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 4dfb24a72280741585ea7fc6811098d7ae1eb77d96168df9315ecfcf362cc1e2
-// 1494 checked, 20 unchecked.
+// Manifest version: ce4c02985779b2456d70a9aeda0bdb4b8eaa61ce70b55965761bd20219a1d720
+// 1497 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "4dfb24a72280741585ea7fc6811098d7ae1eb77d96168df9315ecfcf362cc1e2",
+  "version": "ce4c02985779b2456d70a9aeda0bdb4b8eaa61ce70b55965761bd20219a1d720",
   "units": {
     "booking_links": {
       "defs": {
@@ -17028,6 +17028,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetContributorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -17084,6 +17096,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getContributor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetContributorArgs"
             },
             "optional": false
           }
@@ -19035,6 +19057,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SavePlaceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "featureId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchNearbyArgs": {
           "k": "object",
           "props": [
@@ -19242,6 +19276,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listMyContributions": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "savePlace": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SavePlaceArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -42922,6 +42982,38 @@ export const VALIDATORS: ValidatorTable = {
         "listCategoryMembers": [
           {
             "name": "category",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listRelated": [
+          {
+            "name": "titleOrUrl",
             "schema": {
               "k": "string"
             },

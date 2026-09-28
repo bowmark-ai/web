@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 4dfb24a72280741585ea7fc6811098d7ae1eb77d96168df9315ecfcf362cc1e2
-// 67 capabilities, 491 providers, 1512 typed functions, 20 refused.
+// Manifest version: ce4c02985779b2456d70a9aeda0bdb4b8eaa61ce70b55965761bd20219a1d720
+// 67 capabilities, 491 providers, 1515 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -17903,6 +17903,24 @@ interface ForbesArticleDetail {
   body: string[];
 }
 
+interface GetContributorArgs {
+  /** A contributor slug from listContributors, e.g. "peterchawaga". */
+  slug: string;
+}
+
+interface ForbesContributorDetail {
+  id: string;
+  name: string;
+  slug: string;
+  title?: string;
+  bio?: string;
+  url: string;
+  /** Contributor's headshot image URL, if available. */
+  image?: string;
+  /** The contributor's recent articles, newest first. */
+  recentArticles: ForbesArticle[];
+}
+
   /** Search and browse business news, articles, and video content from Forbes. */
   interface Unit {
     /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
@@ -17931,6 +17949,12 @@ interface ForbesArticleDetail {
      * /sites/*.../ URL.
      */
     getArticle(args: GetArticleArgs): Promise<ForbesArticleDetail>;
+
+    /**
+     * Read one Forbes contributor's full profile (bio, image, title) and their recent articles by
+     * slug.
+     */
+    getContributor(args: GetContributorArgs): Promise<ForbesContributorDetail>;
   }
 }
 
@@ -20154,6 +20178,12 @@ interface MyContributionsResult {
   pointsToNextLevel?: string;
   contributions: ContributionType[];
 }
+interface SavePlaceArgs {
+  featureId: string;
+}
+interface SavePlaceResult {
+  saved: boolean;
+}
 
   /**
    * Local business search on Google Maps — find places by what a person would say, then read the
@@ -20346,6 +20376,19 @@ interface MyContributionsResult {
      * have captured the signed-in-and-empty case.
      */
     listMyContributions(opts?: ConnectionOption): Promise<MyContributionsResult>;
+
+    /**
+     * Saves a place to one of the signed-in caller's own lists — the Maps equivalent of a
+     * bookmark. An authFunction, same shape as
+     * getPopularTimes/listSavedPlaces/listMyContributions: Bowmark signs nobody up for a Google
+     * account, but the caller's own login works here. Unlike this provider's other authFunctions,
+     * saving is a WRITE only a real browser can perform — it drives the place page's own Save
+     * control and confirms the site's createitem call went through, rather than reading a field
+     * mask. Takes a featureId, exactly what searchPlaces/geocodeAddress/getPlace/resolvePlaceUrl
+     * all hand back. With no session it throws rather than attempting the click; nobody here holds
+     * a signed-in Maps session to have captured the positive shape.
+     */
+    savePlace(args: SavePlaceArgs, opts?: ConnectionOption): Promise<SavePlaceResult>;
   }
 }
 
@@ -42049,6 +42092,14 @@ interface WikipediaCategoryMember {
      * (defaults to all).
      */
     listCategoryMembers(category: string, options?: { lang?: string; limit?: number }): Promise<{ members: WikipediaCategoryMember[]; warnings: string[] }>;
+
+    /**
+     * Articles about things like this one — Wikipedia's own 'more like this', useful when a caller
+     * has a topic and wants its siblings rather than the articles it links to. Takes an article
+     * title OR any wikipedia.org url and follows the site's own redirects. Optional limit
+     * parameter caps the number of results returned (defaults to 10).
+     */
+    listRelated(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ results: WikipediaSearchResult[]; warnings: string[] }>;
   }
 }
 
