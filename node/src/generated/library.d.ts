@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ce4c02985779b2456d70a9aeda0bdb4b8eaa61ce70b55965761bd20219a1d720
-// 67 capabilities, 491 providers, 1515 typed functions, 20 refused.
+// Manifest version: d8f3779664935f299ada74797a68228b664428fa82458584dba700edc97b4fdd
+// 67 capabilities, 491 providers, 1516 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -31042,6 +31042,7 @@ interface NytCrosswordClue { label: string; direction: "Across" | "Down"; text: 
 interface NytCrossword { id: number; printDate: string; editor: string | null; constructors: string[]; width: number; height: number; clues: NytCrosswordClue[]; }
 interface GetCrosswordDailyArgs { date?: string; }
 interface GetCrosswordMiniArgs { date?: string; }
+interface GetCrosswordMidiArgs { date?: string; }
 interface PipsRegion { indices: Array<[number, number]>; type: "equals" | "sum" | "greater" | "less" | "unequal" | "empty"; target?: number; }
 interface PipsDifficulty { id: number; backendId: string; constructors: string; dominoes: Array<[number, number]>; regions: PipsRegion[]; solution: Array<[[number, number], [number, number]]>; }
 interface NytPips { printDate: string; editor: string | null; easy: PipsDifficulty; medium: PipsDifficulty; hard: PipsDifficulty; }
@@ -31096,6 +31097,12 @@ interface GetPipsArgs { date?: string; }
      * 2014-08-21.
      */
     getCrosswordMini(args?: GetCrosswordMiniArgs): Promise<NytCrossword>;
+
+    /**
+     * Retrieves the midi crossword: grid dimensions, editor, constructors, and every clue with its
+     * answer spelled out from the grid. Defaults to today in New York; the midi launched 2024-04.
+     */
+    getCrosswordMidi(args?: GetCrosswordMidiArgs): Promise<NytCrossword>;
 
     /**
      * Retrieves the daily Pips puzzle: all three difficulties (easy, medium, hard), each with its

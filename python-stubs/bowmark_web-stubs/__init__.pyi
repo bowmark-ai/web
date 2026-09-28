@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ce4c02985779b2456d70a9aeda0bdb4b8eaa61ce70b55965761bd20219a1d720
-# 67 capabilities, 491 providers, 1497 typed functions, 20 refused.
+# Manifest version: d8f3779664935f299ada74797a68228b664428fa82458584dba700edc97b4fdd
+# 67 capabilities, 491 providers, 1498 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16454,6 +16454,9 @@ class Prv_nyt_games_NytCrosswordClue_Out(TypedDict):
     answer: str
 
 class Prv_nyt_games_GetCrosswordMiniArgs_In(TypedDict):
+    date: NotRequired[str]
+
+class Prv_nyt_games_GetCrosswordMidiArgs_In(TypedDict):
     date: NotRequired[str]
 
 class Prv_nyt_games_GetPipsArgs_In(TypedDict):
@@ -35743,6 +35746,12 @@ class Prv_nyt_games(Protocol):
         """Retrieves the mini crossword: grid dimensions, editor, constructors, and every clue with
         its answer spelled out from the grid. Defaults to today in New York; the mini launched
         2014-08-21.
+        """
+
+    async def getCrosswordMidi(self, args: Prv_nyt_games_GetCrosswordMidiArgs_In | None = None, /) -> Prv_nyt_games_NytCrossword_Out:
+        """Retrieves the midi crossword: grid dimensions, editor, constructors, and every clue with
+        its answer spelled out from the grid. Defaults to today in New York; the midi launched
+        2024-04.
         """
 
     async def getPips(self, args: Prv_nyt_games_GetPipsArgs_In | None = None, /) -> Prv_nyt_games_NytPips_Out:

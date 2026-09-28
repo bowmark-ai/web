@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ce4c02985779b2456d70a9aeda0bdb4b8eaa61ce70b55965761bd20219a1d720
-// 1497 checked, 20 unchecked.
+// Manifest version: d8f3779664935f299ada74797a68228b664428fa82458584dba700edc97b4fdd
+// 1498 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ce4c02985779b2456d70a9aeda0bdb4b8eaa61ce70b55965761bd20219a1d720",
+  "version": "d8f3779664935f299ada74797a68228b664428fa82458584dba700edc97b4fdd",
   "units": {
     "booking_links": {
       "defs": {
@@ -28365,6 +28365,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetCrosswordMidiArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetCrosswordMiniArgs": {
           "k": "object",
           "props": [
@@ -28505,6 +28517,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCrosswordMiniArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getCrosswordMidi": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCrosswordMidiArgs"
             },
             "optional": true
           }
