@@ -1059,7 +1059,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listTopics` | github.com | Lists topics from GitHub's public topics page — topic name and its github.com/topics… | 🟢 |
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
 | `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
-| `github.searchCode` | github.com | Searches for code across public repositories by filename, language, code snippet… | ⚪ |
+| `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
 | `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | ⚪ |
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in user's starred list. | ⚪ |
@@ -1617,7 +1617,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getAccountProfile` | cooking.nytimes.com | Reads the signed-in reader's own account profile (display name, email). Needs the… | ⚪ |
 | `nyt_cooking.getArticle` | cooking.nytimes.com | Reads one cooking article or guide's text and any recipes it links to. | ⚪ |
 | `nyt_cooking.getAuthorRecipes` | cooking.nytimes.com | Lists an author's published recipes off their byline page — the finder for a recipe… | 🟢 |
-| `nyt_cooking.getCollection` | cooking.nytimes.com | Reads one curated editorial collection (e.g. "Cheap and Easy Meals") and the recipe… | ⚪ |
+| `nyt_cooking.getCollection` | cooking.nytimes.com | Reads one curated editorial collection and the recipe cards inside it, off a… | 🟢 |
 | `nyt_cooking.getCookedRecipes` | cooking.nytimes.com | Lists the recipes the signed-in reader has marked cooked. | ⚪ |
 | `nyt_cooking.getGroceryList` | cooking.nytimes.com | Reads the signed-in reader's own grocery list. | ⚪ |
 | `nyt_cooking.getMyNotes` | cooking.nytimes.com | Reads the signed-in reader's own private cook notes on a recipe. | ⚪ |
