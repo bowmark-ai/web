@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 17a202dcbbf49a04d3d231dd2127865899637ecc7ac8eb74b0e35a9ecede9fe6
-# 67 capabilities, 491 providers, 1486 typed functions, 20 refused.
+# Manifest version: 3a5ac1227e9f865c6c0cc6467843e11d620c13051ca0a7cc300931821c03d02a
+# 67 capabilities, 491 providers, 1493 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3965,6 +3965,10 @@ class Prv_archive_org_archive_orgFile_Out(TypedDict):
     size: float | None
     downloadUrl: str
 
+class Prv_archive_org_archive_orgDownloadUrl_Out(TypedDict):
+    filename: str
+    downloadUrl: str
+
 class Prv_archive_org_archive_orgLendingAvailability_Out(TypedDict):
     identifier: str
     isLendable: bool
@@ -4688,6 +4692,14 @@ class Prv_bbc_BbcSection_Out(TypedDict):
     path: str
     url: str
     children: list[Prv_bbc_BbcSection_Out]
+
+class Prv_bbc_BbcListSportsResult_Out(TypedDict):
+    sports: list[Prv_bbc_BbcSport_Out]
+
+class Prv_bbc_BbcSport_Out(TypedDict):
+    title: str
+    path: str
+    url: str
 
 class Prv_bbc_listHeadlines_args_In(TypedDict):
     path: NotRequired[str]
@@ -10697,6 +10709,14 @@ class Prv_github_GithubTrendingRepository_Out(TypedDict):
     stars: float
     forks: float
     trendingStarsToday: float
+    url: str
+
+class Prv_github_GithubListTopicsResult_Out(TypedDict):
+    topics: list[Prv_github_GithubTopic_Out]
+    warnings: list[str]
+
+class Prv_github_GithubTopic_Out(TypedDict):
+    name: str
     url: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
@@ -18993,6 +19013,15 @@ class Prv_reuters_ReutersArchivedArticle_Out(TypedDict):
     section: str
     publishedAt: str | None
 
+class Prv_reuters_FindAuthorArgs_In(TypedDict):
+    query: str
+
+class Prv_reuters_ReutersAuthor_Out(TypedDict):
+    path: str
+    slug: str
+    name: str
+    url: str
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -20395,6 +20424,34 @@ class Prv_steam_SteamGameDetails_Out_videos_item_Out(TypedDict):
     name: str | None
     thumbnail: str | None
     hlsUrl: str | None
+
+class Prv_steam_ListFeaturedGamesArgs_In(TypedDict):
+    platform: NotRequired[Literal["windows"] | Literal["mac"] | Literal["linux"]]
+
+class Prv_steam_ListFeaturedGamesResponse_Out(TypedDict):
+    games: list[Prv_steam_FeaturedGame_Out]
+
+class Prv_steam_FeaturedGame_Out(TypedDict):
+    appid: str
+    name: str | None
+    price: Prv_steam_FeaturedGame_Out_price_u0_Out | None
+    discountExpiration: float | None
+    capsuleImage: str | None
+    headerImage: str | None
+    platforms: Prv_steam_FeaturedGame_Out_platforms_Out
+    streamingAvailable: bool
+    controllerSupport: str | None
+
+class Prv_steam_FeaturedGame_Out_price_u0_Out(TypedDict):
+    currency: str
+    initial: float
+    final: float
+    discountPercent: float
+
+class Prv_steam_FeaturedGame_Out_platforms_Out(TypedDict):
+    windows: bool
+    mac: bool
+    linux: bool
 
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
@@ -21882,6 +21939,13 @@ class Prv_twitch_SetChannelArgs_In(TypedDict):
     language: NotRequired[str]
     game: NotRequired[str]
 
+class Prv_twitch_TwitchFollowedChannel_Out(TypedDict):
+    id: str
+    login: str
+    displayName: str
+    followerCount: float
+    gameName: str | None
+
 class Prv_uber_DriverEarnings_Out(TypedDict):
     weekStart: str
     tripCount: float
@@ -22523,6 +22587,9 @@ class Prv_walmart_walmartDepartmentLink_Out(TypedDict):
     title: str
     url: str
     browseId: str | None
+
+class Prv_walmart_browseCategory_args_In(TypedDict):
+    browseId: str
 
 class Prv_waterfurnace_lookupHomeDetails_input_In(TypedDict):
     address: str
@@ -26746,6 +26813,13 @@ class Prv_archive_org(Protocol):
         archive.org/details/<identifier> url. Throws when no item exists at that identifier.
         """
 
+    async def downloadFile(self, identifier: str, filename: str, /) -> Prv_archive_org_archive_orgDownloadUrl_Out:
+        """Builds a download URL for one file within an item — a book PDF, an audio file, a video,
+        or any other archived file — ready to pass to a file fetch. Takes the `identifier` from
+        searchItems (or the last path segment of an archive.org/details/<identifier> url) and a
+        `filename` from getItem's files list. Throws when no item exists at that identifier.
+        """
+
     async def checkLendingAvailability(self, identifier: str, /) -> Prv_archive_org_archive_orgLendingAvailability_Out:
         """Checks whether a book item is available to borrow from the Internet Archive right now.
         `isLendable` is false for a public-domain item nothing controls lending on (it is simply
@@ -27205,6 +27279,11 @@ class Prv_bbc(Protocol):
         Earth, Audio, Video, Live, Documentaries — each with its path and nested sub-sections.
         Pass `parent` (a path such as "/news") for just that section's sub-sections. The path is
         what listHeadlines takes; the finder for every section-scoped read.
+        """
+
+    async def listSports(self, /) -> Prv_bbc_BbcListSportsResult_Out:
+        """The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf, …)
+        with each one's path — the finder for listCompetitions and getFixtures.
         """
 
     async def listHeadlines(self, args: Prv_bbc_listHeadlines_args_In | None = None, /) -> Prv_bbc_BbcListHeadlinesResult_Out:
@@ -31282,6 +31361,13 @@ class Prv_github(Protocol):
         today, and its own github.com URL. Off the trending page's server-rendered HTML, no API,
         no login. THROWS if the page structure does not carry the expected `<article
         class="Box-row">` rows — the page has changed.
+        """
+
+    async def listTopics(self, /) -> Prv_github_GithubListTopicsResult_Out:
+        """Returns topics from GitHub's public topics page — each topic's name and its
+        github.com/topics URL. Off the topics page's server-rendered HTML, no API, no login.
+        THROWS if the page structure does not carry the expected topic links — the page has
+        changed.
         """
 
 class Prv_glama(Protocol):
@@ -37290,6 +37376,12 @@ class Prv_reuters(Protocol):
         listLatestNews reaches; the archive's own index runs 2005-02-23 through 2023-10-31.
         """
 
+    async def findAuthor(self, args: Prv_reuters_FindAuthorArgs_In, /) -> list[Prv_reuters_ReutersAuthor_Out]:
+        """Find a Reuters journalist by name — returns their author page path, slug and title-cased
+        name. Searches the author sitemap; matches against both slug and name. The finder for
+        getAuthor.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -38121,6 +38213,11 @@ class Prv_steam(Protocol):
         """Reads a game's full store page by appid: title, description, price, developer,
         publisher, release date, platforms, genres, categories, metacritic score, system
         requirements, screenshots and trailers.
+        """
+
+    async def listFeaturedGames(self, args: Prv_steam_ListFeaturedGamesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_ListFeaturedGamesResponse_Out:
+        """Fetches the current list of featured games displayed on the Steam store homepage by
+        platform (Windows, Mac, or Linux), including prices, discount information, and images.
         """
 
 class Prv_stickergiant(Protocol):
@@ -39081,19 +39178,19 @@ class Prv_twitch(Protocol):
     any public video's length and status.
     """
 
-    async def getVideo(self, args: Prv_twitch_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchVideo_Out:
+    async def getVideo(self, args: Prv_twitch_GetVideoArgs_In, /) -> Prv_twitch_TwitchVideo_Out:
         """Reads one public Twitch video by id or twitch.tv/videos link — title, length in seconds,
         whether it is still RECORDING (a live broadcast's archive) or RECORDED, its type
         (ARCHIVE, HIGHLIGHT, UPLOAD) and its channel. No sign-in. THROWS naming the id when
         Twitch has no such video.
         """
 
-    async def getChannelInfo(self, args: Prv_twitch_GetChannelInfoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchChannelInfo_Out:
+    async def getChannelInfo(self, args: Prv_twitch_GetChannelInfoArgs_In, /) -> Prv_twitch_TwitchChannelInfo_Out:
         """Reads a public channel's profile: display name, description, game, language, profile
         image URL, follower count, creation date. No sign-in.
         """
 
-    async def searchChannels(self, args: Prv_twitch_SearchChannelsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_twitch_TwitchChannelSearchResult_Out]:
+    async def searchChannels(self, args: Prv_twitch_SearchChannelsArgs_In, /) -> list[Prv_twitch_TwitchChannelSearchResult_Out]:
         """Searches Twitch channels by keyword — a name, game or description term — and returns up
         to Twitch's own single page of results (typically ~10), ranked by Twitch's own
         relevance: login, display name, description, profile image, follower count, and whether
@@ -39122,6 +39219,12 @@ class Prv_twitch(Protocol):
         Returns the updated settings. It cannot set tags — `tags` is not a field of Twitch's own
         UpdateBroadcastSettingsInput. NEEDS the streamer's Twitch sign-in, which only a
         capability can hold: call it as bowmark.stream_channel.set.
+        """
+
+    async def listFollowedChannels(self, opts: ConnectionOption | None = None, /) -> list[Prv_twitch_TwitchFollowedChannel_Out]:
+        """Lists channels the signed-in user follows: login, display name, current game (only when
+        live), and follower count. NEEDS the viewer's Twitch sign-in. Returns an empty list when
+        the user follows no channels.
         """
 
 class Prv_uber(Protocol):
@@ -39497,9 +39600,10 @@ class Prv_walkerhughes(Protocol):
 
 class Prv_walmart(Protocol):
     """Walmart.com — product search, product detail, store-level stock, store locator and more.
-    Three functions built: keyword search across the catalog, finding nearby stores by ZIP
-    with address, hours, phone and department availability, and listing every department and
-    sub-category with its browse id.
+    Four functions built: keyword search across the catalog, finding nearby stores by ZIP
+    with address, hours, phone and department availability, listing every department and
+    sub-category with its browse id, and browsing a department's own product grid by that
+    id.
     """
 
     async def search(self, args: Prv_walmart_search_args_In, /) -> list[Prv_walmart_walmartSearchResult_Out]:
@@ -39522,6 +39626,14 @@ class Prv_walmart(Protocol):
     async def listDepartments(self, /) -> list[Prv_walmart_walmartDepartment_Out]:
         """Lists Walmart's departments and their sub-categories with the browse id each one opens —
         the door `browseCategory` needs — the way the site's own 'Browse Departments' page does.
+        """
+
+    async def browseCategory(self, args: Prv_walmart_browseCategory_args_In, /) -> list[Prv_walmart_walmartSearchResult_Out]:
+        """Lists products under one of the site's own department/category pages (e.g. Electronics,
+        Grocery, Home) rather than a keyword search — how a caller explores 'what's in this
+        department' without already knowing what to search for. Takes the `browseId` a
+        `listDepartments` row returns; the site's own default sort and page size, same shape as
+        `search`.
         """
 
 class Prv_waterfurnace(Protocol):

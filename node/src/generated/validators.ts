@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 17a202dcbbf49a04d3d231dd2127865899637ecc7ac8eb74b0e35a9ecede9fe6
-// 1486 checked, 20 unchecked.
+// Manifest version: 3a5ac1227e9f865c6c0cc6467843e11d620c13051ca0a7cc300931821c03d02a
+// 1493 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "17a202dcbbf49a04d3d231dd2127865899637ecc7ac8eb74b0e35a9ecede9fe6",
+  "version": "3a5ac1227e9f865c6c0cc6467843e11d620c13051ca0a7cc300931821c03d02a",
   "units": {
     "booking_links": {
       "defs": {
@@ -7795,6 +7795,22 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "downloadFile": [
+          {
+            "name": "identifier",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "filename",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "checkLendingAvailability": [
           {
             "name": "identifier",
@@ -8836,6 +8852,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listSports": [],
         "listHeadlines": [
           {
             "name": "args",
@@ -18537,7 +18554,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listTrendingRepositories": []
+        "listTrendingRepositories": [],
+        "listTopics": []
       }
     },
     "providers.glama": {
@@ -35489,6 +35507,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.reuters": {
       "defs": {
+        "FindAuthorArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesByDateArgs": {
           "k": "object",
           "props": [
@@ -35567,6 +35597,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListArticlesByDateArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findAuthor": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindAuthorArgs"
             },
             "optional": false
           }
@@ -38276,6 +38316,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListFeaturedGamesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "platform",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "windows"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mac"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "linux"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchGamesArgs": {
           "k": "object",
           "props": [
@@ -38322,6 +38388,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetGameDetailsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFeaturedGames": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListFeaturedGamesArgs"
             },
             "optional": false
           },
@@ -40982,22 +41074,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetVideoArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getChannelInfo": [
@@ -41008,22 +41084,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetChannelInfoArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "searchChannels": [
@@ -41034,22 +41094,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchChannelsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "createHighlight": [
@@ -41105,6 +41149,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listFollowedChannels": [
           {
             "name": "opts",
             "schema": {
@@ -42041,7 +42103,25 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listDepartments": []
+        "listDepartments": [],
+        "browseCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "browseId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.waterfurnace": {

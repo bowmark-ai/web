@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 17a202dcbbf49a04d3d231dd2127865899637ecc7ac8eb74b0e35a9ecede9fe6
-// 67 capabilities, 491 providers, 1504 typed functions, 20 refused.
+// Manifest version: 3a5ac1227e9f865c6c0cc6467843e11d620c13051ca0a7cc300931821c03d02a
+// 67 capabilities, 491 providers, 1511 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7203,6 +7203,11 @@ interface archive_orgLendingAvailability {
   waitlistSize: number;
 }
 
+interface archive_orgDownloadUrl {
+  filename: string;                // the file name within the item
+  downloadUrl: string;             // the ready-to-fetch URL for this file
+}
+
   /**
    * The Wayback Machine — is a site or page archived, every capture it holds, and the page
    * itself as it was captured, so a caller can see what a site published before it was changed
@@ -7257,6 +7262,14 @@ interface archive_orgLendingAvailability {
      * archive.org/details/<identifier> url. Throws when no item exists at that identifier.
      */
     getItem(identifier: string): Promise<archive_orgItem>;
+
+    /**
+     * Builds a download URL for one file within an item — a book PDF, an audio file, a video, or
+     * any other archived file — ready to pass to a file fetch. Takes the `identifier` from
+     * searchItems (or the last path segment of an archive.org/details/<identifier> url) and a
+     * `filename` from getItem's files list. Throws when no item exists at that identifier.
+     */
+    downloadFile(identifier: string, filename: string): Promise<archive_orgDownloadUrl>;
 
     /**
      * Checks whether a book item is available to borrow from the Internet Archive right now.
@@ -8527,6 +8540,16 @@ interface BbcGetLivePageResult {
   url: string;
 }
 
+interface BbcSport {
+  title: string;
+  path: string;      // site-relative, e.g. "/sport/football" — what listCompetitions takes
+  url: string;
+}
+
+interface BbcListSportsResult {
+  sports: BbcSport[]; // the sports BBC Sport covers, in the site's own order
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8545,6 +8568,12 @@ interface bbcRow {
      * takes; the finder for every section-scoped read.
      */
     listSections(args?: { parent?: string }): Promise<BbcListSectionsResult>;
+
+    /**
+     * The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf, …)
+     * with each one's path — the finder for listCompetitions and getFixtures.
+     */
+    listSports(): Promise<BbcListSportsResult>;
 
     /**
      * The stories a BBC section page shows right now, in the page's own order and grouping:
@@ -19451,6 +19480,14 @@ interface GithubListTrendingRepositoriesResult {
   repositories: GithubTrendingRepository[];
   warnings: string[];
 }
+interface GithubTopic {
+  name: string;
+  url: string;
+}
+interface GithubListTopicsResult {
+  topics: GithubTopic[];
+  warnings: string[];
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -19620,6 +19657,13 @@ interface GithubListTrendingRepositoriesResult {
      * page has changed.
      */
     listTrendingRepositories(): Promise<GithubListTrendingRepositoriesResult>;
+
+    /**
+     * Returns topics from GitHub's public topics page — each topic's name and its
+     * github.com/topics URL. Off the topics page's server-rendered HTML, no API, no login. THROWS
+     * if the page structure does not carry the expected topic links — the page has changed.
+     */
+    listTopics(): Promise<GithubListTopicsResult>;
   }
 }
 
@@ -35047,6 +35091,15 @@ interface ListArticlesByDateArgs {
   date: string;              // "YYYY-MM-DD" — reuters.com's own archive index runs 2005-02-23 through 2023-10-31
   limit?: number;            // 1-1000, default 200
 }
+interface ReutersAuthor {
+  path: string;              // /authors/<slug>/, pass to getAuthor
+  slug: string;              // <slug> from the path, e.g. "john-davison"
+  name: string;              // title-cased slug, e.g. "John Davison"
+  url: string;
+}
+interface FindAuthorArgs {
+  query: string;             // author name or partial slug to search for
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -35074,6 +35127,13 @@ interface ListArticlesByDateArgs {
      * reaches; the archive's own index runs 2005-02-23 through 2023-10-31.
      */
     listArticlesByDate(args: ListArticlesByDateArgs): Promise<ReutersArchivedArticle[]>;
+
+    /**
+     * Find a Reuters journalist by name — returns their author page path, slug and title-cased
+     * name. Searches the author sitemap; matches against both slug and name. The finder for
+     * getAuthor.
+     */
+    findAuthor(args: FindAuthorArgs): Promise<ReutersAuthor[]>;
   }
 }
 
@@ -37469,6 +37529,26 @@ interface GetGameDetailsResponse {
   game: SteamGameDetails;
 }
 
+interface ListFeaturedGamesArgs {
+  platform?: "windows" | "mac" | "linux";
+}
+
+interface FeaturedGame {
+  appid: string;
+  name: string | null;
+  price: { currency: string; initial: number; final: number; discountPercent: number } | null;
+  discountExpiration: number | null;
+  capsuleImage: string | null;
+  headerImage: string | null;
+  platforms: { windows: boolean; mac: boolean; linux: boolean };
+  streamingAvailable: boolean;
+  controllerSupport: string | null;
+}
+
+interface ListFeaturedGamesResponse {
+  games: FeaturedGame[];
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -37486,6 +37566,12 @@ interface GetGameDetailsResponse {
      * screenshots and trailers.
      */
     getGameDetails(args: GetGameDetailsArgs, opts?: ConnectionOption): Promise<GetGameDetailsResponse>;
+
+    /**
+     * Fetches the current list of featured games displayed on the Steam store homepage by platform
+     * (Windows, Mac, or Linux), including prices, discount information, and images.
+     */
+    listFeaturedGames(args: ListFeaturedGamesArgs, opts?: ConnectionOption): Promise<ListFeaturedGamesResponse>;
   }
 }
 
@@ -40158,6 +40244,14 @@ interface TwitchDeveloperApp {
   redirectUri: string;
   dashboardUrl: string;
 }
+interface TwitchFollowedChannel {
+  id: string;
+  login: string;
+  displayName: string;
+  followerCount: number;
+  /** Only set when live. */
+  gameName: string | null;
+}
 
   /**
    * Twitch — cut a Highlight of your own broadcast, including the one still live, and read any
@@ -40170,13 +40264,13 @@ interface TwitchDeveloperApp {
      * HIGHLIGHT, UPLOAD) and its channel. No sign-in. THROWS naming the id when Twitch has no such
      * video.
      */
-    getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<TwitchVideo>;
+    getVideo(args: GetVideoArgs): Promise<TwitchVideo>;
 
     /**
      * Reads a public channel's profile: display name, description, game, language, profile image
      * URL, follower count, creation date. No sign-in.
      */
-    getChannelInfo(args: GetChannelInfoArgs, opts?: ConnectionOption): Promise<TwitchChannelInfo>;
+    getChannelInfo(args: GetChannelInfoArgs): Promise<TwitchChannelInfo>;
 
     /**
      * Searches Twitch channels by keyword — a name, game or description term — and returns up to
@@ -40185,7 +40279,7 @@ interface TwitchDeveloperApp {
      * viewer count and current game). No sign-in. Twitch's own search offers no further paging on
      * this door.
      */
-    searchChannels(args: SearchChannelsArgs, opts?: ConnectionOption): Promise<TwitchChannelSearchResult[]>;
+    searchChannels(args: SearchChannelsArgs): Promise<TwitchChannelSearchResult[]>;
 
     /**
      * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one
@@ -40212,6 +40306,13 @@ interface TwitchDeveloperApp {
      * can hold: call it as bowmark.stream_channel.set.
      */
     setChannel(args: SetChannelArgs, opts?: ConnectionOption): Promise<TwitchChannelSettings>;
+
+    /**
+     * Lists channels the signed-in user follows: login, display name, current game (only when
+     * live), and follower count. NEEDS the viewer's Twitch sign-in. Returns an empty list when the
+     * user follows no channels.
+     */
+    listFollowedChannels(opts?: ConnectionOption): Promise<TwitchFollowedChannel[]>;
   }
 }
 
@@ -41237,9 +41338,9 @@ interface walmartSearchResult {
 
   /**
    * Walmart.com — product search, product detail, store-level stock, store locator and more.
-   * Three functions built: keyword search across the catalog, finding nearby stores by ZIP with
-   * address, hours, phone and department availability, and listing every department and
-   * sub-category with its browse id.
+   * Four functions built: keyword search across the catalog, finding nearby stores by ZIP with
+   * address, hours, phone and department availability, listing every department and sub-category
+   * with its browse id, and browsing a department's own product grid by that id.
    */
   interface Unit {
     /**
@@ -41266,6 +41367,15 @@ interface walmartSearchResult {
      * door `browseCategory` needs — the way the site's own 'Browse Departments' page does.
      */
     listDepartments(): Promise<walmartDepartment[]>;
+
+    /**
+     * Lists products under one of the site's own department/category pages (e.g. Electronics,
+     * Grocery, Home) rather than a keyword search — how a caller explores 'what's in this
+     * department' without already knowing what to search for. Takes the `browseId` a
+     * `listDepartments` row returns; the site's own default sort and page size, same shape as
+     * `search`.
+     */
+    browseCategory(args: { browseId: string }): Promise<walmartSearchResult[]>;
   }
 }
 
