@@ -1045,7 +1045,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
 | `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, state, merge… | 🟢 |
 | `github.getRepo` | github.com | Returns a public repository's own metadata — description, default branch… | 🟢 |
-| `github.getSponsorPage` | github.com | Returns the public sponsor/funding page for a user, showing sponsorship options and… | ⚪ |
+| `github.getSponsorPage` | github.com | Returns a person's public GitHub Sponsors page — display name, bio, location, current… | 🟢 |
 | `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | 🟢 |
 | `github.getUserRepositories` | github.com | Lists every public repository a user owns — description, fork/archived flags, default… | 🟢 |
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
@@ -2143,7 +2143,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `therowhouse.listLocations` | therowhouse.com | Lists every Row House studio's slug and canonical page URL, enumerated from the site's… | 🟢 |
 | `thestowcompany.getSampleClosetEstimate` | easyclosets.com | Runs EasyClosets' own free 3D closet design tool for a given closet shape (reach-in or… | 🟢 |
 | `thezebra.estimateCoverageCost` | thezebra.com | Returns The Zebra's own estimate of what a driver should expect to pay, and what… | ⚪ |
-| `thezebra.getAutoQuotes` | thezebra.com | Returns real side-by-side auto insurance rates from the carriers that will write a… | 🟡 |
+| `thezebra.getAutoQuotes` | thezebra.com | Returns real side-by-side auto insurance rates from the carriers that will write a… | 🔴 |
 | `thezebra.getCarrierRates` | thezebra.com | Returns what a named insurance company charges relative to its competitors — its own… | 🟢 |
 | `thezebra.getCityRates` | thezebra.com | Returns car insurance costs for a US city — the average premium there, the per-carrier… | 🟢 |
 | `thezebra.getCommercialAutoQuotes` | thezebra.com | Returns commercial auto rates for a business's vehicles, drivers and use class — the… | ⚪ |
