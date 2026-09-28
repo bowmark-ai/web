@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f
-# 67 capabilities, 493 providers, 1526 typed functions, 20 refused.
+# Manifest version: 45bc0f6895716547ef343a46d434f6055f90907fa26db085c25967f78b26bc6c
+# 67 capabilities, 493 providers, 1528 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23049,6 +23049,20 @@ class Prv_weather_channel_WeatherAlert_Out(TypedDict):
     expires: str | None
     source: str | None
 
+class Prv_weather_channel_FifteenMinuteForecastResult_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    units: Literal["metric"] | Literal["imperial"]
+    forecasts: list[Prv_weather_channel_FifteenMinuteForecast_Out]
+
+class Prv_weather_channel_FifteenMinuteForecast_Out(TypedDict):
+    time: str
+    precipitation: float | None
+    precipType: str | None
+    cloudCover: float | None
+    qpfRain: float | None
+    qpfSnow: float | None
+    chanceOfPrecipitation: float | None
+
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
     title: str
@@ -23353,6 +23367,21 @@ class Prv_wikipedia_WikipediaLanguageLink_Out(TypedDict):
     lang: str
     title: str
     url: str
+
+class Prv_wikipedia_listImages_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_listImages_return_Out(TypedDict):
+    images: list[Prv_wikipedia_WikipediaMediaItem_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaMediaItem_Out(TypedDict):
+    title: str
+    type: str
+    section: float
+    leadImage: bool
+    caption: str
 
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
@@ -40234,6 +40263,13 @@ class Prv_weather_channel(Protocol):
         name resolved to.
         """
 
+    async def getFifteenMinuteForecast(self, location: str | Prv_weather_channel_Location_u1_In, options: Prv_weather_channel_ForecastOptions_In | None = None, /) -> Prv_weather_channel_FifteenMinuteForecastResult_Out:
+        """Sub-hourly precipitation forecast for a place — e.g.
+        `getFifteenMinuteForecast("Seattle")` — the same "next hour" minute-cast weather.com
+        shows on its home page. Each 15-minute step carries a precipitation phrase, type, cloud
+        cover, rain/snow QPF and chance of precipitation. Units default to metric.
+        """
+
 class Prv_wellfound(Protocol):
     """Wellfound (formerly AngelList Talent) — startup job search with salary and equity bands,
     startup profiles and their open roles.
@@ -40403,6 +40439,15 @@ class Prv_wikipedia(Protocol):
         is fuller in German or Japanese than in English. Takes an article title OR any
         wikipedia.org url and follows the site's own redirects. Optional limit parameter caps
         the number of editions returned (defaults to all).
+        """
+
+    async def listImages(self, titleOrUrl: str, options: Prv_wikipedia_listImages_options_In | None = None, /) -> Prv_wikipedia_listImages_return_Out:
+        """Every image, video and audio clip in an article, in page order — each with its file
+        title (what getImage takes), the section it sits in, its caption as the page actually
+        writes it, and whether it is the lead image. The door to getImage, which expands one row
+        into the full-size url, dimensions, licence and attribution. Takes an article title OR
+        any wikipedia.org url and follows the site's own redirects. Optional limit parameter
+        caps the number of items returned (defaults to all).
         """
 
 class Prv_wikipedia_standings(Protocol):

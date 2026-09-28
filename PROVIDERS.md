@@ -233,7 +233,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.followPodcast` | bbc.com | Follow a BBC podcast or series for the signed-in reader. | ⚪ |
 | `bbc.getArticle` | bbc.com | One BBC article as data: headline, byline, published and updated times, section, topic… | 🟢 |
 | `bbc.getCurrentWeather` | bbc.com | The latest observation BBC Weather shows for a location: temperature, wind, humidity… | ⚪ |
-| `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | ⚪ |
+| `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | 🟢 |
 | `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | ⚪ |
 | `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | 🟢 |
 | `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | ⚪ |
@@ -776,7 +776,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getNewsArticle` | epicgames.com | One Epic Games Store news article's full text (HTML), date, author, category and images. | 🟢 |
 | `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | 🟢 |
 | `epicgames.getRewardsBalance` | epicgames.com | The signed-in caller's Epic Rewards balance — the store credit they have earned from… | ⚪ |
-| `epicgames.getServiceStatus` | epicgames.com | Whether Epic's services are up — the Epic Games Store, launcher, login, Fortnite… | ⚪ |
+| `epicgames.getServiceStatus` | epicgames.com | Whether Epic's services are up — the Epic Games Store, launcher, login, Fortnite… | 🟢 |
 | `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | 🟢 |
 | `epicgames.getWishlist` | epicgames.com | The signed-in caller's Epic Games Store wishlist, with each game's current price and… | ⚪ |
 | `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Top Upcoming… | ⚪ |
@@ -1120,10 +1120,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.saveArticle` | news.google.com | Save an article to the signed-in person's own reading list — the Google News… | 🟢 |
 | `google_news.searchNews` | news.google.com | Everything Google News has indexed about a subject, across every publisher at once —… | 🟢 |
 | `google_news.topStories` | news.google.com | What Google News is leading with right now — the front page, as ranked story CLUSTERS… | 🟢 |
-| `google_sheets.findSpreadsheets` | docs.google.com | Finds public Google Sheets spreadsheets about a topic ("nfl schedule", "budget… | 🟢 |
+| `google_sheets.findSpreadsheets` | docs.google.com | Finds public Google Sheets spreadsheets on docs.google.com/spreadsheets about a topic… | 🟢 |
 | `google_sheets.listMySpreadsheets` | docs.google.com | Lists the spreadsheets in the caller's own Google Drive. | ⚪ |
-| `google_sheets.listSheets` | docs.google.com | Lists the tabs of a public or link-shared Google Sheets spreadsheet — each tab's name… | 🟢 |
-| `google_sheets.readSheet` | docs.google.com | Reads the cell values of one tab of a public or link-shared Google Sheets spreadsheet… | 🟢 |
+| `google_sheets.listSheets` | docs.google.com | Lists the tabs (sheets) of a public or link-shared Google Sheets spreadsheet on… | 🟢 |
+| `google_sheets.readSheet` | docs.google.com | Reads the cell values from a public or link-shared Google Sheets spreadsheet on… | 🟢 |
 | `google_sheets.writeRange` | docs.google.com | Writes values into an A1 range of a spreadsheet the caller can edit. | ⚪ |
 | `google_translate.checkSpelling` | translate.google.com | Google Translate's own "Did you mean …" line — whether the text it was handed looks… | 🟢 |
 | `google_translate.detectLanguage` | translate.google.com | Work out what language a string is written in, with Google's own confidence in the… | 🟢 |

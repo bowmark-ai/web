@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f
-// 1526 checked, 20 unchecked.
+// Manifest version: 45bc0f6895716547ef343a46d434f6055f90907fa26db085c25967f78b26bc6c
+// 1528 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f",
+  "version": "45bc0f6895716547ef343a46d434f6055f90907fa26db085c25967f78b26bc6c",
   "units": {
     "booking_links": {
       "defs": {
@@ -43002,6 +43002,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getFifteenMinuteForecast": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ForecastOptions"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -43502,6 +43520,38 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listLanguages": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listImages": [
           {
             "name": "titleOrUrl",
             "schema": {

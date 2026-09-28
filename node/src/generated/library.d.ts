@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f
-// 67 capabilities, 493 providers, 1544 typed functions, 20 refused.
+// Manifest version: 45bc0f6895716547ef343a46d434f6055f90907fa26db085c25967f78b26bc6c
+// 67 capabilities, 493 providers, 1546 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -42087,6 +42087,22 @@ interface AlertList {
   alerts: WeatherAlert[];
 }
 
+interface FifteenMinuteForecast {
+  time: string;
+  precipitation: number | null;
+  precipType: string | null;
+  cloudCover: number | null;
+  qpfRain: number | null;
+  qpfSnow: number | null;
+  chanceOfPrecipitation: number | null;
+}
+
+interface FifteenMinuteForecastResult {
+  location: WeatherLocation | null;
+  units: "metric" | "imperial";
+  forecasts: FifteenMinuteForecast[];
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -42145,6 +42161,14 @@ interface AlertList {
      * resolved to.
      */
     listAlerts(location: Location): Promise<AlertList>;
+
+    /**
+     * Sub-hourly precipitation forecast for a place — e.g. `getFifteenMinuteForecast("Seattle")` —
+     * the same "next hour" minute-cast weather.com shows on its home page. Each 15-minute step
+     * carries a precipitation phrase, type, cloud cover, rain/snow QPF and chance of
+     * precipitation. Units default to metric.
+     */
+    getFifteenMinuteForecast(location: Location, options?: ForecastOptions): Promise<FifteenMinuteForecastResult>;
   }
 }
 
@@ -42423,6 +42447,14 @@ interface WikipediaLanguageLink {
   url: string;
 }
 
+interface WikipediaMediaItem {
+  title: string;
+  type: string;
+  section: number;
+  leadImage: boolean;
+  caption: string;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -42562,6 +42594,16 @@ interface WikipediaLanguageLink {
      * editions returned (defaults to all).
      */
     listLanguages(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ languages: WikipediaLanguageLink[]; warnings: string[] }>;
+
+    /**
+     * Every image, video and audio clip in an article, in page order — each with its file title
+     * (what getImage takes), the section it sits in, its caption as the page actually writes it,
+     * and whether it is the lead image. The door to getImage, which expands one row into the
+     * full-size url, dimensions, licence and attribution. Takes an article title OR any
+     * wikipedia.org url and follows the site's own redirects. Optional limit parameter caps the
+     * number of items returned (defaults to all).
+     */
+    listImages(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ images: WikipediaMediaItem[]; warnings: string[] }>;
   }
 }
 

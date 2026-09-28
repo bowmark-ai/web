@@ -1,5 +1,5 @@
 {
-  "version": "d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f",
+  "version": "45bc0f6895716547ef343a46d434f6055f90907fa26db085c25967f78b26bc6c",
   "units": {
     "booking_links": {
       "defs": {
@@ -42990,6 +42990,24 @@
             },
             "optional": false
           }
+        ],
+        "getFifteenMinuteForecast": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ForecastOptions"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -43490,6 +43508,38 @@
           }
         ],
         "listLanguages": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listImages": [
           {
             "name": "titleOrUrl",
             "schema": {
