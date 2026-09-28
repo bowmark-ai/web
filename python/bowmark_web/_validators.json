@@ -1,5 +1,5 @@
 {
-  "version": "3a5ac1227e9f865c6c0cc6467843e11d620c13051ca0a7cc300931821c03d02a",
+  "version": "4dfb24a72280741585ea7fc6811098d7ae1eb77d96168df9315ecfcf362cc1e2",
   "units": {
     "booking_links": {
       "defs": {
@@ -44469,6 +44469,24 @@
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWatchHistory": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "continuation",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
                 }
               ]
             },

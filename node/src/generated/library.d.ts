@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 3a5ac1227e9f865c6c0cc6467843e11d620c13051ca0a7cc300931821c03d02a
-// 67 capabilities, 491 providers, 1511 typed functions, 20 refused.
+// Manifest version: 4dfb24a72280741585ea7fc6811098d7ae1eb77d96168df9315ecfcf362cc1e2
+// 67 capabilities, 491 providers, 1512 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21398,14 +21398,20 @@ interface gst_indiaRow {
   name: string;
   status: "active" | "cancelled" | "suspended" | "unknown";
   state?: string;
+  tradeName?: string;
+  registeredOn?: string; // DD/MM/YYYY
+  constitution?: string; // "Public Limited Company", "Proprietorship", …
+  taxpayerType?: string; // "Regular", "Composition", …
+  address?: string;
   warnings: string[];
 }
 
   /** Search India's GST registry for registrant details by GSTIN. */
   interface Unit {
     /**
-     * Returns the GSTIN holder's legal name, registration status (active/cancelled/suspended) and
-     * state.
+     * Returns the GSTIN holder's legal name, registration status (active/cancelled/suspended),
+     * state, trade name, registration date and address. A well-formed GSTIN the registry has no
+     * record of comes back with status "unknown" and a warning.
      */
     lookup(gstin: string): Promise<gst_indiaRow>;
   }
@@ -43615,6 +43621,13 @@ interface YoutubeStreamFormat {
      * SIGN-IN — call `bowmark.video_library.liked` rather than this directly.
      */
     listLikedVideos(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
+
+    /**
+     * What the signed-in account has watched, newest first, paged like any playlist. NEEDS A
+     * SIGN-IN — call the video_library's history capability rather than this directly. Per-account
+     * and starts empty.
+     */
+    listWatchHistory(input?: { continuation?: string }): Promise<YoutubePlaylistVideoPage>;
 
     /**
      * Creates an EMPTY playlist on the signed-in account and returns its id and URL. `privacy`

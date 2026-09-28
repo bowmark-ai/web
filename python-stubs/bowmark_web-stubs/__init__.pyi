@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 3a5ac1227e9f865c6c0cc6467843e11d620c13051ca0a7cc300931821c03d02a
-# 67 capabilities, 491 providers, 1493 typed functions, 20 refused.
+# Manifest version: 4dfb24a72280741585ea7fc6811098d7ae1eb77d96168df9315ecfcf362cc1e2
+# 67 capabilities, 491 providers, 1494 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11677,6 +11677,11 @@ class Prv_gst_india_gst_indiaRow_Out(TypedDict):
     name: str
     status: Literal["active"] | Literal["cancelled"] | Literal["suspended"] | Literal["unknown"]
     state: NotRequired[str]
+    tradeName: NotRequired[str]
+    registeredOn: NotRequired[str]
+    constitution: NotRequired[str]
+    taxpayerType: NotRequired[str]
+    address: NotRequired[str]
     warnings: list[str]
 
 class Prv_hamptonwaterwine_HamptonWaterNearbyRetailers_Out(TypedDict):
@@ -23922,6 +23927,9 @@ class Prv_youtube_listWatchLater_input_In(TypedDict):
 class Prv_youtube_listLikedVideos_input_In(TypedDict):
     continuation: NotRequired[str]
 
+class Prv_youtube_listWatchHistory_input_In(TypedDict):
+    continuation: NotRequired[str]
+
 class Prv_youtube_createPlaylist_input_In(TypedDict):
     title: str
     description: NotRequired[str]
@@ -32232,8 +32240,9 @@ class Prv_gst_india(Protocol):
     """Search India's GST registry for registrant details by GSTIN."""
 
     async def lookup(self, gstin: str, /) -> Prv_gst_india_gst_indiaRow_Out:
-        """Returns the GSTIN holder's legal name, registration status (active/cancelled/suspended)
-        and state.
+        """Returns the GSTIN holder's legal name, registration status (active/cancelled/suspended),
+        state, trade name, registration date and address. A well-formed GSTIN the registry has
+        no record of comes back with status "unknown" and a warning.
         """
 
 class Prv_hamptonwaterwine(Protocol):
@@ -40440,6 +40449,12 @@ class Prv_youtube(Protocol):
     async def listLikedVideos(self, input: Prv_youtube_listLikedVideos_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
         """The videos the signed-in account has liked, newest first, paged like any playlist. NEEDS
         A SIGN-IN — call `bowmark.video_library.liked` rather than this directly.
+        """
+
+    async def listWatchHistory(self, input: Prv_youtube_listWatchHistory_input_In | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
+        """What the signed-in account has watched, newest first, paged like any playlist. NEEDS A
+        SIGN-IN — call the video_library's history capability rather than this directly.
+        Per-account and starts empty.
         """
 
     async def createPlaylist(self, input: Prv_youtube_createPlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeCreatedPlaylist_Out:
