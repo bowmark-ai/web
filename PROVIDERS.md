@@ -337,7 +337,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getListFeed` | bsky.app | The posts from everyone on a curation list, as the list's own feed tab shows them. | ⚪ |
 | `bluesky.getMe` | bsky.app | Who the signed-in caller is: their DID, handle, email-confirmed flag and PDS host. | ⚪ |
 | `bluesky.getMyLikes` | bsky.app | The posts the caller has liked. | ⚪ |
-| `bluesky.getPost` | bsky.app | One or more posts by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text… | ⚪ |
+| `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟢 |
 | `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | ⚪ |
 | `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | ⚪ |
 | `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | ⚪ |
@@ -614,7 +614,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `cnn.getArticle` | www.cnn.com | Read the full text and metadata of one CNN article — headline, body text, author… | 🟢 |
 | `cnn.getMarketsData` | www.cnn.com | Financial and markets data from CNN Money — stock indices, currency rates, commodities… | ⚪ |
-| `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, transcription if… | ⚪ |
+| `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, publication date… | 🟢 |
 | `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | 🟢 |
 | `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | 🟢 |
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
@@ -1772,7 +1772,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pizzahut.getMenu` | pizzahut.com | Reads a store's menu — the items Pizza Hut is actually selling at that location, by… | 🟢 |
 | `pizzahut.getMenuItem` | pizzahut.com | Reads one menu item in full for a store, by NAME ("Pepperoni Pizza") since the sibling… | 🟢 |
 | `pizzahut.priceOrder` | pizzahut.com | Prices a configured basket at a store WITHOUT placing it — line items with their… | 🟢 |
-| `planning_inspectorate_ni.search` | national-infrastructure-consenting.planninginspectorate.gov.uk | Searches the national infrastructure planning register by project name or keywords… | 🟡 |
+| `planning_inspectorate_ni.search` | national-infrastructure-consenting.planninginspectorate.gov.uk | Searches the UK national infrastructure planning register by project name or keywords… | 🟡 |
 | `platform_claude_com.getDocPage` | platform.claude.com | Reads one page of platform.claude.com's own /docs/** documentation by URL or path and… | 🟢 |
 | `platform_claude_com.getPage` | platform.claude.com | Reads a non-/docs page (e.g. /plugins/submit) and returns its title and meta… | ⚪ |
 | `platform_claude_com.listDocPages` | platform.claude.com | Lists every English /docs page platform.claude.com publishes, parsed from the site's… | 🟢 |
