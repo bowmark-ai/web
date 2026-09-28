@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9b2734df5ca9ad06b80c90ab8629b12f762a80dd382ae7c0528ac472f73e32a8
-// 67 capabilities, 491 providers, 1517 typed functions, 20 refused.
+// Manifest version: 5ec7480b36c46777addd5b279c21773cbc3a21bb2917dc1a8ffc34e6317375d5
+// 67 capabilities, 491 providers, 1523 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9885,6 +9885,8 @@ interface BlueskyUserPosts {
   cursor?: string;
 }
 
+type BlueskyGetPostResult = BlueskyPost;
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -9924,6 +9926,13 @@ interface BlueskyUserPosts {
      * `blueskyInputError` on an actor the AppView cannot find.
      */
     getUserPosts(actor: string | { actor: string; filter?: "posts" | "postsWithReplies" | "media" | "videos"; limit?: number; cursor?: string }): Promise<BlueskyUserPosts>;
+
+    /**
+     * One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author, embeds,
+     * reply/repost/like/quote counts. THROWS `blueskyInputError` on a post URL or at:// URI the
+     * AppView cannot find — check the spelling or use `searchPosts` to find it.
+     */
+    getPost(post: string): Promise<BlueskyGetPostResult>;
   }
 }
 
@@ -15987,6 +15996,16 @@ interface ebayAutocompleteResult {
   categories: { categoryId: string; name: string }[];  // empty when eBay associates none
 }
 
+interface ebayDeal {
+  itemId: string;
+  title: string;
+  price: { value: string; currency: string } | null;
+  originalPrice: { value: string; currency: string } | null;  // null when this tile carries no discount
+  discountPercent: number | null;  // null when this tile carries no discount
+  url: string;
+  imageUrl: string | null;
+}
+
   /**
    * eBay's own documented Browse API (api.ebay.com) — searches live eBay listings by query and
    * returns title, price, condition, buying option, seller and the item's own ebay.com URL,
@@ -16038,6 +16057,15 @@ interface ebayAutocompleteResult {
      * for the prefix.
      */
     searchAutocomplete(args: string | { query: string }): Promise<ebayAutocompleteResult>;
+
+    /**
+     * Reads eBay's own `/deals` page — the same spotlight, trending and featured deals a shopper
+     * sees on ebay.com — via a plain keyless GET and a DOM parse of the page's own schema.org
+     * Product/Offer microdata. Needs no eBay OAuth key, unlike every keyed function on this
+     * provider. `originalPrice` and `discountPercent` are present only on a tile that carries a
+     * discount badge.
+     */
+    getDeals(): Promise<ebayDeal[]>;
   }
 }
 
@@ -20766,6 +20794,18 @@ interface GoogleNewsSavedArticle {
      * articles.
      */
     listSavedArticles(opts?: ConnectionOption): Promise<GoogleNewsSavedArticle[]>;
+
+    /**
+     * Save an article to the signed-in person's own reading list — the Google News equivalent of a
+     * bookmark, and the write half of `listSavedArticles`. An authFunction, on the same Google
+     * session `listEditions`, `getForYou`, `listFollowedTopics` and `listSavedArticles` already
+     * work on. This lands on our own account's own private list, visible to nobody else and
+     * deletable afterwards, so it is honestly testable without touching a real person or publisher
+     * — a logged-out request refuses with the same 302 to `accounts.google.com/ServiceLogin`
+     * measured 2026-09-28 through CRAWLER_PROXY. With no session, or a dead one, this refuses
+     * before returning, naming the sign-in.
+     */
+    saveArticle(articleHandle: string, opts?: ConnectionOption): Promise<void>;
   }
 }
 
@@ -32566,8 +32606,11 @@ interface PlanningInspectorateProject {
   /** Search the UK national infrastructure planning register by project name. */
   interface Unit {
     /**
-     * Searches the UK national infrastructure planning register by project name or keywords,
-     * returns matching projects with their id, name and register URL.
+     * Searches the UK national infrastructure planning register by project name or keywords and
+     * returns matching projects with their id, name, applicant, stage and register URL. There is
+     * NO date field — no submission, acceptance or decision date — so it cannot filter to recent
+     * applications; to find what is new since a previous check, compare the ids against the ones
+     * you saw last time.
      */
     search(query: string): Promise<PlanningInspectorateProject[]>;
   }
@@ -35175,6 +35218,18 @@ interface ReutersAuthor {
 interface FindAuthorArgs {
   query: string;             // author name or partial slug to search for
 }
+interface ReutersVideo {
+  title: string;
+  url: string;               // the video's watch page, e.g. https://www.reuters.com/video/watch/<id>/
+  description: string | null;
+  thumbnail: string | null;
+  duration: number | null;   // seconds
+  publishedAt: string | null;
+}
+interface ListVideosArgs {
+  month?: string;             // "YYYY-MM" — omit for the newest month the site publishes
+  limit?: number;              // 1-500, default 50
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -35209,6 +35264,13 @@ interface FindAuthorArgs {
      * getAuthor.
      */
     findAuthor(args: FindAuthorArgs): Promise<ReutersAuthor[]>;
+
+    /**
+     * Reuters videos, newest first — title, description, duration, published time, thumbnail and
+     * page url — from the site's own monthly video sitemap. Optional { month: "YYYY-MM" };
+     * omitted, the newest month the site publishes.
+     */
+    listVideos(args?: ListVideosArgs): Promise<ReutersVideo[]>;
   }
 }
 
@@ -38299,6 +38361,13 @@ interface GuardianArticle {
      * listArticlesBySection returns as `id`.
      */
     getArticle(articleUrlOrId: string): Promise<GuardianArticle>;
+
+    /**
+     * Articles tagged with a specific topic or collection — climate crisis, Ukraine, US elections,
+     * COVID-19, Black Lives Matter — newest first, with headline, url, standfirst, byline and
+     * publish time. Topics are paths like 'environment/climate-crisis' or 'world/ukraine'.
+     */
+    getTopicArticles(args?: GuardianListArticlesArgs): Promise<GuardianListArticlesResult>;
   }
 }
 
@@ -41688,6 +41757,15 @@ interface AlertList {
      * unknown place is a caller-fixable error.
      */
     searchLocations(query: string): Promise<WeatherLocation[]>;
+
+    /**
+     * Gets detailed location information for a place name, postal code, or coordinates — e.g.
+     * `getLocation("Toronto")`, `getLocation("10001")`, or `getLocation({ latitude: 40.7,
+     * longitude: -74 })`. Returns the resolved location with its full display name, country,
+     * coordinates, time zone, and place id. A place name is resolved to weather.com's top match;
+     * an unknown place is a caller-fixable error.
+     */
+    getLocation(location: Location): Promise<WeatherLocation>;
 
     /**
      * The Weather Channel's current conditions for a place — e.g.

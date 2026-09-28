@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9b2734df5ca9ad06b80c90ab8629b12f762a80dd382ae7c0528ac472f73e32a8
-# 67 capabilities, 491 providers, 1499 typed functions, 20 refused.
+# Manifest version: 5ec7480b36c46777addd5b279c21773cbc3a21bb2917dc1a8ffc34e6317375d5
+# 67 capabilities, 491 providers, 1505 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8767,6 +8767,23 @@ class Prv_ebay_ebayAutocompleteResult_Out(TypedDict):
 class Prv_ebay_ebayAutocompleteResult_Out_categories_item_Out(TypedDict):
     categoryId: str
     name: str
+
+class Prv_ebay_ebayDeal_Out(TypedDict):
+    itemId: str
+    title: str
+    price: Prv_ebay_ebayDeal_Out_price_u0_Out | None
+    originalPrice: Prv_ebay_ebayDeal_Out_originalPrice_u0_Out | None
+    discountPercent: float | None
+    url: str
+    imageUrl: str | None
+
+class Prv_ebay_ebayDeal_Out_price_u0_Out(TypedDict):
+    value: str
+    currency: str
+
+class Prv_ebay_ebayDeal_Out_originalPrice_u0_Out(TypedDict):
+    value: str
+    currency: str
 
 class Prv_elase_ElaseLocationLink_Out(TypedDict):
     slug: str
@@ -19059,6 +19076,18 @@ class Prv_reuters_ReutersAuthor_Out(TypedDict):
     name: str
     url: str
 
+class Prv_reuters_ListVideosArgs_In(TypedDict):
+    month: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_reuters_ReutersVideo_Out(TypedDict):
+    title: str
+    url: str
+    description: str | None
+    thumbnail: str | None
+    duration: float | None
+    publishedAt: str | None
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -27893,6 +27922,12 @@ class Prv_bluesky(Protocol):
         THROWS `blueskyInputError` on an actor the AppView cannot find.
         """
 
+    async def getPost(self, post: str, /) -> Prv_bluesky_BlueskyPost_Out:
+        """One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author,
+        embeds, reply/repost/like/quote counts. THROWS `blueskyInputError` on a post URL or
+        at:// URI the AppView cannot find — check the spelling or use `searchPosts` to find it.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -30119,6 +30154,14 @@ class Prv_ebay(Protocol):
         suggest for the prefix.
         """
 
+    async def getDeals(self, /) -> list[Prv_ebay_ebayDeal_Out]:
+        """Reads eBay's own `/deals` page — the same spotlight, trending and featured deals a
+        shopper sees on ebay.com — via a plain keyless GET and a DOM parse of the page's own
+        schema.org Product/Offer microdata. Needs no eBay OAuth key, unlike every keyed function
+        on this provider. `originalPrice` and `discountPercent` are present only on a tile that
+        carries a discount badge.
+        """
+
 class Prv_elase(Protocol):
     """Elase Med Spa's real location directory, live per-location service catalog, and real
     open-slot appointment availability — the same Zenoti booking backend the site's own
@@ -32015,6 +32058,17 @@ class Prv_google_news(Protocol):
         naming the sign-in. **The signed-in shape is honestly UNMEASURED**, exactly as
         `listFollowedTopics`' is: nobody here holds a signed-in Google News session, so nobody
         has ever captured which section of that page lists saved articles.
+        """
+
+    async def saveArticle(self, articleHandle: str, opts: ConnectionOption | None = None, /) -> Any:
+        """Save an article to the signed-in person's own reading list — the Google News equivalent
+        of a bookmark, and the write half of `listSavedArticles`. An authFunction, on the same
+        Google session `listEditions`, `getForYou`, `listFollowedTopics` and `listSavedArticles`
+        already work on. This lands on our own account's own private list, visible to nobody
+        else and deletable afterwards, so it is honestly testable without touching a real person
+        or publisher — a logged-out request refuses with the same 302 to
+        `accounts.google.com/ServiceLogin` measured 2026-09-28 through CRAWLER_PROXY. With no
+        session, or a dead one, this refuses before returning, naming the sign-in.
         """
 
 class Prv_google_translate(Protocol):
@@ -36328,8 +36382,11 @@ class Prv_planning_inspectorate_ni(Protocol):
     """Search the UK national infrastructure planning register by project name."""
 
     async def search(self, query: str, /) -> list[Prv_planning_inspectorate_ni_PlanningInspectorateProject_Out]:
-        """Searches the UK national infrastructure planning register by project name or keywords,
-        returns matching projects with their id, name and register URL.
+        """Searches the UK national infrastructure planning register by project name or keywords
+        and returns matching projects with their id, name, applicant, stage and register URL.
+        There is NO date field — no submission, acceptance or decision date — so it cannot
+        filter to recent applications; to find what is new since a previous check, compare the
+        ids against the ones you saw last time.
         """
 
 class Prv_platform_claude_com(Protocol):
@@ -37461,6 +37518,12 @@ class Prv_reuters(Protocol):
         getAuthor.
         """
 
+    async def listVideos(self, args: Prv_reuters_ListVideosArgs_In | None = None, /) -> list[Prv_reuters_ReutersVideo_Out]:
+        """Reuters videos, newest first — title, description, duration, published time, thumbnail
+        and page url — from the site's own monthly video sitemap. Optional { month: "YYYY-MM" };
+        omitted, the newest month the site publishes.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -38537,6 +38600,13 @@ class Prv_theguardian_com(Protocol):
         """The full text of one Guardian news article: headline, standfirst, byline, publish time,
         section, tags and the body paragraph by paragraph. Takes a theguardian.com URL or the
         path listArticlesBySection returns as `id`.
+        """
+
+    async def getTopicArticles(self, args: Prv_theguardian_com_GuardianListArticlesArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:
+        """Articles tagged with a specific topic or collection — climate crisis, Ukraine, US
+        elections, COVID-19, Black Lives Matter — newest first, with headline, url, standfirst,
+        byline and publish time. Topics are paths like 'environment/climate-crisis' or
+        'world/ukraine'.
         """
 
 class Prv_therabody(Protocol):
@@ -39766,6 +39836,14 @@ class Prv_weather_channel(Protocol):
         match with its full display name, country, coordinates and time zone. Every other
         function also takes a place name directly, so this is only needed to pick between
         ambiguous matches; an unknown place is a caller-fixable error.
+        """
+
+    async def getLocation(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_WeatherLocation_Out:
+        """Gets detailed location information for a place name, postal code, or coordinates — e.g.
+        `getLocation("Toronto")`, `getLocation("10001")`, or `getLocation({ latitude: 40.7,
+        longitude: -74 })`. Returns the resolved location with its full display name, country,
+        coordinates, time zone, and place id. A place name is resolved to weather.com's top
+        match; an unknown place is a caller-fixable error.
         """
 
     async def getCurrentConditions(self, location: str | Prv_weather_channel_Location_u1_In, options: Prv_weather_channel_ForecastOptions_In | None = None, /) -> Prv_weather_channel_CurrentConditions_Out:

@@ -1,5 +1,5 @@
 {
-  "version": "9b2734df5ca9ad06b80c90ab8629b12f762a80dd382ae7c0528ac472f73e32a8",
+  "version": "5ec7480b36c46777addd5b279c21773cbc3a21bb2917dc1a8ffc34e6317375d5",
   "units": {
     "booking_links": {
       "defs": {
@@ -9947,6 +9947,15 @@
             },
             "optional": false
           }
+        ],
+        "getPost": [
+          {
+            "name": "post",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -15222,7 +15231,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "getDeals": []
       }
     },
     "providers.elase": {
@@ -19558,6 +19568,31 @@
           }
         ],
         "listSavedArticles": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "saveArticle": [
+          {
+            "name": "articleHandle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -35647,6 +35682,25 @@
               "optional": true
             }
           ]
+        },
+        "ListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "month",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -35688,6 +35742,16 @@
               "name": "FindAuthorArgs"
             },
             "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -39128,6 +39192,16 @@
             },
             "optional": false
           }
+        ],
+        "getTopicArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListArticlesArgs"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -42496,6 +42570,16 @@
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getLocation": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
             },
             "optional": false
           }

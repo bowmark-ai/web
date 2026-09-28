@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9b2734df5ca9ad06b80c90ab8629b12f762a80dd382ae7c0528ac472f73e32a8
-// 1499 checked, 20 unchecked.
+// Manifest version: 5ec7480b36c46777addd5b279c21773cbc3a21bb2917dc1a8ffc34e6317375d5
+// 1505 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9b2734df5ca9ad06b80c90ab8629b12f762a80dd382ae7c0528ac472f73e32a8",
+  "version": "5ec7480b36c46777addd5b279c21773cbc3a21bb2917dc1a8ffc34e6317375d5",
   "units": {
     "booking_links": {
       "defs": {
@@ -9959,6 +9959,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getPost": [
+          {
+            "name": "post",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -15234,7 +15243,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getDeals": []
       }
     },
     "providers.elase": {
@@ -19570,6 +19580,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listSavedArticles": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "saveArticle": [
+          {
+            "name": "articleHandle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -35659,6 +35694,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "month",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -35700,6 +35754,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "FindAuthorArgs"
             },
             "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListVideosArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -39140,6 +39204,16 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getTopicArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListArticlesArgs"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -42508,6 +42582,16 @@ export const VALIDATORS: ValidatorTable = {
             "name": "query",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getLocation": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
             },
             "optional": false
           }
