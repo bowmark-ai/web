@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fa6ae2923c2631946d2d194d78c47cd89ec6c8733a374845dae34080600b2a20
-// 67 capabilities, 494 providers, 1536 typed functions, 20 refused.
+// Manifest version: 92eddb9f05e68578cab5e9de2f8854163df6f4da4dabfa6723b221082f072001
+// 67 capabilities, 494 providers, 1537 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -31318,6 +31318,8 @@ interface PipsRegion { indices: Array<[number, number]>; type: "equals" | "sum" 
 interface PipsDifficulty { id: number; backendId: string; constructors: string; dominoes: Array<[number, number]>; regions: PipsRegion[]; solution: Array<[[number, number], [number, number]]>; }
 interface NytPips { printDate: string; editor: string | null; easy: PipsDifficulty; medium: PipsDifficulty; hard: PipsDifficulty; }
 interface GetPipsArgs { date?: string; }
+interface SudokuDifficulty { id: number; dayOfWeek: string; difficulty: "Easy" | "Medium" | "Hard"; printDate: string; puzzle: number[]; solution: number[]; hints: number[]; }
+interface NytSudoku { displayDate: string; easy: SudokuDifficulty; medium: SudokuDifficulty; hard: SudokuDifficulty; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -31381,6 +31383,13 @@ interface GetPipsArgs { date?: string; }
      * "YYYY-MM-DD" } for any day.
      */
     getPips(args?: GetPipsArgs): Promise<NytPips>;
+
+    /**
+     * Retrieves today's Sudoku: all three difficulties (easy, medium, hard), each with its board
+     * (0 for a blank cell) and the official solution. NYT publishes Sudoku for today only — there
+     * is no dated archive, so this takes no arguments.
+     */
+    getSudoku(): Promise<NytSudoku>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fa6ae2923c2631946d2d194d78c47cd89ec6c8733a374845dae34080600b2a20
-# 67 capabilities, 494 providers, 1518 typed functions, 20 refused.
+# Manifest version: 92eddb9f05e68578cab5e9de2f8854163df6f4da4dabfa6723b221082f072001
+# 67 capabilities, 494 providers, 1519 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16614,6 +16614,21 @@ class Prv_nyt_games_PipsRegion_Out(TypedDict):
     indices: list[tuple[float, float]]
     type: Literal["equals"] | Literal["sum"] | Literal["greater"] | Literal["less"] | Literal["unequal"] | Literal["empty"]
     target: NotRequired[float]
+
+class Prv_nyt_games_NytSudoku_Out(TypedDict):
+    displayDate: str
+    easy: Prv_nyt_games_SudokuDifficulty_Out
+    medium: Prv_nyt_games_SudokuDifficulty_Out
+    hard: Prv_nyt_games_SudokuDifficulty_Out
+
+class Prv_nyt_games_SudokuDifficulty_Out(TypedDict):
+    id: float
+    dayOfWeek: str
+    difficulty: Literal["Easy"] | Literal["Medium"] | Literal["Hard"]
+    printDate: str
+    puzzle: list[float]
+    solution: list[float]
+    hints: list[float]
 
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
@@ -36040,6 +36055,12 @@ class Prv_nyt_games(Protocol):
         """Retrieves the daily Pips puzzle: all three difficulties (easy, medium, hard), each with
         its dominoes, board regions and official solution. Defaults to today in New York; pass {
         date: "YYYY-MM-DD" } for any day.
+        """
+
+    async def getSudoku(self, /) -> Prv_nyt_games_NytSudoku_Out:
+        """Retrieves today's Sudoku: all three difficulties (easy, medium, hard), each with its
+        board (0 for a blank cell) and the official solution. NYT publishes Sudoku for today
+        only — there is no dated archive, so this takes no arguments.
         """
 
 class Prv_nytimes(Protocol):
