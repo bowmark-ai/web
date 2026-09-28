@@ -1,5 +1,5 @@
 {
-  "version": "71dde2b46b61b9c29ed7df01ce2d7e903af54c92ad392a15bf9c02bf55f74b81",
+  "version": "d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f",
   "units": {
     "booking_links": {
       "defs": {
@@ -13487,7 +13487,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listTrendingTopics": []
       }
     },
     "providers.code_claude_com": {
@@ -18707,6 +18708,15 @@
             },
             "optional": true
           }
+        ],
+        "getSponsorPage": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -18907,29 +18917,6 @@
                   "optional": false
                 }
               ]
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.google_docs": {
-      "defs": {},
-      "functions": {
-        "findDocuments": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getDocument": [
-          {
-            "name": "document",
-            "schema": {
-              "k": "string"
             },
             "optional": false
           }
@@ -28522,6 +28509,18 @@
     },
     "providers.nyt_cooking": {
       "defs": {
+        "NytCookingGetAuthorRecipesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "author",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingGetRecipeArgs": {
           "k": "object",
           "props": [
@@ -28593,6 +28592,16 @@
             "schema": {
               "k": "ref",
               "name": "NytCookingGetRecipeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAuthorRecipes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingGetAuthorRecipesArgs"
             },
             "optional": false
           }
@@ -28808,6 +28817,29 @@
       "defs": {},
       "functions": {
         "listSections": [],
+        "listArticles": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
         "getArticle": [
           {
             "name": "path",
@@ -35923,6 +35955,18 @@
             }
           ]
         },
+        "ListPictureGalleriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSectionsArgs": {
           "k": "object",
           "props": [
@@ -36002,6 +36046,16 @@
             "schema": {
               "k": "ref",
               "name": "ListVideosArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listPictureGalleries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPictureGalleriesArgs"
             },
             "optional": true
           }
@@ -37143,6 +37197,24 @@
               "name": "FindStoreArgs"
             },
             "optional": false
+          }
+        ],
+        "listOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -42544,7 +42616,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "listDeals": []
       }
     },
     "providers.waterfurnace": {
@@ -43731,6 +43804,44 @@
             }
           ]
         },
+        "GetNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPlayerArgs": {
           "k": "object",
           "props": [
@@ -44073,6 +44184,16 @@
             "schema": {
               "k": "ref",
               "name": "GetRssFeedArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetNewsArgs"
             },
             "optional": false
           }

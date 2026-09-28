@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 71dde2b46b61b9c29ed7df01ce2d7e903af54c92ad392a15bf9c02bf55f74b81
-// 1520 checked, 20 unchecked.
+// Manifest version: d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f
+// 1526 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "71dde2b46b61b9c29ed7df01ce2d7e903af54c92ad392a15bf9c02bf55f74b81",
+  "version": "d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f",
   "units": {
     "booking_links": {
       "defs": {
@@ -13499,7 +13499,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listTrendingTopics": []
       }
     },
     "providers.code_claude_com": {
@@ -18719,6 +18720,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getSponsorPage": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -18919,29 +18929,6 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.google_docs": {
-      "defs": {},
-      "functions": {
-        "findDocuments": [
-          {
-            "name": "query",
-            "schema": {
-              "k": "string"
-            },
-            "optional": false
-          }
-        ],
-        "getDocument": [
-          {
-            "name": "document",
-            "schema": {
-              "k": "string"
             },
             "optional": false
           }
@@ -28534,6 +28521,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.nyt_cooking": {
       "defs": {
+        "NytCookingGetAuthorRecipesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "author",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingGetRecipeArgs": {
           "k": "object",
           "props": [
@@ -28605,6 +28604,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "NytCookingGetRecipeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getAuthorRecipes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingGetAuthorRecipesArgs"
             },
             "optional": false
           }
@@ -28820,6 +28829,29 @@ export const VALIDATORS: ValidatorTable = {
       "defs": {},
       "functions": {
         "listSections": [],
+        "listArticles": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
         "getArticle": [
           {
             "name": "path",
@@ -35935,6 +35967,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListPictureGalleriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSectionsArgs": {
           "k": "object",
           "props": [
@@ -36014,6 +36058,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListVideosArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listPictureGalleries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPictureGalleriesArgs"
             },
             "optional": true
           }
@@ -37155,6 +37209,24 @@ export const VALIDATORS: ValidatorTable = {
               "name": "FindStoreArgs"
             },
             "optional": false
+          }
+        ],
+        "listOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -42556,7 +42628,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listDeals": []
       }
     },
     "providers.waterfurnace": {
@@ -43743,6 +43816,44 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPlayerArgs": {
           "k": "object",
           "props": [
@@ -44085,6 +44196,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetRssFeedArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetNewsArgs"
             },
             "optional": false
           }

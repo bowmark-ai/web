@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 71dde2b46b61b9c29ed7df01ce2d7e903af54c92ad392a15bf9c02bf55f74b81
-// 67 capabilities, 494 providers, 1538 typed functions, 20 refused.
+// Manifest version: d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f
+// 67 capabilities, 493 providers, 1544 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13969,6 +13969,16 @@ interface cnnVideoDetail extends cnnVideo {
   keywords: string[];
 }
 
+interface cnnTrendingItem {
+  headline: string;
+  url: string;
+  contentType: string;
+  section: string | null;
+  description: string | null;
+  thumbnailUrl: string | null;
+  lastPublishDate: string | null;
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -14009,6 +14019,12 @@ interface cnnVideoDetail extends cnnVideo {
      * author, keywords and thumbnail.
      */
     getVideo(url: string): Promise<cnnVideoDetail>;
+
+    /**
+     * The stories CNN's own recommendation engine currently ranks as trending — headline, URL,
+     * content type, section, description, thumbnail and last publish date.
+     */
+    listTrendingTopics(): Promise<cnnTrendingItem[]>;
   }
 }
 
@@ -19661,6 +19677,21 @@ interface GithubListMarketplaceActionsResult {
   actions: GithubMarketplaceAction[];
   warnings: string[];
 }
+interface GithubSponsorTier {
+  /** The tier's monthly price in whole dollars — GitHub Sponsors has no sub-dollar tiers. */
+  amount: number;
+  /** The tier's own reward text, GitHub's rendered HTML stripped to plain text. */
+  description: string;
+}
+interface GithubSponsorPage {
+  handle: string;
+  name: string;
+  bio: string | null;
+  location: string | null;
+  sponsorCount: number;
+  tiers: GithubSponsorTier[];
+  url: string;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -19849,6 +19880,16 @@ interface GithubListMarketplaceActionsResult {
      * changed (no listing markup at all, on a query that plainly should match something) throws.
      */
     listMarketplaceActions(options?: GithubListMarketplaceActionsOptions): Promise<GithubListMarketplaceActionsResult>;
+
+    /**
+     * Returns a person's public GitHub Sponsors page — their display name, bio, location, current
+     * sponsor count, and every monthly tier (price and reward text). Off
+     * github.com/sponsors/<handle>'s server-rendered HTML, no API, no login — the page never
+     * exposes a tier or a sponsor count to a logged-out visitor any differently than a signed-in
+     * one. THROWS when the handle has not set up GitHub Sponsors (GitHub redirects
+     * `/sponsors/<handle>` to their plain profile) or does not exist (404).
+     */
+    getSponsorPage(handle: string): Promise<GithubSponsorPage>;
   }
 }
 
@@ -20091,41 +20132,6 @@ interface GoodwayProduct extends GoodwayProductSummary {
      * needs a written quote.
      */
     getProduct(arg0: { slug: string }): Promise<GoodwayProduct>;
-  }
-}
-
-declare namespace BowmarkProvider_google_docs {
-  // ── Google Docs — the unit's own declarations, verbatim ──
-interface DocumentHit {
-  documentId: string;
-  title: string;
-  url: string;
-}
-
-interface GoogleDocument {
-  documentId: string;
-  title: string;
-  url: string;
-  /** The whole document as plain text, LF line ends. */
-  text: string;
-}
-
-  /**
-   * Google Docs documents: find public docs by topic and read a document's full text and title
-   * by URL or id.
-   */
-  interface Unit {
-    /**
-     * Finds public Google Docs documents about a topic — title, document id and URL — so a caller
-     * holding only words gets a doc to read.
-     */
-    findDocuments(query: string): Promise<DocumentHit[]>;
-
-    /**
-     * Reads the full text and title of a public or link-shared Google Docs document, by URL or
-     * document id.
-     */
-    getDocument(document: string): Promise<GoogleDocument>;
   }
 }
 
@@ -31303,6 +31309,16 @@ interface NytCookingRecipe {
   tags: string[];
 }
 
+interface NytCookingGetAuthorRecipesArgs {
+  author: string;
+}
+
+interface NytCookingAuthorRecipes {
+  recipes: unknown[];
+  totalRecipes: number;
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -31316,6 +31332,12 @@ interface NytCookingRecipe {
      * its page's embedded recipe data.
      */
     getRecipe(args: NytCookingGetRecipeArgs): Promise<NytCookingRecipe>;
+
+    /**
+     * Lists an author's published recipes off their byline page — the finder for a recipe author a
+     * caller names.
+     */
+    getAuthorRecipes(args: NytCookingGetAuthorRecipesArgs): Promise<NytCookingAuthorRecipes>;
   }
 }
 
@@ -31444,11 +31466,26 @@ interface NytimesSearchResult {
   bylines?: Array<{ name: string }>;
   firstPublished?: string;
 }
+interface NytimesArticleSummary {
+  id: string;
+  url?: string;
+  headline?: string;
+  summary?: string;
+  kicker?: string;
+  bylines?: Array<{ name: string }>;
+  lastModified?: string;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
     /** Lists NYT's own top-nav sections (World, U.S., Business, and their subsections). */
     listSections(): Promise<NytimesSection[]>;
+
+    /**
+     * Lists a section front's own article grid (headline, summary, byline, url). Takes a section
+     * slug like "world" or a path like "/section/world".
+     */
+    listArticles(section: string, limit?: number, offset?: number): Promise<NytimesArticleSummary[]>;
 
     /**
      * Gets full article text, metadata and comments count. Takes an article path like
@@ -35489,6 +35526,16 @@ interface ListVideosArgs {
   month?: string;             // "YYYY-MM" — omit for the newest month the site publishes
   limit?: number;              // 1-500, default 50
 }
+interface ReutersPictureGallery {
+  title: string;              // title-cased off the gallery URL's own slug — the sitemap carries no title field
+  url: string;
+  publishedAt: string | null;
+  image: string | null;       // the lead photo
+  caption: string | null;     // the lead photo's caption and credit line
+}
+interface ListPictureGalleriesArgs {
+  limit?: number;              // 1-500, default 50
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -35530,6 +35577,12 @@ interface ListVideosArgs {
      * omitted, the newest month the site publishes.
      */
     listVideos(args?: ListVideosArgs): Promise<ReutersVideo[]>;
+
+    /**
+     * Reuters photo galleries ("Pictures"), newest first — title, url, published time, lead image
+     * and its caption — from the site's own pictures sitemap.
+     */
+    listPictureGalleries(args?: ListPictureGalleriesArgs): Promise<ReutersPictureGallery[]>;
   }
 }
 
@@ -36364,6 +36417,14 @@ interface FindStoreResponse {
   stores: SamsungStoreLocation[];
 }
 
+interface SamsungOrder {
+  [key: string]: unknown; // Samsung's own per-order shape — unmeasured against a real signed-in account; kept as the site's own JSON rather than guessed at
+}
+
+interface ListOrdersResponse {
+  orders: SamsungOrder[];
+}
+
   /**
    * Samsung's own US storefront and support site — products, prices, trade-in, warranty and
    * store lookups, plus a signed-in caller's own orders and rewards.
@@ -36409,6 +36470,13 @@ interface FindStoreResponse {
      * in miles.
      */
     findStore(args: FindStoreArgs): Promise<FindStoreResponse>;
+
+    /**
+     * The signed-in shopper's own Samsung.com order history. Requires the CALLER's own Samsung
+     * account — the caller signs in through the run's own auth relay, this provider never creates
+     * the account.
+     */
+    listOrders(opts?: ConnectionOption): Promise<ListOrdersResponse>;
   }
 }
 
@@ -41740,11 +41808,12 @@ interface walmartSearchResult {
 }
 
   /**
-   * Walmart.com — product search, product detail, store-level stock, store locator and more.
-   * Five functions built: keyword search across the catalog, finding nearby stores by ZIP with
+   * Walmart.com — product search, product detail, store-level stock, store locator and more. Six
+   * functions built: keyword search across the catalog, finding nearby stores by ZIP with
    * address, hours, phone and department availability, listing every department and sub-category
-   * with its browse id, browsing a department's own product grid by that id, and browsing a
-   * brand's own product grid by its id.
+   * with its browse id, browsing a department's own product grid by that id, browsing a brand's
+   * own product grid by its id, and listing what's currently on sale (Rollbacks, clearance and
+   * current deal events).
    */
   interface Unit {
     /**
@@ -41787,6 +41856,13 @@ interface walmartSearchResult {
      * own `/brand/<slug>/<id>` URL — the slug is decorative and only the id selects the shelf.
      */
     browseBrand(args: { brandId: string }): Promise<walmartSearchResult[]>;
+
+    /**
+     * Lists what is on sale right now — Rollbacks, clearance and the site's current deal events —
+     * with the sale price and the price it replaced, the way the site's own 'Rollbacks & more'
+     * savings page does.
+     */
+    listDeals(): Promise<walmartSearchResult[]>;
   }
 }
 
@@ -43171,6 +43247,23 @@ interface GetRssFeedArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
 }
 
+interface GetNewsArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+}
+
+interface YahooSportsNewsStory {
+  headline: string;
+  url: string;
+  source: string | null;
+  published: string | null;
+  tags: string[];
+}
+
+interface YahooSportsNews {
+  league: string;
+  stories: YahooSportsNewsStory[];
+}
+
   /**
    * Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages — off
    * the site's own server-rendered schema.org markup, no browser and no account.
@@ -43232,6 +43325,12 @@ interface GetRssFeedArgs {
      * feed rather than a page to parse. Covers all six leagues Yahoo Sports publishes feeds for.
      */
     getRssFeed(args: GetRssFeedArgs): Promise<YahooSportsRssFeedItem[]>;
+
+    /**
+     * Reads a league's News tab — all story headlines, links, sources and publication times from
+     * Yahoo Sports' own news page.
+     */
+    getNews(args: GetNewsArgs): Promise<YahooSportsNews>;
   }
 }
 
@@ -45338,7 +45437,6 @@ interface BowmarkProviders {
   golf_com: BowmarkProvider_golf_com.Unit;
   goloadup: BowmarkProvider_goloadup.Unit;
   goodway: BowmarkProvider_goodway.Unit;
-  google_docs: BowmarkProvider_google_docs.Unit;
   google_flights: BowmarkProvider_google_flights.Unit;
   google_maps: BowmarkProvider_google_maps.Unit;
   google_news: BowmarkProvider_google_news.Unit;

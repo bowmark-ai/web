@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 71dde2b46b61b9c29ed7df01ce2d7e903af54c92ad392a15bf9c02bf55f74b81
-# 67 capabilities, 494 providers, 1520 typed functions, 20 refused.
+# Manifest version: d9d34100e9c1fd6c4db85c1407ade98301eb2770e8a85c33a61f8b23eb8b682f
+# 67 capabilities, 493 providers, 1526 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7708,6 +7708,15 @@ class Prv_cnn_cnnVideoDetail_Out(TypedDict):
     author: str | None
     keywords: list[str]
 
+class Prv_cnn_cnnTrendingItem_Out(TypedDict):
+    headline: str
+    url: str
+    contentType: str
+    section: str | None
+    description: str | None
+    thumbnailUrl: str | None
+    lastPublishDate: str | None
+
 class Prv_code_claude_com_code_claude_comDoc_Out(TypedDict):
     url: str
     title: str | None
@@ -10829,6 +10838,19 @@ class Prv_github_GithubMarketplaceAction_Out(TypedDict):
     listingType: str
     url: str
 
+class Prv_github_GithubSponsorPage_Out(TypedDict):
+    handle: str
+    name: str
+    bio: str | None
+    location: str | None
+    sponsorCount: float
+    tiers: list[Prv_github_GithubSponsorTier_Out]
+    url: str
+
+class Prv_github_GithubSponsorTier_Out(TypedDict):
+    amount: float
+    description: str
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -10979,17 +11001,6 @@ class Prv_goodway_GoodwayProduct_Out(TypedDict):
     url: str
     price: str | None
     purchaseType: Literal["buy"] | Literal["quote"]
-
-class Prv_google_docs_DocumentHit_Out(TypedDict):
-    documentId: str
-    title: str
-    url: str
-
-class Prv_google_docs_GoogleDocument_Out(TypedDict):
-    documentId: str
-    title: str
-    url: str
-    text: str
 
 Prv_google_flights_GoogleFlightQuery_In = TypedDict(
     "Prv_google_flights_GoogleFlightQuery_In",
@@ -16518,6 +16529,14 @@ class Prv_nyt_cooking_NytCookingRecipe_Out_rating_u0_Out(TypedDict):
     average: float
     count: float
 
+class Prv_nyt_cooking_NytCookingGetAuthorRecipesArgs_In(TypedDict):
+    author: str
+
+class Prv_nyt_cooking_NytCookingAuthorRecipes_Out(TypedDict):
+    recipes: list[Any]
+    totalRecipes: float
+    warnings: NotRequired[list[str]]
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -16651,6 +16670,18 @@ class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
     slug: str
     url: str
+
+class Prv_nytimes_NytimesArticleSummary_Out(TypedDict):
+    id: str
+    url: NotRequired[str]
+    headline: NotRequired[str]
+    summary: NotRequired[str]
+    kicker: NotRequired[str]
+    bylines: NotRequired[list[Prv_nytimes_NytimesArticleSummary_Out_bylines_item_Out]]
+    lastModified: NotRequired[str]
+
+class Prv_nytimes_NytimesArticleSummary_Out_bylines_item_Out(TypedDict):
+    name: str
 
 class Prv_nytimes_NytimesArticle_Out(TypedDict):
     id: str
@@ -19238,6 +19269,16 @@ class Prv_reuters_ReutersVideo_Out(TypedDict):
     duration: float | None
     publishedAt: str | None
 
+class Prv_reuters_ListPictureGalleriesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_reuters_ReutersPictureGallery_Out(TypedDict):
+    title: str
+    url: str
+    publishedAt: str | None
+    image: str | None
+    caption: str | None
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -19769,6 +19810,12 @@ class Prv_samsung_SamsungStoreLocation_Out(TypedDict):
     hours: str
     url: str
     distanceMiles: float
+
+class Prv_samsung_ListOrdersResponse_Out(TypedDict):
+    orders: list[Prv_samsung_SamsungOrder_Out]
+
+class Prv_samsung_SamsungOrder_Out(TypedDict):
+    pass
 
 class Prv_scentbird_ScentbirdCatalogueResult_Out(TypedDict):
     catalogue: Literal["perfumes"] | Literal["colognes"]
@@ -23697,6 +23744,20 @@ class Prv_yahoo_sports_YahooSportsRssFeedItem_Out(TypedDict):
     title: str | None
     link: str | None
     published: str | None
+
+class Prv_yahoo_sports_GetNewsArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+
+class Prv_yahoo_sports_YahooSportsNews_Out(TypedDict):
+    league: str
+    stories: list[Prv_yahoo_sports_YahooSportsNewsStory_Out]
+
+class Prv_yahoo_sports_YahooSportsNewsStory_Out(TypedDict):
+    headline: str
+    url: str
+    source: str | None
+    published: str | None
+    tags: list[str]
 
 class Prv_ycombinator_YCombinatorArticle_Out(TypedDict):
     id: float | None
@@ -29523,6 +29584,11 @@ class Prv_cnn(Protocol):
         author, keywords and thumbnail.
         """
 
+    async def listTrendingTopics(self, /) -> list[Prv_cnn_cnnTrendingItem_Out]:
+        """The stories CNN's own recommendation engine currently ranks as trending — headline, URL,
+        content type, section, description, thumbnail and last publish date.
+        """
+
 class Prv_code_claude_com(Protocol):
     """Reads one page of Claude Code's own documentation site (code.claude.com/docs/...) by URL
     and returns its title, description and body as clean markdown — the site's own
@@ -31682,6 +31748,15 @@ class Prv_github(Protocol):
         match something) throws.
         """
 
+    async def getSponsorPage(self, handle: str, /) -> Prv_github_GithubSponsorPage_Out:
+        """Returns a person's public GitHub Sponsors page — their display name, bio, location,
+        current sponsor count, and every monthly tier (price and reward text). Off
+        github.com/sponsors/<handle>'s server-rendered HTML, no API, no login — the page never
+        exposes a tier or a sponsor count to a logged-out visitor any differently than a
+        signed-in one. THROWS when the handle has not set up GitHub Sponsors (GitHub redirects
+        `/sponsors/<handle>` to their plain profile) or does not exist (404).
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -31786,21 +31861,6 @@ class Prv_goodway(Protocol):
     async def getProduct(self, arg0: Prv_goodway_getProduct_arg0_In, /) -> Prv_goodway_GoodwayProduct_Out:
         """Reads one product's detail page for its real current price and whether it buys online or
         needs a written quote.
-        """
-
-class Prv_google_docs(Protocol):
-    """Google Docs documents: find public docs by topic and read a document's full text and
-    title by URL or id.
-    """
-
-    async def findDocuments(self, query: str, /) -> list[Prv_google_docs_DocumentHit_Out]:
-        """Finds public Google Docs documents about a topic — title, document id and URL — so a
-        caller holding only words gets a doc to read.
-        """
-
-    async def getDocument(self, document: str, /) -> Prv_google_docs_GoogleDocument_Out:
-        """Reads the full text and title of a public or link-shared Google Docs document, by URL or
-        document id.
         """
 
 class Prv_google_flights(Protocol):
@@ -36024,6 +36084,11 @@ class Prv_nyt_cooking(Protocol):
         off its page's embedded recipe data.
         """
 
+    async def getAuthorRecipes(self, args: Prv_nyt_cooking_NytCookingGetAuthorRecipesArgs_In, /) -> Prv_nyt_cooking_NytCookingAuthorRecipes_Out:
+        """Lists an author's published recipes off their byline page — the finder for a recipe
+        author a caller names.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -36093,6 +36158,11 @@ class Prv_nytimes(Protocol):
 
     async def listSections(self, /) -> list[Prv_nytimes_NytimesSection_Out]:
         """Lists NYT's own top-nav sections (World, U.S., Business, and their subsections)."""
+
+    async def listArticles(self, section: str, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesArticleSummary_Out]:
+        """Lists a section front's own article grid (headline, summary, byline, url). Takes a
+        section slug like "world" or a path like "/section/world".
+        """
 
     async def getArticle(self, path: str, /) -> Prv_nytimes_NytimesArticle_Out:
         """Gets full article text, metadata and comments count. Takes an article path like
@@ -37785,6 +37855,11 @@ class Prv_reuters(Protocol):
         omitted, the newest month the site publishes.
         """
 
+    async def listPictureGalleries(self, args: Prv_reuters_ListPictureGalleriesArgs_In | None = None, /) -> list[Prv_reuters_ReutersPictureGallery_Out]:
+        """Reuters photo galleries ("Pictures"), newest first — title, url, published time, lead
+        image and its caption — from the site's own pictures sitemap.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -38090,6 +38165,12 @@ class Prv_samsung(Protocol):
         general authorized-retailer directory — ranked by distance from a US zip or a city+state
         (EITHER, never both). Each result carries the store's address, phone, hours and a
         distance in miles.
+        """
+
+    async def listOrders(self, opts: ConnectionOption | None = None, /) -> Prv_samsung_ListOrdersResponse_Out:
+        """The signed-in shopper's own Samsung.com order history. Requires the CALLER's own Samsung
+        account — the caller signs in through the run's own auth relay, this provider never
+        creates the account.
         """
 
 class Prv_scentbird(Protocol):
@@ -40010,10 +40091,11 @@ class Prv_walkerhughes(Protocol):
 
 class Prv_walmart(Protocol):
     """Walmart.com — product search, product detail, store-level stock, store locator and more.
-    Five functions built: keyword search across the catalog, finding nearby stores by ZIP
+    Six functions built: keyword search across the catalog, finding nearby stores by ZIP
     with address, hours, phone and department availability, listing every department and
     sub-category with its browse id, browsing a department's own product grid by that id,
-    and browsing a brand's own product grid by its id.
+    browsing a brand's own product grid by its id, and listing what's currently on sale
+    (Rollbacks, clearance and current deal events).
     """
 
     async def search(self, args: Prv_walmart_search_args_In, /) -> list[Prv_walmart_walmartSearchResult_Out]:
@@ -40051,6 +40133,12 @@ class Prv_walmart(Protocol):
         shopper browses by brand rather than by keyword. Takes the numeric `brandId` off the
         site's own `/brand/<slug>/<id>` URL — the slug is decorative and only the id selects the
         shelf.
+        """
+
+    async def listDeals(self, /) -> list[Prv_walmart_walmartSearchResult_Out]:
+        """Lists what is on sale right now — Rollbacks, clearance and the site's current deal
+        events — with the sale price and the price it replaced, the way the site's own
+        'Rollbacks & more' savings page does.
         """
 
 class Prv_waterfurnace(Protocol):
@@ -40563,6 +40651,11 @@ class Prv_yahoo_sports(Protocol):
         """Reads a league's own RSS feed — headline, link and publish time, for a caller that wants
         a feed rather than a page to parse. Covers all six leagues Yahoo Sports publishes feeds
         for.
+        """
+
+    async def getNews(self, args: Prv_yahoo_sports_GetNewsArgs_In, /) -> Prv_yahoo_sports_YahooSportsNews_Out:
+        """Reads a league's News tab — all story headlines, links, sources and publication times
+        from Yahoo Sports' own news page.
         """
 
 class Prv_ycombinator(Protocol):
@@ -41251,7 +41344,6 @@ class BowmarkProviders(Protocol):
     golf_com: Prv_golf_com
     goloadup: Prv_goloadup
     goodway: Prv_goodway
-    google_docs: Prv_google_docs
     google_flights: Prv_google_flights
     google_maps: Prv_google_maps
     google_news: Prv_google_news
