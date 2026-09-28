@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9fbcb46455fc5284d5e3d88660224fa3520b03fbfd7f5b607e14ce2c19164dfa
-# 67 capabilities, 491 providers, 1483 typed functions, 20 refused.
+# Manifest version: 17a202dcbbf49a04d3d231dd2127865899637ecc7ac8eb74b0e35a9ecede9fe6
+# 67 capabilities, 491 providers, 1486 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3029,6 +3029,16 @@ class Prv_amazon_AmazonSellerOffer_Out(TypedDict):
     sellerId: str | None
     sellerRating: float | None
     sellerRatingCount: float | None
+
+class Prv_amazon_AmazonCart_Out(TypedDict):
+    itemCount: float
+    items: list[Prv_amazon_AmazonCartItem_Out]
+
+class Prv_amazon_AmazonCartItem_Out(TypedDict):
+    asin: str
+    title: str
+    quantity: float
+    price: float | None
 
 class Prv_americandreamvacations_AdvLocation_Out(TypedDict):
     storeId: str
@@ -8964,6 +8974,19 @@ class Prv_epicgames_NewsArticleSummary_Out(TypedDict):
     author: str
     category: str
 
+class Prv_epicgames_GetNewsArticleResult_Out(TypedDict):
+    article: Prv_epicgames_NewsArticle_Out
+
+class Prv_epicgames_NewsArticle_Out(TypedDict):
+    title: str
+    slug: str
+    url: str
+    date: str
+    author: str
+    category: str
+    content: str
+    images: list[str]
+
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
     sku: str
@@ -13347,6 +13370,9 @@ class Prv_jcrew_GetProductResult_Out(TypedDict):
     currency: str | None
     orderable: bool | None
     stockLevel: float | None
+    listPrice: float | None
+    rating: float | None
+    reviewCount: float | None
     colours: list[str]
     sizes: list[str]
     fits: list[str]
@@ -13505,6 +13531,24 @@ class Prv_jcrew_JcrewStoreWeek_Out(TypedDict):
     friday: str
     saturday: str
     sunday: str
+
+class Prv_jcrew_ListProductReviewsArgs_In(TypedDict):
+    id: str
+    limit: NotRequired[float]
+
+class Prv_jcrew_ListProductReviewsResult_Out(TypedDict):
+    id: str
+    total: float
+    reviews: list[Prv_jcrew_JcrewReview_Out]
+
+class Prv_jcrew_JcrewReview_Out(TypedDict):
+    rating: float
+    title: str
+    body: str
+    helpfulCount: float
+    date: str
+    reviewerName: str | None
+    sizePurchased: str | None
 
 class Prv_jennikayne_GiftCardOptions_Out(TypedDict):
     productUrl: str
@@ -25947,12 +25991,12 @@ class Prv_amazon(Protocol):
     """Search Amazon's catalogue and read a product the way a shopper does — price, stock,
     rating, the customer reviews, the other products it recommends, every size and colour
     the listing sells, when it would arrive at a given ZIP — plus the rankings (best
-    sellers, new releases, movers and shakers, most wished for), today's deals and a
-    marketplace seller's feedback. searchProducts, suggestKeywords,
-    listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts,
-    listBestSellers, listNewReleases, listMostWishedFor, listDeals, getSeller,
-    getDeliveryEstimate and listSellerOffers are built; everything else is still a declared
-    stub.
+    sellers, new releases, movers and shakers, most wished for), today's deals, a
+    marketplace seller's feedback and the anonymous guest cart. searchProducts,
+    suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
+    listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor, listDeals,
+    getSeller, getDeliveryEstimate, listSellerOffers and getCart are built; everything else
+    is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
@@ -26089,6 +26133,15 @@ class Prv_amazon(Protocol):
         reports the site's own full count) — no paging control was found in the modal's static
         markup this pass. Empty `offers` on a listing with no other sellers is a real answer,
         not a parse failure.
+        """
+
+    async def getCart(self, /) -> Prv_amazon_AmazonCart_Out:
+        """Read what is in the cart — no account needed, since Amazon's guest cart is a real
+        anonymous session. `itemCount` and `items` are always 0/[] today: nothing on this
+        provider can put a row in the cart yet (`addToCart` is still gated), so an anonymous
+        cart is always the site's own honest empty state. Throws rather than guessing if Amazon
+        ever reports a non-zero count — no real capture of a populated anonymous cart exists yet
+        to parse against.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -27764,11 +27817,18 @@ class Prv_bmwusa(Protocol):
         """
 
 class Prv_bodacc(Protocol):
-    """Search BODACC insolvency legal notices by company name or SIREN."""
+    """Search BODACC insolvency legal notices by company name or SIREN. KNOWN ISSUE: currently
+    returns empty results even for real, confirmed insolvencies — see the search() summary
+    below.
+    """
 
     async def search(self, args: Prv_bodacc_SearchArgs_In, /) -> Prv_bodacc_search_return_Out:
         """Returns BODACC insolvency notices (redressement judiciaire, liquidation judiciaire,
-        sauvegarde)
+        sauvegarde). KNOWN ISSUE: currently returns empty results even for real, confirmed
+        insolvencies (measured 2026-09-27 — the underlying OpenDataSoft API moved to v2.1 with a
+        different dataset id and query syntax; this provider still calls the retired v1.0
+        endpoint, which 404s). Do not treat an empty result as "no notices found" until this is
+        fixed.
         """
 
 class Prv_bodensee_schiffsbetriebe_berths(Protocol):
@@ -30034,6 +30094,11 @@ class Prv_epicgames(Protocol):
     async def listNews(self, args: Prv_epicgames_listNews_args_In | None = None, /) -> Prv_epicgames_ListNewsResult_Out:
         """The Epic Games Store's news articles, newest first — title, date, author, category, slug
         and URL. Optionally paged with limit (default 10) and skip.
+        """
+
+    async def getNewsArticle(self, slug: str, /) -> Prv_epicgames_GetNewsArticleResult_Out:
+        """One Epic Games Store news article's full text (HTML), date, author, category and images.
+        Takes the slug listNews returns.
         """
 
 class Prv_epromos(Protocol):
@@ -33396,8 +33461,9 @@ class Prv_jcrew(Protocol):
 
     async def getProduct(self, args: Prv_jcrew_GetProductArgs_In, /) -> Prv_jcrew_GetProductResult_Out:
         """Reads one J.Crew product in full — given the style id at the end of a product URL, e.g.
-        `BX291` — returning the name, descriptions, price, currency, online inventory (orderable
-        and stock level), every colour and size the style comes in, every variant with its own
+        `BX291` — returning the name, descriptions, price, the pre-discount list price,
+        currency, online inventory (orderable and stock level), the site's own aggregate rating
+        and review count, every colour and size the style comes in, every variant with its own
         price and availability, and the full image set. The normalized variant list replaces the
         raw 502+ variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
         """
@@ -33460,6 +33526,16 @@ class Prv_jcrew(Protocol):
         the site's own raw merchandise tags. `radiusKm` (default 50, kilometres — the unit the
         site itself validates) and `maxResults` (default 25) bound the search; `total` reports
         how many matched even when `maxResults` capped the page.
+        """
+
+    async def listProductReviews(self, args: Prv_jcrew_ListProductReviewsArgs_In, /) -> Prv_jcrew_ListProductReviewsResult_Out:
+        """Reads the customer reviews on one J.Crew product off Bazaarvoice, the site's third-party
+        review platform — given the style id at the end of a product URL, e.g. `BX291` —
+        returning each review's rating, title, body, helpful-vote count, date, reviewer screen
+        name and the size they say they bought, most recent first. `total` is the site's own
+        review count for the style, matching `getProduct`'s `reviewCount`, and can exceed
+        `reviews.length` when the style has more reviews than the optional `limit` (default 20,
+        capped 50) asked for.
         """
 
 class Prv_jennikayne(Protocol):

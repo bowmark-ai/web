@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9fbcb46455fc5284d5e3d88660224fa3520b03fbfd7f5b607e14ce2c19164dfa
-// 67 capabilities, 491 providers, 1501 typed functions, 20 refused.
+// Manifest version: 17a202dcbbf49a04d3d231dd2127865899637ecc7ac8eb74b0e35a9ecede9fe6
+// 67 capabilities, 491 providers, 1504 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5423,16 +5423,26 @@ interface AmazonSellerOffersResult {
   totalOfferCount: number | null; // Amazon's own count, including offers this page did not render
   offers: AmazonSellerOffer[]; // page one only, up to 10 — see the note on listSellerOffers
 }
+interface AmazonCartItem {
+  asin: string;
+  title: string;
+  quantity: number;
+  price: number | null;
+}
+interface AmazonCart {
+  itemCount: number;
+  items: AmazonCartItem[]; // always [] today — addToCart is still gated, so an anonymous cart never holds a row
+}
 
   /**
    * Search Amazon's catalogue and read a product the way a shopper does — price, stock, rating,
    * the customer reviews, the other products it recommends, every size and colour the listing
    * sells, when it would arrive at a given ZIP — plus the rankings (best sellers, new releases,
-   * movers and shakers, most wished for), today's deals and a marketplace seller's feedback.
-   * searchProducts, suggestKeywords, listBestSellerCategories, getProduct, listVariations,
-   * listReviews, listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor,
-   * listDeals, getSeller, getDeliveryEstimate and listSellerOffers are built; everything else is
-   * still a declared stub.
+   * movers and shakers, most wished for), today's deals, a marketplace seller's feedback and the
+   * anonymous guest cart. searchProducts, suggestKeywords, listBestSellerCategories, getProduct,
+   * listVariations, listReviews, listRelatedProducts, listBestSellers, listNewReleases,
+   * listMostWishedFor, listDeals, getSeller, getDeliveryEstimate, listSellerOffers and getCart
+   * are built; everything else is still a declared stub.
    */
   interface Unit {
     /**
@@ -5581,6 +5591,15 @@ interface AmazonSellerOffersResult {
      * `offers` on a listing with no other sellers is a real answer, not a parse failure.
      */
     listSellerOffers(asinOrUrl: string): Promise<AmazonSellerOffersResult>;
+
+    /**
+     * Read what is in the cart — no account needed, since Amazon's guest cart is a real anonymous
+     * session. `itemCount` and `items` are always 0/[] today: nothing on this provider can put a
+     * row in the cart yet (`addToCart` is still gated), so an anonymous cart is always the site's
+     * own honest empty state. Throws rather than guessing if Amazon ever reports a non-zero count
+     * — no real capture of a populated anonymous cart exists yet to parse against.
+     */
+    getCart(): Promise<AmazonCart>;
   }
 }
 
@@ -10070,11 +10089,18 @@ interface BodaccNotice {
   datePublished: string;
 }
 
-  /** Search BODACC insolvency legal notices by company name or SIREN. */
+  /**
+   * Search BODACC insolvency legal notices by company name or SIREN. KNOWN ISSUE: currently
+   * returns empty results even for real, confirmed insolvencies — see the search() summary
+   * below.
+   */
   interface Unit {
     /**
      * Returns BODACC insolvency notices (redressement judiciaire, liquidation judiciaire,
-     * sauvegarde)
+     * sauvegarde). KNOWN ISSUE: currently returns empty results even for real, confirmed
+     * insolvencies (measured 2026-09-27 — the underlying OpenDataSoft API moved to v2.1 with a
+     * different dataset id and query syntax; this provider still calls the retired v1.0 endpoint,
+     * which 404s). Do not treat an empty result as "no notices found" until this is fixed.
      */
     search(args: SearchArgs): Promise<{ notices: BodaccNotice[] }>;
   }
@@ -16236,6 +16262,21 @@ interface ListNewsResult {
   articles: NewsArticleSummary[];
 }
 
+interface NewsArticle {
+  title: string;
+  slug: string;
+  url: string;
+  date: string;
+  author: string;
+  category: string;
+  content: string;
+  images: string[];
+}
+
+interface GetNewsArticleResult {
+  article: NewsArticle;
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -16287,6 +16328,12 @@ interface ListNewsResult {
      * URL. Optionally paged with limit (default 10) and skip.
      */
     listNews(args?: { limit?: number; skip?: number }): Promise<ListNewsResult>;
+
+    /**
+     * One Epic Games Store news article's full text (HTML), date, author, category and images.
+     * Takes the slug listNews returns.
+     */
+    getNewsArticle(slug: string): Promise<GetNewsArticleResult>;
   }
 }
 
@@ -25006,11 +25053,32 @@ interface GetProductResult {
   currency: string | null;
   orderable: boolean | null;
   stockLevel: number | null;
+  listPrice: number | null;
+  rating: number | null;
+  reviewCount: number | null;
   colours: string[];
   sizes: string[];
   fits: string[];
   variants: JcrewProductVariant[];
   images: JcrewProductImage[];
+}
+interface JcrewReview {
+  rating: number;
+  title: string;
+  body: string;
+  helpfulCount: number;
+  date: string;
+  reviewerName: string | null;
+  sizePurchased: string | null;
+}
+interface ListProductReviewsArgs {
+  id: string;
+  limit?: number;
+}
+interface ListProductReviewsResult {
+  id: string;
+  total: number;
+  reviews: JcrewReview[];
 }
 interface GetProductsItem {
   id: string;
@@ -25184,8 +25252,9 @@ interface FindStoresResult {
 
     /**
      * Reads one J.Crew product in full — given the style id at the end of a product URL, e.g.
-     * `BX291` — returning the name, descriptions, price, currency, online inventory (orderable and
-     * stock level), every colour and size the style comes in, every variant with its own price and
+     * `BX291` — returning the name, descriptions, price, the pre-discount list price, currency,
+     * online inventory (orderable and stock level), the site's own aggregate rating and review
+     * count, every colour and size the style comes in, every variant with its own price and
      * availability, and the full image set. The normalized variant list replaces the raw 502+
      * variants from J.Crew's OCAPI with a browseable (colour × size × fit) grid.
      */
@@ -25254,6 +25323,16 @@ interface FindStoresResult {
      * `maxResults` capped the page.
      */
     findStores(args: FindStoresArgs): Promise<FindStoresResult>;
+
+    /**
+     * Reads the customer reviews on one J.Crew product off Bazaarvoice, the site's third-party
+     * review platform — given the style id at the end of a product URL, e.g. `BX291` — returning
+     * each review's rating, title, body, helpful-vote count, date, reviewer screen name and the
+     * size they say they bought, most recent first. `total` is the site's own review count for the
+     * style, matching `getProduct`'s `reviewCount`, and can exceed `reviews.length` when the style
+     * has more reviews than the optional `limit` (default 20, capped 50) asked for.
+     */
+    listProductReviews(args: ListProductReviewsArgs): Promise<ListProductReviewsResult>;
   }
 }
 

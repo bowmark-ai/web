@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9fbcb46455fc5284d5e3d88660224fa3520b03fbfd7f5b607e14ce2c19164dfa
-// 1483 checked, 20 unchecked.
+// Manifest version: 17a202dcbbf49a04d3d231dd2127865899637ecc7ac8eb74b0e35a9ecede9fe6
+// 1486 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9fbcb46455fc5284d5e3d88660224fa3520b03fbfd7f5b607e14ce2c19164dfa",
+  "version": "17a202dcbbf49a04d3d231dd2127865899637ecc7ac8eb74b0e35a9ecede9fe6",
   "units": {
     "booking_links": {
       "defs": {
@@ -6213,7 +6213,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getCart": []
       }
     },
     "providers.americandreamvacations": {
@@ -15520,6 +15521,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getNewsArticle": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -23351,6 +23361,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListProductReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSearchRefinementsArgs": {
           "k": "object",
           "props": [
@@ -23493,6 +23522,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FindStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listProductReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListProductReviewsArgs"
             },
             "optional": false
           }

@@ -172,7 +172,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `archipelago.getGameOptions` | archipelago.gg | Returns one game's per-player randomizer options — the commented YAML template… | 🟢 |
 | `archive_org.checkAvailability` | archive.org | The Wayback Machine's own public availability lookup — is a site or page archived, and… | 🟡 |
 | `archive_org.checkLendingAvailability` | archive.org | Checks whether a book item is available to borrow from the Internet Archive right now… | 🟢 |
-| `archive_org.downloadFile` | archive.org | Builds a download URL for one file within an item — a book PDF, an audio file, a… | ⚪ |
+| `archive_org.downloadFile` | archive.org | Builds a download URL for one file within an item — a book PDF, an audio file, a… | 🟢 |
 | `archive_org.getItem` | archive.org | Fetches one item's full metadata — title, creator, description, date, mediatype… | 🟢 |
 | `archive_org.getSnapshot` | archive.org | Reads one archived page as it was captured — the original HTML without the archive's… | 🟢 |
 | `archive_org.listSnapshots` | archive.org | Lists the Wayback Machine's captures, newest first — every distinct page under a bare… | 🟡 |
@@ -1055,7 +1055,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
 | `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in user has starred, with optional sorting and filtering. | ⚪ |
-| `github.listTopics` | github.com | Lists repositories by topic, returning repositories tagged with a specific topic. | ⚪ |
+| `github.listTopics` | github.com | Lists topics from GitHub's public topics page — topic name and its github.com/topics… | 🟢 |
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
 | `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
 | `github.searchCode` | github.com | Searches for code across public repositories by filename, language, code snippet… | ⚪ |
@@ -1155,7 +1155,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `greatlakesbrewing.priceEGiftCard` | store.greatlakesbrewing.com | Calculates a Great Lakes Brewing Co. eGift-card total from a whole-dollar value and… | 🟢 |
 | `greatlakesdentaltech.getProduct` | greatlakesdentaltech.com | Reads one product's real, current price and live stock status straight off its own… | 🟢 |
 | `greatlakesdentaltech.search` | greatlakesdentaltech.com | Searches Great Lakes Dental Tech's own storefront catalog (~4,000 orthodontic/dental… | 🟢 |
-| `gst_india.lookup` | services.gst.gov.in | Searches India's GST registry by GSTIN and returns the registrant's legal name… | 🟡 |
+| `gst_india.lookup` | services.gst.gov.in | Looks up a GSTIN in India's GST registry and returns the registrant's legal name… | 🟡 |
 | `hamptonwaterwine.findNearbyRetailers` | hamptonwaterwine.com | Runs Hampton Water's own real-time Stockist store locator (the widget embedded on… | 🟢 |
 | `handypro.checkServiceArea` | handypro.com | Checks whether a ZIP is served by a real local HandyPro franchisee and returns that… | 🟢 |
 | `handypro.checkTechnicianAvailability` | handypro.com | Would find the next available technician slot for a category + ZIP via… | ⚪ |
@@ -2536,7 +2536,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listStreamFormats` | youtube.com | The renditions a video is actually available in — resolution, frame rate, codec… | 🟢 |
 | `youtube.listSubscriptions` | youtube.com | The channels the signed-in account subscribes to — each channel's id, url, handle… | 🟢 |
 | `youtube.listTrending` | youtube.com | YouTube's Trending feed — what is being watched across the site right now, and the… | ⚪ |
-| `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | ⚪ |
+| `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | 🟢 |
 | `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟡 |
 | `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | ⚪ |
 | `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |

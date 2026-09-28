@@ -1,5 +1,5 @@
 {
-  "version": "9fbcb46455fc5284d5e3d88660224fa3520b03fbfd7f5b607e14ce2c19164dfa",
+  "version": "17a202dcbbf49a04d3d231dd2127865899637ecc7ac8eb74b0e35a9ecede9fe6",
   "units": {
     "booking_links": {
       "defs": {
@@ -6201,7 +6201,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "getCart": []
       }
     },
     "providers.americandreamvacations": {
@@ -15508,6 +15509,15 @@
             },
             "optional": true
           }
+        ],
+        "getNewsArticle": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -23339,6 +23349,25 @@
             }
           ]
         },
+        "ListProductReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSearchRefinementsArgs": {
           "k": "object",
           "props": [
@@ -23481,6 +23510,16 @@
             "schema": {
               "k": "ref",
               "name": "FindStoresArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listProductReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListProductReviewsArgs"
             },
             "optional": false
           }
