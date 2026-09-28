@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d01515719d5e6e8b024301a224e1f95096ee78e3735e283ca0cc49bc98b17aec
-# 67 capabilities, 491 providers, 1478 typed functions, 20 refused.
+# Manifest version: 016f24c824eb0cb37350a305ecbcf397dbc4187f9eba46b86fa4f29087ab9ae8
+# 67 capabilities, 491 providers, 1481 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2828,6 +2828,11 @@ class Prv_alibaba_alibabaProductRow_Out(TypedDict):
     supplierName: str
     supplierId: float
     supplierProfileUrl: str | None
+
+class Prv_alibaba_alibabaCategoryRow_Out(TypedDict):
+    id: str
+    title: str
+    url: str | None
 
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
@@ -8178,6 +8183,15 @@ class Prv_dell_DellProduct_Out(TypedDict):
     rating: float | None
     ratingCount: float | None
     url: str | None
+
+class Prv_dell_SearchSupportArgs_In(TypedDict):
+    query: str
+
+class Prv_dell_DellSupportArticle_Out(TypedDict):
+    title: str
+    url: str
+    summary: str | None
+    articleType: str | None
 
 class Prv_dell_SearchForumThreadsArgs_In(TypedDict):
     query: str
@@ -21407,6 +21421,44 @@ class Prv_tradingview_NewsItem_Out(TypedDict):
     link: str
     relatedSymbols: list[str]
 
+class Prv_tradingview_TechnicalAnalysis_Out(TypedDict):
+    symbol: str
+    exchange: str
+    summaryRecommendation: str
+    summaryScore: float
+    movingAverageRecommendation: str
+    movingAverageScore: float
+    oscillatorRecommendation: str
+    oscillatorScore: float
+    movingAverages: Prv_tradingview_TechnicalAnalysis_Out_movingAverages_Out
+    oscillators: Prv_tradingview_TechnicalAnalysis_Out_oscillators_Out
+
+class Prv_tradingview_TechnicalAnalysis_Out_movingAverages_Out(TypedDict):
+    sma10: NotRequired[float]
+    sma20: NotRequired[float]
+    sma50: NotRequired[float]
+    sma100: NotRequired[float]
+    sma200: NotRequired[float]
+    ema10: NotRequired[float]
+    ema20: NotRequired[float]
+    ema50: NotRequired[float]
+    ema100: NotRequired[float]
+    ema200: NotRequired[float]
+
+class Prv_tradingview_TechnicalAnalysis_Out_oscillators_Out(TypedDict):
+    rsi: NotRequired[float]
+    stochK: NotRequired[float]
+    stochD: NotRequired[float]
+    cci20: NotRequired[float]
+    adx: NotRequired[float]
+    ao: NotRequired[float]
+    momentum: NotRequired[float]
+    macd: NotRequired[float]
+    macdSignal: NotRequired[float]
+    williamsPercentR: NotRequired[float]
+    ultimateOscillator: NotRequired[float]
+    bullBearPower: NotRequired[float]
+
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
     name: str
@@ -25828,6 +25880,9 @@ class Prv_alibaba(Protocol):
         ladder, MOQ, images and supplier.
         """
 
+    async def listCategories(self, /) -> list[Prv_alibaba_alibabaCategoryRow_Out]:
+        """List the marketplace's top-level product categories."""
+
 class Prv_allied(Protocol):
     """Runs Allied Van Lines' own Packing Calculator — takes which rooms are moving (no name,
     email or phone) and returns a real, server-computed whole-house and per-room
@@ -29452,6 +29507,11 @@ class Prv_dell(Protocol):
         availability, image, and customer ratings.
         """
 
+    async def searchSupport(self, args: Prv_dell_SearchSupportArgs_In, /) -> list[Prv_dell_DellSupportArticle_Out]:
+        """Searches Dell's support knowledge base for articles, drivers, and troubleshooting guides
+        matching a query — returns article titles, URLs, and summaries.
+        """
+
     async def searchForumThreads(self, args: Prv_dell_SearchForumThreadsArgs_In, /) -> list[Prv_dell_DellForumThread_Out]:
         """Search Dell community forums for threads matching a query — needs a topic or keywords
         (e.g. "storage issues", "laptop battery"), never a bare "search the forum" with nothing
@@ -32684,8 +32744,8 @@ class Prv_identitygroup(Protocol):
 
     async def searchSigns(self, query: str, /) -> list[Prv_identitygroup_IdentitygroupSearchResult_Out]:
         """Runs Identity Group's own storefront search for a hotel brand or sign type (e.g.
-        "americinn", "veteran parking", "exit sign") and returns real, live, in-stock results
-        with price — the same query the site's own search box runs.
+        "hyatt", "parking", "exit sign") and returns real, live, in-stock results with price —
+        the same query the site's own search box runs.
         """
 
     async def getSign(self, handle: str, /) -> Prv_identitygroup_IdentitygroupProduct_Out:
@@ -38717,6 +38777,20 @@ class Prv_tradingview(Protocol):
         where TradingView carries one, else TradingView's own story page), and every symbol the
         item is tagged against. An unknown or delisted pair returns an empty list rather than an
         error.
+        """
+
+    async def getTechnicalAnalysis(self, exchange: str, symbol: str, /) -> Prv_tradingview_TechnicalAnalysis_Out:
+        """Gets technical analysis signals for one symbol — e.g. `getTechnicalAnalysis("NASDAQ",
+        "AAPL")` — the same summary TradingView's own Technical Analysis widget renders. Use
+        `searchSymbols` first and pass its exact `exchange` and `symbol` fields. Returns a
+        `summaryRecommendation` ("Strong Sell" .. "Strong Buy", folding moving averages and
+        oscillators together) plus its numeric `summaryScore` in [-1, 1], the same pair split
+        into `movingAverageRecommendation`/`movingAverageScore` and
+        `oscillatorRecommendation`/`oscillatorScore`, and the underlying `movingAverages`
+        (SMA/EMA at 10/20/50/100/200) and `oscillators` (RSI, stochastic, CCI, ADX, Awesome
+        Oscillator, momentum, MACD, Williams %R, Ultimate Oscillator, Bull Bear Power)
+        TradingView computed them from. This is TradingView's own technical rating, not an
+        analyst consensus. An unknown or delisted pair returns a caller-fixable error.
         """
 
 class Prv_travelinsured(Protocol):

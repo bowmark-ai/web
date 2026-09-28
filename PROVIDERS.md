@@ -65,7 +65,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
 | `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | ⚪ |
 | `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | ⚪ |
-| `alibaba.listCategories` | alibaba.com | List all product categories available on the marketplace. | ⚪ |
+| `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟢 |
 | `alibaba.listInvoices` | alibaba.com | Get list of invoices for past orders. | ⚪ |
 | `alibaba.listMessages` | alibaba.com | Get inbox of messages from suppliers and other contacts. | ⚪ |
 | `alibaba.listOrders` | alibaba.com | Get list of past orders with status, date and items. | ⚪ |
@@ -680,7 +680,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.listSupportCategories` | dell.com | Lists the main support categories (drivers, firmware, manuals, community forum, etc.). | ⚪ |
 | `dell.searchForumThreads` | dell.com | Searches Dell's community forum for threads matching a query, returning titles, URLs… | 🟢 |
 | `dell.searchProducts` | dell.com | Searches the Dell store for products by keyword, returning product names, URLs… | 🟢 |
-| `dell.searchSupport` | dell.com | Searches Dell's support knowledge base for articles, drivers, and troubleshooting… | ⚪ |
+| `dell.searchSupport` | dell.com | Searches Dell's support knowledge base for articles, drivers, and troubleshooting… | 🟢 |
 | `deltadentalma.lastUpdated` | deltadentalma.com | Returns the timestamp the directory data was last refreshed, so a caller can say how… | 🟢 |
 | `deltadentalma.search` | deltadentalma.com | Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network… | 🟡 |
 | `dentalplans.getPlan` | dentalplans.com | Reads one plan's own detail page — its marketing description and the site's own… | 🟢 |
@@ -2212,7 +2212,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getOptionChain` | www.tradingview.com | Get option chain data for symbols that have options. | ⚪ |
 | `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | 🟢 |
 | `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | ⚪ |
-| `tradingview.getTechnicalAnalysis` | www.tradingview.com | Get technical analysis signals and ratings for a symbol. | ⚪ |
+| `tradingview.getTechnicalAnalysis` | www.tradingview.com | Get technical analysis signals and ratings for a symbol. | 🟢 |
 | `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | 🟢 |
 | `travelinsured.getPlanQuote` | travelinsured.com | Prices Travel Insured's Essential/Deluxe/Platinum plans for a trip (destination… | ⚪ |
 | `travelinsured.getZipInfo` | travelinsured.com | Resolves a US ZIP code to its state and country the way the quote flow's… | 🟢 |

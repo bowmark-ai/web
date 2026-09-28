@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d01515719d5e6e8b024301a224e1f95096ee78e3735e283ca0cc49bc98b17aec
-// 1478 checked, 20 unchecked.
+// Manifest version: 016f24c824eb0cb37350a305ecbcf397dbc4187f9eba46b86fa4f29087ab9ae8
+// 1481 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d01515719d5e6e8b024301a224e1f95096ee78e3735e283ca0cc49bc98b17aec",
+  "version": "016f24c824eb0cb37350a305ecbcf397dbc4187f9eba46b86fa4f29087ab9ae8",
   "units": {
     "booking_links": {
       "defs": {
@@ -5775,7 +5775,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listCategories": []
       }
     },
     "providers.allied": {
@@ -14165,6 +14166,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SearchSupportArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -14185,6 +14198,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchSupport": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchSupportArgs"
             },
             "optional": false
           }
@@ -40200,6 +40223,22 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getNews": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getTechnicalAnalysis": [
           {
             "name": "exchange",
             "schema": {

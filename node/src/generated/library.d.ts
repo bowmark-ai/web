@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d01515719d5e6e8b024301a224e1f95096ee78e3735e283ca0cc49bc98b17aec
-// 67 capabilities, 491 providers, 1496 typed functions, 20 refused.
+// Manifest version: 016f24c824eb0cb37350a305ecbcf397dbc4187f9eba46b86fa4f29087ab9ae8
+// 67 capabilities, 491 providers, 1499 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5156,6 +5156,12 @@ interface alibabaRow {
   id: string;
 }
 
+interface alibabaCategoryRow {
+  id: string;
+  title: string;
+  url: string | null;
+}
+
 interface alibabaProductRow {
   id: number;
   title: string;
@@ -5177,6 +5183,9 @@ interface alibabaProductRow {
      * MOQ, images and supplier.
      */
     getProduct(idOrUrl: string | number): Promise<alibabaProductRow>;
+
+    /** List the marketplace's top-level product categories. */
+    listCategories(): Promise<alibabaCategoryRow[]>;
   }
 }
 
@@ -14912,6 +14921,17 @@ interface DellProduct {
   url: string | null;
 }
 
+interface SearchSupportArgs {
+  query: string;
+}
+
+interface DellSupportArticle {
+  title: string;
+  url: string;
+  summary: string | null;
+  articleType: string | null;
+}
+
 interface SearchForumThreadsArgs {
   query: string;
 }
@@ -14941,6 +14961,12 @@ interface DellForumThread {
      * availability, image, and customer ratings.
      */
     getProduct(args: GetProductArgs): Promise<DellProduct>;
+
+    /**
+     * Searches Dell's support knowledge base for articles, drivers, and troubleshooting guides
+     * matching a query — returns article titles, URLs, and summaries.
+     */
+    searchSupport(args: SearchSupportArgs): Promise<DellSupportArticle[]>;
 
     /**
      * Search Dell community forums for threads matching a query — needs a topic or keywords (e.g.
@@ -23492,9 +23518,9 @@ interface IdentitygroupMountOptionResult {
    */
   interface Unit {
     /**
-     * Runs Identity Group's own storefront search for a hotel brand or sign type (e.g.
-     * "americinn", "veteran parking", "exit sign") and returns real, live, in-stock results with
-     * price — the same query the site's own search box runs.
+     * Runs Identity Group's own storefront search for a hotel brand or sign type (e.g. "hyatt",
+     * "parking", "exit sign") and returns real, live, in-stock results with price — the same query
+     * the site's own search box runs.
      */
     searchSigns(query: string): Promise<IdentitygroupSearchResult[]>;
 
@@ -39374,6 +39400,43 @@ interface NewsItem {
   relatedSymbols: string[];
 }
 
+interface TechnicalAnalysis {
+  symbol: string;
+  exchange: string;
+  summaryRecommendation: string;
+  summaryScore: number;
+  movingAverageRecommendation: string;
+  movingAverageScore: number;
+  oscillatorRecommendation: string;
+  oscillatorScore: number;
+  movingAverages: {
+    sma10?: number;
+    sma20?: number;
+    sma50?: number;
+    sma100?: number;
+    sma200?: number;
+    ema10?: number;
+    ema20?: number;
+    ema50?: number;
+    ema100?: number;
+    ema200?: number;
+  };
+  oscillators: {
+    rsi?: number;
+    stochK?: number;
+    stochD?: number;
+    cci20?: number;
+    adx?: number;
+    ao?: number;
+    momentum?: number;
+    macd?: number;
+    macdSignal?: number;
+    williamsPercentR?: number;
+    ultimateOscillator?: number;
+    bullBearPower?: number;
+  };
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -39415,6 +39478,21 @@ interface NewsItem {
      * tagged against. An unknown or delisted pair returns an empty list rather than an error.
      */
     getNews(exchange: string, symbol: string): Promise<NewsItem[]>;
+
+    /**
+     * Gets technical analysis signals for one symbol — e.g. `getTechnicalAnalysis("NASDAQ",
+     * "AAPL")` — the same summary TradingView's own Technical Analysis widget renders. Use
+     * `searchSymbols` first and pass its exact `exchange` and `symbol` fields. Returns a
+     * `summaryRecommendation` ("Strong Sell" .. "Strong Buy", folding moving averages and
+     * oscillators together) plus its numeric `summaryScore` in [-1, 1], the same pair split into
+     * `movingAverageRecommendation`/`movingAverageScore` and
+     * `oscillatorRecommendation`/`oscillatorScore`, and the underlying `movingAverages` (SMA/EMA
+     * at 10/20/50/100/200) and `oscillators` (RSI, stochastic, CCI, ADX, Awesome Oscillator,
+     * momentum, MACD, Williams %R, Ultimate Oscillator, Bull Bear Power) TradingView computed them
+     * from. This is TradingView's own technical rating, not an analyst consensus. An unknown or
+     * delisted pair returns a caller-fixable error.
+     */
+    getTechnicalAnalysis(exchange: string, symbol: string): Promise<TechnicalAnalysis>;
   }
 }
 
