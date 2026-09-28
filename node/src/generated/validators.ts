@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b44ba4e90d4db32d616043aae8daf3e67a3bc416a82b72d1e752a4862a98a80a
-// 1460 checked, 20 unchecked.
+// Manifest version: d01515719d5e6e8b024301a224e1f95096ee78e3735e283ca0cc49bc98b17aec
+// 1478 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b44ba4e90d4db32d616043aae8daf3e67a3bc416a82b72d1e752a4862a98a80a",
+  "version": "d01515719d5e6e8b024301a224e1f95096ee78e3735e283ca0cc49bc98b17aec",
   "units": {
     "booking_links": {
       "defs": {
@@ -5758,6 +5758,23 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getProduct": [
+          {
+            "name": "idOrUrl",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -9849,6 +9866,71 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getUserPosts": [
+          {
+            "name": "actor",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "actor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "filter",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "posts"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "postsWithReplies"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "media"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "videos"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -13361,7 +13443,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listVideos": []
       }
     },
     "providers.code_claude_com": {
@@ -14095,6 +14178,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listProductCategories": [],
         "getProduct": [
           {
             "name": "args",
@@ -15042,6 +15126,38 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getSellerListings": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "seller",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -15323,6 +15439,31 @@ export const VALIDATORS: ValidatorTable = {
                         "v": "price"
                       }
                     ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "skip",
+                  "schema": {
+                    "k": "number"
                   },
                   "optional": true
                 }
@@ -16760,6 +16901,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getMostHeldTokens": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getVerifiedTokens": [
           {
             "name": "opts",
             "schema": {
@@ -27937,6 +28096,26 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.nyt_cooking": {
       "defs": {
+        "NytCookingGetRecipeArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingSearchArgs": {
           "k": "object",
           "props": [
@@ -27981,6 +28160,16 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getRecipe": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingGetRecipeArgs"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -27999,6 +28188,18 @@ export const VALIDATORS: ValidatorTable = {
           ]
         },
         "GetCrosswordDailyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetCrosswordMiniArgs": {
           "k": "object",
           "props": [
             {
@@ -28119,6 +28320,16 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getCrosswordMini": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCrosswordMiniArgs"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -28232,6 +28443,34 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": false
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "minBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxBedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         }
@@ -38566,6 +38805,51 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.theguardian_com": {
+      "defs": {
+        "GuardianListArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listSections": [],
+        "listArticlesBySection": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListArticlesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "articleUrlOrId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.therabody": {
       "defs": {},
       "functions": {
@@ -39884,6 +40168,22 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getQuote": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getCompanyInfo": [
           {
             "name": "exchange",
             "schema": {
@@ -41835,6 +42135,148 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.weather_channel": {
+      "defs": {
+        "ForecastOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "units",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "metric"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "imperial"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "days",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "hours",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "Location": {
+          "k": "union",
+          "of": [
+            {
+              "k": "string"
+            },
+            {
+              "k": "object",
+              "props": [
+                {
+                  "name": "latitude",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "longitude",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": false
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchLocations": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getCurrentConditions": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ForecastOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getDailyForecast": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ForecastOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getHourlyForecast": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ForecastOptions"
+            },
+            "optional": true
+          }
+        ],
+        "listAlerts": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
           }
         ]
       }

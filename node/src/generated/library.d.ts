@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b44ba4e90d4db32d616043aae8daf3e67a3bc416a82b72d1e752a4862a98a80a
-// 67 capabilities, 489 providers, 1478 typed functions, 20 refused.
+// Manifest version: d01515719d5e6e8b024301a224e1f95096ee78e3735e283ca0cc49bc98b17aec
+// 67 capabilities, 491 providers, 1496 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2930,9 +2930,18 @@ type UrlsResult = {
      * flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
      * size/color/variant; `warnings` names it when the page carries the structured data to prove
      * it, but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own
-     * item's markup. RUN-ONLY: because the rung is decided per call, neither `session()` nor the
-     * bare top-level `bowmark` client (which opens a session internally, even for one call) can
-     * serve this — both are refused with code "rung_undeclared". Call it through `run()` instead.
+     * item's markup. **`content` is the page's TEXT, and the browser leg does not change that** —
+     * `servedBy: "browser"` means the page rendered, not that every widget on it became words. A
+     * booking calendar whose open and blocked days are drawn only by styling, a widget inside a
+     * cross-origin iframe or a canvas, and a rate or quote the page shows only after dates are
+     * picked or a form is filled come back as bare day numbers, empty characters or nothing at all
+     * — usually with `ok: true` and no warning. So a missing price or availability here is not
+     * proof the page has none: putting the dates in the url is worth one try, and past that use
+     * the site's own provider if `get_library` has one, or `bowmark.browser_agent.start` to
+     * operate the widget. RUN-ONLY: because the rung is decided per call, neither `session()` nor
+     * the bare top-level `bowmark` client (which opens a session internally, even for one call)
+     * can serve this — both are refused with code "rung_undeclared". Call it through `run()`
+     * instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -5147,10 +5156,27 @@ interface alibabaRow {
   id: string;
 }
 
+interface alibabaProductRow {
+  id: number;
+  title: string;
+  price: string;
+  moq: number;
+  images: string[];
+  supplierName: string;
+  supplierId: number;
+  supplierProfileUrl: string | null;
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /** Search for products by keyword, returning results with title, price, supplier and details. */
     searchProducts(args: { query: string, language?: string, country?: string, currency?: string }): Promise<alibabaSearchRow[]>;
+
+    /**
+     * Get detailed information for a single product by ID or URL, including title, price ladder,
+     * MOQ, images and supplier.
+     */
+    getProduct(idOrUrl: string | number): Promise<alibabaProductRow>;
   }
 }
 
@@ -9747,6 +9773,42 @@ interface BlueskyProfile {
   labels: string[];
 }
 
+interface BlueskyPostAuthor {
+  did: string;
+  handle: string;
+  displayName: string | null;
+  avatar: string | null;
+}
+
+interface BlueskyPostEmbed {
+  kind: "images" | "external" | "video" | "quote" | null;
+  images?: { thumb: string; fullsize: string; alt: string }[];
+  external?: { uri: string; title: string; description: string; thumb: string | null };
+  video?: { thumbnail: string | null; alt: string | null };
+  quotedPost?: string | null;
+}
+
+interface BlueskyPost {
+  uri: string;
+  cid: string;
+  author: BlueskyPostAuthor;
+  text: string;
+  createdAt: string;
+  likeCount: number;
+  replyCount: number;
+  repostCount: number;
+  quoteCount: number;
+  bookmarkCount: number;
+  embed: BlueskyPostEmbed | null;
+  isRepost: boolean;
+  repostedBy: string | null;
+}
+
+interface BlueskyUserPosts {
+  posts: BlueskyPost[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -9777,6 +9839,15 @@ interface BlueskyProfile {
      * spelling with `searchUsers` or `resolveHandle`.
      */
     getProfile(actor: string): Promise<BlueskyProfile>;
+
+    /**
+     * A person's posts, newest first, as their profile tabs show them — posts only, posts with
+     * replies, media only, or videos. Each post carries its text, author, counts, an at:// URI for
+     * replying to or quoting it, its embed (images, an external link, a video, or a quoted post)
+     * and whether it's a repost. Takes a handle, a DID, or a bsky.app profile URL. THROWS
+     * `blueskyInputError` on an actor the AppView cannot find.
+     */
+    getUserPosts(actor: string | { actor: string; filter?: "posts" | "postsWithReplies" | "media" | "videos"; limit?: number; cursor?: string }): Promise<BlueskyUserPosts>;
   }
 }
 
@@ -13770,6 +13841,15 @@ interface cnnArticle {
   images: cnnArticleImage[];
 }
 
+interface cnnVideo {
+  id: string;
+  headline: string;
+  description: string | null;
+  duration: string | null;
+  url: string;
+  thumbnailUrl: string | null;
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -13798,6 +13878,12 @@ interface cnnArticle {
      * caption and credit.
      */
     getArticle(url: string): Promise<cnnArticle>;
+
+    /**
+     * The videos CNN currently lists on its video hub — clips and segments with headline,
+     * description, duration, playback URL and thumbnail.
+     */
+    listVideos(): Promise<cnnVideo[]>;
   }
 }
 
@@ -14804,6 +14890,11 @@ interface DellSearchResult {
   soldOut: boolean;
 }
 
+interface DellProductCategory {
+  name: string;
+  url: string | null;
+}
+
 interface GetProductArgs {
   productId: string;
 }
@@ -14838,6 +14929,12 @@ interface DellForumThread {
      * availability. Results are sorted as the storefront displays them.
      */
     searchProducts(args: SearchProductsArgs): Promise<DellSearchResult[]>;
+
+    /**
+     * Lists the top-level product categories on Dell's storefront (laptops, desktops, monitors,
+     * gaming, PC accessories, electronics, workstations) with a URL into each category's listing.
+     */
+    listProductCategories(): Promise<DellProductCategory[]>;
 
     /**
      * Retrieves detailed information about a specific Dell product including title, price,
@@ -15817,6 +15914,16 @@ interface ebayItemDetail {
      * OAuth application key — see this provider's `auth`.
      */
     searchByCategory(args: string | { categoryId: string; query?: string; limit?: number }): Promise<ebayItem[]>;
+
+    /**
+     * Runs eBay's Browse API `item_summary/search` filtered to one seller's own listings (the
+     * username `search`/`getItem` rows carry under `seller`) that match `query`. eBay's Browse API
+     * requires a keyword, category or product id on every search — a seller filter cannot stand
+     * alone — so `query` is required alongside `seller`. Same rows, same fields, as `search`.
+     * `limit` caps the row count (default 20, eBay's own ceiling 200). Requires an eBay OAuth
+     * application key — see this provider's `auth`.
+     */
+    getSellerListings(args: { seller: string; query: string; limit?: number }): Promise<ebayItem[]>;
   }
 }
 
@@ -16076,6 +16183,19 @@ interface ListDealsResult {
   total: number;
 }
 
+interface NewsArticleSummary {
+  title: string;
+  slug: string;
+  url: string;
+  date: string;
+  author: string;
+  category: string;
+}
+
+interface ListNewsResult {
+  articles: NewsArticleSummary[];
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -16121,6 +16241,12 @@ interface ListDealsResult {
      * maximum price, sorted by discount (default) or price.
      */
     listDeals(args?: { tag?: string; priceCeiling?: number; sortBy?: 'discount' | 'price' }): Promise<ListDealsResult>;
+
+    /**
+     * The Epic Games Store's news articles, newest first — title, date, author, category, slug and
+     * URL. Optionally paged with limit (default 10) and skip.
+     */
+    listNews(args?: { limit?: number; skip?: number }): Promise<ListNewsResult>;
   }
 }
 
@@ -17567,6 +17693,12 @@ interface FomoPage<T> {
      * or price one, which is a different and harder-to-fake signal. Takes no arguments.
      */
     getMostHeldTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
+
+    /**
+     * Returns the tokens fomo has verified — its own trust list, as distinct from the tradable
+     * allowlist getTokenAllowlist returns. Takes no arguments.
+     */
+    getVerifiedTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
   }
 }
 
@@ -30642,6 +30774,25 @@ interface NytCookingSearchResult {
   warnings?: string[];
 }
 
+interface NytCookingGetRecipeArgs {
+  id: number | string;
+}
+
+interface NytCookingRecipe {
+  id: number;
+  title: string;
+  url: string;
+  yieldText: string | null;
+  prepTime: string | null;
+  cookTime: string | null;
+  totalTime: string | null;
+  rating: { average: number; count: number } | null;
+  authors: string[];
+  ingredients: string[];
+  steps: string[];
+  tags: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -30649,6 +30800,12 @@ interface NytCookingSearchResult {
      * returning recipe and collection rows.
      */
     searchRecipes(args: NytCookingSearchArgs): Promise<NytCookingSearchResult>;
+
+    /**
+     * Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors — off
+     * its page's embedded recipe data.
+     */
+    getRecipe(args: NytCookingGetRecipeArgs): Promise<NytCookingRecipe>;
   }
 }
 
@@ -30668,6 +30825,7 @@ interface GetStrandsArgs { date?: string; }
 interface NytCrosswordClue { label: string; direction: "Across" | "Down"; text: string; answer: string; }
 interface NytCrossword { id: number; printDate: string; editor: string | null; constructors: string[]; width: number; height: number; clues: NytCrosswordClue[]; }
 interface GetCrosswordDailyArgs { date?: string; }
+interface GetCrosswordMiniArgs { date?: string; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -30711,6 +30869,13 @@ interface GetCrosswordDailyArgs { date?: string; }
      * to 1993.
      */
     getCrosswordDaily(args?: GetCrosswordDailyArgs): Promise<NytCrossword>;
+
+    /**
+     * Retrieves the mini crossword: grid dimensions, editor, constructors, and every clue with its
+     * answer spelled out from the grid. Defaults to today in New York; the mini launched
+     * 2014-08-21.
+     */
+    getCrosswordMini(args?: GetCrosswordMiniArgs): Promise<NytCrossword>;
   }
 }
 
@@ -30831,8 +30996,12 @@ interface OliverwineryShippingAvailability {
 declare namespace BowmarkProvider_onthemarket {
   // ── OnTheMarket — the unit's own declarations, verbatim ──
 interface SearchArgs {
-  location: string;
+  location: string; // fuzzy area match — a town, county or postcode district, not a boundary
   type: "sale" | "rent";
+  page?: number; // 1-based, defaults to 1 — read hasMore/totalResults, don't assume a page size
+  minBedrooms?: number;
+  maxBedrooms?: number;
+  maxPrice?: number; // GBP: pcm for rent, total for sale
 }
 
 interface OnTheMarketProperty {
@@ -30847,10 +31016,24 @@ interface OnTheMarketProperty {
   url?: string;
 }
 
-  /** Search for residential property listings for sale or rent in the UK. */
+interface OnTheMarketSearchResult {
+  properties: OnTheMarketProperty[];
+  page: number;
+  totalResults?: number; // absent only if the site's results page failed to publish one
+  hasMore: boolean; // read off the site's own pagination, never derived from totalResults
+}
+
+  /**
+   * Search for residential property listings for sale or rent in the UK, paged, with bedroom and
+   * price filters. `location` is a fuzzy area match (a town, a postcode district, a county)
+   * rather than a postcode boundary — two adjacent districts can return overlapping properties.
+   */
   interface Unit {
-    /** Search for residential properties by location and type (sale or rent) */
-    search(args: SearchArgs): Promise<OnTheMarketProperty[]>;
+    /**
+     * Search for residential properties by location and type (sale or rent), with paging and
+     * bedroom/price filters. location is a fuzzy area match, not a postcode boundary.
+     */
+    search(args: SearchArgs): Promise<OnTheMarketSearchResult>;
   }
 }
 
@@ -37749,6 +37932,81 @@ interface TeneohgHotelDetail {
   }
 }
 
+declare namespace BowmarkProvider_theguardian_com {
+  // ── The Guardian — the unit's own declarations, verbatim ──
+interface GuardianSection {
+  title: string;
+  /** The path listArticlesBySection takes, e.g. "world" or "environment/climate-crisis". */
+  path: string;
+  url: string;
+  children: GuardianSection[];
+}
+interface GuardianListSectionsResult {
+  sections: GuardianSection[];
+}
+interface GuardianArticleSummary {
+  title: string;
+  url: string;
+  /** The path getArticle takes, e.g. "world/2026/sep/27/some-slug". */
+  id: string;
+  summary: string | null;
+  byline: string | null;
+  published: string | null;
+}
+interface GuardianListArticlesArgs {
+  /** A section or tag path from listSections, e.g. "world", "sport", "environment/climate-crisis". Default: the front page ("international"). */
+  section?: string;
+  limit?: number;
+}
+interface GuardianListArticlesResult {
+  section: string;
+  title: string | null;
+  articles: GuardianArticleSummary[];
+}
+interface GuardianArticle {
+  id: string;
+  url: string;
+  headline: string;
+  standfirst: string | null;
+  byline: string | null;
+  published: string | null;
+  section: string | null;
+  tags: { id: string; title: string; type: string }[];
+  /** The article body, one entry per paragraph or subheading, tags stripped. */
+  paragraphs: string[];
+  body: string;
+}
+
+  /**
+   * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
+   * out.
+   */
+  interface Unit {
+    /**
+     * The Guardian's own section tree, read off theguardian.com's navigation — News (US, World,
+     * Climate crisis, Environment, Business, Tech, Science…), Opinion, Sport, Culture (Film,
+     * Music, TV, Books…), Lifestyle — each with the path listArticlesBySection takes and its
+     * sub-sections.
+     */
+    listSections(): Promise<GuardianListSectionsResult>;
+
+    /**
+     * The latest Guardian articles in a section or topic tag — world, politics, sport, culture,
+     * business, environment/climate-crisis, technology, any path listSections returns — newest
+     * first, with headline, url, standfirst, byline and publish time. Default is the front page's
+     * latest.
+     */
+    listArticlesBySection(args?: GuardianListArticlesArgs): Promise<GuardianListArticlesResult>;
+
+    /**
+     * The full text of one Guardian news article: headline, standfirst, byline, publish time,
+     * section, tags and the body paragraph by paragraph. Takes a theguardian.com URL or the path
+     * listArticlesBySection returns as `id`.
+     */
+    getArticle(articleUrlOrId: string): Promise<GuardianArticle>;
+  }
+}
+
 declare namespace BowmarkProvider_therabody {
   // ── Therabody — the unit's own declarations, verbatim ──
 interface TherabodyVariant {
@@ -39092,6 +39350,20 @@ interface Quote {
   updateMode?: string;
 }
 
+interface CompanyInfo {
+  symbol: string;
+  exchange: string;
+  name: string;
+  description: string;
+  type: string;
+  sector?: string;
+  industry?: string;
+  marketCap?: number;
+  peRatio?: number;
+  dividendYield?: number;
+  analystRecommendation?: number;
+}
+
 interface NewsItem {
   id: string;
   title: string;
@@ -39123,6 +39395,16 @@ interface NewsItem {
      * TradingView carries them.
      */
     getQuote(exchange: string, symbol: string): Promise<Quote>;
+
+    /**
+     * Gets company information for one symbol on one exchange — e.g. `getCompanyInfo("NASDAQ",
+     * "AAPL")`. Use `searchSymbols` first and pass its exact `exchange` and `symbol` fields.
+     * Returns the company name, description, instrument type, business sector and industry
+     * classification, market cap, P/E ratio, dividend yield, and a numerical analyst
+     * recommendation score (higher = more bullish). An unknown or delisted pair returns a
+     * caller-fixable error.
+     */
+    getCompanyInfo(exchange: string, symbol: string): Promise<CompanyInfo>;
 
     /**
      * Gets recent news headlines for one symbol — e.g. `getNews("NASDAQ", "AAPL")` — the same feed
@@ -40898,6 +41180,179 @@ interface WearehirschfeldContactForm {
      * real fields — name, label, input type and whether it's required.
      */
     getContactForm(url?: string): Promise<WearehirschfeldContactForm>;
+  }
+}
+
+declare namespace BowmarkProvider_weather_channel {
+  // ── The Weather Channel — the unit's own declarations, verbatim ──
+type Location = string | { latitude: number; longitude: number };
+
+interface ForecastOptions {
+  /** "metric" (default: °C, km/h, mm) or "imperial" (°F, mph, in). */
+  units?: "metric" | "imperial";
+  /** getDailyForecast: 1-15 days (default 7). getHourlyForecast: 1-360 hours (default 24). */
+  days?: number;
+  hours?: number;
+}
+
+interface WeatherLocation {
+  name: string;
+  city: string | null;
+  adminDistrict: string | null;
+  country: string | null;
+  countryCode: string | null;
+  postalCode: string | null;
+  latitude: number;
+  longitude: number;
+  timeZone: string | null;
+  placeId: string | null;
+  type: string | null;
+}
+
+interface CurrentConditions {
+  location: WeatherLocation | null;
+  observedAt: string;
+  units: "metric" | "imperial";
+  phrase: string;
+  temperature: number | null;
+  feelsLike: number | null;
+  dewPoint: number | null;
+  humidity: number | null;
+  windSpeed: number | null;
+  windGust: number | null;
+  windDirection: string | null;
+  pressure: number | null;
+  uvIndex: number | null;
+  uvDescription: string | null;
+  visibility: number | null;
+  cloudCover: number | null;
+  precipLastHour: number | null;
+  high24h: number | null;
+  low24h: number | null;
+  sunrise: string | null;
+  sunset: string | null;
+}
+
+interface DaypartForecast {
+  name: string;
+  narrative: string;
+  phrase: string;
+  temperature: number | null;
+  precipChance: number | null;
+  precipType: string | null;
+  humidity: number | null;
+  windSpeed: number | null;
+  windDirection: string | null;
+  uvIndex: number | null;
+}
+
+interface DailyForecast {
+  location: WeatherLocation | null;
+  units: "metric" | "imperial";
+  days: {
+    date: string;
+    dayOfWeek: string;
+    high: number | null;
+    low: number | null;
+    narrative: string;
+    precipAmount: number | null;
+    snowAmount: number | null;
+    sunrise: string | null;
+    sunset: string | null;
+    moonPhase: string | null;
+    day: DaypartForecast | null;
+    night: DaypartForecast | null;
+  }[];
+}
+
+interface HourlyForecast {
+  location: WeatherLocation | null;
+  units: "metric" | "imperial";
+  hours: {
+    time: string;
+    phrase: string;
+    temperature: number | null;
+    feelsLike: number | null;
+    precipChance: number | null;
+    precipType: string | null;
+    precipAmount: number | null;
+    humidity: number | null;
+    windSpeed: number | null;
+    windGust: number | null;
+    windDirection: string | null;
+    uvIndex: number | null;
+    cloudCover: number | null;
+  }[];
+}
+
+interface WeatherAlert {
+  id: string;
+  headline: string;
+  event: string;
+  severity: string | null;
+  urgency: string | null;
+  certainty: string | null;
+  area: string | null;
+  issuedBy: string | null;
+  effective: string | null;
+  expires: string | null;
+  source: string | null;
+}
+
+interface AlertList {
+  location: WeatherLocation | null;
+  alerts: WeatherAlert[];
+}
+
+  /**
+   * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
+   * storms for any location.
+   */
+  interface Unit {
+    /**
+     * Finds places on weather.com by name or postal code — e.g. `searchLocations("Toronto")` or
+     * `searchLocations("10001")` — the same lookup the site's search box runs. Returns each match
+     * with its full display name, country, coordinates and time zone. Every other function also
+     * takes a place name directly, so this is only needed to pick between ambiguous matches; an
+     * unknown place is a caller-fixable error.
+     */
+    searchLocations(query: string): Promise<WeatherLocation[]>;
+
+    /**
+     * The Weather Channel's current conditions for a place — e.g.
+     * `getCurrentConditions("Toronto")`, `getCurrentConditions({ latitude: 40.7, longitude: -74 },
+     * { units: "imperial" })`. A place name is resolved to weather.com's top match. Returns
+     * temperature, feels-like, dew point, humidity, wind speed/gust/direction, pressure, UV index,
+     * visibility, cloud cover, last-hour precipitation, the 24h high/low and sunrise/sunset. Units
+     * default to metric.
+     */
+    getCurrentConditions(location: Location, options?: ForecastOptions): Promise<CurrentConditions>;
+
+    /**
+     * The Weather Channel's daily forecast for a place, up to 15 days — e.g.
+     * `getDailyForecast("London, England", { days: 10 })`. Each day carries the high/low, the
+     * site's own narrative, precipitation and snow amounts, sunrise/sunset, moon phase, and a day
+     * and night part with chance of precipitation, wind and UV. `day` is null for today once the
+     * day part has passed. Defaults to 7 days, metric.
+     */
+    getDailyForecast(location: Location, options?: ForecastOptions): Promise<DailyForecast>;
+
+    /**
+     * The Weather Channel's hour-by-hour forecast for a place — e.g. `getHourlyForecast("Chicago",
+     * { hours: 12 })` — up to 360 hours. Each hour carries temperature, feels-like, conditions
+     * phrase, chance/type/amount of precipitation, humidity, wind and UV. Defaults to 24 hours,
+     * metric.
+     */
+    getHourlyForecast(location: Location, options?: ForecastOptions): Promise<HourlyForecast>;
+
+    /**
+     * Active severe-weather alerts (warnings, watches, advisories) weather.com shows for a place —
+     * e.g. `listAlerts("Houston, TX")`. Each alert carries its headline, event type, severity,
+     * urgency, certainty, the affected area, the issuing office and effective/expiry times.
+     * `alerts` empty means no active alerts, not an error; `location` is the place the name
+     * resolved to.
+     */
+    listAlerts(location: Location): Promise<AlertList>;
   }
 }
 
@@ -44345,6 +44800,7 @@ interface BowmarkProviders {
   tatcha: BowmarkProvider_tatcha.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
   teneohg: BowmarkProvider_teneohg.Unit;
+  theguardian_com: BowmarkProvider_theguardian_com.Unit;
   therabody: BowmarkProvider_therabody.Unit;
   therowhouse: BowmarkProvider_therowhouse.Unit;
   thestowcompany: BowmarkProvider_thestowcompany.Unit;
@@ -44387,6 +44843,7 @@ interface BowmarkProviders {
   walmart: BowmarkProvider_walmart.Unit;
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
   wearehirschfeld: BowmarkProvider_wearehirschfeld.Unit;
+  weather_channel: BowmarkProvider_weather_channel.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   wikipedia: BowmarkProvider_wikipedia.Unit;

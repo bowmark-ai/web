@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b44ba4e90d4db32d616043aae8daf3e67a3bc416a82b72d1e752a4862a98a80a
-# 67 capabilities, 489 providers, 1460 typed functions, 20 refused.
+# Manifest version: d01515719d5e6e8b024301a224e1f95096ee78e3735e283ca0cc49bc98b17aec
+# 67 capabilities, 491 providers, 1478 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2819,6 +2819,16 @@ class Prv_alibaba_alibabaSearchRow_Out(TypedDict):
     supplierId: float
     mainImage: str | None
 
+class Prv_alibaba_alibabaProductRow_Out(TypedDict):
+    id: float
+    title: str
+    price: str
+    moq: float
+    images: list[str]
+    supplierName: str
+    supplierId: float
+    supplierProfileUrl: str | None
+
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
     cabinetsClosets: NotRequired[Literal["clutterFree"] | Literal["packRat"]]
@@ -5384,6 +5394,59 @@ class Prv_bluesky_BlueskyProfile_Out(TypedDict):
     pinnedPost: str | None
     labels: list[str]
 
+class Prv_bluesky_getUserPosts_actor_u1_In(TypedDict):
+    actor: str
+    filter: NotRequired[Literal["posts"] | Literal["postsWithReplies"] | Literal["media"] | Literal["videos"]]
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyUserPosts_Out(TypedDict):
+    posts: list[Prv_bluesky_BlueskyPost_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyPost_Out(TypedDict):
+    uri: str
+    cid: str
+    author: Prv_bluesky_BlueskyPostAuthor_Out
+    text: str
+    createdAt: str
+    likeCount: float
+    replyCount: float
+    repostCount: float
+    quoteCount: float
+    bookmarkCount: float
+    embed: Prv_bluesky_BlueskyPostEmbed_Out | None
+    isRepost: bool
+    repostedBy: str | None
+
+class Prv_bluesky_BlueskyPostAuthor_Out(TypedDict):
+    did: str
+    handle: str
+    displayName: str | None
+    avatar: str | None
+
+class Prv_bluesky_BlueskyPostEmbed_Out(TypedDict):
+    kind: Literal["images"] | Literal["external"] | Literal["video"] | Literal["quote"] | None
+    images: NotRequired[list[Prv_bluesky_BlueskyPostEmbed_Out_images_item_Out]]
+    external: NotRequired[Prv_bluesky_BlueskyPostEmbed_Out_external_Out]
+    video: NotRequired[Prv_bluesky_BlueskyPostEmbed_Out_video_Out]
+    quotedPost: NotRequired[str | None]
+
+class Prv_bluesky_BlueskyPostEmbed_Out_images_item_Out(TypedDict):
+    thumb: str
+    fullsize: str
+    alt: str
+
+class Prv_bluesky_BlueskyPostEmbed_Out_external_Out(TypedDict):
+    uri: str
+    title: str
+    description: str
+    thumb: str | None
+
+class Prv_bluesky_BlueskyPostEmbed_Out_video_Out(TypedDict):
+    thumbnail: str | None
+    alt: str | None
+
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
     modelName: str
@@ -7577,6 +7640,14 @@ class Prv_cnn_cnnArticleImage_Out(TypedDict):
     caption: str | None
     credit: str | None
 
+class Prv_cnn_cnnVideo_Out(TypedDict):
+    id: str
+    headline: str
+    description: str | None
+    duration: str | None
+    url: str
+    thumbnailUrl: str | None
+
 class Prv_code_claude_com_code_claude_comDoc_Out(TypedDict):
     url: str
     title: str | None
@@ -8088,6 +8159,10 @@ class Prv_dell_DellSearchResult_Out(TypedDict):
     image: str | None
     isDeal: bool
     soldOut: bool
+
+class Prv_dell_DellProductCategory_Out(TypedDict):
+    name: str
+    url: str | None
 
 class Prv_dell_GetProductArgs_In(TypedDict):
     productId: str
@@ -8631,6 +8706,11 @@ class Prv_ebay_searchByCategory_args_u1_In(TypedDict):
     query: NotRequired[str]
     limit: NotRequired[float]
 
+class Prv_ebay_getSellerListings_args_In(TypedDict):
+    seller: str
+    query: str
+    limit: NotRequired[float]
+
 class Prv_elase_ElaseLocationLink_Out(TypedDict):
     slug: str
     url: str
@@ -8843,6 +8923,21 @@ class Prv_epicgames_GameDeal_Out(TypedDict):
 class Prv_epicgames_GameDeal_Out_tags_item_Out(TypedDict):
     id: str
     name: str
+
+class Prv_epicgames_listNews_args_In(TypedDict):
+    limit: NotRequired[float]
+    skip: NotRequired[float]
+
+class Prv_epicgames_ListNewsResult_Out(TypedDict):
+    articles: list[Prv_epicgames_NewsArticleSummary_Out]
+
+class Prv_epicgames_NewsArticleSummary_Out(TypedDict):
+    title: str
+    slug: str
+    url: str
+    date: str
+    author: str
+    category: str
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -16138,6 +16233,27 @@ class Prv_nyt_cooking_NytCookingSearchResult_Out(TypedDict):
     results: list[Any]
     warnings: NotRequired[list[str]]
 
+class Prv_nyt_cooking_NytCookingGetRecipeArgs_In(TypedDict):
+    id: float | str
+
+class Prv_nyt_cooking_NytCookingRecipe_Out(TypedDict):
+    id: float
+    title: str
+    url: str
+    yieldText: str | None
+    prepTime: str | None
+    cookTime: str | None
+    totalTime: str | None
+    rating: Prv_nyt_cooking_NytCookingRecipe_Out_rating_u0_Out | None
+    authors: list[str]
+    ingredients: list[str]
+    steps: list[str]
+    tags: list[str]
+
+class Prv_nyt_cooking_NytCookingRecipe_Out_rating_u0_Out(TypedDict):
+    average: float
+    count: float
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -16223,6 +16339,9 @@ class Prv_nyt_games_NytCrosswordClue_Out(TypedDict):
     text: str
     answer: str
 
+class Prv_nyt_games_GetCrosswordMiniArgs_In(TypedDict):
+    date: NotRequired[str]
+
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
     slug: str
@@ -16286,6 +16405,16 @@ class Prv_oliverwinery_OliverwineryShippingAvailability_Out(TypedDict):
 class Prv_onthemarket_SearchArgs_In(TypedDict):
     location: str
     type: Literal["sale"] | Literal["rent"]
+    page: NotRequired[float]
+    minBedrooms: NotRequired[float]
+    maxBedrooms: NotRequired[float]
+    maxPrice: NotRequired[float]
+
+class Prv_onthemarket_OnTheMarketSearchResult_Out(TypedDict):
+    properties: list[Prv_onthemarket_OnTheMarketProperty_Out]
+    page: float
+    totalResults: NotRequired[float]
+    hasMore: bool
 
 class Prv_onthemarket_OnTheMarketProperty_Out(TypedDict):
     id: str
@@ -20492,6 +20621,49 @@ class Prv_teneohg_TeneohgRfpHandoff_Out(TypedDict):
     url: str
     hotelsOfInterestValue: str
 
+class Prv_theguardian_com_GuardianListSectionsResult_Out(TypedDict):
+    sections: list[Prv_theguardian_com_GuardianSection_Out]
+
+class Prv_theguardian_com_GuardianSection_Out(TypedDict):
+    title: str
+    path: str
+    url: str
+    children: list[Prv_theguardian_com_GuardianSection_Out]
+
+class Prv_theguardian_com_GuardianListArticlesArgs_In(TypedDict):
+    section: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_theguardian_com_GuardianListArticlesResult_Out(TypedDict):
+    section: str
+    title: str | None
+    articles: list[Prv_theguardian_com_GuardianArticleSummary_Out]
+
+class Prv_theguardian_com_GuardianArticleSummary_Out(TypedDict):
+    title: str
+    url: str
+    id: str
+    summary: str | None
+    byline: str | None
+    published: str | None
+
+class Prv_theguardian_com_GuardianArticle_Out(TypedDict):
+    id: str
+    url: str
+    headline: str
+    standfirst: str | None
+    byline: str | None
+    published: str | None
+    section: str | None
+    tags: list[Prv_theguardian_com_GuardianArticle_Out_tags_item_Out]
+    paragraphs: list[str]
+    body: str
+
+class Prv_theguardian_com_GuardianArticle_Out_tags_item_Out(TypedDict):
+    id: str
+    title: str
+    type: str
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -21212,6 +21384,19 @@ class Prv_tradingview_Quote_Out(TypedDict):
     week52Low: NotRequired[float]
     beta1Year: NotRequired[float]
     updateMode: NotRequired[str]
+
+class Prv_tradingview_CompanyInfo_Out(TypedDict):
+    symbol: str
+    exchange: str
+    name: str
+    description: str
+    type: str
+    sector: NotRequired[str]
+    industry: NotRequired[str]
+    marketCap: NotRequired[float]
+    peRatio: NotRequired[float]
+    dividendYield: NotRequired[float]
+    analystRecommendation: NotRequired[float]
 
 class Prv_tradingview_NewsItem_Out(TypedDict):
     id: str
@@ -22286,6 +22471,119 @@ class Prv_wearehirschfeld_WearehirschfeldContactField_Out(TypedDict):
     label: str
     type: str
     required: bool
+
+class Prv_weather_channel_WeatherLocation_Out(TypedDict):
+    name: str
+    city: str | None
+    adminDistrict: str | None
+    country: str | None
+    countryCode: str | None
+    postalCode: str | None
+    latitude: float
+    longitude: float
+    timeZone: str | None
+    placeId: str | None
+    type: str | None
+
+class Prv_weather_channel_Location_u1_In(TypedDict):
+    latitude: float
+    longitude: float
+
+class Prv_weather_channel_ForecastOptions_In(TypedDict):
+    units: NotRequired[Literal["metric"] | Literal["imperial"]]
+    days: NotRequired[float]
+    hours: NotRequired[float]
+
+class Prv_weather_channel_CurrentConditions_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    observedAt: str
+    units: Literal["metric"] | Literal["imperial"]
+    phrase: str
+    temperature: float | None
+    feelsLike: float | None
+    dewPoint: float | None
+    humidity: float | None
+    windSpeed: float | None
+    windGust: float | None
+    windDirection: str | None
+    pressure: float | None
+    uvIndex: float | None
+    uvDescription: str | None
+    visibility: float | None
+    cloudCover: float | None
+    precipLastHour: float | None
+    high24h: float | None
+    low24h: float | None
+    sunrise: str | None
+    sunset: str | None
+
+class Prv_weather_channel_DailyForecast_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    units: Literal["metric"] | Literal["imperial"]
+    days: list[Prv_weather_channel_DailyForecast_Out_days_item_Out]
+
+class Prv_weather_channel_DailyForecast_Out_days_item_Out(TypedDict):
+    date: str
+    dayOfWeek: str
+    high: float | None
+    low: float | None
+    narrative: str
+    precipAmount: float | None
+    snowAmount: float | None
+    sunrise: str | None
+    sunset: str | None
+    moonPhase: str | None
+    day: Prv_weather_channel_DaypartForecast_Out | None
+    night: Prv_weather_channel_DaypartForecast_Out | None
+
+class Prv_weather_channel_DaypartForecast_Out(TypedDict):
+    name: str
+    narrative: str
+    phrase: str
+    temperature: float | None
+    precipChance: float | None
+    precipType: str | None
+    humidity: float | None
+    windSpeed: float | None
+    windDirection: str | None
+    uvIndex: float | None
+
+class Prv_weather_channel_HourlyForecast_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    units: Literal["metric"] | Literal["imperial"]
+    hours: list[Prv_weather_channel_HourlyForecast_Out_hours_item_Out]
+
+class Prv_weather_channel_HourlyForecast_Out_hours_item_Out(TypedDict):
+    time: str
+    phrase: str
+    temperature: float | None
+    feelsLike: float | None
+    precipChance: float | None
+    precipType: str | None
+    precipAmount: float | None
+    humidity: float | None
+    windSpeed: float | None
+    windGust: float | None
+    windDirection: str | None
+    uvIndex: float | None
+    cloudCover: float | None
+
+class Prv_weather_channel_AlertList_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    alerts: list[Prv_weather_channel_WeatherAlert_Out]
+
+class Prv_weather_channel_WeatherAlert_Out(TypedDict):
+    id: str
+    headline: str
+    event: str
+    severity: str | None
+    urgency: str | None
+    certainty: str | None
+    area: str | None
+    issuedBy: str | None
+    effective: str | None
+    expires: str | None
+    source: str | None
 
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
@@ -24637,10 +24935,19 @@ class Cap_read(Protocol):
         `"markdown"` format cannot promise** — it flattens the DOM, so a price can end up
         textually next to a link for a DIFFERENT size/color/variant; `warnings` names it when
         the page carries the structured data to prove it, but the safe read is `{ format:
-        "cleanHtml" }`, which keeps the price inside its own item's markup. RUN-ONLY: because
-        the rung is decided per call, neither `session()` nor the bare top-level `bowmark`
-        client (which opens a session internally, even for one call) can serve this — both are
-        refused with code "rung_undeclared". Call it through `run()` instead.
+        "cleanHtml" }`, which keeps the price inside its own item's markup. **`content` is the
+        page's TEXT, and the browser leg does not change that** — `servedBy: "browser"` means
+        the page rendered, not that every widget on it became words. A booking calendar whose
+        open and blocked days are drawn only by styling, a widget inside a cross-origin iframe
+        or a canvas, and a rate or quote the page shows only after dates are picked or a form is
+        filled come back as bare day numbers, empty characters or nothing at all — usually with
+        `ok: true` and no warning. So a missing price or availability here is not proof the page
+        has none: putting the dates in the url is worth one try, and past that use the site's
+        own provider if `get_library` has one, or `bowmark.browser_agent.start` to operate the
+        widget. RUN-ONLY: because the rung is decided per call, neither `session()` nor the bare
+        top-level `bowmark` client (which opens a session internally, even for one call) can
+        serve this — both are refused with code "rung_undeclared". Call it through `run()`
+        instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -25514,6 +25821,11 @@ class Prv_alibaba(Protocol):
     async def searchProducts(self, args: Prv_alibaba_searchProducts_args_In, /) -> list[Prv_alibaba_alibabaSearchRow_Out]:
         """Search for products by keyword, returning results with title, price, supplier and
         details.
+        """
+
+    async def getProduct(self, idOrUrl: str | float, /) -> Prv_alibaba_alibabaProductRow_Out:
+        """Get detailed information for a single product by ID or URL, including title, price
+        ladder, MOQ, images and supplier.
         """
 
 class Prv_allied(Protocol):
@@ -27297,6 +27609,14 @@ class Prv_bluesky(Protocol):
         spelling with `searchUsers` or `resolveHandle`.
         """
 
+    async def getUserPosts(self, actor: str | Prv_bluesky_getUserPosts_actor_u1_In, /) -> Prv_bluesky_BlueskyUserPosts_Out:
+        """A person's posts, newest first, as their profile tabs show them — posts only, posts with
+        replies, media only, or videos. Each post carries its text, author, counts, an at:// URI
+        for replying to or quoting it, its embed (images, an external link, a video, or a quoted
+        post) and whether it's a repost. Takes a handle, a DID, or a bsky.app profile URL.
+        THROWS `blueskyInputError` on an actor the AppView cannot find.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -28701,6 +29021,11 @@ class Prv_cnn(Protocol):
         image with caption and credit.
         """
 
+    async def listVideos(self, /) -> list[Prv_cnn_cnnVideo_Out]:
+        """The videos CNN currently lists on its video hub — clips and segments with headline,
+        description, duration, playback URL and thumbnail.
+        """
+
 class Prv_code_claude_com(Protocol):
     """Reads one page of Claude Code's own documentation site (code.claude.com/docs/...) by URL
     and returns its title, description and body as clean markdown — the site's own
@@ -29116,6 +29441,12 @@ class Prv_dell(Protocol):
         availability. Results are sorted as the storefront displays them.
         """
 
+    async def listProductCategories(self, /) -> list[Prv_dell_DellProductCategory_Out]:
+        """Lists the top-level product categories on Dell's storefront (laptops, desktops,
+        monitors, gaming, PC accessories, electronics, workstations) with a URL into each
+        category's listing.
+        """
+
     async def getProduct(self, args: Prv_dell_GetProductArgs_In, /) -> Prv_dell_DellProduct_Out:
         """Retrieves detailed information about a specific Dell product including title, price,
         availability, image, and customer ratings.
@@ -29483,6 +29814,15 @@ class Prv_ebay(Protocol):
         Requires an eBay OAuth application key — see this provider's `auth`.
         """
 
+    async def getSellerListings(self, args: Prv_ebay_getSellerListings_args_In, /) -> list[Prv_ebay_ebayItem_Out]:
+        """Runs eBay's Browse API `item_summary/search` filtered to one seller's own listings (the
+        username `search`/`getItem` rows carry under `seller`) that match `query`. eBay's Browse
+        API requires a keyword, category or product id on every search — a seller filter cannot
+        stand alone — so `query` is required alongside `seller`. Same rows, same fields, as
+        `search`. `limit` caps the row count (default 20, eBay's own ceiling 200). Requires an
+        eBay OAuth application key — see this provider's `auth`.
+        """
+
 class Prv_elase(Protocol):
     """Elase Med Spa's real location directory, live per-location service catalog, and real
     open-slot appointment availability — the same Zenoti booking backend the site's own
@@ -29586,6 +29926,11 @@ class Prv_epicgames(Protocol):
         """Games on sale right now in the Epic Games Store's Special Offers — current price,
         original price, discount percentage, currency and sale end date. Optionally filtered by
         tag or a maximum price, sorted by discount (default) or price.
+        """
+
+    async def listNews(self, args: Prv_epicgames_listNews_args_In | None = None, /) -> Prv_epicgames_ListNewsResult_Out:
+        """The Epic Games Store's news articles, newest first — title, date, author, category, slug
+        and URL. Optionally paged with limit (default 10) and skip.
         """
 
 class Prv_epromos(Protocol):
@@ -30094,6 +30439,11 @@ class Prv_fomo(Protocol):
     async def getMostHeldTokens(self, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenRow_Out]:
         """Returns the tokens held by the most fomo traders — a positions ranking rather than a
         volume or price one, which is a different and harder-to-fake signal. Takes no arguments.
+        """
+
+    async def getVerifiedTokens(self, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenRow_Out]:
+        """Returns the tokens fomo has verified — its own trust list, as distinct from the tradable
+        allowlist getTokenAllowlist returns. Takes no arguments.
         """
 
 class Prv_forbes(Protocol):
@@ -35027,6 +35377,11 @@ class Prv_nyt_cooking(Protocol):
         filters, returning recipe and collection rows.
         """
 
+    async def getRecipe(self, args: Prv_nyt_cooking_NytCookingGetRecipeArgs_In, /) -> Prv_nyt_cooking_NytCookingRecipe_Out:
+        """Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors —
+        off its page's embedded recipe data.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -35063,6 +35418,12 @@ class Prv_nyt_games(Protocol):
         """Retrieves the daily crossword: grid dimensions, editor, constructors, and every clue
         with its answer spelled out from the grid. Defaults to today in New York; the archive
         runs back to 1993.
+        """
+
+    async def getCrosswordMini(self, args: Prv_nyt_games_GetCrosswordMiniArgs_In | None = None, /) -> Prv_nyt_games_NytCrossword_Out:
+        """Retrieves the mini crossword: grid dimensions, editor, constructors, and every clue with
+        its answer spelled out from the grid. Defaults to today in New York; the mini launched
+        2014-08-21.
         """
 
 class Prv_nytimes(Protocol):
@@ -35121,10 +35482,16 @@ class Prv_oliverwinery(Protocol):
         """
 
 class Prv_onthemarket(Protocol):
-    """Search for residential property listings for sale or rent in the UK."""
+    """Search for residential property listings for sale or rent in the UK, paged, with bedroom
+    and price filters. `location` is a fuzzy area match (a town, a postcode district, a
+    county) rather than a postcode boundary — two adjacent districts can return overlapping
+    properties.
+    """
 
-    async def search(self, args: Prv_onthemarket_SearchArgs_In, /) -> list[Prv_onthemarket_OnTheMarketProperty_Out]:
-        """Search for residential properties by location and type (sale or rent)"""
+    async def search(self, args: Prv_onthemarket_SearchArgs_In, /) -> Prv_onthemarket_OnTheMarketSearchResult_Out:
+        """Search for residential properties by location and type (sale or rent), with paging and
+        bedroom/price filters. location is a fuzzy area match, not a postcode boundary.
+        """
 
 class Prv_openai(Protocol):
     """OpenAI pricing plans and help documentation from learn.chatgpt.com."""
@@ -37786,6 +38153,31 @@ class Prv_teneohg(Protocol):
         to find current ones.
         """
 
+class Prv_theguardian_com(Protocol):
+    """Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all
+    logged out.
+    """
+
+    async def listSections(self, /) -> Prv_theguardian_com_GuardianListSectionsResult_Out:
+        """The Guardian's own section tree, read off theguardian.com's navigation — News (US,
+        World, Climate crisis, Environment, Business, Tech, Science…), Opinion, Sport, Culture
+        (Film, Music, TV, Books…), Lifestyle — each with the path listArticlesBySection takes
+        and its sub-sections.
+        """
+
+    async def listArticlesBySection(self, args: Prv_theguardian_com_GuardianListArticlesArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:
+        """The latest Guardian articles in a section or topic tag — world, politics, sport,
+        culture, business, environment/climate-crisis, technology, any path listSections returns
+        — newest first, with headline, url, standfirst, byline and publish time. Default is the
+        front page's latest.
+        """
+
+    async def getArticle(self, articleUrlOrId: str, /) -> Prv_theguardian_com_GuardianArticle_Out:
+        """The full text of one Guardian news article: headline, standfirst, byline, publish time,
+        section, tags and the body paragraph by paragraph. Takes a theguardian.com URL or the
+        path listArticlesBySection returns as `id`.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -38306,6 +38698,15 @@ class Prv_tradingview(Protocol):
         tick-by-tick feed only exists over its websocket and is not carried here. Also returns
         OHLCV, market cap, sector/industry, P/E, dividend yield, 52-week high/low and beta where
         TradingView carries them.
+        """
+
+    async def getCompanyInfo(self, exchange: str, symbol: str, /) -> Prv_tradingview_CompanyInfo_Out:
+        """Gets company information for one symbol on one exchange — e.g. `getCompanyInfo("NASDAQ",
+        "AAPL")`. Use `searchSymbols` first and pass its exact `exchange` and `symbol` fields.
+        Returns the company name, description, instrument type, business sector and industry
+        classification, market cap, P/E ratio, dividend yield, and a numerical analyst
+        recommendation score (higher = more bullish). An unknown or delisted pair returns a
+        caller-fixable error.
         """
 
     async def getNews(self, exchange: str, symbol: str, /) -> list[Prv_tradingview_NewsItem_Out]:
@@ -38962,6 +39363,51 @@ class Prv_wearehirschfeld(Protocol):
     async def getContactForm(self, url: str | None = None, /) -> Prv_wearehirschfeld_WearehirschfeldContactForm_Out:
         """Reads Hirschfeld's contact form (wearehirschfeld.com/connect/ by default) and returns
         its real fields — name, label, input type and whether it's required.
+        """
+
+class Prv_weather_channel(Protocol):
+    """Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
+    storms for any location.
+    """
+
+    async def searchLocations(self, query: str, /) -> list[Prv_weather_channel_WeatherLocation_Out]:
+        """Finds places on weather.com by name or postal code — e.g. `searchLocations("Toronto")`
+        or `searchLocations("10001")` — the same lookup the site's search box runs. Returns each
+        match with its full display name, country, coordinates and time zone. Every other
+        function also takes a place name directly, so this is only needed to pick between
+        ambiguous matches; an unknown place is a caller-fixable error.
+        """
+
+    async def getCurrentConditions(self, location: str | Prv_weather_channel_Location_u1_In, options: Prv_weather_channel_ForecastOptions_In | None = None, /) -> Prv_weather_channel_CurrentConditions_Out:
+        """The Weather Channel's current conditions for a place — e.g.
+        `getCurrentConditions("Toronto")`, `getCurrentConditions({ latitude: 40.7, longitude:
+        -74 }, { units: "imperial" })`. A place name is resolved to weather.com's top match.
+        Returns temperature, feels-like, dew point, humidity, wind speed/gust/direction,
+        pressure, UV index, visibility, cloud cover, last-hour precipitation, the 24h high/low
+        and sunrise/sunset. Units default to metric.
+        """
+
+    async def getDailyForecast(self, location: str | Prv_weather_channel_Location_u1_In, options: Prv_weather_channel_ForecastOptions_In | None = None, /) -> Prv_weather_channel_DailyForecast_Out:
+        """The Weather Channel's daily forecast for a place, up to 15 days — e.g.
+        `getDailyForecast("London, England", { days: 10 })`. Each day carries the high/low, the
+        site's own narrative, precipitation and snow amounts, sunrise/sunset, moon phase, and a
+        day and night part with chance of precipitation, wind and UV. `day` is null for today
+        once the day part has passed. Defaults to 7 days, metric.
+        """
+
+    async def getHourlyForecast(self, location: str | Prv_weather_channel_Location_u1_In, options: Prv_weather_channel_ForecastOptions_In | None = None, /) -> Prv_weather_channel_HourlyForecast_Out:
+        """The Weather Channel's hour-by-hour forecast for a place — e.g.
+        `getHourlyForecast("Chicago", { hours: 12 })` — up to 360 hours. Each hour carries
+        temperature, feels-like, conditions phrase, chance/type/amount of precipitation,
+        humidity, wind and UV. Defaults to 24 hours, metric.
+        """
+
+    async def listAlerts(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_AlertList_Out:
+        """Active severe-weather alerts (warnings, watches, advisories) weather.com shows for a
+        place — e.g. `listAlerts("Houston, TX")`. Each alert carries its headline, event type,
+        severity, urgency, certainty, the affected area, the issuing office and effective/expiry
+        times. `alerts` empty means no active alerts, not an error; `location` is the place the
+        name resolved to.
         """
 
 class Prv_wellfound(Protocol):
@@ -40256,6 +40702,7 @@ class BowmarkProviders(Protocol):
     tatcha: Prv_tatcha
     teladoc: Prv_teladoc
     teneohg: Prv_teneohg
+    theguardian_com: Prv_theguardian_com
     therabody: Prv_therabody
     therowhouse: Prv_therowhouse
     thestowcompany: Prv_thestowcompany
@@ -40298,6 +40745,7 @@ class BowmarkProviders(Protocol):
     walmart: Prv_walmart
     waterfurnace: Prv_waterfurnace
     wearehirschfeld: Prv_wearehirschfeld
+    weather_channel: Prv_weather_channel
     wellfound: Prv_wellfound
     wholefoodsmarket: Prv_wholefoodsmarket
     wikipedia: Prv_wikipedia

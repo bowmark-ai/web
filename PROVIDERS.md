@@ -2109,7 +2109,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teladoc.search` | teladochealth.com | Searches Teladoc Health's public Health Library — recipes, meal plans… | ⚪ |
 | `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
 | `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
-| `theguardian_com.getArticle` | theguardian.com | Read the full text of one article given its URL or ID. | ⚪ |
+| `theguardian_com.getArticle` | theguardian.com | Read the full text of one article given its URL or ID. | 🟢 |
 | `theguardian_com.getContributorArticles` | theguardian.com | List articles written by a specific journalist or contributor. | ⚪ |
 | `theguardian_com.getLiveBlog` | theguardian.com | Read a live blog covering a news event. | ⚪ |
 | `theguardian_com.getPhotoGallery` | theguardian.com | View images in a photo gallery with captions. | ⚪ |
@@ -2117,7 +2117,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.getSavedArticles` | theguardian.com | Get the user's saved articles (requires login). | ⚪ |
 | `theguardian_com.getTopicArticles` | theguardian.com | Get articles tagged with a specific topic or collection. | ⚪ |
 | `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | ⚪ |
-| `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | ⚪ |
+| `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | 🟢 |
 | `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | ⚪ |
 | `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | ⚪ |
 | `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | ⚪ |
@@ -2125,7 +2125,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | ⚪ |
 | `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | ⚪ |
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | ⚪ |
-| `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | ⚪ |
+| `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
 | `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | ⚪ |
 | `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | ⚪ |
 | `theguardian_com.searchArticles` | theguardian.com | Search articles across the site by keyword. | ⚪ |
