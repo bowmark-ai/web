@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 45bc0f6895716547ef343a46d434f6055f90907fa26db085c25967f78b26bc6c
-// 67 capabilities, 493 providers, 1546 typed functions, 20 refused.
+// Manifest version: ff96f7f7792112fe33aa534c1cdebbc42082fe6bbe8a88645ba2405a069b5086
+// 67 capabilities, 493 providers, 1548 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2925,9 +2925,11 @@ type UrlsResult = {
      * tool call, so a slow page comes back as a real result naming the browser leg instead of your
      * client's bare "The operation timed out.". **`strategy: "fetch"` is the fast-fail escape**
      * for a page you do not want to wait on: it never opens a browser, returns in ~200ms, and
-     * still sets `escalationReason` so you learn the page needed one. **A price you need bound to
-     * a specific item is the one thing the default `"markdown"` format cannot promise** — it
-     * flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
+     * still sets `escalationReason` so you learn the page needed one. Several urls? Pass them to
+     * `read.pages`, not a loop of `page()` calls — a loop's reads add up, and three slow ones
+     * outlast the client, while `pages` holds the whole batch to the same 55s. **A price you need
+     * bound to a specific item is the one thing the default `"markdown"` format cannot promise** —
+     * it flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
      * size/color/variant; `warnings` names it when the page carries the structured data to prove
      * it, but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own
      * item's markup. **`content` is the page's TEXT, and the browser leg does not change that** —
@@ -2950,15 +2952,15 @@ type UrlsResult = {
      * avoid triggering bot defenses on sites that block concurrent connections from one IP, while
      * requests to DIFFERENT origins run in parallel. Results arrive in the order the urls were
      * given. One dead url never costs you the others — it comes back with `ok: false` and `error`
-     * set. Serializing costs TIME: a same-origin batch takes the SUM of its reads, so on a
-     * bot-defended site that escalates to a browser (~60s per page) more than one url from that
-     * origin will blow the 90s `/v1/run` ceiling and you get nothing back — split those across
-     * separate runs. The whole batch is ALSO bounded, at 75s: a url whose turn arrives after that
-     * comes back as its own `ok: false` row naming the batch budget, so you keep every page that
-     * did finish instead of losing the run. Two browser reads in one script is the shape that hits
-     * this — split them, or pass `strategy: "fetch"`. RUN-ONLY: same reason as `page` — the rung
-     * is decided per call, so `session()` and the top-level `bowmark` client are both refused with
-     * code "rung_undeclared". Call it through `run()` instead.
+     * set. Serializing costs TIME (`strategy: "browser"` is the exception and runs them in
+     * parallel): a same-origin batch takes the SUM of its reads, so two slow reads on one site
+     * already outlast a chat client that gives up at ~60s. The whole batch is therefore bounded at
+     * 55s, the same ceiling as one read: a url whose turn arrives after that comes back as its own
+     * `ok: false` row naming the batch budget, so you keep every page that did finish instead of
+     * losing the run. Two browser reads in one script is the shape that hits this — split them, or
+     * pass `strategy: "fetch"`. RUN-ONLY: same reason as `page` — the rung is decided per call, so
+     * `session()` and the top-level `bowmark` client are both refused with code "rung_undeclared".
+     * Call it through `run()` instead.
      */
     pages(urls: string[], options?: ReadOptions): Promise<ReadResult[]>;
 
@@ -8562,6 +8564,25 @@ interface BbcListCompetitionsResult {
   competitions: BbcCompetition[];
 }
 
+interface BbcFixtureMatch {
+  matchId: string;
+  competition: string; // the site's own tournament name, e.g. "Premier League"
+  homeTeam: string;
+  awayTeam: string;
+  homeScore?: string;   // absent before kickoff and on a cancelled match
+  awayScore?: string;
+  status: string;       // "upcoming" | "live" | "finished" | "cancelled" for the four states measured; an unmapped BBC status passes through verbatim
+  statusDetail: string; // the site's own short status word, e.g. "FT", "90'+2", "Scheduled", "Match Cancelled"
+  kickOff: string;       // ISO
+}
+
+interface BbcGetFixturesResult {
+  sport: string;         // the sport path this was fetched for, e.g. "/sport/football"
+  competition?: string;  // the competition path, when one was passed
+  date?: string;         // the single day filtered to, when `date` was passed alongside a competition
+  matches: BbcFixtureMatch[];
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8593,6 +8614,13 @@ interface bbcRow {
      * listSports.
      */
     listCompetitions(sport: string): Promise<BbcListCompetitionsResult>;
+
+    /**
+     * Scores and fixtures for a sport or competition on a date: each match's teams, kick-off time,
+     * status (upcoming, live, finished, cancelled), score and match id. Takes a sport, optionally
+     * a competition and a date (default today).
+     */
+    getFixtures(args: { sport: string; competition?: string; date?: string }): Promise<BbcGetFixturesResult>;
 
     /**
      * The stories a BBC section page shows right now, in the page's own order and grouping:
@@ -16418,6 +16446,28 @@ interface GetStorefrontResult {
   modules: StorefrontModule[];
 }
 
+interface ServiceComponent {
+  id: string;
+  name: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+}
+
+interface ServiceIncident {
+  id: string;
+  name: string;
+  status: string;  // the site's own labels — read the values off a result, never guess one from prose
+  impact: string;
+  shortlink: string;
+  updatedAt: string;
+}
+
+interface GetServiceStatusResult {
+  indicator: string;
+  description: string;
+  components: ServiceComponent[];
+  incidents: ServiceIncident[];
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -16482,6 +16532,13 @@ interface GetStorefrontResult {
      * Optional locale (default en-US) and ISO country code (default US).
      */
     getStorefront(args?: { locale?: string; country?: string }): Promise<GetStorefrontResult>;
+
+    /**
+     * Whether Epic's services are up — the store, launcher, login, Fortnite, matchmaking and the
+     * rest — with each component's status and any open incident. Optional component name to filter
+     * to one, e.g. "Fortnite".
+     */
+    getServiceStatus(args?: { component?: string }): Promise<GetServiceStatusResult>;
   }
 }
 

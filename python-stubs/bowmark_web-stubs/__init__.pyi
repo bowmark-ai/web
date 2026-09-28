@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 45bc0f6895716547ef343a46d434f6055f90907fa26db085c25967f78b26bc6c
-# 67 capabilities, 493 providers, 1528 typed functions, 20 refused.
+# Manifest version: ff96f7f7792112fe33aa534c1cdebbc42082fe6bbe8a88645ba2405a069b5086
+# 67 capabilities, 493 providers, 1530 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4711,6 +4711,28 @@ class Prv_bbc_BbcCompetition_Out(TypedDict):
     url: str
     category: str
 
+class Prv_bbc_getFixtures_args_In(TypedDict):
+    sport: str
+    competition: NotRequired[str]
+    date: NotRequired[str]
+
+class Prv_bbc_BbcGetFixturesResult_Out(TypedDict):
+    sport: str
+    competition: NotRequired[str]
+    date: NotRequired[str]
+    matches: list[Prv_bbc_BbcFixtureMatch_Out]
+
+class Prv_bbc_BbcFixtureMatch_Out(TypedDict):
+    matchId: str
+    competition: str
+    homeTeam: str
+    awayTeam: str
+    homeScore: NotRequired[str]
+    awayScore: NotRequired[str]
+    status: str
+    statusDetail: str
+    kickOff: str
+
 class Prv_bbc_listHeadlines_args_In(TypedDict):
     path: NotRequired[str]
 
@@ -9074,6 +9096,28 @@ class Prv_epicgames_StorefrontSlide_Out(TypedDict):
     eyebrow: NotRequired[str]
     description: NotRequired[str]
     linkedProduct: NotRequired[str]
+
+class Prv_epicgames_getServiceStatus_args_In(TypedDict):
+    component: NotRequired[str]
+
+class Prv_epicgames_GetServiceStatusResult_Out(TypedDict):
+    indicator: str
+    description: str
+    components: list[Prv_epicgames_ServiceComponent_Out]
+    incidents: list[Prv_epicgames_ServiceIncident_Out]
+
+class Prv_epicgames_ServiceComponent_Out(TypedDict):
+    id: str
+    name: str
+    status: str
+
+class Prv_epicgames_ServiceIncident_Out(TypedDict):
+    id: str
+    name: str
+    status: str
+    impact: str
+    shortlink: str
+    updatedAt: str
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -25462,23 +25506,25 @@ class Cap_read(Protocol):
         browser leg instead of your client's bare "The operation timed out.". **`strategy:
         "fetch"` is the fast-fail escape** for a page you do not want to wait on: it never opens
         a browser, returns in ~200ms, and still sets `escalationReason` so you learn the page
-        needed one. **A price you need bound to a specific item is the one thing the default
-        `"markdown"` format cannot promise** — it flattens the DOM, so a price can end up
-        textually next to a link for a DIFFERENT size/color/variant; `warnings` names it when
-        the page carries the structured data to prove it, but the safe read is `{ format:
-        "cleanHtml" }`, which keeps the price inside its own item's markup. **`content` is the
-        page's TEXT, and the browser leg does not change that** — `servedBy: "browser"` means
-        the page rendered, not that every widget on it became words. A booking calendar whose
-        open and blocked days are drawn only by styling, a widget inside a cross-origin iframe
-        or a canvas, and a rate or quote the page shows only after dates are picked or a form is
-        filled come back as bare day numbers, empty characters or nothing at all — usually with
-        `ok: true` and no warning. So a missing price or availability here is not proof the page
-        has none: putting the dates in the url is worth one try, and past that use the site's
-        own provider if `get_library` has one, or `bowmark.browser_agent.start` to operate the
-        widget. RUN-ONLY: because the rung is decided per call, neither `session()` nor the bare
-        top-level `bowmark` client (which opens a session internally, even for one call) can
-        serve this — both are refused with code "rung_undeclared". Call it through `run()`
-        instead.
+        needed one. Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a
+        loop's reads add up, and three slow ones outlast the client, while `pages` holds the
+        whole batch to the same 55s. **A price you need bound to a specific item is the one
+        thing the default `"markdown"` format cannot promise** — it flattens the DOM, so a price
+        can end up textually next to a link for a DIFFERENT size/color/variant; `warnings` names
+        it when the page carries the structured data to prove it, but the safe read is `{
+        format: "cleanHtml" }`, which keeps the price inside its own item's markup. **`content`
+        is the page's TEXT, and the browser leg does not change that** — `servedBy: "browser"`
+        means the page rendered, not that every widget on it became words. A booking calendar
+        whose open and blocked days are drawn only by styling, a widget inside a cross-origin
+        iframe or a canvas, and a rate or quote the page shows only after dates are picked or a
+        form is filled come back as bare day numbers, empty characters or nothing at all —
+        usually with `ok: true` and no warning. So a missing price or availability here is not
+        proof the page has none: putting the dates in the url is worth one try, and past that
+        use the site's own provider if `get_library` has one, or `bowmark.browser_agent.start`
+        to operate the widget. RUN-ONLY: because the rung is decided per call, neither
+        `session()` nor the bare top-level `bowmark` client (which opens a session internally,
+        even for one call) can serve this — both are refused with code "rung_undeclared". Call
+        it through `run()` instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -25486,16 +25532,16 @@ class Cap_read(Protocol):
         to avoid triggering bot defenses on sites that block concurrent connections from one IP,
         while requests to DIFFERENT origins run in parallel. Results arrive in the order the
         urls were given. One dead url never costs you the others — it comes back with `ok:
-        false` and `error` set. Serializing costs TIME: a same-origin batch takes the SUM of its
-        reads, so on a bot-defended site that escalates to a browser (~60s per page) more than
-        one url from that origin will blow the 90s `/v1/run` ceiling and you get nothing back —
-        split those across separate runs. The whole batch is ALSO bounded, at 75s: a url whose
-        turn arrives after that comes back as its own `ok: false` row naming the batch budget,
-        so you keep every page that did finish instead of losing the run. Two browser reads in
-        one script is the shape that hits this — split them, or pass `strategy: "fetch"`.
-        RUN-ONLY: same reason as `page` — the rung is decided per call, so `session()` and the
-        top-level `bowmark` client are both refused with code "rung_undeclared". Call it through
-        `run()` instead.
+        false` and `error` set. Serializing costs TIME (`strategy: "browser"` is the exception
+        and runs them in parallel): a same-origin batch takes the SUM of its reads, so two slow
+        reads on one site already outlast a chat client that gives up at ~60s. The whole batch
+        is therefore bounded at 55s, the same ceiling as one read: a url whose turn arrives
+        after that comes back as its own `ok: false` row naming the batch budget, so you keep
+        every page that did finish instead of losing the run. Two browser reads in one script is
+        the shape that hits this — split them, or pass `strategy: "fetch"`. RUN-ONLY: same
+        reason as `page` — the rung is decided per call, so `session()` and the top-level
+        `bowmark` client are both refused with code "rung_undeclared". Call it through `run()`
+        instead.
         """
 
     async def urls(self, url: str, options: Cap_read_UrlsOptions_In | None = None, /) -> Cap_read_UrlsResult_Out:
@@ -27623,6 +27669,12 @@ class Prv_bbc(Protocol):
         """The competitions BBC Sport covers for one sport (for football: Premier League,
         Championship, Champions League, …) with the key getFixtures and getStandings take. Takes
         a sport from listSports.
+        """
+
+    async def getFixtures(self, args: Prv_bbc_getFixtures_args_In, /) -> Prv_bbc_BbcGetFixturesResult_Out:
+        """Scores and fixtures for a sport or competition on a date: each match's teams, kick-off
+        time, status (upcoming, live, finished, cancelled), score and match id. Takes a sport,
+        optionally a competition and a date (default today).
         """
 
     async def listHeadlines(self, args: Prv_bbc_listHeadlines_args_In | None = None, /) -> Prv_bbc_BbcListHeadlinesResult_Out:
@@ -30555,6 +30607,12 @@ class Prv_epicgames(Protocol):
         """The Epic Games Store home page as data — the featured carousel, the sale carousel and
         the other curated modules, each with its slides (title, eyebrow, description, linked
         product). Optional locale (default en-US) and ISO country code (default US).
+        """
+
+    async def getServiceStatus(self, args: Prv_epicgames_getServiceStatus_args_In | None = None, /) -> Prv_epicgames_GetServiceStatusResult_Out:
+        """Whether Epic's services are up — the store, launcher, login, Fortnite, matchmaking and
+        the rest — with each component's status and any open incident. Optional component name
+        to filter to one, e.g. "Fortnite".
         """
 
 class Prv_epromos(Protocol):

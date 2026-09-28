@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2552 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2557 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1240,6 +1240,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟢 |
 | `holidaybuilders.searchAvailableHomes` | holidaybuilders.com | Runs Holiday Builders' site-wide Available Homes search — every real move-in-ready or… | 🟢 |
 | `hottopic.search` | hottopic.com | Searches hottopic.com's own storefront for a keyword and returns the real, priced… | 🟢 |
+| `hubspot.addNoteToDeal` | app.hubspot.com | Writes a note onto a deal in the caller's own HubSpot CRM portal — creates the note… | 🟢 |
+| `hubspot.getDeal` | app.hubspot.com | Reads one deal from the caller's own HubSpot CRM portal by its id — name, amount… | 🟢 |
+| `hubspot.searchContacts` | app.hubspot.com | Searches the contacts in the caller's own HubSpot CRM portal by name or email. | ⚪ |
+| `hubspot.searchDeals` | app.hubspot.com | Searches the deals in the caller's own HubSpot CRM portal by name ("Q4 direct mail")… | 🟢 |
+| `hubspot.updateDeal` | app.hubspot.com | Changes a deal's properties (stage, amount, close date) in the caller's own HubSpot… | ⚪ |
 | `hunter.countEmails` | hunter.io | Returns how many email addresses Hunter holds for a domain, without returning the… | 🟢 |
 | `hunter.discoverCompanies` | hunter.io | Finds companies matching an ideal-customer-profile description or a set of filters —… | ⚪ |
 | `hunter.discoverPeople` | hunter.io | Finds individual people matching a profile — role, seniority, department, plus the… | ⚪ |
@@ -1926,7 +1931,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listArticlesByDate` | www.reuters.com | Every Reuters story published on one calendar day — headline, url and time — from the… | 🟢 |
 | `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | ⚪ |
 | `reuters.listFollowedTopics` | www.reuters.com | The topics the signed-in reader follows in My News. | ⚪ |
-| `reuters.listGraphics` | www.reuters.com | Reuters Graphics — the interactive data stories and explainers — with title, url and… | ⚪ |
+| `reuters.listGraphics` | www.reuters.com | Reuters Graphics — the interactive data stories and explainers — with title, url and… | 🟢 |
 | `reuters.listHeadlines` | www.reuters.com | The stories a Reuters section front shows right now, in the page's own order… | ⚪ |
 | `reuters.listLatestNews` | www.reuters.com | The newest Reuters stories across the whole site, newest first — headline, url… | 🟢 |
 | `reuters.listMostRead` | www.reuters.com | The "most read" stories Reuters shows beside its articles: rank, headline and url. | ⚪ |
@@ -2287,7 +2292,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | ⚪ |
 | `twitch.searchChannels` | twitch.tv | Searches Twitch channels by keyword — a name, game or description term — and returns… | 🟢 |
 | `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | ⚪ |
-| `twitch.sendChatMessage` | twitch.tv | Sends a message to a channel's live chat. | ⚪ |
+| `twitch.sendChatMessage` | twitch.tv | Sends a message to a channel's live chat. | 🟢 |
 | `twitch.setChannel` | twitch.tv | Updates the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
 | `twitch.signUp` | twitch.tv | Registers a new developer application on the Twitch console. | ⚪ |
 | `twitch.unfollowChannel` | twitch.tv | Removes a channel from the signed-in user's followed list. | ⚪ |

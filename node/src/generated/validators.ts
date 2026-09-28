@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 45bc0f6895716547ef343a46d434f6055f90907fa26db085c25967f78b26bc6c
-// 1528 checked, 20 unchecked.
+// Manifest version: ff96f7f7792112fe33aa534c1cdebbc42082fe6bbe8a88645ba2405a069b5086
+// 1530 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "45bc0f6895716547ef343a46d434f6055f90907fa26db085c25967f78b26bc6c",
+  "version": "ff96f7f7792112fe33aa534c1cdebbc42082fe6bbe8a88645ba2405a069b5086",
   "units": {
     "booking_links": {
       "defs": {
@@ -8862,6 +8862,38 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getFixtures": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "sport",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "competition",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "date",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "listHeadlines": [
           {
             "name": "args",
@@ -15601,6 +15633,24 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getServiceStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "component",
                   "schema": {
                     "k": "string"
                   },
