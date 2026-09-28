@@ -243,7 +243,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | ⚪ |
 | `bbc.getVideo` | bbc.com | One BBC video page as data: title, summary, duration, published time, section, poster… | ⚪ |
 | `bbc.getWeatherWarnings` | bbc.com | The weather warnings BBC Weather shows for a location or region: level, type (rain… | ⚪ |
-| `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | ⚪ |
+| `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | 🟢 |
 | `bbc.listFollowedPodcasts` | bbc.com | The podcasts and series the signed-in reader follows. | ⚪ |
 | `bbc.listHeadlines` | bbc.com | The stories a BBC section page shows right now, in the page's own order and grouping… | 🟢 |
 | `bbc.listMostRead` | bbc.com | The "Most read" list the BBC shows beside its stories: rank, headline, url and article… | ⚪ |
