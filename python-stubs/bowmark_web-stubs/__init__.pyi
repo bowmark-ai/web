@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0f6b243cf857712b03d20a560537dbe5a9a1c37b14a95a967b14a34a65cf49e1
-# 67 capabilities, 491 providers, 1507 typed functions, 20 refused.
+# Manifest version: cbefa295c98ef50ede18343e0cc7be6125ce5e0d51015b4fa9416b02408b8c7d
+# 67 capabilities, 491 providers, 1509 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10768,6 +10768,22 @@ class Prv_github_GithubListTopicsResult_Out(TypedDict):
 
 class Prv_github_GithubTopic_Out(TypedDict):
     name: str
+    url: str
+
+class Prv_github_GithubListMarketplaceActionsOptions_In(TypedDict):
+    query: NotRequired[str]
+    category: NotRequired[str]
+    page: NotRequired[float]
+
+class Prv_github_GithubListMarketplaceActionsResult_Out(TypedDict):
+    actions: list[Prv_github_GithubMarketplaceAction_Out]
+    warnings: list[str]
+
+class Prv_github_GithubMarketplaceAction_Out(TypedDict):
+    slug: str
+    name: str
+    description: str
+    listingType: str
     url: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
@@ -23155,6 +23171,19 @@ class Prv_wikipedia_listRelated_return_Out(TypedDict):
     results: list[Prv_wikipedia_WikipediaSearchResult_Out]
     warnings: list[str]
 
+class Prv_wikipedia_listLanguages_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_listLanguages_return_Out(TypedDict):
+    languages: list[Prv_wikipedia_WikipediaLanguageLink_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaLanguageLink_Out(TypedDict):
+    lang: str
+    title: str
+    url: str
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -31489,6 +31518,18 @@ class Prv_github(Protocol):
         github.com/topics URL. Off the topics page's server-rendered HTML, no API, no login.
         THROWS if the page structure does not carry the expected topic links — the page has
         changed.
+        """
+
+    async def listMarketplaceActions(self, options: Prv_github_GithubListMarketplaceActionsOptions_In | None = None, /) -> Prv_github_GithubListMarketplaceActionsResult_Out:
+        """Returns GitHub Actions listed on the Marketplace — each one's slug, display name,
+        description, listing type ("Action"), and its own github.com/marketplace/actions/<slug>
+        URL. `options.query` free-text searches the marketplace, the same box the site itself
+        exposes (e.g. `"deploy"`); `options.category` narrows to a marketplace category slug
+        (e.g. `"deployment"`, `"code-quality"`); `options.page` pages through results (GitHub
+        returns 20 per page). Off the marketplace listing page's server-rendered HTML, no API,
+        no login. A query matching nothing returns `actions: []`, not a throw — only a page
+        whose structure has changed (no listing markup at all, on a query that plainly should
+        match something) throws.
         """
 
 class Prv_glama(Protocol):
@@ -40065,6 +40106,14 @@ class Prv_wikipedia(Protocol):
         caller has a topic and wants its siblings rather than the articles it links to. Takes an
         article title OR any wikipedia.org url and follows the site's own redirects. Optional
         limit parameter caps the number of results returned (defaults to 10).
+        """
+
+    async def listLanguages(self, titleOrUrl: str, options: Prv_wikipedia_listLanguages_options_In | None = None, /) -> Prv_wikipedia_listLanguages_return_Out:
+        """What this article is called in every other language Wikipedia has it in, with the url of
+        each — the door to the other ~340 editions, and the way a caller reaches an article that
+        is fuller in German or Japanese than in English. Takes an article title OR any
+        wikipedia.org url and follows the site's own redirects. Optional limit parameter caps
+        the number of editions returned (defaults to all).
         """
 
 class Prv_wikipedia_standings(Protocol):

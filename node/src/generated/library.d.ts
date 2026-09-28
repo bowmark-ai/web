@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0f6b243cf857712b03d20a560537dbe5a9a1c37b14a95a967b14a34a65cf49e1
-// 67 capabilities, 491 providers, 1525 typed functions, 20 refused.
+// Manifest version: cbefa295c98ef50ede18343e0cc7be6125ce5e0d51015b4fa9416b02408b8c7d
+// 67 capabilities, 491 providers, 1527 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19571,6 +19571,25 @@ interface GithubListTopicsResult {
   topics: GithubTopic[];
   warnings: string[];
 }
+interface GithubMarketplaceAction {
+  slug: string;
+  name: string;
+  description: string;
+  listingType: string;  // the site's own labels — read the values off a result, never guess one from prose
+  url: string;
+}
+interface GithubListMarketplaceActionsOptions {
+  /** Free-text search, matching GitHub's own marketplace search box. */
+  query?: string;
+  /** A marketplace category slug, e.g. "deployment", "code-quality". */
+  category?: string;
+  /** 1-based page number. */
+  page?: number;
+}
+interface GithubListMarketplaceActionsResult {
+  actions: GithubMarketplaceAction[];
+  warnings: string[];
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -19747,6 +19766,18 @@ interface GithubListTopicsResult {
      * if the page structure does not carry the expected topic links — the page has changed.
      */
     listTopics(): Promise<GithubListTopicsResult>;
+
+    /**
+     * Returns GitHub Actions listed on the Marketplace — each one's slug, display name,
+     * description, listing type ("Action"), and its own github.com/marketplace/actions/<slug> URL.
+     * `options.query` free-text searches the marketplace, the same box the site itself exposes
+     * (e.g. `"deploy"`); `options.category` narrows to a marketplace category slug (e.g.
+     * `"deployment"`, `"code-quality"`); `options.page` pages through results (GitHub returns 20
+     * per page). Off the marketplace listing page's server-rendered HTML, no API, no login. A
+     * query matching nothing returns `actions: []`, not a throw — only a page whose structure has
+     * changed (no listing markup at all, on a query that plainly should match something) throws.
+     */
+    listMarketplaceActions(options?: GithubListMarketplaceActionsOptions): Promise<GithubListMarketplaceActionsResult>;
   }
 }
 
@@ -42094,6 +42125,12 @@ interface WikipediaCategoryMember {
   type: "page" | "subcategory" | "file";
 }
 
+interface WikipediaLanguageLink {
+  lang: string;
+  title: string;
+  url: string;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -42224,6 +42261,15 @@ interface WikipediaCategoryMember {
      * parameter caps the number of results returned (defaults to 10).
      */
     listRelated(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ results: WikipediaSearchResult[]; warnings: string[] }>;
+
+    /**
+     * What this article is called in every other language Wikipedia has it in, with the url of
+     * each — the door to the other ~340 editions, and the way a caller reaches an article that is
+     * fuller in German or Japanese than in English. Takes an article title OR any wikipedia.org
+     * url and follows the site's own redirects. Optional limit parameter caps the number of
+     * editions returned (defaults to all).
+     */
+    listLanguages(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ languages: WikipediaLanguageLink[]; warnings: string[] }>;
   }
 }
 

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0f6b243cf857712b03d20a560537dbe5a9a1c37b14a95a967b14a34a65cf49e1
-// 1507 checked, 20 unchecked.
+// Manifest version: cbefa295c98ef50ede18343e0cc7be6125ce5e0d51015b4fa9416b02408b8c7d
+// 1509 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0f6b243cf857712b03d20a560537dbe5a9a1c37b14a95a967b14a34a65cf49e1",
+  "version": "cbefa295c98ef50ede18343e0cc7be6125ce5e0d51015b4fa9416b02408b8c7d",
   "units": {
     "booking_links": {
       "defs": {
@@ -18249,6 +18249,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GithubListMarketplaceActionsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubListPullRequestsOptions": {
           "k": "object",
           "props": [
@@ -18605,7 +18631,17 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listTrendingRepositories": [],
-        "listTopics": []
+        "listTopics": [],
+        "listMarketplaceActions": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubListMarketplaceActionsOptions"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.glama": {
@@ -43154,6 +43190,38 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listRelated": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listLanguages": [
           {
             "name": "titleOrUrl",
             "schema": {

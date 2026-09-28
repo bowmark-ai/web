@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2551 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2556 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -846,6 +846,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `facerealityskincare.searchAcneExperts` | facerealityskincare.com | Runs Face Reality's own Acne Expert Locator search — matches a free-text query (city… | 🟢 |
 | `fbsappliance.getProductDetails` | fbsappliance.com | Reads one product's detail page for its full spec sheet, real per-showroom inventory… | ⚪ |
 | `fbsappliance.searchAppliances` | fbsappliance.com | Runs the site's own category grid (e.g. built-in-refrigerators) and returns real… | 🟢 |
+| `fedex.getRate` | fedex.com | Prices a domestic package across FedEx's own service levels (Ground, Home Delivery… | 🟢 |
 | `fieldstonehomes.getAppointmentFormSchema` | fieldstonehomes.com | Reads Fieldstone Homes' live schedule-appointment form, including its required fields… | 🟢 |
 | `fieldstonehomes.prepareAppointment` | fieldstonehomes.com | Validates an appointment request against Fieldstone Homes' live form and returns the… | 🟢 |
 | `fieldstonehomes.searchQuickMoveIns` | fieldstonehomes.com | Searches Fieldstone Homes' live quick-move-in inventory by city, home type, price… | 🟢 |
@@ -1081,6 +1082,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
 | `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟢 |
 | `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟢 |
+| `google_docs.findDocuments` | docs.google.com | Finds public Google Docs documents about a topic ("meeting agenda", "lesson plan") and… | 🟢 |
+| `google_docs.getDocument` | docs.google.com | Reads the full text of a public or link-shared Google Docs document, by URL or id… | 🟢 |
+| `google_docs.listMyDocuments` | docs.google.com | Lists the documents in the caller's own Google Drive. | ⚪ |
+| `google_docs.updateDocument` | docs.google.com | Inserts or replaces text in a document the caller can edit. | ⚪ |
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
@@ -1268,7 +1273,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
 | `indeed.getCompanyDetails` | indeed.com | Fetches company details including ratings, reviews, and company information. | ⚪ |
-| `indeed.getJobDetails` | indeed.com | Fetches complete details for a specific job listing including salary, company info… | ⚪ |
+| `indeed.getJobDetails` | indeed.com | Fetches complete details for a specific job listing including salary, company info… | 🟢 |
 | `indeed.getSalaryDetails` | indeed.com | Retrieves detailed salary information for a specific job title and location. | ⚪ |
 | `indeed.searchCompanies` | indeed.com | Searches for companies on Indeed by name or keyword. | ⚪ |
 | `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |
