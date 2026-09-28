@@ -1,5 +1,5 @@
 {
-  "version": "92eddb9f05e68578cab5e9de2f8854163df6f4da4dabfa6723b221082f072001",
+  "version": "71dde2b46b61b9c29ed7df01ce2d7e903af54c92ad392a15bf9c02bf55f74b81",
   "units": {
     "booking_links": {
       "defs": {
@@ -15571,6 +15571,31 @@
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "getStorefront": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "locale",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

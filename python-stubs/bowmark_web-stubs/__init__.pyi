@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 92eddb9f05e68578cab5e9de2f8854163df6f4da4dabfa6723b221082f072001
-# 67 capabilities, 494 providers, 1519 typed functions, 20 refused.
+# Manifest version: 71dde2b46b61b9c29ed7df01ce2d7e903af54c92ad392a15bf9c02bf55f74b81
+# 67 capabilities, 494 providers, 1520 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9048,6 +9048,23 @@ class Prv_epicgames_NewsArticle_Out(TypedDict):
     category: str
     content: str
     images: list[str]
+
+class Prv_epicgames_getStorefront_args_In(TypedDict):
+    locale: NotRequired[str]
+    country: NotRequired[str]
+
+class Prv_epicgames_GetStorefrontResult_Out(TypedDict):
+    modules: list[Prv_epicgames_StorefrontModule_Out]
+
+class Prv_epicgames_StorefrontModule_Out(TypedDict):
+    type: str
+    slides: list[Prv_epicgames_StorefrontSlide_Out]
+
+class Prv_epicgames_StorefrontSlide_Out(TypedDict):
+    title: str
+    eyebrow: NotRequired[str]
+    description: NotRequired[str]
+    linkedProduct: NotRequired[str]
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -30437,6 +30454,12 @@ class Prv_epicgames(Protocol):
     async def getNewsArticle(self, slug: str, /) -> Prv_epicgames_GetNewsArticleResult_Out:
         """One Epic Games Store news article's full text (HTML), date, author, category and images.
         Takes the slug listNews returns.
+        """
+
+    async def getStorefront(self, args: Prv_epicgames_getStorefront_args_In | None = None, /) -> Prv_epicgames_GetStorefrontResult_Out:
+        """The Epic Games Store home page as data — the featured carousel, the sale carousel and
+        the other curated modules, each with its slides (title, eyebrow, description, linked
+        product). Optional locale (default en-US) and ISO country code (default US).
         """
 
 class Prv_epromos(Protocol):

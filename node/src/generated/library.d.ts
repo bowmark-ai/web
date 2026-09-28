@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 92eddb9f05e68578cab5e9de2f8854163df6f4da4dabfa6723b221082f072001
-// 67 capabilities, 494 providers, 1537 typed functions, 20 refused.
+// Manifest version: 71dde2b46b61b9c29ed7df01ce2d7e903af54c92ad392a15bf9c02bf55f74b81
+// 67 capabilities, 494 providers, 1538 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -16386,6 +16386,22 @@ interface GetNewsArticleResult {
   article: NewsArticle;
 }
 
+interface StorefrontSlide {
+  title: string;
+  eyebrow?: string;
+  description?: string;
+  linkedProduct?: string;
+}
+
+interface StorefrontModule {
+  type: string;
+  slides: StorefrontSlide[];
+}
+
+interface GetStorefrontResult {
+  modules: StorefrontModule[];
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -16443,6 +16459,13 @@ interface GetNewsArticleResult {
      * Takes the slug listNews returns.
      */
     getNewsArticle(slug: string): Promise<GetNewsArticleResult>;
+
+    /**
+     * The Epic Games Store home page as data — the featured carousel, the sale carousel and the
+     * other curated modules, each with its slides (title, eyebrow, description, linked product).
+     * Optional locale (default en-US) and ISO country code (default US).
+     */
+    getStorefront(args?: { locale?: string; country?: string }): Promise<GetStorefrontResult>;
   }
 }
 
