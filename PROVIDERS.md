@@ -521,7 +521,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `caraway.getCarawayProduct` | carawayhome.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `caraway.listCarawayProducts` | carawayhome.com | Reads the live Caraway catalogue as Caraway publishes it — every ceramic cookware… | 🟢 |
 | `caraway.runCarawayQuiz` | carawayhome.com | Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended… | 🟢 |
-| `cardiff.getApplication` | www.cardiff.gov.uk | Retrieves the full details of a single planning application by reference, including… | 🟢 |
+| `cardiff.getApplication` | www.cardiff.gov.uk | Retrieves the full details of a single planning application by reference, including… | 🟡 |
 | `cardiff.search` | www.cardiff.gov.uk | Searches the Cardiff planning register by reference, address, or keywords. | 🟢 |
 | `carepatrol.findLocalAdvisor` | carepatrol.com | Runs the site's own zip/state locator at carepatrol.com/locations/ — given a US ZIP… | 🟢 |
 | `carlsgolfland.addToCart` | carlsgolfland.com | Hands the shopper the entry-point link for a priced configuration plus the exact… | 🟢 |
