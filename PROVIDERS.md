@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2556 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2552 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -619,7 +619,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | 🟢 |
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
 | `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | 🟢 |
-| `cnn.listTrendingTopics` | www.cnn.com | Topics and keywords that are trending on CNN right now — what stories are getting the… | ⚪ |
+| `cnn.listTrendingTopics` | www.cnn.com | The stories CNN's own recommendation engine currently ranks as trending — headline… | 🟢 |
 | `cnn.listVideos` | www.cnn.com | The videos CNN currently lists on its video hub — clips and segments with headline… | 🟢 |
 | `cnn.searchArticles` | www.cnn.com | Search for news articles across CNN — takes what a person would say ("breaking news"… | ⚪ |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
@@ -1082,10 +1082,6 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
 | `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟢 |
 | `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟢 |
-| `google_docs.findDocuments` | docs.google.com | Finds public Google Docs documents about a topic ("meeting agenda", "lesson plan") and… | 🟢 |
-| `google_docs.getDocument` | docs.google.com | Reads the full text of a public or link-shared Google Docs document, by URL or id… | 🟢 |
-| `google_docs.listMyDocuments` | docs.google.com | Lists the documents in the caller's own Google Drive. | ⚪ |
-| `google_docs.updateDocument` | docs.google.com | Inserts or replaces text in a document the caller can edit. | ⚪ |
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
 | `google_flights.getPriceGraph` | flights.google.com | Answers "when is this route cheapest" — the price for every departure date across… | 🟢 |
 | `google_flights.search` | flights.google.com | Runs the itinerary search and returns its result rows. | 🟢 |
