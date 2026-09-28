@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 016f24c824eb0cb37350a305ecbcf397dbc4187f9eba46b86fa4f29087ab9ae8
-// 1481 checked, 20 unchecked.
+// Manifest version: 9fbcb46455fc5284d5e3d88660224fa3520b03fbfd7f5b607e14ce2c19164dfa
+// 1483 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "016f24c824eb0cb37350a305ecbcf397dbc4187f9eba46b86fa4f29087ab9ae8",
+  "version": "9fbcb46455fc5284d5e3d88660224fa3520b03fbfd7f5b607e14ce2c19164dfa",
   "units": {
     "booking_links": {
       "defs": {
@@ -15181,6 +15181,32 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "searchAutocomplete": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -28246,6 +28272,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPipsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetSpellingBeeArgs": {
           "k": "object",
           "props": [
@@ -28350,6 +28388,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCrosswordMiniArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getPips": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPipsArgs"
             },
             "optional": true
           }

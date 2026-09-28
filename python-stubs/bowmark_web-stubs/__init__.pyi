@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 016f24c824eb0cb37350a305ecbcf397dbc4187f9eba46b86fa4f29087ab9ae8
-# 67 capabilities, 491 providers, 1481 typed functions, 20 refused.
+# Manifest version: 9fbcb46455fc5284d5e3d88660224fa3520b03fbfd7f5b607e14ce2c19164dfa
+# 67 capabilities, 491 providers, 1483 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8725,6 +8725,17 @@ class Prv_ebay_getSellerListings_args_In(TypedDict):
     query: str
     limit: NotRequired[float]
 
+class Prv_ebay_searchAutocomplete_args_u1_In(TypedDict):
+    query: str
+
+class Prv_ebay_ebayAutocompleteResult_Out(TypedDict):
+    suggestions: list[str]
+    categories: list[Prv_ebay_ebayAutocompleteResult_Out_categories_item_Out]
+
+class Prv_ebay_ebayAutocompleteResult_Out_categories_item_Out(TypedDict):
+    categoryId: str
+    name: str
+
 class Prv_elase_ElaseLocationLink_Out(TypedDict):
     slug: str
     url: str
@@ -14184,6 +14195,7 @@ class Prv_linkedin_LinkedinProfile_Out(TypedDict):
     education: list[Prv_linkedin_LinkedinProfileSchool_Out]
     pastOrganizations: list[Prv_linkedin_LinkedinProfileSchool_Out]
     languages: list[str]
+    masked: bool
 
 class Prv_linkedin_LinkedinProfilePosition_Out(TypedDict):
     title: str | None
@@ -16355,6 +16367,29 @@ class Prv_nyt_games_NytCrosswordClue_Out(TypedDict):
 
 class Prv_nyt_games_GetCrosswordMiniArgs_In(TypedDict):
     date: NotRequired[str]
+
+class Prv_nyt_games_GetPipsArgs_In(TypedDict):
+    date: NotRequired[str]
+
+class Prv_nyt_games_NytPips_Out(TypedDict):
+    printDate: str
+    editor: str | None
+    easy: Prv_nyt_games_PipsDifficulty_Out
+    medium: Prv_nyt_games_PipsDifficulty_Out
+    hard: Prv_nyt_games_PipsDifficulty_Out
+
+class Prv_nyt_games_PipsDifficulty_Out(TypedDict):
+    id: float
+    backendId: str
+    constructors: str
+    dominoes: list[tuple[float, float]]
+    regions: list[Prv_nyt_games_PipsRegion_Out]
+    solution: list[tuple[tuple[float, float], tuple[float, float]]]
+
+class Prv_nyt_games_PipsRegion_Out(TypedDict):
+    indices: list[tuple[float, float]]
+    type: Literal["equals"] | Literal["sum"] | Literal["greater"] | Literal["less"] | Literal["unequal"] | Literal["empty"]
+    target: NotRequired[float]
 
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
@@ -29883,6 +29918,14 @@ class Prv_ebay(Protocol):
         eBay OAuth application key — see this provider's `auth`.
         """
 
+    async def searchAutocomplete(self, args: str | Prv_ebay_searchAutocomplete_args_u1_In, /) -> Prv_ebay_ebayAutocompleteResult_Out:
+        """Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's
+        search field would show — via `autosug.ebay.com/autosug`, eBay's undocumented but
+        keyless autocomplete endpoint. Needs no eBay OAuth key, unlike every other function on
+        this provider. Returns an empty `suggestions`/`categories` pair when eBay has nothing to
+        suggest for the prefix.
+        """
+
 class Prv_elase(Protocol):
     """Elase Med Spa's real location directory, live per-location service catalog, and real
     open-slot appointment availability — the same Zenoti booking backend the site's own
@@ -35484,6 +35527,12 @@ class Prv_nyt_games(Protocol):
         """Retrieves the mini crossword: grid dimensions, editor, constructors, and every clue with
         its answer spelled out from the grid. Defaults to today in New York; the mini launched
         2014-08-21.
+        """
+
+    async def getPips(self, args: Prv_nyt_games_GetPipsArgs_In | None = None, /) -> Prv_nyt_games_NytPips_Out:
+        """Retrieves the daily Pips puzzle: all three difficulties (easy, medium, hard), each with
+        its dominoes, board regions and official solution. Defaults to today in New York; pass {
+        date: "YYYY-MM-DD" } for any day.
         """
 
 class Prv_nytimes(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 016f24c824eb0cb37350a305ecbcf397dbc4187f9eba46b86fa4f29087ab9ae8
-// 67 capabilities, 491 providers, 1499 typed functions, 20 refused.
+// Manifest version: 9fbcb46455fc5284d5e3d88660224fa3520b03fbfd7f5b607e14ce2c19164dfa
+// 67 capabilities, 491 providers, 1501 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15908,6 +15908,11 @@ interface ebayItemDetail {
   bidCount: number | null;  // auctions only
 }
 
+interface ebayAutocompleteResult {
+  suggestions: string[];
+  categories: { categoryId: string; name: string }[];  // empty when eBay associates none
+}
+
   /**
    * eBay's own documented Browse API (api.ebay.com) — searches live eBay listings by query and
    * returns title, price, condition, buying option, seller and the item's own ebay.com URL,
@@ -15950,6 +15955,15 @@ interface ebayItemDetail {
      * application key — see this provider's `auth`.
      */
     getSellerListings(args: { seller: string; query: string; limit?: number }): Promise<ebayItem[]>;
+
+    /**
+     * Reads eBay's own search-box autosuggest — the same suggestions typed into ebay.com's search
+     * field would show — via `autosug.ebay.com/autosug`, eBay's undocumented but keyless
+     * autocomplete endpoint. Needs no eBay OAuth key, unlike every other function on this
+     * provider. Returns an empty `suggestions`/`categories` pair when eBay has nothing to suggest
+     * for the prefix.
+     */
+    searchAutocomplete(args: string | { query: string }): Promise<ebayAutocompleteResult>;
   }
 }
 
@@ -26451,6 +26465,10 @@ interface LinkedinProfile {
   education: LinkedinProfileSchool[];      // schools only
   pastOrganizations: LinkedinProfileSchool[]; // past employers and board seats, not schools
   languages: string[];
+  // True when LinkedIn hid a title or the headline from this logged-out read
+  // (served as asterisks). Those fields come back null, not as asterisks — so a
+  // null with masked:true means "hidden", not "the member left it blank".
+  masked: boolean;
 }
 
 interface LinkedinProfilePosition {
@@ -30852,6 +30870,10 @@ interface NytCrosswordClue { label: string; direction: "Across" | "Down"; text: 
 interface NytCrossword { id: number; printDate: string; editor: string | null; constructors: string[]; width: number; height: number; clues: NytCrosswordClue[]; }
 interface GetCrosswordDailyArgs { date?: string; }
 interface GetCrosswordMiniArgs { date?: string; }
+interface PipsRegion { indices: Array<[number, number]>; type: "equals" | "sum" | "greater" | "less" | "unequal" | "empty"; target?: number; }
+interface PipsDifficulty { id: number; backendId: string; constructors: string; dominoes: Array<[number, number]>; regions: PipsRegion[]; solution: Array<[[number, number], [number, number]]>; }
+interface NytPips { printDate: string; editor: string | null; easy: PipsDifficulty; medium: PipsDifficulty; hard: PipsDifficulty; }
+interface GetPipsArgs { date?: string; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -30902,6 +30924,13 @@ interface GetCrosswordMiniArgs { date?: string; }
      * 2014-08-21.
      */
     getCrosswordMini(args?: GetCrosswordMiniArgs): Promise<NytCrossword>;
+
+    /**
+     * Retrieves the daily Pips puzzle: all three difficulties (easy, medium, hard), each with its
+     * dominoes, board regions and official solution. Defaults to today in New York; pass { date:
+     * "YYYY-MM-DD" } for any day.
+     */
+    getPips(args?: GetPipsArgs): Promise<NytPips>;
   }
 }
 
