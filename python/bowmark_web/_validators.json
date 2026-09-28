@@ -1,5 +1,5 @@
 {
-  "version": "d8f3779664935f299ada74797a68228b664428fa82458584dba700edc97b4fdd",
+  "version": "9b2734df5ca9ad06b80c90ab8629b12f762a80dd382ae7c0528ac472f73e32a8",
   "units": {
     "booking_links": {
       "defs": {
@@ -8841,6 +8841,15 @@
           }
         ],
         "listSports": [],
+        "listCompetitions": [
+          {
+            "name": "sport",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listHeadlines": [
           {
             "name": "args",

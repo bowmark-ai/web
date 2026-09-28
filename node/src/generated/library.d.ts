@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d8f3779664935f299ada74797a68228b664428fa82458584dba700edc97b4fdd
-// 67 capabilities, 491 providers, 1516 typed functions, 20 refused.
+// Manifest version: 9b2734df5ca9ad06b80c90ab8629b12f762a80dd382ae7c0528ac472f73e32a8
+// 67 capabilities, 491 providers, 1517 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8550,6 +8550,18 @@ interface BbcListSportsResult {
   sports: BbcSport[]; // the sports BBC Sport covers, in the site's own order
 }
 
+interface BbcCompetition {
+  name: string;
+  path: string;    // site-relative, e.g. "/sport/football/premier-league" — what getFixtures and getStandings take
+  url: string;
+  category: string; // the site's own grouping, e.g. "UK & Ireland", "Europe", "International"
+}
+
+interface BbcListCompetitionsResult {
+  sport: string; // the sport path this was fetched for, e.g. "/sport/football"
+  competitions: BbcCompetition[];
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8574,6 +8586,13 @@ interface bbcRow {
      * with each one's path — the finder for listCompetitions and getFixtures.
      */
     listSports(): Promise<BbcListSportsResult>;
+
+    /**
+     * The competitions BBC Sport covers for one sport (for football: Premier League, Championship,
+     * Champions League, …) with the key getFixtures and getStandings take. Takes a sport from
+     * listSports.
+     */
+    listCompetitions(sport: string): Promise<BbcListCompetitionsResult>;
 
     /**
      * The stories a BBC section page shows right now, in the page's own order and grouping:

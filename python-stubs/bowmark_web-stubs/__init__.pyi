@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d8f3779664935f299ada74797a68228b664428fa82458584dba700edc97b4fdd
-# 67 capabilities, 491 providers, 1498 typed functions, 20 refused.
+# Manifest version: 9b2734df5ca9ad06b80c90ab8629b12f762a80dd382ae7c0528ac472f73e32a8
+# 67 capabilities, 491 providers, 1499 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4700,6 +4700,16 @@ class Prv_bbc_BbcSport_Out(TypedDict):
     title: str
     path: str
     url: str
+
+class Prv_bbc_BbcListCompetitionsResult_Out(TypedDict):
+    sport: str
+    competitions: list[Prv_bbc_BbcCompetition_Out]
+
+class Prv_bbc_BbcCompetition_Out(TypedDict):
+    name: str
+    path: str
+    url: str
+    category: str
 
 class Prv_bbc_listHeadlines_args_In(TypedDict):
     path: NotRequired[str]
@@ -27322,6 +27332,12 @@ class Prv_bbc(Protocol):
     async def listSports(self, /) -> Prv_bbc_BbcListSportsResult_Out:
         """The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf, …)
         with each one's path — the finder for listCompetitions and getFixtures.
+        """
+
+    async def listCompetitions(self, sport: str, /) -> Prv_bbc_BbcListCompetitionsResult_Out:
+        """The competitions BBC Sport covers for one sport (for football: Premier League,
+        Championship, Champions League, …) with the key getFixtures and getStandings take. Takes
+        a sport from listSports.
         """
 
     async def listHeadlines(self, args: Prv_bbc_listHeadlines_args_In | None = None, /) -> Prv_bbc_BbcListHeadlinesResult_Out:
