@@ -1057,7 +1057,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
 | `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
-| `github.listStarredRepositories` | github.com | Lists repositories the signed-in user has starred, with optional sorting and filtering. | ⚪ |
+| `github.listStarredRepositories` | github.com | Lists repositories the signed-in caller has starred — name, full name, description… | 🟢 |
 | `github.listTopics` | github.com | Lists topics from GitHub's public topics page — topic name and its github.com/topics… | 🟢 |
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
 | `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |

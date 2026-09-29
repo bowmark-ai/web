@@ -6,6 +6,175 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.25.1 (2026-09-29)
+
+**Capabilities**
+
+- New capability **candy_prices** (1 function): `candy_prices.search`
+- New capability **census_tract_demographics** (1 function): `census_tract_demographics.householdIncome`
+- New capability **spreadsheet** (2 functions): `spreadsheet.parse`, `spreadsheet.stringify`
+- New capability **video_editing** (1 function): `video_editing.editFootage`
+- Added `products.search`
+
+**Providers**
+
+- New provider **alibaba.com** (3 functions): `alibaba.getProduct`, `alibaba.listCategories`, `alibaba.searchProducts`
+- New provider **bbc.com** (10 functions): `bbc.getArticle`, `bbc.getFixtures`, `bbc.getLivePage`, `bbc.getStandings`, `bbc.listCompetitions`, `bbc.listHeadlines`, `bbc.listSections`, `bbc.listSports`, and 2 more
+- New provider **bsky.app** (8 functions): `bluesky.getPost`, `bluesky.getProfile`, `bluesky.getThread`, `bluesky.getTrendingTopics`, `bluesky.getUserPosts`, `bluesky.resolveHandle`, `bluesky.searchPosts`, `bluesky.searchUsers`
+- New provider **bsb.de** (1 function): `bodensee_schiffsbetriebe_berths.searchHarbors`
+- New provider **booking.com** (1 function): `booking_com.autocompleteDestination`
+- New provider **buildingengines.com** (1 function): `buildingengines.getAccessRequestStatus`
+- New provider **estes-express.com** (1 function): `estes_express.estimateFreightQuote`
+- New provider **fedex.com** (1 function): `fedex.getRate`
+- New provider **docs.google.com** (3 functions): `google_sheets.findSpreadsheets`, `google_sheets.listSheets`, `google_sheets.readSheet`
+- New provider **goremutual.ca** (1 function): `goremutual.getProductOverview`
+- New provider **hipcamp.com** (1 function): `hipcamp.search`
+- New provider **app.hubspot.com** (3 functions): `hubspot.addNoteToDeal`, `hubspot.getDeal`, `hubspot.searchDeals`
+- New provider **indeed.com** (2 functions): `indeed.getJobDetails`, `indeed.searchJobs`
+- New provider **lyreco.com** (2 functions): `lyreco.getProduct`, `lyreco.search`
+- New provider **cooking.nytimes.com** (6 functions): `nyt_cooking.getAuthorRecipes`, `nyt_cooking.getCollection`, `nyt_cooking.getRecipe`, `nyt_cooking.getTopic`, `nyt_cooking.listFeaturedCollections`, `nyt_cooking.searchRecipes`
+- New provider **nytimes.com** (7 functions): `nytimes.getArticle`, `nytimes.getArticleComments`, `nytimes.getSection`, `nytimes.listArticles`, `nytimes.listSections`, `nytimes.listTrending`, `nytimes.searchArticles`
+- New provider **proxy-cheap.com** (2 functions): `proxy_cheap.listCoverage`, `proxy_cheap.listPlans`
+- New provider **www.reuters.com** (9 functions): `reuters.findAuthor`, `reuters.listArticlesByDate`, `reuters.listGraphics`, `reuters.listLatestNews`, `reuters.listPictureGalleries`, `reuters.listPodcasts`, `reuters.listPressReleases`, `reuters.listSections`, and 1 more
+- New provider **sede.valencia.es** (1 function): `sede_valencia_es.getParkingTariff`
+- New provider **steampowered.com** (3 functions): `steam.getGameDetails`, `steam.listFeaturedGames`, `steam.searchGames`
+- New provider **theguardian.com** (5 functions): `theguardian_com.getArticle`, `theguardian_com.getTopicArticles`, `theguardian_com.listArticlesBySection`, `theguardian_com.listSections`, `theguardian_com.listTopics`
+- New provider **www.tradingview.com** (5 functions): `tradingview.getCompanyInfo`, `tradingview.getNews`, `tradingview.getQuote`, `tradingview.getTechnicalAnalysis`, `tradingview.searchSymbols`
+- New provider **weather.com** (8 functions): `weather_channel.getAirQuality`, `weather_channel.getCurrentConditions`, `weather_channel.getDailyForecast`, `weather_channel.getFifteenMinuteForecast`, `weather_channel.getHourlyForecast`, `weather_channel.getLocation`, `weather_channel.listAlerts`, `weather_channel.searchLocations`
+- New provider **en.wikipedia.org** (1 function): `wikipedia_standings.search`
+- Added `amazon.getCart`
+- Added `apple.checkCoverage`
+- Added `apple.getOrderStatus`
+- Added `apple.listOrders`
+- Added `archive_org.checkLendingAvailability`
+- Added `archive_org.downloadFile`
+- Added `archive_org.getItem`
+- Added `archive_org.searchItems`
+- Added `calendly.getBooking`
+- Added `cnn.getArticle`
+- Added `cnn.getVideo`
+- Added `cnn.listCategories`
+- Added `cnn.listSectionHeadlines`
+- Added `cnn.listTrendingTopics`
+- Added `cnn.listVideos`
+- Added `dell.getProduct`
+- Added `dell.listProductCategories`
+- Added `dell.searchProducts`
+- Added `dell.searchSupport`
+- Added `ebay.getDeals`
+- Added `ebay.getItem`
+- Added `ebay.getSellerListings`
+- Added `ebay.searchAutocomplete`
+- Added `ebay.searchByCategory`
+- Added `epicgames.getGame`
+- Added `epicgames.getNewsArticle`
+- Added `epicgames.getPrice`
+- Added `epicgames.getServiceStatus`
+- Added `epicgames.getStorefront`
+- Added `epicgames.listDeals`
+- Added `epicgames.listGameOffers`
+- Added `epicgames.listNews`
+- Added `epicgames.searchGames`
+- Added `fomo.getBalances`
+- Added `fomo.getGraduatedTokens`
+- Added `fomo.getMajorTokens`
+- Added `fomo.getMostHeldTokens`
+- Added `fomo.getToken`
+- Added `fomo.getTokenAllowlist`
+- Added `fomo.getTokenAllowlistDetailed`
+- Added `fomo.getTrendingTokens`
+- Added `fomo.getVerifiedTokens`
+- Added `fomo.searchTokens`
+- Added `forbes.getArticle`
+- Added `forbes.getContributor`
+- Added `forbes.getVideo`
+- Added `forbes.listBillionaires`
+- Added `forbes.listContributors`
+- Added `forbes.listVideos`
+- Added `fred.searchSeries`
+- Added `github.getIssue`
+- Added `github.getPullRequest`
+- Added `github.getSponsorPage`
+- Added `github.listMarketplaceActions`
+- Added `github.listNotifications`
+- Added `github.listStarredRepositories`
+- Added `github.listTopics`
+- Added `github.listTrendingRepositories`
+- Added `github.searchCode`
+- Added `google_maps.listMyContributions`
+- Added `google_maps.savePlace`
+- Added `google_news.getForYou`
+- Added `google_news.listEditions`
+- Added `google_news.listFollowedTopics`
+- Added `google_news.listSavedArticles`
+- Added `google_news.saveArticle`
+- Added `jcrew.listProductReviews`
+- Added `linkedin.getConversation`
+- Added `linkedin.getHomeFeed`
+- Added `linkedin.getMyProfile`
+- Added `linkedin.getProfileDetails`
+- Added `linkedin.getProfileViews`
+- Added `linkedin.listCompanyEmployees`
+- Added `linkedin.listConnections`
+- Added `linkedin.listConversations`
+- Added `linkedin.listInvitations`
+- Added `linkedin.listSentInvitations`
+- Added `linkedin.searchCompanies`
+- Added `linkedin.searchMembers`
+- Added `linkedin.searchPosts`
+- Added `msn.getMarketSummary`
+- Added `msn.getStockQuote`
+- Added `nyt_games.getConnections`
+- Added `nyt_games.getCrosswordArchive`
+- Added `nyt_games.getCrosswordDaily`
+- Added `nyt_games.getCrosswordMidi`
+- Added `nyt_games.getCrosswordMini`
+- Added `nyt_games.getLetterBoxed`
+- Added `nyt_games.getPips`
+- Added `nyt_games.getSpellingBee`
+- Added `nyt_games.getStrands`
+- Added `nyt_games.getSudoku`
+- Added `nyt_games.getTiles`
+- Added `nyt_games.listCrosswordPuzzles`
+- Added `pinterest.listPinComments`
+- Added `samsung.findStore`
+- Added `samsung.getOrderStatus`
+- Added `samsung.getRewardsBalance`
+- Added `samsung.listMyProducts`
+- Added `samsung.listOrders`
+- Added `twitch.listCategories`
+- Added `twitch.listChannelVods`
+- Added `twitch.listFollowedChannels`
+- Added `twitch.searchChannels`
+- Added `twitch.searchVideos`
+- Added `twitch.sendChatMessage`
+- Added `walmart.browseBrand`
+- Added `walmart.browseCategory`
+- Added `walmart.listDeals`
+- Added `walmart.listDepartments`
+- Added `walmart.listReviews`
+- Added `walmart.suggestSearches`
+- Added `wikipedia.getImage`
+- Added `wikipedia.listBacklinks`
+- Added `wikipedia.listCategories`
+- Added `wikipedia.listCategoryMembers`
+- Added `wikipedia.listExternalLinks`
+- Added `wikipedia.listImages`
+- Added `wikipedia.listLanguages`
+- Added `wikipedia.listRelated`
+- Added `wikipedia.listRevisions`
+- Added `yahoo_sports.getFantasyLeague`
+- Added `yahoo_sports.getNews`
+- Added `yahoo_sports.getRssFeed`
+- Added `yahoo_sports.getTeamRoster`
+- Added `yahoo_sports.setFantasyLineup`
+- Added `youtube.likeVideo`
+- Added `youtube.listSubscriptions`
+- Added `youtube.listWatchHistory`
+- Added `youtube.subscribeToChannel`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.25.0 (2026-09-25)
 
 **Capabilities**
