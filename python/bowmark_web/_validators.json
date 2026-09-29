@@ -1,5 +1,5 @@
 {
-  "version": "e7cbb03683d83c7eb435f6cbd584c7c6d6015e1e5dee36c768ff464c9418b459",
+  "version": "8744e70518020d015150c85f92e5492dc096bbf88d70746fe8df6c1f8b46659a",
   "units": {
     "booking_links": {
       "defs": {
@@ -44433,6 +44433,18 @@
             }
           ]
         },
+        "GetFantasyLeagueArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "leagueId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetGameArgs": {
           "k": "object",
           "props": [
@@ -44837,6 +44849,32 @@
               "name": "GetNewsArgs"
             },
             "optional": false
+          }
+        ],
+        "getFantasyLeague": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetFantasyLeagueArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

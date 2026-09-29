@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e7cbb03683d83c7eb435f6cbd584c7c6d6015e1e5dee36c768ff464c9418b459
-# 67 capabilities, 494 providers, 1558 typed functions, 20 refused.
+# Manifest version: 8744e70518020d015150c85f92e5492dc096bbf88d70746fe8df6c1f8b46659a
+# 67 capabilities, 494 providers, 1559 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24112,6 +24112,38 @@ class Prv_yahoo_sports_YahooSportsNewsStory_Out(TypedDict):
     published: str | None
     tags: list[str]
 
+class Prv_yahoo_sports_GetFantasyLeagueArgs_In(TypedDict):
+    leagueId: str
+
+class Prv_yahoo_sports_YahooFantasyLeagueDetail_Out(TypedDict):
+    leagueId: str
+    leagueName: str
+    week: float | None
+    standings: list[Prv_yahoo_sports_YahooFantasyStandingsRow_Out]
+    matchups: list[Prv_yahoo_sports_YahooFantasyMatchup_Out]
+
+class Prv_yahoo_sports_YahooFantasyStandingsRow_Out(TypedDict):
+    teamId: str
+    teamName: str
+    rank: float
+    wins: float
+    losses: float
+    ties: float
+    pointsFor: float
+    pointsAgainst: float
+    streak: str | None
+    waiverPriority: str | None
+    moves: str | None
+
+class Prv_yahoo_sports_YahooFantasyMatchup_Out(TypedDict):
+    teams: tuple[Prv_yahoo_sports_YahooFantasyMatchupTeam_Out, Prv_yahoo_sports_YahooFantasyMatchupTeam_Out]
+
+class Prv_yahoo_sports_YahooFantasyMatchupTeam_Out(TypedDict):
+    teamId: str
+    teamName: str
+    record: str | None
+    score: float
+
 class Prv_ycombinator_YCombinatorArticle_Out(TypedDict):
     id: float | None
     slug: str
@@ -41223,6 +41255,12 @@ class Prv_yahoo_sports(Protocol):
     async def getNews(self, args: Prv_yahoo_sports_GetNewsArgs_In, /) -> Prv_yahoo_sports_YahooSportsNews_Out:
         """Reads a league's News tab — all story headlines, links, sources and publication times
         from Yahoo Sports' own news page.
+        """
+
+    async def getFantasyLeague(self, args: Prv_yahoo_sports_GetFantasyLeagueArgs_In, opts: ConnectionOption | None = None, /) -> Prv_yahoo_sports_YahooFantasyLeagueDetail_Out:
+        """Reads the CALLER's own fantasy football league — standings and the current week's
+        matchups — the way the signed-in Fantasy hub renders them, once the caller has signed in
+        through the auth relay. NEEDS A SIGN-IN. Does not yet cover rosters or transactions.
         """
 
 class Prv_ycombinator(Protocol):

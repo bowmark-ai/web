@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e7cbb03683d83c7eb435f6cbd584c7c6d6015e1e5dee36c768ff464c9418b459
-// 67 capabilities, 494 providers, 1576 typed functions, 20 refused.
+// Manifest version: 8744e70518020d015150c85f92e5492dc096bbf88d70746fe8df6c1f8b46659a
+// 67 capabilities, 494 providers, 1577 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -43867,6 +43867,44 @@ interface YahooSportsNews {
   stories: YahooSportsNewsStory[];
 }
 
+interface GetFantasyLeagueArgs {
+  // The league's numeric id off its own URL (football.fantasysports.yahoo.com/f1/<leagueId>).
+  leagueId: string;
+}
+
+interface YahooFantasyStandingsRow {
+  teamId: string;
+  teamName: string;
+  rank: number;
+  wins: number;
+  losses: number;
+  ties: number;
+  pointsFor: number;
+  pointsAgainst: number;
+  streak: string | null;
+  waiverPriority: string | null;
+  moves: string | null;
+}
+
+interface YahooFantasyMatchupTeam {
+  teamId: string;
+  teamName: string;
+  record: string | null;
+  score: number;
+}
+
+interface YahooFantasyMatchup {
+  teams: [YahooFantasyMatchupTeam, YahooFantasyMatchupTeam];
+}
+
+interface YahooFantasyLeagueDetail {
+  leagueId: string;
+  leagueName: string;
+  week: number | null;
+  standings: YahooFantasyStandingsRow[];
+  matchups: YahooFantasyMatchup[];
+}
+
   /**
    * Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages — off
    * the site's own server-rendered schema.org markup, no browser and no account.
@@ -43934,6 +43972,13 @@ interface YahooSportsNews {
      * Yahoo Sports' own news page.
      */
     getNews(args: GetNewsArgs): Promise<YahooSportsNews>;
+
+    /**
+     * Reads the CALLER's own fantasy football league — standings and the current week's matchups —
+     * the way the signed-in Fantasy hub renders them, once the caller has signed in through the
+     * auth relay. NEEDS A SIGN-IN. Does not yet cover rosters or transactions.
+     */
+    getFantasyLeague(args: GetFantasyLeagueArgs, opts?: ConnectionOption): Promise<YahooFantasyLeagueDetail>;
   }
 }
 

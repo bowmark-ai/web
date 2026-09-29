@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e7cbb03683d83c7eb435f6cbd584c7c6d6015e1e5dee36c768ff464c9418b459
-// 1558 checked, 20 unchecked.
+// Manifest version: 8744e70518020d015150c85f92e5492dc096bbf88d70746fe8df6c1f8b46659a
+// 1559 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e7cbb03683d83c7eb435f6cbd584c7c6d6015e1e5dee36c768ff464c9418b459",
+  "version": "8744e70518020d015150c85f92e5492dc096bbf88d70746fe8df6c1f8b46659a",
   "units": {
     "booking_links": {
       "defs": {
@@ -44445,6 +44445,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetFantasyLeagueArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "leagueId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetGameArgs": {
           "k": "object",
           "props": [
@@ -44849,6 +44861,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetNewsArgs"
             },
             "optional": false
+          }
+        ],
+        "getFantasyLeague": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetFantasyLeagueArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }

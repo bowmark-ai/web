@@ -369,7 +369,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.resolveHandle` | bsky.app | Turn a Bluesky handle (alice.bsky.social, or a custom domain handle) into its… | 🟢 |
 | `bluesky.saveFeed` | bsky.app | Save or pin a custom feed to the caller's feed list, or remove it. | ⚪ |
 | `bluesky.searchFeeds` | bsky.app | Find custom feeds by words (e.g. 'science', 'art'), the way Explore's feed search… | ⚪ |
-| `bluesky.searchPosts` | bsky.app | Search all public posts by words, with the Search tab's Top/Latest sort and its… | ⚪ |
+| `bluesky.searchPosts` | bsky.app | Search all public posts by words, with the Search tab's Top/Latest sort and its… | 🟢 |
 | `bluesky.searchStarterPacks` | bsky.app | Find starter packs by words. | ⚪ |
 | `bluesky.searchUsers` | bsky.app | Search people by name, handle or bio words, the way the Search tab's People list does… | 🟢 |
 | `bluesky.sendMessage` | bsky.app | Send a direct message as the caller to a person who accepts DMs from them. | ⚪ |
@@ -944,7 +944,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.reactToPost` | fomo.family | Reacts to, or removes a reaction from, a feed post. `POST /feed/react` and `POST… | ⚪ |
 | `fomo.removeFromWatchlist` | fomo.family | Removes a token from the signed-in trader's watchlist. `DELETE /watchlist`. | ⚪ |
 | `fomo.searchClans` | fomo.family | Searches clans by name. | ⚪ |
-| `fomo.searchTokens` | fomo.family | Searches tokens by name, symbol or contract address and returns matching rows with… | ⚪ |
+| `fomo.searchTokens` | fomo.family | Searches tokens by name, symbol or contract address and returns matching rows with… | 🟢 |
 | `fomo.searchUsers` | fomo.family | Fuzzy-searches traders by handle or display name and returns matching profiles. | 🟢 |
 | `fomo.sendTransfer` | fomo.family | Sends tokens from the signed-in user's wallet to another user or address. `POST… | ⚪ |
 | `fomo.setAlertPreferences` | fomo.family | Writes the signed-in trader's push-notification preferences — which alerts fomo sends… | ⚪ |
@@ -1655,7 +1655,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle — all three difficulties, each with its board… | 🟢 |
 | `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | 🟢 |
 | `nyt_games.getWordle` | games.nytimes.com | Reads one day's Wordle answer, puzzle number and editor from NYT's own game JSON. | 🟢 |
-| `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | ⚪ |
+| `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | 🟢 |
 | `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
 | `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
@@ -1940,7 +1940,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listNewsletterSubscriptions` | www.reuters.com | The newsletters the signed-in reader is subscribed to. | ⚪ |
 | `reuters.listPictureGalleries` | www.reuters.com | Reuters photo galleries ("Pictures"), newest first: title, url, published time and… | 🟢 |
 | `reuters.listPodcastEpisodes` | www.reuters.com | The episodes of one Reuters podcast show, newest first: title, description, date… | ⚪ |
-| `reuters.listPodcasts` | www.reuters.com | The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On… | ⚪ |
+| `reuters.listPodcasts` | www.reuters.com | The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On… | 🟢 |
 | `reuters.listPressReleases` | www.reuters.com | Press releases distributed on reuters.com, newest first: title, url and date. | 🟢 |
 | `reuters.listSavedArticles` | www.reuters.com | The signed-in reader's saved Reuters articles: headline, url and when saved. | ⚪ |
 | `reuters.listSections` | www.reuters.com | Reuters' own section and topic list — World, Business, Markets, Sustainability, Legal… | 🟢 |
