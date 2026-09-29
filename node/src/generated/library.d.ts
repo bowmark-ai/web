@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1d84867698d31d698efacbc6258c8953f67a605d13567b936a47554be83c297a
-// 68 capabilities, 495 providers, 1601 typed functions, 20 refused.
+// Manifest version: 5bbe79e1c878f18141f71f71d52c1dfbdb02737536d4e8182a77ec552fc3a213
+// 68 capabilities, 495 providers, 1602 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6809,6 +6809,14 @@ interface AppleCoverageResult {
   errorToken?: string;
   raw?: string;
 }
+interface AppleGeniusBarBookingRequest {
+  locale: string;
+  authToken: string;
+  body: Record<string, unknown>;
+}
+interface AppleGeniusBarBookingResult {
+  raw: unknown;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -7064,6 +7072,22 @@ interface AppleCoverageResult {
      * read it defensively.
      */
     checkCoverage(serial: string): Promise<AppleCoverageResult>;
+
+    /**
+     * Submit a Genius Bar / repair reservation's confirmation step — NEEDS THE CALLER SIGNED IN. A
+     * THIN PASSTHROUGH, not a guided wizard: getsupport.apple.com's reservation wizard
+     * (facade/topics -> facade/solutions -> facade/timeslots -> facade/timeslots/lock) has never
+     * been walked with a real signed-in Apple Account session, so this cannot resolve a topic,
+     * product or store into the ids the confirmation step needs. `authToken` is the
+     * X-APPLE-AUTH-TOKEN bearer (the signed-in session's own jwtToken) and `body` is the
+     * confirmation payload (solutionType, caseId, formDetails, selectedSolutionTriggers, the
+     * *ConfirmationRequest objects, …) — both read off the caller's own browser session, which has
+     * already walked the wizard. Sent verbatim to POST /api/v1/facade/solution/execute, real field
+     * names measured off getsupport.apple.com's own bundle. `raw` is UNMEASURED — no real booking
+     * has been submitted through this door — so it carries the site's own confirmation response
+     * rather than invented fields.
+     */
+    bookGeniusBarAppointment(request: { locale: string; authToken: string; body: Record<string, unknown> }, opts?: ConnectionOption): Promise<AppleGeniusBarBookingResult>;
   }
 }
 

@@ -136,7 +136,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | 🟢 |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
-| `apple.bookGeniusBarAppointment` | apple.com | Book a Genius Bar or repair appointment at a specific store. | ⚪ |
+| `apple.bookGeniusBarAppointment` | apple.com | Submit a Genius Bar / repair reservation's confirmation step — NEEDS THE CALLER SIGNED… | 🟢 |
 | `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number — no… | 🟢 |
 | `apple.compareModels` | apple.com | Put two or more models of the SAME family — Mac, iPhone, iPad or Apple Watch — side by… | 🟢 |
 | `apple.findStoresNear` | apple.com | Find the Apple Stores near a place a person named — "Cupertino", "94108", "San… | 🟢 |
@@ -677,7 +677,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.listMyRegisteredProducts` | dell.com | Retrieves the signed-in user's registered Dell products and devices. | ⚪ |
 | `dell.listMySavedCarts` | dell.com | Retrieves the signed-in user's saved shopping carts. | ⚪ |
 | `dell.listProductCategories` | dell.com | Lists the main product categories (laptops, desktops, servers, peripherals, etc.). | 🟢 |
-| `dell.listSupportCategories` | dell.com | Lists the main support categories (drivers, firmware, manuals, community forum, etc.). | ⚪ |
+| `dell.listSupportCategories` | dell.com | Lists the main support categories (drivers, firmware, manuals, community forum, etc.). | 🟢 |
 | `dell.searchForumThreads` | dell.com | Searches Dell's community forum for threads matching a query, returning titles, URLs… | 🟢 |
 | `dell.searchProducts` | dell.com | Searches the Dell store for products by keyword, returning product names, URLs… | 🟢 |
 | `dell.searchSupport` | dell.com | Searches Dell's support knowledge base for articles, drivers, and troubleshooting… | 🟢 |
