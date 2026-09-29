@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 23881eb8d8c21a6aaeae932bda21ae1eebaf9fab67e3d8de00250ed24f5aefb6
-# 67 capabilities, 494 providers, 1565 typed functions, 20 refused.
+# Manifest version: 23bfcd470926c180f51f1aa337233f52e8a379a07b84073241320017b3119716
+# 67 capabilities, 494 providers, 1567 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24202,6 +24202,16 @@ class Prv_yahoo_sports_YahooFantasyMatchupTeam_Out(TypedDict):
     record: str | None
     score: float
 
+class Prv_yahoo_sports_SetFantasyLineupArgs_In(TypedDict):
+    leagueId: str
+    week: float
+    coveredPlayerIds: Sequence[str]
+
+class Prv_yahoo_sports_YahooFantasyLineupSetResult_Out(TypedDict):
+    leagueId: str
+    week: float
+    coveredPlayerIds: list[str]
+
 class Prv_ycombinator_YCombinatorArticle_Out(TypedDict):
     id: float | None
     slug: str
@@ -24702,6 +24712,14 @@ class Prv_youtube_subscribeToChannel_input_In(TypedDict):
 class Prv_youtube_subscribeToChannel_return_Out(TypedDict):
     channel: str
     subscribed: bool
+
+class Prv_youtube_likeVideo_input_In(TypedDict):
+    video: str
+    rating: Literal["like"] | Literal["dislike"] | Literal["none"]
+
+class Prv_youtube_likeVideo_return_Out(TypedDict):
+    video: str
+    rating: Literal["like"] | Literal["dislike"] | Literal["none"]
 
 class Prv_youtube_listMyVideos_input_In(TypedDict):
     limit: NotRequired[float]
@@ -25881,31 +25899,34 @@ class Cap_read(Protocol):
         """Loads one page and returns its content. Tries a plain GET first and escalates to a real
         browser only when the response proves it needs one (a bot wall, an interstitial, or
         markup carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN
-        the result rather than throwing. TIME: `timeoutMs` is the budget for the WHOLE read,
-        both legs together (default 45,000, max 55,000) — deliberately under the ~60s at which a
-        chat client kills a tool call, so a slow page comes back as a real result naming the
-        browser leg instead of your client's bare "The operation timed out.". **`strategy:
-        "fetch"` is the fast-fail escape** for a page you do not want to wait on: it never opens
-        a browser, returns in ~200ms, and still sets `escalationReason` so you learn the page
-        needed one. Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a
-        loop's reads add up, and three slow ones outlast the client, while `pages` holds the
-        whole batch to the same 55s. **A price you need bound to a specific item is the one
-        thing the default `"markdown"` format cannot promise** — it flattens the DOM, so a price
-        can end up textually next to a link for a DIFFERENT size/color/variant; `warnings` names
-        it when the page carries the structured data to prove it, but the safe read is `{
-        format: "cleanHtml" }`, which keeps the price inside its own item's markup. **`content`
-        is the page's TEXT, and the browser leg does not change that** — `servedBy: "browser"`
-        means the page rendered, not that every widget on it became words. A booking calendar
-        whose open and blocked days are drawn only by styling, a widget inside a cross-origin
-        iframe or a canvas, and a rate or quote the page shows only after dates are picked or a
-        form is filled come back as bare day numbers, empty characters or nothing at all —
-        usually with `ok: true` and no warning. So a missing price or availability here is not
-        proof the page has none: putting the dates in the url is worth one try, and past that
-        use the site's own provider if `get_library` has one, or `bowmark.browser_agent.start`
-        to operate the widget. RUN-ONLY: because the rung is decided per call, neither
-        `session()` nor the bare top-level `bowmark` client (which opens a session internally,
-        even for one call) can serve this — both are refused with code "rung_undeclared". Call
-        it through `run()` instead.
+        the result rather than throwing. A site that refuses automated access comes back `ok:
+        false` with `wall` naming the bot-management vendor and a warning saying so — that is
+        the site's answer, and retrying the same read will not change it; an HTTP 4xx/5xx page
+        is `ok: false` too. TIME: `timeoutMs` is the budget for the WHOLE read, both legs
+        together (default 45,000, max 55,000) — deliberately under the ~60s at which a chat
+        client kills a tool call, so a slow page comes back as a real result naming the browser
+        leg instead of your client's bare "The operation timed out.". **`strategy: "fetch"` is
+        the fast-fail escape** for a page you do not want to wait on: it never opens a browser,
+        returns in ~200ms, and still sets `escalationReason` so you learn the page needed one.
+        Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a loop's reads
+        add up, and three slow ones outlast the client, while `pages` holds the whole batch to
+        the same 55s. **A price you need bound to a specific item is the one thing the default
+        `"markdown"` format cannot promise** — it flattens the DOM, so a price can end up
+        textually next to a link for a DIFFERENT size/color/variant; `warnings` names it when
+        the page carries the structured data to prove it, but the safe read is `{ format:
+        "cleanHtml" }`, which keeps the price inside its own item's markup. **`content` is the
+        page's TEXT, and the browser leg does not change that** — `servedBy: "browser"` means
+        the page rendered, not that every widget on it became words. A booking calendar whose
+        open and blocked days are drawn only by styling, a widget inside a cross-origin iframe
+        or a canvas, and a rate or quote the page shows only after dates are picked or a form is
+        filled come back as bare day numbers, empty characters or nothing at all — usually with
+        `ok: true` and no warning. So a missing price or availability here is not proof the page
+        has none: putting the dates in the url is worth one try, and past that use the site's
+        own provider if `get_library` has one, or `bowmark.browser_agent.start` to operate the
+        widget. RUN-ONLY: because the rung is decided per call, neither `session()` nor the bare
+        top-level `bowmark` client (which opens a session internally, even for one call) can
+        serve this — both are refused with code "rung_undeclared". Call it through `run()`
+        instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -41360,6 +41381,12 @@ class Prv_yahoo_sports(Protocol):
         through the auth relay. NEEDS A SIGN-IN. Does not yet cover rosters or transactions.
         """
 
+    async def setFantasyLineup(self, args: Prv_yahoo_sports_SetFantasyLineupArgs_In, opts: ConnectionOption | None = None, /) -> Prv_yahoo_sports_YahooFantasyLineupSetResult_Out:
+        """Sets the CALLER's own fantasy lineup for the week by specifying which players should be
+        in coverage (starting) status. The caller must have signed in through the auth relay.
+        NEEDS A SIGN-IN.
+        """
+
 class Prv_ycombinator(Protocol):
     """Y Combinator's own site (ycombinator.com) — reads one Startup Library article or blog
     post by its URL/slug (application and interview guidance, fundraising, pitching,
@@ -41729,6 +41756,16 @@ class Prv_youtube(Protocol):
         subscription state: if the account is already subscribed, calling it unsubscribes; if
         unsubscribed, it subscribes. Returns the channel id and the new subscription state.
         NEEDS A SIGN-IN and exists nowhere else logged out.
+        """
+
+    async def likeVideo(self, input: Prv_youtube_likeVideo_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_likeVideo_return_Out:
+        """Sets the signed-in account's rating on a video: "like", "dislike", or "none" to clear
+        whatever rating is there. `video` is a bare 11-character video id or any
+        watch/shorts/youtu.be URL. All three ride the same call — YouTube's own three separate
+        endpoints (`like/like`, `like/dislike`, `like/removelike`) collapse to one argument
+        rather than three functions, because a caller who wants "no rating" and a caller who
+        wants a fresh dislike are both just naming the end state they want. NEEDS A SIGN-IN and
+        exists nowhere else logged out.
         """
 
     async def listMyVideos(self, input: Prv_youtube_listMyVideos_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeMyVideoPage_Out:

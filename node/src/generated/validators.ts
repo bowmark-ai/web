@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 23881eb8d8c21a6aaeae932bda21ae1eebaf9fab67e3d8de00250ed24f5aefb6
-// 1565 checked, 20 unchecked.
+// Manifest version: 23bfcd470926c180f51f1aa337233f52e8a379a07b84073241320017b3119716
+// 1567 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "23881eb8d8c21a6aaeae932bda21ae1eebaf9fab67e3d8de00250ed24f5aefb6",
+  "version": "23bfcd470926c180f51f1aa337233f52e8a379a07b84073241320017b3119716",
   "units": {
     "booking_links": {
       "defs": {
@@ -44951,6 +44951,35 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SetFantasyLineupArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "leagueId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "week",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "coveredPlayerIds",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -45060,6 +45089,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetFantasyLeagueArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "setFantasyLineup": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SetFantasyLineupArgs"
             },
             "optional": false
           },
@@ -46164,6 +46219,61 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "channel",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "likeVideo": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "video",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "rating",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "like"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "dislike"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "none"
+                      }
+                    ]
                   },
                   "optional": false
                 }

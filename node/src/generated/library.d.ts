@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 23881eb8d8c21a6aaeae932bda21ae1eebaf9fab67e3d8de00250ed24f5aefb6
-// 67 capabilities, 494 providers, 1583 typed functions, 20 refused.
+// Manifest version: 23bfcd470926c180f51f1aa337233f52e8a379a07b84073241320017b3119716
+// 67 capabilities, 494 providers, 1585 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2878,10 +2878,13 @@ type ReadResult = {
   error: string | null       // set INSTEAD of throwing; a dead url in pages() never
                              // costs you the other results
   wall: { vendor: string; cleared: boolean } | null   // the bot wall this page is
-                             // behind, if a rendered look found one. Reported even
-                             // when we could NOT clear it, so a block is a named
-                             // fact rather than an empty page. Uncleared on a
-                             // browser-served read ⇒ ok:false
+                             // behind, found by a rendered look or named by the GET's
+                             // own response (AWS WAF's 202). Reported even when we
+                             // could NOT clear it, so a block is a named fact rather
+                             // than an empty page. Uncleared on the content served
+                             // ⇒ ok:false, and warnings says the site refused the
+                             // read — retrying will not help. A 4xx/5xx page is
+                             // ok:false too: it is the site's error page
   warnings: string[]         // also names a redirect to a different page than asked
 }
 
@@ -2924,12 +2927,15 @@ type UrlsResult = {
      * Loads one page and returns its content. Tries a plain GET first and escalates to a real
      * browser only when the response proves it needs one (a bot wall, an interstitial, or markup
      * carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN the result
-     * rather than throwing. TIME: `timeoutMs` is the budget for the WHOLE read, both legs together
-     * (default 45,000, max 55,000) — deliberately under the ~60s at which a chat client kills a
-     * tool call, so a slow page comes back as a real result naming the browser leg instead of your
-     * client's bare "The operation timed out.". **`strategy: "fetch"` is the fast-fail escape**
-     * for a page you do not want to wait on: it never opens a browser, returns in ~200ms, and
-     * still sets `escalationReason` so you learn the page needed one. Several urls? Pass them to
+     * rather than throwing. A site that refuses automated access comes back `ok: false` with
+     * `wall` naming the bot-management vendor and a warning saying so — that is the site's answer,
+     * and retrying the same read will not change it; an HTTP 4xx/5xx page is `ok: false` too.
+     * TIME: `timeoutMs` is the budget for the WHOLE read, both legs together (default 45,000, max
+     * 55,000) — deliberately under the ~60s at which a chat client kills a tool call, so a slow
+     * page comes back as a real result naming the browser leg instead of your client's bare "The
+     * operation timed out.". **`strategy: "fetch"` is the fast-fail escape** for a page you do not
+     * want to wait on: it never opens a browser, returns in ~200ms, and still sets
+     * `escalationReason` so you learn the page needed one. Several urls? Pass them to
      * `read.pages`, not a loop of `page()` calls — a loop's reads add up, and three slow ones
      * outlast the client, while `pages` holds the whole batch to the same 55s. **A price you need
      * bound to a specific item is the one thing the default `"markdown"` format cannot promise** —
@@ -43957,6 +43963,15 @@ interface GetFantasyLeagueArgs {
   leagueId: string;
 }
 
+interface SetFantasyLineupArgs {
+  // The league's numeric id off its own URL (football.fantasysports.yahoo.com/f1/<leagueId>).
+  leagueId: string;
+  // The week number (1-17) to set the lineup for.
+  week: number;
+  // Array of player IDs that should be in coverage (starting) status.
+  coveredPlayerIds: string[];
+}
+
 interface YahooFantasyStandingsRow {
   teamId: string;
   teamName: string;
@@ -43988,6 +44003,12 @@ interface YahooFantasyLeagueDetail {
   week: number | null;
   standings: YahooFantasyStandingsRow[];
   matchups: YahooFantasyMatchup[];
+}
+
+interface YahooFantasyLineupSetResult {
+  leagueId: string;
+  week: number;
+  coveredPlayerIds: string[];
 }
 
   /**
@@ -44064,6 +44085,13 @@ interface YahooFantasyLeagueDetail {
      * auth relay. NEEDS A SIGN-IN. Does not yet cover rosters or transactions.
      */
     getFantasyLeague(args: GetFantasyLeagueArgs, opts?: ConnectionOption): Promise<YahooFantasyLeagueDetail>;
+
+    /**
+     * Sets the CALLER's own fantasy lineup for the week by specifying which players should be in
+     * coverage (starting) status. The caller must have signed in through the auth relay. NEEDS A
+     * SIGN-IN.
+     */
+    setFantasyLineup(args: SetFantasyLineupArgs, opts?: ConnectionOption): Promise<YahooFantasyLineupSetResult>;
   }
 }
 
@@ -44949,6 +44977,17 @@ interface YoutubeStreamFormat {
      * SIGN-IN and exists nowhere else logged out.
      */
     subscribeToChannel(input: { channel: string }, opts?: ConnectionOption): Promise<{ channel: string; subscribed: boolean }>;
+
+    /**
+     * Sets the signed-in account's rating on a video: "like", "dislike", or "none" to clear
+     * whatever rating is there. `video` is a bare 11-character video id or any
+     * watch/shorts/youtu.be URL. All three ride the same call — YouTube's own three separate
+     * endpoints (`like/like`, `like/dislike`, `like/removelike`) collapse to one argument rather
+     * than three functions, because a caller who wants "no rating" and a caller who wants a fresh
+     * dislike are both just naming the end state they want. NEEDS A SIGN-IN and exists nowhere
+     * else logged out.
+     */
+    likeVideo(input: { video: string; rating: "like" | "dislike" | "none" }, opts?: ConnectionOption): Promise<{ video: string; rating: "like" | "dislike" | "none" }>;
 
     /**
      * The videos on the signed-in account's OWN channel, newest first, as YouTube Studio lists
