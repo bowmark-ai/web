@@ -1985,7 +1985,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.findStore` | samsung.com | Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not… | 🟢 |
 | `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟢 |
 | `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
-| `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | ⚪ |
+| `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | 🟢 |
 | `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | ⚪ |
 | `samsung.listCarrierOffers` | samsung.com | Samsung's own trade-in and carrier promotions — the "save up to $X with eligible… | ⚪ |
 | `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | 🟢 |

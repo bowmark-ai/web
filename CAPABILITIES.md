@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 107 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 108 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -75,7 +75,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `phone_price.compare` | Prices one phone across T-Mobile and Visible in parallel and returns a price-sorted… | 2 | 🟢 |
 | `phone_trade_in.estimate` | Looks up the current buyback value of an iPhone — `bowmark.phone_trade_in.estimate({… | 2 | 🟢 |
 | `pricing.checkPersonalization` | Reads one product page's price once per persona (default: desktop + mobile, each a… | 0 | 🟢 |
-| `products.getAvailability` | Reads one product page and returns its price and stock status, from the page's own… | 0 | 🟢 |
+| `products.getAvailability` | Reads one product page and returns its price and stock status, from the page's own… | 4 | 🟢 |
+| `products.search` | Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and… | 4 | 🟢 |
 | `promocodes.search` | Looks up promo codes and checkout discounts for a merchant —… | 1 | 🟢 |
 | `prospect_screening.screenCompany` | Fetches the homepage, reads any schema.org employee-count signal and any… | 0 | 🟢 |
 | `read.page` | Loads one page and returns its content. | 0 | 🟢 |
