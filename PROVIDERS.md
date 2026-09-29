@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2560 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2561 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -955,6 +955,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.useReferralCode` | fomo.family | Applies a referral code to the signed-in trader's account. `POST… | ⚪ |
 | `forbes.getArticle` | forbes.com | Read the full content of a single article. | 🟢 |
 | `forbes.getContributor` | forbes.com | Get a contributor's profile and list their articles. | 🟢 |
+| `forbes.getPerson` | forbes.com | Get one person's Forbes profile — real-time net worth, world rank, source of wealth… | 🟢 |
 | `forbes.getVideo` | forbes.com | Get details of a Forbes Video. | 🟢 |
 | `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | 🟢 |
 | `forbes.listBillionaires` | forbes.com | List the current real-time billionaires ranked by net worth. | 🟢 |
