@@ -1064,7 +1064,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
-| `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | ⚪ |
+| `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | 🟢 |
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in user's starred list. | ⚪ |
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | ⚪ |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | ⚪ |
@@ -1634,7 +1634,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getTrendingArticles` | cooking.nytimes.com | Lists the trending articles the site surfaces alongside recipes. | ⚪ |
 | `nyt_cooking.listFeaturedCollections` | cooking.nytimes.com | Lists the collections currently featured on the site's own homepage — the entry point… | 🟢 |
 | `nyt_cooking.listRecipeBoxFolders` | cooking.nytimes.com | Lists the signed-in reader's own Recipe Box folders. | ⚪ |
-| `nyt_cooking.listTopics` | cooking.nytimes.com | Lists the site's topic pages off its own navigation — the finder for a topic a caller… | ⚪ |
+| `nyt_cooking.listTopics` | cooking.nytimes.com | Lists the site's topic pages off its own navigation — the finder for a topic a caller… | 🟢 |
 | `nyt_cooking.markRecipeCooked` | cooking.nytimes.com | Marks a recipe as cooked on the signed-in reader's account. | ⚪ |
 | `nyt_cooking.rateRecipe` | cooking.nytimes.com | Submits the signed-in reader's own 1-4 star rating for a recipe. | ⚪ |
 | `nyt_cooking.removeFromGroceryList` | cooking.nytimes.com | Removes one item from the signed-in reader's grocery list. | ⚪ |
@@ -1668,7 +1668,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets today's Spelling Bee puzzle. | ⚪ |
 | `nytimes.getTopicArticles` | nytimes.com | Gets all articles tagged with a specific topic. | ⚪ |
-| `nytimes.getTrending` | nytimes.com | Gets articles tagged with a trending topic. | ⚪ |
+| `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets today's Wordle puzzle. | ⚪ |
 | `nytimes.getWriter` | nytimes.com | Gets writer profile and byline. | ⚪ |
 | `nytimes.listArticles` | nytimes.com | Lists a section's own article grid, newest first, with metadata. | 🟢 |
@@ -2134,7 +2134,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.getTopicArticles` | theguardian.com | Get articles tagged with a specific topic or collection. | 🟢 |
 | `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | ⚪ |
 | `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | 🟢 |
-| `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | ⚪ |
+| `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | 🟢 |
 | `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | ⚪ |
 | `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | ⚪ |
 | `theguardian_com.listNewsletters` | theguardian.com | List available email newsletters. | ⚪ |
@@ -2448,7 +2448,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getOnThisDay` | wikipedia.org | What happened on this calendar day in history, according to Wikipedia — events… | ⚪ |
 | `wikipedia.getPageviews` | wikipedia.org | How many people actually read an article, per day, over a date range — the closest… | ⚪ |
 | `wikipedia.getRandomArticle` | wikipedia.org | A genuinely random Wikipedia article, or several — title, url and summary. | ⚪ |
-| `wikipedia.getRevision` | wikipedia.org | One specific revision of an article by id — its content, editor, timestamp, size and… | ⚪ |
+| `wikipedia.getRevision` | wikipedia.org | One specific revision of an article by id — its content, editor, timestamp, size and… | 🟢 |
 | `wikipedia.getSection` | wikipedia.org | One named or numbered section of an article as plain text, without downloading the… | 🟢 |
 | `wikipedia.getSections` | wikipedia.org | The article's table of contents — every section with its number, heading, nesting… | 🟡 |
 | `wikipedia.getSummary` | wikipedia.org | The lead of an article and nothing else — the first paragraph as plain text and as… | 🟢 |

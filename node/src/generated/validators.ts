@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 28de508f4b96fc14e64b2877c684fa4287cb189f0e5c670ed3ee9ecf1be51661
-// 1593 checked, 20 unchecked.
+// Manifest version: 794d855d19fef8794428c3e1f1700d7336d588ef41d06bb289baeeb83dea6be0
+// 1596 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "28de508f4b96fc14e64b2877c684fa4287cb189f0e5c670ed3ee9ecf1be51661",
+  "version": "794d855d19fef8794428c3e1f1700d7336d588ef41d06bb289baeeb83dea6be0",
   "units": {
     "booking_links": {
       "defs": {
@@ -19423,6 +19423,54 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "starRepository": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -29460,7 +29508,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listTopics": []
       }
     },
     "providers.nyt_games": {
@@ -43314,6 +43363,55 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.verizon": {
+      "defs": {
+        "VerizonPhoneQuery": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "brand",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchPhones": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "VerizonPhoneQuery"
+            },
+            "optional": true
           }
         ]
       }

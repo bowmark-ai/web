@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 28de508f4b96fc14e64b2877c684fa4287cb189f0e5c670ed3ee9ecf1be51661
-// 68 capabilities, 496 providers, 1611 typed functions, 20 refused.
+// Manifest version: 794d855d19fef8794428c3e1f1700d7336d588ef41d06bb289baeeb83dea6be0
+// 68 capabilities, 497 providers, 1614 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3204,7 +3204,7 @@ interface ScriptExecutionGuide {
 declare namespace BowmarkCapability_search {
   // ── Web search — the unit's own declarations, verbatim ──
 type SearchResult = {
-  source: string              // which ENGINE produced this row ("bing")
+  source: string              // which ENGINE produced this row ("bing", "serper")
   rank: number                // 1-based, in that engine's own ranking
   title: string
   url: string                 // the destination page, already unwrapped from any
@@ -3244,36 +3244,40 @@ type CallOptions = {
   /**
    * Find pages on the web when you do not already know the URL — the step before read.page.
    * Returns ranked results with title, destination URL and snippet. `news` is the same read over
-   * news coverage, with real publication dates and the outlet's name. ONE ENGINE TODAY (Bing),
-   * so if it is down this fails rather than degrading — it throws, and never reports an outage
-   * as zero results. Two things that engine cannot do, measured on `web`: it never returns an
-   * empty list even when nothing matches — including for a long-tail query it has nothing
-   * confident to say about, e.g. an obscure company name plus "pricing" — and it ignores search
-   * operators like site:. `warnings` now flags the extreme case of the first — every returned
-   * row sharing not one word with the query, or every row matching only a generic word like
-   * "pricing" while the name you searched for is absent from all of them — but a
-   * partially-relevant substitution is not caught. A THIRD limit, measured 2026-09-11 and the
-   * one that hits ordinary research: it answers a MULTI-WORD query by reducing it to the single
-   * most popular word in it and returning that word's results — "React useEffect dependency
-   * array" comes back as React's homepage — and quoting, shortening or site-scoping the query
-   * does not change it. `warnings` now flags four shapes. Three read the words: no returned row
-   * sharing a word with the query, every row matching only a generic word like "pricing", or
-   * fewer than half the query's subject words appearing anywhere in the results. The fourth asks
-   * the engine the SAME query twice down the same exit — an answer that differs the second time
-   * is a random decoy, because an answerable query is stable across repeats (measured
-   * 2026-09-12). A merely partial substitution is still not caught. For `news`, keep queries to
-   * 2–3 words: OR-joined and more-than-three-term queries are unsupported and return an empty
-   * feed; short-query zeros remain ambiguous and carry a retry warning.
+   * news coverage, with real publication dates and the outlet's name. `web` tries Bing first and
+   * falls back to Google (through Serper, a metered key charged to your account) when both Bing
+   * legs fail or Bing answers a different query; `engine` says which answered. `news` is Bing
+   * only. When every engine fails it throws, and never reports an outage as zero results. Two
+   * things Bing cannot do, measured on `web`: it never returns an empty list even when nothing
+   * matches — including for a long-tail query it has nothing confident to say about, e.g. an
+   * obscure company name plus "pricing" — and it ignores search operators like site:. `warnings`
+   * now flags the extreme case of the first — every returned row sharing not one word with the
+   * query, or every row matching only a generic word like "pricing" while the name you searched
+   * for is absent from all of them — but a partially-relevant substitution is not caught. A
+   * THIRD limit, measured 2026-09-11 and the one that hits ordinary research: it answers a
+   * MULTI-WORD query by reducing it to the single most popular word in it and returning that
+   * word's results — "React useEffect dependency array" comes back as React's homepage — and
+   * quoting, shortening or site-scoping the query does not change it. `warnings` now flags four
+   * shapes. Three read the words: no returned row sharing a word with the query, every row
+   * matching only a generic word like "pricing", or fewer than half the query's subject words
+   * appearing anywhere in the results. The fourth asks the engine the SAME query twice down the
+   * same exit — an answer that differs the second time is a random decoy, because an answerable
+   * query is stable across repeats (measured 2026-09-12). A merely partial substitution is still
+   * not caught. For `news`, keep queries to 2–3 words: OR-joined and more-than-three-term
+   * queries are unsupported and return an empty feed; short-query zeros remain ambiguous and
+   * carry a retry warning.
    */
   interface Unit {
     /**
      * Searches the web and returns ranked results — title, destination URL, snippet — from the
-     * first engine in the chain that answers. `engine` names which one that was, and `warnings`
-     * names any that were tried and failed first. Feed a result's `url` straight to
-     * bowmark.read.page to actually read it. THREE THINGS TO KNOW BEFORE YOU TRUST THE ROWS. (1)
-     * The engine NEVER returns an empty list, so results are its best offer rather than proof
-     * anything matched — a long-tail query (an obscure company name plus "pricing", say) can come
-     * back with ten confident rows about something else entirely. (2) It IGNORES operators — a
+     * first engine in the chain that answers: Bing, then Google through Serper (metered, charged
+     * to your account) when Bing is down or answered a different query. `engine` names which one
+     * that was, and `warnings` names any that were tried and failed first. Feed a result's `url`
+     * straight to bowmark.read.page to actually read it. THREE THINGS TO KNOW BEFORE YOU TRUST A
+     * BING ROW (engine "bing"; a "serper" answer is Google's and honours operators). (1) The
+     * engine NEVER returns an empty list, so results are its best offer rather than proof anything
+     * matched — a long-tail query (an obscure company name plus "pricing", say) can come back with
+     * ten confident rows about something else entirely. (2) It IGNORES operators — a
      * `site:example.com` query is not scoped to that site. (3) MEASURED 2026-09-11, AND THE ONE
      * THAT HITS ORDINARY RESEARCH: it answers a MULTI-WORD query by reducing it to the single most
      * popular word in it and returning that word's results. "React useEffect dependency array"
@@ -20126,6 +20130,11 @@ interface GithubListStarredRepositoriesResult {
   repositories: GithubStarredRepository[];
   warnings: string[];
 }
+interface GithubStarRepositoryResult {
+  owner: string;
+  repo: string;
+  starred: true;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -20352,7 +20361,17 @@ interface GithubListStarredRepositoriesResult {
      * answers 401 with no token. Returns a list of starred repositories with pagination support.
      * THROWS when signed out or the saved session is invalid.
      */
-    listStarredRepositories(options?: { per_page?: number; page?: number }): Promise<GithubListStarredRepositoriesResult>;
+    listStarredRepositories(options?: { per_page?: number; page?: number }, opts?: ConnectionOption): Promise<GithubListStarredRepositoriesResult>;
+
+    /**
+     * Adds a repository to the signed-in caller's starred list, off GitHub's own documented REST
+     * starring endpoint (`PUT /user/starred/{owner}/{repo}`). NEEDS THE CALLER SIGNED IN: the
+     * endpoint answers 401 with no token, the same refusal `listStarredRepositories` reads.
+     * Idempotent — starring an already-starred repo is a no-op on GitHub's side and this returns
+     * the same result either way. THROWS on an unknown owner/repo (404) or when signed out or the
+     * saved session is invalid.
+     */
+    starRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubStarRepositoryResult>;
   }
 }
 
@@ -31946,6 +31965,15 @@ interface NytCookingTopic {
   warnings?: string[];
 }
 
+interface NytCookingTopicItem {
+  slug: string;
+  title: string;
+}
+
+interface NytCookingTopicsList {
+  topics: NytCookingTopicItem[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -31980,6 +32008,9 @@ interface NytCookingTopic {
 
     /** Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes. */
     getTopic(args: NytCookingGetTopicArgs): Promise<NytCookingTopic>;
+
+    /** Lists all available topic categories on the site, extracted from the homepage navigation. */
+    listTopics(): Promise<NytCookingTopicsList>;
   }
 }
 
@@ -42118,6 +42149,61 @@ interface VbtTourDepartures {
   }
 }
 
+declare namespace BowmarkProvider_verizon {
+  // ── Verizon — the unit's own declarations, verbatim ──
+interface VerizonPhone {
+  productId: string;
+  name: string;
+  brand: string;
+  url: string;
+  image: string | null;
+  storage: string | null;
+  fullRetailPriceUsd: number | null;
+  originalPriceUsd: number | null;
+  monthlyPriceUsd: number | null;
+  monthlyTermMonths: number | null;
+  promotions: string[]; // the site's own promo badge text
+  colors: string[];
+  certifiedPreOwned: boolean;
+  outOfStock: boolean;
+  rating: number | null;
+  reviewCount: number;
+}
+interface VerizonPhoneSearch {
+  phones: VerizonPhone[];
+  total: number;
+}
+interface VerizonPhoneQuery {
+  query?: string; // every word must appear in the name or brand, e.g. "iphone 18"
+  brand?: string; // e.g. "Samsung"
+  maxPrice?: number; // full retail USD
+  limit?: number; // default 25
+}
+interface VerizonPlanTotal {
+  planId: string;
+  lineCount: number;
+  advertisedPricePerLineUsd: number;
+  administrativeTelcoRecoveryChargePerLineUsd: number;
+  regulatoryChargePerLineUsd: number;
+  activationFeeUsd: number;
+  totalMonthlyUsd: number;
+}
+
+  /**
+   * Verizon Wireless's public phone catalog on verizon.com — every smartphone it sells, with
+   * full retail price, monthly device payment, deals and trade-in promos, colors and stock. No
+   * account needed.
+   */
+  interface Unit {
+    /**
+     * Search Verizon's phone catalog — every smartphone verizon.com sells, with full retail and
+     * monthly price, current deals and trade-in promos, colors and stock. No arguments lists them
+     * all (limit defaults to 25).
+     */
+    searchPhones(options?: VerizonPhoneQuery): Promise<VerizonPhoneSearch>;
+  }
+}
+
 declare namespace BowmarkProvider_vervecoffee {
   // ── Verve Coffee Roasters — the unit's own declarations, verbatim ──
 interface VervecoffeeSubscription {
@@ -47009,6 +47095,7 @@ interface BowmarkProviders {
   ups: BowmarkProvider_ups.Unit;
   usps: BowmarkProvider_usps.Unit;
   vbt: BowmarkProvider_vbt.Unit;
+  verizon: BowmarkProvider_verizon.Unit;
   vervecoffee: BowmarkProvider_vervecoffee.Unit;
   vessi: BowmarkProvider_vessi.Unit;
   viewrail: BowmarkProvider_viewrail.Unit;
