@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 698875d0f6fbe9b7a4565fd95358ce62149d7a36b620f557e8586c9cd87c71c6
-# 67 capabilities, 494 providers, 1541 typed functions, 20 refused.
+# Manifest version: f8ebf83b114676ba5f5a9d373d920c1b57264a0d37c9f40cd8db861f0eab9627
+# 67 capabilities, 494 providers, 1543 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3818,6 +3818,12 @@ class Prv_apple_AppleOrderStatus_Out(TypedDict):
 class Prv_apple_AppleOrderList_Out(TypedDict):
     rootKey: str
     raw: Any
+
+class Prv_apple_AppleCoverageResult_Out(TypedDict):
+    serial: str
+    found: bool
+    errorToken: NotRequired[str]
+    raw: NotRequired[str]
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -23201,6 +23207,22 @@ class Prv_weather_channel_FifteenMinuteForecast_Out(TypedDict):
     qpfSnow: float | None
     chanceOfPrecipitation: float | None
 
+class Prv_weather_channel_AirQuality_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    index: float | None
+    category: str | None
+    primaryPollutant: str | None
+    pollutants: list[Prv_weather_channel_Pollutant_Out]
+
+class Prv_weather_channel_Pollutant_Out(TypedDict):
+    name: str
+    phrase: str
+    amount: float | None
+    unit: str | None
+    category: str | None
+    categoryIndex: float | None
+    index: float | None
+
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
     title: str
@@ -27186,6 +27208,15 @@ class Prv_apple(Protocol):
         order history at all). `raw` carries the order-list page's own data payload verbatim —
         the exact field shape is UNMEASURED (no fleet-held Apple Account session exists to
         capture one from), so read it defensively rather than trusting fixed field names.
+        """
+
+    async def checkCoverage(self, serial: str, /) -> Prv_apple_AppleCoverageResult_Out:
+        """What warranty or AppleCare a device still has, from its serial number — NO sign-in
+        needed (apple.com's own captcha-gated lookup, solved automatically). `found: false` with
+        `errorToken: "INVALID_SERIAL_NUMBER"` is a real, complete answer for a serial Apple does
+        not recognize. `found: true`'s `raw` field is UNMEASURED — no real Apple serial has been
+        tried against this chain — so it carries the result page's own markup rather than typed
+        fields; read it defensively.
         """
 
 class Prv_aquaphoenixsci(Protocol):
@@ -40494,6 +40525,13 @@ class Prv_weather_channel(Protocol):
         `getFifteenMinuteForecast("Seattle")` — the same "next hour" minute-cast weather.com
         shows on its home page. Each 15-minute step carries a precipitation phrase, type, cloud
         cover, rain/snow QPF and chance of precipitation. Units default to metric.
+        """
+
+    async def getAirQuality(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_AirQuality_Out:
+        """The Weather Channel's current air quality index for a place — e.g. `getAirQuality("Los
+        Angeles")` — on the EPA scale. Returns the overall index and category ("Good",
+        "Moderate", …), the primary pollutant, and a per-pollutant breakdown (CO, NO2, O3, PM10,
+        PM2.5, SO2) with each one's amount, unit and category.
         """
 
 class Prv_wellfound(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 698875d0f6fbe9b7a4565fd95358ce62149d7a36b620f557e8586c9cd87c71c6
-// 67 capabilities, 494 providers, 1559 typed functions, 20 refused.
+// Manifest version: f8ebf83b114676ba5f5a9d373d920c1b57264a0d37c9f40cd8db861f0eab9627
+// 67 capabilities, 494 providers, 1561 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6711,6 +6711,12 @@ interface AppleOrderList {
   rootKey: string;
   raw: unknown;
 }
+interface AppleCoverageResult {
+  serial: string;
+  found: boolean;
+  errorToken?: string;
+  raw?: string;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -6956,6 +6962,16 @@ interface AppleOrderList {
      * so read it defensively rather than trusting fixed field names.
      */
     listOrders(opts?: ConnectionOption): Promise<AppleOrderList>;
+
+    /**
+     * What warranty or AppleCare a device still has, from its serial number — NO sign-in needed
+     * (apple.com's own captcha-gated lookup, solved automatically). `found: false` with
+     * `errorToken: "INVALID_SERIAL_NUMBER"` is a real, complete answer for a serial Apple does not
+     * recognize. `found: true`'s `raw` field is UNMEASURED — no real Apple serial has been tried
+     * against this chain — so it carries the result page's own markup rather than typed fields;
+     * read it defensively.
+     */
+    checkCoverage(serial: string): Promise<AppleCoverageResult>;
   }
 }
 
@@ -42339,6 +42355,24 @@ interface FifteenMinuteForecastResult {
   forecasts: FifteenMinuteForecast[];
 }
 
+interface Pollutant {
+  name: string;
+  phrase: string;
+  amount: number | null;
+  unit: string | null;
+  category: string | null;
+  categoryIndex: number | null;
+  index: number | null;
+}
+
+interface AirQuality {
+  location: WeatherLocation | null;
+  index: number | null;
+  category: string | null;
+  primaryPollutant: string | null;
+  pollutants: Pollutant[];
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -42405,6 +42439,14 @@ interface FifteenMinuteForecastResult {
      * precipitation. Units default to metric.
      */
     getFifteenMinuteForecast(location: Location, options?: ForecastOptions): Promise<FifteenMinuteForecastResult>;
+
+    /**
+     * The Weather Channel's current air quality index for a place — e.g. `getAirQuality("Los
+     * Angeles")` — on the EPA scale. Returns the overall index and category ("Good", "Moderate",
+     * …), the primary pollutant, and a per-pollutant breakdown (CO, NO2, O3, PM10, PM2.5, SO2)
+     * with each one's amount, unit and category.
+     */
+    getAirQuality(location: Location): Promise<AirQuality>;
   }
 }
 

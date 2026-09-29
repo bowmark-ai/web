@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 698875d0f6fbe9b7a4565fd95358ce62149d7a36b620f557e8586c9cd87c71c6
-// 1541 checked, 20 unchecked.
+// Manifest version: f8ebf83b114676ba5f5a9d373d920c1b57264a0d37c9f40cd8db861f0eab9627
+// 1543 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "698875d0f6fbe9b7a4565fd95358ce62149d7a36b620f557e8586c9cd87c71c6",
+  "version": "f8ebf83b114676ba5f5a9d373d920c1b57264a0d37c9f40cd8db861f0eab9627",
   "units": {
     "booking_links": {
       "defs": {
@@ -7546,6 +7546,15 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "checkCoverage": [
+          {
+            "name": "serial",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -43362,6 +43371,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ForecastOptions"
             },
             "optional": true
+          }
+        ],
+        "getAirQuality": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
           }
         ]
       }

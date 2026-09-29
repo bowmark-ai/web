@@ -137,7 +137,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
 | `apple.bookGeniusBarAppointment` | apple.com | Book a Genius Bar or repair appointment at a specific store. | ⚪ |
-| `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number. | ⚪ |
+| `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number — no… | 🟢 |
 | `apple.compareModels` | apple.com | Put two or more models of the SAME family — Mac, iPhone, iPad or Apple Watch — side by… | 🟢 |
 | `apple.findStoresNear` | apple.com | Find the Apple Stores near a place a person named — "Cupertino", "94108", "San… | 🟢 |
 | `apple.getConfigurationOptions` | apple.com | Read every choice a buy page actually offers — chip, memory, storage, colour, size… | 🟢 |
@@ -914,8 +914,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getSupportedTransferTokens` | fomo.family | Returns the tokens fomo will let a user send to another user or an external address.… | ⚪ |
 | `fomo.getSwapStatus` | fomo.family | Returns where a submitted swap got to — its status word, transaction hash, and failure… | ⚪ |
 | `fomo.getToken` | fomo.family | Returns one token's full detail — name, symbol, decimals, image, description and… | ⚪ |
-| `fomo.getTokenAllowlist` | fomo.family | Returns the tokens fomo will actually let a user trade, and the detailed variant that… | ⚪ |
-| `fomo.getTokenAllowlistDetailed` | fomo.family | The token allowlist with each entry's full record rather than its address alone — the… | ⚪ |
+| `fomo.getTokenAllowlist` | fomo.family | Returns the list of tokens fomo allows trading on — just their addresses and network… | 🟢 |
+| `fomo.getTokenAllowlistDetailed` | fomo.family | The token allowlist with each entry's full record — the same set as… | 🟢 |
 | `fomo.getTokenFeed` | fomo.family | Pages the posts and trades attached to one specific token — the conversation on a… | ⚪ |
 | `fomo.getTokenThesis` | fomo.family | Returns the written theses traders have posted about one token, ranked by the site's… | ⚪ |
 | `fomo.getTokenWarnings` | fomo.family | Returns fomo's risk flags for one token — the honeypot, mint-authority… | ⚪ |
@@ -1652,7 +1652,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
 | `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme words, spangram, clue, board and… | 🟢 |
 | `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle — all three difficulties, each with its board… | 🟢 |
-| `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | ⚪ |
+| `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | 🟢 |
 | `nyt_games.getWordle` | games.nytimes.com | Reads one day's Wordle answer, puzzle number and editor from NYT's own game JSON. | 🟢 |
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | ⚪ |
 | `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
@@ -2393,7 +2393,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `waterfurnace.lookupHomeDetails` | waterfurnace.com | Runs the Savings Calculator's own home-details lookup for an address/zip — the same… | 🟢 |
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
-| `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | ⚪ |
+| `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
 | `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | ⚪ |
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | ⚪ |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |
