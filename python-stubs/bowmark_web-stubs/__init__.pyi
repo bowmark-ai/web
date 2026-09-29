@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 23bfcd470926c180f51f1aa337233f52e8a379a07b84073241320017b3119716
-# 67 capabilities, 494 providers, 1567 typed functions, 20 refused.
+# Manifest version: b67f73eb3fa015d212316b8bbdead4f25d1bd99b3ad485cd91a0fe81c4a93804
+# 67 capabilities, 494 providers, 1570 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3978,6 +3978,7 @@ class Prv_archive_org_archive_orgDownloadUrl_Out(TypedDict):
 class Prv_archive_org_archive_orgLendingAvailability_Out(TypedDict):
     identifier: str
     isLendable: bool
+    isReadable: bool
     availableToBorrow: bool
     availableToBrowse: bool
     availableBorrowableCopies: float
@@ -16954,6 +16955,12 @@ class Prv_nytimes_NytimesComment_Out(TypedDict):
     editorsSelection: bool
     parentId: NotRequired[str]
 
+class Prv_nytimes_NytimesTrendingItem_Out(TypedDict):
+    id: str
+    headline: NotRequired[str]
+    summary: NotRequired[str]
+    url: NotRequired[str]
+
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
     {
@@ -20098,6 +20105,9 @@ class Prv_samsung_ListMyProductsResponse_Out(TypedDict):
 
 class Prv_samsung_SamsungProduct_Out(TypedDict):
     pass
+
+class Prv_samsung_GetRewardsBalanceResponse_Out(TypedDict):
+    rewards: Mapping[str, Any]
 
 class Prv_scentbird_ScentbirdCatalogueResult_Out(TypedDict):
     catalogue: Literal["perfumes"] | Literal["colognes"]
@@ -23764,6 +23774,21 @@ class Prv_wikipedia_WikipediaImage_Out(TypedDict):
     descriptionUrl: str
     license: NotRequired[str]
     attribution: NotRequired[str]
+
+class Prv_wikipedia_listRevisions_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_listRevisions_return_Out(TypedDict):
+    revisions: list[Prv_wikipedia_WikipediaRevision_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaRevision_Out(TypedDict):
+    id: float
+    timestamp: str
+    user: str
+    comment: str
+    size: float
 
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
@@ -36802,6 +36827,11 @@ class Prv_nytimes(Protocol):
         orderings). Takes an article path like /2026/09/26/world/article-slug.html.
         """
 
+    async def listTrending(self, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesTrendingItem_Out]:
+        """Lists the site's own trending articles from /trending/ — up to 20, the most the page
+        itself renders.
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -38827,6 +38857,11 @@ class Prv_samsung(Protocol):
         """The devices a signed-in shopper has registered to their Samsung account, off their My
         Products page. Requires the CALLER's own Samsung account, same relay session as
         `listOrders`.
+        """
+
+    async def getRewardsBalance(self, opts: ConnectionOption | None = None, /) -> Prv_samsung_GetRewardsBalanceResponse_Out:
+        """A signed-in shopper's Samsung Rewards points balance and available tier information.
+        Requires the CALLER's own Samsung account, same relay session as `listOrders`.
         """
 
 class Prv_scentbird(Protocol):
@@ -41120,6 +41155,14 @@ class Prv_wikipedia(Protocol):
         pixel dimensions, mime type, the Commons-or-local page describing it, and licence and
         attribution where the file carries Commons metadata. Takes the file's own title,
         "File:<name>", exactly as listImages returns it.
+        """
+
+    async def listRevisions(self, titleOrUrl: str, options: Prv_wikipedia_listRevisions_options_In | None = None, /) -> Prv_wikipedia_listRevisions_return_Out:
+        """The revision history of an article, ordered newest-first. Each revision carries its id
+        (used by getRevision, compareRevisions, and undoRevision), timestamp, editor username,
+        edit summary comment, and byte size. The door to tracking who changed what and when.
+        Takes an article title OR any wikipedia.org url and follows the site's own redirects.
+        Optional limit parameter caps the number of revisions returned (defaults to 50).
         """
 
 class Prv_wikipedia_standings(Protocol):

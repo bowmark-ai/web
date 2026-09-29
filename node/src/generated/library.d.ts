@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 23bfcd470926c180f51f1aa337233f52e8a379a07b84073241320017b3119716
-// 67 capabilities, 494 providers, 1585 typed functions, 20 refused.
+// Manifest version: b67f73eb3fa015d212316b8bbdead4f25d1bd99b3ad485cd91a0fe81c4a93804
+// 67 capabilities, 494 providers, 1588 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7224,6 +7224,7 @@ interface archive_orgItem {
 interface archive_orgLendingAvailability {
   identifier: string;
   isLendable: boolean;             // false for a public-domain item nothing controls lending on
+  isReadable: boolean;             // true when the item is readable outright (public domain or immediately available)
   availableToBorrow: boolean;      // false when not lendable at all, OR when every copy is checked out — see waitlistSize
   availableToBrowse: boolean;
   availableBorrowableCopies: number;
@@ -31886,6 +31887,12 @@ interface NytimesArticleComments {
   commentsEnabled: boolean;
   comments: NytimesComment[];
 }
+interface NytimesTrendingItem {
+  id: string;
+  headline?: string;
+  summary?: string;
+  url?: string;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -31921,6 +31928,12 @@ interface NytimesArticleComments {
      * orderings). Takes an article path like /2026/09/26/world/article-slug.html.
      */
     getArticleComments(path: string, sort?: "newest" | "oldest", limit?: number, offset?: number): Promise<NytimesArticleComments>;
+
+    /**
+     * Lists the site's own trending articles from /trending/ — up to 20, the most the page itself
+     * renders.
+     */
+    listTrending(limit?: number, offset?: number): Promise<NytimesTrendingItem[]>;
   }
 }
 
@@ -36913,6 +36926,22 @@ interface ListMyProductsResponse {
   products: SamsungProduct[];
 }
 
+interface GetRewardsBalanceResponse {
+  rewards: {
+    balance: number;
+    tier: string;  // the site's own labels — read the values off a result, never guess one from prose
+    tierName?: string;
+    earnedTowardNextTier?: number;
+    nextTierThreshold?: number;
+    redemptionOptions?: Array<{
+      name: string;
+      pointsRequired: number;
+      description?: string;
+    }>;
+    [key: string]: unknown;
+  };
+}
+
   /**
    * Samsung's own US storefront and support site — products, prices, trade-in, warranty and
    * store lookups, plus a signed-in caller's own orders and rewards.
@@ -36979,6 +37008,12 @@ interface ListMyProductsResponse {
      * `listOrders`.
      */
     listMyProducts(opts?: ConnectionOption): Promise<ListMyProductsResponse>;
+
+    /**
+     * A signed-in shopper's Samsung Rewards points balance and available tier information.
+     * Requires the CALLER's own Samsung account, same relay session as `listOrders`.
+     */
+    getRewardsBalance(opts?: ConnectionOption): Promise<GetRewardsBalanceResponse>;
   }
 }
 
@@ -43099,6 +43134,14 @@ interface WikipediaImage {
   attribution?: string;
 }
 
+interface WikipediaRevision {
+  id: number;
+  timestamp: string;
+  user: string;
+  comment: string;
+  size: number;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -43256,6 +43299,15 @@ interface WikipediaImage {
      * as listImages returns it.
      */
     getImage(fileTitle: string, options?: { lang?: string }): Promise<WikipediaImage>;
+
+    /**
+     * The revision history of an article, ordered newest-first. Each revision carries its id (used
+     * by getRevision, compareRevisions, and undoRevision), timestamp, editor username, edit
+     * summary comment, and byte size. The door to tracking who changed what and when. Takes an
+     * article title OR any wikipedia.org url and follows the site's own redirects. Optional limit
+     * parameter caps the number of revisions returned (defaults to 50).
+     */
+    listRevisions(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ revisions: WikipediaRevision[]; warnings: string[] }>;
   }
 }
 
