@@ -1,5 +1,5 @@
 {
-  "version": "7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed",
+  "version": "1d84867698d31d698efacbc6258c8953f67a605d13567b936a47554be83c297a",
   "units": {
     "booking_links": {
       "defs": {
@@ -6365,6 +6365,31 @@
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "listQuestions": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getCart": []
@@ -19234,6 +19259,31 @@
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listStarredRepositories": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "per_page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },

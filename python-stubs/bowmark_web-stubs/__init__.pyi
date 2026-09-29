@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed
-# 68 capabilities, 495 providers, 1581 typed functions, 20 refused.
+# Manifest version: 1d84867698d31d698efacbc6258c8953f67a605d13567b936a47554be83c297a
+# 68 capabilities, 495 providers, 1583 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11022,6 +11022,21 @@ class Prv_github_GithubSearchCodeResult_Out(TypedDict):
 
 class Prv_github_GithubListNotificationsResult_Out(TypedDict):
     raw: Any
+
+class Prv_github_listStarredRepositories_options_In(TypedDict):
+    per_page: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_github_GithubListStarredRepositoriesResult_Out(TypedDict):
+    repositories: list[Prv_github_GithubStarredRepository_Out]
+    warnings: list[str]
+
+class Prv_github_GithubStarredRepository_Out(TypedDict):
+    name: str
+    fullName: str
+    description: str | None
+    stars: float
+    url: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -27154,6 +27169,13 @@ class Prv_amazon(Protocol):
         not a parse failure.
         """
 
+    async def listQuestions(self, asinOrUrl: str, opts: ConnectionOption | None = None, /) -> list[Any]:
+        """The customer questions and answers under a product — the place where the answer to "does
+        it fit a 12-inch pan" usually is, written by people who own it. Requires the caller to
+        be signed in to their own Amazon account; the relay at amazon.com/ap/signin handles
+        authentication.
+        """
+
     async def getCart(self, /) -> Prv_amazon_AmazonCart_Out:
         """Read what is in the cart — no account needed, since Amazon's guest cart is a real
         anonymous session. `itemCount` and `items` are always 0/[] today: nothing on this
@@ -32503,6 +32525,13 @@ class Prv_github(Protocol):
         exists to capture one from. THROWS when signed out or the saved session is stale.
         """
 
+    async def listStarredRepositories(self, options: Prv_github_listStarredRepositories_options_In | None = None, /) -> Prv_github_GithubListStarredRepositoriesResult_Out:
+        """Lists repositories the signed-in caller has starred — name, full name, description, star
+        count, and URL — paged. NEEDS THE CALLER SIGNED IN: the REST API `/user/starred`
+        endpoint answers 401 with no token. Returns a list of starred repositories with
+        pagination support. THROWS when signed out or the saved session is invalid.
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -32748,7 +32777,9 @@ class Prv_google_maps(Protocol):
         total cannot be read off it safely yet. Returns the site's own trip total (distance,
         duration, traffic-aware for driving) plus the turn-by-turn instructions, each carrying
         the site's own distance and duration text. Throws when either place does not resolve to
-        a route.
+        a route. Always the current right-now trip — arriveBy and departAt are refused by name
+        rather than silently accepted and ignored (qa/20); nobody has measured this door's
+        clock-time anchor yet.
         """
 
     async def resolvePlaceUrl(self, args: Prv_google_maps_ResolvePlaceUrlArgs_In, /) -> Prv_google_maps_GoogleMapsPlace_Out:

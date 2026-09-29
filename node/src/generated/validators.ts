@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed
-// 1581 checked, 20 unchecked.
+// Manifest version: 1d84867698d31d698efacbc6258c8953f67a605d13567b936a47554be83c297a
+// 1583 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed",
+  "version": "1d84867698d31d698efacbc6258c8953f67a605d13567b936a47554be83c297a",
   "units": {
     "booking_links": {
       "defs": {
@@ -6377,6 +6377,31 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "listQuestions": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ],
         "getCart": []
@@ -19246,6 +19271,31 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listStarredRepositories": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "per_page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
                 }
               ]
             },

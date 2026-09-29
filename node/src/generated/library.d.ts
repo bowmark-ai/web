@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed
-// 68 capabilities, 495 providers, 1599 typed functions, 20 refused.
+// Manifest version: 1d84867698d31d698efacbc6258c8953f67a605d13567b936a47554be83c297a
+// 68 capabilities, 495 providers, 1601 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5677,6 +5677,14 @@ interface AmazonCart {
      * `offers` on a listing with no other sellers is a real answer, not a parse failure.
      */
     listSellerOffers(asinOrUrl: string): Promise<AmazonSellerOffersResult>;
+
+    /**
+     * The customer questions and answers under a product — the place where the answer to "does it
+     * fit a 12-inch pan" usually is, written by people who own it. Requires the caller to be
+     * signed in to their own Amazon account; the relay at amazon.com/ap/signin handles
+     * authentication.
+     */
+    listQuestions(asinOrUrl: string, opts?: ConnectionOption): Promise<unknown[]>;
 
     /**
      * Read what is in the cart — no account needed, since Amazon's guest cart is a real anonymous
@@ -20001,6 +20009,17 @@ interface GithubListNotificationsResult {
   // unmeasured (no fleet-held GitHub session exists to capture one from).
   raw: unknown;
 }
+interface GithubStarredRepository {
+  name: string;
+  fullName: string;
+  description: string | null;
+  stars: number;
+  url: string;
+}
+interface GithubListStarredRepositoriesResult {
+  repositories: GithubStarredRepository[];
+  warnings: string[];
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -20220,6 +20239,14 @@ interface GithubListNotificationsResult {
      * capture one from. THROWS when signed out or the saved session is stale.
      */
     listNotifications(opts?: ConnectionOption): Promise<GithubListNotificationsResult>;
+
+    /**
+     * Lists repositories the signed-in caller has starred — name, full name, description, star
+     * count, and URL — paged. NEEDS THE CALLER SIGNED IN: the REST API `/user/starred` endpoint
+     * answers 401 with no token. Returns a list of starred repositories with pagination support.
+     * THROWS when signed out or the saved session is invalid.
+     */
+    listStarredRepositories(options?: { per_page?: number; page?: number }): Promise<GithubListStarredRepositoriesResult>;
   }
 }
 
@@ -20833,7 +20860,9 @@ interface SavePlaceResult {
      * built. "bicycling" is not: its response shape diverges enough that a route total cannot be
      * read off it safely yet. Returns the site's own trip total (distance, duration, traffic-aware
      * for driving) plus the turn-by-turn instructions, each carrying the site's own distance and
-     * duration text. Throws when either place does not resolve to a route.
+     * duration text. Throws when either place does not resolve to a route. Always the current
+     * right-now trip — arriveBy and departAt are refused by name rather than silently accepted and
+     * ignored (qa/20); nobody has measured this door's clock-time anchor yet.
      */
     getDirections(args: GetDirectionsArgs): Promise<GetDirectionsResult>;
 
