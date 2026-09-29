@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 55a47575c4a665cb99198239fb59d175e430e0cc6f814c7ed85f9624de05b594
-// 1572 checked, 20 unchecked.
+// Manifest version: fca829351b7e15aa53d89a0b392ac958073bb624535cb3b65ecc49dda0dca5bb
+// 1575 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "55a47575c4a665cb99198239fb59d175e430e0cc6f814c7ed85f9624de05b594",
+  "version": "fca829351b7e15aa53d89a0b392ac958073bb624535cb3b65ecc49dda0dca5bb",
   "units": {
     "booking_links": {
       "defs": {
@@ -9032,6 +9032,15 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "searchWeatherLocations": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -17089,6 +17098,31 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.fomo": {
       "defs": {
+        "FomoChainSlug": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "solana"
+            },
+            {
+              "k": "literal",
+              "v": "base"
+            },
+            {
+              "k": "literal",
+              "v": "bnb"
+            },
+            {
+              "k": "literal",
+              "v": "ethereum"
+            },
+            {
+              "k": "literal",
+              "v": "monad"
+            }
+          ]
+        },
         "FomoLeaderboardWindow": {
           "k": "union",
           "of": [
@@ -17396,6 +17430,47 @@ export const VALIDATORS: ValidatorTable = {
             "name": "searchTerm",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getToken": [
+          {
+            "name": "address",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "chain",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "FomoChainSlug"
+                },
+                {
+                  "k": "number"
+                }
+              ]
             },
             "optional": false
           },
@@ -40239,6 +40314,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listTopics": [],
         "getTopicArticles": [
           {
             "name": "args",

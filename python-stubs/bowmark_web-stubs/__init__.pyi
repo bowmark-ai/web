@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 55a47575c4a665cb99198239fb59d175e430e0cc6f814c7ed85f9624de05b594
-# 67 capabilities, 494 providers, 1572 typed functions, 20 refused.
+# Manifest version: fca829351b7e15aa53d89a0b392ac958073bb624535cb3b65ecc49dda0dca5bb
+# 67 capabilities, 494 providers, 1575 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4853,6 +4853,15 @@ class Prv_bbc_BbcLivePost_Out(TypedDict):
     author: NotRequired[str]
     published: NotRequired[str]
     updated: NotRequired[str]
+
+class Prv_bbc_BbcSearchWeatherLocationsResult_Out(TypedDict):
+    locations: list[Prv_bbc_BbcWeatherLocation_Out]
+
+class Prv_bbc_BbcWeatherLocation_Out(TypedDict):
+    locationId: str
+    name: str
+    region: NotRequired[str]
+    country: str
 
 class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
     resourceLocationId: float
@@ -21396,6 +21405,14 @@ class Prv_theguardian_com_GuardianArticle_Out_tags_item_Out(TypedDict):
     title: str
     type: str
 
+class Prv_theguardian_com_GuardianListTopicsResult_Out(TypedDict):
+    topics: list[Prv_theguardian_com_GuardianTopic_Out]
+
+class Prv_theguardian_com_GuardianTopic_Out(TypedDict):
+    path: str
+    title: str
+    url: str
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -28181,6 +28198,11 @@ class Prv_bbc(Protocol):
         listHeadlines surfaces the ones running now.
         """
 
+    async def searchWeatherLocations(self, query: str, /) -> Prv_bbc_BbcSearchWeatherLocationsResult_Out:
+        """Find BBC Weather locations by place name or postcode: name, region, country and the
+        location id every weather function takes.
+        """
+
 class Prv_bcparkscamping(Protocol):
     """camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
     campground by name, then read its real per-site, per-night availability for a stay.
@@ -31648,6 +31670,14 @@ class Prv_fomo(Protocol):
         """Searches tokens by name, symbol or contract address and returns matching rows with their
         market numbers — the entry point to every other token read, since an (address,
         networkId) pair is not knowable ahead of a search.
+        """
+
+    async def getToken(self, address: str, chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float, opts: ConnectionOption | None = None, /) -> Prv_fomo_FomoTokenRow_Out:
+        """Returns one token's full detail — name, symbol, decimals, image, description and
+        socials, plus live price, 24-hour change, volume, market cap, liquidity, holder count
+        and bonding-curve graduation progress. Takes the (address, chain) pair
+        searchTokens/getTrendingTokens/etc. rows carry; chain accepts either the slug or the
+        numeric networkId.
         """
 
 class Prv_forbes(Protocol):
@@ -39673,6 +39703,11 @@ class Prv_theguardian_com(Protocol):
         """The full text of one Guardian news article: headline, standfirst, byline, publish time,
         section, tags and the body paragraph by paragraph. Takes a theguardian.com URL or the
         path listArticlesBySection returns as `id`.
+        """
+
+    async def listTopics(self, /) -> Prv_theguardian_com_GuardianListTopicsResult_Out:
+        """The Guardian's trending topics and tag collections — climate crisis, Ukraine, US
+        elections, and other persistent topic pages — each with the path getTopicArticles takes.
         """
 
     async def getTopicArticles(self, args: Prv_theguardian_com_GuardianListArticlesArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:

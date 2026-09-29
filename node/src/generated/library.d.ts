@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 55a47575c4a665cb99198239fb59d175e430e0cc6f814c7ed85f9624de05b594
-// 67 capabilities, 494 providers, 1590 typed functions, 20 refused.
+// Manifest version: fca829351b7e15aa53d89a0b392ac958073bb624535cb3b65ecc49dda0dca5bb
+// 67 capabilities, 494 providers, 1593 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8649,6 +8649,17 @@ interface BbcGetStandingsResult {
   standings: BbcStandingsRow[]; // ranked ascending, the site's own order
 }
 
+interface BbcWeatherLocation {
+  locationId: string;
+  name: string;
+  region?: string;
+  country: string;
+}
+
+interface BbcSearchWeatherLocationsResult {
+  locations: BbcWeatherLocation[];
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8723,6 +8734,12 @@ interface bbcRow {
      * listHeadlines surfaces the ones running now.
      */
     getLivePage(liveIdOrUrl: string): Promise<BbcGetLivePageResult>;
+
+    /**
+     * Find BBC Weather locations by place name or postcode: name, region, country and the location
+     * id every weather function takes.
+     */
+    searchWeatherLocations(query: string): Promise<BbcSearchWeatherLocationsResult>;
   }
 }
 
@@ -18143,6 +18160,15 @@ interface FomoPage<T> {
      * pair is not knowable ahead of a search.
      */
     searchTokens(searchTerm: string, opts?: ConnectionOption): Promise<FomoTokenRow[]>;
+
+    /**
+     * Returns one token's full detail — name, symbol, decimals, image, description and socials,
+     * plus live price, 24-hour change, volume, market cap, liquidity, holder count and
+     * bonding-curve graduation progress. Takes the (address, chain) pair
+     * searchTokens/getTrendingTokens/etc. rows carry; chain accepts either the slug or the numeric
+     * networkId.
+     */
+    getToken(address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<FomoTokenRow>;
   }
 }
 
@@ -39228,6 +39254,15 @@ interface GuardianArticle {
   paragraphs: string[];
   body: string;
 }
+interface GuardianTopic {
+  /** The path getTopicArticles takes, e.g. "environment/climate-crisis". */
+  path: string;
+  title: string;
+  url: string;
+}
+interface GuardianListTopicsResult {
+  topics: GuardianTopic[];
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -39256,6 +39291,12 @@ interface GuardianArticle {
      * listArticlesBySection returns as `id`.
      */
     getArticle(articleUrlOrId: string): Promise<GuardianArticle>;
+
+    /**
+     * The Guardian's trending topics and tag collections — climate crisis, Ukraine, US elections,
+     * and other persistent topic pages — each with the path getTopicArticles takes.
+     */
+    listTopics(): Promise<GuardianListTopicsResult>;
 
     /**
      * Articles tagged with a specific topic or collection — climate crisis, Ukraine, US elections,
