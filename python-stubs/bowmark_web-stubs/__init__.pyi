@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ff96f7f7792112fe33aa534c1cdebbc42082fe6bbe8a88645ba2405a069b5086
-# 67 capabilities, 493 providers, 1530 typed functions, 20 refused.
+# Manifest version: 698875d0f6fbe9b7a4565fd95358ce62149d7a36b620f557e8586c9cd87c71c6
+# 67 capabilities, 494 providers, 1541 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10895,6 +10895,11 @@ class Prv_github_GithubSponsorTier_Out(TypedDict):
     amount: float
     description: str
 
+class Prv_github_GithubSearchCodeResult_Out(TypedDict):
+    totalCount: float
+    results: list[Any]
+    raw: Mapping[str, Any]
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -12671,6 +12676,47 @@ class Prv_hottopic_HottopicOffer_Out(TypedDict):
     currency: str | None
     availability: str | None
     url: str
+
+class Prv_hubspot_SearchDealsArgs_In(TypedDict):
+    query: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_hubspot_SearchDealsResult_Out(TypedDict):
+    deals: list[Prv_hubspot_HubspotDeal_Out]
+    total: float
+
+class Prv_hubspot_HubspotDeal_Out(TypedDict):
+    id: str
+    name: str | None
+    amount: str | None
+    stage: str | None
+    pipeline: str | None
+    closeDate: str | None
+    updatedAt: str | None
+
+class Prv_hubspot_GetDealArgs_In(TypedDict):
+    dealId: str
+
+class Prv_hubspot_HubspotDealDetail_Out(TypedDict):
+    id: str
+    name: str | None
+    amount: str | None
+    stage: str | None
+    pipeline: str | None
+    closeDate: str | None
+    updatedAt: str | None
+    noteIds: list[str]
+
+class Prv_hubspot_AddNoteToDealArgs_In(TypedDict):
+    dealId: str
+    body: str
+    timestamp: NotRequired[str]
+
+class Prv_hubspot_HubspotNote_Out(TypedDict):
+    id: str
+    dealId: str
+    body: str
+    createdAt: str | None
 
 class Prv_hunter_hunterDomainMatch_Out(TypedDict):
     query: str
@@ -16581,6 +16627,16 @@ class Prv_nyt_cooking_NytCookingAuthorRecipes_Out(TypedDict):
     totalRecipes: float
     warnings: NotRequired[list[str]]
 
+class Prv_nyt_cooking_NytCookingGetCollectionArgs_In(TypedDict):
+    url: str
+
+class Prv_nyt_cooking_NytCookingCollection_Out(TypedDict):
+    headline: str
+    summary: str | None
+    recipes: list[Any]
+    hasMore: bool
+    warnings: NotRequired[list[str]]
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -16726,6 +16782,11 @@ class Prv_nytimes_NytimesArticleSummary_Out(TypedDict):
 
 class Prv_nytimes_NytimesArticleSummary_Out_bylines_item_Out(TypedDict):
     name: str
+
+class Prv_nytimes_NytimesSectionDetail_Out(TypedDict):
+    id: str
+    slug: str
+    articles: list[Prv_nytimes_NytimesArticleSummary_Out]
 
 class Prv_nytimes_NytimesArticle_Out(TypedDict):
     id: str
@@ -19323,6 +19384,14 @@ class Prv_reuters_ReutersPictureGallery_Out(TypedDict):
     image: str | None
     caption: str | None
 
+class Prv_reuters_ListGraphicsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_reuters_ReutersGraphic_Out(TypedDict):
+    title: str
+    url: str
+    publishedAt: str | None
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -19859,6 +19928,15 @@ class Prv_samsung_ListOrdersResponse_Out(TypedDict):
     orders: list[Prv_samsung_SamsungOrder_Out]
 
 class Prv_samsung_SamsungOrder_Out(TypedDict):
+    pass
+
+class Prv_samsung_GetOrderStatusArgs_In(TypedDict):
+    orderId: str
+
+class Prv_samsung_GetOrderStatusResponse_Out(TypedDict):
+    order: Prv_samsung_SamsungOrderStatus_Out
+
+class Prv_samsung_SamsungOrderStatus_Out(TypedDict):
     pass
 
 class Prv_scentbird_ScentbirdCatalogueResult_Out(TypedDict):
@@ -22253,6 +22331,14 @@ class Prv_twitch_TwitchFollowedChannel_Out(TypedDict):
     followerCount: float
     gameName: str | None
 
+class Prv_twitch_SendChatMessageArgs_In(TypedDict):
+    channelId: str
+    message: str
+
+class Prv_twitch_TwitchChatMessage_Out(TypedDict):
+    id: str
+    body: str
+
 class Prv_uber_DriverEarnings_Out(TypedDict):
     weekStart: str
     tripCount: float
@@ -22901,6 +22987,14 @@ class Prv_walmart_browseCategory_args_In(TypedDict):
 class Prv_walmart_browseBrand_args_In(TypedDict):
     brandId: str
 
+class Prv_walmart_suggestSearches_args_In(TypedDict):
+    term: str
+    limit: NotRequired[float]
+
+class Prv_walmart_walmartSuggestion_Out(TypedDict):
+    displayName: str
+    query: str
+
 class Prv_waterfurnace_lookupHomeDetails_input_In(TypedDict):
     address: str
     city: NotRequired[str]
@@ -23426,6 +23520,19 @@ class Prv_wikipedia_WikipediaMediaItem_Out(TypedDict):
     section: float
     leadImage: bool
     caption: str
+
+class Prv_wikipedia_getImage_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_WikipediaImage_Out(TypedDict):
+    title: str
+    url: str
+    width: float
+    height: float
+    mime: str
+    descriptionUrl: str
+    license: NotRequired[str]
+    attribution: NotRequired[str]
 
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
@@ -29640,8 +29747,8 @@ class Prv_cnn(Protocol):
 
     async def listCategories(self, /) -> list[Prv_cnn_cnnCategory_Out]:
         """CNN's section categories — Politics, World, US, Business, Markets, Tech, Health,
-        Science, Entertainment, Sports, Travel, Style, Opinions — with their path slugs for
-        browsing by topic.
+        Science, Entertainment, Sports, Travel, Style — with their path slugs for browsing by
+        topic.
         """
 
     async def listSectionHeadlines(self, args: Prv_cnn_ListSectionHeadlinesArgs_In, /) -> list[Prv_cnn_cnnHeadline_Out]:
@@ -31844,6 +31951,17 @@ class Prv_github(Protocol):
         `/sponsors/<handle>` to their plain profile) or does not exist (404).
         """
 
+    async def searchCode(self, query: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubSearchCodeResult_Out:
+        """Searches for code across public repositories, off github.com's own rendered code-search
+        results page. NEEDS THE CALLER SIGNED IN — code search has no logged-out door at all:
+        the keyless API 401s and the page ships `logged_in: false` with zero rows for the same
+        query. `query` is GitHub's own code-search syntax (e.g. "useState language:typescript").
+        Returns GitHub's own `blackbirdSearchRoute` payload raw (`raw`) plus `totalCount` and
+        `results` read off it — the signed-in field shape is unmeasured, since no fleet-held
+        GitHub session exists to capture one from. THROWS when signed out or the saved session
+        is stale.
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -33338,6 +33456,24 @@ class Prv_hottopic(Protocol):
         """Searches hottopic.com's own storefront for a keyword and returns the real, priced
         product results (name, image, per-SKU price/color/size/availability) exactly as the
         site's own search page carries them.
+        """
+
+class Prv_hubspot(Protocol):
+    """Search, read and add notes to deals in your own HubSpot CRM portal, with your HubSpot
+    private-app token.
+    """
+
+    async def searchDeals(self, args: Prv_hubspot_SearchDealsArgs_In, /) -> Prv_hubspot_SearchDealsResult_Out:
+        """Finds deals in your own HubSpot CRM by name — returns id, name, amount, stage, close
+        date. The door to getDeal and addNoteToDeal.
+        """
+
+    async def getDeal(self, args: Prv_hubspot_GetDealArgs_In, /) -> Prv_hubspot_HubspotDealDetail_Out:
+        """Reads one deal from your own HubSpot CRM by id, with the ids of the notes on it."""
+
+    async def addNoteToDeal(self, args: Prv_hubspot_AddNoteToDealArgs_In, /) -> Prv_hubspot_HubspotNote_Out:
+        """Writes a note onto a deal in your own HubSpot CRM — it appears on the deal's timeline.
+        Returns the new note's id.
         """
 
 class Prv_hunter(Protocol):
@@ -36176,6 +36312,11 @@ class Prv_nyt_cooking(Protocol):
         author a caller names.
         """
 
+    async def getCollection(self, args: Prv_nyt_cooking_NytCookingGetCollectionArgs_In, /) -> Prv_nyt_cooking_NytCookingCollection_Out:
+        """Reads one curated editorial collection and the recipe cards inside it, off a collection
+        url from searchRecipes.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -36249,6 +36390,11 @@ class Prv_nytimes(Protocol):
     async def listArticles(self, section: str, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesArticleSummary_Out]:
         """Lists a section front's own article grid (headline, summary, byline, url). Takes a
         section slug like "world" or a path like "/section/world".
+        """
+
+    async def getSection(self, section: str, limit: float | None = None, offset: float | None = None, /) -> Prv_nytimes_NytimesSectionDetail_Out:
+        """Gets a section front's own identity (id, slug) plus its article grid. Takes a section
+        slug like "world" or a path like "/section/world".
         """
 
     async def getArticle(self, path: str, /) -> Prv_nytimes_NytimesArticle_Out:
@@ -37947,6 +38093,11 @@ class Prv_reuters(Protocol):
         image and its caption — from the site's own pictures sitemap.
         """
 
+    async def listGraphics(self, args: Prv_reuters_ListGraphicsArgs_In | None = None, /) -> list[Prv_reuters_ReutersGraphic_Out]:
+        """Reuters Graphics — the interactive data stories and explainers — with title, url and
+        published time, newest first, from the site's own graphics sitemap.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -38258,6 +38409,12 @@ class Prv_samsung(Protocol):
         """The signed-in shopper's own Samsung.com order history. Requires the CALLER's own Samsung
         account — the caller signs in through the run's own auth relay, this provider never
         creates the account.
+        """
+
+    async def getOrderStatus(self, args: Prv_samsung_GetOrderStatusArgs_In, opts: ConnectionOption | None = None, /) -> Prv_samsung_GetOrderStatusResponse_Out:
+        """One order's own full status and detail off the signed-in shopper's Samsung.com account —
+        shipping, tracking and line-item state. Takes the order id from a row `listOrders`
+        returned. Requires the CALLER's own Samsung account, same relay session as `listOrders`.
         """
 
 class Prv_scentbird(Protocol):
@@ -39805,6 +39962,11 @@ class Prv_twitch(Protocol):
         the user follows no channels.
         """
 
+    async def sendChatMessage(self, args: Prv_twitch_SendChatMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchChatMessage_Out:
+        """Sends a chat message to a Twitch channel. NEEDS the viewer's Twitch sign-in and the
+        channel id (not login). Returns the message id and text.
+        """
+
 class Prv_uber(Protocol):
     """Read signed-in driver earnings summaries from the Uber driver dashboard."""
 
@@ -40178,11 +40340,12 @@ class Prv_walkerhughes(Protocol):
 
 class Prv_walmart(Protocol):
     """Walmart.com — product search, product detail, store-level stock, store locator and more.
-    Six functions built: keyword search across the catalog, finding nearby stores by ZIP
+    Seven functions built: keyword search across the catalog, finding nearby stores by ZIP
     with address, hours, phone and department availability, listing every department and
     sub-category with its browse id, browsing a department's own product grid by that id,
-    browsing a brand's own product grid by its id, and listing what's currently on sale
-    (Rollbacks, clearance and current deal events).
+    browsing a brand's own product grid by its id, listing what's currently on sale
+    (Rollbacks, clearance and current deal events), and search-bar autocomplete for a
+    partial word.
     """
 
     async def search(self, args: Prv_walmart_search_args_In, /) -> list[Prv_walmart_walmartSearchResult_Out]:
@@ -40226,6 +40389,11 @@ class Prv_walmart(Protocol):
         """Lists what is on sale right now — Rollbacks, clearance and the site's current deal
         events — with the sale price and the price it replaced, the way the site's own
         'Rollbacks & more' savings page does.
+        """
+
+    async def suggestSearches(self, args: Prv_walmart_suggestSearches_args_In, /) -> list[Prv_walmart_walmartSuggestion_Out]:
+        """Autocomplete for the search bar — what the site suggests as you type a partial word, so
+        an agent can turn 'lapt' into the query shoppers actually use.
         """
 
 class Prv_waterfurnace(Protocol):
@@ -40506,6 +40674,13 @@ class Prv_wikipedia(Protocol):
         into the full-size url, dimensions, licence and attribution. Takes an article title OR
         any wikipedia.org url and follows the site's own redirects. Optional limit parameter
         caps the number of items returned (defaults to all).
+        """
+
+    async def getImage(self, fileTitle: str, options: Prv_wikipedia_getImage_options_In | None = None, /) -> Prv_wikipedia_WikipediaImage_Out:
+        """Expands one file title listImages returned into the full-size image: its direct url,
+        pixel dimensions, mime type, the Commons-or-local page describing it, and licence and
+        attribution where the file carries Commons metadata. Takes the file's own title,
+        "File:<name>", exactly as listImages returns it.
         """
 
 class Prv_wikipedia_standings(Protocol):
@@ -41482,6 +41657,7 @@ class BowmarkProviders(Protocol):
     hodjapasha: Prv_hodjapasha
     holidaybuilders: Prv_holidaybuilders
     hottopic: Prv_hottopic
+    hubspot: Prv_hubspot
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
     identitygroup: Prv_identitygroup

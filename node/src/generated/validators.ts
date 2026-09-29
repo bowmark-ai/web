@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ff96f7f7792112fe33aa534c1cdebbc42082fe6bbe8a88645ba2405a069b5086
-// 1530 checked, 20 unchecked.
+// Manifest version: 698875d0f6fbe9b7a4565fd95358ce62149d7a36b620f557e8586c9cd87c71c6
+// 1541 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ff96f7f7792112fe33aa534c1cdebbc42082fe6bbe8a88645ba2405a069b5086",
+  "version": "698875d0f6fbe9b7a4565fd95358ce62149d7a36b620f557e8586c9cd87c71c6",
   "units": {
     "booking_links": {
       "defs": {
@@ -18779,6 +18779,31 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "searchCode": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -21886,6 +21911,99 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.hubspot": {
+      "defs": {
+        "AddNoteToDealArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "dealId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "body",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "timestamp",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetDealArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "dealId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "SearchDealsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchDeals": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchDealsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getDeal": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetDealArgs"
+            },
+            "optional": false
+          }
+        ],
+        "addNoteToDeal": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AddNoteToDealArgs"
             },
             "optional": false
           }
@@ -28583,6 +28701,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NytCookingGetCollectionArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingGetRecipeArgs": {
           "k": "object",
           "props": [
@@ -28664,6 +28794,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "NytCookingGetAuthorRecipesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCollection": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingGetCollectionArgs"
             },
             "optional": false
           }
@@ -28880,6 +29020,29 @@ export const VALIDATORS: ValidatorTable = {
       "functions": {
         "listSections": [],
         "listArticles": [
+          {
+            "name": "section",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "getSection": [
           {
             "name": "section",
             "schema": {
@@ -35998,6 +36161,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListGraphicsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListLatestNewsArgs": {
           "k": "object",
           "props": [
@@ -36118,6 +36293,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListPictureGalleriesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listGraphics": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListGraphicsArgs"
             },
             "optional": true
           }
@@ -37155,6 +37340,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetOrderStatusArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "orderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetProductArgs": {
           "k": "object",
           "props": [
@@ -37262,6 +37459,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOrderStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetOrderStatusArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -41577,6 +41800,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SendChatMessageArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "channelId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "message",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SetChannelArgs": {
           "k": "object",
           "props": [
@@ -41706,6 +41948,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listFollowedChannels": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "sendChatMessage": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SendChatMessageArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -42679,7 +42947,32 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listDeals": []
+        "listDeals": [],
+        "suggestSearches": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "term",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.waterfurnace": {
@@ -43625,6 +43918,31 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "limit",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getImage": [
+          {
+            "name": "fileTitle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": true
                 }

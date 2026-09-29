@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ff96f7f7792112fe33aa534c1cdebbc42082fe6bbe8a88645ba2405a069b5086
-// 67 capabilities, 493 providers, 1548 typed functions, 20 refused.
+// Manifest version: 698875d0f6fbe9b7a4565fd95358ce62149d7a36b620f557e8586c9cd87c71c6
+// 67 capabilities, 494 providers, 1559 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14018,8 +14018,7 @@ interface cnnTrendingItem {
 
     /**
      * CNN's section categories — Politics, World, US, Business, Markets, Tech, Health, Science,
-     * Entertainment, Sports, Travel, Style, Opinions — with their path slugs for browsing by
-     * topic.
+     * Entertainment, Sports, Travel, Style — with their path slugs for browsing by topic.
      */
     listCategories(): Promise<cnnCategory[]>;
 
@@ -19749,6 +19748,14 @@ interface GithubSponsorPage {
   tiers: GithubSponsorTier[];
   url: string;
 }
+interface GithubSearchCodeResult {
+  // github.com's own blackbirdSearchRoute payload, raw — the signed-in field
+  // shape is unmeasured (no fleet-held GitHub session exists to capture one
+  // from), so this is not narrowed to invented field names. Read it defensively.
+  totalCount: number;
+  results: unknown[];
+  raw: Record<string, unknown>;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -19947,6 +19954,17 @@ interface GithubSponsorPage {
      * `/sponsors/<handle>` to their plain profile) or does not exist (404).
      */
     getSponsorPage(handle: string): Promise<GithubSponsorPage>;
+
+    /**
+     * Searches for code across public repositories, off github.com's own rendered code-search
+     * results page. NEEDS THE CALLER SIGNED IN — code search has no logged-out door at all: the
+     * keyless API 401s and the page ships `logged_in: false` with zero rows for the same query.
+     * `query` is GitHub's own code-search syntax (e.g. "useState language:typescript"). Returns
+     * GitHub's own `blackbirdSearchRoute` payload raw (`raw`) plus `totalCount` and `results` read
+     * off it — the signed-in field shape is unmeasured, since no fleet-held GitHub session exists
+     * to capture one from. THROWS when signed out or the saved session is stale.
+     */
+    searchCode(query: string, opts?: ConnectionOption): Promise<GithubSearchCodeResult>;
   }
 }
 
@@ -23714,6 +23732,76 @@ interface HottopicSearchResult {
      * search page carries them.
      */
     search(arg: { query: string }): Promise<HottopicSearchResult>;
+  }
+}
+
+declare namespace BowmarkProvider_hubspot {
+  // ── HubSpot CRM — the unit's own declarations, verbatim ──
+interface HubspotDeal {
+  id: string;
+  name: string | null;
+  /** Decimal string in the portal's currency. */
+  amount: string | null;
+  stage: string | null;
+  pipeline: string | null;
+  closeDate: string | null;
+  updatedAt: string | null;
+}
+
+interface HubspotDealDetail extends HubspotDeal {
+  noteIds: string[];
+}
+
+interface SearchDealsArgs {
+  /** Words from the deal's name, e.g. "Q4 direct mail". Omit to list recent deals. */
+  query?: string;
+  /** 1-100, default 20. */
+  limit?: number;
+}
+
+interface SearchDealsResult {
+  deals: HubspotDeal[];
+  total: number;
+}
+
+interface GetDealArgs {
+  dealId: string;
+}
+
+interface AddNoteToDealArgs {
+  dealId: string;
+  /** The note text; HubSpot renders it as HTML. */
+  body: string;
+  /** ISO time the note is dated on the timeline. Defaults to now. */
+  timestamp?: string;
+}
+
+interface HubspotNote {
+  id: string;
+  dealId: string;
+  body: string;
+  createdAt: string | null;
+}
+
+  /**
+   * Search, read and add notes to deals in your own HubSpot CRM portal, with your HubSpot
+   * private-app token.
+   */
+  interface Unit {
+    /**
+     * Finds deals in your own HubSpot CRM by name — returns id, name, amount, stage, close date.
+     * The door to getDeal and addNoteToDeal.
+     */
+    searchDeals(args: SearchDealsArgs): Promise<SearchDealsResult>;
+
+    /** Reads one deal from your own HubSpot CRM by id, with the ids of the notes on it. */
+    getDeal(args: GetDealArgs): Promise<HubspotDealDetail>;
+
+    /**
+     * Writes a note onto a deal in your own HubSpot CRM — it appears on the deal's timeline.
+     * Returns the new note's id.
+     */
+    addNoteToDeal(args: AddNoteToDealArgs): Promise<HubspotNote>;
   }
 }
 
@@ -31376,6 +31464,18 @@ interface NytCookingAuthorRecipes {
   warnings?: string[];
 }
 
+interface NytCookingGetCollectionArgs {
+  url: string;
+}
+
+interface NytCookingCollection {
+  headline: string;
+  summary: string | null;
+  recipes: unknown[];
+  hasMore: boolean;
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -31395,6 +31495,12 @@ interface NytCookingAuthorRecipes {
      * caller names.
      */
     getAuthorRecipes(args: NytCookingGetAuthorRecipesArgs): Promise<NytCookingAuthorRecipes>;
+
+    /**
+     * Reads one curated editorial collection and the recipe cards inside it, off a collection url
+     * from searchRecipes.
+     */
+    getCollection(args: NytCookingGetCollectionArgs): Promise<NytCookingCollection>;
   }
 }
 
@@ -31532,6 +31638,11 @@ interface NytimesArticleSummary {
   bylines?: Array<{ name: string }>;
   lastModified?: string;
 }
+interface NytimesSectionDetail {
+  id: string;
+  slug: string;
+  articles: NytimesArticleSummary[];
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -31543,6 +31654,12 @@ interface NytimesArticleSummary {
      * slug like "world" or a path like "/section/world".
      */
     listArticles(section: string, limit?: number, offset?: number): Promise<NytimesArticleSummary[]>;
+
+    /**
+     * Gets a section front's own identity (id, slug) plus its article grid. Takes a section slug
+     * like "world" or a path like "/section/world".
+     */
+    getSection(section: string, limit?: number, offset?: number): Promise<NytimesSectionDetail>;
 
     /**
      * Gets full article text, metadata and comments count. Takes an article path like
@@ -35593,6 +35710,14 @@ interface ReutersPictureGallery {
 interface ListPictureGalleriesArgs {
   limit?: number;              // 1-500, default 50
 }
+interface ReutersGraphic {
+  title: string;
+  url: string;
+  publishedAt: string | null;
+}
+interface ListGraphicsArgs {
+  limit?: number;              // 1-500, default 50
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -35640,6 +35765,12 @@ interface ListPictureGalleriesArgs {
      * and its caption — from the site's own pictures sitemap.
      */
     listPictureGalleries(args?: ListPictureGalleriesArgs): Promise<ReutersPictureGallery[]>;
+
+    /**
+     * Reuters Graphics — the interactive data stories and explainers — with title, url and
+     * published time, newest first, from the site's own graphics sitemap.
+     */
+    listGraphics(args?: ListGraphicsArgs): Promise<ReutersGraphic[]>;
   }
 }
 
@@ -36482,6 +36613,18 @@ interface ListOrdersResponse {
   orders: SamsungOrder[];
 }
 
+interface GetOrderStatusArgs {
+  orderId: string; // read off a row from listOrders
+}
+
+interface SamsungOrderStatus {
+  [key: string]: unknown; // Samsung's own per-order-detail shape — unmeasured against a real signed-in account; kept as the site's own JSON rather than guessed at
+}
+
+interface GetOrderStatusResponse {
+  order: SamsungOrderStatus;
+}
+
   /**
    * Samsung's own US storefront and support site — products, prices, trade-in, warranty and
    * store lookups, plus a signed-in caller's own orders and rewards.
@@ -36534,6 +36677,13 @@ interface ListOrdersResponse {
      * the account.
      */
     listOrders(opts?: ConnectionOption): Promise<ListOrdersResponse>;
+
+    /**
+     * One order's own full status and detail off the signed-in shopper's Samsung.com account —
+     * shipping, tracking and line-item state. Takes the order id from a row `listOrders` returned.
+     * Requires the CALLER's own Samsung account, same relay session as `listOrders`.
+     */
+    getOrderStatus(args: GetOrderStatusArgs, opts?: ConnectionOption): Promise<GetOrderStatusResponse>;
   }
 }
 
@@ -40780,6 +40930,18 @@ interface TwitchFollowedChannel {
   /** Only set when live. */
   gameName: string | null;
 }
+interface SendChatMessageArgs {
+  /** A Twitch channel id (not login). */
+  channelId: string;
+  /** The message to send to the channel. */
+  message: string;
+}
+interface TwitchChatMessage {
+  /** The message id assigned by Twitch. */
+  id: string;
+  /** The message text. */
+  body: string;
+}
 
   /**
    * Twitch — cut a Highlight of your own broadcast, including the one still live, and read any
@@ -40841,6 +41003,12 @@ interface TwitchFollowedChannel {
      * user follows no channels.
      */
     listFollowedChannels(opts?: ConnectionOption): Promise<TwitchFollowedChannel[]>;
+
+    /**
+     * Sends a chat message to a Twitch channel. NEEDS the viewer's Twitch sign-in and the channel
+     * id (not login). Returns the message id and text.
+     */
+    sendChatMessage(args: SendChatMessageArgs, opts?: ConnectionOption): Promise<TwitchChatMessage>;
   }
 }
 
@@ -41864,13 +42032,18 @@ interface walmartSearchResult {
   totalMatches: number;
 }
 
+interface walmartSuggestion {
+  displayName: string;
+  query: string;
+}
+
   /**
-   * Walmart.com — product search, product detail, store-level stock, store locator and more. Six
-   * functions built: keyword search across the catalog, finding nearby stores by ZIP with
+   * Walmart.com — product search, product detail, store-level stock, store locator and more.
+   * Seven functions built: keyword search across the catalog, finding nearby stores by ZIP with
    * address, hours, phone and department availability, listing every department and sub-category
    * with its browse id, browsing a department's own product grid by that id, browsing a brand's
-   * own product grid by its id, and listing what's currently on sale (Rollbacks, clearance and
-   * current deal events).
+   * own product grid by its id, listing what's currently on sale (Rollbacks, clearance and
+   * current deal events), and search-bar autocomplete for a partial word.
    */
   interface Unit {
     /**
@@ -41920,6 +42093,12 @@ interface walmartSearchResult {
      * savings page does.
      */
     listDeals(): Promise<walmartSearchResult[]>;
+
+    /**
+     * Autocomplete for the search bar — what the site suggests as you type a partial word, so an
+     * agent can turn 'lapt' into the query shoppers actually use.
+     */
+    suggestSearches(args: { term: string; limit?: number }): Promise<walmartSuggestion[]>;
   }
 }
 
@@ -42512,6 +42691,17 @@ interface WikipediaMediaItem {
   caption: string;
 }
 
+interface WikipediaImage {
+  title: string;
+  url: string;
+  width: number;
+  height: number;
+  mime: string;
+  descriptionUrl: string;
+  license?: string;
+  attribution?: string;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -42661,6 +42851,14 @@ interface WikipediaMediaItem {
      * number of items returned (defaults to all).
      */
     listImages(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ images: WikipediaMediaItem[]; warnings: string[] }>;
+
+    /**
+     * Expands one file title listImages returned into the full-size image: its direct url, pixel
+     * dimensions, mime type, the Commons-or-local page describing it, and licence and attribution
+     * where the file carries Commons metadata. Takes the file's own title, "File:<name>", exactly
+     * as listImages returns it.
+     */
+    getImage(fileTitle: string, options?: { lang?: string }): Promise<WikipediaImage>;
   }
 }
 
@@ -45571,6 +45769,7 @@ interface BowmarkProviders {
   hodjapasha: BowmarkProvider_hodjapasha.Unit;
   holidaybuilders: BowmarkProvider_holidaybuilders.Unit;
   hottopic: BowmarkProvider_hottopic.Unit;
+  hubspot: BowmarkProvider_hubspot.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;

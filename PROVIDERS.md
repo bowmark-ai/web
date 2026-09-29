@@ -1662,7 +1662,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | ⚪ |
 | `nytimes.getNewsletter` | nytimes.com | Gets newsletter description and signup info. | ⚪ |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details and episode list. | ⚪ |
-| `nytimes.getSection` | nytimes.com | Gets articles in a specific section with metadata. | ⚪ |
+| `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets today's Spelling Bee puzzle. | ⚪ |
 | `nytimes.getTopicArticles` | nytimes.com | Gets all articles tagged with a specific topic. | ⚪ |
 | `nytimes.getTrending` | nytimes.com | Gets articles tagged with a trending topic. | ⚪ |
@@ -1982,7 +1982,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.checkWarrantyStatus` | samsung.com | Whether a specific device's Samsung warranty is active and when it expires — takes the… | ⚪ |
 | `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models in the same family —… | ⚪ |
 | `samsung.findStore` | samsung.com | Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not… | 🟢 |
-| `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | ⚪ |
+| `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟢 |
 | `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
 | `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | ⚪ |
 | `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | ⚪ |
@@ -2435,7 +2435,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getArticleHtml` | wikipedia.org | The article's rendered HTML — the real page body, with tables, references, footnotes… | 🟢 |
 | `wikipedia.getCurrentUser` | wikipedia.org | Who the caller is signed in as on Wikipedia — username, user id, edit count, the… | ⚪ |
 | `wikipedia.getFeaturedContent` | wikipedia.org | Wikipedia's own front page for a given date, as data — the featured article, the… | ⚪ |
-| `wikipedia.getImage` | wikipedia.org | One media file's real details — the full-size url, dimensions, MIME type, and the… | ⚪ |
+| `wikipedia.getImage` | wikipedia.org | One media file's real details — the full-size url, dimensions, MIME type, and the… | 🟢 |
 | `wikipedia.getInfobox` | wikipedia.org | The grey fact box at the top right of an article, as key/value pairs a caller can… | 🟡 |
 | `wikipedia.getOnThisDay` | wikipedia.org | What happened on this calendar day in history, according to Wikipedia — events… | ⚪ |
 | `wikipedia.getPageviews` | wikipedia.org | How many people actually read an article, per day, over a date range — the closest… | ⚪ |
