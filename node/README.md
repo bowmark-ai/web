@@ -321,7 +321,8 @@ Why compiled at all: Node refuses to strip types out of a `.ts` file found insid
 `node_modules`, so shipping `main: src/index.ts` made plain `node app.mjs` fail with
 `ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING` for every consumer who was not already on
 `tsx`, Bun, or a bundler.
-[`docs/decisions/2026-09-01-the-published-npm-client-ships-compiled-js.md`](../../../docs/decisions/2026-09-01-the-published-npm-client-ships-compiled-js.md).
+`docs/decisions/2026-09-01-the-published-npm-client-ships-compiled-js.md` in Bowmark's
+internal engineering repo (not public).
 
 **One thing `tsc`'s declaration emit does not do on its own, and `build.mjs` does by
 hand:** `src/generated/library.d.ts` is ambient (no imports, no exports — see below) and

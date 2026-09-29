@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2559 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2560 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -349,7 +349,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, optionally by interest category. | ⚪ |
 | `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | 🟢 |
 | `bluesky.getTimeline` | bsky.app | The caller's home Following feed, newest first, page by page. | ⚪ |
-| `bluesky.getTrendingTopics` | bsky.app | What is trending on Bluesky right now: the topics and the links to their search or… | ⚪ |
+| `bluesky.getTrendingTopics` | bsky.app | What is trending on Bluesky right now: the topics and the links to their search or… | 🟢 |
 | `bluesky.getTrends` | bsky.app | The richer trending list the Explore page shows: each trend's post count, status… | ⚪ |
 | `bluesky.getUserFeeds` | bsky.app | The custom feeds a person has made. | ⚪ |
 | `bluesky.getUserLists` | bsky.app | The lists (curation and moderation lists) a person has made. | ⚪ |
@@ -1645,7 +1645,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.unsaveRecipe` | cooking.nytimes.com | Removes a recipe from the signed-in reader's Recipe Box. | ⚪ |
 | `nyt_cooking.updateRecipeNote` | cooking.nytimes.com | Edits one of the signed-in reader's own private cook notes. | ⚪ |
 | `nyt_games.getConnections` | games.nytimes.com | Retrieves the daily Connections puzzle with category groupings and answers. | 🟢 |
-| `nyt_games.getCrosswordArchive` | games.nytimes.com | Retrieves historical crossword puzzles dating back to 1995. | ⚪ |
+| `nyt_games.getCrosswordArchive` | games.nytimes.com | Retrieves historical crossword puzzles dating back to 1995. | 🟢 |
 | `nyt_games.getCrosswordDaily` | games.nytimes.com | Retrieves today's New York Times daily crossword puzzle. | 🟢 |
 | `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | 🟢 |
 | `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | 🟢 |
@@ -2006,6 +2006,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `secondswing.getQuoteAttributes` | 2ndswing.com | Lists the condition and club-number (loft/iron-number) options the Value Guide asks… | 🟢 |
 | `secondswing.getTradeInValue` | 2ndswing.com | Runs the Value Guide's real quotePreview computation for a SKU + condition/club-number… | 🟢 |
 | `secondswing.searchClubs` | 2ndswing.com | Runs the Value Guide's model quick-search for a make/model query and returns the… | 🟢 |
+| `sede_valencia_es.getParkingTariff` | sede.valencia.es | Monitors València's resident parking permit renewal (distintivo de residente, zona… | 🟢 |
 | `seegarsfence.checkServiceArea` | seegarsfence.com | Geocodes a free-text address and reports whether it falls inside Seegars Fence's… | 🟢 |
 | `seegarsfence.estimateFencePrice` | seegarsfence.com | Would return the estimator's actual priced result for a drawn fence line + selected… | ⚪ |
 | `selectblinds.getConfigurator` | selectblinds.com | Reads one blind style's real live configurator: every feature (Mount Type, Lift Style… | 🟢 |
