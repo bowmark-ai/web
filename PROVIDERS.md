@@ -1658,7 +1658,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | ⚪ |
 | `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
-| `nytimes.getArticleComments` | nytimes.com | Reads comments on an article: trending, recent or top-rated. | ⚪ |
+| `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
 | `nytimes.getConnections` | nytimes.com | Gets today's Connections puzzle. | ⚪ |
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | ⚪ |
 | `nytimes.getNewsletter` | nytimes.com | Gets newsletter description and signup info. | ⚪ |
