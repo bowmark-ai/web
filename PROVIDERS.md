@@ -347,7 +347,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getSuggestedFeeds` | bsky.app | Bluesky's own suggested custom feeds. | ⚪ |
 | `bluesky.getSuggestedFollows` | bsky.app | Accounts Bluesky suggests alongside a given person — its 'similar accounts' list on a… | ⚪ |
 | `bluesky.getSuggestedUsers` | bsky.app | Bluesky's own suggested accounts to follow, optionally by interest category. | ⚪ |
-| `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | ⚪ |
+| `bluesky.getThread` | bsky.app | A post with its whole conversation: the parents above it and the reply tree below it… | 🟢 |
 | `bluesky.getTimeline` | bsky.app | The caller's home Following feed, newest first, page by page. | ⚪ |
 | `bluesky.getTrendingTopics` | bsky.app | What is trending on Bluesky right now: the topics and the links to their search or… | ⚪ |
 | `bluesky.getTrends` | bsky.app | The richer trending list the Explore page shows: each trend's post count, status… | ⚪ |
@@ -1941,7 +1941,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listPictureGalleries` | www.reuters.com | Reuters photo galleries ("Pictures"), newest first: title, url, published time and… | 🟢 |
 | `reuters.listPodcastEpisodes` | www.reuters.com | The episodes of one Reuters podcast show, newest first: title, description, date… | ⚪ |
 | `reuters.listPodcasts` | www.reuters.com | The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On… | ⚪ |
-| `reuters.listPressReleases` | www.reuters.com | Press releases distributed on reuters.com, newest first: title, url and date. | ⚪ |
+| `reuters.listPressReleases` | www.reuters.com | Press releases distributed on reuters.com, newest first: title, url and date. | 🟢 |
 | `reuters.listSavedArticles` | www.reuters.com | The signed-in reader's saved Reuters articles: headline, url and when saved. | ⚪ |
 | `reuters.listSections` | www.reuters.com | Reuters' own section and topic list — World, Business, Markets, Sustainability, Legal… | 🟢 |
 | `reuters.listVideos` | www.reuters.com | Reuters videos, newest first — title, description, duration, published time, thumbnail… | 🟢 |
