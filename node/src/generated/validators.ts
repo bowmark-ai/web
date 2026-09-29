@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 794d855d19fef8794428c3e1f1700d7336d588ef41d06bb289baeeb83dea6be0
-// 1596 checked, 20 unchecked.
+// Manifest version: edf1ea8cae6717beb69cba7ec31cb32eecd152fe5f14311a4ec4118e08667f47
+// 1599 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "794d855d19fef8794428c3e1f1700d7336d588ef41d06bb289baeeb83dea6be0",
+  "version": "edf1ea8cae6717beb69cba7ec31cb32eecd152fe5f14311a4ec4118e08667f47",
   "units": {
     "booking_links": {
       "defs": {
@@ -29878,6 +29878,55 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getTrending": [
+          {
+            "name": "list",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "trending"
+                },
+                {
+                  "k": "literal",
+                  "v": "recipes"
+                },
+                {
+                  "k": "literal",
+                  "v": "videos"
+                },
+                {
+                  "k": "literal",
+                  "v": "mostViewed"
+                },
+                {
+                  "k": "literal",
+                  "v": "mostFacebooked"
+                },
+                {
+                  "k": "literal",
+                  "v": "mostEmailed"
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -40764,7 +40813,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
-        ]
+        ],
+        "listBreakingNews": []
       }
     },
     "providers.therabody": {
@@ -45152,6 +45202,31 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "limit",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getRevision": [
+          {
+            "name": "revisionId",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": true
                 }

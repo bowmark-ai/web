@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 794d855d19fef8794428c3e1f1700d7336d588ef41d06bb289baeeb83dea6be0
-# 68 capabilities, 497 providers, 1596 typed functions, 20 refused.
+# Manifest version: edf1ea8cae6717beb69cba7ec31cb32eecd152fe5f14311a4ec4118e08667f47
+# 68 capabilities, 497 providers, 1599 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17027,8 +17027,15 @@ class Prv_nyt_games_SudokuDifficulty_Out(TypedDict):
 
 class Prv_nyt_games_NytTiles_Out(TypedDict):
     displayName: str
+    filename: str
     createdBy: str
-    publishDate: str
+    bgColor: str
+    allPalettes: list[Prv_nyt_games_NytTilesPalette_Out]
+
+class Prv_nyt_games_NytTilesPalette_Out(TypedDict):
+    displayName: str
+    filename: str
+    createdBy: str
 
 class Prv_nyt_games_CrosswordPuzzleList_Out(TypedDict):
     puzzles: list[Prv_nyt_games_CrosswordPuzzle_Out]
@@ -17116,6 +17123,13 @@ class Prv_nytimes_NytimesComment_Out(TypedDict):
 
 class Prv_nytimes_NytimesTrendingItem_Out(TypedDict):
     id: str
+    headline: NotRequired[str]
+    summary: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_nytimes_NytimesPopularItem_Out(TypedDict):
+    id: str
+    type: str
     headline: NotRequired[str]
     summary: NotRequired[str]
     url: NotRequired[str]
@@ -24132,6 +24146,24 @@ class Prv_wikipedia_WikipediaRevision_Out(TypedDict):
     user: str
     comment: str
     size: float
+
+class Prv_wikipedia_getRevision_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_WikipediaRevisionDetail_Out(TypedDict):
+    id: float
+    page: Prv_wikipedia_WikipediaRevisionDetail_Out_page_Out
+    timestamp: str
+    user: str
+    comment: str
+    size: float
+    delta: float | None
+    minor: bool
+    source: str
+
+class Prv_wikipedia_WikipediaRevisionDetail_Out_page_Out(TypedDict):
+    id: float
+    title: str
 
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
@@ -37251,8 +37283,9 @@ class Prv_nyt_games(Protocol):
         """
 
     async def getTiles(self, /) -> Prv_nyt_games_NytTiles_Out:
-        """Retrieves today's Tiles puzzle with its name and creator. NYT publishes Tiles for today
-        only — there is no dated archive, so this takes no arguments.
+        """Retrieves today's Tiles puzzle with its name, creator, board color and every earlier
+        palette. NYT publishes Tiles for today only — there is no dated archive, so this takes
+        no arguments.
         """
 
     async def listCrosswordPuzzles(self, /) -> Prv_nyt_games_CrosswordPuzzleList_Out:
@@ -37302,6 +37335,12 @@ class Prv_nytimes(Protocol):
     async def listTrending(self, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesTrendingItem_Out]:
         """Lists the site's own trending articles from /trending/ — up to 20, the most the page
         itself renders.
+        """
+
+    async def getTrending(self, list: Literal["trending"] | Literal["recipes"] | Literal["videos"] | Literal["mostViewed"] | Literal["mostFacebooked"] | Literal["mostEmailed"] | None = None, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesPopularItem_Out]:
+        """Gets one of the /trending/ page's own five OTHER popularity lists by name (default
+        "mostViewed") — recipes, videos, most-viewed, most-Facebooked or most-emailed articles,
+        each up to 20, the most the page itself renders.
         """
 
 class Prv_oanda(Protocol):
@@ -40143,6 +40182,11 @@ class Prv_theguardian_com(Protocol):
         'world/ukraine'.
         """
 
+    async def listBreakingNews(self, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:
+        """The latest breaking news stories from The Guardian — newest first, with headline, url,
+        summary, byline and publish time.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -41715,6 +41759,13 @@ class Prv_wikipedia(Protocol):
         edit summary comment, and byte size. The door to tracking who changed what and when.
         Takes an article title OR any wikipedia.org url and follows the site's own redirects.
         Optional limit parameter caps the number of revisions returned (defaults to 50).
+        """
+
+    async def getRevision(self, revisionId: float, options: Prv_wikipedia_getRevision_options_In | None = None, /) -> Prv_wikipedia_WikipediaRevisionDetail_Out:
+        """One specific revision of an article, keyed on the id listRevisions returns — its full
+        wikitext source at that point in time, the editor, timestamp, edit summary, byte size
+        and the delta from its parent revision. What a caller uses to quote the encyclopedia as
+        it stood on a date rather than as it stands now.
         """
 
 class Prv_wikipedia_standings(Protocol):

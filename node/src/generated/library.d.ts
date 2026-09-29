@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 794d855d19fef8794428c3e1f1700d7336d588ef41d06bb289baeeb83dea6be0
-// 68 capabilities, 497 providers, 1614 typed functions, 20 refused.
+// Manifest version: edf1ea8cae6717beb69cba7ec31cb32eecd152fe5f14311a4ec4118e08667f47
+// 68 capabilities, 497 providers, 1617 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32039,7 +32039,8 @@ interface NytPips { printDate: string; editor: string | null; easy: PipsDifficul
 interface GetPipsArgs { date?: string; }
 interface SudokuDifficulty { id: number; dayOfWeek: string; difficulty: "Easy" | "Medium" | "Hard"; printDate: string; puzzle: number[]; solution: number[]; hints: number[]; }
 interface NytSudoku { displayDate: string; easy: SudokuDifficulty; medium: SudokuDifficulty; hard: SudokuDifficulty; }
-interface NytTiles { displayName: string; createdBy: string; publishDate: string; }
+interface NytTilesPalette { displayName: string; filename: string; createdBy: string; }
+interface NytTiles { displayName: string; filename: string; createdBy: string; bgColor: string; allPalettes: NytTilesPalette[]; }
 interface CrosswordPuzzle { puzzleId: number; printDate: string; title: string; author: string; editor: string; formatType: string; publishType: string; }
 interface CrosswordPuzzleList { puzzles: CrosswordPuzzle[]; status: string; }
 
@@ -32114,8 +32115,9 @@ interface CrosswordPuzzleList { puzzles: CrosswordPuzzle[]; status: string; }
     getSudoku(): Promise<NytSudoku>;
 
     /**
-     * Retrieves today's Tiles puzzle with its name and creator. NYT publishes Tiles for today only
-     * — there is no dated archive, so this takes no arguments.
+     * Retrieves today's Tiles puzzle with its name, creator, board color and every earlier
+     * palette. NYT publishes Tiles for today only — there is no dated archive, so this takes no
+     * arguments.
      */
     getTiles(): Promise<NytTiles>;
 
@@ -32198,6 +32200,13 @@ interface NytimesTrendingItem {
   summary?: string;
   url?: string;
 }
+interface NytimesPopularItem {
+  id: string;
+  type: string;
+  headline?: string;
+  summary?: string;
+  url?: string;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -32239,6 +32248,13 @@ interface NytimesTrendingItem {
      * renders.
      */
     listTrending(limit?: number, offset?: number): Promise<NytimesTrendingItem[]>;
+
+    /**
+     * Gets one of the /trending/ page's own five OTHER popularity lists by name (default
+     * "mostViewed") — recipes, videos, most-viewed, most-Facebooked or most-emailed articles, each
+     * up to 20, the most the page itself renders.
+     */
+    getTrending(list?: "trending" | "recipes" | "videos" | "mostViewed" | "mostFacebooked" | "mostEmailed", limit?: number, offset?: number): Promise<NytimesPopularItem[]>;
   }
 }
 
@@ -39641,6 +39657,12 @@ interface GuardianListTopicsResult {
      * publish time. Topics are paths like 'environment/climate-crisis' or 'world/ukraine'.
      */
     getTopicArticles(args?: GuardianListArticlesArgs): Promise<GuardianListArticlesResult>;
+
+    /**
+     * The latest breaking news stories from The Guardian — newest first, with headline, url,
+     * summary, byline and publish time.
+     */
+    listBreakingNews(): Promise<GuardianListArticlesResult>;
   }
 }
 
@@ -43724,6 +43746,18 @@ interface WikipediaRevision {
   size: number;
 }
 
+interface WikipediaRevisionDetail {
+  id: number;
+  page: { id: number; title: string };
+  timestamp: string;
+  user: string;
+  comment: string;
+  size: number;
+  delta: number | null;
+  minor: boolean;
+  source: string;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -43890,6 +43924,14 @@ interface WikipediaRevision {
      * parameter caps the number of revisions returned (defaults to 50).
      */
     listRevisions(titleOrUrl: string, options?: { lang?: string; limit?: number }): Promise<{ revisions: WikipediaRevision[]; warnings: string[] }>;
+
+    /**
+     * One specific revision of an article, keyed on the id listRevisions returns — its full
+     * wikitext source at that point in time, the editor, timestamp, edit summary, byte size and
+     * the delta from its parent revision. What a caller uses to quote the encyclopedia as it stood
+     * on a date rather than as it stands now.
+     */
+    getRevision(revisionId: number, options?: { lang?: string }): Promise<WikipediaRevisionDetail>;
   }
 }
 
