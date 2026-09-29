@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ddde2f4edbeb36dc96e74515247293f95f74906e84362e34d4956e2f8cd84f2a
-// 68 capabilities, 495 providers, 1597 typed functions, 20 refused.
+// Manifest version: 7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed
+// 68 capabilities, 495 providers, 1599 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -31866,6 +31866,7 @@ interface NytCrossword { id: number; printDate: string; editor: string | null; c
 interface GetCrosswordDailyArgs { date?: string; }
 interface GetCrosswordMiniArgs { date?: string; }
 interface GetCrosswordMidiArgs { date?: string; }
+interface GetCrosswordArchiveArgs { date: string; }
 interface PipsRegion { indices: Array<[number, number]>; type: "equals" | "sum" | "greater" | "less" | "unequal" | "empty"; target?: number; }
 interface PipsDifficulty { id: number; backendId: string; constructors: string; dominoes: Array<[number, number]>; regions: PipsRegion[]; solution: Array<[[number, number], [number, number]]>; }
 interface NytPips { printDate: string; editor: string | null; easy: PipsDifficulty; medium: PipsDifficulty; hard: PipsDifficulty; }
@@ -31958,6 +31959,12 @@ interface CrosswordPuzzleList { puzzles: CrosswordPuzzle[]; status: string; }
      * publication date.
      */
     listCrosswordPuzzles(): Promise<CrosswordPuzzleList>;
+
+    /**
+     * Retrieves a historical crossword puzzle from the archive dating back to 1995. Requires {
+     * date: "YYYY-MM-DD" }.
+     */
+    getCrosswordArchive(args: GetCrosswordArchiveArgs): Promise<NytCrossword>;
   }
 }
 
@@ -41488,6 +41495,12 @@ interface TwitchFollowedChannel {
   /** Only set when live. */
   gameName: string | null;
 }
+interface ListChannelVodsArgs {
+  /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
+  login: string;
+  /** Max VODs to return, 1-100. Default 20. */
+  limit?: number;
+}
 interface SendChatMessageArgs {
   /** A Twitch channel id (not login). */
   channelId: string;
@@ -41544,6 +41557,13 @@ interface TwitchChatMessage {
      * 100.
      */
     listCategories(args?: ListCategoriesArgs): Promise<TwitchCategory[]>;
+
+    /**
+     * Lists a channel's past broadcasts/VODs, newest first: title, creation date, length in
+     * seconds, status and type (ARCHIVE, HIGHLIGHT, UPLOAD). No sign-in. THROWS naming the login
+     * when Twitch has no such channel. Returns one page — up to `limit`, default 20, max 100.
+     */
+    listChannelVods(args: ListChannelVodsArgs): Promise<TwitchVideo[]>;
 
     /**
      * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ddde2f4edbeb36dc96e74515247293f95f74906e84362e34d4956e2f8cd84f2a
-# 68 capabilities, 495 providers, 1579 typed functions, 20 refused.
+# Manifest version: 7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed
+# 68 capabilities, 495 providers, 1581 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16956,6 +16956,9 @@ class Prv_nyt_games_CrosswordPuzzle_Out(TypedDict):
     formatType: str
     publishType: str
 
+class Prv_nyt_games_GetCrosswordArchiveArgs_In(TypedDict):
+    date: str
+
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
     slug: str
@@ -22588,6 +22591,10 @@ class Prv_twitch_TwitchCategory_Out(TypedDict):
     name: str
     boxArtUrlTemplate: str
     viewerCount: float
+
+class Prv_twitch_ListChannelVodsArgs_In(TypedDict):
+    login: str
+    limit: NotRequired[float]
 
 class Prv_twitch_CreateHighlightArgs_In(TypedDict):
     vodId: NotRequired[str]
@@ -36954,6 +36961,11 @@ class Prv_nyt_games(Protocol):
         and publication date.
         """
 
+    async def getCrosswordArchive(self, args: Prv_nyt_games_GetCrosswordArchiveArgs_In, /) -> Prv_nyt_games_NytCrossword_Out:
+        """Retrieves a historical crossword puzzle from the archive dating back to 1995. Requires {
+        date: "YYYY-MM-DD" }.
+        """
+
 class Prv_nytimes(Protocol):
     """Reads news articles, sections, search results, and trending topics from The New York
     Times.
@@ -40575,6 +40587,13 @@ class Prv_twitch(Protocol):
         id, name, box art URL template, and total viewer count. No sign-in. Twitch's own `games`
         door is genuinely paged (unlike search), but this returns one page — up to `limit`,
         default 20, max 100.
+        """
+
+    async def listChannelVods(self, args: Prv_twitch_ListChannelVodsArgs_In, /) -> list[Prv_twitch_TwitchVideo_Out]:
+        """Lists a channel's past broadcasts/VODs, newest first: title, creation date, length in
+        seconds, status and type (ARCHIVE, HIGHLIGHT, UPLOAD). No sign-in. THROWS naming the
+        login when Twitch has no such channel. Returns one page — up to `limit`, default 20, max
+        100.
         """
 
     async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchHighlight_Out:

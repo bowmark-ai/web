@@ -1,5 +1,5 @@
 {
-  "version": "ddde2f4edbeb36dc96e74515247293f95f74906e84362e34d4956e2f8cd84f2a",
+  "version": "7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed",
   "units": {
     "booking_links": {
       "defs": {
@@ -29292,6 +29292,18 @@
             }
           ]
         },
+        "GetCrosswordArchiveArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetCrosswordDailyArgs": {
           "k": "object",
           "props": [
@@ -29482,7 +29494,17 @@
         ],
         "getSudoku": [],
         "getTiles": [],
-        "listCrosswordPuzzles": []
+        "listCrosswordPuzzles": [],
+        "getCrosswordArchive": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCrosswordArchiveArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.nytimes": {
@@ -42445,6 +42467,25 @@
             }
           ]
         },
+        "ListChannelVodsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchChannelsArgs": {
           "k": "object",
           "props": [
@@ -42564,6 +42605,16 @@
               "name": "ListCategoriesArgs"
             },
             "optional": true
+          }
+        ],
+        "listChannelVods": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListChannelVodsArgs"
+            },
+            "optional": false
           }
         ],
         "createHighlight": [

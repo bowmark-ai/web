@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: ddde2f4edbeb36dc96e74515247293f95f74906e84362e34d4956e2f8cd84f2a
-// 1579 checked, 20 unchecked.
+// Manifest version: 7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed
+// 1581 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "ddde2f4edbeb36dc96e74515247293f95f74906e84362e34d4956e2f8cd84f2a",
+  "version": "7403f073926aa8f92f321dee31fb95416ddcf0bbf54de05e1d93f88d694106ed",
   "units": {
     "booking_links": {
       "defs": {
@@ -29304,6 +29304,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetCrosswordArchiveArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetCrosswordDailyArgs": {
           "k": "object",
           "props": [
@@ -29494,7 +29506,17 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getSudoku": [],
         "getTiles": [],
-        "listCrosswordPuzzles": []
+        "listCrosswordPuzzles": [],
+        "getCrosswordArchive": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCrosswordArchiveArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.nytimes": {
@@ -42457,6 +42479,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListChannelVodsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchChannelsArgs": {
           "k": "object",
           "props": [
@@ -42576,6 +42617,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListCategoriesArgs"
             },
             "optional": true
+          }
+        ],
+        "listChannelVods": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListChannelVodsArgs"
+            },
+            "optional": false
           }
         ],
         "createHighlight": [
