@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5bbe79e1c878f18141f71f71d52c1dfbdb02737536d4e8182a77ec552fc3a213
-// 1584 checked, 20 unchecked.
+// Manifest version: 28de508f4b96fc14e64b2877c684fa4287cb189f0e5c670ed3ee9ecf1be51661
+// 1593 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5bbe79e1c878f18141f71f71d52c1dfbdb02737536d4e8182a77ec552fc3a213",
+  "version": "28de508f4b96fc14e64b2877c684fa4287cb189f0e5c670ed3ee9ecf1be51661",
   "units": {
     "booking_links": {
       "defs": {
@@ -4682,6 +4682,14 @@ export const VALIDATORS: ValidatorTable = {
               "name": "open",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "strategy",
+              "schema": {
+                "k": "literal",
+                "v": "browser"
               },
               "optional": true
             },
@@ -10377,6 +10385,46 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "searchFeeds": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -13909,7 +13957,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listTrendingTopics": []
+        "listTrendingTopics": [],
+        "getMarketsData": []
       }
     },
     "providers.code_claude_com": {
@@ -14676,6 +14725,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listSupportCategories": [],
         "searchForumThreads": [
           {
             "name": "args",
@@ -17701,6 +17751,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetPersonArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -17771,7 +17833,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listBillionaires": []
+        "listBillionaires": [],
+        "getPerson": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPersonArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.ford": {
@@ -39873,6 +39945,32 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListGamesByCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "start",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchGamesArgs": {
           "k": "object",
           "props": [
@@ -39945,6 +40043,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListFeaturedGamesArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listGamesByCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListGamesByCategoryArgs"
             },
             "optional": false
           },
@@ -42580,6 +42704,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListChannelClipsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListChannelVodsArgs": {
           "k": "object",
           "props": [
@@ -42726,6 +42869,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListChannelVodsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listChannelClips": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListChannelClipsArgs"
             },
             "optional": false
           }
@@ -43673,6 +43826,51 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      }
+    },
+    "providers.vts_marketplace": {
+      "defs": {
+        "VtsSearchListingsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listMarkets": [],
+        "searchListings": [
+          {
+            "name": "market",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "VtsSearchListingsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.walkerhughes": {

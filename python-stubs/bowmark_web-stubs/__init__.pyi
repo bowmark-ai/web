@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5bbe79e1c878f18141f71f71d52c1dfbdb02737536d4e8182a77ec552fc3a213
-# 68 capabilities, 495 providers, 1584 typed functions, 20 refused.
+# Manifest version: 28de508f4b96fc14e64b2877c684fa4287cb189f0e5c670ed3ee9ecf1be51661
+# 68 capabilities, 496 providers, 1593 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2252,6 +2252,7 @@ class Cap_web_form_fields_FormField_Out(TypedDict):
 
 class Cap_web_form_fields_FormFillOptions_In(TypedDict):
     open: NotRequired[str]
+    strategy: NotRequired[Literal["browser"]]
     timeoutMs: NotRequired[float]
     advance: NotRequired[bool]
     submit: NotRequired[bool]
@@ -5622,6 +5623,22 @@ class Prv_bluesky_BlueskySearchPostsResults_Out(TypedDict):
     posts: list[Prv_bluesky_BlueskyPost_Out]
     cursor: NotRequired[str]
 
+class Prv_bluesky_searchFeeds_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskySearchFeedsResults_Out(TypedDict):
+    feeds: list[Prv_bluesky_BlueskySearchFeedResult_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskySearchFeedResult_Out(TypedDict):
+    uri: str
+    name: str
+    creator: Prv_bluesky_BlueskyPostAuthor_Out
+    description: str | None
+    likeCount: float
+
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
     modelName: str
@@ -7855,6 +7872,18 @@ class Prv_cnn_cnnTrendingItem_Out(TypedDict):
     thumbnailUrl: str | None
     lastPublishDate: str | None
 
+class Prv_cnn_cnnMarketsData_Out(TypedDict):
+    indices: list[Prv_cnn_cnnMarketIndex_Out]
+    currencies: list[Prv_cnn_cnnMarketIndex_Out]
+    commodities: list[Prv_cnn_cnnMarketIndex_Out]
+
+class Prv_cnn_cnnMarketIndex_Out(TypedDict):
+    name: str
+    symbol: str
+    value: str
+    change: str | None
+    changePercent: str | None
+
 class Prv_code_claude_com_code_claude_comDoc_Out(TypedDict):
     url: str
     title: str | None
@@ -8394,6 +8423,10 @@ class Prv_dell_DellSupportArticle_Out(TypedDict):
     url: str
     summary: str | None
     articleType: str | None
+
+class Prv_dell_DellSupportCategory_Out(TypedDict):
+    name: str
+    url: str | None
 
 class Prv_dell_SearchForumThreadsArgs_In(TypedDict):
     query: str
@@ -10149,6 +10182,25 @@ class Prv_forbes_ForbesBillionaire_Out(TypedDict):
     name: str
     rank: NotRequired[float]
     netWorth: NotRequired[float]
+
+class Prv_forbes_GetPersonArgs_In(TypedDict):
+    slug: str
+
+class Prv_forbes_ForbesPerson_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+    title: NotRequired[str]
+    image: NotRequired[str]
+    netWorth: NotRequired[float]
+    rank: NotRequired[float]
+    sourceOfWealth: NotRequired[str]
+    age: NotRequired[float]
+    residence: NotRequired[str]
+    citizenship: NotRequired[str]
+    maritalStatus: NotRequired[str]
+    children: NotRequired[float]
+    education: NotRequired[str]
 
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
@@ -21133,6 +21185,37 @@ class Prv_steam_FeaturedGame_Out_platforms_Out(TypedDict):
     mac: bool
     linux: bool
 
+class Prv_steam_ListGamesByCategoryArgs_In(TypedDict):
+    category: str
+    start: NotRequired[float]
+    count: NotRequired[float]
+
+class Prv_steam_ListGamesByCategoryResponse_Out(TypedDict):
+    games: list[Prv_steam_CategoryGame_Out]
+    totalCount: float
+    start: float
+
+class Prv_steam_CategoryGame_Out(TypedDict):
+    appid: str
+    name: str
+    url: str
+    releaseDate: str | None
+    reviewSummary: str | None
+    isFree: bool
+    price: Prv_steam_CategoryGamePrice_Out | None
+    platforms: Prv_steam_CategoryGame_Out_platforms_Out
+
+class Prv_steam_CategoryGamePrice_Out(TypedDict):
+    currency: Literal["USD"]
+    initial: float
+    final: float
+    discountPercent: float
+
+class Prv_steam_CategoryGame_Out_platforms_Out(TypedDict):
+    windows: bool
+    mac: bool
+    linux: bool
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -22619,6 +22702,21 @@ class Prv_twitch_ListChannelVodsArgs_In(TypedDict):
     login: str
     limit: NotRequired[float]
 
+class Prv_twitch_ListChannelClipsArgs_In(TypedDict):
+    login: str
+    limit: NotRequired[float]
+
+class Prv_twitch_TwitchClip_Out(TypedDict):
+    id: str
+    title: str
+    createdAt: str
+    viewCount: float
+    durationSeconds: float
+    broadcasterLogin: str
+    creatorLogin: str | None
+    gameName: str | None
+    url: str
+
 class Prv_twitch_CreateHighlightArgs_In(TypedDict):
     vodId: NotRequired[str]
     startSeconds: float
@@ -23197,6 +23295,74 @@ class Prv_vscode_VscodeDocLink_Out(TypedDict):
     title: str
     url: str
     description: str | None
+
+class Prv_vts_marketplace_VtsMarket_Out(TypedDict):
+    id: str
+    name: str
+    countryCode: str
+
+class Prv_vts_marketplace_VtsSearchListingsOptions_In(TypedDict):
+    page: NotRequired[float]
+
+class Prv_vts_marketplace_VtsSearchResult_Out(TypedDict):
+    market: str
+    page: float
+    pageSize: float
+    totalCount: float
+    listings: list[Prv_vts_marketplace_VtsListing_Out]
+
+class Prv_vts_marketplace_VtsListing_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    city: str | None
+    neighborhood: str | None
+    landlord: str | None
+    squareFeet: float | None
+    minSquareFeet: float | None
+    maxSquareFeet: float | None
+    capacity: float | None
+    leaseType: str | None
+    condition: str | None
+    dateAvailable: str | None
+    availableNow: bool
+    shortestLeaseTerm: str | None
+    photo: str | None
+    floorPlan: str | None
+    url: str
+
+class Prv_vts_marketplace_VtsListingDetail_Out(TypedDict):
+    id: str
+    name: str
+    address: str
+    city: str | None
+    neighborhood: str | None
+    landlord: str | None
+    squareFeet: float | None
+    minSquareFeet: float | None
+    maxSquareFeet: float | None
+    capacity: float | None
+    leaseType: str | None
+    condition: str | None
+    dateAvailable: str | None
+    availableNow: bool
+    shortestLeaseTerm: str | None
+    photo: str | None
+    floorPlan: str | None
+    url: str
+    market: str | None
+    description: str
+    daysOnMarket: float | None
+    latitude: float | None
+    longitude: float | None
+    photos: list[str]
+    agents: list[Prv_vts_marketplace_VtsListingAgent_Out]
+
+class Prv_vts_marketplace_VtsListingAgent_Out(TypedDict):
+    name: str
+    company: str | None
+    email: str | None
+    phone: str | None
 
 class Prv_walkerhughes_WalkerhughesQuoteCatalog_Out(TypedDict):
     products: list[Prv_walkerhughes_WalkerhughesProduct_Out]
@@ -28892,6 +29058,13 @@ class Prv_bluesky(Protocol):
         when more results exist.
         """
 
+    async def searchFeeds(self, query: str | Prv_bluesky_searchFeeds_query_u1_In, /) -> Prv_bluesky_BlueskySearchFeedsResults_Out:
+        """Finds custom feeds by words (e.g. 'science', 'art'), the way the Explore tab's feed
+        search does. Returns each feed's URI, name, creator (with handle, display name and
+        avatar), description and like count, plus a `cursor` for the next page when more results
+        exist.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -30326,6 +30499,11 @@ class Prv_cnn(Protocol):
         content type, section, description, thumbnail and last publish date.
         """
 
+    async def getMarketsData(self, /) -> Prv_cnn_cnnMarketsData_Out:
+        """Financial and markets data from CNN Money — stock indices (S&P 500, Dow, Nasdaq),
+        currency rates, and commodity prices with current values and change indicators.
+        """
+
 class Prv_code_claude_com(Protocol):
     """Reads one page of Claude Code's own documentation site (code.claude.com/docs/...) by URL
     and returns its title, description and body as clean markdown — the site's own
@@ -30755,6 +30933,11 @@ class Prv_dell(Protocol):
     async def searchSupport(self, args: Prv_dell_SearchSupportArgs_In, /) -> list[Prv_dell_DellSupportArticle_Out]:
         """Searches Dell's support knowledge base for articles, drivers, and troubleshooting guides
         matching a query — returns article titles, URLs, and summaries.
+        """
+
+    async def listSupportCategories(self, /) -> list[Prv_dell_DellSupportCategory_Out]:
+        """Lists the main support categories on Dell's support site (e.g., Drivers & Downloads,
+        BIOS & Firmware, Documentation) with URLs into each category.
         """
 
     async def searchForumThreads(self, args: Prv_dell_SearchForumThreadsArgs_In, /) -> list[Prv_dell_DellForumThread_Out]:
@@ -31859,6 +32042,11 @@ class Prv_forbes(Protocol):
 
     async def listBillionaires(self, /) -> Prv_forbes_ForbesBillionairesList_Out:
         """List the current real-time billionaires ranked by net worth."""
+
+    async def getPerson(self, args: Prv_forbes_GetPersonArgs_In, /) -> Prv_forbes_ForbesPerson_Out:
+        """Get one person's Forbes profile — real-time net worth, world rank, source of wealth and
+        biographical stats — by their profile slug.
+        """
 
 class Prv_ford(Protocol):
     """Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
@@ -39639,6 +39827,12 @@ class Prv_steam(Protocol):
         platform (Windows, Mac, or Linux), including prices, discount information, and images.
         """
 
+    async def listGamesByCategory(self, args: Prv_steam_ListGamesByCategoryArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_ListGamesByCategoryResponse_Out:
+        """Lists games in one of Steam's own genre categories (Action, Adventure, Indie, RPG,
+        Strategy, Simulation, Racing, Sports, Casual), in the site's own order, with price,
+        discount, platform and review-summary per game, and pagination via start/count.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -40650,6 +40844,13 @@ class Prv_twitch(Protocol):
         100.
         """
 
+    async def listChannelClips(self, args: Prv_twitch_ListChannelClipsArgs_In, /) -> list[Prv_twitch_TwitchClip_Out]:
+        """Lists clips cut from a channel, ranked by Twitch's own default ordering: title, creation
+        date, view count, duration, who cut it, and the category being played. No sign-in.
+        THROWS naming the login when Twitch has no such channel. Returns one page — up to
+        `limit`, default 20, max 100.
+        """
+
     async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchHighlight_Out:
         """Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the
         one still live — between two offsets in seconds, with a title. Omit vodId to cut from
@@ -41030,6 +41231,31 @@ class Prv_vscode(Protocol):
         """Lists every doc page code.visualstudio.com publishes — title, its own page url, and a
         one-line description where the site gives one — parsed from the site's own /llms.txt
         index. Every url returned is one getDoc() can read.
+        """
+
+class Prv_vts_marketplace(Protocol):
+    """VTS Marketplace's public commercial real estate listings — available office, retail and
+    industrial space for lease by market (New York, Chicago, Boston, London, …), with size,
+    landlord, availability date, photos and listing agents.
+    """
+
+    async def listMarkets(self, /) -> list[Prv_vts_marketplace_VtsMarket_Out]:
+        """Every public market VTS Marketplace lists commercial space in (New York City, Chicago,
+        Boston, Washington DC, San Francisco, Los Angeles, London) — the ids searchListings
+        takes.
+        """
+
+    async def searchListings(self, market: str | None = None, options: Prv_vts_marketplace_VtsSearchListingsOptions_In | None = None, /) -> Prv_vts_marketplace_VtsSearchResult_Out:
+        """On-market commercial space for lease on VTS Marketplace — office, retail, industrial
+        suites with square footage, landlord, availability date, lease type and photo. `market`
+        is a market id or name ("chicago", "New York", "NYC"); left out, it searches every
+        market. 24 per page. THROWS if the market is not one VTS covers.
+        """
+
+    async def getListing(self, listing: str, /) -> Prv_vts_marketplace_VtsListingDetail_Out:
+        """One VTS Marketplace listing by id or URL (from searchListings) — description, every
+        photo, building coordinates, days on market, and the listing agents' names, brokerages,
+        emails and phones.
         """
 
 class Prv_walkerhughes(Protocol):
@@ -42641,6 +42867,7 @@ class BowmarkProviders(Protocol):
     vistaprint: Prv_vistaprint
     voluspa: Prv_voluspa
     vscode: Prv_vscode
+    vts_marketplace: Prv_vts_marketplace
     walkerhughes: Prv_walkerhughes
     walmart: Prv_walmart
     waterfurnace: Prv_waterfurnace

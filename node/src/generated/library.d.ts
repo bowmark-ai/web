@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5bbe79e1c878f18141f71f71d52c1dfbdb02737536d4e8182a77ec552fc3a213
-// 68 capabilities, 495 providers, 1602 typed functions, 20 refused.
+// Manifest version: 28de508f4b96fc14e64b2877c684fa4287cb189f0e5c670ed3ee9ecf1be51661
+// 68 capabilities, 496 providers, 1611 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4126,6 +4126,7 @@ type FormInspectionResult = {
 
 type FormFillOptions = {
   open?: string        // the control that opens the form, if you already know it
+  strategy?: "browser" // strategy is fixed to browser; this field exists for symmetry with getFields so both can be called the same way
   timeoutMs?: number   // default 30000
   advance?: boolean     // click "Next"/"Continue" once values are written. default false
   submit?: boolean       // click the control that COMMITS the form. default false. wins over advance
@@ -10117,6 +10118,19 @@ interface BlueskyTrendingTopicsResults {
   cursor?: string;
 }
 
+interface BlueskySearchFeedResult {
+  uri: string;
+  name: string;
+  creator: BlueskyPostAuthor;
+  description: string | null;
+  likeCount: number;
+}
+
+interface BlueskySearchFeedsResults {
+  feeds: BlueskySearchFeedResult[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -10184,6 +10198,13 @@ interface BlueskyTrendingTopicsResults {
      * exist.
      */
     searchPosts(query: string | { query: string; sort?: "top" | "latest"; author?: string; mentions?: string; lang?: string; domain?: string; since?: string; until?: string; limit?: number; cursor?: string }): Promise<BlueskySearchPostsResults>;
+
+    /**
+     * Finds custom feeds by words (e.g. 'science', 'art'), the way the Explore tab's feed search
+     * does. Returns each feed's URI, name, creator (with handle, display name and avatar),
+     * description and like count, plus a `cursor` for the next page when more results exist.
+     */
+    searchFeeds(query: string | { query: string; limit?: number; cursor?: string }): Promise<BlueskySearchFeedsResults>;
   }
 }
 
@@ -14230,6 +14251,20 @@ interface cnnTrendingItem {
   lastPublishDate: string | null;
 }
 
+interface cnnMarketIndex {
+  name: string;
+  symbol: string;
+  value: string;
+  change: string | null;
+  changePercent: string | null;
+}
+
+interface cnnMarketsData {
+  indices: cnnMarketIndex[];
+  currencies: cnnMarketIndex[];
+  commodities: cnnMarketIndex[];
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -14275,6 +14310,12 @@ interface cnnTrendingItem {
      * content type, section, description, thumbnail and last publish date.
      */
     listTrendingTopics(): Promise<cnnTrendingItem[]>;
+
+    /**
+     * Financial and markets data from CNN Money — stock indices (S&P 500, Dow, Nasdaq), currency
+     * rates, and commodity prices with current values and change indicators.
+     */
+    getMarketsData(): Promise<cnnMarketsData>;
   }
 }
 
@@ -15324,6 +15365,13 @@ interface DellForumThread {
   postCount: number;
 }
 
+interface ListSupportCategoriesArgs {}
+
+interface DellSupportCategory {
+  name: string;
+  url: string | null;
+}
+
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -15349,6 +15397,12 @@ interface DellForumThread {
      * matching a query — returns article titles, URLs, and summaries.
      */
     searchSupport(args: SearchSupportArgs): Promise<DellSupportArticle[]>;
+
+    /**
+     * Lists the main support categories on Dell's support site (e.g., Drivers & Downloads, BIOS &
+     * Firmware, Documentation) with URLs into each category.
+     */
+    listSupportCategories(): Promise<DellSupportCategory[]>;
 
     /**
      * Search Dell community forums for threads matching a query — needs a topic or keywords (e.g.
@@ -18392,6 +18446,28 @@ interface ForbesBillionairesList {
   billionaires: ForbesBillionaire[];
 }
 
+interface GetPersonArgs {
+  /** A Forbes person slug, the path segment of forbes.com/profile/<slug>/, e.g. "elon-musk". */
+  slug: string;
+}
+
+interface ForbesPerson {
+  name: string;
+  slug: string;
+  url: string;
+  title?: string;
+  image?: string;
+  netWorth?: number;
+  rank?: number;
+  sourceOfWealth?: string;
+  age?: number;
+  residence?: string;
+  citizenship?: string;
+  maritalStatus?: string;
+  children?: number;
+  education?: string;
+}
+
   /** Search and browse business news, articles, and video content from Forbes. */
   interface Unit {
     /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
@@ -18429,6 +18505,12 @@ interface ForbesBillionairesList {
 
     /** List the current real-time billionaires ranked by net worth. */
     listBillionaires(): Promise<ForbesBillionairesList>;
+
+    /**
+     * Get one person's Forbes profile — real-time net worth, world rank, source of wealth and
+     * biographical stats — by their profile slug.
+     */
+    getPerson(args: GetPersonArgs): Promise<ForbesPerson>;
   }
 }
 
@@ -38794,6 +38876,36 @@ interface ListFeaturedGamesResponse {
   games: FeaturedGame[];
 }
 
+interface ListGamesByCategoryArgs {
+  category: string;
+  start?: number;
+  count?: number;
+}
+
+interface CategoryGamePrice {
+  currency: "USD";
+  initial: number;
+  final: number;
+  discountPercent: number;
+}
+
+interface CategoryGame {
+  appid: string;
+  name: string;
+  url: string;
+  releaseDate: string | null;
+  reviewSummary: string | null;
+  isFree: boolean;
+  price: CategoryGamePrice | null;
+  platforms: { windows: boolean; mac: boolean; linux: boolean };
+}
+
+interface ListGamesByCategoryResponse {
+  games: CategoryGame[];
+  totalCount: number;
+  start: number;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -38817,6 +38929,13 @@ interface ListFeaturedGamesResponse {
      * (Windows, Mac, or Linux), including prices, discount information, and images.
      */
     listFeaturedGames(args: ListFeaturedGamesArgs, opts?: ConnectionOption): Promise<ListFeaturedGamesResponse>;
+
+    /**
+     * Lists games in one of Steam's own genre categories (Action, Adventure, Indie, RPG, Strategy,
+     * Simulation, Racing, Sports, Casual), in the site's own order, with price, discount, platform
+     * and review-summary per game, and pagination via start/count.
+     */
+    listGamesByCategory(args: ListGamesByCategoryArgs, opts?: ConnectionOption): Promise<ListGamesByCategoryResponse>;
   }
 }
 
@@ -41554,6 +41673,26 @@ interface ListChannelVodsArgs {
   /** Max VODs to return, 1-100. Default 20. */
   limit?: number;
 }
+interface ListChannelClipsArgs {
+  /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
+  login: string;
+  /** Max clips to return, 1-100. Default 20. */
+  limit?: number;
+}
+interface TwitchClip {
+  id: string;
+  title: string;
+  createdAt: string;
+  viewCount: number;
+  durationSeconds: number;
+  /** The channel the clip was cut from. */
+  broadcasterLogin: string;
+  /** Who cut the clip. Null when Twitch no longer has a login for that account. */
+  creatorLogin: string | null;
+  /** The category being played when the clip was cut. Null when Twitch has none on file. */
+  gameName: string | null;
+  url: string;
+}
 interface SendChatMessageArgs {
   /** A Twitch channel id (not login). */
   channelId: string;
@@ -41617,6 +41756,14 @@ interface TwitchChatMessage {
      * when Twitch has no such channel. Returns one page — up to `limit`, default 20, max 100.
      */
     listChannelVods(args: ListChannelVodsArgs): Promise<TwitchVideo[]>;
+
+    /**
+     * Lists clips cut from a channel, ranked by Twitch's own default ordering: title, creation
+     * date, view count, duration, who cut it, and the category being played. No sign-in. THROWS
+     * naming the login when Twitch has no such channel. Returns one page — up to `limit`, default
+     * 20, max 100.
+     */
+    listChannelClips(args: ListChannelClipsArgs): Promise<TwitchClip[]>;
 
     /**
      * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one
@@ -42557,6 +42704,83 @@ interface VscodeDocLink {
      * Every url returned is one getDoc() can read.
      */
     listDocPages(): Promise<VscodeDocLink[]>;
+  }
+}
+
+declare namespace BowmarkProvider_vts_marketplace {
+  // ── VTS Marketplace — the unit's own declarations, verbatim ──
+interface VtsMarket {
+  id: string;          // "new_york_city" — what searchListings takes
+  name: string;        // "New York City"
+  countryCode: string;
+}
+interface VtsListing {
+  id: string;
+  name: string;               // "Partial 9th Floor, Suite 900"
+  address: string;
+  city: string | null;
+  neighborhood: string | null;
+  landlord: string | null;
+  squareFeet: number | null;
+  minSquareFeet: number | null;
+  maxSquareFeet: number | null;
+  capacity: number | null;    // people
+  leaseType: string | null;   // "direct" | "sublease"
+  condition: string | null;   // "pre-built", …
+  dateAvailable: string | null;
+  availableNow: boolean;
+  shortestLeaseTerm: string | null;
+  photo: string | null;
+  floorPlan: string | null;
+  url: string;
+}
+interface VtsSearchListingsOptions {
+  page?: number;              // 1-based, 24 listings per page
+}
+interface VtsSearchResult {
+  market: string;
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  listings: VtsListing[];
+}
+interface VtsListingAgent { name: string; company: string | null; email: string | null; phone: string | null }
+interface VtsListingDetail extends VtsListing {
+  market: string | null;
+  description: string;
+  daysOnMarket: number | null;
+  latitude: number | null;
+  longitude: number | null;
+  photos: string[];
+  agents: VtsListingAgent[];
+}
+
+  /**
+   * VTS Marketplace's public commercial real estate listings — available office, retail and
+   * industrial space for lease by market (New York, Chicago, Boston, London, …), with size,
+   * landlord, availability date, photos and listing agents.
+   */
+  interface Unit {
+    /**
+     * Every public market VTS Marketplace lists commercial space in (New York City, Chicago,
+     * Boston, Washington DC, San Francisco, Los Angeles, London) — the ids searchListings takes.
+     */
+    listMarkets(): Promise<VtsMarket[]>;
+
+    /**
+     * On-market commercial space for lease on VTS Marketplace — office, retail, industrial suites
+     * with square footage, landlord, availability date, lease type and photo. `market` is a market
+     * id or name ("chicago", "New York", "NYC"); left out, it searches every market. 24 per page.
+     * THROWS if the market is not one VTS covers.
+     */
+    searchListings(market?: string, options?: VtsSearchListingsOptions): Promise<VtsSearchResult>;
+
+    /**
+     * One VTS Marketplace listing by id or URL (from searchListings) — description, every photo,
+     * building coordinates, days on market, and the listing agents' names, brokerages, emails and
+     * phones.
+     */
+    getListing(listing: string): Promise<VtsListingDetail>;
   }
 }
 
@@ -46793,6 +47017,7 @@ interface BowmarkProviders {
   vistaprint: BowmarkProvider_vistaprint.Unit;
   voluspa: BowmarkProvider_voluspa.Unit;
   vscode: BowmarkProvider_vscode.Unit;
+  vts_marketplace: BowmarkProvider_vts_marketplace.Unit;
   walkerhughes: BowmarkProvider_walkerhughes.Unit;
   walmart: BowmarkProvider_walmart.Unit;
   waterfurnace: BowmarkProvider_waterfurnace.Unit;

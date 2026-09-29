@@ -1,5 +1,5 @@
 {
-  "version": "5bbe79e1c878f18141f71f71d52c1dfbdb02737536d4e8182a77ec552fc3a213",
+  "version": "28de508f4b96fc14e64b2877c684fa4287cb189f0e5c670ed3ee9ecf1be51661",
   "units": {
     "booking_links": {
       "defs": {
@@ -4670,6 +4670,14 @@
               "name": "open",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "strategy",
+              "schema": {
+                "k": "literal",
+                "v": "browser"
               },
               "optional": true
             },
@@ -10365,6 +10373,46 @@
             },
             "optional": false
           }
+        ],
+        "searchFeeds": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -13897,7 +13945,8 @@
             "optional": false
           }
         ],
-        "listTrendingTopics": []
+        "listTrendingTopics": [],
+        "getMarketsData": []
       }
     },
     "providers.code_claude_com": {
@@ -14664,6 +14713,7 @@
             "optional": false
           }
         ],
+        "listSupportCategories": [],
         "searchForumThreads": [
           {
             "name": "args",
@@ -17689,6 +17739,18 @@
             }
           ]
         },
+        "GetPersonArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -17759,7 +17821,17 @@
             "optional": false
           }
         ],
-        "listBillionaires": []
+        "listBillionaires": [],
+        "getPerson": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetPersonArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.ford": {
@@ -39861,6 +39933,32 @@
             }
           ]
         },
+        "ListGamesByCategoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "start",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchGamesArgs": {
           "k": "object",
           "props": [
@@ -39933,6 +40031,32 @@
             "schema": {
               "k": "ref",
               "name": "ListFeaturedGamesArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listGamesByCategory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListGamesByCategoryArgs"
             },
             "optional": false
           },
@@ -42568,6 +42692,25 @@
             }
           ]
         },
+        "ListChannelClipsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListChannelVodsArgs": {
           "k": "object",
           "props": [
@@ -42714,6 +42857,16 @@
             "schema": {
               "k": "ref",
               "name": "ListChannelVodsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listChannelClips": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListChannelClipsArgs"
             },
             "optional": false
           }
@@ -43661,6 +43814,51 @@
           }
         ],
         "listDocPages": []
+      }
+    },
+    "providers.vts_marketplace": {
+      "defs": {
+        "VtsSearchListingsOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listMarkets": [],
+        "searchListings": [
+          {
+            "name": "market",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "VtsSearchListingsOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getListing": [
+          {
+            "name": "listing",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.walkerhughes": {
