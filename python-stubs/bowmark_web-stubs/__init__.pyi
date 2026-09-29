@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 8744e70518020d015150c85f92e5492dc096bbf88d70746fe8df6c1f8b46659a
-# 67 capabilities, 494 providers, 1559 typed functions, 20 refused.
+# Manifest version: b0207da6b1bb4caf9c90b4f7d14174ae4e2eafc4113c37d2aa7ebbc0d13d3d9d
+# 67 capabilities, 494 providers, 1563 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5535,6 +5535,22 @@ class Prv_bluesky_BlueskyGetThreadResult_Out(TypedDict):
     root: Prv_bluesky_BlueskyPost_Out
     parents: list[Prv_bluesky_BlueskyPost_Out]
     replies: list[Prv_bluesky_BlueskyPost_Out]
+
+class Prv_bluesky_searchPosts_query_u1_In(TypedDict):
+    query: str
+    sort: NotRequired[Literal["top"] | Literal["latest"]]
+    author: NotRequired[str]
+    mentions: NotRequired[str]
+    lang: NotRequired[str]
+    domain: NotRequired[str]
+    since: NotRequired[str]
+    until: NotRequired[str]
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskySearchPostsResults_Out(TypedDict):
+    posts: list[Prv_bluesky_BlueskyPost_Out]
+    cursor: NotRequired[str]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -16846,6 +16862,19 @@ class Prv_nyt_games_NytTiles_Out(TypedDict):
     createdBy: str
     publishDate: str
 
+class Prv_nyt_games_CrosswordPuzzleList_Out(TypedDict):
+    puzzles: list[Prv_nyt_games_CrosswordPuzzle_Out]
+    status: str
+
+class Prv_nyt_games_CrosswordPuzzle_Out(TypedDict):
+    puzzleId: float
+    printDate: str
+    title: str
+    author: str
+    editor: str
+    formatType: str
+    publishType: str
+
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
     slug: str
@@ -19496,6 +19525,15 @@ class Prv_reuters_ReutersPressRelease_Out(TypedDict):
     url: str
     publishedAt: str | None
     image: str | None
+
+class Prv_reuters_ListPodcastsArgs_In(TypedDict):
+    query: NotRequired[str]
+
+class Prv_reuters_ReutersPodcast_Out(TypedDict):
+    title: str
+    slug: str
+    path: str
+    url: str
 
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
@@ -28576,6 +28614,13 @@ class Prv_bluesky(Protocol):
         post, an array of parent posts (if any), and an array of direct replies.
         """
 
+    async def searchPosts(self, query: str | Prv_bluesky_searchPosts_query_u1_In, /) -> Prv_bluesky_BlueskySearchPostsResults_Out:
+        """Searches all public posts by words, the way the Search tab's Posts list does — Top or
+        Latest sort, and optional author, mentions, language, domain and date-range filters.
+        Returns each match's text, author, embed and counts, plus a `cursor` for the next page
+        when more results exist.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -31490,6 +31535,12 @@ class Prv_fomo(Protocol):
         """Returns the list of tokens fomo allows trading on — the same set as getTokenAllowlist
         but with full token details: name, symbol, decimals, image URL and socials. Takes no
         arguments.
+        """
+
+    async def searchTokens(self, searchTerm: str, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenRow_Out]:
+        """Searches tokens by name, symbol or contract address and returns matching rows with their
+        market numbers — the entry point to every other token read, since an (address,
+        networkId) pair is not knowable ahead of a search.
         """
 
 class Prv_forbes(Protocol):
@@ -36664,6 +36715,12 @@ class Prv_nyt_games(Protocol):
         only — there is no dated archive, so this takes no arguments.
         """
 
+    async def listCrosswordPuzzles(self, /) -> Prv_nyt_games_CrosswordPuzzleList_Out:
+        """Lists all available crossword puzzles from NYT, including daily, mini, and midi, ordered
+        by publication date (newest first). Each puzzle includes its ID, author, editor, title,
+        and publication date.
+        """
+
 class Prv_nytimes(Protocol):
     """Reads news articles, sections, search results, and trending topics from The New York
     Times.
@@ -38391,6 +38448,12 @@ class Prv_reuters(Protocol):
     async def listPressReleases(self, args: Prv_reuters_ListPressReleasesArgs_In | None = None, /) -> list[Prv_reuters_ReutersPressRelease_Out]:
         """Press releases distributed on reuters.com, newest first — title, url, published time and
         lead image — from the site's own press-release sitemap.
+        """
+
+    async def listPodcasts(self, args: Prv_reuters_ListPodcastsArgs_In | None = None, /) -> list[Prv_reuters_ReutersPodcast_Out]:
+        """The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On Assignment,
+        The Big View, Viewsroom and the rest — each with its path, from the site's own topic
+        sitemap. The finder for listPodcastEpisodes.
         """
 
 class Prv_revisionskincare(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 8744e70518020d015150c85f92e5492dc096bbf88d70746fe8df6c1f8b46659a
-// 67 capabilities, 494 providers, 1577 typed functions, 20 refused.
+// Manifest version: b0207da6b1bb4caf9c90b4f7d14174ae4e2eafc4113c37d2aa7ebbc0d13d3d9d
+// 67 capabilities, 494 providers, 1581 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9965,6 +9965,11 @@ interface BlueskyGetThreadResult {
   replies: BlueskyPost[];
 }
 
+interface BlueskySearchPostsResults {
+  posts: BlueskyPost[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -10018,6 +10023,14 @@ interface BlueskyGetThreadResult {
      * array of parent posts (if any), and an array of direct replies.
      */
     getThread(post: string): Promise<BlueskyGetThreadResult>;
+
+    /**
+     * Searches all public posts by words, the way the Search tab's Posts list does — Top or Latest
+     * sort, and optional author, mentions, language, domain and date-range filters. Returns each
+     * match's text, author, embed and counts, plus a `cursor` for the next page when more results
+     * exist.
+     */
+    searchPosts(query: string | { query: string; sort?: "top" | "latest"; author?: string; mentions?: string; lang?: string; domain?: string; since?: string; until?: string; limit?: number; cursor?: string }): Promise<BlueskySearchPostsResults>;
   }
 }
 
@@ -18094,6 +18107,13 @@ interface FomoPage<T> {
      * with full token details: name, symbol, decimals, image URL and socials. Takes no arguments.
      */
     getTokenAllowlistDetailed(opts?: ConnectionOption): Promise<FomoToken[]>;
+
+    /**
+     * Searches tokens by name, symbol or contract address and returns matching rows with their
+     * market numbers — the entry point to every other token read, since an (address, networkId)
+     * pair is not knowable ahead of a search.
+     */
+    searchTokens(searchTerm: string, opts?: ConnectionOption): Promise<FomoTokenRow[]>;
   }
 }
 
@@ -31694,6 +31714,8 @@ interface GetPipsArgs { date?: string; }
 interface SudokuDifficulty { id: number; dayOfWeek: string; difficulty: "Easy" | "Medium" | "Hard"; printDate: string; puzzle: number[]; solution: number[]; hints: number[]; }
 interface NytSudoku { displayDate: string; easy: SudokuDifficulty; medium: SudokuDifficulty; hard: SudokuDifficulty; }
 interface NytTiles { displayName: string; createdBy: string; publishDate: string; }
+interface CrosswordPuzzle { puzzleId: number; printDate: string; title: string; author: string; editor: string; formatType: string; publishType: string; }
+interface CrosswordPuzzleList { puzzles: CrosswordPuzzle[]; status: string; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -31770,6 +31792,13 @@ interface NytTiles { displayName: string; createdBy: string; publishDate: string
      * — there is no dated archive, so this takes no arguments.
      */
     getTiles(): Promise<NytTiles>;
+
+    /**
+     * Lists all available crossword puzzles from NYT, including daily, mini, and midi, ordered by
+     * publication date (newest first). Each puzzle includes its ID, author, editor, title, and
+     * publication date.
+     */
+    listCrosswordPuzzles(): Promise<CrosswordPuzzleList>;
   }
 }
 
@@ -35921,6 +35950,15 @@ interface ReutersPressRelease {
 interface ListPressReleasesArgs {
   limit?: number;              // 1-500, default 50
 }
+interface ReutersPodcast {
+  title: string;               // title-cased off the show's own slug — the sitemap carries no title field
+  slug: string;                // pass to listPodcastEpisodes
+  path: string;                // /podcasts/<slug>/
+  url: string;
+}
+interface ListPodcastsArgs {
+  query?: string;               // every word must appear in the slug or title
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -35980,6 +36018,13 @@ interface ListPressReleasesArgs {
      * lead image — from the site's own press-release sitemap.
      */
     listPressReleases(args?: ListPressReleasesArgs): Promise<ReutersPressRelease[]>;
+
+    /**
+     * The Reuters podcast shows — Reuters World News, Morning Bid, Econ World, On Assignment, The
+     * Big View, Viewsroom and the rest — each with its path, from the site's own topic sitemap.
+     * The finder for listPodcastEpisodes.
+     */
+    listPodcasts(args?: ListPodcastsArgs): Promise<ReutersPodcast[]>;
   }
 }
 

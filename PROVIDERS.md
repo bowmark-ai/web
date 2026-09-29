@@ -1628,7 +1628,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getRelatedRecipes` | cooking.nytimes.com | Reads the related-recipe carousel the site itself shows on a recipe page. | ⚪ |
 | `nyt_cooking.getSavedRecipes` | cooking.nytimes.com | Lists the signed-in reader's saved recipes (their Recipe Box). Needs the CALLER's own… | ⚪ |
 | `nyt_cooking.getSeasonalGuide` | cooking.nytimes.com | Reads a seasonal guide page (e.g. "/thanksgiving", "/christmas") and its featured… | ⚪ |
-| `nyt_cooking.getTopic` | cooking.nytimes.com | Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes. | ⚪ |
+| `nyt_cooking.getTopic` | cooking.nytimes.com | Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes. | 🟢 |
 | `nyt_cooking.getTrendingArticles` | cooking.nytimes.com | Lists the trending articles the site surfaces alongside recipes. | ⚪ |
 | `nyt_cooking.listFeaturedCollections` | cooking.nytimes.com | Lists the collections currently featured on the site's own homepage — the entry point… | 🟢 |
 | `nyt_cooking.listRecipeBoxFolders` | cooking.nytimes.com | Lists the signed-in reader's own Recipe Box folders. | ⚪ |
@@ -2284,7 +2284,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | ⚪ |
 | `twitch.getSubscriptionStatus` | twitch.tv | Checks the signed-in user's subscription status to a specific channel (tier, renews… | ⚪ |
 | `twitch.getVideo` | twitch.tv | Reads one public Twitch video by id or twitch.tv/videos link: title, length in… | 🟢 |
-| `twitch.listCategories` | twitch.tv | Lists Twitch games/categories by viewership: name, box art, viewer count. | ⚪ |
+| `twitch.listCategories` | twitch.tv | Lists Twitch games/categories, ranked by current live viewership: name, box art URL… | 🟢 |
 | `twitch.listChannelClips` | twitch.tv | Lists clips from a channel: title, creator, creation date, view count. | ⚪ |
 | `twitch.listChannelVods` | twitch.tv | Lists a channel's past broadcasts/VODs: title, creation date, duration, view count… | ⚪ |
 | `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟢 |

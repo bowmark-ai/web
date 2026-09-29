@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 8744e70518020d015150c85f92e5492dc096bbf88d70746fe8df6c1f8b46659a
-// 1559 checked, 20 unchecked.
+// Manifest version: b0207da6b1bb4caf9c90b4f7d14174ae4e2eafc4113c37d2aa7ebbc0d13d3d9d
+// 1563 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "8744e70518020d015150c85f92e5492dc096bbf88d70746fe8df6c1f8b46659a",
+  "version": "b0207da6b1bb4caf9c90b4f7d14174ae4e2eafc4113c37d2aa7ebbc0d13d3d9d",
   "units": {
     "booking_links": {
       "defs": {
@@ -10027,6 +10027,105 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "searchPosts": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "sort",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "top"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "latest"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "author",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "mentions",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "lang",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "domain",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "since",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "until",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -17215,6 +17314,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getTokenAllowlistDetailed": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchTokens": [
+          {
+            "name": "searchTerm",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -29105,7 +29229,8 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getSudoku": [],
-        "getTiles": []
+        "getTiles": [],
+        "listCrosswordPuzzles": []
       }
     },
     "providers.nytimes": {
@@ -36337,6 +36462,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListPodcastsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListPressReleasesArgs": {
           "k": "object",
           "props": [
@@ -36458,6 +36595,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListPressReleasesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listPodcasts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPodcastsArgs"
             },
             "optional": true
           }
