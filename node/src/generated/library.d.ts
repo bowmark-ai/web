@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b67f73eb3fa015d212316b8bbdead4f25d1bd99b3ad485cd91a0fe81c4a93804
-// 67 capabilities, 494 providers, 1588 typed functions, 20 refused.
+// Manifest version: 55a47575c4a665cb99198239fb59d175e430e0cc6f814c7ed85f9624de05b594
+// 67 capabilities, 494 providers, 1590 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -235,6 +235,7 @@ interface StartBrowserAgentOptions {
   maxCostUsd?: number;      // spend ceiling per turn, in the dollars YOU are charged; default 2, max 25
   proxyCountry?: string;    // e.g. "us"
   timeoutMs?: number;
+  outputSchema?: Record<string, unknown>; // JSON Schema — result validated against this if provided
 }
 interface StartBrowserAgentResult {
   id: string;               // keep this: status/send/stop take it
@@ -2701,6 +2702,12 @@ interface PersonalizationCheck {
 
 declare namespace BowmarkCapability_products {
   // ── Check a product page's price and stock availability — the unit's own declarations, verbatim ──
+interface ProductSearchResult {
+  results: { store: "walmart" | "target" | "bestbuy" | "amazon"; title: string;
+             price: number | null; wasPrice: number | null; url: string | null;
+             inStock: boolean; rating: number | null }[]  // rating: amazon rows only
+  warnings: string[]   // names any store that did not answer
+}
 interface ProductAvailability {
   url: string
   requestedUrl: string
@@ -2719,6 +2726,17 @@ interface ProductAvailability {
    * own schema.org markup rather than guessing from the DOM.
    */
   interface Unit {
+    /**
+     * Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and
+     * returns one price-sorted list of offers — the same fan-out as `bowmark.retail.search`,
+     * reachable under the name callers guess first. Pass `site` to search one store only — `site:
+     * 'amazon'` searches Amazon, which the fan-out does not cover. `limit` caps the rows. The
+     * answer is `{ results, warnings }`, not a bare array. Rows are each store's own keyword
+     * results, so filter on `title` before reading a price off the top row. `warnings` names any
+     * store that did not answer.
+     */
+    search(args: { query: string; site?: 'walmart' | 'target' | 'bestbuy' | 'amazon'; limit?: number }): Promise<ProductSearchResult>;
+
     /**
      * Reads one product page and returns its price and stock status, from the page's own
      * schema.org Product/Offer markup — no browser, no per-site adapter. Reports a failure or an
@@ -18231,6 +18249,16 @@ interface ForbesContributorDetail {
   recentArticles: ForbesArticle[];
 }
 
+interface ForbesBillionaire {
+  name: string;
+  rank?: number;
+  netWorth?: number;
+}
+
+interface ForbesBillionairesList {
+  billionaires: ForbesBillionaire[];
+}
+
   /** Search and browse business news, articles, and video content from Forbes. */
   interface Unit {
     /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
@@ -18265,6 +18293,9 @@ interface ForbesContributorDetail {
      * slug.
      */
     getContributor(args: GetContributorArgs): Promise<ForbesContributorDetail>;
+
+    /** List the current real-time billionaires ranked by net worth. */
+    listBillionaires(): Promise<ForbesBillionairesList>;
   }
 }
 

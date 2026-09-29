@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b67f73eb3fa015d212316b8bbdead4f25d1bd99b3ad485cd91a0fe81c4a93804
-# 67 capabilities, 494 providers, 1570 typed functions, 20 refused.
+# Manifest version: 55a47575c4a665cb99198239fb59d175e430e0cc6f814c7ed85f9624de05b594
+# 67 capabilities, 494 providers, 1572 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -346,6 +346,7 @@ class Cap_browser_agent_StartBrowserAgentOptions_In(TypedDict):
     maxCostUsd: NotRequired[float]
     proxyCountry: NotRequired[str]
     timeoutMs: NotRequired[float]
+    outputSchema: NotRequired[Mapping[str, Any]]
 
 class Cap_browser_agent_StartBrowserAgentResult_Out(TypedDict):
     id: str
@@ -1575,6 +1576,24 @@ class Cap_pricing_PersonaRead_Out(TypedDict):
 class Cap_pricing_PersonaRead_Out_price_u0_Out(TypedDict):
     amount: float
     currency: str
+
+class Cap_products_search_args_In(TypedDict):
+    query: str
+    site: NotRequired[Literal["walmart"] | Literal["target"] | Literal["bestbuy"] | Literal["amazon"]]
+    limit: NotRequired[float]
+
+class Cap_products_ProductSearchResult_Out(TypedDict):
+    results: list[Cap_products_ProductSearchResult_Out_results_item_Out]
+    warnings: list[str]
+
+class Cap_products_ProductSearchResult_Out_results_item_Out(TypedDict):
+    store: Literal["walmart"] | Literal["target"] | Literal["bestbuy"] | Literal["amazon"]
+    title: str
+    price: float | None
+    wasPrice: float | None
+    url: str | None
+    inStock: bool
+    rating: float | None
 
 class Cap_products_ProductAvailability_Out(TypedDict):
     url: str
@@ -10072,6 +10091,14 @@ class Prv_forbes_ForbesContributorDetail_Out(TypedDict):
     url: str
     image: NotRequired[str]
     recentArticles: list[Prv_forbes_ForbesArticle_Out]
+
+class Prv_forbes_ForbesBillionairesList_Out(TypedDict):
+    billionaires: list[Prv_forbes_ForbesBillionaire_Out]
+
+class Prv_forbes_ForbesBillionaire_Out(TypedDict):
+    name: str
+    rank: NotRequired[float]
+    netWorth: NotRequired[float]
 
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
@@ -25874,6 +25901,16 @@ class Cap_products(Protocol):
     page's own schema.org markup rather than guessing from the DOM.
     """
 
+    async def search(self, args: Cap_products_search_args_In, /) -> Cap_products_ProductSearchResult_Out:
+        """Searches for a product by NAME (no url needed) across Walmart, Target and Best Buy and
+        returns one price-sorted list of offers — the same fan-out as `bowmark.retail.search`,
+        reachable under the name callers guess first. Pass `site` to search one store only —
+        `site: 'amazon'` searches Amazon, which the fan-out does not cover. `limit` caps the
+        rows. The answer is `{ results, warnings }`, not a bare array. Rows are each store's own
+        keyword results, so filter on `title` before reading a price off the top row. `warnings`
+        names any store that did not answer.
+        """
+
     async def getAvailability(self, url: str, /) -> Cap_products_ProductAvailability_Out:
         """Reads one product page and returns its price and stock status, from the page's own
         schema.org Product/Offer markup — no browser, no per-site adapter. Reports a failure or
@@ -31647,6 +31684,9 @@ class Prv_forbes(Protocol):
         """Read one Forbes contributor's full profile (bio, image, title) and their recent articles
         by slug.
         """
+
+    async def listBillionaires(self, /) -> Prv_forbes_ForbesBillionairesList_Out:
+        """List the current real-time billionaires ranked by net worth."""
 
 class Prv_ford(Protocol):
     """Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by

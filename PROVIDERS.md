@@ -1336,7 +1336,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `jasmine_dilucci.getApplicationFormSchema` | jasminedilucci.com | Returns the structure of the application funnel's DQ (disqualification) step: field… | 🟢 |
 | `jcrew.addToCart` | jcrew.com | Adds a chosen J.Crew variant to a shopping bag. | ⚪ |
 | `jcrew.browseCategory` | jcrew.com | Lists the products in one J.Crew category the way the site's own category pages do —… | 🟢 |
-| `jcrew.checkVariantStock` | jcrew.com | Answers whether one specific colour and size of a J.Crew style is buyable right now —… | 🟢 |
+| `jcrew.checkVariantStock` | jcrew.com | Answers whether one specific colour and size of a J.Crew style is buyable right now —… | 🟡 |
 | `jcrew.findStores` | jcrew.com | Finds physical J.Crew stores near a point the way the site's own store locator does —… | 🟢 |
 | `jcrew.getCategory` | jcrew.com | Reads one J.Crew category by id — its display name, its parent and the full path back… | 🟢 |
 | `jcrew.getProduct` | jcrew.com | Reads one J.Crew product in full the way its own product detail page does — given the… | 🟡 |

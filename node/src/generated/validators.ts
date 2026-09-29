@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b67f73eb3fa015d212316b8bbdead4f25d1bd99b3ad485cd91a0fe81c4a93804
-// 1570 checked, 20 unchecked.
+// Manifest version: 55a47575c4a665cb99198239fb59d175e430e0cc6f814c7ed85f9624de05b594
+// 1572 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b67f73eb3fa015d212316b8bbdead4f25d1bd99b3ad485cd91a0fe81c4a93804",
+  "version": "55a47575c4a665cb99198239fb59d175e430e0cc6f814c7ed85f9624de05b594",
   "units": {
     "booking_links": {
       "defs": {
@@ -272,6 +272,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "timeoutMs",
               "schema": {
                 "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "outputSchema",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "any"
+                }
               },
               "optional": true
             }
@@ -2979,6 +2989,56 @@ export const VALIDATORS: ValidatorTable = {
     "products": {
       "defs": {},
       "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "site",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "walmart"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "target"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "bestbuy"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "amazon"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "getAvailability": [
           {
             "name": "url",
@@ -17453,7 +17513,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listBillionaires": []
       }
     },
     "providers.ford": {
