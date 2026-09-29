@@ -2508,7 +2508,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟡 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟡 |
-| `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | ⚪ |
+| `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | 🟢 |
 | `ycombinator.getArticle` | ycombinator.com | Returns one YC Startup Library article — its title, author, description, markdown… | 🟢 |
 | `ycombinator.getBlogPost` | ycombinator.com | Returns one YC blog post — title, author, publish date, and the flattened body text in… | 🟢 |
 | `ycombinator.search` | ycombinator.com | Full-text searches the YC Startup Library (application and interview guidance… | 🟡 |
@@ -2529,7 +2529,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.getPlaylist` | youtube.com | A playlist's own facts: title, description, the channel that owns it, how many videos… | 🟢 |
 | `youtube.getTranscript` | youtube.com | Returns a YouTube video's own caption transcript — one row per caption line, each… | 🟢 |
 | `youtube.getVideo` | youtube.com | Everything the watch page says about one video without playing it: title, channel name… | 🟢 |
-| `youtube.likeVideo` | youtube.com | Like or dislike a video as the signed-in account, or clear the rating. | ⚪ |
+| `youtube.likeVideo` | youtube.com | Like or dislike a video as the signed-in account, or clear the rating. | 🟢 |
 | `youtube.listCaptionTracks` | youtube.com | Which languages a video's captions are available in, whether each was written by a… | 🟢 |
 | `youtube.listChannelLiveStreams` | youtube.com | A channel's Live tab — the streams it has run, upcoming and past, with their scheduled… | 🟢 |
 | `youtube.listChannelPlaylists` | youtube.com | The playlists a channel has published, each with its id, title, video count and… | 🟢 |

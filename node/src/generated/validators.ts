@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: b0207da6b1bb4caf9c90b4f7d14174ae4e2eafc4113c37d2aa7ebbc0d13d3d9d
-// 1563 checked, 20 unchecked.
+// Manifest version: 23881eb8d8c21a6aaeae932bda21ae1eebaf9fab67e3d8de00250ed24f5aefb6
+// 1565 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "b0207da6b1bb4caf9c90b4f7d14174ae4e2eafc4113c37d2aa7ebbc0d13d3d9d",
+  "version": "23881eb8d8c21a6aaeae932bda21ae1eebaf9fab67e3d8de00250ed24f5aefb6",
   "units": {
     "booking_links": {
       "defs": {
@@ -28948,6 +28948,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NytCookingGetTopicArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingSearchArgs": {
           "k": "object",
           "props": [
@@ -29023,7 +29035,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listFeaturedCollections": []
+        "listFeaturedCollections": [],
+        "getTopic": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingGetTopicArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.nyt_games": {
@@ -42108,6 +42130,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListCategoriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchChannelsArgs": {
           "k": "object",
           "props": [
@@ -42217,6 +42251,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchVideosArgs"
             },
             "optional": false
+          }
+        ],
+        "listCategories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCategoriesArgs"
+            },
+            "optional": true
           }
         ],
         "createHighlight": [

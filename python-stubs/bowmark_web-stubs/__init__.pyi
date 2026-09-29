@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: b0207da6b1bb4caf9c90b4f7d14174ae4e2eafc4113c37d2aa7ebbc0d13d3d9d
-# 67 capabilities, 494 providers, 1563 typed functions, 20 refused.
+# Manifest version: 23881eb8d8c21a6aaeae932bda21ae1eebaf9fab67e3d8de00250ed24f5aefb6
+# 67 capabilities, 494 providers, 1565 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16728,6 +16728,17 @@ class Prv_nyt_cooking_NytCookingFeaturedCollection_Out(TypedDict):
     url: str
     totalCollectionSize: float
 
+class Prv_nyt_cooking_NytCookingGetTopicArgs_In(TypedDict):
+    slug: str
+
+class Prv_nyt_cooking_NytCookingTopic_Out(TypedDict):
+    slug: str
+    title: str
+    recipes: list[Any]
+    totalRecipes: float
+    page: float
+    warnings: NotRequired[list[str]]
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -22452,6 +22463,15 @@ class Prv_twitch_TwitchVideoSearchResult_Out(TypedDict):
     creatorLogin: str
     creatorDisplayName: str
 
+class Prv_twitch_ListCategoriesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_twitch_TwitchCategory_Out(TypedDict):
+    id: str
+    name: str
+    boxArtUrlTemplate: str
+    viewerCount: float
+
 class Prv_twitch_CreateHighlightArgs_In(TypedDict):
     vodId: NotRequired[str]
     startSeconds: float
@@ -24868,41 +24888,45 @@ class Cap_browser_agent(Protocol):
     """**WHAT IT IS: a one-shot live browser for ONE task on a site nothing in the library
     covers** — it reads or operates a page in a few minutes and then it is done. It cannot
     watch, poll on a schedule or run unattended: a login inside it needs your user present
-    every time, and one run is killed at 120s. A standing watch or a daily job is NOT a fit
-    — say so and point at what would be (a typed provider with stored secrets). **WHEN it
-    fits** (a lookup came back with nothing, or a function failed on the site): it is billed
-    per turn to your user's account. If your user asked you to get the thing done, `start({
-    task })` and in the same reply tell them it is running, that it costs money, and give
-    them the `watchUrl`. A login only they hold does not stop it — they sign in themselves
-    on the live browser through that link, no saved credentials needed. **Either way, never
-    leave it unmentioned:** if you hold off for any reason, your reply must name this option
-    — what it would do, that it is billed, and that they can sign in on the live page —
-    rather than ending on a manual workaround alone. After `start` in one run, call
-    `status(id)` from LATER runs. When `status` returns `needs_input`, relay `question` to
-    your user and `send` their answer. When it returns `idle`, read `result` and `stop(id)`.
-    Always `stop` a session when done — an idle browser keeps costing money. **A turn that
-    runs too long is cancelled automatically:** Bowmark itself cuts off any turn stuck past
-    a few minutes with no result and reports status `failed` (see `error` for what it was
-    last doing) rather than leaving you polling forever — the session stays open, so `send`
-    a narrower instruction or `stop` it. **One task = one independent goal. Do not bundle
-    multiple date ranges, SKUs, or queries into one task — the agent may silently reuse a
-    single search result across all of them with no warning. Start separate sessions for
-    each.** RUN-ONLY: a typed session cannot call it — start in one run and poll status from
-    later runs, never in a loop.
+    every time. A standing watch or a daily job is NOT a fit — say so and point at what
+    would be (a typed provider with stored secrets). **WHEN it fits** (a lookup came back
+    with nothing, or a function failed on the site): it is billed per turn to your user's
+    account. If your user asked you to get the thing done, `start({ task })` and in the same
+    reply tell them it is running, that it costs money, and give them the `watchUrl`. A
+    login only they hold does not stop it — they sign in themselves on the live browser
+    through that link, no saved credentials needed. **Either way, never leave it
+    unmentioned:** if you hold off for any reason, your reply must name this option — what
+    it would do, that it is billed, and that they can sign in on the live page — rather than
+    ending on a manual workaround alone. After `start` in one run, call `status(id)` from
+    LATER runs — the 120s wall-clock cap is on each `run()`, NOT on the agent, which keeps
+    working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
+    code gives up** — any client deadline shorter than that cuts off runs that were about to
+    finish. When `status` returns `needs_input`, relay `question` to your user and `send`
+    their answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop` a
+    session when done — an idle browser keeps costing money. **A turn that runs too long is
+    cancelled automatically:** Bowmark itself cuts off any turn stuck past a few minutes
+    with no result and reports status `failed` (see `error` for what it was last doing)
+    rather than leaving you polling forever — the session stays open, so `send` a narrower
+    instruction or `stop` it. **One task = one independent goal. Do not bundle multiple date
+    ranges, SKUs, or queries into one task — the agent may silently reuse a single search
+    result across all of them with no warning. Start separate sessions for each.** RUN-ONLY:
+    a typed session cannot call it — start in one run and poll status from later runs, never
+    in a loop.
     """
 
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
         """A one-shot live browser for ONE task on a site nothing in the library covers; returns
         `id` and `watchUrl` at once. Not a watcher — it cannot poll on a schedule or run
-        unattended, and one run is killed at 120s. Billed per turn: when your user asked you to
-        get the thing done, start it and in the same reply tell them it is running, that it
-        costs money, and give them `watchUrl` — a login only they hold is signed in there, on
-        the live page. If you do not start it, still name it to them with its cost; never end on
-        a manual workaround without mentioning it. **One task = one goal** — never bundle
-        multiple date ranges, SKUs or queries; the agent silently reuses results across them.
-        Then `status(id)` from later runs; on `needs_input` relay `question` and `send` the
-        answer; on `idle` read `result` and `stop(id)`. Always stop sessions when done — idle
-        browsers keep costing money. Account limit: 3 concurrent sessions.
+        unattended. Billed per turn: when your user asked you to get the thing done, start it
+        and in the same reply tell them it is running, that it costs money, and give them
+        `watchUrl` — a login only they hold is signed in there, on the live page. If you do not
+        start it, still name it to them with its cost; never end on a manual workaround without
+        mentioning it. **One task = one goal** — never bundle multiple date ranges, SKUs or
+        queries; the agent silently reuses results across them. Then `status(id)` from later
+        runs (each `run()` is capped at 120s; the agent is not — a task normally takes 1-3
+        minutes, so do not give up on it before 5); on `needs_input` relay `question` and `send`
+        the answer; on `idle` read `result` and `stop(id)`. Always stop sessions when done —
+        idle browsers keep costing money. Account limit: 3 concurrent sessions.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -36648,6 +36672,9 @@ class Prv_nyt_cooking(Protocol):
         for browsing collections without knowing one by name.
         """
 
+    async def getTopic(self, args: Prv_nyt_cooking_NytCookingGetTopicArgs_In, /) -> Prv_nyt_cooking_NytCookingTopic_Out:
+        """Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes."""
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -40302,6 +40329,13 @@ class Prv_twitch(Protocol):
         date, view count, duration. No sign-in. Returns Twitch's own single page of results
         (typically ~10) ranked by relevance. Twitch's own search offers no further paging on
         this door.
+        """
+
+    async def listCategories(self, args: Prv_twitch_ListCategoriesArgs_In | None = None, /) -> list[Prv_twitch_TwitchCategory_Out]:
+        """Lists Twitch games/categories, ranked by current live viewership (most-watched first):
+        id, name, box art URL template, and total viewer count. No sign-in. Twitch's own `games`
+        door is genuinely paged (unlike search), but this returns one page — up to `limit`,
+        default 20, max 100.
         """
 
     async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchHighlight_Out:

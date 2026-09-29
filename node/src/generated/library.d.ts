@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: b0207da6b1bb4caf9c90b4f7d14174ae4e2eafc4113c37d2aa7ebbc0d13d3d9d
-// 67 capabilities, 494 providers, 1581 typed functions, 20 refused.
+// Manifest version: 23881eb8d8c21a6aaeae932bda21ae1eebaf9fab67e3d8de00250ed24f5aefb6
+// 67 capabilities, 494 providers, 1583 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -285,38 +285,42 @@ type CallOptions = {
   /**
    * **WHAT IT IS: a one-shot live browser for ONE task on a site nothing in the library covers**
    * — it reads or operates a page in a few minutes and then it is done. It cannot watch, poll on
-   * a schedule or run unattended: a login inside it needs your user present every time, and one
-   * run is killed at 120s. A standing watch or a daily job is NOT a fit — say so and point at
-   * what would be (a typed provider with stored secrets). **WHEN it fits** (a lookup came back
-   * with nothing, or a function failed on the site): it is billed per turn to your user's
-   * account. If your user asked you to get the thing done, `start({ task })` and in the same
-   * reply tell them it is running, that it costs money, and give them the `watchUrl`. A login
-   * only they hold does not stop it — they sign in themselves on the live browser through that
-   * link, no saved credentials needed. **Either way, never leave it unmentioned:** if you hold
-   * off for any reason, your reply must name this option — what it would do, that it is billed,
-   * and that they can sign in on the live page — rather than ending on a manual workaround
-   * alone. After `start` in one run, call `status(id)` from LATER runs. When `status` returns
-   * `needs_input`, relay `question` to your user and `send` their answer. When it returns
-   * `idle`, read `result` and `stop(id)`. Always `stop` a session when done — an idle browser
-   * keeps costing money. **A turn that runs too long is cancelled automatically:** Bowmark
-   * itself cuts off any turn stuck past a few minutes with no result and reports status `failed`
-   * (see `error` for what it was last doing) rather than leaving you polling forever — the
-   * session stays open, so `send` a narrower instruction or `stop` it. **One task = one
-   * independent goal. Do not bundle multiple date ranges, SKUs, or queries into one task — the
-   * agent may silently reuse a single search result across all of them with no warning. Start
-   * separate sessions for each.** RUN-ONLY: a typed session cannot call it — start in one run
-   * and poll status from later runs, never in a loop.
+   * a schedule or run unattended: a login inside it needs your user present every time. A
+   * standing watch or a daily job is NOT a fit — say so and point at what would be (a typed
+   * provider with stored secrets). **WHEN it fits** (a lookup came back with nothing, or a
+   * function failed on the site): it is billed per turn to your user's account. If your user
+   * asked you to get the thing done, `start({ task })` and in the same reply tell them it is
+   * running, that it costs money, and give them the `watchUrl`. A login only they hold does not
+   * stop it — they sign in themselves on the live browser through that link, no saved
+   * credentials needed. **Either way, never leave it unmentioned:** if you hold off for any
+   * reason, your reply must name this option — what it would do, that it is billed, and that
+   * they can sign in on the live page — rather than ending on a manual workaround alone. After
+   * `start` in one run, call `status(id)` from LATER runs — the 120s wall-clock cap is on each
+   * `run()`, NOT on the agent, which keeps working between them. **A normal task takes 1-3
+   * minutes; give it up to 5 before your own code gives up** — any client deadline shorter than
+   * that cuts off runs that were about to finish. When `status` returns `needs_input`, relay
+   * `question` to your user and `send` their answer. When it returns `idle`, read `result` and
+   * `stop(id)`. Always `stop` a session when done — an idle browser keeps costing money. **A
+   * turn that runs too long is cancelled automatically:** Bowmark itself cuts off any turn stuck
+   * past a few minutes with no result and reports status `failed` (see `error` for what it was
+   * last doing) rather than leaving you polling forever — the session stays open, so `send` a
+   * narrower instruction or `stop` it. **One task = one independent goal. Do not bundle multiple
+   * date ranges, SKUs, or queries into one task — the agent may silently reuse a single search
+   * result across all of them with no warning. Start separate sessions for each.** RUN-ONLY: a
+   * typed session cannot call it — start in one run and poll status from later runs, never in a
+   * loop.
    */
   interface Unit {
     /**
      * A one-shot live browser for ONE task on a site nothing in the library covers; returns `id`
-     * and `watchUrl` at once. Not a watcher — it cannot poll on a schedule or run unattended, and
-     * one run is killed at 120s. Billed per turn: when your user asked you to get the thing done,
-     * start it and in the same reply tell them it is running, that it costs money, and give them
-     * `watchUrl` — a login only they hold is signed in there, on the live page. If you do not
-     * start it, still name it to them with its cost; never end on a manual workaround without
-     * mentioning it. **One task = one goal** — never bundle multiple date ranges, SKUs or queries;
-     * the agent silently reuses results across them. Then `status(id)` from later runs; on
+     * and `watchUrl` at once. Not a watcher — it cannot poll on a schedule or run unattended.
+     * Billed per turn: when your user asked you to get the thing done, start it and in the same
+     * reply tell them it is running, that it costs money, and give them `watchUrl` — a login only
+     * they hold is signed in there, on the live page. If you do not start it, still name it to
+     * them with its cost; never end on a manual workaround without mentioning it. **One task = one
+     * goal** — never bundle multiple date ranges, SKUs or queries; the agent silently reuses
+     * results across them. Then `status(id)` from later runs (each `run()` is capped at 120s; the
+     * agent is not — a task normally takes 1-3 minutes, so do not give up on it before 5); on
      * `needs_input` relay `question` and `send` the answer; on `idle` read `result` and
      * `stop(id)`. Always stop sessions when done — idle browsers keep costing money. Account
      * limit: 3 concurrent sessions.
@@ -31655,6 +31659,19 @@ interface NytCookingFeaturedCollections {
   warnings?: string[];
 }
 
+interface NytCookingGetTopicArgs {
+  slug: string;
+}
+
+interface NytCookingTopic {
+  slug: string;
+  title: string;
+  recipes: unknown[];
+  totalRecipes: number;
+  page: number;
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -31686,6 +31703,9 @@ interface NytCookingFeaturedCollections {
      * browsing collections without knowing one by name.
      */
     listFeaturedCollections(): Promise<NytCookingFeaturedCollections>;
+
+    /** Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes. */
+    getTopic(args: NytCookingGetTopicArgs): Promise<NytCookingTopic>;
   }
 }
 
@@ -41142,6 +41162,18 @@ interface TwitchVideoSearchResult {
   creatorLogin: string;
   creatorDisplayName: string;
 }
+interface ListCategoriesArgs {
+  /** Max categories to return, 1-100. Default 20. */
+  limit?: number;
+}
+interface TwitchCategory {
+  id: string;
+  name: string;
+  /** A URL template — substitute "{width}x{height}" (e.g. "285x380") to get a real image. */
+  boxArtUrlTemplate: string;
+  /** Total viewers across all live streams in this category right now. */
+  viewerCount: number;
+}
 interface CreateHighlightArgs {
   /** The broadcast to cut from — an id or a twitch.tv/videos/<id> link. Omit it
    * for the signed-in channel's NEWEST archive, which during a broadcast is the
@@ -41264,6 +41296,14 @@ interface TwitchChatMessage {
      * door.
      */
     searchVideos(args: SearchVideosArgs): Promise<TwitchVideoSearchResult[]>;
+
+    /**
+     * Lists Twitch games/categories, ranked by current live viewership (most-watched first): id,
+     * name, box art URL template, and total viewer count. No sign-in. Twitch's own `games` door is
+     * genuinely paged (unlike search), but this returns one page — up to `limit`, default 20, max
+     * 100.
+     */
+    listCategories(args?: ListCategoriesArgs): Promise<TwitchCategory[]>;
 
     /**
      * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one
