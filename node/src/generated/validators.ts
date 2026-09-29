@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 92b13a9f457d20ac376f2e1affb65e924712357e965bb22fad8a5a22524c3b78
-// 1555 checked, 20 unchecked.
+// Manifest version: e7cbb03683d83c7eb435f6cbd584c7c6d6015e1e5dee36c768ff464c9418b459
+// 1558 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "92b13a9f457d20ac376f2e1affb65e924712357e965bb22fad8a5a22524c3b78",
+  "version": "e7cbb03683d83c7eb435f6cbd584c7c6d6015e1e5dee36c768ff464c9418b459",
   "units": {
     "booking_links": {
       "defs": {
@@ -29189,6 +29189,46 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getArticleComments": [
+          {
+            "name": "path",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "sort",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "literal",
+                  "v": "newest"
+                },
+                {
+                  "k": "literal",
+                  "v": "oldest"
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -37616,6 +37656,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listMyProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -45850,6 +45908,40 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listSubscriptions": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "subscribeToChannel": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "channel",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {

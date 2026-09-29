@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 92b13a9f457d20ac376f2e1affb65e924712357e965bb22fad8a5a22524c3b78
-# 67 capabilities, 494 providers, 1555 typed functions, 20 refused.
+# Manifest version: e7cbb03683d83c7eb435f6cbd584c7c6d6015e1e5dee36c768ff464c9418b459
+# 67 capabilities, 494 providers, 1558 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -16898,6 +16898,22 @@ class Prv_nytimes_NytimesSearchResult_Out(TypedDict):
 class Prv_nytimes_NytimesSearchResult_Out_bylines_item_Out(TypedDict):
     name: str
 
+class Prv_nytimes_NytimesArticleComments_Out(TypedDict):
+    totalCount: float
+    commentsEnabled: bool
+    comments: list[Prv_nytimes_NytimesComment_Out]
+
+class Prv_nytimes_NytimesComment_Out(TypedDict):
+    id: str
+    author: str
+    location: NotRequired[str]
+    body: str
+    createdAt: str
+    recommendations: float
+    replyCount: float
+    editorsSelection: bool
+    parentId: NotRequired[str]
+
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
     {
@@ -20026,6 +20042,12 @@ class Prv_samsung_GetOrderStatusResponse_Out(TypedDict):
     order: Prv_samsung_SamsungOrderStatus_Out
 
 class Prv_samsung_SamsungOrderStatus_Out(TypedDict):
+    pass
+
+class Prv_samsung_ListMyProductsResponse_Out(TypedDict):
+    products: list[Prv_samsung_SamsungProduct_Out]
+
+class Prv_samsung_SamsungProduct_Out(TypedDict):
     pass
 
 class Prv_scentbird_ScentbirdCatalogueResult_Out(TypedDict):
@@ -24583,6 +24605,13 @@ class Prv_youtube_YoutubePlaylistEdit_Out(TypedDict):
     playlistId: str
     added: list[str]
     url: str
+
+class Prv_youtube_subscribeToChannel_input_In(TypedDict):
+    channel: str
+
+class Prv_youtube_subscribeToChannel_return_Out(TypedDict):
+    channel: str
+    subscribed: bool
 
 class Prv_youtube_listMyVideos_input_In(TypedDict):
     limit: NotRequired[float]
@@ -36631,6 +36660,11 @@ class Prv_nytimes(Protocol):
         and metadata.
         """
 
+    async def getArticleComments(self, path: str, sort: Literal["newest"] | Literal["oldest"] | None = None, limit: float | None = None, offset: float | None = None, /) -> Prv_nytimes_NytimesArticleComments_Out:
+        """Reads an article's reader comments, newest or oldest first (the endpoint's only two real
+        orderings). Takes an article path like /2026/09/26/world/article-slug.html.
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -38644,6 +38678,12 @@ class Prv_samsung(Protocol):
         """One order's own full status and detail off the signed-in shopper's Samsung.com account —
         shipping, tracking and line-item state. Takes the order id from a row `listOrders`
         returned. Requires the CALLER's own Samsung account, same relay session as `listOrders`.
+        """
+
+    async def listMyProducts(self, opts: ConnectionOption | None = None, /) -> Prv_samsung_ListMyProductsResponse_Out:
+        """The devices a signed-in shopper has registered to their Samsung account, off their My
+        Products page. Requires the CALLER's own Samsung account, same relay session as
+        `listOrders`.
         """
 
 class Prv_scentbird(Protocol):
@@ -41546,6 +41586,14 @@ class Prv_youtube(Protocol):
         logged out. NOT paged — declared this way because the unsigned reach could not measure
         whether a very large subscription list continues, and no continuation renderer has been
         observed on this door yet.
+        """
+
+    async def subscribeToChannel(self, input: Prv_youtube_subscribeToChannel_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_subscribeToChannel_return_Out:
+        """Subscribe the signed-in account to a channel, or unsubscribe if already subscribed.
+        `channel` is a channel id (`UC…`), an `@handle`, or a channel URL. The function toggles
+        subscription state: if the account is already subscribed, calling it unsubscribes; if
+        unsubscribed, it subscribes. Returns the channel id and the new subscription state.
+        NEEDS A SIGN-IN and exists nowhere else logged out.
         """
 
     async def listMyVideos(self, input: Prv_youtube_listMyVideos_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeMyVideoPage_Out:

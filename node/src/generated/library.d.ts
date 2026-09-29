@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 92b13a9f457d20ac376f2e1affb65e924712357e965bb22fad8a5a22524c3b78
-// 67 capabilities, 494 providers, 1573 typed functions, 20 refused.
+// Manifest version: e7cbb03683d83c7eb435f6cbd584c7c6d6015e1e5dee36c768ff464c9418b459
+// 67 capabilities, 494 providers, 1576 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -31815,6 +31815,22 @@ interface NytimesSectionDetail {
   slug: string;
   articles: NytimesArticleSummary[];
 }
+interface NytimesComment {
+  id: string;
+  author: string;
+  location?: string;
+  body: string;
+  createdAt: string;
+  recommendations: number;
+  replyCount: number;
+  editorsSelection: boolean;
+  parentId?: string;
+}
+interface NytimesArticleComments {
+  totalCount: number;
+  commentsEnabled: boolean;
+  comments: NytimesComment[];
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -31844,6 +31860,12 @@ interface NytimesSectionDetail {
      * metadata.
      */
     searchArticles(query: string, limit?: number, offset?: number): Promise<NytimesSearchResult[]>;
+
+    /**
+     * Reads an article's reader comments, newest or oldest first (the endpoint's only two real
+     * orderings). Takes an article path like /2026/09/26/world/article-slug.html.
+     */
+    getArticleComments(path: string, sort?: "newest" | "oldest", limit?: number, offset?: number): Promise<NytimesArticleComments>;
   }
 }
 
@@ -36812,6 +36834,14 @@ interface GetOrderStatusResponse {
   order: SamsungOrderStatus;
 }
 
+interface SamsungProduct {
+  [key: string]: unknown; // Samsung's own registered-device shape — unmeasured against a real signed-in account; kept as the site's own JSON rather than guessed at
+}
+
+interface ListMyProductsResponse {
+  products: SamsungProduct[];
+}
+
   /**
    * Samsung's own US storefront and support site — products, prices, trade-in, warranty and
    * store lookups, plus a signed-in caller's own orders and rewards.
@@ -36871,6 +36901,13 @@ interface GetOrderStatusResponse {
      * Requires the CALLER's own Samsung account, same relay session as `listOrders`.
      */
     getOrderStatus(args: GetOrderStatusArgs, opts?: ConnectionOption): Promise<GetOrderStatusResponse>;
+
+    /**
+     * The devices a signed-in shopper has registered to their Samsung account, off their My
+     * Products page. Requires the CALLER's own Samsung account, same relay session as
+     * `listOrders`.
+     */
+    listMyProducts(opts?: ConnectionOption): Promise<ListMyProductsResponse>;
   }
 }
 
@@ -44773,6 +44810,15 @@ interface YoutubeStreamFormat {
      * this door yet.
      */
     listSubscriptions(opts?: ConnectionOption): Promise<YoutubeChannelRef[]>;
+
+    /**
+     * Subscribe the signed-in account to a channel, or unsubscribe if already subscribed.
+     * `channel` is a channel id (`UC…`), an `@handle`, or a channel URL. The function toggles
+     * subscription state: if the account is already subscribed, calling it unsubscribes; if
+     * unsubscribed, it subscribes. Returns the channel id and the new subscription state. NEEDS A
+     * SIGN-IN and exists nowhere else logged out.
+     */
+    subscribeToChannel(input: { channel: string }, opts?: ConnectionOption): Promise<{ channel: string; subscribed: boolean }>;
 
     /**
      * The videos on the signed-in account's OWN channel, newest first, as YouTube Studio lists
