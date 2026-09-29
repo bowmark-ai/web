@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fca829351b7e15aa53d89a0b392ac958073bb624535cb3b65ecc49dda0dca5bb
-# 67 capabilities, 494 providers, 1575 typed functions, 20 refused.
+# Manifest version: ddde2f4edbeb36dc96e74515247293f95f74906e84362e34d4956e2f8cd84f2a
+# 68 capabilities, 495 providers, 1579 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1922,6 +1922,28 @@ class Cap_shipping_ShippingRate_Out(TypedDict):
 class Cap_shipping_ShippingRate_Out_price_Out(TypedDict):
     amount: float
     currency: str
+
+class Cap_spreadsheet_ParseOptions_In(TypedDict):
+    delimiter: NotRequired[str]
+    header: NotRequired[bool]
+    typed: NotRequired[bool]
+
+class Cap_spreadsheet_ParseResult_Out(TypedDict):
+    delimiter: str
+    headers: list[str]
+    rows: list[Mapping[str, str | float | bool | None]]
+    rowCount: float
+    warnings: list[str]
+
+class Cap_spreadsheet_StringifyOptions_In(TypedDict):
+    delimiter: NotRequired[str]
+    columns: NotRequired[Sequence[str]]
+
+class Cap_spreadsheet_StringifyResult_Out(TypedDict):
+    text: str
+    rowCount: float
+    columns: list[str]
+    warnings: list[str]
 
 class Cap_stream_channel_ChannelSettings_Out(TypedDict):
     platform: Literal["twitch"]
@@ -5564,6 +5586,17 @@ class Prv_bluesky_BlueskyGetThreadResult_Out(TypedDict):
     root: Prv_bluesky_BlueskyPost_Out
     parents: list[Prv_bluesky_BlueskyPost_Out]
     replies: list[Prv_bluesky_BlueskyPost_Out]
+
+class Prv_bluesky_BlueskyTrendingTopicsResults_Out(TypedDict):
+    topics: list[Prv_bluesky_BlueskyTrendingTopic_Out]
+    suggested: NotRequired[list[str]]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyTrendingTopic_Out(TypedDict):
+    link: str
+    description: str
+    topic: str
+    displayName: str
 
 class Prv_bluesky_searchPosts_query_u1_In(TypedDict):
     query: str
@@ -20325,6 +20358,36 @@ class Prv_secondswing_SecondswingTradeInValue_Out(TypedDict):
     sku: str
     cashValue: float
 
+class Prv_sede_valencia_es_GetParkingTariffArgs_In(TypedDict):
+    language: NotRequired[Literal["va"] | Literal["es"]]
+
+class Prv_sede_valencia_es_SedeValenciaParkingTariff_Out(TypedDict):
+    procedureCode: str
+    procedureUrl: str
+    sections: list[Prv_sede_valencia_es_SedeValenciaParkingTariff_Out_sections_item_Out]
+    documents: list[Prv_sede_valencia_es_SedeValenciaDocument_Out]
+    tariff: Prv_sede_valencia_es_SedeValenciaTariffFingerprint_Out
+    note: str
+    checkedAt: str
+
+class Prv_sede_valencia_es_SedeValenciaParkingTariff_Out_sections_item_Out(TypedDict):
+    heading: str
+    text: str
+
+class Prv_sede_valencia_es_SedeValenciaDocument_Out(TypedDict):
+    title: str
+    url: str
+    kind: Literal["form"] | Literal["ordinance"]
+
+class Prv_sede_valencia_es_SedeValenciaTariffFingerprint_Out(TypedDict):
+    url: str
+    title: str
+    sha256: str
+    byteLength: float
+    pdfCreated: str | None
+    pdfModified: str | None
+    lastModifiedHeader: str | None
+
 class Prv_seegarsfence_CheckServiceAreaResult_Out(TypedDict):
     address: Prv_seegarsfence_SeegarsGeocodedAddress_Out
     inServiceArea: bool
@@ -24975,23 +25038,24 @@ class Cap_browser_agent(Protocol):
     """**WHAT IT IS: a one-shot live browser for ONE task on a site nothing in the library
     covers** — it reads or operates a page in a few minutes and then it is done. It cannot
     watch, poll on a schedule or run unattended: a login inside it needs your user present
-    every time. A standing watch or a daily job is NOT a fit — say so and point at what
-    would be (a typed provider with stored secrets). **WHEN it fits** (a lookup came back
-    with nothing, or a function failed on the site): it is billed per turn to your user's
-    account. If your user asked you to get the thing done, `start({ task })` and in the same
-    reply tell them it is running, that it costs money, and give them the `watchUrl`. A
-    login only they hold does not stop it — they sign in themselves on the live browser
-    through that link, no saved credentials needed. **Either way, never leave it
-    unmentioned:** if you hold off for any reason, your reply must name this option — what
-    it would do, that it is billed, and that they can sign in on the live page — rather than
-    ending on a manual workaround alone. After `start` in one run, call `status(id)` from
-    LATER runs — the 120s wall-clock cap is on each `run()`, NOT on the agent, which keeps
-    working between them. **A normal task takes 1-3 minutes; give it up to 5 before your own
-    code gives up** — any client deadline shorter than that cuts off runs that were about to
-    finish. When `status` returns `needs_input`, relay `question` to your user and `send`
-    their answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop` a
-    session when done — an idle browser keeps costing money. **A turn that runs too long is
-    cancelled automatically:** Bowmark itself cuts off any turn stuck past a few minutes
+    every session (but you can send new instructions to the same session with `send()` and
+    the login persists). A standing watch or a daily job is NOT a fit — say so and point at
+    what would be (a typed provider with stored secrets). **WHEN it fits** (a lookup came
+    back with nothing, or a function failed on the site): it is billed per turn to your
+    user's account. If your user asked you to get the thing done, `start({ task })` and in
+    the same reply tell them it is running, that it costs money, and give them the
+    `watchUrl`. A login only they hold does not stop it — they sign in themselves on the
+    live browser through that link, no saved credentials needed. **Either way, never leave
+    it unmentioned:** if you hold off for any reason, your reply must name this option —
+    what it would do, that it is billed, and that they can sign in on the live page — rather
+    than ending on a manual workaround alone. After `start` in one run, call `status(id)`
+    from LATER runs — the 120s wall-clock cap is on each `run()`, NOT on the agent, which
+    keeps working between them. **A normal task takes 1-3 minutes; give it up to 5 before
+    your own code gives up** — any client deadline shorter than that cuts off runs that were
+    about to finish. When `status` returns `needs_input`, relay `question` to your user and
+    `send` their answer. When it returns `idle`, read `result` and `stop(id)`. Always `stop`
+    a session when done — an idle browser keeps costing money. **A turn that runs too long
+    is cancelled automatically:** Bowmark itself cuts off any turn stuck past a few minutes
     with no result and reports status `failed` (see `error` for what it was last doing)
     rather than leaving you polling forever — the session stays open, so `send` a narrower
     instruction or `stop` it. **One task = one independent goal. Do not bundle multiple date
@@ -25008,12 +25072,15 @@ class Cap_browser_agent(Protocol):
         and in the same reply tell them it is running, that it costs money, and give them
         `watchUrl` — a login only they hold is signed in there, on the live page. If you do not
         start it, still name it to them with its cost; never end on a manual workaround without
-        mentioning it. **One task = one goal** — never bundle multiple date ranges, SKUs or
-        queries; the agent silently reuses results across them. Then `status(id)` from later
-        runs (each `run()` is capped at 120s; the agent is not — a task normally takes 1-3
-        minutes, so do not give up on it before 5); on `needs_input` relay `question` and `send`
-        the answer; on `idle` read `result` and `stop(id)`. Always stop sessions when done —
-        idle browsers keep costing money. Account limit: 3 concurrent sessions.
+        mentioning it. **One session = one independent goal** — never bundle multiple date
+        ranges, SKUs or queries into one session; the agent silently reuses results across them.
+        Start a separate session for each distinct query. Then `status(id)` from later runs
+        (each `run()` is capped at 120s; the agent is not — a task normally takes 1-3 minutes,
+        so do not give up on it before 5); on `needs_input` relay `question` and `send` the
+        answer; on `idle` read `result` and `stop(id)`. A login persists for the life of the
+        session, so later `send()` calls into the same session do not need re-authentication.
+        Always stop sessions when done — idle browsers keep costing money. Account limit: 3
+        concurrent sessions.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -25028,8 +25095,9 @@ class Cap_browser_agent(Protocol):
         """
 
     async def send(self, id: str, message: str, options: Cap_browser_agent_SendBrowserAgentOptions_In | None = None, /) -> Cap_browser_agent_SendBrowserAgentResult_Out:
-        """Sends the agent a follow-up in the same browser: an answer to its question, the go-ahead
-        after your user took over, or a new instruction. Runs when its current turn ends, or at
+        """Sends the agent a follow-up in the same session: an answer to its question, the go-ahead
+        after your user took over, or a new instruction for a different task. The login
+        persists, so you do not need to re-authenticate. Runs when its current turn ends, or at
         once with `interrupt: true`. Each turn is billed.
         """
 
@@ -26254,6 +26322,23 @@ class Cap_shipping(Protocol):
         answered, because that is a different fact from "no service quotes this shipment" and
         only one of them means there truly is no rate. `options.timeoutMs` sets the per-carrier
         budget (default 30000).
+        """
+
+class Cap_spreadsheet(Protocol):
+    """Turn spreadsheet text (CSV, TSV, semicolon- or pipe-separated) into row objects, or rows
+    back into a CSV — no network, no account. For a live Google Sheet use
+    providers.google_sheets.
+    """
+
+    async def parse(self, text: str, options: Cap_spreadsheet_ParseOptions_In | None = None, /) -> Cap_spreadsheet_ParseResult_Out:
+        """Parses spreadsheet text you already hold (a CSV/TSV export, a downloaded file's
+        contents) into headers and one object per row. Handles quoted cells, embedded commas and
+        newlines, a BOM, and sniffs the delimiter.
+        """
+
+    async def stringify(self, rows: Sequence[Any] | Sequence[Sequence[Any]], options: Cap_spreadsheet_StringifyOptions_In | None = None, /) -> Cap_spreadsheet_StringifyResult_Out:
+        """Writes rows (objects, or arrays of cells) out as CSV/TSV text, quoting any cell that
+        needs it — ready to save or hand to a person as a spreadsheet.
         """
 
 class Cap_stream_channel(Protocol):
@@ -28741,6 +28826,11 @@ class Prv_bluesky(Protocol):
         """A post with its whole conversation: the parents above it and the reply tree below it, as
         the post page shows it. Takes a post at:// URI or bsky.app post URL. Returns the root
         post, an array of parent posts (if any), and an array of direct replies.
+        """
+
+    async def getTrendingTopics(self, /) -> Prv_bluesky_BlueskyTrendingTopicsResults_Out:
+        """What is trending on Bluesky right now: topics and links to their search or feed pages.
+        Returns each trending topic's name, display name, description and link.
         """
 
     async def searchPosts(self, query: str | Prv_bluesky_searchPosts_query_u1_In, /) -> Prv_bluesky_BlueskySearchPostsResults_Out:
@@ -39019,6 +39109,24 @@ class Prv_secondswing(Protocol):
         selection.
         """
 
+class Prv_sede_valencia_es(Protocol):
+    """València city council's e-office. getParkingTariff reads the resident parking permit
+    (ORA zona verda / taronja distintivo de residente) procedure — renewal window,
+    eligibility, forms — and fingerprints the published parking-tax ordinance PDF (sha256 +
+    dates) so a weekly check can flag a tariff change.
+    """
+
+    async def getParkingTariff(self, args: Prv_sede_valencia_es_GetParkingTariffArgs_In | None = None, /) -> Prv_sede_valencia_es_SedeValenciaParkingTariff_Out:
+        """València resident parking permit (distintivo de residente, ORA zona verda / taronja,
+        procedure TR.AR.90): the renewal window, eligibility and linked forms from the city's
+        e-office, plus a fingerprint of the published parking-tax ordinance PDF ("Taxa per
+        estacionament de vehicles en la via pública") — sha256, size and the PDF's own dates.
+        Store tariff.sha256 and compare next week: a different value means the tariff was
+        republished. No amounts are parsed and no live price or slot availability is returned
+        (those need a Cl@ve login). `language: "es"` fingerprints the Castilian PDF instead of
+        the Valencian one.
+        """
+
 class Prv_seegarsfence(Protocol):
     """Fence/gate installer (Carolinas). checkServiceArea is live — geocodes an address and
     reports whether it's inside Seegars' service area, plus the branch that would handle it.
@@ -42393,6 +42501,7 @@ class BowmarkProviders(Protocol):
     seakeeper: Prv_seakeeper
     sears: Prv_sears
     secondswing: Prv_secondswing
+    sede_valencia_es: Prv_sede_valencia_es
     seegarsfence: Prv_seegarsfence
     selectblinds: Prv_selectblinds
     sellcell: Prv_sellcell
@@ -42546,6 +42655,7 @@ class Bowmark(Protocol):
     search: Cap_search
     sheds: Cap_sheds
     shipping: Cap_shipping
+    spreadsheet: Cap_spreadsheet
     stream_channel: Cap_stream_channel
     stream_highlights: Cap_stream_highlights
     tariff: Cap_tariff

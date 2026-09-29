@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fca829351b7e15aa53d89a0b392ac958073bb624535cb3b65ecc49dda0dca5bb
-// 1575 checked, 20 unchecked.
+// Manifest version: ddde2f4edbeb36dc96e74515247293f95f74906e84362e34d4956e2f8cd84f2a
+// 1579 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fca829351b7e15aa53d89a0b392ac958073bb624535cb3b65ecc49dda0dca5bb",
+  "version": "ddde2f4edbeb36dc96e74515247293f95f74906e84362e34d4956e2f8cd84f2a",
   "units": {
     "booking_links": {
       "defs": {
@@ -3715,6 +3715,111 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "spreadsheet": {
+      "defs": {
+        "ParseOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "delimiter",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "header",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "typed",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "StringifyOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "delimiter",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "columns",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "parse": [
+          {
+            "name": "text",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ParseOptions"
+            },
+            "optional": true
+          }
+        ],
+        "stringify": [
+          {
+            "name": "rows",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "any"
+                  }
+                },
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "array",
+                    "of": {
+                      "k": "any"
+                    }
+                  }
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "StringifyOptions"
             },
             "optional": true
           }
@@ -10097,6 +10202,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getTrendingTopics": [],
         "searchPosts": [
           {
             "name": "query",
@@ -38273,6 +38379,44 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SecondswingTradeInArgs"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.sede_valencia_es": {
+      "defs": {
+        "GetParkingTariffArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "language",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "va"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "es"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getParkingTariff": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetParkingTariffArgs"
+            },
+            "optional": true
           }
         ]
       }

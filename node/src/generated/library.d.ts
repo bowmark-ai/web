@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fca829351b7e15aa53d89a0b392ac958073bb624535cb3b65ecc49dda0dca5bb
-// 67 capabilities, 494 providers, 1593 typed functions, 20 refused.
+// Manifest version: ddde2f4edbeb36dc96e74515247293f95f74906e84362e34d4956e2f8cd84f2a
+// 68 capabilities, 495 providers, 1597 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -286,7 +286,8 @@ type CallOptions = {
   /**
    * **WHAT IT IS: a one-shot live browser for ONE task on a site nothing in the library covers**
    * — it reads or operates a page in a few minutes and then it is done. It cannot watch, poll on
-   * a schedule or run unattended: a login inside it needs your user present every time. A
+   * a schedule or run unattended: a login inside it needs your user present every session (but
+   * you can send new instructions to the same session with `send()` and the login persists). A
    * standing watch or a daily job is NOT a fit — say so and point at what would be (a typed
    * provider with stored secrets). **WHEN it fits** (a lookup came back with nothing, or a
    * function failed on the site): it is billed per turn to your user's account. If your user
@@ -318,13 +319,15 @@ type CallOptions = {
      * Billed per turn: when your user asked you to get the thing done, start it and in the same
      * reply tell them it is running, that it costs money, and give them `watchUrl` — a login only
      * they hold is signed in there, on the live page. If you do not start it, still name it to
-     * them with its cost; never end on a manual workaround without mentioning it. **One task = one
-     * goal** — never bundle multiple date ranges, SKUs or queries; the agent silently reuses
-     * results across them. Then `status(id)` from later runs (each `run()` is capped at 120s; the
-     * agent is not — a task normally takes 1-3 minutes, so do not give up on it before 5); on
+     * them with its cost; never end on a manual workaround without mentioning it. **One session =
+     * one independent goal** — never bundle multiple date ranges, SKUs or queries into one
+     * session; the agent silently reuses results across them. Start a separate session for each
+     * distinct query. Then `status(id)` from later runs (each `run()` is capped at 120s; the agent
+     * is not — a task normally takes 1-3 minutes, so do not give up on it before 5); on
      * `needs_input` relay `question` and `send` the answer; on `idle` read `result` and
-     * `stop(id)`. Always stop sessions when done — idle browsers keep costing money. Account
-     * limit: 3 concurrent sessions.
+     * `stop(id)`. A login persists for the life of the session, so later `send()` calls into the
+     * same session do not need re-authentication. Always stop sessions when done — idle browsers
+     * keep costing money. Account limit: 3 concurrent sessions.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -341,9 +344,10 @@ type CallOptions = {
     status(id: string, options?: BrowserAgentStatusOptions): Promise<BrowserAgentStatusResult>;
 
     /**
-     * Sends the agent a follow-up in the same browser: an answer to its question, the go-ahead
-     * after your user took over, or a new instruction. Runs when its current turn ends, or at once
-     * with `interrupt: true`. Each turn is billed.
+     * Sends the agent a follow-up in the same session: an answer to its question, the go-ahead
+     * after your user took over, or a new instruction for a different task. The login persists, so
+     * you do not need to re-authenticate. Runs when its current turn ends, or at once with
+     * `interrupt: true`. Each turn is billed.
      */
     send(id: string, message: string, options?: SendBrowserAgentOptions): Promise<SendBrowserAgentResult>;
 
@@ -3490,6 +3494,58 @@ type CallOptions = {
      * there truly is no rate. `options.timeoutMs` sets the per-carrier budget (default 30000).
      */
     estimate(query: ShippingQuery, options?: CallOptions): Promise<ShippingEstimateResult>;
+  }
+}
+
+declare namespace BowmarkCapability_spreadsheet {
+  // ── Spreadsheet (CSV / TSV) — read rows out, write rows back — the unit's own declarations, verbatim ──
+
+type Cell = string | number | boolean | null
+
+interface ParseOptions {
+  delimiter?: string   // default: sniffed from the first line among , \t ; |
+  header?: boolean     // default true — first row names the columns
+  typed?: boolean      // default false; true turns "12" into 12, "true" into true, "" into null
+}
+
+interface ParseResult {
+  delimiter: string
+  headers: string[]               // col1..colN when header:false; duplicates get _2, _3
+  rows: Record<string, Cell>[]
+  rowCount: number
+  warnings: string[]
+}
+
+interface StringifyOptions {
+  delimiter?: string   // default ","
+  columns?: string[]   // default: union of row keys, first-seen order
+}
+
+interface StringifyResult {
+  text: string         // RFC 4180 — quoted where a cell needs it
+  rowCount: number
+  columns: string[]
+  warnings: string[]
+}
+
+  /**
+   * Turn spreadsheet text (CSV, TSV, semicolon- or pipe-separated) into row objects, or rows
+   * back into a CSV — no network, no account. For a live Google Sheet use
+   * providers.google_sheets.
+   */
+  interface Unit {
+    /**
+     * Parses spreadsheet text you already hold (a CSV/TSV export, a downloaded file's contents)
+     * into headers and one object per row. Handles quoted cells, embedded commas and newlines, a
+     * BOM, and sniffs the delimiter.
+     */
+    parse(text: string, options?: ParseOptions): Promise<ParseResult>;
+
+    /**
+     * Writes rows (objects, or arrays of cells) out as CSV/TSV text, quoting any cell that needs
+     * it — ready to save or hand to a person as a spreadsheet.
+     */
+    stringify(rows: object[] | any[][], options?: StringifyOptions): Promise<StringifyResult>;
   }
 }
 
@@ -10016,6 +10072,19 @@ interface BlueskySearchPostsResults {
   cursor?: string;
 }
 
+interface BlueskyTrendingTopic {
+  link: string;
+  description: string;
+  topic: string;
+  displayName: string;
+}
+
+interface BlueskyTrendingTopicsResults {
+  topics: BlueskyTrendingTopic[];
+  suggested?: string[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -10069,6 +10138,12 @@ interface BlueskySearchPostsResults {
      * array of parent posts (if any), and an array of direct replies.
      */
     getThread(post: string): Promise<BlueskyGetThreadResult>;
+
+    /**
+     * What is trending on Bluesky right now: topics and links to their search or feed pages.
+     * Returns each trending topic's name, display name, description and link.
+     */
+    getTrendingTopics(): Promise<BlueskyTrendingTopicsResults>;
 
     /**
      * Searches all public posts by words, the way the Search tab's Posts list does — Top or Latest
@@ -37343,6 +37418,58 @@ interface SecondswingTradeInValue {
   }
 }
 
+declare namespace BowmarkProvider_sede_valencia_es {
+  // ── Seu Electrònica — Ajuntament de València — the unit's own declarations, verbatim ──
+interface GetParkingTariffArgs {
+  language?: "va" | "es";
+}
+
+interface SedeValenciaDocument {
+  title: string;
+  url: string;
+  kind: "form" | "ordinance";
+}
+
+interface SedeValenciaTariffFingerprint {
+  url: string;
+  title: string;
+  sha256: string;
+  byteLength: number;
+  pdfCreated: string | null;
+  pdfModified: string | null;
+  lastModifiedHeader: string | null;
+}
+
+interface SedeValenciaParkingTariff {
+  procedureCode: string;
+  procedureUrl: string;
+  sections: { heading: string; text: string }[];
+  documents: SedeValenciaDocument[];
+  tariff: SedeValenciaTariffFingerprint;
+  note: string;
+  checkedAt: string;
+}
+
+  /**
+   * València city council's e-office. getParkingTariff reads the resident parking permit (ORA
+   * zona verda / taronja distintivo de residente) procedure — renewal window, eligibility, forms
+   * — and fingerprints the published parking-tax ordinance PDF (sha256 + dates) so a weekly
+   * check can flag a tariff change.
+   */
+  interface Unit {
+    /**
+     * València resident parking permit (distintivo de residente, ORA zona verda / taronja,
+     * procedure TR.AR.90): the renewal window, eligibility and linked forms from the city's
+     * e-office, plus a fingerprint of the published parking-tax ordinance PDF ("Taxa per
+     * estacionament de vehicles en la via pública") — sha256, size and the PDF's own dates. Store
+     * tariff.sha256 and compare next week: a different value means the tariff was republished. No
+     * amounts are parsed and no live price or slot availability is returned (those need a Cl@ve
+     * login). `language: "es"` fingerprints the Castilian PDF instead of the Valencian one.
+     */
+    getParkingTariff(args?: GetParkingTariffArgs): Promise<SedeValenciaParkingTariff>;
+  }
+}
+
 declare namespace BowmarkProvider_seegarsfence {
   // ── Seegars Fence Company — the unit's own declarations, verbatim ──
 interface SeegarsBranch {
@@ -46526,6 +46653,7 @@ interface BowmarkProviders {
   seakeeper: BowmarkProvider_seakeeper.Unit;
   sears: BowmarkProvider_sears.Unit;
   secondswing: BowmarkProvider_secondswing.Unit;
+  sede_valencia_es: BowmarkProvider_sede_valencia_es.Unit;
   seegarsfence: BowmarkProvider_seegarsfence.Unit;
   selectblinds: BowmarkProvider_selectblinds.Unit;
   sellcell: BowmarkProvider_sellcell.Unit;
@@ -98395,6 +98523,7 @@ interface BowmarkLibrary {
   search: BowmarkCapability_search.Unit;
   sheds: BowmarkCapability_sheds.Unit;
   shipping: BowmarkCapability_shipping.Unit;
+  spreadsheet: BowmarkCapability_spreadsheet.Unit;
   stream_channel: BowmarkCapability_stream_channel.Unit;
   stream_highlights: BowmarkCapability_stream_highlights.Unit;
   tariff: BowmarkCapability_tariff.Unit;
