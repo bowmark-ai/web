@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f8ebf83b114676ba5f5a9d373d920c1b57264a0d37c9f40cd8db861f0eab9627
-// 1543 checked, 20 unchecked.
+// Manifest version: 92b13a9f457d20ac376f2e1affb65e924712357e965bb22fad8a5a22524c3b78
+// 1555 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f8ebf83b114676ba5f5a9d373d920c1b57264a0d37c9f40cd8db861f0eab9627",
+  "version": "92b13a9f457d20ac376f2e1affb65e924712357e965bb22fad8a5a22524c3b78",
   "units": {
     "booking_links": {
       "defs": {
@@ -8903,6 +8903,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getStandings": [
+          {
+            "name": "competition",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listHeadlines": [
           {
             "name": "args",
@@ -10002,6 +10011,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getPost": [
+          {
+            "name": "post",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getThread": [
           {
             "name": "post",
             "schema": {
@@ -17177,6 +17195,42 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getTokenAllowlist": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTokenAllowlistDetailed": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -18797,6 +18851,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listNotifications": [
           {
             "name": "opts",
             "schema": {
@@ -28099,7 +28171,17 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getStockQuote": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMarketSummary": []
       }
     },
     "providers.municipal_recreation_fees_fetcher": {
@@ -28816,7 +28898,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listFeaturedCollections": []
       }
     },
     "providers.nyt_games": {
@@ -29021,7 +29104,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
-        "getSudoku": []
+        "getSudoku": [],
+        "getTiles": []
       }
     },
     "providers.nytimes": {
@@ -36213,6 +36297,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListPressReleasesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListSectionsArgs": {
           "k": "object",
           "props": [
@@ -36312,6 +36408,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListGraphicsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listPressReleases": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListPressReleasesArgs"
             },
             "optional": true
           }
@@ -41809,6 +41915,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "SearchVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SendChatMessageArgs": {
           "k": "object",
           "props": [
@@ -41882,6 +42000,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchChannelsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchVideosArgs"
             },
             "optional": false
           }
@@ -42976,6 +43104,24 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "number"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "itemId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },

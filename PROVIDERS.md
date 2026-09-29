@@ -522,7 +522,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `caraway.listCarawayProducts` | carawayhome.com | Reads the live Caraway catalogue as Caraway publishes it — every ceramic cookware… | 🟢 |
 | `caraway.runCarawayQuiz` | carawayhome.com | Routes a quiz's buyer-fit answers to a Caraway archetype and resolves the Recommended… | 🟢 |
 | `cardiff.getApplication` | www.cardiff.gov.uk | Retrieves the full details of a single planning application by reference, including… | 🟡 |
-| `cardiff.search` | www.cardiff.gov.uk | Searches the Cardiff planning register by reference, address, or keywords. | 🟢 |
+| `cardiff.search` | www.cardiff.gov.uk | Searches the Cardiff planning register by reference, address, or keywords. | 🟡 |
 | `carepatrol.findLocalAdvisor` | carepatrol.com | Runs the site's own zip/state locator at carepatrol.com/locations/ — given a US ZIP… | 🟢 |
 | `carlsgolfland.addToCart` | carlsgolfland.com | Hands the shopper the entry-point link for a priced configuration plus the exact… | 🟢 |
 | `carlsgolfland.checkout` | carlsgolfland.com | Would place a priced configuration into Carl's Golfland's cart and return a checkout… | ⚪ |
@@ -1052,7 +1052,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
 | `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟡 |
 | `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟢 |
-| `github.listNotifications` | github.com | Lists the signed-in user's notifications — issues, pull requests, and discussions… | ⚪ |
+| `github.listNotifications` | github.com | Lists the signed-in caller's GitHub notifications — issues, pull requests and… | 🟢 |
 | `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
 | `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
@@ -1630,7 +1630,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getSeasonalGuide` | cooking.nytimes.com | Reads a seasonal guide page (e.g. "/thanksgiving", "/christmas") and its featured… | ⚪ |
 | `nyt_cooking.getTopic` | cooking.nytimes.com | Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes. | ⚪ |
 | `nyt_cooking.getTrendingArticles` | cooking.nytimes.com | Lists the trending articles the site surfaces alongside recipes. | ⚪ |
-| `nyt_cooking.listFeaturedCollections` | cooking.nytimes.com | Lists the collections currently featured on the site's own homepage — the entry point… | ⚪ |
+| `nyt_cooking.listFeaturedCollections` | cooking.nytimes.com | Lists the collections currently featured on the site's own homepage — the entry point… | 🟢 |
 | `nyt_cooking.listRecipeBoxFolders` | cooking.nytimes.com | Lists the signed-in reader's own Recipe Box folders. | ⚪ |
 | `nyt_cooking.listTopics` | cooking.nytimes.com | Lists the site's topic pages off its own navigation — the finder for a topic a caller… | ⚪ |
 | `nyt_cooking.markRecipeCooked` | cooking.nytimes.com | Marks a recipe as cooked on the signed-in reader's account. | ⚪ |
@@ -1991,7 +1991,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | 🟢 |
 | `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | 🟢 |
 | `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | 🟡 |
-| `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | ⚪ |
+| `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | 🟢 |
 | `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | 🟢 |
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | ⚪ |
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟡 |
@@ -2292,7 +2292,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | ⚪ |
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | ⚪ |
 | `twitch.searchChannels` | twitch.tv | Searches Twitch channels by keyword — a name, game or description term — and returns… | 🟢 |
-| `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | ⚪ |
+| `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | 🟢 |
 | `twitch.sendChatMessage` | twitch.tv | Sends a message to a channel's live chat. | 🟢 |
 | `twitch.setChannel` | twitch.tv | Updates the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
 | `twitch.signUp` | twitch.tv | Registers a new developer application on the Twitch console. | ⚪ |
@@ -2378,7 +2378,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.listOrders` | walmart.com | Lists the signed-in shopper's orders — date, total, status and the items in each — the… | ⚪ |
 | `walmart.listPurchasedItems` | walmart.com | Lists the items the signed-in shopper has bought before — Walmart's 'My Items' /… | ⚪ |
 | `walmart.listQuestions` | walmart.com | Reads the customer questions and answers under a product. | ⚪ |
-| `walmart.listReviews` | walmart.com | Reads a product's customer reviews — star rating, title, text, date, verified-purchase… | ⚪ |
+| `walmart.listReviews` | walmart.com | Reads a product's customer reviews — star rating, title, text, date, verified-purchase… | 🟢 |
 | `walmart.listSellerOffers` | walmart.com | Lists every seller offering one item — Walmart itself and Marketplace sellers — with… | ⚪ |
 | `walmart.removeFromCart` | walmart.com | Takes an item out of the cart. | ⚪ |
 | `walmart.removeFromList` | walmart.com | Removes an item from one of the shopper's saved lists. | ⚪ |
@@ -2556,7 +2556,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.searchWithinChannel` | youtube.com | Search one channel's own videos rather than the whole site — the search box that… | 🟢 |
 | `youtube.setCaptions` | youtube.com | Upload a caption file (SRT or VTT) for one language on one of the signed-in account's… | ⚪ |
 | `youtube.setThumbnail` | youtube.com | Set a custom thumbnail image on one of the signed-in account's own videos. | 🟢 |
-| `youtube.subscribeToChannel` | youtube.com | Subscribe the signed-in account to a channel (and unsubscribe it again). | ⚪ |
+| `youtube.subscribeToChannel` | youtube.com | Subscribe the signed-in account to a channel, or unsubscribe. | 🟢 |
 | `youtube.suggestSearches` | youtube.com | YouTube's own autocomplete for a partial query — the dropdown list it shows while… | 🟢 |
 | `youtube.updateVideo` | youtube.com | Change the title, description, tags, category or privacy of one of the signed-in… | 🟢 |
 | `youtube.uploadVideo` | youtube.com | Upload a video file to the signed-in account's own channel, with its title… | 🟢 |

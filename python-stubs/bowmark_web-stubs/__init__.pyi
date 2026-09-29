@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f8ebf83b114676ba5f5a9d373d920c1b57264a0d37c9f40cd8db861f0eab9627
-# 67 capabilities, 494 providers, 1543 typed functions, 20 refused.
+# Manifest version: 92b13a9f457d20ac376f2e1affb65e924712357e965bb22fad8a5a22524c3b78
+# 67 capabilities, 494 providers, 1555 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4739,6 +4739,25 @@ class Prv_bbc_BbcFixtureMatch_Out(TypedDict):
     statusDetail: str
     kickOff: str
 
+class Prv_bbc_BbcGetStandingsResult_Out(TypedDict):
+    competition: str
+    tournamentName: str
+    standings: list[Prv_bbc_BbcStandingsRow_Out]
+
+class Prv_bbc_BbcStandingsRow_Out(TypedDict):
+    rank: float
+    team: str
+    teamPath: str
+    played: float
+    won: float
+    drawn: float
+    lost: float
+    goalsFor: float
+    goalsAgainst: float
+    goalDifference: float
+    points: float
+    status: NotRequired[str]
+
 class Prv_bbc_listHeadlines_args_In(TypedDict):
     path: NotRequired[str]
 
@@ -5511,6 +5530,11 @@ class Prv_bluesky_BlueskyPostEmbed_Out_external_Out(TypedDict):
 class Prv_bluesky_BlueskyPostEmbed_Out_video_Out(TypedDict):
     thumbnail: str | None
     alt: str | None
+
+class Prv_bluesky_BlueskyGetThreadResult_Out(TypedDict):
+    root: Prv_bluesky_BlueskyPost_Out
+    parents: list[Prv_bluesky_BlueskyPost_Out]
+    replies: list[Prv_bluesky_BlueskyPost_Out]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -9955,6 +9979,10 @@ class Prv_fomo_FomoTokenRow_Out(TypedDict):
     createdAt: str | None
     url: str
 
+class Prv_fomo_FomoTokenAllowlistEntry_Out(TypedDict):
+    address: str
+    networkId: float
+
 class Prv_forbes_ForbesNewsList_Out(TypedDict):
     articles: list[Prv_forbes_ForbesArticle_Out]
 
@@ -10905,6 +10933,9 @@ class Prv_github_GithubSearchCodeResult_Out(TypedDict):
     totalCount: float
     results: list[Any]
     raw: Mapping[str, Any]
+
+class Prv_github_GithubListNotificationsResult_Out(TypedDict):
+    raw: Any
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -14534,6 +14565,7 @@ class Prv_linkedin_LinkedinProfile_Out(TypedDict):
     photoUrl: str | None
     followers: float | None
     currentTitle: str | None
+    currentTitleSource: Literal["position"] | Literal["headline"] | None
     currentEmployer: str | None
     currentEmployerUrl: str | None
     positions: list[Prv_linkedin_LinkedinProfilePosition_Out]
@@ -16202,6 +16234,33 @@ class Prv_msn_MsnArticle_Out(TypedDict):
     publishedDateTime: str | None
     images: list[str]
 
+class Prv_msn_MsnStockQuote_Out(TypedDict):
+    symbol: str
+    displayName: str
+    securityType: str
+    price: float
+    priceChange: float
+    priceChangePercent: float
+    priceDayHigh: float
+    priceDayLow: float
+    priceDayOpen: float
+    pricePreviousClose: float
+    price52wHigh: float
+    price52wLow: float
+    accumulatedVolume: float
+    averageVolume: float | None
+    marketCap: float | None
+    marketCapCurrency: str | None
+    peRatio: float | None
+    currency: str
+    exchangeName: str
+    timeLastTraded: str
+
+class Prv_msn_MsnMarketSummary_Out(TypedDict):
+    dow: Prv_msn_MsnStockQuote_Out
+    sp500: Prv_msn_MsnStockQuote_Out
+    nasdaq: Prv_msn_MsnStockQuote_Out
+
 class Prv_municipal_recreation_fees_fetcher_municipal_recreation_fees_fetcherRow_Out(TypedDict):
     municipality: str
     fees: list[Prv_municipal_recreation_fees_fetcher_FeeEntry_Out]
@@ -16643,6 +16702,16 @@ class Prv_nyt_cooking_NytCookingCollection_Out(TypedDict):
     hasMore: bool
     warnings: NotRequired[list[str]]
 
+class Prv_nyt_cooking_NytCookingFeaturedCollections_Out(TypedDict):
+    collections: list[Prv_nyt_cooking_NytCookingFeaturedCollection_Out]
+    warnings: NotRequired[list[str]]
+
+class Prv_nyt_cooking_NytCookingFeaturedCollection_Out(TypedDict):
+    id: float
+    name: str
+    url: str
+    totalCollectionSize: float
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -16771,6 +16840,11 @@ class Prv_nyt_games_SudokuDifficulty_Out(TypedDict):
     puzzle: list[float]
     solution: list[float]
     hints: list[float]
+
+class Prv_nyt_games_NytTiles_Out(TypedDict):
+    displayName: str
+    createdBy: str
+    publishDate: str
 
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
@@ -19397,6 +19471,15 @@ class Prv_reuters_ReutersGraphic_Out(TypedDict):
     title: str
     url: str
     publishedAt: str | None
+
+class Prv_reuters_ListPressReleasesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_reuters_ReutersPressRelease_Out(TypedDict):
+    title: str
+    url: str
+    publishedAt: str | None
+    image: str | None
 
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
@@ -22297,6 +22380,18 @@ class Prv_twitch_TwitchChannelSearchResult_Out(TypedDict):
     viewerCount: float | None
     gameName: str | None
 
+class Prv_twitch_SearchVideosArgs_In(TypedDict):
+    query: str
+
+class Prv_twitch_TwitchVideoSearchResult_Out(TypedDict):
+    id: str
+    title: str
+    publishedAt: str
+    viewCount: float
+    duration: str
+    creatorLogin: str
+    creatorDisplayName: str
+
 class Prv_twitch_CreateHighlightArgs_In(TypedDict):
     vodId: NotRequired[str]
     startSeconds: float
@@ -23000,6 +23095,40 @@ class Prv_walmart_suggestSearches_args_In(TypedDict):
 class Prv_walmart_walmartSuggestion_Out(TypedDict):
     displayName: str
     query: str
+
+class Prv_walmart_listReviews_args_In(TypedDict):
+    itemId: str
+
+class Prv_walmart_walmartProductReviews_Out(TypedDict):
+    summary: Prv_walmart_walmartReviewSummary_Out
+    reviews: list[Prv_walmart_walmartReview_Out]
+
+class Prv_walmart_walmartReviewSummary_Out(TypedDict):
+    averageRating: float | None
+    totalReviewCount: float
+    ratingCounts: Prv_walmart_walmartReviewSummary_Out_ratingCounts_Out
+    recommendedPercentage: float | None
+
+Prv_walmart_walmartReviewSummary_Out_ratingCounts_Out = TypedDict(
+    "Prv_walmart_walmartReviewSummary_Out_ratingCounts_Out",
+    {
+    "1": float,
+    "2": float,
+    "3": float,
+    "4": float,
+    "5": float,
+    },
+)
+
+class Prv_walmart_walmartReview_Out(TypedDict):
+    reviewId: str
+    rating: float
+    title: str | None
+    text: str | None
+    date: str | None
+    verifiedPurchase: bool
+    authorName: str | None
+    helpfulVotes: float
 
 class Prv_waterfurnace_lookupHomeDetails_input_In(TypedDict):
     address: str
@@ -27815,6 +27944,12 @@ class Prv_bbc(Protocol):
         optionally a competition and a date (default today).
         """
 
+    async def getStandings(self, competition: str, /) -> Prv_bbc_BbcGetStandingsResult_Out:
+        """A competition's league table: position, team, played, won, drawn, lost, goals/points for
+        and against, goal difference and points. Takes a competition from listCompetitions (e.g.
+        premier-league).
+        """
+
     async def listHeadlines(self, args: Prv_bbc_listHeadlines_args_In | None = None, /) -> Prv_bbc_BbcListHeadlinesResult_Out:
         """The stories a BBC section page shows right now, in the page's own order and grouping:
         headline, summary, url, article id, image, section label and last-updated time. Takes a
@@ -28372,6 +28507,12 @@ class Prv_bluesky(Protocol):
         """One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author,
         embeds, reply/repost/like/quote counts. THROWS `blueskyInputError` on a post URL or
         at:// URI the AppView cannot find — check the spelling or use `searchPosts` to find it.
+        """
+
+    async def getThread(self, post: str, /) -> Prv_bluesky_BlueskyGetThreadResult_Out:
+        """A post with its whole conversation: the parents above it and the reply tree below it, as
+        the post page shows it. Takes a post at:// URI or bsky.app post URL. Returns the root
+        post, an array of parent posts (if any), and an array of direct replies.
         """
 
 class Prv_bmwusa(Protocol):
@@ -31279,6 +31420,17 @@ class Prv_fomo(Protocol):
         allowlist getTokenAllowlist returns. Takes no arguments.
         """
 
+    async def getTokenAllowlist(self, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenAllowlistEntry_Out]:
+        """Returns the list of tokens fomo allows trading on — just their addresses and network
+        IDs, the minimal identity pair. Takes no arguments.
+        """
+
+    async def getTokenAllowlistDetailed(self, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoToken_Out]:
+        """Returns the list of tokens fomo allows trading on — the same set as getTokenAllowlist
+        but with full token details: name, symbol, decimals, image URL and socials. Takes no
+        arguments.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -31991,6 +32143,15 @@ class Prv_github(Protocol):
         `results` read off it — the signed-in field shape is unmeasured, since no fleet-held
         GitHub session exists to capture one from. THROWS when signed out or the saved session
         is stale.
+        """
+
+    async def listNotifications(self, opts: ConnectionOption | None = None, /) -> Prv_github_GithubListNotificationsResult_Out:
+        """Lists the signed-in caller's GitHub notifications — issues, pull requests and
+        discussions mentioning or assigned to them. NEEDS THE CALLER SIGNED IN: an HTML request
+        to github.com/notifications logged out 302s to /login, and asked for JSON it answers 404
+        with GitHub's own `{"error":"Couldn't authenticate you"}`. Returns GitHub's own response
+        body raw (`raw`) — the signed-in shape is unmeasured, since no fleet-held GitHub session
+        exists to capture one from. THROWS when signed out or the saved session is stale.
         """
 
 class Prv_glama(Protocol):
@@ -34847,12 +35008,15 @@ class Prv_linkedin(Protocol):
         employers/board seats, discriminated only by an internal type marker never exposed here
         — a school stays a school, a past employer never gets reported as one.
         `currentTitle`/`currentEmployer` are the first entry of `positions`, which is null on a
-        profile that publishes no positions at all — not every member does. Skills and
-        certifications are NOT returned in this version: they live in a separate DOM region this
-        parse does not read yet, and reporting empty arrays for a section that is really unread
-        would be indistinguishable from a member who has none. Throws rather than returning a
-        profile of nulls when the page does not render or LinkedIn declines the anonymous read,
-        because "this person has no name" and "we could not read them" are opposite answers.
+        profile that publishes no positions at all — not every member does. When LinkedIn MASKS
+        the position titles on an anonymous read, `currentTitle` is recovered from the member's
+        unmasked headline where it can be, and `currentTitleSource` says "headline" rather than
+        "position". Skills and certifications are NOT returned in this version: they live in a
+        separate DOM region this parse does not read yet, and reporting empty arrays for a
+        section that is really unread would be indistinguishable from a member who has none.
+        Throws rather than returning a profile of nulls when the page does not render or
+        LinkedIn declines the anonymous read, because "this person has no name" and "we could
+        not read them" are opposite answers.
         """
 
     async def searchPeople(self, query: str | Prv_linkedin_searchPeople_query_u1_In, /) -> Prv_linkedin_LinkedinPeopleSearch_Out:
@@ -35954,6 +36118,25 @@ class Prv_msn(Protocol):
         cannot reach the body without it.
         """
 
+    async def getStockQuote(self, symbol: str, /) -> Prv_msn_MsnStockQuote_Out:
+        """Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E
+        off MSN Money the way msn.com/en-us/money/stockdetails does for a visitor with no
+        account. Resolves `symbol` (e.g. "AAPL") to MSN's own internal instrument first, then
+        reads its quote — a company name works too, the same way MSN's own search box takes one.
+        `averageVolume`, `marketCap`, `marketCapCurrency` and `peRatio` are `null` for a
+        non-equity instrument (an index, most notably from getMarketSummary — those fields do
+        not apply). Throws a caller-fixable error when the ticker is not one MSN indexes.
+        """
+
+    async def getMarketSummary(self, /) -> Prv_msn_MsnMarketSummary_Out:
+        """Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three
+        index levels and day's change msn.com/en-us/money's own "Popular" strip shows first for
+        a visitor with no account — the door a caller asking 'how are markets doing' reaches for
+        before naming any one ticker. Same MsnStockQuote shape getStockQuote returns per index;
+        `averageVolume`, `marketCap`, `marketCapCurrency` and `peRatio` are `null` on all three
+        (indices don't carry them).
+        """
+
 class Prv_municipal_recreation_fees_fetcher(Protocol):
     """Fetches annual recreation centre membership fees from New Brunswick municipalities."""
 
@@ -36348,6 +36531,11 @@ class Prv_nyt_cooking(Protocol):
         url from searchRecipes.
         """
 
+    async def listFeaturedCollections(self, /) -> Prv_nyt_cooking_NytCookingFeaturedCollections_Out:
+        """Lists the collections currently featured on the site's own homepage — the entry point
+        for browsing collections without knowing one by name.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -36407,6 +36595,11 @@ class Prv_nyt_games(Protocol):
     async def getSudoku(self, /) -> Prv_nyt_games_NytSudoku_Out:
         """Retrieves today's Sudoku: all three difficulties (easy, medium, hard), each with its
         board (0 for a blank cell) and the official solution. NYT publishes Sudoku for today
+        only — there is no dated archive, so this takes no arguments.
+        """
+
+    async def getTiles(self, /) -> Prv_nyt_games_NytTiles_Out:
+        """Retrieves today's Tiles puzzle with its name and creator. NYT publishes Tiles for today
         only — there is no dated archive, so this takes no arguments.
         """
 
@@ -38127,6 +38320,11 @@ class Prv_reuters(Protocol):
     async def listGraphics(self, args: Prv_reuters_ListGraphicsArgs_In | None = None, /) -> list[Prv_reuters_ReutersGraphic_Out]:
         """Reuters Graphics — the interactive data stories and explainers — with title, url and
         published time, newest first, from the site's own graphics sitemap.
+        """
+
+    async def listPressReleases(self, args: Prv_reuters_ListPressReleasesArgs_In | None = None, /) -> list[Prv_reuters_ReutersPressRelease_Out]:
+        """Press releases distributed on reuters.com, newest first — title, url, published time and
+        lead image — from the site's own press-release sitemap.
         """
 
 class Prv_revisionskincare(Protocol):
@@ -39964,6 +40162,13 @@ class Prv_twitch(Protocol):
         further paging on this door.
         """
 
+    async def searchVideos(self, args: Prv_twitch_SearchVideosArgs_In, /) -> list[Prv_twitch_TwitchVideoSearchResult_Out]:
+        """Searches for Twitch videos by keyword — VODs, clips and uploads: title, creator, publish
+        date, view count, duration. No sign-in. Returns Twitch's own single page of results
+        (typically ~10) ranked by relevance. Twitch's own search offers no further paging on
+        this door.
+        """
+
     async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchHighlight_Out:
         """Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the
         one still live — between two offsets in seconds, with a title. Omit vodId to cut from
@@ -40371,12 +40576,12 @@ class Prv_walkerhughes(Protocol):
 
 class Prv_walmart(Protocol):
     """Walmart.com — product search, product detail, store-level stock, store locator and more.
-    Seven functions built: keyword search across the catalog, finding nearby stores by ZIP
+    Eight functions built: keyword search across the catalog, finding nearby stores by ZIP
     with address, hours, phone and department availability, listing every department and
     sub-category with its browse id, browsing a department's own product grid by that id,
     browsing a brand's own product grid by its id, listing what's currently on sale
-    (Rollbacks, clearance and current deal events), and search-bar autocomplete for a
-    partial word.
+    (Rollbacks, clearance and current deal events), search-bar autocomplete for a partial
+    word, and reading a product's customer reviews and rating breakdown.
     """
 
     async def search(self, args: Prv_walmart_search_args_In, /) -> list[Prv_walmart_walmartSearchResult_Out]:
@@ -40425,6 +40630,12 @@ class Prv_walmart(Protocol):
     async def suggestSearches(self, args: Prv_walmart_suggestSearches_args_In, /) -> list[Prv_walmart_walmartSuggestion_Out]:
         """Autocomplete for the search bar — what the site suggests as you type a partial word, so
         an agent can turn 'lapt' into the query shoppers actually use.
+        """
+
+    async def listReviews(self, args: Prv_walmart_listReviews_args_In, /) -> Prv_walmart_walmartProductReviews_Out:
+        """Reads a product's customer reviews — star rating, title, text, date, verified-purchase
+        flag, author and helpful-vote count — plus the rating breakdown (average, total count,
+        one-through-five-star counts, recommended percentage), for an item id `search` returned.
         """
 
 class Prv_waterfurnace(Protocol):

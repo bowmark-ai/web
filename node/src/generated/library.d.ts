@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f8ebf83b114676ba5f5a9d373d920c1b57264a0d37c9f40cd8db861f0eab9627
-// 67 capabilities, 494 providers, 1561 typed functions, 20 refused.
+// Manifest version: 92b13a9f457d20ac376f2e1affb65e924712357e965bb22fad8a5a22524c3b78
+// 67 capabilities, 494 providers, 1573 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8599,6 +8599,27 @@ interface BbcGetFixturesResult {
   matches: BbcFixtureMatch[];
 }
 
+interface BbcStandingsRow {
+  rank: number;
+  team: string;
+  teamPath: string;     // site-relative, e.g. "/sport/football/teams/manchester-city"
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDifference: number;
+  points: number;
+  status?: string;       // the site's own qualification/relegation label, e.g. "UEFA Champions League", "Relegation"
+}
+
+interface BbcGetStandingsResult {
+  competition: string;    // the competition path this was fetched for, e.g. "/sport/football/premier-league"
+  tournamentName: string; // the site's own tournament name, e.g. "Premier League"
+  standings: BbcStandingsRow[]; // ranked ascending, the site's own order
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8637,6 +8658,13 @@ interface bbcRow {
      * a competition and a date (default today).
      */
     getFixtures(args: { sport: string; competition?: string; date?: string }): Promise<BbcGetFixturesResult>;
+
+    /**
+     * A competition's league table: position, team, played, won, drawn, lost, goals/points for and
+     * against, goal difference and points. Takes a competition from listCompetitions (e.g.
+     * premier-league).
+     */
+    getStandings(competition: string): Promise<BbcGetStandingsResult>;
 
     /**
      * The stories a BBC section page shows right now, in the page's own order and grouping:
@@ -9931,6 +9959,12 @@ interface BlueskyUserPosts {
 
 type BlueskyGetPostResult = BlueskyPost;
 
+interface BlueskyGetThreadResult {
+  root: BlueskyPost;
+  parents: BlueskyPost[];
+  replies: BlueskyPost[];
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -9977,6 +10011,13 @@ type BlueskyGetPostResult = BlueskyPost;
      * AppView cannot find — check the spelling or use `searchPosts` to find it.
      */
     getPost(post: string): Promise<BlueskyGetPostResult>;
+
+    /**
+     * A post with its whole conversation: the parents above it and the reply tree below it, as the
+     * post page shows it. Takes a post at:// URI or bsky.app post URL. Returns the root post, an
+     * array of parent posts (if any), and an array of direct replies.
+     */
+    getThread(post: string): Promise<BlueskyGetThreadResult>;
   }
 }
 
@@ -17949,6 +17990,14 @@ interface FomoCandle {
   volume: number;
 }
 
+/** A token in the allowlist — just its identity (address + networkId pair). */
+interface FomoTokenAllowlistEntry {
+  /** Contract address, or a Solana mint. */
+  address: string;
+  /** fomo's chain id — 1399811149 for Solana, 8453 Base, 56 BNB, 1 Ethereum, 143 Monad. */
+  networkId: number;
+}
+
 /** No route on this API publishes a total. Page until `cursor` is null. */
 interface FomoPage<T> {
   items: T[];
@@ -18033,6 +18082,18 @@ interface FomoPage<T> {
      * allowlist getTokenAllowlist returns. Takes no arguments.
      */
     getVerifiedTokens(opts?: ConnectionOption): Promise<FomoTokenRow[]>;
+
+    /**
+     * Returns the list of tokens fomo allows trading on — just their addresses and network IDs,
+     * the minimal identity pair. Takes no arguments.
+     */
+    getTokenAllowlist(opts?: ConnectionOption): Promise<FomoTokenAllowlistEntry[]>;
+
+    /**
+     * Returns the list of tokens fomo allows trading on — the same set as getTokenAllowlist but
+     * with full token details: name, symbol, decimals, image URL and socials. Takes no arguments.
+     */
+    getTokenAllowlistDetailed(opts?: ConnectionOption): Promise<FomoToken[]>;
   }
 }
 
@@ -19772,6 +19833,11 @@ interface GithubSearchCodeResult {
   results: unknown[];
   raw: Record<string, unknown>;
 }
+interface GithubListNotificationsResult {
+  // github.com's own notifications response body, raw — the signed-in shape is
+  // unmeasured (no fleet-held GitHub session exists to capture one from).
+  raw: unknown;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -19981,6 +20047,16 @@ interface GithubSearchCodeResult {
      * to capture one from. THROWS when signed out or the saved session is stale.
      */
     searchCode(query: string, opts?: ConnectionOption): Promise<GithubSearchCodeResult>;
+
+    /**
+     * Lists the signed-in caller's GitHub notifications — issues, pull requests and discussions
+     * mentioning or assigned to them. NEEDS THE CALLER SIGNED IN: an HTML request to
+     * github.com/notifications logged out 302s to /login, and asked for JSON it answers 404 with
+     * GitHub's own `{"error":"Couldn't authenticate you"}`. Returns GitHub's own response body raw
+     * (`raw`) — the signed-in shape is unmeasured, since no fleet-held GitHub session exists to
+     * capture one from. THROWS when signed out or the saved session is stale.
+     */
+    listNotifications(opts?: ConnectionOption): Promise<GithubListNotificationsResult>;
   }
 }
 
@@ -21056,7 +21132,7 @@ interface GoogleNewsSavedArticle {
 }
 
 declare namespace BowmarkProvider_google_sheets {
-  // ── Google Sheets — the unit's own declarations, verbatim ──
+  // ── docs.google.com — Google Sheets — the unit's own declarations, verbatim ──
 interface SpreadsheetHit {
   spreadsheetId: string;
   title: string;
@@ -27092,6 +27168,9 @@ interface LinkedinProfile {
   photoUrl: string | null;
   followers: number | null;
   currentTitle: string | null;
+  // "headline" when the position title was masked and currentTitle was parsed
+  // out of the member's unmasked headline instead ("Co-Founder @Checkly" → "Co-Founder").
+  currentTitleSource: "position" | "headline" | null;
   currentEmployer: string | null;
   currentEmployerUrl: string | null;
   positions: LinkedinProfilePosition[];    // every position, newest first
@@ -27323,12 +27402,14 @@ interface LinkedinSearchPage<T> { results: T[]; total: number | null; start: num
      * discriminated only by an internal type marker never exposed here — a school stays a school,
      * a past employer never gets reported as one. `currentTitle`/`currentEmployer` are the first
      * entry of `positions`, which is null on a profile that publishes no positions at all — not
-     * every member does. Skills and certifications are NOT returned in this version: they live in
-     * a separate DOM region this parse does not read yet, and reporting empty arrays for a section
-     * that is really unread would be indistinguishable from a member who has none. Throws rather
-     * than returning a profile of nulls when the page does not render or LinkedIn declines the
-     * anonymous read, because "this person has no name" and "we could not read them" are opposite
-     * answers.
+     * every member does. When LinkedIn MASKS the position titles on an anonymous read,
+     * `currentTitle` is recovered from the member's unmasked headline where it can be, and
+     * `currentTitleSource` says "headline" rather than "position". Skills and certifications are
+     * NOT returned in this version: they live in a separate DOM region this parse does not read
+     * yet, and reporting empty arrays for a section that is really unread would be
+     * indistinguishable from a member who has none. Throws rather than returning a profile of
+     * nulls when the page does not render or LinkedIn declines the anonymous read, because "this
+     * person has no name" and "we could not read them" are opposite answers.
      */
     getProfile(urlOrSlug: string): Promise<LinkedinProfile>;
 
@@ -30469,6 +30550,35 @@ interface MsnArticle {
   images: string[];
 }
 
+interface MsnStockQuote {
+  symbol: string;
+  displayName: string;
+  securityType: string;
+  price: number;
+  priceChange: number;
+  priceChangePercent: number;
+  priceDayHigh: number;
+  priceDayLow: number;
+  priceDayOpen: number;
+  pricePreviousClose: number;
+  price52wHigh: number;
+  price52wLow: number;
+  accumulatedVolume: number;
+  averageVolume: number | null;
+  marketCap: number | null;
+  marketCapCurrency: string | null;
+  peRatio: number | null;
+  currency: string;
+  exchangeName: string;
+  timeLastTraded: string;
+}
+
+interface MsnMarketSummary {
+  dow: MsnStockQuote;
+  sp500: MsnStockQuote;
+  nasdaq: MsnStockQuote;
+}
+
   /**
    * MSN's news portal — top stories, section feeds, article text, money quotes and weather,
    * logged out.
@@ -30519,6 +30629,27 @@ interface MsnArticle {
      * rendered DOM. A caller holding a headline and nothing else cannot reach the body without it.
      */
     getArticle(url: string): Promise<MsnArticle>;
+
+    /**
+     * Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E off
+     * MSN Money the way msn.com/en-us/money/stockdetails does for a visitor with no account.
+     * Resolves `symbol` (e.g. "AAPL") to MSN's own internal instrument first, then reads its quote
+     * — a company name works too, the same way MSN's own search box takes one. `averageVolume`,
+     * `marketCap`, `marketCapCurrency` and `peRatio` are `null` for a non-equity instrument (an
+     * index, most notably from getMarketSummary — those fields do not apply). Throws a
+     * caller-fixable error when the ticker is not one MSN indexes.
+     */
+    getStockQuote(symbol: string): Promise<MsnStockQuote>;
+
+    /**
+     * Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three index
+     * levels and day's change msn.com/en-us/money's own "Popular" strip shows first for a visitor
+     * with no account — the door a caller asking 'how are markets doing' reaches for before naming
+     * any one ticker. Same MsnStockQuote shape getStockQuote returns per index; `averageVolume`,
+     * `marketCap`, `marketCapCurrency` and `peRatio` are `null` on all three (indices don't carry
+     * them).
+     */
+    getMarketSummary(): Promise<MsnMarketSummary>;
   }
 }
 
@@ -31492,6 +31623,18 @@ interface NytCookingCollection {
   warnings?: string[];
 }
 
+interface NytCookingFeaturedCollection {
+  id: number;
+  name: string;
+  url: string;
+  totalCollectionSize: number;
+}
+
+interface NytCookingFeaturedCollections {
+  collections: NytCookingFeaturedCollection[];
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -31517,6 +31660,12 @@ interface NytCookingCollection {
      * from searchRecipes.
      */
     getCollection(args: NytCookingGetCollectionArgs): Promise<NytCookingCollection>;
+
+    /**
+     * Lists the collections currently featured on the site's own homepage — the entry point for
+     * browsing collections without knowing one by name.
+     */
+    listFeaturedCollections(): Promise<NytCookingFeaturedCollections>;
   }
 }
 
@@ -31544,6 +31693,7 @@ interface NytPips { printDate: string; editor: string | null; easy: PipsDifficul
 interface GetPipsArgs { date?: string; }
 interface SudokuDifficulty { id: number; dayOfWeek: string; difficulty: "Easy" | "Medium" | "Hard"; printDate: string; puzzle: number[]; solution: number[]; hints: number[]; }
 interface NytSudoku { displayDate: string; easy: SudokuDifficulty; medium: SudokuDifficulty; hard: SudokuDifficulty; }
+interface NytTiles { displayName: string; createdBy: string; publishDate: string; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -31614,6 +31764,12 @@ interface NytSudoku { displayDate: string; easy: SudokuDifficulty; medium: Sudok
      * is no dated archive, so this takes no arguments.
      */
     getSudoku(): Promise<NytSudoku>;
+
+    /**
+     * Retrieves today's Tiles puzzle with its name and creator. NYT publishes Tiles for today only
+     * — there is no dated archive, so this takes no arguments.
+     */
+    getTiles(): Promise<NytTiles>;
   }
 }
 
@@ -35734,6 +35890,15 @@ interface ReutersGraphic {
 interface ListGraphicsArgs {
   limit?: number;              // 1-500, default 50
 }
+interface ReutersPressRelease {
+  title: string;
+  url: string;
+  publishedAt: string | null;  // off the sitemap's own <lastmod>, not a news publication_date — this sitemap carries none
+  image: string | null;        // the lead image; the sitemap carries no caption
+}
+interface ListPressReleasesArgs {
+  limit?: number;              // 1-500, default 50
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -35787,6 +35952,12 @@ interface ListGraphicsArgs {
      * published time, newest first, from the site's own graphics sitemap.
      */
     listGraphics(args?: ListGraphicsArgs): Promise<ReutersGraphic[]>;
+
+    /**
+     * Press releases distributed on reuters.com, newest first — title, url, published time and
+     * lead image — from the site's own press-release sitemap.
+     */
+    listPressReleases(args?: ListPressReleasesArgs): Promise<ReutersPressRelease[]>;
   }
 }
 
@@ -40858,6 +41029,10 @@ interface SearchChannelsArgs {
   /** A keyword to search Twitch channels for — a name, game or description term. */
   query: string;
 }
+interface SearchVideosArgs {
+  /** A keyword to search Twitch videos for — title or description term. */
+  query: string;
+}
 interface TwitchChannelSearchResult {
   id: string;
   login: string;
@@ -40871,6 +41046,19 @@ interface TwitchChannelSearchResult {
   viewerCount: number | null;
   /** Only set while live is true. */
   gameName: string | null;
+}
+interface TwitchVideoSearchResult {
+  id: string;
+  title: string;
+  /** ISO 8601 timestamp. */
+  publishedAt: string;
+  /** View count. */
+  viewCount: number;
+  /** Duration as a string like "1h7m36s". */
+  duration: string;
+  /** Channel that created or published the video. */
+  creatorLogin: string;
+  creatorDisplayName: string;
 }
 interface CreateHighlightArgs {
   /** The broadcast to cut from — an id or a twitch.tv/videos/<id> link. Omit it
@@ -40986,6 +41174,14 @@ interface TwitchChatMessage {
      * this door.
      */
     searchChannels(args: SearchChannelsArgs): Promise<TwitchChannelSearchResult[]>;
+
+    /**
+     * Searches for Twitch videos by keyword — VODs, clips and uploads: title, creator, publish
+     * date, view count, duration. No sign-in. Returns Twitch's own single page of results
+     * (typically ~10) ranked by relevance. Twitch's own search offers no further paging on this
+     * door.
+     */
+    searchVideos(args: SearchVideosArgs): Promise<TwitchVideoSearchResult[]>;
 
     /**
      * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one
@@ -42053,13 +42249,37 @@ interface walmartSuggestion {
   query: string;
 }
 
+interface walmartReview {
+  reviewId: string;
+  rating: number;
+  title: string | null;
+  text: string | null;
+  date: string | null;
+  verifiedPurchase: boolean;
+  authorName: string | null;
+  helpfulVotes: number;
+}
+
+interface walmartReviewSummary {
+  averageRating: number | null;
+  totalReviewCount: number;
+  ratingCounts: { 1: number; 2: number; 3: number; 4: number; 5: number };
+  recommendedPercentage: number | null;
+}
+
+interface walmartProductReviews {
+  summary: walmartReviewSummary;
+  reviews: walmartReview[];
+}
+
   /**
    * Walmart.com — product search, product detail, store-level stock, store locator and more.
-   * Seven functions built: keyword search across the catalog, finding nearby stores by ZIP with
+   * Eight functions built: keyword search across the catalog, finding nearby stores by ZIP with
    * address, hours, phone and department availability, listing every department and sub-category
    * with its browse id, browsing a department's own product grid by that id, browsing a brand's
    * own product grid by its id, listing what's currently on sale (Rollbacks, clearance and
-   * current deal events), and search-bar autocomplete for a partial word.
+   * current deal events), search-bar autocomplete for a partial word, and reading a product's
+   * customer reviews and rating breakdown.
    */
   interface Unit {
     /**
@@ -42115,6 +42335,13 @@ interface walmartSuggestion {
      * agent can turn 'lapt' into the query shoppers actually use.
      */
     suggestSearches(args: { term: string; limit?: number }): Promise<walmartSuggestion[]>;
+
+    /**
+     * Reads a product's customer reviews — star rating, title, text, date, verified-purchase flag,
+     * author and helpful-vote count — plus the rating breakdown (average, total count,
+     * one-through-five-star counts, recommended percentage), for an item id `search` returned.
+     */
+    listReviews(args: { itemId: string }): Promise<walmartProductReviews>;
   }
 }
 
