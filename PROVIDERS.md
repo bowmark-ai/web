@@ -257,7 +257,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `bbc.saveArticle` | bbc.com | Save a BBC article to the signed-in reader's saved list (the page's bookmark button).… | ⚪ |
 | `bbc.searchArticles` | bbc.com | Search the BBC the way its search box does: headline, summary, url, article id… | 🟢 |
-| `bbc.searchWeatherLocations` | bbc.com | Find BBC Weather locations by place name or postcode: name, region, country and the… | ⚪ |
+| `bbc.searchWeatherLocations` | bbc.com | Find BBC Weather locations by place name or postcode: name, region, country and the… | 🟢 |
 | `bbc.subscribeNewsletter` | bbc.com | Sign the signed-in reader up to a BBC newsletter. | ⚪ |
 | `bbc.unfollowPodcast` | bbc.com | Stop following a BBC podcast or series for the signed-in reader. | ⚪ |
 | `bbc.unsubscribeNewsletter` | bbc.com | Take the signed-in reader off a BBC newsletter. | ⚪ |
@@ -914,7 +914,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getRewards` | fomo.family | Returns the signed-in trader's reward history. `GET /v2/users/:userId/rewards`. | ⚪ |
 | `fomo.getSupportedTransferTokens` | fomo.family | Returns the tokens fomo will let a user send to another user or an external address.… | ⚪ |
 | `fomo.getSwapStatus` | fomo.family | Returns where a submitted swap got to — its status word, transaction hash, and failure… | ⚪ |
-| `fomo.getToken` | fomo.family | Returns one token's full detail — name, symbol, decimals, image, description and… | ⚪ |
+| `fomo.getToken` | fomo.family | Returns one token's full detail — name, symbol, decimals, image, description and… | 🟢 |
 | `fomo.getTokenAllowlist` | fomo.family | Returns the list of tokens fomo allows trading on — just their addresses and network… | 🟢 |
 | `fomo.getTokenAllowlistDetailed` | fomo.family | The token allowlist with each entry's full record — the same set as… | 🟢 |
 | `fomo.getTokenFeed` | fomo.family | Pages the posts and trades attached to one specific token — the conversation on a… | ⚪ |
@@ -1752,7 +1752,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.listConversations` | pinterest.com | The caller's Pinterest inbox — the conversations people have sent them pins in. | ⚪ |
 | `pinterest.listNotifications` | pinterest.com | The caller's notifications — who saved, commented on or followed them. | ⚪ |
 | `pinterest.listPinComments` | pinterest.com | Read the comments under a pin — what people said, who said it and when — taking the… | 🟢 |
-| `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | 🟢 |
+| `pinterest.listRelatedPins` | pinterest.com | The "More like this" rail under a pin — the pins Pinterest itself recommends next… | 🟡 |
 | `pinterest.listRelatedProducts` | pinterest.com | The other products Pinterest shows beside a shoppable pin — the competing and… | 🟡 |
 | `pinterest.listTopicPins` | pinterest.com | The best pins in a topic — Pinterest's editorial feed for that interest, which is the… | ⚪ |
 | `pinterest.listTopics` | pinterest.com | Pinterest's own top-level idea topics — Food and Drink, Home Decor, Travel, Tattoos… | ⚪ |
@@ -2035,7 +2035,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `sixflags.getTickets` | sixflags.com | Reads one park's own daily-tickets page (e.g. sixflags.com/cedarpoint/daily-tickets)… | 🟢 |
 | `smartsign.getTemplate` | smartsign.com | Reads one custom-sign template's product page and returns its per-material live… | 🟢 |
 | `smartsign.search` | smartsign.com | Runs SmartSign's own site-search suggest endpoint for a free-text query and returns… | 🟢 |
-| `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the computed… | 🟢 |
+| `smartwool.getSockRecommendation` | smartwool.com | Runs Smartwool's own Sock Finder quiz with the given answers and returns the computed… | 🟡 |
 | `smithery.search` | smithery.ai | Full-text/semantic search over the Smithery MCP server registry — returns each… | 🟢 |
 | `solostove.checkBundle` | solostove.com | Checks one Solo Stove bundle (fire pit + accessories, e.g. the Dream Backyard Bundle)… | 🟢 |
 | `solostove.listBundles` | solostove.com | Searches Solo Stove's own storefront search for BUNDLE products (fire pit +… | 🟢 |
@@ -2140,7 +2140,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | ⚪ |
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | ⚪ |
 | `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
-| `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | ⚪ |
+| `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟢 |
 | `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | ⚪ |
 | `theguardian_com.searchArticles` | theguardian.com | Search articles across the site by keyword. | ⚪ |
 | `therabody.getTheragunProduct` | therabody.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
