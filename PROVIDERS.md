@@ -291,7 +291,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bigrentz.search` | bigrentz.com | Searches BigRentz's equipment catalog by free-text query (e.g. "boom lift", "40 ft… | 🟢 |
 | `bigyellow.getQuote` | bigyellow.co.uk | Returns a storage unit quote with pricing based on location, unit size and move-in date. | ⚪ |
 | `bing.define` | bing.com | Looks up a word in Bing's own dictionary panel (bing.com/dict/search) and returns its… | 🟡 |
-| `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | 🟢 |
+| `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | 🟡 |
 | `bing.listSaves` | bing.com | Lists the pages, searches and images the signed-in caller has saved to Bing… | ⚪ |
 | `bing.saveResult` | bing.com | Adds a page, search or image to the signed-in caller's Bing Collections — the write… | ⚪ |
 | `bing.searchImages` | bing.com | Searches Bing's image index the way bing.com/images/search does and returns each hit's… | 🟡 |
@@ -529,8 +529,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `carlsgolfland.getProduct` | carlsgolfland.com | Reads one product's full configurable-option set (e.g. Hand, Driver Loft, Shaft) with… | 🟢 |
 | `carlsgolfland.priceConfiguration` | carlsgolfland.com | Resolves a specific configuration (a choice per option group, e.g. { Hand: "Right"… | 🟢 |
 | `carlsgolfland.searchProducts` | carlsgolfland.com | Searches Carl's Golfland's golf-equipment catalog by free text and returns each… | 🟢 |
-| `carmelrealtycompany.getListing` | carmelrealtycompany.com | Fetches one listing detail page by slug and returns address, sold/active status… | 🟢 |
-| `carmelrealtycompany.searchListings` | carmelrealtycompany.com | Runs one of Carmel Realty Company's own regional listing-search pages and returns… | 🟢 |
+| `carmelrealtycompany.getListing` | carmelrealtycompany.com | Fetches one listing detail page by slug and returns address, sold/active status… | 🟡 |
+| `carmelrealtycompany.searchListings` | carmelrealtycompany.com | Runs one of Carmel Realty Company's own regional listing-search pages and returns… | 🟡 |
 | `carolefabrics.search` | carolenet.com (Carole Fabrics' own CaroleNet trade catalog) | Runs a keyword search against CaroleNet's live fabric or trim catalog and returns the… | 🟢 |
 | `carpetlandusa.getProduct` | carpetlandusa.net | One product's own catalog page: style, color, material, coverage per carton, and —… | 🟢 |
 | `carpetlandusa.listCategories` | carpetlandusa.net | The site's own product-catalog taxonomy (Carpet, Waterproof/LVP, Hardwood, Tile, …)… | 🟢 |
@@ -560,7 +560,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbhhomes.assembleInquiry` | cbhhomes.com | Validates a caller's inquiry against the form's live schema and maps it onto the… | 🟢 |
 | `cbhhomes.getInquiryFormSchema` | cbhhomes.com | Reads the site's own live 'get in touch about a home' Gravity Forms inquiry form… | 🟢 |
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
-| `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | 🟢 |
+| `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | 🟡 |
 | `cftc.searchRules` | cftc.gov | Searches the CFTC's Designated Contract Market rule filings register —… | 🟢 |
 | `champxpress.getPlanQuote` | champxpress.com | Runs the site's own state → location price computation for one location (matched by… | 🟢 |
 | `champxpress.listLocations` | champxpress.com | Lists every wash location currently enrolled in Champion Xpress's "25 for Life" MVP… | 🟢 |
@@ -731,7 +731,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `e2b.createSandbox` | e2b.dev | Boots a fresh Linux sandbox from a template (the `claude` template ships Claude Code)… | 🟢 |
 | `e2b.getSandbox` | e2b.dev | Reads one sandbox via GET /sandboxes/{id}: state, vCPU and RAM, start time and… | 🟢 |
 | `e2b.killSandbox` | e2b.dev | Destroys a sandbox via DELETE /sandboxes/{id}, which cannot be undone; idempotent on… | 🟢 |
-| `e2b.listSandboxes` | e2b.dev | Lists running sandboxes on the team via GET /v2/sandboxes, optionally filtered by… | 🟢 |
+| `e2b.listSandboxes` | e2b.dev | Lists running sandboxes on the team via GET /v2/sandboxes, optionally filtered by… | 🟡 |
 | `e2b.readFile` | e2b.dev | Reads a text file from inside a sandbox via the daemon's GET /files; null when it does… | 🟢 |
 | `e2b.runCommand` | e2b.dev | Runs `bash -l -c <cmd>` inside a sandbox through its in-sandbox daemon's Connect-RPC… | 🟢 |
 | `e2b.setSandboxTimeout` | e2b.dev | Moves a sandbox's kill time via POST /sandboxes/{id}/timeout, in seconds from now. | 🟢 |
@@ -1077,8 +1077,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `gobrightwing.listLocations` | gobrightwing.com | List all available job location options. | ⚪ |
 | `gobrightwing.listWorkTypes` | gobrightwing.com | List all available work type options (Full-time, Contract, etc.). | ⚪ |
 | `gobrightwing.searchJobs` | gobrightwing.com | Search Brightwing's live job listings by keyword, location, and work type. | 🟢 |
-| `golf_com.findCourses` | golf.com | Searches GOLF.com's Course Finder by course name, city or ZIP and returns actual… | 🟢 |
-| `golf_com.getCourse` | golf.com | Reads one Course Finder record: address, phone and the course's own tee-time/trip… | 🟢 |
+| `golf_com.findCourses` | golf.com | Searches GOLF.com's Course Finder by course name, city or ZIP and returns actual… | 🟡 |
+| `golf_com.getCourse` | golf.com | Reads one Course Finder record: address, phone and the course's own tee-time/trip… | 🟡 |
 | `goloadup.checkServiceAvailability` | goloadup.com | Checks whether and how LoadUp serves one ZIP code — in service, same-day allowed… | 🟢 |
 | `goloadup.getPricingCatalog` | goloadup.com | Returns LoadUp's full current catalog of pickupable items (couches, mattresses… | 🟢 |
 | `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
@@ -1266,7 +1266,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `hyatt.search` | hyatt.com | Searches Hyatt's live cash room availability the way its own booking widget does — a… | ⚪ |
 | `ibuypower.getBenchmark` | ibuypower.com | Returns iBUYPOWER's own measured 3DMark Time Spy scores and per-game FPS at… | 🟢 |
 | `ibuypower.getSystem` | ibuypower.com | Reads one base system's whole configurator — every component category, every option's… | 🟢 |
-| `ibuypower.listLaptops` | ibuypower.com | Lists the Chimera gaming laptops with their configurations and prices — a headline nav… | 🟢 |
+| `ibuypower.listLaptops` | ibuypower.com | Lists the Chimera gaming laptops with their configurations and prices — a headline nav… | 🟡 |
 | `ibuypower.listPrebuilts` | ibuypower.com | Lists the RDY prebuilt gaming PCs — the ship-now, fixed-configuration SKUs, a… | 🟢 |
 | `ibuypower.listSystems` | ibuypower.com | Lists every base configurator on the PC builder — AMD and Intel — with its slug, name… | 🟢 |
 | `ibuypower.recommendGamingPc` | ibuypower.com | Recommends buildable PCs at or under a budget, drawn from both product lines —… | 🟢 |

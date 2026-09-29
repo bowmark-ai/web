@@ -21,8 +21,8 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `cable_railing_quote.getDesignOptions` | Lists Victor's real material families (304/316/2205 stainless, aluminum, wood-grain… | 1 | 🟢 |
 | `candy_prices.search` | Search for candy and sweets across Target and Walmart, returning priced, in-stock rows… | 2 | 🟢 |
 | `cars.search` | Searches car hire for an airport and date range — `{ pickup: "SFO", pickupDate… | 1 | 🟢 |
-| `census_tract_demographics.householdIncome` | Returns median household income for a US Census tract by ZIP code, resolved via the… | 1 | 🟢 |
-| `census_tract_household_income.householdIncome` | Retrieves median household income from US Census Bureau data for a given location. | 1 | 🟢 |
+| `census_tract_demographics.householdIncome` | Returns median household income for a US Census tract by ZIP code, resolved via the… | 1 | 🟡 |
+| `census_tract_household_income.householdIncome` | Retrieves median household income from US Census Bureau data for a given location. | 1 | 🟡 |
 | `concert_setlist.search` | Search for concert setlists by artist name, venue, or date. | 0 | 🟢 |
 | `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟢 |
 | `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
