@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2570 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2571 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2489,6 +2489,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
 | `yahoo_finance.getAnalystEstimates` | finance.yahoo.com | Reads Wall Street's own consensus numbers for a ticker — revenue and earnings… | 🟢 |
 | `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | 🟡 |
+| `yahoo_finance.getEarningsDates` | finance.yahoo.com | Reads a ticker's next scheduled earnings date and the analyst consensus EPS/revenue… | 🟢 |
 | `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | 🟡 |
 | `yahoo_finance.getHistoricalPrices` | finance.yahoo.com | Reads a ticker's daily open/high/low/close/volume history over a requested range, the… | 🟢 |
 | `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | 🟢 |
