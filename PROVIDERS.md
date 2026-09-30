@@ -1114,7 +1114,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | 🟢 |
 | `google_news.getFullCoverage` | news.google.com | Google News' Full Coverage for one story — every outlet reporting it, with each one's… | 🟢 |
 | `google_news.getTopicHeadlines` | news.google.com | The headlines under any Google News topic id — the opaque key `/rss/topics/<id>`… | 🟢 |
-| `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | 🟢 |
+| `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | 🟡 |
 | `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, exactly as Google… | 🟢 |
 | `google_news.listLocalHeadlines` | news.google.com | What is being reported in one place — the local-news edition for a city or region, by… | 🟢 |
 | `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — a domain like reuters.com, or… | 🟢 |
