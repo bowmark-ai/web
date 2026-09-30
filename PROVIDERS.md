@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2571 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2572 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1659,6 +1659,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle — all three difficulties, each with its board… | 🟢 |
 | `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | 🟢 |
 | `nyt_games.getWordle` | games.nytimes.com | Reads one day's Wordle answer, puzzle number and editor from NYT's own game JSON. | 🟢 |
+| `nyt_games.listBonusPuzzles` | games.nytimes.com | Lists this week's Bonus Puzzles drop (Wordle in 1, Connections 3x3, Colorful Strands… | 🟢 |
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | 🟢 |
 | `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
@@ -1669,7 +1670,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details and episode list. | ⚪ |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets today's Spelling Bee puzzle. | ⚪ |
-| `nytimes.getTopicArticles` | nytimes.com | Gets all articles tagged with a specific topic. | ⚪ |
+| `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets today's Wordle puzzle. | ⚪ |
 | `nytimes.getWriter` | nytimes.com | Gets writer profile and byline. | ⚪ |
@@ -2468,7 +2469,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listLinks` | wikipedia.org | Every other Wikipedia article this one links to, by title and url. | 🟢 |
 | `wikipedia.listMostViewed` | wikipedia.org | What Wikipedia's readers looked at most — the day's or the edition's top articles with… | ⚪ |
 | `wikipedia.listNotifications` | wikipedia.org | The caller's Wikipedia notifications — replies to them, thanks they were sent… | ⚪ |
-| `wikipedia.listRecentChanges` | wikipedia.org | What is being edited on Wikipedia right now — a live feed of recent edits with page… | ⚪ |
+| `wikipedia.listRecentChanges` | wikipedia.org | What is being edited on Wikipedia right now — a live feed of recent edits with page… | 🟢 |
 | `wikipedia.listRelated` | wikipedia.org | Articles about things like this one — Wikipedia's own "more like this", for a caller… | 🟢 |
 | `wikipedia.listRevisions` | wikipedia.org | An article's edit history — each revision with its id, timestamp, editor, edit… | 🟢 |
 | `wikipedia.listUserContributions` | wikipedia.org | Every edit one named editor has made, newest first — page, timestamp, edit summary and… | ⚪ |

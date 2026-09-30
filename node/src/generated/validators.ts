@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2018285d2cc1c74284ea2f92f4a79a11e7c69d59fcaa96419123f9d40fdcc39f
-// 1625 checked, 20 unchecked.
+// Manifest version: e6400ed4265a4adf389f8ac81ca6fd7c1783a75231b7f41fbfbaff3f1e448d1a
+// 1627 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2018285d2cc1c74284ea2f92f4a79a11e7c69d59fcaa96419123f9d40fdcc39f",
+  "version": "e6400ed4265a4adf389f8ac81ca6fd7c1783a75231b7f41fbfbaff3f1e448d1a",
   "units": {
     "booking_links": {
       "defs": {
@@ -43341,6 +43341,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetChannelScheduleInput": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -43540,6 +43552,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListChannelClipsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getChannelSchedule": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetChannelScheduleInput"
             },
             "optional": false
           }
@@ -45243,7 +45265,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getRadarTiles": []
       }
     },
     "providers.wellfound": {

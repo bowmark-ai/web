@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2018285d2cc1c74284ea2f92f4a79a11e7c69d59fcaa96419123f9d40fdcc39f
-// 68 capabilities, 500 providers, 1643 typed functions, 20 refused.
+// Manifest version: e6400ed4265a4adf389f8ac81ca6fd7c1783a75231b7f41fbfbaff3f1e448d1a
+// 68 capabilities, 500 providers, 1645 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -42233,6 +42233,15 @@ interface TwitchClip {
   gameName: string | null;
   url: string;
 }
+interface GetChannelScheduleInput {
+  /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
+  login: string;
+}
+interface TwitchScheduleSegment {
+  id: string;
+  /** The scheduled broadcast title. Empty string when the channel left it blank. */
+  title: string;
+}
 interface SendChatMessageArgs {
   /** A Twitch channel id (not login). */
   channelId: string;
@@ -42304,6 +42313,13 @@ interface TwitchChatMessage {
      * 20, max 100.
      */
     listChannelClips(args: ListChannelClipsArgs): Promise<TwitchClip[]>;
+
+    /**
+     * Reads a channel's scheduled broadcast times and upcoming events (if public). Returns an
+     * empty list if the channel has no public schedule. No sign-in. THROWS naming the login when
+     * Twitch has no such channel.
+     */
+    getChannelSchedule(args: GetChannelScheduleInput): Promise<TwitchScheduleSegment[]>;
 
     /**
      * Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the one
@@ -43944,6 +43960,17 @@ interface PollenForecastResult {
   dayparts: PollenDaypart[];
 }
 
+interface RadarTile {
+  /** Tile server hostname / endpoint for serving map tiles. */
+  serverHost: string | null;
+  /** Available productSets (data layers) like "PPAcore", "dynamicmaps". */
+  productSets: string[];
+  /** Zoom level range [min, max] for available tiles. */
+  zoomRange: [number, number] | null;
+  /** Base URL pattern for fetching individual tiles. */
+  tileUrlPattern: string | null;
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -44026,6 +44053,13 @@ interface PollenForecastResult {
      * scale) and category ("None", "Low", "Moderate", "High", "Very High").
      */
     getPollenForecast(location: Location): Promise<PollenForecastResult>;
+
+    /**
+     * Radar imagery tile server configuration for map overlays — precipitation radar mosaic,
+     * available data layers (productSets), zoom levels and tile URL pattern. Used to assemble
+     * radar map visualizations on weather.com.
+     */
+    getRadarTiles(): Promise<RadarTile>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2018285d2cc1c74284ea2f92f4a79a11e7c69d59fcaa96419123f9d40fdcc39f
-# 68 capabilities, 500 providers, 1625 typed functions, 20 refused.
+# Manifest version: e6400ed4265a4adf389f8ac81ca6fd7c1783a75231b7f41fbfbaff3f1e448d1a
+# 68 capabilities, 500 providers, 1627 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23040,6 +23040,13 @@ class Prv_twitch_TwitchClip_Out(TypedDict):
     gameName: str | None
     url: str
 
+class Prv_twitch_GetChannelScheduleInput_In(TypedDict):
+    login: str
+
+class Prv_twitch_TwitchScheduleSegment_Out(TypedDict):
+    id: str
+    title: str
+
 class Prv_twitch_CreateHighlightArgs_In(TypedDict):
     vodId: NotRequired[str]
     startSeconds: float
@@ -24153,6 +24160,12 @@ class Prv_weather_channel_PollenDaypart_Out(TypedDict):
     treeCategory: str | None
     ragweedIndex: float | None
     ragweedCategory: str | None
+
+class Prv_weather_channel_RadarTile_Out(TypedDict):
+    serverHost: str | None
+    productSets: list[str]
+    zoomRange: tuple[float, float] | None
+    tileUrlPattern: str | None
 
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
@@ -41526,6 +41539,12 @@ class Prv_twitch(Protocol):
         `limit`, default 20, max 100.
         """
 
+    async def getChannelSchedule(self, args: Prv_twitch_GetChannelScheduleInput_In, /) -> list[Prv_twitch_TwitchScheduleSegment_Out]:
+        """Reads a channel's scheduled broadcast times and upcoming events (if public). Returns an
+        empty list if the channel has no public schedule. No sign-in. THROWS naming the login
+        when Twitch has no such channel.
+        """
+
     async def createHighlight(self, args: Prv_twitch_CreateHighlightArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchHighlight_Out:
         """Cuts a permanent Highlight from the signed-in streamer's own broadcast — including the
         one still live — between two offsets in seconds, with a title. Omit vodId to cut from
@@ -42161,6 +42180,12 @@ class Prv_weather_channel(Protocol):
         allergy page shows. Each of 15 dayparts (day and night, ~7.5 days) carries the grass,
         tree and ragweed index (0-based site scale) and category ("None", "Low", "Moderate",
         "High", "Very High").
+        """
+
+    async def getRadarTiles(self, /) -> Prv_weather_channel_RadarTile_Out:
+        """Radar imagery tile server configuration for map overlays — precipitation radar mosaic,
+        available data layers (productSets), zoom levels and tile URL pattern. Used to assemble
+        radar map visualizations on weather.com.
         """
 
 class Prv_wellfound(Protocol):
