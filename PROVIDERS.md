@@ -1939,7 +1939,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | ⚪ |
 | `reuters.listFollowedTopics` | www.reuters.com | The topics the signed-in reader follows in My News. | ⚪ |
 | `reuters.listGraphics` | www.reuters.com | Reuters Graphics — the interactive data stories and explainers — with title, url and… | 🟢 |
-| `reuters.listHeadlines` | www.reuters.com | The stories a Reuters section front shows right now, in the page's own order… | ⚪ |
+| `reuters.listHeadlines` | www.reuters.com | The stories a Reuters section front shows right now, in the page's own order… | 🟢 |
 | `reuters.listLatestNews` | www.reuters.com | The newest Reuters stories across the whole site, newest first — headline, url… | 🟢 |
 | `reuters.listMostRead` | www.reuters.com | The "most read" stories Reuters shows beside its articles: rank, headline and url. | ⚪ |
 | `reuters.listNewsletters` | www.reuters.com | The Reuters newsletters a reader can sign up to — name, description and how often it… | ⚪ |
