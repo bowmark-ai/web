@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2565 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2570 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -622,6 +622,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.listTrendingTopics` | www.cnn.com | The stories CNN's own recommendation engine currently ranks as trending — headline… | 🟢 |
 | `cnn.listVideos` | www.cnn.com | The videos CNN currently lists on its video hub — clips and segments with headline… | 🟢 |
 | `cnn.searchArticles` | www.cnn.com | Search for news articles across CNN — takes what a person would say ("breaking news"… | ⚪ |
+| `coast.getFleetCardPricing` | coastpay.com | Reads Coast's own pricing page and returns its real, current per-active-user monthly… | 🟢 |
+| `coast.getFuelRebate` | coastpay.com | Reads Coast's own pricing page and returns its published per-gallon rebate range at… | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
 | `compass_living.listCommunities` | compass-living.com | Lists up to 10 senior living communities with their contact-form fields and… | 🟢 |
@@ -672,7 +674,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves detailed information about a registered Dell product including warranty and… | ⚪ |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | ⚪ |
 | `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag. | ⚪ |
-| `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | ⚪ |
+| `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | 🟢 |
 | `dell.listMyOrders` | dell.com | Retrieves the signed-in user's order history with order numbers, dates, and status. | ⚪ |
 | `dell.listMyRegisteredProducts` | dell.com | Retrieves the signed-in user's registered Dell products and devices. | ⚪ |
 | `dell.listMySavedCarts` | dell.com | Retrieves the signed-in user's saved shopping carts. | ⚪ |
@@ -846,7 +848,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `faceforwardaesthetics.listServices` | faceforwardaesthetics.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
 | `facerealityskincare.searchAcneExperts` | facerealityskincare.com | Runs Face Reality's own Acne Expert Locator search — matches a free-text query (city… | 🟢 |
 | `fbsappliance.getProductDetails` | fbsappliance.com | Reads one product's detail page for its full spec sheet, real per-showroom inventory… | ⚪ |
-| `fbsappliance.searchAppliances` | fbsappliance.com | Runs the site's own category grid (e.g. built-in-refrigerators) and returns real… | 🟢 |
+| `fbsappliance.searchAppliances` | fbsappliance.com | Runs the site's own category grid (e.g. built-in-refrigerators) and returns real… | 🟡 |
 | `fedex.getRate` | fedex.com | Prices a domestic package across FedEx's own service levels (Ground, Home Delivery… | 🟢 |
 | `fieldstonehomes.getAppointmentFormSchema` | fieldstonehomes.com | Reads Fieldstone Homes' live schedule-appointment form, including its required fields… | 🟢 |
 | `fieldstonehomes.prepareAppointment` | fieldstonehomes.com | Validates an appointment request against Fieldstone Homes' live form and returns the… | 🟢 |
@@ -919,7 +921,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getTokenAllowlistDetailed` | fomo.family | The token allowlist with each entry's full record — the same set as… | 🟢 |
 | `fomo.getTokenFeed` | fomo.family | Pages the posts and trades attached to one specific token — the conversation on a… | ⚪ |
 | `fomo.getTokenThesis` | fomo.family | Returns the written theses traders have posted about one token, ranked by the site's… | ⚪ |
-| `fomo.getTokenWarnings` | fomo.family | Returns fomo's risk flags for one token — the honeypot, mint-authority… | ⚪ |
+| `fomo.getTokenWarnings` | fomo.family | Returns fomo's risk flags for one token — the honeypot, mint-authority… | 🟢 |
 | `fomo.getTopHolders` | fomo.family | Returns the largest holders of one token, with position sizes. | ⚪ |
 | `fomo.getTrade` | fomo.family | Returns one trade in full by id, with its author and token — the narrow read behind a… | ⚪ |
 | `fomo.getTradeComments` | fomo.family | Returns the comment thread under one trade. `GET /trades/:tradeId/comments`. | ⚪ |
@@ -1276,7 +1278,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟡 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
-| `indeed.getCompanyDetails` | indeed.com | Fetches company details including ratings, reviews, and company information. | ⚪ |
+| `indeed.getCompanyDetails` | indeed.com | Fetches a company's full profile off its own /cmp/… snapshot page: overall rating… | 🟢 |
 | `indeed.getJobDetails` | indeed.com | Fetches complete details for a specific job listing including salary, company info… | 🟢 |
 | `indeed.getSalaryDetails` | indeed.com | Retrieves detailed salary information for a specific job title and location. | ⚪ |
 | `indeed.searchCompanies` | indeed.com | Searches Indeed's own company directory by name or keyword and returns each match's… | 🟢 |
@@ -1404,31 +1406,31 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `linkedin.followCompany` | linkedin.com | Follows or unfollows a company page as the signed-in caller. | ⚪ |
 | `linkedin.getArticle` | linkedin.com | Returns one long-form LinkedIn article or newsletter issue from its `/pulse/` URL —… | ⚪ |
 | `linkedin.getCompany` | linkedin.com | Returns a company's public LinkedIn page from its company URL or handle — legal and… | 🟢 |
-| `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟢 |
+| `linkedin.getConversation` | linkedin.com | Reads one LinkedIn message thread in order, oldest first — who sent each message, its… | 🟡 |
 | `linkedin.getEvent` | linkedin.com | Returns one public LinkedIn event from its URL — name, organizer, start and end time… | ⚪ |
-| `linkedin.getHomeFeed` | linkedin.com | Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL… | 🟢 |
+| `linkedin.getHomeFeed` | linkedin.com | Reads the caller's LinkedIn home feed, newest first, with author, text, counts and URL… | 🟡 |
 | `linkedin.getJob` | linkedin.com | Returns one job posting in full from its posting URL — title, employer and employer… | 🟢 |
 | `linkedin.getLearningCourse` | linkedin.com | Returns one LinkedIn Learning course from its URL — title, author, duration, level… | ⚪ |
-| `linkedin.getMyProfile` | linkedin.com | Returns the signed-in caller's own LinkedIn member record — name, headline, profile… | 🟢 |
+| `linkedin.getMyProfile` | linkedin.com | Returns the signed-in caller's own LinkedIn member record — name, headline, profile… | 🟡 |
 | `linkedin.getPost` | linkedin.com | Returns one public LinkedIn post from its URL — the author, the post text, the time it… | ⚪ |
 | `linkedin.getProfile` | linkedin.com | Returns the public professional record of one person from their profile URL — full… | 🟢 |
-| `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟢 |
-| `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟢 |
+| `linkedin.getProfileDetails` | linkedin.com | Returns one member's full profile as a signed-in member sees it — headline, the About… | 🟡 |
+| `linkedin.getProfileViews` | linkedin.com | Returns "who viewed your profile" for the caller: the view count LinkedIn reports and… | 🟡 |
 | `linkedin.getSchool` | linkedin.com | Returns a school or university's public LinkedIn page from its URL — name, type… | ⚪ |
 | `linkedin.ignoreInvitation` | linkedin.com | Ignores a connection invitation the signed-in caller received, without telling the… | ⚪ |
-| `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟢 |
+| `linkedin.listCompanyEmployees` | linkedin.com | Lists people who give a company as their current employer — from its LinkedIn URL… | 🟡 |
 | `linkedin.listCompanyJobs` | linkedin.com | Returns the open roles a single named company is currently advertising, as a list of… | ⚪ |
-| `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟢 |
-| `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟢 |
-| `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟢 |
-| `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟢 |
+| `linkedin.listConnections` | linkedin.com | Lists the caller's first-degree connections, most recently connected first, with each… | 🟡 |
+| `linkedin.listConversations` | linkedin.com | Lists the caller's LinkedIn message threads, most recent first, with the other… | 🟡 |
+| `linkedin.listInvitations` | linkedin.com | Lists the connection invitations the caller has received and not yet answered — who… | 🟡 |
+| `linkedin.listSentInvitations` | linkedin.com | Lists the connection invitations the caller has sent that are still pending — who each… | 🟡 |
 | `linkedin.reactToPost` | linkedin.com | Reacts to a post as the signed-in caller — like, celebrate, support, love, insightful… | ⚪ |
-| `linkedin.searchCompanies` | linkedin.com | Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per… | 🟢 |
+| `linkedin.searchCompanies` | linkedin.com | Searches LinkedIn's companies by name or keyword and returns 10 ranked companies per… | 🟡 |
 | `linkedin.searchJobs` | linkedin.com | Returns the job postings matching a search — keywords, location and how recently the… | 🟢 |
 | `linkedin.searchLearningCourses` | linkedin.com | Returns LinkedIn Learning courses matching a search — a topic, a skill, a software… | ⚪ |
-| `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟢 |
+| `linkedin.searchMembers` | linkedin.com | LinkedIn's own people search, run as the caller: keywords plus optional filters —… | 🟡 |
 | `linkedin.searchPeople` | linkedin.com | Finds LinkedIn members by name and returns each match's full public profile. | 🟡 |
-| `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟢 |
+| `linkedin.searchPosts` | linkedin.com | Searches LinkedIn posts by keyword and returns them with author, text, how long ago… | 🟡 |
 | `linkedin.searchServiceProviders` | linkedin.com | Returns the LinkedIn members who sell a given professional service — accountants… | ⚪ |
 | `linkedin.sendConnectionRequest` | linkedin.com | Sends a connection invitation from the signed-in caller to a member, with an optional… | ⚪ |
 | `linkedin.sendMessage` | linkedin.com | Sends a LinkedIn message as the signed-in caller — into an existing thread, or to a… | ⚪ |
@@ -1678,7 +1680,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listRSSFeeds` | nytimes.com | Lists available RSS feed URLs by section. | ⚪ |
 | `nytimes.listSavedArticles` | nytimes.com | Lists articles saved by signed-in reader. | ⚪ |
 | `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟢 |
-| `nytimes.listTopics` | nytimes.com | Lists all available topics/tags. | ⚪ |
+| `nytimes.listTopics` | nytimes.com | Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently… | 🟢 |
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
 | `nytimes.listWriterArticles` | nytimes.com | Gets all articles by a specific writer. | ⚪ |
 | `nytimes.saveArticle` | nytimes.com | Saves an article to the reader's collection (requires auth). | ⚪ |
@@ -1712,7 +1714,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pacificcompanies.searchJobs` | pacificcompanies.com | Runs Pacific Companies' own job-board search — filters real open physician/APP roles… | 🟢 |
 | `pacificlifestylehomes.searchAvailableHomes` | pacificlifestylehomes.com | Searches Pacific Lifestyle Homes' live available-home inventory in Camas, Ridgefield… | 🟢 |
 | `packlane.getQuote` | packlane.com | Prices Packlane's custom Mailer Boxes (product 35139) for a given box size, material… | 🟢 |
-| `pallet2ship.getQuote` | pallet2ship.co.uk | Returns a pallet freight quote from Pallet2Ship, a UK pallet broker, based on… | ⚪ |
+| `pallet2ship.getQuote` | pallet2ship.co.uk | Live pallet freight quotes between two UK-mainland postcodes for one or more pallets… | 🟡 |
 | `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | 🟢 |
 | `paypal.estimateFee` | paypal.com | Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — an… | 🟢 |
 | `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | ⚪ |
@@ -2123,6 +2125,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teladoc.getInsurancePricing` | teladochealth.com | Returns the with-insurance side of /start/no-insurance — what Teladoc publishes about… | 🟢 |
 | `teladoc.getPricing` | teladochealth.com | Returns Teladoc's published self-pay (no-insurance) visit pricing by service line —… | 🟢 |
 | `teladoc.search` | teladochealth.com | Searches Teladoc Health's public Health Library — recipes, meal plans… | ⚪ |
+| `tenders_go_ke.getTender` | tenders.go.ke | Read a single Kenya public procurement tender: close date, tender fee, venue, notice… | 🟢 |
+| `tenders_go_ke.listTenders` | tenders.go.ke | List Kenya government procurement tenders from the Public Procurement Information… | 🟢 |
 | `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
 | `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
 | `theguardian_com.getArticle` | theguardian.com | Read the full text of one article given its URL or ID. | 🟢 |
@@ -2303,6 +2307,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟡 |
 | `ubereats.getCheckoutTotal` | ubereats.com | Would open a specific restaurant, add real menu items to the cart, set a delivery… | ⚪ |
 | `ubereats.search` | ubereats.com | Would run Uber Eats' own restaurant search for a free-text query + address and return… | ⚪ |
+| `uhaul.getRates` | uhaul.com | Gets U-Haul truck or trailer rental rates for a pickup location and date — in-town, or… | 🟢 |
 | `uhc_smallbusiness.getGroupHealthQuote` | smallbusiness.uhc.com | Real level-funded and fully-insured small-group health plan premiums for a ZIP code… | 🟢 |
 | `ulrichlifestyle.getConfigurator` | ulrichlifestyle.com | Reads one model's default configurator: its base price (before delivery/tax) plus… | 🟢 |
 | `ulrichlifestyle.listModels` | ulrichlifestyle.com | Lists every shed/cabin model in Ulrich's current catalog with its code and name — the… | 🟢 |
@@ -2373,7 +2378,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getList` | walmart.com | Reads one saved list's items and prices for a list id `listLists` returned. | ⚪ |
 | `walmart.getOrder` | walmart.com | Reads one of the signed-in shopper's orders in full — items, delivery or pickup… | ⚪ |
 | `walmart.getPickupDeliverySlots` | walmart.com | Reads the available pickup or delivery time windows for a store/zip — the scheduling… | ⚪ |
-| `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | ⚪ |
+| `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | 🟢 |
 | `walmart.getRegistry` | walmart.com | Reads one public registry — the items on it, how many are wanted and how many were… | ⚪ |
 | `walmart.getSeller` | walmart.com | Reads a Marketplace seller's page — name, rating, review count, return policy — for a… | ⚪ |
 | `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | ⚪ |
