@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 56713c709a2a0c6c8b2f6189b36c9df7727ab7905778d1022ca8477617d29a2f
-// 1613 checked, 20 unchecked.
+// Manifest version: 24b46e2b6c6e1c56589bda10a5f39b37bb3178366ca7fbdd2150eb6cdd93c845
+// 1622 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "56713c709a2a0c6c8b2f6189b36c9df7727ab7905778d1022ca8477617d29a2f",
+  "version": "24b46e2b6c6e1c56589bda10a5f39b37bb3178366ca7fbdd2150eb6cdd93c845",
   "units": {
     "booking_links": {
       "defs": {
@@ -14010,6 +14010,13 @@ export const VALIDATORS: ValidatorTable = {
         "getMarketsData": []
       }
     },
+    "providers.coast": {
+      "defs": {},
+      "functions": {
+        "getFleetCardPricing": [],
+        "getFuelRebate": []
+      }
+    },
     "providers.code_claude_com": {
       "defs": {},
       "functions": {
@@ -17778,6 +17785,47 @@ export const VALIDATORS: ValidatorTable = {
             "name": "filters",
             "schema": {
               "k": "any"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getTokenWarnings": [
+          {
+            "name": "address",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "chain",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "FomoChainSlug"
+                },
+                {
+                  "k": "number"
+                }
+              ]
             },
             "optional": false
           },
@@ -23008,6 +23056,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.indeed": {
       "defs": {
+        "GetCompanyDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetJobDetailsArgs": {
           "k": "object",
           "props": [
@@ -23079,6 +23139,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "IndeedSearchCompaniesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getCompanyDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetCompanyDetailsArgs"
             },
             "optional": false
           }
@@ -30752,6 +30822,81 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetQuoteArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.pallet2ship": {
+      "defs": {
+        "Pallet2ShipPallet": {
+          "k": "object",
+          "props": [
+            {
+              "name": "weightKg",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "lengthCm",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "widthCm",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            },
+            {
+              "name": "heightCm",
+              "schema": {
+                "k": "number"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getQuote": [
+          {
+            "name": "collectionPostcode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "deliveryPostcode",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pallets",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "Pallet2ShipPallet"
+                },
+                {
+                  "k": "array",
+                  "of": {
+                    "k": "ref",
+                    "name": "Pallet2ShipPallet"
+                  }
+                }
+              ]
             },
             "optional": false
           }
@@ -40940,6 +41085,74 @@ export const VALIDATORS: ValidatorTable = {
         "getInsurancePricing": []
       }
     },
+    "providers.tenders_go_ke": {
+      "defs": {
+        "ListTendersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "status",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "active"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "perPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listTenders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListTendersArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getTender": [
+          {
+            "name": "id",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.teneohg": {
       "defs": {},
       "functions": {
@@ -43434,6 +43647,69 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.uhaul": {
+      "defs": {
+        "UhaulEquipment": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "truck"
+            },
+            {
+              "k": "literal",
+              "v": "trailer"
+            }
+          ]
+        },
+        "UhaulRatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "pickup",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "dropoff",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "pickupDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "equipment",
+              "schema": {
+                "k": "ref",
+                "name": "UhaulEquipment"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getRates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UhaulRatesArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.uhc_smallbusiness": {
       "defs": {},
       "functions": {
@@ -45808,6 +46084,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getKeyStatistics": [
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getEarningsDates": [
           {
             "name": "symbol",
             "schema": {

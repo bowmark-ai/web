@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 56713c709a2a0c6c8b2f6189b36c9df7727ab7905778d1022ca8477617d29a2f
-// 68 capabilities, 496 providers, 1631 typed functions, 20 refused.
+// Manifest version: 24b46e2b6c6e1c56589bda10a5f39b37bb3178366ca7fbdd2150eb6cdd93c845
+// 68 capabilities, 500 providers, 1640 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14351,6 +14351,48 @@ interface cnnMarketsData {
   }
 }
 
+declare namespace BowmarkProvider_coast {
+  // ── Coast — the unit's own declarations, verbatim ──
+// Coast's OWN shapes — not a capability contract.
+
+interface CoastFleetCardPricing {
+  monthlyFeePerUserUsd: number;
+  monthlyFeeDisplay: string;
+  feesNotCharged: string[];
+  gallonRebateRange: string;
+  url: string;
+}
+
+interface CoastFuelRebate {
+  gallonRebateRange: string;
+  gallonRebateDescription: string;
+  nonFuelCashBackRate: string;
+  url: string;
+}
+
+  /**
+   * Coast's own published fleet fuel-card pricing (coastpay.com/pricing) — the real, current
+   * per-user monthly fee, the fees it explicitly does not charge, and its per-gallon
+   * partner-station rebate range, read off the site's own page rather than a third-party
+   * comparison blog.
+   */
+  interface Unit {
+    /**
+     * Reads Coast's own pricing page and returns its real, current per-active-user monthly fee,
+     * the fees it explicitly does not charge, and its per-gallon rebate range at partner stations
+     * — sourced from Coast's own page, not a comparison blog's summary of it.
+     */
+    getFleetCardPricing(): Promise<CoastFleetCardPricing>;
+
+    /**
+     * Reads Coast's own pricing page and returns its published per-gallon rebate range at partner
+     * stations and its cash-back rate on non-fuel purchases — the earn side of the card, separate
+     * from the monthly card fee `getFleetCardPricing` answers.
+     */
+    getFuelRebate(): Promise<CoastFuelRebate>;
+  }
+}
+
 declare namespace BowmarkProvider_code_claude_com {
   // ── Claude Code Docs — the unit's own declarations, verbatim ──
 interface code_claude_comDoc {
@@ -18256,6 +18298,15 @@ interface FomoTokenAllowlistEntry {
   networkId: number;
 }
 
+/** A risk flag the site raises on a token's page — honeypot, mint authority, unlocked
+ * liquidity, concentration. The site's own `code` is kept verbatim rather than mapped
+ * to a severity of our invention. */
+interface FomoTokenWarning {
+  code: string;
+  label: string;
+  severity: string | null;
+}
+
 /** No route on this API publishes a total. Page until `cursor` is null. */
 interface FomoPage<T> {
   items: T[];
@@ -18377,6 +18428,13 @@ interface FomoPage<T> {
      * state; pass the filter object as the site's JS bundle constructs it.
      */
     filterTokens(filters: unknown, opts?: ConnectionOption): Promise<FomoTokenRow[]>;
+
+    /**
+     * Returns fomo's risk flags for one token — the honeypot, mint-authority, unlocked-liquidity
+     * and concentration warnings the site shows before it lets someone buy. Takes the same
+     * (address, chain) pair as getToken; chain accepts either the slug or the numeric networkId.
+     */
+    getTokenWarnings(address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<FomoTokenWarning[]>;
   }
 }
 
@@ -24672,6 +24730,34 @@ interface IndeedJobDetails {
   url: string;
 }
 
+interface GetCompanyDetailsArgs {
+  url: string;
+}
+
+interface IndeedCompanyReviewCategories {
+  compensationBenefits: number | null;
+  culture: number | null;
+  jobSecurityAdvancement: number | null;
+  management: number | null;
+  workLifeBalance: number | null;
+}
+
+interface IndeedCompanyDetails {
+  name: string;
+  rating: number | null;
+  reviewsCount: number | null;
+  reviewCategories: IndeedCompanyReviewCategories;
+  description: string | null;
+  industry: string | null;
+  founded: number | null;
+  employeeRange: string | null;
+  headquarters: string | null;
+  websiteUrl: string | null;
+  ceoName: string | null;
+  sectors: string[];
+  url: string;
+}
+
   /**
    * Job search on the US's largest job board — listings with salary, location and posted-date,
    * straight off Indeed's own search results.
@@ -24698,6 +24784,15 @@ interface IndeedJobDetails {
      * site's own results page. `sectors` is `[]` when the site's own card carries none.
      */
     searchCompanies(args: IndeedSearchCompaniesArgs): Promise<IndeedCompanyResult[]>;
+
+    /**
+     * Fetches a company's full profile off its own `/cmp/…` snapshot page: overall rating, review
+     * count, the site's five review-category scores, description, industry, founding year,
+     * headcount band, headquarters, website and CEO name. Takes a company URL (from
+     * searchCompanies' companyUrl field). Any field is null when the site's own profile carries
+     * none.
+     */
+    getCompanyDetails(args: GetCompanyDetailsArgs): Promise<IndeedCompanyDetails>;
   }
 }
 
@@ -32944,6 +33039,42 @@ interface packlaneQuote {
   }
 }
 
+declare namespace BowmarkProvider_pallet2ship {
+  // ── Pallet2Ship — the unit's own declarations, verbatim ──
+interface Pallet2ShipPallet { weightKg: number; lengthCm: number; widthCm: number; heightCm: number }
+interface Pallet2ShipQuote {
+  serviceName: string;       // e.g. "TPN Economy"
+  price: number;             // GBP ex VAT
+  vat: number;
+  priceIncVat: number;
+  currency: "GBP";
+  earliestCollection: string | null; // e.g. "2 October", "Today"
+  transit: string | null;            // e.g. "2-3 Working days"
+  estimatedDelivery: string | null;
+}
+interface Pallet2ShipQuoteResult {
+  collectionPostcode: string;
+  deliveryPostcode: string;
+  pallets: Pallet2ShipPallet[];
+  quotes: Pallet2ShipQuote[]; // cheapest first
+  url: string;
+}
+
+  /**
+   * Get live UK pallet freight quotes from Pallet2Ship, a UK pallet broker — every carrier
+   * service (TPN, Palletways, Pall-EX…) with price, collection date and transit time.
+   */
+  interface Unit {
+    /**
+     * Live pallet freight quotes between two UK-mainland postcodes for one or more pallets (weight
+     * kg, length/width/height cm): every service Pallet2Ship offers on the lane, cheapest first,
+     * with ex/inc-VAT price, earliest collection and transit. THROWS on a postcode the site does
+     * not recognise.
+     */
+    getQuote(collectionPostcode: string, deliveryPostcode: string, pallets: Pallet2ShipPallet | Pallet2ShipPallet[]): Promise<Pallet2ShipQuoteResult>;
+  }
+}
+
 declare namespace BowmarkProvider_pawsup {
   // ── Paws Up — the unit's own declarations, verbatim ──
 interface AvailabilityResult {
@@ -39681,6 +39812,68 @@ interface teladocInsuranceCoverage {
   }
 }
 
+declare namespace BowmarkProvider_tenders_go_ke {
+  // ── tenders.go.ke — Kenya Public Procurement Information Portal — the unit's own declarations, verbatim ──
+interface ListTendersArgs {
+  status?: "active" | "all"; // "active" (default) = open tenders only; "all" = every tender ever published
+  title?: string; // substring filter on the tender title
+  page?: number; // 1-based
+  perPage?: number; // 1-50, default 20
+}
+interface TenderSummary {
+  id: string; // pass to getTender
+  tenderRef: string | null;
+  title: string;
+  procuringEntity: string | null;
+  procurementMethod: string | null; // e.g. "Open Tender"
+  procurementCategory: string | null; // e.g. "Works", "Goods"
+  publishedAt: string | null; // "YYYY-MM-DD HH:mm:ss", Nairobi time
+  closeAt: string | null;
+  addendumAdded: boolean;
+  terminated: boolean;
+  url: string;
+}
+interface TenderPage { tenders: TenderSummary[]; page: number; pages: number; total: number }
+interface TenderDocument { description: string; url: string }
+interface TenderAward {
+  contractNumber: string | null;
+  supplier: string | null;
+  amountKes: number | null;
+  awardDate: string | null;
+  startDate: string | null;
+  endDate: string | null;
+}
+interface TenderDetail extends TenderSummary {
+  ocid: string | null;
+  description: string | null;
+  venue: string | null;
+  tenderFeeKes: number | null;
+  validityDays: number | null;
+  financialYear: string | null;
+  documents: TenderDocument[];
+  addenda: TenderDocument[];
+  awards: TenderAward[]; // empty until a contract is awarded
+}
+
+  /**
+   * List open (or all) Kenyan government procurement tenders with close dates, paginated and
+   * filterable by title; read one tender's documents and award value.
+   */
+  interface Unit {
+    /**
+     * Lists Kenyan public procurement tenders, newest first — open tenders by default — with
+     * procuring entity, method, category, publish and close dates, and pagination totals.
+     */
+    listTenders(args?: ListTendersArgs): Promise<TenderPage>;
+
+    /**
+     * Reads one tender by the id listTenders returns: close date, fee, documents, addenda, and any
+     * awarded contract with supplier and value in KES.
+     */
+    getTender(id: string): Promise<TenderDetail>;
+  }
+}
+
 declare namespace BowmarkProvider_teneohg {
   // ── Teneo Hospitality Group — the unit's own declarations, verbatim ──
 // Teneo's OWN shapes — not a capability contract.
@@ -42097,6 +42290,58 @@ interface DriverEarnings {
   interface Unit {
     /** Returns earnings for a specific week (0 = current, 1 = last week, etc) */
     getDriverEarnings(weekOffset?: number, opts?: ConnectionOption): Promise<DriverEarnings>;
+  }
+}
+
+declare namespace BowmarkProvider_uhaul {
+  // ── U-Haul — the unit's own declarations, verbatim ──
+type UhaulEquipment = "truck" | "trailer";
+interface UhaulRatesArgs {
+  /** "City, ST" or a zip/postal code. */
+  pickup: string;
+  /** Omit for an in-town (round-trip) rental; set for one-way. */
+  dropoff?: string;
+  /** YYYY-MM-DD or MM/DD/YYYY, within the next 11 months. */
+  pickupDate: string;
+  /** Default "truck". */
+  equipment?: UhaulEquipment;
+}
+interface UhaulRateOption {
+  code: string;
+  name: string;
+  /** False when U-Haul says this size is not available for the move. */
+  available: boolean;
+  /** One-way: flat price for the whole move. In-town: base price per rental period, before mileage. */
+  rate: number | null;
+  /** In-town only: charged per mile on top of rate. */
+  perMileRate: number | null;
+  /** One-way only: price of each day beyond includedDays. */
+  extraDayRate: number | null;
+  /** One-way only: price of each mile beyond includedMiles. */
+  extraMileRate: number | null;
+  rentalPeriodHours: number | null;
+}
+interface UhaulRates {
+  kind: "oneWay" | "inTown";
+  equipment: UhaulEquipment;
+  pickup: string;
+  dropoff: string | null;
+  pickupDate: string;
+  /** One-way only: days of use the rate includes. */
+  includedDays: number | null;
+  /** One-way only: miles the rate includes. */
+  includedMiles: number | null;
+  options: UhaulRateOption[];
+  quoteUrl: string;
+}
+
+  /** U-Haul truck and trailer rental quotes — in-town or one-way, for a pickup location and date. */
+  interface Unit {
+    /**
+     * Gets U-Haul truck or trailer rental rates for a pickup location and date — in-town, or
+     * one-way when a dropoff is given, with the days and miles a one-way rate includes.
+     */
+    getRates(args: UhaulRatesArgs): Promise<UhaulRates>;
   }
 }
 
@@ -44623,6 +44868,21 @@ interface YahooFinanceCompanyProfile {
   executives: YahooFinanceExecutive[];
 }
 
+interface YahooFinanceEarningsDates {
+  symbol: string;
+  nextEarningsDate: string | null;  // "2026-10-29" — kept as the site renders
+  isEarningsDateEstimate: boolean;
+  nextEarningsCallDate: string | null;
+  epsEstimateAverage: string | null;  // "1.98" — kept as the site renders
+  epsEstimateLow: string | null;
+  epsEstimateHigh: string | null;
+  revenueEstimateAverage: string | null;  // "113.62B" — kept as the site renders
+  revenueEstimateLow: string | null;
+  revenueEstimateHigh: string | null;
+  exDividendDate: string | null;
+  dividendDate: string | null;
+}
+
   /**
    * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
    * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
@@ -44764,6 +45024,16 @@ interface YahooFinanceCompanyProfile {
      * unknown or empty ticker throws before any request is sent.
      */
     getKeyStatistics(symbol: string): Promise<YahooFinanceKeyStatistics>;
+
+    /**
+     * Reads a ticker's next scheduled earnings date and the analyst consensus around it — EPS and
+     * revenue estimate average/low/high — plus the next earnings call date and the next
+     * ex-dividend and dividend dates, the same calendar every quote page carries.
+     * `isEarningsDateEstimate` says whether Yahoo Finance is confirming the date or estimating it.
+     * Any field the site has not scheduled yet answers null rather than a throw. An unknown or
+     * empty ticker throws before any request is sent.
+     */
+    getEarningsDates(symbol: string): Promise<YahooFinanceEarningsDates>;
   }
 }
 
@@ -47116,6 +47386,7 @@ interface BowmarkProviders {
   cloudflare: BowmarkProvider_cloudflare.Unit;
   clubchampion: BowmarkProvider_clubchampion.Unit;
   cnn: BowmarkProvider_cnn.Unit;
+  coast: BowmarkProvider_coast.Unit;
   code_claude_com: BowmarkProvider_code_claude_com.Unit;
   compass_living: BowmarkProvider_compass_living.Unit;
   completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
@@ -47337,6 +47608,7 @@ interface BowmarkProviders {
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
   packlane: BowmarkProvider_packlane.Unit;
+  pallet2ship: BowmarkProvider_pallet2ship.Unit;
   pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
@@ -47410,6 +47682,7 @@ interface BowmarkProviders {
   target: BowmarkProvider_target.Unit;
   tatcha: BowmarkProvider_tatcha.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;
+  tenders_go_ke: BowmarkProvider_tenders_go_ke.Unit;
   teneohg: BowmarkProvider_teneohg.Unit;
   theguardian_com: BowmarkProvider_theguardian_com.Unit;
   therabody: BowmarkProvider_therabody.Unit;
@@ -47436,6 +47709,7 @@ interface BowmarkProviders {
   twiddy: BowmarkProvider_twiddy.Unit;
   twitch: BowmarkProvider_twitch.Unit;
   uber: BowmarkProvider_uber.Unit;
+  uhaul: BowmarkProvider_uhaul.Unit;
   uhc_smallbusiness: BowmarkProvider_uhc_smallbusiness.Unit;
   ulrichlifestyle: BowmarkProvider_ulrichlifestyle.Unit;
   upkeepstl_com: BowmarkProvider_upkeepstl_com.Unit;

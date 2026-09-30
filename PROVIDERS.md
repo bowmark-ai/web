@@ -72,7 +72,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.listRfqProfessions` | alibaba.com | Get list of available industry/profession categories for RFQ. | ⚪ |
 | `alibaba.listRfqs` | alibaba.com | Get list of RFQs (Requests for Quote) created by the user. | ⚪ |
 | `alibaba.listSavedItems` | alibaba.com | Get list of saved/favorited products. | ⚪ |
-| `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | ⚪ |
+| `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | 🟢 |
 | `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
 | `alibaba.removeFromCart` | alibaba.com | Remove a product from the shopping cart. | ⚪ |
 | `alibaba.saveProduct` | alibaba.com | Add a product to saved items/favorites. | ⚪ |
@@ -234,7 +234,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getArticle` | bbc.com | One BBC article as data: headline, byline, published and updated times, section, topic… | 🟢 |
 | `bbc.getCurrentWeather` | bbc.com | The latest observation BBC Weather shows for a location: temperature, wind, humidity… | ⚪ |
 | `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | 🟢 |
-| `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | ⚪ |
+| `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | 🟢 |
 | `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | 🟢 |
 | `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | ⚪ |
 | `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, and its episodes newest first — title… | ⚪ |
@@ -2222,7 +2222,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `topviewtix.reserve` | topviewtix.com | Would pick a date, ticket quantity and seating tier for a package and hand back a… | ⚪ |
 | `totalplastics.getQuoteFormFieldOptions` | totalplastics.com | Reads one named field off the live quote form (e.g. "Material Type" or "Annual… | 🟢 |
 | `totalplastics.getQuoteFormFields` | totalplastics.com | Reads Total Plastics' own "Request a Quote" form (a POWR form-builder widget embedded… | 🟢 |
-| `tradingview.getChartData` | www.tradingview.com | Get historical candlestick/OHLCV data for charting. | ⚪ |
+| `tradingview.getChartData` | www.tradingview.com | Get historical candlestick/OHLCV data for charting. | 🟢 |
 | `tradingview.getCompanyInfo` | www.tradingview.com | Get fundamental information about a company: description, sector, market cap, employees. | 🟢 |
 | `tradingview.getDividends` | www.tradingview.com | Get dividend history and yield information for a symbol. | ⚪ |
 | `tradingview.getEarnings` | www.tradingview.com | Get earnings history and upcoming earnings dates for a symbol. | ⚪ |

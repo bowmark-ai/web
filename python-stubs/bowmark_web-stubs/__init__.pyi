@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 56713c709a2a0c6c8b2f6189b36c9df7727ab7905778d1022ca8477617d29a2f
-# 68 capabilities, 496 providers, 1613 typed functions, 20 refused.
+# Manifest version: 24b46e2b6c6e1c56589bda10a5f39b37bb3178366ca7fbdd2150eb6cdd93c845
+# 68 capabilities, 500 providers, 1622 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7897,6 +7897,19 @@ class Prv_cnn_cnnMarketIndex_Out(TypedDict):
     change: str | None
     changePercent: str | None
 
+class Prv_coast_CoastFleetCardPricing_Out(TypedDict):
+    monthlyFeePerUserUsd: float
+    monthlyFeeDisplay: str
+    feesNotCharged: list[str]
+    gallonRebateRange: str
+    url: str
+
+class Prv_coast_CoastFuelRebate_Out(TypedDict):
+    gallonRebateRange: str
+    gallonRebateDescription: str
+    nonFuelCashBackRate: str
+    url: str
+
 class Prv_code_claude_com_code_claude_comDoc_Out(TypedDict):
     url: str
     title: str | None
@@ -10114,6 +10127,11 @@ class Prv_fomo_FomoTokenRow_Out(TypedDict):
 class Prv_fomo_FomoTokenAllowlistEntry_Out(TypedDict):
     address: str
     networkId: float
+
+class Prv_fomo_FomoTokenWarning_Out(TypedDict):
+    code: str
+    label: str
+    severity: str | None
 
 class Prv_forbes_ForbesNewsList_Out(TypedDict):
     articles: list[Prv_forbes_ForbesArticle_Out]
@@ -13171,6 +13189,31 @@ class Prv_indeed_IndeedCompanyResult_Out(TypedDict):
     reviewsUrl: str | None
     salariesUrl: str | None
     logoUrl: str | None
+
+class Prv_indeed_GetCompanyDetailsArgs_In(TypedDict):
+    url: str
+
+class Prv_indeed_IndeedCompanyDetails_Out(TypedDict):
+    name: str
+    rating: float | None
+    reviewsCount: float | None
+    reviewCategories: Prv_indeed_IndeedCompanyReviewCategories_Out
+    description: str | None
+    industry: str | None
+    founded: float | None
+    employeeRange: str | None
+    headquarters: str | None
+    websiteUrl: str | None
+    ceoName: str | None
+    sectors: list[str]
+    url: str
+
+class Prv_indeed_IndeedCompanyReviewCategories_Out(TypedDict):
+    compensationBenefits: float | None
+    culture: float | None
+    jobSecurityAdvancement: float | None
+    management: float | None
+    workLifeBalance: float | None
 
 class Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In(TypedDict):
     state: NotRequired[str]
@@ -17521,6 +17564,35 @@ class Prv_packlane_packlaneQuote_Out_totalPrice_Out(TypedDict):
     amount: float
     currency: str
 
+class Prv_pallet2ship_Pallet2ShipPallet_In(TypedDict):
+    weightKg: float
+    lengthCm: float
+    widthCm: float
+    heightCm: float
+
+class Prv_pallet2ship_Pallet2ShipQuoteResult_Out(TypedDict):
+    collectionPostcode: str
+    deliveryPostcode: str
+    pallets: list[Prv_pallet2ship_Pallet2ShipPallet_Out]
+    quotes: list[Prv_pallet2ship_Pallet2ShipQuote_Out]
+    url: str
+
+class Prv_pallet2ship_Pallet2ShipPallet_Out(TypedDict):
+    weightKg: float
+    lengthCm: float
+    widthCm: float
+    heightCm: float
+
+class Prv_pallet2ship_Pallet2ShipQuote_Out(TypedDict):
+    serviceName: str
+    price: float
+    vat: float
+    priceIncVat: float
+    currency: Literal["GBP"]
+    earliestCollection: str | None
+    transit: str | None
+    estimatedDelivery: str | None
+
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
     checkOutDate: str
@@ -21618,6 +21690,65 @@ class Prv_teladoc_teladocInsuranceCoverage_Out(TypedDict):
     services: list[str]
     disclaimer: str
 
+class Prv_tenders_go_ke_ListTendersArgs_In(TypedDict):
+    status: NotRequired[Literal["active"] | Literal["all"]]
+    title: NotRequired[str]
+    page: NotRequired[float]
+    perPage: NotRequired[float]
+
+class Prv_tenders_go_ke_TenderPage_Out(TypedDict):
+    tenders: list[Prv_tenders_go_ke_TenderSummary_Out]
+    page: float
+    pages: float
+    total: float
+
+class Prv_tenders_go_ke_TenderSummary_Out(TypedDict):
+    id: str
+    tenderRef: str | None
+    title: str
+    procuringEntity: str | None
+    procurementMethod: str | None
+    procurementCategory: str | None
+    publishedAt: str | None
+    closeAt: str | None
+    addendumAdded: bool
+    terminated: bool
+    url: str
+
+class Prv_tenders_go_ke_TenderDetail_Out(TypedDict):
+    id: str
+    tenderRef: str | None
+    title: str
+    procuringEntity: str | None
+    procurementMethod: str | None
+    procurementCategory: str | None
+    publishedAt: str | None
+    closeAt: str | None
+    addendumAdded: bool
+    terminated: bool
+    url: str
+    ocid: str | None
+    description: str | None
+    venue: str | None
+    tenderFeeKes: float | None
+    validityDays: float | None
+    financialYear: str | None
+    documents: list[Prv_tenders_go_ke_TenderDocument_Out]
+    addenda: list[Prv_tenders_go_ke_TenderDocument_Out]
+    awards: list[Prv_tenders_go_ke_TenderAward_Out]
+
+class Prv_tenders_go_ke_TenderDocument_Out(TypedDict):
+    description: str
+    url: str
+
+class Prv_tenders_go_ke_TenderAward_Out(TypedDict):
+    contractNumber: str | None
+    supplier: str | None
+    amountKes: float | None
+    awardDate: str | None
+    startDate: str | None
+    endDate: str | None
+
 class Prv_teneohg_searchMemberHotels_args_In(TypedDict):
     state: NotRequired[str]
     country: NotRequired[str]
@@ -22915,6 +23046,33 @@ class Prv_uber_DriverEarnings_Out(TypedDict):
     weekStart: str
     tripCount: float
     netEarnings: float
+
+class Prv_uhaul_UhaulRatesArgs_In(TypedDict):
+    pickup: str
+    dropoff: NotRequired[str]
+    pickupDate: str
+    equipment: NotRequired[Literal["truck"] | Literal["trailer"]]
+
+class Prv_uhaul_UhaulRates_Out(TypedDict):
+    kind: Literal["oneWay"] | Literal["inTown"]
+    equipment: Literal["truck"] | Literal["trailer"]
+    pickup: str
+    dropoff: str | None
+    pickupDate: str
+    includedDays: float | None
+    includedMiles: float | None
+    options: list[Prv_uhaul_UhaulRateOption_Out]
+    quoteUrl: str
+
+class Prv_uhaul_UhaulRateOption_Out(TypedDict):
+    code: str
+    name: str
+    available: bool
+    rate: float | None
+    perMileRate: float | None
+    extraDayRate: float | None
+    extraMileRate: float | None
+    rentalPeriodHours: float | None
 
 class Prv_uhc_smallbusiness_UhcSmallbusinessQuote_Out(TypedDict):
     zip: str
@@ -24620,6 +24778,20 @@ class Prv_yahoo_finance_YahooFinanceKeyStatistics_Out(TypedDict):
 class Prv_yahoo_finance_YahooFinanceKeyStat_Out(TypedDict):
     label: str
     value: str | None
+
+class Prv_yahoo_finance_YahooFinanceEarningsDates_Out(TypedDict):
+    symbol: str
+    nextEarningsDate: str | None
+    isEarningsDateEstimate: bool
+    nextEarningsCallDate: str | None
+    epsEstimateAverage: str | None
+    epsEstimateLow: str | None
+    epsEstimateHigh: str | None
+    revenueEstimateAverage: str | None
+    revenueEstimateLow: str | None
+    revenueEstimateHigh: str | None
+    exDividendDate: str | None
+    dividendDate: str | None
 
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -30782,6 +30954,25 @@ class Prv_cnn(Protocol):
         currency rates, and commodity prices with current values and change indicators.
         """
 
+class Prv_coast(Protocol):
+    """Coast's own published fleet fuel-card pricing (coastpay.com/pricing) — the real, current
+    per-user monthly fee, the fees it explicitly does not charge, and its per-gallon
+    partner-station rebate range, read off the site's own page rather than a third-party
+    comparison blog.
+    """
+
+    async def getFleetCardPricing(self, /) -> Prv_coast_CoastFleetCardPricing_Out:
+        """Reads Coast's own pricing page and returns its real, current per-active-user monthly
+        fee, the fees it explicitly does not charge, and its per-gallon rebate range at partner
+        stations — sourced from Coast's own page, not a comparison blog's summary of it.
+        """
+
+    async def getFuelRebate(self, /) -> Prv_coast_CoastFuelRebate_Out:
+        """Reads Coast's own pricing page and returns its published per-gallon rebate range at
+        partner stations and its cash-back rate on non-fuel purchases — the earn side of the
+        card, separate from the monthly card fee `getFleetCardPricing` answers.
+        """
+
 class Prv_code_claude_com(Protocol):
     """Reads one page of Claude Code's own documentation site (code.claude.com/docs/...) by URL
     and returns its title, description and body as clean markdown — the site's own
@@ -32294,6 +32485,13 @@ class Prv_fomo(Protocol):
         indexes launchpad tokens from the bonding curve onward, well before they appear anywhere
         else. Filters typically include chain, market cap band, volume, liquidity, age, and
         graduation state; pass the filter object as the site's JS bundle constructs it.
+        """
+
+    async def getTokenWarnings(self, address: str, chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenWarning_Out]:
+        """Returns fomo's risk flags for one token — the honeypot, mint-authority,
+        unlocked-liquidity and concentration warnings the site shows before it lets someone buy.
+        Takes the same (address, chain) pair as getToken; chain accepts either the slug or the
+        numeric networkId.
         """
 
 class Prv_forbes(Protocol):
@@ -34745,6 +34943,14 @@ class Prv_indeed(Protocol):
         rating, review count, sectors and its own `/cmp/…` page URLs (jobs, reviews, salaries),
         off the site's own results page. `sectors` is `[]` when the site's own card carries
         none.
+        """
+
+    async def getCompanyDetails(self, args: Prv_indeed_GetCompanyDetailsArgs_In, /) -> Prv_indeed_IndeedCompanyDetails_Out:
+        """Fetches a company's full profile off its own `/cmp/…` snapshot page: overall rating,
+        review count, the site's five review-category scores, description, industry, founding
+        year, headcount band, headquarters, website and CEO name. Takes a company URL (from
+        searchCompanies' companyUrl field). Any field is null when the site's own profile
+        carries none.
         """
 
 class Prv_inspirecommunities(Protocol):
@@ -37807,6 +38013,18 @@ class Prv_packlane(Protocol):
         own on-page calculator API.
         """
 
+class Prv_pallet2ship(Protocol):
+    """Get live UK pallet freight quotes from Pallet2Ship, a UK pallet broker — every carrier
+    service (TPN, Palletways, Pall-EX…) with price, collection date and transit time.
+    """
+
+    async def getQuote(self, collectionPostcode: str, deliveryPostcode: str, pallets: Prv_pallet2ship_Pallet2ShipPallet_In | Sequence[Prv_pallet2ship_Pallet2ShipPallet_In], /) -> Prv_pallet2ship_Pallet2ShipQuoteResult_Out:
+        """Live pallet freight quotes between two UK-mainland postcodes for one or more pallets
+        (weight kg, length/width/height cm): every service Pallet2Ship offers on the lane,
+        cheapest first, with ex/inc-VAT price, earliest collection and transit. THROWS on a
+        postcode the site does not recognise.
+        """
+
 class Prv_pawsup(Protocol):
     """Luxury glamping resort availability and accommodations on Paws Up's booking portal."""
 
@@ -40373,6 +40591,21 @@ class Prv_teladoc(Protocol):
         way this parser cannot read surfaces as an error rather than an empty answer.
         """
 
+class Prv_tenders_go_ke(Protocol):
+    """List open (or all) Kenyan government procurement tenders with close dates, paginated and
+    filterable by title; read one tender's documents and award value.
+    """
+
+    async def listTenders(self, args: Prv_tenders_go_ke_ListTendersArgs_In | None = None, /) -> Prv_tenders_go_ke_TenderPage_Out:
+        """Lists Kenyan public procurement tenders, newest first — open tenders by default — with
+        procuring entity, method, category, publish and close dates, and pagination totals.
+        """
+
+    async def getTender(self, id: str, /) -> Prv_tenders_go_ke_TenderDetail_Out:
+        """Reads one tender by the id listTenders returns: close date, fee, documents, addenda, and
+        any awarded contract with supplier and value in KES.
+        """
+
 class Prv_teneohg(Protocol):
     """Teneo Hospitality Group's own member-hotel directory — search 350+ independent and
     small-branded meeting hotels by destination, collection and meeting-space/room-block
@@ -41268,6 +41501,16 @@ class Prv_uber(Protocol):
 
     async def getDriverEarnings(self, weekOffset: float | None = None, opts: ConnectionOption | None = None, /) -> Prv_uber_DriverEarnings_Out:
         """Returns earnings for a specific week (0 = current, 1 = last week, etc)"""
+
+class Prv_uhaul(Protocol):
+    """U-Haul truck and trailer rental quotes — in-town or one-way, for a pickup location and
+    date.
+    """
+
+    async def getRates(self, args: Prv_uhaul_UhaulRatesArgs_In, /) -> Prv_uhaul_UhaulRates_Out:
+        """Gets U-Haul truck or trailer rental rates for a pickup location and date — in-town, or
+        one-way when a dropoff is given, with the days and miles a one-way rate includes.
+        """
 
 class Prv_uhc_smallbusiness(Protocol):
     """UnitedHealthcare's small-business store — real level-funded and fully-insured group
@@ -42258,6 +42501,15 @@ class Prv_yahoo_finance(Protocol):
         counts, ranges). An unknown or empty ticker throws before any request is sent.
         """
 
+    async def getEarningsDates(self, symbol: str, /) -> Prv_yahoo_finance_YahooFinanceEarningsDates_Out:
+        """Reads a ticker's next scheduled earnings date and the analyst consensus around it — EPS
+        and revenue estimate average/low/high — plus the next earnings call date and the next
+        ex-dividend and dividend dates, the same calendar every quote page carries.
+        `isEarningsDateEstimate` says whether Yahoo Finance is confirming the date or estimating
+        it. Any field the site has not scheduled yet answers null rather than a throw. An
+        unknown or empty ticker throws before any request is sent.
+        """
+
 class Prv_yahoo_sports(Protocol):
     """Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages —
     off the site's own server-rendered schema.org markup, no browser and no account.
@@ -42954,6 +43206,7 @@ class BowmarkProviders(Protocol):
     cloudflare: Prv_cloudflare
     clubchampion: Prv_clubchampion
     cnn: Prv_cnn
+    coast: Prv_coast
     code_claude_com: Prv_code_claude_com
     compass_living: Prv_compass_living
     completehomewarranty_com: Prv_completehomewarranty_com
@@ -43175,6 +43428,7 @@ class BowmarkProviders(Protocol):
     pacificcompanies: Prv_pacificcompanies
     pacificlifestylehomes: Prv_pacificlifestylehomes
     packlane: Prv_packlane
+    pallet2ship: Prv_pallet2ship
     pawsup: Prv_pawsup
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland
@@ -43248,6 +43502,7 @@ class BowmarkProviders(Protocol):
     target: Prv_target
     tatcha: Prv_tatcha
     teladoc: Prv_teladoc
+    tenders_go_ke: Prv_tenders_go_ke
     teneohg: Prv_teneohg
     theguardian_com: Prv_theguardian_com
     therabody: Prv_therabody
@@ -43274,6 +43529,7 @@ class BowmarkProviders(Protocol):
     twiddy: Prv_twiddy
     twitch: Prv_twitch
     uber: Prv_uber
+    uhaul: Prv_uhaul
     uhc_smallbusiness: Prv_uhc_smallbusiness
     ulrichlifestyle: Prv_ulrichlifestyle
     upkeepstl_com: Prv_upkeepstl_com
