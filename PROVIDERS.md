@@ -1279,7 +1279,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `indeed.getCompanyDetails` | indeed.com | Fetches company details including ratings, reviews, and company information. | ⚪ |
 | `indeed.getJobDetails` | indeed.com | Fetches complete details for a specific job listing including salary, company info… | 🟢 |
 | `indeed.getSalaryDetails` | indeed.com | Retrieves detailed salary information for a specific job title and location. | ⚪ |
-| `indeed.searchCompanies` | indeed.com | Searches for companies on Indeed by name or keyword. | ⚪ |
+| `indeed.searchCompanies` | indeed.com | Searches Indeed's own company directory by name or keyword and returns each match's… | 🟢 |
 | `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |
 | `indeed.searchSalaries` | indeed.com | Searches salary data on Indeed by job title and location. | ⚪ |
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
@@ -1982,7 +1982,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsclub.getProduct` | samsclub.com | Reads one product's full page — member price (and non-member price where the site… | 🟢 |
 | `samsclub.search` | samsclub.com | Searches samsclub.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `samsclub.trackOrder` | samsclub.com | Looks up shipment/delivery status for an order by order number plus the email or zip… | ⚪ |
-| `samsung.checkWarrantyStatus` | samsung.com | Whether a specific device's Samsung warranty is active and when it expires — takes the… | ⚪ |
+| `samsung.checkWarrantyStatus` | samsung.com | A signed-in shopper's registered device's warranty status — active or expired, with… | 🟢 |
 | `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models in the same family —… | ⚪ |
 | `samsung.findStore` | samsung.com | Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not… | 🟢 |
 | `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟢 |
@@ -2078,7 +2078,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getAchievements` | steampowered.com | Retrieves achievement list for a game when publicly viewable, including achievement… | ⚪ |
 | `steam.getCommunityHub` | steampowered.com | Retrieves the community hub for a game, including recent discussions, artwork… | ⚪ |
 | `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | 🟢 |
-| `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | ⚪ |
+| `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | 🟢 |
 | `steam.getGameScreenshots` | steampowered.com | Fetches a game's screenshots and promotional images, returning image URLs, captions… | ⚪ |
 | `steam.getGameStats` | steampowered.com | Provides game statistics like current player count, peak player count (24h)… | ⚪ |
 | `steam.getGameVideos` | steampowered.com | Returns video trailers and gameplay videos for a game, including video URLs, titles… | ⚪ |
@@ -2222,7 +2222,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getCompanyInfo` | www.tradingview.com | Get fundamental information about a company: description, sector, market cap, employees. | 🟢 |
 | `tradingview.getDividends` | www.tradingview.com | Get dividend history and yield information for a symbol. | ⚪ |
 | `tradingview.getEarnings` | www.tradingview.com | Get earnings history and upcoming earnings dates for a symbol. | ⚪ |
-| `tradingview.getFinancials` | www.tradingview.com | Get financial statements and historical data: revenue, earnings, balance sheet. | ⚪ |
+| `tradingview.getFinancials` | www.tradingview.com | Get financial statements and historical data: revenue, earnings, balance sheet. | 🟢 |
 | `tradingview.getMarketOverview` | www.tradingview.com | Get market overview data: top gainers, losers, most active symbols. | ⚪ |
 | `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | 🟢 |
 | `tradingview.getOptionChain` | www.tradingview.com | Get option chain data for symbols that have options. | ⚪ |

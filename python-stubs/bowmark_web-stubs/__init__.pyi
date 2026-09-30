@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: edf1ea8cae6717beb69cba7ec31cb32eecd152fe5f14311a4ec4118e08667f47
-# 68 capabilities, 497 providers, 1599 typed functions, 20 refused.
+# Manifest version: f072da2302995019a1bf4398024ca889e1e85a7a93258d3242329ca2a279afae
+# 68 capabilities, 497 providers, 1600 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11425,6 +11425,7 @@ class Prv_google_maps_GetDirectionsArgs_In(TypedDict):
     origin: str
     destination: str
     mode: NotRequired[Literal["driving"] | Literal["walking"] | Literal["transit"]]
+    waypoints: NotRequired[Sequence[str]]
 
 class Prv_google_maps_GetDirectionsResult_Out(TypedDict):
     distance: str
@@ -20281,6 +20282,20 @@ class Prv_samsung_SamsungProduct_Out(TypedDict):
 
 class Prv_samsung_GetRewardsBalanceResponse_Out(TypedDict):
     rewards: Mapping[str, Any]
+
+class Prv_samsung_CheckWarrantyStatusArgs_In(TypedDict):
+    serialOrModel: str
+
+class Prv_samsung_CheckWarrantyStatusResponse_Out(TypedDict):
+    warranty: Prv_samsung_WarrantyStatus_Out
+
+class Prv_samsung_WarrantyStatus_Out(TypedDict):
+    serialNumber: NotRequired[str]
+    modelNumber: NotRequired[str]
+    warrantyStartDate: NotRequired[str]
+    warrantyEndDate: NotRequired[str]
+    warrantyStatus: Literal["active"] | Literal["expired"] | Literal["unknown"]
+    daysRemaining: NotRequired[float]
 
 class Prv_scentbird_ScentbirdCatalogueResult_Out(TypedDict):
     catalogue: Literal["perfumes"] | Literal["colognes"]
@@ -33070,12 +33085,15 @@ class Prv_google_maps(Protocol):
         searchPlaces/geocodeAddress result's name plus address — not a feature id, measured live
         the same way getPlace measured it. mode defaults to "driving"; "walking" and "transit"
         are also built. "bicycling" is not: its response shape diverges enough that a route
-        total cannot be read off it safely yet. Returns the site's own trip total (distance,
-        duration, traffic-aware for driving) plus the turn-by-turn instructions, each carrying
-        the site's own distance and duration text. Throws when either place does not resolve to
-        a route. Always the current right-now trip — arriveBy and departAt are refused by name
-        rather than silently accepted and ignored (qa/20); nobody has measured this door's
-        clock-time anchor yet.
+        total cannot be read off it safely yet. waypoints is one or more stops in order ("a
+        pharmacy on the way") — the site's own door takes only two endpoints, so each stop is
+        stitched as its own leg through the identical door and the real per-leg totals summed;
+        distance and duration are then OUR text rather than the site's own (still real numbers,
+        never invented). Returns the site's own trip total (distance, duration, traffic-aware
+        for driving) plus the turn-by-turn instructions, each carrying the site's own distance
+        and duration text. Throws when any leg does not resolve to a route. Always the current
+        right-now trip — arriveBy and departAt are refused by name rather than silently accepted
+        and ignored (qa/20); nobody has measured this door's clock-time anchor yet.
         """
 
     async def resolvePlaceUrl(self, args: Prv_google_maps_ResolvePlaceUrlArgs_In, /) -> Prv_google_maps_GoogleMapsPlace_Out:
@@ -39373,6 +39391,12 @@ class Prv_samsung(Protocol):
     async def getRewardsBalance(self, opts: ConnectionOption | None = None, /) -> Prv_samsung_GetRewardsBalanceResponse_Out:
         """A signed-in shopper's Samsung Rewards points balance and available tier information.
         Requires the CALLER's own Samsung account, same relay session as `listOrders`.
+        """
+
+    async def checkWarrantyStatus(self, args: Prv_samsung_CheckWarrantyStatusArgs_In, opts: ConnectionOption | None = None, /) -> Prv_samsung_CheckWarrantyStatusResponse_Out:
+        """A registered device's warranty status — active or expired, with the expiration date and
+        days remaining. Takes the serial number or model number. Requires the CALLER's own
+        Samsung account, same relay session as `listOrders`.
         """
 
 class Prv_scentbird(Protocol):

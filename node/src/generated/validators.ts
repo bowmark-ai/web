@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: edf1ea8cae6717beb69cba7ec31cb32eecd152fe5f14311a4ec4118e08667f47
-// 1599 checked, 20 unchecked.
+// Manifest version: f072da2302995019a1bf4398024ca889e1e85a7a93258d3242329ca2a279afae
+// 1600 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "edf1ea8cae6717beb69cba7ec31cb32eecd152fe5f14311a4ec4118e08667f47",
+  "version": "f072da2302995019a1bf4398024ca889e1e85a7a93258d3242329ca2a279afae",
   "units": {
     "booking_links": {
       "defs": {
@@ -19858,6 +19858,16 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": true
+            },
+            {
+              "name": "waypoints",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
             }
           ]
         },
@@ -38189,6 +38199,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.samsung": {
       "defs": {
+        "CheckWarrantyStatusArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "serialOrModel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "FindStoreArgs": {
           "k": "object",
           "props": [
@@ -38396,6 +38418,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getRewardsBalance": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "checkWarrantyStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckWarrantyStatusArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {

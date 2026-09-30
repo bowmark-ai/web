@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: edf1ea8cae6717beb69cba7ec31cb32eecd152fe5f14311a4ec4118e08667f47
-// 68 capabilities, 497 providers, 1617 typed functions, 20 refused.
+// Manifest version: f072da2302995019a1bf4398024ca889e1e85a7a93258d3242329ca2a279afae
+// 68 capabilities, 497 providers, 1618 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20799,6 +20799,7 @@ interface GetDirectionsArgs {
   origin: string;
   destination: string;
   mode?: "driving" | "walking" | "transit";
+  waypoints?: string[];
 }
 interface DirectionsStep {
   instruction: string;
@@ -20983,11 +20984,15 @@ interface SavePlaceResult {
      * searchPlaces/geocodeAddress result's name plus address — not a feature id, measured live the
      * same way getPlace measured it. mode defaults to "driving"; "walking" and "transit" are also
      * built. "bicycling" is not: its response shape diverges enough that a route total cannot be
-     * read off it safely yet. Returns the site's own trip total (distance, duration, traffic-aware
-     * for driving) plus the turn-by-turn instructions, each carrying the site's own distance and
-     * duration text. Throws when either place does not resolve to a route. Always the current
-     * right-now trip — arriveBy and departAt are refused by name rather than silently accepted and
-     * ignored (qa/20); nobody has measured this door's clock-time anchor yet.
+     * read off it safely yet. waypoints is one or more stops in order ("a pharmacy on the way") —
+     * the site's own door takes only two endpoints, so each stop is stitched as its own leg
+     * through the identical door and the real per-leg totals summed; distance and duration are
+     * then OUR text rather than the site's own (still real numbers, never invented). Returns the
+     * site's own trip total (distance, duration, traffic-aware for driving) plus the turn-by-turn
+     * instructions, each carrying the site's own distance and duration text. Throws when any leg
+     * does not resolve to a route. Always the current right-now trip — arriveBy and departAt are
+     * refused by name rather than silently accepted and ignored (qa/20); nobody has measured this
+     * door's clock-time anchor yet.
      */
     getDirections(args: GetDirectionsArgs): Promise<GetDirectionsResult>;
 
@@ -37263,6 +37268,23 @@ interface GetRewardsBalanceResponse {
   };
 }
 
+interface CheckWarrantyStatusArgs {
+  serialOrModel: string;
+}
+
+interface WarrantyStatus {
+  serialNumber?: string;
+  modelNumber?: string;
+  warrantyStartDate?: string;
+  warrantyEndDate?: string;
+  warrantyStatus: "active" | "expired" | "unknown";
+  daysRemaining?: number;
+}
+
+interface CheckWarrantyStatusResponse {
+  warranty: WarrantyStatus;
+}
+
   /**
    * Samsung's own US storefront and support site — products, prices, trade-in, warranty and
    * store lookups, plus a signed-in caller's own orders and rewards.
@@ -37335,6 +37357,13 @@ interface GetRewardsBalanceResponse {
      * Requires the CALLER's own Samsung account, same relay session as `listOrders`.
      */
     getRewardsBalance(opts?: ConnectionOption): Promise<GetRewardsBalanceResponse>;
+
+    /**
+     * A registered device's warranty status — active or expired, with the expiration date and days
+     * remaining. Takes the serial number or model number. Requires the CALLER's own Samsung
+     * account, same relay session as `listOrders`.
+     */
+    checkWarrantyStatus(args: CheckWarrantyStatusArgs, opts?: ConnectionOption): Promise<CheckWarrantyStatusResponse>;
   }
 }
 

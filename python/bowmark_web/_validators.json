@@ -1,5 +1,5 @@
 {
-  "version": "edf1ea8cae6717beb69cba7ec31cb32eecd152fe5f14311a4ec4118e08667f47",
+  "version": "f072da2302995019a1bf4398024ca889e1e85a7a93258d3242329ca2a279afae",
   "units": {
     "booking_links": {
       "defs": {
@@ -19846,6 +19846,16 @@
                 ]
               },
               "optional": true
+            },
+            {
+              "name": "waypoints",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
             }
           ]
         },
@@ -38177,6 +38187,18 @@
     },
     "providers.samsung": {
       "defs": {
+        "CheckWarrantyStatusArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "serialOrModel",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "FindStoreArgs": {
           "k": "object",
           "props": [
@@ -38384,6 +38406,32 @@
           }
         ],
         "getRewardsBalance": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "checkWarrantyStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CheckWarrantyStatusArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
