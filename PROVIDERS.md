@@ -41,7 +41,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟡 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
-| `airbnb.getListing` | airbnb.com | Live nightly rate and availability for ONE known Airbnb listing (its /rooms/<id> url… | 🟢 |
+| `airbnb.getListing` | airbnb.com | Get the nightly rate and availability calendar for a specific Airbnb listing: given a… | 🟢 |
 | `airbnb.search` | airbnb.com | Runs Airbnb's own stays search (airbnb.com/s/<location>/homes) for a free-text… | 🟢 |
 | `airtable.createRecord` | airtable.com | Creates a new record in a specified table. | 🟢 |
 | `airtable.getRecord` | airtable.com | Retrieves a single record by its ID from a specified table. | 🟢 |
@@ -2148,7 +2148,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | 🟢 |
 | `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | ⚪ |
 | `theguardian_com.listNewsletters` | theguardian.com | List available email newsletters. | ⚪ |
-| `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | ⚪ |
+| `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | 🟢 |
 | `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | ⚪ |
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | ⚪ |
 | `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
