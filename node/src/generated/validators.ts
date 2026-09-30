@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5ec83ddd6f5769a3925c890cb3d77de3df6c21209d246325e47ff4cc9a86879e
-// 1650 checked, 20 unchecked.
+// Manifest version: 6549fa4228603ad6b7de16a284d6858c549d6479c4f66bd89f370fc9b96232f7
+// 1652 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5ec83ddd6f5769a3925c890cb3d77de3df6c21209d246325e47ff4cc9a86879e",
+  "version": "6549fa4228603ad6b7de16a284d6858c549d6479c4f66bd89f370fc9b96232f7",
   "units": {
     "booking_links": {
       "defs": {
@@ -18166,6 +18166,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPersonArgs": {
           "k": "object",
           "props": [
@@ -18255,6 +18267,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetPersonArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetListArgs"
             },
             "optional": false
           }
@@ -40916,6 +40938,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetGameVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListFeaturedGamesArgs": {
           "k": "object",
           "props": [
@@ -41118,6 +41160,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetGameScreenshotsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGameVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameVideosArgs"
             },
             "optional": false
           },

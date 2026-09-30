@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5ec83ddd6f5769a3925c890cb3d77de3df6c21209d246325e47ff4cc9a86879e
-# 69 capabilities, 500 providers, 1650 typed functions, 20 refused.
+# Manifest version: 6549fa4228603ad6b7de16a284d6858c549d6479c4f66bd89f370fc9b96232f7
+# 69 capabilities, 500 providers, 1652 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10401,6 +10401,22 @@ class Prv_forbes_ForbesPerson_Out(TypedDict):
     maritalStatus: NotRequired[str]
     children: NotRequired[float]
     education: NotRequired[str]
+
+class Prv_forbes_GetListArgs_In(TypedDict):
+    slug: str
+
+class Prv_forbes_ForbesList_Out(TypedDict):
+    items: list[Prv_forbes_ForbesListItem_Out]
+
+class Prv_forbes_ForbesListItem_Out(TypedDict):
+    rank: float
+    name: str
+    url: NotRequired[str]
+    title: NotRequired[str]
+    image: NotRequired[str]
+    netWorth: NotRequired[float]
+    company: NotRequired[str]
+    source: NotRequired[str]
 
 class Prv_ford_getOffers_args_In(TypedDict):
     nameplate: str
@@ -21676,6 +21692,17 @@ class Prv_steam_GetGameScreenshotsArgs_In(TypedDict):
 
 class Prv_steam_GetGameScreenshotsResponse_Out(TypedDict):
     screenshots: list[str]
+
+class Prv_steam_GetGameVideosArgs_In(TypedDict):
+    appid: str | float
+
+class Prv_steam_GetGameVideosResponse_Out(TypedDict):
+    videos: list[Prv_steam_SteamVideo_Out]
+
+class Prv_steam_SteamVideo_Out(TypedDict):
+    name: str | None
+    thumbnail: str | None
+    hlsUrl: str | None
 
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
@@ -32968,6 +32995,11 @@ class Prv_forbes(Protocol):
         biographical stats — by their profile slug.
         """
 
+    async def getList(self, args: Prv_forbes_GetListArgs_In, /) -> Prv_forbes_ForbesList_Out:
+        """Get the ranked items from a Forbes list (e.g., Forbes 400, 30 Under 30, Most Powerful
+        Women) by list slug.
+        """
+
 class Prv_ford(Protocol):
     """Ford US new-vehicle shopping: live VIN-level dealer inventory near a ZIP, one vehicle by
     VIN, the model/trim directory and its paint palette, the build-and-price configurator,
@@ -40894,6 +40926,11 @@ class Prv_steam(Protocol):
     async def getGameScreenshots(self, args: Prv_steam_GetGameScreenshotsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameScreenshotsResponse_Out:
         """Fetches a game's screenshots and promotional images by appid, returning the URLs of all
         available screenshots in the game's gallery.
+        """
+
+    async def getGameVideos(self, args: Prv_steam_GetGameVideosArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameVideosResponse_Out:
+        """Fetches a game's trailers and video clips by appid, returning each video's name,
+        thumbnail and HLS stream URL.
         """
 
 class Prv_stickergiant(Protocol):

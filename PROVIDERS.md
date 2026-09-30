@@ -95,7 +95,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | 🟡 |
 | `amazon.listMoversAndShakers` | www.amazon.com | The biggest sales-rank gainers in a department over the past 24 hours — what is… | ⚪ |
 | `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | 🟢 |
-| `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | ⚪ |
+| `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | 🟢 |
 | `amazon.listQuestions` | www.amazon.com | The customer questions and answers under a product — the place where the answer to… | 🟢 |
 | `amazon.listRelatedProducts` | www.amazon.com | The other products Amazon puts next to this one — "Frequently bought together" and… | 🟢 |
 | `amazon.listReviews` | www.amazon.com | Read what customers actually wrote about a product — reviewer name, star rating… | 🟡 |
@@ -924,7 +924,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getTokenFeed` | fomo.family | Pages the posts and trades attached to one specific token — the conversation on a… | ⚪ |
 | `fomo.getTokenThesis` | fomo.family | Returns the written theses traders have posted about one token, ranked by the site's… | ⚪ |
 | `fomo.getTokenWarnings` | fomo.family | Returns fomo's risk flags for one token — the honeypot, mint-authority… | 🟢 |
-| `fomo.getTopHolders` | fomo.family | Returns the largest holders of one token, with position sizes. | ⚪ |
+| `fomo.getTopHolders` | fomo.family | Returns the largest holders of each requested token, one result array per token in the… | 🟢 |
 | `fomo.getTrade` | fomo.family | Returns one trade in full by id, with its author and token — the narrow read behind a… | ⚪ |
 | `fomo.getTradeComments` | fomo.family | Returns the comment thread under one trade. `GET /trades/:tradeId/comments`. | ⚪ |
 | `fomo.getTrades` | fomo.family | Pages trades across the platform, optionally filtered to one trader. `GET… | ⚪ |

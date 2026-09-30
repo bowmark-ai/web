@@ -1,5 +1,5 @@
 {
-  "version": "5ec83ddd6f5769a3925c890cb3d77de3df6c21209d246325e47ff4cc9a86879e",
+  "version": "6549fa4228603ad6b7de16a284d6858c549d6479c4f66bd89f370fc9b96232f7",
   "units": {
     "booking_links": {
       "defs": {
@@ -18154,6 +18154,18 @@
             }
           ]
         },
+        "GetListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "slug",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPersonArgs": {
           "k": "object",
           "props": [
@@ -18243,6 +18255,16 @@
             "schema": {
               "k": "ref",
               "name": "GetPersonArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getList": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetListArgs"
             },
             "optional": false
           }
@@ -40904,6 +40926,26 @@
             }
           ]
         },
+        "GetGameVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListFeaturedGamesArgs": {
           "k": "object",
           "props": [
@@ -41106,6 +41148,32 @@
             "schema": {
               "k": "ref",
               "name": "GetGameScreenshotsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGameVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameVideosArgs"
             },
             "optional": false
           },

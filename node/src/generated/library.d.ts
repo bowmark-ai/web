@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5ec83ddd6f5769a3925c890cb3d77de3df6c21209d246325e47ff4cc9a86879e
-// 69 capabilities, 500 providers, 1668 typed functions, 20 refused.
+// Manifest version: 6549fa4228603ad6b7de16a284d6858c549d6479c4f66bd89f370fc9b96232f7
+// 69 capabilities, 500 providers, 1670 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18809,6 +18809,26 @@ interface ForbesPerson {
   education?: string;
 }
 
+interface GetListArgs {
+  /** A list slug, the path segment of forbes.com/lists/<slug>/, e.g. "forbes-400", "30under30", "power-women". */
+  slug: string;
+}
+
+interface ForbesListItem {
+  rank: number;
+  name: string;
+  url?: string;
+  title?: string;
+  image?: string;
+  netWorth?: number;
+  company?: string;
+  source?: string;
+}
+
+interface ForbesList {
+  items: ForbesListItem[];
+}
+
   /** Search and browse business news, articles, and video content from Forbes. */
   interface Unit {
     /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
@@ -18852,6 +18872,12 @@ interface ForbesPerson {
      * biographical stats — by their profile slug.
      */
     getPerson(args: GetPersonArgs): Promise<ForbesPerson>;
+
+    /**
+     * Get the ranked items from a Forbes list (e.g., Forbes 400, 30 Under 30, Most Powerful Women)
+     * by list slug.
+     */
+    getList(args: GetListArgs): Promise<ForbesList>;
   }
 }
 
@@ -39651,6 +39677,20 @@ interface GetGameScreenshotsResponse {
   screenshots: string[];
 }
 
+interface GetGameVideosArgs {
+  appid: string | number;
+}
+
+interface SteamVideo {
+  name: string | null;
+  thumbnail: string | null;
+  hlsUrl: string | null;
+}
+
+interface GetGameVideosResponse {
+  videos: SteamVideo[];
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -39693,6 +39733,12 @@ interface GetGameScreenshotsResponse {
      * available screenshots in the game's gallery.
      */
     getGameScreenshots(args: GetGameScreenshotsArgs, opts?: ConnectionOption): Promise<GetGameScreenshotsResponse>;
+
+    /**
+     * Fetches a game's trailers and video clips by appid, returning each video's name, thumbnail
+     * and HLS stream URL.
+     */
+    getGameVideos(args: GetGameVideosArgs, opts?: ConnectionOption): Promise<GetGameVideosResponse>;
   }
 }
 
