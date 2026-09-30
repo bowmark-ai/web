@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2579 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2580 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -959,6 +959,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.useReferralCode` | fomo.family | Applies a referral code to the signed-in trader's account. `POST… | ⚪ |
 | `forbes.getArticle` | forbes.com | Read the full content of a single article. | 🟢 |
 | `forbes.getContributor` | forbes.com | Get a contributor's profile and list their articles. | 🟢 |
+| `forbes.getList` | forbes.com | Get the ranked items from a Forbes list (e.g., Forbes 400, 30 Under 30, Most Powerful… | 🟢 |
 | `forbes.getPerson` | forbes.com | Get one person's Forbes profile — real-time net worth, world rank, source of wealth… | 🟢 |
 | `forbes.getVideo` | forbes.com | Get details of a Forbes Video. | 🟢 |
 | `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | 🟢 |
@@ -1285,7 +1286,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `indeed.getSalaryDetails` | indeed.com | Retrieves detailed salary information for a specific job title and location. | ⚪ |
 | `indeed.searchCompanies` | indeed.com | Searches Indeed's own company directory by name or keyword and returns each match's… | 🟢 |
 | `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |
-| `indeed.searchSalaries` | indeed.com | Searches salary data on Indeed by job title and location. | ⚪ |
+| `indeed.searchSalaries` | indeed.com | Searches Indeed's own salary data by job title and location, returning salary ranges… | 🟢 |
 | `inspirecommunities.searchHomes` | inspirecommunities.com | Searches live manufactured-home listings by market, home facts, price and sale or rent… | 🟢 |
 | `instagram.getPosts` | instagram.com | Reads the most recent posts on one public Instagram profile — shortcode, permalink… | 🟡 |
 | `instagram.getProfile` | instagram.com | Reads one public Instagram profile's own metadata — full name, biography, external… | 🟡 |
@@ -2088,7 +2089,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | 🟢 |
 | `steam.getGameScreenshots` | steampowered.com | Fetches a game's screenshots and promotional images, returning image URLs, captions… | 🟢 |
 | `steam.getGameStats` | steampowered.com | Provides game statistics like current player count, peak player count (24h)… | ⚪ |
-| `steam.getGameVideos` | steampowered.com | Returns video trailers and gameplay videos for a game, including video URLs, titles… | ⚪ |
+| `steam.getGameVideos` | steampowered.com | Fetches a game's trailers and video clips by appid, returning each video's name… | 🟢 |
 | `steam.getLibrary` | steampowered.com | Lists all games the caller owns, with installation status, play time, and last-played… | ⚪ |
 | `steam.getMarketPrice` | steampowered.com | Retrieves current Community Market price information for an item, including listing… | ⚪ |
 | `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by its ID or URL. | ⚪ |
