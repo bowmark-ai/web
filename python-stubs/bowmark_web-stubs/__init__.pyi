@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 599e9c821f5b9e707b6c7536686106d483287ec638a0c254e05068b7d8bf9e1c
-# 68 capabilities, 497 providers, 1605 typed functions, 20 refused.
+# Manifest version: 56713c709a2a0c6c8b2f6189b36c9df7727ab7905778d1022ca8477617d29a2f
+# 68 capabilities, 496 providers, 1613 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2876,6 +2876,10 @@ class Prv_alibaba_alibabaCategoryRow_Out(TypedDict):
     title: str
     url: str | None
 
+class Prv_alibaba_alibabaSuggestionRow_Out(TypedDict):
+    keywords: str
+    fromHistory: bool
+
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
     cabinetsClosets: NotRequired[Literal["clutterFree"] | Literal["packRat"]]
@@ -5638,6 +5642,15 @@ class Prv_bluesky_BlueskySearchFeedResult_Out(TypedDict):
     creator: Prv_bluesky_BlueskyPostAuthor_Out
     description: str | None
     likeCount: float
+
+class Prv_bluesky_getFeed_feed_u1_In(TypedDict):
+    feed: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyFeed_Out(TypedDict):
+    posts: list[Prv_bluesky_BlueskyPost_Out]
+    cursor: NotRequired[str]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -11103,6 +11116,11 @@ class Prv_github_GithubStarRepositoryResult_Out(TypedDict):
     repo: str
     starred: Literal[True]
 
+class Prv_github_GithubUnstarRepositoryResult_Out(TypedDict):
+    owner: str
+    repo: str
+    starred: Literal[False]
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -11393,6 +11411,7 @@ class Prv_google_maps_GetPlaceResult_Out_hours_item_Out(TypedDict):
 
 class Prv_google_maps_ListReviewsArgs_In(TypedDict):
     query: str
+    sort: NotRequired[Literal["newest"] | Literal["highest"] | Literal["lowest"]]
 
 class Prv_google_maps_ListReviewsResult_Out(TypedDict):
     reviews: list[Prv_google_maps_Review_Out]
@@ -16912,6 +16931,23 @@ class Prv_nyt_cooking_NytCookingTopicItem_Out(TypedDict):
     slug: str
     title: str
 
+class Prv_nyt_cooking_NytCookingGetArticleArgs_In(TypedDict):
+    slug: str
+
+class Prv_nyt_cooking_NytCookingArticle_Out(TypedDict):
+    title: str
+    summary: str | None
+    authors: list[str]
+    bodyText: str | None
+    publishedAt: str | None
+    relatedRecipes: list[Prv_nyt_cooking_NytCookingArticleRecipe_Out]
+    warnings: NotRequired[list[str]]
+
+class Prv_nyt_cooking_NytCookingArticleRecipe_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -17149,6 +17185,12 @@ class Prv_nytimes_NytimesPopularItem_Out(TypedDict):
     headline: NotRequired[str]
     summary: NotRequired[str]
     url: NotRequired[str]
+
+class Prv_nytimes_NytimesTopic_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    lastModified: NotRequired[str]
 
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
@@ -17478,19 +17520,6 @@ class Prv_packlane_packlaneQuote_Out_unitPrice_Out(TypedDict):
 class Prv_packlane_packlaneQuote_Out_totalPrice_Out(TypedDict):
     amount: float
     currency: str
-
-class Prv_pallet2ship_GetQuoteArgs_In(TypedDict):
-    collectionPostcode: str
-    deliveryPostcode: str
-    weight: float
-    length: float
-    width: float
-    height: float
-
-class Prv_pallet2ship_Pallet2ShipQuote_Out(TypedDict):
-    price: float
-    estimatedDays: float
-    serviceType: str
 
 class Prv_pawsup_checkAvailability_args_In(TypedDict):
     checkInDate: str
@@ -23668,6 +23697,23 @@ class Prv_walmart_walmartReview_Out(TypedDict):
     authorName: str | None
     helpfulVotes: float
 
+class Prv_walmart_getProduct_args_In(TypedDict):
+    itemId: str
+
+class Prv_walmart_walmartProduct_Out(TypedDict):
+    itemId: str
+    name: str
+    brand: str | None
+    url: str
+    price: float | None
+    wasPrice: float | None
+    availability: str | None
+    rating: float | None
+    reviewCount: float
+    images: list[str]
+    description: str | None
+    specText: str | None
+
 class Prv_waterfurnace_lookupHomeDetails_input_In(TypedDict):
     address: str
     city: NotRequired[str]
@@ -24270,6 +24316,38 @@ class Prv_wikipedia_WikipediaRevisionDetail_Out_page_Out(TypedDict):
     id: float
     title: str
 
+class Prv_wikipedia_compareRevisions_options_In(TypedDict):
+    lang: NotRequired[str]
+
+Prv_wikipedia_WikipediaRevisionComparison_Out = TypedDict(
+    "Prv_wikipedia_WikipediaRevisionComparison_Out",
+    {
+    "from": float,
+    "to": float,
+    "diff": list[Prv_wikipedia_WikipediaRevisionDiffLine_Out],
+    },
+)
+
+class Prv_wikipedia_WikipediaRevisionDiffLine_Out(TypedDict):
+    type: float
+    lineNumber: float
+    text: str
+    offset: Prv_wikipedia_WikipediaRevisionDiffLine_Out_offset_Out
+    highlightRanges: NotRequired[list[Prv_wikipedia_WikipediaRevisionDiffLine_Out_highlightRanges_item_Out]]
+
+Prv_wikipedia_WikipediaRevisionDiffLine_Out_offset_Out = TypedDict(
+    "Prv_wikipedia_WikipediaRevisionDiffLine_Out_offset_Out",
+    {
+    "from": float | None,
+    "to": float | None,
+    },
+)
+
+class Prv_wikipedia_WikipediaRevisionDiffLine_Out_highlightRanges_item_Out(TypedDict):
+    start: float
+    length: float
+    type: float
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -24577,6 +24655,7 @@ class Prv_yahoo_sports_GetStandingsArgs_In(TypedDict):
 class Prv_yahoo_sports_YahooSportsStandingsRow_Out(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
     team: str
+    slug: str | None
     wins: float
     losses: float
     ties: float
@@ -24591,6 +24670,7 @@ class Prv_yahoo_sports_ListTeamsArgs_In(TypedDict):
 class Prv_yahoo_sports_YahooSportsTeamRow_Out(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
     team: str
+    slug: str | None
 
 class Prv_yahoo_sports_GetScheduleArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -25387,8 +25467,12 @@ class Cap_booking_links(Protocol):
         `x-bowmark-vendor-key-serper` header; if no key can serve it, it is skipped and named in
         `warnings`); and their name as a slug on Calendly and Cal.com, including "first-company"
         shapes (NAME_MATCH — exists, but a namesake can own it, so check `ownerName` and tie it
-        to the company). Pass `company` and `domain` whenever known. Google does not index
-        Calendly pages, so the slug check is the only way to find those. Never books.
+        to the company). An `indexed` or `name_match` link is NOT confirmed to be this person,
+        even with `nameConfirmed: true` — that field only says the page shows the same name, and
+        `warnings` lists every such link. Rule one out by `read(url)` and comparing `ownerName`,
+        `organization` and the event titles with what you know of them. Pass `company` and
+        `domain` whenever known. Google does not index Calendly pages, so the slug check is the
+        only way to find those. Never books.
         """
 
     async def scanPage(self, url: str, options: Cap_booking_links_CallOptions_In | None = None, /) -> Cap_booking_links_PageScan_Out:
@@ -25404,7 +25488,11 @@ class Cap_booking_links(Protocol):
         name/email/notes — a sales funnel asks for your company, a personal chat does not), and
         whether it can be booked (Calendly: open, fully booked, or closed with the platform's
         own reason). Works on a fully-booked calendar. A profile with several events returns
-        `event: null` and the list unless `options.event` names one (slug or part of the name).
+        `event: null` and the list unless `options.event` names one (slug or part of the name),
+        and still names its owner. To tell a namesake from your person, compare `ownerName`,
+        `organization` and the event names and descriptions with what you know of them — a
+        Cal.com personal account usually has `organization: null`, so its affiliation shows only
+        in the event text.
         """
 
 class Cap_browser_agent(Protocol):
@@ -27351,6 +27439,9 @@ class Prv_alibaba(Protocol):
     async def listCategories(self, /) -> list[Prv_alibaba_alibabaCategoryRow_Out]:
         """List the marketplace's top-level product categories."""
 
+    async def getSuggestions(self, keyword: str, /) -> list[Prv_alibaba_alibabaSuggestionRow_Out]:
+        """Get search suggestions and autocomplete hints based on partial keyword."""
+
 class Prv_allied(Protocol):
     """Runs Allied Van Lines' own Packing Calculator — takes which rooms are moving (no name,
     email or phone) and returns a real, server-computed whole-house and per-room
@@ -29246,6 +29337,12 @@ class Prv_bluesky(Protocol):
         exist.
         """
 
+    async def getFeed(self, feed: str | Prv_bluesky_getFeed_feed_u1_In, /) -> Prv_bluesky_BlueskyFeed_Out:
+        """Read a custom feed's posts — Discover, What's Hot, any creator's feed, page by page.
+        Takes a feed at:// URI or a bsky.app feed URL. Returns each post's text, author, embed
+        and counts.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -29633,7 +29730,7 @@ class Prv_cal_com(Protocol):
         and the organization or team Cal.com files the account under. Needs no open slot. Takes
         an event url ("https://cal.com/alexatallah/15min"), a team or org-subdomain event url,
         or a profile url — a profile with several events returns `event: null` and the list
-        unless `opts.event` names one. Never books anything.
+        unless `opts.event` names one, and still names its owner. Never books anything.
         """
 
     async def findProfiles(self, name: str, company: str | None = None, /) -> Prv_cal_com_CalComFindProfilesResult_Out:
@@ -31111,6 +31208,11 @@ class Prv_dell(Protocol):
         availability, image, and customer ratings.
         """
 
+    async def listDealProducts(self, /) -> list[Prv_dell_DellSearchResult_Out]:
+        """Lists current promotions and deals from Dell's deals section, with pricing and discount
+        information.
+        """
+
     async def searchSupport(self, args: Prv_dell_SearchSupportArgs_In, /) -> list[Prv_dell_DellSupportArticle_Out]:
         """Searches Dell's support knowledge base for articles, drivers, and troubleshooting guides
         matching a query — returns article titles, URLs, and summaries.
@@ -32186,6 +32288,14 @@ class Prv_fomo(Protocol):
         numeric networkId.
         """
 
+    async def filterTokens(self, filters: Any, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoTokenRow_Out]:
+        """The full token screener — a POST taking the site's own filter object and returning
+        matching tokens with their market numbers. The most powerful read in this provider: fomo
+        indexes launchpad tokens from the bonding curve onward, well before they appear anywhere
+        else. Filters typically include chain, market cap band, volume, liquidity, age, and
+        graduation state; pass the filter object as the site's JS bundle constructs it.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -32933,6 +33043,15 @@ class Prv_github(Protocol):
         signed out or the saved session is invalid.
         """
 
+    async def unstarRepository(self, owner: str, repo: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubUnstarRepositoryResult_Out:
+        """Removes a repository from the signed-in caller's starred list, off GitHub's own
+        documented REST starring endpoint (`DELETE /user/starred/{owner}/{repo}`). NEEDS THE
+        CALLER SIGNED IN: the endpoint answers 401 with no token, the same refusal
+        `starRepository` reads. Idempotent — unstarring an already-unstarred repo is a no-op on
+        GitHub's side and this returns the same result either way. THROWS on an unknown
+        owner/repo (404) or when signed out or the saved session is invalid.
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -33154,7 +33273,14 @@ class Prv_google_maps(Protocol):
         resolving query getPlace does. `reviews` is [] for a place with no reviews; `warnings`
         says so when the site's own panel reports reviews that never rendered across every
         attempt — a thin draw, not a review-less business. Throws only when the query itself
-        does not resolve to one place.
+        does not resolve to one place. `sort` ("newest" | "highest" | "lowest") reorders the
+        same preview using the place panel's own Sort control, and needs the CALLER's own
+        signed-in Google session — Google gates that control on sign-in for every anonymous
+        visitor (BUILD_QUEUE.md), so this throws with no grant rather than attempting the click.
+        UNVERIFIED END TO END: no fleet-held Google Maps session has ever been captured, so the
+        positive (signed-in) path has never been observed — nobody here holds one to have
+        confirmed the site actually re-sorts once signed in, only that it refuses to try when it
+        is not.
         """
 
     async def listRelatedPlaces(self, args: Prv_google_maps_ListRelatedPlacesArgs_In, /) -> list[Prv_google_maps_RelatedPlace_Out]:
@@ -37335,6 +37461,11 @@ class Prv_nyt_cooking(Protocol):
         navigation.
         """
 
+    async def getArticle(self, args: Prv_nyt_cooking_NytCookingGetArticleArgs_In, /) -> Prv_nyt_cooking_NytCookingArticle_Out:
+        """Reads one cooking article or guide's title, summary, authors, full body text and any
+        recipes it links to.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -37456,6 +37587,11 @@ class Prv_nytimes(Protocol):
         """Gets one of the /trending/ page's own five OTHER popularity lists by name (default
         "mostViewed") — recipes, videos, most-viewed, most-Facebooked or most-emailed articles,
         each up to 20, the most the page itself renders.
+        """
+
+    async def listTopics(self, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesTopic_Out]:
+        """Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently
+        active first. name is formatted from the slug, not read off the site.
         """
 
 class Prv_oanda(Protocol):
@@ -37670,12 +37806,6 @@ class Prv_packlane(Protocol):
         """Prices a custom Mailer Box (size, material, printed sides, quantity) via packlane.com's
         own on-page calculator API.
         """
-
-class Prv_pallet2ship(Protocol):
-    """Get pallet freight quotes from Pallet2Ship, a UK pallet broker."""
-
-    async def getQuote(self, args: Prv_pallet2ship_GetQuoteArgs_In, /) -> Prv_pallet2ship_Pallet2ShipQuote_Out:
-        """Returns a price estimate for transporting a pallet between two UK postcodes."""
 
 class Prv_pawsup(Protocol):
     """Luxury glamping resort availability and accommodations on Paws Up's booking portal."""
@@ -41605,6 +41735,12 @@ class Prv_walmart(Protocol):
         one-through-five-star counts, recommended percentage), for an item id `search` returned.
         """
 
+    async def getProduct(self, args: Prv_walmart_getProduct_args_In, /) -> Prv_walmart_walmartProduct_Out:
+        """Reads one product's full page — price, availability summary, images, brand, full
+        spec/description text and aggregate rating — for an item id or URL a search already
+        returned. The identity and detail a search row cannot carry.
+        """
+
 class Prv_waterfurnace(Protocol):
     """WaterFurnace's Savings Calculator, run for real — the site's own computed Free Savings
     Report (annual dollar savings, energy comparison, carbon footprint, recommended
@@ -41922,6 +42058,14 @@ class Prv_wikipedia(Protocol):
         it stood on a date rather than as it stands now.
         """
 
+    async def compareRevisions(self, fromRevisionId: float, toRevisionId: float, options: Prv_wikipedia_compareRevisions_options_In | None = None, /) -> Prv_wikipedia_WikipediaRevisionComparison_Out:
+        """The diff between two revisions of the same article, keyed on ids listRevisions returns —
+        a list of diff lines, each marked unchanged or changed, with the changed ones carrying
+        the exact character ranges that moved. What a caller uses to answer 'what actually
+        changed between these two points in the article's history' without diffing the wikitext
+        itself.
+        """
+
 class Prv_wikipedia_standings(Protocol):
     """Search Wikipedia for sports league standings with goal differential data."""
 
@@ -42133,12 +42277,15 @@ class Prv_yahoo_sports(Protocol):
 
     async def getStandings(self, args: Prv_yahoo_sports_GetStandingsArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsStandingsRow_Out]:
         """Reads the full standings table for one league off Yahoo Sports' own Standings page —
-        each team's wins, losses, ties, win percentage, points for/against and point
-        differential.
+        each team's wins, losses, ties, win percentage, points for/against, point differential
+        and the site's own routing slug (the teamSlug getSchedule/getTeamRoster/findPlayers
+        take).
         """
 
     async def listTeams(self, args: Prv_yahoo_sports_ListTeamsArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsTeamRow_Out]:
-        """Lists every team in a league off Yahoo Sports' standings page — each team's name."""
+        """Lists every team in a league off Yahoo Sports' standings page — each team's name and the
+        site's own routing slug (the teamSlug getSchedule/getTeamRoster/findPlayers take).
+        """
 
     async def getSchedule(self, args: Prv_yahoo_sports_GetScheduleArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsScheduleRow_Out]:
         """Reads one team's full schedule for the season off Yahoo Sports' own Schedule page —
@@ -43028,7 +43175,6 @@ class BowmarkProviders(Protocol):
     pacificcompanies: Prv_pacificcompanies
     pacificlifestylehomes: Prv_pacificlifestylehomes
     packlane: Prv_packlane
-    pallet2ship: Prv_pallet2ship
     pawsup: Prv_pawsup
     paypal: Prv_paypal
     perennialsandsutherland: Prv_perennialsandsutherland

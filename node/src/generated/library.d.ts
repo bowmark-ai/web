@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 599e9c821f5b9e707b6c7536686106d483287ec638a0c254e05068b7d8bf9e1c
-// 68 capabilities, 497 providers, 1623 typed functions, 20 refused.
+// Manifest version: 56713c709a2a0c6c8b2f6189b36c9df7727ab7905778d1022ca8477617d29a2f
+// 68 capabilities, 496 providers, 1631 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -123,7 +123,10 @@ interface BookingLinkFinding {
   archiveUrl: string | null
   context: string | null           // the link's anchor text or the words around it
   ownerName: string | null         // the name the booking page itself shows (name_match)
-  nameConfirmed: boolean           // name_match: page owner carries both names; published/archived: the name is on that page
+  // The NAME matched, never "this is the person" — a namesake passes. name_match: the page
+  // owner carries both names. indexed: Google's result title/snippet carries the full name.
+  // published/archived: the name is on the page the link was read off.
+  nameConfirmed: boolean
 }
 
 interface FindBookingLinksInput {
@@ -195,9 +198,12 @@ type CallOptions = {
      * your account on Bowmark's key, or send your own as the `x-bowmark-vendor-key-serper` header;
      * if no key can serve it, it is skipped and named in `warnings`); and their name as a slug on
      * Calendly and Cal.com, including "first-company" shapes (NAME_MATCH — exists, but a namesake
-     * can own it, so check `ownerName` and tie it to the company). Pass `company` and `domain`
-     * whenever known. Google does not index Calendly pages, so the slug check is the only way to
-     * find those. Never books.
+     * can own it, so check `ownerName` and tie it to the company). An `indexed` or `name_match`
+     * link is NOT confirmed to be this person, even with `nameConfirmed: true` — that field only
+     * says the page shows the same name, and `warnings` lists every such link. Rule one out by
+     * `read(url)` and comparing `ownerName`, `organization` and the event titles with what you
+     * know of them. Pass `company` and `domain` whenever known. Google does not index Calendly
+     * pages, so the slug check is the only way to find those. Never books.
      */
     find(person: FindBookingLinksInput, options?: FindBookingLinksOptions): Promise<BookingLinkSearch>;
 
@@ -215,7 +221,10 @@ type CallOptions = {
      * sales funnel asks for your company, a personal chat does not), and whether it can be booked
      * (Calendly: open, fully booked, or closed with the platform's own reason). Works on a
      * fully-booked calendar. A profile with several events returns `event: null` and the list
-     * unless `options.event` names one (slug or part of the name).
+     * unless `options.event` names one (slug or part of the name), and still names its owner. To
+     * tell a namesake from your person, compare `ownerName`, `organization` and the event names
+     * and descriptions with what you know of them — a Cal.com personal account usually has
+     * `organization: null`, so its affiliation shows only in the event text.
      */
     read(url: string, options?: ReadBookingPageOptions): Promise<BookingPage>;
   }
@@ -5247,6 +5256,11 @@ interface alibabaRow {
   id: string;
 }
 
+interface alibabaSuggestionRow {
+  keywords: string;
+  fromHistory: boolean;
+}
+
 interface alibabaCategoryRow {
   id: string;
   title: string;
@@ -5277,6 +5291,9 @@ interface alibabaProductRow {
 
     /** List the marketplace's top-level product categories. */
     listCategories(): Promise<alibabaCategoryRow[]>;
+
+    /** Get search suggestions and autocomplete hints based on partial keyword. */
+    getSuggestions(keyword: string): Promise<alibabaSuggestionRow[]>;
   }
 }
 
@@ -10135,6 +10152,11 @@ interface BlueskySearchFeedsResults {
   cursor?: string;
 }
 
+interface BlueskyFeed {
+  posts: BlueskyPost[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -10209,6 +10231,12 @@ interface BlueskySearchFeedsResults {
      * description and like count, plus a `cursor` for the next page when more results exist.
      */
     searchFeeds(query: string | { query: string; limit?: number; cursor?: string }): Promise<BlueskySearchFeedsResults>;
+
+    /**
+     * Read a custom feed's posts — Discover, What's Hot, any creator's feed, page by page. Takes a
+     * feed at:// URI or a bsky.app feed URL. Returns each post's text, author, embed and counts.
+     */
+    getFeed(feed: string | { feed: string; limit?: number; cursor?: string }): Promise<BlueskyFeed>;
   }
 }
 
@@ -11364,7 +11392,7 @@ interface CalComFindProfilesResult {
      * the organization or team Cal.com files the account under. Needs no open slot. Takes an event
      * url ("https://cal.com/alexatallah/15min"), a team or org-subdomain event url, or a profile
      * url — a profile with several events returns `event: null` and the list unless `opts.event`
-     * names one. Never books anything.
+     * names one, and still names its owner. Never books anything.
      */
     getBookingForm(url: string, opts?: CalComBookingFormOptions): Promise<CalComBookingForm>;
 
@@ -15397,6 +15425,12 @@ interface DellSupportCategory {
     getProduct(args: GetProductArgs): Promise<DellProduct>;
 
     /**
+     * Lists current promotions and deals from Dell's deals section, with pricing and discount
+     * information.
+     */
+    listDealProducts(): Promise<DellSearchResult[]>;
+
+    /**
      * Searches Dell's support knowledge base for articles, drivers, and troubleshooting guides
      * matching a query — returns article titles, URLs, and summaries.
      */
@@ -18334,6 +18368,15 @@ interface FomoPage<T> {
      * networkId.
      */
     getToken(address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<FomoTokenRow>;
+
+    /**
+     * The full token screener — a POST taking the site's own filter object and returning matching
+     * tokens with their market numbers. The most powerful read in this provider: fomo indexes
+     * launchpad tokens from the bonding curve onward, well before they appear anywhere else.
+     * Filters typically include chain, market cap band, volume, liquidity, age, and graduation
+     * state; pass the filter object as the site's JS bundle constructs it.
+     */
+    filterTokens(filters: unknown, opts?: ConnectionOption): Promise<FomoTokenRow[]>;
   }
 }
 
@@ -20135,6 +20178,11 @@ interface GithubStarRepositoryResult {
   repo: string;
   starred: true;
 }
+interface GithubUnstarRepositoryResult {
+  owner: string;
+  repo: string;
+  starred: false;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -20372,6 +20420,16 @@ interface GithubStarRepositoryResult {
      * saved session is invalid.
      */
     starRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubStarRepositoryResult>;
+
+    /**
+     * Removes a repository from the signed-in caller's starred list, off GitHub's own documented
+     * REST starring endpoint (`DELETE /user/starred/{owner}/{repo}`). NEEDS THE CALLER SIGNED IN:
+     * the endpoint answers 401 with no token, the same refusal `starRepository` reads. Idempotent
+     * — unstarring an already-unstarred repo is a no-op on GitHub's side and this returns the same
+     * result either way. THROWS on an unknown owner/repo (404) or when signed out or the saved
+     * session is invalid.
+     */
+    unstarRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubUnstarRepositoryResult>;
   }
 }
 
@@ -20771,6 +20829,7 @@ interface GetPlaceResult {
 }
 interface ListReviewsArgs {
   query: string;
+  sort?: "newest" | "highest" | "lowest";
 }
 interface Review {
   author: string;
@@ -20962,6 +21021,13 @@ interface SavePlaceResult {
      * does. `reviews` is [] for a place with no reviews; `warnings` says so when the site's own
      * panel reports reviews that never rendered across every attempt — a thin draw, not a
      * review-less business. Throws only when the query itself does not resolve to one place.
+     * `sort` ("newest" | "highest" | "lowest") reorders the same preview using the place panel's
+     * own Sort control, and needs the CALLER's own signed-in Google session — Google gates that
+     * control on sign-in for every anonymous visitor (BUILD_QUEUE.md), so this throws with no
+     * grant rather than attempting the click. UNVERIFIED END TO END: no fleet-held Google Maps
+     * session has ever been captured, so the positive (signed-in) path has never been observed —
+     * nobody here holds one to have confirmed the site actually re-sorts once signed in, only that
+     * it refuses to try when it is not.
      */
     listReviews(args: ListReviewsArgs): Promise<ListReviewsResult>;
 
@@ -32003,6 +32069,26 @@ interface NytCookingTopicsList {
   topics: NytCookingTopicItem[];
 }
 
+interface NytCookingGetArticleArgs {
+  slug: string;
+}
+
+interface NytCookingArticleRecipe {
+  id: string;
+  title: string;
+  url: string;
+}
+
+interface NytCookingArticle {
+  title: string;
+  summary: string | null;
+  authors: string[];
+  bodyText: string | null;
+  publishedAt: string | null;
+  relatedRecipes: NytCookingArticleRecipe[];
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -32040,6 +32126,12 @@ interface NytCookingTopicsList {
 
     /** Lists all available topic categories on the site, extracted from the homepage navigation. */
     listTopics(): Promise<NytCookingTopicsList>;
+
+    /**
+     * Reads one cooking article or guide's title, summary, authors, full body text and any recipes
+     * it links to.
+     */
+    getArticle(args: NytCookingGetArticleArgs): Promise<NytCookingArticle>;
   }
 }
 
@@ -32236,6 +32328,12 @@ interface NytimesPopularItem {
   summary?: string;
   url?: string;
 }
+interface NytimesTopic {
+  slug: string;
+  name: string;
+  url: string;
+  lastModified?: string;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -32284,6 +32382,12 @@ interface NytimesPopularItem {
      * up to 20, the most the page itself renders.
      */
     getTrending(list?: "trending" | "recipes" | "videos" | "mostViewed" | "mostFacebooked" | "mostEmailed", limit?: number, offset?: number): Promise<NytimesPopularItem[]>;
+
+    /**
+     * Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently active
+     * first. name is formatted from the slug, not read off the site.
+     */
+    listTopics(limit?: number, offset?: number): Promise<NytimesTopic[]>;
   }
 }
 
@@ -32837,30 +32941,6 @@ interface packlaneQuote {
      * on-page calculator API.
      */
     getQuote(args: GetQuoteArgs): Promise<packlaneQuote>;
-  }
-}
-
-declare namespace BowmarkProvider_pallet2ship {
-  // ── Pallet2Ship — the unit's own declarations, verbatim ──
-interface Pallet2ShipQuote {
-  price: number;
-  estimatedDays: number;
-  serviceType: string;
-}
-
-interface GetQuoteArgs {
-  collectionPostcode: string;
-  deliveryPostcode: string;
-  weight: number;
-  length: number;
-  width: number;
-  height: number;
-}
-
-  /** Get pallet freight quotes from Pallet2Ship, a UK pallet broker. */
-  interface Unit {
-    /** Returns a price estimate for transporting a pallet between two UK postcodes. */
-    getQuote(args: GetQuoteArgs): Promise<Pallet2ShipQuote>;
   }
 }
 
@@ -43185,6 +43265,21 @@ interface walmartProductReviews {
   reviews: walmartReview[];
 }
 
+interface walmartProduct {
+  itemId: string;
+  name: string;
+  brand: string | null;
+  url: string;
+  price: number | null;
+  wasPrice: number | null;
+  availability: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  rating: number | null;
+  reviewCount: number;
+  images: string[];
+  description: string | null;
+  specText: string | null;
+}
+
   /**
    * Walmart.com — product search, product detail, store-level stock, store locator and more.
    * Eight functions built: keyword search across the catalog, finding nearby stores by ZIP with
@@ -43255,6 +43350,13 @@ interface walmartProductReviews {
      * one-through-five-star counts, recommended percentage), for an item id `search` returned.
      */
     listReviews(args: { itemId: string }): Promise<walmartProductReviews>;
+
+    /**
+     * Reads one product's full page — price, availability summary, images, brand, full
+     * spec/description text and aggregate rating — for an item id or URL a search already
+     * returned. The identity and detail a search row cannot carry.
+     */
+    getProduct(args: { itemId: string }): Promise<walmartProduct>;
   }
 }
 
@@ -43928,6 +44030,20 @@ interface WikipediaRevisionDetail {
   source: string;
 }
 
+interface WikipediaRevisionDiffLine {
+  type: number;  // MediaWiki's own line-diff code: 0 unchanged (context), 3 changed (see highlightRanges); 1/2 (pure add/remove) pass through unchanged
+  lineNumber: number;
+  text: string;
+  offset: { from: number | null; to: number | null };
+  highlightRanges?: { start: number; length: number; type: number }[];
+}
+
+interface WikipediaRevisionComparison {
+  from: number;
+  to: number;
+  diff: WikipediaRevisionDiffLine[];
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -44102,6 +44218,14 @@ interface WikipediaRevisionDetail {
      * on a date rather than as it stands now.
      */
     getRevision(revisionId: number, options?: { lang?: string }): Promise<WikipediaRevisionDetail>;
+
+    /**
+     * The diff between two revisions of the same article, keyed on ids listRevisions returns — a
+     * list of diff lines, each marked unchanged or changed, with the changed ones carrying the
+     * exact character ranges that moved. What a caller uses to answer 'what actually changed
+     * between these two points in the article's history' without diffing the wikitext itself.
+     */
+    compareRevisions(fromRevisionId: number, toRevisionId: number, options?: { lang?: string }): Promise<WikipediaRevisionComparison>;
   }
 }
 
@@ -44661,6 +44785,10 @@ interface YahooSportsGameRow {
 interface YahooSportsStandingsRow {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   team: string;
+  // The site's own short team slug off that team's /teams/<slug>/ page —
+  // e.g. "detroit", "ny-yankees" — the same slug getSchedule, getTeamRoster
+  // and findPlayers all take as teamSlug. Null if the row's anchor is missing.
+  slug: string | null;
   wins: number;
   losses: number;
   ties: number;
@@ -44673,6 +44801,10 @@ interface YahooSportsStandingsRow {
 interface YahooSportsTeamRow {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   team: string;
+  // The site's own short team slug off that team's /teams/<slug>/ page —
+  // e.g. "detroit", "ny-yankees" — the same slug getSchedule, getTeamRoster
+  // and findPlayers all take as teamSlug. Null if the row's anchor is missing.
+  slug: string | null;
 }
 
 interface YahooSportsScheduleRow {
@@ -44878,11 +45010,15 @@ interface YahooFantasyLineupSetResult {
 
     /**
      * Reads the full standings table for one league off Yahoo Sports' own Standings page — each
-     * team's wins, losses, ties, win percentage, points for/against and point differential.
+     * team's wins, losses, ties, win percentage, points for/against, point differential and the
+     * site's own routing slug (the teamSlug getSchedule/getTeamRoster/findPlayers take).
      */
     getStandings(args: GetStandingsArgs): Promise<YahooSportsStandingsRow[]>;
 
-    /** Lists every team in a league off Yahoo Sports' standings page — each team's name. */
+    /**
+     * Lists every team in a league off Yahoo Sports' standings page — each team's name and the
+     * site's own routing slug (the teamSlug getSchedule/getTeamRoster/findPlayers take).
+     */
     listTeams(args: ListTeamsArgs): Promise<YahooSportsTeamRow[]>;
 
     /**
@@ -47201,7 +47337,6 @@ interface BowmarkProviders {
   pacificcompanies: BowmarkProvider_pacificcompanies.Unit;
   pacificlifestylehomes: BowmarkProvider_pacificlifestylehomes.Unit;
   packlane: BowmarkProvider_packlane.Unit;
-  pallet2ship: BowmarkProvider_pallet2ship.Unit;
   pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
