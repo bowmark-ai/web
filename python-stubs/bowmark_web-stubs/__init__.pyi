@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6fa737253c775a81ae975a1510a17c847d663bb27b1bf903f3d4e18686006c67
-# 68 capabilities, 500 providers, 1636 typed functions, 20 refused.
+# Manifest version: d61b5dd3a8907c47c992b05b6bf4f0c557d96e0342c879b56770cf3f2589a3ff
+# 69 capabilities, 500 providers, 1642 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -979,6 +979,23 @@ class Cap_flights_FlightStatusLeg_Out_equipment_Out(TypedDict):
     equipmentCode: str | None
     iataName: str | None
     displayName: str | None
+
+class Cap_fuel_card_fees_EstimateMonthlyArgs_In(TypedDict):
+    cards: NotRequired[float]
+
+class Cap_fuel_card_fees_fuel_card_feesResult_Out(TypedDict):
+    cards: float
+    quotes: list[Cap_fuel_card_fees_FuelCardQuote_Out]
+    warnings: list[str]
+
+class Cap_fuel_card_fees_FuelCardQuote_Out(TypedDict):
+    issuer: str
+    perCardMonthlyUsd: float
+    monthlyTotalUsd: float
+    feeDisplay: str
+    feesNotCharged: list[str]
+    gallonRebateRange: str
+    url: str
 
 class Cap_furnished_apartment_rental_search_args_In(TypedDict):
     city: str
@@ -2890,6 +2907,19 @@ class Prv_alibaba_alibabaSupplierRow_Out(TypedDict):
     rating: float | None
     yearsOnPlatform: str | None
     profileUrl: str | None
+
+class Prv_alibaba_alibabaSupplierProfileRow_Out(TypedDict):
+    id: str
+    name: str
+    country: str | None
+    verified: bool
+    rating: float | None
+    maxRating: float | None
+    yearsOnPlatform: str | None
+    staffCount: float | None
+    address: str | None
+    logoUrl: str | None
+    identityType: str | None
 
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
@@ -9522,6 +9552,32 @@ class Prv_etsy_etsyListing_Out(TypedDict):
     quantity: float | None
     tags: list[str]
     url: str
+
+class Prv_evag_listDisruptions_options_In(TypedDict):
+    line: NotRequired[str]
+    category: NotRequired[Literal["short-notice"] | Literal["planned"]]
+
+class Prv_evag_Disruptions_Out(TypedDict):
+    notices: list[Prv_evag_DisruptionNotice_Out]
+    deviceOutages: list[Prv_evag_StationDevice_Out]
+
+class Prv_evag_DisruptionNotice_Out(TypedDict):
+    title: str
+    text: str
+    category: Literal["short-notice"] | Literal["planned"]
+    validity: NotRequired[str]
+    lines: list[str]
+    stops: list[str]
+    published: NotRequired[str]
+    url: NotRequired[str]
+
+class Prv_evag_StationDevice_Out(TypedDict):
+    station: str
+    name: str
+    kind: Literal["elevator"] | Literal["escalator"]
+    location: NotRequired[str]
+    inService: bool
+    updated: NotRequired[str]
 
 class Prv_evag_Departure_Out(TypedDict):
     line: str
@@ -19860,6 +19916,17 @@ class Prv_reuters_ReutersSection_Out(TypedDict):
     parent: str | None
     url: str
 
+class Prv_reuters_ListHeadlinesArgs_In(TypedDict):
+    section: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_reuters_ReutersHeadline_Out(TypedDict):
+    headline: str
+    summary: NotRequired[str | None]
+    url: str
+    section: str
+    publishedAt: str
+
 class Prv_reuters_ListLatestNewsArgs_In(TypedDict):
     section: NotRequired[str]
     limit: NotRequired[float]
@@ -21959,6 +22026,19 @@ class Prv_theguardian_com_GuardianTopic_Out(TypedDict):
     title: str
     url: str
 
+class Prv_theguardian_com_GuardianListContributorsArgs_In(TypedDict):
+    letter: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_theguardian_com_GuardianListContributorsResult_Out(TypedDict):
+    letter: str | None
+    contributors: list[Prv_theguardian_com_GuardianContributor_Out]
+
+class Prv_theguardian_com_GuardianContributor_Out(TypedDict):
+    name: str
+    slug: str
+    url: str
+
 class Prv_theguardian_com_GuardianGetContributorArticlesArgs_In(TypedDict):
     contributor: str
     limit: NotRequired[float]
@@ -22771,6 +22851,18 @@ class Prv_tradingview_ChartData_Out(TypedDict):
     low: NotRequired[float]
     close: NotRequired[float]
     volume: NotRequired[float]
+
+class Prv_tradingview_Earnings_Out(TypedDict):
+    symbol: str
+    exchange: str
+    lastReleaseDate: NotRequired[float]
+    nextReleaseDate: NotRequired[float]
+    epsActual: NotRequired[float]
+    epsEstimate: NotRequired[float]
+    epsSurprise: NotRequired[float]
+    epsSurprisePercent: NotRequired[float]
+    epsEstimateNextQuarter: NotRequired[float]
+    revenueEstimateNextQuarter: NotRequired[float]
 
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
@@ -26296,6 +26388,17 @@ class Cap_flights(Protocol):
         no fan-out to go thin.
         """
 
+class Cap_fuel_card_fees(Protocol):
+    """What a fleet fuel card costs per month for N cards, off the issuer's own published fee
+    schedule.
+    """
+
+    async def estimateMonthly(self, args: Cap_fuel_card_fees_EstimateMonthlyArgs_In, /) -> Cap_fuel_card_fees_fuel_card_feesResult_Out:
+        """Monthly card fees for a fleet of `cards` drivers/cards, per issuer, from each issuer's
+        own published fee schedule — plus the fees it says it does not charge and its per-gallon
+        rebate.
+        """
+
 class Cap_furnished_apartment_rental(Protocol):
     """Find furnished apartments available for rent, furnished by multiple providers."""
 
@@ -27784,6 +27887,11 @@ class Prv_alibaba(Protocol):
 
     async def listSuppliers(self, args: Prv_alibaba_listSuppliers_args_In, /) -> list[Prv_alibaba_alibabaSupplierRow_Out]:
         """Search for suppliers by company name or product type."""
+
+    async def getSupplier(self, profileUrl: str, /) -> Prv_alibaba_alibabaSupplierProfileRow_Out:
+        """Get a supplier's storefront profile — company info, verification status, rating and
+        contact address — from its listSuppliers() profileUrl.
+        """
 
 class Prv_allied(Protocol):
     """Runs Allied Van Lines' own Packing Calculator — takes which rooms are moving (no name,
@@ -32231,6 +32339,13 @@ class Prv_evag(Protocol):
     (Essener Verkehrs-AG) / Ruhrbahn, read straight from ifa.ruhrbahn.de's own JSON backend
     — no key, no browser.
     """
+
+    async def listDisruptions(self, options: Prv_evag_listDisruptions_options_In | None = None, /) -> Prv_evag_Disruptions_Out:
+        """Network-wide Essen transit service disruptions from Ruhrbahn/EVAG's Verkehrsinfos:
+        short-notice and planned changes (diversions, closures, delays) with affected lines,
+        stops and validity dates, plus every elevator and escalator currently out of service. No
+        arguments needed; optionally filter by line or category.
+        """
 
     async def listDepartures(self, stopId: str, /) -> list[Prv_evag_Departure_Out]:
         """Real-time departure information for a given stop — line numbers, destinations, and
@@ -39680,6 +39795,12 @@ class Prv_reuters(Protocol):
         with the path the section-scoped reads take. Optional word filter.
         """
 
+    async def listHeadlines(self, args: Prv_reuters_ListHeadlinesArgs_In | None = None, /) -> list[Prv_reuters_ReutersHeadline_Out]:
+        """The stories a Reuters section front shows right now in the page's own order — headline,
+        summary, url, section and published time. Takes a section path from listSections (omit
+        for the home page).
+        """
+
     async def listLatestNews(self, args: Prv_reuters_ListLatestNewsArgs_In | None = None, /) -> list[Prv_reuters_ReutersLatestStory_Out]:
         """The newest Reuters stories across the whole site, newest first — headline, url, section,
         published time, lead image and the stock tickers each story is tagged with — from the
@@ -40904,6 +41025,12 @@ class Prv_theguardian_com(Protocol):
         summary, byline and publish time.
         """
 
+    async def listContributors(self, args: Prv_theguardian_com_GuardianListContributorsArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListContributorsResult_Out:
+        """Guardian journalists and contributors, alphabetically by surname — each with their name
+        and profile slug. Pass a single letter (a-z) to list contributors whose surname starts
+        with that letter; omit to list all (default).
+        """
+
     async def getContributorArticles(self, args: Prv_theguardian_com_GuardianGetContributorArticlesArgs_In, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:
         """The latest articles by one Guardian journalist or contributor — newest first, with
         headline, url, standfirst, byline and publish time. Takes the profile slug from a byline
@@ -41486,6 +41613,17 @@ class Prv_tradingview(Protocol):
         close prices and volume, plus a Unix timestamp. Note: TradingView's public API returns
         only current snapshot OHLCV; historical candlestick data requires the paid WebSocket
         API. An unknown or delisted pair returns a caller-fixable error.
+        """
+
+    async def getEarnings(self, exchange: str, symbol: str, /) -> Prv_tradingview_Earnings_Out:
+        """Gets earnings history and the upcoming earnings date for one symbol on one exchange —
+        e.g. `getEarnings("NASDAQ", "AAPL")` — the same scanner door as
+        `getQuote`/`getFinancials`. Use `searchSymbols` first and pass its exact `exchange` and
+        `symbol` fields. Returns `lastReleaseDate`/`nextReleaseDate` (Unix seconds), the most
+        recently reported quarter's `epsActual` vs. analyst `epsEstimate` and the
+        `epsSurprise`/`epsSurprisePercent` between them, plus `epsEstimateNextQuarter` and
+        `revenueEstimateNextQuarter` for the quarter not yet reported. An unknown or delisted
+        pair returns a caller-fixable error.
         """
 
 class Prv_travelinsured(Protocol):
@@ -43854,6 +43992,7 @@ class Bowmark(Protocol):
     email: Cap_email
     entertainment_merch: Cap_entertainment_merch
     flights: Cap_flights
+    fuel_card_fees: Cap_fuel_card_fees
     furnished_apartment_rental: Cap_furnished_apartment_rental
     game_soundtrack_composer_credits: Cap_game_soundtrack_composer_credits
     gas_prices: Cap_gas_prices

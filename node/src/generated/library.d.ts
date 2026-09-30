@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6fa737253c775a81ae975a1510a17c847d663bb27b1bf903f3d4e18686006c67
-// 68 capabilities, 500 providers, 1654 typed functions, 20 refused.
+// Manifest version: d61b5dd3a8907c47c992b05b6bf4f0c557d96e0342c879b56770cf3f2589a3ff
+// 69 capabilities, 500 providers, 1660 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1444,6 +1444,41 @@ type FlightStatusResult = {
      * clamped `timeoutMs` — a single-carrier route has no fan-out to go thin.
      */
     getFlightStatus(query: FlightStatusQuery, options?: CallOptions): Promise<FlightStatusResult>;
+  }
+}
+
+declare namespace BowmarkCapability_fuel_card_fees {
+  // ── Fleet Fuel Card Fees — the unit's own declarations, verbatim ──
+interface EstimateMonthlyArgs {
+  cards?: number; // cards (drivers) on the account; defaults to 1
+}
+
+interface FuelCardQuote {
+  issuer: string;
+  perCardMonthlyUsd: number;
+  monthlyTotalUsd: number; // perCardMonthlyUsd × cards, before fuel itself
+  feeDisplay: string;
+  feesNotCharged: string[];
+  gallonRebateRange: string;
+  url: string;
+}
+
+interface fuel_card_feesResult {
+  cards: number;
+  quotes: FuelCardQuote[];
+  warnings: string[];
+}
+
+  /**
+   * What a fleet fuel card costs per month for N cards, off the issuer's own published fee
+   * schedule.
+   */
+  interface Unit {
+    /**
+     * Monthly card fees for a fleet of `cards` drivers/cards, per issuer, from each issuer's own
+     * published fee schedule — plus the fees it says it does not charge and its per-gallon rebate.
+     */
+    estimateMonthly(args: EstimateMonthlyArgs): Promise<fuel_card_feesResult>;
   }
 }
 
@@ -5287,6 +5322,20 @@ interface alibabaSupplierRow {
   profileUrl: string | null;
 }
 
+interface alibabaSupplierProfileRow {
+  id: string;
+  name: string;
+  country: string | null;
+  verified: boolean;
+  rating: number | null;
+  maxRating: number | null;
+  yearsOnPlatform: string | null;
+  staffCount: number | null;
+  address: string | null;
+  logoUrl: string | null;
+  identityType: string | null;
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /** Search for products by keyword, returning results with title, price, supplier and details. */
@@ -5306,6 +5355,12 @@ interface alibabaSupplierRow {
 
     /** Search for suppliers by company name or product type. */
     listSuppliers(args: { query: string }): Promise<alibabaSupplierRow[]>;
+
+    /**
+     * Get a supplier's storefront profile — company info, verification status, rating and contact
+     * address — from its listSuppliers() profileUrl.
+     */
+    getSupplier(profileUrl: string): Promise<alibabaSupplierProfileRow>;
   }
 }
 
@@ -17312,9 +17367,32 @@ interface StopSearchResult {
   city?: string;
 }
 
-// Declared for a future function; nothing implements it yet — no
-// listDepartures or searchStop response carries a line status or a
-// disruption message. Do not call code expecting this shape today.
+interface DisruptionNotice {
+  title: string;
+  text: string;
+  category: "short-notice" | "planned"; // Kurzfristige / Geplante Änderungen
+  validity?: string;                    // e.g. "gültig heute", "gültig vom 01.10. bis 12.10.2026"
+  lines: string[];                      // affected lines, e.g. ["107", "U11"]
+  stops: string[];                      // affected stops, e.g. ["Aalto-Theater, Essen"]
+  published?: string;                   // "25.09.2026 | 07:41"
+  url?: string;
+}
+
+interface StationDevice {
+  station: string;
+  name: string;                         // "Aktienstr. Rolltreppe 4"
+  kind: "elevator" | "escalator";
+  location?: string;
+  inService: boolean;
+  updated?: string;
+}
+
+interface Disruptions {
+  notices: DisruptionNotice[];
+  deviceOutages: StationDevice[];       // only the elevators/escalators out of service
+}
+
+// Declared for a future function; nothing implements it yet.
 interface LineStatus {
   line: string;
   status: "normal" | "disruption" | "delay";
@@ -17327,6 +17405,14 @@ interface LineStatus {
    * key, no browser.
    */
   interface Unit {
+    /**
+     * Network-wide Essen transit service disruptions from Ruhrbahn/EVAG's Verkehrsinfos:
+     * short-notice and planned changes (diversions, closures, delays) with affected lines, stops
+     * and validity dates, plus every elevator and escalator currently out of service. No arguments
+     * needed; optionally filter by line or category.
+     */
+    listDisruptions(options?: { line?: string; category?: "short-notice" | "planned" }): Promise<Disruptions>;
+
     /**
      * Real-time departure information for a given stop — line numbers, destinations, and minutes
      * until departure. Takes the id searchStop returns. THROWS a caller-fixable error rather than
@@ -36617,6 +36703,17 @@ interface ReutersSection {
 interface ListSectionsArgs {
   query?: string;          // every word must appear in the path or name
 }
+interface ReutersHeadline {
+  headline: string;
+  summary?: string | null; // null if not available on the page
+  url: string;
+  section: string;         // the section path, e.g. "world" or empty for home
+  publishedAt: string;     // ISO timestamp or null
+}
+interface ListHeadlinesArgs {
+  section?: string;        // a path from listSections (e.g. "business"), omit for home page
+  limit?: number;          // 1-1000, default 100
+}
 interface ReutersLatestStory {
   headline: string;
   url: string;             // pass to getArticle
@@ -36709,6 +36806,13 @@ interface ListPodcastsArgs {
      * the path the section-scoped reads take. Optional word filter.
      */
     listSections(args?: ListSectionsArgs): Promise<ReutersSection[]>;
+
+    /**
+     * The stories a Reuters section front shows right now in the page's own order — headline,
+     * summary, url, section and published time. Takes a section path from listSections (omit for
+     * the home page).
+     */
+    listHeadlines(args?: ListHeadlinesArgs): Promise<ReutersHeadline[]>;
 
     /**
      * The newest Reuters stories across the whole site, newest first — headline, url, section,
@@ -40169,6 +40273,20 @@ interface GuardianTopic {
 interface GuardianListTopicsResult {
   topics: GuardianTopic[];
 }
+interface GuardianContributor {
+  name: string;
+  slug: string;
+  url: string;
+}
+interface GuardianListContributorsArgs {
+  /** A single letter (a-z) to list contributors whose surname starts with that letter. Omit to list all (default). */
+  letter?: string;
+  limit?: number;
+}
+interface GuardianListContributorsResult {
+  letter: string | null;
+  contributors: GuardianContributor[];
+}
 interface GuardianGetContributorArticlesArgs {
   /** The profile slug from a byline or a theguardian.com/profile/<slug> URL, e.g. "marinahyde". */
   contributor: string;
@@ -40221,6 +40339,13 @@ interface GuardianGetContributorArticlesArgs {
      * summary, byline and publish time.
      */
     listBreakingNews(): Promise<GuardianListArticlesResult>;
+
+    /**
+     * Guardian journalists and contributors, alphabetically by surname — each with their name and
+     * profile slug. Pass a single letter (a-z) to list contributors whose surname starts with that
+     * letter; omit to list all (default).
+     */
+    listContributors(args?: GuardianListContributorsArgs): Promise<GuardianListContributorsResult>;
 
     /**
      * The latest articles by one Guardian journalist or contributor — newest first, with headline,
@@ -41665,6 +41790,19 @@ interface ChartData {
   volume?: number;
 }
 
+interface Earnings {
+  symbol: string;
+  exchange: string;
+  lastReleaseDate?: number;
+  nextReleaseDate?: number;
+  epsActual?: number;
+  epsEstimate?: number;
+  epsSurprise?: number;
+  epsSurprisePercent?: number;
+  epsEstimateNextQuarter?: number;
+  revenueEstimateNextQuarter?: number;
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -41745,6 +41883,17 @@ interface ChartData {
      * pair returns a caller-fixable error.
      */
     getChartData(exchange: string, symbol: string): Promise<ChartData>;
+
+    /**
+     * Gets earnings history and the upcoming earnings date for one symbol on one exchange — e.g.
+     * `getEarnings("NASDAQ", "AAPL")` — the same scanner door as `getQuote`/`getFinancials`. Use
+     * `searchSymbols` first and pass its exact `exchange` and `symbol` fields. Returns
+     * `lastReleaseDate`/`nextReleaseDate` (Unix seconds), the most recently reported quarter's
+     * `epsActual` vs. analyst `epsEstimate` and the `epsSurprise`/`epsSurprisePercent` between
+     * them, plus `epsEstimateNextQuarter` and `revenueEstimateNextQuarter` for the quarter not yet
+     * reported. An unknown or delisted pair returns a caller-fixable error.
+     */
+    getEarnings(exchange: string, symbol: string): Promise<Earnings>;
   }
 }
 
@@ -99753,6 +99902,7 @@ interface BowmarkLibrary {
   email: BowmarkCapability_email.Unit;
   entertainment_merch: BowmarkCapability_entertainment_merch.Unit;
   flights: BowmarkCapability_flights.Unit;
+  fuel_card_fees: BowmarkCapability_fuel_card_fees.Unit;
   furnished_apartment_rental: BowmarkCapability_furnished_apartment_rental.Unit;
   game_soundtrack_composer_credits: BowmarkCapability_game_soundtrack_composer_credits.Unit;
   gas_prices: BowmarkCapability_gas_prices.Unit;

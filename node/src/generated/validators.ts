@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6fa737253c775a81ae975a1510a17c847d663bb27b1bf903f3d4e18686006c67
-// 1636 checked, 20 unchecked.
+// Manifest version: d61b5dd3a8907c47c992b05b6bf4f0c557d96e0342c879b56770cf3f2589a3ff
+// 1642 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6fa737253c775a81ae975a1510a17c847d663bb27b1bf903f3d4e18686006c67",
+  "version": "d61b5dd3a8907c47c992b05b6bf4f0c557d96e0342c879b56770cf3f2589a3ff",
   "units": {
     "booking_links": {
       "defs": {
@@ -1598,6 +1598,34 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CallOptions"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "fuel_card_fees": {
+      "defs": {
+        "EstimateMonthlyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cards",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "estimateMonthly": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "EstimateMonthlyArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -5973,6 +6001,15 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getSupplier": [
+          {
+            "name": "profileUrl",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -16516,6 +16553,41 @@ export const VALIDATORS: ValidatorTable = {
     "providers.evag": {
       "defs": {},
       "functions": {
+        "listDisruptions": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "line",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "category",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "short-notice"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "planned"
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
         "listDepartures": [
           {
             "name": "stopId",
@@ -37489,6 +37561,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListHeadlinesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "section",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListLatestNewsArgs": {
           "k": "object",
           "props": [
@@ -37583,6 +37674,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListSectionsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listHeadlines": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListHeadlinesArgs"
             },
             "optional": true
           }
@@ -41549,6 +41650,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "GuardianListContributorsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "letter",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -41584,6 +41704,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listBreakingNews": [],
+        "listContributors": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListContributorsArgs"
+            },
+            "optional": true
+          }
+        ],
         "getContributorArticles": [
           {
             "name": "args",
@@ -42994,6 +43124,22 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getChartData": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getEarnings": [
           {
             "name": "exchange",
             "schema": {
