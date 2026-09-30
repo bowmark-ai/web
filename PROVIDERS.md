@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2573 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2576 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1069,11 +1069,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
 | `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | 🟢 |
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list, off GitHub's own… | 🟢 |
-| `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | ⚪ |
+| `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | 🟢 |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | ⚪ |
 | `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | ⚪ |
 | `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), base branch, or draft status. | ⚪ |
-| `github.watchRepository` | github.com | Adds a repository to the signed-in user's watched/subscribed list for notifications. | ⚪ |
+| `github.watchRepository` | github.com | Adds a repository to the signed-in user's watched/subscribed list for notifications. | 🟢 |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
 | `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟡 |
@@ -1632,7 +1632,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getRecipeNotes` | cooking.nytimes.com | Reads the public helpful/all cook notes left on a recipe by other readers. | ⚪ |
 | `nyt_cooking.getRelatedRecipes` | cooking.nytimes.com | Reads the related-recipe carousel the site itself shows on a recipe page. | ⚪ |
 | `nyt_cooking.getSavedRecipes` | cooking.nytimes.com | Lists the signed-in reader's saved recipes (their Recipe Box). Needs the CALLER's own… | ⚪ |
-| `nyt_cooking.getSeasonalGuide` | cooking.nytimes.com | Reads a seasonal guide page (e.g. "/thanksgiving", "/christmas") and its featured… | ⚪ |
+| `nyt_cooking.getSeasonalGuide` | cooking.nytimes.com | Reads a seasonal guide page (e.g. "/thanksgiving", "/christmas") and its featured… | 🟢 |
 | `nyt_cooking.getTopic` | cooking.nytimes.com | Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes. | 🟢 |
 | `nyt_cooking.getTrendingArticles` | cooking.nytimes.com | Lists the trending articles the site surfaces alongside recipes. | ⚪ |
 | `nyt_cooking.listFeaturedCollections` | cooking.nytimes.com | Lists the collections currently featured on the site's own homepage — the entry point… | 🟢 |
@@ -2290,7 +2290,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.getChannel` | twitch.tv | Reads the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
 | `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | 🟢 |
 | `twitch.getChannelSchedule` | twitch.tv | Reads a channel's scheduled broadcast times and upcoming events (if public). Logged… | 🟢 |
-| `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | ⚪ |
+| `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | 🟢 |
 | `twitch.getSubscriptionStatus` | twitch.tv | Checks the signed-in user's subscription status to a specific channel (tier, renews… | ⚪ |
 | `twitch.getVideo` | twitch.tv | Reads one public Twitch video by id or twitch.tv/videos link: title, length in… | 🟢 |
 | `twitch.listCategories` | twitch.tv | Lists Twitch games/categories, ranked by current live viewership: name, box art URL… | 🟢 |
@@ -2537,6 +2537,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟡 |
 | `youtube.createChannel` | youtube.com | Creates the signed-in Google account's YouTube CHANNEL, using the account's own name… | 🟡 |
 | `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟡 |
+| `youtube.deletePlaylist` | youtube.com | Permanently delete one of the signed-in account's own playlists. | ⚪ |
 | `youtube.deleteVideo` | youtube.com | Permanently delete one of the signed-in account's own videos. | 🟢 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
 | `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |
@@ -2566,6 +2567,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.listWatchHistory` | youtube.com | What the signed-in account has watched, newest first. | 🟢 |
 | `youtube.listWatchLater` | youtube.com | The signed-in account's Watch Later queue. | 🟡 |
 | `youtube.postComment` | youtube.com | Leave a comment on a video as the signed-in account. | ⚪ |
+| `youtube.removeFromPlaylist` | youtube.com | Remove one or more videos from one of the signed-in account's own playlists. | 🟢 |
 | `youtube.replyToComment` | youtube.com | Reply to an existing comment as the signed-in account. | ⚪ |
 | `youtube.search` | youtube.com | Search YouTube the way a person types into its search box, and get back the videos the… | 🟢 |
 | `youtube.searchWithinChannel` | youtube.com | Search one channel's own videos rather than the whole site — the search box that… | 🟢 |
@@ -2573,6 +2575,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.setThumbnail` | youtube.com | Set a custom thumbnail image on one of the signed-in account's own videos. | 🟢 |
 | `youtube.subscribeToChannel` | youtube.com | Subscribe the signed-in account to a channel, or unsubscribe. | 🟢 |
 | `youtube.suggestSearches` | youtube.com | YouTube's own autocomplete for a partial query — the dropdown list it shows while… | 🟢 |
+| `youtube.updatePlaylist` | youtube.com | Change the title, description or privacy of one of the signed-in account's own… | ⚪ |
 | `youtube.updateVideo` | youtube.com | Change the title, description, tags, category or privacy of one of the signed-in… | 🟢 |
 | `youtube.uploadVideo` | youtube.com | Upload a video file to the signed-in account's own channel, with its title… | 🟢 |
 | `zennioptical.checkStock` | zennioptical.com | Checks live per-SKU inventory (in stock, quantity, backorder/preorder flags) off the… | 🟢 |

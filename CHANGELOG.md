@@ -6,6 +6,77 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.25.2 (2026-09-30)
+
+**Capabilities**
+
+- New capability **fuel_card_fees** (1 function): `fuel_card_fees.estimateMonthly`
+
+**Providers**
+
+- New provider **coastpay.com** (2 functions): `coast.getFleetCardPricing`, `coast.getFuelRebate`
+- New provider **tenders.go.ke** (2 functions): `tenders_go_ke.getTender`, `tenders_go_ke.listTenders`
+- New provider **uhaul.com** (1 function): `uhaul.getRates`
+- New provider **verizon.com** (1 function): `verizon.searchPhones`
+- New provider **marketplace.vts.com** (3 functions): `vts_marketplace.getListing`, `vts_marketplace.listMarkets`, `vts_marketplace.searchListings`
+- Added `alibaba.getSuggestions`
+- Added `alibaba.getSupplier`
+- Added `alibaba.listSuppliers`
+- Added `amazon.addToCart`
+- Added `amazon.listQuestions`
+- Added `apple.bookGeniusBarAppointment`
+- Added `bbc.getCurrentWeather`
+- Added `bbc.getForecast`
+- Added `bluesky.getFeed`
+- Added `bluesky.searchFeeds`
+- Added `cnn.getMarketsData`
+- Added `dell.listDealProducts`
+- Added `dell.listMyOrders`
+- Added `dell.listSupportCategories`
+- Added `evag.listDisruptions`
+- Added `fomo.filterTokens`
+- Added `fomo.getCandles`
+- Added `fomo.getTokenWarnings`
+- Added `forbes.getPerson`
+- Added `github.starRepository`
+- Added `github.unstarRepository`
+- Added `github.unwatchRepository`
+- Added `github.watchRepository`
+- Added `indeed.getCompanyDetails`
+- Added `indeed.searchCompanies`
+- Added `nyt_cooking.getArticle`
+- Added `nyt_cooking.getSeasonalGuide`
+- Added `nyt_cooking.listTopics`
+- Added `nyt_games.listBonusPuzzles`
+- Added `nytimes.getTopicArticles`
+- Added `nytimes.getTrending`
+- Added `nytimes.listTopics`
+- Added `reuters.listHeadlines`
+- Added `samsung.checkWarrantyStatus`
+- Added `samsung.compareProducts`
+- Added `steam.getGameReviews`
+- Added `steam.getGameScreenshots`
+- Added `steam.listGamesByCategory`
+- Added `theguardian_com.getContributorArticles`
+- Added `theguardian_com.listBreakingNews`
+- Added `theguardian_com.listContributors`
+- Added `tradingview.getChartData`
+- Added `tradingview.getEarnings`
+- Added `tradingview.getFinancials`
+- Added `twitch.getChannelSchedule`
+- Added `twitch.getFollowStatus`
+- Added `twitch.listChannelClips`
+- Added `walmart.getProduct`
+- Added `weather_channel.getPollenForecast`
+- Added `weather_channel.getRadarTiles`
+- Added `wikipedia.compareRevisions`
+- Added `wikipedia.getRevision`
+- Added `wikipedia.listRecentChanges`
+- Added `yahoo_finance.getEarningsDates`
+- Added `youtube.removeFromPlaylist`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.25.1 (2026-09-29)
 
 **Capabilities**
