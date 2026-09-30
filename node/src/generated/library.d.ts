@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9e51124ee4f2bd97433c6ca242b800fc8f8d81bb87dfaaf129ff6660d1e2e128
-// 68 capabilities, 497 providers, 1621 typed functions, 20 refused.
+// Manifest version: 599e9c821f5b9e707b6c7536686106d483287ec638a0c254e05068b7d8bf9e1c
+// 68 capabilities, 497 providers, 1623 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -39717,6 +39717,11 @@ interface GuardianTopic {
 interface GuardianListTopicsResult {
   topics: GuardianTopic[];
 }
+interface GuardianGetContributorArticlesArgs {
+  /** The profile slug from a byline or a theguardian.com/profile/<slug> URL, e.g. "marinahyde". */
+  contributor: string;
+  limit?: number;
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -39764,6 +39769,13 @@ interface GuardianListTopicsResult {
      * summary, byline and publish time.
      */
     listBreakingNews(): Promise<GuardianListArticlesResult>;
+
+    /**
+     * The latest articles by one Guardian journalist or contributor — newest first, with headline,
+     * url, standfirst, byline and publish time. Takes the profile slug from a byline or a
+     * theguardian.com/profile/<slug> URL, e.g. 'marinahyde' or 'georgemonbiot'.
+     */
+    getContributorArticles(args: GuardianGetContributorArticlesArgs): Promise<GuardianListArticlesResult>;
   }
 }
 
@@ -43501,6 +43513,22 @@ interface AirQuality {
   pollutants: Pollutant[];
 }
 
+interface PollenDaypart {
+  time: string;
+  name: string;
+  grassIndex: number | null;
+  grassCategory: string | null;
+  treeIndex: number | null;
+  treeCategory: string | null;
+  ragweedIndex: number | null;
+  ragweedCategory: string | null;
+}
+
+interface PollenForecastResult {
+  location: WeatherLocation | null;
+  dayparts: PollenDaypart[];
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -43575,6 +43603,14 @@ interface AirQuality {
      * with each one's amount, unit and category.
      */
     getAirQuality(location: Location): Promise<AirQuality>;
+
+    /**
+     * The Weather Channel's 7-day allergy forecast for a place — e.g. `getPollenForecast("Kansas
+     * City")` — the same day/night pollen breakdown the site's allergy page shows. Each of 15
+     * dayparts (day and night, ~7.5 days) carries the grass, tree and ragweed index (0-based site
+     * scale) and category ("None", "Low", "Moderate", "High", "Very High").
+     */
+    getPollenForecast(location: Location): Promise<PollenForecastResult>;
   }
 }
 

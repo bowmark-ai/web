@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9e51124ee4f2bd97433c6ca242b800fc8f8d81bb87dfaaf129ff6660d1e2e128
-// 1603 checked, 20 unchecked.
+// Manifest version: 599e9c821f5b9e707b6c7536686106d483287ec638a0c254e05068b7d8bf9e1c
+// 1605 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9e51124ee4f2bd97433c6ca242b800fc8f8d81bb87dfaaf129ff6660d1e2e128",
+  "version": "599e9c821f5b9e707b6c7536686106d483287ec638a0c254e05068b7d8bf9e1c",
   "units": {
     "booking_links": {
       "defs": {
@@ -40920,6 +40920,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.theguardian_com": {
       "defs": {
+        "GuardianGetContributorArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "contributor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GuardianListArticlesArgs": {
           "k": "object",
           "props": [
@@ -40972,7 +40991,17 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
-        "listBreakingNews": []
+        "listBreakingNews": [],
+        "getContributorArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianGetContributorArticlesArgs"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.therabody": {
@@ -44756,6 +44785,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getAirQuality": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          }
+        ],
+        "getPollenForecast": [
           {
             "name": "location",
             "schema": {

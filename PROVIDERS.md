@@ -881,7 +881,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.editProfile` | fomo.family | Updates the signed-in trader's own profile — display name, bio, handle — and uploads… | ⚪ |
 | `fomo.executeSwap` | fomo.family | Executes a priced swap: authorizes it, refreshes the transaction if the quote went… | ⚪ |
 | `fomo.exportPrivateKeys` | fomo.family | Returns the signed-in user's exported wallet private keys — the site's own key-export… | ⚪ |
-| `fomo.filterTokens` | fomo.family | The full token screener — a POST taking the site's own filter object (chain, market… | ⚪ |
+| `fomo.filterTokens` | fomo.family | The full token screener — a POST taking the site's own filter object and returning… | 🟢 |
 | `fomo.follow` | fomo.family | Follows another trader on behalf of the signed-in user. | ⚪ |
 | `fomo.getAlertPreferences` | fomo.family | Returns and updates which push alerts the signed-in trader receives — the settings… | ⚪ |
 | `fomo.getBalances` | fomo.family | Returns what one trader actually holds — every open token position with its raw… | 🟢 |
@@ -1065,7 +1065,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
 | `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | 🟢 |
-| `github.unstarRepository` | github.com | Removes a repository from the signed-in user's starred list. | ⚪ |
+| `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list, off GitHub's own… | 🟢 |
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | ⚪ |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | ⚪ |
 | `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | ⚪ |
@@ -1618,7 +1618,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.deleteRecipeBoxFolder` | cooking.nytimes.com | Deletes one of the signed-in reader's Recipe Box folders. | ⚪ |
 | `nyt_cooking.deleteRecipeNote` | cooking.nytimes.com | Deletes one of the signed-in reader's own private cook notes. | ⚪ |
 | `nyt_cooking.getAccountProfile` | cooking.nytimes.com | Reads the signed-in reader's own account profile (display name, email). Needs the… | ⚪ |
-| `nyt_cooking.getArticle` | cooking.nytimes.com | Reads one cooking article or guide's text and any recipes it links to. | ⚪ |
+| `nyt_cooking.getArticle` | cooking.nytimes.com | Reads one cooking article or guide's title, summary, authors, full body text and any… | 🟢 |
 | `nyt_cooking.getAuthorRecipes` | cooking.nytimes.com | Lists an author's published recipes off their byline page — the finder for a recipe… | 🟢 |
 | `nyt_cooking.getCollection` | cooking.nytimes.com | Reads one curated editorial collection and the recipe cards inside it, off a… | 🟢 |
 | `nyt_cooking.getCookedRecipes` | cooking.nytimes.com | Lists the recipes the signed-in reader has marked cooked. | ⚪ |

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9e51124ee4f2bd97433c6ca242b800fc8f8d81bb87dfaaf129ff6660d1e2e128
-# 68 capabilities, 497 providers, 1603 typed functions, 20 refused.
+# Manifest version: 599e9c821f5b9e707b6c7536686106d483287ec638a0c254e05068b7d8bf9e1c
+# 68 capabilities, 497 providers, 1605 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21680,6 +21680,10 @@ class Prv_theguardian_com_GuardianTopic_Out(TypedDict):
     title: str
     url: str
 
+class Prv_theguardian_com_GuardianGetContributorArticlesArgs_In(TypedDict):
+    contributor: str
+    limit: NotRequired[float]
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -23885,6 +23889,20 @@ class Prv_weather_channel_Pollutant_Out(TypedDict):
     category: str | None
     categoryIndex: float | None
     index: float | None
+
+class Prv_weather_channel_PollenForecastResult_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    dayparts: list[Prv_weather_channel_PollenDaypart_Out]
+
+class Prv_weather_channel_PollenDaypart_Out(TypedDict):
+    time: str
+    name: str
+    grassIndex: float | None
+    grassCategory: str | None
+    treeIndex: float | None
+    treeCategory: str | None
+    ragweedIndex: float | None
+    ragweedCategory: str | None
 
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
@@ -40295,6 +40313,12 @@ class Prv_theguardian_com(Protocol):
         summary, byline and publish time.
         """
 
+    async def getContributorArticles(self, args: Prv_theguardian_com_GuardianGetContributorArticlesArgs_In, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:
+        """The latest articles by one Guardian journalist or contributor — newest first, with
+        headline, url, standfirst, byline and publish time. Takes the profile slug from a byline
+        or a theguardian.com/profile/<slug> URL, e.g. 'marinahyde' or 'georgemonbiot'.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -41686,6 +41710,14 @@ class Prv_weather_channel(Protocol):
         Angeles")` — on the EPA scale. Returns the overall index and category ("Good",
         "Moderate", …), the primary pollutant, and a per-pollutant breakdown (CO, NO2, O3, PM10,
         PM2.5, SO2) with each one's amount, unit and category.
+        """
+
+    async def getPollenForecast(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_PollenForecastResult_Out:
+        """The Weather Channel's 7-day allergy forecast for a place — e.g.
+        `getPollenForecast("Kansas City")` — the same day/night pollen breakdown the site's
+        allergy page shows. Each of 15 dayparts (day and night, ~7.5 days) carries the grass,
+        tree and ragweed index (0-based site scale) and category ("None", "Low", "Moderate",
+        "High", "Very High").
         """
 
 class Prv_wellfound(Protocol):
