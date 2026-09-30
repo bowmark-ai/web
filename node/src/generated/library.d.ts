@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f072da2302995019a1bf4398024ca889e1e85a7a93258d3242329ca2a279afae
-// 68 capabilities, 497 providers, 1618 typed functions, 20 refused.
+// Manifest version: 9e51124ee4f2bd97433c6ca242b800fc8f8d81bb87dfaaf129ff6660d1e2e128
+// 68 capabilities, 497 providers, 1621 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -24556,6 +24556,23 @@ interface GetJobDetailsArgs {
   url: string;
 }
 
+interface IndeedSearchCompaniesArgs {
+  query: string;
+}
+
+interface IndeedCompanyResult {
+  name: string;
+  rating: number | null;
+  reviewsCount: number | null;
+  highlightMessage: string | null;
+  sectors: string[];
+  companyUrl: string;
+  jobsUrl: string | null;
+  reviewsUrl: string | null;
+  salariesUrl: string | null;
+  logoUrl: string | null;
+}
+
 interface IndeedSalary {
   min: number | null;
   max: number | null;
@@ -24608,6 +24625,13 @@ interface IndeedJobDetails {
      * and experience level. Takes a job URL (from searchJobs).
      */
     getJobDetails(args: GetJobDetailsArgs): Promise<IndeedJobDetails>;
+
+    /**
+     * Searches Indeed's own company directory by name or keyword and returns each match's rating,
+     * review count, sectors and its own `/cmp/…` page URLs (jobs, reviews, salaries), off the
+     * site's own results page. `sectors` is `[]` when the site's own card carries none.
+     */
+    searchCompanies(args: IndeedSearchCompaniesArgs): Promise<IndeedCompanyResult[]>;
   }
 }
 
@@ -38982,6 +39006,48 @@ interface ListGamesByCategoryResponse {
   start: number;
 }
 
+interface GetGameReviewsArgs {
+  appid: string | number;
+  filter?: "recent" | "updated" | "all";
+  language?: string;
+  numPerPage?: number;
+  cursor?: string;
+}
+
+interface SteamReviewAuthor {
+  steamId: string;
+  numGamesOwned: number;
+  numReviews: number;
+  playtimeForeverMinutes: number;
+  profileUrl: string;
+}
+
+interface SteamReview {
+  recommendationId: string;
+  author: SteamReviewAuthor;
+  language: string;
+  review: string;
+  timestampCreated: number;
+  votedUp: boolean;
+  votesUp: number;
+  votesFunny: number;
+  steamPurchase: boolean;
+  receivedForFree: boolean;
+  writtenDuringEarlyAccess: boolean;
+}
+
+interface GetGameReviewsResponse {
+  reviews: SteamReview[];
+  summary: {
+    reviewScore: number;
+    reviewScoreDescription: string;
+    totalPositive: number;
+    totalNegative: number;
+    totalReviews: number;
+  };
+  cursor: string;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -39012,6 +39078,12 @@ interface ListGamesByCategoryResponse {
      * and review-summary per game, and pagination via start/count.
      */
     listGamesByCategory(args: ListGamesByCategoryArgs, opts?: ConnectionOption): Promise<ListGamesByCategoryResponse>;
+
+    /**
+     * Reads a game's user reviews by appid: the aggregate score and totals, plus review text, vote
+     * counts, playtime and reviewer profile per row, filterable and cursor-paginated.
+     */
+    getGameReviews(args: GetGameReviewsArgs, opts?: ConnectionOption): Promise<GetGameReviewsResponse>;
   }
 }
 
@@ -41062,6 +41134,25 @@ interface NewsItem {
   relatedSymbols: string[];
 }
 
+interface Financials {
+  symbol: string;
+  exchange: string;
+  totalRevenue?: number;
+  revenueGrowthYoy?: number;
+  grossProfit?: number;
+  netIncome?: number;
+  netIncomeGrowthYoy?: number;
+  ebitda?: number;
+  earningsPerShare?: number;
+  freeCashFlow?: number;
+  totalAssets?: number;
+  totalCurrentAssets?: number;
+  totalLiabilities?: number;
+  totalCurrentLiabilities?: number;
+  totalDebt?: number;
+  cashAndEquivalents?: number;
+}
+
 interface TechnicalAnalysis {
   symbol: string;
   exchange: string;
@@ -41155,6 +41246,20 @@ interface TechnicalAnalysis {
      * delisted pair returns a caller-fixable error.
      */
     getTechnicalAnalysis(exchange: string, symbol: string): Promise<TechnicalAnalysis>;
+
+    /**
+     * Gets financial statement data for one symbol on one exchange — e.g. `getFinancials("NASDAQ",
+     * "AAPL")` — the same scanner door as `getQuote`/`getCompanyInfo`. Use `searchSymbols` first
+     * and pass its exact `exchange` and `symbol` fields. Returns trailing-twelve-month
+     * income-statement figures (`totalRevenue`, `grossProfit`, `netIncome`, `ebitda`,
+     * `earningsPerShare`, `freeCashFlow`, plus `revenueGrowthYoy`/`netIncomeGrowthYoy` where
+     * TradingView carries them) and the most recent fiscal quarter's balance sheet (`totalAssets`,
+     * `totalCurrentAssets`, `totalLiabilities`, `totalCurrentLiabilities`, `totalDebt`,
+     * `cashAndEquivalents`) — TradingView carries no TTM balance sheet, since a balance sheet is a
+     * point-in-time snapshot rather than something to sum over four quarters. An unknown or
+     * delisted pair returns a caller-fixable error.
+     */
+    getFinancials(exchange: string, symbol: string): Promise<Financials>;
   }
 }
 

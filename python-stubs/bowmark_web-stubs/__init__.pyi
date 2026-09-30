@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f072da2302995019a1bf4398024ca889e1e85a7a93258d3242329ca2a279afae
-# 68 capabilities, 497 providers, 1600 typed functions, 20 refused.
+# Manifest version: 9e51124ee4f2bd97433c6ca242b800fc8f8d81bb87dfaaf129ff6660d1e2e128
+# 68 capabilities, 497 providers, 1603 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13138,6 +13138,21 @@ class Prv_indeed_IndeedJobDetails_Out(TypedDict):
     experienceLevel: str | None
     url: str
 
+class Prv_indeed_IndeedSearchCompaniesArgs_In(TypedDict):
+    query: str
+
+class Prv_indeed_IndeedCompanyResult_Out(TypedDict):
+    name: str
+    rating: float | None
+    reviewsCount: float | None
+    highlightMessage: str | None
+    sectors: list[str]
+    companyUrl: str
+    jobsUrl: str | None
+    reviewsUrl: str | None
+    salariesUrl: str | None
+    logoUrl: str | None
+
 class Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In(TypedDict):
     state: NotRequired[str]
     community: NotRequired[str]
@@ -21257,6 +21272,45 @@ class Prv_steam_CategoryGame_Out_platforms_Out(TypedDict):
     mac: bool
     linux: bool
 
+class Prv_steam_GetGameReviewsArgs_In(TypedDict):
+    appid: str | float
+    filter: NotRequired[Literal["recent"] | Literal["updated"] | Literal["all"]]
+    language: NotRequired[str]
+    numPerPage: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_steam_GetGameReviewsResponse_Out(TypedDict):
+    reviews: list[Prv_steam_SteamReview_Out]
+    summary: Prv_steam_GetGameReviewsResponse_Out_summary_Out
+    cursor: str
+
+class Prv_steam_SteamReview_Out(TypedDict):
+    recommendationId: str
+    author: Prv_steam_SteamReviewAuthor_Out
+    language: str
+    review: str
+    timestampCreated: float
+    votedUp: bool
+    votesUp: float
+    votesFunny: float
+    steamPurchase: bool
+    receivedForFree: bool
+    writtenDuringEarlyAccess: bool
+
+class Prv_steam_SteamReviewAuthor_Out(TypedDict):
+    steamId: str
+    numGamesOwned: float
+    numReviews: float
+    playtimeForeverMinutes: float
+    profileUrl: str
+
+class Prv_steam_GetGameReviewsResponse_Out_summary_Out(TypedDict):
+    reviewScore: float
+    reviewScoreDescription: str
+    totalPositive: float
+    totalNegative: float
+    totalReviews: float
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -22406,6 +22460,24 @@ class Prv_tradingview_TechnicalAnalysis_Out_oscillators_Out(TypedDict):
     williamsPercentR: NotRequired[float]
     ultimateOscillator: NotRequired[float]
     bullBearPower: NotRequired[float]
+
+class Prv_tradingview_Financials_Out(TypedDict):
+    symbol: str
+    exchange: str
+    totalRevenue: NotRequired[float]
+    revenueGrowthYoy: NotRequired[float]
+    grossProfit: NotRequired[float]
+    netIncome: NotRequired[float]
+    netIncomeGrowthYoy: NotRequired[float]
+    ebitda: NotRequired[float]
+    earningsPerShare: NotRequired[float]
+    freeCashFlow: NotRequired[float]
+    totalAssets: NotRequired[float]
+    totalCurrentAssets: NotRequired[float]
+    totalLiabilities: NotRequired[float]
+    totalCurrentLiabilities: NotRequired[float]
+    totalDebt: NotRequired[float]
+    cashAndEquivalents: NotRequired[float]
 
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
@@ -34524,6 +34596,13 @@ class Prv_indeed(Protocol):
         type, and experience level. Takes a job URL (from searchJobs).
         """
 
+    async def searchCompanies(self, args: Prv_indeed_IndeedSearchCompaniesArgs_In, /) -> list[Prv_indeed_IndeedCompanyResult_Out]:
+        """Searches Indeed's own company directory by name or keyword and returns each match's
+        rating, review count, sectors and its own `/cmp/…` page URLs (jobs, reviews, salaries),
+        off the site's own results page. `sectors` is `[]` when the site's own card carries
+        none.
+        """
+
 class Prv_inspirecommunities(Protocol):
     """Searches Inspire Communities' live manufactured-home inventory and returns the real
     listing plus its schedule-a-tour handoff.
@@ -39954,6 +40033,11 @@ class Prv_steam(Protocol):
         discount, platform and review-summary per game, and pagination via start/count.
         """
 
+    async def getGameReviews(self, args: Prv_steam_GetGameReviewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameReviewsResponse_Out:
+        """Reads a game's user reviews by appid: the aggregate score and totals, plus review text,
+        vote counts, playtime and reviewer profile per row, filterable and cursor-paginated.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -40764,6 +40848,20 @@ class Prv_tradingview(Protocol):
         Oscillator, momentum, MACD, Williams %R, Ultimate Oscillator, Bull Bear Power)
         TradingView computed them from. This is TradingView's own technical rating, not an
         analyst consensus. An unknown or delisted pair returns a caller-fixable error.
+        """
+
+    async def getFinancials(self, exchange: str, symbol: str, /) -> Prv_tradingview_Financials_Out:
+        """Gets financial statement data for one symbol on one exchange — e.g.
+        `getFinancials("NASDAQ", "AAPL")` — the same scanner door as
+        `getQuote`/`getCompanyInfo`. Use `searchSymbols` first and pass its exact `exchange` and
+        `symbol` fields. Returns trailing-twelve-month income-statement figures (`totalRevenue`,
+        `grossProfit`, `netIncome`, `ebitda`, `earningsPerShare`, `freeCashFlow`, plus
+        `revenueGrowthYoy`/`netIncomeGrowthYoy` where TradingView carries them) and the most
+        recent fiscal quarter's balance sheet (`totalAssets`, `totalCurrentAssets`,
+        `totalLiabilities`, `totalCurrentLiabilities`, `totalDebt`, `cashAndEquivalents`) —
+        TradingView carries no TTM balance sheet, since a balance sheet is a point-in-time
+        snapshot rather than something to sum over four quarters. An unknown or delisted pair
+        returns a caller-fixable error.
         """
 
 class Prv_travelinsured(Protocol):

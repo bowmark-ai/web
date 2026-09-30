@@ -2126,7 +2126,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teneohg.getMemberHotel` | teneohg.com | Reads one member hotel's own profile page: the full meeting-space stat block… | 🟢 |
 | `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
 | `theguardian_com.getArticle` | theguardian.com | Read the full text of one article given its URL or ID. | 🟢 |
-| `theguardian_com.getContributorArticles` | theguardian.com | List articles written by a specific journalist or contributor. | ⚪ |
+| `theguardian_com.getContributorArticles` | theguardian.com | List articles written by a specific journalist or contributor. | 🟢 |
 | `theguardian_com.getLiveBlog` | theguardian.com | Read a live blog covering a news event. | ⚪ |
 | `theguardian_com.getPhotoGallery` | theguardian.com | View images in a photo gallery with captions. | ⚪ |
 | `theguardian_com.getReview` | theguardian.com | Read a full review given its URL or ID. | ⚪ |
@@ -2417,7 +2417,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getLocation` | weather.com | Gets location details by place name, postal code, or coordinates — returns full… | 🟢 |
 | `weather_channel.getMinutelyPrecipitation` | weather.com | Minute-level precipitation data — highly granular rainfall/snowfall timing and… | ⚪ |
 | `weather_channel.getObservations` | weather.com | Current observations from weather stations — actual measured conditions from the field. | ⚪ |
-| `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | ⚪ |
+| `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
 | `weather_channel.getPollenHealth` | weather.com | Cognitive/health indices related to pollen and air quality — allergy forecasts, cold &… | ⚪ |
 | `weather_channel.getRadarTiles` | weather.com | Radar imagery tiles for map overlays — precipitation radar mosaic for a region. | ⚪ |
 | `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | ⚪ |

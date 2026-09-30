@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f072da2302995019a1bf4398024ca889e1e85a7a93258d3242329ca2a279afae
-// 1600 checked, 20 unchecked.
+// Manifest version: 9e51124ee4f2bd97433c6ca242b800fc8f8d81bb87dfaaf129ff6660d1e2e128
+// 1603 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f072da2302995019a1bf4398024ca889e1e85a7a93258d3242329ca2a279afae",
+  "version": "9e51124ee4f2bd97433c6ca242b800fc8f8d81bb87dfaaf129ff6660d1e2e128",
   "units": {
     "booking_links": {
       "defs": {
@@ -22892,6 +22892,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "IndeedSearchCompaniesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "IndeedSearchJobsArgs": {
           "k": "object",
           "props": [
@@ -22929,6 +22941,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetJobDetailsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchCompanies": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "IndeedSearchCompaniesArgs"
             },
             "optional": false
           }
@@ -40065,6 +40087,68 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetGameReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "filter",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "recent"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "updated"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "all"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "numPerPage",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListFeaturedGamesArgs": {
           "k": "object",
           "props": [
@@ -40215,6 +40299,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListGamesByCategoryArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGameReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameReviewsArgs"
             },
             "optional": false
           },
@@ -42231,6 +42341,22 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getTechnicalAnalysis": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getFinancials": [
           {
             "name": "exchange",
             "schema": {
