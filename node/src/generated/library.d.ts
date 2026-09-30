@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d61b5dd3a8907c47c992b05b6bf4f0c557d96e0342c879b56770cf3f2589a3ff
-// 69 capabilities, 500 providers, 1660 typed functions, 20 refused.
+// Manifest version: 864c70b0a411f4af7bfe05cef9ca2bb0cc4df06d2f6b1a1e3b1ec414a3db7bdd
+// 69 capabilities, 500 providers, 1661 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -42523,6 +42523,15 @@ interface TwitchScheduleSegment {
   /** The scheduled broadcast title. Empty string when the channel left it blank. */
   title: string;
 }
+interface GetFollowStatusArgs {
+  /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
+  login: string;
+}
+interface TwitchFollowStatus {
+  following: boolean;
+  /** ISO timestamp. Null when following is false. */
+  followedAt: string | null;
+}
 interface SendChatMessageArgs {
   /** A Twitch channel id (not login). */
   channelId: string;
@@ -42634,6 +42643,12 @@ interface TwitchChatMessage {
      * user follows no channels.
      */
     listFollowedChannels(opts?: ConnectionOption): Promise<TwitchFollowedChannel[]>;
+
+    /**
+     * Checks whether the signed-in user follows a channel and when they started following. NEEDS
+     * the viewer's Twitch sign-in. THROWS naming the login when Twitch has no such channel.
+     */
+    getFollowStatus(args: GetFollowStatusArgs, opts?: ConnectionOption): Promise<TwitchFollowStatus>;
 
     /**
      * Sends a chat message to a Twitch channel. NEEDS the viewer's Twitch sign-in and the channel

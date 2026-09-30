@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d61b5dd3a8907c47c992b05b6bf4f0c557d96e0342c879b56770cf3f2589a3ff
-// 1642 checked, 20 unchecked.
+// Manifest version: 864c70b0a411f4af7bfe05cef9ca2bb0cc4df06d2f6b1a1e3b1ec414a3db7bdd
+// 1643 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d61b5dd3a8907c47c992b05b6bf4f0c557d96e0342c879b56770cf3f2589a3ff",
+  "version": "864c70b0a411f4af7bfe05cef9ca2bb0cc4df06d2f6b1a1e3b1ec414a3db7bdd",
   "units": {
     "booking_links": {
       "defs": {
@@ -43748,6 +43748,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetFollowStatusArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -44032,6 +44044,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listFollowedChannels": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getFollowStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetFollowStatusArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d61b5dd3a8907c47c992b05b6bf4f0c557d96e0342c879b56770cf3f2589a3ff
-# 69 capabilities, 500 providers, 1642 typed functions, 20 refused.
+# Manifest version: 864c70b0a411f4af7bfe05cef9ca2bb0cc4df06d2f6b1a1e3b1ec414a3db7bdd
+# 69 capabilities, 500 providers, 1643 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23262,6 +23262,13 @@ class Prv_twitch_TwitchFollowedChannel_Out(TypedDict):
     followerCount: float
     gameName: str | None
 
+class Prv_twitch_GetFollowStatusArgs_In(TypedDict):
+    login: str
+
+class Prv_twitch_TwitchFollowStatus_Out(TypedDict):
+    following: bool
+    followedAt: str | None
+
 class Prv_twitch_SendChatMessageArgs_In(TypedDict):
     channelId: str
     message: str
@@ -41870,6 +41877,12 @@ class Prv_twitch(Protocol):
         """Lists channels the signed-in user follows: login, display name, current game (only when
         live), and follower count. NEEDS the viewer's Twitch sign-in. Returns an empty list when
         the user follows no channels.
+        """
+
+    async def getFollowStatus(self, args: Prv_twitch_GetFollowStatusArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchFollowStatus_Out:
+        """Checks whether the signed-in user follows a channel and when they started following.
+        NEEDS the viewer's Twitch sign-in. THROWS naming the login when Twitch has no such
+        channel.
         """
 
     async def sendChatMessage(self, args: Prv_twitch_SendChatMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchChatMessage_Out:
