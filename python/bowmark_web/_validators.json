@@ -1,5 +1,5 @@
 {
-  "version": "e6400ed4265a4adf389f8ac81ca6fd7c1783a75231b7f41fbfbaff3f1e448d1a",
+  "version": "9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b",
   "units": {
     "booking_links": {
       "defs": {
@@ -29900,6 +29900,18 @@
               "optional": true
             }
           ]
+        },
+        "ListBonusPuzzlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "dropDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -30004,6 +30016,16 @@
               "name": "GetCrosswordArchiveArgs"
             },
             "optional": false
+          }
+        ],
+        "listBonusPuzzles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListBonusPuzzlesArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -30196,6 +30218,29 @@
           }
         ],
         "listTopics": [
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "getTopicArticles": [
+          {
+            "name": "topic",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "limit",
             "schema": {
@@ -45923,6 +45968,45 @@
                   "name": "lang",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listRecentChanges": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "namespace",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "anonymousOnly",
+                  "schema": {
+                    "k": "boolean"
                   },
                   "optional": true
                 }

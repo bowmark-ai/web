@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e6400ed4265a4adf389f8ac81ca6fd7c1783a75231b7f41fbfbaff3f1e448d1a
-// 68 capabilities, 500 providers, 1645 typed functions, 20 refused.
+// Manifest version: 9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b
+// 68 capabilities, 500 providers, 1648 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32306,6 +32306,9 @@ interface NytTilesPalette { displayName: string; filename: string; createdBy: st
 interface NytTiles { displayName: string; filename: string; createdBy: string; bgColor: string; allPalettes: NytTilesPalette[]; }
 interface CrosswordPuzzle { puzzleId: number; printDate: string; title: string; author: string; editor: string; formatType: string; publishType: string; }
 interface CrosswordPuzzleList { puzzles: CrosswordPuzzle[]; status: string; }
+interface BonusPuzzle { game: string; variant: string; title: string; constructors: string; editors: string[]; makeFree: boolean; webUrl: string; }
+interface BonusPuzzlesWeek { dropDate: string; prevDrop: string; nextDrop: string; puzzles: BonusPuzzle[]; }
+interface ListBonusPuzzlesArgs { dropDate?: string; }
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -32396,6 +32399,13 @@ interface CrosswordPuzzleList { puzzles: CrosswordPuzzle[]; status: string; }
      * date: "YYYY-MM-DD" }.
      */
     getCrosswordArchive(args: GetCrosswordArchiveArgs): Promise<NytCrossword>;
+
+    /**
+     * Lists this week's Bonus Puzzles drop (Wordle in 1, Connections 3x3, Colorful Strands, a
+     * mystery mini and more), each with its title, constructors, editors and page URL. Defaults to
+     * the most recent drop; pass { dropDate: "YYYY-MM-DD" } for an earlier week.
+     */
+    listBonusPuzzles(args?: ListBonusPuzzlesArgs): Promise<BonusPuzzlesWeek>;
   }
 }
 
@@ -32476,6 +32486,12 @@ interface NytimesTopic {
   url: string;
   lastModified?: string;
 }
+interface NytimesTopicDetail {
+  slug: string;
+  name: string;
+  summary?: string;
+  articles: NytimesArticleSummary[];
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -32530,6 +32546,13 @@ interface NytimesTopic {
      * first. name is formatted from the slug, not read off the site.
      */
     listTopics(limit?: number, offset?: number): Promise<NytimesTopic[]>;
+
+    /**
+     * Gets a topic (spotlight) page's own name and article grid. Takes a topic slug like
+     * "artificial-intelligence" (from listTopics) or a path like
+     * "/spotlight/artificial-intelligence".
+     */
+    getTopicArticles(topic: string, limit?: number, offset?: number): Promise<NytimesTopicDetail>;
   }
 }
 
@@ -44391,6 +44414,23 @@ interface WikipediaRevisionComparison {
   diff: WikipediaRevisionDiffLine[];
 }
 
+interface WikipediaRecentChange {
+  title: string;
+  pageId: number;
+  revisionId: number;
+  oldRevisionId: number;
+  namespace: number;
+  user: string;
+  anonymous: boolean;  // a classic IP editor or a temp-account placeholder — the site's own answer, never inferred from the username
+  timestamp: string;
+  comment: string;
+  minor: boolean;
+  isNew: boolean;
+  bot: boolean;
+  oldLength: number;
+  newLength: number;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -44573,6 +44613,14 @@ interface WikipediaRevisionComparison {
      * between these two points in the article's history' without diffing the wikitext itself.
      */
     compareRevisions(fromRevisionId: number, toRevisionId: number, options?: { lang?: string }): Promise<WikipediaRevisionComparison>;
+
+    /**
+     * A live feed of recent edits across the wiki, newest first — page title, editor, timestamp,
+     * edit summary and size delta for each. What is being changed right now. `namespace` narrows
+     * to one MediaWiki namespace (0 is articles); `anonymousOnly` filters to unregistered editors
+     * (true) or registered ones (false), leaving both when omitted.
+     */
+    listRecentChanges(options?: { lang?: string; limit?: number; namespace?: number; anonymousOnly?: boolean }): Promise<{ changes: WikipediaRecentChange[]; warnings: string[] }>;
   }
 }
 

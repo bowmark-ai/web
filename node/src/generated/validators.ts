@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e6400ed4265a4adf389f8ac81ca6fd7c1783a75231b7f41fbfbaff3f1e448d1a
-// 1627 checked, 20 unchecked.
+// Manifest version: 9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b
+// 1630 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e6400ed4265a4adf389f8ac81ca6fd7c1783a75231b7f41fbfbaff3f1e448d1a",
+  "version": "9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b",
   "units": {
     "booking_links": {
       "defs": {
@@ -29912,6 +29912,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ListBonusPuzzlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "dropDate",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -30016,6 +30028,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetCrosswordArchiveArgs"
             },
             "optional": false
+          }
+        ],
+        "listBonusPuzzles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListBonusPuzzlesArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -30208,6 +30230,29 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listTopics": [
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "getTopicArticles": [
+          {
+            "name": "topic",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "limit",
             "schema": {
@@ -45935,6 +45980,45 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "lang",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listRecentChanges": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "namespace",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "anonymousOnly",
+                  "schema": {
+                    "k": "boolean"
                   },
                   "optional": true
                 }

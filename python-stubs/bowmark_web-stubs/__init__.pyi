@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e6400ed4265a4adf389f8ac81ca6fd7c1783a75231b7f41fbfbaff3f1e448d1a
-# 68 capabilities, 500 providers, 1627 typed functions, 20 refused.
+# Manifest version: 9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b
+# 68 capabilities, 500 providers, 1630 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17184,6 +17184,24 @@ class Prv_nyt_games_CrosswordPuzzle_Out(TypedDict):
 class Prv_nyt_games_GetCrosswordArchiveArgs_In(TypedDict):
     date: str
 
+class Prv_nyt_games_ListBonusPuzzlesArgs_In(TypedDict):
+    dropDate: NotRequired[str]
+
+class Prv_nyt_games_BonusPuzzlesWeek_Out(TypedDict):
+    dropDate: str
+    prevDrop: str
+    nextDrop: str
+    puzzles: list[Prv_nyt_games_BonusPuzzle_Out]
+
+class Prv_nyt_games_BonusPuzzle_Out(TypedDict):
+    game: str
+    variant: str
+    title: str
+    constructors: str
+    editors: list[str]
+    makeFree: bool
+    webUrl: str
+
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
     slug: str
@@ -17270,6 +17288,12 @@ class Prv_nytimes_NytimesTopic_Out(TypedDict):
     name: str
     url: str
     lastModified: NotRequired[str]
+
+class Prv_nytimes_NytimesTopicDetail_Out(TypedDict):
+    slug: str
+    name: str
+    summary: NotRequired[str]
+    articles: list[Prv_nytimes_NytimesArticleSummary_Out]
 
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
@@ -24564,6 +24588,32 @@ class Prv_wikipedia_WikipediaRevisionDiffLine_Out_highlightRanges_item_Out(Typed
     start: float
     length: float
     type: float
+
+class Prv_wikipedia_listRecentChanges_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+    namespace: NotRequired[float]
+    anonymousOnly: NotRequired[bool]
+
+class Prv_wikipedia_listRecentChanges_return_Out(TypedDict):
+    changes: list[Prv_wikipedia_WikipediaRecentChange_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaRecentChange_Out(TypedDict):
+    title: str
+    pageId: float
+    revisionId: float
+    oldRevisionId: float
+    namespace: float
+    user: str
+    anonymous: bool
+    timestamp: str
+    comment: str
+    minor: bool
+    isNew: bool
+    bot: bool
+    oldLength: float
+    newLength: float
 
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
@@ -37819,6 +37869,12 @@ class Prv_nyt_games(Protocol):
         date: "YYYY-MM-DD" }.
         """
 
+    async def listBonusPuzzles(self, args: Prv_nyt_games_ListBonusPuzzlesArgs_In | None = None, /) -> Prv_nyt_games_BonusPuzzlesWeek_Out:
+        """Lists this week's Bonus Puzzles drop (Wordle in 1, Connections 3x3, Colorful Strands, a
+        mystery mini and more), each with its title, constructors, editors and page URL.
+        Defaults to the most recent drop; pass { dropDate: "YYYY-MM-DD" } for an earlier week.
+        """
+
 class Prv_nytimes(Protocol):
     """Reads news articles, sections, search results, and trending topics from The New York
     Times.
@@ -37866,6 +37922,12 @@ class Prv_nytimes(Protocol):
     async def listTopics(self, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesTopic_Out]:
         """Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently
         active first. name is formatted from the slug, not read off the site.
+        """
+
+    async def getTopicArticles(self, topic: str, limit: float | None = None, offset: float | None = None, /) -> Prv_nytimes_NytimesTopicDetail_Out:
+        """Gets a topic (spotlight) page's own name and article grid. Takes a topic slug like
+        "artificial-intelligence" (from listTopics) or a path like
+        "/spotlight/artificial-intelligence".
         """
 
 class Prv_oanda(Protocol):
@@ -42396,6 +42458,13 @@ class Prv_wikipedia(Protocol):
         the exact character ranges that moved. What a caller uses to answer 'what actually
         changed between these two points in the article's history' without diffing the wikitext
         itself.
+        """
+
+    async def listRecentChanges(self, options: Prv_wikipedia_listRecentChanges_options_In | None = None, /) -> Prv_wikipedia_listRecentChanges_return_Out:
+        """A live feed of recent edits across the wiki, newest first — page title, editor,
+        timestamp, edit summary and size delta for each. What is being changed right now.
+        `namespace` narrows to one MediaWiki namespace (0 is articles); `anonymousOnly` filters
+        to unregistered editors (true) or registered ones (false), leaving both when omitted.
         """
 
 class Prv_wikipedia_standings(Protocol):
