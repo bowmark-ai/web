@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 37fd3f7987419851d7b2389c64211e71f40363f0a128aac672289502a4d99f77
-# 69 capabilities, 500 providers, 1648 typed functions, 20 refused.
+# Manifest version: 5ec83ddd6f5769a3925c890cb3d77de3df6c21209d246325e47ff4cc9a86879e
+# 69 capabilities, 500 providers, 1650 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2806,6 +2806,47 @@ class Prv_airbnb_AirbnbListing_Out(TypedDict):
     price: str | None
     photoUrl: str | None
     url: str
+
+class Prv_airbnb_getListing_args_In(TypedDict):
+    url: NotRequired[str]
+    id: NotRequired[str]
+    checkin: NotRequired[str]
+    checkout: NotRequired[str]
+    adults: NotRequired[float]
+    months: NotRequired[float]
+    currency: NotRequired[str]
+
+class Prv_airbnb_AirbnbListingAvailability_Out(TypedDict):
+    id: str
+    url: str
+    currency: str
+    checkin: str | None
+    checkout: str | None
+    adults: float
+    available: bool | None
+    unavailableReason: str | None
+    quote: Prv_airbnb_AirbnbQuote_Out | None
+    calendar: list[Prv_airbnb_AirbnbCalendarDay_Out]
+
+class Prv_airbnb_AirbnbQuote_Out(TypedDict):
+    total: str | None
+    originalTotal: str | None
+    qualifier: str | None
+    nights: float | None
+    nightlyRate: str | None
+    lines: list[Prv_airbnb_AirbnbQuote_Out_lines_item_Out]
+
+class Prv_airbnb_AirbnbQuote_Out_lines_item_Out(TypedDict):
+    description: str
+    price: str | None
+
+class Prv_airbnb_AirbnbCalendarDay_Out(TypedDict):
+    date: str
+    available: bool
+    availableForCheckin: bool
+    availableForCheckout: bool
+    minNights: float | None
+    maxNights: float | None
 
 class Prv_airtable_AirtableBase_Out(TypedDict):
     id: str
@@ -20582,6 +20623,17 @@ class Prv_samsung_SamsungStoreLocation_Out(TypedDict):
     url: str
     distanceMiles: float
 
+class Prv_samsung_GetTradeInQuoteArgs_In(TypedDict):
+    device: str
+
+class Prv_samsung_GetTradeInQuoteResponse_Out(TypedDict):
+    device: str
+    matchedDeviceName: str
+    estimatedCredit: float | None
+    currency: Literal["USD"]
+    isTradeEligible: bool
+    otherMatches: list[str]
+
 class Prv_samsung_ListOrdersResponse_Out(TypedDict):
     orders: list[Prv_samsung_SamsungOrder_Out]
 
@@ -27872,7 +27924,8 @@ class Prv_aiper(Protocol):
 class Prv_airbnb(Protocol):
     """Airbnb's own stays search — a location, optional dates and guest counts in, priced
     listing rows (title, rating, review count, display price, photo, url) out, straight off
-    airbnb.com/s.
+    airbnb.com/s — plus one known listing's nightly rate, booking-panel quote and day-by-day
+    availability calendar.
     """
 
     async def search(self, args: Prv_airbnb_search_args_In, /) -> list[Prv_airbnb_AirbnbListing_Out]:
@@ -27882,6 +27935,15 @@ class Prv_airbnb(Protocol):
         exactly as the site's own search bar would. Returns each result's title, subtitle, star
         rating, review count, the site's own display price string, cover photo and `/rooms/<id>`
         url.
+        """
+
+    async def getListing(self, args: Prv_airbnb_getListing_args_In, /) -> Prv_airbnb_AirbnbListingAvailability_Out:
+        """Live nightly rate and availability for ONE known Airbnb listing — pass its `/rooms/<id>`
+        url (or the `id` that `search` returns). With `checkin`/`checkout` (`YYYY-MM-DD`) it
+        returns the booking panel's own quote (total, pre-discount total, nights, the per-night
+        rate) or the site's reason the dates cannot be booked; either way it returns the
+        listing's day-by-day open/blocked calendar with minimum and maximum stay, `months` long
+        (default 2) from the check-in month. `currency` is an ISO code, default USD.
         """
 
 class Prv_airtable(Protocol):
@@ -40232,6 +40294,12 @@ class Prv_samsung(Protocol):
         general authorized-retailer directory — ranked by distance from a US zip or a city+state
         (EITHER, never both). Each result carries the store's address, phone, hours and a
         distance in miles.
+        """
+
+    async def getTradeInQuote(self, args: Prv_samsung_GetTradeInQuoteArgs_In, /) -> Prv_samsung_GetTradeInQuoteResponse_Out:
+        """Samsung's own trade-in estimate for a device someone already owns — what they'd get
+        credited toward a new purchase. Takes a device name the way a shopper would say it (e.g.
+        'galaxy s24 ultra'), resolved against the trade-in program's own device search.
         """
 
     async def listOrders(self, opts: ConnectionOption | None = None, /) -> Prv_samsung_ListOrdersResponse_Out:

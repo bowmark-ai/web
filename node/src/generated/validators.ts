@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 37fd3f7987419851d7b2389c64211e71f40363f0a128aac672289502a4d99f77
-// 1648 checked, 20 unchecked.
+// Manifest version: 5ec83ddd6f5769a3925c890cb3d77de3df6c21209d246325e47ff4cc9a86879e
+// 1650 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "37fd3f7987419851d7b2389c64211e71f40363f0a128aac672289502a4d99f77",
+  "version": "5ec83ddd6f5769a3925c890cb3d77de3df6c21209d246325e47ff4cc9a86879e",
   "units": {
     "booking_links": {
       "defs": {
@@ -5677,6 +5677,66 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "pets",
                   "schema": {
                     "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getListing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "id",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "checkin",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "checkout",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "adults",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "months",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "currency",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": true
                 }
@@ -38938,6 +38998,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetTradeInQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "device",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListCategoriesArgs": {
           "k": "object",
           "props": []
@@ -39038,6 +39110,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FindStoreArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getTradeInQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetTradeInQuoteArgs"
             },
             "optional": false
           }

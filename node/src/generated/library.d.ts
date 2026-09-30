@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 37fd3f7987419851d7b2389c64211e71f40363f0a128aac672289502a4d99f77
-// 69 capabilities, 500 providers, 1666 typed functions, 20 refused.
+// Manifest version: 5ec83ddd6f5769a3925c890cb3d77de3df6c21209d246325e47ff4cc9a86879e
+// 69 capabilities, 500 providers, 1668 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5155,11 +5155,40 @@ interface AirbnbListing {
   photoUrl: string | null;
   url: string;
 }
+interface AirbnbCalendarDay {
+  date: string;
+  available: boolean;
+  availableForCheckin: boolean;
+  availableForCheckout: boolean;
+  minNights: number | null;
+  maxNights: number | null;
+}
+interface AirbnbQuote {
+  total: string | null;
+  originalTotal: string | null;
+  qualifier: string | null;
+  nights: number | null;
+  nightlyRate: string | null;
+  lines: Array<{ description: string; price: string | null }>;
+}
+interface AirbnbListingAvailability {
+  id: string;
+  url: string;
+  currency: string;
+  checkin: string | null;
+  checkout: string | null;
+  adults: number;
+  available: boolean | null;
+  unavailableReason: string | null;
+  quote: AirbnbQuote | null;
+  calendar: AirbnbCalendarDay[];
+}
 
   /**
    * Airbnb's own stays search — a location, optional dates and guest counts in, priced listing
-   * rows (title, rating, review count, display price, photo, url) out, straight off
-   * airbnb.com/s.
+   * rows (title, rating, review count, display price, photo, url) out, straight off airbnb.com/s
+   * — plus one known listing's nightly rate, booking-panel quote and day-by-day availability
+   * calendar.
    */
   interface Unit {
     /**
@@ -5170,6 +5199,16 @@ interface AirbnbListing {
      * display price string, cover photo and `/rooms/<id>` url.
      */
     search(args: { location: string, checkin?: string, checkout?: string, adults?: number, children?: number, infants?: number, pets?: number }): Promise<AirbnbListing[]>;
+
+    /**
+     * Live nightly rate and availability for ONE known Airbnb listing — pass its `/rooms/<id>` url
+     * (or the `id` that `search` returns). With `checkin`/`checkout` (`YYYY-MM-DD`) it returns the
+     * booking panel's own quote (total, pre-discount total, nights, the per-night rate) or the
+     * site's reason the dates cannot be booked; either way it returns the listing's day-by-day
+     * open/blocked calendar with minimum and maximum stay, `months` long (default 2) from the
+     * check-in month. `currency` is an ISO code, default USD.
+     */
+    getListing(args: { url?: string, id?: string, checkin?: string, checkout?: string, adults?: number, months?: number, currency?: string }): Promise<AirbnbListingAvailability>;
   }
 }
 
@@ -37777,6 +37816,19 @@ interface FindStoreResponse {
   stores: SamsungStoreLocation[];
 }
 
+interface GetTradeInQuoteArgs {
+  device: string; // e.g. "galaxy s24 ultra" — resolved against the trade-in program's own device search
+}
+
+interface GetTradeInQuoteResponse {
+  device: string;
+  matchedDeviceName: string;
+  estimatedCredit: number | null; // the program's own "Get Up To $X" figure — an estimate, not a binding offer
+  currency: "USD";
+  isTradeEligible: boolean;
+  otherMatches: string[];
+}
+
 interface SamsungOrder {
   [key: string]: unknown; // Samsung's own per-order shape — unmeasured against a real signed-in account; kept as the site's own JSON rather than guessed at
 }
@@ -37890,6 +37942,13 @@ interface CheckWarrantyStatusResponse {
      * in miles.
      */
     findStore(args: FindStoreArgs): Promise<FindStoreResponse>;
+
+    /**
+     * Samsung's own trade-in estimate for a device someone already owns — what they'd get credited
+     * toward a new purchase. Takes a device name the way a shopper would say it (e.g. 'galaxy s24
+     * ultra'), resolved against the trade-in program's own device search.
+     */
+    getTradeInQuote(args: GetTradeInQuoteArgs): Promise<GetTradeInQuoteResponse>;
 
     /**
      * The signed-in shopper's own Samsung.com order history. Requires the CALLER's own Samsung
