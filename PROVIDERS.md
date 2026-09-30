@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2572 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2573 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -64,7 +64,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
 | `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | 🟢 |
-| `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | ⚪ |
+| `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | 🟢 |
 | `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟢 |
 | `alibaba.listInvoices` | alibaba.com | Get list of invoices for past orders. | ⚪ |
 | `alibaba.listMessages` | alibaba.com | Get inbox of messages from suppliers and other contacts. | ⚪ |
@@ -829,6 +829,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword, the way etsy.com's own… | 🟢 |
 | `evag.listDepartures` | evag.de | Real-time transit departure information and schedules for Essen public transportation… | 🟢 |
+| `evag.listDisruptions` | evag.de | Network-wide Essen transit disruptions from Ruhrbahn/EVAG Verkehrsinfos — short-notice… | 🟢 |
 | `evag.searchStop` | evag.de | Search for Essen transit stops and stations by name or partial name; returns matching… | 🟢 |
 | `eventsource.getShowroom` | eventsource.com | Reads a public Virtual Design Center showroom by its access code — the pre-built room… | 🟢 |
 | `eventsource.getShowroomInquiryContact` | eventsource.com | Reads who a showroom's 'Send Inquiry' button actually emails — the sales inbox and the… | 🟢 |
@@ -2140,7 +2141,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | ⚪ |
 | `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | 🟢 |
 | `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | 🟢 |
-| `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | ⚪ |
+| `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | 🟢 |
 | `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | ⚪ |
 | `theguardian_com.listNewsletters` | theguardian.com | List available email newsletters. | ⚪ |
 | `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | ⚪ |
@@ -2226,7 +2227,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getChartData` | www.tradingview.com | Get historical candlestick/OHLCV data for charting. | 🟢 |
 | `tradingview.getCompanyInfo` | www.tradingview.com | Get fundamental information about a company: description, sector, market cap, employees. | 🟢 |
 | `tradingview.getDividends` | www.tradingview.com | Get dividend history and yield information for a symbol. | ⚪ |
-| `tradingview.getEarnings` | www.tradingview.com | Get earnings history and upcoming earnings dates for a symbol. | ⚪ |
+| `tradingview.getEarnings` | www.tradingview.com | Get earnings history and upcoming earnings dates for a symbol. | 🟢 |
 | `tradingview.getFinancials` | www.tradingview.com | Get financial statements and historical data: revenue, earnings, balance sheet. | 🟢 |
 | `tradingview.getMarketOverview` | www.tradingview.com | Get market overview data: top gainers, losers, most active symbols. | ⚪ |
 | `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | 🟢 |

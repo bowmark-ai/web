@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 803a65286e2117bbe1a99b5148373a923ce3a0e938aa18e88f10b854b2bed58f
-# 68 capabilities, 500 providers, 1631 typed functions, 20 refused.
+# Manifest version: 6fa737253c775a81ae975a1510a17c847d663bb27b1bf903f3d4e18686006c67
+# 68 capabilities, 500 providers, 1636 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4934,6 +4934,19 @@ class Prv_bbc_BbcForecastHourly_Out(TypedDict):
     windSpeedKph: float
     humidity: float
 
+class Prv_bbc_BbcGetCurrentWeatherResult_Out(TypedDict):
+    stationName: str
+    stationDistanceKm: float | None
+    observationTime: str
+    temperatureC: float | None
+    temperatureF: float | None
+    weatherType: str | None
+    windSpeedKph: float | None
+    windDirection: str | None
+    humidityPercent: float | None
+    pressureMb: float | None
+    visibility: str | None
+
 class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
     resourceLocationId: float
     name: str
@@ -5827,6 +5840,9 @@ class Prv_bodacc_BodaccNotice_Out(TypedDict):
     companyName: str
     siren: str
     datePublished: str
+    judgmentDate: str | None
+    court: str | None
+    url: str | None
 
 class Prv_bodensee_schiffsbetriebe_berths_Harbor_Out(TypedDict):
     id: str
@@ -8498,6 +8514,9 @@ class Prv_dell_DellForumThread_Out(TypedDict):
     url: str
     postCount: float
 
+class Prv_dell_DellMyOrdersPage_Out(TypedDict):
+    raw: str
+
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
     zip: str
     radiusMiles: NotRequired[float]
@@ -10168,6 +10187,23 @@ class Prv_fomo_FomoTokenWarning_Out(TypedDict):
     code: str
     label: str
     severity: str | None
+
+Prv_fomo_getCandles_options_In = TypedDict(
+    "Prv_fomo_getCandles_options_In",
+    {
+    "resolution": NotRequired[Literal["5"] | Literal["60"] | Literal["240"] | Literal["720"] | Literal["1D"]],
+    "from": NotRequired[float],
+    "to": NotRequired[float],
+    },
+)
+
+class Prv_fomo_FomoCandle_Out(TypedDict):
+    time: float
+    open: float
+    high: float
+    low: float
+    close: float
+    volume: float
 
 class Prv_forbes_ForbesNewsList_Out(TypedDict):
     articles: list[Prv_forbes_ForbesArticle_Out]
@@ -21489,6 +21525,12 @@ class Prv_steam_GetGameReviewsResponse_Out_summary_Out(TypedDict):
     totalNegative: float
     totalReviews: float
 
+class Prv_steam_GetGameScreenshotsArgs_In(TypedDict):
+    appid: str | float
+
+class Prv_steam_GetGameScreenshotsResponse_Out(TypedDict):
+    screenshots: list[str]
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -27773,11 +27815,11 @@ class Prv_amazon(Protocol):
     rating, the customer reviews, the other products it recommends, every size and colour
     the listing sells, when it would arrive at a given ZIP — plus the rankings (best
     sellers, new releases, movers and shakers, most wished for), today's deals, a
-    marketplace seller's feedback and the anonymous guest cart. searchProducts,
-    suggestKeywords, listBestSellerCategories, getProduct, listVariations, listReviews,
-    listRelatedProducts, listBestSellers, listNewReleases, listMostWishedFor, listDeals,
-    getSeller, getDeliveryEstimate, listSellerOffers and getCart are built; everything else
-    is still a declared stub.
+    marketplace seller's feedback and the anonymous guest cart, which a caller can now add
+    to. searchProducts, suggestKeywords, listBestSellerCategories, getProduct,
+    listVariations, listReviews, listRelatedProducts, listBestSellers, listNewReleases,
+    listMostWishedFor, listDeals, getSeller, getDeliveryEstimate, listSellerOffers, getCart
+    and addToCart are built; everything else is still a declared stub.
     """
 
     async def searchProducts(self, args: Prv_amazon_SearchProductsArgs_In, /) -> Prv_amazon_AmazonSearchResult_Out:
@@ -27925,11 +27967,17 @@ class Prv_amazon(Protocol):
 
     async def getCart(self, /) -> Prv_amazon_AmazonCart_Out:
         """Read what is in the cart — no account needed, since Amazon's guest cart is a real
-        anonymous session. `itemCount` and `items` are always 0/[] today: nothing on this
-        provider can put a row in the cart yet (`addToCart` is still gated), so an anonymous
-        cart is always the site's own honest empty state. Throws rather than guessing if Amazon
-        ever reports a non-zero count — no real capture of a populated anonymous cart exists yet
-        to parse against.
+        anonymous session. Reads the site's own per-row markup (`data-asin`,
+        `data-producttitle`, `data-quantity`, `data-price`) for a populated cart, and the site's
+        own `#sc-empty-cart` block for an empty one.
+        """
+
+    async def addToCart(self, asinOrUrl: str, /) -> Prv_amazon_AmazonCart_Out:
+        """Put one unit of a product in the anonymous guest cart and report what the cart then
+        holds — no account needed. The last step a Bowmark provider may take on a buying flow:
+        it stops at the cart and never reaches checkout, payment or order placement. Quantity is
+        not yet controllable (measured 2026-09-30: neither the buy-box's own quantity field nor
+        a repeated add changes the line's quantity), so this always adds exactly one unit.
         """
 
 class Prv_americandreamvacations(Protocol):
@@ -29085,6 +29133,12 @@ class Prv_bbc(Protocol):
         day. Takes a location id from searchWeatherLocations.
         """
 
+    async def getCurrentWeather(self, locationId: str, /) -> Prv_bbc_BbcGetCurrentWeatherResult_Out:
+        """The latest observation BBC Weather shows for a location: temperature, wind, humidity,
+        pressure, visibility and the observation time and station. Takes a location id from
+        searchWeatherLocations.
+        """
+
 class Prv_bcparkscamping(Protocol):
     """camping.bcparks.ca's own reservation API (Discover Camping) — find a provincial park
     campground by name, then read its real per-site, per-night availability for a stay.
@@ -29707,18 +29761,17 @@ class Prv_bmwusa(Protocol):
         """
 
 class Prv_bodacc(Protocol):
-    """Search BODACC insolvency legal notices by company name or SIREN. KNOWN ISSUE: currently
-    returns empty results even for real, confirmed insolvencies — see the search() summary
-    below.
+    """Search BODACC insolvency legal notices (procédures collectives) by company name or
+    SIREN.
     """
 
     async def search(self, args: Prv_bodacc_SearchArgs_In, /) -> Prv_bodacc_search_return_Out:
-        """Returns BODACC insolvency notices (redressement judiciaire, liquidation judiciaire,
-        sauvegarde). KNOWN ISSUE: currently returns empty results even for real, confirmed
-        insolvencies (measured 2026-09-27 — the underlying OpenDataSoft API moved to v2.1 with a
-        different dataset id and query syntax; this provider still calls the retired v1.0
-        endpoint, which 404s). Do not treat an empty result as "no notices found" until this is
-        fixed.
+        """Returns BODACC insolvency notices (procédures collectives: sauvegarde, redressement
+        judiciaire, liquidation judiciaire — openings, plans and closures), newest first, up to
+        100. noticeType is the judgment's nature, e.g. "Jugement d'ouverture d'une procédure de
+        redressement judiciaire". since filters on publication date (inclusive). companyName is
+        a full-text match and can return similarly named companies; pass sirens for an exact
+        match. An empty result means BODACC has published no insolvency notice for that company.
         """
 
 class Prv_bodensee_schiffsbetriebe_berths(Protocol):
@@ -31555,6 +31608,11 @@ class Prv_dell(Protocol):
         to search for.
         """
 
+    async def listMyOrders(self, opts: ConnectionOption | None = None, /) -> Prv_dell_DellMyOrdersPage_Out:
+        """Retrieves the signed-in caller's Dell order history page. Needs a Dell sign-in — call
+        this only after the caller has connected their Dell account.
+        """
+
 class Prv_deltadentalma(Protocol):
     """Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network
     dentists and clinics near a ZIP — the same live provider data the site's `/fad/search`
@@ -32627,6 +32685,15 @@ class Prv_fomo(Protocol):
         unlocked-liquidity and concentration warnings the site shows before it lets someone buy.
         Takes the same (address, chain) pair as getToken; chain accepts either the slug or the
         numeric networkId.
+        """
+
+    async def getCandles(self, address: str, chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float, options: Prv_fomo_getCandles_options_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoCandle_Out]:
+        """Returns OHLCV bars for one token — the chart data behind every token page. Takes the
+        same (address, chain) pair as getToken. resolution is one of the five bar sizes the
+        site's own chart requests (5, 60, 240, 720 minutes, or 1D for daily bars; default 60);
+        from/to are optional UNIX-second bounds, defaulting to the same lookback window the site
+        pairs with that resolution (1 day for 5-minute bars, up to 1 year for daily ones) when
+        omitted.
         """
 
 class Prv_forbes(Protocol):
@@ -40558,6 +40625,11 @@ class Prv_steam(Protocol):
     async def getGameReviews(self, args: Prv_steam_GetGameReviewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameReviewsResponse_Out:
         """Reads a game's user reviews by appid: the aggregate score and totals, plus review text,
         vote counts, playtime and reviewer profile per row, filterable and cursor-paginated.
+        """
+
+    async def getGameScreenshots(self, args: Prv_steam_GetGameScreenshotsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameScreenshotsResponse_Out:
+        """Fetches a game's screenshots and promotional images by appid, returning the URLs of all
+        available screenshots in the game's gallery.
         """
 
 class Prv_stickergiant(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 803a65286e2117bbe1a99b5148373a923ce3a0e938aa18e88f10b854b2bed58f
-// 68 capabilities, 500 providers, 1649 typed functions, 20 refused.
+// Manifest version: 6fa737253c775a81ae975a1510a17c847d663bb27b1bf903f3d4e18686006c67
+// 68 capabilities, 500 providers, 1654 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5551,7 +5551,7 @@ interface AmazonCartItem {
 }
 interface AmazonCart {
   itemCount: number;
-  items: AmazonCartItem[]; // always [] today — addToCart is still gated, so an anonymous cart never holds a row
+  items: AmazonCartItem[];
 }
 
   /**
@@ -5559,10 +5559,11 @@ interface AmazonCart {
    * the customer reviews, the other products it recommends, every size and colour the listing
    * sells, when it would arrive at a given ZIP — plus the rankings (best sellers, new releases,
    * movers and shakers, most wished for), today's deals, a marketplace seller's feedback and the
-   * anonymous guest cart. searchProducts, suggestKeywords, listBestSellerCategories, getProduct,
-   * listVariations, listReviews, listRelatedProducts, listBestSellers, listNewReleases,
-   * listMostWishedFor, listDeals, getSeller, getDeliveryEstimate, listSellerOffers and getCart
-   * are built; everything else is still a declared stub.
+   * anonymous guest cart, which a caller can now add to. searchProducts, suggestKeywords,
+   * listBestSellerCategories, getProduct, listVariations, listReviews, listRelatedProducts,
+   * listBestSellers, listNewReleases, listMostWishedFor, listDeals, getSeller,
+   * getDeliveryEstimate, listSellerOffers, getCart and addToCart are built; everything else is
+   * still a declared stub.
    */
   interface Unit {
     /**
@@ -5722,12 +5723,20 @@ interface AmazonCart {
 
     /**
      * Read what is in the cart — no account needed, since Amazon's guest cart is a real anonymous
-     * session. `itemCount` and `items` are always 0/[] today: nothing on this provider can put a
-     * row in the cart yet (`addToCart` is still gated), so an anonymous cart is always the site's
-     * own honest empty state. Throws rather than guessing if Amazon ever reports a non-zero count
-     * — no real capture of a populated anonymous cart exists yet to parse against.
+     * session. Reads the site's own per-row markup (`data-asin`, `data-producttitle`,
+     * `data-quantity`, `data-price`) for a populated cart, and the site's own `#sc-empty-cart`
+     * block for an empty one.
      */
     getCart(): Promise<AmazonCart>;
+
+    /**
+     * Put one unit of a product in the anonymous guest cart and report what the cart then holds —
+     * no account needed. The last step a Bowmark provider may take on a buying flow: it stops at
+     * the cart and never reaches checkout, payment or order placement. Quantity is not yet
+     * controllable (measured 2026-09-30: neither the buy-box's own quantity field nor a repeated
+     * add changes the line's quantity), so this always adds exactly one unit.
+     */
+    addToCart(asinOrUrl: string): Promise<AmazonCart>;
   }
 }
 
@@ -8810,6 +8819,20 @@ interface BbcGetForecastResult {
   days: BbcForecastDay[]; // up to 14 days, the site's own order
 }
 
+interface BbcGetCurrentWeatherResult {
+  stationName: string;
+  stationDistanceKm: number | null;
+  observationTime: string; // ISO 8601, the station's own local offset
+  temperatureC: number | null;
+  temperatureF: number | null;
+  weatherType: string | null;
+  windSpeedKph: number | null;
+  windDirection: string | null; // e.g. "Westerly"; null when the site has none
+  humidityPercent: number | null;
+  pressureMb: number | null;
+  visibility: string | null; // e.g. "Good", "Poor"; the site's own text
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8897,6 +8920,13 @@ interface bbcRow {
      * Takes a location id from searchWeatherLocations.
      */
     getForecast(locationId: string): Promise<BbcGetForecastResult>;
+
+    /**
+     * The latest observation BBC Weather shows for a location: temperature, wind, humidity,
+     * pressure, visibility and the observation time and station. Takes a location id from
+     * searchWeatherLocations.
+     */
+    getCurrentWeather(locationId: string): Promise<BbcGetCurrentWeatherResult>;
   }
 }
 
@@ -10495,20 +10525,20 @@ interface BodaccNotice {
   companyName: string;
   siren: string;
   datePublished: string;
+  judgmentDate: string | null;
+  court: string | null;
+  url: string | null;
 }
 
-  /**
-   * Search BODACC insolvency legal notices by company name or SIREN. KNOWN ISSUE: currently
-   * returns empty results even for real, confirmed insolvencies — see the search() summary
-   * below.
-   */
+  /** Search BODACC insolvency legal notices (procédures collectives) by company name or SIREN. */
   interface Unit {
     /**
-     * Returns BODACC insolvency notices (redressement judiciaire, liquidation judiciaire,
-     * sauvegarde). KNOWN ISSUE: currently returns empty results even for real, confirmed
-     * insolvencies (measured 2026-09-27 — the underlying OpenDataSoft API moved to v2.1 with a
-     * different dataset id and query syntax; this provider still calls the retired v1.0 endpoint,
-     * which 404s). Do not treat an empty result as "no notices found" until this is fixed.
+     * Returns BODACC insolvency notices (procédures collectives: sauvegarde, redressement
+     * judiciaire, liquidation judiciaire — openings, plans and closures), newest first, up to 100.
+     * noticeType is the judgment's nature, e.g. "Jugement d'ouverture d'une procédure de
+     * redressement judiciaire". since filters on publication date (inclusive). companyName is a
+     * full-text match and can return similarly named companies; pass sirens for an exact match. An
+     * empty result means BODACC has published no insolvency notice for that company.
      */
     search(args: SearchArgs): Promise<{ notices: BodaccNotice[] }>;
   }
@@ -15493,6 +15523,12 @@ interface DellSupportCategory {
   url: string | null;
 }
 
+interface ListMyOrdersArgs {}
+
+interface DellMyOrdersPage {
+  raw: string;  // the signed-in My Account orders page's raw HTML — no captured session exists yet to parse rows against
+}
+
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -15537,6 +15573,12 @@ interface DellSupportCategory {
      * for.
      */
     searchForumThreads(args: SearchForumThreadsArgs): Promise<DellForumThread[]>;
+
+    /**
+     * Retrieves the signed-in caller's Dell order history page. Needs a Dell sign-in — call this
+     * only after the caller has connected their Dell account.
+     */
+    listMyOrders(opts?: ConnectionOption): Promise<DellMyOrdersPage>;
   }
 }
 
@@ -18360,6 +18402,19 @@ interface FomoPage<T> {
   cursor: string | null;
 }
 
+/** The bar sizes the site's own chart is observed to request — see getCandles. */
+type FomoCandleResolution = "5" | "60" | "240" | "720" | "1D";
+
+/** One OHLCV bar. `time` is UNIX SECONDS, matching the TradingView datafeed contract. */
+interface FomoCandle {
+  time: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+}
+
   /**
    * fomo — a social crypto trading app across Solana, Base, BNB, Ethereum and Monad: a public
    * leaderboard of traders ranked by realized PnL, each one's underlying trade log, a feed of
@@ -18482,6 +18537,15 @@ interface FomoPage<T> {
      * (address, chain) pair as getToken; chain accepts either the slug or the numeric networkId.
      */
     getTokenWarnings(address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<FomoTokenWarning[]>;
+
+    /**
+     * Returns OHLCV bars for one token — the chart data behind every token page. Takes the same
+     * (address, chain) pair as getToken. resolution is one of the five bar sizes the site's own
+     * chart requests (5, 60, 240, 720 minutes, or 1D for daily bars; default 60); from/to are
+     * optional UNIX-second bounds, defaulting to the same lookback window the site pairs with that
+     * resolution (1 day for 5-minute bars, up to 1 year for daily ones) when omitted.
+     */
+    getCandles(address: string, chain: FomoChainSlug | number, options?: { resolution?: FomoCandleResolution; from?: number; to?: number }, opts?: ConnectionOption): Promise<FomoCandle[]>;
   }
 }
 
@@ -39360,6 +39424,14 @@ interface GetGameReviewsResponse {
   cursor: string;
 }
 
+interface GetGameScreenshotsArgs {
+  appid: string | number;
+}
+
+interface GetGameScreenshotsResponse {
+  screenshots: string[];
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -39396,6 +39468,12 @@ interface GetGameReviewsResponse {
      * counts, playtime and reviewer profile per row, filterable and cursor-paginated.
      */
     getGameReviews(args: GetGameReviewsArgs, opts?: ConnectionOption): Promise<GetGameReviewsResponse>;
+
+    /**
+     * Fetches a game's screenshots and promotional images by appid, returning the URLs of all
+     * available screenshots in the game's gallery.
+     */
+    getGameScreenshots(args: GetGameScreenshotsArgs, opts?: ConnectionOption): Promise<GetGameScreenshotsResponse>;
   }
 }
 

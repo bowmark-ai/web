@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 803a65286e2117bbe1a99b5148373a923ce3a0e938aa18e88f10b854b2bed58f
-// 1631 checked, 20 unchecked.
+// Manifest version: 6fa737253c775a81ae975a1510a17c847d663bb27b1bf903f3d4e18686006c67
+// 1636 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "803a65286e2117bbe1a99b5148373a923ce3a0e938aa18e88f10b854b2bed58f",
+  "version": "6fa737253c775a81ae975a1510a17c847d663bb27b1bf903f3d4e18686006c67",
   "units": {
     "booking_links": {
       "defs": {
@@ -6439,7 +6439,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
-        "getCart": []
+        "getCart": [],
+        "addToCart": [
+          {
+            "name": "asinOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.americandreamvacations": {
@@ -9259,6 +9268,15 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getForecast": [
+          {
+            "name": "locationId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getCurrentWeather": [
           {
             "name": "locationId",
             "schema": {
@@ -14819,6 +14837,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "listMyOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -17414,6 +17450,31 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.fomo": {
       "defs": {
+        "FomoCandleResolution": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "5"
+            },
+            {
+              "k": "literal",
+              "v": "60"
+            },
+            {
+              "k": "literal",
+              "v": "240"
+            },
+            {
+              "k": "literal",
+              "v": "720"
+            },
+            {
+              "k": "literal",
+              "v": "1D"
+            }
+          ]
+        },
         "FomoChainSlug": {
           "k": "union",
           "of": [
@@ -17855,6 +17916,78 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getCandles": [
+          {
+            "name": "address",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "chain",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "FomoChainSlug"
+                },
+                {
+                  "k": "number"
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "resolution",
+                  "schema": {
+                    "k": "ref",
+                    "name": "FomoCandleResolution"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -40494,6 +40627,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetGameScreenshotsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListFeaturedGamesArgs": {
           "k": "object",
           "props": [
@@ -40670,6 +40823,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetGameReviewsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGameScreenshots": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameScreenshotsArgs"
             },
             "optional": false
           },
