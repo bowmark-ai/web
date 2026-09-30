@@ -142,27 +142,43 @@ def _trim_trailing_none(args: Sequence[Any]) -> list[Any]:
     return trimmed
 
 
-# `get_library` is real, and it is not here. It is an MCP tool and
-# `GET /v1/library?query=`, never an export of this package — so
-# `bowmark.get_library(query=...)` raises the bad-path error below and, until
-# 2026-09-19, said nothing about where the thing actually lives.
+# `get_library` and `report` are real, and neither is here.
+#
+# `get_library` is an MCP tool and `GET /v1/library?query=`, never an export of
+# this package — so `bowmark.get_library(query=...)` raises the bad-path error
+# below and, until 2026-09-19, said nothing about where the thing actually lives.
+#
+# `report` is an MCP tool ONLY — the third one, alongside `get_library` and
+# `run` — with no HTTP route and no SDK method at all. `bowmark.report(report=...)`
+# raises the same bad-path error and, until this fix, said nothing about that
+# either.
 #
 # A LOCAL COPY on purpose: this client ships with no dependencies, so it cannot
 # import `OTHER_CHANNEL` from the runtime. `tests/unit/other-channel-hint.test.ts`
 # holds the three copies (here, the Node client, the runtime) to the same names.
 # agents/richard/problems/newcomer-get-library-shown-as-callable-in-own-code.md
-_OTHER_CHANNEL = frozenset({"get_library", "getLibrary"})
-
-
-def _other_channel_suffix(first: str | None) -> str:
-    if first is None or first not in _OTHER_CHANNEL:
-        return ""
-    return (
+# agents/richard/problems/newcomer-report-global-not-defined.md
+_OTHER_CHANNEL = {
+    "get_library": (
         " — `get_library` is a DISCOVERY channel, not something this package exports: it is "
         "an MCP tool your agent calls directly, and `GET /v1/library?query=…` over HTTP with "
         "your `BOWMARK_API_KEY`. Read the library BEFORE you write the call, then call what "
         "you came for."
-    )
+    ),
+    "report": (
+        " — `report` is an MCP tool ONLY, not something this package exports: it is the "
+        "third tool your agent calls directly (`get_library`, `run`, `report`). There is no "
+        "HTTP route and no SDK method for it. An empty or unmatched `get_library` result is "
+        "already counted as demand automatically."
+    ),
+}
+_OTHER_CHANNEL["getLibrary"] = _OTHER_CHANNEL["get_library"]
+
+
+def _other_channel_suffix(first: str | None) -> str:
+    if first is None:
+        return ""
+    return _OTHER_CHANNEL.get(first, "")
 
 
 def _dispatch_through(send: Any) -> Any:

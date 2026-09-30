@@ -180,27 +180,48 @@ function connectionsApi(client: ResolvedClient): ConnectionsApi {
   };
 }
 
-/** `get_library` is real, and it is not here.
+/** `get_library` and `report` are real, and neither is here.
  *
- * It is an MCP tool and `GET /v1/library?query=`, never an export of this
- * package — so `bowmark.get_library({ query })` raises the bad-path error above
- * and, until 2026-09-19, said nothing about where the thing actually lives. A
- * newcomer who hit it read an 88,000-line generated `.d.ts` by hand instead.
+ * `get_library` is an MCP tool and `GET /v1/library?query=`, never an export of
+ * this package — so `bowmark.get_library({ query })` raises the bad-path error
+ * above and, until 2026-09-19, said nothing about where the thing actually
+ * lives. A newcomer who hit it read an 88,000-line generated `.d.ts` by hand
+ * instead.
+ *
+ * `report` is an MCP tool ONLY — the third one, alongside `get_library` and
+ * `run` — with no HTTP route and no SDK method at all. `bowmark.report({ report
+ * })` raises the same bad-path error and, until this fix, said nothing about
+ * that either.
  *
  * A LOCAL COPY on purpose: this package has zero runtime dependencies,
  * deliberately and permanently, so it cannot import `OTHER_CHANNEL` from
  * `@bowmark/runtime`. `tests/unit/other-channel-hint.test.ts` holds the three
  * copies (here, the Python client, the runtime) to the same names.
- * `agents/richard/problems/newcomer-get-library-shown-as-callable-in-own-code.md`. */
-const OTHER_CHANNEL = new Set(["get_library", "getLibrary"]);
+ * `agents/richard/problems/newcomer-get-library-shown-as-callable-in-own-code.md`,
+ * `agents/richard/problems/newcomer-report-global-not-defined.md`. */
+// A Map, not an object literal — biome's `useLiteralKeys` strips the quotes off an
+// object property key, and `tests/unit/other-channel-hint.test.ts` greps this file
+// for the quoted name literally. An array-literal key is immune to that rewrite.
+const OTHER_CHANNEL = new Map<string, string>([
+  [
+    "get_library",
+    " — `get_library` is a DISCOVERY channel, not something this package exports: it is an MCP " +
+      "tool your agent calls directly, and `GET /v1/library?query=…` over HTTP with your " +
+      "`BOWMARK_API_KEY`. Read the library BEFORE you write the call, then call what you came for.",
+  ],
+  [
+    "report",
+    " — `report` is an MCP tool ONLY, not something this package exports: it is the third tool " +
+      "your agent calls directly (`get_library`, `run`, `report`). There is no HTTP route and no " +
+      "SDK method for it. An empty or unmatched `get_library` result is already counted as demand " +
+      "automatically.",
+  ],
+]);
+OTHER_CHANNEL.set("getLibrary", OTHER_CHANNEL.get("get_library")!);
 
 function otherChannelSuffix(first: string | undefined): string {
-  if (first === undefined || !OTHER_CHANNEL.has(first)) return "";
-  return (
-    " — `get_library` is a DISCOVERY channel, not something this package exports: it is an MCP " +
-    "tool your agent calls directly, and `GET /v1/library?query=…` over HTTP with your " +
-    "`BOWMARK_API_KEY`. Read the library BEFORE you write the call, then call what you came for."
-  );
+  if (first === undefined) return "";
+  return OTHER_CHANNEL.get(first) ?? "";
 }
 
 /** One dispatch: validate the path, refuse a non-wire argument, then send it. */

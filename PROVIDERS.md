@@ -91,7 +91,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listBestSellers` | www.amazon.com | Amazon's hourly-updated top 100 in a department — what is actually selling right now… | 🟢 |
 | `amazon.listCategoryProducts` | www.amazon.com | Browse a whole department with no keyword at all — "what is in Home & Kitchen… | 🟢 |
 | `amazon.listDeals` | www.amazon.com | Today's Deals — what is discounted right now, with the deal price, the price it was… | 🟢 |
-| `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | 🟢 |
+| `amazon.listMostWishedFor` | www.amazon.com | What people in a department are adding to wish lists and registries most — demand that… | 🟡 |
 | `amazon.listMoversAndShakers` | www.amazon.com | The biggest sales-rank gainers in a department over the past 24 hours — what is… | ⚪ |
 | `amazon.listNewReleases` | www.amazon.com | What is newly out in a department, in Amazon's own hot-new-releases order — the… | 🟢 |
 | `amazon.listOrders` | www.amazon.com | The signed-in person's own order history — what they bought, when, for how much, and… | ⚪ |
@@ -583,8 +583,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `christianbrothersauto.checkAppointmentAvailability` | cbac.com | Checks real, currently-open appointment slots at one Christian Brothers Automotive… | 🟢 |
 | `christianbrothersauto.getShopDetails` | cbac.com | Resolves a Christian Brothers Automotive shop — by its scheduler slug (e.g.… | 🟢 |
 | `christydawn.search` | christydawn.com | Searches the Christy Dawn catalog for clothing and returns matching product rows with… | 🟢 |
-| `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟢 |
-| `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟢 |
+| `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟡 |
+| `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟡 |
 | `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟢 |
 | `classicrockfab.checkAvailability` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Given an appointmentTypeId from listAppointmentTypes, returns real currently-open time… | 🟢 |
 | `classicrockfab.listAppointmentTypes` | classicrockfab.com (public Acuity scheduler at app.acuityscheduling.com) | Lists Classic Rock's public design-center appointment types across all four locations… | 🟢 |
