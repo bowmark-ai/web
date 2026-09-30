@@ -2349,7 +2349,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `visible.searchPhones` | visible.com | Returns the phones Visible currently sells, with the facts a purchase turns on —… | 🟢 |
 | `vistaprint.checkOrderDeadline` | vistaprint.com | Checks the order deadline and turnaround time for packaging or product orders at… | ⚪ |
 | `vistaprint.getShippingBoxPrice` | vistaprint.com | Prices Vistaprint's Full-Print Shipping Boxes (product PRD-Y1LEPL3MX) for a given box… | 🟢 |
-| `voluspa.getFragranceQuizIntro` | voluspa.com | Reads the "Find Your Fragrance" quiz suite's entry screen — the two branching paths… | 🟡 |
+| `voluspa.getFragranceQuizIntro` | voluspa.com | Reads the "Find Your Fragrance" quiz suite's entry screen — the two branching paths… | 🔴 |
 | `voluspa.matchFragranceQuiz` | voluspa.com | Drives the actual multi-step quiz end to end with a caller-supplied path and set of… | ⚪ |
 | `vscode.getDoc` | code.visualstudio.com | Returns one code.visualstudio.com documentation page's structured content by its URL —… | 🟢 |
 | `vscode.listDocPages` | code.visualstudio.com | Lists every doc page code.visualstudio.com publishes, parsed from the site's own… | 🟢 |
@@ -2483,7 +2483,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
 | `yahoo_finance.getAnalystEstimates` | finance.yahoo.com | Reads Wall Street's own consensus numbers for a ticker — revenue and earnings… | 🟢 |
-| `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | 🟢 |
+| `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | 🟡 |
 | `yahoo_finance.getFinancials` | finance.yahoo.com | Reads a ticker's income statement, balance sheet and cash-flow statement the way the… | 🟡 |
 | `yahoo_finance.getHistoricalPrices` | finance.yahoo.com | Reads a ticker's daily open/high/low/close/volume history over a requested range, the… | 🟢 |
 | `yahoo_finance.getHolders` | finance.yahoo.com | Reads who owns a ticker — the top institutional and mutual-fund holders and the… | 🟢 |
