@@ -1191,7 +1191,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `healthcare_gov.checkProviderCoverage` | healthcare.gov | Returns which of a household's available Marketplace plans have a specific doctor… | 🟢 |
 | `healthcare_gov.estimateEligibility` | healthcare.gov | Returns what a household actually qualifies for before it shops — the advance premium… | 🟢 |
 | `healthcare_gov.estimateOutOfPocketCosts` | healthcare.gov | Returns the estimated TOTAL yearly cost of a plan for a household — premiums plus… | 🟢 |
-| `healthcare_gov.findLocalHelp` | healthcare.gov | Returns the in-person help available near a ZIP — the navigators, certified… | 🟢 |
+| `healthcare_gov.findLocalHelp` | healthcare.gov | Returns the in-person help available near a ZIP — the navigators, certified… | 🟡 |
 | `healthcare_gov.getCountiesByZip` | healthcare.gov | Returns the counties and CMS rating areas a ZIP code falls in — the resolution step… | ⚪ |
 | `healthcare_gov.getPlan` | healthcare.gov | Returns the full detail for one Marketplace plan by its HIOS plan id — the… | 🟢 |
 | `healthcare_gov.getPlanCrosswalk` | healthcare.gov | Returns what this year's plan becomes next year — the plan CMS maps an existing… | ⚪ |
@@ -2436,7 +2436,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wholefoodsmarket.listStores` | wholefoodsmarket.com | Lists nearby Whole Foods stores by ZIP code or location. | ⚪ |
 | `wholefoodsmarket.search` | wholefoodsmarket.com | Searches Whole Foods product catalog with pricing and availability. | 🟢 |
 | `wikipedia_standings.search` | en.wikipedia.org | Searches Wikipedia for sports standings pages and extracts league standings with goal… | 🟢 |
-| `wikipedia.compareRevisions` | wikipedia.org | The diff between two revisions of an article — what text was added and removed, line… | ⚪ |
+| `wikipedia.compareRevisions` | wikipedia.org | The diff between two revisions of an article — what text was added and removed, line… | 🟢 |
 | `wikipedia.createPage` | wikipedia.org | Create an article that does not exist yet, under the caller's account. `POST… | ⚪ |
 | `wikipedia.editPage` | wikipedia.org | Change an article — replace a page or one of its sections with new wikitext, under the… | ⚪ |
 | `wikipedia.getArticle` | wikipedia.org | The whole article as an agent wants to read it: title, Wikipedia's own short… | 🟢 |
