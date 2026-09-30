@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9220ce23a686f7257b19ebd4ec8ac072324b1e6e31b155e25dc6e719ca2aed99
-// 1659 checked, 20 unchecked.
+// Manifest version: 95a5c929cec88372d369a82273faffdcf64dbebd3cdf29f8148b301461d9f6e0
+// 1661 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9220ce23a686f7257b19ebd4ec8ac072324b1e6e31b155e25dc6e719ca2aed99",
+  "version": "95a5c929cec88372d369a82273faffdcf64dbebd3cdf29f8148b301461d9f6e0",
   "units": {
     "booking_links": {
       "defs": {
@@ -30171,6 +30171,43 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NytCookingGetRecipeNotesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "helpful"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "recent"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "NytCookingGetSeasonalGuideArgs": {
           "k": "object",
           "props": [
@@ -30298,6 +30335,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "NytCookingGetSeasonalGuideArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRecipeNotes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingGetRecipeNotesArgs"
             },
             "optional": false
           }
@@ -43995,6 +44042,42 @@ export const VALIDATORS: ValidatorTable = {
             "name": "idB",
             "schema": {
               "k": "string"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.trustpilot": {
+      "defs": {
+        "TrustpilotGetCompanyArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "domain",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getCompany": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "TrustpilotGetCompanyArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
             },
             "optional": false
           }

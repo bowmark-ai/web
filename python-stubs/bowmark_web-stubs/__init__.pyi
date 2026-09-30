@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9220ce23a686f7257b19ebd4ec8ac072324b1e6e31b155e25dc6e719ca2aed99
-# 69 capabilities, 500 providers, 1659 typed functions, 20 refused.
+# Manifest version: 95a5c929cec88372d369a82273faffdcf64dbebd3cdf29f8148b301461d9f6e0
+# 69 capabilities, 501 providers, 1661 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17237,6 +17237,24 @@ class Prv_nyt_cooking_NytCookingSeasonalGuideCollection_Out(TypedDict):
     name: str
     url: str
 
+class Prv_nyt_cooking_NytCookingGetRecipeNotesArgs_In(TypedDict):
+    id: float | str
+    sort: NotRequired[Literal["helpful"] | Literal["recent"]]
+
+class Prv_nyt_cooking_NytCookingRecipeNotes_Out(TypedDict):
+    notes: list[Prv_nyt_cooking_NytCookingRecipeNote_Out]
+    totalNotes: float
+    totalHelpful: float
+    hasMore: bool
+    warnings: NotRequired[list[str]]
+
+class Prv_nyt_cooking_NytCookingRecipeNote_Out(TypedDict):
+    id: str
+    author: str
+    text: str
+    submittedAt: str
+    recommendedCount: float
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -23224,6 +23242,38 @@ class Prv_trophysignaturehomes_TrophysignaturehomesComparison_Out(TypedDict):
 class Prv_trophysignaturehomes_TrophysignaturehomesComparison_Out_pricePerSqft_Out(TypedDict):
     a: float | None
     b: float | None
+
+class Prv_trustpilot_TrustpilotGetCompanyArgs_In(TypedDict):
+    domain: str
+
+class Prv_trustpilot_TrustpilotCompany_Out(TypedDict):
+    name: str
+    domain: str
+    url: str
+    websiteUrl: str | None
+    trustScore: float | None
+    stars: float | None
+    reviewCount: float | None
+    reviewsLast12Months: float | None
+    ratingDistribution: Prv_trustpilot_TrustpilotCompany_Out_ratingDistribution_u0_Out | None
+    categories: list[str]
+    isClaimed: bool | None
+    countryCode: str | None
+    recentReviews: list[Prv_trustpilot_TrustpilotReview_Out]
+
+class Prv_trustpilot_TrustpilotCompany_Out_ratingDistribution_u0_Out(TypedDict):
+    one: float
+    two: float
+    three: float
+    four: float
+    five: float
+
+class Prv_trustpilot_TrustpilotReview_Out(TypedDict):
+    title: str | None
+    text: str | None
+    rating: float | None
+    publishedDate: str | None
+    author: str | None
 
 class Prv_tryalma_com_SearchResponse_Out(TypedDict):
     results: list[Prv_tryalma_com_SearchResult_Out]
@@ -38251,6 +38301,11 @@ class Prv_nyt_cooking(Protocol):
         the named sub-collections it groups them into.
         """
 
+    async def getRecipeNotes(self, args: Prv_nyt_cooking_NytCookingGetRecipeNotesArgs_In, /) -> Prv_nyt_cooking_NytCookingRecipeNotes_Out:
+        """Reads a recipe's reader notes — the site's "Top Comments" (sort: "helpful", the default)
+        or "Newest" (sort: "recent") feed, plus the total note count.
+        """
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -42026,6 +42081,20 @@ class Prv_trophysignaturehomes(Protocol):
         same math.
         """
 
+class Prv_trustpilot(Protocol):
+    """Trustpilot — public consumer reviews of any business. getCompany() reads a company's
+    TrustScore, star rating, total review count, 1-5 star breakdown, category and latest
+    reviews off its trustpilot.com/review/<domain> page.
+    """
+
+    async def getCompany(self, args: Prv_trustpilot_TrustpilotGetCompanyArgs_In | str, /) -> Prv_trustpilot_TrustpilotCompany_Out:
+        """Trustpilot reviews and rating for a company, by its website domain (`{ domain:
+        "acadium.com" }` — a full website url or a trustpilot.com/review/<domain> url also
+        works). Returns the TrustScore (out of 5), star rating, total review count, reviews in
+        the last 12 months, the 1-5 star breakdown, category, whether the profile is claimed,
+        and the latest reviews on the first page.
+        """
+
 class Prv_tryalma_com(Protocol):
     """Search Alma's immigration legal services content and site navigation."""
 
@@ -44232,6 +44301,7 @@ class BowmarkProviders(Protocol):
     trektravel: Prv_trektravel
     trojanstorage: Prv_trojanstorage
     trophysignaturehomes: Prv_trophysignaturehomes
+    trustpilot: Prv_trustpilot
     tryalma_com: Prv_tryalma_com
     tweethunter: Prv_tweethunter
     twiddy: Prv_twiddy

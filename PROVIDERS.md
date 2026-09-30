@@ -1997,7 +1997,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
 | `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | 🟢 |
 | `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | 🟢 |
-| `samsung.listCarrierOffers` | samsung.com | Samsung's own trade-in and carrier promotions — the "save up to $X with eligible… | ⚪ |
+| `samsung.listCarrierOffers` | samsung.com | Samsung's own "save up to $X with eligible trade-in on this carrier" promotions — one… | 🟢 |
 | `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | 🟢 |
 | `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | 🟢 |
 | `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | 🟡 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9220ce23a686f7257b19ebd4ec8ac072324b1e6e31b155e25dc6e719ca2aed99
-// 69 capabilities, 500 providers, 1677 typed functions, 20 refused.
+// Manifest version: 95a5c929cec88372d369a82273faffdcf64dbebd3cdf29f8148b301461d9f6e0
+// 69 capabilities, 501 providers, 1679 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32565,6 +32565,27 @@ interface NytCookingSeasonalGuide {
   warnings?: string[];
 }
 
+interface NytCookingGetRecipeNotesArgs {
+  id: number | string;
+  sort?: "helpful" | "recent";
+}
+
+interface NytCookingRecipeNote {
+  id: string;
+  author: string;
+  text: string;
+  submittedAt: string;
+  recommendedCount: number;
+}
+
+interface NytCookingRecipeNotes {
+  notes: NytCookingRecipeNote[];
+  totalNotes: number;
+  totalHelpful: number;
+  hasMore: boolean;
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -32614,6 +32635,12 @@ interface NytCookingSeasonalGuide {
      * named sub-collections it groups them into.
      */
     getSeasonalGuide(args: NytCookingGetSeasonalGuideArgs): Promise<NytCookingSeasonalGuide>;
+
+    /**
+     * Reads a recipe's reader notes — the site's "Top Comments" (sort: "helpful", the default) or
+     * "Newest" (sort: "recent") feed, plus the total note count.
+     */
+    getRecipeNotes(args: NytCookingGetRecipeNotesArgs): Promise<NytCookingRecipeNotes>;
   }
 }
 
@@ -42473,6 +42500,53 @@ interface TrophysignaturehomesComparison {
   }
 }
 
+declare namespace BowmarkProvider_trustpilot {
+  // ── Trustpilot — the unit's own declarations, verbatim ──
+interface TrustpilotReview {
+  title: string | null;
+  text: string | null;
+  rating: number | null;
+  publishedDate: string | null;
+  author: string | null;
+}
+
+interface TrustpilotCompany {
+  name: string;
+  domain: string;
+  url: string;
+  websiteUrl: string | null;
+  trustScore: number | null;
+  stars: number | null;
+  reviewCount: number | null;
+  reviewsLast12Months: number | null;
+  ratingDistribution: { one: number; two: number; three: number; four: number; five: number } | null;
+  categories: string[];
+  isClaimed: boolean | null;
+  countryCode: string | null;
+  recentReviews: TrustpilotReview[];
+}
+
+interface TrustpilotGetCompanyArgs {
+  domain: string;
+}
+
+  /**
+   * Trustpilot — public consumer reviews of any business. getCompany() reads a company's
+   * TrustScore, star rating, total review count, 1-5 star breakdown, category and latest reviews
+   * off its trustpilot.com/review/<domain> page.
+   */
+  interface Unit {
+    /**
+     * Trustpilot reviews and rating for a company, by its website domain (`{ domain: "acadium.com"
+     * }` — a full website url or a trustpilot.com/review/<domain> url also works). Returns the
+     * TrustScore (out of 5), star rating, total review count, reviews in the last 12 months, the
+     * 1-5 star breakdown, category, whether the profile is claimed, and the latest reviews on the
+     * first page.
+     */
+    getCompany(args: TrustpilotGetCompanyArgs | string): Promise<TrustpilotCompany>;
+  }
+}
+
 declare namespace BowmarkProvider_tryalma_com {
   // ── Alma — US immigration legal services — the unit's own declarations, verbatim ──
 interface SearchResult {
@@ -48432,6 +48506,7 @@ interface BowmarkProviders {
   trektravel: BowmarkProvider_trektravel.Unit;
   trojanstorage: BowmarkProvider_trojanstorage.Unit;
   trophysignaturehomes: BowmarkProvider_trophysignaturehomes.Unit;
+  trustpilot: BowmarkProvider_trustpilot.Unit;
   tryalma_com: BowmarkProvider_tryalma_com.Unit;
   tweethunter: BowmarkProvider_tweethunter.Unit;
   twiddy: BowmarkProvider_twiddy.Unit;
