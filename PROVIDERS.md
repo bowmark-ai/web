@@ -1670,7 +1670,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
 | `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
 | `nytimes.getConnections` | nytimes.com | Gets today's Connections puzzle. | ⚪ |
-| `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | ⚪ |
+| `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟢 |
 | `nytimes.getNewsletter` | nytimes.com | Gets newsletter description and signup info. | ⚪ |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details and episode list. | ⚪ |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
