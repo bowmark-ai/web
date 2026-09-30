@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6549fa4228603ad6b7de16a284d6858c549d6479c4f66bd89f370fc9b96232f7
-// 69 capabilities, 500 providers, 1670 typed functions, 20 refused.
+// Manifest version: 9b065ab9656ebbd8c7fa8495ccccdd47831bc8499cde945a37eddc1e31118ee7
+// 69 capabilities, 500 providers, 1673 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -2923,6 +2923,10 @@ type ReadOptions = {
                              // exit IP for a domain that refuses our default route.
                              // "direct" is accepted and read as "static-residential":
                              // a read never leaves from our own server's IP
+  headers?: boolean          // default false; true adds ReadResult.headers — the
+                             // document's response headers (server, x-powered-by,
+                             // set-cookie, cf-ray …), lowercased names. For
+                             // fingerprinting a site without a second request
 }
 
 type ReadResult = {
@@ -2951,6 +2955,9 @@ type ReadResult = {
                              // ⇒ ok:false, and warnings says the site refused the
                              // read — retrying will not help. A 4xx/5xx page is
                              // ok:false too: it is the site's error page
+  headers?: Record<string, string> // only with options.headers: true — the response
+                             // headers of the leg that served content, names
+                             // lowercased; {} when none were captured
   warnings: string[]         // also names a redirect to a different page than asked
 }
 
@@ -5814,6 +5821,13 @@ interface AmazonCart {
      * authentication.
      */
     listQuestions(asinOrUrl: string, opts?: ConnectionOption): Promise<unknown[]>;
+
+    /**
+     * The signed-in person's own order history — what they bought, when, for how much, and where
+     * each order stands. Requires the caller to be signed in to their own Amazon account; the
+     * relay at amazon.com/ap/signin handles authentication.
+     */
+    listOrders(opts?: ConnectionOption): Promise<unknown[]>;
 
     /**
      * Read what is in the cart — no account needed, since Amazon's guest cart is a real anonymous
@@ -18671,6 +18685,16 @@ interface FomoCandle {
      * resolution (1 day for 5-minute bars, up to 1 year for daily ones) when omitted.
      */
     getCandles(address: string, chain: FomoChainSlug | number, options?: { resolution?: FomoCandleResolution; from?: number; to?: number }, opts?: ConnectionOption): Promise<FomoCandle[]>;
+
+    /**
+     * Returns the largest holders of each requested token, one result array per token in the same
+     * order — concentration is the single strongest rug signal on a memecoin. Batch-capable: pass
+     * one token or several in a single call; fomo's own client only ever asks for one, so the
+     * batch cap is unmeasured and this function forwards whatever the caller sends. Each holder
+     * row is returned in fomo's own untyped shape rather than guessed at — the component that
+     * renders this data was not found anywhere in the site's statically-linked JS.
+     */
+    getTopHolders(tokens: Array<{ address: string; chain: FomoChainSlug | number }>, opts?: ConnectionOption): Promise<unknown[][]>;
   }
 }
 
@@ -24979,6 +25003,11 @@ interface IndeedSearchCompaniesArgs {
   query: string;
 }
 
+interface IndeedSearchSalariesArgs {
+  query: string;
+  location?: string;
+}
+
 interface IndeedCompanyResult {
   name: string;
   rating: number | null;
@@ -25026,6 +25055,17 @@ interface IndeedJobDetails {
 }
 
 interface GetCompanyDetailsArgs {
+  url: string;
+}
+
+interface IndeedSalarySearchResult {
+  jobTitle: string;
+  location: string;
+  salaryMin: number | null;
+  salaryMax: number | null;
+  salaryType: string | null;
+  salaryText: string | null;
+  numberReports: number | null;
   url: string;
 }
 
@@ -25088,6 +25128,13 @@ interface IndeedCompanyDetails {
      * none.
      */
     getCompanyDetails(args: GetCompanyDetailsArgs): Promise<IndeedCompanyDetails>;
+
+    /**
+     * Searches Indeed's own salary data by job title and location, returning salary ranges and the
+     * number of salary reports that contributed to each range, off the site's own /salaries page.
+     * `location` is optional free text; omitting it searches everywhere.
+     */
+    searchSalaries(args: IndeedSearchSalariesArgs): Promise<IndeedSalarySearchResult[]>;
   }
 }
 

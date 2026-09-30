@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6549fa4228603ad6b7de16a284d6858c549d6479c4f66bd89f370fc9b96232f7
-// 1652 checked, 20 unchecked.
+// Manifest version: 9b065ab9656ebbd8c7fa8495ccccdd47831bc8499cde945a37eddc1e31118ee7
+// 1655 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6549fa4228603ad6b7de16a284d6858c549d6479c4f66bd89f370fc9b96232f7",
+  "version": "9b065ab9656ebbd8c7fa8495ccccdd47831bc8499cde945a37eddc1e31118ee7",
   "units": {
     "booking_links": {
       "defs": {
@@ -3187,6 +3187,13 @@ export const VALIDATORS: ValidatorTable = {
               "name": "egress",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "headers",
+              "schema": {
+                "k": "boolean"
               },
               "optional": true
             }
@@ -6519,6 +6526,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listOrders": [
           {
             "name": "opts",
             "schema": {
@@ -18137,6 +18162,59 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getTopHolders": [
+          {
+            "name": "tokens",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "address",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "chain",
+                    "schema": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "ref",
+                          "name": "FomoChainSlug"
+                        },
+                        {
+                          "k": "number"
+                        }
+                      ]
+                    },
+                    "optional": false
+                  }
+                ]
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -23488,6 +23566,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "IndeedSearchSalariesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -23527,6 +23624,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetCompanyDetailsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchSalaries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "IndeedSearchSalariesArgs"
             },
             "optional": false
           }

@@ -375,7 +375,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.searchUsers` | bsky.app | Search people by name, handle or bio words, the way the Search tab's People list does… | 🟢 |
 | `bluesky.sendMessage` | bsky.app | Send a direct message as the caller to a person who accepts DMs from them. | ⚪ |
 | `bluesky.setAvatar` | bsky.app | Change the caller's profile picture (or banner) from an image. | ⚪ |
-| `bluesky.suggestUsers` | bsky.app | Handle autocomplete: the few accounts that best match a partial name, as the compose… | ⚪ |
+| `bluesky.suggestUsers` | bsky.app | Handle autocomplete: the few accounts that best match a partial name, as the compose… | 🟢 |
 | `bluesky.updateProfile` | bsky.app | Change the caller's display name and bio. | ⚪ |
 | `bmwusa.buildVehicle` | bmwusa.com | Runs BMW's own Build Your Own configurator for a model code (read off /all-bmws.html's… | 🟢 |
 | `bmwusa.checkRecalls` | bmwusa.com | Checks open safety and emissions recalls for a specific BMW by VIN — each campaign's… | ⚪ |
@@ -1926,7 +1926,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `resy.search` | resy.com | Finds Resy venues matching a restaurant name, ranked by Resy's own relevance and… | 🟢 |
 | `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟢 |
 | `reuters.followTopic` | www.reuters.com | Follow a Reuters topic or section so it appears in the reader's My News feed. | ⚪ |
-| `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | ⚪ |
+| `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | 🟢 |
 | `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, beat, bio and their latest stories. | ⚪ |
 | `reuters.getCompanyEvents` | www.reuters.com | A company's upcoming and past events — earnings dates, dividends, shareholder meetings… | ⚪ |
 | `reuters.getCompanyFinancials` | www.reuters.com | A company's income statement, balance sheet and cash-flow statement, annual and… | ⚪ |
@@ -2230,7 +2230,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `totalplastics.getQuoteFormFields` | totalplastics.com | Reads Total Plastics' own "Request a Quote" form (a POWR form-builder widget embedded… | 🟢 |
 | `tradingview.getChartData` | www.tradingview.com | Get historical candlestick/OHLCV data for charting. | 🟢 |
 | `tradingview.getCompanyInfo` | www.tradingview.com | Get fundamental information about a company: description, sector, market cap, employees. | 🟢 |
-| `tradingview.getDividends` | www.tradingview.com | Get dividend history and yield information for a symbol. | ⚪ |
+| `tradingview.getDividends` | www.tradingview.com | Get dividend history and yield information for a symbol. | 🟢 |
 | `tradingview.getEarnings` | www.tradingview.com | Get earnings history and upcoming earnings dates for a symbol. | 🟢 |
 | `tradingview.getFinancials` | www.tradingview.com | Get financial statements and historical data: revenue, earnings, balance sheet. | 🟢 |
 | `tradingview.getMarketOverview` | www.tradingview.com | Get market overview data: top gainers, losers, most active symbols. | ⚪ |

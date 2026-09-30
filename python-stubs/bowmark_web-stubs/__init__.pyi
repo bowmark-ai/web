@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6549fa4228603ad6b7de16a284d6858c549d6479c4f66bd89f370fc9b96232f7
-# 69 capabilities, 500 providers, 1652 typed functions, 20 refused.
+# Manifest version: 9b065ab9656ebbd8c7fa8495ccccdd47831bc8499cde945a37eddc1e31118ee7
+# 69 capabilities, 500 providers, 1655 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1671,6 +1671,7 @@ class Cap_read_ReadOptions_In(TypedDict):
     maxChars: NotRequired[float]
     timeoutMs: NotRequired[float]
     egress: NotRequired[str]
+    headers: NotRequired[bool]
 
 class Cap_read_ReadResult_Out(TypedDict):
     url: str
@@ -1687,6 +1688,7 @@ class Cap_read_ReadResult_Out(TypedDict):
     truncated: bool
     error: str | None
     wall: Cap_read_ReadResult_Out_wall_u0_Out | None
+    headers: NotRequired[Mapping[str, str]]
     warnings: list[str]
 
 class Cap_read_ReadResult_Out_wall_u0_Out(TypedDict):
@@ -10302,6 +10304,10 @@ class Prv_fomo_FomoCandle_Out(TypedDict):
     close: float
     volume: float
 
+class Prv_fomo_getTopHolders_tokens_item_In(TypedDict):
+    address: str
+    chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float
+
 class Prv_forbes_ForbesNewsList_Out(TypedDict):
     articles: list[Prv_forbes_ForbesArticle_Out]
 
@@ -13409,6 +13415,20 @@ class Prv_indeed_IndeedCompanyReviewCategories_Out(TypedDict):
     jobSecurityAdvancement: float | None
     management: float | None
     workLifeBalance: float | None
+
+class Prv_indeed_IndeedSearchSalariesArgs_In(TypedDict):
+    query: str
+    location: NotRequired[str]
+
+class Prv_indeed_IndeedSalarySearchResult_Out(TypedDict):
+    jobTitle: str
+    location: str
+    salaryMin: float | None
+    salaryMax: float | None
+    salaryType: str | None
+    salaryText: str | None
+    numberReports: float | None
+    url: str
 
 class Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In(TypedDict):
     state: NotRequired[str]
@@ -28214,6 +28234,12 @@ class Prv_amazon(Protocol):
         authentication.
         """
 
+    async def listOrders(self, opts: ConnectionOption | None = None, /) -> list[Any]:
+        """The signed-in person's own order history — what they bought, when, for how much, and
+        where each order stands. Requires the caller to be signed in to their own Amazon
+        account; the relay at amazon.com/ap/signin handles authentication.
+        """
+
     async def getCart(self, /) -> Prv_amazon_AmazonCart_Out:
         """Read what is in the cart — no account needed, since Amazon's guest cart is a real
         anonymous session. Reads the site's own per-row markup (`data-asin`,
@@ -32952,6 +32978,16 @@ class Prv_fomo(Protocol):
         omitted.
         """
 
+    async def getTopHolders(self, tokens: Sequence[Prv_fomo_getTopHolders_tokens_item_In], opts: ConnectionOption | None = None, /) -> list[list[Any]]:
+        """Returns the largest holders of each requested token, one result array per token in the
+        same order — concentration is the single strongest rug signal on a memecoin.
+        Batch-capable: pass one token or several in a single call; fomo's own client only ever
+        asks for one, so the batch cap is unmeasured and this function forwards whatever the
+        caller sends. Each holder row is returned in fomo's own untyped shape rather than
+        guessed at — the component that renders this data was not found anywhere in the site's
+        statically-linked JS.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -35435,6 +35471,12 @@ class Prv_indeed(Protocol):
         year, headcount band, headquarters, website and CEO name. Takes a company URL (from
         searchCompanies' companyUrl field). Any field is null when the site's own profile
         carries none.
+        """
+
+    async def searchSalaries(self, args: Prv_indeed_IndeedSearchSalariesArgs_In, /) -> list[Prv_indeed_IndeedSalarySearchResult_Out]:
+        """Searches Indeed's own salary data by job title and location, returning salary ranges and
+        the number of salary reports that contributed to each range, off the site's own
+        /salaries page. `location` is optional free text; omitting it searches everywhere.
         """
 
 class Prv_inspirecommunities(Protocol):
