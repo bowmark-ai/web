@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b
-# 68 capabilities, 500 providers, 1630 typed functions, 20 refused.
+# Manifest version: 803a65286e2117bbe1a99b5148373a923ce3a0e938aa18e88f10b854b2bed58f
+# 68 capabilities, 500 providers, 1631 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20403,6 +20403,23 @@ class Prv_samsung_ProductVariant_Out(TypedDict):
     price: str | None
     availability: str | None
 
+class Prv_samsung_CompareProductsArgs_In(TypedDict):
+    products: Sequence[str]
+
+class Prv_samsung_CompareProductsResponse_Out(TypedDict):
+    products: list[Prv_samsung_ComparedProduct_Out]
+    specs: list[Prv_samsung_ComparisonSpec_Out]
+
+class Prv_samsung_ComparedProduct_Out(TypedDict):
+    name: str
+    sku: str
+    price: str | None
+    image: str | None
+
+class Prv_samsung_ComparisonSpec_Out(TypedDict):
+    name: str
+    values: Mapping[str, str]
+
 class Prv_samsung_ListDealsArgs_In(TypedDict):
     pass
 
@@ -33593,10 +33610,13 @@ class Prv_google_maps(Protocol):
         same preview using the place panel's own Sort control, and needs the CALLER's own
         signed-in Google session — Google gates that control on sign-in for every anonymous
         visitor (BUILD_QUEUE.md), so this throws with no grant rather than attempting the click.
-        UNVERIFIED END TO END: no fleet-held Google Maps session has ever been captured, so the
-        positive (signed-in) path has never been observed — nobody here holds one to have
-        confirmed the site actually re-sorts once signed in, only that it refuses to try when it
-        is not.
+        `paged` (boolean) reads PAST the panel's own preview by scrolling the reviews panel with
+        the caller's own signed-in session attached and reading Google's own pagination call
+        (batchexecute rpcids=r4skrb) — same session gate as sort, and mutually exclusive with it
+        (call twice for both). UNVERIFIED END TO END, both flags: no fleet-held Google Maps
+        session has ever been captured, so neither signed-in path has been observed — nobody
+        here holds one to have confirmed the site actually re-sorts or actually pages more
+        reviews in once signed in, only that both refuse to try when nobody is.
         """
 
     async def listRelatedPlaces(self, args: Prv_google_maps_ListRelatedPlacesArgs_In, /) -> list[Prv_google_maps_RelatedPlace_Out]:
@@ -39931,6 +39951,12 @@ class Prv_samsung(Protocol):
         rating, review count, in-stock state, storage/color variants, specification sheet,
         images, and the category breadcrumb. Takes the product's own URL (from search or
         listCategoryProducts).
+        """
+
+    async def compareProducts(self, args: Prv_samsung_CompareProductsArgs_In, /) -> Prv_samsung_CompareProductsResponse_Out:
+        """Samsung's own side-by-side spec comparison for two or more models in the same family —
+        what a shopper uses to decide between the S26 and the S26 Ultra rather than reading two
+        separate spec sheets by hand. Takes one or more product URLs or SKUs to compare.
         """
 
     async def listDeals(self, args: Prv_samsung_ListDealsArgs_In, /) -> Prv_samsung_ListDealsResponse_Out:

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b
-// 68 capabilities, 500 providers, 1648 typed functions, 20 refused.
+// Manifest version: 803a65286e2117bbe1a99b5148373a923ce3a0e938aa18e88f10b854b2bed58f
+// 68 capabilities, 500 providers, 1649 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21129,10 +21129,13 @@ interface SavePlaceResult {
      * `sort` ("newest" | "highest" | "lowest") reorders the same preview using the place panel's
      * own Sort control, and needs the CALLER's own signed-in Google session — Google gates that
      * control on sign-in for every anonymous visitor (BUILD_QUEUE.md), so this throws with no
-     * grant rather than attempting the click. UNVERIFIED END TO END: no fleet-held Google Maps
-     * session has ever been captured, so the positive (signed-in) path has never been observed —
-     * nobody here holds one to have confirmed the site actually re-sorts once signed in, only that
-     * it refuses to try when it is not.
+     * grant rather than attempting the click. `paged` (boolean) reads PAST the panel's own preview
+     * by scrolling the reviews panel with the caller's own signed-in session attached and reading
+     * Google's own pagination call (batchexecute rpcids=r4skrb) — same session gate as sort, and
+     * mutually exclusive with it (call twice for both). UNVERIFIED END TO END, both flags: no
+     * fleet-held Google Maps session has ever been captured, so neither signed-in path has been
+     * observed — nobody here holds one to have confirmed the site actually re-sorts or actually
+     * pages more reviews in once signed in, only that both refuse to try when nobody is.
      */
     listReviews(args: ListReviewsArgs): Promise<ListReviewsResult>;
 
@@ -37493,6 +37496,27 @@ interface GetProductResponse {
   product: SamsungProductDetail;
 }
 
+interface CompareProductsArgs {
+  products: string[]; // one or more product URLs or SKUs to compare
+}
+
+interface ComparedProduct {
+  name: string;
+  sku: string;
+  price: string | null;
+  image: string | null;
+}
+
+interface ComparisonSpec {
+  name: string;
+  values: Record<string, string>;
+}
+
+interface CompareProductsResponse {
+  products: ComparedProduct[];
+  specs: ComparisonSpec[];
+}
+
 interface ListDealsArgs {}
 
 interface SamsungDeal {
@@ -37621,6 +37645,13 @@ interface CheckWarrantyStatusResponse {
      * category breadcrumb. Takes the product's own URL (from search or listCategoryProducts).
      */
     getProduct(args: GetProductArgs): Promise<GetProductResponse>;
+
+    /**
+     * Samsung's own side-by-side spec comparison for two or more models in the same family — what
+     * a shopper uses to decide between the S26 and the S26 Ultra rather than reading two separate
+     * spec sheets by hand. Takes one or more product URLs or SKUs to compare.
+     */
+    compareProducts(args: CompareProductsArgs): Promise<CompareProductsResponse>;
 
     /**
      * What is discounted right now across the whole Samsung store — each deal's name, current

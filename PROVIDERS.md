@@ -82,7 +82,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
 | `allied.estimatePackingSupplies` | allied.com | Runs Allied Van Lines' own Packing Calculator: pass which rooms are moving (no… | 🟢 |
 | `alphavantage.signUp` | alphavantage.co | Runs alphavantage.co's real signup flow (organization + email, an optional occupation)… | 🟢 |
-| `amazon.addToCart` | www.amazon.com | Put a product in the cart, in the quantity asked for, and report what the cart then… | ⚪ |
+| `amazon.addToCart` | www.amazon.com | Put one unit of a product in the anonymous guest cart and report what the cart then… | 🟢 |
 | `amazon.getCart` | www.amazon.com | Read what is in the cart — line items, quantities, per-item and total price — so an… | 🟢 |
 | `amazon.getDeliveryEstimate` | www.amazon.com | When a product would actually arrive at a given US ZIP, and what it costs to get it… | 🟢 |
 | `amazon.getProduct` | www.amazon.com | Read one product page the way a shopper reads it: title, brand, ASIN, current price… | 🟢 |
@@ -232,7 +232,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `baublebar.listBaublebarProducts` | baublebar.com | Reads a BaubleBar collection's live catalogue as the storefront publishes it — every… | 🟢 |
 | `bbc.followPodcast` | bbc.com | Follow a BBC podcast or series for the signed-in reader. | ⚪ |
 | `bbc.getArticle` | bbc.com | One BBC article as data: headline, byline, published and updated times, section, topic… | 🟢 |
-| `bbc.getCurrentWeather` | bbc.com | The latest observation BBC Weather shows for a location: temperature, wind, humidity… | ⚪ |
+| `bbc.getCurrentWeather` | bbc.com | The latest observation BBC Weather shows for a location: temperature, wind, humidity… | 🟢 |
 | `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | 🟢 |
 | `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | 🟢 |
 | `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | 🟢 |
@@ -388,7 +388,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bmwusa.listOffers` | bmwusa.com | Lists BMW's current US lease and finance offers for a ZIP code (resolved server-side… | 🟢 |
 | `bmwusa.searchCertifiedPreOwned` | bmwusa.com | Searches BMW's live Certified Pre-Owned inventory near a ZIP code, server-side scoped… | 🟢 |
 | `bmwusa.searchInventory` | bmwusa.com | Searches live VIN-level new-BMW dealer inventory near a ZIP code, filtered by model… | ⚪ |
-| `bodacc.search` | bodacc.fr | Searches BODACC insolvency notices (redressement judiciaire, liquidation judiciaire… | 🟡 |
+| `bodacc.search` | bodacc.fr | Searches BODACC insolvency notices (procédures collectives: sauvegarde, redressement… | 🟡 |
 | `bodensee_schiffsbetriebe_berths.getBerthStatus` | bsb.de | Would return live boat-berth (Liegeplatz) availability, waiting-list status and… | ⚪ |
 | `bodensee_schiffsbetriebe_berths.searchHarbors` | bsb.de | Searches the Lake Constance harbor towns BSB serves, by name. | 🟢 |
 | `boglewinery.checkAvailability` | boglewinery.com | Checks which upcoming dates and times Tock currently shows as open for one Bogle… | 🟢 |
@@ -887,7 +887,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.follow` | fomo.family | Follows another trader on behalf of the signed-in user. | ⚪ |
 | `fomo.getAlertPreferences` | fomo.family | Returns and updates which push alerts the signed-in trader receives — the settings… | ⚪ |
 | `fomo.getBalances` | fomo.family | Returns what one trader actually holds — every open token position with its raw… | 🟢 |
-| `fomo.getCandles` | fomo.family | Returns OHLCV bars for one token at a given resolution — open, high, low, close… | ⚪ |
+| `fomo.getCandles` | fomo.family | Returns OHLCV bars for one token — the chart data behind every token page. | 🟢 |
 | `fomo.getClan` | fomo.family | Returns one clan — fomo's team unit — with its name, description, member count… | ⚪ |
 | `fomo.getClanFeed` | fomo.family | Pages a clan's own feed and the theses its members have written. `GET… | ⚪ |
 | `fomo.getClanHoldings` | fomo.family | Returns what a clan collectively holds — one row per token with how many members hold… | ⚪ |

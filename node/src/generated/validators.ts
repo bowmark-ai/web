@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b
-// 1630 checked, 20 unchecked.
+// Manifest version: 803a65286e2117bbe1a99b5148373a923ce3a0e938aa18e88f10b854b2bed58f
+// 1631 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b",
+  "version": "803a65286e2117bbe1a99b5148373a923ce3a0e938aa18e88f10b854b2bed58f",
   "units": {
     "booking_links": {
       "defs": {
@@ -38553,6 +38553,21 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "CompareProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "products",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
         "FindStoreArgs": {
           "k": "object",
           "props": [
@@ -38673,6 +38688,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "compareProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CompareProductsArgs"
             },
             "optional": false
           }

@@ -1,5 +1,5 @@
 {
-  "version": "9bc0a163fdc35758654fd8bb14403bbfb7e5e75a2c287e99df0d8ea963cc5b3b",
+  "version": "803a65286e2117bbe1a99b5148373a923ce3a0e938aa18e88f10b854b2bed58f",
   "units": {
     "booking_links": {
       "defs": {
@@ -38541,6 +38541,21 @@
             }
           ]
         },
+        "CompareProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "products",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": false
+            }
+          ]
+        },
         "FindStoreArgs": {
           "k": "object",
           "props": [
@@ -38661,6 +38676,16 @@
             "schema": {
               "k": "ref",
               "name": "GetProductArgs"
+            },
+            "optional": false
+          }
+        ],
+        "compareProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "CompareProductsArgs"
             },
             "optional": false
           }
