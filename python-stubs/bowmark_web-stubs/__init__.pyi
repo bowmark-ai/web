@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 864c70b0a411f4af7bfe05cef9ca2bb0cc4df06d2f6b1a1e3b1ec414a3db7bdd
-# 69 capabilities, 500 providers, 1643 typed functions, 20 refused.
+# Manifest version: 37fd3f7987419851d7b2389c64211e71f40363f0a128aac672289502a4d99f77
+# 69 capabilities, 500 providers, 1648 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11267,6 +11267,16 @@ class Prv_github_GithubUnstarRepositoryResult_Out(TypedDict):
     repo: str
     starred: Literal[False]
 
+class Prv_github_GithubWatchRepositoryResult_Out(TypedDict):
+    owner: str
+    repo: str
+    watched: Literal[True]
+
+class Prv_github_GithubUnwatchRepositoryResult_Out(TypedDict):
+    owner: str
+    repo: str
+    watched: Literal[False]
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -17117,6 +17127,23 @@ class Prv_nyt_cooking_NytCookingArticle_Out(TypedDict):
 class Prv_nyt_cooking_NytCookingArticleRecipe_Out(TypedDict):
     id: str
     title: str
+    url: str
+
+class Prv_nyt_cooking_NytCookingGetSeasonalGuideArgs_In(TypedDict):
+    slug: str
+
+class Prv_nyt_cooking_NytCookingSeasonalGuide_Out(TypedDict):
+    slug: str
+    title: str
+    summary: str | None
+    recipes: list[Any]
+    totalRecipes: float
+    collections: list[Prv_nyt_cooking_NytCookingSeasonalGuideCollection_Out]
+    warnings: NotRequired[list[str]]
+
+class Prv_nyt_cooking_NytCookingSeasonalGuideCollection_Out(TypedDict):
+    id: str
+    name: str
     url: str
 
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
@@ -24773,6 +24800,19 @@ class Prv_wikipedia_WikipediaRecentChange_Out(TypedDict):
     oldLength: float
     newLength: float
 
+class Prv_wikipedia_getUser_options_In(TypedDict):
+    lang: NotRequired[str]
+
+class Prv_wikipedia_getUser_return_Out(TypedDict):
+    users: list[Prv_wikipedia_WikipediaUser_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaUser_Out(TypedDict):
+    name: str
+    editCount: float
+    registrationDate: str
+    groups: list[str]
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -25729,6 +25769,11 @@ class Prv_youtube_YoutubePlaylistEdit_Out(TypedDict):
     playlistId: str
     added: list[str]
     url: str
+
+class Prv_youtube_removeFromPlaylist_input_In(TypedDict):
+    playlist: str
+    video: NotRequired[str]
+    videos: NotRequired[Sequence[str]]
 
 class Prv_youtube_subscribeToChannel_input_In(TypedDict):
     channel: str
@@ -33574,6 +33619,24 @@ class Prv_github(Protocol):
         owner/repo (404) or when signed out or the saved session is invalid.
         """
 
+    async def watchRepository(self, owner: str, repo: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubWatchRepositoryResult_Out:
+        """Adds a repository to the signed-in caller's watched list for notifications, off GitHub's
+        own documented REST subscription endpoint (`PUT /repos/{owner}/{repo}/subscription`).
+        NEEDS THE CALLER SIGNED IN: the endpoint answers 401 with no token. Idempotent —
+        watching an already-watched repo is a no-op on GitHub's side and this returns the same
+        result either way. THROWS on an unknown owner/repo (404) or when signed out or the saved
+        session is invalid.
+        """
+
+    async def unwatchRepository(self, owner: str, repo: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubUnwatchRepositoryResult_Out:
+        """Removes a repository from the signed-in caller's watched list, off GitHub's own
+        documented REST subscription endpoint (`DELETE /repos/{owner}/{repo}/subscription`).
+        NEEDS THE CALLER SIGNED IN: the endpoint answers 401 with no token, the same refusal
+        `watchRepository` reads. Idempotent — unwatching an already-unwatched repo is a no-op on
+        GitHub's side and this returns the same result either way. THROWS on an unknown
+        owner/repo (404) or when signed out or the saved session is invalid.
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -37997,6 +38060,11 @@ class Prv_nyt_cooking(Protocol):
     async def getArticle(self, args: Prv_nyt_cooking_NytCookingGetArticleArgs_In, /) -> Prv_nyt_cooking_NytCookingArticle_Out:
         """Reads one cooking article or guide's title, summary, authors, full body text and any
         recipes it links to.
+        """
+
+    async def getSeasonalGuide(self, args: Prv_nyt_cooking_NytCookingGetSeasonalGuideArgs_In, /) -> Prv_nyt_cooking_NytCookingSeasonalGuide_Out:
+        """Reads a seasonal guide page (e.g. "thanksgiving", "christmas") — its tagged recipes plus
+        the named sub-collections it groups them into.
         """
 
 class Prv_nyt_games(Protocol):
@@ -42716,6 +42784,14 @@ class Prv_wikipedia(Protocol):
         to unregistered editors (true) or registered ones (false), leaving both when omitted.
         """
 
+    async def getUser(self, usernames: str | Sequence[str], options: Prv_wikipedia_getUser_options_In | None = None, /) -> Prv_wikipedia_getUser_return_Out:
+        """A Wikipedia editor's public profile — when they registered, how many edits they have
+        made, and what user groups they belong to (e.g., admin, autoconfirmed). Looks up one or
+        more usernames and returns matching users in order, omitting usernames that don't exist.
+        Username matching is exact and case-sensitive on the first character. What a caller
+        reads to weigh who made a change in the revision history.
+        """
+
 class Prv_wikipedia_standings(Protocol):
     """Search Wikipedia for sports league standings with goal differential data."""
 
@@ -43345,6 +43421,13 @@ class Prv_youtube(Protocol):
         measured at ~2s — so do not treat an immediate empty read as a failed add. YouTube
         permits duplicates, so adding a video already present adds it again. NEEDS A SIGN-IN —
         call `bowmark.video_library.addToPlaylist` rather than this directly.
+        """
+
+    async def removeFromPlaylist(self, input: Prv_youtube_removeFromPlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistEdit_Out:
+        """Removes one or many videos from one of the signed-in account's own playlists, as a
+        SINGLE edit rather than one request per video. A video not on the playlist is silently a
+        no-op for that video — YouTube's own edit endpoint does not distinguish it from a
+        successful removal. NEEDS A SIGN-IN.
         """
 
     async def listSubscriptions(self, opts: ConnectionOption | None = None, /) -> list[Prv_youtube_YoutubeChannelRef_Out]:

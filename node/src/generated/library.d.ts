@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 864c70b0a411f4af7bfe05cef9ca2bb0cc4df06d2f6b1a1e3b1ec414a3db7bdd
-// 69 capabilities, 500 providers, 1661 typed functions, 20 refused.
+// Manifest version: 37fd3f7987419851d7b2389c64211e71f40363f0a128aac672289502a4d99f77
+// 69 capabilities, 500 providers, 1666 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20438,6 +20438,16 @@ interface GithubUnstarRepositoryResult {
   repo: string;
   starred: false;
 }
+interface GithubWatchRepositoryResult {
+  owner: string;
+  repo: string;
+  watched: true;
+}
+interface GithubUnwatchRepositoryResult {
+  owner: string;
+  repo: string;
+  watched: false;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -20685,6 +20695,26 @@ interface GithubUnstarRepositoryResult {
      * session is invalid.
      */
     unstarRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubUnstarRepositoryResult>;
+
+    /**
+     * Adds a repository to the signed-in caller's watched list for notifications, off GitHub's own
+     * documented REST subscription endpoint (`PUT /repos/{owner}/{repo}/subscription`). NEEDS THE
+     * CALLER SIGNED IN: the endpoint answers 401 with no token. Idempotent — watching an
+     * already-watched repo is a no-op on GitHub's side and this returns the same result either
+     * way. THROWS on an unknown owner/repo (404) or when signed out or the saved session is
+     * invalid.
+     */
+    watchRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubWatchRepositoryResult>;
+
+    /**
+     * Removes a repository from the signed-in caller's watched list, off GitHub's own documented
+     * REST subscription endpoint (`DELETE /repos/{owner}/{repo}/subscription`). NEEDS THE CALLER
+     * SIGNED IN: the endpoint answers 401 with no token, the same refusal `watchRepository` reads.
+     * Idempotent — unwatching an already-unwatched repo is a no-op on GitHub's side and this
+     * returns the same result either way. THROWS on an unknown owner/repo (404) or when signed out
+     * or the saved session is invalid.
+     */
+    unwatchRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubUnwatchRepositoryResult>;
   }
 }
 
@@ -32384,6 +32414,26 @@ interface NytCookingArticle {
   warnings?: string[];
 }
 
+interface NytCookingGetSeasonalGuideArgs {
+  slug: string;
+}
+
+interface NytCookingSeasonalGuideCollection {
+  id: string;
+  name: string;
+  url: string;
+}
+
+interface NytCookingSeasonalGuide {
+  slug: string;
+  title: string;
+  summary: string | null;
+  recipes: unknown[];
+  totalRecipes: number;
+  collections: NytCookingSeasonalGuideCollection[];
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -32427,6 +32477,12 @@ interface NytCookingArticle {
      * it links to.
      */
     getArticle(args: NytCookingGetArticleArgs): Promise<NytCookingArticle>;
+
+    /**
+     * Reads a seasonal guide page (e.g. "thanksgiving", "christmas") — its tagged recipes plus the
+     * named sub-collections it groups them into.
+     */
+    getSeasonalGuide(args: NytCookingGetSeasonalGuideArgs): Promise<NytCookingSeasonalGuide>;
   }
 }
 
@@ -44704,6 +44760,13 @@ interface WikipediaRecentChange {
   newLength: number;
 }
 
+interface WikipediaUser {
+  name: string;
+  editCount: number;
+  registrationDate: string;
+  groups: string[];
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -44894,6 +44957,15 @@ interface WikipediaRecentChange {
      * (true) or registered ones (false), leaving both when omitted.
      */
     listRecentChanges(options?: { lang?: string; limit?: number; namespace?: number; anonymousOnly?: boolean }): Promise<{ changes: WikipediaRecentChange[]; warnings: string[] }>;
+
+    /**
+     * A Wikipedia editor's public profile — when they registered, how many edits they have made,
+     * and what user groups they belong to (e.g., admin, autoconfirmed). Looks up one or more
+     * usernames and returns matching users in order, omitting usernames that don't exist. Username
+     * matching is exact and case-sensitive on the first character. What a caller reads to weigh
+     * who made a change in the revision history.
+     */
+    getUser(usernames: string | string[], options?: { lang?: string }): Promise<{ users: WikipediaUser[]; warnings: string[] }>;
   }
 }
 
@@ -46633,6 +46705,14 @@ interface YoutubeStreamFormat {
      * `bowmark.video_library.addToPlaylist` rather than this directly.
      */
     addToPlaylist(input: { playlist: string; video?: string; videos?: string[] }, opts?: ConnectionOption): Promise<YoutubePlaylistEdit>;
+
+    /**
+     * Removes one or many videos from one of the signed-in account's own playlists, as a SINGLE
+     * edit rather than one request per video. A video not on the playlist is silently a no-op for
+     * that video — YouTube's own edit endpoint does not distinguish it from a successful removal.
+     * NEEDS A SIGN-IN.
+     */
+    removeFromPlaylist(input: { playlist: string; video?: string; videos?: string[] }, opts?: ConnectionOption): Promise<YoutubePlaylistEdit>;
 
     /**
      * The channels the signed-in account subscribes to — id, url, handle (when the row carries

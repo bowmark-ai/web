@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2576 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2579 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -41,6 +41,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ai_engineer.listSpeakers` | ai.engineer | Lists all speakers at the AI Engineer conference with their names, titles, companies… | 🟡 |
 | `aiper.listPoolChooserQuestions` | aiper.store | Lists the questions the Help Me Choose pool-cleaner finder asks (pool size, surface… | 🟢 |
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
+| `airbnb.getListing` | airbnb.com | Live nightly rate and availability for ONE known Airbnb listing (its /rooms/<id> url… | 🟢 |
 | `airbnb.search` | airbnb.com | Runs Airbnb's own stays search (airbnb.com/s/<location>/homes) for a free-text… | 🟢 |
 | `airtable.createRecord` | airtable.com | Creates a new record in a specified table. | 🟢 |
 | `airtable.getRecord` | airtable.com | Retrieves a single record by its ID from a specified table. | 🟢 |
@@ -1651,9 +1652,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getConnections` | games.nytimes.com | Retrieves the daily Connections puzzle with category groupings and answers. | 🟢 |
 | `nyt_games.getCrosswordArchive` | games.nytimes.com | Retrieves historical crossword puzzles dating back to 1995. | 🟢 |
 | `nyt_games.getCrosswordDaily` | games.nytimes.com | Retrieves today's New York Times daily crossword puzzle. | 🟢 |
+| `nyt_games.getCrosswordLeaderboard` | games.nytimes.com | The signed-in player's Mini crossword leaderboard with friends and rankings. | ⚪ |
 | `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | 🟢 |
 | `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | 🟢 |
 | `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | 🟢 |
+| `nyt_games.getMyStats` | games.nytimes.com | The signed-in player's per-game stats and streaks across all daily puzzles. | ⚪ |
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle — all three difficulties, each with its dominoes… | 🟢 |
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
 | `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme words, spangram, clue, board and… | 🟢 |
@@ -1992,7 +1995,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟢 |
 | `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
 | `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | 🟢 |
-| `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | ⚪ |
+| `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | 🟢 |
 | `samsung.listCarrierOffers` | samsung.com | Samsung's own trade-in and carrier promotions — the "save up to $X with eligible… | ⚪ |
 | `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | 🟢 |
 | `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | 🟢 |
