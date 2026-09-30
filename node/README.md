@@ -352,6 +352,20 @@ package's whole deliverable IS a `.d.ts` — with the inherited default, `pnpm t
 reported green over a generated file carrying 40 unresolved type names. Do not "tidy" it
 back to the inherited value.
 
+**`incremental: false` in the same file is load-bearing too, for the identical class of
+bug reaching a different config.** `tsconfig.build.json` already disables it, with its own
+comment explaining a stale `.tsbuildinfo` silently skipping a publish-time compile;
+`tsconfig.json` — the one CI's `Typecheck` step and `pnpm typecheck` actually use — needs
+the same override because `library.d.ts` regenerates every 20-60 minutes on `main` while
+`index.ts`/`session.ts` rarely change, and CI persists a `.tsbuildinfo` PER RUNNER AGENT
+across unrelated commits (`ci.yml`'s incremental-cache restore/save steps). tsc's weaker
+tracking of a triple-slash ambient reference (vs. a real import) let a stale buildinfo
+report `Cannot find name 'BowmarkLibrary'` on unchanged code, sticky to whichever runner
+happened to cache it — measured 4 times in 4 days on one agent, once costing a full day of
+client releases. `agents/richard/problems/runner-5-bowmarklibrary-typecheck-flake.md`. Do
+not re-enable it to chase the incremental typecheck speedup other packages get; this
+package is two files and the savings do not apply.
+
 The file is **committed**, for the reason the tier barrels are: this repo consumes
 TypeScript with no build step, so a generate-at-build artifact leaves `tsc` and vitest
 with nothing to read on a fresh clone. Committed plus a staleness gate is the only shape
