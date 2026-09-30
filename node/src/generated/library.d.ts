@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 24b46e2b6c6e1c56589bda10a5f39b37bb3178366ca7fbdd2150eb6cdd93c845
-// 68 capabilities, 500 providers, 1640 typed functions, 20 refused.
+// Manifest version: 2018285d2cc1c74284ea2f92f4a79a11e7c69d59fcaa96419123f9d40fdcc39f
+// 68 capabilities, 500 providers, 1643 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5278,6 +5278,15 @@ interface alibabaProductRow {
   supplierProfileUrl: string | null;
 }
 
+interface alibabaSupplierRow {
+  id: string;
+  name: string;
+  country: string | null;
+  rating: number | null;
+  yearsOnPlatform: string | null;
+  profileUrl: string | null;
+}
+
   /** TODO — one line an agent reads to decide whether to call this. */
   interface Unit {
     /** Search for products by keyword, returning results with title, price, supplier and details. */
@@ -5294,6 +5303,9 @@ interface alibabaProductRow {
 
     /** Get search suggestions and autocomplete hints based on partial keyword. */
     getSuggestions(keyword: string): Promise<alibabaSuggestionRow[]>;
+
+    /** Search for suppliers by company name or product type. */
+    listSuppliers(args: { query: string }): Promise<alibabaSupplierRow[]>;
   }
 }
 
@@ -8770,6 +8782,34 @@ interface BbcSearchWeatherLocationsResult {
   locations: BbcWeatherLocation[];
 }
 
+interface BbcForecastHourly {
+  time: string;
+  temperatureC: number;
+  temperatureF: number;
+  weatherType: string;
+  chanceOfRain: number;
+  windSpeedKph: number;
+  humidity: number;
+}
+
+interface BbcForecastDay {
+  date: string;
+  highC: number;
+  highF: number;
+  lowC: number;
+  lowF: number;
+  weatherType: string;
+  chanceOfRain: number;
+  windSpeedKph: number;
+  sunrise: string;
+  sunset: string;
+  hourly: BbcForecastHourly[]; // the site's own hour-by-hour detail for this day
+}
+
+interface BbcGetForecastResult {
+  days: BbcForecastDay[]; // up to 14 days, the site's own order
+}
+
 interface bbcRow {
   id: string;
 }
@@ -8850,6 +8890,13 @@ interface bbcRow {
      * id every weather function takes.
      */
     searchWeatherLocations(query: string): Promise<BbcSearchWeatherLocationsResult>;
+
+    /**
+     * The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance of
+     * rain, wind, sunrise/sunset) plus the hour-by-hour detail BBC Weather shows for each day.
+     * Takes a location id from searchWeatherLocations.
+     */
+    getForecast(locationId: string): Promise<BbcGetForecastResult>;
   }
 }
 
@@ -41475,6 +41522,17 @@ interface TechnicalAnalysis {
   };
 }
 
+interface ChartData {
+  symbol: string;
+  exchange: string;
+  timestamp: number;
+  open?: number;
+  high?: number;
+  low?: number;
+  close?: number;
+  volume?: number;
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -41545,6 +41603,16 @@ interface TechnicalAnalysis {
      * delisted pair returns a caller-fixable error.
      */
     getFinancials(exchange: string, symbol: string): Promise<Financials>;
+
+    /**
+     * Gets chart data (OHLCV candlestick) for one symbol on one exchange — e.g.
+     * `getChartData("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact `exchange`
+     * and `symbol` fields. Returns the latest candlestick with open, high, low, close prices and
+     * volume, plus a Unix timestamp. Note: TradingView's public API returns only current snapshot
+     * OHLCV; historical candlestick data requires the paid WebSocket API. An unknown or delisted
+     * pair returns a caller-fixable error.
+     */
+    getChartData(exchange: string, symbol: string): Promise<ChartData>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 24b46e2b6c6e1c56589bda10a5f39b37bb3178366ca7fbdd2150eb6cdd93c845
-# 68 capabilities, 500 providers, 1622 typed functions, 20 refused.
+# Manifest version: 2018285d2cc1c74284ea2f92f4a79a11e7c69d59fcaa96419123f9d40fdcc39f
+# 68 capabilities, 500 providers, 1625 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2880,6 +2880,17 @@ class Prv_alibaba_alibabaSuggestionRow_Out(TypedDict):
     keywords: str
     fromHistory: bool
 
+class Prv_alibaba_listSuppliers_args_In(TypedDict):
+    query: str
+
+class Prv_alibaba_alibabaSupplierRow_Out(TypedDict):
+    id: str
+    name: str
+    country: str | None
+    rating: float | None
+    yearsOnPlatform: str | None
+    profileUrl: str | None
+
 class Prv_allied_AlliedPackingCalculatorInput_In(TypedDict):
     yearsInHome: NotRequired[Literal["lessThan5"] | Literal["5to10"] | Literal["over10"]]
     cabinetsClosets: NotRequired[Literal["clutterFree"] | Literal["packRat"]]
@@ -4897,6 +4908,31 @@ class Prv_bbc_BbcWeatherLocation_Out(TypedDict):
     name: str
     region: NotRequired[str]
     country: str
+
+class Prv_bbc_BbcGetForecastResult_Out(TypedDict):
+    days: list[Prv_bbc_BbcForecastDay_Out]
+
+class Prv_bbc_BbcForecastDay_Out(TypedDict):
+    date: str
+    highC: float
+    highF: float
+    lowC: float
+    lowF: float
+    weatherType: str
+    chanceOfRain: float
+    windSpeedKph: float
+    sunrise: str
+    sunset: str
+    hourly: list[Prv_bbc_BbcForecastHourly_Out]
+
+class Prv_bbc_BbcForecastHourly_Out(TypedDict):
+    time: str
+    temperatureC: float
+    temperatureF: float
+    weatherType: str
+    chanceOfRain: float
+    windSpeedKph: float
+    humidity: float
 
 class Prv_bcparkscamping_BcParksCampground_Out(TypedDict):
     resourceLocationId: float
@@ -22643,6 +22679,16 @@ class Prv_tradingview_Financials_Out(TypedDict):
     totalDebt: NotRequired[float]
     cashAndEquivalents: NotRequired[float]
 
+class Prv_tradingview_ChartData_Out(TypedDict):
+    symbol: str
+    exchange: str
+    timestamp: float
+    open: NotRequired[float]
+    high: NotRequired[float]
+    low: NotRequired[float]
+    close: NotRequired[float]
+    volume: NotRequired[float]
+
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
     name: str
@@ -27614,6 +27660,9 @@ class Prv_alibaba(Protocol):
     async def getSuggestions(self, keyword: str, /) -> list[Prv_alibaba_alibabaSuggestionRow_Out]:
         """Get search suggestions and autocomplete hints based on partial keyword."""
 
+    async def listSuppliers(self, args: Prv_alibaba_listSuppliers_args_In, /) -> list[Prv_alibaba_alibabaSupplierRow_Out]:
+        """Search for suppliers by company name or product type."""
+
 class Prv_allied(Protocol):
     """Runs Allied Van Lines' own Packing Calculator — takes which rooms are moving (no name,
     email or phone) and returns a real, server-computed whole-house and per-room
@@ -28948,6 +28997,12 @@ class Prv_bbc(Protocol):
     async def searchWeatherLocations(self, query: str, /) -> Prv_bbc_BbcSearchWeatherLocationsResult_Out:
         """Find BBC Weather locations by place name or postcode: name, region, country and the
         location id every weather function takes.
+        """
+
+    async def getForecast(self, locationId: str, /) -> Prv_bbc_BbcGetForecastResult_Out:
+        """The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance
+        of rain, wind, sunrise/sunset) plus the hour-by-hour detail BBC Weather shows for each
+        day. Takes a location id from searchWeatherLocations.
         """
 
 class Prv_bcparkscamping(Protocol):
@@ -41249,6 +41304,15 @@ class Prv_tradingview(Protocol):
         TradingView carries no TTM balance sheet, since a balance sheet is a point-in-time
         snapshot rather than something to sum over four quarters. An unknown or delisted pair
         returns a caller-fixable error.
+        """
+
+    async def getChartData(self, exchange: str, symbol: str, /) -> Prv_tradingview_ChartData_Out:
+        """Gets chart data (OHLCV candlestick) for one symbol on one exchange — e.g.
+        `getChartData("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact
+        `exchange` and `symbol` fields. Returns the latest candlestick with open, high, low,
+        close prices and volume, plus a Unix timestamp. Note: TradingView's public API returns
+        only current snapshot OHLCV; historical candlestick data requires the paid WebSocket
+        API. An unknown or delisted pair returns a caller-fixable error.
         """
 
 class Prv_travelinsured(Protocol):

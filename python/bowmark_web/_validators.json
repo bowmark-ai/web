@@ -1,5 +1,5 @@
 {
-  "version": "24b46e2b6c6e1c56589bda10a5f39b37bb3178366ca7fbdd2150eb6cdd93c845",
+  "version": "2018285d2cc1c74284ea2f92f4a79a11e7c69d59fcaa96419123f9d40fdcc39f",
   "units": {
     "booking_links": {
       "defs": {
@@ -5946,6 +5946,24 @@
             },
             "optional": false
           }
+        ],
+        "listSuppliers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "query",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -9222,6 +9240,15 @@
         "searchWeatherLocations": [
           {
             "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getForecast": [
+          {
+            "name": "locationId",
             "schema": {
               "k": "string"
             },
@@ -42690,6 +42717,22 @@
           }
         ],
         "getFinancials": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getChartData": [
           {
             "name": "exchange",
             "schema": {
