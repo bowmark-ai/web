@@ -1,5 +1,5 @@
 {
-  "version": "9b065ab9656ebbd8c7fa8495ccccdd47831bc8499cde945a37eddc1e31118ee7",
+  "version": "9220ce23a686f7257b19ebd4ec8ac072324b1e6e31b155e25dc6e719ca2aed99",
   "units": {
     "booking_links": {
       "defs": {
@@ -10620,6 +10620,39 @@
                       "name": "cursor",
                       "schema": {
                         "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "suggestUsers": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
                       },
                       "optional": true
                     }
@@ -37793,6 +37826,18 @@
             }
           ]
         },
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesByDateArgs": {
           "k": "object",
           "props": [
@@ -38029,6 +38074,16 @@
               "name": "ListPodcastsArgs"
             },
             "optional": true
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -42000,6 +42055,18 @@
               "optional": true
             }
           ]
+        },
+        "GuardianListOpinionPiecesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -42053,6 +42120,16 @@
               "name": "GuardianGetContributorArticlesArgs"
             },
             "optional": false
+          }
+        ],
+        "listOpinionPieces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListOpinionPiecesArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -43471,6 +43548,22 @@
           }
         ],
         "getEarnings": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getDividends": [
           {
             "name": "exchange",
             "schema": {

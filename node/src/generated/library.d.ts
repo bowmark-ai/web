@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9b065ab9656ebbd8c7fa8495ccccdd47831bc8499cde945a37eddc1e31118ee7
-// 69 capabilities, 500 providers, 1673 typed functions, 20 refused.
+// Manifest version: 9220ce23a686f7257b19ebd4ec8ac072324b1e6e31b155e25dc6e719ca2aed99
+// 69 capabilities, 500 providers, 1677 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10342,6 +10342,18 @@ interface BlueskyFeed {
   cursor?: string;
 }
 
+interface BlueskySuggestedUser {
+  did: string;
+  handle: string;
+  displayName: string | null;
+  avatar: string | null;
+  bio: string | null;
+}
+
+interface BlueskySuggestUsersResults {
+  users: BlueskySuggestedUser[];
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -10422,6 +10434,13 @@ interface BlueskyFeed {
      * feed at:// URI or a bsky.app feed URL. Returns each post's text, author, embed and counts.
      */
     getFeed(feed: string | { feed: string; limit?: number; cursor?: string }): Promise<BlueskyFeed>;
+
+    /**
+     * Handle autocomplete: the accounts that best match a partial name or handle, as the compose
+     * box's @-mention picker shows them. Returns each match's handle, DID, display name and
+     * avatar.
+     */
+    suggestUsers(query: string | { query: string; limit?: number }): Promise<BlueskySuggestUsersResults>;
   }
 }
 
@@ -36961,6 +36980,21 @@ interface ReutersPodcast {
 interface ListPodcastsArgs {
   query?: string;               // every word must appear in the slug or title
 }
+interface ReutersArticle {
+  headline: string;
+  url: string;
+  section: string;              // e.g. "/world/"
+  authors: string[];
+  publishedAt: string | null;
+  updatedAt: string | null;
+  body: string[];               // one entry per paragraph, tags stripped
+  tags: string[];                // this article's topic/keyword tags, e.g. "NRLPA:OANT"
+  tickers: string[];             // RICs linked from the body, e.g. "PSKY.O"
+  image: string | null;
+}
+interface GetArticleArgs {
+  url: string;                   // a reuters.com article URL, from any list or search function
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -37034,6 +37068,13 @@ interface ListPodcastsArgs {
      * The finder for listPodcastEpisodes.
      */
     listPodcasts(args?: ListPodcastsArgs): Promise<ReutersPodcast[]>;
+
+    /**
+     * Read one Reuters article in full — headline, body paragraphs, authors, published and updated
+     * time, section, tags and related tickers (RICs), and the lead image. Takes an article URL
+     * from any list or search function.
+     */
+    getArticle(args: GetArticleArgs): Promise<ReutersArticle>;
   }
 }
 
@@ -40500,6 +40541,9 @@ interface GuardianGetContributorArticlesArgs {
   contributor: string;
   limit?: number;
 }
+interface GuardianListOpinionPiecesArgs {
+  limit?: number;
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -40561,6 +40605,12 @@ interface GuardianGetContributorArticlesArgs {
      * theguardian.com/profile/<slug> URL, e.g. 'marinahyde' or 'georgemonbiot'.
      */
     getContributorArticles(args: GuardianGetContributorArticlesArgs): Promise<GuardianListArticlesResult>;
+
+    /**
+     * The latest opinion and comment pieces from The Guardian — newest first, with headline, url,
+     * standfirst, byline and publish time.
+     */
+    listOpinionPieces(args?: GuardianListOpinionPiecesArgs): Promise<GuardianListArticlesResult>;
   }
 }
 
@@ -42011,6 +42061,17 @@ interface Earnings {
   revenueEstimateNextQuarter?: number;
 }
 
+interface Dividends {
+  symbol: string;
+  exchange: string;
+  amountRecent?: number;
+  exDateRecent?: number;
+  paymentDateRecent?: number;
+  yieldCurrent?: number;
+  payoutRatioTtm?: number;
+  consecutiveYearsPaid?: number;
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -42102,6 +42163,18 @@ interface Earnings {
      * reported. An unknown or delisted pair returns a caller-fixable error.
      */
     getEarnings(exchange: string, symbol: string): Promise<Earnings>;
+
+    /**
+     * Gets dividend history and yield information for one symbol on one exchange — e.g.
+     * `getDividends("NASDAQ", "AAPL")` — the same scanner door as `getQuote`/`getEarnings`. Use
+     * `searchSymbols` first and pass its exact `exchange` and `symbol` fields. Returns the most
+     * recently paid dividend (`amountRecent` per share, `exDateRecent`/`paymentDateRecent` in Unix
+     * seconds), the current trailing-twelve-month `yieldCurrent`, the TTM `payoutRatioTtm`, and
+     * `consecutiveYearsPaid` — how many years running the company has paid a dividend without a
+     * cut. A symbol that has never paid a dividend answers with every field undefined rather than
+     * an error; an unknown or delisted pair returns a caller-fixable error.
+     */
+    getDividends(exchange: string, symbol: string): Promise<Dividends>;
   }
 }
 

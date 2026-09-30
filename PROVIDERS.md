@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2580 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2581 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1631,7 +1631,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getMyNotes` | cooking.nytimes.com | Reads the signed-in reader's own private cook notes on a recipe. | ⚪ |
 | `nyt_cooking.getMyRating` | cooking.nytimes.com | Reads the signed-in reader's own rating for a recipe. | ⚪ |
 | `nyt_cooking.getRecipe` | cooking.nytimes.com | Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors… | 🟢 |
-| `nyt_cooking.getRecipeNotes` | cooking.nytimes.com | Reads the public helpful/all cook notes left on a recipe by other readers. | ⚪ |
+| `nyt_cooking.getRecipeNotes` | cooking.nytimes.com | Reads a recipe's reader notes — the site's "Top Comments" (sort: "helpful", the… | 🟢 |
 | `nyt_cooking.getRelatedRecipes` | cooking.nytimes.com | Reads the related-recipe carousel the site itself shows on a recipe page. | ⚪ |
 | `nyt_cooking.getSavedRecipes` | cooking.nytimes.com | Lists the signed-in reader's saved recipes (their Recipe Box). Needs the CALLER's own… | ⚪ |
 | `nyt_cooking.getSeasonalGuide` | cooking.nytimes.com | Reads a seasonal guide page (e.g. "/thanksgiving", "/christmas") and its featured… | 🟢 |
@@ -2260,6 +2260,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trophysignaturehomes.getHome` | trophysignaturehomes.com | Reads one home's full detail: address, price, sqft, beds/baths, status, stories… | 🟢 |
 | `trophysignaturehomes.listPlans` | trophysignaturehomes.com | Lists the floor plans (as opposed to priced, addressed spec homes) available per… | ⚪ |
 | `trophysignaturehomes.searchHomes` | trophysignaturehomes.com | Searches Trophy Signature Homes' current live inventory (all metros) by city… | 🟢 |
+| `trustpilot.getCompany` | trustpilot.com | Trustpilot reviews and rating for a company, by its website domain (`{ domain… | 🟢 |
 | `tryalma_com.listPages` | tryalma.com | List all pages and sections available on the Alma website by category. | 🟢 |
 | `tryalma_com.search` | tryalma.com | Search Alma's content, including pages, resources, and team member profiles. | 🟢 |
 | `tumblr.createPost` | tumblr.com | Create a new post on the signed-in account's blog. | ⚪ |

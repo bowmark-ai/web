@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9b065ab9656ebbd8c7fa8495ccccdd47831bc8499cde945a37eddc1e31118ee7
-# 69 capabilities, 500 providers, 1655 typed functions, 20 refused.
+# Manifest version: 9220ce23a686f7257b19ebd4ec8ac072324b1e6e31b155e25dc6e719ca2aed99
+# 69 capabilities, 500 providers, 1659 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5773,6 +5773,20 @@ class Prv_bluesky_getFeed_feed_u1_In(TypedDict):
 class Prv_bluesky_BlueskyFeed_Out(TypedDict):
     posts: list[Prv_bluesky_BlueskyPost_Out]
     cursor: NotRequired[str]
+
+class Prv_bluesky_suggestUsers_query_u1_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_bluesky_BlueskySuggestUsersResults_Out(TypedDict):
+    users: list[Prv_bluesky_BlueskySuggestedUser_Out]
+
+class Prv_bluesky_BlueskySuggestedUser_Out(TypedDict):
+    did: str
+    handle: str
+    displayName: str | None
+    avatar: str | None
+    bio: str | None
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -20110,6 +20124,21 @@ class Prv_reuters_ReutersPodcast_Out(TypedDict):
     path: str
     url: str
 
+class Prv_reuters_GetArticleArgs_In(TypedDict):
+    url: str
+
+class Prv_reuters_ReutersArticle_Out(TypedDict):
+    headline: str
+    url: str
+    section: str
+    authors: list[str]
+    publishedAt: str | None
+    updatedAt: str | None
+    body: list[str]
+    tags: list[str]
+    tickers: list[str]
+    image: str | None
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -22169,6 +22198,9 @@ class Prv_theguardian_com_GuardianGetContributorArticlesArgs_In(TypedDict):
     contributor: str
     limit: NotRequired[float]
 
+class Prv_theguardian_com_GuardianListOpinionPiecesArgs_In(TypedDict):
+    limit: NotRequired[float]
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -22989,6 +23021,16 @@ class Prv_tradingview_Earnings_Out(TypedDict):
     epsSurprisePercent: NotRequired[float]
     epsEstimateNextQuarter: NotRequired[float]
     revenueEstimateNextQuarter: NotRequired[float]
+
+class Prv_tradingview_Dividends_Out(TypedDict):
+    symbol: str
+    exchange: str
+    amountRecent: NotRequired[float]
+    exDateRecent: NotRequired[float]
+    paymentDateRecent: NotRequired[float]
+    yieldCurrent: NotRequired[float]
+    payoutRatioTtm: NotRequired[float]
+    consecutiveYearsPaid: NotRequired[float]
 
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
@@ -29977,6 +30019,12 @@ class Prv_bluesky(Protocol):
         """Read a custom feed's posts — Discover, What's Hot, any creator's feed, page by page.
         Takes a feed at:// URI or a bsky.app feed URL. Returns each post's text, author, embed
         and counts.
+        """
+
+    async def suggestUsers(self, query: str | Prv_bluesky_suggestUsers_query_u1_In, /) -> Prv_bluesky_BlueskySuggestUsersResults_Out:
+        """Handle autocomplete: the accounts that best match a partial name or handle, as the
+        compose box's @-mention picker shows them. Returns each match's handle, DID, display
+        name and avatar.
         """
 
 class Prv_bmwusa(Protocol):
@@ -40057,6 +40105,12 @@ class Prv_reuters(Protocol):
         sitemap. The finder for listPodcastEpisodes.
         """
 
+    async def getArticle(self, args: Prv_reuters_GetArticleArgs_In, /) -> Prv_reuters_ReutersArticle_Out:
+        """Read one Reuters article in full — headline, body paragraphs, authors, published and
+        updated time, section, tags and related tickers (RICs), and the lead image. Takes an
+        article URL from any list or search function.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -41259,6 +41313,11 @@ class Prv_theguardian_com(Protocol):
         or a theguardian.com/profile/<slug> URL, e.g. 'marinahyde' or 'georgemonbiot'.
         """
 
+    async def listOpinionPieces(self, args: Prv_theguardian_com_GuardianListOpinionPiecesArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:
+        """The latest opinion and comment pieces from The Guardian — newest first, with headline,
+        url, standfirst, byline and publish time.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -41845,6 +41904,18 @@ class Prv_tradingview(Protocol):
         recently reported quarter's `epsActual` vs. analyst `epsEstimate` and the
         `epsSurprise`/`epsSurprisePercent` between them, plus `epsEstimateNextQuarter` and
         `revenueEstimateNextQuarter` for the quarter not yet reported. An unknown or delisted
+        pair returns a caller-fixable error.
+        """
+
+    async def getDividends(self, exchange: str, symbol: str, /) -> Prv_tradingview_Dividends_Out:
+        """Gets dividend history and yield information for one symbol on one exchange — e.g.
+        `getDividends("NASDAQ", "AAPL")` — the same scanner door as `getQuote`/`getEarnings`.
+        Use `searchSymbols` first and pass its exact `exchange` and `symbol` fields. Returns the
+        most recently paid dividend (`amountRecent` per share,
+        `exDateRecent`/`paymentDateRecent` in Unix seconds), the current trailing-twelve-month
+        `yieldCurrent`, the TTM `payoutRatioTtm`, and `consecutiveYearsPaid` — how many years
+        running the company has paid a dividend without a cut. A symbol that has never paid a
+        dividend answers with every field undefined rather than an error; an unknown or delisted
         pair returns a caller-fixable error.
         """
 

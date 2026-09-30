@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9b065ab9656ebbd8c7fa8495ccccdd47831bc8499cde945a37eddc1e31118ee7
-// 1655 checked, 20 unchecked.
+// Manifest version: 9220ce23a686f7257b19ebd4ec8ac072324b1e6e31b155e25dc6e719ca2aed99
+// 1659 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9b065ab9656ebbd8c7fa8495ccccdd47831bc8499cde945a37eddc1e31118ee7",
+  "version": "9220ce23a686f7257b19ebd4ec8ac072324b1e6e31b155e25dc6e719ca2aed99",
   "units": {
     "booking_links": {
       "defs": {
@@ -10632,6 +10632,39 @@ export const VALIDATORS: ValidatorTable = {
                       "name": "cursor",
                       "schema": {
                         "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "suggestUsers": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "query",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
                       },
                       "optional": true
                     }
@@ -37805,6 +37838,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetArticleArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesByDateArgs": {
           "k": "object",
           "props": [
@@ -38041,6 +38086,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListPodcastsArgs"
             },
             "optional": true
+          }
+        ],
+        "getArticle": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetArticleArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -42012,6 +42067,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "GuardianListOpinionPiecesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -42065,6 +42132,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GuardianGetContributorArticlesArgs"
             },
             "optional": false
+          }
+        ],
+        "listOpinionPieces": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListOpinionPiecesArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -43483,6 +43560,22 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getEarnings": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getDividends": [
           {
             "name": "exchange",
             "schema": {
