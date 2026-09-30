@@ -63,7 +63,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | ⚪ |
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
-| `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | ⚪ |
+| `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | 🟢 |
 | `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | ⚪ |
 | `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟢 |
 | `alibaba.listInvoices` | alibaba.com | Get list of invoices for past orders. | ⚪ |
@@ -327,7 +327,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.deletePost` | bsky.app | Delete one of the caller's own posts. | ⚪ |
 | `bluesky.followUser` | bsky.app | Follow a person as the caller, or unfollow them. | ⚪ |
 | `bluesky.getConversation` | bsky.app | The messages in one of the caller's DM conversations, page by page, with a finder from… | ⚪ |
-| `bluesky.getFeed` | bsky.app | Read a custom feed's posts (Discover, What's Hot, any creator's feed) by URL or at://… | ⚪ |
+| `bluesky.getFeed` | bsky.app | Read a custom feed's posts (Discover, What's Hot, any creator's feed) by URL or at://… | 🟢 |
 | `bluesky.getFeedInfo` | bsky.app | One custom feed's details: name, creator, description, avatar, like count and whether… | ⚪ |
 | `bluesky.getFollowers` | bsky.app | Who follows a person, page by page. | ⚪ |
 | `bluesky.getFollows` | bsky.app | Who a person follows, page by page. | ⚪ |
@@ -1712,7 +1712,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pacificcompanies.searchJobs` | pacificcompanies.com | Runs Pacific Companies' own job-board search — filters real open physician/APP roles… | 🟢 |
 | `pacificlifestylehomes.searchAvailableHomes` | pacificlifestylehomes.com | Searches Pacific Lifestyle Homes' live available-home inventory in Camas, Ridgefield… | 🟢 |
 | `packlane.getQuote` | packlane.com | Prices Packlane's custom Mailer Boxes (product 35139) for a given box size, material… | 🟢 |
-| `pallet2ship.getQuote` | pallet2ship.co.uk | Returns a pallet freight quote from Pallet2Ship, a UK pallet broker, based on… | 🟡 |
+| `pallet2ship.getQuote` | pallet2ship.co.uk | Returns a pallet freight quote from Pallet2Ship, a UK pallet broker, based on… | ⚪ |
 | `pawsup.checkAvailability` | pawsup.com | Checks available accommodations and starting rates for a requested stay. | 🟢 |
 | `paypal.estimateFee` | paypal.com | Computes what PayPal charges to send a PERSONAL (friends-and-family) payment — an… | 🟢 |
 | `paypal.estimatePayLaterPlan` | paypal.com | Turns a purchase amount into PayPal's Pay Later options — the four-instalment Pay in 4… | ⚪ |
