@@ -675,7 +675,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | ⚪ |
 | `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag. | ⚪ |
 | `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | 🟢 |
-| `dell.listMyOrders` | dell.com | Retrieves the signed-in user's order history with order numbers, dates, and status. | ⚪ |
+| `dell.listMyOrders` | dell.com | Retrieves the signed-in user's order history with order numbers, dates, and status. | 🟢 |
 | `dell.listMyRegisteredProducts` | dell.com | Retrieves the signed-in user's registered Dell products and devices. | ⚪ |
 | `dell.listMySavedCarts` | dell.com | Retrieves the signed-in user's saved shopping carts. | ⚪ |
 | `dell.listProductCategories` | dell.com | Lists the main product categories (laptops, desktops, servers, peripherals, etc.). | 🟢 |
@@ -2082,7 +2082,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getCommunityHub` | steampowered.com | Retrieves the community hub for a game, including recent discussions, artwork… | ⚪ |
 | `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | 🟢 |
 | `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | 🟢 |
-| `steam.getGameScreenshots` | steampowered.com | Fetches a game's screenshots and promotional images, returning image URLs, captions… | ⚪ |
+| `steam.getGameScreenshots` | steampowered.com | Fetches a game's screenshots and promotional images, returning image URLs, captions… | 🟢 |
 | `steam.getGameStats` | steampowered.com | Provides game statistics like current player count, peak player count (24h)… | ⚪ |
 | `steam.getGameVideos` | steampowered.com | Returns video trailers and gameplay videos for a game, including video URLs, titles… | ⚪ |
 | `steam.getLibrary` | steampowered.com | Lists all games the caller owns, with installation status, play time, and last-played… | ⚪ |
