@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 775e92a9242c0e7096f6bead5c4a99534d98f48c219fae45ae9f0121c4854edf
-# 70 capabilities, 504 providers, 1698 typed functions, 20 refused.
+# Manifest version: aaf653aa6316bb8458956afebec7803f104ca1b9a53ec2e59ae8de9c6ce2e41a
+# 70 capabilities, 505 providers, 1705 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10086,6 +10086,28 @@ class Prv_fedex_fedexRatedShipment_Out(TypedDict):
     currency: str
     deliveryDate: str | None
     transitTime: str | None
+
+class Prv_ferguson_FindProductsArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_ferguson_fergusonProduct_Out(TypedDict):
+    productId: str
+    title: str
+    url: str
+    lastModified: str | None
+
+class Prv_ferguson_FindBranchesArgs_In(TypedDict):
+    state: str
+    city: NotRequired[str]
+    type: NotRequired[str]
+
+class Prv_ferguson_fergusonBranch_Out(TypedDict):
+    state: str
+    city: str
+    type: str
+    branchNumber: str
+    url: str
 
 class Prv_fieldstonehomes_FieldstonehomesSearchArgs_In(TypedDict):
     city: NotRequired[str]
@@ -22636,6 +22658,13 @@ class Prv_theguardian_com_GuardianGetContributorArticlesArgs_In(TypedDict):
 class Prv_theguardian_com_GuardianListOpinionPiecesArgs_In(TypedDict):
     limit: NotRequired[float]
 
+class Prv_theguardian_com_GuardianListReviewsArgs_In(TypedDict):
+    category: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_theguardian_com_GuardianGetReviewArgs_In(TypedDict):
+    reviewUrlOrId: str
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -23466,6 +23495,20 @@ class Prv_tradingview_Dividends_Out(TypedDict):
     yieldCurrent: NotRequired[float]
     payoutRatioTtm: NotRequired[float]
     consecutiveYearsPaid: NotRequired[float]
+
+class Prv_tradingview_MarketOverview_Out(TypedDict):
+    indices: list[Prv_tradingview_MarketOverview_Out_indices_item_Out]
+
+class Prv_tradingview_MarketOverview_Out_indices_item_Out(TypedDict):
+    symbol: str
+    name: str
+    type: str
+    price: float
+    change: NotRequired[float]
+    changePercent: NotRequired[float]
+    high: NotRequired[float]
+    low: NotRequired[float]
+    open: NotRequired[float]
 
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
@@ -28825,6 +28868,12 @@ class Prv_amazon(Protocol):
         account; the relay at amazon.com/ap/signin handles authentication.
         """
 
+    async def trackShipment(self, orderId: str, opts: ConnectionOption | None = None, /) -> list[Any]:
+        """Where a specific order's package is and when it is due — the follow-up read after
+        listOrders. Requires the caller to be signed in to their own Amazon account; the relay
+        at amazon.com/ap/signin handles authentication.
+        """
+
     async def getCart(self, /) -> Prv_amazon_AmazonCart_Out:
         """Read what is in the cart — no account needed, since Amazon's guest cart is a real
         anonymous session. Reads the site's own per-row markup (`data-asin`,
@@ -33367,6 +33416,25 @@ class Prv_fedex(Protocol):
         whether one is sent. Requires a FedEx OAuth2 bearer token — see this provider's `auth`.
         """
 
+class Prv_ferguson(Protocol):
+    """Ferguson (ferguson.com), the US plumbing, HVAC, waterworks and PVF supply distributor —
+    find products in its catalog by keyword and list its branches by state, city and line,
+    off the site's own sitemaps. No prices: every product page is behind an Akamai hard
+    deny.
+    """
+
+    async def findProducts(self, args: Prv_ferguson_FindProductsArgs_In, /) -> list[Prv_ferguson_fergusonProduct_Out]:
+        """Finds Ferguson catalog products whose title contains every word of `query` — product id,
+        title (with manufacturer part number) and url — by scanning ferguson.com's own product
+        sitemaps (~110k products). No price or stock. Slow-ish: a rare query reads several MB of
+        sitemap.
+        """
+
+    async def findBranches(self, args: Prv_ferguson_FindBranchesArgs_In, /) -> list[Prv_ferguson_fergusonBranch_Out]:
+        """Lists Ferguson branches in a US state, optionally narrowed by city and branch line
+        (plumbing/PVF, HVAC, waterworks, warehouse, …), off ferguson.com's own store sitemap.
+        """
+
 class Prv_fieldstonehomes(Protocol):
     """Live Fieldstone Homes quick-move-in inventory plus a validated appointment handoff;
     prefer it when current availability, incentives or booking details matter.
@@ -33655,6 +33723,12 @@ class Prv_fomo(Protocol):
         encoded tokens array. Rows are returned in fomo's own untyped shape — same reason as
         getTopHolders: the rendering component was not found anywhere in the site's
         statically-linked JS.
+        """
+
+    async def getFollowingIds(self, opts: ConnectionOption | None = None, /) -> list[str]:
+        """Returns just the ids of everyone the signed-in trader follows, in one call with no
+        paging — the cheap membership test behind 'do I already follow this person', useful
+        before paging getFollowing for full profiles. Takes no arguments.
         """
 
 class Prv_forbes(Protocol):
@@ -42087,6 +42161,18 @@ class Prv_theguardian_com(Protocol):
         url, standfirst, byline and publish time.
         """
 
+    async def listReviews(self, args: Prv_theguardian_com_GuardianListReviewsArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:
+        """The latest reviews from The Guardian by category (books, film, music, stage, art) —
+        newest first, with headline, url, standfirst, byline and publish time. Default category
+        is 'books'.
+        """
+
+    async def getReview(self, args: Prv_theguardian_com_GuardianGetReviewArgs_In, /) -> Prv_theguardian_com_GuardianArticle_Out:
+        """The full text of one Guardian review article: headline, standfirst, byline, publish
+        time, section, tags and the body paragraph by paragraph. Takes a theguardian.com URL or
+        the path listReviews returns as `id`.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -42686,6 +42772,14 @@ class Prv_tradingview(Protocol):
         running the company has paid a dividend without a cut. A symbol that has never paid a
         dividend answers with every field undefined rather than an error; an unknown or delisted
         pair returns a caller-fixable error.
+        """
+
+    async def getMarketOverview(self, /) -> Prv_tradingview_MarketOverview_Out:
+        """Gets an overview of major market indices — NASDAQ Composite, S&P 500, Russell 2000 and
+        NASDAQ-100 — with their current prices, changes and OHLC data. Returns each index'
+        symbol, name, type, price, and change/changePercent against the previous close, along
+        with open, high and low prices. Takes no arguments — it always returns the same set of
+        major indices.
         """
 
 class Prv_travelinsured(Protocol):
@@ -44806,6 +44900,7 @@ class BowmarkProviders(Protocol):
     facerealityskincare: Prv_facerealityskincare
     fbsappliance: Prv_fbsappliance
     fedex: Prv_fedex
+    ferguson: Prv_ferguson
     fieldstonehomes: Prv_fieldstonehomes
     firstamericahomes: Prv_firstamericahomes
     firstdibs: Prv_firstdibs

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 775e92a9242c0e7096f6bead5c4a99534d98f48c219fae45ae9f0121c4854edf
-// 1698 checked, 20 unchecked.
+// Manifest version: aaf653aa6316bb8458956afebec7803f104ca1b9a53ec2e59ae8de9c6ce2e41a
+// 1705 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "775e92a9242c0e7096f6bead5c4a99534d98f48c219fae45ae9f0121c4854edf",
+  "version": "aaf653aa6316bb8458956afebec7803f104ca1b9a53ec2e59ae8de9c6ce2e41a",
   "units": {
     "booking_links": {
       "defs": {
@@ -6605,6 +6605,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "trackShipment": [
+          {
+            "name": "orderId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -17426,6 +17451,77 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.ferguson": {
+      "defs": {
+        "FindBranchesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "state",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "type",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "FindProductsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "findProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindProductsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "findBranches": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FindBranchesArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.fieldstonehomes": {
       "defs": {
         "FieldstonehomesPrepareAppointmentArgs": {
@@ -18643,6 +18739,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getFollowingIds": [
           {
             "name": "opts",
             "schema": {
@@ -43167,6 +43281,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GuardianGetReviewArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "reviewUrlOrId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GuardianListArticlesArgs": {
           "k": "object",
           "props": [
@@ -43208,6 +43334,25 @@ export const VALIDATORS: ValidatorTable = {
         "GuardianListOpinionPiecesArgs": {
           "k": "object",
           "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GuardianListReviewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
             {
               "name": "limit",
               "schema": {
@@ -43279,6 +43424,26 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GuardianListOpinionPiecesArgs"
             },
             "optional": true
+          }
+        ],
+        "listReviews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListReviewsArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getReview": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianGetReviewArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -44727,7 +44892,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "getMarketOverview": []
       }
     },
     "providers.travelinsured": {

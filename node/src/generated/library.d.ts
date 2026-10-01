@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 775e92a9242c0e7096f6bead5c4a99534d98f48c219fae45ae9f0121c4854edf
-// 70 capabilities, 504 providers, 1716 typed functions, 20 refused.
+// Manifest version: aaf653aa6316bb8458956afebec7803f104ca1b9a53ec2e59ae8de9c6ce2e41a
+// 70 capabilities, 505 providers, 1723 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5866,6 +5866,13 @@ interface AmazonCart {
      * relay at amazon.com/ap/signin handles authentication.
      */
     listOrders(opts?: ConnectionOption): Promise<unknown[]>;
+
+    /**
+     * Where a specific order's package is and when it is due — the follow-up read after
+     * listOrders. Requires the caller to be signed in to their own Amazon account; the relay at
+     * amazon.com/ap/signin handles authentication.
+     */
+    trackShipment(orderId: string, opts?: ConnectionOption): Promise<unknown[]>;
 
     /**
      * Read what is in the cart — no account needed, since Amazon's guest cart is a real anonymous
@@ -18216,6 +18223,53 @@ interface fedexRatedShipment {
   }
 }
 
+declare namespace BowmarkProvider_ferguson {
+  // ── Ferguson — the unit's own declarations, verbatim ──
+interface fergusonProduct {
+  productId: string;          // Ferguson's own id, the <id>.html in the url
+  title: string;              // url slug as words: product title + manufacturer part number
+  url: string;
+  lastModified: string | null;
+}
+interface fergusonBranch {
+  state: string;              // "VA"
+  city: string;               // "falls church"
+  type: string;               // "plumbingpvf" | "hvac" | "waterworks" | "warehouse" | "mechanicalindustrial" | "firefabrication" | …
+  branchNumber: string;
+  url: string;
+}
+interface FindProductsArgs {
+  query: string;              // every word must appear in the title, e.g. "kohler pot filler"
+  limit?: number;             // default 20, max 100
+}
+interface FindBranchesArgs {
+  state: string;              // two-letter US code
+  city?: string;
+  type?: string;              // substring of the branch line, e.g. "hvac"
+}
+
+  /**
+   * Ferguson (ferguson.com), the US plumbing, HVAC, waterworks and PVF supply distributor — find
+   * products in its catalog by keyword and list its branches by state, city and line, off the
+   * site's own sitemaps. No prices: every product page is behind an Akamai hard deny.
+   */
+  interface Unit {
+    /**
+     * Finds Ferguson catalog products whose title contains every word of `query` — product id,
+     * title (with manufacturer part number) and url — by scanning ferguson.com's own product
+     * sitemaps (~110k products). No price or stock. Slow-ish: a rare query reads several MB of
+     * sitemap.
+     */
+    findProducts(args: FindProductsArgs): Promise<fergusonProduct[]>;
+
+    /**
+     * Lists Ferguson branches in a US state, optionally narrowed by city and branch line
+     * (plumbing/PVF, HVAC, waterworks, warehouse, …), off ferguson.com's own store sitemap.
+     */
+    findBranches(args: FindBranchesArgs): Promise<fergusonBranch[]>;
+  }
+}
+
 declare namespace BowmarkProvider_fieldstonehomes {
   // ── Fieldstone Homes — the unit's own declarations, verbatim ──
 interface FieldstonehomesSearchArgs { city?: string; homeType?: string; minPrice?: number; maxPrice?: number; minBeds?: number; minSqft?: number; }
@@ -18924,6 +18978,13 @@ interface FomoCandle {
      * statically-linked JS.
      */
     getDevHolders(address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<unknown[]>;
+
+    /**
+     * Returns just the ids of everyone the signed-in trader follows, in one call with no paging —
+     * the cheap membership test behind 'do I already follow this person', useful before paging
+     * getFollowing for full profiles. Takes no arguments.
+     */
+    getFollowingIds(opts?: ConnectionOption): Promise<string[]>;
   }
 }
 
@@ -41294,6 +41355,15 @@ interface GuardianGetContributorArticlesArgs {
 interface GuardianListOpinionPiecesArgs {
   limit?: number;
 }
+interface GuardianListReviewsArgs {
+  /** A category path for reviews: "books", "film", "music", "stage", "art", or similar. Default: "books". */
+  category?: string;
+  limit?: number;
+}
+interface GuardianGetReviewArgs {
+  /** The review article's URL or the path from listReviews, e.g. "books/2026/sep/30/...". */
+  reviewUrlOrId: string;
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -41361,6 +41431,19 @@ interface GuardianListOpinionPiecesArgs {
      * standfirst, byline and publish time.
      */
     listOpinionPieces(args?: GuardianListOpinionPiecesArgs): Promise<GuardianListArticlesResult>;
+
+    /**
+     * The latest reviews from The Guardian by category (books, film, music, stage, art) — newest
+     * first, with headline, url, standfirst, byline and publish time. Default category is 'books'.
+     */
+    listReviews(args?: GuardianListReviewsArgs): Promise<GuardianListArticlesResult>;
+
+    /**
+     * The full text of one Guardian review article: headline, standfirst, byline, publish time,
+     * section, tags and the body paragraph by paragraph. Takes a theguardian.com URL or the path
+     * listReviews returns as `id`.
+     */
+    getReview(args: GuardianGetReviewArgs): Promise<GuardianArticle>;
   }
 }
 
@@ -42822,6 +42905,20 @@ interface Dividends {
   consecutiveYearsPaid?: number;
 }
 
+interface MarketOverview {
+  indices: {
+    symbol: string;
+    name: string;
+    type: string;
+    price: number;
+    change?: number;
+    changePercent?: number;
+    high?: number;
+    low?: number;
+    open?: number;
+  }[];
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -42925,6 +43022,14 @@ interface Dividends {
      * an error; an unknown or delisted pair returns a caller-fixable error.
      */
     getDividends(exchange: string, symbol: string): Promise<Dividends>;
+
+    /**
+     * Gets an overview of major market indices — NASDAQ Composite, S&P 500, Russell 2000 and
+     * NASDAQ-100 — with their current prices, changes and OHLC data. Returns each index' symbol,
+     * name, type, price, and change/changePercent against the previous close, along with open,
+     * high and low prices. Takes no arguments — it always returns the same set of major indices.
+     */
+    getMarketOverview(): Promise<MarketOverview>;
   }
 }
 
@@ -49069,6 +49174,7 @@ interface BowmarkProviders {
   facerealityskincare: BowmarkProvider_facerealityskincare.Unit;
   fbsappliance: BowmarkProvider_fbsappliance.Unit;
   fedex: BowmarkProvider_fedex.Unit;
+  ferguson: BowmarkProvider_ferguson.Unit;
   fieldstonehomes: BowmarkProvider_fieldstonehomes.Unit;
   firstamericahomes: BowmarkProvider_firstamericahomes.Unit;
   firstdibs: BowmarkProvider_firstdibs.Unit;
