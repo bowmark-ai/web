@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2aade5a6bba54a2618d1d36dccc064cb4874af4850545fd5efc6b5c720868a1a
-# 69 capabilities, 501 providers, 1663 typed functions, 20 refused.
+# Manifest version: 19479547d8af30692a097c278a2a5e25a8f3e719ec7f7732a3090398fc09db0c
+# 69 capabilities, 501 providers, 1665 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3962,6 +3962,19 @@ class Prv_apple_bookGeniusBarAppointment_request_In(TypedDict):
 
 class Prv_apple_AppleGeniusBarBookingResult_Out(TypedDict):
     raw: Any
+
+class Prv_apple_AppleAddToBagRequest_In(TypedDict):
+    part: str
+    atbtoken: str
+    apiKey: str
+    storefront: str
+    options: NotRequired[Mapping[str, Any]]
+
+class Prv_apple_AppleAddToBagResult_Out(TypedDict):
+    addedToBag: bool
+    bagQuantity: NotRequired[float]
+    errorCode: NotRequired[str]
+    message: NotRequired[str]
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -8602,6 +8615,12 @@ class Prv_dell_DellForumThread_Out(TypedDict):
     postCount: float
 
 class Prv_dell_DellMyOrdersPage_Out(TypedDict):
+    raw: str
+
+class Prv_dell_GetOrderDetailsArgs_In(TypedDict):
+    orderId: str
+
+class Prv_dell_DellOrderDetailPage_Out(TypedDict):
     raw: str
 
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
@@ -28884,6 +28903,16 @@ class Prv_apple(Protocol):
         confirmation response rather than invented fields.
         """
 
+    async def addToBag(self, request: Prv_apple_AppleAddToBagRequest_In, /) -> Prv_apple_AppleAddToBagResult_Out:
+        """Add a product to the shopping bag (cart) by part number — NEEDS THE CALLER'S OWN BAG
+        WIDGET SESSION. A THIN GET to /shop/pdpAddToBag, the Bag widget's own API: `part` is the
+        product's part number, `atbtoken` is the widget's bearer read off the `as_atb` cookie,
+        `apiKey` is `config.storeApiKey` and `storefront` is `config.storefront` — all four
+        baked into the running buy page at load time and read off the caller's own browser
+        session, never computed or captured here. Returns the site's own `{addedToBag,
+        bagQuantity, errorCode, message}` envelope verbatim.
+        """
+
 class Prv_aquaphoenixsci(Protocol):
     """AquaPhoenix Scientific's real catalog storefront (water/chemical testing and
     feed-control equipment) — browse a category for real SKUs and prices, and read one
@@ -32006,6 +32035,11 @@ class Prv_dell(Protocol):
     async def listMyOrders(self, opts: ConnectionOption | None = None, /) -> Prv_dell_DellMyOrdersPage_Out:
         """Retrieves the signed-in caller's Dell order history page. Needs a Dell sign-in — call
         this only after the caller has connected their Dell account.
+        """
+
+    async def getOrderDetails(self, args: Prv_dell_GetOrderDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dell_DellOrderDetailPage_Out:
+        """Retrieves the signed-in caller's detail page for one Dell order by order number. Needs a
+        Dell sign-in — call this only after the caller has connected their Dell account.
         """
 
 class Prv_deltadentalma(Protocol):

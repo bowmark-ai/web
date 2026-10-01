@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2aade5a6bba54a2618d1d36dccc064cb4874af4850545fd5efc6b5c720868a1a
-// 69 capabilities, 501 providers, 1681 typed functions, 20 refused.
+// Manifest version: 19479547d8af30692a097c278a2a5e25a8f3e719ec7f7732a3090398fc09db0c
+// 69 capabilities, 501 providers, 1683 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6968,6 +6968,19 @@ interface AppleGeniusBarBookingRequest {
 interface AppleGeniusBarBookingResult {
   raw: unknown;
 }
+interface AppleAddToBagRequest {
+  part: string;
+  atbtoken: string;
+  apiKey: string;
+  storefront: string;
+  options?: Record<string, unknown>;
+}
+interface AppleAddToBagResult {
+  addedToBag: boolean;
+  bagQuantity?: number;
+  errorCode?: string;
+  message?: string;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -7239,6 +7252,17 @@ interface AppleGeniusBarBookingResult {
      * rather than invented fields.
      */
     bookGeniusBarAppointment(request: { locale: string; authToken: string; body: Record<string, unknown> }, opts?: ConnectionOption): Promise<AppleGeniusBarBookingResult>;
+
+    /**
+     * Add a product to the shopping bag (cart) by part number — NEEDS THE CALLER'S OWN BAG WIDGET
+     * SESSION. A THIN GET to /shop/pdpAddToBag, the Bag widget's own API: `part` is the product's
+     * part number, `atbtoken` is the widget's bearer read off the `as_atb` cookie, `apiKey` is
+     * `config.storeApiKey` and `storefront` is `config.storefront` — all four baked into the
+     * running buy page at load time and read off the caller's own browser session, never computed
+     * or captured here. Returns the site's own `{addedToBag, bagQuantity, errorCode, message}`
+     * envelope verbatim.
+     */
+    addToBag(request: AppleAddToBagRequest): Promise<AppleAddToBagResult>;
   }
 }
 
@@ -15656,6 +15680,14 @@ interface DellMyOrdersPage {
   raw: string;  // the signed-in My Account orders page's raw HTML — no captured session exists yet to parse rows against
 }
 
+interface GetOrderDetailsArgs {
+  orderId: string;
+}
+
+interface DellOrderDetailPage {
+  raw: string;  // the signed-in order detail page's raw HTML — same reason as DellMyOrdersPage
+}
+
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -15706,6 +15738,12 @@ interface DellMyOrdersPage {
      * only after the caller has connected their Dell account.
      */
     listMyOrders(opts?: ConnectionOption): Promise<DellMyOrdersPage>;
+
+    /**
+     * Retrieves the signed-in caller's detail page for one Dell order by order number. Needs a
+     * Dell sign-in — call this only after the caller has connected their Dell account.
+     */
+    getOrderDetails(args: GetOrderDetailsArgs, opts?: ConnectionOption): Promise<DellOrderDetailPage>;
   }
 }
 

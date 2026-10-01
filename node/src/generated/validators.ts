@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2aade5a6bba54a2618d1d36dccc064cb4874af4850545fd5efc6b5c720868a1a
-// 1663 checked, 20 unchecked.
+// Manifest version: 19479547d8af30692a097c278a2a5e25a8f3e719ec7f7732a3090398fc09db0c
+// 1665 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2aade5a6bba54a2618d1d36dccc064cb4874af4850545fd5efc6b5c720868a1a",
+  "version": "19479547d8af30692a097c278a2a5e25a8f3e719ec7f7732a3090398fc09db0c",
   "units": {
     "booking_links": {
       "defs": {
@@ -7470,7 +7470,51 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.apple": {
-      "defs": {},
+      "defs": {
+        "AppleAddToBagRequest": {
+          "k": "object",
+          "props": [
+            {
+              "name": "part",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "atbtoken",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "apiKey",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "storefront",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "options",
+              "schema": {
+                "k": "record",
+                "value": {
+                  "k": "any"
+                }
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
       "functions": {
         "search": [
           {
@@ -7962,6 +8006,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "addToBag": [
+          {
+            "name": "request",
+            "schema": {
+              "k": "ref",
+              "name": "AppleAddToBagRequest"
+            },
+            "optional": false
           }
         ]
       }
@@ -14900,6 +14954,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.dell": {
       "defs": {
+        "GetOrderDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "orderId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetProductArgs": {
           "k": "object",
           "props": [
@@ -14994,6 +15060,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listMyOrders": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getOrderDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetOrderDetailsArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
