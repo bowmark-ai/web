@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f8476cc59c74ab2a2b309d39716de745305a078ed419de4f5dbd2344d42d4144
-# 70 capabilities, 501 providers, 1668 typed functions, 20 refused.
+# Manifest version: 1f411eeb016e73fffc9d5286d5cfd63216b6dc77d8ba2ceddc7a2f3e8bdb0062
+# 70 capabilities, 501 providers, 1670 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4943,6 +4943,19 @@ class Prv_bbc_BbcListHeadlinesResult_Out(TypedDict):
     headlines: list[Prv_bbc_BbcHeadline_Out]
 
 class Prv_bbc_BbcHeadline_Out(TypedDict):
+    headline: str
+    summary: str
+    url: str
+    articleId: str
+    image: NotRequired[str]
+    section: str
+    lastUpdated: NotRequired[str]
+
+class Prv_bbc_BbcListMostReadResult_Out(TypedDict):
+    headlines: list[Prv_bbc_BbcMostReadEntry_Out]
+
+class Prv_bbc_BbcMostReadEntry_Out(TypedDict):
+    rank: float
     headline: str
     summary: str
     url: str
@@ -20218,6 +20231,18 @@ class Prv_reuters_ReutersArticle_Out(TypedDict):
     tickers: list[str]
     image: str | None
 
+class Prv_reuters_SearchArticlesArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+    orderBy: NotRequired[Literal["newest"] | Literal["oldest"] | Literal["relevance"]]
+
+class Prv_reuters_ReutersSearchResult_Out(TypedDict):
+    headline: str
+    url: str
+    section: str | None
+    publishedAt: str | None
+    image: str | None
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -29576,6 +29601,11 @@ class Prv_bbc(Protocol):
         headline, summary, url, article id, image, section label and last-updated time. Takes a
         section path from listSections (default the bbc.com front page) — works for news,
         business, culture, travel and sport section fronts alike.
+        """
+
+    async def listMostRead(self, /) -> Prv_bbc_BbcListMostReadResult_Out:
+        """The "Most read" list the BBC shows on its news front page: rank, headline, summary, url,
+        article id, image and last-updated time, in the site's own order.
         """
 
     async def searchArticles(self, args: Prv_bbc_searchArticles_args_In, /) -> Prv_bbc_BbcSearchArticlesResult_Out:
@@ -40290,6 +40320,12 @@ class Prv_reuters(Protocol):
         """Read one Reuters article in full — headline, body paragraphs, authors, published and
         updated time, section, tags and related tickers (RICs), and the lead image. Takes an
         article URL from any list or search function.
+        """
+
+    async def searchArticles(self, args: Prv_reuters_SearchArticlesArgs_In, /) -> list[Prv_reuters_ReutersSearchResult_Out]:
+        """Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed
+        rate decision") — headline, url, section and published time, newest, oldest or most
+        relevant first.
         """
 
 class Prv_revisionskincare(Protocol):

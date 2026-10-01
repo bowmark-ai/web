@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: f8476cc59c74ab2a2b309d39716de745305a078ed419de4f5dbd2344d42d4144
-// 1668 checked, 20 unchecked.
+// Manifest version: 1f411eeb016e73fffc9d5286d5cfd63216b6dc77d8ba2ceddc7a2f3e8bdb0062
+// 1670 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "f8476cc59c74ab2a2b309d39716de745305a078ed419de4f5dbd2344d42d4144",
+  "version": "1f411eeb016e73fffc9d5286d5cfd63216b6dc77d8ba2ceddc7a2f3e8bdb0062",
   "units": {
     "booking_links": {
       "defs": {
@@ -9452,6 +9452,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
+        "listMostRead": [],
         "searchArticles": [
           {
             "name": "args",
@@ -38254,6 +38255,46 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "orderBy",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "oldest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -38363,6 +38404,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetArticleArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArticlesArgs"
             },
             "optional": false
           }

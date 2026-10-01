@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f8476cc59c74ab2a2b309d39716de745305a078ed419de4f5dbd2344d42d4144
-// 70 capabilities, 501 providers, 1686 typed functions, 20 refused.
+// Manifest version: 1f411eeb016e73fffc9d5286d5cfd63216b6dc77d8ba2ceddc7a2f3e8bdb0062
+// 70 capabilities, 501 providers, 1688 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8823,6 +8823,21 @@ interface BbcListHeadlinesResult {
   headlines: BbcHeadline[]; // stories in the section's own order
 }
 
+interface BbcMostReadEntry {
+  rank: number;      // 1-based, the site's own order
+  headline: string;
+  summary: string;
+  url: string;
+  articleId: string;
+  image?: string;
+  section: string;
+  lastUpdated?: string;
+}
+
+interface BbcListMostReadResult {
+  headlines: BbcMostReadEntry[]; // ranked, the site's own order
+}
+
 interface BbcSearchResultRow {
   headline: string;
   summary: string;
@@ -9056,6 +9071,12 @@ interface bbcRow {
      * culture, travel and sport section fronts alike.
      */
     listHeadlines(args?: { path?: string }): Promise<BbcListHeadlinesResult>;
+
+    /**
+     * The "Most read" list the BBC shows on its news front page: rank, headline, summary, url,
+     * article id, image and last-updated time, in the site's own order.
+     */
+    listMostRead(): Promise<BbcListMostReadResult>;
 
     /**
      * Search the BBC the way its search box does: headline, summary, url, article id, section and
@@ -37126,6 +37147,18 @@ interface ReutersArticle {
 interface GetArticleArgs {
   url: string;                   // a reuters.com article URL, from any list or search function
 }
+interface ReutersSearchResult {
+  headline: string;
+  url: string;                   // pass to getArticle
+  section: string | null;        // the kicker's first name, e.g. "World", "Business"
+  publishedAt: string | null;
+  image: string | null;
+}
+interface SearchArticlesArgs {
+  query: string;                 // what a person would type, e.g. "oil prices"
+  limit?: number;                 // 1-100, default 20
+  orderBy?: "newest" | "oldest" | "relevance"; // default "newest"
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -37206,6 +37239,13 @@ interface GetArticleArgs {
      * from any list or search function.
      */
     getArticle(args: GetArticleArgs): Promise<ReutersArticle>;
+
+    /**
+     * Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed rate
+     * decision") — headline, url, section and published time, newest, oldest or most relevant
+     * first.
+     */
+    searchArticles(args: SearchArticlesArgs): Promise<ReutersSearchResult[]>;
   }
 }
 
@@ -47700,7 +47740,7 @@ interface ShopifyCart {
      * current prices and per-variant stock. Goes through the store's OWN MCP server, so the
      * ranking is the store's own. Its variants[].id is the only thing the cart takes.
      */
-    search(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number }): Promise<ShopifyProduct[]>;
+    search(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number; withSaleEvidence?: boolean }): Promise<ShopifyProduct[]>;
 
     /**
      * Reads one product by handle — every variant, its exact price, its SKU and whether that
@@ -48126,7 +48166,7 @@ interface ShopifyCart {
      * current prices and per-variant stock. Goes through the store's OWN MCP server, so the
      * ranking is the store's own. Its variants[].id is the only thing the cart takes.
      */
-    search(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number }): Promise<ShopifyProduct[]>;
+    search(query: string, opts?: { productType?: string; inStockOnly?: boolean; limit?: number; withSaleEvidence?: boolean }): Promise<ShopifyProduct[]>;
 
     /**
      * Reads one product by handle — every variant, its exact price, its SKU and whether that

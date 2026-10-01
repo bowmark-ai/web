@@ -248,7 +248,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | 🟢 |
 | `bbc.listFollowedPodcasts` | bbc.com | The podcasts and series the signed-in reader follows. | ⚪ |
 | `bbc.listHeadlines` | bbc.com | The stories a BBC section page shows right now, in the page's own order and grouping… | 🟢 |
-| `bbc.listMostRead` | bbc.com | The "Most read" list the BBC shows beside its stories: rank, headline, url and article… | ⚪ |
+| `bbc.listMostRead` | bbc.com | The "Most read" list the BBC shows on its news front page: rank, headline, summary… | 🟢 |
 | `bbc.listNewsletters` | bbc.com | The BBC newsletters a reader can sign up to: name, description, frequency and… | ⚪ |
 | `bbc.listPodcasts` | bbc.com | The podcasts and audio series the BBC's audio hub (/audio) lists: title, description… | ⚪ |
 | `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
@@ -1958,7 +1958,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.listVideos` | www.reuters.com | Reuters videos, newest first — title, description, duration, published time, thumbnail… | 🟢 |
 | `reuters.removeSavedArticle` | www.reuters.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `reuters.saveArticle` | www.reuters.com | Save a Reuters article to the signed-in reader's saved list. | ⚪ |
-| `reuters.searchArticles` | www.reuters.com | Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed… | ⚪ |
+| `reuters.searchArticles` | www.reuters.com | Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed… | 🟢 |
 | `reuters.searchCompanies` | www.reuters.com | Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF"… | ⚪ |
 | `reuters.subscribeNewsletter` | www.reuters.com | Sign the signed-in reader up to a Reuters newsletter. | ⚪ |
 | `reuters.unfollowTopic` | www.reuters.com | Stop following a topic in the signed-in reader's My News. | ⚪ |
