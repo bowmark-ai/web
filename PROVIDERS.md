@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2582 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2585 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -294,7 +294,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bigyellow.getQuote` | bigyellow.co.uk | Returns a storage unit quote with pricing based on location, unit size and move-in date. | ⚪ |
 | `bing.define` | bing.com | Looks up a word in Bing's own dictionary panel (bing.com/dict/search) and returns its… | 🟡 |
 | `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | 🟡 |
-| `bing.listSaves` | bing.com | Lists the pages, searches and images the signed-in caller has saved to Bing… | ⚪ |
+| `bing.listSaves` | bing.com | Lists the pages, searches and images the signed-in caller has saved to Bing… | 🟢 |
 | `bing.saveResult` | bing.com | Adds a page, search or image to the signed-in caller's Bing Collections — the write… | ⚪ |
 | `bing.searchImages` | bing.com | Searches Bing's image index the way bing.com/images/search does and returns each hit's… | 🟡 |
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟢 |
@@ -1321,6 +1321,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `insurify.listInsightsReports` | insurify.com | Returns the Insurify Insights reports the site publishes — the index of its original… | 🟢 |
 | `insurify.listVehicles` | insurify.com | Returns the makes and models Insurify publishes insurance rates for — the index that… | ⚪ |
 | `insurify.rankCarriers` | insurify.com | Returns one of Insurify's two national ranked shortlists of car insurance companies —… | 🟢 |
+| `intactinsurance.getCommercialPropertyQuote` | intactinsurance.com | Quote a commercial property premium for a described risk. | ⚪ |
+| `intactinsurance.getSolution` | intactinsurance.com | Returns one Intact Insurance commercial property or specialty product page: coverage… | 🟢 |
+| `intactinsurance.listSolutions` | intactinsurance.com | Lists Intact Insurance's commercial and specialty insurance products (commercial… | 🟢 |
 | `interiordefine.addToCart` | interiordefine.com | Hands the shopper a link that opens their exact configuration on Interior Define's own… | 🟢 |
 | `interiordefine.getConfigurator` | interiordefine.com | Reads one product's whole customizer: every option category (fabric color, leg finish… | 🟢 |
 | `interiordefine.priceConfiguration` | interiordefine.com | Prices a specific configuration (a choice per option category) against… | 🟢 |
@@ -1633,7 +1636,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getMyRating` | cooking.nytimes.com | Reads the signed-in reader's own rating for a recipe. | ⚪ |
 | `nyt_cooking.getRecipe` | cooking.nytimes.com | Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors… | 🟢 |
 | `nyt_cooking.getRecipeNotes` | cooking.nytimes.com | Reads a recipe's reader notes — the site's "Top Comments" (sort: "helpful", the… | 🟢 |
-| `nyt_cooking.getRelatedRecipes` | cooking.nytimes.com | Reads the related-recipe carousel the site itself shows on a recipe page. | ⚪ |
+| `nyt_cooking.getRelatedRecipes` | cooking.nytimes.com | Reads a recipe's own "More like this" carousels (e.g. "Trending On Cooking") off its… | 🟢 |
 | `nyt_cooking.getSavedRecipes` | cooking.nytimes.com | Lists the signed-in reader's saved recipes (their Recipe Box). Needs the CALLER's own… | ⚪ |
 | `nyt_cooking.getSeasonalGuide` | cooking.nytimes.com | Reads a seasonal guide page (e.g. "/thanksgiving", "/christmas") and its featured… | 🟢 |
 | `nyt_cooking.getTopic` | cooking.nytimes.com | Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes. | 🟢 |

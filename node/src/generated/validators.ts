@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1f411eeb016e73fffc9d5286d5cfd63216b6dc77d8ba2ceddc7a2f3e8bdb0062
-// 1670 checked, 20 unchecked.
+// Manifest version: 001f83e545f21e432466d0dcb8a05a3e745facd7410b1cbd51b34e23d6fe8bfe
+// 1674 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1f411eeb016e73fffc9d5286d5cfd63216b6dc77d8ba2ceddc7a2f3e8bdb0062",
+  "version": "001f83e545f21e432466d0dcb8a05a3e745facd7410b1cbd51b34e23d6fe8bfe",
   "units": {
     "booking_links": {
       "defs": {
@@ -10217,6 +10217,24 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "listSaves": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -24997,6 +25015,21 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.intactinsurance": {
+      "defs": {},
+      "functions": {
+        "listSolutions": [],
+        "getSolution": [
+          {
+            "name": "slugOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.interiordefine": {
       "defs": {},
       "functions": {
@@ -30415,6 +30448,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "NytCookingGetRelatedRecipesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "id",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "string"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "NytCookingGetSeasonalGuideArgs": {
           "k": "object",
           "props": [
@@ -30552,6 +30605,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "NytCookingGetRecipeNotesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getRelatedRecipes": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "NytCookingGetRelatedRecipesArgs"
             },
             "optional": false
           }

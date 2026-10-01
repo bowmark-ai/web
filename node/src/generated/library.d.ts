@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1f411eeb016e73fffc9d5286d5cfd63216b6dc77d8ba2ceddc7a2f3e8bdb0062
-// 70 capabilities, 501 providers, 1688 typed functions, 20 refused.
+// Manifest version: 001f83e545f21e432466d0dcb8a05a3e745facd7410b1cbd51b34e23d6fe8bfe
+// 70 capabilities, 502 providers, 1692 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9852,6 +9852,16 @@ interface BingMapsFindPlaceResult {
   warnings: string[];
 }
 
+interface BingSavedItem {
+  title: string;
+  url: string;
+}
+
+interface BingListSavesResult {
+  items: BingSavedItem[];
+  warnings: string[];
+}
+
   /**
    * General web and news search over Bing's index, read off Bing's own RSS output — ten ranked
    * results per query with title, destination URL, snippet and date. Keyless, browserless, ~5 KB
@@ -9948,6 +9958,14 @@ interface BingMapsFindPlaceResult {
      * name needs before any maps read that requires a location.
      */
     findPlace(query: string): Promise<BingMapsFindPlaceResult>;
+
+    /**
+     * Lists the pages, searches and images the signed-in caller has saved to Bing Collections
+     * (bing.com/saves) — the browser-parity read for an account feature a signed-in visitor uses
+     * every day. Needs the caller's own Bing sign-in through the relay; Bowmark never creates a
+     * Microsoft account. Returns an empty list for an honestly empty collection, same as the site.
+     */
+    listSaves(opts?: ConnectionOption): Promise<BingListSavesResult>;
   }
 }
 
@@ -26227,6 +26245,41 @@ interface insurifyCarrierUserReviews {
   }
 }
 
+declare namespace BowmarkProvider_intactinsurance {
+  // ── Intact Insurance — the unit's own declarations, verbatim ──
+interface SolutionSummary {
+  slug: string;
+  url: string;
+}
+interface SolutionSection {
+  heading: string | null;
+  items: string[];
+}
+interface Solution {
+  slug: string;
+  url: string;
+  title: string;
+  description: string | null;
+  sections: SolutionSection[];
+  contacts: { name: string; role: string | null }[];
+}
+
+  /**
+   * Intact Insurance commercial and specialty lines (commercial property, marine, surety…): what
+   * each product covers, its capacity and target industries. No quoting — that is broker-only.
+   */
+  interface Unit {
+    /** Lists Intact Insurance's commercial and specialty insurance products (slug + URL). */
+    listSolutions(): Promise<SolutionSummary[]>;
+
+    /**
+     * Returns one Intact commercial insurance product — coverage, capacity/limits, target
+     * industries, underwriting contacts. Defaults to commercial (specialty) property.
+     */
+    getSolution(slugOrUrl?: string): Promise<Solution>;
+  }
+}
+
 declare namespace BowmarkProvider_interiordefine {
   // ── Interior Define — the unit's own declarations, verbatim ──
 // Interior Define's OWN shapes — not a capability contract.
@@ -32693,6 +32746,28 @@ interface NytCookingRecipeNotes {
   warnings?: string[];
 }
 
+interface NytCookingGetRelatedRecipesArgs {
+  id: number | string;
+}
+
+interface NytCookingRelatedRecipe {
+  id: string;
+  title: string;
+  url: string;
+  rating: { average: number; count: number } | null;
+  totalTimeDisplay: string | null;
+}
+
+interface NytCookingRelatedRecipeCarousel {
+  title: string;
+  recipes: NytCookingRelatedRecipe[];
+}
+
+interface NytCookingRelatedRecipes {
+  carousels: NytCookingRelatedRecipeCarousel[];
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -32748,6 +32823,12 @@ interface NytCookingRecipeNotes {
      * "Newest" (sort: "recent") feed, plus the total note count.
      */
     getRecipeNotes(args: NytCookingGetRecipeNotesArgs): Promise<NytCookingRecipeNotes>;
+
+    /**
+     * Reads a recipe's own "More like this" carousels (e.g. "Trending On Cooking") off its page,
+     * each with a title and its recipe rows.
+     */
+    getRelatedRecipes(args: NytCookingGetRelatedRecipesArgs): Promise<NytCookingRelatedRecipes>;
   }
 }
 
@@ -48522,6 +48603,7 @@ interface BowmarkProviders {
   inspirecommunities: BowmarkProvider_inspirecommunities.Unit;
   instagram: BowmarkProvider_instagram.Unit;
   insurify: BowmarkProvider_insurify.Unit;
+  intactinsurance: BowmarkProvider_intactinsurance.Unit;
   interiordefine: BowmarkProvider_interiordefine.Unit;
   iproyal: BowmarkProvider_iproyal.Unit;
   islllc: BowmarkProvider_islllc.Unit;

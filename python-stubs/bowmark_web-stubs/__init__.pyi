@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1f411eeb016e73fffc9d5286d5cfd63216b6dc77d8ba2ceddc7a2f3e8bdb0062
-# 70 capabilities, 501 providers, 1670 typed functions, 20 refused.
+# Manifest version: 001f83e545f21e432466d0dcb8a05a3e745facd7410b1cbd51b34e23d6fe8bfe
+# 70 capabilities, 502 providers, 1674 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5521,6 +5521,14 @@ class Prv_bing_BingMapPlace_Out(TypedDict):
     latitude: float
     longitude: float
     category: str | None
+
+class Prv_bing_BingListSavesResult_Out(TypedDict):
+    items: list[Prv_bing_BingSavedItem_Out]
+    warnings: list[str]
+
+class Prv_bing_BingSavedItem_Out(TypedDict):
+    title: str
+    url: str
 
 class Prv_bionicpo_listInquiryServices_return_Out(TypedDict):
     services: list[Prv_bionicpo_InquiryService_Out]
@@ -14000,6 +14008,26 @@ class Prv_insurify_insurifyRankedCarrier_Out(TypedDict):
     monthlyLiabilityOnly: float | None
     monthlyFullCoverage: float | None
 
+class Prv_intactinsurance_SolutionSummary_Out(TypedDict):
+    slug: str
+    url: str
+
+class Prv_intactinsurance_Solution_Out(TypedDict):
+    slug: str
+    url: str
+    title: str
+    description: str | None
+    sections: list[Prv_intactinsurance_SolutionSection_Out]
+    contacts: list[Prv_intactinsurance_Solution_Out_contacts_item_Out]
+
+class Prv_intactinsurance_SolutionSection_Out(TypedDict):
+    heading: str | None
+    items: list[str]
+
+class Prv_intactinsurance_Solution_Out_contacts_item_Out(TypedDict):
+    name: str
+    role: str | None
+
 class Prv_interiordefine_InteriorDefineProductSummary_Out(TypedDict):
     sku: str
     name: str
@@ -17316,6 +17344,28 @@ class Prv_nyt_cooking_NytCookingRecipeNote_Out(TypedDict):
     text: str
     submittedAt: str
     recommendedCount: float
+
+class Prv_nyt_cooking_NytCookingGetRelatedRecipesArgs_In(TypedDict):
+    id: float | str
+
+class Prv_nyt_cooking_NytCookingRelatedRecipes_Out(TypedDict):
+    carousels: list[Prv_nyt_cooking_NytCookingRelatedRecipeCarousel_Out]
+    warnings: NotRequired[list[str]]
+
+class Prv_nyt_cooking_NytCookingRelatedRecipeCarousel_Out(TypedDict):
+    title: str
+    recipes: list[Prv_nyt_cooking_NytCookingRelatedRecipe_Out]
+
+class Prv_nyt_cooking_NytCookingRelatedRecipe_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    rating: Prv_nyt_cooking_NytCookingRelatedRecipe_Out_rating_u0_Out | None
+    totalTimeDisplay: str | None
+
+class Prv_nyt_cooking_NytCookingRelatedRecipe_Out_rating_u0_Out(TypedDict):
+    average: float
+    count: float
 
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
@@ -29981,6 +30031,14 @@ class Prv_bing(Protocol):
         place name needs before any maps read that requires a location.
         """
 
+    async def listSaves(self, opts: ConnectionOption | None = None, /) -> Prv_bing_BingListSavesResult_Out:
+        """Lists the pages, searches and images the signed-in caller has saved to Bing Collections
+        (bing.com/saves) — the browser-parity read for an account feature a signed-in visitor
+        uses every day. Needs the caller's own Bing sign-in through the relay; Bowmark never
+        creates a Microsoft account. Returns an empty list for an honestly empty collection,
+        same as the site.
+        """
+
 class Prv_bionicpo(Protocol):
     """Query inquiry and service details from BionicPO's services directory."""
 
@@ -36135,6 +36193,20 @@ class Prv_insurify(Protocol):
         `listCarriers`.
         """
 
+class Prv_intactinsurance(Protocol):
+    """Intact Insurance commercial and specialty lines (commercial property, marine, surety…):
+    what each product covers, its capacity and target industries. No quoting — that is
+    broker-only.
+    """
+
+    async def listSolutions(self, /) -> list[Prv_intactinsurance_SolutionSummary_Out]:
+        """Lists Intact Insurance's commercial and specialty insurance products (slug + URL)."""
+
+    async def getSolution(self, slugOrUrl: str | None = None, /) -> Prv_intactinsurance_Solution_Out:
+        """Returns one Intact commercial insurance product — coverage, capacity/limits, target
+        industries, underwriting contacts. Defaults to commercial (specialty) property.
+        """
+
 class Prv_interiordefine(Protocol):
     """Interior Define's custom sofa/sectional configurator — search the catalog, read one
     product's full customizer (fabric color, leg finish, dimensions, cushion fill, every
@@ -38455,6 +38527,11 @@ class Prv_nyt_cooking(Protocol):
     async def getRecipeNotes(self, args: Prv_nyt_cooking_NytCookingGetRecipeNotesArgs_In, /) -> Prv_nyt_cooking_NytCookingRecipeNotes_Out:
         """Reads a recipe's reader notes — the site's "Top Comments" (sort: "helpful", the default)
         or "Newest" (sort: "recent") feed, plus the total note count.
+        """
+
+    async def getRelatedRecipes(self, args: Prv_nyt_cooking_NytCookingGetRelatedRecipesArgs_In, /) -> Prv_nyt_cooking_NytCookingRelatedRecipes_Out:
+        """Reads a recipe's own "More like this" carousels (e.g. "Trending On Cooking") off its
+        page, each with a title and its recipe rows.
         """
 
 class Prv_nyt_games(Protocol):
@@ -44286,6 +44363,7 @@ class BowmarkProviders(Protocol):
     inspirecommunities: Prv_inspirecommunities
     instagram: Prv_instagram
     insurify: Prv_insurify
+    intactinsurance: Prv_intactinsurance
     interiordefine: Prv_interiordefine
     iproyal: Prv_iproyal
     islllc: Prv_islllc
