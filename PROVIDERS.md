@@ -2251,7 +2251,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | 🟢 |
 | `tradingview.getOptionChain` | www.tradingview.com | Get option chain data for symbols that have options. | ⚪ |
 | `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | 🟢 |
-| `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | ⚪ |
+| `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | 🟢 |
 | `tradingview.getTechnicalAnalysis` | www.tradingview.com | Get technical analysis signals and ratings for a symbol. | 🟢 |
 | `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | 🟡 |
 | `travelinsured.getPlanQuote` | travelinsured.com | Prices Travel Insured's Essential/Deluxe/Platinum plans for a trip (destination… | ⚪ |
