@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 95a5c929cec88372d369a82273faffdcf64dbebd3cdf29f8148b301461d9f6e0
-# 69 capabilities, 501 providers, 1661 typed functions, 20 refused.
+# Manifest version: 2aade5a6bba54a2618d1d36dccc064cb4874af4850545fd5efc6b5c720868a1a
+# 69 capabilities, 501 providers, 1663 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -17523,6 +17523,18 @@ class Prv_nytimes_NytimesTopicDetail_Out(TypedDict):
     summary: NotRequired[str]
     articles: list[Prv_nytimes_NytimesArticleSummary_Out]
 
+class Prv_nytimes_NytimesLiveBlog_Out(TypedDict):
+    slug: str
+    title: str
+    summary: NotRequired[str]
+    updates: list[Prv_nytimes_NytimesLiveBlogUpdate_Out]
+
+class Prv_nytimes_NytimesLiveBlogUpdate_Out(TypedDict):
+    id: str
+    title: str
+    summary: NotRequired[str]
+    timestamp: str
+
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
     {
@@ -20685,6 +20697,16 @@ class Prv_samsung_SamsungDeal_Out(TypedDict):
     originalPrice: str | None
     salePrice: str | None
     discountPercent: float | None
+    url: str
+    image: str | None
+
+class Prv_samsung_ListCarrierOffersResponse_Out(TypedDict):
+    offers: list[Prv_samsung_SamsungCarrierOffer_Out]
+
+class Prv_samsung_SamsungCarrierOffer_Out(TypedDict):
+    carrier: str
+    deviceName: str
+    offerText: str
     url: str
     image: str | None
 
@@ -38446,6 +38468,11 @@ class Prv_nytimes(Protocol):
         "/spotlight/artificial-intelligence".
         """
 
+    async def getLiveBlog(self, slug: str, limit: float | None = None, /) -> Prv_nytimes_NytimesLiveBlog_Out:
+        """Gets a live blog page's title and updates. Takes a live blog slug like
+        "us-election-2024" or a path like "/live/us-election-2024".
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -40470,6 +40497,12 @@ class Prv_samsung(Protocol):
     async def listDeals(self, args: Prv_samsung_ListDealsArgs_In, /) -> Prv_samsung_ListDealsResponse_Out:
         """What is discounted right now across the whole Samsung store — each deal's name, current
         price, original price, discount percentage, product URL and image.
+        """
+
+    async def listCarrierOffers(self, /) -> Prv_samsung_ListCarrierOffersResponse_Out:
+        """Samsung's own "save up to $X with eligible trade-in on this carrier" promotions — one
+        set of device offers per carrier (Verizon, AT&T, T-Mobile) from /us/offer/carrier/. What
+        a shopper reads before assuming a listed price is what they will actually pay.
         """
 
     async def findStore(self, args: Prv_samsung_FindStoreArgs_In, /) -> Prv_samsung_FindStoreResponse_Out:

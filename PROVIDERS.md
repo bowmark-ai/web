@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2581 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2582 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -137,6 +137,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | 🟢 |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
+| `apple.addToBag` | apple.com | Add a product to the shopping bag (cart) by part number. | 🟢 |
 | `apple.bookGeniusBarAppointment` | apple.com | Submit a Genius Bar / repair reservation's confirmation step — NEEDS THE CALLER SIGNED… | 🟢 |
 | `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number — no… | 🟢 |
 | `apple.compareModels` | apple.com | Put two or more models of the SAME family — Mac, iPhone, iPad or Apple Watch — side by… | 🟢 |
@@ -669,7 +670,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `decksdirect.getProduct` | decksdirect.com | Reads one product's full configurable-option set (e.g. Pack Size, Color) with every… | 🟢 |
 | `decksdirect.priceConfiguration` | decksdirect.com | Resolves a specific configuration (a choice per option group, e.g. { Color: "Havana… | 🟢 |
 | `decksdirect.searchProducts` | decksdirect.com | Searches DecksDirect's decking/railing/hardware catalog by free text and returns each… | 🟢 |
-| `dell.getOrderDetails` | dell.com | Retrieves detailed information about a specific order, including items, pricing, and… | ⚪ |
+| `dell.getOrderDetails` | dell.com | Retrieves detailed information about a specific order, including items, pricing, and… | 🟢 |
 | `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟢 |
 | `dell.getProductDrivers` | dell.com | Searches for and retrieves drivers for a Dell product by service tag or model number. | ⚪ |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves detailed information about a registered Dell product including warranty and… | ⚪ |

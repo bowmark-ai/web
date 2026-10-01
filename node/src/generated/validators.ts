@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 95a5c929cec88372d369a82273faffdcf64dbebd3cdf29f8148b301461d9f6e0
-// 1661 checked, 20 unchecked.
+// Manifest version: 2aade5a6bba54a2618d1d36dccc064cb4874af4850545fd5efc6b5c720868a1a
+// 1663 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "95a5c929cec88372d369a82273faffdcf64dbebd3cdf29f8148b301461d9f6e0",
+  "version": "2aade5a6bba54a2618d1d36dccc064cb4874af4850545fd5efc6b5c720868a1a",
   "units": {
     "booking_links": {
       "defs": {
@@ -30827,6 +30827,22 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getLiveBlog": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -39335,6 +39351,7 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "listCarrierOffers": [],
         "findStore": [
           {
             "name": "args",

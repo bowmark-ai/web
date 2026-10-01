@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 95a5c929cec88372d369a82273faffdcf64dbebd3cdf29f8148b301461d9f6e0
-// 69 capabilities, 501 providers, 1679 typed functions, 20 refused.
+// Manifest version: 2aade5a6bba54a2618d1d36dccc064cb4874af4850545fd5efc6b5c720868a1a
+// 69 capabilities, 501 providers, 1681 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -32859,6 +32859,18 @@ interface NytimesTopicDetail {
   summary?: string;
   articles: NytimesArticleSummary[];
 }
+interface NytimesLiveBlogUpdate {
+  id: string;
+  title: string;
+  summary?: string;
+  timestamp: string;
+}
+interface NytimesLiveBlog {
+  slug: string;
+  title: string;
+  summary?: string;
+  updates: NytimesLiveBlogUpdate[];
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -32920,6 +32932,12 @@ interface NytimesTopicDetail {
      * "/spotlight/artificial-intelligence".
      */
     getTopicArticles(topic: string, limit?: number, offset?: number): Promise<NytimesTopicDetail>;
+
+    /**
+     * Gets a live blog page's title and updates. Takes a live blog slug like "us-election-2024" or
+     * a path like "/live/us-election-2024".
+     */
+    getLiveBlog(slug: string, limit?: number): Promise<NytimesLiveBlog>;
   }
 }
 
@@ -37936,6 +37954,20 @@ interface ListDealsResponse {
   deals: SamsungDeal[];
 }
 
+interface ListCarrierOffersArgs {}
+
+interface SamsungCarrierOffer {
+  carrier: string;
+  deviceName: string;
+  offerText: string;
+  url: string;
+  image: string | null;
+}
+
+interface ListCarrierOffersResponse {
+  offers: SamsungCarrierOffer[];
+}
+
 interface FindStoreArgs {
   zip?: string; // 5-digit US zip — EITHER this OR city+state, never both
   city?: string;
@@ -38075,6 +38107,13 @@ interface CheckWarrantyStatusResponse {
      * price, original price, discount percentage, product URL and image.
      */
     listDeals(args: ListDealsArgs): Promise<ListDealsResponse>;
+
+    /**
+     * Samsung's own "save up to $X with eligible trade-in on this carrier" promotions — one set of
+     * device offers per carrier (Verizon, AT&T, T-Mobile) from /us/offer/carrier/. What a shopper
+     * reads before assuming a listed price is what they will actually pay.
+     */
+    listCarrierOffers(): Promise<ListCarrierOffersResponse>;
 
     /**
      * Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not a
