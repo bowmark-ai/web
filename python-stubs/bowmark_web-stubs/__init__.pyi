@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0bed954da40a98c96fc9a01eb9e79fd937f686864ad66998263885005b1953ac
-# 71 capabilities, 506 providers, 1712 typed functions, 20 refused.
+# Manifest version: fd3b67517fe128ab64585d7db9693c2befba0ec6d7dc5bf754d3316e022e78ae
+# 71 capabilities, 506 providers, 1714 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4991,6 +4991,13 @@ class Prv_bbc_BbcMostReadEntry_Out(TypedDict):
     image: NotRequired[str]
     section: str
     lastUpdated: NotRequired[str]
+
+class Prv_bbc_listTopicStories_args_In(TypedDict):
+    topicId: str
+    page: NotRequired[float]
+
+class Prv_bbc_BbcListTopicStoriesResult_Out(TypedDict):
+    headlines: list[Prv_bbc_BbcHeadline_Out]
 
 class Prv_bbc_searchArticles_args_In(TypedDict):
     query: str
@@ -10575,6 +10582,7 @@ class Prv_forbes_ForbesBillionaire_Out(TypedDict):
     name: str
     rank: NotRequired[float]
     netWorth: NotRequired[float]
+    slug: NotRequired[str]
 
 class Prv_forbes_GetPersonArgs_In(TypedDict):
     slug: str
@@ -30143,6 +30151,11 @@ class Prv_bbc(Protocol):
         article id, image and last-updated time, in the site's own order.
         """
 
+    async def listTopicStories(self, args: Prv_bbc_listTopicStories_args_In, /) -> Prv_bbc_BbcListTopicStoriesResult_Out:
+        """The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id, date
+        — with paging. Takes a topic id from getArticle's tags.
+        """
+
     async def searchArticles(self, args: Prv_bbc_searchArticles_args_In, /) -> Prv_bbc_BbcSearchArticlesResult_Out:
         """Search the BBC the way its search box does: headline, summary, url, article id, section
         and date for each result, with paging. Takes free text.
@@ -33851,6 +33864,12 @@ class Prv_fomo(Protocol):
         """Returns just the ids of everyone the signed-in trader follows, in one call with no
         paging — the cheap membership test behind 'do I already follow this person', useful
         before paging getFollowing for full profiles. Takes no arguments.
+        """
+
+    async def getFollowers(self, userId: str, cursor: str | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Pages the traders following one user, newest first — the other half of the social graph
+        from getFollowingIds, with full profiles rather than bare ids. Pass the cursor a
+        previous page returned to get the next one; a null cursor means the last page.
         """
 
 class Prv_forbes(Protocol):

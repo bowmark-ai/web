@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0bed954da40a98c96fc9a01eb9e79fd937f686864ad66998263885005b1953ac
-// 71 capabilities, 506 providers, 1730 typed functions, 20 refused.
+// Manifest version: fd3b67517fe128ab64585d7db9693c2befba0ec6d7dc5bf754d3316e022e78ae
+// 71 capabilities, 506 providers, 1732 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8908,6 +8908,10 @@ interface BbcListMostReadResult {
   headlines: BbcMostReadEntry[]; // ranked, the site's own order
 }
 
+interface BbcListTopicStoriesResult {
+  headlines: BbcHeadline[]; // the topic page's own order, newest first
+}
+
 interface BbcSearchResultRow {
   headline: string;
   summary: string;
@@ -9147,6 +9151,12 @@ interface bbcRow {
      * article id, image and last-updated time, in the site's own order.
      */
     listMostRead(): Promise<BbcListMostReadResult>;
+
+    /**
+     * The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id, date —
+     * with paging. Takes a topic id from getArticle's tags.
+     */
+    listTopicStories(args: { topicId: string; page?: number }): Promise<BbcListTopicStoriesResult>;
 
     /**
      * Search the BBC the way its search box does: headline, summary, url, article id, section and
@@ -19077,6 +19087,13 @@ interface FomoCandle {
      * getFollowing for full profiles. Takes no arguments.
      */
     getFollowingIds(opts?: ConnectionOption): Promise<string[]>;
+
+    /**
+     * Pages the traders following one user, newest first — the other half of the social graph from
+     * getFollowingIds, with full profiles rather than bare ids. Pass the cursor a previous page
+     * returned to get the next one; a null cursor means the last page.
+     */
+    getFollowers(userId: string, cursor?: string, opts?: ConnectionOption): Promise<FomoPage<FomoUser>>;
   }
 }
 
@@ -19187,6 +19204,7 @@ interface ForbesBillionaire {
   name: string;
   rank?: number;
   netWorth?: number;
+  slug?: string;
 }
 
 interface ForbesBillionairesList {

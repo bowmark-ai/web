@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0bed954da40a98c96fc9a01eb9e79fd937f686864ad66998263885005b1953ac
-// 1712 checked, 20 unchecked.
+// Manifest version: fd3b67517fe128ab64585d7db9693c2befba0ec6d7dc5bf754d3316e022e78ae
+// 1714 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0bed954da40a98c96fc9a01eb9e79fd937f686864ad66998263885005b1953ac",
+  "version": "fd3b67517fe128ab64585d7db9693c2befba0ec6d7dc5bf754d3316e022e78ae",
   "units": {
     "booking_links": {
       "defs": {
@@ -9569,6 +9569,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listMostRead": [],
+        "listTopicStories": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "topicId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
         "searchArticles": [
           {
             "name": "args",
@@ -18927,6 +18952,38 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getFollowingIds": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getFollowers": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "cursor",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
           {
             "name": "opts",
             "schema": {
