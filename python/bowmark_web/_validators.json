@@ -1,5 +1,5 @@
 {
-  "version": "dc3e7ee0ce222b0d8ae8fc99e5a0622c37c692e8e7835a3175d0c4244e06aff1",
+  "version": "26716e691a287ceada77ac10c3469159c90d0ab36ddc007182108cbc38f7ae57",
   "units": {
     "booking_links": {
       "defs": {
@@ -15135,6 +15135,18 @@
             }
           ]
         },
+        "GetSavedCartDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cartId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchForumThreadsArgs": {
           "k": "object",
           "props": [
@@ -15261,6 +15273,32 @@
           }
         ],
         "listMySavedCarts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSavedCartDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSavedCartDetailsArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -40095,6 +40133,18 @@
           "k": "object",
           "props": []
         },
+        "ListSupportArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -40294,6 +40344,16 @@
               ]
             },
             "optional": true
+          }
+        ],
+        "listSupportArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSupportArticlesArgs"
+            },
+            "optional": false
           }
         ]
       }

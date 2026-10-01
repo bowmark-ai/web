@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dc3e7ee0ce222b0d8ae8fc99e5a0622c37c692e8e7835a3175d0c4244e06aff1
-// 70 capabilities, 504 providers, 1714 typed functions, 20 refused.
+// Manifest version: 26716e691a287ceada77ac10c3469159c90d0ab36ddc007182108cbc38f7ae57
+// 70 capabilities, 504 providers, 1716 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15819,6 +15819,14 @@ interface DellMySavedCartsPage {
   raw: string;  // the signed-in saved carts page's raw HTML — same reason as DellMyOrdersPage
 }
 
+interface GetSavedCartDetailsArgs {
+  cartId: string;
+}
+
+interface DellSavedCartDetailPage {
+  raw: string;  // the signed-in saved cart detail page's raw HTML — same reason as DellMyOrdersPage
+}
+
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -15881,6 +15889,12 @@ interface DellMySavedCartsPage {
      * only after the caller has connected their Dell account.
      */
     listMySavedCarts(opts?: ConnectionOption): Promise<DellMySavedCartsPage>;
+
+    /**
+     * Retrieves the signed-in caller's detail page for one saved cart by cart id. Needs a Dell
+     * sign-in — call this only after the caller has connected their Dell account.
+     */
+    getSavedCartDetails(args: GetSavedCartDetailsArgs, opts?: ConnectionOption): Promise<DellSavedCartDetailPage>;
   }
 }
 
@@ -38600,6 +38614,21 @@ interface CheckWarrantyStatusResponse {
   warranty: WarrantyStatus;
 }
 
+interface ListSupportArticlesArgs {
+  query: string; // free text, e.g. "galaxy s25 ultra battery" or a bare model name
+}
+
+interface SupportArticle {
+  title: string;
+  url: string | null; // null for an FAQ with no landing page — read snippet instead
+  type: "answer" | "troubleshooting_guide" | "faq"; // Yext's own three support content types
+  snippet: string | null;
+}
+
+interface ListSupportArticlesResponse {
+  articles: SupportArticle[];
+}
+
   /**
    * Samsung's own US storefront and support site — products, prices, trade-in, warranty and
    * store lookups, plus a signed-in caller's own orders and rewards.
@@ -38700,6 +38729,13 @@ interface CheckWarrantyStatusResponse {
      * account, same relay session as `listOrders`.
      */
     checkWarrantyStatus(args: CheckWarrantyStatusArgs, opts?: ConnectionOption): Promise<CheckWarrantyStatusResponse>;
+
+    /**
+     * Samsung's own how-to and troubleshooting articles for a product — firmware downloads,
+     * manuals, repair guides — off its support hub's search. Takes a free-text query the way a
+     * person holding a device would ask, e.g. 'galaxy s25 ultra battery'.
+     */
+    listSupportArticles(args: ListSupportArticlesArgs): Promise<ListSupportArticlesResponse>;
   }
 }
 

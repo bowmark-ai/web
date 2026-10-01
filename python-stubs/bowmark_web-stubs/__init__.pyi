@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dc3e7ee0ce222b0d8ae8fc99e5a0622c37c692e8e7835a3175d0c4244e06aff1
-# 70 capabilities, 504 providers, 1696 typed functions, 20 refused.
+# Manifest version: 26716e691a287ceada77ac10c3469159c90d0ab36ddc007182108cbc38f7ae57
+# 70 capabilities, 504 providers, 1698 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8697,6 +8697,12 @@ class Prv_dell_DellOrderDetailPage_Out(TypedDict):
     raw: str
 
 class Prv_dell_DellMySavedCartsPage_Out(TypedDict):
+    raw: str
+
+class Prv_dell_GetSavedCartDetailsArgs_In(TypedDict):
+    cartId: str
+
+class Prv_dell_DellSavedCartDetailPage_Out(TypedDict):
     raw: str
 
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
@@ -21094,6 +21100,18 @@ class Prv_samsung_WarrantyStatus_Out(TypedDict):
     warrantyStatus: Literal["active"] | Literal["expired"] | Literal["unknown"]
     daysRemaining: NotRequired[float]
 
+class Prv_samsung_ListSupportArticlesArgs_In(TypedDict):
+    query: str
+
+class Prv_samsung_ListSupportArticlesResponse_Out(TypedDict):
+    articles: list[Prv_samsung_SupportArticle_Out]
+
+class Prv_samsung_SupportArticle_Out(TypedDict):
+    title: str
+    url: str | None
+    type: Literal["answer"] | Literal["troubleshooting_guide"] | Literal["faq"]
+    snippet: str | None
+
 class Prv_scentbird_ScentbirdCatalogueResult_Out(TypedDict):
     catalogue: Literal["perfumes"] | Literal["colognes"]
     count: float
@@ -32503,6 +32521,11 @@ class Prv_dell(Protocol):
         this only after the caller has connected their Dell account.
         """
 
+    async def getSavedCartDetails(self, args: Prv_dell_GetSavedCartDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dell_DellSavedCartDetailPage_Out:
+        """Retrieves the signed-in caller's detail page for one saved cart by cart id. Needs a Dell
+        sign-in — call this only after the caller has connected their Dell account.
+        """
+
 class Prv_deltadentalma(Protocol):
     """Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network
     dentists and clinics near a ZIP — the same live provider data the site's `/fad/search`
@@ -41162,6 +41185,12 @@ class Prv_samsung(Protocol):
         """A registered device's warranty status — active or expired, with the expiration date and
         days remaining. Takes the serial number or model number. Requires the CALLER's own
         Samsung account, same relay session as `listOrders`.
+        """
+
+    async def listSupportArticles(self, args: Prv_samsung_ListSupportArticlesArgs_In, /) -> Prv_samsung_ListSupportArticlesResponse_Out:
+        """Samsung's own how-to and troubleshooting articles for a product — firmware downloads,
+        manuals, repair guides — off its support hub's search. Takes a free-text query the way a
+        person holding a device would ask, e.g. 'galaxy s25 ultra battery'.
         """
 
 class Prv_scentbird(Protocol):

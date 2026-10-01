@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: dc3e7ee0ce222b0d8ae8fc99e5a0622c37c692e8e7835a3175d0c4244e06aff1
-// 1696 checked, 20 unchecked.
+// Manifest version: 26716e691a287ceada77ac10c3469159c90d0ab36ddc007182108cbc38f7ae57
+// 1698 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "dc3e7ee0ce222b0d8ae8fc99e5a0622c37c692e8e7835a3175d0c4244e06aff1",
+  "version": "26716e691a287ceada77ac10c3469159c90d0ab36ddc007182108cbc38f7ae57",
   "units": {
     "booking_links": {
       "defs": {
@@ -15147,6 +15147,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetSavedCartDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cartId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchForumThreadsArgs": {
           "k": "object",
           "props": [
@@ -15273,6 +15285,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listMySavedCarts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSavedCartDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSavedCartDetailsArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -40107,6 +40145,18 @@ export const VALIDATORS: ValidatorTable = {
           "k": "object",
           "props": []
         },
+        "ListSupportArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchArgs": {
           "k": "object",
           "props": [
@@ -40306,6 +40356,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "listSupportArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSupportArticlesArgs"
+            },
+            "optional": false
           }
         ]
       }
