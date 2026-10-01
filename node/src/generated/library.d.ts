@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f4462e0c7bc6a1206d7d4003e25bd501823740bfee15d4eeea085742c46e3963
-// 71 capabilities, 506 providers, 1729 typed functions, 20 refused.
+// Manifest version: 0bed954da40a98c96fc9a01eb9e79fd937f686864ad66998263885005b1953ac
+// 71 capabilities, 506 providers, 1730 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15914,6 +15914,12 @@ interface DellSavedCartDetailPage {
   raw: string;  // the signed-in saved cart detail page's raw HTML — same reason as DellMyOrdersPage
 }
 
+interface ListMyRegisteredProductsArgs {}
+
+interface DellRegisteredProductsPage {
+  raw: string;  // the signed-in registered products page's raw HTML — same reason as DellMyOrdersPage
+}
+
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -15982,6 +15988,12 @@ interface DellSavedCartDetailPage {
      * sign-in — call this only after the caller has connected their Dell account.
      */
     getSavedCartDetails(args: GetSavedCartDetailsArgs, opts?: ConnectionOption): Promise<DellSavedCartDetailPage>;
+
+    /**
+     * Retrieves the signed-in caller's registered products page. Needs a Dell sign-in — call this
+     * only after the caller has connected their Dell account.
+     */
+    listMyRegisteredProducts(opts?: ConnectionOption): Promise<DellRegisteredProductsPage>;
   }
 }
 
@@ -46946,6 +46958,10 @@ interface YahooSportsScheduleRow {
   result: "W" | "L" | null;
   score: string | null;
   isHome: boolean;
+  // This game's own page — the gameUrl getGame takes. Null only if Yahoo's
+  // own payload omitted alias.url for this game, which was not observed in
+  // measurement.
+  gameUrl: string | null;
 }
 
 interface GetScoreboardArgs {

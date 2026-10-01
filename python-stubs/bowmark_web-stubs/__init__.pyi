@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: f4462e0c7bc6a1206d7d4003e25bd501823740bfee15d4eeea085742c46e3963
-# 71 capabilities, 506 providers, 1711 typed functions, 20 refused.
+# Manifest version: 0bed954da40a98c96fc9a01eb9e79fd937f686864ad66998263885005b1953ac
+# 71 capabilities, 506 providers, 1712 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8746,6 +8746,9 @@ class Prv_dell_GetSavedCartDetailsArgs_In(TypedDict):
     cartId: str
 
 class Prv_dell_DellSavedCartDetailPage_Out(TypedDict):
+    raw: str
+
+class Prv_dell_DellRegisteredProductsPage_Out(TypedDict):
     raw: str
 
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
@@ -25951,6 +25954,7 @@ class Prv_yahoo_sports_YahooSportsScheduleRow_Out(TypedDict):
     result: Literal["W"] | Literal["L"] | None
     score: str | None
     isHome: bool
+    gameUrl: str | None
 
 class Prv_yahoo_sports_GetTeamRosterArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -32698,6 +32702,11 @@ class Prv_dell(Protocol):
     async def getSavedCartDetails(self, args: Prv_dell_GetSavedCartDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dell_DellSavedCartDetailPage_Out:
         """Retrieves the signed-in caller's detail page for one saved cart by cart id. Needs a Dell
         sign-in — call this only after the caller has connected their Dell account.
+        """
+
+    async def listMyRegisteredProducts(self, opts: ConnectionOption | None = None, /) -> Prv_dell_DellRegisteredProductsPage_Out:
+        """Retrieves the signed-in caller's registered products page. Needs a Dell sign-in — call
+        this only after the caller has connected their Dell account.
         """
 
 class Prv_deltadentalma(Protocol):

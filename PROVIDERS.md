@@ -255,7 +255,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
 | `bbc.listSections` | bbc.com | The BBC's own section list, read off the bbc.com top navigation — Home, News (US &… | 🟢 |
 | `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | 🟢 |
-| `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | ⚪ |
+| `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | 🟢 |
 | `bbc.listVideos` | bbc.com | The videos the BBC's video hub shows: title, summary, duration, url, video id, section… | ⚪ |
 | `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `bbc.saveArticle` | bbc.com | Save a BBC article to the signed-in reader's saved list (the page's bookmark button).… | ⚪ |
@@ -904,7 +904,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getCurrentUser` | fomo.family | Returns the signed-in trader's own profile — id, `userHandle`, display name, bio… | 🟢 |
 | `fomo.getDevHolders` | fomo.family | Returns whether the token's own deployer still holds it, and how much. | 🟢 |
 | `fomo.getFeed` | fomo.family | Pages the signed-in trader's social feed — the trades made by people they follow, each… | ⚪ |
-| `fomo.getFollowers` | fomo.family | Pages the traders following one user. `GET /v2/users/:userId/followers`, cursor-paged… | ⚪ |
+| `fomo.getFollowers` | fomo.family | Pages the traders following one user, newest first, with full profiles — the other… | 🟢 |
 | `fomo.getFollowing` | fomo.family | Pages the traders one user follows. `GET /v2/users/:userId/followingPaginate`. | ⚪ |
 | `fomo.getFollowingIds` | fomo.family | Returns just the ids of everyone the signed-in trader follows, in one call with no… | 🟢 |
 | `fomo.getFollowingLeaderboard` | fomo.family | The same ranking restricted to traders the signed-in user follows — 'how am I doing… | ⚪ |
