@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: da8e9db23d1abb83448e7fe57bcd9aaa1cb0a1f991437437e7aa521cee5dbe89
-// 1707 checked, 20 unchecked.
+// Manifest version: 6dcf94f8b8b8927edd85111af7a4b0a625cf2d3855bf2c120d8856d81683ad20
+// 1708 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "da8e9db23d1abb83448e7fe57bcd9aaa1cb0a1f991437437e7aa521cee5dbe89",
+  "version": "6dcf94f8b8b8927edd85111af7a4b0a625cf2d3855bf2c120d8856d81683ad20",
   "units": {
     "booking_links": {
       "defs": {
@@ -20862,6 +20862,52 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GithubUpdateIssueOptions"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createComment": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "issueNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "body",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },

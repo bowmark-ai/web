@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: da8e9db23d1abb83448e7fe57bcd9aaa1cb0a1f991437437e7aa521cee5dbe89
-// 70 capabilities, 505 providers, 1725 typed functions, 20 refused.
+// Manifest version: 6dcf94f8b8b8927edd85111af7a4b0a625cf2d3855bf2c120d8856d81683ad20
+// 70 capabilities, 505 providers, 1726 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20860,6 +20860,12 @@ interface GithubIssueUpdated {
   state: "open" | "closed";
   url: string;
 }
+interface GithubCommentCreated {
+  id: number;
+  body: string;
+  url: string;
+  createdAt: string;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -21150,6 +21156,17 @@ interface GithubIssueUpdated {
      * carries none of the six fields.
      */
     updateIssue(owner: string, repo: string, issueNumber: number, options: GithubUpdateIssueOptions, opts?: ConnectionOption): Promise<GithubIssueUpdated>;
+
+    /**
+     * Adds a comment to an issue or pull request, off GitHub's own documented REST endpoint (`POST
+     * /repos/{owner}/{repo}/issues/{issue_number}/comments`) — GitHub treats a pull request's
+     * conversation as an issue thread for this door, so the same call comments on either. NEEDS
+     * THE CALLER SIGNED IN and requires write access to the repository. `body` is the comment text
+     * (markdown). Returns the created comment's id, body, URL, and creation timestamp. THROWS on
+     * an unknown owner/repo/issue number (404), when signed out or the saved session is invalid
+     * (401), or on a permission error (403).
+     */
+    createComment(owner: string, repo: string, issueNumber: number, body: string, opts?: ConnectionOption): Promise<GithubCommentCreated>;
   }
 }
 

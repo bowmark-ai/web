@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: da8e9db23d1abb83448e7fe57bcd9aaa1cb0a1f991437437e7aa521cee5dbe89
-# 70 capabilities, 505 providers, 1707 typed functions, 20 refused.
+# Manifest version: 6dcf94f8b8b8927edd85111af7a4b0a625cf2d3855bf2c120d8856d81683ad20
+# 70 capabilities, 505 providers, 1708 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11516,6 +11516,12 @@ class Prv_github_GithubIssueUpdated_Out(TypedDict):
     body: str | None
     state: Literal["open"] | Literal["closed"]
     url: str
+
+class Prv_github_GithubCommentCreated_Out(TypedDict):
+    id: float
+    body: str
+    url: str
+    createdAt: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -34569,6 +34575,16 @@ class Prv_github(Protocol):
         issue's number, title, body, state, and URL. THROWS on an unknown owner/repo/issue
         number (404), when signed out or the saved session is invalid (401), on a permission
         error (403), or when `options` carries none of the six fields.
+        """
+
+    async def createComment(self, owner: str, repo: str, issueNumber: float, body: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentCreated_Out:
+        """Adds a comment to an issue or pull request, off GitHub's own documented REST endpoint
+        (`POST /repos/{owner}/{repo}/issues/{issue_number}/comments`) — GitHub treats a pull
+        request's conversation as an issue thread for this door, so the same call comments on
+        either. NEEDS THE CALLER SIGNED IN and requires write access to the repository. `body`
+        is the comment text (markdown). Returns the created comment's id, body, URL, and
+        creation timestamp. THROWS on an unknown owner/repo/issue number (404), when signed out
+        or the saved session is invalid (401), or on a permission error (403).
         """
 
 class Prv_glama(Protocol):

@@ -624,7 +624,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | 🟢 |
 | `cnn.listTrendingTopics` | www.cnn.com | The stories CNN's own recommendation engine currently ranks as trending — headline… | 🟢 |
 | `cnn.listVideos` | www.cnn.com | The videos CNN currently lists on its video hub — clips and segments with headline… | 🟢 |
-| `cnn.searchArticles` | www.cnn.com | Search for news articles across CNN — takes what a person would say ("breaking news"… | ⚪ |
+| `cnn.searchArticles` | www.cnn.com | Search for news articles across CNN — takes what a person would say ("breaking news"… | 🟢 |
 | `coast.getFleetCardPricing` | coastpay.com | Reads Coast's own pricing page and returns its real, current per-active-user monthly… | 🟢 |
 | `coast.getFuelRebate` | coastpay.com | Reads Coast's own pricing page and returns its published per-gallon rebate range at… | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
@@ -1002,7 +1002,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fred.listReleases` | fred.stlouisfed.org | Lists FRED's economic data releases — the named publications data comes from (e.g.… | 🟢 |
 | `fred.listSources` | fred.stlouisfed.org | Lists the agencies and organizations that originate FRED's data — the Bureau of Labor… | 🟢 |
 | `fred.searchSeries` | fred.stlouisfed.org | Finds the economic data series that match a search text — GDP, CPI, unemployment rate… | 🟢 |
-| `freightliner_configurator.getConfiguratorPrice` | freightliner.com | Drives the Cascadia configurator through a truck configuration and captures the final… | ⚪ |
+| `freightliner_configurator.getConfiguratorPrice` | freightliner.com | Drives the Cascadia configurator through a truck configuration and captures the final… | 🟢 |
 | `furniture.listCategories` | furniture.com | Lists furniture.com's real category taxonomy (Sofas & Couches, Mattresses, Platform… | 🟢 |
 | `furniture.listFilterOptions` | furniture.com | Lists furniture.com's live filter facets and their real, currently offered values —… | 🟢 |
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟢 |
