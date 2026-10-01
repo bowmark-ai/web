@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2592 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2593 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1075,7 +1075,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list, off GitHub's own… | 🟢 |
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | 🟢 |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | ⚪ |
-| `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | ⚪ |
+| `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | 🟢 |
 | `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), base branch, or draft status. | ⚪ |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in user's watched/subscribed list for notifications. | 🟢 |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
@@ -2129,6 +2129,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tagtrans_net.createShipmentRateEmail` | tagtrans.net | Builds TAG Trans's own prefilled mailto handoff for a freight shipment-rate request… | 🟢 |
 | `tagtrans_net.getShipmentRateForm` | tagtrans.net | Returns TAG Trans's current public shipment-rate request fields, service choices, and… | 🟢 |
 | `tamarackidaho.searchLodging` | tamarackidaho.com | Searches Tamarack's own direct-managed lodging inventory (Lodge at Osprey Meadows… | 🟢 |
+| `tapfiliate.listAffiliates` | tapfiliate.com | Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by… | 🟢 |
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getProduct` | target.com | Reads one product page in full — price, variant/size options, description, images —… | ⚪ |
