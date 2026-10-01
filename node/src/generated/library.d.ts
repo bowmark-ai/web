@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: bdaf2ffe5d2e7f35c79b00d906ce517ca57fff50dd20d5139472f4a6f47fdbb9
-// 70 capabilities, 502 providers, 1691 typed functions, 20 refused.
+// Manifest version: e6c5fd975cc3a26dc0620f546cf8160b063002ddedf74da6c2f4cb8ee395fd78
+// 70 capabilities, 502 providers, 1697 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20681,6 +20681,13 @@ interface GithubUnwatchRepositoryResult {
   repo: string;
   watched: false;
 }
+interface GithubIssueCreated {
+  number: number;
+  title: string;
+  body: string | null;
+  state: "open" | "closed";
+  url: string;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -20948,6 +20955,17 @@ interface GithubUnwatchRepositoryResult {
      * or the saved session is invalid.
      */
     unwatchRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubUnwatchRepositoryResult>;
+
+    /**
+     * Creates a new issue on a repository, off GitHub's own documented REST issues endpoint (`POST
+     * /repos/{owner}/{repo}/issues`). NEEDS THE CALLER SIGNED IN and requires write access to the
+     * repository. `title` is the issue title; `body` is the optional markdown description;
+     * `options.assignees` is an array of GitHub login names to assign; `options.labels` is an
+     * array of label names to apply; `options.milestone` is a milestone number. Returns the
+     * created issue's number, title, body, state, and URL. THROWS on an unknown owner/repo (404),
+     * when signed out or the saved session is invalid (401), or on a permission error (403).
+     */
+    createIssue(owner: string, repo: string, title: string, body?: string, options?: { assignees?: string[]; labels?: string[]; milestone?: number }): Promise<GithubIssueCreated>;
   }
 }
 
@@ -25246,6 +25264,51 @@ interface IndeedCompanyDetails {
   url: string;
 }
 
+interface GetSalaryDetailsArgs {
+  query: string;
+  location?: string;
+}
+
+interface IndeedSalaryStat {
+  estimatedMedian: number | null;
+  estimatedMin: number | null;
+  estimatedMax: number | null;
+  mean: number | null;
+  numDataPoints: number | null;
+}
+
+interface IndeedTopPaidCity {
+  location: string;
+  medianYearly: number | null;
+}
+
+interface IndeedTopPayingCompany {
+  name: string;
+  rating: number | null;
+  reviewsCount: number | null;
+  companyUrl: string | null;
+  meanSalary: number | null;
+  salaryType: string | null;
+}
+
+interface IndeedRelatedTitle {
+  title: string;
+  salaryType: string | null;
+  salaryMean: number | null;
+}
+
+interface IndeedSalaryDetails {
+  jobTitle: string;
+  location: string | null;
+  currency: string | null;
+  salaryByPeriod: Record<string, IndeedSalaryStat>;
+  nationalSalaryByPeriod: Record<string, IndeedSalaryStat>;
+  topPaidCities: IndeedTopPaidCity[];
+  topPayingCompanies: IndeedTopPayingCompany[];
+  relatedTitles: IndeedRelatedTitle[];
+  url: string;
+}
+
   /**
    * Job search on the US's largest job board — listings with salary, location and posted-date,
    * straight off Indeed's own search results.
@@ -25288,6 +25351,15 @@ interface IndeedCompanyDetails {
      * `location` is optional free text; omitting it searches everywhere.
      */
     searchSalaries(args: IndeedSearchSalariesArgs): Promise<IndeedSalarySearchResult[]>;
+
+    /**
+     * Fetches the full salary breakdown for one job title off its own
+     * `/career/<title>/salaries[/<location>]` page: pay-period estimates (min/median/max/mean) for
+     * the queried title+location AND nationally, the site's own top-paid cities, top-paying
+     * companies and related titles. `location` is optional free text; omitting it returns the
+     * national estimate. Throws when Indeed has no salary model for the title at all.
+     */
+    getSalaryDetails(args: GetSalaryDetailsArgs): Promise<IndeedSalaryDetails>;
   }
 }
 
@@ -44848,6 +44920,21 @@ interface AlertList {
   alerts: WeatherAlert[];
 }
 
+interface AlertDetail {
+  id: string;
+  headline: string;
+  event: string;
+  description: string | null;
+  severity: string | null;
+  urgency: string | null;
+  certainty: string | null;
+  area: string | null;
+  issuedBy: string | null;
+  effective: string | null;
+  expires: string | null;
+  source: string | null;
+}
+
 interface FifteenMinuteForecast {
   time: string;
   precipitation: number | null;
@@ -44967,6 +45054,14 @@ interface RadarTile {
      * resolved to.
      */
     listAlerts(location: Location): Promise<AlertList>;
+
+    /**
+     * Full details for one active weather alert — e.g. `getAlertDetails("MDC034")` where the ID
+     * comes from `listAlerts()`. Returns the headline, event type, full description, severity,
+     * urgency, certainty, affected area, issuing office and effective/expiry times. Returns null
+     * if the alert ID is not found or the alert has expired.
+     */
+    getAlertDetails(alertId: string): Promise<AlertDetail | null>;
 
     /**
      * Sub-hourly precipitation forecast for a place — e.g. `getFifteenMinuteForecast("Seattle")` —
@@ -45353,6 +45448,14 @@ interface WikipediaUser {
   groups: string[];
 }
 
+interface WikipediaUserContribution {
+  title: string;
+  url: string;
+  timestamp: string;
+  comment: string;
+  revisionId: number;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -45552,6 +45655,15 @@ interface WikipediaUser {
      * who made a change in the revision history.
      */
     getUser(usernames: string | string[], options?: { lang?: string }): Promise<{ users: WikipediaUser[]; warnings: string[] }>;
+
+    /**
+     * Every edit one named editor has made, newest first — page title, url, timestamp, edit
+     * summary comment, and revision id. Public by design on Wikipedia, and the other half of
+     * judging a change's provenance after calling getUser to find the username. Takes any editor's
+     * username (exact, case-sensitive on first character) and returns all their contributions.
+     * Optional limit parameter caps the number of contributions returned (1-500, defaults to 50).
+     */
+    listUserContributions(username: string, options?: { lang?: string; limit?: number }): Promise<{ contributions: WikipediaUserContribution[]; warnings: string[] }>;
   }
 }
 
@@ -45964,6 +46076,22 @@ interface YahooFinanceEarningsDates {
   dividendDate: string | null;
 }
 
+interface YahooFinanceWatchlistItem {
+  symbol: string;
+  price: number | null;
+  change: number | null;
+  changePercent: number | null;
+}
+
+interface YahooFinanceWatchlist {
+  name: string;
+  items: YahooFinanceWatchlistItem[];
+}
+
+interface YahooFinanceWatchlists {
+  watchlists: YahooFinanceWatchlist[];
+}
+
   /**
    * Reads Yahoo Finance's own quote, market and estimate pages — price, market cap, analyst
    * estimates, holders, news, trending tickers — off the site's own server-rendered markup, no
@@ -46115,6 +46243,15 @@ interface YahooFinanceEarningsDates {
      * empty ticker throws before any request is sent.
      */
     getEarningsDates(symbol: string): Promise<YahooFinanceEarningsDates>;
+
+    /**
+     * Reads the signed-in viewer's saved watchlists with their tickers and current quotes, the way
+     * the site's own watchlists page does. NEEDS A SIGN-IN: Bowmark holds no fleet-wide Yahoo
+     * Finance login, so every call reaches the watchlists page logged out and throws with the real
+     * redirect Yahoo Finance answered — the auth requirement this function is refused on is
+     * measured on every call, not assumed.
+     */
+    listWatchlists(opts?: ConnectionOption): Promise<YahooFinanceWatchlists>;
   }
 }
 
@@ -47299,6 +47436,14 @@ interface YoutubeStreamFormat {
      * NEEDS A SIGN-IN.
      */
     removeFromPlaylist(input: { playlist: string; video?: string; videos?: string[] }, opts?: ConnectionOption): Promise<YoutubePlaylistEdit>;
+
+    /**
+     * Changes the title, description, or privacy setting of one of the signed-in account's own
+     * playlists. `playlist` is a playlist id (`PL…`), a `VL<id>` playlist URL, or a full URL. Pass
+     * any combination of `title`, `description` (a new description to replace the old one, max
+     * 5000 chars), or `privacy` (`PUBLIC`, `PRIVATE`, or `UNLISTED`). NEEDS A SIGN-IN.
+     */
+    updatePlaylist(input: { playlist: string; title?: string; description?: string; privacy?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistEdit>;
 
     /**
      * The channels the signed-in account subscribes to — id, url, handle (when the row carries

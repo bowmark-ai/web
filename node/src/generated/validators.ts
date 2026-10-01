@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: bdaf2ffe5d2e7f35c79b00d906ce517ca57fff50dd20d5139472f4a6f47fdbb9
-// 1673 checked, 20 unchecked.
+// Manifest version: e6c5fd975cc3a26dc0620f546cf8160b063002ddedf74da6c2f4cb8ee395fd78
+// 1679 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "bdaf2ffe5d2e7f35c79b00d906ce517ca57fff50dd20d5139472f4a6f47fdbb9",
+  "version": "e6c5fd975cc3a26dc0620f546cf8160b063002ddedf74da6c2f4cb8ee395fd78",
   "units": {
     "booking_links": {
       "defs": {
@@ -20341,6 +20341,72 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "createIssue": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "title",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "body",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "assignees",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "labels",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "milestone",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -23801,6 +23867,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetSalaryDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "IndeedSearchCompaniesArgs": {
           "k": "object",
           "props": [
@@ -23899,6 +23984,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "IndeedSearchSalariesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSalaryDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSalaryDetailsArgs"
             },
             "optional": false
           }
@@ -46561,6 +46656,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getAlertDetails": [
+          {
+            "name": "alertId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "getFifteenMinuteForecast": [
           {
             "name": "location",
@@ -47350,6 +47454,38 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "listUserContributions": [
+          {
+            "name": "username",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -47573,6 +47709,24 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ],
+        "listWatchlists": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -49213,6 +49367,61 @@ export const VALIDATORS: ValidatorTable = {
                     "of": {
                       "k": "string"
                     }
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updatePlaylist": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "playlist",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "description",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "privacy",
+                  "schema": {
+                    "k": "string"
                   },
                   "optional": true
                 }

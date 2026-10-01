@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: bdaf2ffe5d2e7f35c79b00d906ce517ca57fff50dd20d5139472f4a6f47fdbb9
-# 70 capabilities, 502 providers, 1673 typed functions, 20 refused.
+# Manifest version: e6c5fd975cc3a26dc0620f546cf8160b063002ddedf74da6c2f4cb8ee395fd78
+# 70 capabilities, 502 providers, 1679 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11424,6 +11424,18 @@ class Prv_github_GithubUnwatchRepositoryResult_Out(TypedDict):
     repo: str
     watched: Literal[False]
 
+class Prv_github_createIssue_options_In(TypedDict):
+    assignees: NotRequired[Sequence[str]]
+    labels: NotRequired[Sequence[str]]
+    milestone: NotRequired[float]
+
+class Prv_github_GithubIssueCreated_Out(TypedDict):
+    number: float
+    title: str
+    body: str | None
+    state: Literal["open"] | Literal["closed"]
+    url: str
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -13514,6 +13526,45 @@ class Prv_indeed_IndeedSalarySearchResult_Out(TypedDict):
     salaryText: str | None
     numberReports: float | None
     url: str
+
+class Prv_indeed_GetSalaryDetailsArgs_In(TypedDict):
+    query: str
+    location: NotRequired[str]
+
+class Prv_indeed_IndeedSalaryDetails_Out(TypedDict):
+    jobTitle: str
+    location: str | None
+    currency: str | None
+    salaryByPeriod: Mapping[str, Prv_indeed_IndeedSalaryStat_Out]
+    nationalSalaryByPeriod: Mapping[str, Prv_indeed_IndeedSalaryStat_Out]
+    topPaidCities: list[Prv_indeed_IndeedTopPaidCity_Out]
+    topPayingCompanies: list[Prv_indeed_IndeedTopPayingCompany_Out]
+    relatedTitles: list[Prv_indeed_IndeedRelatedTitle_Out]
+    url: str
+
+class Prv_indeed_IndeedSalaryStat_Out(TypedDict):
+    estimatedMedian: float | None
+    estimatedMin: float | None
+    estimatedMax: float | None
+    mean: float | None
+    numDataPoints: float | None
+
+class Prv_indeed_IndeedTopPaidCity_Out(TypedDict):
+    location: str
+    medianYearly: float | None
+
+class Prv_indeed_IndeedTopPayingCompany_Out(TypedDict):
+    name: str
+    rating: float | None
+    reviewsCount: float | None
+    companyUrl: str | None
+    meanSalary: float | None
+    salaryType: str | None
+
+class Prv_indeed_IndeedRelatedTitle_Out(TypedDict):
+    title: str
+    salaryType: str | None
+    salaryMean: float | None
 
 class Prv_inspirecommunities_InspirecommunitiesSearchHomesArgs_In(TypedDict):
     state: NotRequired[str]
@@ -24671,6 +24722,20 @@ class Prv_weather_channel_WeatherAlert_Out(TypedDict):
     expires: str | None
     source: str | None
 
+class Prv_weather_channel_AlertDetail_Out(TypedDict):
+    id: str
+    headline: str
+    event: str
+    description: str | None
+    severity: str | None
+    urgency: str | None
+    certainty: str | None
+    area: str | None
+    issuedBy: str | None
+    effective: str | None
+    expires: str | None
+    source: str | None
+
 class Prv_weather_channel_FifteenMinuteForecastResult_Out(TypedDict):
     location: Prv_weather_channel_WeatherLocation_Out | None
     units: Literal["metric"] | Literal["imperial"]
@@ -25158,6 +25223,21 @@ class Prv_wikipedia_WikipediaUser_Out(TypedDict):
     registrationDate: str
     groups: list[str]
 
+class Prv_wikipedia_listUserContributions_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_wikipedia_listUserContributions_return_Out(TypedDict):
+    contributions: list[Prv_wikipedia_WikipediaUserContribution_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaUserContribution_Out(TypedDict):
+    title: str
+    url: str
+    timestamp: str
+    comment: str
+    revisionId: float
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -25444,6 +25524,19 @@ class Prv_yahoo_finance_YahooFinanceEarningsDates_Out(TypedDict):
     revenueEstimateHigh: str | None
     exDividendDate: str | None
     dividendDate: str | None
+
+class Prv_yahoo_finance_YahooFinanceWatchlists_Out(TypedDict):
+    watchlists: list[Prv_yahoo_finance_YahooFinanceWatchlist_Out]
+
+class Prv_yahoo_finance_YahooFinanceWatchlist_Out(TypedDict):
+    name: str
+    items: list[Prv_yahoo_finance_YahooFinanceWatchlistItem_Out]
+
+class Prv_yahoo_finance_YahooFinanceWatchlistItem_Out(TypedDict):
+    symbol: str
+    price: float | None
+    change: float | None
+    changePercent: float | None
 
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -26119,6 +26212,12 @@ class Prv_youtube_removeFromPlaylist_input_In(TypedDict):
     playlist: str
     video: NotRequired[str]
     videos: NotRequired[Sequence[str]]
+
+class Prv_youtube_updatePlaylist_input_In(TypedDict):
+    playlist: str
+    title: NotRequired[str]
+    description: NotRequired[str]
+    privacy: NotRequired[str]
 
 class Prv_youtube_subscribeToChannel_input_In(TypedDict):
     channel: str
@@ -34067,6 +34166,17 @@ class Prv_github(Protocol):
         owner/repo (404) or when signed out or the saved session is invalid.
         """
 
+    async def createIssue(self, owner: str, repo: str, title: str, body: str | None = None, options: Prv_github_createIssue_options_In | None = None, /) -> Prv_github_GithubIssueCreated_Out:
+        """Creates a new issue on a repository, off GitHub's own documented REST issues endpoint
+        (`POST /repos/{owner}/{repo}/issues`). NEEDS THE CALLER SIGNED IN and requires write
+        access to the repository. `title` is the issue title; `body` is the optional markdown
+        description; `options.assignees` is an array of GitHub login names to assign;
+        `options.labels` is an array of label names to apply; `options.milestone` is a milestone
+        number. Returns the created issue's number, title, body, state, and URL. THROWS on an
+        unknown owner/repo (404), when signed out or the saved session is invalid (401), or on a
+        permission error (403).
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -35783,6 +35893,15 @@ class Prv_indeed(Protocol):
         """Searches Indeed's own salary data by job title and location, returning salary ranges and
         the number of salary reports that contributed to each range, off the site's own
         /salaries page. `location` is optional free text; omitting it searches everywhere.
+        """
+
+    async def getSalaryDetails(self, args: Prv_indeed_GetSalaryDetailsArgs_In, /) -> Prv_indeed_IndeedSalaryDetails_Out:
+        """Fetches the full salary breakdown for one job title off its own
+        `/career/<title>/salaries[/<location>]` page: pay-period estimates (min/median/max/mean)
+        for the queried title+location AND nationally, the site's own top-paid cities,
+        top-paying companies and related titles. `location` is optional free text; omitting it
+        returns the national estimate. Throws when Indeed has no salary model for the title at
+        all.
         """
 
 class Prv_inspirecommunities(Protocol):
@@ -43068,6 +43187,13 @@ class Prv_weather_channel(Protocol):
         name resolved to.
         """
 
+    async def getAlertDetails(self, alertId: str, /) -> Prv_weather_channel_AlertDetail_Out | None:
+        """Full details for one active weather alert — e.g. `getAlertDetails("MDC034")` where the
+        ID comes from `listAlerts()`. Returns the headline, event type, full description,
+        severity, urgency, certainty, affected area, issuing office and effective/expiry times.
+        Returns null if the alert ID is not found or the alert has expired.
+        """
+
     async def getFifteenMinuteForecast(self, location: str | Prv_weather_channel_Location_u1_In, options: Prv_weather_channel_ForecastOptions_In | None = None, /) -> Prv_weather_channel_FifteenMinuteForecastResult_Out:
         """Sub-hourly precipitation forecast for a place — e.g.
         `getFifteenMinuteForecast("Seattle")` — the same "next hour" minute-cast weather.com
@@ -43321,6 +43447,15 @@ class Prv_wikipedia(Protocol):
         reads to weigh who made a change in the revision history.
         """
 
+    async def listUserContributions(self, username: str, options: Prv_wikipedia_listUserContributions_options_In | None = None, /) -> Prv_wikipedia_listUserContributions_return_Out:
+        """Every edit one named editor has made, newest first — page title, url, timestamp, edit
+        summary comment, and revision id. Public by design on Wikipedia, and the other half of
+        judging a change's provenance after calling getUser to find the username. Takes any
+        editor's username (exact, case-sensitive on first character) and returns all their
+        contributions. Optional limit parameter caps the number of contributions returned
+        (1-500, defaults to 50).
+        """
+
 class Prv_wikipedia_standings(Protocol):
     """Search Wikipedia for sports league standings with goal differential data."""
 
@@ -43520,6 +43655,14 @@ class Prv_yahoo_finance(Protocol):
         `isEarningsDateEstimate` says whether Yahoo Finance is confirming the date or estimating
         it. Any field the site has not scheduled yet answers null rather than a throw. An
         unknown or empty ticker throws before any request is sent.
+        """
+
+    async def listWatchlists(self, opts: ConnectionOption | None = None, /) -> Prv_yahoo_finance_YahooFinanceWatchlists_Out:
+        """Reads the signed-in viewer's saved watchlists with their tickers and current quotes, the
+        way the site's own watchlists page does. NEEDS A SIGN-IN: Bowmark holds no fleet-wide
+        Yahoo Finance login, so every call reaches the watchlists page logged out and throws
+        with the real redirect Yahoo Finance answered — the auth requirement this function is
+        refused on is measured on every call, not assumed.
         """
 
 class Prv_yahoo_sports(Protocol):
@@ -43957,6 +44100,14 @@ class Prv_youtube(Protocol):
         SINGLE edit rather than one request per video. A video not on the playlist is silently a
         no-op for that video — YouTube's own edit endpoint does not distinguish it from a
         successful removal. NEEDS A SIGN-IN.
+        """
+
+    async def updatePlaylist(self, input: Prv_youtube_updatePlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistEdit_Out:
+        """Changes the title, description, or privacy setting of one of the signed-in account's own
+        playlists. `playlist` is a playlist id (`PL…`), a `VL<id>` playlist URL, or a full URL.
+        Pass any combination of `title`, `description` (a new description to replace the old
+        one, max 5000 chars), or `privacy` (`PUBLIC`, `PRIVATE`, or `UNLISTED`). NEEDS A
+        SIGN-IN.
         """
 
     async def listSubscriptions(self, opts: ConnectionOption | None = None, /) -> list[Prv_youtube_YoutubeChannelRef_Out]:
