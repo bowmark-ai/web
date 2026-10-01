@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fb95df5e871aeaba6ff24b6aa7abeeba2370b5d3fa356bc0d7508d51997f5769
-// 1681 checked, 20 unchecked.
+// Manifest version: e5dc1c3f7e6d7836b79a3c087c00ee3a86c9b187b2dd31b7ce07c55d5ac5cfb0
+// 1682 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fb95df5e871aeaba6ff24b6aa7abeeba2370b5d3fa356bc0d7508d51997f5769",
+  "version": "e5dc1c3f7e6d7836b79a3c087c00ee3a86c9b187b2dd31b7ce07c55d5ac5cfb0",
   "units": {
     "booking_links": {
       "defs": {
@@ -15167,6 +15167,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMySavedCarts": [
           {
             "name": "opts",
             "schema": {
@@ -38714,6 +38732,13 @@ export const VALIDATORS: ValidatorTable = {
                 },
                 {
                   "name": "maxBedrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
                   "schema": {
                     "k": "number"
                   },

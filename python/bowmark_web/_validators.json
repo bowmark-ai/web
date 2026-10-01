@@ -1,5 +1,5 @@
 {
-  "version": "fb95df5e871aeaba6ff24b6aa7abeeba2370b5d3fa356bc0d7508d51997f5769",
+  "version": "e5dc1c3f7e6d7836b79a3c087c00ee3a86c9b187b2dd31b7ce07c55d5ac5cfb0",
   "units": {
     "booking_links": {
       "defs": {
@@ -15155,6 +15155,24 @@
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMySavedCarts": [
           {
             "name": "opts",
             "schema": {
@@ -38702,6 +38720,13 @@
                 },
                 {
                   "name": "maxBedrooms",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
                   "schema": {
                     "k": "number"
                   },

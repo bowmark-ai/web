@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fb95df5e871aeaba6ff24b6aa7abeeba2370b5d3fa356bc0d7508d51997f5769
-// 70 capabilities, 502 providers, 1699 typed functions, 20 refused.
+// Manifest version: e5dc1c3f7e6d7836b79a3c087c00ee3a86c9b187b2dd31b7ce07c55d5ac5cfb0
+// 70 capabilities, 502 providers, 1700 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15778,6 +15778,12 @@ interface DellOrderDetailPage {
   raw: string;  // the signed-in order detail page's raw HTML — same reason as DellMyOrdersPage
 }
 
+interface ListMySavedCartsArgs {}
+
+interface DellMySavedCartsPage {
+  raw: string;  // the signed-in saved carts page's raw HTML — same reason as DellMyOrdersPage
+}
+
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -15834,6 +15840,12 @@ interface DellOrderDetailPage {
      * Dell sign-in — call this only after the caller has connected their Dell account.
      */
     getOrderDetails(args: GetOrderDetailsArgs, opts?: ConnectionOption): Promise<DellOrderDetailPage>;
+
+    /**
+     * Retrieves the signed-in caller's saved shopping carts page. Needs a Dell sign-in — call this
+     * only after the caller has connected their Dell account.
+     */
+    listMySavedCarts(opts?: ConnectionOption): Promise<DellMySavedCartsPage>;
   }
 }
 
@@ -37511,20 +37523,34 @@ interface RightmoveListing {
   id: string;
   title: string;
   price: string;
+  priceAmount: number | null;
+  priceFrequency: string | null;
   address: string;
   url: string;
   bedrooms: number | null;
+  bathrooms: number | null;
+  propertyType: string | null; // "Apartment", "Flat", "Terraced"
+  summary: string | null;
+  agent: string | null;
+  firstListed: string | null;
 }
 
 interface RightmoveSearchResult {
+  location: string;
+  resultCount: number | null;
+  page: number;
   listings: RightmoveListing[];
   hasMore: boolean;
 }
 
   /** Search for properties for sale or rent on Rightmove. */
   interface Unit {
-    /** Search for properties for sale or rent by location, price range, and bedroom count. */
-    search(args: { location: string, type: 'sale' | 'rent', minPrice?: number, maxPrice?: number, minBedrooms?: number, maxBedrooms?: number }): Promise<RightmoveSearchResult>;
+    /**
+     * Search UK property listings for sale or to rent by town, area or postcode district ("Leeds",
+     * "LS1"), with price and bedroom filters. 24 per page; `resultCount` and `hasMore` say how
+     * many more exist.
+     */
+    search(args: { location: string, type: 'sale' | 'rent', minPrice?: number, maxPrice?: number, minBedrooms?: number, maxBedrooms?: number, page?: number }): Promise<RightmoveSearchResult>;
   }
 }
 

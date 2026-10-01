@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fb95df5e871aeaba6ff24b6aa7abeeba2370b5d3fa356bc0d7508d51997f5769
-# 70 capabilities, 502 providers, 1681 typed functions, 20 refused.
+# Manifest version: e5dc1c3f7e6d7836b79a3c087c00ee3a86c9b187b2dd31b7ce07c55d5ac5cfb0
+# 70 capabilities, 502 providers, 1682 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8672,6 +8672,9 @@ class Prv_dell_GetOrderDetailsArgs_In(TypedDict):
     orderId: str
 
 class Prv_dell_DellOrderDetailPage_Out(TypedDict):
+    raw: str
+
+class Prv_dell_DellMySavedCartsPage_Out(TypedDict):
     raw: str
 
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
@@ -20396,8 +20399,12 @@ class Prv_rightmove_search_args_In(TypedDict):
     maxPrice: NotRequired[float]
     minBedrooms: NotRequired[float]
     maxBedrooms: NotRequired[float]
+    page: NotRequired[float]
 
 class Prv_rightmove_RightmoveSearchResult_Out(TypedDict):
+    location: str
+    resultCount: float | None
+    page: float
     listings: list[Prv_rightmove_RightmoveListing_Out]
     hasMore: bool
 
@@ -20405,9 +20412,16 @@ class Prv_rightmove_RightmoveListing_Out(TypedDict):
     id: str
     title: str
     price: str
+    priceAmount: float | None
+    priceFrequency: str | None
     address: str
     url: str
     bedrooms: float | None
+    bathrooms: float | None
+    propertyType: str | None
+    summary: str | None
+    agent: str | None
+    firstListed: str | None
 
 class Prv_rishitea_TeaFinderQuiz_Out(TypedDict):
     quizId: str
@@ -32299,6 +32313,11 @@ class Prv_dell(Protocol):
         Dell sign-in — call this only after the caller has connected their Dell account.
         """
 
+    async def listMySavedCarts(self, opts: ConnectionOption | None = None, /) -> Prv_dell_DellMySavedCartsPage_Out:
+        """Retrieves the signed-in caller's saved shopping carts page. Needs a Dell sign-in — call
+        this only after the caller has connected their Dell account.
+        """
+
 class Prv_deltadentalma(Protocol):
     """Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network
     dentists and clinics near a ZIP — the same live provider data the site's `/fad/search`
@@ -40569,7 +40588,10 @@ class Prv_rightmove(Protocol):
     """Search for properties for sale or rent on Rightmove."""
 
     async def search(self, args: Prv_rightmove_search_args_In, /) -> Prv_rightmove_RightmoveSearchResult_Out:
-        """Search for properties for sale or rent by location, price range, and bedroom count."""
+        """Search UK property listings for sale or to rent by town, area or postcode district
+        ("Leeds", "LS1"), with price and bedroom filters. 24 per page; `resultCount` and
+        `hasMore` say how many more exist.
+        """
 
 class Prv_rishitea(Protocol):
     """Rishi Tea's own "Tea Finder" quiz (Okendo Quizzes) — reads the real question set and
