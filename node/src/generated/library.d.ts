@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fdedf37935bdcaff02f740fd0035c9121a2ac20791c08d893d25de85426fba81
-// 70 capabilities, 503 providers, 1703 typed functions, 20 refused.
+// Manifest version: 039351e1016f718b598396b53b66b78516a9c25122686b22a24fabfdf6762302
+// 70 capabilities, 503 providers, 1707 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9875,6 +9875,17 @@ interface BingListSavesResult {
   warnings: string[];
 }
 
+interface BingSaveResultArgs {
+  url: string;
+  title: string;
+  note?: string;
+}
+
+interface BingSaveResultResult {
+  collectionId: string | null;
+  warnings: string[];
+}
+
   /**
    * General web and news search over Bing's index, read off Bing's own RSS output — ten ranked
    * results per query with title, destination URL, snippet and date. Keyless, browserless, ~5 KB
@@ -9979,6 +9990,14 @@ interface BingListSavesResult {
      * Microsoft account. Returns an empty list for an honestly empty collection, same as the site.
      */
     listSaves(opts?: ConnectionOption): Promise<BingListSavesResult>;
+
+    /**
+     * Adds a page, search or image to the signed-in caller's Bing Collections (bing.com/saves) —
+     * the write half of listSaves. Needs the caller's own Bing sign-in through the relay; Bowmark
+     * never creates a Microsoft account. Saving the same url twice in one run is a no-op the
+     * second time (idempotent per run), not two saved items.
+     */
+    saveResult(args: { url: string, title: string, note?: string }, opts?: ConnectionOption): Promise<BingSaveResultResult>;
   }
 }
 
@@ -10468,6 +10487,16 @@ interface BlueskySuggestUsersResults {
   users: BlueskySuggestedUser[];
 }
 
+interface BlueskyPostLike {
+  actor: BlueskyPostAuthor;
+  indexedAt: string;
+}
+
+interface BlueskyPostLikesResults {
+  likes: BlueskyPostLike[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -10555,6 +10584,12 @@ interface BlueskySuggestUsersResults {
      * avatar.
      */
     suggestUsers(query: string | { query: string; limit?: number }): Promise<BlueskySuggestUsersResults>;
+
+    /**
+     * Who liked a post, page by page. Takes a post at:// URI or bsky.app post URL. Returns each
+     * liker's handle, DID, display name, avatar and when they liked it.
+     */
+    getPostLikes(post: string | { post: string; limit?: number; cursor?: string }): Promise<BlueskyPostLikesResults>;
   }
 }
 
@@ -19014,7 +19049,7 @@ interface ForbesPerson {
 }
 
 interface GetListArgs {
-  /** A list slug, the path segment of forbes.com/lists/<slug>/, e.g. "forbes-400", "30under30", "power-women". */
+  /** A Forbes list slug (its forbesapi listUri), e.g. "forbes-400" (people), "global2000" (companies) or "power-women" (people). */
   slug: string;
 }
 
@@ -37454,6 +37489,19 @@ interface SearchArticlesArgs {
   limit?: number;                 // 1-100, default 20
   orderBy?: "newest" | "oldest" | "relevance"; // default "newest"
 }
+interface ReutersCompanyMatch {
+  name: string;
+  ric: string;                   // e.g. "AAPL.O" — the finder every company/quote function needs
+  exchange: string;               // e.g. "NASDAQ"
+  exchangeCode: string;           // e.g. "NSQ"
+  country: string;                // e.g. "US"
+  currency: string;               // e.g. "USD"
+  classification: string;         // e.g. "Equity", "ETF"
+}
+interface SearchCompaniesArgs {
+  query: string;                  // a company name or ticker, e.g. "Apple", "BASF", "gold"
+  limit?: number;                  // 1-50, default 20
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -37541,6 +37589,13 @@ interface SearchArticlesArgs {
      * first.
      */
     searchArticles(args: SearchArticlesArgs): Promise<ReutersSearchResult[]>;
+
+    /**
+     * Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF", "gold") —
+     * returns its Reuters instrument code (RIC, e.g. AAPL.O) and exchange. The finder every
+     * company and quote function needs.
+     */
+    searchCompanies(args: SearchCompaniesArgs): Promise<ReutersCompanyMatch[]>;
   }
 }
 
@@ -43413,6 +43468,10 @@ interface TwitchChatMessage {
   /** The message text. */
   body: string;
 }
+interface ListWatchLaterArgs {
+  /** Max videos to return, 1-100. Default 20. */
+  limit?: number;
+}
 
   /**
    * Twitch — cut a Highlight of your own broadcast, including the one still live, and read any
@@ -43524,6 +43583,13 @@ interface TwitchChatMessage {
      * id (not login). Returns the message id and text.
      */
     sendChatMessage(args: SendChatMessageArgs, opts?: ConnectionOption): Promise<TwitchChatMessage>;
+
+    /**
+     * Lists videos the signed-in user has saved to watch later, newest saved first: id, title,
+     * length in seconds, status, type, creation date and channel login. NEEDS the viewer's Twitch
+     * sign-in. Returns one page — up to `limit`, default 20, max 100.
+     */
+    listWatchLater(args?: ListWatchLaterArgs, opts?: ConnectionOption): Promise<TwitchVideo[]>;
   }
 }
 

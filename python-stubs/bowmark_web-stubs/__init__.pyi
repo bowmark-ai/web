@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fdedf37935bdcaff02f740fd0035c9121a2ac20791c08d893d25de85426fba81
-# 70 capabilities, 503 providers, 1685 typed functions, 20 refused.
+# Manifest version: 039351e1016f718b598396b53b66b78516a9c25122686b22a24fabfdf6762302
+# 70 capabilities, 503 providers, 1689 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5534,6 +5534,15 @@ class Prv_bing_BingSavedItem_Out(TypedDict):
     title: str
     url: str
 
+class Prv_bing_saveResult_args_In(TypedDict):
+    url: str
+    title: str
+    note: NotRequired[str]
+
+class Prv_bing_BingSaveResultResult_Out(TypedDict):
+    collectionId: str | None
+    warnings: list[str]
+
 class Prv_bionicpo_listInquiryServices_return_Out(TypedDict):
     services: list[Prv_bionicpo_InquiryService_Out]
     warnings: list[str]
@@ -5851,6 +5860,19 @@ class Prv_bluesky_BlueskySuggestedUser_Out(TypedDict):
     displayName: str | None
     avatar: str | None
     bio: str | None
+
+class Prv_bluesky_getPostLikes_post_u1_In(TypedDict):
+    post: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyPostLikesResults_Out(TypedDict):
+    likes: list[Prv_bluesky_BlueskyPostLike_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyPostLike_Out(TypedDict):
+    actor: Prv_bluesky_BlueskyPostAuthor_Out
+    indexedAt: str
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -20416,6 +20438,19 @@ class Prv_reuters_ReutersSearchResult_Out(TypedDict):
     publishedAt: str | None
     image: str | None
 
+class Prv_reuters_SearchCompaniesArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
+
+class Prv_reuters_ReutersCompanyMatch_Out(TypedDict):
+    name: str
+    ric: str
+    exchange: str
+    exchangeCode: str
+    country: str
+    currency: str
+    classification: str
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -23789,6 +23824,9 @@ class Prv_twitch_SendChatMessageArgs_In(TypedDict):
 class Prv_twitch_TwitchChatMessage_Out(TypedDict):
     id: str
     body: str
+
+class Prv_twitch_ListWatchLaterArgs_In(TypedDict):
+    limit: NotRequired[float]
 
 class Prv_uber_DriverEarnings_Out(TypedDict):
     weekStart: str
@@ -30230,6 +30268,13 @@ class Prv_bing(Protocol):
         same as the site.
         """
 
+    async def saveResult(self, args: Prv_bing_saveResult_args_In, opts: ConnectionOption | None = None, /) -> Prv_bing_BingSaveResultResult_Out:
+        """Adds a page, search or image to the signed-in caller's Bing Collections (bing.com/saves)
+        — the write half of listSaves. Needs the caller's own Bing sign-in through the relay;
+        Bowmark never creates a Microsoft account. Saving the same url twice in one run is a
+        no-op the second time (idempotent per run), not two saved items.
+        """
+
 class Prv_bionicpo(Protocol):
     """Query inquiry and service details from BionicPO's services directory."""
 
@@ -30461,6 +30506,11 @@ class Prv_bluesky(Protocol):
         """Handle autocomplete: the accounts that best match a partial name or handle, as the
         compose box's @-mention picker shows them. Returns each match's handle, DID, display
         name and avatar.
+        """
+
+    async def getPostLikes(self, post: str | Prv_bluesky_getPostLikes_post_u1_In, /) -> Prv_bluesky_BlueskyPostLikesResults_Out:
+        """Who liked a post, page by page. Takes a post at:// URI or bsky.app post URL. Returns
+        each liker's handle, DID, display name, avatar and when they liked it.
         """
 
 class Prv_bmwusa(Protocol):
@@ -40661,6 +40711,12 @@ class Prv_reuters(Protocol):
         relevant first.
         """
 
+    async def searchCompanies(self, args: Prv_reuters_SearchCompaniesArgs_In, /) -> list[Prv_reuters_ReutersCompanyMatch_Out]:
+        """Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF",
+        "gold") — returns its Reuters instrument code (RIC, e.g. AAPL.O) and exchange. The
+        finder every company and quote function needs.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -42753,6 +42809,12 @@ class Prv_twitch(Protocol):
     async def sendChatMessage(self, args: Prv_twitch_SendChatMessageArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchChatMessage_Out:
         """Sends a chat message to a Twitch channel. NEEDS the viewer's Twitch sign-in and the
         channel id (not login). Returns the message id and text.
+        """
+
+    async def listWatchLater(self, args: Prv_twitch_ListWatchLaterArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_twitch_TwitchVideo_Out]:
+        """Lists videos the signed-in user has saved to watch later, newest saved first: id, title,
+        length in seconds, status, type, creation date and channel login. NEEDS the viewer's
+        Twitch sign-in. Returns one page — up to `limit`, default 20, max 100.
         """
 
 class Prv_uber(Protocol):

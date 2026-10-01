@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2591 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2592 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1645,7 +1645,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getSavedRecipes` | cooking.nytimes.com | Lists the signed-in reader's saved recipes (their Recipe Box). Needs the CALLER's own… | ⚪ |
 | `nyt_cooking.getSeasonalGuide` | cooking.nytimes.com | Reads a seasonal guide page (e.g. "/thanksgiving", "/christmas") and its featured… | 🟢 |
 | `nyt_cooking.getTopic` | cooking.nytimes.com | Reads one topic page (e.g. "dinner-recipes", "vegan-recipes") and its tagged recipes. | 🟢 |
-| `nyt_cooking.getTrendingArticles` | cooking.nytimes.com | Lists the trending articles the site surfaces alongside recipes. | ⚪ |
+| `nyt_cooking.getTrendingArticles` | cooking.nytimes.com | Lists the articles behind the site's "Most Popular This Week" homepage carousel. | 🟢 |
 | `nyt_cooking.listFeaturedCollections` | cooking.nytimes.com | Lists the collections currently featured on the site's own homepage — the entry point… | 🟢 |
 | `nyt_cooking.listRecipeBoxFolders` | cooking.nytimes.com | Lists the signed-in reader's own Recipe Box folders. | ⚪ |
 | `nyt_cooking.listTopics` | cooking.nytimes.com | Lists the site's topic pages off its own navigation — the finder for a topic a caller… | 🟢 |
@@ -2313,7 +2313,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟢 |
 | `twitch.listSubscriptions` | twitch.tv | Lists channels the signed-in user is subscribed to and the subscription tier. | ⚪ |
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | ⚪ |
-| `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | ⚪ |
+| `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | 🟢 |
 | `twitch.searchChannels` | twitch.tv | Searches Twitch channels by keyword — a name, game or description term — and returns… | 🟢 |
 | `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | 🟢 |
 | `twitch.sendChatMessage` | twitch.tv | Sends a message to a channel's live chat. | 🟢 |
@@ -2503,6 +2503,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts. | 🟡 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
 | `xpresswellnessurgentcare.listFacilities` | xpresswellnessurgentcare.com | Lists Xpress Wellness / Integrity Urgent Care clinics — recovered by confirming each… | 🟢 |
+| `yahoo_finance.addToWatchlist` | finance.yahoo.com | Adds a ticker to one of the signed-in viewer's watchlists — for a caller who wants to… | 🟢 |
 | `yahoo_finance.getAnalystEstimates` | finance.yahoo.com | Reads Wall Street's own consensus numbers for a ticker — revenue and earnings… | 🟢 |
 | `yahoo_finance.getCompanyProfile` | finance.yahoo.com | Reads a ticker's company profile the way the site's own Profile tab does — sector… | 🟡 |
 | `yahoo_finance.getEarningsDates` | finance.yahoo.com | Reads a ticker's next scheduled earnings date and the analyst consensus EPS/revenue… | 🟢 |

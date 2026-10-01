@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fdedf37935bdcaff02f740fd0035c9121a2ac20791c08d893d25de85426fba81
-// 1685 checked, 20 unchecked.
+// Manifest version: 039351e1016f718b598396b53b66b78516a9c25122686b22a24fabfdf6762302
+// 1689 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fdedf37935bdcaff02f740fd0035c9121a2ac20791c08d893d25de85426fba81",
+  "version": "039351e1016f718b598396b53b66b78516a9c25122686b22a24fabfdf6762302",
   "units": {
     "booking_links": {
       "defs": {
@@ -10237,6 +10237,54 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "saveResult": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "url",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "title",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "note",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -10800,6 +10848,46 @@ export const VALIDATORS: ValidatorTable = {
                       "name": "limit",
                       "schema": {
                         "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getPostLikes": [
+          {
+            "name": "post",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "post",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
                       },
                       "optional": true
                     }
@@ -38600,6 +38688,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "SearchCompaniesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -38719,6 +38826,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "searchCompanies": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchCompaniesArgs"
             },
             "optional": false
           }
@@ -44973,6 +45090,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListWatchLaterArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchChannelsArgs": {
           "k": "object",
           "props": [
@@ -45246,6 +45375,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SendChatMessageArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWatchLater": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListWatchLaterArgs"
+            },
+            "optional": true
           },
           {
             "name": "opts",
