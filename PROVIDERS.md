@@ -680,7 +680,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | 🟢 |
 | `dell.listMyOrders` | dell.com | Retrieves the signed-in user's order history with order numbers, dates, and status. | 🟢 |
 | `dell.listMyRegisteredProducts` | dell.com | Retrieves the signed-in user's registered Dell products and devices. | ⚪ |
-| `dell.listMySavedCarts` | dell.com | Retrieves the signed-in user's saved shopping carts. | ⚪ |
+| `dell.listMySavedCarts` | dell.com | Retrieves the signed-in user's saved shopping carts. | 🟢 |
 | `dell.listProductCategories` | dell.com | Lists the main product categories (laptops, desktops, servers, peripherals, etc.). | 🟢 |
 | `dell.listSupportCategories` | dell.com | Lists the main support categories (drivers, firmware, manuals, community forum, etc.). | 🟢 |
 | `dell.searchForumThreads` | dell.com | Searches Dell's community forum for threads matching a query, returning titles, URLs… | 🟢 |
