@@ -54,7 +54,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `git_release_notes.releaseNotes` | Returns a public GitHub repository's own release history — each release's tag, display… | 1 | 🟢 |
 | `goal_diff.search` | Search for sports standings with goal differential data. `options.timeoutMs` sets the… | 1 | 🟢 |
 | `gstin_verification.lookup` | Verifies a GSTIN and returns the registrant's legal name, registration status… | 1 | 🟡 |
-| `hotels.search` | Searches stays for a place and a date range — `{ location: "SFO", checkIn… | 1 | 🟢 |
+| `hotels.search` | Metasearch across agencies for hotel stays in a location — NOT a single-property… | 1 | 🟢 |
 | `hvac.getCostEstimate` | Calls the manufacturer's own published cost-guide table and returns a real… | 1 | 🟢 |
 | `industrial_supply.search` | Searches industrial supply catalogs by product name, part number or category… | 1 | 🟢 |
 | `insurance.findAgent` | Finds an insurance agent or agency to actually call, across the two carriers this… | 4 | 🟢 |
