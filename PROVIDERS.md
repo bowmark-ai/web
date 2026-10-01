@@ -146,7 +146,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `apple.getConfigurationOptions` | apple.com | Read every choice a buy page actually offers — chip, memory, storage, colour, size… | 🟢 |
 | `apple.getDeliveryEstimate` | apple.com | When would this actually arrive if I ordered it now, to my ZIP code — the delivery… | 🟢 |
 | `apple.getNewsroomPost` | apple.com | Read one Apple press release in full from its URL — the announcement text itself, not… | 🟢 |
-| `apple.getOrderStatus` | apple.com | Where is one Apple order, and when does it arrive — off the signed-in Order List page. | 🟢 |
+| `apple.getOrderStatus` | apple.com | Where is one Apple order, and when does it arrive — off the signed-in Order List page. | 🟡 |
 | `apple.getPickupAvailability` | apple.com | Answer the one question apple.com is uniquely able to answer and no other site can… | 🟢 |
 | `apple.getProduct` | apple.com | Reads one apple.com product/buy page (a URL or path search already returned, e.g.… | 🟢 |
 | `apple.getProductByPartNumber` | apple.com | Turn an Apple part number — the MYAP3LL/A-shaped code printed on every buy page, in… | 🟢 |
@@ -780,16 +780,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getGameRatings` | epicgames.com | How players rate a game on the Epic Games Store — the average star rating, the count… | ⚪ |
 | `epicgames.getLibrary` | epicgames.com | The games the signed-in caller owns on Epic — title, namespace, slug, and when it was… | ⚪ |
 | `epicgames.getNewsArticle` | epicgames.com | One Epic Games Store news article's full text (HTML), date, author, category and images. | 🟢 |
-| `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | 🟢 |
+| `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | 🟡 |
 | `epicgames.getRewardsBalance` | epicgames.com | The signed-in caller's Epic Rewards balance — the store credit they have earned from… | ⚪ |
 | `epicgames.getServiceStatus` | epicgames.com | Whether Epic's services are up — the Epic Games Store, launcher, login, Fortnite… | 🟢 |
 | `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | 🟢 |
 | `epicgames.getWishlist` | epicgames.com | The signed-in caller's Epic Games Store wishlist, with each game's current price and… | ⚪ |
 | `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Top Upcoming… | ⚪ |
-| `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | 🟢 |
+| `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | 🟡 |
 | `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | 🟢 |
 | `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | ⚪ |
-| `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | 🟢 |
+| `epicgames.listGameOffers` | epicgames.com | Every purchasable offer under one game — base game, editions, DLC, add-ons and bundles… | 🟡 |
 | `epicgames.listNews` | epicgames.com | The Epic Games Store's news articles, newest first — title, date, author, category… | 🟢 |
 | `epicgames.listOrders` | epicgames.com | The signed-in caller's Epic purchase history — each transaction's date, items, amount… | ⚪ |
 | `epicgames.listTags` | epicgames.com | The store's browse filters — genres, features, platforms and event tags with their ids… | ⚪ |
@@ -842,7 +842,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `evolvemedspa.checkAvailability` | evolvemedspa.com | Reads real open appointment slots for a service and date. | 🟢 |
 | `evolvemedspa.listLocations` | evolvemedspa.com | Lists Evolve Med Spa's real bookable Zenoti locations. | 🟢 |
 | `evolvemedspa.listServices` | evolvemedspa.com | Lists a location's live Zenoti services, prices, and durations. | 🟢 |
-| `executivehomecare.findLocalOffice` | executivehomecare.com | Looks up the Executive Home Care franchise office that covers a US ZIP — the same… | 🟢 |
+| `executivehomecare.findLocalOffice` | executivehomecare.com | Looks up the Executive Home Care franchise office that covers a US ZIP — the same… | 🟡 |
 | `extraspace.checkAvailability` | extraspace.com | Checks current availability and price for one specific unit size (e.g. 5x10, 10x10… | 🟢 |
 | `extraspace.getDeals` | extraspace.com | Reads Extra Space Storage's currently published promotions — the move-in specials… | ⚪ |
 | `extraspace.getFacility` | extraspace.com | Reads one Extra Space Storage facility in full, for the `storeId` a caller already has… | 🟢 |
@@ -1053,7 +1053,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
-| `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, state, merge… | 🟢 |
+| `github.getPullRequest` | github.com | Returns the full details of one pull request — title, body, creator, state, merge… | 🟡 |
 | `github.getRepo` | github.com | Returns a public repository's own metadata — description, default branch… | 🟢 |
 | `github.getSponsorPage` | github.com | Returns a person's public GitHub Sponsors page — display name, bio, location, current… | 🟢 |
 | `github.getUser` | github.com | Returns a person's public GitHub profile metadata — login, name, company, location… | 🟢 |
@@ -1115,11 +1115,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | ⚪ |
 | `google_news.findTopic` | news.google.com | The finder `getTopicHeadlines` is missing for an ENTITY topic — a company, a person, a… | ⚪ |
 | `google_news.followTopic` | news.google.com | Follow a topic, a place or a publisher as the signed-in person — how a Google News… | ⚪ |
-| `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | 🟢 |
+| `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | 🟡 |
 | `google_news.getFullCoverage` | news.google.com | Google News' Full Coverage for one story — every outlet reporting it, with each one's… | 🟢 |
 | `google_news.getTopicHeadlines` | news.google.com | The headlines under any Google News topic id — the opaque key `/rss/topics/<id>`… | 🟢 |
 | `google_news.listEditions` | news.google.com | The country and language editions Google News publishes — the hl / gl / ceid triple… | 🟡 |
-| `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, exactly as Google… | 🟢 |
+| `google_news.listFollowedTopics` | news.google.com | The topics, places and publishers the signed-in person follows, exactly as Google… | 🟡 |
 | `google_news.listLocalHeadlines` | news.google.com | What is being reported in one place — the local-news edition for a city or region, by… | 🟢 |
 | `google_news.listPublisherHeadlines` | news.google.com | Everything Google News has indexed from one publisher — a domain like reuters.com, or… | 🟢 |
 | `google_news.listSavedArticles` | news.google.com | The articles the signed-in person saved for later — Google News' own reading list… | 🟢 |
@@ -1490,7 +1490,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.listCategory` | shop.lululemon.com | Browses one category the way the site's own navigation does — Women's Leggings, Men's… | ⚪ |
 | `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
 | `lyreco.getProduct` | lyreco.com | Reads one product's detail page and returns its live guest pricing — every variant… | 🟢 |
-| `lyreco.search` | lyreco.com | Runs Lyreco's site search for office supplies and returns matching product rows… | 🟢 |
+| `lyreco.search` | lyreco.com | Runs Lyreco's site search for office supplies and returns matching product rows… | 🟡 |
 | `maersk.track` | maersk.com | Tracks a container or bill-of-lading number on Maersk's documented Track & Trace API… | 🟢 |
 | `maidenhome.getProduct` | maidenhome.com | Reads one configurable product's complete Size x Wood Finish variant grid — every… | 🟢 |
 | `maidenhome.resolveVariant` | maidenhome.com | Resolves a free-text product + size + wood finish to the exact priced variant and its… | 🟢 |
@@ -1993,7 +1993,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsclub.checkStock` | samsclub.com | Answers whether one item is in stock right now, and at what price, at a SPECIFIC club… | 🟢 |
 | `samsclub.findClubs` | samsclub.com | Finds nearby Sam's Club warehouse locations for a 5-digit US zip — address, phone… | 🟢 |
 | `samsclub.getFuelPrices` | samsclub.com | Reads the current fuel-center gas price at a specific club — a genuinely… | 🟢 |
-| `samsclub.getInstantSavings` | samsclub.com | Reads one page (47 rows) of samsclub.com's live Instant Savings promotional catalog —… | 🟢 |
+| `samsclub.getInstantSavings` | samsclub.com | Reads one page (47 rows) of samsclub.com's live Instant Savings promotional catalog —… | 🟡 |
 | `samsclub.getMembershipPlans` | samsclub.com | Reads the site's own published membership tiers (Club, Plus) — the currently-displayed… | 🟢 |
 | `samsclub.getPickupSlots` | samsclub.com | Reads the available club-pickup or delivery time windows for a given club/zip — the… | ⚪ |
 | `samsclub.getProduct` | samsclub.com | Reads one product's full page — member price (and non-member price where the site… | 🟢 |
@@ -2518,7 +2518,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getQuote` | finance.yahoo.com | Reads the live quote header for one ticker ("AAPL") the way the site's own quote page… | 🟡 |
 | `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | 🟡 |
 | `yahoo_finance.listCryptoPrices` | finance.yahoo.com | Reads the live crypto leaderboard the way the site's own Crypto markets page does —… | 🟢 |
-| `yahoo_finance.listCurrencyRates` | finance.yahoo.com | Reads live currency-pair rates the way the site's own Currencies markets page does —… | 🟢 |
+| `yahoo_finance.listCurrencyRates` | finance.yahoo.com | Reads live currency-pair rates the way the site's own Currencies markets page does —… | ⚪ |
 | `yahoo_finance.listWatchlists` | finance.yahoo.com | Reads the signed-in viewer's saved watchlists with their tickers and current quotes —… | 🟢 |
 | `yahoo_finance.searchSymbols` | finance.yahoo.com | Resolves what a person would type — a company name ("Apple"), a ticker ("AAPL") or a… | 🟢 |
 | `yahoo_mail.deleteMessage` | mail.yahoo.com | Deletes one of the CALLER's own messages (moves it to Trash, matching what the site's… | ⚪ |
