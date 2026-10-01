@@ -1048,7 +1048,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.listPartnerCompanies` | geico.com | Returns which insurance companies GEICO Insurance Agency actually places each line of… | 🟢 |
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
-| `github.createComment` | github.com | Adds a comment to an issue or pull request. | ⚪ |
+| `github.createComment` | github.com | Adds a comment to an issue or pull request. | 🟢 |
 | `github.createIssue` | github.com | Creates a new issue on a repository. | 🟢 |
 | `github.createPullRequest` | github.com | Creates a new pull request from a head branch to a base branch. | ⚪ |
 | `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
@@ -2253,7 +2253,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | 🟢 |
 | `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | ⚪ |
 | `tradingview.getTechnicalAnalysis` | www.tradingview.com | Get technical analysis signals and ratings for a symbol. | 🟢 |
-| `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | 🟢 |
+| `tradingview.searchSymbols` | www.tradingview.com | Search for a symbol by ticker, company name, or description across all exchanges. | 🟡 |
 | `travelinsured.getPlanQuote` | travelinsured.com | Prices Travel Insured's Essential/Deluxe/Platinum plans for a trip (destination… | ⚪ |
 | `travelinsured.getZipInfo` | travelinsured.com | Resolves a US ZIP code to its state and country the way the quote flow's… | 🟢 |
 | `travelinsured.searchDestinations` | travelinsured.com | Looks up a destination (country, city, or US state) the way Travel Insured's own… | 🟢 |
@@ -2483,7 +2483,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listBacklinks` | wikipedia.org | What links HERE — every Wikipedia article pointing at this one, by title and url. | 🟢 |
 | `wikipedia.listCategories` | wikipedia.org | The categories an article belongs to — Wikipedia's own subject taxonomy, which is how… | 🟢 |
 | `wikipedia.listCategoryMembers` | wikipedia.org | Every article in a category — hand it "Coffee" and get the pages Wikipedia files under… | 🟢 |
-| `wikipedia.listExternalLinks` | wikipedia.org | Every link OFF Wikipedia from one article — the sources, official sites and references… | 🟢 |
+| `wikipedia.listExternalLinks` | wikipedia.org | Every link OFF Wikipedia from one article — the sources, official sites and references… | 🟡 |
 | `wikipedia.listImages` | wikipedia.org | Every image, diagram, audio clip and video in an article, in page order — each with… | 🟢 |
 | `wikipedia.listLanguages` | wikipedia.org | What this article is called in every other language Wikipedia has it in, with the url… | 🟢 |
 | `wikipedia.listLinks` | wikipedia.org | Every other Wikipedia article this one links to, by title and url. | 🟢 |

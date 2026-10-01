@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: aaf653aa6316bb8458956afebec7803f104ca1b9a53ec2e59ae8de9c6ce2e41a
-// 70 capabilities, 505 providers, 1723 typed functions, 20 refused.
+// Manifest version: da8e9db23d1abb83448e7fe57bcd9aaa1cb0a1f991437437e7aa521cee5dbe89
+// 70 capabilities, 505 providers, 1725 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10504,6 +10504,11 @@ interface BlueskyPostLikesResults {
   cursor?: string;
 }
 
+interface BlueskyPostRepostsResults {
+  reposters: BlueskyPostAuthor[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -10597,6 +10602,12 @@ interface BlueskyPostLikesResults {
      * liker's handle, DID, display name, avatar and when they liked it.
      */
     getPostLikes(post: string | { post: string; limit?: number; cursor?: string }): Promise<BlueskyPostLikesResults>;
+
+    /**
+     * Who reposted a post, page by page. Takes a post at:// URI or bsky.app post URL. Returns each
+     * reposter's handle, DID, display name and avatar.
+     */
+    getPostReposts(post: string | { post: string; limit?: number; cursor?: string }): Promise<BlueskyPostRepostsResults>;
   }
 }
 
@@ -37624,6 +37635,31 @@ interface SearchCompaniesArgs {
   query: string;                  // a company name or ticker, e.g. "Apple", "BASF", "gold"
   limit?: number;                  // 1-50, default 20
 }
+interface ReutersQuote {
+  ric: string;
+  name: string;
+  exchange: string;                // e.g. "NASDAQ"
+  category: string;                // e.g. "Equity", "Index", "Foreign Exchange", "FU" (future)
+  currency: string;
+  last: number;
+  change: number;
+  changePercent: number;
+  open: number;
+  dayHigh: number;
+  dayLow: number;
+  previousClose: number;
+  week52High: number;
+  week52Low: number;
+  volume: number | null;           // last session's volume; null when the vendor reports none (FX)
+  avgVolume10Day: number | null;
+  marketCap: number | null;
+  peRatio: number | null;
+  dividendYield: number | null;
+  asOf: string;                    // ISO timestamp of the last trade
+}
+interface GetQuoteArgs {
+  ric: string;                     // a RIC from searchCompanies, e.g. "AAPL.O", ".SPX", "EUR=X", "CLc1"
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -37718,6 +37754,13 @@ interface SearchCompaniesArgs {
      * company and quote function needs.
      */
     searchCompanies(args: SearchCompaniesArgs): Promise<ReutersCompanyMatch[]>;
+
+    /**
+     * The current Reuters quote for one instrument by RIC — a stock, index, currency pair or
+     * commodity: last price, change, percent change, day range, 52-week range, volume and time.
+     * Takes a RIC from searchCompanies.
+     */
+    getQuote(args: GetQuoteArgs): Promise<ReutersQuote>;
   }
 }
 

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: aaf653aa6316bb8458956afebec7803f104ca1b9a53ec2e59ae8de9c6ce2e41a
-# 70 capabilities, 505 providers, 1705 typed functions, 20 refused.
+# Manifest version: da8e9db23d1abb83448e7fe57bcd9aaa1cb0a1f991437437e7aa521cee5dbe89
+# 70 capabilities, 505 providers, 1707 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5873,6 +5873,15 @@ class Prv_bluesky_BlueskyPostLikesResults_Out(TypedDict):
 class Prv_bluesky_BlueskyPostLike_Out(TypedDict):
     actor: Prv_bluesky_BlueskyPostAuthor_Out
     indexedAt: str
+
+class Prv_bluesky_getPostReposts_post_u1_In(TypedDict):
+    post: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyPostRepostsResults_Out(TypedDict):
+    reposters: list[Prv_bluesky_BlueskyPostAuthor_Out]
+    cursor: NotRequired[str]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
@@ -20503,6 +20512,31 @@ class Prv_reuters_ReutersCompanyMatch_Out(TypedDict):
     currency: str
     classification: str
 
+class Prv_reuters_GetQuoteArgs_In(TypedDict):
+    ric: str
+
+class Prv_reuters_ReutersQuote_Out(TypedDict):
+    ric: str
+    name: str
+    exchange: str
+    category: str
+    currency: str
+    last: float
+    change: float
+    changePercent: float
+    open: float
+    dayHigh: float
+    dayLow: float
+    previousClose: float
+    week52High: float
+    week52Low: float
+    volume: float | None
+    avgVolume10Day: float | None
+    marketCap: float | None
+    peRatio: float | None
+    dividendYield: float | None
+    asOf: str
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -30661,6 +30695,11 @@ class Prv_bluesky(Protocol):
     async def getPostLikes(self, post: str | Prv_bluesky_getPostLikes_post_u1_In, /) -> Prv_bluesky_BlueskyPostLikesResults_Out:
         """Who liked a post, page by page. Takes a post at:// URI or bsky.app post URL. Returns
         each liker's handle, DID, display name, avatar and when they liked it.
+        """
+
+    async def getPostReposts(self, post: str | Prv_bluesky_getPostReposts_post_u1_In, /) -> Prv_bluesky_BlueskyPostRepostsResults_Out:
+        """Who reposted a post, page by page. Takes a post at:// URI or bsky.app post URL. Returns
+        each reposter's handle, DID, display name and avatar.
         """
 
 class Prv_bmwusa(Protocol):
@@ -40914,6 +40953,12 @@ class Prv_reuters(Protocol):
         """Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF",
         "gold") — returns its Reuters instrument code (RIC, e.g. AAPL.O) and exchange. The
         finder every company and quote function needs.
+        """
+
+    async def getQuote(self, args: Prv_reuters_GetQuoteArgs_In, /) -> Prv_reuters_ReutersQuote_Out:
+        """The current Reuters quote for one instrument by RIC — a stock, index, currency pair or
+        commodity: last price, change, percent change, day range, 52-week range, volume and
+        time. Takes a RIC from searchCompanies.
         """
 
 class Prv_revisionskincare(Protocol):

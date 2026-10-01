@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: aaf653aa6316bb8458956afebec7803f104ca1b9a53ec2e59ae8de9c6ce2e41a
-// 1705 checked, 20 unchecked.
+// Manifest version: da8e9db23d1abb83448e7fe57bcd9aaa1cb0a1f991437437e7aa521cee5dbe89
+// 1707 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "aaf653aa6316bb8458956afebec7803f104ca1b9a53ec2e59ae8de9c6ce2e41a",
+  "version": "da8e9db23d1abb83448e7fe57bcd9aaa1cb0a1f991437437e7aa521cee5dbe89",
   "units": {
     "booking_links": {
       "defs": {
@@ -10884,6 +10884,46 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getPostLikes": [
+          {
+            "name": "post",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "post",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getPostReposts": [
           {
             "name": "post",
             "schema": {
@@ -38809,6 +38849,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetQuoteArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ric",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListArticlesByDateArgs": {
           "k": "object",
           "props": [
@@ -39132,6 +39184,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "SearchCompaniesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getQuote": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetQuoteArgs"
             },
             "optional": false
           }
