@@ -675,7 +675,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟢 |
 | `dell.getProductDrivers` | dell.com | Searches for and retrieves drivers for a Dell product by service tag or model number. | ⚪ |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves detailed information about a registered Dell product including warranty and… | ⚪ |
-| `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | ⚪ |
+| `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | 🟢 |
 | `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag. | ⚪ |
 | `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | 🟢 |
 | `dell.listMyOrders` | dell.com | Retrieves the signed-in user's order history with order numbers, dates, and status. | 🟢 |

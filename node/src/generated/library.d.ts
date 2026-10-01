@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2a8fde2df55a9e52dacbe7af4d9168a664b266672aecdb4ac0e9bec15e6bb227
-// 70 capabilities, 504 providers, 1711 typed functions, 20 refused.
+// Manifest version: dc3e7ee0ce222b0d8ae8fc99e5a0622c37c692e8e7835a3175d0c4244e06aff1
+// 70 capabilities, 504 providers, 1714 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -33423,6 +33423,12 @@ interface NytimesNewsletter {
      * the page itself renders logged out.
      */
     listNewsletters(): Promise<NytimesNewsletter[]>;
+
+    /**
+     * Gets one newsletter's own catalog entry. Takes a newsletter slug like "the-veggie" (from
+     * listNewsletters) or a path like "/newsletters/the-veggie".
+     */
+    getNewsletter(slug: string): Promise<NytimesNewsletter>;
   }
 }
 
@@ -45757,6 +45763,15 @@ interface WikipediaUserContribution {
   revisionId: number;
 }
 
+interface WikipediaNearbyPlace {
+  title: string;
+  pageId: number;
+  namespace: number;
+  lat: number;
+  lon: number;
+  distance: number;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -45965,6 +45980,15 @@ interface WikipediaUserContribution {
      * Optional limit parameter caps the number of contributions returned (1-500, defaults to 50).
      */
     listUserContributions(username: string, options?: { lang?: string; limit?: number }): Promise<{ contributions: WikipediaUserContribution[]; warnings: string[] }>;
+
+    /**
+     * Articles with coordinates near a point, ordered nearest first — what is written about near
+     * here. Each result carries its own coordinates and distance in meters. Takes a latitude and
+     * longitude; `radius` narrows the search circle in meters (10-10000, defaults to 1000) and
+     * `limit` caps the number of results (1-500, defaults to 10). Optional `namespace` narrows to
+     * one MediaWiki namespace (0 is articles).
+     */
+    searchNearby(lat: number, lon: number, options?: { lang?: string; radius?: number; limit?: number; namespace?: number }): Promise<{ places: WikipediaNearbyPlace[]; warnings: string[] }>;
   }
 }
 
@@ -47381,6 +47405,11 @@ interface YoutubePlaylistEdit {
   url: string;
 }
 
+interface YoutubeDeletedPlaylist {
+  playlistId: string;
+  deleted: boolean;            // permanent, no undo
+}
+
 interface YoutubeMyVideo {
   videoId: string;
   title: string;
@@ -47754,6 +47783,13 @@ interface YoutubeStreamFormat {
      * 5000 chars), or `privacy` (`PUBLIC`, `PRIVATE`, or `UNLISTED`). NEEDS A SIGN-IN.
      */
     updatePlaylist(input: { playlist: string; title?: string; description?: string; privacy?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistEdit>;
+
+    /**
+     * PERMANENTLY deletes one of the signed-in account's own playlists — YouTube offers no undo.
+     * `playlist` is a playlist id (`PL…`), a `VL<id>` playlist URL, or a full URL. Only call it
+     * when the account holder asked for that playlist to be deleted. NEEDS A SIGN-IN.
+     */
+    deletePlaylist(input: { playlist: string }, opts?: ConnectionOption): Promise<YoutubeDeletedPlaylist>;
 
     /**
      * The channels the signed-in account subscribes to — id, url, handle (when the row carries

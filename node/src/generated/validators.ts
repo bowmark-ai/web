@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2a8fde2df55a9e52dacbe7af4d9168a664b266672aecdb4ac0e9bec15e6bb227
-// 1693 checked, 20 unchecked.
+// Manifest version: dc3e7ee0ce222b0d8ae8fc99e5a0622c37c692e8e7835a3175d0c4244e06aff1
+// 1696 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2a8fde2df55a9e52dacbe7af4d9168a664b266672aecdb4ac0e9bec15e6bb227",
+  "version": "dc3e7ee0ce222b0d8ae8fc99e5a0622c37c692e8e7835a3175d0c4244e06aff1",
   "units": {
     "booking_links": {
       "defs": {
@@ -31587,7 +31587,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": true
           }
         ],
-        "listNewsletters": []
+        "listNewsletters": [],
+        "getNewsletter": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.oanda": {
@@ -48002,6 +48011,59 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "searchNearby": [
+          {
+            "name": "lat",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "lon",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "radius",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "namespace",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -49956,6 +50018,40 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "deletePlaylist": [
+          {
+            "name": "input",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "playlist",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },

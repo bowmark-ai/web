@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2a8fde2df55a9e52dacbe7af4d9168a664b266672aecdb4ac0e9bec15e6bb227
-# 70 capabilities, 504 providers, 1693 typed functions, 20 refused.
+# Manifest version: dc3e7ee0ce222b0d8ae8fc99e5a0622c37c692e8e7835a3175d0c4244e06aff1
+# 70 capabilities, 504 providers, 1696 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -25412,6 +25412,24 @@ class Prv_wikipedia_WikipediaUserContribution_Out(TypedDict):
     comment: str
     revisionId: float
 
+class Prv_wikipedia_searchNearby_options_In(TypedDict):
+    lang: NotRequired[str]
+    radius: NotRequired[float]
+    limit: NotRequired[float]
+    namespace: NotRequired[float]
+
+class Prv_wikipedia_searchNearby_return_Out(TypedDict):
+    places: list[Prv_wikipedia_WikipediaNearbyPlace_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaNearbyPlace_Out(TypedDict):
+    title: str
+    pageId: float
+    namespace: float
+    lat: float
+    lon: float
+    distance: float
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -26392,6 +26410,13 @@ class Prv_youtube_updatePlaylist_input_In(TypedDict):
     title: NotRequired[str]
     description: NotRequired[str]
     privacy: NotRequired[str]
+
+class Prv_youtube_deletePlaylist_input_In(TypedDict):
+    playlist: str
+
+class Prv_youtube_YoutubeDeletedPlaylist_Out(TypedDict):
+    playlistId: str
+    deleted: bool
 
 class Prv_youtube_subscribeToChannel_input_In(TypedDict):
     channel: str
@@ -39051,6 +39076,11 @@ class Prv_nytimes(Protocol):
         most the page itself renders logged out.
         """
 
+    async def getNewsletter(self, slug: str, /) -> Prv_nytimes_NytimesNewsletter_Out:
+        """Gets one newsletter's own catalog entry. Takes a newsletter slug like "the-veggie" (from
+        listNewsletters) or a path like "/newsletters/the-veggie".
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -43738,6 +43768,14 @@ class Prv_wikipedia(Protocol):
         (1-500, defaults to 50).
         """
 
+    async def searchNearby(self, lat: float, lon: float, options: Prv_wikipedia_searchNearby_options_In | None = None, /) -> Prv_wikipedia_searchNearby_return_Out:
+        """Articles with coordinates near a point, ordered nearest first — what is written about
+        near here. Each result carries its own coordinates and distance in meters. Takes a
+        latitude and longitude; `radius` narrows the search circle in meters (10-10000, defaults
+        to 1000) and `limit` caps the number of results (1-500, defaults to 10). Optional
+        `namespace` narrows to one MediaWiki namespace (0 is articles).
+        """
+
 class Prv_wikipedia_standings(Protocol):
     """Search Wikipedia for sports league standings with goal differential data."""
 
@@ -44398,6 +44436,12 @@ class Prv_youtube(Protocol):
         Pass any combination of `title`, `description` (a new description to replace the old
         one, max 5000 chars), or `privacy` (`PUBLIC`, `PRIVATE`, or `UNLISTED`). NEEDS A
         SIGN-IN.
+        """
+
+    async def deletePlaylist(self, input: Prv_youtube_deletePlaylist_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubeDeletedPlaylist_Out:
+        """PERMANENTLY deletes one of the signed-in account's own playlists — YouTube offers no
+        undo. `playlist` is a playlist id (`PL…`), a `VL<id>` playlist URL, or a full URL. Only
+        call it when the account holder asked for that playlist to be deleted. NEEDS A SIGN-IN.
         """
 
     async def listSubscriptions(self, opts: ConnectionOption | None = None, /) -> list[Prv_youtube_YoutubeChannelRef_Out]:
