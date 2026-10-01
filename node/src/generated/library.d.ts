@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 26716e691a287ceada77ac10c3469159c90d0ab36ddc007182108cbc38f7ae57
+// Manifest version: 775e92a9242c0e7096f6bead5c4a99534d98f48c219fae45ae9f0121c4854edf
 // 70 capabilities, 504 providers, 1716 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -40452,6 +40452,32 @@ interface GetGameStatsResponse {
   };
 }
 
+interface ListNewsArgs {
+  appid: string | number;
+  count?: number;
+  feedname?: string;
+  maxLength?: number;
+}
+
+interface SteamNewsItem {
+  id: string;
+  title: string;
+  url: string;
+  isExternalUrl: boolean;
+  author: string;
+  contents: string;
+  feedLabel: string;
+  date: number;
+  feedName: string;
+  feedType: number;
+  tags: string[];
+}
+
+interface ListNewsResponse {
+  items: SteamNewsItem[];
+  totalCount: number;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -40506,6 +40532,12 @@ interface GetGameStatsResponse {
      * by appid; achievements is an honest null/empty when the game has no achievement stats.
      */
     getGameStats(args: GetGameStatsArgs, opts?: ConnectionOption): Promise<GetGameStatsResponse>;
+
+    /**
+     * Lists a game's news and updates by appid, from both official announcements and third-party
+     * gaming sites, with title, author, date, full HTML content, URL and feed type per item.
+     */
+    listNews(args: ListNewsArgs, opts?: ConnectionOption): Promise<ListNewsResponse>;
   }
 }
 
@@ -46340,19 +46372,6 @@ interface YahooFinanceKeyStatistics {
   stats: YahooFinanceKeyStat[];
 }
 
-interface YahooFinanceCurrencyRate {
-  symbol: string;               // e.g., "EURUSD=X", "GBPUSD=X"
-  name: string | null;          // display name
-  bid: number | null;
-  ask: number | null;
-  change: number | null;
-  changePercent: number | null;
-}
-
-interface YahooFinanceCurrencyRates {
-  rates: YahooFinanceCurrencyRate[];
-}
-
 interface YahooFinanceCryptoPrice {
   symbol: string;               // e.g., "BTC-USD", "ETH-USD"
   name: string | null;          // display name
@@ -46552,14 +46571,6 @@ interface YahooFinanceWatchlists {
      * empty ticker throws before any request is sent.
      */
     getFinancials(symbol: string): Promise<YahooFinanceFinancials>;
-
-    /**
-     * Reads the live currency-pair rates the way the site's own Currencies markets page does — for
-     * an agent asking what a dollar is worth in another currency right now. Returns the list of
-     * currency pairs with their current bid/ask prices (or regularMarketPrice as a fallback) and
-     * percentage change.
-     */
-    listCurrencyRates(): Promise<YahooFinanceCurrencyRates>;
 
     /**
      * Reads the live cryptocurrency prices the way the site's own Crypto markets page does — for

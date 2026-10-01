@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 26716e691a287ceada77ac10c3469159c90d0ab36ddc007182108cbc38f7ae57
+# Manifest version: 775e92a9242c0e7096f6bead5c4a99534d98f48c219fae45ae9f0121c4854edf
 # 70 capabilities, 504 providers, 1698 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -22143,6 +22143,29 @@ class Prv_steam_SteamAchievementRate_Out(TypedDict):
     name: str
     percent: float
 
+class Prv_steam_ListNewsArgs_In(TypedDict):
+    appid: str | float
+    count: NotRequired[float]
+    feedname: NotRequired[str]
+    maxLength: NotRequired[float]
+
+class Prv_steam_ListNewsResponse_Out(TypedDict):
+    items: list[Prv_steam_SteamNewsItem_Out]
+    totalCount: float
+
+class Prv_steam_SteamNewsItem_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    isExternalUrl: bool
+    author: str
+    contents: str
+    feedLabel: str
+    date: float
+    feedName: str
+    feedType: float
+    tags: list[str]
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -25654,17 +25677,6 @@ class Prv_yahoo_finance_YahooFinanceFinancialStatement_Out(TypedDict):
 class Prv_yahoo_finance_YahooFinanceFinancialRow_Out(TypedDict):
     label: str
     values: Mapping[str, str | None]
-
-class Prv_yahoo_finance_YahooFinanceCurrencyRates_Out(TypedDict):
-    rates: list[Prv_yahoo_finance_YahooFinanceCurrencyRate_Out]
-
-class Prv_yahoo_finance_YahooFinanceCurrencyRate_Out(TypedDict):
-    symbol: str
-    name: str | None
-    bid: float | None
-    ask: float | None
-    change: float | None
-    changePercent: float | None
 
 class Prv_yahoo_finance_YahooFinanceCryptoPrices_Out(TypedDict):
     prices: list[Prv_yahoo_finance_YahooFinanceCryptoPrice_Out]
@@ -41769,6 +41781,12 @@ class Prv_steam(Protocol):
         stats.
         """
 
+    async def listNews(self, args: Prv_steam_ListNewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_ListNewsResponse_Out:
+        """Lists a game's news and updates by appid, from both official announcements and
+        third-party gaming sites, with title, author, date, full HTML content, URL and feed type
+        per item.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -43958,13 +43976,6 @@ class Prv_yahoo_finance(Protocol):
         because the same statement mixes revenue, counts, percentages and ratios. A section is
         null when Yahoo Finance has no financial statements for this ticker (non-equity quote
         types). An unknown or empty ticker throws before any request is sent.
-        """
-
-    async def listCurrencyRates(self, /) -> Prv_yahoo_finance_YahooFinanceCurrencyRates_Out:
-        """Reads the live currency-pair rates the way the site's own Currencies markets page does —
-        for an agent asking what a dollar is worth in another currency right now. Returns the
-        list of currency pairs with their current bid/ask prices (or regularMarketPrice as a
-        fallback) and percentage change.
         """
 
     async def listCryptoPrices(self, /) -> Prv_yahoo_finance_YahooFinanceCryptoPrices_Out:

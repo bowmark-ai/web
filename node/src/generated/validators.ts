@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 26716e691a287ceada77ac10c3469159c90d0ab36ddc007182108cbc38f7ae57
+// Manifest version: 775e92a9242c0e7096f6bead5c4a99534d98f48c219fae45ae9f0121c4854edf
 // 1698 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "26716e691a287ceada77ac10c3469159c90d0ab36ddc007182108cbc38f7ae57",
+  "version": "775e92a9242c0e7096f6bead5c4a99534d98f48c219fae45ae9f0121c4854edf",
   "units": {
     "booking_links": {
       "defs": {
@@ -42146,6 +42146,47 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "count",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "feedname",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxLength",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "SearchGamesArgs": {
           "k": "object",
           "props": [
@@ -42348,6 +42389,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetGameStatsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListNewsArgs"
             },
             "optional": false
           },
@@ -48304,7 +48371,6 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listCurrencyRates": [],
         "listCryptoPrices": [],
         "getOptionsChain": [
           {
