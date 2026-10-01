@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: fd3b67517fe128ab64585d7db9693c2befba0ec6d7dc5bf754d3316e022e78ae
-// 1714 checked, 20 unchecked.
+// Manifest version: 2873ecd2aaa79fd17749ed8f529c86e379957975246a30150ffc34349c70ffe3
+// 1716 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "fd3b67517fe128ab64585d7db9693c2befba0ec6d7dc5bf754d3316e022e78ae",
+  "version": "2873ecd2aaa79fd17749ed8f529c86e379957975246a30150ffc34349c70ffe3",
   "units": {
     "booking_links": {
       "defs": {
@@ -6720,6 +6720,24 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWishLists": [
           {
             "name": "opts",
             "schema": {
@@ -45091,7 +45109,97 @@ export const VALIDATORS: ValidatorTable = {
       }
     },
     "providers.tradingview": {
-      "defs": {},
+      "defs": {
+        "ScreenerFilter": {
+          "k": "object",
+          "props": [
+            {
+              "name": "field",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "operation",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "greater"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "egreater"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "less"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "eless"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "equal"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nequal"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "in_range"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "not_in_range"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "match"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "value",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "boolean"
+                  },
+                  {
+                    "k": "array",
+                    "of": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "string"
+                        },
+                        {
+                          "k": "number"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
       "functions": {
         "searchSymbols": [
           {
@@ -45230,7 +45338,84 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getMarketOverview": []
+        "getMarketOverview": [],
+        "getScreenerResults": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "columns",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "string"
+                    }
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "market",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "filters",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "ref",
+                      "name": "ScreenerFilter"
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortBy",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortOrder",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "asc"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "desc"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "offset",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.travelinsured": {

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fd3b67517fe128ab64585d7db9693c2befba0ec6d7dc5bf754d3316e022e78ae
-# 71 capabilities, 506 providers, 1714 typed functions, 20 refused.
+# Manifest version: 2873ecd2aaa79fd17749ed8f529c86e379957975246a30150ffc34349c70ffe3
+# 71 capabilities, 506 providers, 1716 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -23607,6 +23607,29 @@ class Prv_tradingview_MarketOverview_Out_indices_item_Out(TypedDict):
     low: NotRequired[float]
     open: NotRequired[float]
 
+class Prv_tradingview_getScreenerResults_options_In(TypedDict):
+    columns: Sequence[str]
+    market: NotRequired[str]
+    filters: NotRequired[Sequence[Prv_tradingview_ScreenerFilter_In]]
+    sortBy: NotRequired[str]
+    sortOrder: NotRequired[Literal["asc"] | Literal["desc"]]
+    limit: NotRequired[float]
+    offset: NotRequired[float]
+
+class Prv_tradingview_ScreenerFilter_In(TypedDict):
+    field: str
+    operation: Literal["greater"] | Literal["egreater"] | Literal["less"] | Literal["eless"] | Literal["equal"] | Literal["nequal"] | Literal["in_range"] | Literal["not_in_range"] | Literal["match"]
+    value: str | float | bool | Sequence[str | float]
+
+class Prv_tradingview_ScreenerResults_Out(TypedDict):
+    totalCount: float
+    rows: list[Prv_tradingview_ScreenerRow_Out]
+
+class Prv_tradingview_ScreenerRow_Out(TypedDict):
+    symbol: str
+    exchange: str
+    fields: Mapping[str, str | float | bool | None]
+
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
     name: str
@@ -28986,6 +29009,12 @@ class Prv_amazon(Protocol):
         """Where a specific order's package is and when it is due — the follow-up read after
         listOrders. Requires the caller to be signed in to their own Amazon account; the relay
         at amazon.com/ap/signin handles authentication.
+        """
+
+    async def listWishLists(self, opts: ConnectionOption | None = None, /) -> list[Any]:
+        """A signed-in person's own wish lists and registries and what is on them — the
+        saved-for-later half of the site. Requires the caller to be signed in to their own
+        Amazon account; the relay at amazon.com/ap/signin handles authentication.
         """
 
     async def getCart(self, /) -> Prv_amazon_AmazonCart_Out:
@@ -42946,6 +42975,26 @@ class Prv_tradingview(Protocol):
         symbol, name, type, price, and change/changePercent against the previous close, along
         with open, high and low prices. Takes no arguments — it always returns the same set of
         major indices.
+        """
+
+    async def getScreenerResults(self, options: Prv_tradingview_getScreenerResults_options_In, /) -> Prv_tradingview_ScreenerResults_Out:
+        """Runs a stock screener against TradingView's own scanner door — the same query its
+        screener widget runs — e.g. `getScreenerResults({ columns: ["name", "close",
+        "market_cap_basic"], filters: [{ field: "sector", operation: "equal", value: "Technology
+        Services" }, { field: "market_cap_basic", operation: "greater", value: 1e12 }], sortBy:
+        "market_cap_basic", sortOrder: "desc" })`. `columns` is any TradingView field name — the
+        same ones `getQuote`/`getCompanyInfo`/`getFinancials` read, e.g. `close`,
+        `market_cap_basic`, `sector`, `exchange`, `volume`, `price_earnings_ttm`. Each `filters`
+        entry narrows on one field with an `operation`
+        (`greater`/`egreater`/`less`/`eless`/`equal`/`nequal`/`in_range`/`not_in_range`/`match`)
+        and a `value`. `market` selects which universe to scan — `america` (default), `global`,
+        `crypto`, `forex`, `cfd`, or a country slug like `india`/`canada`/`uk`/`germany`.
+        Returns `totalCount` (how many rows matched across the whole market, not just this page)
+        and `rows`, each carrying `symbol`, `exchange` and a `fields` map keyed by the requested
+        `columns`. An unrecognized `market` is a caller-fixable error; an unrecognized column or
+        filter field is not — TradingView silently answers zero or empty rather than rejecting
+        it, so a screener returning nothing is worth rechecking the field names against
+        `getQuote`/`getCompanyInfo`.
         """
 
 class Prv_travelinsured(Protocol):

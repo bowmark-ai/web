@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fd3b67517fe128ab64585d7db9693c2befba0ec6d7dc5bf754d3316e022e78ae
-// 71 capabilities, 506 providers, 1732 typed functions, 20 refused.
+// Manifest version: 2873ecd2aaa79fd17749ed8f529c86e379957975246a30150ffc34349c70ffe3
+// 71 capabilities, 506 providers, 1734 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5923,6 +5923,13 @@ interface AmazonCart {
      * amazon.com/ap/signin handles authentication.
      */
     trackShipment(orderId: string, opts?: ConnectionOption): Promise<unknown[]>;
+
+    /**
+     * A signed-in person's own wish lists and registries and what is on them — the saved-for-later
+     * half of the site. Requires the caller to be signed in to their own Amazon account; the relay
+     * at amazon.com/ap/signin handles authentication.
+     */
+    listWishLists(opts?: ConnectionOption): Promise<unknown[]>;
 
     /**
      * Read what is in the cart — no account needed, since Amazon's guest cart is a real anonymous
@@ -43107,6 +43114,23 @@ interface MarketOverview {
   }[];
 }
 
+interface ScreenerFilter {
+  field: string;
+  operation: "greater" | "egreater" | "less" | "eless" | "equal" | "nequal" | "in_range" | "not_in_range" | "match";
+  value: string | number | boolean | (string | number)[];
+}
+
+interface ScreenerRow {
+  symbol: string;
+  exchange: string;
+  fields: Record<string, string | number | boolean | null>;
+}
+
+interface ScreenerResults {
+  totalCount: number;
+  rows: ScreenerRow[];
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -43218,6 +43242,26 @@ interface MarketOverview {
      * high and low prices. Takes no arguments — it always returns the same set of major indices.
      */
     getMarketOverview(): Promise<MarketOverview>;
+
+    /**
+     * Runs a stock screener against TradingView's own scanner door — the same query its screener
+     * widget runs — e.g. `getScreenerResults({ columns: ["name", "close", "market_cap_basic"],
+     * filters: [{ field: "sector", operation: "equal", value: "Technology Services" }, { field:
+     * "market_cap_basic", operation: "greater", value: 1e12 }], sortBy: "market_cap_basic",
+     * sortOrder: "desc" })`. `columns` is any TradingView field name — the same ones
+     * `getQuote`/`getCompanyInfo`/`getFinancials` read, e.g. `close`, `market_cap_basic`,
+     * `sector`, `exchange`, `volume`, `price_earnings_ttm`. Each `filters` entry narrows on one
+     * field with an `operation`
+     * (`greater`/`egreater`/`less`/`eless`/`equal`/`nequal`/`in_range`/`not_in_range`/`match`) and
+     * a `value`. `market` selects which universe to scan — `america` (default), `global`,
+     * `crypto`, `forex`, `cfd`, or a country slug like `india`/`canada`/`uk`/`germany`. Returns
+     * `totalCount` (how many rows matched across the whole market, not just this page) and `rows`,
+     * each carrying `symbol`, `exchange` and a `fields` map keyed by the requested `columns`. An
+     * unrecognized `market` is a caller-fixable error; an unrecognized column or filter field is
+     * not — TradingView silently answers zero or empty rather than rejecting it, so a screener
+     * returning nothing is worth rechecking the field names against `getQuote`/`getCompanyInfo`.
+     */
+    getScreenerResults(options: { columns: string[], market?: string, filters?: ScreenerFilter[], sortBy?: string, sortOrder?: "asc" | "desc", limit?: number, offset?: number }): Promise<ScreenerResults>;
   }
 }
 
