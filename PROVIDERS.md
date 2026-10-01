@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2593 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2596 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -104,7 +104,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `amazon.listWishLists` | www.amazon.com | A signed-in person's own wish lists and registries and what is on them — the… | ⚪ |
 | `amazon.searchProducts` | www.amazon.com | Paginate through all Amazon search results by keywords, reaching every row from 1 to… | 🟢 |
 | `amazon.suggestKeywords` | www.amazon.com | Ask Amazon's own search box what it would autocomplete a prefix to — "cast iron" comes… | 🟢 |
-| `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | ⚪ |
+| `amazon.trackShipment` | www.amazon.com | Where a specific order's package is and when it is due — the follow-up question to… | 🟢 |
 | `americandreamvacations.listLocations` | americandreamvacations.net | Returns American Dream Vacations' own list of rental store locations (city, state and… | 🟢 |
 | `americandreamvacations.searchInventory` | americandreamvacations.net | Runs American Dream Vacations' own "Check availability" search for one store location… | 🟢 |
 | `americanstandard.getSystemCostEstimate` | americanstandardair.com | Reads American Standard's own published cost guide for one system type ("Air… | 🟢 |
@@ -854,6 +854,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fbsappliance.getProductDetails` | fbsappliance.com | Reads one product's detail page for its full spec sheet, real per-showroom inventory… | ⚪ |
 | `fbsappliance.searchAppliances` | fbsappliance.com | Runs the site's own category grid (e.g. built-in-refrigerators) and returns real… | 🟡 |
 | `fedex.getRate` | fedex.com | Prices a domestic package across FedEx's own service levels (Ground, Home Delivery… | 🟢 |
+| `ferguson.findBranches` | ferguson.com | Lists Ferguson branch locations in a US state, optionally narrowed by city and by… | 🟢 |
+| `ferguson.findProducts` | ferguson.com | Finds Ferguson catalog products (plumbing, HVAC, PVF, waterworks, appliances) whose… | 🟢 |
+| `ferguson.getProduct` | ferguson.com | Reads one Ferguson product page in full — price, specifications, and stock/availability. | ⚪ |
 | `fieldstonehomes.getAppointmentFormSchema` | fieldstonehomes.com | Reads Fieldstone Homes' live schedule-appointment form, including its required fields… | 🟢 |
 | `fieldstonehomes.prepareAppointment` | fieldstonehomes.com | Validates an appointment request against Fieldstone Homes' live form and returns the… | 🟢 |
 | `fieldstonehomes.searchQuickMoveIns` | fieldstonehomes.com | Searches Fieldstone Homes' live quick-move-in inventory by city, home type, price… | 🟢 |
@@ -903,7 +906,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getFeed` | fomo.family | Pages the signed-in trader's social feed — the trades made by people they follow, each… | ⚪ |
 | `fomo.getFollowers` | fomo.family | Pages the traders following one user. `GET /v2/users/:userId/followers`, cursor-paged… | ⚪ |
 | `fomo.getFollowing` | fomo.family | Pages the traders one user follows. `GET /v2/users/:userId/followingPaginate`. | ⚪ |
-| `fomo.getFollowingIds` | fomo.family | Returns just the ids of everyone the signed-in trader follows, in one call with no… | ⚪ |
+| `fomo.getFollowingIds` | fomo.family | Returns just the ids of everyone the signed-in trader follows, in one call with no… | 🟢 |
 | `fomo.getFollowingLeaderboard` | fomo.family | The same ranking restricted to traders the signed-in user follows — 'how am I doing… | ⚪ |
 | `fomo.getFriendHolders` | fomo.family | Returns which of the signed-in trader's own follows hold a given token — fomo's core… | 🟢 |
 | `fomo.getGraduatedTokens` | fomo.family | Returns tokens that have just completed their bonding curve and moved to a full AMM… | 🟢 |
@@ -2149,7 +2152,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.getContributorArticles` | theguardian.com | List articles written by a specific journalist or contributor. | 🟢 |
 | `theguardian_com.getLiveBlog` | theguardian.com | Read a live blog covering a news event. | ⚪ |
 | `theguardian_com.getPhotoGallery` | theguardian.com | View images in a photo gallery with captions. | ⚪ |
-| `theguardian_com.getReview` | theguardian.com | Read a full review given its URL or ID. | ⚪ |
+| `theguardian_com.getReview` | theguardian.com | Read a full review given its URL or ID. | 🟢 |
 | `theguardian_com.getSavedArticles` | theguardian.com | Get the user's saved articles (requires login). | ⚪ |
 | `theguardian_com.getTopicArticles` | theguardian.com | Get articles tagged with a specific topic or collection. | 🟢 |
 | `theguardian_com.getVideo` | theguardian.com | Watch a video and read its description. | ⚪ |
@@ -2160,7 +2163,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listNewsletters` | theguardian.com | List available email newsletters. | ⚪ |
 | `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | 🟢 |
 | `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | ⚪ |
-| `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | ⚪ |
+| `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | 🟢 |
 | `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
 | `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟢 |
 | `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | ⚪ |
@@ -2243,7 +2246,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getDividends` | www.tradingview.com | Get dividend history and yield information for a symbol. | 🟢 |
 | `tradingview.getEarnings` | www.tradingview.com | Get earnings history and upcoming earnings dates for a symbol. | 🟢 |
 | `tradingview.getFinancials` | www.tradingview.com | Get financial statements and historical data: revenue, earnings, balance sheet. | 🟢 |
-| `tradingview.getMarketOverview` | www.tradingview.com | Get market overview data: top gainers, losers, most active symbols. | ⚪ |
+| `tradingview.getMarketOverview` | www.tradingview.com | Get the current price and change for major market indices: NASDAQ Composite, S&P 500… | 🟢 |
 | `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | 🟢 |
 | `tradingview.getOptionChain` | www.tradingview.com | Get option chain data for symbols that have options. | ⚪ |
 | `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | 🟢 |
