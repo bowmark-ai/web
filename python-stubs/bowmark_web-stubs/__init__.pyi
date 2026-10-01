@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e6c5fd975cc3a26dc0620f546cf8160b063002ddedf74da6c2f4cb8ee395fd78
-# 70 capabilities, 502 providers, 1679 typed functions, 20 refused.
+# Manifest version: fb95df5e871aeaba6ff24b6aa7abeeba2370b5d3fa356bc0d7508d51997f5769
+# 70 capabilities, 502 providers, 1681 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4001,6 +4001,10 @@ class Prv_apple_AppleAddToBagResult_Out(TypedDict):
     bagQuantity: NotRequired[float]
     errorCode: NotRequired[str]
     message: NotRequired[str]
+
+class Prv_apple_AppleBagContents_Out(TypedDict):
+    hasItems: bool
+    raw: Any
 
 class Prv_aquaphoenixsci_AquaphoenixsciListing_Out(TypedDict):
     sku: str
@@ -11674,6 +11678,7 @@ class Prv_google_maps_GeocodeAddressResult_Out(TypedDict):
     name: str
     formattedAddress: str
     coordinates: Prv_google_maps_GeocodeAddressResult_Out_coordinates_u0_Out | None
+    warnings: NotRequired[list[str]]
 
 class Prv_google_maps_GeocodeAddressResult_Out_coordinates_u0_Out(TypedDict):
     lat: float
@@ -17699,6 +17704,15 @@ class Prv_nytimes_NytimesLiveBlogUpdate_Out(TypedDict):
     summary: NotRequired[str]
     timestamp: str
 
+class Prv_nytimes_NytimesNewsletter_Out(TypedDict):
+    id: str
+    slug: str
+    title: str
+    caption: NotRequired[str]
+    frequency: NotRequired[str]
+    sampleUrl: NotRequired[str]
+    thumbImageUrl: NotRequired[str]
+
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
     {
@@ -17761,12 +17775,10 @@ class Prv_onthemarket_OnTheMarketProperty_Out(TypedDict):
     description: NotRequired[str]
     url: NotRequired[str]
 
-class Prv_openai_openaiPlan_Out(TypedDict):
+class Prv_openai_openaiPlanLimit_Out(TypedDict):
     plan: str
-    priceMonthly: float | None
-    priceAnnual: float | None
-    codexLimits: str
-    creditRates: str
+    model: str
+    usageRange: str
 
 class Prv_openai_openaiHelpArticleArgs_In(TypedDict):
     id: str
@@ -29136,6 +29148,15 @@ class Prv_apple(Protocol):
         bagQuantity, errorCode, message}` envelope verbatim.
         """
 
+    async def getBag(self, /) -> Prv_apple_AppleBagContents_Out:
+        """What's in the shopping bag right now, no sign-in needed — reads /shop/bag's own
+        #init_data bootstrap (the same envelope getOrderStatus/listOrders already parse).
+        `hasItems` is real and reliable. This provider cannot populate a bag browserless
+        (addToBag needs the caller's own widget session, per AppleAddToBagRequest), so every
+        call this provider makes starts a fresh anonymous bag and `raw`'s item-level shape is
+        UNMEASURED — read it defensively.
+        """
+
 class Prv_aquaphoenixsci(Protocol):
     """AquaPhoenix Scientific's real catalog storefront (water/chemical testing and
     feed-control equipment) — browse a category for real SKUs and prices, and read one
@@ -34347,7 +34368,13 @@ class Prv_google_maps(Protocol):
         """A street address, a city, or a business name in — the matching Google Maps place, its
         feature id and its coordinates out. Rides the same door as searchPlaces (a second
         reading of the same response), so it only resolves a query that names ONE place; a
-        category or list-style query throws.
+        category or list-style query throws. A LANDMARK whose name is also carried by the
+        businesses around it (measured live against "Bryant Park, New York, NY") carries no
+        record at the resolved-locality position Google itself uses even though searchPlaces'
+        own ranked list puts the landmark first — for exactly that shape, this falls back to
+        that list's first entry when its name matches the query's own leading name segment and
+        its address sits in the locality the query names, and says so in `warnings` rather than
+        returning it silently.
         """
 
     async def reverseGeocode(self, args: Prv_google_maps_ReverseGeocodeArgs_In, /) -> Prv_google_maps_ReverseGeocodeResult_Out:
@@ -38797,6 +38824,11 @@ class Prv_nytimes(Protocol):
         "us-election-2024" or a path like "/live/us-election-2024".
         """
 
+    async def listNewsletters(self, /) -> list[Prv_nytimes_NytimesNewsletter_Out]:
+        """Lists NYT's own email newsletters off the signup page's catalog tray — up to 13, the
+        most the page itself renders logged out.
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -38852,10 +38884,12 @@ class Prv_onthemarket(Protocol):
         """
 
 class Prv_openai(Protocol):
-    """OpenAI pricing plans and help documentation from learn.chatgpt.com."""
+    """OpenAI per-plan usage limits and help documentation from learn.chatgpt.com."""
 
-    async def plans(self, /) -> list[Prv_openai_openaiPlan_Out]:
-        """Returns available OpenAI pricing plans with monthly/annual rates and Codex limits."""
+    async def plans(self, /) -> list[Prv_openai_openaiPlanLimit_Out]:
+        """Returns per-(plan, model) usage limits from learn.chatgpt.com/docs/pricing — one row per
+        plan/model pair.
+        """
 
     async def helpArticle(self, args: Prv_openai_openaiHelpArticleArgs_In, /) -> str:
         """Retrieves the full text of a help article by its ID from OpenAI's documentation."""

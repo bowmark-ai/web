@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e6c5fd975cc3a26dc0620f546cf8160b063002ddedf74da6c2f4cb8ee395fd78
-// 70 capabilities, 502 providers, 1697 typed functions, 20 refused.
+// Manifest version: fb95df5e871aeaba6ff24b6aa7abeeba2370b5d3fa356bc0d7508d51997f5769
+// 70 capabilities, 502 providers, 1699 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -7019,6 +7019,10 @@ interface AppleAddToBagResult {
   errorCode?: string;
   message?: string;
 }
+interface AppleBagContents {
+  hasItems: boolean;
+  raw: unknown;
+}
 
   /** apple.com's own site search and product pages — no API, no login, no browser. */
   interface Unit {
@@ -7301,6 +7305,15 @@ interface AppleAddToBagResult {
      * envelope verbatim.
      */
     addToBag(request: AppleAddToBagRequest): Promise<AppleAddToBagResult>;
+
+    /**
+     * What's in the shopping bag right now, no sign-in needed — reads /shop/bag's own #init_data
+     * bootstrap (the same envelope getOrderStatus/listOrders already parse). `hasItems` is real
+     * and reliable. This provider cannot populate a bag browserless (addToBag needs the caller's
+     * own widget session, per AppleAddToBagRequest), so every call this provider makes starts a
+     * fresh anonymous bag and `raw`'s item-level shape is UNMEASURED — read it defensively.
+     */
+    getBag(): Promise<AppleBagContents>;
   }
 }
 
@@ -21329,6 +21342,7 @@ interface GeocodeAddressResult {
   name: string;
   formattedAddress: string;
   coordinates: { lat: number; lng: number } | null;
+  warnings?: string[];
 }
 interface ReverseGeocodeArgs {
   lat: number;
@@ -21507,7 +21521,12 @@ interface SavePlaceResult {
      * A street address, a city, or a business name in — the matching Google Maps place, its
      * feature id and its coordinates out. Rides the same door as searchPlaces (a second reading of
      * the same response), so it only resolves a query that names ONE place; a category or
-     * list-style query throws.
+     * list-style query throws. A LANDMARK whose name is also carried by the businesses around it
+     * (measured live against "Bryant Park, New York, NY") carries no record at the
+     * resolved-locality position Google itself uses even though searchPlaces' own ranked list puts
+     * the landmark first — for exactly that shape, this falls back to that list's first entry when
+     * its name matches the query's own leading name segment and its address sits in the locality
+     * the query names, and says so in `warnings` rather than returning it silently.
      */
     geocodeAddress(args: GeocodeAddressArgs): Promise<GeocodeAddressResult>;
 
@@ -33140,6 +33159,15 @@ interface NytimesLiveBlog {
   summary?: string;
   updates: NytimesLiveBlogUpdate[];
 }
+interface NytimesNewsletter {
+  id: string;
+  slug: string;
+  title: string;
+  caption?: string;
+  frequency?: string;
+  sampleUrl?: string;
+  thumbImageUrl?: string;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -33207,6 +33235,12 @@ interface NytimesLiveBlog {
      * a path like "/live/us-election-2024".
      */
     getLiveBlog(slug: string, limit?: number): Promise<NytimesLiveBlog>;
+
+    /**
+     * Lists NYT's own email newsletters off the signup page's catalog tray — up to 13, the most
+     * the page itself renders logged out.
+     */
+    listNewsletters(): Promise<NytimesNewsletter[]>;
   }
 }
 
@@ -33337,22 +33371,23 @@ interface OnTheMarketSearchResult {
 
 declare namespace BowmarkProvider_openai {
   // ── OpenAI — the unit's own declarations, verbatim ──
-interface openaiPlan {
+interface openaiPlanLimit {
   plan: string;
-  priceMonthly: number | null;
-  priceAnnual: number | null;
-  codexLimits: string;
-  creditRates: string;
+  model: string;
+  usageRange: string;
 }
 
 interface openaiHelpArticleArgs {
   id: string;
 }
 
-  /** OpenAI pricing plans and help documentation from learn.chatgpt.com. */
+  /** OpenAI per-plan usage limits and help documentation from learn.chatgpt.com. */
   interface Unit {
-    /** Returns available OpenAI pricing plans with monthly/annual rates and Codex limits. */
-    plans(): Promise<openaiPlan[]>;
+    /**
+     * Returns per-(plan, model) usage limits from learn.chatgpt.com/docs/pricing — one row per
+     * plan/model pair.
+     */
+    plans(): Promise<openaiPlanLimit[]>;
 
     /** Retrieves the full text of a help article by its ID from OpenAI's documentation. */
     helpArticle(args: openaiHelpArticleArgs): Promise<string>;
