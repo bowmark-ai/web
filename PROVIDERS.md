@@ -2108,7 +2108,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.listFeaturedGames` | steampowered.com | Fetches the current list of featured games displayed on the Steam store homepage… | 🟢 |
 | `steam.listGamesByCategory` | steampowered.com | Lists games filtered by one of Steam's own genre/category tags (Action, Adventure… | 🟢 |
 | `steam.listGameTags` | steampowered.com | Lists all available tags users can apply to games, with tag popularity or usage counts. | ⚪ |
-| `steam.listNews` | steampowered.com | Lists recent news articles from the Steam community news section, including title… | ⚪ |
+| `steam.listNews` | steampowered.com | Lists a game's news and updates by appid, from both official announcements and… | 🟢 |
 | `steam.postComment` | steampowered.com | Posts a comment or discussion in a game's community hub. | ⚪ |
 | `steam.removeFriend` | steampowered.com | Removes a user from the caller's friends list. | ⚪ |
 | `steam.removeFromWishlist` | steampowered.com | Removes a game from the caller's wishlist. | ⚪ |
