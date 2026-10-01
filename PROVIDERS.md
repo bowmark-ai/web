@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2585 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2586 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1044,7 +1044,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
 | `github.createComment` | github.com | Adds a comment to an issue or pull request. | ⚪ |
-| `github.createIssue` | github.com | Creates a new issue on a repository. | ⚪ |
+| `github.createIssue` | github.com | Creates a new issue on a repository. | 🟢 |
 | `github.createPullRequest` | github.com | Creates a new pull request from a head branch to a base branch. | ⚪ |
 | `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
 | `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
@@ -1284,7 +1284,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
 | `indeed.getCompanyDetails` | indeed.com | Fetches a company's full profile off its own /cmp/… snapshot page: overall rating… | 🟢 |
 | `indeed.getJobDetails` | indeed.com | Fetches complete details for a specific job listing including salary, company info… | 🟢 |
-| `indeed.getSalaryDetails` | indeed.com | Retrieves detailed salary information for a specific job title and location. | ⚪ |
+| `indeed.getSalaryDetails` | indeed.com | Fetches the full salary breakdown for one job title off its own… | 🟢 |
 | `indeed.searchCompanies` | indeed.com | Searches Indeed's own company directory by name or keyword and returns each match's… | 🟢 |
 | `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |
 | `indeed.searchSalaries` | indeed.com | Searches Indeed's own salary data by job title and location, returning salary ranges… | 🟢 |
@@ -1783,7 +1783,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `pinterest.searchUsers` | pinterest.com | Search for people and brands by name and get their account back — the door that turns… | 🟢 |
 | `pinterest.searchVideos` | pinterest.com | Search only the video pins — Pinterest's own `videos` search scope, for a caller who… | 🟢 |
 | `pinterest.sendPin` | pinterest.com | Send a pin to somebody in a Pinterest message — the site's own share action. | ⚪ |
-| `pinterest.suggestSearches` | pinterest.com | Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre"… | 🟡 |
+| `pinterest.suggestSearches` | pinterest.com | Autocomplete a half-typed query the way Pinterest's search box does — hand it "espre"… | ⚪ |
 | `pinterest.unfollowBoard` | pinterest.com | Stop following a board. | ⚪ |
 | `pinterest.unfollowTopic` | pinterest.com | Stop following an idea topic. | ⚪ |
 | `pinterest.unfollowUser` | pinterest.com | Stop following a person or a brand. | ⚪ |
@@ -2418,7 +2418,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wearehirschfeld.getContactForm` | wearehirschfeld.com | Reads Hirschfeld's Connect contact form (wearehirschfeld.com/connect/ by default) and… | 🟢 |
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
 | `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
-| `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | ⚪ |
+| `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟢 |
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | ⚪ |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |
 | `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |
@@ -2482,7 +2482,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listRecentChanges` | wikipedia.org | What is being edited on Wikipedia right now — a live feed of recent edits with page… | 🟢 |
 | `wikipedia.listRelated` | wikipedia.org | Articles about things like this one — Wikipedia's own "more like this", for a caller… | 🟢 |
 | `wikipedia.listRevisions` | wikipedia.org | An article's edit history — each revision with its id, timestamp, editor, edit… | 🟢 |
-| `wikipedia.listUserContributions` | wikipedia.org | Every edit one named editor has made, newest first — page, timestamp, edit summary and… | ⚪ |
+| `wikipedia.listUserContributions` | wikipedia.org | Every edit one named editor has made, newest first — page, timestamp, edit summary and… | 🟢 |
 | `wikipedia.listWatchlist` | wikipedia.org | The caller's own watchlist — the pages they follow and the recent changes to them… | ⚪ |
 | `wikipedia.postTalkMessage` | wikipedia.org | Post a message to an article's talk page or to a user's talk page, under the caller's… | ⚪ |
 | `wikipedia.search` | wikipedia.org | Search the encyclopedia the way a person types into Wikipedia's search box, and get… | 🟢 |
@@ -2512,6 +2512,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_finance.getTrendingTickers` | finance.yahoo.com | Reads what Yahoo Finance itself is showing as trending right now — the same sidebar… | 🟡 |
 | `yahoo_finance.listCryptoPrices` | finance.yahoo.com | Reads the live crypto leaderboard the way the site's own Crypto markets page does —… | 🟢 |
 | `yahoo_finance.listCurrencyRates` | finance.yahoo.com | Reads live currency-pair rates the way the site's own Currencies markets page does —… | 🟢 |
+| `yahoo_finance.listWatchlists` | finance.yahoo.com | Reads the signed-in viewer's saved watchlists with their tickers and current quotes —… | 🟢 |
 | `yahoo_finance.searchSymbols` | finance.yahoo.com | Resolves what a person would type — a company name ("Apple"), a ticker ("AAPL") or a… | 🟢 |
 | `yahoo_mail.deleteMessage` | mail.yahoo.com | Deletes one of the CALLER's own messages (moves it to Trash, matching what the site's… | ⚪ |
 | `yahoo_mail.getMessage` | mail.yahoo.com | Reads one message in full from the CALLER's own mailbox — sender, recipients, subject… | ⚪ |
@@ -2584,7 +2585,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.setThumbnail` | youtube.com | Set a custom thumbnail image on one of the signed-in account's own videos. | 🟢 |
 | `youtube.subscribeToChannel` | youtube.com | Subscribe the signed-in account to a channel, or unsubscribe. | 🟢 |
 | `youtube.suggestSearches` | youtube.com | YouTube's own autocomplete for a partial query — the dropdown list it shows while… | 🟢 |
-| `youtube.updatePlaylist` | youtube.com | Change the title, description or privacy of one of the signed-in account's own… | ⚪ |
+| `youtube.updatePlaylist` | youtube.com | Change the title, description or privacy of one of the signed-in account's own… | 🟢 |
 | `youtube.updateVideo` | youtube.com | Change the title, description, tags, category or privacy of one of the signed-in… | 🟢 |
 | `youtube.uploadVideo` | youtube.com | Upload a video file to the signed-in account's own channel, with its title… | 🟢 |
 | `zennioptical.checkStock` | zennioptical.com | Checks live per-SKU inventory (in stock, quantity, backorder/preorder flags) off the… | 🟢 |
