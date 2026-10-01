@@ -296,7 +296,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bing.define` | bing.com | Looks up a word in Bing's own dictionary panel (bing.com/dict/search) and returns its… | 🟡 |
 | `bing.findPlace` | bing.com | Looks a place up on Bing Maps the way bing.com/maps does and returns its name… | 🟡 |
 | `bing.listSaves` | bing.com | Lists the pages, searches and images the signed-in caller has saved to Bing… | 🟢 |
-| `bing.saveResult` | bing.com | Adds a page, search or image to the signed-in caller's Bing Collections — the write… | ⚪ |
+| `bing.saveResult` | bing.com | Adds a page, search or image to the signed-in caller's Bing Collections — the write… | 🟢 |
 | `bing.searchImages` | bing.com | Searches Bing's image index the way bing.com/images/search does and returns each hit's… | 🟡 |
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟢 |
 | `bing.searchShopping` | bing.com | Searches Bing Shopping the way bing.com/shop does and returns each product's title… | 🟡 |
@@ -341,7 +341,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getMe` | bsky.app | Who the signed-in caller is: their DID, handle, email-confirmed flag and PDS host. | ⚪ |
 | `bluesky.getMyLikes` | bsky.app | The posts the caller has liked. | ⚪ |
 | `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟢 |
-| `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | ⚪ |
+| `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | 🟢 |
 | `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | ⚪ |
 | `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | ⚪ |
 | `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | 🟢 |
@@ -1967,7 +1967,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.removeSavedArticle` | www.reuters.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `reuters.saveArticle` | www.reuters.com | Save a Reuters article to the signed-in reader's saved list. | ⚪ |
 | `reuters.searchArticles` | www.reuters.com | Search Reuters articles by what a person would type ("BASF Evonik", "oil prices", "Fed… | 🟢 |
-| `reuters.searchCompanies` | www.reuters.com | Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF"… | ⚪ |
+| `reuters.searchCompanies` | www.reuters.com | Find a listed company or instrument on Reuters by name or ticker ("Apple", "BASF"… | 🟢 |
 | `reuters.subscribeNewsletter` | www.reuters.com | Sign the signed-in reader up to a Reuters newsletter. | ⚪ |
 | `reuters.unfollowTopic` | www.reuters.com | Stop following a topic in the signed-in reader's My News. | ⚪ |
 | `reuters.unsubscribeNewsletter` | www.reuters.com | Unsubscribe the signed-in reader from a Reuters newsletter. | ⚪ |
