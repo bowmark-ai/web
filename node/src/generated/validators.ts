@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 19479547d8af30692a097c278a2a5e25a8f3e719ec7f7732a3090398fc09db0c
-// 1665 checked, 20 unchecked.
+// Manifest version: f8476cc59c74ab2a2b309d39716de745305a078ed419de4f5dbd2344d42d4144
+// 1668 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "19479547d8af30692a097c278a2a5e25a8f3e719ec7f7732a3090398fc09db0c",
+  "version": "f8476cc59c74ab2a2b309d39716de745305a078ed419de4f5dbd2344d42d4144",
   "units": {
     "booking_links": {
       "defs": {
@@ -1272,6 +1272,67 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "essen_roadworks": {
+      "defs": {
+        "RoadworkStatus": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "new"
+            },
+            {
+              "k": "literal",
+              "v": "ongoing"
+            },
+            {
+              "k": "literal",
+              "v": "finished"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "list": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "street",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "status",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "ref",
+                        "name": "RoadworkStatus"
+                      },
+                      {
+                        "k": "array",
+                        "of": {
+                          "k": "ref",
+                          "name": "RoadworkStatus"
+                        }
+                      }
+                    ]
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -18289,6 +18350,59 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getTopHolders": [
+          {
+            "name": "tokens",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "object",
+                "props": [
+                  {
+                    "name": "address",
+                    "schema": {
+                      "k": "string"
+                    },
+                    "optional": false
+                  },
+                  {
+                    "name": "chain",
+                    "schema": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "ref",
+                          "name": "FomoChainSlug"
+                        },
+                        {
+                          "k": "number"
+                        }
+                      ]
+                    },
+                    "optional": false
+                  }
+                ]
+              }
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getFriendHolders": [
           {
             "name": "tokens",
             "schema": {
@@ -41256,6 +41370,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetGameStatsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetGameVideosArgs": {
           "k": "object",
           "props": [
@@ -41504,6 +41638,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetGameVideosArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getGameStats": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetGameStatsArgs"
             },
             "optional": false
           },

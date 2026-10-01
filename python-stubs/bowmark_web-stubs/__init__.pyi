@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 19479547d8af30692a097c278a2a5e25a8f3e719ec7f7732a3090398fc09db0c
-# 69 capabilities, 501 providers, 1665 typed functions, 20 refused.
+# Manifest version: f8476cc59c74ab2a2b309d39716de745305a078ed419de4f5dbd2344d42d4144
+# 70 capabilities, 501 providers, 1668 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -862,6 +862,32 @@ class Cap_entertainment_merch_EntertainmentMerchOffer_Out(TypedDict):
     color: str | None
     size: str | None
     availability: str | None
+
+class Cap_essen_roadworks_list_opts_In(TypedDict):
+    street: NotRequired[str]
+    status: NotRequired[Literal["new"] | Literal["ongoing"] | Literal["finished"] | Sequence[Literal["new"] | Literal["ongoing"] | Literal["finished"]]]
+
+class Cap_essen_roadworks_essen_roadworksResult_Out(TypedDict):
+    roadworks: list[Cap_essen_roadworks_Roadwork_Out]
+    source: str
+    warnings: list[str]
+
+Cap_essen_roadworks_Roadwork_Out = TypedDict(
+    "Cap_essen_roadworks_Roadwork_Out",
+    {
+    "status": Literal["new"] | Literal["ongoing"] | Literal["finished"],
+    "street": str,
+    "from": str | None,
+    "to": str | None,
+    "start": str | None,
+    "end": str | None,
+    "period": str | None,
+    "description": str | None,
+    "congestionRisk": bool,
+    "lat": float | None,
+    "lon": float | None,
+    },
+)
 
 Cap_flights_FlightQuery_In = TypedDict(
     "Cap_flights_FlightQuery_In",
@@ -10338,6 +10364,10 @@ class Prv_fomo_FomoCandle_Out(TypedDict):
     volume: float
 
 class Prv_fomo_getTopHolders_tokens_item_In(TypedDict):
+    address: str
+    chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float
+
+class Prv_fomo_getFriendHolders_tokens_item_In(TypedDict):
     address: str
     chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float
 
@@ -21812,6 +21842,21 @@ class Prv_steam_SteamVideo_Out(TypedDict):
     thumbnail: str | None
     hlsUrl: str | None
 
+class Prv_steam_GetGameStatsArgs_In(TypedDict):
+    appid: str | float
+
+class Prv_steam_GetGameStatsResponse_Out(TypedDict):
+    currentPlayers: float
+    achievements: Prv_steam_GetGameStatsResponse_Out_achievements_Out
+
+class Prv_steam_GetGameStatsResponse_Out_achievements_Out(TypedDict):
+    averagePercent: float | None
+    rates: list[Prv_steam_SteamAchievementRate_Out]
+
+class Prv_steam_SteamAchievementRate_Out(TypedDict):
+    name: str
+    percent: float
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -26601,6 +26646,17 @@ class Cap_entertainment_merch(Protocol):
         """Searches Hot Topic and BoxLunch in parallel for a franchise/character/show and returns
         every matching SKU across both stores, each tagged with which store it's from.
         `warnings` names any store that did not answer.
+        """
+
+class Cap_essen_roadworks(Protocol):
+    """List current roadworks / Baustellen and road closures in Essen, Germany, from the city's
+    own geoportal — street, section, dates, detour text and congestion risk.
+    """
+
+    async def list(self, opts: Cap_essen_roadworks_list_opts_In | None = None, /) -> Cap_essen_roadworks_essen_roadworksResult_Out:
+        """Roadworks in Essen. Defaults to status ["new","ongoing"] (active now); pass "finished"
+        for recently completed ones. `street` is a case-insensitive substring match on the
+        street or its cross streets.
         """
 
 class Cap_flights(Protocol):
@@ -33139,6 +33195,15 @@ class Prv_fomo(Protocol):
         asks for one, so the batch cap is unmeasured and this function forwards whatever the
         caller sends. Each holder row is returned in fomo's own untyped shape rather than
         guessed at — the component that renders this data was not found anywhere in the site's
+        statically-linked JS.
+        """
+
+    async def getFriendHolders(self, tokens: Sequence[Prv_fomo_getFriendHolders_tokens_item_In], opts: ConnectionOption | None = None, /) -> list[list[Any]]:
+        """Returns which of the signed-in trader's own follows hold each requested token, one
+        result array per token in the same order. A caller-scoped read: the answer depends on
+        whose session is asking, so it can never be cached across callers. A fresh account with
+        no follows will return empty results, which is the correct answer rather than an error.
+        Same shape as getTopHolders — the holder row structure was unrecoverable from the site's
         statically-linked JS.
         """
 
@@ -41151,6 +41216,12 @@ class Prv_steam(Protocol):
         thumbnail and HLS stream URL.
         """
 
+    async def getGameStats(self, args: Prv_steam_GetGameStatsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameStatsResponse_Out:
+        """Reads a game's current concurrent player count and its global achievement completion
+        rates by appid; achievements is an honest null/empty when the game has no achievement
+        stats.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -44442,6 +44513,7 @@ class Bowmark(Protocol):
     domain: Cap_domain
     email: Cap_email
     entertainment_merch: Cap_entertainment_merch
+    essen_roadworks: Cap_essen_roadworks
     flights: Cap_flights
     fuel_card_fees: Cap_fuel_card_fees
     furnished_apartment_rental: Cap_furnished_apartment_rental

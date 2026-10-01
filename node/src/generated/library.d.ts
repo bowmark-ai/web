@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 19479547d8af30692a097c278a2a5e25a8f3e719ec7f7732a3090398fc09db0c
-// 69 capabilities, 501 providers, 1683 typed functions, 20 refused.
+// Manifest version: f8476cc59c74ab2a2b309d39716de745305a078ed419de4f5dbd2344d42d4144
+// 70 capabilities, 501 providers, 1686 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1216,6 +1216,44 @@ type CallOptions = {
      * any store that did not answer.
      */
     search(args: { query: string }): Promise<EntertainmentMerchSearchResult>;
+  }
+}
+
+declare namespace BowmarkCapability_essen_roadworks {
+  // ── Essen roadworks (Baustellen) — the unit's own declarations, verbatim ──
+type RoadworkStatus = "new" | "ongoing" | "finished";
+
+interface Roadwork {
+  status: RoadworkStatus;
+  street: string;
+  from: string | null;          // cross street the section starts at
+  to: string | null;            // cross street the section ends at
+  start: string | null;         // YYYY-MM-DD
+  end: string | null;           // YYYY-MM-DD
+  period: string | null;        // city's text, e.g. "im Bau bis Herbst 2026"
+  description: string | null;   // German: what is closed, the detour
+  congestionRisk: boolean;
+  lat: number | null;
+  lon: number | null;
+}
+
+interface essen_roadworksResult {
+  roadworks: Roadwork[];
+  source: string;
+  warnings: string[];
+}
+
+  /**
+   * List current roadworks / Baustellen and road closures in Essen, Germany, from the city's own
+   * geoportal — street, section, dates, detour text and congestion risk.
+   */
+  interface Unit {
+    /**
+     * Roadworks in Essen. Defaults to status ["new","ongoing"] (active now); pass "finished" for
+     * recently completed ones. `street` is a case-insensitive substring match on the street or its
+     * cross streets.
+     */
+    list(opts?: { street?: string; status?: RoadworkStatus | RoadworkStatus[] }): Promise<essen_roadworksResult>;
   }
 }
 
@@ -18752,6 +18790,16 @@ interface FomoCandle {
      * renders this data was not found anywhere in the site's statically-linked JS.
      */
     getTopHolders(tokens: Array<{ address: string; chain: FomoChainSlug | number }>, opts?: ConnectionOption): Promise<unknown[][]>;
+
+    /**
+     * Returns which of the signed-in trader's own follows hold each requested token, one result
+     * array per token in the same order. A caller-scoped read: the answer depends on whose session
+     * is asking, so it can never be cached across callers. A fresh account with no follows will
+     * return empty results, which is the correct answer rather than an error. Same shape as
+     * getTopHolders — the holder row structure was unrecoverable from the site's statically-linked
+     * JS.
+     */
+    getFriendHolders(tokens: Array<{ address: string; chain: FomoChainSlug | number }>, opts?: ConnectionOption): Promise<unknown[][]>;
   }
 }
 
@@ -39873,6 +39921,23 @@ interface GetGameVideosArgs {
   appid: string | number;
 }
 
+interface GetGameStatsArgs {
+  appid: string | number;
+}
+
+interface SteamAchievementRate {
+  name: string;
+  percent: number;
+}
+
+interface GetGameStatsResponse {
+  currentPlayers: number;
+  achievements: {
+    averagePercent: number | null;
+    rates: SteamAchievementRate[];
+  };
+}
+
 interface SteamVideo {
   name: string | null;
   thumbnail: string | null;
@@ -39881,6 +39946,23 @@ interface SteamVideo {
 
 interface GetGameVideosResponse {
   videos: SteamVideo[];
+}
+
+interface GetGameStatsArgs {
+  appid: string | number;
+}
+
+interface SteamAchievementRate {
+  name: string;
+  percent: number;
+}
+
+interface GetGameStatsResponse {
+  currentPlayers: number;
+  achievements: {
+    averagePercent: number | null;
+    rates: SteamAchievementRate[];
+  };
 }
 
   /**
@@ -39931,6 +40013,12 @@ interface GetGameVideosResponse {
      * and HLS stream URL.
      */
     getGameVideos(args: GetGameVideosArgs, opts?: ConnectionOption): Promise<GetGameVideosResponse>;
+
+    /**
+     * Reads a game's current concurrent player count and its global achievement completion rates
+     * by appid; achievements is an honest null/empty when the game has no achievement stats.
+     */
+    getGameStats(args: GetGameStatsArgs, opts?: ConnectionOption): Promise<GetGameStatsResponse>;
   }
 }
 
@@ -100373,6 +100461,7 @@ interface BowmarkLibrary {
   domain: BowmarkCapability_domain.Unit;
   email: BowmarkCapability_email.Unit;
   entertainment_merch: BowmarkCapability_entertainment_merch.Unit;
+  essen_roadworks: BowmarkCapability_essen_roadworks.Unit;
   flights: BowmarkCapability_flights.Unit;
   fuel_card_fees: BowmarkCapability_fuel_card_fees.Unit;
   furnished_apartment_rental: BowmarkCapability_furnished_apartment_rental.Unit;
