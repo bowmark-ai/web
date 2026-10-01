@@ -2012,7 +2012,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | 🟡 |
 | `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | 🟢 |
 | `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | 🟢 |
-| `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | ⚪ |
+| `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | 🟢 |
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟡 |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
 | `seakeeper.findNearestDealers` | seakeeper.com | Ranks every real Seakeeper dealer by distance from a US zip and returns the nearest N… | 🟢 |
