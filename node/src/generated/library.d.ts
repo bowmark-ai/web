@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 001f83e545f21e432466d0dcb8a05a3e745facd7410b1cbd51b34e23d6fe8bfe
-// 70 capabilities, 502 providers, 1692 typed functions, 20 refused.
+// Manifest version: bdaf2ffe5d2e7f35c79b00d906ce517ca57fff50dd20d5139472f4a6f47fdbb9
+// 70 capabilities, 502 providers, 1691 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21325,6 +21325,9 @@ interface ReverseGeocodeResult {
 }
 interface GetPlaceArgs {
   query: string;
+  // Opt in to a browser read of the About tab's Service options row. Rides the
+  // caller's Google session when one is granted; never required.
+  serviceOptions?: boolean;
 }
 interface GetPlaceResult {
   featureId: string;
@@ -21518,10 +21521,16 @@ interface SavePlaceResult {
      * no marker at all. This retries a few times to see past a reduced/rich flap in the site's own
      * response and merges the richest draw; `warnings` is non-empty when every attempt drew the
      * reduced record, meaning reviewCount/hours/openStatus could not be confirmed either way
-     * rather than being genuinely absent. A THIRD reading of searchPlaces' door: takes the same
-     * resolving query geocodeAddress does (typically a name plus address, since this does not take
-     * a feature id — measured live, neither the raw id nor a cid string resolves through this
-     * door), and throws when the query names a category or list rather than one business.
+     * rather than being genuinely absent. `serviceOptions` (boolean) opts into a SEPARATE browser
+     * read of the About tab for its Delivery/Takeout/Dine-in row — an anonymous read of that tab
+     * now serves Google's own "limited view" banner and no Service options section (measured
+     * 2026-09-30 against Pagliacci Pizza, Thai Tom and Dick's Drive-In), so this attaches the
+     * caller's own Google session when one is granted (never required) and, either way, pushes a
+     * `warnings` entry rather than staying silent when the panel came back limited instead of
+     * genuinely empty. A THIRD reading of searchPlaces' door: takes the same resolving query
+     * geocodeAddress does (typically a name plus address, since this does not take a feature id —
+     * measured live, neither the raw id nor a cid string resolves through this door), and throws
+     * when the query names a category or list rather than one business.
      */
     getPlace(args: GetPlaceArgs): Promise<GetPlaceResult>;
 
@@ -34099,14 +34108,6 @@ interface PinterestComment {
      * an empty or non-string query.
      */
     searchVideos(query: string, options?: { bookmark?: string }): Promise<{ pins: PinterestPin[]; bookmark: string | null }>;
-
-    /**
-     * Get search suggestions as Pinterest returns them for a partial query — the same suggestions
-     * the site's own search box shows a person as they type. Returns the text of each suggestion,
-     * and the id if the site provides one. `POST/GET /resource/TypeaheadResource/get/`. THROWS
-     * `PinterestInputError` on an empty or non-string query.
-     */
-    suggestSearches(query: string): Promise<{ suggestions: PinterestSuggestion[] }>;
 
     /**
      * Read one pin in full: title, `seo_title`, the description Pinterest renders, the outbound

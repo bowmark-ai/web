@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 001f83e545f21e432466d0dcb8a05a3e745facd7410b1cbd51b34e23d6fe8bfe
-# 70 capabilities, 502 providers, 1674 typed functions, 20 refused.
+# Manifest version: bdaf2ffe5d2e7f35c79b00d906ce517ca57fff50dd20d5139472f4a6f47fdbb9
+# 70 capabilities, 502 providers, 1673 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11684,6 +11684,7 @@ class Prv_google_maps_ReverseGeocodeResult_Out_coordinates_Out(TypedDict):
 
 class Prv_google_maps_GetPlaceArgs_In(TypedDict):
     query: str
+    serviceOptions: NotRequired[bool]
 
 class Prv_google_maps_GetPlaceResult_Out(TypedDict):
     featureId: str
@@ -18219,14 +18220,6 @@ class Prv_pinterest_searchVideos_options_In(TypedDict):
 class Prv_pinterest_searchVideos_return_Out(TypedDict):
     pins: list[Prv_pinterest_PinterestPin_Out]
     bookmark: str | None
-
-class Prv_pinterest_suggestSearches_return_Out(TypedDict):
-    suggestions: list[Prv_pinterest_PinterestSuggestion_Out]
-
-class Prv_pinterest_PinterestSuggestion_Out(TypedDict):
-    text: str
-    display_text: NotRequired[str]
-    search_id: NotRequired[str]
 
 class Prv_pinterest_PinterestPinDetail_Out(TypedDict):
     id: str
@@ -34275,10 +34268,16 @@ class Prv_google_maps(Protocol):
         to see past a reduced/rich flap in the site's own response and merges the richest draw;
         `warnings` is non-empty when every attempt drew the reduced record, meaning
         reviewCount/hours/openStatus could not be confirmed either way rather than being
-        genuinely absent. A THIRD reading of searchPlaces' door: takes the same resolving query
-        geocodeAddress does (typically a name plus address, since this does not take a feature
-        id — measured live, neither the raw id nor a cid string resolves through this door), and
-        throws when the query names a category or list rather than one business.
+        genuinely absent. `serviceOptions` (boolean) opts into a SEPARATE browser read of the
+        About tab for its Delivery/Takeout/Dine-in row — an anonymous read of that tab now
+        serves Google's own "limited view" banner and no Service options section (measured
+        2026-09-30 against Pagliacci Pizza, Thai Tom and Dick's Drive-In), so this attaches the
+        caller's own Google session when one is granted (never required) and, either way, pushes
+        a `warnings` entry rather than staying silent when the panel came back limited instead
+        of genuinely empty. A THIRD reading of searchPlaces' door: takes the same resolving
+        query geocodeAddress does (typically a name plus address, since this does not take a
+        feature id — measured live, neither the raw id nor a cid string resolves through this
+        door), and throws when the query names a category or list rather than one business.
         """
 
     async def listReviews(self, args: Prv_google_maps_ListReviewsArgs_In, /) -> Prv_google_maps_ListReviewsResult_Out:
@@ -39023,14 +39022,6 @@ class Prv_pinterest(Protocol):
         answers a caller who wants how-to clips instead of still images. `POST/GET
         /resource/BaseSearchResource/get/` with `scope: "videos"`. THROWS `PinterestInputError`
         on an empty or non-string query.
-        """
-
-    async def suggestSearches(self, query: str, /) -> Prv_pinterest_suggestSearches_return_Out:
-        """Get search suggestions as Pinterest returns them for a partial query — the same
-        suggestions the site's own search box shows a person as they type. Returns the text of
-        each suggestion, and the id if the site provides one. `POST/GET
-        /resource/TypeaheadResource/get/`. THROWS `PinterestInputError` on an empty or
-        non-string query.
         """
 
     async def getPin(self, id: str, /) -> Prv_pinterest_PinterestPinDetail_Out:
