@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 6dcf94f8b8b8927edd85111af7a4b0a625cf2d3855bf2c120d8856d81683ad20
-// 1708 checked, 20 unchecked.
+// Manifest version: f4462e0c7bc6a1206d7d4003e25bd501823740bfee15d4eeea085742c46e3963
+// 1711 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "6dcf94f8b8b8927edd85111af7a4b0a625cf2d3855bf2c120d8856d81683ad20",
+  "version": "f4462e0c7bc6a1206d7d4003e25bd501823740bfee15d4eeea085742c46e3963",
   "units": {
     "booking_links": {
       "defs": {
@@ -4057,6 +4057,96 @@ export const VALIDATORS: ValidatorTable = {
               "name": "CreateHighlightOptions"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "tapfiliate": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ListAffiliatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "referral_code",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "click_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "source_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "parent_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "affiliate_group_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listAffiliates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListAffiliatesArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -14452,9 +14542,31 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SearchArticlesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
+        "searchArticles": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchArticlesArgs"
+            },
+            "optional": false
+          }
+        ],
         "listHeadlines": [
           {
             "name": "section",
@@ -19400,6 +19512,48 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.freightliner_configurator": {
+      "defs": {
+        "GetConfiguratorPriceArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "model",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "cabType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "engineType",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getConfiguratorPrice": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetConfiguratorPriceArgs"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6dcf94f8b8b8927edd85111af7a4b0a625cf2d3855bf2c120d8856d81683ad20
-// 70 capabilities, 505 providers, 1726 typed functions, 20 refused.
+// Manifest version: f4462e0c7bc6a1206d7d4003e25bd501823740bfee15d4eeea085742c46e3963
+// 71 capabilities, 506 providers, 1729 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -1839,33 +1839,37 @@ type CallOptions = {
 }
 
   /**
-   * Search stays for a place and a date range and get back normalized properties, cheapest TOTAL
-   * first — the whole-booking price AND the per-room per-night rate, which of the many agencies
-   * reselling that hotel is quoting it and how many others also did, star class, guest score
-   * with its review count, property type, neighbourhood and distance from where you asked. Runs
-   * a real browser, so budget ~15s a search.
+   * Metasearch for hotel stays across agencies — search stays for a place and a date range and
+   * get back normalized properties from multiple agencies, cheapest TOTAL first. This is
+   * location-based metasearch (like Kayak), NOT a single-property calendar reader. Returns the
+   * whole-booking price AND the per-room per-night rate, which of the many agencies is quoting
+   * each property and how many others also did, star class, guest score with its review count,
+   * property type, neighbourhood and distance from where you asked. Runs a real browser, so
+   * budget ~15s a search.
    */
   interface Unit {
     /**
-     * Searches stays for a place and a date range — `{ location: "SFO", checkIn: "2026-08-29",
-     * checkOut: "2026-09-01" }` — and returns up to `limit` normalized properties (default and max
-     * 50), cheapest TOTAL stay first, with unpriced properties last. `location` takes an IATA
-     * airport code (the measured form) or a city name. Set `adults` for total guests and `rooms`
-     * when a party needs more than one — occupancy is a rating input, so it changes which rooms
-     * are quotable at all, and two rooms for four guests is not priced like one. THROWS on a
-     * malformed date or a `checkOut` that is not after `checkIn`, because these sites answer that
-     * by silently re-dating the search and returning real-looking rows for dates you never asked
-     * about. Each row names the cheapest SELLER and how many sellers quoted that property, so an
-     * agent can tell a genuinely cheap hotel from one nobody is competing on. `price` is the WHOLE
-     * booking — every night and every room — while `nightPrice` is per night per ROOM, so
-     * multiplying `nightPrice` by the night count on a multi-room search is out by a factor of
-     * `rooms`; compare on `price`. `warnings` is always present and names anything dropped or
-     * clamped — INCLUDING a site that timed out or failed, which returned nothing and is not the
-     * same as a sold-out destination. And when NO site answered at all this THROWS rather than
-     * returning `hotels: []`, because those two are the same value and only one of them means
-     * there is nowhere to stay. This route drives a real browser and is the slowest thing in the
-     * library: 21-26s measured, against `options.timeoutMs`'s 30000 default. RAISE that budget
-     * rather than lowering it if you batch several searches into one call.
+     * Metasearch across agencies for hotel stays in a location — NOT a single-property calendar
+     * reader. Searches stays for a place and a date range — `{ location: "SFO", checkIn:
+     * "2026-08-29", checkOut: "2026-09-01" }` — and returns up to `limit` normalized properties
+     * from multiple agencies (default and max 50), cheapest TOTAL stay first, with unpriced
+     * properties last. `location` takes an IATA airport code (the measured form) or a city name.
+     * Set `adults` for total guests and `rooms` when a party needs more than one — occupancy is a
+     * rating input, so it changes which rooms are quotable at all, and two rooms for four guests
+     * is not priced like one. THROWS on a malformed date or a `checkOut` that is not after
+     * `checkIn`, because these sites answer that by silently re-dating the search and returning
+     * real-looking rows for dates you never asked about. Each row names the cheapest SELLER and
+     * how many sellers quoted that property, so an agent can tell a genuinely cheap hotel from one
+     * nobody is competing on. `price` is the WHOLE booking — every night and every room — while
+     * `nightPrice` is per night per ROOM, so multiplying `nightPrice` by the night count on a
+     * multi-room search is out by a factor of `rooms`; compare on `price`. `warnings` is always
+     * present and names anything dropped or clamped — INCLUDING a site that timed out or failed,
+     * which returned nothing and is not the same as a sold-out destination. And when NO site
+     * answered at all this THROWS rather than returning `hotels: []`, because those two are the
+     * same value and only one of them means there is nowhere to stay. This route drives a real
+     * browser and is the slowest thing in the library: 21-26s measured, against
+     * `options.timeoutMs`'s 30000 default. RAISE that budget rather than lowering it if you batch
+     * several searches into one call.
      */
     search(query: HotelQuery, limit?: number, options?: CallOptions): Promise<HotelSearchResult>;
   }
@@ -3739,6 +3743,52 @@ type CallOptions = {
      * Needs a Twitch sign-in.
      */
     create(options: CreateHighlightOptions): Promise<StreamHighlight>;
+  }
+}
+
+declare namespace BowmarkCapability_tapfiliate {
+  // ── Tapfiliate — the unit's own declarations, verbatim ──
+interface TapfiliateAffiliate {
+  id: string;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  [key: string]: unknown;
+}
+
+interface TapfiliateAffiliateList {
+  affiliates: TapfiliateAffiliate[];
+  page: number;
+  hasMore: boolean;
+  warnings: string[];
+}
+
+interface ListAffiliatesArgs {
+  page?: number;
+  email?: string;
+  referral_code?: string;
+  click_id?: string;
+  source_id?: string;
+  parent_id?: string;
+  affiliate_group_id?: string;
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /** List the affiliates in your own Tapfiliate affiliate program, with your Tapfiliate API key. */
+  interface Unit {
+    /**
+     * Lists the affiliates in your Tapfiliate account, 25 per page (`page`, default 1; `hasMore`
+     * says whether another page exists), optionally filtered by email, referral code, click,
+     * source, parent or affiliate group. Needs your own Tapfiliate API key (Profile settings → API
+     * key). THROWS if Tapfiliate cannot answer — one source. `options.timeoutMs` sets the budget
+     * (default 30000).
+     */
+    listAffiliates(args?: ListAffiliatesArgs, options?: CallOptions): Promise<TapfiliateAffiliateList>;
   }
 }
 
@@ -14668,8 +14718,27 @@ interface cnnMarketsData {
   commodities: cnnMarketIndex[];
 }
 
+interface SearchArticlesArgs {
+  query: string;
+}
+
+interface cnnSearchResult {
+  headline: string;
+  snippet: string;
+  type: string;
+  url: string;
+  thumbnail: string | null;
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
+    /**
+     * Search for news articles across CNN — takes what a person would say ("breaking news",
+     * "inflation", "2024 election") and returns matching articles with headline, snippet, content
+     * type, thumbnail and URL.
+     */
+    searchArticles(args: SearchArticlesArgs): Promise<cnnSearchResult[]>;
+
     /**
      * The top headlines from CNN's home page — the lead stories across all sections, newest first,
      * with headline, snippet, publication time and URL. Pass `section` ("us", "politics",
@@ -19982,6 +20051,35 @@ interface fredObservations {
      * returns an empty array rather than an error.
      */
     searchSeries(args: string | { query: string; limit?: number }): Promise<fredSeries[]>;
+  }
+}
+
+declare namespace BowmarkProvider_freightliner_configurator {
+  // ── Freightliner — the unit's own declarations, verbatim ──
+interface FreightlinerPrice {
+  basePrice: number;
+  totalPrice: number;
+  modelName: string;
+  cabType: string;
+  engineType: string;
+}
+
+interface freightliner_configuratorRow extends FreightlinerPrice {}
+
+interface GetConfiguratorPriceArgs {
+  model?: string;
+  cabType?: string;
+  engineType?: string;
+}
+
+  /** Drives the Freightliner Cascadia configurator to capture quoted truck pricing. */
+  interface Unit {
+    /**
+     * Drives the Freightliner Cascadia 3D configurator through cab, engine, and option selections
+     * while listening for pricing API calls. Returns the quoted price with selected configuration
+     * details.
+     */
+    getConfiguratorPrice(args: GetConfiguratorPriceArgs): Promise<freightliner_configuratorRow>;
   }
 }
 
@@ -49252,6 +49350,7 @@ interface BowmarkProviders {
   fourseasonsyachts: BowmarkProvider_fourseasonsyachts.Unit;
   framebridge: BowmarkProvider_framebridge.Unit;
   fred: BowmarkProvider_fred.Unit;
+  freightliner_configurator: BowmarkProvider_freightliner_configurator.Unit;
   furniture: BowmarkProvider_furniture.Unit;
   g2: BowmarkProvider_g2.Unit;
   gasbuddy: BowmarkProvider_gasbuddy.Unit;
@@ -101331,6 +101430,7 @@ interface BowmarkLibrary {
   spreadsheet: BowmarkCapability_spreadsheet.Unit;
   stream_channel: BowmarkCapability_stream_channel.Unit;
   stream_highlights: BowmarkCapability_stream_highlights.Unit;
+  tapfiliate: BowmarkCapability_tapfiliate.Unit;
   tariff: BowmarkCapability_tariff.Unit;
   text_to_speech: BowmarkCapability_text_to_speech.Unit;
   theme_park_tickets: BowmarkCapability_theme_park_tickets.Unit;

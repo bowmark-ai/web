@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6dcf94f8b8b8927edd85111af7a4b0a625cf2d3855bf2c120d8856d81683ad20
-# 70 capabilities, 505 providers, 1708 typed functions, 20 refused.
+# Manifest version: f4462e0c7bc6a1206d7d4003e25bd501823740bfee15d4eeea085742c46e3963
+# 71 capabilities, 506 providers, 1711 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2028,6 +2028,30 @@ class Cap_stream_highlights_StreamHighlight_Out(TypedDict):
     channel: str
     dashboardUrl: str
     warnings: list[str]
+
+class Cap_tapfiliate_ListAffiliatesArgs_In(TypedDict):
+    page: NotRequired[float]
+    email: NotRequired[str]
+    referral_code: NotRequired[str]
+    click_id: NotRequired[str]
+    source_id: NotRequired[str]
+    parent_id: NotRequired[str]
+    affiliate_group_id: NotRequired[str]
+
+class Cap_tapfiliate_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_tapfiliate_TapfiliateAffiliateList_Out(TypedDict):
+    affiliates: list[Cap_tapfiliate_TapfiliateAffiliate_Out]
+    page: float
+    hasMore: bool
+    warnings: list[str]
+
+class Cap_tapfiliate_TapfiliateAffiliate_Out(TypedDict):
+    id: str
+    firstname: NotRequired[str]
+    lastname: NotRequired[str]
+    email: NotRequired[str]
 
 class Cap_tariff_TariffLookupResult_Out(TypedDict):
     code: str
@@ -8058,6 +8082,16 @@ class Prv_clubchampion_ClubchampionSlot_Out(TypedDict):
     status: str
     resourceId: str
 
+class Prv_cnn_SearchArticlesArgs_In(TypedDict):
+    query: str
+
+class Prv_cnn_cnnSearchResult_Out(TypedDict):
+    headline: str
+    snippet: str
+    type: str
+    url: str
+    thumbnail: str | None
+
 class Prv_cnn_cnnHeadline_Out(TypedDict):
     id: str
     headline: str
@@ -10924,6 +10958,18 @@ class Prv_fred_fredCategoryRow_Out(TypedDict):
 class Prv_fred_searchSeries_args_u1_In(TypedDict):
     query: str
     limit: NotRequired[float]
+
+class Prv_freightliner_configurator_GetConfiguratorPriceArgs_In(TypedDict):
+    model: NotRequired[str]
+    cabType: NotRequired[str]
+    engineType: NotRequired[str]
+
+class Prv_freightliner_configurator_freightliner_configuratorRow_Out(TypedDict):
+    basePrice: float
+    totalPrice: float
+    modelName: str
+    cabType: str
+    engineType: str
 
 class Prv_furniture_searchProducts_args_In(TypedDict):
     query: str
@@ -27308,34 +27354,37 @@ class Cap_gstin_verification(Protocol):
         """
 
 class Cap_hotels(Protocol):
-    """Search stays for a place and a date range and get back normalized properties, cheapest
-    TOTAL first — the whole-booking price AND the per-room per-night rate, which of the many
-    agencies reselling that hotel is quoting it and how many others also did, star class,
-    guest score with its review count, property type, neighbourhood and distance from where
-    you asked. Runs a real browser, so budget ~15s a search.
+    """Metasearch for hotel stays across agencies — search stays for a place and a date range
+    and get back normalized properties from multiple agencies, cheapest TOTAL first. This is
+    location-based metasearch (like Kayak), NOT a single-property calendar reader. Returns
+    the whole-booking price AND the per-room per-night rate, which of the many agencies is
+    quoting each property and how many others also did, star class, guest score with its
+    review count, property type, neighbourhood and distance from where you asked. Runs a
+    real browser, so budget ~15s a search.
     """
 
     async def search(self, query: Cap_hotels_HotelQuery_In, limit: float | None = None, options: Cap_hotels_CallOptions_In | None = None, /) -> Cap_hotels_HotelSearchResult_Out:
-        """Searches stays for a place and a date range — `{ location: "SFO", checkIn: "2026-08-29",
-        checkOut: "2026-09-01" }` — and returns up to `limit` normalized properties (default and
-        max 50), cheapest TOTAL stay first, with unpriced properties last. `location` takes an
-        IATA airport code (the measured form) or a city name. Set `adults` for total guests and
-        `rooms` when a party needs more than one — occupancy is a rating input, so it changes
-        which rooms are quotable at all, and two rooms for four guests is not priced like one.
-        THROWS on a malformed date or a `checkOut` that is not after `checkIn`, because these
-        sites answer that by silently re-dating the search and returning real-looking rows for
-        dates you never asked about. Each row names the cheapest SELLER and how many sellers
-        quoted that property, so an agent can tell a genuinely cheap hotel from one nobody is
-        competing on. `price` is the WHOLE booking — every night and every room — while
-        `nightPrice` is per night per ROOM, so multiplying `nightPrice` by the night count on a
-        multi-room search is out by a factor of `rooms`; compare on `price`. `warnings` is
-        always present and names anything dropped or clamped — INCLUDING a site that timed out
-        or failed, which returned nothing and is not the same as a sold-out destination. And
-        when NO site answered at all this THROWS rather than returning `hotels: []`, because
-        those two are the same value and only one of them means there is nowhere to stay. This
-        route drives a real browser and is the slowest thing in the library: 21-26s measured,
-        against `options.timeoutMs`'s 30000 default. RAISE that budget rather than lowering it
-        if you batch several searches into one call.
+        """Metasearch across agencies for hotel stays in a location — NOT a single-property
+        calendar reader. Searches stays for a place and a date range — `{ location: "SFO",
+        checkIn: "2026-08-29", checkOut: "2026-09-01" }` — and returns up to `limit` normalized
+        properties from multiple agencies (default and max 50), cheapest TOTAL stay first, with
+        unpriced properties last. `location` takes an IATA airport code (the measured form) or a
+        city name. Set `adults` for total guests and `rooms` when a party needs more than one —
+        occupancy is a rating input, so it changes which rooms are quotable at all, and two
+        rooms for four guests is not priced like one. THROWS on a malformed date or a `checkOut`
+        that is not after `checkIn`, because these sites answer that by silently re-dating the
+        search and returning real-looking rows for dates you never asked about. Each row names
+        the cheapest SELLER and how many sellers quoted that property, so an agent can tell a
+        genuinely cheap hotel from one nobody is competing on. `price` is the WHOLE booking —
+        every night and every room — while `nightPrice` is per night per ROOM, so multiplying
+        `nightPrice` by the night count on a multi-room search is out by a factor of `rooms`;
+        compare on `price`. `warnings` is always present and names anything dropped or clamped —
+        INCLUDING a site that timed out or failed, which returned nothing and is not the same as
+        a sold-out destination. And when NO site answered at all this THROWS rather than
+        returning `hotels: []`, because those two are the same value and only one of them means
+        there is nowhere to stay. This route drives a real browser and is the slowest thing in
+        the library: 21-26s measured, against `options.timeoutMs`'s 30000 default. RAISE that
+        budget rather than lowering it if you batch several searches into one call.
         """
 
 class Cap_hvac(Protocol):
@@ -28101,6 +28150,19 @@ class Cap_stream_highlights(Protocol):
         status "existing" instead of being cut twice. THROWS with "Retry shortly" when the live
         broadcast's archive has not recorded up to endSeconds yet (it trails real time by a
         minute or two). Needs a Twitch sign-in.
+        """
+
+class Cap_tapfiliate(Protocol):
+    """List the affiliates in your own Tapfiliate affiliate program, with your Tapfiliate API
+    key.
+    """
+
+    async def listAffiliates(self, args: Cap_tapfiliate_ListAffiliatesArgs_In | None = None, options: Cap_tapfiliate_CallOptions_In | None = None, /) -> Cap_tapfiliate_TapfiliateAffiliateList_Out:
+        """Lists the affiliates in your Tapfiliate account, 25 per page (`page`, default 1;
+        `hasMore` says whether another page exists), optionally filtered by email, referral
+        code, click, source, parent or affiliate group. Needs your own Tapfiliate API key
+        (Profile settings → API key). THROWS if Tapfiliate cannot answer — one source.
+        `options.timeoutMs` sets the budget (default 30000).
         """
 
 class Cap_tariff(Protocol):
@@ -32103,6 +32165,12 @@ class Prv_clubchampion(Protocol):
 class Prv_cnn(Protocol):
     """Breaking news, articles, video segments and markets data from CNN."""
 
+    async def searchArticles(self, args: Prv_cnn_SearchArticlesArgs_In, /) -> list[Prv_cnn_cnnSearchResult_Out]:
+        """Search for news articles across CNN — takes what a person would say ("breaking news",
+        "inflation", "2024 election") and returns matching articles with headline, snippet,
+        content type, thumbnail and URL.
+        """
+
     async def listHeadlines(self, section: str | None = None, /) -> list[Prv_cnn_cnnHeadline_Out]:
         """The top headlines from CNN's home page — the lead stories across all sections, newest
         first, with headline, snippet, publication time and URL. Pass `section` ("us",
@@ -34092,6 +34160,15 @@ class Prv_fred(Protocol):
         point for finding a series id from a plain-English indicator name — call it before
         getSeriesInfo or getSeriesObservations when the series id is not already known. A query
         matching nothing returns an empty array rather than an error.
+        """
+
+class Prv_freightliner_configurator(Protocol):
+    """Drives the Freightliner Cascadia configurator to capture quoted truck pricing."""
+
+    async def getConfiguratorPrice(self, args: Prv_freightliner_configurator_GetConfiguratorPriceArgs_In, /) -> Prv_freightliner_configurator_freightliner_configuratorRow_Out:
+        """Drives the Freightliner Cascadia 3D configurator through cab, engine, and option
+        selections while listening for pricing API calls. Returns the quoted price with selected
+        configuration details.
         """
 
 class Prv_furniture(Protocol):
@@ -44979,6 +45056,7 @@ class BowmarkProviders(Protocol):
     fourseasonsyachts: Prv_fourseasonsyachts
     framebridge: Prv_framebridge
     fred: Prv_fred
+    freightliner_configurator: Prv_freightliner_configurator
     furniture: Prv_furniture
     g2: Prv_g2
     gasbuddy: Prv_gasbuddy
@@ -45342,6 +45420,7 @@ class Bowmark(Protocol):
     spreadsheet: Cap_spreadsheet
     stream_channel: Cap_stream_channel
     stream_highlights: Cap_stream_highlights
+    tapfiliate: Cap_tapfiliate
     tariff: Cap_tariff
     text_to_speech: Cap_text_to_speech
     theme_park_tickets: Cap_theme_park_tickets
