@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2596 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2597 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -343,7 +343,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟢 |
 | `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | 🟢 |
 | `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | ⚪ |
-| `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | ⚪ |
+| `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | 🟢 |
 | `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | 🟢 |
 | `bluesky.getRelationships` | bsky.app | Whether one account follows, or is followed by, each of a list of others. | ⚪ |
 | `bluesky.getStarterPack` | bsky.app | One starter pack: its creator, description, the accounts and feeds it bundles, and how… | ⚪ |
@@ -1002,6 +1002,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fred.listReleases` | fred.stlouisfed.org | Lists FRED's economic data releases — the named publications data comes from (e.g.… | 🟢 |
 | `fred.listSources` | fred.stlouisfed.org | Lists the agencies and organizations that originate FRED's data — the Bureau of Labor… | 🟢 |
 | `fred.searchSeries` | fred.stlouisfed.org | Finds the economic data series that match a search text — GDP, CPI, unemployment rate… | 🟢 |
+| `freightliner_configurator.getConfiguratorPrice` | freightliner.com | Drives the Cascadia configurator through a truck configuration and captures the final… | ⚪ |
 | `furniture.listCategories` | furniture.com | Lists furniture.com's real category taxonomy (Sofas & Couches, Mattresses, Platform… | 🟢 |
 | `furniture.listFilterOptions` | furniture.com | Lists furniture.com's live filter facets and their real, currently offered values —… | 🟢 |
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟢 |
@@ -1949,7 +1950,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getMyNewsFeed` | www.reuters.com | The signed-in reader's My News feed — the latest stories from everything they follow… | ⚪ |
 | `reuters.getPictureGallery` | www.reuters.com | One Reuters photo gallery: every picture with its caption, photographer credit and… | ⚪ |
 | `reuters.getPressRelease` | www.reuters.com | Read one press release on reuters.com in full: title, issuer, date and body. | ⚪ |
-| `reuters.getQuote` | www.reuters.com | The current Reuters quote for one instrument by RIC — a stock, index, currency pair or… | ⚪ |
+| `reuters.getQuote` | www.reuters.com | The current Reuters quote for one instrument by RIC — a stock, index, currency pair or… | 🟢 |
 | `reuters.getVideo` | www.reuters.com | One Reuters video: title, description, duration, published time, thumbnail and its… | ⚪ |
 | `reuters.listArticlesByDate` | www.reuters.com | Every Reuters story published on one calendar day — headline, url and time — from the… | 🟢 |
 | `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | ⚪ |
