@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 039351e1016f718b598396b53b66b78516a9c25122686b22a24fabfdf6762302
-// 70 capabilities, 503 providers, 1707 typed functions, 20 refused.
+// Manifest version: 2a8fde2df55a9e52dacbe7af4d9168a664b266672aecdb4ac0e9bec15e6bb227
+// 70 capabilities, 504 providers, 1711 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20759,6 +20759,21 @@ interface GithubIssueCreated {
   state: "open" | "closed";
   url: string;
 }
+interface GithubUpdateIssueOptions {
+  title?: string;
+  body?: string;
+  state?: "open" | "closed";
+  assignees?: string[];
+  labels?: string[];
+  milestone?: number | null;
+}
+interface GithubIssueUpdated {
+  number: number;
+  title: string;
+  body: string | null;
+  state: "open" | "closed";
+  url: string;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -21036,7 +21051,19 @@ interface GithubIssueCreated {
      * created issue's number, title, body, state, and URL. THROWS on an unknown owner/repo (404),
      * when signed out or the saved session is invalid (401), or on a permission error (403).
      */
-    createIssue(owner: string, repo: string, title: string, body?: string, options?: { assignees?: string[]; labels?: string[]; milestone?: number }): Promise<GithubIssueCreated>;
+    createIssue(owner: string, repo: string, title: string, body?: string, options?: { assignees?: string[]; labels?: string[]; milestone?: number }, opts?: ConnectionOption): Promise<GithubIssueCreated>;
+
+    /**
+     * Updates an existing issue, off GitHub's own documented REST issues endpoint (`PATCH
+     * /repos/{owner}/{repo}/issues/{issue_number}`). NEEDS THE CALLER SIGNED IN and requires write
+     * access to the repository. `options` carries whichever of `title`, `body`, `state`
+     * (`"open"`/`"closed"`), `assignees`, `labels` or `milestone` (a milestone number, or `null`
+     * to clear it) should change — at least one is required. Returns the updated issue's number,
+     * title, body, state, and URL. THROWS on an unknown owner/repo/issue number (404), when signed
+     * out or the saved session is invalid (401), on a permission error (403), or when `options`
+     * carries none of the six fields.
+     */
+    updateIssue(owner: string, repo: string, issueNumber: number, options: GithubUpdateIssueOptions, opts?: ConnectionOption): Promise<GithubIssueUpdated>;
   }
 }
 
@@ -33009,6 +33036,17 @@ interface NytCookingRelatedRecipes {
   warnings?: string[];
 }
 
+interface NytCookingTrendingArticle {
+  title: string;
+  url: string;
+  summary: string | null;
+}
+
+interface NytCookingTrendingArticles {
+  articles: NytCookingTrendingArticle[];
+  warnings?: string[];
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -33070,6 +33108,9 @@ interface NytCookingRelatedRecipes {
      * each with a title and its recipe rows.
      */
     getRelatedRecipes(args: NytCookingGetRelatedRecipesArgs): Promise<NytCookingRelatedRecipes>;
+
+    /** Lists the articles behind the site's "Most Popular This Week" homepage carousel. */
+    getTrendingArticles(): Promise<NytCookingTrendingArticles>;
   }
 }
 
@@ -40747,6 +40788,45 @@ interface tamarackidahoUnit {
   }
 }
 
+declare namespace BowmarkProvider_tapfiliate {
+  // ── Tapfiliate — the unit's own declarations, verbatim ──
+interface TapfiliateAffiliate {
+  id: string;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  company?: unknown;
+  created_at?: string;
+  [key: string]: unknown;
+}
+interface ListAffiliatesArgs {
+  page?: number;
+  email?: string;
+  referral_code?: string;
+  click_id?: string;
+  source_id?: string;
+  parent_id?: string;
+  affiliate_group_id?: string;
+}
+interface TapfiliateAffiliatePage {
+  affiliates: TapfiliateAffiliate[];
+  page: number;
+  hasMore: boolean;
+}
+
+  /**
+   * List the affiliates in your own Tapfiliate affiliate-program account, on Tapfiliate's
+   * documented REST API with your API key.
+   */
+  interface Unit {
+    /**
+     * Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by email,
+     * referral code, click, source, parent or affiliate group. Needs your Tapfiliate API key.
+     */
+    listAffiliates(args?: ListAffiliatesArgs): Promise<TapfiliateAffiliatePage>;
+  }
+}
+
 declare namespace BowmarkProvider_target {
   // ── Target — the unit's own declarations, verbatim ──
 interface targetRow {
@@ -46473,6 +46553,15 @@ interface YahooFinanceWatchlists {
      * measured on every call, not assumed.
      */
     listWatchlists(opts?: ConnectionOption): Promise<YahooFinanceWatchlists>;
+
+    /**
+     * Adds a ticker to one of the signed-in viewer's watchlists, for a caller managing their own
+     * market watch. NEEDS A SIGN-IN: Bowmark holds no fleet-wide Yahoo Finance login, so every
+     * call reaches the watchlists page logged out and throws with the real redirect Yahoo Finance
+     * answered — the auth requirement this function is refused on is measured on every call, not
+     * assumed.
+     */
+    addToWatchlist(watchlistName: string, symbol: string): Promise<void>;
   }
 }
 
@@ -49136,6 +49225,7 @@ interface BowmarkProviders {
   sunlighten: BowmarkProvider_sunlighten.Unit;
   tagtrans_net: BowmarkProvider_tagtrans_net.Unit;
   tamarackidaho: BowmarkProvider_tamarackidaho.Unit;
+  tapfiliate: BowmarkProvider_tapfiliate.Unit;
   target: BowmarkProvider_target.Unit;
   tatcha: BowmarkProvider_tatcha.Unit;
   teladoc: BowmarkProvider_teladoc.Unit;

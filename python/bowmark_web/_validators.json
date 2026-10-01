@@ -1,5 +1,5 @@
 {
-  "version": "039351e1016f718b598396b53b66b78516a9c25122686b22a24fabfdf6762302",
+  "version": "2a8fde2df55a9e52dacbe7af4d9168a664b266672aecdb4ac0e9bec15e6bb227",
   "units": {
     "booking_links": {
       "defs": {
@@ -20023,6 +20023,77 @@
               "optional": true
             }
           ]
+        },
+        "GithubUpdateIssueOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "body",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "open"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "closed"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "assignees",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "labels",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "milestone",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "number"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -20538,6 +20609,69 @@
                     "k": "number"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateIssue": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "issueNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubUpdateIssueOptions"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },
@@ -30944,7 +31078,8 @@
             },
             "optional": false
           }
-        ]
+        ],
+        "getTrendingArticles": []
       }
     },
     "providers.nyt_games": {
@@ -42530,6 +42665,76 @@
         ]
       }
     },
+    "providers.tapfiliate": {
+      "defs": {
+        "ListAffiliatesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "email",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "referral_code",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "click_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "source_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "parent_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "affiliate_group_id",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listAffiliates": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListAffiliatesArgs"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.target": {
       "defs": {},
       "functions": {
@@ -48026,6 +48231,22 @@
               ]
             },
             "optional": true
+          }
+        ],
+        "addToWatchlist": [
+          {
+            "name": "watchlistName",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 039351e1016f718b598396b53b66b78516a9c25122686b22a24fabfdf6762302
-# 70 capabilities, 503 providers, 1689 typed functions, 20 refused.
+# Manifest version: 2a8fde2df55a9e52dacbe7af4d9168a664b266672aecdb4ac0e9bec15e6bb227
+# 70 capabilities, 504 providers, 1693 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11465,6 +11465,21 @@ class Prv_github_GithubIssueCreated_Out(TypedDict):
     state: Literal["open"] | Literal["closed"]
     url: str
 
+class Prv_github_GithubUpdateIssueOptions_In(TypedDict):
+    title: NotRequired[str]
+    body: NotRequired[str]
+    state: NotRequired[Literal["open"] | Literal["closed"]]
+    assignees: NotRequired[Sequence[str]]
+    labels: NotRequired[Sequence[str]]
+    milestone: NotRequired[float | None]
+
+class Prv_github_GithubIssueUpdated_Out(TypedDict):
+    number: float
+    title: str
+    body: str | None
+    state: Literal["open"] | Literal["closed"]
+    url: str
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -17513,6 +17528,15 @@ class Prv_nyt_cooking_NytCookingRelatedRecipe_Out_rating_u0_Out(TypedDict):
     average: float
     count: float
 
+class Prv_nyt_cooking_NytCookingTrendingArticles_Out(TypedDict):
+    articles: list[Prv_nyt_cooking_NytCookingTrendingArticle_Out]
+    warnings: NotRequired[list[str]]
+
+class Prv_nyt_cooking_NytCookingTrendingArticle_Out(TypedDict):
+    title: str
+    url: str
+    summary: str | None
+
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
 
@@ -22273,6 +22297,28 @@ class Prv_tamarackidaho_tamarackidahoUnit_Out(TypedDict):
     productId: str
     unitName: str
     totalPrice: float
+
+class Prv_tapfiliate_ListAffiliatesArgs_In(TypedDict):
+    page: NotRequired[float]
+    email: NotRequired[str]
+    referral_code: NotRequired[str]
+    click_id: NotRequired[str]
+    source_id: NotRequired[str]
+    parent_id: NotRequired[str]
+    affiliate_group_id: NotRequired[str]
+
+class Prv_tapfiliate_TapfiliateAffiliatePage_Out(TypedDict):
+    affiliates: list[Prv_tapfiliate_TapfiliateAffiliate_Out]
+    page: float
+    hasMore: bool
+
+class Prv_tapfiliate_TapfiliateAffiliate_Out(TypedDict):
+    id: str
+    firstname: NotRequired[str]
+    lastname: NotRequired[str]
+    email: NotRequired[str]
+    company: NotRequired[Any]
+    created_at: NotRequired[str]
 
 class Prv_target_search_args_In(TypedDict):
     query: str
@@ -34330,7 +34376,7 @@ class Prv_github(Protocol):
         owner/repo (404) or when signed out or the saved session is invalid.
         """
 
-    async def createIssue(self, owner: str, repo: str, title: str, body: str | None = None, options: Prv_github_createIssue_options_In | None = None, /) -> Prv_github_GithubIssueCreated_Out:
+    async def createIssue(self, owner: str, repo: str, title: str, body: str | None = None, options: Prv_github_createIssue_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubIssueCreated_Out:
         """Creates a new issue on a repository, off GitHub's own documented REST issues endpoint
         (`POST /repos/{owner}/{repo}/issues`). NEEDS THE CALLER SIGNED IN and requires write
         access to the repository. `title` is the issue title; `body` is the optional markdown
@@ -34339,6 +34385,17 @@ class Prv_github(Protocol):
         number. Returns the created issue's number, title, body, state, and URL. THROWS on an
         unknown owner/repo (404), when signed out or the saved session is invalid (401), or on a
         permission error (403).
+        """
+
+    async def updateIssue(self, owner: str, repo: str, issueNumber: float, options: Prv_github_GithubUpdateIssueOptions_In, opts: ConnectionOption | None = None, /) -> Prv_github_GithubIssueUpdated_Out:
+        """Updates an existing issue, off GitHub's own documented REST issues endpoint (`PATCH
+        /repos/{owner}/{repo}/issues/{issue_number}`). NEEDS THE CALLER SIGNED IN and requires
+        write access to the repository. `options` carries whichever of `title`, `body`, `state`
+        (`"open"`/`"closed"`), `assignees`, `labels` or `milestone` (a milestone number, or
+        `null` to clear it) should change — at least one is required. Returns the updated
+        issue's number, title, body, state, and URL. THROWS on an unknown owner/repo/issue
+        number (404), when signed out or the saved session is invalid (401), on a permission
+        error (403), or when `options` carries none of the six fields.
         """
 
 class Prv_glama(Protocol):
@@ -38841,6 +38898,9 @@ class Prv_nyt_cooking(Protocol):
         page, each with a title and its recipe rows.
         """
 
+    async def getTrendingArticles(self, /) -> Prv_nyt_cooking_NytCookingTrendingArticles_Out:
+        """Lists the articles behind the site's "Most Popular This Week" homepage carousel."""
+
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
     Connections, Spelling Bee, and crosswords.
@@ -41779,6 +41839,17 @@ class Prv_tamarackidaho(Protocol):
         nothing available for that stay, not a failure.
         """
 
+class Prv_tapfiliate(Protocol):
+    """List the affiliates in your own Tapfiliate affiliate-program account, on Tapfiliate's
+    documented REST API with your API key.
+    """
+
+    async def listAffiliates(self, args: Prv_tapfiliate_ListAffiliatesArgs_In | None = None, /) -> Prv_tapfiliate_TapfiliateAffiliatePage_Out:
+        """Lists the affiliates in your Tapfiliate account (25 per page), optionally filtered by
+        email, referral code, click, source, parent or affiliate group. Needs your Tapfiliate
+        API key.
+        """
+
 class Prv_target(Protocol):
     """Big-box general merchandise — search, product detail, store stock and store lookup on
     target.com.
@@ -43876,6 +43947,14 @@ class Prv_yahoo_finance(Protocol):
         refused on is measured on every call, not assumed.
         """
 
+    async def addToWatchlist(self, watchlistName: str, symbol: str, /) -> Any:
+        """Adds a ticker to one of the signed-in viewer's watchlists, for a caller managing their
+        own market watch. NEEDS A SIGN-IN: Bowmark holds no fleet-wide Yahoo Finance login, so
+        every call reaches the watchlists page logged out and throws with the real redirect
+        Yahoo Finance answered — the auth requirement this function is refused on is measured on
+        every call, not assumed.
+        """
+
 class Prv_yahoo_sports(Protocol):
     """Reads Yahoo Sports' own scoreboards, standings, schedules, box scores and player pages —
     off the site's own server-rendered schema.org markup, no browser and no account.
@@ -44882,6 +44961,7 @@ class BowmarkProviders(Protocol):
     sunlighten: Prv_sunlighten
     tagtrans_net: Prv_tagtrans_net
     tamarackidaho: Prv_tamarackidaho
+    tapfiliate: Prv_tapfiliate
     target: Prv_target
     tatcha: Prv_tatcha
     teladoc: Prv_teladoc

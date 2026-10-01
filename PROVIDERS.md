@@ -1680,7 +1680,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
 | `nytimes.getConnections` | nytimes.com | Gets today's Connections puzzle. | ⚪ |
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟢 |
-| `nytimes.getNewsletter` | nytimes.com | Gets newsletter description and signup info. | ⚪ |
+| `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details and episode list. | ⚪ |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets today's Spelling Bee puzzle. | ⚪ |
@@ -2554,7 +2554,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `youtube.addToPlaylist` | youtube.com | Add a video to, or remove one from, one of the signed-in account's own playlists. | 🟡 |
 | `youtube.createChannel` | youtube.com | Creates the signed-in Google account's YouTube CHANNEL, using the account's own name… | 🟡 |
 | `youtube.createPlaylist` | youtube.com | Create a playlist on the signed-in account. | 🟡 |
-| `youtube.deletePlaylist` | youtube.com | Permanently delete one of the signed-in account's own playlists. | ⚪ |
+| `youtube.deletePlaylist` | youtube.com | Permanently delete one of the signed-in account's own playlists. | 🟢 |
 | `youtube.deleteVideo` | youtube.com | Permanently delete one of the signed-in account's own videos. | 🟢 |
 | `youtube.findChannel` | youtube.com | Turn what a person would say about a channel — a name ("MrBeast"), an @handle, or any… | 🟢 |
 | `youtube.getChannel` | youtube.com | A channel's own page as facts: display name, @handle, an abbreviated subscriber count… | 🟢 |
