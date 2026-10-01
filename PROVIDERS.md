@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2587 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2591 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -899,7 +899,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getClanThesis` | fomo.family | The written theses a clan's members have posted — the clan-scoped half of… | ⚪ |
 | `fomo.getCreatorFees` | fomo.family | Returns fees accrued to a token creator through fomo's relay, and claims them. `GET… | ⚪ |
 | `fomo.getCurrentUser` | fomo.family | Returns the signed-in trader's own profile — id, `userHandle`, display name, bio… | 🟢 |
-| `fomo.getDevHolders` | fomo.family | Returns whether the token's own deployer still holds it, and how much. | ⚪ |
+| `fomo.getDevHolders` | fomo.family | Returns whether the token's own deployer still holds it, and how much. | 🟢 |
 | `fomo.getFeed` | fomo.family | Pages the signed-in trader's social feed — the trades made by people they follow, each… | ⚪ |
 | `fomo.getFollowers` | fomo.family | Pages the traders following one user. `GET /v2/users/:userId/followers`, cursor-paged… | ⚪ |
 | `fomo.getFollowing` | fomo.family | Pages the traders one user follows. `GET /v2/users/:userId/followingPaginate`. | ⚪ |
@@ -1401,6 +1401,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `labcorp.trackOrder` | labcorp.com | Looks up the status of an existing Labcorp OnDemand order (ordered, kit shipped, kit… | ⚪ |
 | `landmarkhw_com.getOrderFormOptions` | landmarkhw.com | Returns the property-type choices for a Landmark Home Warranty order in one supported… | 🟢 |
 | `landmarkhw_com.listOrderStates` | landmarkhw.com | Lists the states where Landmark Home Warranty's public order form currently offers… | 🟢 |
+| `landsend.addToCart` | landsend.com | Adds a size/colour SKU to the visitor's bag. | ⚪ |
+| `landsend.getActivePromo` | landsend.com | Reads the sitewide promo code Lands' End is running right now (e.g. MALLARDS, 40% off)… | 🟢 |
+| `landsend.getProduct` | landsend.com | Reads one product page: full fabric composition and care, every size/colour SKU with… | ⚪ |
+| `landsend.searchProducts` | landsend.com | Searches the Lands' End catalog the way the site's own search box does ("mens linen… | 🟢 |
 | `lasikplus.findCenters` | lasikplus.com | Runs the site's own iSchedule center locator (lasikplus.com/ischedule/) — given a US… | 🟢 |
 | `lasikplus.getAvailability` | lasikplus.com | Runs the site's own iSchedule appointment lookup for a given centerCode — returns the… | 🟢 |
 | `legacyhomesal.getAvailability` | legacyhomesal.com | Reads a Legacy Homes AL community sales rep's real open tour-appointment slots… | 🟢 |
