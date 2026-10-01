@@ -77,7 +77,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
 | `alibaba.removeFromCart` | alibaba.com | Remove a product from the shopping cart. | ⚪ |
 | `alibaba.saveProduct` | alibaba.com | Add a product to saved items/favorites. | ⚪ |
-| `alibaba.searchProducts` | alibaba.com | Search for products by keyword, returning results with title, price, supplier and… | 🟢 |
+| `alibaba.searchProducts` | alibaba.com | Search for products by keyword, returning results with title, price, supplier and… | 🟡 |
 | `alibaba.trackOrder` | alibaba.com | Get shipment tracking information and current delivery status. | ⚪ |
 | `alibaba.unsaveProduct` | alibaba.com | Remove a product from saved items. | ⚪ |
 | `alibaba.updateCartQuantity` | alibaba.com | Update the quantity of a product in the shopping cart. | ⚪ |
@@ -672,7 +672,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `decksdirect.priceConfiguration` | decksdirect.com | Resolves a specific configuration (a choice per option group, e.g. { Color: "Havana… | 🟢 |
 | `decksdirect.searchProducts` | decksdirect.com | Searches DecksDirect's decking/railing/hardware catalog by free text and returns each… | 🟢 |
 | `dell.getOrderDetails` | dell.com | Retrieves detailed information about a specific order, including items, pricing, and… | 🟢 |
-| `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟢 |
+| `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟡 |
 | `dell.getProductDrivers` | dell.com | Searches for and retrieves drivers for a Dell product by service tag or model number. | ⚪ |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves detailed information about a registered Dell product including warranty and… | ⚪ |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | 🟢 |
