@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e5dc1c3f7e6d7836b79a3c087c00ee3a86c9b187b2dd31b7ce07c55d5ac5cfb0
-// 70 capabilities, 502 providers, 1700 typed functions, 20 refused.
+// Manifest version: fdedf37935bdcaff02f740fd0035c9121a2ac20791c08d893d25de85426fba81
+// 70 capabilities, 503 providers, 1703 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -18864,6 +18864,17 @@ interface FomoCandle {
      * JS.
      */
     getFriendHolders(tokens: Array<{ address: string; chain: FomoChainSlug | number }>, opts?: ConnectionOption): Promise<unknown[][]>;
+
+    /**
+     * Returns whether the token's own deployer still holds it, and how much — the route that
+     * catches a developer selling their own supply, the classic rug. Takes a single (address,
+     * chain) pair, unlike getTopHolders/getFriendHolders' batch array, because the route's own
+     * query parameters are the flat tokenAddress/networkId pair getToken takes rather than the
+     * encoded tokens array. Rows are returned in fomo's own untyped shape — same reason as
+     * getTopHolders: the rendering component was not found anywhere in the site's
+     * statically-linked JS.
+     */
+    getDevHolders(address: string, chain: FomoChainSlug | number, opts?: ConnectionOption): Promise<unknown[]>;
   }
 }
 
@@ -28054,6 +28065,88 @@ interface LandmarkhwComOrderOptions {
   }
 }
 
+declare namespace BowmarkProvider_landsend {
+  // ── Lands' End — the unit's own declarations, verbatim ──
+interface LandsEndSearchArgs {
+  query: string;
+  /** The site's own size labels: "Medium", "Extra Large", "34 x 30", "32". */
+  sizes?: string[];
+  /** Keep only items priced below full retail (filters the fetched page). */
+  onSale?: boolean;
+  /** A promo code (e.g. from getActivePromo) — fills promoPrice per product. */
+  promoCode?: string;
+  sort?: "relevance" | "price_ascending" | "price_descending";
+  page?: number;
+  /** 1-100, default 24. */
+  limit?: number;
+}
+interface LandsEndVariant {
+  size: string;
+  color: string;
+  quantity: number;
+  inStock: boolean;
+  price: number;
+  fullPrice: number;
+}
+interface LandsEndProduct {
+  id: string;
+  name: string;
+  url: string;
+  price: number;
+  maxPrice: number;
+  fullPrice: number;
+  onSale: boolean;
+  promoCode: string | null;
+  promoPrice: number | null;
+  rating: number | null;
+  fabrics: string[];
+  fit: string[];
+  sizeRange: string | null;
+  gender: string | null;
+  description: string;
+  imageUrl: string | null;
+  colors: Array<{ name: string; code: string; imageUrl: string | null; url: string }>;
+  /** One row per size x colour; narrowed to `sizes` when given. */
+  variants: LandsEndVariant[];
+}
+interface LandsEndSearch {
+  products: LandsEndProduct[];
+  /** Matches before the onSale filter. */
+  total: number;
+  page: number;
+  sizeOptions: string[];
+}
+interface LandsEndPromo {
+  promoCode: string;
+  name: string;
+  terms: string;
+  startDate: string | null;
+  endDate: string | null;
+  freeShippingThreshold: number | null;
+}
+
+  /**
+   * Lands' End clothing retailer. Searches the catalog with per-size/per-colour stock, sale vs
+   * full price, fabric and images, and reads the active sitewide promo code.
+   */
+  interface Unit {
+    /**
+     * Searches the Lands' End catalog the way the site's own search does ("mens linen shirt",
+     * "linen pants") and returns products with current vs full-retail price, an onSale flag,
+     * per-size and per-colour stock, fabric, fit, images, and the price a promo code takes each
+     * item to. Filter by the site's size labels ("Medium", "34 x 30") and to sale items only.
+     */
+    searchProducts(args: LandsEndSearchArgs): Promise<LandsEndSearch>;
+
+    /**
+     * Reads the sitewide promo code Lands' End is running right now (e.g. MALLARDS — 40% off),
+     * with its name, terms, dates and free-shipping threshold, from the same endpoint the site's
+     * header banner uses.
+     */
+    getActivePromo(): Promise<LandsEndPromo>;
+  }
+}
+
 declare namespace BowmarkProvider_lasikplus {
   // ── LasikPlus — the unit's own declarations, verbatim ──
 interface LasikPlusCenter {
@@ -32242,7 +32335,7 @@ interface NbfProductSummary {
   basePriceFormatted: string; // "$1,969.00"
 }
 
-interface NbfOptionChoice { valueIndex: number; label: string; variantSku: string; price: number; priceFormatted: string }
+interface NbfOptionChoice { valueIndex: number; label: string; variantSku: string; price: number; priceFormatted: string } // with 2+ groups: the cheapest variant carrying this choice
 
 interface NbfOption {
   groupLabel: string;          // "Finish" — the real swatch group name, not GraphQL's opaque attribute_code
@@ -32256,6 +32349,7 @@ interface NbfProduct {
   basePrice: number;
   basePriceFormatted: string;
   options: NbfOption[];
+  variants: { variantSku: string; price: number; priceFormatted: string; choices: Record<string, string> }[]; // e.g. choices { Top: "Black", Base: "White" }
 }
 
 interface NbfPriceResult {
@@ -48836,6 +48930,7 @@ interface BowmarkProviders {
   kwworldwide: BowmarkProvider_kwworldwide.Unit;
   labcorp: BowmarkProvider_labcorp.Unit;
   landmarkhw_com: BowmarkProvider_landmarkhw_com.Unit;
+  landsend: BowmarkProvider_landsend.Unit;
   lasikplus: BowmarkProvider_lasikplus.Unit;
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   letterboxd: BowmarkProvider_letterboxd.Unit;

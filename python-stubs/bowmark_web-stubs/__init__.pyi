@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e5dc1c3f7e6d7836b79a3c087c00ee3a86c9b187b2dd31b7ce07c55d5ac5cfb0
-# 70 capabilities, 502 providers, 1682 typed functions, 20 refused.
+# Manifest version: fdedf37935bdcaff02f740fd0035c9121a2ac20791c08d893d25de85426fba81
+# 70 capabilities, 503 providers, 1685 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -15007,6 +15007,63 @@ class Prv_landmarkhw_com_LandmarkhwComPropertyType_Out(TypedDict):
     name: str
     units: float
 
+class Prv_landsend_LandsEndSearchArgs_In(TypedDict):
+    query: str
+    sizes: NotRequired[Sequence[str]]
+    onSale: NotRequired[bool]
+    promoCode: NotRequired[str]
+    sort: NotRequired[Literal["relevance"] | Literal["price_ascending"] | Literal["price_descending"]]
+    page: NotRequired[float]
+    limit: NotRequired[float]
+
+class Prv_landsend_LandsEndSearch_Out(TypedDict):
+    products: list[Prv_landsend_LandsEndProduct_Out]
+    total: float
+    page: float
+    sizeOptions: list[str]
+
+class Prv_landsend_LandsEndProduct_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    price: float
+    maxPrice: float
+    fullPrice: float
+    onSale: bool
+    promoCode: str | None
+    promoPrice: float | None
+    rating: float | None
+    fabrics: list[str]
+    fit: list[str]
+    sizeRange: str | None
+    gender: str | None
+    description: str
+    imageUrl: str | None
+    colors: list[Prv_landsend_LandsEndProduct_Out_colors_item_Out]
+    variants: list[Prv_landsend_LandsEndVariant_Out]
+
+class Prv_landsend_LandsEndProduct_Out_colors_item_Out(TypedDict):
+    name: str
+    code: str
+    imageUrl: str | None
+    url: str
+
+class Prv_landsend_LandsEndVariant_Out(TypedDict):
+    size: str
+    color: str
+    quantity: float
+    inStock: bool
+    price: float
+    fullPrice: float
+
+class Prv_landsend_LandsEndPromo_Out(TypedDict):
+    promoCode: str
+    name: str
+    terms: str
+    startDate: str | None
+    endDate: str | None
+    freeShippingThreshold: float | None
+
 class Prv_lasikplus_findCenters_arg_In(TypedDict):
     zip: str
     radiusMiles: NotRequired[float]
@@ -17086,6 +17143,7 @@ class Prv_nationalbusinessfurniture_NbfProduct_Out(TypedDict):
     basePrice: float
     basePriceFormatted: str
     options: list[Prv_nationalbusinessfurniture_NbfOption_Out]
+    variants: list[Prv_nationalbusinessfurniture_NbfProduct_Out_variants_item_Out]
 
 class Prv_nationalbusinessfurniture_NbfOption_Out(TypedDict):
     groupLabel: str
@@ -17097,6 +17155,12 @@ class Prv_nationalbusinessfurniture_NbfOptionChoice_Out(TypedDict):
     variantSku: str
     price: float
     priceFormatted: str
+
+class Prv_nationalbusinessfurniture_NbfProduct_Out_variants_item_Out(TypedDict):
+    variantSku: str
+    price: float
+    priceFormatted: str
+    choices: Mapping[str, str]
 
 class Prv_nationalbusinessfurniture_NbfPriceResult_Out(TypedDict):
     sku: str
@@ -33427,6 +33491,16 @@ class Prv_fomo(Protocol):
         statically-linked JS.
         """
 
+    async def getDevHolders(self, address: str, chain: Literal["solana"] | Literal["base"] | Literal["bnb"] | Literal["ethereum"] | Literal["monad"] | float, opts: ConnectionOption | None = None, /) -> list[Any]:
+        """Returns whether the token's own deployer still holds it, and how much — the route that
+        catches a developer selling their own supply, the classic rug. Takes a single (address,
+        chain) pair, unlike getTopHolders/getFriendHolders' batch array, because the route's own
+        query parameters are the flat tokenAddress/networkId pair getToken takes rather than the
+        encoded tokens array. Rows are returned in fomo's own untyped shape — same reason as
+        getTopHolders: the rendering component was not found anywhere in the site's
+        statically-linked JS.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -36972,6 +37046,25 @@ class Prv_landmarkhw_com(Protocol):
     async def getOrderFormOptions(self, args: Prv_landmarkhw_com_LandmarkhwComOrderOptionsArgs_In, /) -> Prv_landmarkhw_com_LandmarkhwComOrderOptions_Out:
         """Returns the property-type choices for a Landmark Home Warranty order in one supported
         state, before any quote or order is submitted.
+        """
+
+class Prv_landsend(Protocol):
+    """Lands' End clothing retailer. Searches the catalog with per-size/per-colour stock, sale
+    vs full price, fabric and images, and reads the active sitewide promo code.
+    """
+
+    async def searchProducts(self, args: Prv_landsend_LandsEndSearchArgs_In, /) -> Prv_landsend_LandsEndSearch_Out:
+        """Searches the Lands' End catalog the way the site's own search does ("mens linen shirt",
+        "linen pants") and returns products with current vs full-retail price, an onSale flag,
+        per-size and per-colour stock, fabric, fit, images, and the price a promo code takes
+        each item to. Filter by the site's size labels ("Medium", "34 x 30") and to sale items
+        only.
+        """
+
+    async def getActivePromo(self, /) -> Prv_landsend_LandsEndPromo_Out:
+        """Reads the sitewide promo code Lands' End is running right now (e.g. MALLARDS — 40% off),
+        with its name, terms, dates and free-shipping threshold, from the same endpoint the
+        site's header banner uses.
         """
 
 class Prv_lasikplus(Protocol):
@@ -44587,6 +44680,7 @@ class BowmarkProviders(Protocol):
     kwworldwide: Prv_kwworldwide
     labcorp: Prv_labcorp
     landmarkhw_com: Prv_landmarkhw_com
+    landsend: Prv_landsend
     lasikplus: Prv_lasikplus
     legacyhomesal: Prv_legacyhomesal
     letterboxd: Prv_letterboxd
