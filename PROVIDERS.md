@@ -60,13 +60,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getCart` | alibaba.com | Get current shopping cart contents and totals. | ⚪ |
 | `alibaba.getInvoice` | alibaba.com | Get details of a specific invoice. | ⚪ |
 | `alibaba.getOrder` | alibaba.com | Get details for a specific order including tracking, payment status and items. | ⚪ |
-| `alibaba.getProduct` | alibaba.com | Get detailed information for a single product by ID, including specs, images, pricing… | 🟢 |
+| `alibaba.getProduct` | alibaba.com | Get detailed information for a single product by ID, including specs, images, pricing… | 🟡 |
 | `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | ⚪ |
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
 | `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | 🟢 |
 | `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | 🟢 |
-| `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟢 |
+| `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟡 |
 | `alibaba.listInvoices` | alibaba.com | Get list of invoices for past orders. | ⚪ |
 | `alibaba.listMessages` | alibaba.com | Get inbox of messages from suppliers and other contacts. | ⚪ |
 | `alibaba.listOrders` | alibaba.com | Get list of past orders with status, date and items. | ⚪ |
@@ -254,7 +254,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.listPodcasts` | bbc.com | The podcasts and audio series the BBC's audio hub (/audio) lists: title, description… | ⚪ |
 | `bbc.listSavedArticles` | bbc.com | The signed-in reader's saved articles: headline, url, article id and when saved. | ⚪ |
 | `bbc.listSections` | bbc.com | The BBC's own section list, read off the bbc.com top navigation — Home, News (US &… | 🟢 |
-| `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | 🟢 |
+| `bbc.listSports` | bbc.com | The sports BBC Sport covers (football, cricket, rugby union, tennis, formula 1, golf… | 🟡 |
 | `bbc.listTopicStories` | bbc.com | The stories on one BBC topic page (/news/topics/<id>) — headline, url, article id… | 🟢 |
 | `bbc.listVideos` | bbc.com | The videos the BBC's video hub shows: title, summary, duration, url, video id, section… | ⚪ |
 | `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
@@ -685,7 +685,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.listSupportCategories` | dell.com | Lists the main support categories (drivers, firmware, manuals, community forum, etc.). | 🟢 |
 | `dell.searchForumThreads` | dell.com | Searches Dell's community forum for threads matching a query, returning titles, URLs… | 🟢 |
 | `dell.searchProducts` | dell.com | Searches the Dell store for products by keyword, returning product names, URLs… | 🟢 |
-| `dell.searchSupport` | dell.com | Searches Dell's support knowledge base for articles, drivers, and troubleshooting… | 🟢 |
+| `dell.searchSupport` | dell.com | Searches Dell's support knowledge base for articles, drivers, and troubleshooting… | 🟡 |
 | `deltadentalma.lastUpdated` | deltadentalma.com | Returns the timestamp the directory data was last refreshed, so a caller can say how… | 🟢 |
 | `deltadentalma.search` | deltadentalma.com | Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network… | 🟡 |
 | `dentalplans.getPlan` | dentalplans.com | Reads one plan's own detail page — its marketing description and the site's own… | 🟢 |
@@ -1645,7 +1645,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_cooking.getGroceryList` | cooking.nytimes.com | Reads the signed-in reader's own grocery list. | ⚪ |
 | `nyt_cooking.getMyNotes` | cooking.nytimes.com | Reads the signed-in reader's own private cook notes on a recipe. | ⚪ |
 | `nyt_cooking.getMyRating` | cooking.nytimes.com | Reads the signed-in reader's own rating for a recipe. | ⚪ |
-| `nyt_cooking.getRecipe` | cooking.nytimes.com | Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors… | 🟢 |
+| `nyt_cooking.getRecipe` | cooking.nytimes.com | Reads one recipe's full detail — ingredients, steps, yield, times, ratings and authors… | 🟡 |
 | `nyt_cooking.getRecipeNotes` | cooking.nytimes.com | Reads a recipe's reader notes — the site's "Top Comments" (sort: "helpful", the… | 🟢 |
 | `nyt_cooking.getRelatedRecipes` | cooking.nytimes.com | Reads a recipe's own "More like this" carousels (e.g. "Trending On Cooking") off its… | 🟢 |
 | `nyt_cooking.getSavedRecipes` | cooking.nytimes.com | Lists the signed-in reader's saved recipes (their Recipe Box). Needs the CALLER's own… | ⚪ |
@@ -1940,7 +1940,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟡 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |
 | `resy.search` | resy.com | Finds Resy venues matching a restaurant name, ranked by Resy's own relevance and… | 🟢 |
-| `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟢 |
+| `reuters.findAuthor` | www.reuters.com | Find a Reuters journalist by name — returns their author page path. | 🟡 |
 | `reuters.followTopic` | www.reuters.com | Follow a Reuters topic or section so it appears in the reader's My News feed. | ⚪ |
 | `reuters.getArticle` | www.reuters.com | Read one Reuters article in full — headline, body paragraphs, authors, published and… | 🟢 |
 | `reuters.getAuthor` | www.reuters.com | One Reuters journalist's page: name, role, beat, bio and their latest stories. | ⚪ |
@@ -2163,7 +2163,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listArticlesBySection` | theguardian.com | List recent articles from a section (world, politics, culture, sport, business… | 🟢 |
 | `theguardian_com.listBreakingNews` | theguardian.com | Get the latest breaking news stories. | 🟢 |
 | `theguardian_com.listContributors` | theguardian.com | Search for journalists and contributors by name. | 🟢 |
-| `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | ⚪ |
+| `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | 🟢 |
 | `theguardian_com.listNewsletters` | theguardian.com | List available email newsletters. | ⚪ |
 | `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | 🟢 |
 | `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | ⚪ |
@@ -2318,7 +2318,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listCategories` | twitch.tv | Lists Twitch games/categories, ranked by current live viewership: name, box art URL… | 🟢 |
 | `twitch.listChannelClips` | twitch.tv | Lists clips cut from a channel, ranked by Twitch's own default ordering: title… | 🟢 |
 | `twitch.listChannelVods` | twitch.tv | Lists a channel's past broadcasts/VODs, newest first: title, creation date, length in… | 🟢 |
-| `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟢 |
+| `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟡 |
 | `twitch.listSubscriptions` | twitch.tv | Lists channels the signed-in user is subscribed to and the subscription tier. | ⚪ |
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | ⚪ |
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | 🟢 |
