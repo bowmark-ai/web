@@ -2164,7 +2164,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `teneohg.searchMemberHotels` | teneohg.com | Runs Teneo's own member-hotel directory — 350+ independent and small-branded meeting… | 🟢 |
 | `theguardian_com.getArticle` | theguardian.com | Read the full text of one article given its URL or ID. | 🟢 |
 | `theguardian_com.getContributorArticles` | theguardian.com | List articles written by a specific journalist or contributor. | 🟢 |
-| `theguardian_com.getLiveBlog` | theguardian.com | Read a live blog covering a news event. | ⚪ |
+| `theguardian_com.getLiveBlog` | theguardian.com | Read a live blog covering a news event. | 🟢 |
 | `theguardian_com.getPhotoGallery` | theguardian.com | View images in a photo gallery with captions. | ⚪ |
 | `theguardian_com.getReview` | theguardian.com | Read a full review given its URL or ID. | 🟢 |
 | `theguardian_com.getSavedArticles` | theguardian.com | Get the user's saved articles (requires login). | ⚪ |
@@ -2330,7 +2330,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listChannelVods` | twitch.tv | Lists a channel's past broadcasts/VODs, newest first: title, creation date, length in… | 🟢 |
 | `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟡 |
 | `twitch.listSubscriptions` | twitch.tv | Lists channels the signed-in user is subscribed to and the subscription tier. | ⚪ |
-| `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | ⚪ |
+| `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | 🟢 |
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | 🟢 |
 | `twitch.searchChannels` | twitch.tv | Searches Twitch channels by keyword — a name, game or description term — and returns… | 🟢 |
 | `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | 🟢 |

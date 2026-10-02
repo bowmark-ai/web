@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 193fbdf12c5291e6708e6fb01cf9997629cd8b383930695d541e8165adcc2a19
-// 73 capabilities, 511 providers, 1762 typed functions, 20 refused.
+// Manifest version: aa21d9ac705ef18b17611de2c97c9a6e55e682a7bfb89265a8fcb59c04041268
+// 73 capabilities, 511 providers, 1763 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19614,6 +19614,10 @@ interface ForbesList {
   items: ForbesListItem[];
 }
 
+interface ForbesListsList {
+  lists: { slug: string; name: string; description?: string; url?: string }[];
+}
+
   /** Search and browse business news, articles, and video content from Forbes. */
   interface Unit {
     /** List the latest Forbes news articles, newest first, from forbes.com/news/. */
@@ -19627,6 +19631,12 @@ interface ForbesList {
      * newest first.
      */
     listArticlesByTopic(args: ListArticlesByTopicArgs): Promise<ForbesNewsList>;
+
+    /**
+     * List all available Forbes rankings/lists (Forbes 400, Global 2000, Most Powerful Women,
+     * etc).
+     */
+    listLists(): Promise<ForbesListsList>;
 
     /** List the latest Forbes Video content, newest first, from forbes.com/video/. */
     listVideos(): Promise<ForbesVideoList>;

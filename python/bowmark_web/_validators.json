@@ -1,5 +1,5 @@
 {
-  "version": "193fbdf12c5291e6708e6fb01cf9997629cd8b383930695d541e8165adcc2a19",
+  "version": "aa21d9ac705ef18b17611de2c97c9a6e55e682a7bfb89265a8fcb59c04041268",
   "units": {
     "address_validation": {
       "defs": {
@@ -19485,6 +19485,7 @@
             "optional": false
           }
         ],
+        "listLists": [],
         "listVideos": [],
         "getVideo": [
           {

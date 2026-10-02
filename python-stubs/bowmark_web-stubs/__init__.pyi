@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 193fbdf12c5291e6708e6fb01cf9997629cd8b383930695d541e8165adcc2a19
-# 73 capabilities, 511 providers, 1744 typed functions, 20 refused.
+# Manifest version: aa21d9ac705ef18b17611de2c97c9a6e55e682a7bfb89265a8fcb59c04041268
+# 73 capabilities, 511 providers, 1745 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10711,6 +10711,15 @@ class Prv_forbes_ForbesTopic_Out(TypedDict):
 
 class Prv_forbes_ListArticlesByTopicArgs_In(TypedDict):
     topic: str
+
+class Prv_forbes_ForbesListsList_Out(TypedDict):
+    lists: list[Prv_forbes_ForbesListsList_Out_lists_item_Out]
+
+class Prv_forbes_ForbesListsList_Out_lists_item_Out(TypedDict):
+    slug: str
+    name: str
+    description: NotRequired[str]
+    url: NotRequired[str]
 
 class Prv_forbes_ForbesVideoList_Out(TypedDict):
     videos: list[Prv_forbes_ForbesVideo_Out]
@@ -34433,6 +34442,11 @@ class Prv_forbes(Protocol):
     async def listArticlesByTopic(self, args: Prv_forbes_ListArticlesByTopicArgs_In, /) -> Prv_forbes_ForbesNewsList_Out:
         """List the latest articles in one Forbes channel (money, business, innovation, leadership,
         …), newest first.
+        """
+
+    async def listLists(self, /) -> Prv_forbes_ForbesListsList_Out:
+        """List all available Forbes rankings/lists (Forbes 400, Global 2000, Most Powerful Women,
+        etc).
         """
 
     async def listVideos(self, /) -> Prv_forbes_ForbesVideoList_Out:
