@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 168e64dae27ae308a8a3bef4d375941156ba99ce77835b7c7c48f368648d482c
-// 71 capabilities, 507 providers, 1738 typed functions, 20 refused.
+// Manifest version: c811ac9a81a66a65c475e372d3f6d599082bcd66597fce19b73ec0548e50367b
+// 71 capabilities, 508 providers, 1740 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19158,6 +19158,13 @@ interface FomoCandle {
      * returned to get the next one; a null cursor means the last page.
      */
     getFollowers(userId: string, cursor?: string, opts?: ConnectionOption): Promise<FomoPage<FomoUser>>;
+
+    /**
+     * Pages the traders one user follows, newest first, with full profiles — the paginated
+     * counterpart to getFollowingIds' bare ids. Pass the cursor a previous page returned to get
+     * the next one; a null cursor means the last page.
+     */
+    getFollowing(userId: string, cursor?: string, opts?: ConnectionOption): Promise<FomoPage<FomoUser>>;
   }
 }
 
@@ -20148,7 +20155,7 @@ interface fredObservations {
   }
 }
 
-declare namespace BowmarkProvider_freightliner_configurator {
+declare namespace BowmarkProvider_freightliner {
   // ── Freightliner — the unit's own declarations, verbatim ──
 interface FreightlinerPrice {
   basePrice: number;
@@ -20158,7 +20165,7 @@ interface FreightlinerPrice {
   engineType: string;
 }
 
-interface freightliner_configuratorRow extends FreightlinerPrice {}
+interface freightlinerRow extends FreightlinerPrice {}
 
 interface GetConfiguratorPriceArgs {
   model?: string;
@@ -20173,7 +20180,7 @@ interface GetConfiguratorPriceArgs {
      * while listening for pricing API calls. Returns the quoted price with selected configuration
      * details.
      */
-    getConfiguratorPrice(args: GetConfiguratorPriceArgs): Promise<freightliner_configuratorRow>;
+    getConfiguratorPrice(args: GetConfiguratorPriceArgs): Promise<freightlinerRow>;
   }
 }
 
@@ -34438,6 +34445,44 @@ interface PaypalCurrencyConversionQuote {
   }
 }
 
+declare namespace BowmarkProvider_peerspace {
+  // ── Peerspace — the unit's own declarations, verbatim ──
+interface PeerspaceListing {
+  id: string;
+  title: string;
+  url: string;
+  hourlyPrice: number;
+  currency: string;
+  capacity: number;
+  city: string;
+  state: string;
+  neighborhood: string;
+  isInstantBook: boolean;
+  spaceType: string;
+  category: "party" | "photo-shoot" | "off-site";
+  reviewStars: number | null;
+  reviewCount: number;
+  minimumDurationHours: number;
+}
+
+  /**
+   * Peerspace's own city listing pages — real hourly rate, guest capacity and instant-book
+   * status for party, photo-shoot and off-site/production spaces, no signup needed to view.
+   */
+  interface Unit {
+    /**
+     * Reads Peerspace's own city listing page and returns each space's real hourly rate, guest
+     * capacity and instant-book status. Pass a "City, ST" string (e.g. "New York, NY") or an
+     * object with the same fields, plus an optional `category` (party / photo-shoot / off-site —
+     * Peerspace's own groupings) and `minGuests` (filters on the site's own stated capacity; the
+     * site itself applies no guest-count or date filter, so this is a client-side narrowing, not a
+     * request to the site). The page confirms a listed rate and capacity, not availability for a
+     * specific date — it has no date parameter at all.
+     */
+    searchVenues(args: string | { city: string; state: string; category?: "party" | "photo-shoot" | "off-site"; minGuests?: number }): Promise<PeerspaceListing[]>;
+  }
+}
+
 declare namespace BowmarkProvider_perennialsandsutherland {
   // ── Perennials & Sutherland — the unit's own declarations, verbatim ──
 interface RugSearchResult {
@@ -42672,7 +42717,7 @@ interface GetSoundArgs {
      * nickname, bio, secUid, verified and private flags, avatar, bioLink, and stats (follower,
      * following, video and heart counts).
      */
-    getProfile(args: GetProfileArgs, opts?: ConnectionOption): Promise<tiktokProfile>;
+    getProfile(args: GetProfileArgs): Promise<tiktokProfile>;
 
     /**
      * One video's own facts, off the watch page's embedded state: caption, hashtags, create time,
@@ -42681,14 +42726,14 @@ interface GetSoundArgs {
      * `/@<handle>/video/<id>` URL or a bare numeric video id — the id alone is enough, since the
      * page renders off a placeholder handle segment.
      */
-    getVideo(args: GetVideoArgs, opts?: ConnectionOption): Promise<tiktokVideo>;
+    getVideo(args: GetVideoArgs): Promise<tiktokVideo>;
 
     /**
      * A video's caption track fetched and parsed from the WebVTT file TikTok embeds in each video
      * page, with timed segments and full text. Returns empty segments when captions are
      * unavailable. Takes a `/@<handle>/video/<id>` URL or a bare numeric video id.
      */
-    getTranscript(args: GetTranscriptArgs, opts?: ConnectionOption): Promise<tiktokTranscript>;
+    getTranscript(args: GetTranscriptArgs): Promise<tiktokTranscript>;
 
     /**
      * Which languages a video's captions are available in and which TikTok shows by default.
@@ -42696,21 +42741,21 @@ interface GetSoundArgs {
      * auto-generated, and which one is default. Mirrors youtube.listCaptionTracks. Takes a
      * `/@<handle>/video/<id>` URL or a bare numeric video id.
      */
-    listCaptionTracks(args: ListCaptionTracksArgs, opts?: ConnectionOption): Promise<tiktokCaptionTrack[]>;
+    listCaptionTracks(args: ListCaptionTracksArgs): Promise<tiktokCaptionTrack[]>;
 
     /**
      * A creator's most recent videos — id and caption — read off the unsigned `/embed/@<handle>`
      * page, the door from a handle to their videos. Each id then resolves through getVideo for
      * full stats. Returns only the first page the embed page ships; paging past it is unmeasured.
      */
-    listUserVideos(args: ListUserVideosArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
+    listUserVideos(args: ListUserVideosArgs): Promise<tiktokVideoSummary[]>;
 
     /**
      * Comments on a video — text, author (id, handle, nickname), like count, reply count, and
      * creation time. Reads the unsigned `/api/comment/list/` endpoint with no request signature
      * required. Returns up to 20 comments on the first call; paging with cursor is unmeasured.
      */
-    listComments(args: ListCommentsArgs, opts?: ConnectionOption): Promise<tiktokComment[]>;
+    listComments(args: ListCommentsArgs): Promise<tiktokComment[]>;
 
     /**
      * The replies under one comment thread — text, author (id, handle, nickname), like count, and
@@ -42719,7 +42764,7 @@ interface GetSoundArgs {
      * on the same host. A comment with no replies answers an empty array rather than an error.
      * Returns up to 20 replies on the first call; paging with cursor is unmeasured.
      */
-    listCommentReplies(args: ListCommentRepliesArgs, opts?: ConnectionOption): Promise<tiktokCommentReply[]>;
+    listCommentReplies(args: ListCommentRepliesArgs): Promise<tiktokCommentReply[]>;
 
     /**
      * Search for videos on TikTok by keyword. Returns up to 20 results with id, caption, author
@@ -42727,7 +42772,7 @@ interface GetSoundArgs {
      * load the search page and intercept the API response, as the signed search endpoint requires
      * derived request signatures.
      */
-    searchVideos(args: SearchVideosArgs, opts?: ConnectionOption): Promise<tiktokSearchResult[]>;
+    searchVideos(args: SearchVideosArgs): Promise<tiktokSearchResult[]>;
 
     /**
      * Search for users on TikTok by query. Returns up to 20 results with id, username, nickname,
@@ -42735,14 +42780,14 @@ interface GetSoundArgs {
      * search page and intercept the API response, as the signed search endpoint requires derived
      * request signatures.
      */
-    searchUsers(args: SearchUsersArgs, opts?: ConnectionOption): Promise<tiktokUserSearchResult[]>;
+    searchUsers(args: SearchUsersArgs): Promise<tiktokUserSearchResult[]>;
 
     /**
      * A hashtag's facts — view count, description, whether it is currently promoted — off TikTok's
      * hashtag page. Uses the browser to load the hashtag page and intercept the API response, as
      * the hashtag page is served off the signed app API.
      */
-    getHashtag(args: GetHashtagArgs, opts?: ConnectionOption): Promise<tiktokHashtag>;
+    getHashtag(args: GetHashtagArgs): Promise<tiktokHashtag>;
 
     /**
      * The videos under one hashtag — id and caption — the companion read to getHashtag. Uses the
@@ -42750,7 +42795,7 @@ interface GetSoundArgs {
      * served off the signed app API. Returns videos in the order TikTok serves them (newest or
      * top, depending on the sort option).
      */
-    listHashtagVideos(args: ListHashtagVideosArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
+    listHashtagVideos(args: ListHashtagVideosArgs): Promise<tiktokVideoSummary[]>;
 
     /**
      * A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed by
@@ -42758,7 +42803,7 @@ interface GetSoundArgs {
      * read the detail response it fetches, as that endpoint answers an unsigned request with an
      * empty body.
      */
-    getSound(args: GetSoundArgs, opts?: ConnectionOption): Promise<tiktokSound>;
+    getSound(args: GetSoundArgs): Promise<tiktokSound>;
   }
 }
 
@@ -47047,7 +47092,7 @@ interface YahooFinanceWatchlists {
      * answered — the auth requirement this function is refused on is measured on every call, not
      * assumed.
      */
-    addToWatchlist(watchlistName: string, symbol: string): Promise<void>;
+    addToWatchlist(watchlistName: string, symbol: string, opts?: ConnectionOption): Promise<void>;
   }
 }
 
@@ -48205,7 +48250,7 @@ interface YoutubeStreamFormat {
      * SIGN-IN — call the video_library's history capability rather than this directly. Per-account
      * and starts empty.
      */
-    listWatchHistory(input?: { continuation?: string }): Promise<YoutubePlaylistVideoPage>;
+    listWatchHistory(input?: { continuation?: string }, opts?: ConnectionOption): Promise<YoutubePlaylistVideoPage>;
 
     /**
      * Creates an EMPTY playlist on the signed-in account and returns its id and URL. `privacy`
@@ -49513,7 +49558,7 @@ interface BowmarkProviders {
   fourseasonsyachts: BowmarkProvider_fourseasonsyachts.Unit;
   framebridge: BowmarkProvider_framebridge.Unit;
   fred: BowmarkProvider_fred.Unit;
-  freightliner_configurator: BowmarkProvider_freightliner_configurator.Unit;
+  freightliner: BowmarkProvider_freightliner.Unit;
   furniture: BowmarkProvider_furniture.Unit;
   g2: BowmarkProvider_g2.Unit;
   gasbuddy: BowmarkProvider_gasbuddy.Unit;
@@ -49668,6 +49713,7 @@ interface BowmarkProviders {
   pallet2ship: BowmarkProvider_pallet2ship.Unit;
   pawsup: BowmarkProvider_pawsup.Unit;
   paypal: BowmarkProvider_paypal.Unit;
+  peerspace: BowmarkProvider_peerspace.Unit;
   perennialsandsutherland: BowmarkProvider_perennialsandsutherland.Unit;
   pilotprotocol: BowmarkProvider_pilotprotocol.Unit;
   pinterest: BowmarkProvider_pinterest.Unit;

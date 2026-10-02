@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 168e64dae27ae308a8a3bef4d375941156ba99ce77835b7c7c48f368648d482c
-// 1720 checked, 20 unchecked.
+// Manifest version: c811ac9a81a66a65c475e372d3f6d599082bcd66597fce19b73ec0548e50367b
+// 1722 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "168e64dae27ae308a8a3bef4d375941156ba99ce77835b7c7c48f368648d482c",
+  "version": "c811ac9a81a66a65c475e372d3f6d599082bcd66597fce19b73ec0548e50367b",
   "units": {
     "booking_links": {
       "defs": {
@@ -19085,6 +19085,38 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getFollowing": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "cursor",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -19678,7 +19710,7 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
-    "providers.freightliner_configurator": {
+    "providers.freightliner": {
       "defs": {
         "GetConfiguratorPriceArgs": {
           "k": "object",
@@ -33040,6 +33072,72 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.peerspace": {
+      "defs": {},
+      "functions": {
+        "searchVenues": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "city",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "state",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "category",
+                      "schema": {
+                        "k": "union",
+                        "of": [
+                          {
+                            "k": "literal",
+                            "v": "party"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "photo-shoot"
+                          },
+                          {
+                            "k": "literal",
+                            "v": "off-site"
+                          }
+                        ]
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "minGuests",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.perennialsandsutherland": {
       "defs": {},
       "functions": {
@@ -44727,22 +44825,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetProfileArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getVideo": [
@@ -44753,22 +44835,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetVideoArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getTranscript": [
@@ -44779,22 +44845,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetTranscriptArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listCaptionTracks": [
@@ -44805,22 +44855,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListCaptionTracksArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listUserVideos": [
@@ -44831,22 +44865,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListUserVideosArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listComments": [
@@ -44857,22 +44875,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListCommentsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listCommentReplies": [
@@ -44883,22 +44885,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListCommentRepliesArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "searchVideos": [
@@ -44909,22 +44895,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchVideosArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "searchUsers": [
@@ -44935,22 +44905,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchUsersArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getHashtag": [
@@ -44961,22 +44915,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetHashtagArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listHashtagVideos": [
@@ -44987,22 +44925,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListHashtagVideosArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getSound": [
@@ -45013,22 +44935,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetSoundArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ]
       }
@@ -49250,6 +49156,22 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -50740,6 +50662,22 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },

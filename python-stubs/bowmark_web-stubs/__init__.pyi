@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 168e64dae27ae308a8a3bef4d375941156ba99ce77835b7c7c48f368648d482c
-# 71 capabilities, 507 providers, 1720 typed functions, 20 refused.
+# Manifest version: c811ac9a81a66a65c475e372d3f6d599082bcd66597fce19b73ec0548e50367b
+# 71 capabilities, 508 providers, 1722 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10991,12 +10991,12 @@ class Prv_fred_searchSeries_args_u1_In(TypedDict):
     query: str
     limit: NotRequired[float]
 
-class Prv_freightliner_configurator_GetConfiguratorPriceArgs_In(TypedDict):
+class Prv_freightliner_GetConfiguratorPriceArgs_In(TypedDict):
     model: NotRequired[str]
     cabType: NotRequired[str]
     engineType: NotRequired[str]
 
-class Prv_freightliner_configurator_freightliner_configuratorRow_Out(TypedDict):
+class Prv_freightliner_freightlinerRow_Out(TypedDict):
     basePrice: float
     totalPrice: float
     modelName: str
@@ -18380,6 +18380,29 @@ class Prv_paypal_PaypalCurrencyConversionCitation_Out(TypedDict):
     documentId: str
     feeDataKey: str
     internalName: str
+
+class Prv_peerspace_searchVenues_args_u1_In(TypedDict):
+    city: str
+    state: str
+    category: NotRequired[Literal["party"] | Literal["photo-shoot"] | Literal["off-site"]]
+    minGuests: NotRequired[float]
+
+class Prv_peerspace_PeerspaceListing_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    hourlyPrice: float
+    currency: str
+    capacity: float
+    city: str
+    state: str
+    neighborhood: str
+    isInstantBook: bool
+    spaceType: str
+    category: Literal["party"] | Literal["photo-shoot"] | Literal["off-site"]
+    reviewStars: float | None
+    reviewCount: float
+    minimumDurationHours: float
 
 class Prv_perennialsandsutherland_RugSearchResult_Out(TypedDict):
     sku: str
@@ -33968,6 +33991,12 @@ class Prv_fomo(Protocol):
         previous page returned to get the next one; a null cursor means the last page.
         """
 
+    async def getFollowing(self, userId: str, cursor: str | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Pages the traders one user follows, newest first, with full profiles — the paginated
+        counterpart to getFollowingIds' bare ids. Pass the cursor a previous page returned to
+        get the next one; a null cursor means the last page.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -34286,10 +34315,10 @@ class Prv_fred(Protocol):
         matching nothing returns an empty array rather than an error.
         """
 
-class Prv_freightliner_configurator(Protocol):
+class Prv_freightliner(Protocol):
     """Drives the Freightliner Cascadia configurator to capture quoted truck pricing."""
 
-    async def getConfiguratorPrice(self, args: Prv_freightliner_configurator_GetConfiguratorPriceArgs_In, /) -> Prv_freightliner_configurator_freightliner_configuratorRow_Out:
+    async def getConfiguratorPrice(self, args: Prv_freightliner_GetConfiguratorPriceArgs_In, /) -> Prv_freightliner_freightlinerRow_Out:
         """Drives the Freightliner Cascadia 3D configurator through cab, engine, and option
         selections while listening for pricing API calls. Returns the quoted price with selected
         configuration details.
@@ -39708,6 +39737,21 @@ class Prv_paypal(Protocol):
         capability tier's job, not a single provider's. consumer / us only today.
         """
 
+class Prv_peerspace(Protocol):
+    """Peerspace's own city listing pages — real hourly rate, guest capacity and instant-book
+    status for party, photo-shoot and off-site/production spaces, no signup needed to view.
+    """
+
+    async def searchVenues(self, args: str | Prv_peerspace_searchVenues_args_u1_In, /) -> list[Prv_peerspace_PeerspaceListing_Out]:
+        """Reads Peerspace's own city listing page and returns each space's real hourly rate, guest
+        capacity and instant-book status. Pass a "City, ST" string (e.g. "New York, NY") or an
+        object with the same fields, plus an optional `category` (party / photo-shoot / off-site
+        — Peerspace's own groupings) and `minGuests` (filters on the site's own stated capacity;
+        the site itself applies no guest-count or date filter, so this is a client-side
+        narrowing, not a request to the site). The page confirms a listed rate and capacity, not
+        availability for a specific date — it has no date parameter at all.
+        """
+
 class Prv_perennialsandsutherland(Protocol):
     """Reads Perennials & Sutherland's public rug catalog (perennialsandsutherland.com) —
     search for a design, read one variant's real trade price, its sibling colorway/size
@@ -42761,13 +42805,13 @@ class Prv_tiktok(Protocol):
     no login, no browser.
     """
 
-    async def getProfile(self, args: Prv_tiktok_GetProfileArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokProfile_Out:
+    async def getProfile(self, args: Prv_tiktok_GetProfileArgs_In, /) -> Prv_tiktok_tiktokProfile_Out:
         """A creator's own profile as TikTok's server-rendered page carries it — id, uniqueId
         (handle), nickname, bio, secUid, verified and private flags, avatar, bioLink, and stats
         (follower, following, video and heart counts).
         """
 
-    async def getVideo(self, args: Prv_tiktok_GetVideoArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokVideo_Out:
+    async def getVideo(self, args: Prv_tiktok_GetVideoArgs_In, /) -> Prv_tiktok_tiktokVideo_Out:
         """One video's own facts, off the watch page's embedded state: caption, hashtags, create
         time, duration, the full stats block (plays, likes, comments, shares, saves), the
         uploading author and their stats (follower/heart/video counts), the music track, and
@@ -42775,34 +42819,34 @@ class Prv_tiktok(Protocol):
         is enough, since the page renders off a placeholder handle segment.
         """
 
-    async def getTranscript(self, args: Prv_tiktok_GetTranscriptArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokTranscript_Out:
+    async def getTranscript(self, args: Prv_tiktok_GetTranscriptArgs_In, /) -> Prv_tiktok_tiktokTranscript_Out:
         """A video's caption track fetched and parsed from the WebVTT file TikTok embeds in each
         video page, with timed segments and full text. Returns empty segments when captions are
         unavailable. Takes a `/@<handle>/video/<id>` URL or a bare numeric video id.
         """
 
-    async def listCaptionTracks(self, args: Prv_tiktok_ListCaptionTracksArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokCaptionTrack_Out]:
+    async def listCaptionTracks(self, args: Prv_tiktok_ListCaptionTracksArgs_In, /) -> list[Prv_tiktok_tiktokCaptionTrack_Out]:
         """Which languages a video's captions are available in and which TikTok shows by default.
         Returns an array of caption tracks with language codes, display names, whether each is
         auto-generated, and which one is default. Mirrors youtube.listCaptionTracks. Takes a
         `/@<handle>/video/<id>` URL or a bare numeric video id.
         """
 
-    async def listUserVideos(self, args: Prv_tiktok_ListUserVideosArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+    async def listUserVideos(self, args: Prv_tiktok_ListUserVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
         """A creator's most recent videos — id and caption — read off the unsigned
         `/embed/@<handle>` page, the door from a handle to their videos. Each id then resolves
         through getVideo for full stats. Returns only the first page the embed page ships;
         paging past it is unmeasured.
         """
 
-    async def listComments(self, args: Prv_tiktok_ListCommentsArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokComment_Out]:
+    async def listComments(self, args: Prv_tiktok_ListCommentsArgs_In, /) -> list[Prv_tiktok_tiktokComment_Out]:
         """Comments on a video — text, author (id, handle, nickname), like count, reply count, and
         creation time. Reads the unsigned `/api/comment/list/` endpoint with no request
         signature required. Returns up to 20 comments on the first call; paging with cursor is
         unmeasured.
         """
 
-    async def listCommentReplies(self, args: Prv_tiktok_ListCommentRepliesArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokCommentReply_Out]:
+    async def listCommentReplies(self, args: Prv_tiktok_ListCommentRepliesArgs_In, /) -> list[Prv_tiktok_tiktokCommentReply_Out]:
         """The replies under one comment thread — text, author (id, handle, nickname), like count,
         and creation time. Takes a video reference plus a commentId (the `id` field off a
         listComments row). Reads the unsigned `/api/comment/list/reply/` endpoint, the same
@@ -42811,34 +42855,34 @@ class Prv_tiktok(Protocol):
         unmeasured.
         """
 
-    async def searchVideos(self, args: Prv_tiktok_SearchVideosArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokSearchResult_Out]:
+    async def searchVideos(self, args: Prv_tiktok_SearchVideosArgs_In, /) -> list[Prv_tiktok_tiktokSearchResult_Out]:
         """Search for videos on TikTok by keyword. Returns up to 20 results with id, caption,
         author (id, handle, nickname), and stats (play count, likes, comments, shares). Uses the
         browser to load the search page and intercept the API response, as the signed search
         endpoint requires derived request signatures.
         """
 
-    async def searchUsers(self, args: Prv_tiktok_SearchUsersArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokUserSearchResult_Out]:
+    async def searchUsers(self, args: Prv_tiktok_SearchUsersArgs_In, /) -> list[Prv_tiktok_tiktokUserSearchResult_Out]:
         """Search for users on TikTok by query. Returns up to 20 results with id, username,
         nickname, verification status, follower count and video count. Uses the browser to load
         the user search page and intercept the API response, as the signed search endpoint
         requires derived request signatures.
         """
 
-    async def getHashtag(self, args: Prv_tiktok_GetHashtagArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokHashtag_Out:
+    async def getHashtag(self, args: Prv_tiktok_GetHashtagArgs_In, /) -> Prv_tiktok_tiktokHashtag_Out:
         """A hashtag's facts — view count, description, whether it is currently promoted — off
         TikTok's hashtag page. Uses the browser to load the hashtag page and intercept the API
         response, as the hashtag page is served off the signed app API.
         """
 
-    async def listHashtagVideos(self, args: Prv_tiktok_ListHashtagVideosArgs_In, opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+    async def listHashtagVideos(self, args: Prv_tiktok_ListHashtagVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
         """The videos under one hashtag — id and caption — the companion read to getHashtag. Uses
         the browser to load the hashtag page and intercept the API response, as the hashtag page
         is served off the signed app API. Returns videos in the order TikTok serves them (newest
         or top, depending on the sort option).
         """
 
-    async def getSound(self, args: Prv_tiktok_GetSoundArgs_In, opts: ConnectionOption | None = None, /) -> Prv_tiktok_tiktokSound_Out:
+    async def getSound(self, args: Prv_tiktok_GetSoundArgs_In, /) -> Prv_tiktok_tiktokSound_Out:
         """A sound's own facts — title, artist, duration in seconds, how many videos use it — keyed
         by the music id getVideo carries on `music.id`. Uses the browser to load the sound's
         page and read the detail response it fetches, as that endpoint answers an unsigned
@@ -44408,7 +44452,7 @@ class Prv_yahoo_finance(Protocol):
         refused on is measured on every call, not assumed.
         """
 
-    async def addToWatchlist(self, watchlistName: str, symbol: str, /) -> Any:
+    async def addToWatchlist(self, watchlistName: str, symbol: str, opts: ConnectionOption | None = None, /) -> Any:
         """Adds a ticker to one of the signed-in viewer's watchlists, for a caller managing their
         own market watch. NEEDS A SIGN-IN: Bowmark holds no fleet-wide Yahoo Finance login, so
         every call reaches the watchlists page logged out and throws with the real redirect
@@ -44811,7 +44855,7 @@ class Prv_youtube(Protocol):
         A SIGN-IN — call `bowmark.video_library.liked` rather than this directly.
         """
 
-    async def listWatchHistory(self, input: Prv_youtube_listWatchHistory_input_In | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
+    async def listWatchHistory(self, input: Prv_youtube_listWatchHistory_input_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_youtube_YoutubePlaylistVideoPage_Out:
         """What the signed-in account has watched, newest first, paged like any playlist. NEEDS A
         SIGN-IN — call the video_library's history capability rather than this directly.
         Per-account and starts empty.
@@ -45210,7 +45254,7 @@ class BowmarkProviders(Protocol):
     fourseasonsyachts: Prv_fourseasonsyachts
     framebridge: Prv_framebridge
     fred: Prv_fred
-    freightliner_configurator: Prv_freightliner_configurator
+    freightliner: Prv_freightliner
     furniture: Prv_furniture
     g2: Prv_g2
     gasbuddy: Prv_gasbuddy
@@ -45365,6 +45409,7 @@ class BowmarkProviders(Protocol):
     pallet2ship: Prv_pallet2ship
     pawsup: Prv_pawsup
     paypal: Prv_paypal
+    peerspace: Prv_peerspace
     perennialsandsutherland: Prv_perennialsandsutherland
     pilotprotocol: Prv_pilotprotocol
     pinterest: Prv_pinterest
