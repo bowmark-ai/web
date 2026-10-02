@@ -1080,7 +1080,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | 🟢 |
 | `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list, off GitHub's own… | 🟢 |
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | 🟢 |
-| `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | ⚪ |
+| `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | 🟢 |
 | `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | 🟢 |
 | `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), base branch, or draft status. | ⚪ |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in user's watched/subscribed list for notifications. | 🟢 |
@@ -2432,7 +2432,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wearehirschfeld.listPages` | wearehirschfeld.com | Lists every page wearehirschfeld.com's own page-sitemap.xml publishes — url and… | 🟢 |
 | `weather_channel.getAirQuality` | weather.com | Current air quality index (AQI) and conditions — pollutant levels (ozone, PM2.5, etc). | 🟢 |
 | `weather_channel.getAlertDetails` | weather.com | Full details of one weather alert — description, areas affected, impact statement. | 🟢 |
-| `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | ⚪ |
+| `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟢 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |
 | `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |
 | `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | ⚪ |
