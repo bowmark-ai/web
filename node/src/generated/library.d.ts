@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: ef0424df4beeec8d6a80776d1f6f1b37f093d0e636987db420da525ec60895ab
+// Manifest version: 6746a3cfcbb0f47096331ade4d88c5ef9164e506de901f2f8827691a77938859
 // 71 capabilities, 506 providers, 1735 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -12895,6 +12895,7 @@ declare namespace BowmarkProvider_cartebtp {
   // ── Carte BTP — the unit's own declarations, verbatim ──
 interface CartebtpVerification {
   valid: boolean;
+  found: boolean;
   hash: string;
   cardNumber: string | null;
   message: string;
@@ -32039,7 +32040,7 @@ interface MossyoakCheckoutLink {
 }
 
 declare namespace BowmarkProvider_msc {
-  // ── MSC (Mediterranean Shipping Company) — the unit's own declarations, verbatim ──
+  // ── MSC shipment tracking — the unit's own declarations, verbatim ──
 interface TrackingResult {
   status: string; // the site's own labels — read the values off a result, never guess one from prose
   location: string;
@@ -32048,7 +32049,7 @@ interface TrackingResult {
   rawData?: Record<string, unknown>;
 }
 
-  /** Track MSC shipments by container, BL, or booking number. */
+  /** Track MSC container and shipment status — get real-time location and estimated delivery. */
   interface Unit {
     /**
      * Tracks a shipment by container/BL number, returning the current status and location

@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: ef0424df4beeec8d6a80776d1f6f1b37f093d0e636987db420da525ec60895ab
+# Manifest version: 6746a3cfcbb0f47096331ade4d88c5ef9164e506de901f2f8827691a77938859
 # 71 capabilities, 506 providers, 1717 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -7145,6 +7145,7 @@ class Prv_cars_carsVehicleValue_Out_dealer_u0_Out(TypedDict):
 
 class Prv_cartebtp_CartebtpVerification_Out(TypedDict):
     valid: bool
+    found: bool
     hash: str
     cardNumber: str | None
     message: str
@@ -38731,7 +38732,7 @@ class Prv_mossyoak(Protocol):
         """
 
 class Prv_msc(Protocol):
-    """Track MSC shipments by container, BL, or booking number."""
+    """Track MSC container and shipment status — get real-time location and estimated delivery."""
 
     async def trackShipment(self, trackingNumber: str, type: Literal["container"] | Literal["bl"] | Literal["booking"] | None = None, /) -> Prv_msc_TrackingResult_Out:
         """Tracks a shipment by container/BL number, returning the current status and location
