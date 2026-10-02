@@ -2331,7 +2331,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listChannelClips` | twitch.tv | Lists clips cut from a channel, ranked by Twitch's own default ordering: title… | 🟢 |
 | `twitch.listChannelVods` | twitch.tv | Lists a channel's past broadcasts/VODs, newest first: title, creation date, length in… | 🟢 |
 | `twitch.listFollowedChannels` | twitch.tv | Lists channels the signed-in user follows: login, display name, game, whether live. | 🟡 |
-| `twitch.listSubscriptions` | twitch.tv | Lists channels the signed-in user is subscribed to and the subscription tier. | ⚪ |
+| `twitch.listSubscriptions` | twitch.tv | Lists the signed-in user's own active paid subscriptions: tier, platform, whether… | 🟢 |
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | 🟢 |
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | 🟢 |
 | `twitch.searchChannels` | twitch.tv | Searches Twitch channels by keyword — a name, game or description term — and returns… | 🟢 |
