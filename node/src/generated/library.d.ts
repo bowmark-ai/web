@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0082c12d0c7325cfc092c742a387da8b21494542c978ecd78b001be08894b802
-// 71 capabilities, 509 providers, 1750 typed functions, 20 refused.
+// Manifest version: 682fd82d5fa5e6c745626e97b758799ba4441778d56a8f0bf13fb9f01da58a0b
+// 71 capabilities, 509 providers, 1752 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9046,6 +9046,48 @@ interface BbcGetStandingsResult {
   standings: BbcStandingsRow[]; // ranked ascending, the site's own order
 }
 
+interface BbcMatchTeam {
+  name: string;
+  teamPath?: string;      // site-relative, e.g. "/sport/football/teams/manchester-city" — what a future getTeam would take
+  score?: number;
+  penaltyScore?: number;  // penalty shootout score, when applicable
+}
+
+interface BbcMatchTimelineEvent {
+  minute: number;
+  type: string;           // "goal" | "own-goal" | "card" | "substitution" | other site-defined types
+  team: string;
+  player?: string;
+  detail?: string;
+}
+
+interface BbcMatchPlayer {
+  name: string;
+  number: number;
+  position: string;
+  isSubstitute: boolean;
+}
+
+interface BbcMatchLineup {
+  team: string;
+  formation?: string;
+  players: BbcMatchPlayer[];
+}
+
+interface BbcGetMatchResult {
+  matchId: string;
+  homeTeam: BbcMatchTeam;
+  awayTeam: BbcMatchTeam;
+  kickOffTime: string;    // ISO string
+  status: string;         // "upcoming" | "live" | "finished" | "cancelled" for the four states measured; an unmapped BBC status passes through verbatim
+  statusDetail: string;   // the site's own short status word, e.g. "FT", "90'+2", "Scheduled", "Match Cancelled"
+  venue?: string;
+  competition?: string;   // the competition this match belongs to
+  timeline?: BbcMatchTimelineEvent[]; // goal and event timeline, newest-first order — absent when not available
+  lineups?: BbcMatchLineup[];         // team lineups — absent when not available
+  stats?: Record<string, unknown>;    // match statistics — absent when not available
+}
+
 interface BbcWeatherLocation {
   locationId: string;
   name: string;
@@ -9144,6 +9186,12 @@ interface bbcRow {
      * premier-league).
      */
     getStandings(competition: string): Promise<BbcGetStandingsResult>;
+
+    /**
+     * One match as BBC Sport shows it: teams, score, status, venue, and — where the sport carries
+     * them — goal/event timeline, line-ups and match stats. Takes a match id from getFixtures.
+     */
+    getMatch(matchId: string): Promise<BbcGetMatchResult>;
 
     /**
      * The stories a BBC section page shows right now, in the page's own order and grouping:
@@ -43344,6 +43392,32 @@ interface ScreenerResults {
   rows: ScreenerRow[];
 }
 
+interface OptionContract {
+  symbol: string;
+  optionType: "call" | "put";
+  strike: number;
+  expiration: number;
+  currency?: string;
+  bid?: number;
+  ask?: number;
+  bidIv?: number;
+  askIv?: number;
+  impliedVolatility?: number;
+  delta?: number;
+  gamma?: number;
+  theta?: number;
+  vega?: number;
+  rho?: number;
+  theoreticalPrice?: number;
+}
+
+interface OptionChain {
+  exchange: string;
+  symbol: string;
+  expirations: number[];
+  contracts: OptionContract[];
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -43476,6 +43550,19 @@ interface ScreenerResults {
      * returning nothing is worth rechecking the field names against `getQuote`/`getCompanyInfo`.
      */
     getScreenerResults(options: { columns: string[], market?: string, filters?: ScreenerFilter[], sortBy?: string, sortOrder?: "asc" | "desc", limit?: number, offset?: number }): Promise<ScreenerResults>;
+
+    /**
+     * Gets the full listed option chain for one symbol — e.g. `getOptionChain("NASDAQ", "AAPL")` —
+     * from TradingView's own options-scanner door, the same call its options-chain widget makes.
+     * Use `searchSymbols` first and pass its exact `exchange` and `symbol` fields. Returns every
+     * listed contract across every expiration: `expirations` (every distinct date, as `YYYYMMDD`,
+     * ascending) and `contracts`, each carrying its OCC-style `symbol`, `optionType`
+     * (`"call"`/`"put"`), `strike`, `expiration`, bid/ask and their implied vols, the Greeks
+     * (`delta`/`gamma`/`theta`/`vega`/`rho`), and `theoreticalPrice`. A symbol with no listed
+     * options (or an unknown pair) returns an empty chain (`expirations: []`, `contracts: []`)
+     * rather than an error.
+     */
+    getOptionChain(exchange: string, symbol: string): Promise<OptionChain>;
   }
 }
 

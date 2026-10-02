@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0082c12d0c7325cfc092c742a387da8b21494542c978ecd78b001be08894b802
-# 71 capabilities, 509 providers, 1732 typed functions, 20 refused.
+# Manifest version: 682fd82d5fa5e6c745626e97b758799ba4441778d56a8f0bf13fb9f01da58a0b
+# 71 capabilities, 509 providers, 1734 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4963,6 +4963,43 @@ class Prv_bbc_BbcStandingsRow_Out(TypedDict):
     goalDifference: float
     points: float
     status: NotRequired[str]
+
+class Prv_bbc_BbcGetMatchResult_Out(TypedDict):
+    matchId: str
+    homeTeam: Prv_bbc_BbcMatchTeam_Out
+    awayTeam: Prv_bbc_BbcMatchTeam_Out
+    kickOffTime: str
+    status: str
+    statusDetail: str
+    venue: NotRequired[str]
+    competition: NotRequired[str]
+    timeline: NotRequired[list[Prv_bbc_BbcMatchTimelineEvent_Out]]
+    lineups: NotRequired[list[Prv_bbc_BbcMatchLineup_Out]]
+    stats: NotRequired[Mapping[str, Any]]
+
+class Prv_bbc_BbcMatchTeam_Out(TypedDict):
+    name: str
+    teamPath: NotRequired[str]
+    score: NotRequired[float]
+    penaltyScore: NotRequired[float]
+
+class Prv_bbc_BbcMatchTimelineEvent_Out(TypedDict):
+    minute: float
+    type: str
+    team: str
+    player: NotRequired[str]
+    detail: NotRequired[str]
+
+class Prv_bbc_BbcMatchLineup_Out(TypedDict):
+    team: str
+    formation: NotRequired[str]
+    players: list[Prv_bbc_BbcMatchPlayer_Out]
+
+class Prv_bbc_BbcMatchPlayer_Out(TypedDict):
+    name: str
+    number: float
+    position: str
+    isSubstitute: bool
 
 class Prv_bbc_listHeadlines_args_In(TypedDict):
     path: NotRequired[str]
@@ -23719,6 +23756,30 @@ class Prv_tradingview_ScreenerRow_Out(TypedDict):
     exchange: str
     fields: Mapping[str, str | float | bool | None]
 
+class Prv_tradingview_OptionChain_Out(TypedDict):
+    exchange: str
+    symbol: str
+    expirations: list[float]
+    contracts: list[Prv_tradingview_OptionContract_Out]
+
+class Prv_tradingview_OptionContract_Out(TypedDict):
+    symbol: str
+    optionType: Literal["call"] | Literal["put"]
+    strike: float
+    expiration: float
+    currency: NotRequired[str]
+    bid: NotRequired[float]
+    ask: NotRequired[float]
+    bidIv: NotRequired[float]
+    askIv: NotRequired[float]
+    impliedVolatility: NotRequired[float]
+    delta: NotRequired[float]
+    gamma: NotRequired[float]
+    theta: NotRequired[float]
+    vega: NotRequired[float]
+    rho: NotRequired[float]
+    theoreticalPrice: NotRequired[float]
+
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
     name: str
@@ -30334,6 +30395,12 @@ class Prv_bbc(Protocol):
         """A competition's league table: position, team, played, won, drawn, lost, goals/points for
         and against, goal difference and points. Takes a competition from listCompetitions (e.g.
         premier-league).
+        """
+
+    async def getMatch(self, matchId: str, /) -> Prv_bbc_BbcGetMatchResult_Out:
+        """One match as BBC Sport shows it: teams, score, status, venue, and — where the sport
+        carries them — goal/event timeline, line-ups and match stats. Takes a match id from
+        getFixtures.
         """
 
     async def listHeadlines(self, args: Prv_bbc_listHeadlines_args_In | None = None, /) -> Prv_bbc_BbcListHeadlinesResult_Out:
@@ -43266,6 +43333,18 @@ class Prv_tradingview(Protocol):
         filter field is not — TradingView silently answers zero or empty rather than rejecting
         it, so a screener returning nothing is worth rechecking the field names against
         `getQuote`/`getCompanyInfo`.
+        """
+
+    async def getOptionChain(self, exchange: str, symbol: str, /) -> Prv_tradingview_OptionChain_Out:
+        """Gets the full listed option chain for one symbol — e.g. `getOptionChain("NASDAQ",
+        "AAPL")` — from TradingView's own options-scanner door, the same call its options-chain
+        widget makes. Use `searchSymbols` first and pass its exact `exchange` and `symbol`
+        fields. Returns every listed contract across every expiration: `expirations` (every
+        distinct date, as `YYYYMMDD`, ascending) and `contracts`, each carrying its OCC-style
+        `symbol`, `optionType` (`"call"`/`"put"`), `strike`, `expiration`, bid/ask and their
+        implied vols, the Greeks (`delta`/`gamma`/`theta`/`vega`/`rho`), and `theoreticalPrice`.
+        A symbol with no listed options (or an unknown pair) returns an empty chain
+        (`expirations: []`, `contracts: []`) rather than an error.
         """
 
 class Prv_travelinsured(Protocol):

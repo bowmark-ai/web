@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0082c12d0c7325cfc092c742a387da8b21494542c978ecd78b001be08894b802
-// 1732 checked, 20 unchecked.
+// Manifest version: 682fd82d5fa5e6c745626e97b758799ba4441778d56a8f0bf13fb9f01da58a0b
+// 1734 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0082c12d0c7325cfc092c742a387da8b21494542c978ecd78b001be08894b802",
+  "version": "682fd82d5fa5e6c745626e97b758799ba4441778d56a8f0bf13fb9f01da58a0b",
   "units": {
     "booking_links": {
       "defs": {
@@ -9562,6 +9562,15 @@ export const VALIDATORS: ValidatorTable = {
         "getStandings": [
           {
             "name": "competition",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "getMatch": [
+          {
+            "name": "matchId",
             "schema": {
               "k": "string"
             },
@@ -45617,6 +45626,22 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": true
                 }
               ]
+            },
+            "optional": false
+          }
+        ],
+        "getOptionChain": [
+          {
+            "name": "exchange",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "symbol",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

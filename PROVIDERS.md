@@ -239,7 +239,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getFixtures` | bbc.com | Scores and fixtures for a sport or competition on a date: each match's teams, kick-off… | 🟢 |
 | `bbc.getForecast` | bbc.com | The BBC Weather forecast for a location: up to 14 days (high/low, weather type, chance… | 🟢 |
 | `bbc.getLivePage` | bbc.com | A BBC live page (rolling coverage) as data: title, summary, whether it is still live… | 🟢 |
-| `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | ⚪ |
+| `bbc.getMatch` | bbc.com | One match as BBC Sport shows it: teams, score, status, venue, and — where the sport… | 🟢 |
 | `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, and its episodes newest first — title… | ⚪ |
 | `bbc.getPodcastEpisode` | bbc.com | One podcast episode: title, synopsis, duration, broadcast date, and the playable media… | ⚪ |
 | `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | 🟢 |
@@ -621,7 +621,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
 | `cnn.getArticle` | www.cnn.com | Read the full text and metadata of one CNN article — headline, body text, author… | 🟢 |
 | `cnn.getMarketsData` | www.cnn.com | Financial and markets data from CNN Money — stock indices, currency rates, commodities… | 🟢 |
-| `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, publication date… | 🟢 |
+| `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, publication date… | 🟡 |
 | `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | 🟢 |
 | `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | 🟢 |
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
@@ -2256,7 +2256,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getFinancials` | www.tradingview.com | Get financial statements and historical data: revenue, earnings, balance sheet. | 🟢 |
 | `tradingview.getMarketOverview` | www.tradingview.com | Get the current price and change for major market indices: NASDAQ Composite, S&P 500… | 🟢 |
 | `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | 🟢 |
-| `tradingview.getOptionChain` | www.tradingview.com | Get option chain data for symbols that have options. | ⚪ |
+| `tradingview.getOptionChain` | www.tradingview.com | Get option chain data for symbols that have options. | 🟢 |
 | `tradingview.getQuote` | www.tradingview.com | Get current price, change, and key metrics for a symbol. | 🟢 |
 | `tradingview.getScreenerResults` | www.tradingview.com | Run a stock screener with filters and return matching symbols. | 🟢 |
 | `tradingview.getTechnicalAnalysis` | www.tradingview.com | Get technical analysis signals and ratings for a symbol. | 🟢 |
