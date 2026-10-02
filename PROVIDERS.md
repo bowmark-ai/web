@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2610 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2611 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -981,6 +981,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `forbes.listArticlesByTopic` | forbes.com | List articles within a specific topic/category. | 🟢 |
 | `forbes.listBillionaires` | forbes.com | List the current real-time billionaires ranked by net worth. | 🟢 |
 | `forbes.listContributors` | forbes.com | List Forbes contributors and columnists. | 🟢 |
+| `forbes.listLists` | forbes.com | List all available Forbes rankings/lists (Forbes 400, Global 2000, Most Powerful… | 🟢 |
 | `forbes.listNews` | forbes.com | List latest news articles. | 🟢 |
 | `forbes.listTopics` | forbes.com | List all available topics/categories on Forbes. | 🟢 |
 | `forbes.listVideos` | forbes.com | List video content from Forbes Video. | 🟢 |
