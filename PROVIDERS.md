@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2605 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2607 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -43,6 +43,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aiper.recommendPoolCleaner` | aiper.store | Runs the Help Me Choose quiz's real backend computation against a buyer's answers and… | 🟢 |
 | `airbnb.getListing` | airbnb.com | Get the nightly rate and availability calendar for a specific Airbnb listing: given a… | 🟢 |
 | `airbnb.search` | airbnb.com | Runs Airbnb's own stays search (airbnb.com/s/<location>/homes) for a free-text… | 🟢 |
+| `airchina.getDealFares` | airchina.com | Reads the cheapest one-way deal fares Air China publishes from one origin city… | 🟢 |
+| `airchina.searchFlights` | airchina.com | Searches Air China's own fares for a route, date, cabin and passenger count, the way… | ⚪ |
 | `airtable.createRecord` | airtable.com | Creates a new record in a specified table. | 🟢 |
 | `airtable.getRecord` | airtable.com | Retrieves a single record by its ID from a specified table. | 🟢 |
 | `airtable.listBases` | airtable.com | Lists all bases the authenticated user can access. | 🟢 |
@@ -1701,7 +1703,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listArticles` | nytimes.com | Lists a section's own article grid, newest first, with metadata. | 🟢 |
 | `nytimes.listEpisodes` | nytimes.com | Gets episodes for a specific podcast. | ⚪ |
 | `nytimes.listNewsletters` | nytimes.com | Lists NYT's own email newsletters off the signup page's catalog tray — up to 13, the… | 🟢 |
-| `nytimes.listPodcasts` | nytimes.com | Lists NYT podcasts. | ⚪ |
+| `nytimes.listPodcasts` | nytimes.com | Lists NYT podcasts. | 🟢 |
 | `nytimes.listRSSFeeds` | nytimes.com | Lists available RSS feed URLs by section. | ⚪ |
 | `nytimes.listSavedArticles` | nytimes.com | Lists articles saved by signed-in reader. | ⚪ |
 | `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟢 |
