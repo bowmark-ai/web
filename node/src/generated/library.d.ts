@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2574460e007ec20c09caa2aff1d3898d0ea1bd39b9ee167d55228285a542633a
-// 71 capabilities, 506 providers, 1735 typed functions, 20 refused.
+// Manifest version: 168e64dae27ae308a8a3bef4d375941156ba99ce77835b7c7c48f368648d482c
+// 71 capabilities, 507 providers, 1738 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -14738,6 +14738,10 @@ interface cnnMarketsData {
 
 interface SearchArticlesArgs {
   query: string;
+  /** Results per call, 1-50. Default 10. */
+  limit?: number;
+  /** How many results to skip, for the next page. Default 0. */
+  offset?: number;
 }
 
 interface cnnSearchResult {
@@ -14746,14 +14750,16 @@ interface cnnSearchResult {
   type: string;
   url: string;
   thumbnail: string | null;
+  lastModified: string | null;
 }
 
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
-     * Search for news articles across CNN — takes what a person would say ("breaking news",
-     * "inflation", "2024 election") and returns matching articles with headline, snippet, content
-     * type, thumbnail and URL.
+     * Search CNN — takes what a person would say ("breaking news", "inflation", "2024 election")
+     * and returns matching articles and videos, newest first, with headline, snippet, content type
+     * (`NewsArticle`, `VideoObject`), thumbnail, URL and last-modified time. Up to 50 per call
+     * (`limit`, default 10); pass `offset` for the next page.
      */
     searchArticles(args: SearchArticlesArgs): Promise<cnnSearchResult[]>;
 
@@ -15938,6 +15944,14 @@ interface DellRegisteredProductsPage {
   raw: string;  // the signed-in registered products page's raw HTML — same reason as DellMyOrdersPage
 }
 
+interface GetRegisteredProductDetailsArgs {
+  productId: string;
+}
+
+interface DellRegisteredProductDetailPage {
+  raw: string;  // the signed-in registered product detail page's raw HTML — same reason as DellMyOrdersPage
+}
+
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -16012,6 +16026,12 @@ interface DellRegisteredProductsPage {
      * only after the caller has connected their Dell account.
      */
     listMyRegisteredProducts(opts?: ConnectionOption): Promise<DellRegisteredProductsPage>;
+
+    /**
+     * Retrieves details for a specific registered product. Needs a Dell sign-in — call this only
+     * after the caller has connected their Dell account.
+     */
+    getRegisteredProductDetails(args: GetRegisteredProductDetailsArgs, opts?: ConnectionOption): Promise<DellRegisteredProductDetailPage>;
   }
 }
 
@@ -16587,6 +16607,42 @@ interface dillardsFindStoresQuery {
      * 272-store list with no way to tell whether that was what the caller meant.
      */
     findStores(query: dillardsFindStoresQuery): Promise<dillardsStoreRow[]>;
+  }
+}
+
+declare namespace BowmarkProvider_discord {
+  // ── Discord Developer Docs — the unit's own declarations, verbatim ──
+interface discordDocLink {
+  title: string;
+  url: string;
+  description: string | null;
+}
+interface discordDocPage {
+  url: string;
+  title: string;
+  description: string | null;
+  body: string;
+}
+
+  /**
+   * Discord's developer documentation (docs.discord.com, formerly discord.com/developers/docs) —
+   * list every page, then read one as clean markdown: REST endpoints, object tables, Gateway
+   * events, interactions, rate limits.
+   */
+  interface Unit {
+    /**
+     * Lists every Discord developer docs page — title, url and one-line description — from the
+     * site's own /llms.txt. Filter by title/description, then pass a url to getDocPage.
+     */
+    listDocPages(): Promise<discordDocLink[]>;
+
+    /**
+     * Reads one Discord developer docs page — `url` is a docs.discord.com or
+     * discord.com/developers/docs url, or a path like "/developers/resources/channel" — and
+     * returns its title, description and body as markdown (endpoint routes, field tables). Throws
+     * discordInputError for a url outside the developer docs.
+     */
+    getDocPage(url: string): Promise<discordDocPage>;
   }
 }
 
@@ -32158,15 +32214,6 @@ interface MsnMarketSummary {
     getSectionFeed(section: "sports" | "entertainment" | "health" | "lifestyle" | "travel" | "autos"): Promise<MsnTopStories>;
 
     /**
-     * Reads one MSN article's full text, byline, publish time and images off its own article URL —
-     * the door every other read hands a caller: getTopStories, searchNews and getSectionFeed each
-     * return a `url` that only this function can turn into the actual story. The article page is
-     * rendered in the browser; the full body text, byline and images are extracted from the
-     * rendered DOM. A caller holding a headline and nothing else cannot reach the body without it.
-     */
-    getArticle(url: string): Promise<MsnArticle>;
-
-    /**
      * Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E off
      * MSN Money the way msn.com/en-us/money/stockdetails does for a visitor with no account.
      * Resolves `symbol` (e.g. "AAPL") to MSN's own internal instrument first, then reads its quote
@@ -46194,6 +46241,11 @@ interface WikipediaNearbyPlace {
   distance: number;
 }
 
+interface WikipediaPageviews {
+  date: string;
+  views: number;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -46411,6 +46463,15 @@ interface WikipediaNearbyPlace {
      * one MediaWiki namespace (0 is articles).
      */
     searchNearby(lat: number, lon: number, options?: { lang?: string; radius?: number; limit?: number; namespace?: number }): Promise<{ places: WikipediaNearbyPlace[]; warnings: string[] }>;
+
+    /**
+     * Daily pageview counts for a Wikipedia article, optionally filtered by date range. Takes an
+     * article title or wikipedia.org url and returns an array of date/views pairs ordered
+     * chronologically. Optional `from` and `to` parameters specify a date range in ISO 8601 format
+     * (e.g., '2026-01-01'). For ranges ≤60 days, uses the Action API; for longer ranges, falls
+     * back to the Wikimedia analytics API.
+     */
+    getPageviews(titleOrUrl: string, options?: { lang?: string; from?: string; to?: string }): Promise<{ pageviews: WikipediaPageviews[]; warnings: string[] }>;
   }
 }
 
@@ -47045,6 +47106,10 @@ interface YahooSportsScheduleRow {
 
 interface GetScoreboardArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  // Optional week number (1-17) for football leagues; filters to that week's games
+  week?: number;
+  // Optional date for daily leagues; filters to that day's games
+  date?: string;
 }
 
 interface GetStandingsArgs {
@@ -47222,10 +47287,10 @@ interface YahooFantasyLineupSetResult {
    */
   interface Unit {
     /**
-     * Reads the current slate of games for one league off Yahoo Sports' own scoreboard page — each
-     * game's teams, score (once started), status (scheduled/in_progress/final), venue and its own
-     * game page url. The url is the door `getGame` needs. Covers today's slate as Yahoo's own
-     * scoreboard page shows it; does not yet take a date.
+     * Reads the games for one league off Yahoo Sports' own scoreboard page — each game's teams,
+     * score (once started), status (scheduled/in_progress/final), venue and its own game page url.
+     * The url is the door `getGame` needs. Takes an optional week (1-17 for football leagues) or
+     * date (for daily leagues) to filter; defaults to the current slate.
      */
     getScoreboard(args: GetScoreboardArgs): Promise<YahooSportsGameRow[]>;
 
@@ -49403,6 +49468,7 @@ interface BowmarkProviders {
   dice: BowmarkProvider_dice.Unit;
   dickssportinggoods: BowmarkProvider_dickssportinggoods.Unit;
   dillards: BowmarkProvider_dillards.Unit;
+  discord: BowmarkProvider_discord.Unit;
   discounttire: BowmarkProvider_discounttire.Unit;
   disney: BowmarkProvider_disney.Unit;
   donsappliances: BowmarkProvider_donsappliances.Unit;

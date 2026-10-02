@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2574460e007ec20c09caa2aff1d3898d0ea1bd39b9ee167d55228285a542633a
-// 1717 checked, 20 unchecked.
+// Manifest version: 168e64dae27ae308a8a3bef4d375941156ba99ce77835b7c7c48f368648d482c
+// 1720 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2574460e007ec20c09caa2aff1d3898d0ea1bd39b9ee167d55228285a542633a",
+  "version": "168e64dae27ae308a8a3bef4d375941156ba99ce77835b7c7c48f368648d482c",
   "units": {
     "booking_links": {
       "defs": {
@@ -14595,6 +14595,20 @@ export const VALIDATORS: ValidatorTable = {
                 "k": "string"
               },
               "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "offset",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
             }
           ]
         }
@@ -15367,6 +15381,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetRegisteredProductDetailsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetSavedCartDetailsArgs": {
           "k": "object",
           "props": [
@@ -15549,6 +15575,32 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listMyRegisteredProducts": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getRegisteredProductDetails": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetRegisteredProductDetailsArgs"
+            },
+            "optional": false
+          },
           {
             "name": "opts",
             "schema": {
@@ -16009,6 +16061,21 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "dillardsFindStoresQuery"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.discord": {
+      "defs": {},
+      "functions": {
+        "listDocPages": [],
+        "getDocPage": [
+          {
+            "name": "url",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
@@ -30691,15 +30758,6 @@ export const VALIDATORS: ValidatorTable = {
                   "v": "autos"
                 }
               ]
-            },
-            "optional": false
-          }
-        ],
-        "getArticle": [
-          {
-            "name": "url",
-            "schema": {
-              "k": "string"
             },
             "optional": false
           }
@@ -48897,6 +48955,45 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": true
           }
+        ],
+        "getPageviews": [
+          {
+            "name": "titleOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "from",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "to",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -49403,6 +49500,20 @@ export const VALIDATORS: ValidatorTable = {
                 ]
               },
               "optional": false
+            },
+            {
+              "name": "week",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
             }
           ]
         },

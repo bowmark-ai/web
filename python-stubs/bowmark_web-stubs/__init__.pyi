@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2574460e007ec20c09caa2aff1d3898d0ea1bd39b9ee167d55228285a542633a
-# 71 capabilities, 506 providers, 1717 typed functions, 20 refused.
+# Manifest version: 168e64dae27ae308a8a3bef4d375941156ba99ce77835b7c7c48f368648d482c
+# 71 capabilities, 507 providers, 1720 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8092,6 +8092,8 @@ class Prv_clubchampion_ClubchampionSlot_Out(TypedDict):
 
 class Prv_cnn_SearchArticlesArgs_In(TypedDict):
     query: str
+    limit: NotRequired[float]
+    offset: NotRequired[float]
 
 class Prv_cnn_cnnSearchResult_Out(TypedDict):
     headline: str
@@ -8099,6 +8101,7 @@ class Prv_cnn_cnnSearchResult_Out(TypedDict):
     type: str
     url: str
     thumbnail: str | None
+    lastModified: str | None
 
 class Prv_cnn_cnnHeadline_Out(TypedDict):
     id: str
@@ -8759,6 +8762,12 @@ class Prv_dell_DellSavedCartDetailPage_Out(TypedDict):
 class Prv_dell_DellRegisteredProductsPage_Out(TypedDict):
     raw: str
 
+class Prv_dell_GetRegisteredProductDetailsArgs_In(TypedDict):
+    productId: str
+
+class Prv_dell_DellRegisteredProductDetailPage_Out(TypedDict):
+    raw: str
+
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
     zip: str
     radiusMiles: NotRequired[float]
@@ -9008,6 +9017,17 @@ class Prv_dillards_dillardsStoreRow_Out(TypedDict):
     url: str
     latitude: float | None
     longitude: float | None
+
+class Prv_discord_discordDocLink_Out(TypedDict):
+    title: str
+    url: str
+    description: str | None
+
+class Prv_discord_discordDocPage_Out(TypedDict):
+    url: str
+    title: str
+    description: str | None
+    body: str
 
 class Prv_discounttire_DiscounttireProduct_Out(TypedDict):
     code: str
@@ -17044,13 +17064,6 @@ class Prv_msn_MsnStory_Out(TypedDict):
     publishedDateTime: str
     providerName: str
     imageUrl: str | None
-
-class Prv_msn_MsnArticle_Out(TypedDict):
-    title: str
-    body: str
-    byline: str | None
-    publishedDateTime: str | None
-    images: list[str]
 
 class Prv_msn_MsnStockQuote_Out(TypedDict):
     symbol: str
@@ -25644,6 +25657,23 @@ class Prv_wikipedia_WikipediaNearbyPlace_Out(TypedDict):
     lon: float
     distance: float
 
+Prv_wikipedia_getPageviews_options_In = TypedDict(
+    "Prv_wikipedia_getPageviews_options_In",
+    {
+    "lang": NotRequired[str],
+    "from": NotRequired[str],
+    "to": NotRequired[str],
+    },
+)
+
+class Prv_wikipedia_getPageviews_return_Out(TypedDict):
+    pageviews: list[Prv_wikipedia_WikipediaPageviews_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaPageviews_Out(TypedDict):
+    date: str
+    views: float
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -25935,6 +25965,8 @@ class Prv_yahoo_finance_YahooFinanceWatchlistItem_Out(TypedDict):
 
 class Prv_yahoo_sports_GetScoreboardArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    week: NotRequired[float]
+    date: NotRequired[str]
 
 class Prv_yahoo_sports_YahooSportsGameRow_Out(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -32223,9 +32255,10 @@ class Prv_cnn(Protocol):
     """Breaking news, articles, video segments and markets data from CNN."""
 
     async def searchArticles(self, args: Prv_cnn_SearchArticlesArgs_In, /) -> list[Prv_cnn_cnnSearchResult_Out]:
-        """Search for news articles across CNN — takes what a person would say ("breaking news",
-        "inflation", "2024 election") and returns matching articles with headline, snippet,
-        content type, thumbnail and URL.
+        """Search CNN — takes what a person would say ("breaking news", "inflation", "2024
+        election") and returns matching articles and videos, newest first, with headline,
+        snippet, content type (`NewsArticle`, `VideoObject`), thumbnail, URL and last-modified
+        time. Up to 50 per call (`limit`, default 10); pass `offset` for the next page.
         """
 
     async def listHeadlines(self, section: str | None = None, /) -> list[Prv_cnn_cnnHeadline_Out]:
@@ -32762,6 +32795,11 @@ class Prv_dell(Protocol):
         this only after the caller has connected their Dell account.
         """
 
+    async def getRegisteredProductDetails(self, args: Prv_dell_GetRegisteredProductDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dell_DellRegisteredProductDetailPage_Out:
+        """Retrieves details for a specific registered product. Needs a Dell sign-in — call this
+        only after the caller has connected their Dell account.
+        """
+
 class Prv_deltadentalma(Protocol):
     """Searches Delta Dental of Massachusetts's own Find-a-Dentist directory for in-network
     dentists and clinics near a ZIP — the same live provider data the site's `/fad/search`
@@ -32975,6 +33013,24 @@ class Prv_dillards(Protocol):
         query with no filters THROWS, naming every one the site supports — an empty-argument
         call would otherwise hand back the full 272-store list with no way to tell whether that
         was what the caller meant.
+        """
+
+class Prv_discord(Protocol):
+    """Discord's developer documentation (docs.discord.com, formerly
+    discord.com/developers/docs) — list every page, then read one as clean markdown: REST
+    endpoints, object tables, Gateway events, interactions, rate limits.
+    """
+
+    async def listDocPages(self, /) -> list[Prv_discord_discordDocLink_Out]:
+        """Lists every Discord developer docs page — title, url and one-line description — from the
+        site's own /llms.txt. Filter by title/description, then pass a url to getDocPage.
+        """
+
+    async def getDocPage(self, url: str, /) -> Prv_discord_discordDocPage_Out:
+        """Reads one Discord developer docs page — `url` is a docs.discord.com or
+        discord.com/developers/docs url, or a path like "/developers/resources/channel" — and
+        returns its title, description and body as markdown (endpoint routes, field tables).
+        Throws discordInputError for a url outside the developer docs.
         """
 
 class Prv_discounttire(Protocol):
@@ -38779,15 +38835,6 @@ class Prv_msn(Protocol):
         getWeatherForecast. "video" fires its own dedicated feed door and is not yet built.
         """
 
-    async def getArticle(self, url: str, /) -> Prv_msn_MsnArticle_Out:
-        """Reads one MSN article's full text, byline, publish time and images off its own article
-        URL — the door every other read hands a caller: getTopStories, searchNews and
-        getSectionFeed each return a `url` that only this function can turn into the actual
-        story. The article page is rendered in the browser; the full body text, byline and
-        images are extracted from the rendered DOM. A caller holding a headline and nothing else
-        cannot reach the body without it.
-        """
-
     async def getStockQuote(self, symbol: str, /) -> Prv_msn_MsnStockQuote_Out:
         """Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E
         off MSN Money the way msn.com/en-us/money/stockdetails does for a visitor with no
@@ -44151,6 +44198,14 @@ class Prv_wikipedia(Protocol):
         `namespace` narrows to one MediaWiki namespace (0 is articles).
         """
 
+    async def getPageviews(self, titleOrUrl: str, options: Prv_wikipedia_getPageviews_options_In | None = None, /) -> Prv_wikipedia_getPageviews_return_Out:
+        """Daily pageview counts for a Wikipedia article, optionally filtered by date range. Takes
+        an article title or wikipedia.org url and returns an array of date/views pairs ordered
+        chronologically. Optional `from` and `to` parameters specify a date range in ISO 8601
+        format (e.g., '2026-01-01'). For ranges ≤60 days, uses the Action API; for longer
+        ranges, falls back to the Wikimedia analytics API.
+        """
+
 class Prv_wikipedia_standings(Protocol):
     """Search Wikipedia for sports league standings with goal differential data."""
 
@@ -44367,10 +44422,10 @@ class Prv_yahoo_sports(Protocol):
     """
 
     async def getScoreboard(self, args: Prv_yahoo_sports_GetScoreboardArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsGameRow_Out]:
-        """Reads the current slate of games for one league off Yahoo Sports' own scoreboard page —
-        each game's teams, score (once started), status (scheduled/in_progress/final), venue and
-        its own game page url. The url is the door `getGame` needs. Covers today's slate as
-        Yahoo's own scoreboard page shows it; does not yet take a date.
+        """Reads the games for one league off Yahoo Sports' own scoreboard page — each game's
+        teams, score (once started), status (scheduled/in_progress/final), venue and its own
+        game page url. The url is the door `getGame` needs. Takes an optional week (1-17 for
+        football leagues) or date (for daily leagues) to filter; defaults to the current slate.
         """
 
     async def getGame(self, args: Prv_yahoo_sports_GetGameArgs_In, /) -> Prv_yahoo_sports_YahooSportsGameDetail_Out:
@@ -45110,6 +45165,7 @@ class BowmarkProviders(Protocol):
     dice: Prv_dice
     dickssportinggoods: Prv_dickssportinggoods
     dillards: Prv_dillards
+    discord: Prv_discord
     discounttire: Prv_discounttire
     disney: Prv_disney
     donsappliances: Prv_donsappliances
