@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 682fd82d5fa5e6c745626e97b758799ba4441778d56a8f0bf13fb9f01da58a0b
-// 71 capabilities, 509 providers, 1752 typed functions, 20 refused.
+// Manifest version: a020e3d320eca3c286924fb237623386aefb0a4feb988f2b2a0a641c0e976714
+// 72 capabilities, 511 providers, 1758 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -760,6 +760,35 @@ type CallOptions = {
      * US cities only.
      */
     findDayPasses(location: string | { city: string; state: string }, options?: CallOptions): Promise<FindDayPassesResult>;
+  }
+}
+
+declare namespace BowmarkCapability_crypto_exchange {
+  // ── Crypto exchange rates — the unit's own declarations, verbatim ──
+interface crypto_exchangeResult {
+  coin: { id: string; name: string; symbol: string };
+  quote: string;          // "THB"
+  rate: number;           // units of quote per 1 coin
+  change24hPct: number | null;
+  asOf: string | null;    // ISO time of the price
+  warnings: string[];
+}
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Get the live price of bitcoin or any cryptocurrency in any currency (USD, THB, EUR…) — a
+   * crypto exchange rate
+   */
+  interface Unit {
+    /**
+     * Current price of a cryptocurrency (symbol or name: "BTC", "bitcoin") in a quote currency
+     * ("THB", "USD", "ETH")
+     */
+    getRate(coin: string, quote: string, options?: CallOptions): Promise<crypto_exchangeResult>;
   }
 }
 
@@ -4234,8 +4263,10 @@ interface ForecastResult {
   interface Unit {
     /**
      * Geocodes a place name and returns its daily forecast (default 5 days, max 16 — Open-Meteo's
-     * own ceiling). Reports the resolved place name alongside what was asked for, since a name
-     * like "Springfield" is ambiguous and worth comparing.
+     * own ceiling). Disambiguate with commas — "Headingley, Leeds, UK", "Paris, TX" — or pass a UK
+     * postcode or "lat,lon". A qualifier that names none of the candidates throws with the list
+     * rather than guessing; resolvedName always carries the country, and warnings say when a bare
+     * name was ambiguous.
      */
     forecast(location: string, days?: number): Promise<ForecastResult>;
   }
@@ -5304,6 +5335,49 @@ interface AirbnbListingAvailability {
      * check-in month. `currency` is an ISO code, default USD.
      */
     getListing(args: { url?: string, id?: string, checkin?: string, checkout?: string, adults?: number, months?: number, currency?: string }): Promise<AirbnbListingAvailability>;
+  }
+}
+
+declare namespace BowmarkProvider_airchina {
+  // ── Air China — the unit's own declarations, verbatim ──
+interface AirChinaDealFaresArgs {
+  /** IATA city or airport code to fly FROM, e.g. "PEK", "SHA", "CTU". Defaults to "PEK". */
+  from?: string;
+}
+interface AirChinaDealFare {
+  from: string;
+  to: string;
+  /** YYYY-MM-DD */
+  date: string;
+  /** One-way adult economy, tax excluded. */
+  price: number;
+  currency: "CNY";
+  international: boolean;
+  /** Connection airport, or null for nonstop. */
+  via: string | null;
+}
+interface AirChinaDealFares {
+  requestedFrom: string;
+  /** The origin Air China actually answered for. */
+  servedFrom: string | null;
+  /** True when Air China had no deals from requestedFrom and answered with another origin's (Beijing's). */
+  fellBack: boolean;
+  fares: AirChinaDealFare[];
+}
+
+  /**
+   * Air China's own published cheapest one-way deal fares from a Chinese city (price in CNY,
+   * date, destination). Full fare search needs a PhoenixMiles login and is not available.
+   */
+  interface Unit {
+    /**
+     * Reads the cheapest one-way flight deals Air China is publishing from one origin city —
+     * destination, departure date and price in CNY — straight off the airline's own mobile site.
+     * Covers Air China's Chinese hubs (PEK, SHA, CTU, CAN, …); an origin it has no deals for comes
+     * back as Beijing's list with `fellBack: true`. This is the airline's deal strip, not a search
+     * for an arbitrary route and date.
+     */
+    getDealFares(args?: AirChinaDealFaresArgs): Promise<AirChinaDealFares>;
   }
 }
 
@@ -14991,6 +15065,37 @@ interface code_claude_comDocLink {
      * one-line description — parsed from the site's own /docs/llms.txt index.
      */
     listDocPages(): Promise<code_claude_comDocLink[]>;
+  }
+}
+
+declare namespace BowmarkProvider_coingecko {
+  // ── CoinGecko — the unit's own declarations, verbatim ──
+interface coingeckoCoin {
+  id: string;
+  name: string;
+  symbol: string;
+  marketCapRank: number | null;
+}
+interface coingeckoPriceRow {
+  coinId: string;
+  name: string;
+  symbol: string;
+  vsCurrency: string;
+  price: number;
+  change24hPct: number | null;
+  lastUpdatedAt: string | null;
+}
+
+  /** Live cryptocurrency prices in any currency, and coin lookup, from CoinGecko */
+  interface Unit {
+    /**
+     * Current price of a cryptocurrency (symbol, name or CoinGecko id — "BTC", "bitcoin") in a
+     * fiat or crypto currency ("THB", "USD", "ETH")
+     */
+    getPrice(coin: string, vsCurrency: string): Promise<coingeckoPriceRow>;
+
+    /** Find cryptocurrencies by name or ticker symbol */
+    searchCoins(query: string): Promise<coingeckoCoin[]>;
   }
 }
 
@@ -33783,6 +33888,13 @@ interface NytimesNewsletter {
   sampleUrl?: string;
   thumbImageUrl?: string;
 }
+interface NytimesPodcast {
+  id: string;
+  slug: string;
+  title: string;
+  description?: string;
+  imageUrl?: string;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -33862,6 +33974,9 @@ interface NytimesNewsletter {
      * listNewsletters) or a path like "/newsletters/the-veggie".
      */
     getNewsletter(slug: string): Promise<NytimesNewsletter>;
+
+    /** Lists NYT's own podcasts from podcasts.nytimes.com. */
+    listPodcasts(): Promise<NytimesPodcast[]>;
   }
 }
 
@@ -46520,6 +46635,12 @@ interface WikipediaPageviews {
   views: number;
 }
 
+interface WikipediaMostViewedArticle {
+  title: string;
+  url: string;
+  views: number;
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -46746,6 +46867,14 @@ interface WikipediaPageviews {
      * back to the Wikimedia analytics API.
      */
     getPageviews(titleOrUrl: string, options?: { lang?: string; from?: string; to?: string }): Promise<{ pageviews: WikipediaPageviews[]; warnings: string[] }>;
+
+    /**
+     * What Wikipedia's readers looked at most — the day's or the edition's top articles with their
+     * view counts, in rank order. A genuine read on public attention. Optional `limit` caps the
+     * number of articles returned (defaults to 50), and `namespace` filters by namespace (defaults
+     * to 0 for article space, filtering out special pages).
+     */
+    listMostViewed(options?: { lang?: string; limit?: number; namespace?: number }): Promise<{ articles: WikipediaMostViewedArticle[]; warnings: string[] }>;
   }
 }
 
@@ -49631,6 +49760,7 @@ interface BowmarkProviders {
   ai_engineer: BowmarkProvider_ai_engineer.Unit;
   aiper: BowmarkProvider_aiper.Unit;
   airbnb: BowmarkProvider_airbnb.Unit;
+  airchina: BowmarkProvider_airchina.Unit;
   airtable: BowmarkProvider_airtable.Unit;
   ajmadison: BowmarkProvider_ajmadison.Unit;
   alibaba: BowmarkProvider_alibaba.Unit;
@@ -49760,6 +49890,7 @@ interface BowmarkProviders {
   cnn: BowmarkProvider_cnn.Unit;
   coast: BowmarkProvider_coast.Unit;
   code_claude_com: BowmarkProvider_code_claude_com.Unit;
+  coingecko: BowmarkProvider_coingecko.Unit;
   compass_living: BowmarkProvider_compass_living.Unit;
   completehomewarranty_com: BowmarkProvider_completehomewarranty_com.Unit;
   consultnet: BowmarkProvider_consultnet.Unit;
@@ -100017,6 +100148,7 @@ interface BowmarkLibrary {
   concert_setlist: BowmarkCapability_concert_setlist.Unit;
   costume_size_check: BowmarkCapability_costume_size_check.Unit;
   coworking: BowmarkCapability_coworking.Unit;
+  crypto_exchange: BowmarkCapability_crypto_exchange.Unit;
   currency_exchange: BowmarkCapability_currency_exchange.Unit;
   custom_packaging_quote: BowmarkCapability_custom_packaging_quote.Unit;
   custom_sofa_configurator: BowmarkCapability_custom_sofa_configurator.Unit;

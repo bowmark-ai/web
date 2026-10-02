@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 682fd82d5fa5e6c745626e97b758799ba4441778d56a8f0bf13fb9f01da58a0b
-// 1734 checked, 20 unchecked.
+// Manifest version: a020e3d320eca3c286924fb237623386aefb0a4feb988f2b2a0a641c0e976714
+// 1740 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "682fd82d5fa5e6c745626e97b758799ba4441778d56a8f0bf13fb9f01da58a0b",
+  "version": "a020e3d320eca3c286924fb237623386aefb0a4feb988f2b2a0a641c0e976714",
   "units": {
     "booking_links": {
       "defs": {
@@ -726,6 +726,48 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "crypto_exchange": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getRate": [
+          {
+            "name": "coin",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "quote",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           },
@@ -5901,6 +5943,34 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "providers.airchina": {
+      "defs": {
+        "AirChinaDealFaresArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "from",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getDealFares": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AirChinaDealFaresArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -14774,6 +14844,36 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listDocPages": []
+      }
+    },
+    "providers.coingecko": {
+      "defs": {},
+      "functions": {
+        "getPrice": [
+          {
+            "name": "coin",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "vsCurrency",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "searchCoins": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.compass_living": {
@@ -32361,7 +32461,8 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
-        ]
+        ],
+        "listPodcasts": []
       }
     },
     "providers.oanda": {
@@ -49169,6 +49270,38 @@ export const VALIDATORS: ValidatorTable = {
                   "name": "to",
                   "schema": {
                     "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listMostViewed": [
+          {
+            "name": "options",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "lang",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "namespace",
+                  "schema": {
+                    "k": "number"
                   },
                   "optional": true
                 }

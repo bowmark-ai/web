@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 682fd82d5fa5e6c745626e97b758799ba4441778d56a8f0bf13fb9f01da58a0b
-# 71 capabilities, 509 providers, 1734 typed functions, 20 refused.
+# Manifest version: a020e3d320eca3c286924fb237623386aefb0a4feb988f2b2a0a641c0e976714
+# 72 capabilities, 511 providers, 1740 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -632,6 +632,22 @@ class Cap_coworking_CoworkingDayPass_Out(TypedDict):
 class Cap_coworking_CoworkingDayPass_Out_rating_u0_Out(TypedDict):
     average: float
     count: float
+
+class Cap_crypto_exchange_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_crypto_exchange_crypto_exchangeResult_Out(TypedDict):
+    coin: Cap_crypto_exchange_crypto_exchangeResult_Out_coin_Out
+    quote: str
+    rate: float
+    change24hPct: float | None
+    asOf: str | None
+    warnings: list[str]
+
+class Cap_crypto_exchange_crypto_exchangeResult_Out_coin_Out(TypedDict):
+    id: str
+    name: str
+    symbol: str
 
 class Cap_currency_exchange_CallOptions_In(TypedDict):
     timeoutMs: NotRequired[float]
@@ -2899,6 +2915,32 @@ class Prv_airbnb_AirbnbCalendarDay_Out(TypedDict):
     availableForCheckout: bool
     minNights: float | None
     maxNights: float | None
+
+Prv_airchina_AirChinaDealFaresArgs_In = TypedDict(
+    "Prv_airchina_AirChinaDealFaresArgs_In",
+    {
+    "from": NotRequired[str],
+    },
+)
+
+class Prv_airchina_AirChinaDealFares_Out(TypedDict):
+    requestedFrom: str
+    servedFrom: str | None
+    fellBack: bool
+    fares: list[Prv_airchina_AirChinaDealFare_Out]
+
+Prv_airchina_AirChinaDealFare_Out = TypedDict(
+    "Prv_airchina_AirChinaDealFare_Out",
+    {
+    "from": str,
+    "to": str,
+    "date": str,
+    "price": float,
+    "currency": Literal["CNY"],
+    "international": bool,
+    "via": str | None,
+    },
+)
 
 class Prv_airtable_AirtableBase_Out(TypedDict):
     id: str
@@ -8265,6 +8307,21 @@ class Prv_code_claude_com_code_claude_comDocLink_Out(TypedDict):
     title: str
     url: str
     description: str | None
+
+class Prv_coingecko_coingeckoPriceRow_Out(TypedDict):
+    coinId: str
+    name: str
+    symbol: str
+    vsCurrency: str
+    price: float
+    change24hPct: float | None
+    lastUpdatedAt: str | None
+
+class Prv_coingecko_coingeckoCoin_Out(TypedDict):
+    id: str
+    name: str
+    symbol: str
+    marketCapRank: float | None
 
 class Prv_compass_living_CommunityWithForms_Out(TypedDict):
     name: str
@@ -18016,6 +18073,13 @@ class Prv_nytimes_NytimesNewsletter_Out(TypedDict):
     sampleUrl: NotRequired[str]
     thumbImageUrl: NotRequired[str]
 
+class Prv_nytimes_NytimesPodcast_Out(TypedDict):
+    id: str
+    slug: str
+    title: str
+    description: NotRequired[str]
+    imageUrl: NotRequired[str]
+
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
     {
@@ -25825,6 +25889,20 @@ class Prv_wikipedia_WikipediaPageviews_Out(TypedDict):
     date: str
     views: float
 
+class Prv_wikipedia_listMostViewed_options_In(TypedDict):
+    lang: NotRequired[str]
+    limit: NotRequired[float]
+    namespace: NotRequired[float]
+
+class Prv_wikipedia_listMostViewed_return_Out(TypedDict):
+    articles: list[Prv_wikipedia_WikipediaMostViewedArticle_Out]
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaMostViewedArticle_Out(TypedDict):
+    title: str
+    url: str
+    views: float
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -27257,6 +27335,16 @@ class Cap_coworking(Protocol):
         is out of scope here. US cities only.
         """
 
+class Cap_crypto_exchange(Protocol):
+    """Get the live price of bitcoin or any cryptocurrency in any currency (USD, THB, EUR…) — a
+    crypto exchange rate
+    """
+
+    async def getRate(self, coin: str, quote: str, options: Cap_crypto_exchange_CallOptions_In | None = None, /) -> Cap_crypto_exchange_crypto_exchangeResult_Out:
+        """Current price of a cryptocurrency (symbol or name: "BTC", "bitcoin") in a quote currency
+        ("THB", "USD", "ETH")
+        """
+
 class Cap_currency_exchange(Protocol):
     """Get real-time exchange rates between currencies"""
 
@@ -28601,8 +28689,10 @@ class Cap_weather(Protocol):
 
     async def forecast(self, location: str, days: float | None = None, /) -> Cap_weather_ForecastResult_Out:
         """Geocodes a place name and returns its daily forecast (default 5 days, max 16 —
-        Open-Meteo's own ceiling). Reports the resolved place name alongside what was asked for,
-        since a name like "Springfield" is ambiguous and worth comparing.
+        Open-Meteo's own ceiling). Disambiguate with commas — "Headingley, Leeds, UK", "Paris,
+        TX" — or pass a UK postcode or "lat,lon". A qualifier that names none of the candidates
+        throws with the list rather than guessing; resolvedName always carries the country, and
+        warnings say when a bare name was ambiguous.
         """
 
 class Cap_web_form_fields(Protocol):
@@ -28985,6 +29075,19 @@ class Prv_airbnb(Protocol):
         rate) or the site's reason the dates cannot be booked; either way it returns the
         listing's day-by-day open/blocked calendar with minimum and maximum stay, `months` long
         (default 2) from the check-in month. `currency` is an ISO code, default USD.
+        """
+
+class Prv_airchina(Protocol):
+    """Air China's own published cheapest one-way deal fares from a Chinese city (price in CNY,
+    date, destination). Full fare search needs a PhoenixMiles login and is not available.
+    """
+
+    async def getDealFares(self, args: Prv_airchina_AirChinaDealFaresArgs_In | None = None, /) -> Prv_airchina_AirChinaDealFares_Out:
+        """Reads the cheapest one-way flight deals Air China is publishing from one origin city —
+        destination, departure date and price in CNY — straight off the airline's own mobile
+        site. Covers Air China's Chinese hubs (PEK, SHA, CTU, CAN, …); an origin it has no deals
+        for comes back as Beijing's list with `fellBack: true`. This is the airline's deal
+        strip, not a search for an arbitrary route and date.
         """
 
 class Prv_airtable(Protocol):
@@ -32559,6 +32662,17 @@ class Prv_code_claude_com(Protocol):
         """Lists every doc page code.claude.com publishes — title, its own .md source url, and a
         one-line description — parsed from the site's own /docs/llms.txt index.
         """
+
+class Prv_coingecko(Protocol):
+    """Live cryptocurrency prices in any currency, and coin lookup, from CoinGecko"""
+
+    async def getPrice(self, coin: str, vsCurrency: str, /) -> Prv_coingecko_coingeckoPriceRow_Out:
+        """Current price of a cryptocurrency (symbol, name or CoinGecko id — "BTC", "bitcoin") in a
+        fiat or crypto currency ("THB", "USD", "ETH")
+        """
+
+    async def searchCoins(self, query: str, /) -> list[Prv_coingecko_coingeckoCoin_Out]:
+        """Find cryptocurrencies by name or ticker symbol"""
 
 class Prv_compass_living(Protocol):
     """Discover senior living communities and their contact-form fields."""
@@ -39690,6 +39804,9 @@ class Prv_nytimes(Protocol):
         listNewsletters) or a path like "/newsletters/the-veggie".
         """
 
+    async def listPodcasts(self, /) -> list[Prv_nytimes_NytimesPodcast_Out]:
+        """Lists NYT's own podcasts from podcasts.nytimes.com."""
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -44501,6 +44618,13 @@ class Prv_wikipedia(Protocol):
         ranges, falls back to the Wikimedia analytics API.
         """
 
+    async def listMostViewed(self, options: Prv_wikipedia_listMostViewed_options_In | None = None, /) -> Prv_wikipedia_listMostViewed_return_Out:
+        """What Wikipedia's readers looked at most — the day's or the edition's top articles with
+        their view counts, in rank order. A genuine read on public attention. Optional `limit`
+        caps the number of articles returned (defaults to 50), and `namespace` filters by
+        namespace (defaults to 0 for article space, filtering out special pages).
+        """
+
 class Prv_wikipedia_standings(Protocol):
     """Search Wikipedia for sports league standings with goal differential data."""
 
@@ -45316,6 +45440,7 @@ class BowmarkProviders(Protocol):
     ai_engineer: Prv_ai_engineer
     aiper: Prv_aiper
     airbnb: Prv_airbnb
+    airchina: Prv_airchina
     airtable: Prv_airtable
     ajmadison: Prv_ajmadison
     alibaba: Prv_alibaba
@@ -45445,6 +45570,7 @@ class BowmarkProviders(Protocol):
     cnn: Prv_cnn
     coast: Prv_coast
     code_claude_com: Prv_code_claude_com
+    coingecko: Prv_coingecko
     compass_living: Prv_compass_living
     completehomewarranty_com: Prv_completehomewarranty_com
     consultnet: Prv_consultnet
@@ -45833,6 +45959,7 @@ class Bowmark(Protocol):
     concert_setlist: Cap_concert_setlist
     costume_size_check: Cap_costume_size_check
     coworking: Cap_coworking
+    crypto_exchange: Cap_crypto_exchange
     currency_exchange: Cap_currency_exchange
     custom_packaging_quote: Cap_custom_packaging_quote
     custom_sofa_configurator: Cap_custom_sofa_configurator
