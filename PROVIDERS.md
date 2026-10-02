@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2599 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2600 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -907,7 +907,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getDevHolders` | fomo.family | Returns whether the token's own deployer still holds it, and how much. | 🟢 |
 | `fomo.getFeed` | fomo.family | Pages the signed-in trader's social feed — the trades made by people they follow, each… | ⚪ |
 | `fomo.getFollowers` | fomo.family | Pages the traders following one user, newest first, with full profiles — the other… | 🟢 |
-| `fomo.getFollowing` | fomo.family | Pages the traders one user follows. `GET /v2/users/:userId/followingPaginate`. | ⚪ |
+| `fomo.getFollowing` | fomo.family | Pages the traders one user follows, newest first, with full profiles — the paginated… | 🟢 |
 | `fomo.getFollowingIds` | fomo.family | Returns just the ids of everyone the signed-in trader follows, in one call with no… | 🟢 |
 | `fomo.getFollowingLeaderboard` | fomo.family | The same ranking restricted to traders the signed-in user follows — 'how am I doing… | ⚪ |
 | `fomo.getFriendHolders` | fomo.family | Returns which of the signed-in trader's own follows hold a given token — fomo's core… | 🟢 |
@@ -1004,7 +1004,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fred.listReleases` | fred.stlouisfed.org | Lists FRED's economic data releases — the named publications data comes from (e.g.… | 🟢 |
 | `fred.listSources` | fred.stlouisfed.org | Lists the agencies and organizations that originate FRED's data — the Bureau of Labor… | 🟢 |
 | `fred.searchSeries` | fred.stlouisfed.org | Finds the economic data series that match a search text — GDP, CPI, unemployment rate… | 🟢 |
-| `freightliner_configurator.getConfiguratorPrice` | freightliner.com | Drives the Cascadia configurator through a truck configuration and captures the final… | 🟢 |
+| `freightliner.getConfiguratorPrice` | freightliner.com | Drives the Cascadia configurator through a truck configuration and captures the final… | 🟢 |
 | `furniture.listCategories` | furniture.com | Lists furniture.com's real category taxonomy (Sofas & Couches, Mattresses, Platform… | 🟢 |
 | `furniture.listFilterOptions` | furniture.com | Lists furniture.com's live filter facets and their real, currently offered values —… | 🟢 |
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟢 |
@@ -1748,6 +1748,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `paypal.getPolicyDocument` | paypal.com | Reads one of PayPal's binding policy documents — the User Agreement, the Seller… | ⚪ |
 | `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — title, canonical URL… | ⚪ |
 | `paypal.searchShoppingOffers` | paypal.com | Finds the cashback and discount offers PayPal is currently running at a given merchant… | ⚪ |
+| `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟢 |
 | `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟢 |
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
 | `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |
