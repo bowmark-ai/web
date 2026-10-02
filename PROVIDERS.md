@@ -919,7 +919,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getLeaderboard` | fomo.family | Returns the ranked traders for one window — daily, weekly, monthly or all-time — with… | 🟢 |
 | `fomo.getMajorTokens` | fomo.family | Returns the large-cap majors — BTC, ETH, SOL and the rest of the non-memecoin set… | 🟢 |
 | `fomo.getMostHeldTokens` | fomo.family | Returns the tokens held by the most fomo traders — a positions ranking rather than a… | 🟢 |
-| `fomo.getMutuals` | fomo.family | Pages the traders both the signed-in user and another user follow. `GET… | ⚪ |
+| `fomo.getMutuals` | fomo.family | Pages the traders both the signed-in user and another user follow — the social-proof… | 🟢 |
 | `fomo.getPerpetuals` | fomo.family | Perpetual futures — open positions, funding, leverage and the perps order flow fomo… | ⚪ |
 | `fomo.getPortfolioHistory` | fomo.family | Returns the time series behind a trader's portfolio-value chart — total USD value at… | ⚪ |
 | `fomo.getPortfolioSnapshot` | fomo.family | Returns one point of that series in full — the positions held at that moment, not just… | ⚪ |
@@ -2112,7 +2112,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getGameVideos` | steampowered.com | Fetches a game's trailers and video clips by appid, returning each video's name… | 🟢 |
 | `steam.getLibrary` | steampowered.com | Lists all games the caller owns, with installation status, play time, and last-played… | ⚪ |
 | `steam.getMarketPrice` | steampowered.com | Retrieves current Community Market price information for an item, including listing… | ⚪ |
-| `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by its ID or URL. | ⚪ |
+| `steam.getNewsItem` | steampowered.com | Fetches the full text of a specific news article by its ID or URL. | 🟢 |
 | `steam.getPlayTime` | steampowered.com | Returns total playtime in hours for a specific game owned by the caller. | ⚪ |
 | `steam.getProfile` | steampowered.com | Retrieves a Steam profile by username or ID, including profile name, avatar, status… | ⚪ |
 | `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | ⚪ |
