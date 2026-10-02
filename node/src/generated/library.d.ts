@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c811ac9a81a66a65c475e372d3f6d599082bcd66597fce19b73ec0548e50367b
-// 71 capabilities, 508 providers, 1740 typed functions, 20 refused.
+// Manifest version: e4314527ea2b77b8dd9b92c9eed6a8985e1363538f0f0e5c33ba1e649eebccb5
+// 71 capabilities, 508 providers, 1741 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -46635,10 +46635,31 @@ interface XTweet {
   url: string;
 }
 
+interface XProfile {
+  handle: string;
+  name: string;
+  bio: string;
+  location: string;
+  url: string;
+  website: string | null;
+  followers: number;
+  following: number;
+  tweets: number;
+  joined: string;
+  verified: boolean;
+  avatarUrl: string;
+}
+
   /** Read public user timelines and post data from X (Twitter). */
   interface Unit {
     /** Returns a public user's recent tweets from their timeline. */
     userTimeline(args: UserTimelineArgs): Promise<XTweet[]>;
+
+    /**
+     * Reads an X (Twitter) profile by handle or URL: name, bio, location, website, follower count
+     * — browserless.
+     */
+    profile(args: { handle: string }): Promise<XProfile>;
   }
 }
 

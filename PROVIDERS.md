@@ -1290,7 +1290,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
 | `ihg.search` | ihg.com | Searches IHG's live hotel availability for a destination and date range, returning its… | 🟢 |
 | `indeed.getCompanyDetails` | indeed.com | Fetches a company's full profile off its own /cmp/… snapshot page: overall rating… | 🟢 |
-| `indeed.getJobDetails` | indeed.com | Fetches complete details for a specific job listing including salary, company info… | 🟢 |
+| `indeed.getJobDetails` | indeed.com | Fetches one job listing's full details — title, company, location, salary… | 🟢 |
 | `indeed.getSalaryDetails` | indeed.com | Fetches the full salary breakdown for one job title off its own… | 🟢 |
 | `indeed.searchCompanies` | indeed.com | Searches Indeed's own company directory by name or keyword and returns each match's… | 🟢 |
 | `indeed.searchJobs` | indeed.com | Runs Indeed's own job search and returns each listing's title, company, location… | 🟢 |

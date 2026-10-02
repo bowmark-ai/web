@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c811ac9a81a66a65c475e372d3f6d599082bcd66597fce19b73ec0548e50367b
-# 71 capabilities, 508 providers, 1722 typed functions, 20 refused.
+# Manifest version: e4314527ea2b77b8dd9b92c9eed6a8985e1363538f0f0e5c33ba1e649eebccb5
+# 71 capabilities, 508 providers, 1723 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -25762,6 +25762,23 @@ class Prv_x_XTweet_Out(TypedDict):
     createdAt: str
     url: str
 
+class Prv_x_profile_args_In(TypedDict):
+    handle: str
+
+class Prv_x_XProfile_Out(TypedDict):
+    handle: str
+    name: str
+    bio: str
+    location: str
+    url: str
+    website: str | None
+    followers: float
+    following: float
+    tweets: float
+    joined: str
+    verified: bool
+    avatarUrl: str
+
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
     facilityId: str
     name: str
@@ -44287,6 +44304,11 @@ class Prv_x(Protocol):
 
     async def userTimeline(self, args: Prv_x_UserTimelineArgs_In, /) -> list[Prv_x_XTweet_Out]:
         """Returns a public user's recent tweets from their timeline."""
+
+    async def profile(self, args: Prv_x_profile_args_In, /) -> Prv_x_XProfile_Out:
+        """Reads an X (Twitter) profile by handle or URL: name, bio, location, website, follower
+        count — browserless.
+        """
 
 class Prv_xpresswellnessurgentcare(Protocol):
     """Reads the Xpress Wellness / Integrity Urgent Care clinic roster and each clinic's live

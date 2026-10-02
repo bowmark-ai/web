@@ -1,5 +1,5 @@
 {
-  "version": "c811ac9a81a66a65c475e372d3f6d599082bcd66597fce19b73ec0548e50367b",
+  "version": "e4314527ea2b77b8dd9b92c9eed6a8985e1363538f0f0e5c33ba1e649eebccb5",
   "units": {
     "booking_links": {
       "defs": {
@@ -48979,6 +48979,24 @@
             "schema": {
               "k": "ref",
               "name": "UserTimelineArgs"
+            },
+            "optional": false
+          }
+        ],
+        "profile": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "handle",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
