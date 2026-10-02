@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: e4314527ea2b77b8dd9b92c9eed6a8985e1363538f0f0e5c33ba1e649eebccb5
-// 1723 checked, 20 unchecked.
+// Manifest version: d152afa0961a064415a97440c51d9df5de84780f4108148288d1279519da92d4
+// 1724 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "e4314527ea2b77b8dd9b92c9eed6a8985e1363538f0f0e5c33ba1e649eebccb5",
+  "version": "d152afa0961a064415a97440c51d9df5de84780f4108148288d1279519da92d4",
   "units": {
     "booking_links": {
       "defs": {
@@ -19733,6 +19733,13 @@ export const VALIDATORS: ValidatorTable = {
               "name": "engineType",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -43842,6 +43849,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GuardianListLiveBlogsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GuardianListOpinionPiecesArgs": {
           "k": "object",
           "props": [
@@ -43955,6 +43974,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GuardianGetReviewArgs"
             },
             "optional": false
+          }
+        ],
+        "listLiveBlogs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListLiveBlogsArgs"
+            },
+            "optional": true
           }
         ]
       }

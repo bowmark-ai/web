@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: e4314527ea2b77b8dd9b92c9eed6a8985e1363538f0f0e5c33ba1e649eebccb5
-# 71 capabilities, 508 providers, 1723 typed functions, 20 refused.
+# Manifest version: d152afa0961a064415a97440c51d9df5de84780f4108148288d1279519da92d4
+# 71 capabilities, 508 providers, 1724 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -10995,6 +10995,7 @@ class Prv_freightliner_GetConfiguratorPriceArgs_In(TypedDict):
     model: NotRequired[str]
     cabType: NotRequired[str]
     engineType: NotRequired[str]
+    timeoutMs: NotRequired[float]
 
 class Prv_freightliner_freightlinerRow_Out(TypedDict):
     basePrice: float
@@ -22798,6 +22799,9 @@ class Prv_theguardian_com_GuardianListReviewsArgs_In(TypedDict):
 
 class Prv_theguardian_com_GuardianGetReviewArgs_In(TypedDict):
     reviewUrlOrId: str
+
+class Prv_theguardian_com_GuardianListLiveBlogsArgs_In(TypedDict):
+    limit: NotRequired[float]
 
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -36535,8 +36539,11 @@ class Prv_indeed(Protocol):
         """
 
     async def getJobDetails(self, args: Prv_indeed_GetJobDetailsArgs_In, /) -> Prv_indeed_IndeedJobDetails_Out:
-        """Fetches complete details for a specific job listing including full description, job
-        type, and experience level. Takes a job URL (from searchJobs).
+        """Fetches one job listing's full details: title, company, location, salary (when the
+        listing carries one), posted-date, job type and the full description as plain text.
+        Takes a job URL from searchJobs (or the bare job key). `experienceLevel` is null —
+        Indeed's logged-out listing carries none. Throws, caller-fixable, when Indeed has no
+        live listing for the key (filled or expired).
         """
 
     async def searchCompanies(self, args: Prv_indeed_IndeedSearchCompaniesArgs_In, /) -> list[Prv_indeed_IndeedCompanyResult_Out]:
@@ -42487,6 +42494,12 @@ class Prv_theguardian_com(Protocol):
         """The full text of one Guardian review article: headline, standfirst, byline, publish
         time, section, tags and the body paragraph by paragraph. Takes a theguardian.com URL or
         the path listReviews returns as `id`.
+        """
+
+    async def listLiveBlogs(self, args: Prv_theguardian_com_GuardianListLiveBlogsArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListArticlesResult_Out:
+        """The Guardian's current rolling-coverage live blogs (breaking news, elections,
+        sport-as-it-happens) — newest first, with headline, url, standfirst, byline and publish
+        time.
         """
 
 class Prv_therabody(Protocol):

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: e4314527ea2b77b8dd9b92c9eed6a8985e1363538f0f0e5c33ba1e649eebccb5
-// 71 capabilities, 508 providers, 1741 typed functions, 20 refused.
+// Manifest version: d152afa0961a064415a97440c51d9df5de84780f4108148288d1279519da92d4
+// 71 capabilities, 508 providers, 1742 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20171,6 +20171,7 @@ interface GetConfiguratorPriceArgs {
   model?: string;
   cabType?: string;
   engineType?: string;
+  timeoutMs?: number;
 }
 
   /** Drives the Freightliner Cascadia configurator to capture quoted truck pricing. */
@@ -25732,8 +25733,11 @@ interface IndeedSalaryDetails {
     searchJobs(args: IndeedSearchJobsArgs): Promise<IndeedJobResult[]>;
 
     /**
-     * Fetches complete details for a specific job listing including full description, job type,
-     * and experience level. Takes a job URL (from searchJobs).
+     * Fetches one job listing's full details: title, company, location, salary (when the listing
+     * carries one), posted-date, job type and the full description as plain text. Takes a job URL
+     * from searchJobs (or the bare job key). `experienceLevel` is null — Indeed's logged-out
+     * listing carries none. Throws, caller-fixable, when Indeed has no live listing for the key
+     * (filled or expired).
      */
     getJobDetails(args: GetJobDetailsArgs): Promise<IndeedJobDetails>;
 
@@ -41654,6 +41658,9 @@ interface GuardianGetReviewArgs {
   /** The review article's URL or the path from listReviews, e.g. "books/2026/sep/30/...". */
   reviewUrlOrId: string;
 }
+interface GuardianListLiveBlogsArgs {
+  limit?: number;
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -41734,6 +41741,13 @@ interface GuardianGetReviewArgs {
      * listReviews returns as `id`.
      */
     getReview(args: GuardianGetReviewArgs): Promise<GuardianArticle>;
+
+    /**
+     * The Guardian's current rolling-coverage live blogs (breaking news, elections,
+     * sport-as-it-happens) — newest first, with headline, url, standfirst, byline and publish
+     * time.
+     */
+    listLiveBlogs(args?: GuardianListLiveBlogsArgs): Promise<GuardianListArticlesResult>;
   }
 }
 

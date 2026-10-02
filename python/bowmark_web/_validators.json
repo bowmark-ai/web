@@ -1,5 +1,5 @@
 {
-  "version": "e4314527ea2b77b8dd9b92c9eed6a8985e1363538f0f0e5c33ba1e649eebccb5",
+  "version": "d152afa0961a064415a97440c51d9df5de84780f4108148288d1279519da92d4",
   "units": {
     "booking_links": {
       "defs": {
@@ -19721,6 +19721,13 @@
               "name": "engineType",
               "schema": {
                 "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
               },
               "optional": true
             }
@@ -43830,6 +43837,18 @@
             }
           ]
         },
+        "GuardianListLiveBlogsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GuardianListOpinionPiecesArgs": {
           "k": "object",
           "props": [
@@ -43943,6 +43962,16 @@
               "name": "GuardianGetReviewArgs"
             },
             "optional": false
+          }
+        ],
+        "listLiveBlogs": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListLiveBlogsArgs"
+            },
+            "optional": true
           }
         ]
       }
