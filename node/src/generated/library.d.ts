@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a020e3d320eca3c286924fb237623386aefb0a4feb988f2b2a0a641c0e976714
-// 72 capabilities, 511 providers, 1758 typed functions, 20 refused.
+// Manifest version: 193fbdf12c5291e6708e6fb01cf9997629cd8b383930695d541e8165adcc2a19
+// 73 capabilities, 511 providers, 1762 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -101,6 +101,53 @@ interface BowmarkConnections {
 }
 
 
+
+declare namespace BowmarkCapability_address_validation {
+  // ── Validate and standardize a US address — the unit's own declarations, verbatim ──
+interface ValidatedAddress {
+  formatted: string;
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+  latitude: number;
+  longitude: number;
+  source: string;
+}
+
+interface address_validationResult {
+  input: string;
+  valid: boolean;
+  ambiguous: boolean;
+  address: ValidatedAddress | null;
+  candidates: ValidatedAddress[];
+  warnings: string[];
+}
+
+interface ValidateParams {
+  address: string;
+}
+
+type CallOptions = {
+  timeoutMs?: number   // per-provider budget in ms, default 30000, clamped to 1000-55000.
+                       // A provider slower than this is DROPPED from the results and
+                       // NAMED in warnings — never silently absent
+}
+
+  /**
+   * Check whether a US street address is real and get its standardized form, ZIP code and
+   * coordinates.
+   */
+  interface Unit {
+    /**
+     * Validates a one-line US street address against the US Census Geocoder. `valid` says whether
+     * it matched a real address; `address` is the standardized form (street, city, state, ZIP,
+     * lat/lng) when exactly one matched; `candidates` lists every match when the input is
+     * ambiguous. US only. `options.timeoutMs` sets the budget (default 30000).
+     */
+    validate(params: ValidateParams, options?: CallOptions): Promise<address_validationResult>;
+  }
+}
 
 declare namespace BowmarkCapability_booking_links {
   // ── Booking links — find a person's Calendly or Cal.com link and read its form — the unit's own declarations, verbatim ──
@@ -3029,6 +3076,10 @@ type ReadResult = {
   headers?: Record<string, string> // only with options.headers: true — the response
                              // headers of the leg that served content, names
                              // lowercased; {} when none were captured
+  json?: unknown             // only when the body IS JSON (json content-type, or a
+                             // body that parses whole): the parsed value, unfenced.
+                             // const { json } = await bowmark.read.page(apiUrl)
+                             // content still carries the rendering for that format
   warnings: string[]         // also names a redirect to a different page than asked
 }
 
@@ -13396,10 +13447,37 @@ interface HouseholdIncomeArgs {
   address?: string;
 }
 
+interface AddressMatch {
+  matchedAddress: string;
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+  latitude: number;
+  longitude: number;
+}
+
+interface ValidateAddressResult {
+  input: string;
+  valid: boolean;
+  ambiguous: boolean;
+  matches: AddressMatch[];
+}
+
+interface ValidateAddressArgs {
+  address: string;
+}
+
   /** Query US Census Bureau data on demographics by location */
   interface Unit {
     /** Returns median household income for a US Census tract by ZIP code */
     householdIncome(args: HouseholdIncomeArgs): Promise<HouseholdIncomeResult>;
+
+    /**
+     * Validates and standardizes a US street address against the Census Geocoder: whether it
+     * exists, its standardized form, ZIP and coordinates, and every candidate when it is ambiguous
+     */
+    validateAddress(args: ValidateAddressArgs): Promise<ValidateAddressResult>;
   }
 }
 
@@ -41095,6 +41173,29 @@ interface NewsItemResponse {
   url: string;
 }
 
+interface SearchNewsArgs {
+  appid: string | number;
+  query?: string;
+  since?: number;
+  until?: number;
+  batchSize?: number;
+}
+
+interface SteamSearchNewsItem {
+  id: string;
+  title: string;
+  url: string;
+  author: string;
+  contents: string;
+  feedLabel: string;
+  date: number;
+  tags: string[];
+}
+
+interface SearchNewsResponse {
+  items: SteamSearchNewsItem[];
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -41161,6 +41262,12 @@ interface NewsItemResponse {
      * publication date, and complete HTML content.
      */
     getNewsItem(args: GetNewsItemArgs, opts?: ConnectionOption): Promise<NewsItemResponse>;
+
+    /**
+     * Searches a game's recent news items by keyword and/or date range (since/until, unix
+     * seconds), filtering client-side over the same news feed listNews reads.
+     */
+    searchNews(args: SearchNewsArgs, opts?: ConnectionOption): Promise<SearchNewsResponse>;
   }
 }
 
@@ -46154,6 +46261,26 @@ interface RadarTile {
   tileUrlPattern: string | null;
 }
 
+interface HistoricalHour {
+  observedTime: string;
+  temperature: number | null;
+  temperatureDewPoint: number | null;
+  humidity: number | null;
+  windSpeed: number | null;
+  windDirection: string | null;
+  windGust: number | null;
+  pressure: number | null;
+  cloudCover: number | null;
+  precipitationHourly: number | null;
+  visibility: number | null;
+  phrase: string;
+}
+
+interface HistoricalHourlyResult {
+  location: WeatherLocation | null;
+  hours: HistoricalHour[];
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -46243,6 +46370,14 @@ interface RadarTile {
      * high/low temperatures, and the years those records were set.
      */
     getAlmanac(location: Location): Promise<AlmanacResult>;
+
+    /**
+     * Historical hourly weather observations for a place — e.g. `getHistoricalHourly("Toronto")` —
+     * the past 24 hours of observed conditions. Each hour carries temperature, dew point,
+     * humidity, wind speed/direction/gust, pressure, cloud cover, hourly precipitation, visibility
+     * and weather phrase.
+     */
+    getHistoricalHourly(location: Location): Promise<HistoricalHourlyResult>;
 
     /**
      * The Weather Channel's 7-day allergy forecast for a place — e.g. `getPollenForecast("Kansas
@@ -47581,6 +47716,17 @@ interface YahooSportsBoxScore {
   home: YahooSportsBoxScoreCategory[];
 }
 
+interface YahooSportsGameRecapPlay {
+  description: string;
+  team: string | null;
+  timestamp: string | null;
+}
+
+interface YahooSportsGameRecap {
+  summary: string | null;
+  keyPlays: YahooSportsGameRecapPlay[];
+}
+
 interface YahooSportsGameDetail {
   name: string;
   homeTeam: string;
@@ -47591,6 +47737,7 @@ interface YahooSportsGameDetail {
   startDate: string;
   venue: string | null;
   boxScore: YahooSportsBoxScore | null; // null before the game starts
+  recap: YahooSportsGameRecap | null; // null before the game starts
 }
 
 interface GetGameArgs {
@@ -100137,6 +100284,7 @@ interface BowmarkProviders {
  * `run()` script, and the Proxy over HTTP in a caller's own process. They are
  * generated once precisely so those two cannot drift. */
 interface BowmarkLibrary {
+  address_validation: BowmarkCapability_address_validation.Unit;
   booking_links: BowmarkCapability_booking_links.Unit;
   browser_agent: BowmarkCapability_browser_agent.Unit;
   bundles: BowmarkCapability_bundles.Unit;

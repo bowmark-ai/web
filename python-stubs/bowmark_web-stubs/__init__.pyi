@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a020e3d320eca3c286924fb237623386aefb0a4feb988f2b2a0a641c0e976714
-# 72 capabilities, 511 providers, 1740 typed functions, 20 refused.
+# Manifest version: 193fbdf12c5291e6708e6fb01cf9997629cd8b383930695d541e8165adcc2a19
+# 73 capabilities, 511 providers, 1744 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -255,6 +255,30 @@ class LoginInput(TypedDict, total=False):
     keepAlive: KeepAliveEveryHours | Literal[False]
     expiresAt: str
     connection: str
+
+class Cap_address_validation_ValidateParams_In(TypedDict):
+    address: str
+
+class Cap_address_validation_CallOptions_In(TypedDict):
+    timeoutMs: NotRequired[float]
+
+class Cap_address_validation_address_validationResult_Out(TypedDict):
+    input: str
+    valid: bool
+    ambiguous: bool
+    address: Cap_address_validation_ValidatedAddress_Out | None
+    candidates: list[Cap_address_validation_ValidatedAddress_Out]
+    warnings: list[str]
+
+class Cap_address_validation_ValidatedAddress_Out(TypedDict):
+    formatted: str
+    street: str
+    city: str
+    state: str
+    zip: str
+    latitude: float
+    longitude: float
+    source: str
 
 class Cap_booking_links_FindBookingLinksInput_In(TypedDict):
     name: str
@@ -1731,6 +1755,7 @@ class Cap_read_ReadResult_Out(TypedDict):
     error: str | None
     wall: Cap_read_ReadResult_Out_wall_u0_Out | None
     headers: NotRequired[Mapping[str, str]]
+    json: NotRequired[Any]
     warnings: list[str]
 
 class Cap_read_ReadResult_Out_wall_u0_Out(TypedDict):
@@ -7440,6 +7465,24 @@ class Prv_census_api_HouseholdIncomeResult_Out(TypedDict):
     state: str
     county: str
     warnings: NotRequired[list[str]]
+
+class Prv_census_api_ValidateAddressArgs_In(TypedDict):
+    address: str
+
+class Prv_census_api_ValidateAddressResult_Out(TypedDict):
+    input: str
+    valid: bool
+    ambiguous: bool
+    matches: list[Prv_census_api_AddressMatch_Out]
+
+class Prv_census_api_AddressMatch_Out(TypedDict):
+    matchedAddress: str
+    street: str
+    city: str
+    state: str
+    zip: str
+    latitude: float
+    longitude: float
 
 class Prv_cftc_searchRules_args_In(TypedDict):
     organization: NotRequired[str]
@@ -22473,6 +22516,26 @@ class Prv_steam_NewsItemResponse_Out(TypedDict):
     content: str
     url: str
 
+class Prv_steam_SearchNewsArgs_In(TypedDict):
+    appid: str | float
+    query: NotRequired[str]
+    since: NotRequired[float]
+    until: NotRequired[float]
+    batchSize: NotRequired[float]
+
+class Prv_steam_SearchNewsResponse_Out(TypedDict):
+    items: list[Prv_steam_SteamSearchNewsItem_Out]
+
+class Prv_steam_SteamSearchNewsItem_Out(TypedDict):
+    id: str
+    title: str
+    url: str
+    author: str
+    contents: str
+    feedLabel: str
+    date: float
+    tags: list[str]
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -25382,6 +25445,24 @@ class Prv_weather_channel_AlmanacDay_Out(TypedDict):
     recordHighYear: float | None
     recordLowYear: float | None
 
+class Prv_weather_channel_HistoricalHourlyResult_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    hours: list[Prv_weather_channel_HistoricalHour_Out]
+
+class Prv_weather_channel_HistoricalHour_Out(TypedDict):
+    observedTime: str
+    temperature: float | None
+    temperatureDewPoint: float | None
+    humidity: float | None
+    windSpeed: float | None
+    windDirection: str | None
+    windGust: float | None
+    pressure: float | None
+    cloudCover: float | None
+    precipitationHourly: float | None
+    visibility: float | None
+    phrase: str
+
 class Prv_weather_channel_PollenForecastResult_Out(TypedDict):
     location: Prv_weather_channel_WeatherLocation_Out | None
     dayparts: list[Prv_weather_channel_PollenDaypart_Out]
@@ -26239,6 +26320,7 @@ class Prv_yahoo_sports_YahooSportsGameDetail_Out(TypedDict):
     startDate: str
     venue: str | None
     boxScore: Prv_yahoo_sports_YahooSportsBoxScore_Out | None
+    recap: Prv_yahoo_sports_YahooSportsGameRecap_Out | None
 
 class Prv_yahoo_sports_YahooSportsBoxScore_Out(TypedDict):
     away: list[Prv_yahoo_sports_YahooSportsBoxScoreCategory_Out]
@@ -26257,6 +26339,15 @@ class Prv_yahoo_sports_YahooSportsPlayerStat_Out(TypedDict):
     name: str
     abbreviation: str
     value: str
+
+class Prv_yahoo_sports_YahooSportsGameRecap_Out(TypedDict):
+    summary: str | None
+    keyPlays: list[Prv_yahoo_sports_YahooSportsGameRecapPlay_Out]
+
+class Prv_yahoo_sports_YahooSportsGameRecapPlay_Out(TypedDict):
+    description: str
+    team: str | None
+    timestamp: str | None
 
 class Prv_yahoo_sports_GetStandingsArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -27075,6 +27166,18 @@ class Prv_zoopla_ZooplaProperty_Out(TypedDict):
     propertyType: NotRequired[str]
     agentName: NotRequired[str]
 
+
+class Cap_address_validation(Protocol):
+    """Check whether a US street address is real and get its standardized form, ZIP code and
+    coordinates.
+    """
+
+    async def validate(self, params: Cap_address_validation_ValidateParams_In, options: Cap_address_validation_CallOptions_In | None = None, /) -> Cap_address_validation_address_validationResult_Out:
+        """Validates a one-line US street address against the US Census Geocoder. `valid` says
+        whether it matched a real address; `address` is the standardized form (street, city,
+        state, ZIP, lat/lng) when exactly one matched; `candidates` lists every match when the
+        input is ambiguous. US only. `options.timeoutMs` sets the budget (default 30000).
+        """
 
 class Cap_booking_links(Protocol):
     """Finds the public booking link (Calendly, Cal.com, SavvyCal, HubSpot…) a named person
@@ -32053,6 +32156,12 @@ class Prv_census_api(Protocol):
 
     async def householdIncome(self, args: Prv_census_api_HouseholdIncomeArgs_In, /) -> Prv_census_api_HouseholdIncomeResult_Out:
         """Returns median household income for a US Census tract by ZIP code"""
+
+    async def validateAddress(self, args: Prv_census_api_ValidateAddressArgs_In, /) -> Prv_census_api_ValidateAddressResult_Out:
+        """Validates and standardizes a US street address against the Census Geocoder: whether it
+        exists, its standardized form, ZIP and coordinates, and every candidate when it is
+        ambiguous
+        """
 
 class Prv_cftc(Protocol):
     """Searches the CFTC's own register of exchange rule filings (self-certifications, rule
@@ -42504,6 +42613,11 @@ class Prv_steam(Protocol):
         publication date, and complete HTML content.
         """
 
+    async def searchNews(self, args: Prv_steam_SearchNewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_SearchNewsResponse_Out:
+        """Searches a game's recent news items by keyword and/or date range (since/until, unix
+        seconds), filtering client-side over the same news feed listNews reads.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -44354,6 +44468,13 @@ class Prv_weather_channel(Protocol):
         high/low temperatures, and the years those records were set.
         """
 
+    async def getHistoricalHourly(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_HistoricalHourlyResult_Out:
+        """Historical hourly weather observations for a place — e.g.
+        `getHistoricalHourly("Toronto")` — the past 24 hours of observed conditions. Each hour
+        carries temperature, dew point, humidity, wind speed/direction/gust, pressure, cloud
+        cover, hourly precipitation, visibility and weather phrase.
+        """
+
     async def getPollenForecast(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_PollenForecastResult_Out:
         """The Weather Channel's 7-day allergy forecast for a place — e.g.
         `getPollenForecast("Kansas City")` — the same day/night pollen breakdown the site's
@@ -45948,6 +46069,7 @@ class Bowmark(Protocol):
     `run()` script, and the proxy over HTTP in a caller's own process. They are
     generated once precisely so those two cannot drift."""
 
+    address_validation: Cap_address_validation
     booking_links: Cap_booking_links
     browser_agent: Cap_browser_agent
     bundles: Cap_bundles

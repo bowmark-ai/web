@@ -5,14 +5,62 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a020e3d320eca3c286924fb237623386aefb0a4feb988f2b2a0a641c0e976714
-// 1740 checked, 20 unchecked.
+// Manifest version: 193fbdf12c5291e6708e6fb01cf9997629cd8b383930695d541e8165adcc2a19
+// 1744 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a020e3d320eca3c286924fb237623386aefb0a4feb988f2b2a0a641c0e976714",
+  "version": "193fbdf12c5291e6708e6fb01cf9997629cd8b383930695d541e8165adcc2a19",
   "units": {
+    "address_validation": {
+      "defs": {
+        "CallOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "timeoutMs",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ValidateParams": {
+          "k": "object",
+          "props": [
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "validate": [
+          {
+            "name": "params",
+            "schema": {
+              "k": "ref",
+              "name": "ValidateParams"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CallOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "booking_links": {
       "defs": {
         "CallOptions": {
@@ -13416,6 +13464,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "ValidateAddressArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "address",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -13425,6 +13485,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "HouseholdIncomeArgs"
+            },
+            "optional": false
+          }
+        ],
+        "validateAddress": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ValidateAddressArgs"
             },
             "optional": false
           }
@@ -43126,6 +43196,54 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "SearchNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "since",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "until",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "batchSize",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -43369,6 +43487,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetNewsItemArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "searchNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "SearchNewsArgs"
             },
             "optional": false
           },
@@ -48383,6 +48527,16 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getAlmanac": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          }
+        ],
+        "getHistoricalHourly": [
           {
             "name": "location",
             "schema": {
