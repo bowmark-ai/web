@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a14f8e99ea6f37ccb806f0c24ba6e027746f55bd6388324cd4c6fe52055a2e27
-// 73 capabilities, 511 providers, 1766 typed functions, 20 refused.
+// Manifest version: 34f45038cf1006c18d3f059daabd6a2a4ae642ba9ae0991b13fd0c0b8ba14c64
+// 73 capabilities, 512 providers, 1769 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10753,6 +10753,11 @@ interface BlueskyPostRepostsResults {
   cursor?: string;
 }
 
+interface BlueskyPostQuotesResults {
+  posts: BlueskyPost[];
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -10852,6 +10857,12 @@ interface BlueskyPostRepostsResults {
      * reposter's handle, DID, display name and avatar.
      */
     getPostReposts(post: string | { post: string; limit?: number; cursor?: string }): Promise<BlueskyPostRepostsResults>;
+
+    /**
+     * The posts that quote a given post, page by page. Takes a post at:// URI or bsky.app post
+     * URL. Returns each quoted post with its author, text, embed and engagement counts.
+     */
+    getPostQuotes(post: string | { post: string; limit?: number; cursor?: string }): Promise<BlueskyPostQuotesResults>;
   }
 }
 
@@ -37254,6 +37265,81 @@ interface GetRepairQuoteResult {
   }
 }
 
+declare namespace BowmarkProvider_quince {
+  // ── Quince — the unit's own declarations, verbatim ──
+interface QuinceSearchArgs {
+  query: string;
+  gender?: "men" | "women";
+  size?: string;
+  inStockOnly?: boolean;
+  limit?: number;
+}
+interface QuinceSearchHit {
+  productId: number;
+  handle: string;
+  url: string;
+  title: string;
+  color: string | null;
+  department: string | null;
+  productClass: string | null;
+  gender: string | null;
+  sizes: string[];
+  minPrice: number | null;
+  maxPrice: number | null;
+  inStock: boolean;
+  image: string | null;
+}
+interface QuinceSearchResult {
+  query: string;
+  total: number;
+  hits: QuinceSearchHit[];
+}
+interface QuinceVariant {
+  variantId: number;
+  sku: string | null;
+  title: string;
+  color: string | null;
+  size: string | null;
+  price: number | null;
+  traditionalRetailPrice: number | null;
+  savings: string | null;
+  available: number | null;
+  inStock: boolean;
+}
+interface QuinceProduct {
+  productId: number;
+  handle: string;
+  url: string;
+  title: string;
+  productType: string | null;
+  gender: string | null;
+  description: string | null;
+  colors: string[];
+  sizes: string[];
+  variants: QuinceVariant[];
+}
+
+  /**
+   * Quince (quince.com) apparel and home store. Searches the live catalog (men's/women's, size,
+   * in-stock) and reads one product's per-variant size, color, price and live stock.
+   */
+  interface Unit {
+    /**
+     * Searches Quince's live apparel catalog the way a shopper would ("men's sweater", "cashmere
+     * crewneck"), optionally narrowed to men/women, a size and in-stock only. Returns one row per
+     * product color with its price and the handle getProduct takes. The way in.
+     */
+    searchProducts(args: QuinceSearchArgs | string): Promise<QuinceSearchResult>;
+
+    /**
+     * Reads one Quince product page's per-variant (color × size) price, traditional-retail
+     * comparison price, savings and live stock count, so a sold-out size is never shown. Takes the
+     * handle or URL searchProducts returns.
+     */
+    getProduct(handle: string): Promise<QuinceProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_reddit {
   // ── Reddit — the unit's own declarations, verbatim ──
 interface RedditPost {
@@ -50365,6 +50451,7 @@ interface BowmarkProviders {
   proxmox: BowmarkProvider_proxmox.Unit;
   proxy_cheap: BowmarkProvider_proxy_cheap.Unit;
   puls_com: BowmarkProvider_puls_com.Unit;
+  quince: BowmarkProvider_quince.Unit;
   reddit: BowmarkProvider_reddit.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
   resy: BowmarkProvider_resy.Unit;

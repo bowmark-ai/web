@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a14f8e99ea6f37ccb806f0c24ba6e027746f55bd6388324cd4c6fe52055a2e27
-# 73 capabilities, 511 providers, 1748 typed functions, 20 refused.
+# Manifest version: 34f45038cf1006c18d3f059daabd6a2a4ae642ba9ae0991b13fd0c0b8ba14c64
+# 73 capabilities, 512 providers, 1751 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6016,6 +6016,15 @@ class Prv_bluesky_getPostReposts_post_u1_In(TypedDict):
 
 class Prv_bluesky_BlueskyPostRepostsResults_Out(TypedDict):
     reposters: list[Prv_bluesky_BlueskyPostAuthor_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_getPostQuotes_post_u1_In(TypedDict):
+    post: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyPostQuotesResults_Out(TypedDict):
+    posts: list[Prv_bluesky_BlueskyPost_Out]
     cursor: NotRequired[str]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
@@ -19979,6 +19988,57 @@ class Prv_puls_com_GetRepairQuoteResult_Out(TypedDict):
     marketName: str | None
     serviceCallFee: float | None
 
+class Prv_quince_QuinceSearchArgs_In(TypedDict):
+    query: str
+    gender: NotRequired[Literal["men"] | Literal["women"]]
+    size: NotRequired[str]
+    inStockOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_quince_QuinceSearchResult_Out(TypedDict):
+    query: str
+    total: float
+    hits: list[Prv_quince_QuinceSearchHit_Out]
+
+class Prv_quince_QuinceSearchHit_Out(TypedDict):
+    productId: float
+    handle: str
+    url: str
+    title: str
+    color: str | None
+    department: str | None
+    productClass: str | None
+    gender: str | None
+    sizes: list[str]
+    minPrice: float | None
+    maxPrice: float | None
+    inStock: bool
+    image: str | None
+
+class Prv_quince_QuinceProduct_Out(TypedDict):
+    productId: float
+    handle: str
+    url: str
+    title: str
+    productType: str | None
+    gender: str | None
+    description: str | None
+    colors: list[str]
+    sizes: list[str]
+    variants: list[Prv_quince_QuinceVariant_Out]
+
+class Prv_quince_QuinceVariant_Out(TypedDict):
+    variantId: float
+    sku: str | None
+    title: str
+    color: str | None
+    size: str | None
+    price: float | None
+    traditionalRetailPrice: float | None
+    savings: str | None
+    available: float | None
+    inStock: bool
+
 class Prv_reddit_search_query_u1_In(TypedDict):
     query: str
     subreddit: NotRequired[str]
@@ -31305,6 +31365,11 @@ class Prv_bluesky(Protocol):
         each reposter's handle, DID, display name and avatar.
         """
 
+    async def getPostQuotes(self, post: str | Prv_bluesky_getPostQuotes_post_u1_In, /) -> Prv_bluesky_BlueskyPostQuotesResults_Out:
+        """The posts that quote a given post, page by page. Takes a post at:// URI or bsky.app post
+        URL. Returns each quoted post with its author, text, embed and engagement counts.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -41230,6 +41295,24 @@ class Prv_puls_com(Protocol):
         `marketName`/`marketId` are `null` when the ZIP is outside Puls' service area.
         """
 
+class Prv_quince(Protocol):
+    """Quince (quince.com) apparel and home store. Searches the live catalog (men's/women's,
+    size, in-stock) and reads one product's per-variant size, color, price and live stock.
+    """
+
+    async def searchProducts(self, args: Prv_quince_QuinceSearchArgs_In | str, /) -> Prv_quince_QuinceSearchResult_Out:
+        """Searches Quince's live apparel catalog the way a shopper would ("men's sweater",
+        "cashmere crewneck"), optionally narrowed to men/women, a size and in-stock only.
+        Returns one row per product color with its price and the handle getProduct takes. The
+        way in.
+        """
+
+    async def getProduct(self, handle: str, /) -> Prv_quince_QuinceProduct_Out:
+        """Reads one Quince product page's per-variant (color × size) price, traditional-retail
+        comparison price, savings and live stock count, so a sold-out size is never shown. Takes
+        the handle or URL searchProducts returns.
+        """
+
 class Prv_reddit(Protocol):
     """Communities, threads and comment trees, and the signed-in account. Public reads need
     nothing: find communities, qualify one (subscribers, activity, whether you may read it),
@@ -46016,6 +46099,7 @@ class BowmarkProviders(Protocol):
     proxmox: Prv_proxmox
     proxy_cheap: Prv_proxy_cheap
     puls_com: Prv_puls_com
+    quince: Prv_quince
     reddit: Prv_reddit
     reliancepartners: Prv_reliancepartners
     resy: Prv_resy

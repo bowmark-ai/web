@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a14f8e99ea6f37ccb806f0c24ba6e027746f55bd6388324cd4c6fe52055a2e27
-// 1748 checked, 20 unchecked.
+// Manifest version: 34f45038cf1006c18d3f059daabd6a2a4ae642ba9ae0991b13fd0c0b8ba14c64
+// 1751 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a14f8e99ea6f37ccb806f0c24ba6e027746f55bd6388324cd4c6fe52055a2e27",
+  "version": "34f45038cf1006c18d3f059daabd6a2a4ae642ba9ae0991b13fd0c0b8ba14c64",
   "units": {
     "address_validation": {
       "defs": {
@@ -11184,6 +11184,46 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getPostReposts": [
+          {
+            "name": "post",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "post",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getPostQuotes": [
           {
             "name": "post",
             "schema": {
@@ -37436,6 +37476,89 @@ export const VALIDATORS: ValidatorTable = {
                   "optional": false
                 }
               ]
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.quince": {
+      "defs": {
+        "QuinceSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "men"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "women"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "size",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "inStockOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "QuinceSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }
