@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 36f3db7943e4aedcff7e16f63d8631d905964634a185d1576578d01bbf95a21f
-# 71 capabilities, 508 providers, 1726 typed functions, 20 refused.
+# Manifest version: 1cc0d34ae21d6d1bb60c0a15cad6dac370c966e2acd1592419bbb62b72b6f47c
+# 71 capabilities, 509 providers, 1730 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -7719,6 +7719,35 @@ class Prv_christydawn_ChristydawnProduct_Out(TypedDict):
     url: str
     price: str
     image: NotRequired[str]
+
+class Prv_chromium_googlesource_com_getFile_file_u1_In(TypedDict):
+    repo: NotRequired[str]
+    ref: NotRequired[str]
+    path: str
+
+class Prv_chromium_googlesource_com_chromium_googlesource_comFile_Out(TypedDict):
+    repo: str | None
+    ref: str | None
+    path: str | None
+    url: str
+    content: str
+
+class Prv_chromium_googlesource_com_listDirectory_opts_In(TypedDict):
+    repo: NotRequired[str]
+    ref: NotRequired[str]
+    path: NotRequired[str]
+
+class Prv_chromium_googlesource_com_chromium_googlesource_comEntry_Out(TypedDict):
+    name: str
+    path: str
+    type: Literal["blob"] | Literal["tree"] | Literal["commit"] | str
+    mode: float
+    id: str
+
+class Prv_chromium_googlesource_com_chromium_googlesource_comRepo_Out(TypedDict):
+    name: str
+    cloneUrl: str
+    description: str | None
 
 class Prv_classichome_ClassicHomeProduct_Out(TypedDict):
     handle: str
@@ -17833,6 +17862,9 @@ class Prv_nyt_games_BonusPuzzle_Out(TypedDict):
     makeFree: bool
     webUrl: str
 
+class Prv_nyt_games_NytPlayerStatsData_Out(TypedDict):
+    stats: NotRequired[Mapping[str, Mapping[str, Any]]]
+
 class Prv_nytimes_NytimesSection_Out(TypedDict):
     name: str
     slug: str
@@ -26056,6 +26088,25 @@ class Prv_yahoo_sports_YahooSportsGameDetail_Out(TypedDict):
     status: Literal["scheduled"] | Literal["in_progress"] | Literal["final"]
     startDate: str
     venue: str | None
+    boxScore: Prv_yahoo_sports_YahooSportsBoxScore_Out | None
+
+class Prv_yahoo_sports_YahooSportsBoxScore_Out(TypedDict):
+    away: list[Prv_yahoo_sports_YahooSportsBoxScoreCategory_Out]
+    home: list[Prv_yahoo_sports_YahooSportsBoxScoreCategory_Out]
+
+class Prv_yahoo_sports_YahooSportsBoxScoreCategory_Out(TypedDict):
+    category: str
+    players: list[Prv_yahoo_sports_YahooSportsBoxScorePlayerLine_Out]
+
+class Prv_yahoo_sports_YahooSportsBoxScorePlayerLine_Out(TypedDict):
+    playerId: str
+    name: str
+    stats: list[Prv_yahoo_sports_YahooSportsPlayerStat_Out]
+
+class Prv_yahoo_sports_YahooSportsPlayerStat_Out(TypedDict):
+    name: str
+    abbreviation: str
+    value: str
 
 class Prv_yahoo_sports_GetStandingsArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -26136,11 +26187,6 @@ class Prv_yahoo_sports_YahooSportsPlayerDetail_Out(TypedDict):
 class Prv_yahoo_sports_YahooSportsPlayerStatGroup_Out(TypedDict):
     category: str
     stats: list[Prv_yahoo_sports_YahooSportsPlayerStat_Out]
-
-class Prv_yahoo_sports_YahooSportsPlayerStat_Out(TypedDict):
-    name: str
-    abbreviation: str
-    value: str
 
 class Prv_yahoo_sports_GetRssFeedArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -32045,6 +32091,32 @@ class Prv_christydawn(Protocol):
     async def search(self, query: str, /) -> list[Prv_christydawn_ChristydawnProduct_Out]:
         """Searches the Christy Dawn catalog for clothing and returns matching product rows with
         title, URL, price, and image.
+        """
+
+class Prv_chromium_googlesource_com(Protocol):
+    """Reads Chromium source code off chromium.googlesource.com — any source code file's
+    content by path, a directory listing, or the list of every repository — through Gitiles'
+    own TEXT/JSON formats.
+    """
+
+    async def getFile(self, file: str | Prv_chromium_googlesource_com_getFile_file_u1_In, /) -> Prv_chromium_googlesource_com_chromium_googlesource_comFile_Out:
+        """Reads one source code file from chromium.googlesource.com and returns its full text.
+        Pass a gitiles url
+        ("https://chromium.googlesource.com/chromium/src/+/main/base/logging.h") or { repo, ref,
+        path } — repo defaults to "chromium/src", ref to "refs/heads/main". THROWS on a 404 (no
+        such file, or the path is a directory — use listDirectory).
+        """
+
+    async def listDirectory(self, opts: Prv_chromium_googlesource_com_listDirectory_opts_In | None = None, /) -> list[Prv_chromium_googlesource_com_chromium_googlesource_comEntry_Out]:
+        """Lists one directory of a chromium.googlesource.com repository — each entry's name,
+        repo-relative path and type ("blob" = file, "tree" = directory, "commit" = submodule).
+        Defaults to the root of chromium/src at main. Walk it to find a file, then getFile({
+        path }).
+        """
+
+    async def listRepos(self, /) -> list[Prv_chromium_googlesource_com_chromium_googlesource_comRepo_Out]:
+        """Lists every git repository hosted on chromium.googlesource.com (thousands —
+        chromium/src, v8/v8, depot_tools, infra …) with its clone url and description.
         """
 
 class Prv_classichome(Protocol):
@@ -39458,6 +39530,12 @@ class Prv_nyt_games(Protocol):
         Defaults to the most recent drop; pass { dropDate: "YYYY-MM-DD" } for an earlier week.
         """
 
+    async def getMyStats(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytPlayerStatsData_Out:
+        """The signed-in player's per-game stats and streaks across all daily puzzles. Requires the
+        caller to be signed in to NYT — the run pauses for a login the first time this is
+        called.
+        """
+
 class Prv_nytimes(Protocol):
     """Reads news articles, sections, search results, and trending topics from The New York
     Times.
@@ -44550,8 +44628,11 @@ class Prv_yahoo_sports(Protocol):
         """
 
     async def getGame(self, args: Prv_yahoo_sports_GetGameArgs_In, /) -> Prv_yahoo_sports_YahooSportsGameDetail_Out:
-        """Reads one game in full off its own game page — final or live score, status, venue and
-        game metadata. Takes the game's own URL from `getScoreboard`.
+        """Reads one game in full off its own game page — final or live score, status, venue, game
+        metadata, and the box score (every player with a stat line, grouped by category:
+        Passing, Rushing, Receiving, Kicking, Punting, Kickoff Return, Punt Return, Defense)
+        once the game has started. `boxScore` is null for a game that has not kicked off yet.
+        Takes the game's own URL from `getScoreboard`.
         """
 
     async def getStandings(self, args: Prv_yahoo_sports_GetStandingsArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsStandingsRow_Out]:
@@ -45249,6 +45330,7 @@ class BowmarkProviders(Protocol):
     chriscraft: Prv_chriscraft
     christianbrothersauto: Prv_christianbrothersauto
     christydawn: Prv_christydawn
+    chromium_googlesource_com: Prv_chromium_googlesource_com
     classichome: Prv_classichome
     classicrockfab: Prv_classicrockfab
     classpass: Prv_classpass

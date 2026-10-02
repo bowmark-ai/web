@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 36f3db7943e4aedcff7e16f63d8631d905964634a185d1576578d01bbf95a21f
-// 71 capabilities, 508 providers, 1744 typed functions, 20 refused.
+// Manifest version: 1cc0d34ae21d6d1bb60c0a15cad6dac370c966e2acd1592419bbb62b72b6f47c
+// 71 capabilities, 509 providers, 1748 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -13907,6 +13907,58 @@ interface ChristydawnProduct {
      * URL, price, and image.
      */
     search(query: string): Promise<ChristydawnProduct[]>;
+  }
+}
+
+declare namespace BowmarkProvider_chromium_googlesource_com {
+  // ── Chromium Git (chromium.googlesource.com) — the unit's own declarations, verbatim ──
+interface chromium_googlesource_comFile {
+  repo: string | null;
+  ref: string | null;
+  path: string | null;
+  url: string;
+  content: string;
+}
+interface chromium_googlesource_comEntry {
+  name: string;
+  path: string;
+  type: "blob" | "tree" | "commit" | string;
+  mode: number;
+  id: string;
+}
+interface chromium_googlesource_comRepo {
+  name: string;
+  cloneUrl: string;
+  description: string | null;
+}
+
+  /**
+   * Reads Chromium source code off chromium.googlesource.com — any source code file's content by
+   * path, a directory listing, or the list of every repository — through Gitiles' own TEXT/JSON
+   * formats.
+   */
+  interface Unit {
+    /**
+     * Reads one source code file from chromium.googlesource.com and returns its full text. Pass a
+     * gitiles url ("https://chromium.googlesource.com/chromium/src/+/main/base/logging.h") or {
+     * repo, ref, path } — repo defaults to "chromium/src", ref to "refs/heads/main". THROWS on a
+     * 404 (no such file, or the path is a directory — use listDirectory).
+     */
+    getFile(file: string | { repo?: string; ref?: string; path: string }): Promise<chromium_googlesource_comFile>;
+
+    /**
+     * Lists one directory of a chromium.googlesource.com repository — each entry's name,
+     * repo-relative path and type ("blob" = file, "tree" = directory, "commit" = submodule).
+     * Defaults to the root of chromium/src at main. Walk it to find a file, then getFile({ path
+     * }).
+     */
+    listDirectory(opts?: { repo?: string; ref?: string; path?: string }): Promise<chromium_googlesource_comEntry[]>;
+
+    /**
+     * Lists every git repository hosted on chromium.googlesource.com (thousands — chromium/src,
+     * v8/v8, depot_tools, infra …) with its clone url and description.
+     */
+    listRepos(): Promise<chromium_googlesource_comRepo[]>;
   }
 }
 
@@ -33464,6 +33516,8 @@ interface CrosswordPuzzleList { puzzles: CrosswordPuzzle[]; status: string; }
 interface BonusPuzzle { game: string; variant: string; title: string; constructors: string; editors: string[]; makeFree: boolean; webUrl: string; }
 interface BonusPuzzlesWeek { dropDate: string; prevDrop: string; nextDrop: string; puzzles: BonusPuzzle[]; }
 interface ListBonusPuzzlesArgs { dropDate?: string; }
+interface NytPlayerStatsData { stats?: Record<string, Record<string, unknown>>; }
+interface GetMyStatsArgs {}
 
   /**
    * Access daily puzzles from The New York Times Games collection including Wordle, Connections,
@@ -33561,6 +33615,12 @@ interface ListBonusPuzzlesArgs { dropDate?: string; }
      * the most recent drop; pass { dropDate: "YYYY-MM-DD" } for an earlier week.
      */
     listBonusPuzzles(args?: ListBonusPuzzlesArgs): Promise<BonusPuzzlesWeek>;
+
+    /**
+     * The signed-in player's per-game stats and streaks across all daily puzzles. Requires the
+     * caller to be signed in to NYT — the run pauses for a login the first time this is called.
+     */
+    getMyStats(opts?: ConnectionOption): Promise<NytPlayerStatsData>;
   }
 }
 
@@ -47263,6 +47323,22 @@ interface YahooSportsRosterRow {
   url: string;
 }
 
+interface YahooSportsBoxScorePlayerLine {
+  playerId: string;
+  name: string;
+  stats: YahooSportsPlayerStat[];
+}
+
+interface YahooSportsBoxScoreCategory {
+  category: string;
+  players: YahooSportsBoxScorePlayerLine[];
+}
+
+interface YahooSportsBoxScore {
+  away: YahooSportsBoxScoreCategory[];
+  home: YahooSportsBoxScoreCategory[];
+}
+
 interface YahooSportsGameDetail {
   name: string;
   homeTeam: string;
@@ -47272,6 +47348,7 @@ interface YahooSportsGameDetail {
   status: "scheduled" | "in_progress" | "final";
   startDate: string;
   venue: string | null;
+  boxScore: YahooSportsBoxScore | null; // null before the game starts
 }
 
 interface GetGameArgs {
@@ -47417,8 +47494,11 @@ interface YahooFantasyLineupSetResult {
     getScoreboard(args: GetScoreboardArgs): Promise<YahooSportsGameRow[]>;
 
     /**
-     * Reads one game in full off its own game page — final or live score, status, venue and game
-     * metadata. Takes the game's own URL from `getScoreboard`.
+     * Reads one game in full off its own game page — final or live score, status, venue, game
+     * metadata, and the box score (every player with a stat line, grouped by category: Passing,
+     * Rushing, Receiving, Kicking, Punting, Kickoff Return, Punt Return, Defense) once the game
+     * has started. `boxScore` is null for a game that has not kicked off yet. Takes the game's own
+     * URL from `getScoreboard`.
      */
     getGame(args: GetGameArgs): Promise<YahooSportsGameDetail>;
 
@@ -49553,6 +49633,7 @@ interface BowmarkProviders {
   chriscraft: BowmarkProvider_chriscraft.Unit;
   christianbrothersauto: BowmarkProvider_christianbrothersauto.Unit;
   christydawn: BowmarkProvider_christydawn.Unit;
+  chromium_googlesource_com: BowmarkProvider_chromium_googlesource_com.Unit;
   classichome: BowmarkProvider_classichome.Unit;
   classicrockfab: BowmarkProvider_classicrockfab.Unit;
   classpass: BowmarkProvider_classpass.Unit;

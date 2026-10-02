@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 36f3db7943e4aedcff7e16f63d8631d905964634a185d1576578d01bbf95a21f
-// 1726 checked, 20 unchecked.
+// Manifest version: 1cc0d34ae21d6d1bb60c0a15cad6dac370c966e2acd1592419bbb62b72b6f47c
+// 1730 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "36f3db7943e4aedcff7e16f63d8631d905964634a185d1576578d01bbf95a21f",
+  "version": "1cc0d34ae21d6d1bb60c0a15cad6dac370c966e2acd1592419bbb62b72b6f47c",
   "units": {
     "booking_links": {
       "defs": {
@@ -14128,6 +14128,84 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ]
+      }
+    },
+    "providers.chromium_googlesource_com": {
+      "defs": {},
+      "functions": {
+        "getFile": [
+          {
+            "name": "file",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "repo",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "ref",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "path",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "listDirectory": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "repo",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "ref",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "path",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listRepos": []
       }
     },
     "providers.classichome": {
@@ -31967,6 +32045,24 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListBonusPuzzlesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getMyStats": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": true
           }
