@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2611 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2613 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -344,7 +344,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getMyLikes` | bsky.app | The posts the caller has liked. | ⚪ |
 | `bluesky.getPost` | bsky.app | One post by URL (bsky.app/profile/<handle>/post/<rkey>) or at:// URI: text, author… | 🟢 |
 | `bluesky.getPostLikes` | bsky.app | Who liked a post, page by page. | 🟢 |
-| `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | ⚪ |
+| `bluesky.getPostQuotes` | bsky.app | The posts that quote a given post, page by page. | 🟢 |
 | `bluesky.getPostReposts` | bsky.app | Who reposted a post, page by page. | 🟢 |
 | `bluesky.getProfile` | bsky.app | One person's profile: display name, handle, bio, avatar, banner… | 🟢 |
 | `bluesky.getRelationships` | bsky.app | Whether one account follows, or is followed by, each of a list of others. | ⚪ |
@@ -1904,6 +1904,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `proxy_cheap.listPlans` | proxy-cheap.com | Lists Proxy-Cheap proxy plans (residential, ISP, datacenter, mobile) with starting… | 🟢 |
 | `puls_com.getRepairQuote` | puls.com | Checks whether Puls services a ZIP code and, if so, returns the real service-call… | 🟢 |
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
+| `quince.getProduct` | quince.com | Reads one Quince product's variant-level sizes and colors, price, traditional-retail… | 🟢 |
+| `quince.searchProducts` | quince.com | Searches Quince's live apparel catalog (quince.com clothing store) for what a shopper… | 🟢 |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
 | `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | 🟡 |
 | `reddit.browseSubreddits` | reddit.com | Lists communities without a query — Reddit's own most-popular and newest communities… | 🟢 |
@@ -1966,7 +1968,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reuters.getQuote` | www.reuters.com | The current Reuters quote for one instrument by RIC — a stock, index, currency pair or… | 🟢 |
 | `reuters.getVideo` | www.reuters.com | One Reuters video: title, description, duration, published time, thumbnail and its… | ⚪ |
 | `reuters.listArticlesByDate` | www.reuters.com | Every Reuters story published on one calendar day — headline, url and time — from the… | 🟢 |
-| `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | ⚪ |
+| `reuters.listCompanyNews` | www.reuters.com | The latest Reuters stories about one company, newest first. | 🟢 |
 | `reuters.listFollowedTopics` | www.reuters.com | The topics the signed-in reader follows in My News. | ⚪ |
 | `reuters.listGraphics` | www.reuters.com | Reuters Graphics — the interactive data stories and explainers — with title, url and… | 🟢 |
 | `reuters.listHeadlines` | www.reuters.com | The stories a Reuters section front shows right now, in the page's own order… | 🟢 |

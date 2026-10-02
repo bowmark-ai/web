@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: aa21d9ac705ef18b17611de2c97c9a6e55e682a7bfb89265a8fcb59c04041268
-// 1745 checked, 20 unchecked.
+// Manifest version: a14f8e99ea6f37ccb806f0c24ba6e027746f55bd6388324cd4c6fe52055a2e27
+// 1748 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "aa21d9ac705ef18b17611de2c97c9a6e55e682a7bfb89265a8fcb59c04041268",
+  "version": "a14f8e99ea6f37ccb806f0c24ba6e027746f55bd6388324cd4c6fe52055a2e27",
   "units": {
     "address_validation": {
       "defs": {
@@ -39691,6 +39691,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListCompanyNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ric",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListGraphicsArgs": {
           "k": "object",
           "props": [
@@ -40005,6 +40024,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetQuoteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCompanyNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCompanyNewsArgs"
             },
             "optional": false
           }
@@ -44266,6 +44295,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GuardianGetLiveBlogArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "liveBlogUrlOrId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GuardianGetReviewArgs": {
           "k": "object",
           "props": [
@@ -44451,6 +44492,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GuardianListLiveBlogsArgs"
             },
             "optional": true
+          }
+        ],
+        "getLiveBlog": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianGetLiveBlogArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -46595,6 +46646,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListWatchHistoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListWatchLaterArgs": {
           "k": "object",
           "props": [
@@ -46904,6 +46967,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListWatchLaterArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWatchHistory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListWatchHistoryArgs"
             },
             "optional": true
           },

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: aa21d9ac705ef18b17611de2c97c9a6e55e682a7bfb89265a8fcb59c04041268
-// 73 capabilities, 511 providers, 1763 typed functions, 20 refused.
+// Manifest version: a14f8e99ea6f37ccb806f0c24ba6e027746f55bd6388324cd4c6fe52055a2e27
+// 73 capabilities, 511 providers, 1766 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3132,23 +3132,27 @@ type UrlsResult = {
      * want to wait on: it never opens a browser, returns in ~200ms, and still sets
      * `escalationReason` so you learn the page needed one. Several urls? Pass them to
      * `read.pages`, not a loop of `page()` calls — a loop's reads add up, and three slow ones
-     * outlast the client, while `pages` holds the whole batch to the same 55s. **A price you need
-     * bound to a specific item is the one thing the default `"markdown"` format cannot promise** —
-     * it flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
-     * size/color/variant; `warnings` names it when the page carries the structured data to prove
-     * it, but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside its own
-     * item's markup. **`content` is the page's TEXT, and the browser leg does not change that** —
-     * `servedBy: "browser"` means the page rendered, not that every widget on it became words. A
-     * booking calendar whose open and blocked days are drawn only by styling, a widget inside a
-     * cross-origin iframe or a canvas, and a rate or quote the page shows only after dates are
-     * picked or a form is filled come back as bare day numbers, empty characters or nothing at all
-     * — usually with `ok: true` and no warning. So a missing price or availability here is not
-     * proof the page has none: putting the dates in the url is worth one try, and past that use
-     * the site's own provider if `get_library` has one, or `bowmark.browser_agent.start` to
-     * operate the widget. RUN-ONLY: because the rung is decided per call, neither `session()` nor
-     * the bare top-level `bowmark` client (which opens a session internally, even for one call)
-     * can serve this — both are refused with code "rung_undeclared". Call it through `run()`
-     * instead.
+     * outlast the client, while `pages` holds the whole batch to the same 55s. **Hitting a site's
+     * own JSON endpoint? Read `result.json`, never `content`** — `const { json } = await
+     * bowmark.read.page(apiUrl)` hands back the parsed body directly, unfenced, whenever the
+     * response is JSON (a `json` content-type, or a body that parses whole). Do not hand-strip a
+     * ``` fence from `content` to `JSON.parse` it yourself; `json` is absent on every non-JSON
+     * page and costs nothing otherwise. **A price you need bound to a specific item is the one
+     * thing the default `"markdown"` format cannot promise** — it flattens the DOM, so a price can
+     * end up textually next to a link for a DIFFERENT size/color/variant; `warnings` names it when
+     * the page carries the structured data to prove it, but the safe read is `{ format:
+     * "cleanHtml" }`, which keeps the price inside its own item's markup. **`content` is the
+     * page's TEXT, and the browser leg does not change that** — `servedBy: "browser"` means the
+     * page rendered, not that every widget on it became words. A booking calendar whose open and
+     * blocked days are drawn only by styling, a widget inside a cross-origin iframe or a canvas,
+     * and a rate or quote the page shows only after dates are picked or a form is filled come back
+     * as bare day numbers, empty characters or nothing at all — usually with `ok: true` and no
+     * warning. So a missing price or availability here is not proof the page has none: putting the
+     * dates in the url is worth one try, and past that use the site's own provider if
+     * `get_library` has one, or `bowmark.browser_agent.start` to operate the widget. RUN-ONLY:
+     * because the rung is decided per call, neither `session()` nor the bare top-level `bowmark`
+     * client (which opens a session internally, even for one call) can serve this — both are
+     * refused with code "rung_undeclared". Call it through `run()` instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -38248,6 +38252,10 @@ interface ReutersQuote {
 interface GetQuoteArgs {
   ric: string;                     // a RIC from searchCompanies, e.g. "AAPL.O", ".SPX", "EUR=X", "CLc1"
 }
+interface ListCompanyNewsArgs {
+  ric: string;                     // a RIC from searchCompanies, e.g. "AAPL.O"
+  limit?: number;                   // 1-200, default 50
+}
 
   /**
    * Reuters news and market data — headlines, latest wire stories, search, full articles, live
@@ -38349,6 +38357,14 @@ interface GetQuoteArgs {
      * Takes a RIC from searchCompanies.
      */
     getQuote(args: GetQuoteArgs): Promise<ReutersQuote>;
+
+    /**
+     * The latest Reuters stories about one company, newest first — headline, url, section,
+     * published time, lead image and tickers — filtered off the site's own news sitemap by RIC.
+     * Covers roughly the last two days, the same window listLatestNews reaches. Takes a RIC from
+     * searchCompanies.
+     */
+    listCompanyNews(args: ListCompanyNewsArgs): Promise<ReutersLatestStory[]>;
   }
 }
 
@@ -42046,6 +42062,37 @@ interface GuardianGetReviewArgs {
 interface GuardianListLiveBlogsArgs {
   limit?: number;
 }
+interface GuardianLiveBlogBlock {
+  /** The block's publication timestamp. */
+  blockFirstPublished: string | null;
+  /** The block's last-updated timestamp. */
+  blockLastUpdated: string | null;
+  /** Optional title for this update within the live blog. */
+  title: string | null;
+  /** The update content, one entry per paragraph, tags stripped. */
+  paragraphs: string[];
+  body: string;
+  /** Whether this block is pinned to the top. */
+  pinned: boolean;
+  /** Whether this block marks a key event. */
+  keyEvent: boolean;
+}
+interface GuardianGetLiveBlogArgs {
+  /** The live blog article's URL or the path from listLiveBlogs, e.g. "world/live/2026/sep/27/breaking-news-updates". */
+  liveBlogUrlOrId: string;
+}
+interface GuardianLiveBlog {
+  id: string;
+  url: string;
+  headline: string;
+  standfirst: string | null;
+  byline: string | null;
+  published: string | null;
+  section: string | null;
+  tags: { id: string; title: string; type: string }[];
+  /** Array of update blocks, newest first. */
+  blocks: GuardianLiveBlogBlock[];
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -42133,6 +42180,13 @@ interface GuardianListLiveBlogsArgs {
      * time.
      */
     listLiveBlogs(args?: GuardianListLiveBlogsArgs): Promise<GuardianListArticlesResult>;
+
+    /**
+     * The full text of one Guardian live blog: headline, standfirst, byline, publish time,
+     * section, tags and the update blocks (each with title, timestamps and content). Takes a
+     * theguardian.com URL or the path listLiveBlogs returns as `id`.
+     */
+    getLiveBlog(args: GuardianGetLiveBlogArgs): Promise<GuardianLiveBlog>;
   }
 }
 
@@ -44496,6 +44550,10 @@ interface ListWatchLaterArgs {
   /** Max videos to return, 1-100. Default 20. */
   limit?: number;
 }
+interface ListWatchHistoryArgs {
+  /** Max videos to return, 1-100. Default 20. */
+  limit?: number;
+}
 
   /**
    * Twitch — cut a Highlight of your own broadcast, including the one still live, and read any
@@ -44614,6 +44672,13 @@ interface ListWatchLaterArgs {
      * sign-in. Returns one page — up to `limit`, default 20, max 100.
      */
     listWatchLater(args?: ListWatchLaterArgs, opts?: ConnectionOption): Promise<TwitchVideo[]>;
+
+    /**
+     * Lists recently watched streams and VODs for the signed-in user, newest watched first: id,
+     * title, length in seconds, status, type, creation date and channel login. NEEDS the viewer's
+     * Twitch sign-in. Returns one page — up to `limit`, default 20, max 100.
+     */
+    listWatchHistory(args?: ListWatchHistoryArgs, opts?: ConnectionOption): Promise<TwitchVideo[]>;
   }
 }
 

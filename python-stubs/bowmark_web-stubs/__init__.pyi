@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: aa21d9ac705ef18b17611de2c97c9a6e55e682a7bfb89265a8fcb59c04041268
-# 73 capabilities, 511 providers, 1745 typed functions, 20 refused.
+# Manifest version: a14f8e99ea6f37ccb806f0c24ba6e027746f55bd6388324cd4c6fe52055a2e27
+# 73 capabilities, 511 providers, 1748 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -20829,6 +20829,10 @@ class Prv_reuters_ReutersQuote_Out(TypedDict):
     dividendYield: float | None
     asOf: str
 
+class Prv_reuters_ListCompanyNewsArgs_In(TypedDict):
+    ric: str
+    limit: NotRequired[float]
+
 class Prv_revisionskincare_RevisionQuizQuestions_Out(TypedDict):
     quizId: str
     channelQuizId: str
@@ -23025,6 +23029,34 @@ class Prv_theguardian_com_GuardianGetReviewArgs_In(TypedDict):
 class Prv_theguardian_com_GuardianListLiveBlogsArgs_In(TypedDict):
     limit: NotRequired[float]
 
+class Prv_theguardian_com_GuardianGetLiveBlogArgs_In(TypedDict):
+    liveBlogUrlOrId: str
+
+class Prv_theguardian_com_GuardianLiveBlog_Out(TypedDict):
+    id: str
+    url: str
+    headline: str
+    standfirst: str | None
+    byline: str | None
+    published: str | None
+    section: str | None
+    tags: list[Prv_theguardian_com_GuardianLiveBlog_Out_tags_item_Out]
+    blocks: list[Prv_theguardian_com_GuardianLiveBlogBlock_Out]
+
+class Prv_theguardian_com_GuardianLiveBlog_Out_tags_item_Out(TypedDict):
+    id: str
+    title: str
+    type: str
+
+class Prv_theguardian_com_GuardianLiveBlogBlock_Out(TypedDict):
+    blockFirstPublished: str | None
+    blockLastUpdated: str | None
+    title: str | None
+    paragraphs: list[str]
+    body: str
+    pinned: bool
+    keyEvent: bool
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -24362,6 +24394,9 @@ class Prv_twitch_TwitchChatMessage_Out(TypedDict):
     body: str
 
 class Prv_twitch_ListWatchLaterArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_twitch_ListWatchHistoryArgs_In(TypedDict):
     limit: NotRequired[float]
 
 class Prv_uber_DriverEarnings_Out(TypedDict):
@@ -28293,23 +28328,27 @@ class Cap_read(Protocol):
         returns in ~200ms, and still sets `escalationReason` so you learn the page needed one.
         Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a loop's reads
         add up, and three slow ones outlast the client, while `pages` holds the whole batch to
-        the same 55s. **A price you need bound to a specific item is the one thing the default
-        `"markdown"` format cannot promise** — it flattens the DOM, so a price can end up
-        textually next to a link for a DIFFERENT size/color/variant; `warnings` names it when
-        the page carries the structured data to prove it, but the safe read is `{ format:
-        "cleanHtml" }`, which keeps the price inside its own item's markup. **`content` is the
-        page's TEXT, and the browser leg does not change that** — `servedBy: "browser"` means
-        the page rendered, not that every widget on it became words. A booking calendar whose
-        open and blocked days are drawn only by styling, a widget inside a cross-origin iframe
-        or a canvas, and a rate or quote the page shows only after dates are picked or a form is
-        filled come back as bare day numbers, empty characters or nothing at all — usually with
-        `ok: true` and no warning. So a missing price or availability here is not proof the page
-        has none: putting the dates in the url is worth one try, and past that use the site's
-        own provider if `get_library` has one, or `bowmark.browser_agent.start` to operate the
-        widget. RUN-ONLY: because the rung is decided per call, neither `session()` nor the bare
-        top-level `bowmark` client (which opens a session internally, even for one call) can
-        serve this — both are refused with code "rung_undeclared". Call it through `run()`
-        instead.
+        the same 55s. **Hitting a site's own JSON endpoint? Read `result.json`, never
+        `content`** — `const { json } = await bowmark.read.page(apiUrl)` hands back the parsed
+        body directly, unfenced, whenever the response is JSON (a `json` content-type, or a body
+        that parses whole). Do not hand-strip a ``` fence from `content` to `JSON.parse` it
+        yourself; `json` is absent on every non-JSON page and costs nothing otherwise. **A price
+        you need bound to a specific item is the one thing the default `"markdown"` format
+        cannot promise** — it flattens the DOM, so a price can end up textually next to a link
+        for a DIFFERENT size/color/variant; `warnings` names it when the page carries the
+        structured data to prove it, but the safe read is `{ format: "cleanHtml" }`, which keeps
+        the price inside its own item's markup. **`content` is the page's TEXT, and the browser
+        leg does not change that** — `servedBy: "browser"` means the page rendered, not that
+        every widget on it became words. A booking calendar whose open and blocked days are
+        drawn only by styling, a widget inside a cross-origin iframe or a canvas, and a rate or
+        quote the page shows only after dates are picked or a form is filled come back as bare
+        day numbers, empty characters or nothing at all — usually with `ok: true` and no
+        warning. So a missing price or availability here is not proof the page has none: putting
+        the dates in the url is worth one try, and past that use the site's own provider if
+        `get_library` has one, or `bowmark.browser_agent.start` to operate the widget. RUN-ONLY:
+        because the rung is decided per call, neither `session()` nor the bare top-level
+        `bowmark` client (which opens a session internally, even for one call) can serve this —
+        both are refused with code "rung_undeclared". Call it through `run()` instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -41677,6 +41716,13 @@ class Prv_reuters(Protocol):
         time. Takes a RIC from searchCompanies.
         """
 
+    async def listCompanyNews(self, args: Prv_reuters_ListCompanyNewsArgs_In, /) -> list[Prv_reuters_ReutersLatestStory_Out]:
+        """The latest Reuters stories about one company, newest first — headline, url, section,
+        published time, lead image and tickers — filtered off the site's own news sitemap by
+        RIC. Covers roughly the last two days, the same window listLatestNews reaches. Takes a
+        RIC from searchCompanies.
+        """
+
 class Prv_revisionskincare(Protocol):
     """Reads and answers Revision Skincare's own Product Finder Quiz
     (revisionskincare.com/pages/skincare-quiz), returning the site's real computed product
@@ -42950,6 +42996,12 @@ class Prv_theguardian_com(Protocol):
         time.
         """
 
+    async def getLiveBlog(self, args: Prv_theguardian_com_GuardianGetLiveBlogArgs_In, /) -> Prv_theguardian_com_GuardianLiveBlog_Out:
+        """The full text of one Guardian live blog: headline, standfirst, byline, publish time,
+        section, tags and the update blocks (each with title, timestamps and content). Takes a
+        theguardian.com URL or the path listLiveBlogs returns as `id`.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -43867,6 +43919,12 @@ class Prv_twitch(Protocol):
         """Lists videos the signed-in user has saved to watch later, newest saved first: id, title,
         length in seconds, status, type, creation date and channel login. NEEDS the viewer's
         Twitch sign-in. Returns one page — up to `limit`, default 20, max 100.
+        """
+
+    async def listWatchHistory(self, args: Prv_twitch_ListWatchHistoryArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_twitch_TwitchVideo_Out]:
+        """Lists recently watched streams and VODs for the signed-in user, newest watched first:
+        id, title, length in seconds, status, type, creation date and channel login. NEEDS the
+        viewer's Twitch sign-in. Returns one page — up to `limit`, default 20, max 100.
         """
 
 class Prv_uber(Protocol):

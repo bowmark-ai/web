@@ -1,5 +1,5 @@
 {
-  "version": "aa21d9ac705ef18b17611de2c97c9a6e55e682a7bfb89265a8fcb59c04041268",
+  "version": "a14f8e99ea6f37ccb806f0c24ba6e027746f55bd6388324cd4c6fe52055a2e27",
   "units": {
     "address_validation": {
       "defs": {
@@ -39679,6 +39679,25 @@
             }
           ]
         },
+        "ListCompanyNewsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "ric",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListGraphicsArgs": {
           "k": "object",
           "props": [
@@ -39993,6 +40012,16 @@
             "schema": {
               "k": "ref",
               "name": "GetQuoteArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCompanyNews": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCompanyNewsArgs"
             },
             "optional": false
           }
@@ -44254,6 +44283,18 @@
             }
           ]
         },
+        "GuardianGetLiveBlogArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "liveBlogUrlOrId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GuardianGetReviewArgs": {
           "k": "object",
           "props": [
@@ -44439,6 +44480,16 @@
               "name": "GuardianListLiveBlogsArgs"
             },
             "optional": true
+          }
+        ],
+        "getLiveBlog": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianGetLiveBlogArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -46583,6 +46634,18 @@
             }
           ]
         },
+        "ListWatchHistoryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListWatchLaterArgs": {
           "k": "object",
           "props": [
@@ -46892,6 +46955,32 @@
             "schema": {
               "k": "ref",
               "name": "ListWatchLaterArgs"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listWatchHistory": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListWatchHistoryArgs"
             },
             "optional": true
           },
