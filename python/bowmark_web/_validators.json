@@ -1,5 +1,5 @@
 {
-  "version": "d152afa0961a064415a97440c51d9df5de84780f4108148288d1279519da92d4",
+  "version": "36f3db7943e4aedcff7e16f63d8631d905964634a185d1576578d01bbf95a21f",
   "units": {
     "booking_links": {
       "defs": {
@@ -21240,6 +21240,52 @@
           },
           {
             "name": "issueNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "body",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateComment": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "commentId",
             "schema": {
               "k": "number"
             },
@@ -48032,6 +48078,16 @@
             "optional": false
           }
         ],
+        "getAlmanac": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          }
+        ],
         "getPollenForecast": [
           {
             "name": "location",
@@ -50003,6 +50059,120 @@
                         "v": "year"
                       }
                     ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "type",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "video"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "channel"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "playlist"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "movie"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "shorts"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "duration",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "short"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "medium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "long"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "features",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "literal",
+                          "v": "live"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "4k"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "hd"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "subtitles"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "creativeCommons"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "360"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "vr180"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "3d"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "hdr"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "location"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "purchased"
+                        }
+                      ]
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortBy",
+                  "schema": {
+                    "k": "literal",
+                    "v": "popularity"
                   },
                   "optional": true
                 }

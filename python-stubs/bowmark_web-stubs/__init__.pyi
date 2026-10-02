@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d152afa0961a064415a97440c51d9df5de84780f4108148288d1279519da92d4
-# 71 capabilities, 508 providers, 1724 typed functions, 20 refused.
+# Manifest version: 36f3db7943e4aedcff7e16f63d8631d905964634a185d1576578d01bbf95a21f
+# 71 capabilities, 508 providers, 1726 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11601,6 +11601,12 @@ class Prv_github_GithubCommentCreated_Out(TypedDict):
     body: str
     url: str
     createdAt: str
+
+class Prv_github_GithubCommentUpdated_Out(TypedDict):
+    id: float
+    body: str
+    url: str
+    updatedAt: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -25194,6 +25200,20 @@ class Prv_weather_channel_Pollutant_Out(TypedDict):
     categoryIndex: float | None
     index: float | None
 
+class Prv_weather_channel_AlmanacResult_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    days: list[Prv_weather_channel_AlmanacDay_Out]
+
+class Prv_weather_channel_AlmanacDay_Out(TypedDict):
+    date: str
+    dayOfWeek: str
+    normalHigh: float | None
+    normalLow: float | None
+    recordHigh: float | None
+    recordLow: float | None
+    recordHighYear: float | None
+    recordLowYear: float | None
+
 class Prv_weather_channel_PollenForecastResult_Out(TypedDict):
     location: Prv_weather_channel_WeatherLocation_Out | None
     dayparts: list[Prv_weather_channel_PollenDaypart_Out]
@@ -26282,6 +26302,10 @@ class Prv_yourarborhome_ArborHome_Out_address_Out(TypedDict):
 class Prv_youtube_search_input_In(TypedDict):
     query: str
     uploadedWithin: NotRequired[Literal["today"] | Literal["week"] | Literal["month"] | Literal["year"]]
+    type: NotRequired[Literal["video"] | Literal["channel"] | Literal["playlist"] | Literal["movie"] | Literal["shorts"]]
+    duration: NotRequired[Literal["short"] | Literal["medium"] | Literal["long"]]
+    features: NotRequired[Sequence[Literal["live"] | Literal["4k"] | Literal["hd"] | Literal["subtitles"] | Literal["creativeCommons"] | Literal["360"] | Literal["vr180"] | Literal["3d"] | Literal["hdr"] | Literal["location"] | Literal["purchased"]]]
+    sortBy: NotRequired[Literal["popularity"]]
 
 class Prv_youtube_YoutubeSearchVideo_Out(TypedDict):
     videoId: str
@@ -34838,6 +34862,18 @@ class Prv_github(Protocol):
         is the comment text (markdown). Returns the created comment's id, body, URL, and
         creation timestamp. THROWS on an unknown owner/repo/issue number (404), when signed out
         or the saved session is invalid (401), or on a permission error (403).
+        """
+
+    async def updateComment(self, owner: str, repo: str, commentId: float, body: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentUpdated_Out:
+        """Edits an existing comment on an issue or pull request, off GitHub's own documented REST
+        endpoint (`PATCH /repos/{owner}/{repo}/issues/comments/{comment_id}`) — the same door
+        edits a comment on an issue or a pull request's conversation, since GitHub treats both
+        as issue threads here. NEEDS THE CALLER SIGNED IN and requires write access to the
+        comment (its own or, with repo permissions, anyone's). `commentId` is the comment's own
+        id, e.g. from `createComment`'s result. `body` replaces the comment text (markdown)
+        entirely. Returns the updated comment's id, body, URL, and update timestamp. THROWS on
+        an unknown comment id (404), when signed out or the saved session is invalid or lacks
+        write access (401/403), or on an unexpected response shape.
         """
 
 class Prv_glama(Protocol):
@@ -44016,6 +44052,12 @@ class Prv_weather_channel(Protocol):
         PM2.5, SO2) with each one's amount, unit and category.
         """
 
+    async def getAlmanac(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_AlmanacResult_Out:
+        """Historical climate normals (5-day) for any location using weather.com's API — e.g.
+        `getAlmanac("Toronto")`. Returns for each day the normal high/low temperatures, record
+        high/low temperatures, and the years those records were set.
+        """
+
     async def getPollenForecast(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_PollenForecastResult_Out:
         """The Weather Channel's 7-day allergy forecast for a place — e.g.
         `getPollenForecast("Kansas City")` — the same day/night pollen breakdown the site's
@@ -44664,10 +44706,14 @@ class Prv_youtube(Protocol):
         """Searches YouTube the way its search box does and returns the videos on the results page
         — id, url, title, channel, upload age, length and views. `lengthSeconds` sits beside
         `length` so a time budget can be compared without parsing the display string.
-        `uploadedWithin` applies YouTube's own upload-date filter. Rows come back in YouTube's
-        own order either way, which is NOT newest first, so sort on `publishedAgeSeconds`
-        (smaller is newer) to find the most recent. Pass a video's `url` or `videoId` straight
-        to `getTranscript`.
+        `uploadedWithin`, `type`, `duration`, `features` and `sortBy` apply YouTube's own search
+        filters (the same panel a browser shows), and compose — pass several at once, e.g. a
+        short, captioned video from this week. `duration: "short"` is YouTube's own "Under 3
+        minutes" band, `"medium"` is 3-20 minutes, `"long"` is over 20. `sortBy: "popularity"`
+        is the only sort besides relevance the site itself offers today. Rows come back in
+        YouTube's own order otherwise, which is NOT newest first, so sort on
+        `publishedAgeSeconds` (smaller is newer) to find the most recent. Pass a video's `url`
+        or `videoId` straight to `getTranscript`.
         """
 
     async def suggestSearches(self, input: Prv_youtube_suggestSearches_input_In, /) -> list[str]:

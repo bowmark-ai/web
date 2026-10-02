@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d152afa0961a064415a97440c51d9df5de84780f4108148288d1279519da92d4
-// 1724 checked, 20 unchecked.
+// Manifest version: 36f3db7943e4aedcff7e16f63d8631d905964634a185d1576578d01bbf95a21f
+// 1726 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d152afa0961a064415a97440c51d9df5de84780f4108148288d1279519da92d4",
+  "version": "36f3db7943e4aedcff7e16f63d8631d905964634a185d1576578d01bbf95a21f",
   "units": {
     "booking_links": {
       "defs": {
@@ -21252,6 +21252,52 @@ export const VALIDATORS: ValidatorTable = {
           },
           {
             "name": "issueNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "body",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updateComment": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "commentId",
             "schema": {
               "k": "number"
             },
@@ -48044,6 +48090,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getAlmanac": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          }
+        ],
         "getPollenForecast": [
           {
             "name": "location",
@@ -50015,6 +50071,120 @@ export const VALIDATORS: ValidatorTable = {
                         "v": "year"
                       }
                     ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "type",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "video"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "channel"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "playlist"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "movie"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "shorts"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "duration",
+                  "schema": {
+                    "k": "union",
+                    "of": [
+                      {
+                        "k": "literal",
+                        "v": "short"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "medium"
+                      },
+                      {
+                        "k": "literal",
+                        "v": "long"
+                      }
+                    ]
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "features",
+                  "schema": {
+                    "k": "array",
+                    "of": {
+                      "k": "union",
+                      "of": [
+                        {
+                          "k": "literal",
+                          "v": "live"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "4k"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "hd"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "subtitles"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "creativeCommons"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "360"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "vr180"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "3d"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "hdr"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "location"
+                        },
+                        {
+                          "k": "literal",
+                          "v": "purchased"
+                        }
+                      ]
+                    }
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "sortBy",
+                  "schema": {
+                    "k": "literal",
+                    "v": "popularity"
                   },
                   "optional": true
                 }
