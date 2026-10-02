@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2597 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2599 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -624,7 +624,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | 🟢 |
 | `cnn.listTrendingTopics` | www.cnn.com | The stories CNN's own recommendation engine currently ranks as trending — headline… | 🟢 |
 | `cnn.listVideos` | www.cnn.com | The videos CNN currently lists on its video hub — clips and segments with headline… | 🟢 |
-| `cnn.searchArticles` | www.cnn.com | Search for news articles across CNN — takes what a person would say ("breaking news"… | 🟢 |
+| `cnn.searchArticles` | www.cnn.com | Search CNN — takes what a person would say ("breaking news", "inflation", "2024… | 🟢 |
 | `coast.getFleetCardPricing` | coastpay.com | Reads Coast's own pricing page and returns its real, current per-active-user monthly… | 🟢 |
 | `coast.getFuelRebate` | coastpay.com | Reads Coast's own pricing page and returns its published per-gallon rebate range at… | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
@@ -674,7 +674,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dell.getOrderDetails` | dell.com | Retrieves detailed information about a specific order, including items, pricing, and… | 🟢 |
 | `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟡 |
 | `dell.getProductDrivers` | dell.com | Searches for and retrieves drivers for a Dell product by service tag or model number. | ⚪ |
-| `dell.getRegisteredProductDetails` | dell.com | Retrieves detailed information about a registered Dell product including warranty and… | ⚪ |
+| `dell.getRegisteredProductDetails` | dell.com | Retrieves details for a specific registered product. | 🟢 |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | 🟢 |
 | `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag. | ⚪ |
 | `dell.listDealProducts` | dell.com | Retrieves current promotions and deals from Dell's offers section. | 🟢 |
@@ -712,6 +712,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `dillards.getProduct` | dillards.com | Reads one product's own page — full name, brand, description, primary image plus every… | 🟢 |
 | `dillards.search` | dillards.com | Searches dillards.com's catalog for a keyword and returns the matching products the… | 🟢 |
 | `dillards.searchRegistry` | dillards.com | Searches Dillard's wedding/gift registry (dillards.com/registry) — a distinctive… | 🟢 |
+| `discord.getDocPage` | docs.discord.com | Reads one Discord developer docs page by url or path (e.g.… | 🟢 |
+| `discord.listDocPages` | docs.discord.com | Lists every page of Discord's developer documentation (REST resources, Gateway… | 🟢 |
 | `discounttire.checkStock` | discounttire.com | Checks whether a specific tire or wheel is actually gettable near a given place — the… | 🟢 |
 | `discounttire.findStores` | discounttire.com | Finds Discount Tire and America's Tire locations near a ZIP, city or coordinate —… | ⚪ |
 | `discounttire.getAppointmentAvailability` | discounttire.com | Reads the installation appointment slots a given store has open — which days and times… | ⚪ |
@@ -1577,7 +1579,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `mossyoak.listMossyoakProducts` | mossyoak.com | Reads the live Mossy Oak catalogue as the storefront publishes it — every camo-apparel… | 🟢 |
 | `mossyoak.searchProducts` | mossyoak.com | Reads the same live catalogue listMossyoakProducts does and filters it by product type… | 🟢 |
 | `msc.trackShipment` | msc.com | Track MSC container and shipment status — get real-time location, current status, and… | 🟡 |
-| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | 🟡 |
+| `msn.getArticle` | msn.com | Reads one MSN article's full text, byline, publish time and images off its own article… | ⚪ |
 | `msn.getMarketSummary` | msn.com | Reads the Dow Jones Industrial Average, S&P 500 and NASDAQ Composite — the same three… | 🟢 |
 | `msn.getSectionFeed` | msn.com | Returns the current top-stories feed the way msn.com/en-us/<section> does for a… | 🟢 |
 | `msn.getStockQuote` | msn.com | Reads one ticker's current price, day range, 52-week range, volume, market cap and P/E… | 🟢 |
@@ -2472,7 +2474,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.getImage` | wikipedia.org | One media file's real details — the full-size url, dimensions, MIME type, and the… | 🟢 |
 | `wikipedia.getInfobox` | wikipedia.org | The grey fact box at the top right of an article, as key/value pairs a caller can… | 🟡 |
 | `wikipedia.getOnThisDay` | wikipedia.org | What happened on this calendar day in history, according to Wikipedia — events… | ⚪ |
-| `wikipedia.getPageviews` | wikipedia.org | How many people actually read an article, per day, over a date range — the closest… | ⚪ |
+| `wikipedia.getPageviews` | wikipedia.org | How many people actually read an article, per day, over a date range — the closest… | 🟢 |
 | `wikipedia.getRandomArticle` | wikipedia.org | A genuinely random Wikipedia article, or several — title, url and summary. | ⚪ |
 | `wikipedia.getRevision` | wikipedia.org | One specific revision of an article by id — its content, editor, timestamp, size and… | 🟢 |
 | `wikipedia.getSection` | wikipedia.org | One named or numbered section of an article as plain text, without downloading the… | 🟢 |
@@ -2540,7 +2542,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and current-season stat line off their own player page —… | 🟢 |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | 🟢 |
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟡 |
-| `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads today's games for one league — NFL, NBA, MLB, NHL, college football, college… | 🟢 |
+| `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads games for one league — NFL, NBA, MLB, NHL, college football, college basketball… | 🟢 |
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟡 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟡 |

@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 6746a3cfcbb0f47096331ade4d88c5ef9164e506de901f2f8827691a77938859
+# Manifest version: 2574460e007ec20c09caa2aff1d3898d0ea1bd39b9ee167d55228285a542633a
 # 71 capabilities, 506 providers, 1717 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -26216,6 +26216,7 @@ class Prv_youtube_YoutubeSearchVideo_Out(TypedDict):
     published: str | None
     publishedAgeSeconds: float | None
     length: str | None
+    lengthSeconds: float | None
     views: float | None
     thumbnail: str | None
 
@@ -44527,10 +44528,12 @@ class Prv_youtube(Protocol):
 
     async def search(self, input: Prv_youtube_search_input_In, /) -> list[Prv_youtube_YoutubeSearchVideo_Out]:
         """Searches YouTube the way its search box does and returns the videos on the results page
-        — id, url, title, channel, upload age, length and views. `uploadedWithin` applies
-        YouTube's own upload-date filter. Rows come back in YouTube's own order either way,
-        which is NOT newest first, so sort on `publishedAgeSeconds` (smaller is newer) to find
-        the most recent. Pass a video's `url` or `videoId` straight to `getTranscript`.
+        — id, url, title, channel, upload age, length and views. `lengthSeconds` sits beside
+        `length` so a time budget can be compared without parsing the display string.
+        `uploadedWithin` applies YouTube's own upload-date filter. Rows come back in YouTube's
+        own order either way, which is NOT newest first, so sort on `publishedAgeSeconds`
+        (smaller is newer) to find the most recent. Pass a video's `url` or `videoId` straight
+        to `getTranscript`.
         """
 
     async def suggestSearches(self, input: Prv_youtube_suggestSearches_input_In, /) -> list[str]:

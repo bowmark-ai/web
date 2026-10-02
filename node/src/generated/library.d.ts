@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 6746a3cfcbb0f47096331ade4d88c5ef9164e506de901f2f8827691a77938859
+// Manifest version: 2574460e007ec20c09caa2aff1d3898d0ea1bd39b9ee167d55228285a542633a
 // 71 capabilities, 506 providers, 1735 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -47526,6 +47526,7 @@ interface YoutubeSearchVideo {
   published: string | null;          // YouTube's own phrase, e.g. "4 weeks ago"
   publishedAgeSeconds: number | null; // that phrase in seconds, to order newest-first
   length: string | null;             // e.g. "22:28"; null for a live stream
+  lengthSeconds: number | null;      // length in whole seconds; null exactly when length is
   views: number | null;
   thumbnail: string | null;
 }
@@ -47886,10 +47887,11 @@ interface YoutubeStreamFormat {
   interface Unit {
     /**
      * Searches YouTube the way its search box does and returns the videos on the results page —
-     * id, url, title, channel, upload age, length and views. `uploadedWithin` applies YouTube's
-     * own upload-date filter. Rows come back in YouTube's own order either way, which is NOT
-     * newest first, so sort on `publishedAgeSeconds` (smaller is newer) to find the most recent.
-     * Pass a video's `url` or `videoId` straight to `getTranscript`.
+     * id, url, title, channel, upload age, length and views. `lengthSeconds` sits beside `length`
+     * so a time budget can be compared without parsing the display string. `uploadedWithin`
+     * applies YouTube's own upload-date filter. Rows come back in YouTube's own order either way,
+     * which is NOT newest first, so sort on `publishedAgeSeconds` (smaller is newer) to find the
+     * most recent. Pass a video's `url` or `videoId` straight to `getTranscript`.
      */
     search(input: { query: string; uploadedWithin?: "today" | "week" | "month" | "year" }): Promise<YoutubeSearchVideo[]>;
 
