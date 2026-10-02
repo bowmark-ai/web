@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2601 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2605 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -586,6 +586,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `christianbrothersauto.checkAppointmentAvailability` | cbac.com | Checks real, currently-open appointment slots at one Christian Brothers Automotive… | 🟢 |
 | `christianbrothersauto.getShopDetails` | cbac.com | Resolves a Christian Brothers Automotive shop — by its scheduler slug (e.g.… | 🟢 |
 | `christydawn.search` | christydawn.com | Searches the Christy Dawn catalog for clothing and returns matching product rows with… | 🟢 |
+| `chromium_googlesource_com.getFile` | chromium.googlesource.com | Reads one source code file from a chromium.googlesource.com repository by gitiles url… | 🟢 |
+| `chromium_googlesource_com.listDirectory` | chromium.googlesource.com | Lists one directory of a chromium.googlesource.com repository (default chromium/src at… | 🟢 |
+| `chromium_googlesource_com.listRepos` | chromium.googlesource.com | Lists every git repository hosted on chromium.googlesource.com with its clone url and… | 🟢 |
+| `chromium_googlesource_com.searchCode` | chromium.googlesource.com | Full-text search across Chromium source (source.chromium.org's code search). | ⚪ |
 | `classichome.addToCart` | classichome.com | Resolves one exact fabric/leather choice to Classic Home's own real price… | 🟡 |
 | `classichome.getProduct` | classichome.com | Reads one product's real live fabric/leather picker: every real color/material choice… | 🟡 |
 | `classichome.searchProducts` | classichome.com | Searches Classic Home's real Made-to-Order catalog (sofas, chairs, ottomans) via the… | 🟢 |
@@ -1672,7 +1676,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getCrosswordMidi` | games.nytimes.com | Retrieves today's New York Times midi crossword puzzle. | 🟢 |
 | `nyt_games.getCrosswordMini` | games.nytimes.com | Retrieves today's New York Times mini crossword puzzle. | 🟢 |
 | `nyt_games.getLetterBoxed` | games.nytimes.com | Retrieves the daily Letter Boxed puzzle with grid and answer. | 🟢 |
-| `nyt_games.getMyStats` | games.nytimes.com | The signed-in player's per-game stats and streaks across all daily puzzles. | ⚪ |
+| `nyt_games.getMyStats` | games.nytimes.com | The signed-in player's per-game stats and streaks across all daily puzzles. | 🟢 |
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle — all three difficulties, each with its dominoes… | 🟢 |
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
 | `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme words, spangram, clue, board and… | 🟢 |
@@ -2539,7 +2543,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_mail.sendMessage` | mail.yahoo.com | Sends an email from the CALLER's own Yahoo Mail account. | ⚪ |
 | `yahoo_sports.findPlayers` | sports.yahoo.com | Finds players on one team's roster by name — the door for `getPlayer`, so a caller… | 🟢 |
 | `yahoo_sports.getFantasyLeague` | sports.yahoo.com | Reads the CALLER's own fantasy football league — standings and the current week's… | 🟢 |
-| `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full the way its own game page does — final or live score, box score… | 🟢 |
+| `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full off its own game page — final or live score, status, venue… | 🟢 |
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads a league's News tab — all story headlines, links, sources and publication times… | 🟢 |
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and current-season stat line off their own player page —… | 🟢 |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | 🟢 |
