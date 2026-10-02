@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 551bf2165daddf958f0e7dd0e0a1160bd999fa4d1bbfb670e5af440e9053b98a
-// 71 capabilities, 506 providers, 1734 typed functions, 20 refused.
+// Manifest version: ef0424df4beeec8d6a80776d1f6f1b37f093d0e636987db420da525ec60895ab
+// 71 capabilities, 506 providers, 1735 typed functions, 20 refused.
 // 51,717 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -45333,6 +45333,14 @@ interface walmartProduct {
   specText: string | null;
 }
 
+interface walmartSellerOffer {
+  sellerId: string | null;
+  sellerName: string;
+  price: number | null;
+  shipping: string | null;
+  condition: string | null; // the site's own labels — read the values off a result, never guess one from prose
+}
+
   /**
    * Walmart.com — product search, product detail, store-level stock, store locator and more.
    * Eight functions built: keyword search across the catalog, finding nearby stores by ZIP with
@@ -45403,6 +45411,12 @@ interface walmartProduct {
      * one-through-five-star counts, recommended percentage), for an item id `search` returned.
      */
     listReviews(args: { itemId: string }): Promise<walmartProductReviews>;
+
+    /**
+     * Lists every seller offering one item — Walmart itself and Marketplace sellers — with each
+     * one's price, shipping and condition.
+     */
+    listSellerOffers(args: { itemId: string }): Promise<walmartSellerOffer[]>;
 
     /**
      * Reads one product's full page — price, availability summary, images, brand, full

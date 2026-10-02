@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 551bf2165daddf958f0e7dd0e0a1160bd999fa4d1bbfb670e5af440e9053b98a
-# 71 capabilities, 506 providers, 1716 typed functions, 20 refused.
+# Manifest version: ef0424df4beeec8d6a80776d1f6f1b37f093d0e636987db420da525ec60895ab
+# 71 capabilities, 506 providers, 1717 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -24890,6 +24890,16 @@ class Prv_walmart_walmartReview_Out(TypedDict):
     authorName: str | None
     helpfulVotes: float
 
+class Prv_walmart_listSellerOffers_args_In(TypedDict):
+    itemId: str
+
+class Prv_walmart_walmartSellerOffer_Out(TypedDict):
+    sellerId: str | None
+    sellerName: str
+    price: float | None
+    shipping: str | None
+    condition: str | None
+
 class Prv_walmart_getProduct_args_In(TypedDict):
     itemId: str
 
@@ -43756,6 +43766,11 @@ class Prv_walmart(Protocol):
         """Reads a product's customer reviews — star rating, title, text, date, verified-purchase
         flag, author and helpful-vote count — plus the rating breakdown (average, total count,
         one-through-five-star counts, recommended percentage), for an item id `search` returned.
+        """
+
+    async def listSellerOffers(self, args: Prv_walmart_listSellerOffers_args_In, /) -> list[Prv_walmart_walmartSellerOffer_Out]:
+        """Lists every seller offering one item — Walmart itself and Marketplace sellers — with
+        each one's price, shipping and condition.
         """
 
     async def getProduct(self, args: Prv_walmart_getProduct_args_In, /) -> Prv_walmart_walmartProduct_Out:
