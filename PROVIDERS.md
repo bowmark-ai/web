@@ -2412,7 +2412,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.listPurchasedItems` | walmart.com | Lists the items the signed-in shopper has bought before — Walmart's 'My Items' /… | ⚪ |
 | `walmart.listQuestions` | walmart.com | Reads the customer questions and answers under a product. | ⚪ |
 | `walmart.listReviews` | walmart.com | Reads a product's customer reviews — star rating, title, text, date, verified-purchase… | 🟢 |
-| `walmart.listSellerOffers` | walmart.com | Lists every seller offering one item — Walmart itself and Marketplace sellers — with… | ⚪ |
+| `walmart.listSellerOffers` | walmart.com | Lists every seller offering one item — Walmart itself and Marketplace sellers — with… | 🟢 |
 | `walmart.removeFromCart` | walmart.com | Takes an item out of the cart. | ⚪ |
 | `walmart.removeFromList` | walmart.com | Removes an item from one of the shopper's saved lists. | ⚪ |
 | `walmart.search` | walmart.com | Searches walmart.com's catalog for a keyword and returns matching products — item id… | 🟢 |

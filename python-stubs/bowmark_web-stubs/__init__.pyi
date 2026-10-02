@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2873ecd2aaa79fd17749ed8f529c86e379957975246a30150ffc34349c70ffe3
+# Manifest version: 551bf2165daddf958f0e7dd0e0a1160bd999fa4d1bbfb670e5af440e9053b98a
 # 71 capabilities, 506 providers, 1716 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -23458,7 +23458,6 @@ class Prv_tradingview_SymbolSearchResult_Out(TypedDict):
     type: str
     isin: NotRequired[str]
     cusip: NotRequired[str]
-    description: NotRequired[str]
 
 class Prv_tradingview_Quote_Out(TypedDict):
     symbol: str
@@ -34583,11 +34582,13 @@ class Prv_github(Protocol):
         """Returns the full details of one pull request off GitHub's own unauthenticated REST
         single-PR endpoint — number, title, body, creator, state, draft flag, base/head branch
         names, merge status, whether it is locked, who closed it, a per-emoji reaction count
-        breakdown, and created/updated/closed timestamps. The `merged` field is derived from
-        GitHub's own `merged_at`, since GitHub reports `state: "closed"` for both a merged PR
-        and one closed without merging. Shares the same 60 requests/hour per IP unauthenticated
-        ceiling as `listPullRequests`. THROWS on an unknown owner/repo/PR number (404) or a rate
-        limit (403/429).
+        breakdown, and created/updated/closed timestamps. The reaction breakdown is read off
+        GitHub's ISSUE representation of the same number, which is where that summary actually
+        lives — the pulls door never carries it — so this spends two requests, like
+        `getProfileReadme`. The `merged` field is derived from GitHub's own `merged_at`, since
+        GitHub reports `state: "closed"` for both a merged PR and one closed without merging.
+        Shares the same 60 requests/hour per IP unauthenticated ceiling as `listPullRequests`.
+        THROWS on an unknown owner/repo/PR number (404) or a rate limit (403/429).
         """
 
     async def listTrendingRepositories(self, /) -> Prv_github_GithubListTrendingRepositoriesResult_Out:
@@ -42875,9 +42876,10 @@ class Prv_tradingview(Protocol):
     async def searchSymbols(self, query: str, /) -> list[Prv_tradingview_SymbolSearchResult_Out]:
         """Searches TradingView for a symbol by ticker, company name, or description across all
         exchanges — the same lookup TradingView's own search box runs. Returns every matching
-        symbol with its exchange, instrument type, and (when TradingView carries them)
-        ISIN/CUSIP and a short description. `query` is free text, e.g. "AAPL" or "Apple". Use a
-        result's `symbol` to call `getQuote`.
+        symbol with its name, exchange, instrument type, and (when TradingView carries them)
+        ISIN/CUSIP. `exchange` is the prefix TradingView itself uses in `EXCHANGE:SYMBOL`, so it
+        can be passed straight to the other functions. `query` is free text, e.g. "AAPL" or
+        "Apple". Use a result's `symbol` to call `getQuote`.
         """
 
     async def getQuote(self, exchange: str, symbol: str, /) -> Prv_tradingview_Quote_Out:
