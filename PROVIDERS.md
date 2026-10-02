@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2609 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2610 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -566,6 +566,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cbhhomes.getInquiryFormSchema` | cbhhomes.com | Reads the site's own live 'get in touch about a home' Gravity Forms inquiry form… | 🟢 |
 | `cbhhomes.searchListings` | cbhhomes.com | Filters CBH Homes' own live home-search endpoint by city, price, beds and baths and… | 🟢 |
 | `census_api.householdIncome` | api.census.gov | Returns median household income for a US Census tract, identified by ZIP code or… | 🟡 |
+| `census_api.validateAddress` | api.census.gov | Validates and standardizes a US street address against the Census Geocoder… | 🟢 |
 | `cftc.searchRules` | cftc.gov | Searches the CFTC's Designated Contract Market rule filings register —… | 🟢 |
 | `champxpress.getPlanQuote` | champxpress.com | Runs the site's own state → location price computation for one location (matched by… | 🟢 |
 | `champxpress.listLocations` | champxpress.com | Lists every wash location currently enrolled in Champion Xpress's "25 for Life" MVP… | 🟢 |
@@ -793,7 +794,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getPrice` | epicgames.com | What a game costs right now in a given country: current price, original price… | 🟡 |
 | `epicgames.getRewardsBalance` | epicgames.com | The signed-in caller's Epic Rewards balance — the store credit they have earned from… | ⚪ |
 | `epicgames.getServiceStatus` | epicgames.com | Whether Epic's services are up — the Epic Games Store, launcher, login, Fortnite… | 🟢 |
-| `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | 🟢 |
+| `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | 🟡 |
 | `epicgames.getWishlist` | epicgames.com | The signed-in caller's Epic Games Store wishlist, with each game's current price and… | ⚪ |
 | `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Top Upcoming… | ⚪ |
 | `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | 🟡 |
@@ -2128,7 +2129,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.removeFriend` | steampowered.com | Removes a user from the caller's friends list. | ⚪ |
 | `steam.removeFromWishlist` | steampowered.com | Removes a game from the caller's wishlist. | ⚪ |
 | `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | 🟢 |
-| `steam.searchNews` | steampowered.com | Searches the Steam news archive by keyword or date range. | ⚪ |
+| `steam.searchNews` | steampowered.com | Searches a game's recent news items by keyword and/or date range. | 🟢 |
 | `steam.viewFriends` | steampowered.com | Lists the caller's Steam friends, including online status and last-seen date. | ⚪ |
 | `steam.viewInventory` | steampowered.com | Displays the caller's inventory including trading cards, profile items, and gift… | ⚪ |
 | `steam.viewMarketHistory` | steampowered.com | Shows the caller's Steam Community Market transaction history including listings… | ⚪ |
@@ -2448,7 +2449,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getFifteenMinuteForecast` | weather.com | Sub-hourly precipitation forecast — arrival time and intensity of rain/snow in… | 🟢 |
 | `weather_channel.getHistoricalDaily` | weather.com | Historical daily summaries — past 30 days of high, low, and precipitation records. | ⚪ |
 | `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | ⚪ |
-| `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | ⚪ |
+| `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | 🟢 |
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | ⚪ |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
 | `weather_channel.getLocation` | weather.com | Gets location details by place name, postal code, or coordinates — returns full… | 🟢 |
