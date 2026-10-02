@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 1cc0d34ae21d6d1bb60c0a15cad6dac370c966e2acd1592419bbb62b72b6f47c
-// 71 capabilities, 509 providers, 1748 typed functions, 20 refused.
+// Manifest version: 0082c12d0c7325cfc092c742a387da8b21494542c978ecd78b001be08894b802
+// 71 capabilities, 509 providers, 1750 typed functions, 20 refused.
 // 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19217,6 +19217,13 @@ interface FomoCandle {
      * the next one; a null cursor means the last page.
      */
     getFollowing(userId: string, cursor?: string, opts?: ConnectionOption): Promise<FomoPage<FomoUser>>;
+
+    /**
+     * Pages the traders both the signed-in user and the named user follow — the social-proof row a
+     * profile shows under 'followed by'. Pass the cursor a previous page returned to get the next
+     * one; a null cursor means the last page.
+     */
+    getMutuals(userId: string, cursor?: string, opts?: ConnectionOption): Promise<FomoPage<FomoUser>>;
   }
 }
 
@@ -40912,6 +40919,19 @@ interface ListNewsResponse {
   totalCount: number;
 }
 
+interface GetNewsItemArgs {
+  newsId: string;
+}
+
+interface NewsItemResponse {
+  id: string;
+  title: string;
+  author: string;
+  date: number;
+  content: string;
+  url: string;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -40972,6 +40992,12 @@ interface ListNewsResponse {
      * gaming sites, with title, author, date, full HTML content, URL and feed type per item.
      */
     listNews(args: ListNewsArgs, opts?: ConnectionOption): Promise<ListNewsResponse>;
+
+    /**
+     * Fetches the full text of a specific news article by its ID, including title, author,
+     * publication date, and complete HTML content.
+     */
+    getNewsItem(args: GetNewsItemArgs, opts?: ConnectionOption): Promise<NewsItemResponse>;
   }
 }
 

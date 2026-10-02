@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 1cc0d34ae21d6d1bb60c0a15cad6dac370c966e2acd1592419bbb62b72b6f47c
-# 71 capabilities, 509 providers, 1730 typed functions, 20 refused.
+# Manifest version: 0082c12d0c7325cfc092c742a387da8b21494542c978ecd78b001be08894b802
+# 71 capabilities, 509 providers, 1732 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22361,6 +22361,17 @@ class Prv_steam_SteamNewsItem_Out(TypedDict):
     feedType: float
     tags: list[str]
 
+class Prv_steam_GetNewsItemArgs_In(TypedDict):
+    newsId: str
+
+class Prv_steam_NewsItemResponse_Out(TypedDict):
+    id: str
+    title: str
+    author: str
+    date: float
+    content: str
+    url: str
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -34114,6 +34125,12 @@ class Prv_fomo(Protocol):
         get the next one; a null cursor means the last page.
         """
 
+    async def getMutuals(self, userId: str, cursor: str | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Pages the traders both the signed-in user and the named user follow — the social-proof
+        row a profile shows under 'followed by'. Pass the cursor a previous page returned to get
+        the next one; a null cursor means the last page.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -42296,6 +42313,11 @@ class Prv_steam(Protocol):
         """Lists a game's news and updates by appid, from both official announcements and
         third-party gaming sites, with title, author, date, full HTML content, URL and feed type
         per item.
+        """
+
+    async def getNewsItem(self, args: Prv_steam_GetNewsItemArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_NewsItemResponse_Out:
+        """Fetches the full text of a specific news article by its ID, including title, author,
+        publication date, and complete HTML content.
         """
 
 class Prv_stickergiant(Protocol):

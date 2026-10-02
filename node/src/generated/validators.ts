@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 1cc0d34ae21d6d1bb60c0a15cad6dac370c966e2acd1592419bbb62b72b6f47c
-// 1730 checked, 20 unchecked.
+// Manifest version: 0082c12d0c7325cfc092c742a387da8b21494542c978ecd78b001be08894b802
+// 1732 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "1cc0d34ae21d6d1bb60c0a15cad6dac370c966e2acd1592419bbb62b72b6f47c",
+  "version": "0082c12d0c7325cfc092c742a387da8b21494542c978ecd78b001be08894b802",
   "units": {
     "booking_links": {
       "defs": {
@@ -19165,6 +19165,38 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getFollowing": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "cursor",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getMutuals": [
           {
             "name": "userId",
             "schema": {
@@ -42868,6 +42900,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetNewsItemArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "newsId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListFeaturedGamesArgs": {
           "k": "object",
           "props": [
@@ -43189,6 +43233,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListNewsArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getNewsItem": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetNewsItemArgs"
             },
             "optional": false
           },
