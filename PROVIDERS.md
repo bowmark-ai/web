@@ -503,7 +503,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `califloors.listCategories` | califloors.com | Lists CALI's own flooring and decking category tree — Vinyl, Hardwood, Laminate… | 🟢 |
 | `califloors.searchProducts` | califloors.com | Browses one category (from `listCategories`, e.g. the free-sample category or a… | 🟢 |
 | `camelcamelcamel.getPriceHistory` | camelcamelcamel.com | Reads camelcamelcamel's independently-tracked Amazon price history for one ASIN — the… | 🟢 |
-| `camelcamelcamel.search` | camelcamelcamel.com | Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title… | 🟢 |
+| `camelcamelcamel.search` | camelcamelcamel.com | Runs camelcamelcamel's own Amazon-product search and returns each hit's ASIN, title… | 🟡 |
 | `campspot.findCampgrounds` | campspot.com | Given a free-text region (a US state, a Canadian province, or one of Campspot's own… | 🟢 |
 | `campspot.getCampground` | campspot.com | Given a campspot.com/park/<slug> url (from findCampgrounds), returns that campground's… | 🟢 |
 | `cancer.findCancerCenters` | cancer.gov | Returns the NCI-Designated Cancer Centers — the institutions NCI itself certifies as… | 🟢 |
@@ -604,7 +604,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `claudemarketplaces_com.searchListings` | claudemarketplaces.com | Finds MCP server listings whose publisher or slug matches every word in a search… | 🟢 |
 | `clboyd.searchUsedEquipment` | clboyd.com | Runs CL Boyd's live used-equipment inventory filter. | 🟢 |
 | `cleanairlawncare.checkServiceArea` | cleanairlawncare.com | Checks a 5-digit US zip against the caw-estimate-widget backend — the same live area… | 🟢 |
-| `cleanairlawncare.getAvailableSlots` | cleanairlawncare.com | For an in-area zip whose local org has online scheduling enabled, computes the real… | 🟢 |
+| `cleanairlawncare.getAvailableSlots` | cleanairlawncare.com | For an in-area zip whose local org has online scheduling enabled, computes the real… | 🟡 |
 | `cleanairlawncare.submitEstimateRequest` | cleanairlawncare.com | Would submit the final lead (name, contact, property, requested services, chosen slot)… | ⚪ |
 | `cloudflare.comparePlans` | cloudflare.com | Compares Cloudflare's website/application plan tiers — Free, Pro, Business and… | 🟢 |
 | `cloudflare.compareTeamsPlans` | cloudflare.com | Compares Cloudflare's Zero Trust / Cloudflare One team plans — Free (up to 50 users)… | 🟢 |
