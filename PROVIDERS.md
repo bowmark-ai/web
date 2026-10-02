@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2607 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2609 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -635,6 +635,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `coast.getFuelRebate` | coastpay.com | Reads Coast's own pricing page and returns its published per-gallon rebate range at… | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
 | `code_claude_com.listDocPages` | code.claude.com | Lists every doc page code.claude.com publishes, parsed from the site's own… | 🟢 |
+| `coingecko.getPrice` | coingecko.com | Current price of a cryptocurrency, given by symbol or name, in a fiat or crypto quote… | 🟢 |
+| `coingecko.searchCoins` | coingecko.com | Find cryptocurrencies by name or ticker symbol, returning CoinGecko ids and market-cap… | 🟢 |
 | `compass_living.listCommunities` | compass-living.com | Lists up to 10 senior living communities with their contact-form fields and… | 🟢 |
 | `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
 | `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |

@@ -1,7 +1,7 @@
 # Capabilities
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 113 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 114 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A capability is the thing you call; it fans out to whichever provider can answer, so the same call keeps working when one site changes.
@@ -26,6 +26,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `concert_setlist.search` | Search for concert setlists by artist name, venue, or date. | 0 | 🟢 |
 | `costume_size_check.checkSize` | Checks whether one costume character exists in one size, right now, at Target… | 3 | 🟢 |
 | `coworking.findDayPasses` | Finds single-day coworking passes for a US city —… | 1 | 🟢 |
+| `crypto_exchange.getRate` | Current price of a cryptocurrency (symbol or name: "BTC", "bitcoin") in a quote… | 1 | 🟢 |
 | `currency_exchange.getRate` | Returns the current exchange rate between two currencies | 1 | 🟢 |
 | `custom_packaging_quote.quoteCustomBox` | Gets a real, quantity-tiered price for a custom printed box from every supplier that… | 2 | 🟢 |
 | `custom_sofa_configurator.getConfigurator` | Reads one sofa's full configurator — every option slot (Fabric, Wood Stain, Color… | 2 | 🟢 |
