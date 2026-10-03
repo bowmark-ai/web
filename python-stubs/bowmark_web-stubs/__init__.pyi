@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d0cd1689fde9fa943df5712afa24b2066f5ed6e04b0353a1a0dc4b803378db7a
-# 73 capabilities, 512 providers, 1759 typed functions, 20 refused.
+# Manifest version: 85daae81ae0830f7e10fdad574057293dce03523e1c5308c7a38b4dd431804f9
+# 73 capabilities, 512 providers, 1762 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -2346,6 +2346,7 @@ class Cap_web_form_fields_FormInspectionResult_Out(TypedDict):
     openedWith: str | None
     multiStep: bool
     stepLabel: str | None
+    wall: Cap_web_form_fields_FormInspectionResult_Out_wall_u0_Out | None
     warnings: list[str]
 
 class Cap_web_form_fields_InspectedForm_Out(TypedDict):
@@ -2360,6 +2361,10 @@ class Cap_web_form_fields_FormField_Out(TypedDict):
     type: str
     required: bool
     options: NotRequired[list[str]]
+
+class Cap_web_form_fields_FormInspectionResult_Out_wall_u0_Out(TypedDict):
+    vendor: str
+    cleared: bool
 
 class Cap_web_form_fields_FormFillOptions_In(TypedDict):
     open: NotRequired[str]
@@ -2379,7 +2384,12 @@ class Cap_web_form_fields_FormFillResult_Out(TypedDict):
     stepLabel: str | None
     autocompleteSelected: list[str]
     resultContent: str | None
+    wall: Cap_web_form_fields_FormFillResult_Out_wall_u0_Out | None
     warnings: list[str]
+
+class Cap_web_form_fields_FormFillResult_Out_wall_u0_Out(TypedDict):
+    vendor: str
+    cleared: bool
 
 class Cap_wireless_compareAllInPrice_arg_In(TypedDict):
     lineCount: float
@@ -3262,7 +3272,7 @@ class Prv_amazon_AmazonSellerRatingPeriod_Out(TypedDict):
     averageRating: float | None
     ratingCount: float | None
 
-class Prv_amazon_getDeliveryEstimate_arg0_In(TypedDict):
+class Prv_amazon_GetDeliveryEstimateArgs_In(TypedDict):
     product: str
     zip: str
 
@@ -9740,6 +9750,30 @@ class Prv_epicgames_GameDeal_Out(TypedDict):
 class Prv_epicgames_GameDeal_Out_tags_item_Out(TypedDict):
     id: str
     name: str
+
+class Prv_epicgames_listCollection_args_In(TypedDict):
+    name: str
+    country: NotRequired[str]
+    limit: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_epicgames_ListCollectionResult_Out(TypedDict):
+    collection: str
+    updatedAt: str | None
+    games: list[Prv_epicgames_CollectionEntry_Out]
+    total: float
+
+class Prv_epicgames_CollectionEntry_Out(TypedDict):
+    position: float
+    previousPosition: float | None
+    id: str
+    title: str
+    namespace: str
+    productSlug: str | None
+    currentPrice: float
+    originalPrice: float
+    discountPercentage: float
+    currencyCode: str
 
 class Prv_epicgames_listNews_args_In(TypedDict):
     limit: NotRequired[float]
@@ -23181,6 +23215,20 @@ class Prv_theguardian_com_GuardianLiveBlogBlock_Out(TypedDict):
     pinned: bool
     keyEvent: bool
 
+class Prv_theguardian_com_GuardianListPhotosArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_theguardian_com_GuardianListPhotosResult_Out(TypedDict):
+    galleries: list[Prv_theguardian_com_GuardianPhotoGallerySummary_Out]
+
+class Prv_theguardian_com_GuardianPhotoGallerySummary_Out(TypedDict):
+    title: str
+    url: str
+    id: str
+    summary: str | None
+    byline: str | None
+    published: str | None
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -24535,6 +24583,18 @@ class Prv_twitch_TwitchSubscription_Out(TypedDict):
     renewsAt: str | None
     channelLogin: str
     channelDisplayName: str
+
+class Prv_twitch_GetSubscriptionStatusArgs_In(TypedDict):
+    login: str
+
+class Prv_twitch_TwitchSubscriptionStatus_Out(TypedDict):
+    subscribed: bool
+    id: str | None
+    tier: str | None
+    platform: str | None
+    purchasedWithPrime: bool
+    endsAt: str | None
+    renewsAt: str | None
 
 class Prv_uber_DriverEarnings_Out(TypedDict):
     weekStart: str
@@ -29695,7 +29755,7 @@ class Prv_amazon(Protocol):
         sellerId field — a listing Amazon sells itself has none.
         """
 
-    async def getDeliveryEstimate(self, arg0: Prv_amazon_getDeliveryEstimate_arg0_In, /) -> Prv_amazon_AmazonDeliveryEstimate_Out:
+    async def getDeliveryEstimate(self, args: Prv_amazon_GetDeliveryEstimateArgs_In, /) -> Prv_amazon_AmazonDeliveryEstimate_Out:
         """When a product would actually arrive at a given US ZIP, and what it costs to get it
         there — sets the ZIP for one session (Amazon's own "glow" location picker, no account
         needed) and reads the delivery block the product page then re-renders for it: the site's
@@ -34038,6 +34098,14 @@ class Prv_epicgames(Protocol):
         """Games on sale right now in the Epic Games Store's Special Offers — current price,
         original price, discount percentage, currency and sale end date. Optionally filtered by
         tag or a maximum price, sorted by discount (default) or price.
+        """
+
+    async def listCollection(self, args: Prv_epicgames_listCollection_args_In, /) -> Prv_epicgames_ListCollectionResult_Out:
+        """One of the Epic Games Store's ranked charts as ranked rows — position, last update's
+        position, title, offer id, namespace, slug and price. Charts: top-sellers, most-played,
+        most-popular, top-wishlisted, top-new-releases, top-player-reviewed, top-demos (a
+        display name like "Top Sellers" works too). Optional ISO country code (default US),
+        limit (default 25, max 100) and page.
         """
 
     async def listNews(self, args: Prv_epicgames_listNews_args_In | None = None, /) -> Prv_epicgames_ListNewsResult_Out:
@@ -43312,6 +43380,11 @@ class Prv_theguardian_com(Protocol):
         theguardian.com URL or the path listLiveBlogs returns as `id`.
         """
 
+    async def listPhotos(self, args: Prv_theguardian_com_GuardianListPhotosArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListPhotosResult_Out:
+        """The Guardian's current photo galleries — news-in-pictures roundups, photojournalism,
+        fashion and lifestyle sets — newest first, with title, url and publish time.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -44242,6 +44315,13 @@ class Prv_twitch(Protocol):
         platform, whether it was redeemed with Prime, when the current period ends and next
         renews, and the subscribed channel's login and display name. NEEDS the viewer's Twitch
         sign-in. Returns one page — up to `limit`, default 20, max 100.
+        """
+
+    async def getSubscriptionStatus(self, args: Prv_twitch_GetSubscriptionStatusArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchSubscriptionStatus_Out:
+        """Checks whether the signed-in user is subscribed to one named channel: id, Twitch's own
+        tier code, platform, whether it was redeemed with Prime, when the current period ends
+        and next renews. `subscribed: false` and null fields when not subscribed. NEEDS the
+        viewer's Twitch sign-in. THROWS naming the login when Twitch has no such channel.
         """
 
 class Prv_uber(Protocol):

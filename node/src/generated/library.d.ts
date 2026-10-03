@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d0cd1689fde9fa943df5712afa24b2066f5ed6e04b0353a1a0dc4b803378db7a
-// 73 capabilities, 512 providers, 1777 typed functions, 20 refused.
+// Manifest version: 85daae81ae0830f7e10fdad574057293dce03523e1c5308c7a38b4dd431804f9
+// 73 capabilities, 512 providers, 1780 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -4356,6 +4356,7 @@ type FormInspectionResult = {
   openedWith: string | null          // the control that was clicked to reveal the form
   multiStep: boolean                 // more steps follow; the count is the visible step only
   stepLabel: string | null           // the form's own "Step 2 of 4", when it prints one
+  wall: { vendor: string; cleared: boolean } | null  // a bot challenge the browser leg saw, if any — set only on servedBy:"browser"
   warnings: string[]
 }
 
@@ -4378,6 +4379,7 @@ type FormFillResult = {
   stepLabel: string | null
   autocompleteSelected: string[]  // "<field>: <suggestion>" for each address/lookup field a suggestion was picked for
   resultContent: string | null  // what the site answered back, read after submit/advance — null otherwise
+  wall: { vendor: string; cleared: boolean } | null  // a bot challenge this call's browser saw, if any
   warnings: string[]
 }
 
@@ -6061,7 +6063,7 @@ interface AmazonCart {
      * and the three fields are Amazon's DEFAULT location rather than the caller's ZIP, on an
      * invalid ZIP.
      */
-    getDeliveryEstimate(arg0: { product: string; zip: string }): Promise<AmazonDeliveryEstimate>;
+    getDeliveryEstimate(args: GetDeliveryEstimateArgs): Promise<AmazonDeliveryEstimate>;
 
     /**
      * Every seller offering the same listing side by side — condition (new, used, its grade),
@@ -17677,6 +17679,28 @@ interface ListDealsResult {
   total: number;
 }
 
+interface CollectionEntry {
+  position: number;
+  /** Rank on the chart's previous update; null when new to the chart. */
+  previousPosition: number | null;
+  id: string;
+  title: string;
+  namespace: string;
+  productSlug: string | null;
+  currentPrice: number;
+  originalPrice: number;
+  discountPercentage: number;
+  currencyCode: string;
+}
+
+interface ListCollectionResult {
+  collection: string;
+  updatedAt: string | null;
+  games: CollectionEntry[];
+  /** Rows on the whole chart, not just this page. */
+  total: number;
+}
+
 interface NewsArticleSummary {
   title: string;
   slug: string;
@@ -17788,6 +17812,15 @@ interface GetServiceStatusResult {
      * maximum price, sorted by discount (default) or price.
      */
     listDeals(args?: { tag?: string; priceCeiling?: number; sortBy?: 'discount' | 'price' }): Promise<ListDealsResult>;
+
+    /**
+     * One of the Epic Games Store's ranked charts as ranked rows — position, last update's
+     * position, title, offer id, namespace, slug and price. Charts: top-sellers, most-played,
+     * most-popular, top-wishlisted, top-new-releases, top-player-reviewed, top-demos (a display
+     * name like "Top Sellers" works too). Optional ISO country code (default US), limit (default
+     * 25, max 100) and page.
+     */
+    listCollection(args: { name: string; country?: string; limit?: number; page?: number }): Promise<ListCollectionResult>;
 
     /**
      * The Epic Games Store's news articles, newest first — title, date, author, category, slug and
@@ -42345,6 +42378,21 @@ interface GuardianLiveBlog {
   /** Array of update blocks, newest first. */
   blocks: GuardianLiveBlogBlock[];
 }
+interface GuardianListPhotosArgs {
+  limit?: number;
+}
+interface GuardianPhotoGallerySummary {
+  title: string;
+  url: string;
+  /** The path getPhotoGallery takes, e.g. "artanddesign/gallery/2026/oct/02/the-week-around-the-world-in-20-pictures". */
+  id: string;
+  summary: string | null;
+  byline: string | null;
+  published: string | null;
+}
+interface GuardianListPhotosResult {
+  galleries: GuardianPhotoGallerySummary[];
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -42439,6 +42487,12 @@ interface GuardianLiveBlog {
      * theguardian.com URL or the path listLiveBlogs returns as `id`.
      */
     getLiveBlog(args: GuardianGetLiveBlogArgs): Promise<GuardianLiveBlog>;
+
+    /**
+     * The Guardian's current photo galleries — news-in-pictures roundups, photojournalism, fashion
+     * and lifestyle sets — newest first, with title, url and publish time.
+     */
+    listPhotos(args?: GuardianListPhotosArgs): Promise<GuardianListPhotosResult>;
   }
 }
 
@@ -44823,6 +44877,23 @@ interface ListSubscriptionsArgs {
   /** Max subscriptions to return, 1-100. Default 20. */
   limit?: number;
 }
+interface GetSubscriptionStatusArgs {
+  /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
+  login: string;
+}
+interface TwitchSubscriptionStatus {
+  subscribed: boolean;
+  /** Null when subscribed is false. */
+  id: string | null;
+  /** Twitch's own tier code — read the values off a result, never guess one from prose. Null when subscribed is false. */
+  tier: string | null;
+  platform: string | null;
+  purchasedWithPrime: boolean;
+  /** ISO timestamp the current paid period ends. Null when subscribed is false. */
+  endsAt: string | null;
+  /** ISO timestamp the subscription next renews, if it will. */
+  renewsAt: string | null;
+}
 
   /**
    * Twitch — cut a Highlight of your own broadcast, including the one still live, and read any
@@ -44956,6 +45027,14 @@ interface ListSubscriptionsArgs {
      * Returns one page — up to `limit`, default 20, max 100.
      */
     listSubscriptions(args?: ListSubscriptionsArgs, opts?: ConnectionOption): Promise<TwitchSubscription[]>;
+
+    /**
+     * Checks whether the signed-in user is subscribed to one named channel: id, Twitch's own tier
+     * code, platform, whether it was redeemed with Prime, when the current period ends and next
+     * renews. `subscribed: false` and null fields when not subscribed. NEEDS the viewer's Twitch
+     * sign-in. THROWS naming the login when Twitch has no such channel.
+     */
+    getSubscriptionStatus(args: GetSubscriptionStatusArgs, opts?: ConnectionOption): Promise<TwitchSubscriptionStatus>;
   }
 }
 

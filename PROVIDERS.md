@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2615 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2622 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -796,7 +796,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.getServiceStatus` | epicgames.com | Whether Epic's services are up — the Epic Games Store, launcher, login, Fortnite… | 🟢 |
 | `epicgames.getStorefront` | epicgames.com | The store's home page as data — the featured carousel, the sale carousel and the other… | 🟡 |
 | `epicgames.getWishlist` | epicgames.com | The signed-in caller's Epic Games Store wishlist, with each game's current price and… | ⚪ |
-| `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Top Upcoming… | ⚪ |
+| `epicgames.listCollection` | epicgames.com | One of the store's own ranked charts — Top Sellers, Most Played, Most Popular, Top… | 🟢 |
 | `epicgames.listDeals` | epicgames.com | Games on sale now — the store's Special Offers — with current price, original price… | 🟡 |
 | `epicgames.listFreeGames` | epicgames.com | The Epic Games Store's free-game rotation: the games free to claim right now and the… | 🟢 |
 | `epicgames.listFriends` | epicgames.com | The signed-in caller's Epic friends list — display name, account id, and online… | ⚪ |
@@ -1062,7 +1062,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
 | `github.createComment` | github.com | Adds a comment to an issue or pull request. | 🟢 |
 | `github.createIssue` | github.com | Creates a new issue on a repository. | 🟢 |
-| `github.createPullRequest` | github.com | Creates a new pull request from a head branch to a base branch. | ⚪ |
+| `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | 🟢 |
 | `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
 | `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
 | `github.deleteComment` | github.com | Deletes a comment on an issue or pull request. | 🟢 |
@@ -1428,6 +1428,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `letterboxd.film` | letterboxd.com | Reads one film's full record off its letterboxd page — title, year, directors, cast… | 🟢 |
 | `letterboxd.memberDiary` | letterboxd.com | Reads a member's activity feed — every film they logged, with their star rating, the… | 🟢 |
 | `letterboxd.memberFilms` | letterboxd.com | Lists the films a letterboxd member has logged, newest first, off their own films page… | 🟢 |
+| `lime.cityPricing` | li.me | Reads one city's Lime ride pricing from its li.me city page: unlock fee, per-minute… | 🟢 |
+| `lime.listCities` | li.me | Lists every city Lime operates e-scooters and e-bikes in, grouped by region, from… | 🟢 |
 | `linkedin.acceptInvitation` | linkedin.com | Accepts a connection invitation the signed-in caller received, by the id and shared… | ⚪ |
 | `linkedin.commentOnPost` | linkedin.com | Comments on a post as the signed-in caller. | ⚪ |
 | `linkedin.createPost` | linkedin.com | Publishes a text post to the signed-in caller's feed, visible to anyone or to… | ⚪ |
@@ -1502,9 +1504,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.getProducts` | shop.lululemon.com | Reads the full configurator for MANY products in one call — the shape for ranking a… | 🟢 |
 | `lululemon.getReviews` | shop.lululemon.com | Reads the customer reviews on one product — rating, title, body, number of helpful… | 🟢 |
 | `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟢 |
-| `lululemon.getSizeGuide` | shop.lululemon.com | Returns lululemon's size chart for a garment — the body measurements each numeric size… | ⚪ |
+| `lululemon.getSizeGuide` | shop.lululemon.com | Returns lululemon's size chart for one garment — the body measurements each numeric… | 🟢 |
 | `lululemon.listCategory` | shop.lululemon.com | Browses one category the way the site's own navigation does — Women's Leggings, Men's… | ⚪ |
 | `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
+| `luma.discoverEvents` | luma.com | Lists upcoming events on Luma's discover page for one city (sf, nyc, london…)… | 🟢 |
+| `luma.getEvent` | luma.com | Reads one Luma event page (luma.com/<slug> or lu.ma/<slug>) and returns its date, time… | 🟢 |
+| `luma.listCategories` | luma.com | Lists Luma's discover topic categories with the category slug discoverEvents takes. | 🟢 |
+| `luma.listPlaces` | luma.com | Lists every city Luma's discover page covers, with the place slug discoverEvents takes. | 🟢 |
 | `lyreco.getProduct` | lyreco.com | Reads one product's detail page and returns its live guest pricing — every variant… | 🟢 |
 | `lyreco.search` | lyreco.com | Runs Lyreco's site search for office supplies and returns matching product rows… | 🟡 |
 | `maersk.track` | maersk.com | Tracks a container or bill-of-lading number on Maersk's documented Track & Trace API… | 🟢 |
@@ -1685,6 +1691,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.getMyStats` | games.nytimes.com | The signed-in player's per-game stats and streaks across all daily puzzles. | 🟢 |
 | `nyt_games.getPips` | games.nytimes.com | Retrieves the daily Pips puzzle — all three difficulties, each with its dominoes… | 🟢 |
 | `nyt_games.getSpellingBee` | games.nytimes.com | Retrieves the daily Spelling Bee puzzle with required and optional letters. | 🟢 |
+| `nyt_games.getSportsConnections` | games.nytimes.com | Retrieves the daily Sports Connections puzzle with four category groupings and their… | 🟢 |
 | `nyt_games.getStrands` | games.nytimes.com | Retrieves the daily Strands puzzle with theme words, spangram, clue, board and… | 🟢 |
 | `nyt_games.getSudoku` | games.nytimes.com | Retrieves today's daily Sudoku puzzle — all three difficulties, each with its board… | 🟢 |
 | `nyt_games.getTiles` | games.nytimes.com | Retrieves today's Tiles puzzle. | 🟢 |
@@ -1697,7 +1704,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getConnections` | nytimes.com | Gets today's Connections puzzle. | ⚪ |
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟢 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
-| `nytimes.getPodcast` | nytimes.com | Gets podcast details and episode list. | ⚪ |
+| `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟢 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |
 | `nytimes.getSpellingBee` | nytimes.com | Gets today's Spelling Bee puzzle. | ⚪ |
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
@@ -2325,7 +2332,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | 🟢 |
 | `twitch.getChannelSchedule` | twitch.tv | Reads a channel's scheduled broadcast times and upcoming events (if public). Logged… | 🟢 |
 | `twitch.getFollowStatus` | twitch.tv | Checks whether the signed-in user follows a channel and when they started following. | 🟢 |
-| `twitch.getSubscriptionStatus` | twitch.tv | Checks the signed-in user's subscription status to a specific channel (tier, renews… | ⚪ |
+| `twitch.getSubscriptionStatus` | twitch.tv | Checks whether the signed-in user is subscribed to one named channel: id, Twitch's own… | 🟢 |
 | `twitch.getVideo` | twitch.tv | Reads one public Twitch video by id or twitch.tv/videos link: title, length in… | 🟢 |
 | `twitch.listCategories` | twitch.tv | Lists Twitch games/categories, ranked by current live viewership: name, box art URL… | 🟢 |
 | `twitch.listChannelClips` | twitch.tv | Lists clips cut from a channel, ranked by Twitch's own default ordering: title… | 🟢 |

@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d0cd1689fde9fa943df5712afa24b2066f5ed6e04b0353a1a0dc4b803378db7a
-// 1759 checked, 20 unchecked.
+// Manifest version: 85daae81ae0830f7e10fdad574057293dce03523e1c5308c7a38b4dd431804f9
+// 1762 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d0cd1689fde9fa943df5712afa24b2066f5ed6e04b0353a1a0dc4b803378db7a",
+  "version": "85daae81ae0830f7e10fdad574057293dce03523e1c5308c7a38b4dd431804f9",
   "units": {
     "address_validation": {
       "defs": {
@@ -6534,6 +6534,25 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.amazon": {
       "defs": {
+        "GetDeliveryEstimateArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "product",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "zip",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListBestSellersArgs": {
           "k": "object",
           "props": [
@@ -6758,25 +6777,10 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getDeliveryEstimate": [
           {
-            "name": "arg0",
+            "name": "args",
             "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "product",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "zip",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
+              "k": "ref",
+              "name": "GetDeliveryEstimateArgs"
             },
             "optional": false
           }
@@ -17206,6 +17210,45 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "listCollection": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "name",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "country",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "limit",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                },
+                {
+                  "name": "page",
+                  "schema": {
+                    "k": "number"
+                  },
+                  "optional": true
+                }
+              ]
+            },
+            "optional": false
           }
         ],
         "listNews": [
@@ -44717,6 +44760,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GuardianListPhotosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GuardianListReviewsArgs": {
           "k": "object",
           "props": [
@@ -44838,6 +44893,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GuardianGetLiveBlogArgs"
             },
             "optional": false
+          }
+        ],
+        "listPhotos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListPhotosArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -46920,6 +46985,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetSubscriptionStatusArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetVideoArgs": {
           "k": "object",
           "props": [
@@ -47369,6 +47446,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListSubscriptionsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getSubscriptionStatus": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSubscriptionStatusArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
