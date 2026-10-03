@@ -1728,7 +1728,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listWriterArticles` | nytimes.com | Gets all articles by a specific writer. | ⚪ |
 | `nytimes.saveArticle` | nytimes.com | Saves an article to the reader's collection (requires auth). | ⚪ |
 | `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟢 |
-| `nytimes.searchWriters` | nytimes.com | Searches writers by name. | ⚪ |
+| `nytimes.searchWriters` | nytimes.com | Searches NYT's own writers by name off its collections sitemap (the site publishes no… | 🟢 |
 | `nytimes.unfollowWriter` | nytimes.com | Unfollows a writer (requires auth). | ⚪ |
 | `nytimes.unsaveArticle` | nytimes.com | Removes an article from the reader's collection (requires auth). | ⚪ |
 | `oanda.convertCurrency` | oanda.com | Converts an amount from one currency to another using OANDA's own daily average bid… | 🟢 |

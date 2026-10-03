@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 2cf38e4ba8c46e223d8a3b70a4f7151a97c40e03cceecb0908413366f1f09ab4
-// 74 capabilities, 514 providers, 1804 typed functions, 20 refused.
+// Manifest version: a291c8ba343a6e87bb942bd1be3979c7439b1ea0ccd97580d974ed09e88926c0
+// 74 capabilities, 514 providers, 1814 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3164,22 +3164,24 @@ type UrlsResult = {
 }
 
   /**
-   * Read any web page as markdown, text or HTML — one page or many at once, taking a browser
-   * only when the page actually needs one.
+   * Read any web page as markdown, text or HTML — or extract the text from a PDF url — one page
+   * or many at once, taking a browser only when the page actually needs one.
    */
   interface Unit {
     /**
      * Loads one page and returns its content. Tries a plain GET first and escalates to a real
      * browser only when the response proves it needs one (a bot wall, an interstitial, or markup
      * carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN the result
-     * rather than throwing. A site that refuses automated access comes back `ok: false` with
-     * `wall` naming the bot-management vendor and a warning saying so — that is the site's answer,
-     * and retrying the same read will not change it; an HTTP 4xx/5xx page is `ok: false` too.
-     * TIME: `timeoutMs` is the budget for the WHOLE read, both legs together (default 45,000, max
-     * 55,000) — deliberately under the ~60s at which a chat client kills a tool call, so a slow
-     * page comes back as a real result naming the browser leg instead of your client's bare "The
-     * operation timed out.". **`strategy: "fetch"` is the fast-fail escape** for a page you do not
-     * want to wait on: it never opens a browser, returns in ~200ms, and still sets
+     * rather than throwing. **A PDF url (a datasheet, a price list, a filing) comes back as the
+     * document's extracted text** in `content`, with a warning naming the page count; a scanned
+     * PDF with no text layer is `ok: false`. A site that refuses automated access comes back `ok:
+     * false` with `wall` naming the bot-management vendor and a warning saying so — that is the
+     * site's answer, and retrying the same read will not change it; an HTTP 4xx/5xx page is `ok:
+     * false` too. TIME: `timeoutMs` is the budget for the WHOLE read, both legs together (default
+     * 45,000, max 55,000) — deliberately under the ~60s at which a chat client kills a tool call,
+     * so a slow page comes back as a real result naming the browser leg instead of your client's
+     * bare "The operation timed out.". **`strategy: "fetch"` is the fast-fail escape** for a page
+     * you do not want to wait on: it never opens a browser, returns in ~200ms, and still sets
      * `escalationReason` so you learn the page needed one. Several urls? Pass them to
      * `read.pages`, not a loop of `page()` calls — a loop's reads add up, and three slow ones
      * outlast the client, while `pages` holds the whole batch to the same 55s. **Hitting a site's
@@ -15131,6 +15133,11 @@ interface cnnNewsletter {
   description: string | null;
 }
 
+interface cnnFollowedTopic {
+  topic_id: string;
+  name: string;
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -15196,6 +15203,12 @@ interface cnnNewsletter {
      * and more — with newsletter id, name, frequency and description.
      */
     listNewsletters(): Promise<cnnNewsletter[]>;
+
+    /**
+     * Add a topic to the signed-in viewer's followed topics, so it appears in their personalized
+     * My News feed. Returns the followed topic details.
+     */
+    followTopic(topicId: string, opts?: ConnectionOption): Promise<cnnFollowedTopic>;
   }
 }
 
@@ -17873,6 +17886,10 @@ interface GetServiceStatusResult {
   incidents: ServiceIncident[];
 }
 
+interface GetAccountResult {
+  account: unknown;
+}
+
   /**
    * The Epic Games Store — catalogue search, game pages, prices, sales, the free-games rotation,
    * and the signed-in library and wishlist.
@@ -17953,6 +17970,12 @@ interface GetServiceStatusResult {
      * to one, e.g. "Fortnite".
      */
     getServiceStatus(args?: { component?: string }): Promise<GetServiceStatusResult>;
+
+    /**
+     * The signed-in caller's own Epic Games account settings, returned raw (no fleet-held Epic
+     * Games session exists to pin individual field names). Needs the caller signed in.
+     */
+    getAccount(opts?: ConnectionOption): Promise<GetAccountResult>;
   }
 }
 
@@ -21621,6 +21644,22 @@ interface GithubPullRequestCreated {
   draft: boolean;
   url: string;
 }
+interface GithubUpdatePullRequestOptions {
+  title?: string;
+  body?: string;
+  state?: "open" | "closed";
+  base?: string;
+  maintainerCanModify?: boolean;
+}
+interface GithubPullRequestUpdated {
+  number: number;
+  title: string;
+  body: string | null;
+  state: "open" | "closed";
+  draft: boolean;
+  url: string;
+  updatedAt: string;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -21962,6 +22001,21 @@ interface GithubPullRequestCreated {
      * or on an unexpected response shape.
      */
     createPullRequest(owner: string, repo: string, title: string, head: string, base: string, body?: string, options?: GithubCreatePullRequestOptions, opts?: ConnectionOption): Promise<GithubPullRequestCreated>;
+
+    /**
+     * Updates a pull request's title, body, state (open/closed), or base branch, off GitHub's own
+     * documented REST endpoint (`PATCH /repos/{owner}/{repo}/pulls/{pull_number}`) — the same door
+     * GitHub's PATCH issue update uses for an issue, but pull-request-scoped. NEEDS THE CALLER
+     * SIGNED IN and requires write access to the repository. `options` must set at least one of
+     * `title`, `body`, `state`, `base`, or `maintainerCanModify`. There is no draft toggle on this
+     * door — GitHub's REST API has no field here to flip a pull request between draft and ready;
+     * the returned `draft` flag reports whatever the site currently holds, unaffected by this
+     * call. Returns the updated pull request's number, title, body, state, draft flag, URL, and
+     * update timestamp. THROWS on an unknown owner/repo or pull request number (404), when signed
+     * out or the saved session is invalid (401), on a permission error (403), when `options` has
+     * no recognized field set, or on an unexpected response shape.
+     */
+    updatePullRequest(owner: string, repo: string, pullNumber: number, options: GithubUpdatePullRequestOptions, opts?: ConnectionOption): Promise<GithubPullRequestUpdated>;
   }
 }
 
@@ -23066,6 +23120,24 @@ interface GoogleNewsSavedArticle {
      * before returning, naming the sign-in.
      */
     saveArticle(articleHandle: string, opts?: ConnectionOption): Promise<void>;
+
+    /**
+     * Follow a topic, a place or a publisher as the signed-in person — the write half of
+     * `listFollowedTopics`. An authFunction, on the same Google session `listEditions`,
+     * `getForYou`, `listFollowedTopics`, `listSavedArticles` and `saveArticle` already work on.
+     * This lands on our own account's own Following list, visible to nobody else and undone by
+     * unfollowing, so it is honestly testable without touching a real person or publisher. There
+     * is no separate follow endpoint reachable to probe logged out — measured 2026-09-27: a real
+     * topic page renders a real "Follow this topic" button for every visitor, signed in or not,
+     * and its jsaction token names no `batchexecute` call site anywhere in the 3.7 MB document —
+     * so this reuses the SAME `/my/library` door `listFollowedTopics` and `saveArticle` already
+     * read, which refuses with the identical 302 to `accounts.google.com/ServiceLogin` measured
+     * 2026-09-28. With no session, or a dead one, this refuses before returning, naming the
+     * sign-in. **The signed-in shape is honestly UNMEASURED**, exactly as `listFollowedTopics`'
+     * is: nobody here holds a signed-in Google News session, so nobody has ever captured what
+     * following actually changes on that page.
+     */
+    followTopic(topicId: string, opts?: ConnectionOption): Promise<void>;
   }
 }
 
@@ -34516,6 +34588,14 @@ interface NytimesPodcast {
   description?: string;
   imageUrl?: string;
 }
+interface NytimesEpisode {
+  id: string;
+  url?: string;
+  headline?: string;
+  summary?: string;
+  publishedAt?: string;
+  byline?: string;
+}
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
   interface Unit {
@@ -34604,6 +34684,13 @@ interface NytimesPodcast {
      * "the-daily" (from listPodcasts) or a path like "/podcasts/the-daily".
      */
     getPodcast(slug: string): Promise<NytimesPodcast>;
+
+    /**
+     * Lists a podcast's own episodes off its column page — up to 10, the most the page itself
+     * renders logged out. Takes a podcast slug like "the-daily" (from listPodcasts) or a path like
+     * "/podcasts/the-daily".
+     */
+    listEpisodes(slug: string): Promise<NytimesEpisode[]>;
   }
 }
 
@@ -41869,6 +41956,15 @@ interface AddToWishlistResult {
   added: true;
 }
 
+interface RemoveFromWishlistArgs {
+  appid: string | number;
+}
+
+interface RemoveFromWishlistResult {
+  appid: string;
+  removed: true;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -41960,6 +42056,13 @@ interface AddToWishlistResult {
      * door. NEEDS A SIGN-IN — the caller signs in, not us.
      */
     addToWishlist(args: AddToWishlistArgs, opts?: ConnectionOption): Promise<AddToWishlistResult>;
+
+    /**
+     * Removes a game from the signed-in caller's wishlist by appid, off the store's own
+     * removefromwishlist door — the exact sibling of addToWishlist. NEEDS A SIGN-IN — the caller
+     * signs in, not us.
+     */
+    removeFromWishlist(args: RemoveFromWishlistArgs, opts?: ConnectionOption): Promise<RemoveFromWishlistResult>;
   }
 }
 
@@ -42797,6 +42900,41 @@ interface GuardianPhotoGallery {
   tags: { id: string; title: string; type: string }[];
   images: GuardianGalleryImage[];
 }
+interface GuardianListVideosArgs {
+  /** A category path for videos, e.g. "video", "world/video", "sport/video". Default: the main video section. */
+  category?: string;
+  limit?: number;
+}
+interface GuardianVideoSummary {
+  title: string;
+  url: string;
+  /** The path getVideo takes, e.g. "world/video/2026/oct/03/video-slug". */
+  id: string;
+  summary: string | null;
+  byline: string | null;
+  published: string | null;
+  duration: number | null;
+}
+interface GuardianListVideosResult {
+  category: string;
+  title: string | null;
+  videos: GuardianVideoSummary[];
+}
+interface GuardianGetVideoArgs {
+  /** A theguardian.com video URL or the path listVideos returns as `id`, e.g. "world/video/2026/oct/03/video-slug". */
+  videoUrlOrId: string;
+}
+interface GuardianVideo {
+  id: string;
+  url: string;
+  headline: string;
+  standfirst: string | null;
+  byline: string | null;
+  published: string | null;
+  section: string | null;
+  tags: { id: string; title: string; type: string }[];
+  duration: number | null;
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -42904,6 +43042,13 @@ interface GuardianPhotoGallery {
      * URL or the path listPhotos returns as `id`.
      */
     getPhotoGallery(args: GuardianGetPhotoGalleryArgs): Promise<GuardianPhotoGallery>;
+
+    /**
+     * The Guardian's current videos by category — news, world, sport, culture — newest first, with
+     * title, url, summary, byline, publish time and duration in seconds. Default category is the
+     * main video section.
+     */
+    listVideos(args?: GuardianListVideosArgs): Promise<GuardianListVideosResult>;
   }
 }
 
@@ -43876,6 +44021,9 @@ interface tiktokSound {
 interface GetSoundArgs {
   soundId: string;
 }
+interface ListSoundVideosArgs {
+  soundId: string;
+}
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -43974,6 +44122,13 @@ interface GetSoundArgs {
      * empty body.
      */
     getSound(args: GetSoundArgs): Promise<tiktokSound>;
+
+    /**
+     * The videos made with one sound — id and caption — the companion read to getSound. Uses the
+     * browser to load the sound's page and intercept the API response, as that endpoint answers an
+     * unsigned request with an empty body. Returns videos in the order TikTok serves them.
+     */
+    listSoundVideos(args: ListSoundVideosArgs): Promise<tiktokVideoSummary[]>;
   }
 }
 
@@ -47170,6 +47325,30 @@ interface HistoricalDailyResult {
   days: HistoricalDailyDay[];
 }
 
+interface TropicalSystem {
+  stormId: string;
+  stormName: string;
+  basin: string;
+  advisoryNumber: string;
+  issuedAt: string;
+  finalAdvisory: boolean;
+  latitude: number;
+  longitude: number;
+  stormType: string;
+  stormSubType: string | null;
+  headline: string[];
+  minPressure: number | null;
+  maxSustainedWind: number | null;
+  windGust: number | null;
+  headingDirection: string | null;
+  headingCardinal: string | null;
+  headingSpeed: number | null;
+}
+
+interface TropicalPositionResult {
+  storms: TropicalSystem[];
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -47297,6 +47476,15 @@ interface HistoricalDailyResult {
      * radar map visualizations on weather.com.
      */
     getRadarTiles(): Promise<RadarTile>;
+
+    /**
+     * Current position of every active tropical cyclone/hurricane worldwide — the same global list
+     * weather.com's tropical tracker shows. Not scoped to a location: every call returns all
+     * systems currently being advised on by the issuing weather service. Each storm carries its
+     * id, name, basin, latest advisory number, position, storm type (tropical depression through
+     * hurricane/typhoon), max sustained wind, gust, minimum pressure and heading.
+     */
+    getCurrentTropicalPosition(): Promise<TropicalPositionResult>;
   }
 }
 
@@ -48695,6 +48883,28 @@ interface YahooSportsStatLeaderRow {
   statLabel: string; // the site's own label for what value measures, e.g. "Passing Yards"
 }
 
+interface GetOddsArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+}
+
+interface YahooSportsOddsTeamLine {
+  team: string;
+  abbr: string;
+  spread: string | null; // e.g. "-3.5" — null if the market has not posted one
+  spreadNote: string | null;
+  total: string | null; // WITH its own over/under marker, e.g. "O 48.5", "U 48.5"
+  totalNote: string | null;
+  moneyline: string | null; // American odds, e.g. "-207", "+167"
+  moneylineNote: string | null;
+}
+
+interface YahooSportsOddsGame {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  // Always away-then-home, the same order as getScoreboard's own data — the
+  // page itself labels neither side.
+  teams: [YahooSportsOddsTeamLine, YahooSportsOddsTeamLine];
+}
+
 interface GetScheduleArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   teamSlug: string;
@@ -48939,6 +49149,15 @@ interface YahooFantasyLineupSetResult {
      * on a league currently publishing no leaderboard at all (observed on nba in the off-season).
      */
     getStatLeaders(args: GetStatLeadersArgs): Promise<YahooSportsStatLeaderRow[]>;
+
+    /**
+     * Reads a league's current betting lines off Yahoo Sports' own Odds page — spread, total and
+     * moneyline for each upcoming game, for both sides. Read only; nothing is wagered. `teams[0]`
+     * is the away side and `teams[1]` the home side, the same order getScoreboard uses — the page
+     * itself labels neither. A spread/total/moneyline field is null if the market has not posted a
+     * line for that game yet.
+     */
+    getOdds(args: GetOddsArgs): Promise<YahooSportsOddsGame[]>;
 
     /**
      * Reads one team's full schedule for the season off Yahoo Sports' own Schedule page — every

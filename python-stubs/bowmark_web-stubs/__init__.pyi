@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 2cf38e4ba8c46e223d8a3b70a4f7151a97c40e03cceecb0908413366f1f09ab4
-# 74 capabilities, 514 providers, 1786 typed functions, 20 refused.
+# Manifest version: a291c8ba343a6e87bb942bd1be3979c7439b1ea0ccd97580d974ed09e88926c0
+# 74 capabilities, 514 providers, 1796 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8417,6 +8417,10 @@ class Prv_cnn_cnnNewsletter_Out(TypedDict):
     frequency: str | None
     description: str | None
 
+class Prv_cnn_cnnFollowedTopic_Out(TypedDict):
+    topic_id: str
+    name: str
+
 class Prv_coast_CoastFleetCardPricing_Out(TypedDict):
     monthlyFeePerUserUsd: float
     monthlyFeeDisplay: str
@@ -9915,6 +9919,9 @@ class Prv_epicgames_ServiceIncident_Out(TypedDict):
     impact: str
     shortlink: str
     updatedAt: str
+
+class Prv_epicgames_GetAccountResult_Out(TypedDict):
+    account: Any
 
 class Prv_epromos_EpromosProductConfiguration_Out(TypedDict):
     name: str
@@ -11935,6 +11942,22 @@ class Prv_github_GithubPullRequestCreated_Out(TypedDict):
     state: Literal["open"] | Literal["closed"]
     draft: bool
     url: str
+
+class Prv_github_GithubUpdatePullRequestOptions_In(TypedDict):
+    title: NotRequired[str]
+    body: NotRequired[str]
+    state: NotRequired[Literal["open"] | Literal["closed"]]
+    base: NotRequired[str]
+    maintainerCanModify: NotRequired[bool]
+
+class Prv_github_GithubPullRequestUpdated_Out(TypedDict):
+    number: float
+    title: str
+    body: str | None
+    state: Literal["open"] | Literal["closed"]
+    draft: bool
+    url: str
+    updatedAt: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -18440,6 +18463,14 @@ class Prv_nytimes_NytimesPodcast_Out(TypedDict):
     description: NotRequired[str]
     imageUrl: NotRequired[str]
 
+class Prv_nytimes_NytimesEpisode_Out(TypedDict):
+    id: str
+    url: NotRequired[str]
+    headline: NotRequired[str]
+    summary: NotRequired[str]
+    publishedAt: NotRequired[str]
+    byline: NotRequired[str]
+
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
     {
@@ -22937,6 +22968,13 @@ class Prv_steam_AddToWishlistResult_Out(TypedDict):
     appid: str
     added: Literal[True]
 
+class Prv_steam_RemoveFromWishlistArgs_In(TypedDict):
+    appid: str | float
+
+class Prv_steam_RemoveFromWishlistResult_Out(TypedDict):
+    appid: str
+    removed: Literal[True]
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -23483,6 +23521,24 @@ class Prv_theguardian_com_GuardianGalleryImage_Out(TypedDict):
     alt: str | None
     caption: str | None
     credit: str | None
+
+class Prv_theguardian_com_GuardianListVideosArgs_In(TypedDict):
+    category: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_theguardian_com_GuardianListVideosResult_Out(TypedDict):
+    category: str
+    title: str | None
+    videos: list[Prv_theguardian_com_GuardianVideoSummary_Out]
+
+class Prv_theguardian_com_GuardianVideoSummary_Out(TypedDict):
+    title: str
+    url: str
+    id: str
+    summary: str | None
+    byline: str | None
+    published: str | None
+    duration: float | None
 
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
@@ -24050,6 +24106,9 @@ class Prv_tiktok_tiktokSound_Out(TypedDict):
     artist: str
     duration: float
     videoCount: float
+
+class Prv_tiktok_ListSoundVideosArgs_In(TypedDict):
+    soundId: str
 
 class Prv_tilsonhomes_TilsonhomesPlan_Out(TypedDict):
     id: float
@@ -26005,6 +26064,28 @@ class Prv_weather_channel_RadarTile_Out(TypedDict):
     zoomRange: tuple[float, float] | None
     tileUrlPattern: str | None
 
+class Prv_weather_channel_TropicalPositionResult_Out(TypedDict):
+    storms: list[Prv_weather_channel_TropicalSystem_Out]
+
+class Prv_weather_channel_TropicalSystem_Out(TypedDict):
+    stormId: str
+    stormName: str
+    basin: str
+    advisoryNumber: str
+    issuedAt: str
+    finalAdvisory: bool
+    latitude: float
+    longitude: float
+    stormType: str
+    stormSubType: str | None
+    headline: list[str]
+    minPressure: float | None
+    maxSustainedWind: float | None
+    windGust: float | None
+    headingDirection: str | None
+    headingCardinal: str | None
+    headingSpeed: float | None
+
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
     title: str
@@ -27000,6 +27081,23 @@ class Prv_yahoo_sports_YahooSportsStatLeaderRow_Out(TypedDict):
     team: str | None
     value: str
     statLabel: str
+
+class Prv_yahoo_sports_GetOddsArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+
+class Prv_yahoo_sports_YahooSportsOddsGame_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    teams: tuple[Prv_yahoo_sports_YahooSportsOddsTeamLine_Out, Prv_yahoo_sports_YahooSportsOddsTeamLine_Out]
+
+class Prv_yahoo_sports_YahooSportsOddsTeamLine_Out(TypedDict):
+    team: str
+    abbr: str
+    spread: str | None
+    spreadNote: str | None
+    total: str | None
+    totalNote: str | None
+    moneyline: str | None
+    moneylineNote: str | None
 
 class Prv_yahoo_sports_GetScheduleArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
@@ -28912,31 +29010,33 @@ class Cap_prospect_screening(Protocol):
         """
 
 class Cap_read(Protocol):
-    """Read any web page as markdown, text or HTML — one page or many at once, taking a browser
-    only when the page actually needs one.
+    """Read any web page as markdown, text or HTML — or extract the text from a PDF url — one
+    page or many at once, taking a browser only when the page actually needs one.
     """
 
     async def page(self, url: str, options: Cap_read_ReadOptions_In | None = None, /) -> Cap_read_ReadResult_Out:
         """Loads one page and returns its content. Tries a plain GET first and escalates to a real
         browser only when the response proves it needs one (a bot wall, an interstitial, or
         markup carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN
-        the result rather than throwing. A site that refuses automated access comes back `ok:
-        false` with `wall` naming the bot-management vendor and a warning saying so — that is
-        the site's answer, and retrying the same read will not change it; an HTTP 4xx/5xx page
-        is `ok: false` too. TIME: `timeoutMs` is the budget for the WHOLE read, both legs
-        together (default 45,000, max 55,000) — deliberately under the ~60s at which a chat
-        client kills a tool call, so a slow page comes back as a real result naming the browser
-        leg instead of your client's bare "The operation timed out.". **`strategy: "fetch"` is
-        the fast-fail escape** for a page you do not want to wait on: it never opens a browser,
-        returns in ~200ms, and still sets `escalationReason` so you learn the page needed one.
-        Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a loop's reads
-        add up, and three slow ones outlast the client, while `pages` holds the whole batch to
-        the same 55s. **Hitting a site's own JSON endpoint? Read `result.json`, never
-        `content`** — `const { json } = await bowmark.read.page(apiUrl)` hands back the parsed
-        body directly, unfenced, whenever the response is JSON (a `json` content-type, or a body
-        that parses whole). Do not hand-strip a ``` fence from `content` to `JSON.parse` it
-        yourself; `json` is absent on every non-JSON page and costs nothing otherwise. **A price
-        you need bound to a specific item is the one thing the default `"markdown"` format
+        the result rather than throwing. **A PDF url (a datasheet, a price list, a filing) comes
+        back as the document's extracted text** in `content`, with a warning naming the page
+        count; a scanned PDF with no text layer is `ok: false`. A site that refuses automated
+        access comes back `ok: false` with `wall` naming the bot-management vendor and a warning
+        saying so — that is the site's answer, and retrying the same read will not change it; an
+        HTTP 4xx/5xx page is `ok: false` too. TIME: `timeoutMs` is the budget for the WHOLE
+        read, both legs together (default 45,000, max 55,000) — deliberately under the ~60s at
+        which a chat client kills a tool call, so a slow page comes back as a real result naming
+        the browser leg instead of your client's bare "The operation timed out.". **`strategy:
+        "fetch"` is the fast-fail escape** for a page you do not want to wait on: it never opens
+        a browser, returns in ~200ms, and still sets `escalationReason` so you learn the page
+        needed one. Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a
+        loop's reads add up, and three slow ones outlast the client, while `pages` holds the
+        whole batch to the same 55s. **Hitting a site's own JSON endpoint? Read `result.json`,
+        never `content`** — `const { json } = await bowmark.read.page(apiUrl)` hands back the
+        parsed body directly, unfenced, whenever the response is JSON (a `json` content-type, or
+        a body that parses whole). Do not hand-strip a ``` fence from `content` to `JSON.parse`
+        it yourself; `json` is absent on every non-JSON page and costs nothing otherwise. **A
+        price you need bound to a specific item is the one thing the default `"markdown"` format
         cannot promise** — it flattens the DOM, so a price can end up textually next to a link
         for a DIFFERENT size/color/variant; `warnings` names it when the page carries the
         structured data to prove it, but the safe read is `{ format: "cleanHtml" }`, which keeps
@@ -33411,6 +33511,11 @@ class Prv_cnn(Protocol):
         Evening, and more — with newsletter id, name, frequency and description.
         """
 
+    async def followTopic(self, topicId: str, opts: ConnectionOption | None = None, /) -> Prv_cnn_cnnFollowedTopic_Out:
+        """Add a topic to the signed-in viewer's followed topics, so it appears in their
+        personalized My News feed. Returns the followed topic details.
+        """
+
 class Prv_coast(Protocol):
     """Coast's own published fleet fuel-card pricing (coastpay.com/pricing) — the real, current
     per-user monthly fee, the fees it explicitly does not charge, and its per-gallon
@@ -34455,6 +34560,11 @@ class Prv_epicgames(Protocol):
         """Whether Epic's services are up — the store, launcher, login, Fortnite, matchmaking and
         the rest — with each component's status and any open incident. Optional component name
         to filter to one, e.g. "Fortnite".
+        """
+
+    async def getAccount(self, opts: ConnectionOption | None = None, /) -> Prv_epicgames_GetAccountResult_Out:
+        """The signed-in caller's own Epic Games account settings, returned raw (no fleet-held Epic
+        Games session exists to pin individual field names). Needs the caller signed in.
         """
 
 class Prv_epromos(Protocol):
@@ -35994,6 +36104,21 @@ class Prv_github(Protocol):
         an already-open identical PR (403/422), or on an unexpected response shape.
         """
 
+    async def updatePullRequest(self, owner: str, repo: str, pullNumber: float, options: Prv_github_GithubUpdatePullRequestOptions_In, opts: ConnectionOption | None = None, /) -> Prv_github_GithubPullRequestUpdated_Out:
+        """Updates a pull request's title, body, state (open/closed), or base branch, off GitHub's
+        own documented REST endpoint (`PATCH /repos/{owner}/{repo}/pulls/{pull_number}`) — the
+        same door GitHub's PATCH issue update uses for an issue, but pull-request-scoped. NEEDS
+        THE CALLER SIGNED IN and requires write access to the repository. `options` must set at
+        least one of `title`, `body`, `state`, `base`, or `maintainerCanModify`. There is no
+        draft toggle on this door — GitHub's REST API has no field here to flip a pull request
+        between draft and ready; the returned `draft` flag reports whatever the site currently
+        holds, unaffected by this call. Returns the updated pull request's number, title, body,
+        state, draft flag, URL, and update timestamp. THROWS on an unknown owner/repo or pull
+        request number (404), when signed out or the saved session is invalid (401), on a
+        permission error (403), when `options` has no recognized field set, or on an unexpected
+        response shape.
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -36618,6 +36743,24 @@ class Prv_google_news(Protocol):
         or publisher — a logged-out request refuses with the same 302 to
         `accounts.google.com/ServiceLogin` measured 2026-09-28 through CRAWLER_PROXY. With no
         session, or a dead one, this refuses before returning, naming the sign-in.
+        """
+
+    async def followTopic(self, topicId: str, opts: ConnectionOption | None = None, /) -> Any:
+        """Follow a topic, a place or a publisher as the signed-in person — the write half of
+        `listFollowedTopics`. An authFunction, on the same Google session `listEditions`,
+        `getForYou`, `listFollowedTopics`, `listSavedArticles` and `saveArticle` already work
+        on. This lands on our own account's own Following list, visible to nobody else and
+        undone by unfollowing, so it is honestly testable without touching a real person or
+        publisher. There is no separate follow endpoint reachable to probe logged out — measured
+        2026-09-27: a real topic page renders a real "Follow this topic" button for every
+        visitor, signed in or not, and its jsaction token names no `batchexecute` call site
+        anywhere in the 3.7 MB document — so this reuses the SAME `/my/library` door
+        `listFollowedTopics` and `saveArticle` already read, which refuses with the identical
+        302 to `accounts.google.com/ServiceLogin` measured 2026-09-28. With no session, or a
+        dead one, this refuses before returning, naming the sign-in. **The signed-in shape is
+        honestly UNMEASURED**, exactly as `listFollowedTopics`' is: nobody here holds a
+        signed-in Google News session, so nobody has ever captured what following actually
+        changes on that page.
         """
 
 class Prv_google_sheets(Protocol):
@@ -40741,6 +40884,12 @@ class Prv_nytimes(Protocol):
         "the-daily" (from listPodcasts) or a path like "/podcasts/the-daily".
         """
 
+    async def listEpisodes(self, slug: str, /) -> list[Prv_nytimes_NytimesEpisode_Out]:
+        """Lists a podcast's own episodes off its column page — up to 10, the most the page itself
+        renders logged out. Takes a podcast slug like "the-daily" (from listPodcasts) or a path
+        like "/podcasts/the-daily".
+        """
+
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
     between any two of its 371+ supported currencies, metals and crypto.
@@ -43484,6 +43633,12 @@ class Prv_steam(Protocol):
         addtowishlist door. NEEDS A SIGN-IN — the caller signs in, not us.
         """
 
+    async def removeFromWishlist(self, args: Prv_steam_RemoveFromWishlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_RemoveFromWishlistResult_Out:
+        """Removes a game from the signed-in caller's wishlist by appid, off the store's own
+        removefromwishlist door — the exact sibling of addToWishlist. NEEDS A SIGN-IN — the
+        caller signs in, not us.
+        """
+
 class Prv_stickergiant(Protocol):
     """StickerGiant's sticker configurator and its published catalog — every sticker SKU on
     /custom-stickers with its real starting price, material code and configurator entry URL.
@@ -43817,6 +43972,12 @@ class Prv_theguardian_com(Protocol):
         """The full image set of one Guardian photo gallery: headline, standfirst, byline, publish
         time and every image's full-resolution URL, alt text, caption and credit. Takes a
         theguardian.com URL or the path listPhotos returns as `id`.
+        """
+
+    async def listVideos(self, args: Prv_theguardian_com_GuardianListVideosArgs_In | None = None, /) -> Prv_theguardian_com_GuardianListVideosResult_Out:
+        """The Guardian's current videos by category — news, world, sport, culture — newest first,
+        with title, url, summary, byline, publish time and duration in seconds. Default category
+        is the main video section.
         """
 
 class Prv_therabody(Protocol):
@@ -44234,6 +44395,13 @@ class Prv_tiktok(Protocol):
         by the music id getVideo carries on `music.id`. Uses the browser to load the sound's
         page and read the detail response it fetches, as that endpoint answers an unsigned
         request with an empty body.
+        """
+
+    async def listSoundVideos(self, args: Prv_tiktok_ListSoundVideosArgs_In, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+        """The videos made with one sound — id and caption — the companion read to getSound. Uses
+        the browser to load the sound's page and intercept the API response, as that endpoint
+        answers an unsigned request with an empty body. Returns videos in the order TikTok
+        serves them.
         """
 
 class Prv_tilsonhomes(Protocol):
@@ -45422,6 +45590,15 @@ class Prv_weather_channel(Protocol):
         radar map visualizations on weather.com.
         """
 
+    async def getCurrentTropicalPosition(self, /) -> Prv_weather_channel_TropicalPositionResult_Out:
+        """Current position of every active tropical cyclone/hurricane worldwide — the same global
+        list weather.com's tropical tracker shows. Not scoped to a location: every call returns
+        all systems currently being advised on by the issuing weather service. Each storm
+        carries its id, name, basin, latest advisory number, position, storm type (tropical
+        depression through hurricane/typhoon), max sustained wind, gust, minimum pressure and
+        heading.
+        """
+
 class Prv_wellfound(Protocol):
     """Wellfound (formerly AngelList Talent) — startup job search with salary and equity bands,
     startup profiles and their open roles.
@@ -45956,6 +46133,14 @@ class Prv_yahoo_sports(Protocol):
         nhl/college-basketball: the league-wide group) — never the most-recent-week or
         team-level tables. Returns an empty list on a league currently publishing no leaderboard
         at all (observed on nba in the off-season).
+        """
+
+    async def getOdds(self, args: Prv_yahoo_sports_GetOddsArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsOddsGame_Out]:
+        """Reads a league's current betting lines off Yahoo Sports' own Odds page — spread, total
+        and moneyline for each upcoming game, for both sides. Read only; nothing is wagered.
+        `teams[0]` is the away side and `teams[1]` the home side, the same order getScoreboard
+        uses — the page itself labels neither. A spread/total/moneyline field is null if the
+        market has not posted a line for that game yet.
         """
 
     async def getSchedule(self, args: Prv_yahoo_sports_GetScheduleArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsScheduleRow_Out]:

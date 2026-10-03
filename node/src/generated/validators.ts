@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 2cf38e4ba8c46e223d8a3b70a4f7151a97c40e03cceecb0908413366f1f09ab4
-// 1786 checked, 20 unchecked.
+// Manifest version: a291c8ba343a6e87bb942bd1be3979c7439b1ea0ccd97580d974ed09e88926c0
+// 1796 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "2cf38e4ba8c46e223d8a3b70a4f7151a97c40e03cceecb0908413366f1f09ab4",
+  "version": "a291c8ba343a6e87bb942bd1be3979c7439b1ea0ccd97580d974ed09e88926c0",
   "units": {
     "address_validation": {
       "defs": {
@@ -15117,7 +15117,32 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listTrendingTopics": [],
         "getMarketsData": [],
-        "listNewsletters": []
+        "listNewsletters": [],
+        "followTopic": [
+          {
+            "name": "topicId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.coast": {
@@ -17530,6 +17555,24 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": true
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getAccount": [
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
                 }
               ]
             },
@@ -21329,6 +21372,56 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "GithubUpdatePullRequestOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "title",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "body",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "state",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "open"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "closed"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "base",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "maintainerCanModify",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -22094,6 +22187,53 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GithubCreatePullRequestOptions"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "updatePullRequest": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pullNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubUpdatePullRequestOptions"
+            },
+            "optional": false
           },
           {
             "name": "opts",
@@ -23153,6 +23293,31 @@ export const VALIDATORS: ValidatorTable = {
         "saveArticle": [
           {
             "name": "articleHandle",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followTopic": [
+          {
+            "name": "topicId",
             "schema": {
               "k": "string"
             },
@@ -33297,6 +33462,15 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "listPodcasts": [],
         "getPodcast": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
+        "listEpisodes": [
           {
             "name": "slug",
             "schema": {
@@ -44121,6 +44295,26 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "RemoveFromWishlistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "SearchGamesArgs": {
           "k": "object",
           "props": [
@@ -44319,6 +44513,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "AddToWishlistArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "removeFromWishlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "RemoveFromWishlistArgs"
             },
             "optional": false
           },
@@ -45199,6 +45419,25 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "GuardianListVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -45322,6 +45561,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GuardianGetPhotoGalleryArgs"
             },
             "optional": false
+          }
+        ],
+        "listVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianListVideosArgs"
+            },
+            "optional": true
           }
         ]
       }
@@ -46146,6 +46395,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListSoundVideosArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "soundId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "ListUserVideosArgs": {
           "k": "object",
           "props": [
@@ -46300,6 +46561,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSoundArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listSoundVideos": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListSoundVideosArgs"
             },
             "optional": false
           }
@@ -49654,7 +49925,8 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "getRadarTiles": []
+        "getRadarTiles": [],
+        "getCurrentTropicalPosition": []
       }
     },
     "providers.wellfound": {
@@ -51069,6 +51341,44 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetOddsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetPlayerArgs": {
           "k": "object",
           "props": [
@@ -51469,6 +51779,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetStatLeadersArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getOdds": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetOddsArgs"
             },
             "optional": false
           }
