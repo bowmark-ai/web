@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2623 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2624 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -683,7 +683,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `decksdirect.searchProducts` | decksdirect.com | Searches DecksDirect's decking/railing/hardware catalog by free text and returns each… | 🟢 |
 | `dell.getOrderDetails` | dell.com | Retrieves detailed information about a specific order, including items, pricing, and… | 🟢 |
 | `dell.getProduct` | dell.com | Retrieves detailed information about a specific Dell product, including… | 🟡 |
-| `dell.getProductDrivers` | dell.com | Searches for and retrieves drivers for a Dell product by service tag or model number. | ⚪ |
+| `dell.getProductDrivers` | dell.com | Lists drivers and downloads for a Dell product by its URL slug, optionally narrowed to… | 🟢 |
 | `dell.getRegisteredProductDetails` | dell.com | Retrieves details for a specific registered product. | 🟢 |
 | `dell.getSavedCartDetails` | dell.com | Retrieves the items and details from a specific saved cart. | 🟢 |
 | `dell.getWarrantyInfo` | dell.com | Looks up warranty coverage and status for a Dell product by service tag. | ⚪ |
@@ -739,7 +739,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `discounttire.searchTiresByVehicle` | discounttire.com | Searches the tires Discount Tire will actually sell for a specific vehicle — year… | ⚪ |
 | `discounttire.searchWheelsBySize` | discounttire.com | Searches wheels by their own dimensions rather than by a vehicle — diameter, width… | ⚪ |
 | `discounttire.searchWheelsByVehicle` | discounttire.com | Searches the wheels that fit a specific vehicle — year, make, model and trim in, and… | ⚪ |
-| `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟢 |
+| `disney.getTicketPrice` | disneyworld.disney.go.com | Reads a park ticket's real per-person price off Disney's own ticket page — a… | 🟡 |
 | `donsappliances.getProduct` | donsappliances.com | Reads one Don's Appliances product page (a URL `search` already returned) and returns… | 🟡 |
 | `donsappliances.search` | donsappliances.com | Browses one of Don's Appliances' own catalog categories and returns each listed… | 🟢 |
 | `doordash.getCheckoutTotal` | doordash.com | Would open a specific store, add real menu items to the cart, set a delivery address… | ⚪ |
@@ -817,8 +817,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epromos.quoteBulkPrice` | epromos.com | Computes the real per-unit and total price for one product at a caller-given quantity… | 🟢 |
 | `epromos.searchProducts` | epromos.com | Free-text search over ePromos' full catalog. | ⚪ |
 | `eq3.configureSofa` | eq3.com | Would price an ARBITRARY caller-chosen combination of options (not one of the site's… | ⚪ |
-| `eq3.getSofaConfiguration` | eq3.com | Reads one sofa's full configurator: the site's own computed price (regular + sale) for… | 🟢 |
-| `eq3.listSofas` | eq3.com | Lists every sofa in EQ3's living/seating/sofas line with real regular and sale prices… | 🟢 |
+| `eq3.getSofaConfiguration` | eq3.com | Reads one sofa's full configurator: the site's own computed price (regular + sale) for… | 🟡 |
+| `eq3.listSofas` | eq3.com | Lists every sofa in EQ3's living/seating/sofas line with real regular and sale prices… | 🟡 |
 | `equinox_hotels.listRooms` | equinox-hotels.com | Lists Equinox Hotel New York's live room inventory with booking-engine room codes… | 🟢 |
 | `equinox_hotels.searchRates` | equinox-hotels.com | Searches Equinox Hotel New York's live booking engine for dates and guests, returning… | 🟢 |
 | `erieinsurance.findAgent` | erieinsurance.com | Finds ERIE independent agents near a ZIP or city+state — agency name, the named agent… | 🟢 |
@@ -1636,8 +1636,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `newegg.getProduct` | newegg.com | Reads one product page in full — the identity search cannot give you (SKU… | 🟢 |
 | `newegg.search` | newegg.com | Searches newegg.com for a part and returns matching rows cheapest-first, filtered… | 🟢 |
 | `nfa_futures_org.lookupByNfaId` | nfa.futures.org | One firm or individual's current NFA membership status and registration types, by NFA… | 🟢 |
-| `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟢 |
-| `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟢 |
+| `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟡 |
+| `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟡 |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
 | `nurturelife.getMealBundle` | nurturelife.com | Returns Nurture Life's currently-offered curated meal bundles with their real, current… | 🟢 |
 | `nurturelife.getMealPlans` | nurturelife.com | Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's… | 🟢 |
@@ -2117,7 +2117,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `statefarm.getRentersQuote` | statefarm.com | Returns State Farm's own monthly renters insurance estimate for a US ZIP — a low and a… | 🟢 |
 | `statefarm.getUmbrellaQuote` | statefarm.com | Returns a personal umbrella liability quote — the excess liability layer above the… | ⚪ |
 | `steam.addFriend` | steampowered.com | Sends a friend request to another Steam user by username or ID. | ⚪ |
-| `steam.addToWishlist` | steampowered.com | Adds a game to the caller's wishlist, marking it for tracking and price drop… | ⚪ |
+| `steam.addToWishlist` | steampowered.com | Adds a game to the signed-in caller's wishlist, off the store's own addtowishlist door. | 🟢 |
 | `steam.editProfile` | steampowered.com | Updates the caller's own profile information like profile name, bio/summary, and… | ⚪ |
 | `steam.getAchievements` | steampowered.com | Reads a game's achievement list from its public Steam Community page by appid: name… | 🟢 |
 | `steam.getCommunityHub` | steampowered.com | Retrieves the community hub for a game, including recent discussions, artwork… | ⚪ |
@@ -2160,7 +2160,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `target.checkStock` | target.com | Answers whether a product (by TCIN) is available for same-day pickup or ship-to at a… | ⚪ |
 | `target.findStore` | target.com | Finds nearby Target store locations for a ZIP or address — hours, phone, and address —… | 🟢 |
 | `target.getProduct` | target.com | Reads one product page in full — price, variant/size options, description, images —… | ⚪ |
-| `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟢 |
+| `target.search` | target.com | Searches or browses Target's catalog by keyword and returns one page of matching… | 🟡 |
 | `target.trackOrder` | target.com | Looks up the status of a placed order (order number plus email, no sign-in) —… | ⚪ |
 | `tatcha.getPersonalizedRitual` | tatcha.com | Runs a shopper's real answers (skin type, up to three benefits, optional eye concerns… | 🟢 |
 | `tatcha.getRitualQuizOptions` | tatcha.com | Reads the live "Ritual Finder" quiz's real input menus — every skin-type, skin-benefit… | 🟢 |
@@ -2197,7 +2197,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `therabody.recommendTheragun` | therabody.com | Filters the live catalogue by what a shopper actually needs — Theragun device family… | 🟢 |
 | `therowhouse.getSchedule` | therowhouse.com | Reads one studio's live class schedule — real class names, instructor, start/end time… | 🟢 |
 | `therowhouse.listLocations` | therowhouse.com | Lists every Row House studio's slug and canonical page URL, enumerated from the site's… | 🟢 |
-| `thestowcompany.getSampleClosetEstimate` | easyclosets.com | Runs EasyClosets' own free 3D closet design tool for a given closet shape (reach-in or… | 🟢 |
+| `thestowcompany.getSampleClosetEstimate` | easyclosets.com | Runs EasyClosets' own free 3D closet design tool for a given closet shape (reach-in or… | 🟡 |
 | `thezebra.estimateCoverageCost` | thezebra.com | Returns The Zebra's own estimate of what a driver should expect to pay, and what… | ⚪ |
 | `thezebra.getAutoQuotes` | thezebra.com | Returns real side-by-side auto insurance rates from the carriers that will write a… | 🔴 |
 | `thezebra.getCarrierRates` | thezebra.com | Returns what a named insurance company charges relative to its competitors — its own… | 🟢 |
@@ -2568,6 +2568,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟡 |
 | `yahoo_sports.getScoreboard` | sports.yahoo.com | Reads games for one league — NFL, NBA, MLB, NHL, college football, college basketball… | 🟢 |
 | `yahoo_sports.getStandings` | sports.yahoo.com | Reads a league's full standings table the way its own Standings page does — division… | 🟡 |
+| `yahoo_sports.getStatLeaders` | sports.yahoo.com | Reads the season-to-date individual leaderboard for one category off the site's own… | 🟢 |
 | `yahoo_sports.getTeamRoster` | sports.yahoo.com | Reads one team's current roster the way its own Roster page does — every player… | 🟢 |
 | `yahoo_sports.listTeams` | sports.yahoo.com | Lists every team in a league — the door a caller needs before asking for one team's… | 🟡 |
 | `yahoo_sports.setFantasyLineup` | sports.yahoo.com | Sets the CALLER's own fantasy lineup for the week, once the caller has signed in… | 🟢 |

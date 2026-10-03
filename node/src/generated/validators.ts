@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 0693b5cb10e215a8dd0d4203c2da50870bcfb54056769cae1596f8358db19615
-// 1778 checked, 20 unchecked.
+// Manifest version: 5945db4a53c0f0f5f9f189cad2ec82dc2c86a402830f280f96f5454188ee73a2
+// 1781 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "0693b5cb10e215a8dd0d4203c2da50870bcfb54056769cae1596f8358db19615",
+  "version": "5945db4a53c0f0f5f9f189cad2ec82dc2c86a402830f280f96f5454188ee73a2",
   "units": {
     "address_validation": {
       "defs": {
@@ -15824,6 +15824,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetProductDriversArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "productCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "osCode",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetRegisteredProductDetailsArgs": {
           "k": "object",
           "props": [
@@ -16059,6 +16078,16 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          }
+        ],
+        "getProductDrivers": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetProductDriversArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -47429,6 +47458,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "FollowChannelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetChannelInfoArgs": {
           "k": "object",
           "props": [
@@ -47950,6 +47991,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetSubscriptionStatusArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "followChannel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "FollowChannelArgs"
             },
             "optional": false
           },
@@ -51221,6 +51288,51 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetStatLeadersArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetTeamRosterArgs": {
           "k": "object",
           "props": [
@@ -51381,6 +51493,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetInjuriesArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getStatLeaders": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetStatLeadersArgs"
             },
             "optional": false
           }

@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 0693b5cb10e215a8dd0d4203c2da50870bcfb54056769cae1596f8358db19615
-# 74 capabilities, 514 providers, 1778 typed functions, 20 refused.
+# Manifest version: 5945db4a53c0f0f5f9f189cad2ec82dc2c86a402830f280f96f5454188ee73a2
+# 74 capabilities, 514 providers, 1781 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -9013,6 +9013,31 @@ class Prv_dell_GetRegisteredProductDetailsArgs_In(TypedDict):
 
 class Prv_dell_DellRegisteredProductDetailPage_Out(TypedDict):
     raw: str
+
+class Prv_dell_GetProductDriversArgs_In(TypedDict):
+    productCode: str
+    osCode: NotRequired[str]
+
+class Prv_dell_DellDriver_Out(TypedDict):
+    driverId: str
+    name: str
+    category: str | None
+    type: str | None
+    importance: str | None
+    version: str | None
+    releaseDate: str | None
+    description: str | None
+    restartRequired: bool
+    operatingSystems: list[str]
+    file: Prv_dell_DellDriverFile_Out | None
+
+class Prv_dell_DellDriverFile_Out(TypedDict):
+    fileName: str | None
+    fileSize: str | None
+    downloadUrl: str | None
+    md5: str | None
+    sha1: str | None
+    sha256: str | None
 
 class Prv_deltadentalma_deltadentalmaSearchFilters_In(TypedDict):
     zip: str
@@ -24809,6 +24834,13 @@ class Prv_twitch_TwitchSubscriptionStatus_Out(TypedDict):
     endsAt: str | None
     renewsAt: str | None
 
+class Prv_twitch_FollowChannelArgs_In(TypedDict):
+    login: str
+
+class Prv_twitch_TwitchFollowChannelResult_Out(TypedDict):
+    channel: str
+    following: bool
+
 class Prv_uber_DriverEarnings_Out(TypedDict):
     weekStart: str
     tripCount: float
@@ -26935,6 +26967,20 @@ class Prv_yahoo_sports_YahooSportsInjuryRow_Out(TypedDict):
     statusAbbr: str
     description: str | None
 
+class Prv_yahoo_sports_GetStatLeadersArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    category: str
+
+class Prv_yahoo_sports_YahooSportsStatLeaderRow_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    category: str
+    rank: float
+    name: str
+    url: str | None
+    team: str | None
+    value: str
+    statLabel: str
+
 class Prv_yahoo_sports_GetScheduleArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
     teamSlug: str
@@ -27849,8 +27895,9 @@ class Cap_browser_agent(Protocol):
         what it was last doing. A site that blocks the browser outright (a bot wall, not a login
         or captcha) also reads `failed`, quickly, with `error` starting `blocked: ` — nobody can
         take over and clear that, so treat it as a hard failure for that site rather than
-        retrying. Pass the previous `cursor` for only new steps, and `waitMs` (≤ 60000) to wait
-        for a change instead of polling tightly.
+        retrying. Pass the previous `cursor` for only new steps, and `waitMs` (≤ 45000 — kept
+        under the ~60s ceiling most chat clients kill a tool call at) to wait for a change
+        instead of polling tightly.
         """
 
     async def send(self, id: str, message: str, options: Cap_browser_agent_SendBrowserAgentOptions_In | None = None, /) -> Cap_browser_agent_SendBrowserAgentResult_Out:
@@ -33841,6 +33888,11 @@ class Prv_dell(Protocol):
     async def getRegisteredProductDetails(self, args: Prv_dell_GetRegisteredProductDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_dell_DellRegisteredProductDetailPage_Out:
         """Retrieves details for a specific registered product. Needs a Dell sign-in — call this
         only after the caller has connected their Dell account.
+        """
+
+    async def getProductDrivers(self, args: Prv_dell_GetProductDriversArgs_In, /) -> list[Prv_dell_DellDriver_Out]:
+        """Lists drivers and downloads for a Dell product by its URL slug, optionally narrowed to
+        one operating system — each row carries the download URL and checksums.
         """
 
 class Prv_deltadentalma(Protocol):
@@ -44666,6 +44718,14 @@ class Prv_twitch(Protocol):
         viewer's Twitch sign-in. THROWS naming the login when Twitch has no such channel.
         """
 
+    async def followChannel(self, args: Prv_twitch_FollowChannelArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchFollowChannelResult_Out:
+        """Marks a channel as followed by the signed-in user. NEEDS the viewer's Twitch sign-in,
+        which only a capability can hold. THROWS naming the login when Twitch has no such
+        channel. `followUser` mutation on Twitch's own GraphQL — the one mutation on this
+        provider gated behind a Client-Integrity token, read off a real twitch.tv page load
+        under the caller's own session (see _integrity.ts).
+        """
+
 class Prv_uber(Protocol):
     """Read signed-in driver earnings summaries from the Uber driver dashboard."""
 
@@ -45830,6 +45890,17 @@ class Prv_yahoo_sports(Protocol):
         own status code, and the body part affected. Covers nfl, mlb, nba and nhl;
         college-football and college-basketball publish no player-level injury data in this
         surface and return an empty list.
+        """
+
+    async def getStatLeaders(self, args: Prv_yahoo_sports_GetStatLeadersArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsStatLeaderRow_Out]:
+        """Reads the season-to-date individual leaderboard for one category off Yahoo Sports' own
+        Stats page — e.g. "who leads the NFL in passing yards". `category` is the site's own
+        leaderboard name ("Passing", "Batting", "Scoring", …), which differs per league; pass it
+        exactly as Yahoo labels it. Reads the first non-weekly, non-team leaderboard group the
+        league publishes (nfl/college-football: season-long; mlb: American League;
+        nhl/college-basketball: the league-wide group) — never the most-recent-week or
+        team-level tables. Returns an empty list on a league currently publishing no leaderboard
+        at all (observed on nba in the off-season).
         """
 
     async def getSchedule(self, args: Prv_yahoo_sports_GetScheduleArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsScheduleRow_Out]:

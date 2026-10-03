@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 0693b5cb10e215a8dd0d4203c2da50870bcfb54056769cae1596f8358db19615
-// 74 capabilities, 514 providers, 1796 typed functions, 20 refused.
+// Manifest version: 5945db4a53c0f0f5f9f189cad2ec82dc2c86a402830f280f96f5454188ee73a2
+// 74 capabilities, 514 providers, 1799 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -304,7 +304,7 @@ interface StartBrowserAgentResult {
 interface BrowserAgentStep { at: string; kind: "thinking" | "action" | "message"; text: string }
 interface BrowserAgentStatusOptions {
   cursor?: string;          // from the previous status() — only newer steps return
-  waitMs?: number;          // wait up to this long (max 60000) for the status to change
+  waitMs?: number;          // wait up to this long (max 45000) for the status to change
   timeoutMs?: number;
 }
 interface BrowserAgentStatusResult {
@@ -397,8 +397,8 @@ type CallOptions = {
      * was last doing. A site that blocks the browser outright (a bot wall, not a login or captcha)
      * also reads `failed`, quickly, with `error` starting `blocked: ` — nobody can take over and
      * clear that, so treat it as a hard failure for that site rather than retrying. Pass the
-     * previous `cursor` for only new steps, and `waitMs` (≤ 60000) to wait for a change instead of
-     * polling tightly.
+     * previous `cursor` for only new steps, and `waitMs` (≤ 45000 — kept under the ~60s ceiling
+     * most chat clients kill a tool call at) to wait for a change instead of polling tightly.
      */
     status(id: string, options?: BrowserAgentStatusOptions): Promise<BrowserAgentStatusResult>;
 
@@ -16352,6 +16352,34 @@ interface DellRegisteredProductDetailPage {
   raw: string;  // the signed-in registered product detail page's raw HTML — same reason as DellMyOrdersPage
 }
 
+interface GetProductDriversArgs {
+  productCode: string;  // the product's URL slug, e.g. "xps-13-9310-laptop" — the same segment getProduct takes as productId
+  osCode?: string;  // one of Dell's own OS codes ("WT64A" = Windows 10/11 64-bit); omit for every OS unfiltered
+}
+
+interface DellDriverFile {
+  fileName: string | null;
+  fileSize: string | null;
+  downloadUrl: string | null;
+  md5: string | null;
+  sha1: string | null;
+  sha256: string | null;
+}
+
+interface DellDriver {
+  driverId: string;
+  name: string;
+  category: string | null;
+  type: string | null;
+  importance: string | null;
+  version: string | null;
+  releaseDate: string | null;
+  description: string | null;
+  restartRequired: boolean;
+  operatingSystems: string[];
+  file: DellDriverFile | null;
+}
+
   /** Search Dell's storefront and community forums. */
   interface Unit {
     /**
@@ -16432,6 +16460,12 @@ interface DellRegisteredProductDetailPage {
      * after the caller has connected their Dell account.
      */
     getRegisteredProductDetails(args: GetRegisteredProductDetailsArgs, opts?: ConnectionOption): Promise<DellRegisteredProductDetailPage>;
+
+    /**
+     * Lists drivers and downloads for a Dell product by its URL slug, optionally narrowed to one
+     * operating system — each row carries the download URL and checksums.
+     */
+    getProductDrivers(args: GetProductDriversArgs): Promise<DellDriver[]>;
   }
 }
 
@@ -45218,6 +45252,14 @@ interface TwitchSubscriptionStatus {
   /** ISO timestamp the subscription next renews, if it will. */
   renewsAt: string | null;
 }
+interface FollowChannelArgs {
+  /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
+  login: string;
+}
+interface TwitchFollowChannelResult {
+  channel: string;
+  following: boolean;
+}
 
   /**
    * Twitch — cut a Highlight of your own broadcast, including the one still live, and read any
@@ -45359,6 +45401,15 @@ interface TwitchSubscriptionStatus {
      * sign-in. THROWS naming the login when Twitch has no such channel.
      */
     getSubscriptionStatus(args: GetSubscriptionStatusArgs, opts?: ConnectionOption): Promise<TwitchSubscriptionStatus>;
+
+    /**
+     * Marks a channel as followed by the signed-in user. NEEDS the viewer's Twitch sign-in, which
+     * only a capability can hold. THROWS naming the login when Twitch has no such channel.
+     * `followUser` mutation on Twitch's own GraphQL — the one mutation on this provider gated
+     * behind a Client-Integrity token, read off a real twitch.tv page load under the caller's own
+     * session (see _integrity.ts).
+     */
+    followChannel(args: FollowChannelArgs, opts?: ConnectionOption): Promise<TwitchFollowChannelResult>;
   }
 }
 
@@ -48553,6 +48604,24 @@ interface YahooSportsInjuryRow {
   description: string | null;
 }
 
+interface GetStatLeadersArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  // The site's own leaderboard category name, e.g. "Passing", "Batting",
+  // "Scoring" — these differ per league and are not a closed set.
+  category: string;
+}
+
+interface YahooSportsStatLeaderRow {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  category: string; // the site's own category heading, verbatim
+  rank: number;
+  name: string;
+  url: string | null;
+  team: string | null; // an abbreviation ("PIT") or team nickname ("Saints") depending on Yahoo's own CDN asset for that row — null for a team-level row
+  value: string; // the site's own displayed value, not re-parsed (some categories are decimals)
+  statLabel: string; // the site's own label for what value measures, e.g. "Passing Yards"
+}
+
 interface GetScheduleArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   teamSlug: string;
@@ -48786,6 +48855,17 @@ interface YahooFantasyLineupSetResult {
      * list.
      */
     getInjuries(args: GetInjuriesArgs): Promise<YahooSportsInjuryRow[]>;
+
+    /**
+     * Reads the season-to-date individual leaderboard for one category off Yahoo Sports' own Stats
+     * page — e.g. "who leads the NFL in passing yards". `category` is the site's own leaderboard
+     * name ("Passing", "Batting", "Scoring", …), which differs per league; pass it exactly as
+     * Yahoo labels it. Reads the first non-weekly, non-team leaderboard group the league publishes
+     * (nfl/college-football: season-long; mlb: American League; nhl/college-basketball: the
+     * league-wide group) — never the most-recent-week or team-level tables. Returns an empty list
+     * on a league currently publishing no leaderboard at all (observed on nba in the off-season).
+     */
+    getStatLeaders(args: GetStatLeadersArgs): Promise<YahooSportsStatLeaderRow[]>;
 
     /**
      * Reads one team's full schedule for the season off Yahoo Sports' own Schedule page — every
