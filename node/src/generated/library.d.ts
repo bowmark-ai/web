@@ -5,9 +5,9 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 34f45038cf1006c18d3f059daabd6a2a4ae642ba9ae0991b13fd0c0b8ba14c64
-// 73 capabilities, 512 providers, 1769 typed functions, 20 refused.
-// 49,870 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
+// Manifest version: a79086c7b559871b06798605805c19b734a085559393099cd3dc91a0538a4652
+// 73 capabilities, 512 providers, 1774 typed functions, 20 refused.
+// 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
 // carry no types, so no honest signature exists. Each one is commented in place
@@ -286,8 +286,8 @@ interface BrowserAgentQuestion {
 }
 interface StartBrowserAgentOptions {
   task: string;             // plain language, name the site
-  backend?: string;         // default "browser_use"
-  model?: string;           // e.g. "claude-sonnet-5"; default "gpt-5.6-luna"
+  backend?: string;         // default "auto": a fast agent first when one is available, then Browser Use if it does not finish — the result says which ran. "jev" = only the fast agent (the site's URL or host must be in the task; fails when none is available); "browser_use" = only Browser Use
+  model?: string;           // the Browser Use model, e.g. "claude-sonnet-5"; default "gpt-5.6-luna"
   maxCostUsd?: number;      // spend ceiling per turn, in the dollars YOU are charged; default 2, max 25
   proxyCountry?: string;    // e.g. "us"
   timeoutMs?: number;
@@ -371,19 +371,22 @@ type CallOptions = {
   interface Unit {
     /**
      * A one-shot live browser for ONE task on a site nothing in the library covers; returns `id`
-     * and `watchUrl` at once. Not a watcher — it cannot poll on a schedule or run unattended.
-     * Billed per turn: when your user asked you to get the thing done, start it and in the same
-     * reply tell them it is running, that it costs money, and give them `watchUrl` — a login only
-     * they hold is signed in there, on the live page. If you do not start it, still name it to
-     * them with its cost; never end on a manual workaround without mentioning it. **One session =
-     * one independent goal** — never bundle multiple date ranges, SKUs or queries into one
-     * session; the agent silently reuses results across them. Start a separate session for each
-     * distinct query. Then `status(id)` from later runs (each `run()` is capped at 120s; the agent
-     * is not — a task normally takes 1-3 minutes, so do not give up on it before 5); on
-     * `needs_input` relay `question` and `send` the answer; on `idle` read `result` and
-     * `stop(id)`. A login persists for the life of the session, so later `send()` calls into the
-     * same session do not need re-authentication. Always stop sessions when done — idle browsers
-     * keep costing money. Account limit: 3 concurrent sessions.
+     * and `watchUrl`. When the task names the site (a URL or a host like example.com), Bowmark may
+     * first try a fast agent INSIDE `start` (usually 5-20 s, at most ~40 s): if it finishes,
+     * `start` returns `status: "idle"` and the answer is already in `status(id).result`; otherwise
+     * Browser Use runs the session and `start` returns `running`. Handle both. Not a watcher — it
+     * cannot poll on a schedule or run unattended. Billed per turn: when your user asked you to
+     * get the thing done, start it and in the same reply tell them it is running, that it costs
+     * money, and give them `watchUrl` — a login only they hold is signed in there, on the live
+     * page. If you do not start it, still name it to them with its cost; never end on a manual
+     * workaround without mentioning it. **One session = one independent goal** — never bundle
+     * multiple date ranges, SKUs or queries into one session; the agent silently reuses results
+     * across them. Start a separate session for each distinct query. Then `status(id)` from later
+     * runs (each `run()` is capped at 120s; the agent is not — a task normally takes 1-3 minutes,
+     * so do not give up on it before 5); on `needs_input` relay `question` and `send` the answer;
+     * on `idle` read `result` and `stop(id)`. A login persists for the life of the session, so
+     * later `send()` calls into the same session do not need re-authentication. Always stop
+     * sessions when done — idle browsers keep costing money. Account limit: 3 concurrent sessions.
      */
     start(options: StartBrowserAgentOptions): Promise<StartBrowserAgentResult>;
 
@@ -3065,6 +3068,9 @@ type ReadResult = {
   truncated: boolean
   error: string | null       // set INSTEAD of throwing; a dead url in pages() never
                              // costs you the other results
+  needsLogin: boolean        // the content is a sign-in page, not the one asked
+                             // for. read.page cannot pause for a login the way a
+                             // typed provider does — a human has to sign in first
   wall: { vendor: string; cleared: boolean } | null   // the bot wall this page is
                              // behind, found by a rendered look or named by the GET's
                              // own response (AWS WAF's 202). Reported even when we
@@ -4873,8 +4879,30 @@ interface abercrombieProduct {
   reviewCount: number;
   images: string[];
   colors: abercrombieColor[];
+  /** The size TILES, one group per dimension. A tile is lit when ANY size with
+   * that value is in stock, so "32" and "30" both lit does NOT mean 32x30 is —
+   * read skus for a combination. */
   sizes: abercrombieSizeGroup[];
+  /** Every size of this colourway as the store sells it — one row per SKU, with
+   * its own stock and price. The answer to "is 32x30 buyable": measured
+   * 2026-10-02, the tiles implied 61 of 268 waist/length combinations on sale
+   * pants were buyable when they were sold out. Empty when the page carried no
+   * hydrated size data. */
+  skus: abercrombieSku[];
   breadcrumbs: string[];
+}
+
+interface abercrombieSku {
+  sku: string;
+  /** The site's own label, e.g. "32 X Regular" or "M". */
+  size: string | null;
+  sizePrimary: string | null;
+  sizeSecondary: string | null;
+  /** In stock online: the site's "Available" AND a quantity above zero. */
+  available: boolean;
+  quantity: number;
+  price: number | null;
+  listPrice: number | null;
 }
 
 interface abercrombieProductQuery {
@@ -4927,6 +4955,10 @@ interface abercrombieSearchQuery {
   query?: string;
   category?: string;
   maxItems?: number;
+  /** CATEGORY paging only: row offset of the page to read, one page (up to 90)
+   * per call. Pass start + rows returned until a page comes back short. Search
+   * results are a single page and refuse start. */
+  start?: number;
 }
 
 interface abercrombieStoreStock {
@@ -4993,11 +5025,15 @@ interface abercrombieStockQuery {
      * one group per dimension the site names itself ("Waist" and "Length" on jeans, "Size" on a
      * tee), each option carrying the site's own `available` mark. **Size availability is per
      * COLOURWAY, not per store**: it says the tile cannot be bought online right now, and is not
-     * an inventory count — store-level stock is this provider's separate `checkStock`. **Price is
-     * a range, never per size**: the page prices 33 SKUs but labels none of them with a size and
-     * the tiles carry no SKU, so no size→price join exists to report. A product id the page does
-     * not carry THROWS rather than returning an empty product, and a 200 that has lost its inline
-     * catalog THROWS too — a re-skin must never reach a caller as a product with no colours.
+     * an inventory count — store-level stock is this provider's separate `checkStock`. **`skus` is
+     * the per-size answer**: one row per size with its own `available`, `quantity`, `price` and
+     * `listPrice`. Read it for a waist-and-length combination — the `sizes` tiles light a value if
+     * ANY size with it is in stock, so lit "32" and lit "30" do not mean 32x30 is. Pass the `url`
+     * of a search card unchanged: its `?seq=` opens the colour the card showed, and the returned
+     * `id` is the id of that COLOURWAY, which can differ from the id in the url. A product id the
+     * page does not carry THROWS rather than returning an empty product, and a 200 that has lost
+     * its inline catalog THROWS too — a re-skin must never reach a caller as a product with no
+     * colours.
      */
     getProduct(query: abercrombieProductQuery): Promise<abercrombieProduct>;
 
@@ -5888,15 +5924,18 @@ interface AmazonCart {
      * Paginate through Amazon search results by keyword using the page parameter to reach rows
      * 49+, 97+, and beyond. searchProducts({keywords, page}) returns a full result total count
      * (e.g., "48 of 6476 total results") so a caller knows how many results exist and can keep
-     * paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Each row includes ASIN,
-     * title, price, list price, star rating, review count, whether the row is a paid placement,
-     * and its product URL. Search Amazon's catalogue for what a person would type — "cast iron
-     * skillet", "usb c hub" — and get back the result cards as the site ranks them. The page
-     * parameter is fully supported: page 2 returns rows 49-96 (a genuinely different set, not page
-     * one repeated), page 3 returns rows 97-144, and you can continue paging to reach all 6000+
-     * results. The totalResultCount field tells you how many total rows exist so you can page
-     * efficiently. Optionally narrowed to a department, a brand, a price range, a sort order. THE
-     * provider's door: every function below that takes an ASIN is fed by this one.
+     * paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Returns `{ products,
+     * totalResultCount }` — the array is `products`, NOT `results` — and each row is `{ asin,
+     * title, url, price, listPrice, rating, ratingCount, sponsored }`: `rating` is the 0-5 star
+     * average and `ratingCount` how many ratings it is over (there is no `reviewCount` or
+     * `starRating`), so rank the top-rated on those two and skip `sponsored` rows. Search Amazon's
+     * catalogue for what a person would type — "cast iron skillet", "usb c hub" — and get back the
+     * result cards as the site ranks them. The page parameter is fully supported: page 2 returns
+     * rows 49-96 (a genuinely different set, not page one repeated), page 3 returns rows 97-144,
+     * and you can continue paging to reach all 6000+ results. The totalResultCount field tells you
+     * how many total rows exist so you can page efficiently. Optionally narrowed to a department,
+     * a brand, a price range, a sort order. THE provider's door: every function below that takes
+     * an ASIN is fed by this one.
      */
     searchProducts(args: SearchProductsArgs): Promise<AmazonSearchResult>;
 
@@ -21387,6 +21426,9 @@ interface GithubCommentUpdated {
   url: string;
   updatedAt: string;
 }
+interface GithubCommentDeleted {
+  deleted: true;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -21703,6 +21745,18 @@ interface GithubCommentUpdated {
      * on an unexpected response shape.
      */
     updateComment(owner: string, repo: string, commentId: number, body: string, opts?: ConnectionOption): Promise<GithubCommentUpdated>;
+
+    /**
+     * Deletes a comment from an issue or pull request, off GitHub's own documented REST endpoint
+     * (`DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}`) — the same door deletes a
+     * comment on an issue or a pull request's conversation, since GitHub treats both as issue
+     * threads here. NEEDS THE CALLER SIGNED IN and requires write access to the comment (its own
+     * or, with repo permissions, anyone's). `commentId` is the comment's own id, e.g. from
+     * `createComment`'s result. Returns a confirmation that the comment was deleted. THROWS on an
+     * unknown comment id (404), when signed out or the saved session is invalid or lacks write
+     * access (401/403), or on an unexpected response code.
+     */
+    deleteComment(owner: string, repo: string, commentId: number, opts?: ConnectionOption): Promise<GithubCommentDeleted>;
   }
 }
 
@@ -27486,6 +27540,18 @@ interface JcrewSearchProduct {
 }
 interface SearchProductsArgs {
   query: string;
+  /** Zero-based offset. Pass start + pageSize for the next page; the walk is
+   * done once start >= total. Without it only the first page (25) is read. */
+  start?: number;
+  /** Rows per page, 1-200 (default 25) — 200 walks ~1,000 sale items in 6 calls. */
+  count?: number;
+  /** One of listSortOptions()' ids, e.g. "Price-Low-to-High". */
+  sort?: string;
+  /** Filters, refinement id -> value from listSearchRefinements(), e.g.
+   * { c_isSaleSkuUs: "true" } (items actually marked down),
+   * { c_productGender: "Men" } (keeps women's items out of a search),
+   * { c_masterSize: "LARGE" }. At most 4. */
+  refine?: Record<string, string>;
 }
 interface SearchProductsResult {
   query: string;
@@ -27516,9 +27582,17 @@ interface SuggestSearchTermsResult {
 interface JcrewProductVariant {
   id: string;
   colour: string | null;
+  /** J.Crew's colour code, e.g. "WZ8904". */
+  colourCode: string | null;
+  /** This colour's 600px product image. */
+  image: string | null;
   size: string | null;
   fit: string | null;
   price: number | null;
+  /** Pre-discount price for this variant's fit. */
+  listPrice: number | null;
+  /** price < listPrice — J.Crew marks down per SKU. */
+  onSale: boolean;
   orderable: boolean | null;
 }
 interface JcrewProductImage {
@@ -27575,6 +27649,10 @@ interface GetProductsItem {
   currency: string | null;
   orderable: boolean | null;
   stockLevel: number | null;
+  /** The style's pre-discount list price. */
+  listPrice: number | null;
+  /** True when any variant is below its list price. */
+  onSale: boolean;
   colours: string[];
   sizes: string[];
   fits: string[];
@@ -27601,10 +27679,24 @@ interface CheckVariantStockResult {
   size: string;
   fit: string | null;
   price: number | null;
+  listPrice: number | null;
+  onSale: boolean;
   orderable: boolean | null;
 }
 interface BrowseCategoryArgs {
   categoryId: string;
+  /** Zero-based offset. Pass start + pageSize for the next page; the walk is
+   * done once start >= total. Without it only the first page (25) is read. */
+  start?: number;
+  /** Rows per page, 1-200 (default 25) — 200 walks ~1,000 sale items in 6 calls. */
+  count?: number;
+  /** One of listSortOptions()' ids, e.g. "Price-Low-to-High". */
+  sort?: string;
+  /** Filters, refinement id -> value from listSearchRefinements(), e.g.
+   * { c_isSaleSkuUs: "true" } (items actually marked down),
+   * { c_productGender: "Men" } (keeps women's items out of a search),
+   * { c_masterSize: "LARGE" }. At most 4. */
+  refine?: Record<string, string>;
 }
 interface BrowseCategoryResult {
   categoryId: string;
@@ -27731,7 +27823,14 @@ interface FindStoresResult {
      * Lists the products in one J.Crew category the way the site's own category pages do — given a
      * category id such as `mens|categories|clothing|shirts` — with the same pagination as
      * `searchProducts`. This is how an agent walks a department rather than guessing search words
-     * for it.
+     * for it. ONE PAGE PER CALL: pass `count` (up to 200) and walk by `start: start + pageSize`
+     * until `start >= total`. FOR SALE ITEMS: the `sale|men` category is ~1,000 products and its
+     * first pages are often full price, so narrow it on the server with `refine: { c_isSaleSkuUs:
+     * "true" }` (plus a size such as `c_masterSize`), then read the ids with `getProducts` in
+     * batches of 24 and keep variants where `onSale && orderable`. Use `v.onSale`, not a
+     * style-level price comparison: a Tall or Slim fit can list higher than Classic. FIT
+     * (Slim/Athletic) is not reliably filterable on the server for sale items: read the `fit` on
+     * each variant and the product name after getProducts.
      */
     browseCategory(args: BrowseCategoryArgs): Promise<BrowseCategoryResult>;
 
@@ -27748,8 +27847,8 @@ interface FindStoresResult {
     /**
      * Reads several J.Crew products in one call — the batch form of `getProduct`, for an agent
      * comparing a handful of items without paying a request each. Takes a list of style ids
-     * (maximum 25 per call) and returns each product's full detail in the same shape as
-     * `getProduct`, plus a list of ids that were not found.
+     * (maximum 24 per call — J.Crew's own batch limit) and returns each product's full detail in
+     * the same shape as `getProduct`, plus a list of ids that were not found.
      */
     getProducts(args: GetProductsArgs): Promise<GetProductsResult>;
 
@@ -28775,7 +28874,8 @@ interface LandsEndSearchArgs {
   query: string;
   /** The site's own size labels: "Medium", "Extra Large", "34 x 30", "32". */
   sizes?: string[];
-  /** Keep only items priced below full retail (filters the fetched page). */
+  /** Keep only items priced below full retail. Walks the catalogue (up to 500
+   * matches) until limit sale items are found. */
   onSale?: boolean;
   /** A promo code (e.g. from getActivePromo) — fills promoPrice per product. */
   promoCode?: string;
@@ -28787,6 +28887,8 @@ interface LandsEndSearchArgs {
 interface LandsEndVariant {
   size: string;
   color: string;
+  /** Regular, Tall, Big, ... — the same size in another range is another SKU. */
+  sizeRange: string | null;
   quantity: number;
   inStock: boolean;
   price: number;
@@ -30080,8 +30182,7 @@ interface SaleEvidence {
   currentPrice: number | null;
   /** The list price, when the markdown is against one. */
   originalPrice: number | null;
-  /** ISO 4217, or null. ALWAYS null here: this feed publishes bare numbers with
-   * no currency code anywhere in the payload. */
+  /** ISO 4217, e.g. "USD". */
   currency: string | null;
   promotionMessage: string | null;
   evidenceType: "compare_at_price" | "sale_price" | "retailer_sale_badge" | "published_promotion" | "none";
@@ -30099,9 +30200,9 @@ interface ProductImage {
   /** Always [] here: this feed links a picture to a COLOUR, never to a size. */
   variantIds: string[];
 }
-/** The retailer's own labels. On this door that is audience and nothing else —
- * the HPDP feed publishes no description, tags, fabric, collection or category.
- * Every other field is null or [], honestly. */
+/** The retailer's own labels, transcribed from what the store's product service
+ * publishes. A field it does not publish is null or [], never guessed. Fabric,
+ * fit, rise and the detail bullets come from getProductAttributes. */
 interface PublishedProductAttributes {
   audience: string | null;
   garmentType: "sports_bra" | "tank" | "crop_top" | "leggings" | "shorts" | "other" | null;
@@ -30134,10 +30235,9 @@ interface CoordinationMetadata {
   colorFamily: string | null;
   productFamily: string | null;
 }
-/** An EXPLICIT retailer-published relationship. ALWAYS [] on this door: the feed's
- * only product-to-product relation is the ALGORITHMIC similarity rail, which is
- * getSimilarProducts. Reading that as a set would turn "the recommender put these
- * near each other" into "lululemon sells these together". */
+/** An EXPLICIT retailer-published relationship — the store's own "shop this
+ * look" pairing for a colourway, resolved to the companion product it names. Not
+ * the algorithmic "You may also like" rail, which is getSimilarProducts. */
 interface RetailerSetEvidence {
   evidenceType: "official_set" | "shop_the_set" | "complete_the_look" | "matching_piece";
   evidenceText: string | null;
@@ -30174,7 +30274,9 @@ interface LululemonColorway {
   currency: string | null;
   inStock: boolean;
   optionGroups: LululemonOptionGroup[];
-  /** What can be BOUGHT in this colour right now — not the full size run. */
+  /** The colour's WHOLE size run, one entry per SKU. Read each one's
+   * available: false means that size is sold out (29 of 108 SKUs on the Align
+   * 25" pant, 2026-10-02). */
   variants: LululemonVariant[];
 }
 interface LululemonSizeType {
@@ -30196,8 +30298,9 @@ interface LululemonProduct {
   priceLow: number | null;
   priceHigh: number | null;
   colorways: LululemonColorway[];
-  /** Other lengths of the same style. Empty on every product measured — on this
-   * site an inseam is its OWN product, not an option. */
+  /** Other LENGTHS of the same style (25", 28", 31"), each its own product id —
+   * an inseam is a separate product on this site. Regional lengths the US store
+   * does not sell are left out. */
   sizeTypes: LululemonSizeType[];
   attributes: PublishedProductAttributes;
   coordination: CoordinationMetadata;
@@ -30264,8 +30367,7 @@ interface FieldProvenance {
   /** "published" — lululemon stated it. "absent" — the page rendered and said
    * nothing about this field. "unreachable" — the page refused, so UNKNOWN. */
   status: "published" | "absent" | "unreachable";
-  /** Which door: "lululemon_pdp_ldjson", "lululemon_pdp_accordion" or
-   * "lululemon_pdp_title". Null when nothing filled it. */
+  /** Which door filled it, e.g. "lululemon_uf_product". Null when nothing did. */
   source: string | null;
   /** The retailer's own words the value rests on, for a field derived from
    * prose. Null for a field the site published as a typed value. */
@@ -30284,9 +30386,9 @@ interface Completeness {
   unreachableFields: string[];
   sourcesUsed: string[];
 }
-/** What getProducts returns. PARTIAL by construction — the pricing catalogue
- * holds ~39% of the ids in lululemon's own sitemap, so ids it does not carry are
- * NAMED rather than silently dropped or thrown over. */
+/** What getProducts returns. Every id search returns reads here; an id that
+ * does not is NAMED in missing rather than silently dropped. A legacy prod…
+ * id is answered under the product's current id. */
 interface LululemonProductBatch {
   /** In the order the ids were passed, not the order they finished. */
   products: LululemonProduct[];
@@ -30299,19 +30401,28 @@ interface LululemonRow {
   id: string;
   title: string;
   url: string;
+  /** priceLow, priceHigh, colorCount, onSale and inStock describe ONLY the
+   * colours the search grid tile shows, not the whole product: measured
+   * 2026-10-02, g2faof1o98's row read onSale false, 2 colours, from $68 while
+   * the product has 15 colourways, 13 on sale, from $49. NEVER filter search
+   * rows on these — read getProducts and filter its colourways. */
   priceLow: number | null;
   priceHigh: number | null;
   colorCount: number | null;
   inStock: boolean | null;
-  /** False when the row came from the site's product index and the catalogue
-   * behind the prices does not carry it. id and url still work. */
+  onSale: boolean | null;
+  /** False only on the fallback path (the store's search did not answer). */
   priced: boolean;
+  image: string | null;
+  currency: string | null;
+  category: string | null;
+  colorFamilies: string[];
 }
 interface LululemonSearch {
   query: string;
   products: LululemonRow[];
-  /** How many entries matched IN TOTAL, before the row cap — the size of the
-   * thing you are paging through, not of this page. */
+  /** How many products matched IN TOTAL. Exact on the first page; a later page
+   * may only know offset + rows, so keep the first page's value. */
   matched: number;
   /** Where in the ranked match list this page started. */
   offset: number;
@@ -30353,15 +30464,15 @@ interface LululemonReview {
    */
   interface Unit {
     /**
-     * Searches lululemon's catalogue by free text and returns matching product rows, closest match
-     * first — id, title, URL, price range, how many colours the style comes in, and whether it is
-     * in stock. Ranks over the site's own published product index, then reads the price and colour
-     * count per row. A match the pricing catalogue does not carry still comes back, with `priced:
-     * false` and null prices. PAGED: `matched` is the total match count and `nextOffset` is the
-     * offset that reads the next page, or null at the end — pass it back verbatim rather than
-     * adding `products.length`, since a lost row is dropped from `products` and named in
-     * `warnings`. `limit` is rows per page (default 8, max 24, and each row costs one third-party
-     * read), `offset` where the page starts (default 0). An offset past the end is an empty page,
+     * Searches lululemon's catalogue by free text the way its own search bar does, returning
+     * matching product rows closest-match first — id, title, URL, price range, colour count and
+     * stock. Reads the store's OWN search service, which prices every row itself; only when that
+     * service does not answer does it fall back to ranking the site's published product index and
+     * pricing each row from a third-party catalogue, where a row it does not carry comes back with
+     * `priced: false` and the fallback is named in `warnings`. PAGED: `matched` is the total match
+     * count and `nextOffset` is the offset that reads the next page, or null at the end — pass it
+     * back verbatim rather than adding `products.length`. `limit` is rows per page (default 8, max
+     * 24), `offset` where the page starts (default 0). An offset past the end is an empty page,
      * not an error. A category is just a query — the site's own URL segments (`womens-leggings`,
      * `men-joggers`) are ranked over, so `{ query: "womens leggings", offset }` walks that
      * category.
@@ -30370,42 +30481,52 @@ interface LululemonReview {
 
     /**
      * Reads one product's full configurator the way its product page presents it — every colourway
-     * with its own price, sale price, promo message, swatch, image set and URL; the size picker
-     * listing the sizes that colourway can CURRENTLY SELL; and one entry per sellable SKU with the
-     * store's own id, so a caller can answer 'which colours can I get in a 6 right now'. This feed
-     * expresses sold-out by OMISSION rather than by a flag — measured across all three captured
-     * fixtures, the picker and the SKU list are the same set in all 61 colourways and `available`
-     * is true on 363 of 363 SKUs — so presence is the stock signal and `available` is passed
-     * through rather than relied on. `retailerSetEvidence` carries the store's own "shop this
-     * look" pairing per colourway, resolved to the real companion product it names — not the
-     * algorithmic "You may also like" rail (`getSimilarProducts`), an explicit styling choice the
-     * merchandiser made. Empty when a colourway named none, or named only ids the store no longer
-     * carries.
+     * with its own price, sale price, currency, swatch, image set and a URL pinned to THAT colour;
+     * the size picker listing the garment's whole size run in that colourway; and one entry per
+     * SKU with the store's own id and its REAL stock flag, so a caller can answer 'which colours
+     * can I get in a 6 right now'. A colourway here is a STYLE-colour, not a colour: one colour
+     * can appear under two styles with different prices, images and size runs, and the store's
+     * SKUs are keyed that way. Reads lululemon's own product service, which carries every id
+     * `search` returns — measured 2026-09-20 over 72 real ids, 72 of 72. READ `available` ON EVERY
+     * SKU: a colourway lists its WHOLE size run and the flag says which sizes are sold out —
+     * measured 2026-10-02 on the Align 25" pant, 29 of its first 108 SKUs read `available: false`.
+     * A `colorId` carries the style prefix (`LW1DRKS-028022` vs `LW5ENMS-028022` for the same
+     * colour 28022), so compare colours by `color` name, never by full id across garments. Sibling
+     * lengths (25", 28", 31") are separate products, listed in `sizeTypes` with their own ids.
+     * `retailerSetEvidence` carries the store's own explicit "shop this look" pairing per
+     * colourway (`shopThisLook`), resolved to the real companion product it names over a second
+     * keyless GET — a merchandiser's styling choice, not the algorithmic "You may also like" rail
+     * `getSimilarProducts` exposes. Empty when a colourway named none, or named only ids the store
+     * no longer carries.
      */
     getProduct(query: { productId: string }): Promise<LululemonProduct>;
 
     /**
-     * Reads the full configurator for MANY products in one call — the shape to use when ranking a
-     * candidate set, because a `search` row carries a price range and a colour count but not the
-     * per-colourway sizes, markdown evidence or images a ranking turns on. Returns `products` in
-     * the order the ids were passed. PARTIAL is the normal answer: the pricing catalogue holds
-     * roughly 39% of the ids in lululemon's own sitemap, so ids it does not carry come back in
-     * `missing` with the catalogue's own sentence, and one of them never costs the other rows. At
-     * most 24 ids — the same cap `search` returns — so one full search page is always one batch.
+     * Reads the full configurator for MANY products in one call — the shape for ranking a
+     * realistic candidate set, since a `search` row carries a price range and a colour count but
+     * not the per-colourway sizes, markdown evidence or per-SKU stock a ranking turns on. Same
+     * door and same record as `getProduct`, so an id `search` returned reads here: measured
+     * 2026-09-20 over 72 real ids, 72 of 72. An id that still does not read is named in `missing`
+     * with the store's own sentence rather than throwing and taking the other rows with it. At
+     * most 24 ids, which is `search`'s own row cap, so one full search page is always one batch.
      * Same `retailerSetEvidence` resolution as `getProduct`, per id.
      */
     getProducts(query: { productIds: string[] }): Promise<LululemonProductBatch>;
 
     /**
-     * Reads what lululemon's OWN product page publishes about a garment and the third-party
-     * pricing door does not carry at all: the category the site files it under, the collection
-     * description, the trademarked fabric it is cut from, the fit and the rise, its real review
-     * aggregate, and every product-detail block verbatim. This is the expensive door on this
-     * provider — a headed Google Chrome, ~10-20x the latency of `getProduct` — so call it when the
-     * ATTRIBUTES are the answer and `getProduct` when the price, colourways and sizes are. It
-     * never throws on a refused page: a page that will not render comes back with every field
-     * empty and a `warnings` entry naming it, so an empty `fabrics` is distinguishable from an
-     * unread one.
+     * Reads what lululemon publishes ABOUT a garment rather than what it costs: the category it is
+     * filed under, the collection description, the trademarked fabric it is cut from, the fit and
+     * the rise, every product-detail bullet verbatim, and — in the store's own words — what the
+     * garment is FOR (`activities`, e.g. ["Dance","Pilates","Yoga"]), plus its collections. ONE
+     * keyless GET, no browser: it read the rendered product page through a headed Google Chrome
+     * until 2026-09-20 and was ~10-20x the latency of `getProduct`; it is now comparable. IT DOES
+     * NOT RETURN THE REVIEW AGGREGATE. `ratingValue` and `reviewCount` are published only in the
+     * product page's ld+json, so they come back null and `provenance` marks them `unreachable`
+     * with the reason — which is NOT a claim that the garment has no reviews. `completeness.ratio`
+     * is therefore below 1 on a perfectly healthy read (0.75 typically, lower when a garment has
+     * no rise). It THROWS when the door does not answer, rather than returning an empty record:
+     * this function has no browser fallback, by declaration, so a caller can trust that a field it
+     * did get was actually read.
      */
     getProductAttributes(query: { productId: string }): Promise<LululemonProductAttributes>;
 
@@ -33680,6 +33801,15 @@ interface NytCookingTrendingArticles {
   warnings?: string[];
 }
 
+interface NytCookingSaveRecipeArgs {
+  recipeId: number | string;
+}
+
+interface NytCookingSaveRecipeResult {
+  recipeId: number;
+  saved: true;
+}
+
   /** Recipe search, recipe detail and Recipe Box/grocery-list actions on NYT Cooking. */
   interface Unit {
     /**
@@ -33744,6 +33874,12 @@ interface NytCookingTrendingArticles {
 
     /** Lists the articles behind the site's "Most Popular This Week" homepage carousel. */
     getTrendingArticles(): Promise<NytCookingTrendingArticles>;
+
+    /**
+     * Saves a recipe to the signed-in reader's Recipe Box. Requires the caller to be signed in to
+     * NYT — the run pauses for a login the first time this is called.
+     */
+    saveRecipe(args: NytCookingSaveRecipeArgs, opts?: ConnectionOption): Promise<NytCookingSaveRecipeResult>;
   }
 }
 
@@ -44640,6 +44776,23 @@ interface ListWatchHistoryArgs {
   /** Max videos to return, 1-100. Default 20. */
   limit?: number;
 }
+interface TwitchSubscription {
+  id: string;
+  /** Twitch's own tier code — read the values off a result, never guess one from prose. */
+  tier: string;
+  platform: string | null;
+  purchasedWithPrime: boolean;
+  /** ISO timestamp the current paid period ends. */
+  endsAt: string | null;
+  /** ISO timestamp the subscription next renews, if it will. */
+  renewsAt: string | null;
+  channelLogin: string;
+  channelDisplayName: string;
+}
+interface ListSubscriptionsArgs {
+  /** Max subscriptions to return, 1-100. Default 20. */
+  limit?: number;
+}
 
   /**
    * Twitch — cut a Highlight of your own broadcast, including the one still live, and read any
@@ -44765,6 +44918,14 @@ interface ListWatchHistoryArgs {
      * Twitch sign-in. Returns one page — up to `limit`, default 20, max 100.
      */
     listWatchHistory(args?: ListWatchHistoryArgs, opts?: ConnectionOption): Promise<TwitchVideo[]>;
+
+    /**
+     * Lists the signed-in user's own active paid subscriptions: id, Twitch's own tier code,
+     * platform, whether it was redeemed with Prime, when the current period ends and next renews,
+     * and the subscribed channel's login and display name. NEEDS the viewer's Twitch sign-in.
+     * Returns one page — up to `limit`, default 20, max 100.
+     */
+    listSubscriptions(args?: ListSubscriptionsArgs, opts?: ConnectionOption): Promise<TwitchSubscription[]>;
   }
 }
 
@@ -46937,6 +47098,43 @@ interface WikipediaMostViewedArticle {
   views: number;
 }
 
+interface WikipediaFeaturedArticle {
+  title: string;
+  description: string | null;
+  extract: string;
+  url: string;
+  thumbnailUrl: string | null;
+}
+
+interface WikipediaMostReadArticle {
+  title: string;
+  url: string;
+  views: number;
+  rank: number;
+}
+
+interface WikipediaFeaturedImage {
+  title: string;
+  imageUrl: string;
+  thumbnailUrl: string | null;
+  artist: string | null;
+  license: string | null;
+  description: string | null;
+}
+
+interface WikipediaFeaturedNews {
+  story: string;
+  links: { title: string; url: string }[];
+}
+
+interface WikipediaFeaturedContent {
+  date: string;
+  featuredArticle: WikipediaFeaturedArticle | null;
+  mostRead: WikipediaMostReadArticle[];
+  image: WikipediaFeaturedImage | null;
+  news: WikipediaFeaturedNews[];
+}
+
   /**
    * The encyclopedia — read an article, its summary, sections, infobox, links, categories,
    * images and full edit history, search across ~340 language editions, and (signed in as
@@ -47171,6 +47369,15 @@ interface WikipediaMostViewedArticle {
      * to 0 for article space, filtering out special pages).
      */
     listMostViewed(options?: { lang?: string; limit?: number; namespace?: number }): Promise<{ articles: WikipediaMostViewedArticle[]; warnings: string[] }>;
+
+    /**
+     * Wikipedia's own front page for a given date, as data: today's featured article with its
+     * extract and thumbnail, the day's most-read articles with view counts and rank, the picture
+     * of the day with its caption and licence, and the 'In the news' items with the articles they
+     * link to. Optional `date` (ISO 8601, defaults to today in UTC) and `lang` (defaults to 'en')
+     * select the edition.
+     */
+    getFeaturedContent(options?: { date?: string; lang?: string }): Promise<{ content: WikipediaFeaturedContent; warnings: string[] }>;
   }
 }
 
@@ -47304,6 +47511,32 @@ interface XProfile {
   avatarUrl: string;
 }
 
+interface XPostMedia {
+  type: "photo" | "video" | "gif";
+  url: string;
+  thumbnailUrl: string | null;
+  width: number | null;
+  height: number | null;
+  durationMs: number | null;
+}
+
+interface XPost {
+  id: string;
+  url: string;
+  text: string;
+  createdAt: string;
+  author: { handle: string; name: string; followers: number };
+  views: number | null; // null on posts older than X's view counter
+  likes: number;
+  reposts: number;
+  replies: number;
+  quotes: number;
+  bookmarks: number;
+  lang: string | null;
+  replyingTo: string | null;
+  media: XPostMedia[];
+}
+
   /** Read public user timelines and post data from X (Twitter). */
   interface Unit {
     /** Returns a public user's recent tweets from their timeline. */
@@ -47314,6 +47547,12 @@ interface XProfile {
      * — browserless.
      */
     profile(args: { handle: string }): Promise<XProfile>;
+
+    /**
+     * Reads one X (Twitter) post / tweet by URL or id: views, likes, reposts, replies, quotes,
+     * bookmarks and media (type, width, height, duration, video url) — browserless.
+     */
+    post(args: { url: string } | { id: string }): Promise<XPost>;
   }
 }
 
@@ -49598,16 +49837,19 @@ interface ShopifyCart {
     listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
 
     /**
-     * Lists the store's own merchandised collections. THIS is where a retailer states a SET: a
-     * collection the store itself named "Matching Sets" or "Activewear Sets" carries setLike:
-     * true, and membership in one is published evidence that two garments are sold together.
+     * Lists EVERY one of the store's own merchandised collections, walked page by page, optionally
+     * narrowed by a query (a store's real sale collection is rarely at the handle `sale`). THIS is
+     * where a retailer states a SET: a collection the store itself named "Matching Sets" or
+     * "Activewear Sets" carries setLike: true, and membership in one is published evidence that
+     * two garments are sold together.
      */
-    listCollections(opts?: { limit?: number }): Promise<ShopifyCollection[]>;
+    listCollections(opts?: { limit?: number; query?: string }): Promise<ShopifyCollection[]>;
 
     /**
      * Reads one collection's products in the retailer's own merchandised order, as full product
      * rows. An empty list is an ordinary answer — several named 'look' collections publish no
-     * products through this door.
+     * products through this door — but an UNKNOWN handle throws, naming the collections that match
+     * it, because the products door answers an empty list for any handle.
      */
     getCollection(handle: string, opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyCollectionProducts>;
 
@@ -50024,16 +50266,19 @@ interface ShopifyCart {
     listProducts(opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyProductPage>;
 
     /**
-     * Lists the store's own merchandised collections. THIS is where a retailer states a SET: a
-     * collection the store itself named "Matching Sets" or "Activewear Sets" carries setLike:
-     * true, and membership in one is published evidence that two garments are sold together.
+     * Lists EVERY one of the store's own merchandised collections, walked page by page, optionally
+     * narrowed by a query (a store's real sale collection is rarely at the handle `sale`). THIS is
+     * where a retailer states a SET: a collection the store itself named "Matching Sets" or
+     * "Activewear Sets" carries setLike: true, and membership in one is published evidence that
+     * two garments are sold together.
      */
-    listCollections(opts?: { limit?: number }): Promise<ShopifyCollection[]>;
+    listCollections(opts?: { limit?: number; query?: string }): Promise<ShopifyCollection[]>;
 
     /**
      * Reads one collection's products in the retailer's own merchandised order, as full product
      * rows. An empty list is an ordinary answer — several named 'look' collections publish no
-     * products through this door.
+     * products through this door — but an UNKNOWN handle throws, naming the collections that match
+     * it, because the products door answers an empty list for any handle.
      */
     getCollection(handle: string, opts?: { limit?: number; cursor?: string | null }): Promise<ShopifyCollectionProducts>;
 
@@ -61096,6 +61341,7 @@ interface BowmarkProviders {
   clubhousetrailers: BowmarkFamily_shopify_store.Unit;
   clubjeepmontreal: BowmarkFamily_shopify_store.Unit;
   clubmetroriverside: BowmarkFamily_shopify_store.Unit;
+  clubmonaco: BowmarkFamily_shopify_store.Unit;
   clubpittsburgh: BowmarkFamily_shopify_store.Unit;
   clubportalrackit: BowmarkFamily_shopify_store.Unit;
   clubscrap: BowmarkFamily_shopify_store.Unit;
@@ -95347,6 +95593,7 @@ interface BowmarkProviders {
   untilfreedom: BowmarkFamily_shopify_store.Unit;
   untiliwake: BowmarkFamily_shopify_store.Unit;
   untouchablesounds: BowmarkFamily_shopify_store.Unit;
+  untuckit: BowmarkFamily_shopify_store.Unit;
   unusualearrings: BowmarkFamily_shopify_store.Unit;
   unveilinglory: BowmarkFamily_shopify_store.Unit;
   unverfalscht: BowmarkFamily_shopify_store.Unit;

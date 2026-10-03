@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 34f45038cf1006c18d3f059daabd6a2a4ae642ba9ae0991b13fd0c0b8ba14c64
-# 73 capabilities, 512 providers, 1751 typed functions, 20 refused.
+# Manifest version: a79086c7b559871b06798605805c19b734a085559393099cd3dc91a0538a4652
+# 73 capabilities, 512 providers, 1756 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1753,6 +1753,7 @@ class Cap_read_ReadResult_Out(TypedDict):
     chars: float
     truncated: bool
     error: str | None
+    needsLogin: bool
     wall: Cap_read_ReadResult_Out_wall_u0_Out | None
     headers: NotRequired[Mapping[str, str]]
     json: NotRequired[Any]
@@ -2606,6 +2607,7 @@ class Prv_abercrombie_abercrombieProduct_Out(TypedDict):
     images: list[str]
     colors: list[Prv_abercrombie_abercrombieColor_Out]
     sizes: list[Prv_abercrombie_abercrombieSizeGroup_Out]
+    skus: list[Prv_abercrombie_abercrombieSku_Out]
     breadcrumbs: list[str]
 
 class Prv_abercrombie_abercrombieColor_Out(TypedDict):
@@ -2623,6 +2625,16 @@ class Prv_abercrombie_abercrombieSizeGroup_Out(TypedDict):
 class Prv_abercrombie_abercrombieSizeOption_Out(TypedDict):
     label: str
     available: bool
+
+class Prv_abercrombie_abercrombieSku_Out(TypedDict):
+    sku: str
+    size: str | None
+    sizePrimary: str | None
+    sizeSecondary: str | None
+    available: bool
+    quantity: float
+    price: float | None
+    listPrice: float | None
 
 class Prv_abercrombie_abercrombieStoreQuery_In(TypedDict):
     zip: NotRequired[str]
@@ -2701,6 +2713,7 @@ class Prv_abercrombie_abercrombieSearchQuery_In(TypedDict):
     query: NotRequired[str]
     category: NotRequired[str]
     maxItems: NotRequired[float]
+    start: NotRequired[float]
 
 class Prv_abercrombie_abercrombieSearchResult_Out(TypedDict):
     id: str
@@ -11792,6 +11805,9 @@ class Prv_github_GithubCommentUpdated_Out(TypedDict):
     url: str
     updatedAt: str
 
+class Prv_github_GithubCommentDeleted_Out(TypedDict):
+    deleted: Literal[True]
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -14627,6 +14643,10 @@ class Prv_jcrew_JcrewCategory_Out(TypedDict):
 
 class Prv_jcrew_SearchProductsArgs_In(TypedDict):
     query: str
+    start: NotRequired[float]
+    count: NotRequired[float]
+    sort: NotRequired[str]
+    refine: NotRequired[Mapping[str, str]]
 
 class Prv_jcrew_SearchProductsResult_Out(TypedDict):
     query: str
@@ -14645,6 +14665,10 @@ class Prv_jcrew_JcrewSearchProduct_Out(TypedDict):
 
 class Prv_jcrew_BrowseCategoryArgs_In(TypedDict):
     categoryId: str
+    start: NotRequired[float]
+    count: NotRequired[float]
+    sort: NotRequired[str]
+    refine: NotRequired[Mapping[str, str]]
 
 class Prv_jcrew_BrowseCategoryResult_Out(TypedDict):
     categoryId: str
@@ -14686,9 +14710,13 @@ class Prv_jcrew_GetProductResult_Out(TypedDict):
 class Prv_jcrew_JcrewProductVariant_Out(TypedDict):
     id: str
     colour: str | None
+    colourCode: str | None
+    image: str | None
     size: str | None
     fit: str | None
     price: float | None
+    listPrice: float | None
+    onSale: bool
     orderable: bool | None
 
 class Prv_jcrew_JcrewProductImage_Out(TypedDict):
@@ -14712,6 +14740,8 @@ class Prv_jcrew_GetProductsItem_Out(TypedDict):
     currency: str | None
     orderable: bool | None
     stockLevel: float | None
+    listPrice: float | None
+    onSale: bool
     colours: list[str]
     sizes: list[str]
     fits: list[str]
@@ -14731,6 +14761,8 @@ class Prv_jcrew_CheckVariantStockResult_Out(TypedDict):
     size: str
     fit: str | None
     price: float | None
+    listPrice: float | None
+    onSale: bool
     orderable: bool | None
 
 class Prv_jcrew_SuggestSearchTermsArgs_In(TypedDict):
@@ -15400,6 +15432,7 @@ class Prv_landsend_LandsEndProduct_Out_colors_item_Out(TypedDict):
 class Prv_landsend_LandsEndVariant_Out(TypedDict):
     size: str
     color: str
+    sizeRange: str | None
     quantity: float
     inStock: bool
     price: float
@@ -16147,7 +16180,12 @@ class Prv_lululemon_LululemonRow_Out(TypedDict):
     priceHigh: float | None
     colorCount: float | None
     inStock: bool | None
+    onSale: bool | None
     priced: bool
+    image: str | None
+    currency: str | None
+    category: str | None
+    colorFamilies: list[str]
 
 class Prv_lululemon_getProduct_query_In(TypedDict):
     productId: str
@@ -17841,6 +17879,13 @@ class Prv_nyt_cooking_NytCookingTrendingArticle_Out(TypedDict):
     title: str
     url: str
     summary: str | None
+
+class Prv_nyt_cooking_NytCookingSaveRecipeArgs_In(TypedDict):
+    recipeId: float | str
+
+class Prv_nyt_cooking_NytCookingSaveRecipeResult_Out(TypedDict):
+    recipeId: float
+    saved: Literal[True]
 
 class Prv_nyt_games_GetWordleArgs_In(TypedDict):
     date: NotRequired[str]
@@ -24459,6 +24504,19 @@ class Prv_twitch_ListWatchLaterArgs_In(TypedDict):
 class Prv_twitch_ListWatchHistoryArgs_In(TypedDict):
     limit: NotRequired[float]
 
+class Prv_twitch_ListSubscriptionsArgs_In(TypedDict):
+    limit: NotRequired[float]
+
+class Prv_twitch_TwitchSubscription_Out(TypedDict):
+    id: str
+    tier: str
+    platform: str | None
+    purchasedWithPrime: bool
+    endsAt: str | None
+    renewsAt: str | None
+    channelLogin: str
+    channelDisplayName: str
+
 class Prv_uber_DriverEarnings_Out(TypedDict):
     weekStart: str
     tripCount: float
@@ -26088,6 +26146,50 @@ class Prv_wikipedia_WikipediaMostViewedArticle_Out(TypedDict):
     url: str
     views: float
 
+class Prv_wikipedia_getFeaturedContent_options_In(TypedDict):
+    date: NotRequired[str]
+    lang: NotRequired[str]
+
+class Prv_wikipedia_getFeaturedContent_return_Out(TypedDict):
+    content: Prv_wikipedia_WikipediaFeaturedContent_Out
+    warnings: list[str]
+
+class Prv_wikipedia_WikipediaFeaturedContent_Out(TypedDict):
+    date: str
+    featuredArticle: Prv_wikipedia_WikipediaFeaturedArticle_Out | None
+    mostRead: list[Prv_wikipedia_WikipediaMostReadArticle_Out]
+    image: Prv_wikipedia_WikipediaFeaturedImage_Out | None
+    news: list[Prv_wikipedia_WikipediaFeaturedNews_Out]
+
+class Prv_wikipedia_WikipediaFeaturedArticle_Out(TypedDict):
+    title: str
+    description: str | None
+    extract: str
+    url: str
+    thumbnailUrl: str | None
+
+class Prv_wikipedia_WikipediaMostReadArticle_Out(TypedDict):
+    title: str
+    url: str
+    views: float
+    rank: float
+
+class Prv_wikipedia_WikipediaFeaturedImage_Out(TypedDict):
+    title: str
+    imageUrl: str
+    thumbnailUrl: str | None
+    artist: str | None
+    license: str | None
+    description: str | None
+
+class Prv_wikipedia_WikipediaFeaturedNews_Out(TypedDict):
+    story: str
+    links: list[Prv_wikipedia_WikipediaFeaturedNews_Out_links_item_Out]
+
+class Prv_wikipedia_WikipediaFeaturedNews_Out_links_item_Out(TypedDict):
+    title: str
+    url: str
+
 class Prv_wikipedia_standings_SearchResult_Out(TypedDict):
     league: str
     standings: list[Prv_wikipedia_standings_StandingsRow_Out]
@@ -26169,6 +26271,41 @@ class Prv_x_XProfile_Out(TypedDict):
     joined: str
     verified: bool
     avatarUrl: str
+
+class Prv_x_post_args_u0_In(TypedDict):
+    url: str
+
+class Prv_x_post_args_u1_In(TypedDict):
+    id: str
+
+class Prv_x_XPost_Out(TypedDict):
+    id: str
+    url: str
+    text: str
+    createdAt: str
+    author: Prv_x_XPost_Out_author_Out
+    views: float | None
+    likes: float
+    reposts: float
+    replies: float
+    quotes: float
+    bookmarks: float
+    lang: str | None
+    replyingTo: str | None
+    media: list[Prv_x_XPostMedia_Out]
+
+class Prv_x_XPost_Out_author_Out(TypedDict):
+    handle: str
+    name: str
+    followers: float
+
+class Prv_x_XPostMedia_Out(TypedDict):
+    type: Literal["photo"] | Literal["video"] | Literal["gif"]
+    url: str
+    thumbnailUrl: str | None
+    width: float | None
+    height: float | None
+    durationMs: float | None
 
 class Prv_xpresswellnessurgentcare_XpressFacility_Out(TypedDict):
     facilityId: str
@@ -27363,20 +27500,24 @@ class Cap_browser_agent(Protocol):
 
     async def start(self, options: Cap_browser_agent_StartBrowserAgentOptions_In, /) -> Cap_browser_agent_StartBrowserAgentResult_Out:
         """A one-shot live browser for ONE task on a site nothing in the library covers; returns
-        `id` and `watchUrl` at once. Not a watcher — it cannot poll on a schedule or run
-        unattended. Billed per turn: when your user asked you to get the thing done, start it
-        and in the same reply tell them it is running, that it costs money, and give them
-        `watchUrl` — a login only they hold is signed in there, on the live page. If you do not
-        start it, still name it to them with its cost; never end on a manual workaround without
-        mentioning it. **One session = one independent goal** — never bundle multiple date
-        ranges, SKUs or queries into one session; the agent silently reuses results across them.
-        Start a separate session for each distinct query. Then `status(id)` from later runs
-        (each `run()` is capped at 120s; the agent is not — a task normally takes 1-3 minutes,
-        so do not give up on it before 5); on `needs_input` relay `question` and `send` the
-        answer; on `idle` read `result` and `stop(id)`. A login persists for the life of the
-        session, so later `send()` calls into the same session do not need re-authentication.
-        Always stop sessions when done — idle browsers keep costing money. Account limit: 3
-        concurrent sessions.
+        `id` and `watchUrl`. When the task names the site (a URL or a host like example.com),
+        Bowmark may first try a fast agent INSIDE `start` (usually 5-20 s, at most ~40 s): if it
+        finishes, `start` returns `status: "idle"` and the answer is already in
+        `status(id).result`; otherwise Browser Use runs the session and `start` returns
+        `running`. Handle both. Not a watcher — it cannot poll on a schedule or run unattended.
+        Billed per turn: when your user asked you to get the thing done, start it and in the
+        same reply tell them it is running, that it costs money, and give them `watchUrl` — a
+        login only they hold is signed in there, on the live page. If you do not start it, still
+        name it to them with its cost; never end on a manual workaround without mentioning it.
+        **One session = one independent goal** — never bundle multiple date ranges, SKUs or
+        queries into one session; the agent silently reuses results across them. Start a
+        separate session for each distinct query. Then `status(id)` from later runs (each
+        `run()` is capped at 120s; the agent is not — a task normally takes 1-3 minutes, so do
+        not give up on it before 5); on `needs_input` relay `question` and `send` the answer; on
+        `idle` read `result` and `stop(id)`. A login persists for the life of the session, so
+        later `send()` calls into the same session do not need re-authentication. Always stop
+        sessions when done — idle browsers keep costing money. Account limit: 3 concurrent
+        sessions.
         """
 
     async def status(self, id: str, options: Cap_browser_agent_BrowserAgentStatusOptions_In | None = None, /) -> Cap_browser_agent_BrowserAgentStatusResult_Out:
@@ -29080,11 +29221,15 @@ class Prv_abercrombie(Protocol):
         "Length" on jeans, "Size" on a tee), each option carrying the site's own `available`
         mark. **Size availability is per COLOURWAY, not per store**: it says the tile cannot be
         bought online right now, and is not an inventory count — store-level stock is this
-        provider's separate `checkStock`. **Price is a range, never per size**: the page prices
-        33 SKUs but labels none of them with a size and the tiles carry no SKU, so no size→price
-        join exists to report. A product id the page does not carry THROWS rather than returning
-        an empty product, and a 200 that has lost its inline catalog THROWS too — a re-skin must
-        never reach a caller as a product with no colours.
+        provider's separate `checkStock`. **`skus` is the per-size answer**: one row per size
+        with its own `available`, `quantity`, `price` and `listPrice`. Read it for a
+        waist-and-length combination — the `sizes` tiles light a value if ANY size with it is in
+        stock, so lit "32" and lit "30" do not mean 32x30 is. Pass the `url` of a search card
+        unchanged: its `?seq=` opens the colour the card showed, and the returned `id` is the id
+        of that COLOURWAY, which can differ from the id in the url. A product id the page does
+        not carry THROWS rather than returning an empty product, and a 200 that has lost its
+        inline catalog THROWS too — a re-skin must never reach a caller as a product with no
+        colours.
         """
 
     async def findStores(self, query: Prv_abercrombie_abercrombieStoreQuery_In, /) -> list[Prv_abercrombie_abercrombieStore_Out]:
@@ -29403,16 +29548,18 @@ class Prv_amazon(Protocol):
         """Paginate through Amazon search results by keyword using the page parameter to reach rows
         49+, 97+, and beyond. searchProducts({keywords, page}) returns a full result total count
         (e.g., "48 of 6476 total results") so a caller knows how many results exist and can keep
-        paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Each row includes
-        ASIN, title, price, list price, star rating, review count, whether the row is a paid
-        placement, and its product URL. Search Amazon's catalogue for what a person would type —
-        "cast iron skillet", "usb c hub" — and get back the result cards as the site ranks them.
-        The page parameter is fully supported: page 2 returns rows 49-96 (a genuinely different
-        set, not page one repeated), page 3 returns rows 97-144, and you can continue paging to
-        reach all 6000+ results. The totalResultCount field tells you how many total rows exist
-        so you can page efficiently. Optionally narrowed to a department, a brand, a price
-        range, a sort order. THE provider's door: every function below that takes an ASIN is fed
-        by this one.
+        paging. Pass page 2 to get rows 49-96, page 3 for rows 97-144, etc. Returns `{ products,
+        totalResultCount }` — the array is `products`, NOT `results` — and each row is `{ asin,
+        title, url, price, listPrice, rating, ratingCount, sponsored }`: `rating` is the 0-5
+        star average and `ratingCount` how many ratings it is over (there is no `reviewCount` or
+        `starRating`), so rank the top-rated on those two and skip `sponsored` rows. Search
+        Amazon's catalogue for what a person would type — "cast iron skillet", "usb c hub" — and
+        get back the result cards as the site ranks them. The page parameter is fully supported:
+        page 2 returns rows 49-96 (a genuinely different set, not page one repeated), page 3
+        returns rows 97-144, and you can continue paging to reach all 6000+ results. The
+        totalResultCount field tells you how many total rows exist so you can page efficiently.
+        Optionally narrowed to a department, a brand, a price range, a sort order. THE
+        provider's door: every function below that takes an ASIN is fed by this one.
         """
 
     async def listCategoryProducts(self, args: Prv_amazon_ListCategoryProductsArgs_In, /) -> Prv_amazon_AmazonCategoryListing_Out:
@@ -35373,6 +35520,17 @@ class Prv_github(Protocol):
         write access (401/403), or on an unexpected response shape.
         """
 
+    async def deleteComment(self, owner: str, repo: str, commentId: float, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentDeleted_Out:
+        """Deletes a comment from an issue or pull request, off GitHub's own documented REST
+        endpoint (`DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}`) — the same door
+        deletes a comment on an issue or a pull request's conversation, since GitHub treats both
+        as issue threads here. NEEDS THE CALLER SIGNED IN and requires write access to the
+        comment (its own or, with repo permissions, anyone's). `commentId` is the comment's own
+        id, e.g. from `createComment`'s result. Returns a confirmation that the comment was
+        deleted. THROWS on an unknown comment id (404), when signed out or the saved session is
+        invalid or lacks write access (401/403), or on an unexpected response code.
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -37687,7 +37845,14 @@ class Prv_jcrew(Protocol):
         """Lists the products in one J.Crew category the way the site's own category pages do —
         given a category id such as `mens|categories|clothing|shirts` — with the same pagination
         as `searchProducts`. This is how an agent walks a department rather than guessing search
-        words for it.
+        words for it. ONE PAGE PER CALL: pass `count` (up to 200) and walk by `start: start +
+        pageSize` until `start >= total`. FOR SALE ITEMS: the `sale|men` category is ~1,000
+        products and its first pages are often full price, so narrow it on the server with
+        `refine: { c_isSaleSkuUs: "true" }` (plus a size such as `c_masterSize`), then read the
+        ids with `getProducts` in batches of 24 and keep variants where `onSale && orderable`.
+        Use `v.onSale`, not a style-level price comparison: a Tall or Slim fit can list higher
+        than Classic. FIT (Slim/Athletic) is not reliably filterable on the server for sale
+        items: read the `fit` on each variant and the product name after getProducts.
         """
 
     async def getProduct(self, args: Prv_jcrew_GetProductArgs_In, /) -> Prv_jcrew_GetProductResult_Out:
@@ -37702,8 +37867,8 @@ class Prv_jcrew(Protocol):
     async def getProducts(self, args: Prv_jcrew_GetProductsArgs_In, /) -> Prv_jcrew_GetProductsResult_Out:
         """Reads several J.Crew products in one call — the batch form of `getProduct`, for an agent
         comparing a handful of items without paying a request each. Takes a list of style ids
-        (maximum 25 per call) and returns each product's full detail in the same shape as
-        `getProduct`, plus a list of ids that were not found.
+        (maximum 24 per call — J.Crew's own batch limit) and returns each product's full detail
+        in the same shape as `getProduct`, plus a list of ids that were not found.
         """
 
     async def checkVariantStock(self, args: Prv_jcrew_CheckVariantStockArgs_In, /) -> Prv_jcrew_CheckVariantStockResult_Out:
@@ -38708,57 +38873,68 @@ class Prv_lululemon(Protocol):
     """
 
     async def search(self, query: Prv_lululemon_search_query_In, /) -> Prv_lululemon_LululemonSearch_Out:
-        """Searches lululemon's catalogue by free text and returns matching product rows, closest
-        match first — id, title, URL, price range, how many colours the style comes in, and
-        whether it is in stock. Ranks over the site's own published product index, then reads
-        the price and colour count per row. A match the pricing catalogue does not carry still
-        comes back, with `priced: false` and null prices. PAGED: `matched` is the total match
-        count and `nextOffset` is the offset that reads the next page, or null at the end — pass
-        it back verbatim rather than adding `products.length`, since a lost row is dropped from
-        `products` and named in `warnings`. `limit` is rows per page (default 8, max 24, and
-        each row costs one third-party read), `offset` where the page starts (default 0). An
-        offset past the end is an empty page, not an error. A category is just a query — the
-        site's own URL segments (`womens-leggings`, `men-joggers`) are ranked over, so `{ query:
-        "womens leggings", offset }` walks that category.
+        """Searches lululemon's catalogue by free text the way its own search bar does, returning
+        matching product rows closest-match first — id, title, URL, price range, colour count
+        and stock. Reads the store's OWN search service, which prices every row itself; only
+        when that service does not answer does it fall back to ranking the site's published
+        product index and pricing each row from a third-party catalogue, where a row it does not
+        carry comes back with `priced: false` and the fallback is named in `warnings`. PAGED:
+        `matched` is the total match count and `nextOffset` is the offset that reads the next
+        page, or null at the end — pass it back verbatim rather than adding `products.length`.
+        `limit` is rows per page (default 8, max 24), `offset` where the page starts (default
+        0). An offset past the end is an empty page, not an error. A category is just a query —
+        the site's own URL segments (`womens-leggings`, `men-joggers`) are ranked over, so `{
+        query: "womens leggings", offset }` walks that category.
         """
 
     async def getProduct(self, query: Prv_lululemon_getProduct_query_In, /) -> Prv_lululemon_LululemonProduct_Out:
         """Reads one product's full configurator the way its product page presents it — every
-        colourway with its own price, sale price, promo message, swatch, image set and URL; the
-        size picker listing the sizes that colourway can CURRENTLY SELL; and one entry per
-        sellable SKU with the store's own id, so a caller can answer 'which colours can I get in
-        a 6 right now'. This feed expresses sold-out by OMISSION rather than by a flag —
-        measured across all three captured fixtures, the picker and the SKU list are the same
-        set in all 61 colourways and `available` is true on 363 of 363 SKUs — so presence is the
-        stock signal and `available` is passed through rather than relied on.
-        `retailerSetEvidence` carries the store's own "shop this look" pairing per colourway,
-        resolved to the real companion product it names — not the algorithmic "You may also
-        like" rail (`getSimilarProducts`), an explicit styling choice the merchandiser made.
-        Empty when a colourway named none, or named only ids the store no longer carries.
+        colourway with its own price, sale price, currency, swatch, image set and a URL pinned
+        to THAT colour; the size picker listing the garment's whole size run in that colourway;
+        and one entry per SKU with the store's own id and its REAL stock flag, so a caller can
+        answer 'which colours can I get in a 6 right now'. A colourway here is a STYLE-colour,
+        not a colour: one colour can appear under two styles with different prices, images and
+        size runs, and the store's SKUs are keyed that way. Reads lululemon's own product
+        service, which carries every id `search` returns — measured 2026-09-20 over 72 real ids,
+        72 of 72. READ `available` ON EVERY SKU: a colourway lists its WHOLE size run and the
+        flag says which sizes are sold out — measured 2026-10-02 on the Align 25" pant, 29 of
+        its first 108 SKUs read `available: false`. A `colorId` carries the style prefix
+        (`LW1DRKS-028022` vs `LW5ENMS-028022` for the same colour 28022), so compare colours by
+        `color` name, never by full id across garments. Sibling lengths (25", 28", 31") are
+        separate products, listed in `sizeTypes` with their own ids. `retailerSetEvidence`
+        carries the store's own explicit "shop this look" pairing per colourway
+        (`shopThisLook`), resolved to the real companion product it names over a second keyless
+        GET — a merchandiser's styling choice, not the algorithmic "You may also like" rail
+        `getSimilarProducts` exposes. Empty when a colourway named none, or named only ids the
+        store no longer carries.
         """
 
     async def getProducts(self, query: Prv_lululemon_getProducts_query_In, /) -> Prv_lululemon_LululemonProductBatch_Out:
-        """Reads the full configurator for MANY products in one call — the shape to use when
-        ranking a candidate set, because a `search` row carries a price range and a colour count
-        but not the per-colourway sizes, markdown evidence or images a ranking turns on. Returns
-        `products` in the order the ids were passed. PARTIAL is the normal answer: the pricing
-        catalogue holds roughly 39% of the ids in lululemon's own sitemap, so ids it does not
-        carry come back in `missing` with the catalogue's own sentence, and one of them never
-        costs the other rows. At most 24 ids — the same cap `search` returns — so one full
-        search page is always one batch. Same `retailerSetEvidence` resolution as `getProduct`,
-        per id.
+        """Reads the full configurator for MANY products in one call — the shape for ranking a
+        realistic candidate set, since a `search` row carries a price range and a colour count
+        but not the per-colourway sizes, markdown evidence or per-SKU stock a ranking turns on.
+        Same door and same record as `getProduct`, so an id `search` returned reads here:
+        measured 2026-09-20 over 72 real ids, 72 of 72. An id that still does not read is named
+        in `missing` with the store's own sentence rather than throwing and taking the other
+        rows with it. At most 24 ids, which is `search`'s own row cap, so one full search page
+        is always one batch. Same `retailerSetEvidence` resolution as `getProduct`, per id.
         """
 
     async def getProductAttributes(self, query: Prv_lululemon_getProductAttributes_query_In, /) -> Prv_lululemon_LululemonProductAttributes_Out:
-        """Reads what lululemon's OWN product page publishes about a garment and the third-party
-        pricing door does not carry at all: the category the site files it under, the collection
-        description, the trademarked fabric it is cut from, the fit and the rise, its real
-        review aggregate, and every product-detail block verbatim. This is the expensive door on
-        this provider — a headed Google Chrome, ~10-20x the latency of `getProduct` — so call it
-        when the ATTRIBUTES are the answer and `getProduct` when the price, colourways and sizes
-        are. It never throws on a refused page: a page that will not render comes back with
-        every field empty and a `warnings` entry naming it, so an empty `fabrics` is
-        distinguishable from an unread one.
+        """Reads what lululemon publishes ABOUT a garment rather than what it costs: the category
+        it is filed under, the collection description, the trademarked fabric it is cut from,
+        the fit and the rise, every product-detail bullet verbatim, and — in the store's own
+        words — what the garment is FOR (`activities`, e.g. ["Dance","Pilates","Yoga"]), plus
+        its collections. ONE keyless GET, no browser: it read the rendered product page through
+        a headed Google Chrome until 2026-09-20 and was ~10-20x the latency of `getProduct`; it
+        is now comparable. IT DOES NOT RETURN THE REVIEW AGGREGATE. `ratingValue` and
+        `reviewCount` are published only in the product page's ld+json, so they come back null
+        and `provenance` marks them `unreachable` with the reason — which is NOT a claim that
+        the garment has no reviews. `completeness.ratio` is therefore below 1 on a perfectly
+        healthy read (0.75 typically, lower when a garment has no rise). It THROWS when the door
+        does not answer, rather than returning an empty record: this function has no browser
+        fallback, by declaration, so a caller can trust that a field it did get was actually
+        read.
         """
 
     async def getSimilarProducts(self, query: Prv_lululemon_getSimilarProducts_query_In, /) -> Prv_lululemon_LululemonSimilarProducts_Out:
@@ -39869,6 +40045,11 @@ class Prv_nyt_cooking(Protocol):
 
     async def getTrendingArticles(self, /) -> Prv_nyt_cooking_NytCookingTrendingArticles_Out:
         """Lists the articles behind the site's "Most Popular This Week" homepage carousel."""
+
+    async def saveRecipe(self, args: Prv_nyt_cooking_NytCookingSaveRecipeArgs_In, opts: ConnectionOption | None = None, /) -> Prv_nyt_cooking_NytCookingSaveRecipeResult_Out:
+        """Saves a recipe to the signed-in reader's Recipe Box. Requires the caller to be signed in
+        to NYT — the run pauses for a login the first time this is called.
+        """
 
 class Prv_nyt_games(Protocol):
     """Access daily puzzles from The New York Times Games collection including Wordle,
@@ -44010,6 +44191,13 @@ class Prv_twitch(Protocol):
         viewer's Twitch sign-in. Returns one page — up to `limit`, default 20, max 100.
         """
 
+    async def listSubscriptions(self, args: Prv_twitch_ListSubscriptionsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> list[Prv_twitch_TwitchSubscription_Out]:
+        """Lists the signed-in user's own active paid subscriptions: id, Twitch's own tier code,
+        platform, whether it was redeemed with Prime, when the current period ends and next
+        renews, and the subscribed channel's login and display name. NEEDS the viewer's Twitch
+        sign-in. Returns one page — up to `limit`, default 20, max 100.
+        """
+
 class Prv_uber(Protocol):
     """Read signed-in driver earnings summaries from the Uber driver dashboard."""
 
@@ -44901,6 +45089,14 @@ class Prv_wikipedia(Protocol):
         namespace (defaults to 0 for article space, filtering out special pages).
         """
 
+    async def getFeaturedContent(self, options: Prv_wikipedia_getFeaturedContent_options_In | None = None, /) -> Prv_wikipedia_getFeaturedContent_return_Out:
+        """Wikipedia's own front page for a given date, as data: today's featured article with its
+        extract and thumbnail, the day's most-read articles with view counts and rank, the
+        picture of the day with its caption and licence, and the 'In the news' items with the
+        articles they link to. Optional `date` (ISO 8601, defaults to today in UTC) and `lang`
+        (defaults to 'en') select the edition.
+        """
+
 class Prv_wikipedia_standings(Protocol):
     """Search Wikipedia for sports league standings with goal differential data."""
 
@@ -44942,6 +45138,11 @@ class Prv_x(Protocol):
     async def profile(self, args: Prv_x_profile_args_In, /) -> Prv_x_XProfile_Out:
         """Reads an X (Twitter) profile by handle or URL: name, bio, location, website, follower
         count — browserless.
+        """
+
+    async def post(self, args: Prv_x_post_args_u0_In | Prv_x_post_args_u1_In, /) -> Prv_x_XPost_Out:
+        """Reads one X (Twitter) post / tweet by URL or id: views, likes, reposts, replies, quotes,
+        bookmarks and media (type, width, height, duration, video url) — browserless.
         """
 
 class Prv_xpresswellnessurgentcare(Protocol):
