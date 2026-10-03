@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2614 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2615 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2553,6 +2553,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.findPlayers` | sports.yahoo.com | Finds players on one team's roster by name — the door for `getPlayer`, so a caller… | 🟢 |
 | `yahoo_sports.getFantasyLeague` | sports.yahoo.com | Reads the CALLER's own fantasy football league — standings and the current week's… | 🟢 |
 | `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full off its own game page — final or live score, status, venue… | 🟢 |
+| `yahoo_sports.getInjuries` | sports.yahoo.com | Reads a league's full injury report the way its own Injuries page does — every team's… | 🟢 |
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads a league's News tab — all story headlines, links, sources and publication times… | 🟢 |
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and current-season stat line off their own player page —… | 🟢 |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | 🟢 |
