@@ -1266,8 +1266,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `holidaybuilders.getHomeDetail` | holidaybuilders.com | Reads one specific home's own listing page — full specs, floor-plan description… | 🟢 |
 | `holidaybuilders.searchAvailableHomes` | holidaybuilders.com | Runs Holiday Builders' site-wide Available Homes search — every real move-in-ready or… | 🟢 |
 | `hottopic.search` | hottopic.com | Searches hottopic.com's own storefront for a keyword and returns the real, priced… | 🟢 |
-| `hubspot.addNoteToDeal` | app.hubspot.com | Writes a note onto a deal in the caller's own HubSpot CRM portal — creates the note… | 🟢 |
-| `hubspot.getDeal` | app.hubspot.com | Reads one deal from the caller's own HubSpot CRM portal by its id — name, amount… | 🟢 |
+| `hubspot.addNoteToDeal` | app.hubspot.com | Writes a note onto a deal in the caller's own HubSpot CRM portal — creates the note… | 🟡 |
+| `hubspot.getDeal` | app.hubspot.com | Reads one deal from the caller's own HubSpot CRM portal by its id — name, amount… | 🟡 |
 | `hubspot.searchContacts` | app.hubspot.com | Searches the contacts in the caller's own HubSpot CRM portal by name or email. | ⚪ |
 | `hubspot.searchDeals` | app.hubspot.com | Searches the deals in the caller's own HubSpot CRM portal by name ("Q4 direct mail")… | 🟢 |
 | `hubspot.updateDeal` | app.hubspot.com | Changes a deal's properties (stage, amount, close date) in the caller's own HubSpot… | ⚪ |
@@ -2021,7 +2021,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.checkWarrantyStatus` | samsung.com | A signed-in shopper's registered device's warranty status — active or expired, with… | 🟢 |
 | `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models in the same family —… | 🟢 |
 | `samsung.findStore` | samsung.com | Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not… | 🟢 |
-| `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟢 |
+| `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟡 |
 | `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
 | `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | 🟢 |
 | `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | 🟢 |
@@ -2030,7 +2030,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | 🟢 |
 | `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | 🟡 |
 | `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | 🟢 |
-| `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | 🟢 |
+| `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | 🟡 |
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | 🟢 |
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟡 |
 | `scentbird.browseCatalogue` | scentbird.com | Reads a page of Scentbird's own live subscription catalogue (perfumes or colognes) —… | 🟢 |
@@ -2126,7 +2126,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.getWishlist` | steampowered.com | Fetches the caller's complete wishlist with all games currently saved. | ⚪ |
 | `steam.listFeaturedGames` | steampowered.com | Fetches the current list of featured games displayed on the Steam store homepage… | 🟢 |
 | `steam.listGamesByCategory` | steampowered.com | Lists games filtered by one of Steam's own genre/category tags (Action, Adventure… | 🟢 |
-| `steam.listGameTags` | steampowered.com | Lists all available tags users can apply to games, with tag popularity or usage counts. | ⚪ |
+| `steam.listGameTags` | steampowered.com | Lists every tag users can apply to games on the Steam store, in the site's own… | 🟢 |
 | `steam.listNews` | steampowered.com | Lists a game's news and updates by appid, from both official announcements and… | 🟢 |
 | `steam.postComment` | steampowered.com | Posts a comment or discussion in a game's community hub. | ⚪ |
 | `steam.removeFriend` | steampowered.com | Removes a user from the caller's friends list. | ⚪ |
@@ -2520,7 +2520,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `winestyles.listStores` | winestyles.com | Lists the WineStyles franchise locations that currently offer online order-for-pickup… | 🟢 |
 | `winestyles.searchStoreInventory` | winestyles.com | Searches one WineStyles store's own live pickup catalog for a term (grape, style… | 🟢 |
 | `wunderflats.search` | wunderflats.com | Searches for furnished apartments in a specified city, returning listings with price… | 🟢 |
-| `x.post` | x.com | Reads one X (Twitter) post or tweet by URL or id — views, likes, reposts, replies… | 🟢 |
+| `x.post` | x.com | Reads detailed engagement metrics and media details for a single X (Twitter) post or… | 🟢 |
 | `x.profile` | x.com | Reads an X (Twitter) profile by handle or profile URL — display name, bio text… | 🟢 |
 | `x.userTimeline` | x.com | Reads a public user account's recent timeline to find posts. | 🟡 |
 | `xpresswellnessurgentcare.checkWaitTime` | xpresswellnessurgentcare.com | Reads one clinic's live estimated wait time, next-availability text, hours-today… | 🟢 |
