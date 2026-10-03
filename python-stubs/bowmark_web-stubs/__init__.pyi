@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: dd36baa0833617e6cc219f78df19e13278b450e388b4c38b1e9c04de5b6246b4
-# 73 capabilities, 512 providers, 1757 typed functions, 20 refused.
+# Manifest version: c71db1e28c142379f8a042365b1e904d76c81c900a4023f8b326d684c72bab86
+# 73 capabilities, 512 providers, 1758 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -34704,6 +34704,12 @@ class Prv_fomo(Protocol):
         """Pages the traders both the signed-in user and the named user follow — the social-proof
         row a profile shows under 'followed by'. Pass the cursor a previous page returned to get
         the next one; a null cursor means the last page.
+        """
+
+    async def getRecommendedUsers(self, userId: str, opts: ConnectionOption | None = None, /) -> list[Prv_fomo_FomoUser_Out]:
+        """Returns fomo's own suggestions of traders to follow for one user — the site's discovery
+        surface, and the one read here that is a ranking fomo computes rather than data it
+        stores. No paging: the route takes no cursor.
         """
 
 class Prv_forbes(Protocol):

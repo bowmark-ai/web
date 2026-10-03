@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: dd36baa0833617e6cc219f78df19e13278b450e388b4c38b1e9c04de5b6246b4
-// 73 capabilities, 512 providers, 1775 typed functions, 20 refused.
+// Manifest version: c71db1e28c142379f8a042365b1e904d76c81c900a4023f8b326d684c72bab86
+// 73 capabilities, 512 providers, 1776 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19513,6 +19513,13 @@ interface FomoCandle {
      * one; a null cursor means the last page.
      */
     getMutuals(userId: string, cursor?: string, opts?: ConnectionOption): Promise<FomoPage<FomoUser>>;
+
+    /**
+     * Returns fomo's own suggestions of traders to follow for one user — the site's discovery
+     * surface, and the one read here that is a ranking fomo computes rather than data it stores.
+     * No paging: the route takes no cursor.
+     */
+    getRecommendedUsers(userId: string, opts?: ConnectionOption): Promise<FomoUser[]>;
   }
 }
 
