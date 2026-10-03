@@ -1097,7 +1097,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | 🟢 |
 | `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | 🟢 |
 | `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | 🟢 |
-| `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), base branch, or draft status. | ⚪ |
+| `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), or base branch. | 🟢 |
 | `github.watchRepository` | github.com | Adds a repository to the signed-in user's watched/subscribed list for notifications. | 🟢 |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
@@ -2194,7 +2194,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | 🟢 |
 | `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
 | `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟡 |
-| `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | ⚪ |
+| `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | 🟢 |
 | `theguardian_com.searchArticles` | theguardian.com | Search articles across the site by keyword. | ⚪ |
 | `therabody.getTheragunProduct` | therabody.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
 | `therabody.listTheragunProducts` | therabody.com | Reads the live Therabody catalogue as Therabody publishes it — every product, its… | 🟢 |
