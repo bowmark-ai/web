@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 85daae81ae0830f7e10fdad574057293dce03523e1c5308c7a38b4dd431804f9
-# 73 capabilities, 512 providers, 1762 typed functions, 20 refused.
+# Manifest version: 086afdb1a49643e7fd1ce5703e29e1c727a01e2064faf0d6a62d0640c662d268
+# 73 capabilities, 514 providers, 1772 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11851,6 +11851,17 @@ class Prv_github_GithubCommentUpdated_Out(TypedDict):
 class Prv_github_GithubCommentDeleted_Out(TypedDict):
     deleted: Literal[True]
 
+class Prv_github_GithubCreatePullRequestOptions_In(TypedDict):
+    draft: NotRequired[bool]
+
+class Prv_github_GithubPullRequestCreated_Out(TypedDict):
+    number: float
+    title: str
+    body: str | None
+    state: Literal["open"] | Literal["closed"]
+    draft: bool
+    url: str
+
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
     remoteServers: list[Prv_glama_GlamaRemoteServer_Out]
@@ -15599,6 +15610,40 @@ class Prv_letterboxd_login_return_Out(TypedDict):
     expiresAt: str
     warnings: NotRequired[list[str]]
 
+class Prv_lime_LimeCity_Out(TypedDict):
+    name: str
+    region: str
+    slug: str | None
+    url: str | None
+
+class Prv_lime_LimeCityPricingArgs_In(TypedDict):
+    city: str
+
+class Prv_lime_LimeCityPricing_Out(TypedDict):
+    city: str
+    url: str
+    pricingPublished: bool
+    currency: str | None
+    unlock: float | None
+    perMinute: float | None
+    fees: list[Prv_lime_LimeFee_Out]
+    limePrime: Prv_lime_LimeCityPricing_Out_limePrime_u0_Out | None
+    plans: list[Prv_lime_LimePricingPlan_Out]
+
+class Prv_lime_LimeFee_Out(TypedDict):
+    name: str
+    amount: float
+
+class Prv_lime_LimeCityPricing_Out_limePrime_u0_Out(TypedDict):
+    monthly: float | None
+    flatRide: float | None
+    under5Min: float | None
+
+class Prv_lime_LimePricingPlan_Out(TypedDict):
+    label: str
+    text: str
+    details: list[str]
+
 class Prv_linkedin_LinkedinJobSearchQuery_In(TypedDict):
     keywords: NotRequired[str]
     location: NotRequired[str]
@@ -16429,6 +16474,78 @@ class Prv_lululemon_LululemonReview_Out(TypedDict):
     date: str
     reviewerName: str | None
     sizeAndFit: str | None
+
+class Prv_lululemon_getSizeGuide_query_In(TypedDict):
+    productId: str
+
+class Prv_lululemon_LululemonSizeGuide_Out(TypedDict):
+    productId: str
+    productName: str | None
+    sizeGuideCategory: str
+    guideUrl: str
+    charts: list[Prv_lululemon_LululemonSizeChart_Out]
+    warnings: list[str]
+
+class Prv_lululemon_LululemonSizeChart_Out(TypedDict):
+    title: str
+    sizingSystem: str | None
+    description: str | None
+    inches: list[Prv_lululemon_LululemonSizeChartRow_Out]
+    centimeters: list[Prv_lululemon_LululemonSizeChartRow_Out]
+
+class Prv_lululemon_LululemonSizeChartRow_Out(TypedDict):
+    label: str
+    values: list[str]
+
+class Prv_luma_GetEventArgs_In(TypedDict):
+    url: str
+
+class Prv_luma_LumaEvent_Out(TypedDict):
+    id: str
+    slug: str
+    url: str
+    name: str
+    startAt: str
+    endAt: str | None
+    timezone: str | None
+    localStart: str | None
+    locationType: str | None
+    venue: str | None
+    address: str | None
+    city: str | None
+    latitude: float | None
+    longitude: float | None
+    isFree: bool | None
+    price: Prv_luma_LumaEvent_Out_price_u0_Out | None
+    spotsRemaining: float | None
+    isSoldOut: bool
+    requiresApproval: bool
+    guestCount: float | None
+    hosts: list[str]
+    calendar: str | None
+    categories: list[str]
+    coverUrl: str | None
+
+class Prv_luma_LumaEvent_Out_price_u0_Out(TypedDict):
+    cents: float
+    currency: str
+
+class Prv_luma_DiscoverEventsArgs_In(TypedDict):
+    place: str
+    category: NotRequired[str]
+    date: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_luma_LumaPlace_Out(TypedDict):
+    slug: str
+    name: str
+    eventCount: float | None
+    timezone: str | None
+
+class Prv_luma_LumaCategory_Out(TypedDict):
+    slug: str
+    name: str
+    eventCount: float | None
 
 class Prv_lyreco_LyrecoSearchResult_Out(TypedDict):
     sku: str
@@ -18104,6 +18221,26 @@ class Prv_nyt_games_BonusPuzzle_Out(TypedDict):
     editors: list[str]
     makeFree: bool
     webUrl: str
+
+class Prv_nyt_games_GetSportsConnectionsArgs_In(TypedDict):
+    date: NotRequired[str]
+    edition: NotRequired[Literal["sports-connections"] | Literal["soccer-connections"]]
+
+class Prv_nyt_games_NytSportsConnections_Out(TypedDict):
+    id: str
+    printDate: str
+    categories: list[Prv_nyt_games_SportsConnectionsCategory_Out]
+    difficulty: str
+    editor: str | None
+    hintUrl: str | None
+
+class Prv_nyt_games_SportsConnectionsCategory_Out(TypedDict):
+    title: str
+    cards: list[Prv_nyt_games_SportsConnectionsCard_Out]
+
+class Prv_nyt_games_SportsConnectionsCard_Out(TypedDict):
+    content: str
+    position: float
 
 class Prv_nyt_games_NytPlayerStatsData_Out(TypedDict):
     stats: NotRequired[Mapping[str, Mapping[str, Any]]]
@@ -35640,6 +35777,18 @@ class Prv_github(Protocol):
         invalid or lacks write access (401/403), or on an unexpected response code.
         """
 
+    async def createPullRequest(self, owner: str, repo: str, title: str, head: str, base: str, body: str | None = None, options: Prv_github_GithubCreatePullRequestOptions_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubPullRequestCreated_Out:
+        """Opens a new pull request, off GitHub's own documented REST endpoint (`POST
+        /repos/{owner}/{repo}/pulls`). NEEDS THE CALLER SIGNED IN and requires write access to
+        the repository (or an open fork for a cross-repo PR). `head` is the branch holding the
+        changes (`"user:branch"` for a fork, or just `"branch"` within the same repo); `base` is
+        the branch to merge into (e.g. `"main"`). `body` is the optional markdown description;
+        `options.draft` opens it as a draft PR. Returns the created pull request's number,
+        title, body, state, draft flag, and URL. THROWS on an unknown owner/repo or branch
+        (404), when signed out or the saved session is invalid (401), on a permission error or
+        an already-open identical PR (403/422), or on an unexpected response shape.
+        """
+
 class Prv_glama(Protocol):
     """Glama's own MCP server directory search, keyless — reads its React Router loader route
     directly. Built: search returns matching rows from both Glama's indexed catalogue and
@@ -38503,6 +38652,23 @@ class Prv_letterboxd(Protocol):
         and can be changed later with `bm.connections.update(id, …)`.
         """
 
+class Prv_lime(Protocol):
+    """Lime e-scooter and e-bike rental: the cities it operates in, and a city's ride pricing —
+    unlock fee, per-minute rate, local fees, LimePrime and LimePass.
+    """
+
+    async def listCities(self, /) -> list[Prv_lime_LimeCity_Out]:
+        """Lists every city Lime operates scooters/bikes in, by region, from li.me's own locations
+        index. Cities with a `url` have a pricing page — pass the name or slug to cityPricing.
+        """
+
+    async def cityPricing(self, args: Prv_lime_LimeCityPricingArgs_In, /) -> Prv_lime_LimeCityPricing_Out:
+        """Lime scooter/bike ride pricing for one city (e.g. { city: "San Francisco" }): unlock
+        fee, per-minute rate, local fees, LimePrime monthly / flat-rate ride / under-5-minute
+        price, plus every plan (Lime Access, LimePass) verbatim from li.me's city page. Many
+        city pages publish no pricing; then `pricingPublished` is false.
+        """
+
 class Prv_linkedin(Protocol):
     """The professional network — people, employers, jobs and posts. With no sign-in: read one
     member's public profile, find people by name, read a company page, search the public job
@@ -39062,6 +39228,40 @@ class Prv_lululemon(Protocol):
         Bazaarvoice, a third party, keyed off the `reviewsId` slug lululemon's own product door
         publishes; a product with no reviewsId, or a Bazaarvoice call that fails, comes back
         with an empty `reviews` and a `warnings` entry naming why rather than throwing.
+        """
+
+    async def getSizeGuide(self, query: Prv_lululemon_getSizeGuide_query_In, /) -> Prv_lululemon_LululemonSizeGuide_Out:
+        """Returns lululemon's size chart for one garment — the body measurements (waist, hip,
+        bust, inseam, foot length…) each numeric and alpha size maps to, in inches AND
+        centimetres — the way the 'Size guide' link on its product page does. The product names
+        its own guide (`sizeGuideCategory`, e.g. `womens-pants`), and `charts` holds the
+        chart(s) for that kind of garment, each row a `{ label, values }` with one value per
+        size column. When the store's category matches no chart by name, `charts` is EVERY chart
+        on that gender's guide page and `warnings` says so. Throws for a product that names no
+        size guide (bags, accessories).
+        """
+
+class Prv_luma(Protocol):
+    """Luma (lu.ma) events — read one event's date, time, venue, price and spots remaining, or
+    discover upcoming events in a city by day and topic (AI, tech, crypto, arts…).
+    """
+
+    async def getEvent(self, args: Prv_luma_GetEventArgs_In, /) -> Prv_luma_LumaEvent_Out:
+        """Read one Luma event page: date and time with timezone, venue and full address, price,
+        spots remaining, sold out, hosts and categories.
+        """
+
+    async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
+        """Upcoming Luma events in a city (place slug like sf, nyc, london), optionally filtered to
+        one topic category and one local day.
+        """
+
+    async def listPlaces(self, /) -> list[Prv_luma_LumaPlace_Out]:
+        """Every city Luma's discover page covers, with the slug discoverEvents takes."""
+
+    async def listCategories(self, /) -> list[Prv_luma_LumaCategory_Out]:
+        """Luma's discover topic categories (ai, tech, crypto, arts, …) with the slug
+        discoverEvents takes.
         """
 
 class Prv_lyreco(Protocol):
@@ -40245,6 +40445,13 @@ class Prv_nyt_games(Protocol):
         Defaults to the most recent drop; pass { dropDate: "YYYY-MM-DD" } for an earlier week.
         """
 
+    async def getSportsConnections(self, args: Prv_nyt_games_GetSportsConnectionsArgs_In | None = None, /) -> Prv_nyt_games_NytSportsConnections_Out:
+        """Retrieves the daily Sports Connections puzzle with four category groupings and their
+        cards. Available in standard (Connections: Sports Edition) and soccer variants. Defaults
+        to today in New York and the standard edition; pass { date: "YYYY-MM-DD", edition:
+        "soccer-connections" } to customize.
+        """
+
     async def getMyStats(self, opts: ConnectionOption | None = None, /) -> Prv_nyt_games_NytPlayerStatsData_Out:
         """The signed-in player's per-game stats and streaks across all daily puzzles. Requires the
         caller to be signed in to NYT — the run pauses for a login the first time this is
@@ -40323,6 +40530,11 @@ class Prv_nytimes(Protocol):
 
     async def listPodcasts(self, /) -> list[Prv_nytimes_NytimesPodcast_Out]:
         """Lists NYT's own podcasts from podcasts.nytimes.com."""
+
+    async def getPodcast(self, slug: str, /) -> Prv_nytimes_NytimesPodcast_Out:
+        """Gets one podcast's own details (title, description, image). Takes a podcast slug like
+        "the-daily" (from listPodcasts) or a path like "/podcasts/the-daily".
+        """
 
 class Prv_oanda(Protocol):
     """OANDA's own currency converter: live and historical (back to ~1990) exchange rates
@@ -46342,6 +46554,7 @@ class BowmarkProviders(Protocol):
     lasikplus: Prv_lasikplus
     legacyhomesal: Prv_legacyhomesal
     letterboxd: Prv_letterboxd
+    lime: Prv_lime
     linkedin: Prv_linkedin
     liquiddeath: Prv_liquiddeath
     liquidspace: Prv_liquidspace
@@ -46353,6 +46566,7 @@ class BowmarkProviders(Protocol):
     lufthansa: Prv_lufthansa
     luggageforward: Prv_luggageforward
     lululemon: Prv_lululemon
+    luma: Prv_luma
     lyreco: Prv_lyreco
     maersk: Prv_maersk
     maidenhome: Prv_maidenhome

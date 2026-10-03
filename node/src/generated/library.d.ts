@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 85daae81ae0830f7e10fdad574057293dce03523e1c5308c7a38b4dd431804f9
-// 73 capabilities, 512 providers, 1780 typed functions, 20 refused.
+// Manifest version: 086afdb1a49643e7fd1ce5703e29e1c727a01e2064faf0d6a62d0640c662d268
+// 73 capabilities, 514 providers, 1790 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -21473,6 +21473,17 @@ interface GithubCommentUpdated {
 interface GithubCommentDeleted {
   deleted: true;
 }
+interface GithubCreatePullRequestOptions {
+  draft?: boolean;
+}
+interface GithubPullRequestCreated {
+  number: number;
+  title: string;
+  body: string | null;
+  state: "open" | "closed";
+  draft: boolean;
+  url: string;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -21801,6 +21812,19 @@ interface GithubCommentDeleted {
      * access (401/403), or on an unexpected response code.
      */
     deleteComment(owner: string, repo: string, commentId: number, opts?: ConnectionOption): Promise<GithubCommentDeleted>;
+
+    /**
+     * Opens a new pull request, off GitHub's own documented REST endpoint (`POST
+     * /repos/{owner}/{repo}/pulls`). NEEDS THE CALLER SIGNED IN and requires write access to the
+     * repository (or an open fork for a cross-repo PR). `head` is the branch holding the changes
+     * (`"user:branch"` for a fork, or just `"branch"` within the same repo); `base` is the branch
+     * to merge into (e.g. `"main"`). `body` is the optional markdown description; `options.draft`
+     * opens it as a draft PR. Returns the created pull request's number, title, body, state, draft
+     * flag, and URL. THROWS on an unknown owner/repo or branch (404), when signed out or the saved
+     * session is invalid (401), on a permission error or an already-open identical PR (403/422),
+     * or on an unexpected response shape.
+     */
+    createPullRequest(owner: string, repo: string, title: string, head: string, base: string, body?: string, options?: GithubCreatePullRequestOptions, opts?: ConnectionOption): Promise<GithubPullRequestCreated>;
   }
 }
 
@@ -29190,6 +29214,59 @@ interface LetterboxdDiaryEntry {
   }
 }
 
+declare namespace BowmarkProvider_lime {
+  // ── Lime — the unit's own declarations, verbatim ──
+interface LimeCity {
+  name: string;
+  region: string;
+  slug: string | null;
+  url: string | null;
+}
+interface LimeCityPricingArgs {
+  city: string;
+}
+interface LimePricingPlan {
+  label: string;
+  text: string;
+  details: string[];
+}
+interface LimeFee {
+  name: string;
+  amount: number;
+}
+interface LimeCityPricing {
+  city: string;
+  url: string;
+  pricingPublished: boolean;
+  currency: string | null;
+  unlock: number | null;
+  perMinute: number | null;
+  fees: LimeFee[];
+  limePrime: { monthly: number | null; flatRide: number | null; under5Min: number | null } | null;
+  plans: LimePricingPlan[];
+}
+
+  /**
+   * Lime e-scooter and e-bike rental: the cities it operates in, and a city's ride pricing —
+   * unlock fee, per-minute rate, local fees, LimePrime and LimePass.
+   */
+  interface Unit {
+    /**
+     * Lists every city Lime operates scooters/bikes in, by region, from li.me's own locations
+     * index. Cities with a `url` have a pricing page — pass the name or slug to cityPricing.
+     */
+    listCities(): Promise<LimeCity[]>;
+
+    /**
+     * Lime scooter/bike ride pricing for one city (e.g. { city: "San Francisco" }): unlock fee,
+     * per-minute rate, local fees, LimePrime monthly / flat-rate ride / under-5-minute price, plus
+     * every plan (Lime Access, LimePass) verbatim from li.me's city page. Many city pages publish
+     * no pricing; then `pricingPublished` is false.
+     */
+    cityPricing(args: LimeCityPricingArgs): Promise<LimeCityPricing>;
+  }
+}
+
 declare namespace BowmarkProvider_linkedin {
   // ── LinkedIn — the unit's own declarations, verbatim ──
 interface LinkedinJobSearchResult {
@@ -30500,6 +30577,30 @@ interface LululemonReview {
    * field. Null on a review that answered no size question. */
   sizeAndFit: string | null;
 }
+/** One row of a size chart: the row header ("Your Waist") and one cell per size column. */
+interface LululemonSizeChartRow {
+  label: string;
+  values: string[];
+}
+interface LululemonSizeChart {
+  /** The chart's own title, e.g. "Leggings Size Chart". */
+  title: string;
+  /** "numeric" or "alpha", as the store labels it. */
+  sizingSystem: string | null;
+  /** What the chart covers, markdown links verbatim. */
+  description: string | null;
+  inches: LululemonSizeChartRow[];
+  centimeters: LululemonSizeChartRow[];
+}
+interface LululemonSizeGuide {
+  productId: string;
+  productName: string | null;
+  /** The store's own key for the guide, e.g. "womens-pants". */
+  sizeGuideCategory: string;
+  guideUrl: string;
+  charts: LululemonSizeChart[];
+  warnings: string[];
+}
 
   /**
    * lululemon's athletic apparel catalogue — search it, and read one product's full
@@ -30593,6 +30694,94 @@ interface LululemonReview {
      * `reviews` and a `warnings` entry naming why rather than throwing.
      */
     getReviews(query: { productId: string }): Promise<{ reviews: LululemonReview[]; warnings: string[] }>;
+
+    /**
+     * Returns lululemon's size chart for one garment — the body measurements (waist, hip, bust,
+     * inseam, foot length…) each numeric and alpha size maps to, in inches AND centimetres — the
+     * way the 'Size guide' link on its product page does. The product names its own guide
+     * (`sizeGuideCategory`, e.g. `womens-pants`), and `charts` holds the chart(s) for that kind of
+     * garment, each row a `{ label, values }` with one value per size column. When the store's
+     * category matches no chart by name, `charts` is EVERY chart on that gender's guide page and
+     * `warnings` says so. Throws for a product that names no size guide (bags, accessories).
+     */
+    getSizeGuide(query: { productId: string }): Promise<LululemonSizeGuide>;
+  }
+}
+
+declare namespace BowmarkProvider_luma {
+  // ── Luma — the unit's own declarations, verbatim ──
+interface LumaEvent {
+  id: string;
+  slug: string;
+  url: string;
+  name: string;
+  startAt: string;
+  endAt: string | null;
+  timezone: string | null;
+  localStart: string | null;
+  locationType: string | null;
+  venue: string | null;
+  address: string | null;
+  city: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  isFree: boolean | null;
+  price: { cents: number; currency: string } | null;
+  spotsRemaining: number | null;
+  isSoldOut: boolean;
+  requiresApproval: boolean;
+  guestCount: number | null;
+  hosts: string[];
+  calendar: string | null;
+  categories: string[];
+  coverUrl: string | null;
+}
+interface LumaPlace {
+  slug: string;
+  name: string;
+  eventCount: number | null;
+  timezone: string | null;
+}
+interface LumaCategory {
+  slug: string;
+  name: string;
+  eventCount: number | null;
+}
+interface GetEventArgs {
+  url: string;
+}
+interface DiscoverEventsArgs {
+  place: string;
+  category?: string;
+  date?: string;
+  limit?: number;
+}
+
+  /**
+   * Luma (lu.ma) events — read one event's date, time, venue, price and spots remaining, or
+   * discover upcoming events in a city by day and topic (AI, tech, crypto, arts…).
+   */
+  interface Unit {
+    /**
+     * Read one Luma event page: date and time with timezone, venue and full address, price, spots
+     * remaining, sold out, hosts and categories.
+     */
+    getEvent(args: GetEventArgs): Promise<LumaEvent>;
+
+    /**
+     * Upcoming Luma events in a city (place slug like sf, nyc, london), optionally filtered to one
+     * topic category and one local day.
+     */
+    discoverEvents(args: DiscoverEventsArgs): Promise<LumaEvent[]>;
+
+    /** Every city Luma's discover page covers, with the slug discoverEvents takes. */
+    listPlaces(): Promise<LumaPlace[]>;
+
+    /**
+     * Luma's discover topic categories (ai, tech, crypto, arts, …) with the slug discoverEvents
+     * takes.
+     */
+    listCategories(): Promise<LumaCategory[]>;
   }
 }
 
@@ -33959,6 +34148,10 @@ interface CrosswordPuzzleList { puzzles: CrosswordPuzzle[]; status: string; }
 interface BonusPuzzle { game: string; variant: string; title: string; constructors: string; editors: string[]; makeFree: boolean; webUrl: string; }
 interface BonusPuzzlesWeek { dropDate: string; prevDrop: string; nextDrop: string; puzzles: BonusPuzzle[]; }
 interface ListBonusPuzzlesArgs { dropDate?: string; }
+interface SportsConnectionsCard { content: string; position: number; }
+interface SportsConnectionsCategory { title: string; cards: SportsConnectionsCard[]; }
+interface NytSportsConnections { id: string; printDate: string; categories: SportsConnectionsCategory[]; difficulty: string; editor: string | null; hintUrl: string | null; }
+interface GetSportsConnectionsArgs { date?: string; edition?: "sports-connections" | "soccer-connections"; }
 interface NytPlayerStatsData { stats?: Record<string, Record<string, unknown>>; }
 interface GetMyStatsArgs {}
 
@@ -34058,6 +34251,14 @@ interface GetMyStatsArgs {}
      * the most recent drop; pass { dropDate: "YYYY-MM-DD" } for an earlier week.
      */
     listBonusPuzzles(args?: ListBonusPuzzlesArgs): Promise<BonusPuzzlesWeek>;
+
+    /**
+     * Retrieves the daily Sports Connections puzzle with four category groupings and their cards.
+     * Available in standard (Connections: Sports Edition) and soccer variants. Defaults to today
+     * in New York and the standard edition; pass { date: "YYYY-MM-DD", edition:
+     * "soccer-connections" } to customize.
+     */
+    getSportsConnections(args?: GetSportsConnectionsArgs): Promise<NytSportsConnections>;
 
     /**
      * The signed-in player's per-game stats and streaks across all daily puzzles. Requires the
@@ -34260,6 +34461,12 @@ interface NytimesPodcast {
 
     /** Lists NYT's own podcasts from podcasts.nytimes.com. */
     listPodcasts(): Promise<NytimesPodcast[]>;
+
+    /**
+     * Gets one podcast's own details (title, description, image). Takes a podcast slug like
+     * "the-daily" (from listPodcasts) or a path like "/podcasts/the-daily".
+     */
+    getPodcast(slug: string): Promise<NytimesPodcast>;
   }
 }
 
@@ -50738,6 +50945,7 @@ interface BowmarkProviders {
   lasikplus: BowmarkProvider_lasikplus.Unit;
   legacyhomesal: BowmarkProvider_legacyhomesal.Unit;
   letterboxd: BowmarkProvider_letterboxd.Unit;
+  lime: BowmarkProvider_lime.Unit;
   linkedin: BowmarkProvider_linkedin.Unit;
   liquiddeath: BowmarkProvider_liquiddeath.Unit;
   liquidspace: BowmarkProvider_liquidspace.Unit;
@@ -50749,6 +50957,7 @@ interface BowmarkProviders {
   lufthansa: BowmarkProvider_lufthansa.Unit;
   luggageforward: BowmarkProvider_luggageforward.Unit;
   lululemon: BowmarkProvider_lululemon.Unit;
+  luma: BowmarkProvider_luma.Unit;
   lyreco: BowmarkProvider_lyreco.Unit;
   maersk: BowmarkProvider_maersk.Unit;
   maidenhome: BowmarkProvider_maidenhome.Unit;

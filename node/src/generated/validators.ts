@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 85daae81ae0830f7e10fdad574057293dce03523e1c5308c7a38b4dd431804f9
-// 1762 checked, 20 unchecked.
+// Manifest version: 086afdb1a49643e7fd1ce5703e29e1c727a01e2064faf0d6a62d0640c662d268
+// 1772 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "85daae81ae0830f7e10fdad574057293dce03523e1c5308c7a38b4dd431804f9",
+  "version": "086afdb1a49643e7fd1ce5703e29e1c727a01e2064faf0d6a62d0640c662d268",
   "units": {
     "address_validation": {
       "defs": {
@@ -20660,6 +20660,18 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.github": {
       "defs": {
+        "GithubCreatePullRequestOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "draft",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubGetUserRepositoriesOptions": {
           "k": "object",
           "props": [
@@ -21749,6 +21761,74 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "createPullRequest": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "title",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "head",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "base",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "body",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubCreatePullRequestOptions"
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -28549,6 +28629,35 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.lime": {
+      "defs": {
+        "LimeCityPricingArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "city",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "listCities": [],
+        "cityPricing": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "LimeCityPricingArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.linkedin": {
       "defs": {
         "LinkedinJobSearchQuery": {
@@ -29890,7 +29999,98 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getSizeGuide": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "productId",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
+      }
+    },
+    "providers.luma": {
+      "defs": {
+        "DiscoverEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "place",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "GetEventArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "url",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getEvent": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetEventArgs"
+            },
+            "optional": false
+          }
+        ],
+        "discoverEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "DiscoverEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listPlaces": [],
+        "listCategories": []
       }
     },
     "providers.lyreco": {
@@ -32368,6 +32568,35 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetSportsConnectionsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "date",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "edition",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "sports-connections"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "soccer-connections"
+                  }
+                ]
+              },
+              "optional": true
+            }
+          ]
+        },
         "GetStrandsArgs": {
           "k": "object",
           "props": [
@@ -32515,6 +32744,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListBonusPuzzlesArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getSportsConnections": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetSportsConnectionsArgs"
             },
             "optional": true
           }
@@ -32791,7 +33030,16 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
-        "listPodcasts": []
+        "listPodcasts": [],
+        "getPodcast": [
+          {
+            "name": "slug",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ]
       }
     },
     "providers.oanda": {
