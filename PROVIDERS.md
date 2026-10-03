@@ -928,7 +928,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getPerpetuals` | fomo.family | Perpetual futures — open positions, funding, leverage and the perps order flow fomo… | ⚪ |
 | `fomo.getPortfolioHistory` | fomo.family | Returns the time series behind a trader's portfolio-value chart — total USD value at… | ⚪ |
 | `fomo.getPortfolioSnapshot` | fomo.family | Returns one point of that series in full — the positions held at that moment, not just… | ⚪ |
-| `fomo.getRecommendedUsers` | fomo.family | Returns fomo's own suggestions of traders to follow for one user. | ⚪ |
+| `fomo.getRecommendedUsers` | fomo.family | Returns fomo's own suggestions of traders to follow for one user — the site's… | 🟢 |
 | `fomo.getReferrals` | fomo.family | Returns who the signed-in trader referred and what they have earned from it, plus… | ⚪ |
 | `fomo.getReferrerDetails` | fomo.family | Returns who referred the signed-in trader, and the terms attached — the other end of… | ⚪ |
 | `fomo.getRewards` | fomo.family | Returns the signed-in trader's reward history. `GET /v2/users/:userId/rewards`. | ⚪ |

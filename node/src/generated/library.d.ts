@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a79086c7b559871b06798605805c19b734a085559393099cd3dc91a0538a4652
-// 73 capabilities, 512 providers, 1774 typed functions, 20 refused.
+// Manifest version: dd36baa0833617e6cc219f78df19e13278b450e388b4c38b1e9c04de5b6246b4
+// 73 capabilities, 512 providers, 1775 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -5880,6 +5880,7 @@ interface AmazonDeliveryEstimate {
   deliveryDate: string | null;
   priceLabel: string | null;
   condition: string | null;  // the site's own labels — read the values off a result, never guess one from prose
+  options: { kind: "standard" | "fastest"; deliveryDate: string | null; deliveryDateIso: string | null; priceLabel: string | null; condition: string | null; cutoff: string | null }[]; // every promise the buy box renders; "fastest" = Prime/paid same- or next-day
 }
 interface AmazonSellerOffer {
   condition: string; // e.g. "New", "Used - Good", "Used - Acceptable" — read the values off a result, never guess one from prose
@@ -6054,8 +6055,11 @@ interface AmazonCart {
      * When a product would actually arrive at a given US ZIP, and what it costs to get it there —
      * sets the ZIP for one session (Amazon's own "glow" location picker, no account needed) and
      * reads the delivery block the product page then re-renders for it: the site's own delivery
-     * sentence, the price label and the condition it attaches. `zipResolved` is false, and the
-     * three fields are Amazon's DEFAULT location rather than the caller's ZIP, on an invalid ZIP.
+     * sentence, the price label and the condition it attaches, plus `options` — every shipping
+     * option the buy box offers (standard, and the fastest Prime / paid same-day or next-day
+     * promise with its order-by cutoff), each with its own date and price. `zipResolved` is false,
+     * and the three fields are Amazon's DEFAULT location rather than the caller's ZIP, on an
+     * invalid ZIP.
      */
     getDeliveryEstimate(args: GetDeliveryEstimateArgs): Promise<AmazonDeliveryEstimate>;
 
@@ -48079,6 +48083,22 @@ interface ListTeamsArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
 }
 
+interface GetInjuriesArgs {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+}
+
+interface YahooSportsInjuryRow {
+  league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
+  team: string;
+  teamSlug: string | null;
+  playerId: string;
+  name: string;
+  url: string | null;
+  status: string; // the site's own labels — read the values off a result, never guess one from prose; e.g. "Questionable", "Out"
+  statusAbbr: string;
+  description: string | null;
+}
+
 interface GetScheduleArgs {
   league: "nfl" | "nba" | "mlb" | "nhl" | "college-football" | "college-basketball";
   teamSlug: string;
@@ -48303,6 +48323,15 @@ interface YahooFantasyLineupSetResult {
      * site's own routing slug (the teamSlug getSchedule/getTeamRoster/findPlayers take).
      */
     listTeams(args: ListTeamsArgs): Promise<YahooSportsTeamRow[]>;
+
+    /**
+     * Reads a league's full injury report off Yahoo Sports' own Injuries page — every team's
+     * injured players, each with their status (Questionable/Out/Injured Reserve/…), the site's own
+     * status code, and the body part affected. Covers nfl, mlb, nba and nhl; college-football and
+     * college-basketball publish no player-level injury data in this surface and return an empty
+     * list.
+     */
+    getInjuries(args: GetInjuriesArgs): Promise<YahooSportsInjuryRow[]>;
 
     /**
      * Reads one team's full schedule for the season off Yahoo Sports' own Schedule page — every

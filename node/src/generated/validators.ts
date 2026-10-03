@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a79086c7b559871b06798605805c19b734a085559393099cd3dc91a0538a4652
-// 1756 checked, 20 unchecked.
+// Manifest version: dd36baa0833617e6cc219f78df19e13278b450e388b4c38b1e9c04de5b6246b4
+// 1757 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a79086c7b559871b06798605805c19b734a085559393099cd3dc91a0538a4652",
+  "version": "dd36baa0833617e6cc219f78df19e13278b450e388b4c38b1e9c04de5b6246b4",
   "units": {
     "address_validation": {
       "defs": {
@@ -50300,6 +50300,44 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetInjuriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-football"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "college-basketball"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetNewsArgs": {
           "k": "object",
           "props": [
@@ -50673,6 +50711,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "ListTeamsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getInjuries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetInjuriesArgs"
             },
             "optional": false
           }

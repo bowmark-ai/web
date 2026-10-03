@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a79086c7b559871b06798605805c19b734a085559393099cd3dc91a0538a4652
-# 73 capabilities, 512 providers, 1756 typed functions, 20 refused.
+# Manifest version: dd36baa0833617e6cc219f78df19e13278b450e388b4c38b1e9c04de5b6246b4
+# 73 capabilities, 512 providers, 1757 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3273,6 +3273,15 @@ class Prv_amazon_AmazonDeliveryEstimate_Out(TypedDict):
     deliveryDate: str | None
     priceLabel: str | None
     condition: str | None
+    options: list[Prv_amazon_AmazonDeliveryEstimate_Out_options_item_Out]
+
+class Prv_amazon_AmazonDeliveryEstimate_Out_options_item_Out(TypedDict):
+    kind: Literal["standard"] | Literal["fastest"]
+    deliveryDate: str | None
+    deliveryDateIso: str | None
+    priceLabel: str | None
+    condition: str | None
+    cutoff: str | None
 
 class Prv_amazon_AmazonSellerOffersResult_Out(TypedDict):
     asin: str
@@ -26613,6 +26622,20 @@ class Prv_yahoo_sports_YahooSportsTeamRow_Out(TypedDict):
     team: str
     slug: str | None
 
+class Prv_yahoo_sports_GetInjuriesArgs_In(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+
+class Prv_yahoo_sports_YahooSportsInjuryRow_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
+    team: str
+    teamSlug: str | None
+    playerId: str
+    name: str
+    url: str | None
+    status: str
+    statusAbbr: str
+    description: str | None
+
 class Prv_yahoo_sports_GetScheduleArgs_In(TypedDict):
     league: Literal["nfl"] | Literal["nba"] | Literal["mlb"] | Literal["nhl"] | Literal["college-football"] | Literal["college-basketball"]
     teamSlug: str
@@ -29666,9 +29689,11 @@ class Prv_amazon(Protocol):
         """When a product would actually arrive at a given US ZIP, and what it costs to get it
         there — sets the ZIP for one session (Amazon's own "glow" location picker, no account
         needed) and reads the delivery block the product page then re-renders for it: the site's
-        own delivery sentence, the price label and the condition it attaches. `zipResolved` is
-        false, and the three fields are Amazon's DEFAULT location rather than the caller's ZIP,
-        on an invalid ZIP.
+        own delivery sentence, the price label and the condition it attaches, plus `options` —
+        every shipping option the buy box offers (standard, and the fastest Prime / paid
+        same-day or next-day promise with its order-by cutoff), each with its own date and
+        price. `zipResolved` is false, and the three fields are Amazon's DEFAULT location rather
+        than the caller's ZIP, on an invalid ZIP.
         """
 
     async def listSellerOffers(self, asinOrUrl: str, /) -> Prv_amazon_AmazonSellerOffersResult_Out:
@@ -45347,6 +45372,14 @@ class Prv_yahoo_sports(Protocol):
     async def listTeams(self, args: Prv_yahoo_sports_ListTeamsArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsTeamRow_Out]:
         """Lists every team in a league off Yahoo Sports' standings page — each team's name and the
         site's own routing slug (the teamSlug getSchedule/getTeamRoster/findPlayers take).
+        """
+
+    async def getInjuries(self, args: Prv_yahoo_sports_GetInjuriesArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsInjuryRow_Out]:
+        """Reads a league's full injury report off Yahoo Sports' own Injuries page — every team's
+        injured players, each with their status (Questionable/Out/Injured Reserve/…), the site's
+        own status code, and the body part affected. Covers nfl, mlb, nba and nhl;
+        college-football and college-basketball publish no player-level injury data in this
+        surface and return an empty list.
         """
 
     async def getSchedule(self, args: Prv_yahoo_sports_GetScheduleArgs_In, /) -> list[Prv_yahoo_sports_YahooSportsScheduleRow_Out]:
