@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2622 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2623 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -627,6 +627,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, publication date… | 🟡 |
 | `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | 🟢 |
 | `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | 🟢 |
+| `cnn.listNewsletters` | www.cnn.com | The CNN newsletters available to subscribe to — Breaking News, CNN Five Things, The… | 🟢 |
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
 | `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | 🟢 |
 | `cnn.listTrendingTopics` | www.cnn.com | The stories CNN's own recommendation engine currently ranks as trending — headline… | 🟢 |
