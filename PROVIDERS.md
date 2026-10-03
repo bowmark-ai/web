@@ -2178,7 +2178,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listLiveBlogs` | theguardian.com | List live blogs covering breaking news and events. | 🟢 |
 | `theguardian_com.listNewsletters` | theguardian.com | List available email newsletters. | ⚪ |
 | `theguardian_com.listOpinionPieces` | theguardian.com | Get opinion and comment articles from The Guardian. | 🟢 |
-| `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | ⚪ |
+| `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | 🟢 |
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | 🟢 |
 | `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
 | `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟢 |
