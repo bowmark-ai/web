@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 24de5713f79e577c12ca25ab3f2d76e64ed567fd7c085b2ce6a7d2d9f32b47c8
-# 73 capabilities, 514 providers, 1775 typed functions, 20 refused.
+# Manifest version: 0693b5cb10e215a8dd0d4203c2da50870bcfb54056769cae1596f8358db19615
+# 74 capabilities, 514 providers, 1778 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -597,6 +597,39 @@ class Cap_concert_setlist_Song_Out(TypedDict):
     position: NotRequired[float]
     withLyrics: NotRequired[bool]
     encore: NotRequired[bool]
+
+class Cap_condition_monitoring_CheckOptions_In(TypedDict):
+    previous: NotRequired[Cap_condition_monitoring_Snapshot_In | None]
+    when: NotRequired[Cap_condition_monitoring_Condition_In]
+
+class Cap_condition_monitoring_Snapshot_In(TypedDict):
+    fingerprint: str
+    value: Any
+    checkedAt: str
+
+class Cap_condition_monitoring_Condition_In(TypedDict):
+    path: NotRequired[str]
+    op: Literal["changed"] | Literal["equals"] | Literal["notEquals"] | Literal["contains"] | Literal["notContains"] | Literal["above"] | Literal["below"]
+    value: NotRequired[Any]
+
+class Cap_condition_monitoring_CheckResult_Out(TypedDict):
+    firstCheck: bool
+    changed: bool
+    conditionMet: bool
+    notify: bool
+    changes: list[Cap_condition_monitoring_Change_Out]
+    snapshot: Cap_condition_monitoring_Snapshot_Out
+    warnings: list[str]
+
+class Cap_condition_monitoring_Change_Out(TypedDict):
+    path: str
+    before: Any
+    after: Any
+
+class Cap_condition_monitoring_Snapshot_Out(TypedDict):
+    fingerprint: str
+    value: Any
+    checkedAt: str
 
 class Cap_costume_size_check_checkSize_args_In(TypedDict):
     character: str
@@ -23384,6 +23417,31 @@ class Prv_theguardian_com_GuardianPhotoGallerySummary_Out(TypedDict):
     byline: str | None
     published: str | None
 
+class Prv_theguardian_com_GuardianGetPhotoGalleryArgs_In(TypedDict):
+    galleryUrlOrId: str
+
+class Prv_theguardian_com_GuardianPhotoGallery_Out(TypedDict):
+    id: str
+    url: str
+    headline: str
+    standfirst: str | None
+    byline: str | None
+    published: str | None
+    section: str | None
+    tags: list[Prv_theguardian_com_GuardianPhotoGallery_Out_tags_item_Out]
+    images: list[Prv_theguardian_com_GuardianGalleryImage_Out]
+
+class Prv_theguardian_com_GuardianPhotoGallery_Out_tags_item_Out(TypedDict):
+    id: str
+    title: str
+    type: str
+
+class Prv_theguardian_com_GuardianGalleryImage_Out(TypedDict):
+    url: str
+    alt: str | None
+    caption: str | None
+    credit: str | None
+
 class Prv_therabody_listTheragunProducts_opts_In(TypedDict):
     limit: NotRequired[float]
 
@@ -25859,6 +25917,22 @@ class Prv_weather_channel_HistoricalHour_Out(TypedDict):
     visibility: float | None
     phrase: str
 
+class Prv_weather_channel_HistoricalDailyResult_Out(TypedDict):
+    location: Prv_weather_channel_WeatherLocation_Out | None
+    units: Literal["metric"] | Literal["imperial"]
+    days: list[Prv_weather_channel_HistoricalDailyDay_Out]
+
+class Prv_weather_channel_HistoricalDailyDay_Out(TypedDict):
+    date: str
+    dayOfWeek: str
+    high: float | None
+    low: float | None
+    precipitation: float | None
+    rain: float | None
+    snow: float | None
+    phraseDay: str
+    phraseNight: str
+
 class Prv_weather_channel_PollenForecastResult_Out(TypedDict):
     location: Prv_weather_channel_WeatherLocation_Out | None
     dayparts: list[Prv_weather_channel_PollenDaypart_Out]
@@ -27895,6 +27969,19 @@ class Cap_concert_setlist(Protocol):
 
     async def search(self, query: str, /) -> Cap_concert_setlist_concert_setlistResult_Out:
         """Search for concert setlists by artist name, venue, or date."""
+
+class Cap_condition_monitoring(Protocol):
+    """Compare a value your script just fetched (a page, a price, a stock count) with the
+    snapshot from last time and get back whether it changed, what changed, and whether an
+    alert condition (above / below / contains / equals) has just become true. You re-run on
+    your own schedule; no push.
+    """
+
+    async def check(self, current: Any, options: Cap_condition_monitoring_CheckOptions_In | None = None, /) -> Cap_condition_monitoring_CheckResult_Out:
+        """Diffs `current` against `options.previous` (the snapshot an earlier check returned) and
+        evaluates `options.when`. `notify` is true exactly when the condition has just become
+        true. Persist `snapshot` and pass it back next run. No network — fetch the value first.
+        """
 
 class Cap_costume_size_check(Protocol):
     """Given a costume character and a size, fans out to Target, Walmart, and Spirit Halloween
@@ -43634,6 +43721,12 @@ class Prv_theguardian_com(Protocol):
         fashion and lifestyle sets — newest first, with title, url and publish time.
         """
 
+    async def getPhotoGallery(self, args: Prv_theguardian_com_GuardianGetPhotoGalleryArgs_In, /) -> Prv_theguardian_com_GuardianPhotoGallery_Out:
+        """The full image set of one Guardian photo gallery: headline, standfirst, byline, publish
+        time and every image's full-resolution URL, alt text, caption and credit. Takes a
+        theguardian.com URL or the path listPhotos returns as `id`.
+        """
+
 class Prv_therabody(Protocol):
     """Therabody (Theragun) product catalogue — every device, its variants, its prices and what
     is in stock — read off the live Shopify storefront.
@@ -45191,6 +45284,13 @@ class Prv_weather_channel(Protocol):
         `getHistoricalHourly("Toronto")` — the past 24 hours of observed conditions. Each hour
         carries temperature, dew point, humidity, wind speed/direction/gust, pressure, cloud
         cover, hourly precipitation, visibility and weather phrase.
+        """
+
+    async def getHistoricalDaily(self, location: str | Prv_weather_channel_Location_u1_In, options: Prv_weather_channel_ForecastOptions_In | None = None, /) -> Prv_weather_channel_HistoricalDailyResult_Out:
+        """Historical daily weather summaries for a place — e.g. `getHistoricalDaily("Toronto")` —
+        the past 30 days of actual recorded conditions. Each day carries the high/low
+        temperature, total precipitation/rain/snow, and the day and night conditions phrase.
+        Units default to metric.
         """
 
     async def getPollenForecast(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_PollenForecastResult_Out:
@@ -46821,6 +46921,7 @@ class Bowmark(Protocol):
     census_tract_demographics: Cap_census_tract_demographics
     census_tract_household_income: Cap_census_tract_household_income
     concert_setlist: Cap_concert_setlist
+    condition_monitoring: Cap_condition_monitoring
     costume_size_check: Cap_costume_size_check
     coworking: Cap_coworking
     crypto_exchange: Cap_crypto_exchange

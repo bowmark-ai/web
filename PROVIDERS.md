@@ -2328,7 +2328,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twiddy.getRentalQuote` | twiddy.com | Runs the site's own real-time weekly pricing engine for one property and a check-in… | 🟢 |
 | `twiddy.searchRentals` | twiddy.com | Runs Twiddy's own Outer Banks vacation rental search (all 1,000+ managed properties in… | 🟢 |
 | `twitch.createHighlight` | twitch.tv | Cuts a permanent Highlight from the signed-in streamer's own broadcast, including the… | 🟢 |
-| `twitch.followChannel` | twitch.tv | Marks a channel as followed by the signed-in user. | ⚪ |
+| `twitch.followChannel` | twitch.tv | Marks a channel as followed by the signed-in user. | 🟢 |
 | `twitch.getChannel` | twitch.tv | Reads the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
 | `twitch.getChannelInfo` | twitch.tv | Reads a public channel's profile: display name, description, game, language, profile… | 🟢 |
 | `twitch.getChannelSchedule` | twitch.tv | Reads a channel's scheduled broadcast times and upcoming events (if public). Logged… | 🟢 |

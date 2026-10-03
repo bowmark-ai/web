@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 24de5713f79e577c12ca25ab3f2d76e64ed567fd7c085b2ce6a7d2d9f32b47c8
-// 73 capabilities, 514 providers, 1793 typed functions, 20 refused.
+// Manifest version: 0693b5cb10e215a8dd0d4203c2da50870bcfb54056769cae1596f8358db19615
+// 74 capabilities, 514 providers, 1796 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -716,6 +716,50 @@ interface concert_setlistResult {
   interface Unit {
     /** Search for concert setlists by artist name, venue, or date. */
     search(query: string): Promise<concert_setlistResult>;
+  }
+}
+
+declare namespace BowmarkCapability_condition_monitoring {
+  // ── Alert monitoring — notify when a page, price or value changes or a condition is met — the unit's own declarations, verbatim ──
+type ConditionOp = "changed" | "equals" | "notEquals" | "contains" | "notContains" | "above" | "below"
+
+interface Condition {
+  path?: string     // dot path into the value ("price", "items.0.stock"); omit = whole value
+  op: ConditionOp
+  value?: unknown   // required for every op except "changed"
+}
+
+interface CheckOptions {
+  previous?: Snapshot | null   // the snapshot the last check returned; omit on the first
+  when?: Condition             // default { op: "changed" }
+}
+
+interface Snapshot { fingerprint: string; value: unknown; checkedAt: string }
+interface Change { path: string; before: unknown; after: unknown }
+
+interface CheckResult {
+  firstCheck: boolean     // nothing to compare against yet
+  changed: boolean        // anything differs from previous
+  conditionMet: boolean   // `when` holds now
+  notify: boolean         // condition holds now and did NOT at previous — alert on this
+  changes: Change[]       // field-level diff, up to 50
+  snapshot: Snapshot      // persist it and pass back as `previous` next time
+  warnings: string[]
+}
+
+  /**
+   * Compare a value your script just fetched (a page, a price, a stock count) with the snapshot
+   * from last time and get back whether it changed, what changed, and whether an alert condition
+   * (above / below / contains / equals) has just become true. You re-run on your own schedule;
+   * no push.
+   */
+  interface Unit {
+    /**
+     * Diffs `current` against `options.previous` (the snapshot an earlier check returned) and
+     * evaluates `options.when`. `notify` is true exactly when the condition has just become true.
+     * Persist `snapshot` and pass it back next run. No network — fetch the value first.
+     */
+    check(current: unknown, options?: CheckOptions): Promise<CheckResult>;
   }
 }
 
@@ -42643,6 +42687,29 @@ interface GuardianPhotoGallerySummary {
 interface GuardianListPhotosResult {
   galleries: GuardianPhotoGallerySummary[];
 }
+interface GuardianGetPhotoGalleryArgs {
+  /** A theguardian.com gallery URL or the path listPhotos returns as `id`, e.g. "artanddesign/gallery/2026/oct/02/the-week-around-the-world-in-20-pictures". */
+  galleryUrlOrId: string;
+}
+interface GuardianGalleryImage {
+  /** The full-resolution original rendition's URL. */
+  url: string;
+  alt: string | null;
+  /** The caption, tags stripped. */
+  caption: string | null;
+  credit: string | null;
+}
+interface GuardianPhotoGallery {
+  id: string;
+  url: string;
+  headline: string;
+  standfirst: string | null;
+  byline: string | null;
+  published: string | null;
+  section: string | null;
+  tags: { id: string; title: string; type: string }[];
+  images: GuardianGalleryImage[];
+}
 
   /**
    * Reads The Guardian's articles, sections, topics, reviews, live blogs and media — all logged
@@ -42743,6 +42810,13 @@ interface GuardianListPhotosResult {
      * and lifestyle sets — newest first, with title, url and publish time.
      */
     listPhotos(args?: GuardianListPhotosArgs): Promise<GuardianListPhotosResult>;
+
+    /**
+     * The full image set of one Guardian photo gallery: headline, standfirst, byline, publish time
+     * and every image's full-resolution URL, alt text, caption and credit. Takes a theguardian.com
+     * URL or the path listPhotos returns as `id`.
+     */
+    getPhotoGallery(args: GuardianGetPhotoGalleryArgs): Promise<GuardianPhotoGallery>;
   }
 }
 
@@ -46962,6 +47036,24 @@ interface HistoricalHourlyResult {
   hours: HistoricalHour[];
 }
 
+interface HistoricalDailyDay {
+  date: string;
+  dayOfWeek: string;
+  high: number | null;
+  low: number | null;
+  precipitation: number | null;
+  rain: number | null;
+  snow: number | null;
+  phraseDay: string;
+  phraseNight: string;
+}
+
+interface HistoricalDailyResult {
+  location: WeatherLocation | null;
+  units: "metric" | "imperial";
+  days: HistoricalDailyDay[];
+}
+
   /**
    * Current weather conditions, forecasts, alerts, air quality, pollen, radar and tropical
    * storms for any location.
@@ -47059,6 +47151,13 @@ interface HistoricalHourlyResult {
      * and weather phrase.
      */
     getHistoricalHourly(location: Location): Promise<HistoricalHourlyResult>;
+
+    /**
+     * Historical daily weather summaries for a place — e.g. `getHistoricalDaily("Toronto")` — the
+     * past 30 days of actual recorded conditions. Each day carries the high/low temperature, total
+     * precipitation/rain/snow, and the day and night conditions phrase. Units default to metric.
+     */
+    getHistoricalDaily(location: Location, options?: ForecastOptions): Promise<HistoricalDailyResult>;
 
     /**
      * The Weather Channel's 7-day allergy forecast for a place — e.g. `getPollenForecast("Kansas
@@ -101089,6 +101188,7 @@ interface BowmarkLibrary {
   census_tract_demographics: BowmarkCapability_census_tract_demographics.Unit;
   census_tract_household_income: BowmarkCapability_census_tract_household_income.Unit;
   concert_setlist: BowmarkCapability_concert_setlist.Unit;
+  condition_monitoring: BowmarkCapability_condition_monitoring.Unit;
   costume_size_check: BowmarkCapability_costume_size_check.Unit;
   coworking: BowmarkCapability_coworking.Unit;
   crypto_exchange: BowmarkCapability_crypto_exchange.Unit;

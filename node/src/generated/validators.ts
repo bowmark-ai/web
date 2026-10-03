@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 24de5713f79e577c12ca25ab3f2d76e64ed567fd7c085b2ce6a7d2d9f32b47c8
-// 1775 checked, 20 unchecked.
+// Manifest version: 0693b5cb10e215a8dd0d4203c2da50870bcfb54056769cae1596f8358db19615
+// 1778 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "24de5713f79e577c12ca25ab3f2d76e64ed567fd7c085b2ce6a7d2d9f32b47c8",
+  "version": "0693b5cb10e215a8dd0d4203c2da50870bcfb54056769cae1596f8358db19615",
   "units": {
     "address_validation": {
       "defs": {
@@ -695,6 +695,144 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          }
+        ]
+      }
+    },
+    "condition_monitoring": {
+      "defs": {
+        "CheckOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "previous",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "ref",
+                    "name": "Snapshot"
+                  },
+                  {
+                    "k": "null"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "when",
+              "schema": {
+                "k": "ref",
+                "name": "Condition"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "Condition": {
+          "k": "object",
+          "props": [
+            {
+              "name": "path",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "op",
+              "schema": {
+                "k": "ref",
+                "name": "ConditionOp"
+              },
+              "optional": false
+            },
+            {
+              "name": "value",
+              "schema": {
+                "k": "any"
+              },
+              "optional": true
+            }
+          ]
+        },
+        "ConditionOp": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "changed"
+            },
+            {
+              "k": "literal",
+              "v": "equals"
+            },
+            {
+              "k": "literal",
+              "v": "notEquals"
+            },
+            {
+              "k": "literal",
+              "v": "contains"
+            },
+            {
+              "k": "literal",
+              "v": "notContains"
+            },
+            {
+              "k": "literal",
+              "v": "above"
+            },
+            {
+              "k": "literal",
+              "v": "below"
+            }
+          ]
+        },
+        "Snapshot": {
+          "k": "object",
+          "props": [
+            {
+              "name": "fingerprint",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "value",
+              "schema": {
+                "k": "any"
+              },
+              "optional": false
+            },
+            {
+              "name": "checkedAt",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        }
+      },
+      "functions": {
+        "check": [
+          {
+            "name": "current",
+            "schema": {
+              "k": "any"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "CheckOptions"
+            },
+            "optional": true
           }
         ]
       }
@@ -45006,6 +45144,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GuardianGetPhotoGalleryArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "galleryUrlOrId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GuardianGetReviewArgs": {
           "k": "object",
           "props": [
@@ -45223,6 +45373,16 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GuardianListPhotosArgs"
             },
             "optional": true
+          }
+        ],
+        "getPhotoGallery": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GuardianGetPhotoGalleryArgs"
+            },
+            "optional": false
           }
         ]
       }
@@ -49431,6 +49591,24 @@ export const VALIDATORS: ValidatorTable = {
               "name": "Location"
             },
             "optional": false
+          }
+        ],
+        "getHistoricalDaily": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ForecastOptions"
+            },
+            "optional": true
           }
         ],
         "getPollenForecast": [
