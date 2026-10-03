@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c71db1e28c142379f8a042365b1e904d76c81c900a4023f8b326d684c72bab86
-# 73 capabilities, 512 providers, 1758 typed functions, 20 refused.
+# Manifest version: d0cd1689fde9fa943df5712afa24b2066f5ed6e04b0353a1a0dc4b803378db7a
+# 73 capabilities, 512 providers, 1759 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -3262,7 +3262,7 @@ class Prv_amazon_AmazonSellerRatingPeriod_Out(TypedDict):
     averageRating: float | None
     ratingCount: float | None
 
-class Prv_amazon_GetDeliveryEstimateArgs_In(TypedDict):
+class Prv_amazon_getDeliveryEstimate_arg0_In(TypedDict):
     product: str
     zip: str
 
@@ -22663,6 +22663,16 @@ class Prv_steam_SteamSearchNewsItem_Out(TypedDict):
     date: float
     tags: list[str]
 
+class Prv_steam_ListGameTagsArgs_In(TypedDict):
+    language: NotRequired[str]
+
+class Prv_steam_ListGameTagsResponse_Out(TypedDict):
+    tags: list[Prv_steam_SteamTag_Out]
+
+class Prv_steam_SteamTag_Out(TypedDict):
+    tagId: float
+    name: str
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -29685,7 +29695,7 @@ class Prv_amazon(Protocol):
         sellerId field — a listing Amazon sells itself has none.
         """
 
-    async def getDeliveryEstimate(self, args: Prv_amazon_GetDeliveryEstimateArgs_In, /) -> Prv_amazon_AmazonDeliveryEstimate_Out:
+    async def getDeliveryEstimate(self, arg0: Prv_amazon_getDeliveryEstimate_arg0_In, /) -> Prv_amazon_AmazonDeliveryEstimate_Out:
         """When a product would actually arrive at a given US ZIP, and what it costs to get it
         there — sets the ZIP for one session (Amazon's own "glow" location picker, no account
         needed) and reads the delivery block the product page then re-renders for it: the site's
@@ -42971,6 +42981,11 @@ class Prv_steam(Protocol):
     async def searchNews(self, args: Prv_steam_SearchNewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_SearchNewsResponse_Out:
         """Searches a game's recent news items by keyword and/or date range (since/until, unix
         seconds), filtering client-side over the same news feed listNews reads.
+        """
+
+    async def listGameTags(self, args: Prv_steam_ListGameTagsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_steam_ListGameTagsResponse_Out:
+        """Lists every tag users can apply to games on the Steam store, in the site's own
+        popularity order, optionally localized by language.
         """
 
 class Prv_stickergiant(Protocol):

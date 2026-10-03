@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c71db1e28c142379f8a042365b1e904d76c81c900a4023f8b326d684c72bab86
-// 1758 checked, 20 unchecked.
+// Manifest version: d0cd1689fde9fa943df5712afa24b2066f5ed6e04b0353a1a0dc4b803378db7a
+// 1759 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c71db1e28c142379f8a042365b1e904d76c81c900a4023f8b326d684c72bab86",
+  "version": "d0cd1689fde9fa943df5712afa24b2066f5ed6e04b0353a1a0dc4b803378db7a",
   "units": {
     "address_validation": {
       "defs": {
@@ -6534,25 +6534,6 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.amazon": {
       "defs": {
-        "GetDeliveryEstimateArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "product",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            },
-            {
-              "name": "zip",
-              "schema": {
-                "k": "string"
-              },
-              "optional": false
-            }
-          ]
-        },
         "ListBestSellersArgs": {
           "k": "object",
           "props": [
@@ -6777,10 +6758,25 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getDeliveryEstimate": [
           {
-            "name": "args",
+            "name": "arg0",
             "schema": {
-              "k": "ref",
-              "name": "GetDeliveryEstimateArgs"
+              "k": "object",
+              "props": [
+                {
+                  "name": "product",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                },
+                {
+                  "name": "zip",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
             },
             "optional": false
           }
@@ -43450,6 +43446,18 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListGameTagsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "language",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "ListGamesByCategoryArgs": {
           "k": "object",
           "props": [
@@ -43847,6 +43855,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchNewsArgs"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "listGameTags": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListGameTagsArgs"
+            },
+            "optional": true
           },
           {
             "name": "opts",

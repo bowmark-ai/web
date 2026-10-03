@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c71db1e28c142379f8a042365b1e904d76c81c900a4023f8b326d684c72bab86
-// 73 capabilities, 512 providers, 1776 typed functions, 20 refused.
+// Manifest version: d0cd1689fde9fa943df5712afa24b2066f5ed6e04b0353a1a0dc4b803378db7a
+// 73 capabilities, 512 providers, 1777 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -6061,7 +6061,7 @@ interface AmazonCart {
      * and the three fields are Amazon's DEFAULT location rather than the caller's ZIP, on an
      * invalid ZIP.
      */
-    getDeliveryEstimate(args: GetDeliveryEstimateArgs): Promise<AmazonDeliveryEstimate>;
+    getDeliveryEstimate(arg0: { product: string; zip: string }): Promise<AmazonDeliveryEstimate>;
 
     /**
      * Every seller offering the same listing side by side — condition (new, used, its grade),
@@ -41432,6 +41432,19 @@ interface NewsItemResponse {
   url: string;
 }
 
+interface ListGameTagsArgs {
+  language?: string;
+}
+
+interface SteamTag {
+  tagId: number;
+  name: string;
+}
+
+interface ListGameTagsResponse {
+  tags: SteamTag[];
+}
+
 interface SearchNewsArgs {
   appid: string | number;
   query?: string;
@@ -41527,6 +41540,12 @@ interface SearchNewsResponse {
      * seconds), filtering client-side over the same news feed listNews reads.
      */
     searchNews(args: SearchNewsArgs, opts?: ConnectionOption): Promise<SearchNewsResponse>;
+
+    /**
+     * Lists every tag users can apply to games on the Steam store, in the site's own popularity
+     * order, optionally localized by language.
+     */
+    listGameTags(args?: ListGameTagsArgs, opts?: ConnectionOption): Promise<ListGameTagsResponse>;
   }
 }
 
