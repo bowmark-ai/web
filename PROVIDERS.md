@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2624 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2629 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -622,17 +622,21 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `clubchampion.listFitters` | clubchampion.com | Reads the live list of every Club Champion fitter — id, name, studio, timezone… | 🟢 |
 | `clubchampion.listStudios` | clubchampion.com | Reads the live list of every Club Champion fitting studio — id, address, lat/lng… | 🟢 |
 | `cnb_avocat_fr.search` | cnb.avocat.fr | Searches the French national lawyer directory by name, city, or legal specialty. | ⚪ |
+| `cnn.followTopic` | www.cnn.com | Add a topic to the signed-in viewer's followed topics, so it appears in their… | 🟢 |
 | `cnn.getArticle` | www.cnn.com | Read the full text and metadata of one CNN article — headline, body text, author… | 🟢 |
 | `cnn.getMarketsData` | www.cnn.com | Financial and markets data from CNN Money — stock indices, currency rates, commodities… | 🟢 |
 | `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, publication date… | 🟡 |
 | `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | 🟢 |
 | `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | 🟢 |
+| `cnn.listMyNews` | www.cnn.com | The signed-in viewer's personalized My News feed, built from their followed topics… | ⚪ |
 | `cnn.listNewsletters` | www.cnn.com | The CNN newsletters available to subscribe to — Breaking News, CNN Five Things, The… | 🟢 |
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
 | `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | 🟢 |
 | `cnn.listTrendingTopics` | www.cnn.com | The stories CNN's own recommendation engine currently ranks as trending — headline… | 🟢 |
 | `cnn.listVideos` | www.cnn.com | The videos CNN currently lists on its video hub — clips and segments with headline… | 🟢 |
 | `cnn.searchArticles` | www.cnn.com | Search CNN — takes what a person would say ("breaking news", "inflation", "2024… | 🟢 |
+| `cnn.subscribeToNewsletter` | www.cnn.com | Subscribe the signed-in viewer's account to a CNN newsletter by id. | ⚪ |
+| `cnn.unfollowTopic` | www.cnn.com | Remove a topic from the signed-in viewer's followed topics. | ⚪ |
 | `coast.getFleetCardPricing` | coastpay.com | Reads Coast's own pricing page and returns its real, current per-active-user monthly… | 🟢 |
 | `coast.getFuelRebate` | coastpay.com | Reads Coast's own pricing page and returns its published per-gallon rebate range at… | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
@@ -784,7 +788,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epicgames.addToCart` | epicgames.com | Put a game or add-on in the signed-in caller's cart. | ⚪ |
 | `epicgames.addToWishlist` | epicgames.com | Add a game to the signed-in caller's wishlist. | ⚪ |
 | `epicgames.claimFreeGame` | epicgames.com | Claim one of this week's free games into the signed-in caller's library — the $0… | ⚪ |
-| `epicgames.getAccount` | epicgames.com | The signed-in caller's Epic account: display name, account id, linked platforms… | ⚪ |
+| `epicgames.getAccount` | epicgames.com | The signed-in caller's own Epic Games account settings, returned raw — no fleet-held… | 🟢 |
 | `epicgames.getAchievementProgress` | epicgames.com | The signed-in caller's own achievements in one game — which are unlocked, when, and… | ⚪ |
 | `epicgames.getAchievements` | epicgames.com | A game's achievement list as the store shows it — name, description, icon, XP, and the… | ⚪ |
 | `epicgames.getCart` | epicgames.com | The signed-in caller's cart — each line's offer, price and discount, and the cart total. | ⚪ |
@@ -1131,7 +1135,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `google_maps.suggestPlaces` | google.com/maps | Google Maps' own autocomplete for a half-typed query — what the search box offers… | 🟢 |
 | `google_maps.writeReview` | google.com/maps | Post a star rating and review text on a place, as the signed-in person — what a Local… | ⚪ |
 | `google_news.findTopic` | news.google.com | The finder `getTopicHeadlines` is missing for an ENTITY topic — a company, a person, a… | ⚪ |
-| `google_news.followTopic` | news.google.com | Follow a topic, a place or a publisher as the signed-in person — how a Google News… | ⚪ |
+| `google_news.followTopic` | news.google.com | Follow a topic, a place or a publisher as the signed-in person — how a Google News… | 🟢 |
 | `google_news.getForYou` | news.google.com | The personalised For You feed — what Google News picks for the signed-in person from… | 🟡 |
 | `google_news.getFullCoverage` | news.google.com | Google News' Full Coverage for one story — every outlet reporting it, with each one's… | 🟢 |
 | `google_news.getTopicHeadlines` | news.google.com | The headlines under any Google News topic id — the opaque key `/rss/topics/<id>`… | 🟢 |
@@ -1713,7 +1717,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getWordle` | nytimes.com | Gets today's Wordle puzzle. | ⚪ |
 | `nytimes.getWriter` | nytimes.com | Gets writer profile and byline. | ⚪ |
 | `nytimes.listArticles` | nytimes.com | Lists a section's own article grid, newest first, with metadata. | 🟢 |
-| `nytimes.listEpisodes` | nytimes.com | Gets episodes for a specific podcast. | ⚪ |
+| `nytimes.listEpisodes` | nytimes.com | Lists a podcast's own episodes off its column page. | 🟢 |
 | `nytimes.listNewsletters` | nytimes.com | Lists NYT's own email newsletters off the signup page's catalog tray — up to 13, the… | 🟢 |
 | `nytimes.listPodcasts` | nytimes.com | Lists NYT podcasts. | 🟢 |
 | `nytimes.listRSSFeeds` | nytimes.com | Lists available RSS feed URLs by section. | ⚪ |
@@ -2138,7 +2142,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.listNews` | steampowered.com | Lists a game's news and updates by appid, from both official announcements and… | 🟢 |
 | `steam.postComment` | steampowered.com | Posts a comment or discussion in a game's community hub. | ⚪ |
 | `steam.removeFriend` | steampowered.com | Removes a user from the caller's friends list. | ⚪ |
-| `steam.removeFromWishlist` | steampowered.com | Removes a game from the caller's wishlist. | ⚪ |
+| `steam.removeFromWishlist` | steampowered.com | Removes a game from the signed-in caller's wishlist by appid, off the store's own… | 🟢 |
 | `steam.searchGames` | steampowered.com | Searches the Steam store by keyword and returns matching games with basic details like… | 🟢 |
 | `steam.searchNews` | steampowered.com | Searches a game's recent news items by keyword and/or date range. | 🟢 |
 | `steam.viewFriends` | steampowered.com | Lists the caller's Steam friends, including online status and last-seen date. | ⚪ |
@@ -2247,7 +2251,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | ⚪ |
 | `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟡 |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | ⚪ |
-| `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | ⚪ |
+| `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟢 |
 | `tiktok.listUserVideos` | tiktok.com | What a creator has posted — id and caption for each — the door from a handle to their… | 🟢 |
 | `tiktok.postComment` | tiktok.com | Post a comment on a video as the signed-in caller. | ⚪ |
 | `tiktok.searchUsers` | tiktok.com | Search TikTok for creators matching a query and get back handle, nickname and follower… | 🟡 |
@@ -2455,11 +2459,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getAlmanac` | weather.com | Historical climate normals — average high/low temperatures and records for a date. | 🟢 |
 | `weather_channel.getCMSContent` | weather.com | CMS-managed content (articles, how-to guides) — retrieve by content id or path. | ⚪ |
 | `weather_channel.getCurrentConditions` | weather.com | Current conditions for a location — temperature, feels-like, dew point, humidity… | 🟢 |
-| `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | ⚪ |
+| `weather_channel.getCurrentTropicalPosition` | weather.com | Current position and details of active tropical cyclones/hurricanes — location… | 🟢 |
 | `weather_channel.getDailyForecast` | weather.com | Daily forecast — high/low, conditions, precipitation chance, wind. 10-day and 15-day… | 🟢 |
 | `weather_channel.getFifteenMinuteForecast` | weather.com | Sub-hourly precipitation forecast — arrival time and intensity of rain/snow in… | 🟢 |
 | `weather_channel.getHistoricalDaily` | weather.com | Historical daily summaries — past 30 days of high, low, and precipitation records. | 🟢 |
-| `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | ⚪ |
+| `weather_channel.getHistoricalDailySummary` | weather.com | 30-day historical summary — aggregated daily data (highs, lows, precipitation) for the… | 🟢 |
 | `weather_channel.getHistoricalHourly` | weather.com | Historical hourly observations — past 24-48 hours of actual recorded conditions. | 🟢 |
 | `weather_channel.getHourlyAirQuality` | weather.com | Hourly air quality forecast — AQI and pollutant predictions at hourly intervals. | ⚪ |
 | `weather_channel.getHourlyForecast` | weather.com | Hourly forecast for a location — temperature, conditions, precipitation, wind. 2-hour… | 🟢 |
@@ -2563,6 +2567,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full off its own game page — final or live score, status, venue… | 🟢 |
 | `yahoo_sports.getInjuries` | sports.yahoo.com | Reads a league's full injury report the way its own Injuries page does — every team's… | 🟢 |
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads a league's News tab — all story headlines, links, sources and publication times… | 🟢 |
+| `yahoo_sports.getOdds` | sports.yahoo.com | Reads a league's current betting lines off the site's own Odds page — spread, total… | 🟢 |
 | `yahoo_sports.getPlayer` | sports.yahoo.com | Reads one player's profile and current-season stat line off their own player page —… | 🟢 |
 | `yahoo_sports.getRssFeed` | sports.yahoo.com | Reads a league's own RSS feed the way `finance.yahoo.com/news/rssindex` does for… | 🟢 |
 | `yahoo_sports.getSchedule` | sports.yahoo.com | Reads a team's full schedule for the season the way its own Schedule page does — every… | 🟡 |

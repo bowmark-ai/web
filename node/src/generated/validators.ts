@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: c5b26c74f2e6da17fa4b54834875b290d336a646365dd6bb5339126eadf90b37
-// 1783 checked, 20 unchecked.
+// Manifest version: 2cf38e4ba8c46e223d8a3b70a4f7151a97c40e03cceecb0908413366f1f09ab4
+// 1786 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "c5b26c74f2e6da17fa4b54834875b290d336a646365dd6bb5339126eadf90b37",
+  "version": "2cf38e4ba8c46e223d8a3b70a4f7151a97c40e03cceecb0908413366f1f09ab4",
   "units": {
     "address_validation": {
       "defs": {
@@ -11382,6 +11382,46 @@ export const VALIDATORS: ValidatorTable = {
                   "props": [
                     {
                       "name": "post",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getFollowers": [
+          {
+            "name": "actor",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "actor",
                       "schema": {
                         "k": "string"
                       },
@@ -47554,6 +47594,18 @@ export const VALIDATORS: ValidatorTable = {
               "optional": true
             }
           ]
+        },
+        "UnfollowChannelArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "login",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
         }
       },
       "functions": {
@@ -47887,6 +47939,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "FollowChannelArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowChannel": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "UnfollowChannelArgs"
             },
             "optional": false
           },
@@ -49531,6 +49609,24 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getHistoricalDaily": [
+          {
+            "name": "location",
+            "schema": {
+              "k": "ref",
+              "name": "Location"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "ForecastOptions"
+            },
+            "optional": true
+          }
+        ],
+        "getHistoricalDailySummary": [
           {
             "name": "location",
             "schema": {

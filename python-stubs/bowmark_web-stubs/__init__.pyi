@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: c5b26c74f2e6da17fa4b54834875b290d336a646365dd6bb5339126eadf90b37
-# 74 capabilities, 514 providers, 1783 typed functions, 20 refused.
+# Manifest version: 2cf38e4ba8c46e223d8a3b70a4f7151a97c40e03cceecb0908413366f1f09ab4
+# 74 capabilities, 514 providers, 1786 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6090,6 +6090,16 @@ class Prv_bluesky_getPostQuotes_post_u1_In(TypedDict):
 
 class Prv_bluesky_BlueskyPostQuotesResults_Out(TypedDict):
     posts: list[Prv_bluesky_BlueskyPost_Out]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_getFollowers_actor_u1_In(TypedDict):
+    actor: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyFollowersResults_Out(TypedDict):
+    followers: list[Prv_bluesky_BlueskyPostAuthor_Out]
+    subject: Prv_bluesky_BlueskyPostAuthor_Out
     cursor: NotRequired[str]
 
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
@@ -24848,6 +24858,9 @@ class Prv_twitch_TwitchFollowChannelResult_Out(TypedDict):
     channel: str
     following: bool
 
+class Prv_twitch_UnfollowChannelArgs_In(TypedDict):
+    login: str
+
 class Prv_uber_DriverEarnings_Out(TypedDict):
     weekStart: str
     tripCount: float
@@ -31906,6 +31919,14 @@ class Prv_bluesky(Protocol):
     async def getPostQuotes(self, post: str | Prv_bluesky_getPostQuotes_post_u1_In, /) -> Prv_bluesky_BlueskyPostQuotesResults_Out:
         """The posts that quote a given post, page by page. Takes a post at:// URI or bsky.app post
         URL. Returns each quoted post with its author, text, embed and engagement counts.
+        """
+
+    async def getFollowers(self, actor: str | Prv_bluesky_getFollowers_actor_u1_In, /) -> Prv_bluesky_BlueskyFollowersResults_Out:
+        """Who follows a person, page by page, as their profile's Followers tab shows them. Takes a
+        handle, a DID, or a bsky.app profile URL. Returns each follower's handle, DID, display
+        name and avatar, the queried person's own profile summary, and a `cursor` for the next
+        page when more results exist. THROWS `blueskyInputError` on an actor the AppView cannot
+        find — check the spelling with `searchUsers` or `resolveHandle`.
         """
 
 class Prv_bmwusa(Protocol):
@@ -44745,6 +44766,13 @@ class Prv_twitch(Protocol):
         under the caller's own session (see _integrity.ts).
         """
 
+    async def unfollowChannel(self, args: Prv_twitch_UnfollowChannelArgs_In, opts: ConnectionOption | None = None, /) -> Prv_twitch_TwitchFollowChannelResult_Out:
+        """Removes a channel from the signed-in user's followed list. NEEDS the viewer's Twitch
+        sign-in, which only a capability can hold. THROWS naming the login when Twitch has no
+        such channel. `unfollowUser` mutation on Twitch's own GraphQL — gated behind the same
+        Client-Integrity token as followChannel, reused from _integrity.ts.
+        """
+
 class Prv_uber(Protocol):
     """Read signed-in driver earnings summaries from the Uber driver dashboard."""
 
@@ -45370,6 +45398,14 @@ class Prv_weather_channel(Protocol):
         the past 30 days of actual recorded conditions. Each day carries the high/low
         temperature, total precipitation/rain/snow, and the day and night conditions phrase.
         Units default to metric.
+        """
+
+    async def getHistoricalDailySummary(self, location: str | Prv_weather_channel_Location_u1_In, options: Prv_weather_channel_ForecastOptions_In | None = None, /) -> Prv_weather_channel_HistoricalDailyResult_Out:
+        """The same 30-day historical daily summary as `getHistoricalDaily` — e.g.
+        `getHistoricalDailySummary("Toronto")` — weather.com exposes the "past 30 days" data
+        through one endpoint (`conditions/historical/dailysummary/30day`) that backs both of its
+        declared "historical" entry points; this is that door under its other name. Units
+        default to metric.
         """
 
     async def getPollenForecast(self, location: str | Prv_weather_channel_Location_u1_In, /) -> Prv_weather_channel_PollenForecastResult_Out:

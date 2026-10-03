@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: c5b26c74f2e6da17fa4b54834875b290d336a646365dd6bb5339126eadf90b37
-// 74 capabilities, 514 providers, 1801 typed functions, 20 refused.
+// Manifest version: 2cf38e4ba8c46e223d8a3b70a4f7151a97c40e03cceecb0908413366f1f09ab4
+// 74 capabilities, 514 providers, 1804 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10847,6 +10847,12 @@ interface BlueskyPostQuotesResults {
   cursor?: string;
 }
 
+interface BlueskyFollowersResults {
+  followers: BlueskyPostAuthor[];
+  subject: BlueskyPostAuthor;
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -10952,6 +10958,15 @@ interface BlueskyPostQuotesResults {
      * URL. Returns each quoted post with its author, text, embed and engagement counts.
      */
     getPostQuotes(post: string | { post: string; limit?: number; cursor?: string }): Promise<BlueskyPostQuotesResults>;
+
+    /**
+     * Who follows a person, page by page, as their profile's Followers tab shows them. Takes a
+     * handle, a DID, or a bsky.app profile URL. Returns each follower's handle, DID, display name
+     * and avatar, the queried person's own profile summary, and a `cursor` for the next page when
+     * more results exist. THROWS `blueskyInputError` on an actor the AppView cannot find — check
+     * the spelling with `searchUsers` or `resolveHandle`.
+     */
+    getFollowers(actor: string | { actor: string; limit?: number; cursor?: string }): Promise<BlueskyFollowersResults>;
   }
 }
 
@@ -45294,6 +45309,10 @@ interface FollowChannelArgs {
   /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
   login: string;
 }
+interface UnfollowChannelArgs {
+  /** A Twitch channel login, e.g. "ninja" or a twitch.tv/<login> link. */
+  login: string;
+}
 interface TwitchFollowChannelResult {
   channel: string;
   following: boolean;
@@ -45448,6 +45467,14 @@ interface TwitchFollowChannelResult {
      * session (see _integrity.ts).
      */
     followChannel(args: FollowChannelArgs, opts?: ConnectionOption): Promise<TwitchFollowChannelResult>;
+
+    /**
+     * Removes a channel from the signed-in user's followed list. NEEDS the viewer's Twitch
+     * sign-in, which only a capability can hold. THROWS naming the login when Twitch has no such
+     * channel. `unfollowUser` mutation on Twitch's own GraphQL — gated behind the same
+     * Client-Integrity token as followChannel, reused from _integrity.ts.
+     */
+    unfollowChannel(args: UnfollowChannelArgs, opts?: ConnectionOption): Promise<TwitchFollowChannelResult>;
   }
 }
 
@@ -47247,6 +47274,14 @@ interface HistoricalDailyResult {
      * precipitation/rain/snow, and the day and night conditions phrase. Units default to metric.
      */
     getHistoricalDaily(location: Location, options?: ForecastOptions): Promise<HistoricalDailyResult>;
+
+    /**
+     * The same 30-day historical daily summary as `getHistoricalDaily` — e.g.
+     * `getHistoricalDailySummary("Toronto")` — weather.com exposes the "past 30 days" data through
+     * one endpoint (`conditions/historical/dailysummary/30day`) that backs both of its declared
+     * "historical" entry points; this is that door under its other name. Units default to metric.
+     */
+    getHistoricalDailySummary(location: Location, options?: ForecastOptions): Promise<HistoricalDailyResult>;
 
     /**
      * The Weather Channel's 7-day allergy forecast for a place — e.g. `getPollenForecast("Kansas
