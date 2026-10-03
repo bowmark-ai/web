@@ -951,7 +951,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getUser` | fomo.family | Returns one trader's public profile by fomo user id — the same record as… | 🟢 |
 | `fomo.getUserByHandle` | fomo.family | Returns one trader's profile from their `@handle` — the half of a… | 🟢 |
 | `fomo.getUserLeaderboardStanding` | fomo.family | Returns one trader's own rank and stats without walking the board — the narrow… | ⚪ |
-| `fomo.getUserSpotlight` | fomo.family | Returns the highlighted trades and stats fomo pins to the top of one trader's profile… | ⚪ |
+| `fomo.getUserSpotlight` | fomo.family | Returns the highlighted trades and stats fomo pins to the top of one trader's profile… | 🟢 |
 | `fomo.getUserSwaps` | fomo.family | Pages one trader's executed swaps — token, side, amount, USD value, price and realized… | ⚪ |
 | `fomo.getUserTransfers` | fomo.family | Pages one trader's token transfers in and out — distinct from swaps, which are trades.… | ⚪ |
 | `fomo.getUserWithdrawals` | fomo.family | Returns one trader's withdrawals off the platform for a given chain. `GET… | ⚪ |
@@ -2118,7 +2118,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.addFriend` | steampowered.com | Sends a friend request to another Steam user by username or ID. | ⚪ |
 | `steam.addToWishlist` | steampowered.com | Adds a game to the caller's wishlist, marking it for tracking and price drop… | ⚪ |
 | `steam.editProfile` | steampowered.com | Updates the caller's own profile information like profile name, bio/summary, and… | ⚪ |
-| `steam.getAchievements` | steampowered.com | Retrieves achievement list for a game when publicly viewable, including achievement… | ⚪ |
+| `steam.getAchievements` | steampowered.com | Reads a game's achievement list from its public Steam Community page by appid: name… | 🟢 |
 | `steam.getCommunityHub` | steampowered.com | Retrieves the community hub for a game, including recent discussions, artwork… | ⚪ |
 | `steam.getGameDetails` | steampowered.com | Reads a specific game's full store page including title, description, price… | 🟢 |
 | `steam.getGameReviews` | steampowered.com | Retrieves user reviews for a game, including review text, helpful/unhelpful counts… | 🟢 |
