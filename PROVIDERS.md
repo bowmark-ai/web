@@ -262,7 +262,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.removeSavedArticle` | bbc.com | Remove an article from the signed-in reader's saved list. | ⚪ |
 | `bbc.saveArticle` | bbc.com | Save a BBC article to the signed-in reader's saved list (the page's bookmark button).… | ⚪ |
 | `bbc.searchArticles` | bbc.com | Search the BBC the way its search box does: headline, summary, url, article id… | 🟢 |
-| `bbc.searchWeatherLocations` | bbc.com | Find BBC Weather locations by place name or postcode: name, region, country and the… | 🟢 |
+| `bbc.searchWeatherLocations` | bbc.com | Find BBC Weather locations by place name or postcode: name, region, country and the… | 🟡 |
 | `bbc.subscribeNewsletter` | bbc.com | Sign the signed-in reader up to a BBC newsletter. | ⚪ |
 | `bbc.unfollowPodcast` | bbc.com | Stop following a BBC podcast or series for the signed-in reader. | ⚪ |
 | `bbc.unsubscribeNewsletter` | bbc.com | Take the signed-in reader off a BBC newsletter. | ⚪ |
@@ -1701,7 +1701,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nyt_games.listCrosswordPuzzles` | games.nytimes.com | Lists available crossword puzzles by date and difficulty. | 🟢 |
 | `nytimes.followWriter` | nytimes.com | Follows a writer (requires auth). | ⚪ |
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
-| `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟢 |
+| `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟡 |
 | `nytimes.getConnections` | nytimes.com | Gets today's Connections puzzle. | ⚪ |
 | `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟢 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
@@ -2031,13 +2031,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsung.findStore` | samsung.com | Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not… | 🟢 |
 | `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟡 |
 | `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
-| `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | 🟢 |
+| `samsung.getRewardsBalance` | samsung.com | A signed-in shopper's Samsung Rewards points balance and available redemptions, off… | 🟡 |
 | `samsung.getTradeInQuote` | samsung.com | Samsung's own trade-in estimate for a device someone already owns — what they'd get… | 🟢 |
 | `samsung.listCarrierOffers` | samsung.com | Samsung's own "save up to $X with eligible trade-in on this carrier" promotions — one… | 🟢 |
 | `samsung.listCategories` | samsung.com | The site's own product taxonomy — Smartphones, TVs, Home Appliances, Monitors… | 🟢 |
 | `samsung.listCategoryProducts` | samsung.com | Browse a whole product family with no keyword at all — every Galaxy S phone, every Neo… | 🟢 |
 | `samsung.listDeals` | samsung.com | What is discounted right now across the whole site — the deal price, the price it was… | 🟡 |
-| `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | 🟢 |
+| `samsung.listMyProducts` | samsung.com | The devices a signed-in shopper has registered to their Samsung account — model… | 🟡 |
 | `samsung.listOrders` | samsung.com | The signed-in shopper's own Samsung.com order history — what they bought, when, and… | 🟡 |
 | `samsung.listSupportArticles` | samsung.com | Samsung's own how-to and troubleshooting articles for a product — firmware downloads… | 🟢 |
 | `samsung.search` | samsung.com | Runs Samsung's own AI-powered site search (the box that redirects to /us/aisearch/)… | 🟡 |
@@ -2189,7 +2189,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `theguardian_com.listPhotos` | theguardian.com | List photo galleries by date and topic. | 🟢 |
 | `theguardian_com.listReviews` | theguardian.com | Get reviews of film, TV, theatre, books, etc. | 🟢 |
 | `theguardian_com.listSections` | theguardian.com | List all available sections on the site. | 🟢 |
-| `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟢 |
+| `theguardian_com.listTopics` | theguardian.com | List trending topics and tagged collections (climate crisis, Ukraine, US elections… | 🟡 |
 | `theguardian_com.listVideos` | theguardian.com | List videos by topic and date. | ⚪ |
 | `theguardian_com.searchArticles` | theguardian.com | Search articles across the site by keyword. | ⚪ |
 | `therabody.getTheragunProduct` | therabody.com | Reads one product by its handle — every variant, its exact price, the image the… | 🟢 |
@@ -2343,7 +2343,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.listWatchHistory` | twitch.tv | Lists recently watched streams and VODs for the signed-in user. | 🟢 |
 | `twitch.listWatchLater` | twitch.tv | Lists videos the signed-in user has saved to watch later. | 🟢 |
 | `twitch.searchChannels` | twitch.tv | Searches Twitch channels by keyword — a name, game or description term — and returns… | 🟢 |
-| `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | 🟢 |
+| `twitch.searchVideos` | twitch.tv | Searches for VODs and clips: title, creator, publish date, view count, duration. | 🟡 |
 | `twitch.sendChatMessage` | twitch.tv | Sends a message to a channel's live chat. | 🟢 |
 | `twitch.setChannel` | twitch.tv | Updates the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
 | `twitch.signUp` | twitch.tv | Registers a new developer application on the Twitch console. | ⚪ |

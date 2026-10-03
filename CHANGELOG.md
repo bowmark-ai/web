@@ -6,6 +6,146 @@ The three always ship at one version. They are one client in two languages, plus
 Entries are generated from the published capability and provider tables, so this file
 describes the callable surface and nothing else.
 
+## 1.25.3 (2026-10-03)
+
+**Capabilities**
+
+- New capability **address_validation** (1 function): `address_validation.validate`
+- New capability **condition_monitoring** (1 function): `condition_monitoring.check`
+- New capability **crypto_exchange** (1 function): `crypto_exchange.getRate`
+- New capability **essen_roadworks** (1 function): `essen_roadworks.list`
+- New capability **tapfiliate** (1 function): `tapfiliate.listAffiliates`
+
+**Providers**
+
+- New provider **airchina.com** (1 function): `airchina.getDealFares`
+- New provider **chromium.googlesource.com** (3 functions): `chromium_googlesource_com.getFile`, `chromium_googlesource_com.listDirectory`, `chromium_googlesource_com.listRepos`
+- New provider **coingecko.com** (2 functions): `coingecko.getPrice`, `coingecko.searchCoins`
+- New provider **docs.discord.com** (2 functions): `discord.getDocPage`, `discord.listDocPages`
+- New provider **ferguson.com** (2 functions): `ferguson.findBranches`, `ferguson.findProducts`
+- New provider **freightliner.com** (1 function): `freightliner.getConfiguratorPrice`
+- New provider **intactinsurance.com** (2 functions): `intactinsurance.getSolution`, `intactinsurance.listSolutions`
+- New provider **landsend.com** (2 functions): `landsend.getActivePromo`, `landsend.searchProducts`
+- New provider **li.me** (2 functions): `lime.cityPricing`, `lime.listCities`
+- New provider **luma.com** (4 functions): `luma.discoverEvents`, `luma.getEvent`, `luma.listCategories`, `luma.listPlaces`
+- New provider **peerspace.com** (1 function): `peerspace.searchVenues`
+- New provider **quince.com** (2 functions): `quince.getProduct`, `quince.searchProducts`
+- New provider **tapfiliate.com** (1 function): `tapfiliate.listAffiliates`
+- New provider **trustpilot.com** (1 function): `trustpilot.getCompany`
+- Added `airbnb.getListing`
+- Added `amazon.listOrders`
+- Added `amazon.listWishLists`
+- Added `amazon.trackShipment`
+- Added `apple.addToBag`
+- Added `apple.getBag`
+- Added `bbc.getMatch`
+- Added `bbc.listMostRead`
+- Added `bbc.listTopicStories`
+- Added `bing.listSaves`
+- Added `bing.saveResult`
+- Added `bluesky.getPostLikes`
+- Added `bluesky.getPostQuotes`
+- Added `bluesky.getPostReposts`
+- Added `bluesky.suggestUsers`
+- Added `census_api.validateAddress`
+- Added `cnn.listNewsletters`
+- Added `cnn.searchArticles`
+- Added `dell.getOrderDetails`
+- Added `dell.getProductDrivers`
+- Added `dell.getRegisteredProductDetails`
+- Added `dell.getSavedCartDetails`
+- Added `dell.listMyRegisteredProducts`
+- Added `dell.listMySavedCarts`
+- Added `epicgames.listCollection`
+- Added `fomo.getDevHolders`
+- Added `fomo.getFeed`
+- Added `fomo.getFollowers`
+- Added `fomo.getFollowing`
+- Added `fomo.getFollowingIds`
+- Added `fomo.getFriendHolders`
+- Added `fomo.getMutuals`
+- Added `fomo.getRecommendedUsers`
+- Added `fomo.getTopHolders`
+- Added `fomo.getUserSpotlight`
+- Added `forbes.getList`
+- Added `forbes.listLists`
+- Added `github.createComment`
+- Added `github.createIssue`
+- Added `github.createPullRequest`
+- Added `github.deleteComment`
+- Added `github.updateComment`
+- Added `github.updateIssue`
+- Added `indeed.getSalaryDetails`
+- Added `indeed.searchSalaries`
+- Added `lululemon.getSizeGuide`
+- Added `nyt_cooking.getRecipeNotes`
+- Added `nyt_cooking.getRelatedRecipes`
+- Added `nyt_cooking.getTrendingArticles`
+- Added `nyt_cooking.saveRecipe`
+- Added `nyt_games.getMyStats`
+- Added `nyt_games.getSportsConnections`
+- Added `nytimes.getLiveBlog`
+- Added `nytimes.getNewsletter`
+- Added `nytimes.getPodcast`
+- Added `nytimes.listNewsletters`
+- Added `nytimes.listPodcasts`
+- Added `reuters.getArticle`
+- Added `reuters.getQuote`
+- Added `reuters.listCompanyNews`
+- Added `reuters.searchArticles`
+- Added `reuters.searchCompanies`
+- Added `samsung.getTradeInQuote`
+- Added `samsung.listCarrierOffers`
+- Added `samsung.listSupportArticles`
+- Added `steam.addToWishlist`
+- Added `steam.getAchievements`
+- Added `steam.getGameStats`
+- Added `steam.getGameVideos`
+- Added `steam.getNewsItem`
+- Added `steam.listGameTags`
+- Added `steam.listNews`
+- Added `steam.searchNews`
+- Added `theguardian_com.getLiveBlog`
+- Added `theguardian_com.getPhotoGallery`
+- Added `theguardian_com.getReview`
+- Added `theguardian_com.listLiveBlogs`
+- Added `theguardian_com.listOpinionPieces`
+- Added `theguardian_com.listPhotos`
+- Added `theguardian_com.listReviews`
+- Added `tradingview.getDividends`
+- Added `tradingview.getMarketOverview`
+- Added `tradingview.getOptionChain`
+- Added `tradingview.getScreenerResults`
+- Added `twitch.followChannel`
+- Added `twitch.getSubscriptionStatus`
+- Added `twitch.listSubscriptions`
+- Added `twitch.listWatchHistory`
+- Added `twitch.listWatchLater`
+- Added `walmart.listSellerOffers`
+- Added `weather_channel.getAlertDetails`
+- Added `weather_channel.getAlmanac`
+- Added `weather_channel.getHistoricalDaily`
+- Added `weather_channel.getHistoricalHourly`
+- Added `wikipedia.getFeaturedContent`
+- Added `wikipedia.getPageviews`
+- Added `wikipedia.getUser`
+- Added `wikipedia.listMostViewed`
+- Added `wikipedia.listUserContributions`
+- Added `wikipedia.searchNearby`
+- Added `x.post`
+- Added `x.profile`
+- Added `yahoo_finance.addToWatchlist`
+- Added `yahoo_finance.listWatchlists`
+- Added `yahoo_sports.getInjuries`
+- Added `yahoo_sports.getStatLeaders`
+- Added `youtube.deletePlaylist`
+- Added `youtube.updatePlaylist`
+- Removed `msn.getArticle`
+- Removed `pinterest.suggestSearches`
+- Removed `yahoo_finance.listCurrencyRates`
+
+Full inventory: [CAPABILITIES.md](CAPABILITIES.md) · [PROVIDERS.md](PROVIDERS.md)
+
 ## 1.25.2 (2026-09-30)
 
 **Capabilities**
