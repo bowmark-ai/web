@@ -334,7 +334,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getConversation` | bsky.app | The messages in one of the caller's DM conversations, page by page, with a finder from… | ⚪ |
 | `bluesky.getFeed` | bsky.app | Read a custom feed's posts (Discover, What's Hot, any creator's feed) by URL or at://… | 🟢 |
 | `bluesky.getFeedInfo` | bsky.app | One custom feed's details: name, creator, description, avatar, like count and whether… | ⚪ |
-| `bluesky.getFollowers` | bsky.app | Who follows a person, page by page. | ⚪ |
+| `bluesky.getFollowers` | bsky.app | Who follows a person, page by page. | 🟢 |
 | `bluesky.getFollows` | bsky.app | Who a person follows, page by page. | ⚪ |
 | `bluesky.getKnownFollowers` | bsky.app | Which of the caller's own follows also follow a given person — the 'Followed by' line… | ⚪ |
 | `bluesky.getLabelers` | bsky.app | A moderation service's (labeler's) details and the labels it applies. | ⚪ |
@@ -2347,7 +2347,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `twitch.sendChatMessage` | twitch.tv | Sends a message to a channel's live chat. | 🟢 |
 | `twitch.setChannel` | twitch.tv | Updates the signed-in streamer's channel settings: title, language and game/category… | 🟡 |
 | `twitch.signUp` | twitch.tv | Registers a new developer application on the Twitch console. | ⚪ |
-| `twitch.unfollowChannel` | twitch.tv | Removes a channel from the signed-in user's followed list. | ⚪ |
+| `twitch.unfollowChannel` | twitch.tv | Removes a channel from the signed-in user's followed list. | 🟢 |
 | `uber.getDriverEarnings` | drivers.uber.com | Returns a signed-in driver's earnings summary for a specified week: trip count and net… | 🟡 |
 | `ubereats.getCheckoutTotal` | ubereats.com | Would open a specific restaurant, add real menu items to the cart, set a delivery… | ⚪ |
 | `ubereats.search` | ubereats.com | Would run Uber Eats' own restaurant search for a free-text query + address and return… | ⚪ |

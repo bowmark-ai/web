@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 5945db4a53c0f0f5f9f189cad2ec82dc2c86a402830f280f96f5454188ee73a2
-// 1781 checked, 20 unchecked.
+// Manifest version: c5b26c74f2e6da17fa4b54834875b290d336a646365dd6bb5339126eadf90b37
+// 1783 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "5945db4a53c0f0f5f9f189cad2ec82dc2c86a402830f280f96f5454188ee73a2",
+  "version": "c5b26c74f2e6da17fa4b54834875b290d336a646365dd6bb5339126eadf90b37",
   "units": {
     "address_validation": {
       "defs": {
@@ -19693,6 +19693,38 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getFeed": [
+          {
+            "name": "cursor",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -43750,6 +43782,26 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.steam": {
       "defs": {
+        "AddToWishlistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetAchievementsArgs": {
           "k": "object",
           "props": [
@@ -44099,22 +44151,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchGamesArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameDetails": [
@@ -44125,22 +44161,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetGameDetailsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listFeaturedGames": [
@@ -44151,22 +44171,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListFeaturedGamesArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listGamesByCategory": [
@@ -44177,22 +44181,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListGamesByCategoryArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameReviews": [
@@ -44203,22 +44191,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetGameReviewsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameScreenshots": [
@@ -44229,22 +44201,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetGameScreenshotsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameVideos": [
@@ -44255,22 +44211,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetGameVideosArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameStats": [
@@ -44281,22 +44221,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetGameStatsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listNews": [
@@ -44307,22 +44231,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListNewsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getNewsItem": [
@@ -44333,22 +44241,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GetNewsItemArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "searchNews": [
@@ -44359,22 +44251,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "SearchNewsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listGameTags": [
@@ -44385,22 +44261,6 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListGameTagsArgs"
             },
             "optional": true
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getAchievements": [
@@ -44409,6 +44269,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetAchievementsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "addToWishlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AddToWishlistArgs"
             },
             "optional": false
           },

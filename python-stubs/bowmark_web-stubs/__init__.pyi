@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 5945db4a53c0f0f5f9f189cad2ec82dc2c86a402830f280f96f5454188ee73a2
-# 74 capabilities, 514 providers, 1781 typed functions, 20 refused.
+# Manifest version: c5b26c74f2e6da17fa4b54834875b290d336a646365dd6bb5339126eadf90b37
+# 74 capabilities, 514 providers, 1783 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -22920,6 +22920,13 @@ class Prv_steam_SteamAchievement_Out(TypedDict):
     icon: str
     percent: float
 
+class Prv_steam_AddToWishlistArgs_In(TypedDict):
+    appid: str | float
+
+class Prv_steam_AddToWishlistResult_Out(TypedDict):
+    appid: str
+    added: Literal[True]
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -35097,6 +35104,13 @@ class Prv_fomo(Protocol):
         statically-linked JS.
         """
 
+    async def getFeed(self, cursor: str | None = None, limit: float | None = None, opts: ConnectionOption | None = None, /) -> Any:
+        """Pages the signed-in trader's social feed — the trades made by people they follow, each
+        with the author's profile, the trade itself, any written thesis, and reaction and
+        comment counts. Caller-scoped by construction: the feed is composed from the signed-in
+        user's own follow graph, so two sessions get different answers.
+        """
+
 class Prv_forbes(Protocol):
     """Search and browse business news, articles, and video content from Forbes."""
 
@@ -43374,74 +43388,79 @@ class Prv_steam(Protocol):
     the community market. Most functions are still declared stubs.
     """
 
-    async def searchGames(self, args: Prv_steam_SearchGamesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_SearchGamesResponse_Out:
+    async def searchGames(self, args: Prv_steam_SearchGamesArgs_In, /) -> Prv_steam_SearchGamesResponse_Out:
         """Searches the Steam store by keyword and returns matching games with basic details like
         title, price, metascore, and platform availability, in the site's own order.
         """
 
-    async def getGameDetails(self, args: Prv_steam_GetGameDetailsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameDetailsResponse_Out:
+    async def getGameDetails(self, args: Prv_steam_GetGameDetailsArgs_In, /) -> Prv_steam_GetGameDetailsResponse_Out:
         """Reads a game's full store page by appid: title, description, price, developer,
         publisher, release date, platforms, genres, categories, metacritic score, system
         requirements, screenshots and trailers.
         """
 
-    async def listFeaturedGames(self, args: Prv_steam_ListFeaturedGamesArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_ListFeaturedGamesResponse_Out:
+    async def listFeaturedGames(self, args: Prv_steam_ListFeaturedGamesArgs_In, /) -> Prv_steam_ListFeaturedGamesResponse_Out:
         """Fetches the current list of featured games displayed on the Steam store homepage by
         platform (Windows, Mac, or Linux), including prices, discount information, and images.
         """
 
-    async def listGamesByCategory(self, args: Prv_steam_ListGamesByCategoryArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_ListGamesByCategoryResponse_Out:
+    async def listGamesByCategory(self, args: Prv_steam_ListGamesByCategoryArgs_In, /) -> Prv_steam_ListGamesByCategoryResponse_Out:
         """Lists games in one of Steam's own genre categories (Action, Adventure, Indie, RPG,
         Strategy, Simulation, Racing, Sports, Casual), in the site's own order, with price,
         discount, platform and review-summary per game, and pagination via start/count.
         """
 
-    async def getGameReviews(self, args: Prv_steam_GetGameReviewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameReviewsResponse_Out:
+    async def getGameReviews(self, args: Prv_steam_GetGameReviewsArgs_In, /) -> Prv_steam_GetGameReviewsResponse_Out:
         """Reads a game's user reviews by appid: the aggregate score and totals, plus review text,
         vote counts, playtime and reviewer profile per row, filterable and cursor-paginated.
         """
 
-    async def getGameScreenshots(self, args: Prv_steam_GetGameScreenshotsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameScreenshotsResponse_Out:
+    async def getGameScreenshots(self, args: Prv_steam_GetGameScreenshotsArgs_In, /) -> Prv_steam_GetGameScreenshotsResponse_Out:
         """Fetches a game's screenshots and promotional images by appid, returning the URLs of all
         available screenshots in the game's gallery.
         """
 
-    async def getGameVideos(self, args: Prv_steam_GetGameVideosArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameVideosResponse_Out:
+    async def getGameVideos(self, args: Prv_steam_GetGameVideosArgs_In, /) -> Prv_steam_GetGameVideosResponse_Out:
         """Fetches a game's trailers and video clips by appid, returning each video's name,
         thumbnail and HLS stream URL.
         """
 
-    async def getGameStats(self, args: Prv_steam_GetGameStatsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetGameStatsResponse_Out:
+    async def getGameStats(self, args: Prv_steam_GetGameStatsArgs_In, /) -> Prv_steam_GetGameStatsResponse_Out:
         """Reads a game's current concurrent player count and its global achievement completion
         rates by appid; achievements is an honest null/empty when the game has no achievement
         stats.
         """
 
-    async def listNews(self, args: Prv_steam_ListNewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_ListNewsResponse_Out:
+    async def listNews(self, args: Prv_steam_ListNewsArgs_In, /) -> Prv_steam_ListNewsResponse_Out:
         """Lists a game's news and updates by appid, from both official announcements and
         third-party gaming sites, with title, author, date, full HTML content, URL and feed type
         per item.
         """
 
-    async def getNewsItem(self, args: Prv_steam_GetNewsItemArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_NewsItemResponse_Out:
+    async def getNewsItem(self, args: Prv_steam_GetNewsItemArgs_In, /) -> Prv_steam_NewsItemResponse_Out:
         """Fetches the full text of a specific news article by its ID, including title, author,
         publication date, and complete HTML content.
         """
 
-    async def searchNews(self, args: Prv_steam_SearchNewsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_SearchNewsResponse_Out:
+    async def searchNews(self, args: Prv_steam_SearchNewsArgs_In, /) -> Prv_steam_SearchNewsResponse_Out:
         """Searches a game's recent news items by keyword and/or date range (since/until, unix
         seconds), filtering client-side over the same news feed listNews reads.
         """
 
-    async def listGameTags(self, args: Prv_steam_ListGameTagsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_steam_ListGameTagsResponse_Out:
+    async def listGameTags(self, args: Prv_steam_ListGameTagsArgs_In | None = None, /) -> Prv_steam_ListGameTagsResponse_Out:
         """Lists every tag users can apply to games on the Steam store, in the site's own
         popularity order, optionally localized by language.
         """
 
-    async def getAchievements(self, args: Prv_steam_GetAchievementsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetAchievementsResponse_Out:
+    async def getAchievements(self, args: Prv_steam_GetAchievementsArgs_In, /) -> Prv_steam_GetAchievementsResponse_Out:
         """Reads a game's achievement list from its public Steam Community page by appid: name,
         description, icon and the global percentage of players who earned it per achievement; an
         honest empty list for a game with no achievements or no public achievement page.
+        """
+
+    async def addToWishlist(self, args: Prv_steam_AddToWishlistArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_AddToWishlistResult_Out:
+        """Adds a game to the signed-in caller's wishlist by appid, off the store's own
+        addtowishlist door. NEEDS A SIGN-IN — the caller signs in, not us.
         """
 
 class Prv_stickergiant(Protocol):

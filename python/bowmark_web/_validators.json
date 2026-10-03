@@ -1,5 +1,5 @@
 {
-  "version": "5945db4a53c0f0f5f9f189cad2ec82dc2c86a402830f280f96f5454188ee73a2",
+  "version": "c5b26c74f2e6da17fa4b54834875b290d336a646365dd6bb5339126eadf90b37",
   "units": {
     "address_validation": {
       "defs": {
@@ -19681,6 +19681,38 @@
               "k": "string"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getFeed": [
+          {
+            "name": "cursor",
+            "schema": {
+              "k": "string"
+            },
+            "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -43738,6 +43770,26 @@
     },
     "providers.steam": {
       "defs": {
+        "AddToWishlistArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetAchievementsArgs": {
           "k": "object",
           "props": [
@@ -44087,22 +44139,6 @@
               "name": "SearchGamesArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameDetails": [
@@ -44113,22 +44149,6 @@
               "name": "GetGameDetailsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listFeaturedGames": [
@@ -44139,22 +44159,6 @@
               "name": "ListFeaturedGamesArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listGamesByCategory": [
@@ -44165,22 +44169,6 @@
               "name": "ListGamesByCategoryArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameReviews": [
@@ -44191,22 +44179,6 @@
               "name": "GetGameReviewsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameScreenshots": [
@@ -44217,22 +44189,6 @@
               "name": "GetGameScreenshotsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameVideos": [
@@ -44243,22 +44199,6 @@
               "name": "GetGameVideosArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getGameStats": [
@@ -44269,22 +44209,6 @@
               "name": "GetGameStatsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listNews": [
@@ -44295,22 +44219,6 @@
               "name": "ListNewsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getNewsItem": [
@@ -44321,22 +44229,6 @@
               "name": "GetNewsItemArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "searchNews": [
@@ -44347,22 +44239,6 @@
               "name": "SearchNewsArgs"
             },
             "optional": false
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "listGameTags": [
@@ -44373,22 +44249,6 @@
               "name": "ListGameTagsArgs"
             },
             "optional": true
-          },
-          {
-            "name": "opts",
-            "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "connection",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
-            },
-            "optional": true
           }
         ],
         "getAchievements": [
@@ -44397,6 +44257,16 @@
             "schema": {
               "k": "ref",
               "name": "GetAchievementsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "addToWishlist": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "AddToWishlistArgs"
             },
             "optional": false
           },

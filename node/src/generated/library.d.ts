@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 5945db4a53c0f0f5f9f189cad2ec82dc2c86a402830f280f96f5454188ee73a2
-// 74 capabilities, 514 providers, 1799 typed functions, 20 refused.
+// Manifest version: c5b26c74f2e6da17fa4b54834875b290d336a646365dd6bb5339126eadf90b37
+// 74 capabilities, 514 providers, 1801 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -19437,6 +19437,21 @@ interface FomoPage<T> {
 /** The bar sizes the site's own chart is observed to request — see getCandles. */
 type FomoCandleResolution = "5" | "60" | "240" | "720" | "1D";
 
+/** One post in the signed-in trader's feed. The feed is trade-centric: most
+ * entries ARE a trade, with an optional written thesis attached. */
+interface FomoFeedItem {
+  id: string;
+  kind: string;
+  author: FomoUser;
+  trade: FomoTrade | null;
+  thesis: string | null;
+  reactionCount: number | null;
+  commentCount: number | null;
+  /** Whether the CALLING user has reacted. */
+  reacted: boolean | null;
+  createdAt: string;
+}
+
 /** One OHLCV bar. `time` is UNIX SECONDS, matching the TradingView datafeed contract. */
 interface FomoCandle {
   time: number;
@@ -19652,6 +19667,14 @@ interface FomoCandle {
      * component that renders this data was not found anywhere in the site's statically-linked JS.
      */
     getUserSpotlight(userId: string, opts?: ConnectionOption): Promise<unknown>;
+
+    /**
+     * Pages the signed-in trader's social feed — the trades made by people they follow, each with
+     * the author's profile, the trade itself, any written thesis, and reaction and comment counts.
+     * Caller-scoped by construction: the feed is composed from the signed-in user's own follow
+     * graph, so two sessions get different answers.
+     */
+    getFeed(cursor?: string, limit?: number, opts?: ConnectionOption): Promise<FomoPage<FomoFeedItem>>;
   }
 }
 
@@ -41822,6 +41845,15 @@ interface GetAchievementsResponse {
   achievements: SteamAchievement[];
 }
 
+interface AddToWishlistArgs {
+  appid: string | number;
+}
+
+interface AddToWishlistResult {
+  appid: string;
+  added: true;
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -41831,82 +41863,88 @@ interface GetAchievementsResponse {
      * Searches the Steam store by keyword and returns matching games with basic details like
      * title, price, metascore, and platform availability, in the site's own order.
      */
-    searchGames(args: SearchGamesArgs, opts?: ConnectionOption): Promise<SearchGamesResponse>;
+    searchGames(args: SearchGamesArgs): Promise<SearchGamesResponse>;
 
     /**
      * Reads a game's full store page by appid: title, description, price, developer, publisher,
      * release date, platforms, genres, categories, metacritic score, system requirements,
      * screenshots and trailers.
      */
-    getGameDetails(args: GetGameDetailsArgs, opts?: ConnectionOption): Promise<GetGameDetailsResponse>;
+    getGameDetails(args: GetGameDetailsArgs): Promise<GetGameDetailsResponse>;
 
     /**
      * Fetches the current list of featured games displayed on the Steam store homepage by platform
      * (Windows, Mac, or Linux), including prices, discount information, and images.
      */
-    listFeaturedGames(args: ListFeaturedGamesArgs, opts?: ConnectionOption): Promise<ListFeaturedGamesResponse>;
+    listFeaturedGames(args: ListFeaturedGamesArgs): Promise<ListFeaturedGamesResponse>;
 
     /**
      * Lists games in one of Steam's own genre categories (Action, Adventure, Indie, RPG, Strategy,
      * Simulation, Racing, Sports, Casual), in the site's own order, with price, discount, platform
      * and review-summary per game, and pagination via start/count.
      */
-    listGamesByCategory(args: ListGamesByCategoryArgs, opts?: ConnectionOption): Promise<ListGamesByCategoryResponse>;
+    listGamesByCategory(args: ListGamesByCategoryArgs): Promise<ListGamesByCategoryResponse>;
 
     /**
      * Reads a game's user reviews by appid: the aggregate score and totals, plus review text, vote
      * counts, playtime and reviewer profile per row, filterable and cursor-paginated.
      */
-    getGameReviews(args: GetGameReviewsArgs, opts?: ConnectionOption): Promise<GetGameReviewsResponse>;
+    getGameReviews(args: GetGameReviewsArgs): Promise<GetGameReviewsResponse>;
 
     /**
      * Fetches a game's screenshots and promotional images by appid, returning the URLs of all
      * available screenshots in the game's gallery.
      */
-    getGameScreenshots(args: GetGameScreenshotsArgs, opts?: ConnectionOption): Promise<GetGameScreenshotsResponse>;
+    getGameScreenshots(args: GetGameScreenshotsArgs): Promise<GetGameScreenshotsResponse>;
 
     /**
      * Fetches a game's trailers and video clips by appid, returning each video's name, thumbnail
      * and HLS stream URL.
      */
-    getGameVideos(args: GetGameVideosArgs, opts?: ConnectionOption): Promise<GetGameVideosResponse>;
+    getGameVideos(args: GetGameVideosArgs): Promise<GetGameVideosResponse>;
 
     /**
      * Reads a game's current concurrent player count and its global achievement completion rates
      * by appid; achievements is an honest null/empty when the game has no achievement stats.
      */
-    getGameStats(args: GetGameStatsArgs, opts?: ConnectionOption): Promise<GetGameStatsResponse>;
+    getGameStats(args: GetGameStatsArgs): Promise<GetGameStatsResponse>;
 
     /**
      * Lists a game's news and updates by appid, from both official announcements and third-party
      * gaming sites, with title, author, date, full HTML content, URL and feed type per item.
      */
-    listNews(args: ListNewsArgs, opts?: ConnectionOption): Promise<ListNewsResponse>;
+    listNews(args: ListNewsArgs): Promise<ListNewsResponse>;
 
     /**
      * Fetches the full text of a specific news article by its ID, including title, author,
      * publication date, and complete HTML content.
      */
-    getNewsItem(args: GetNewsItemArgs, opts?: ConnectionOption): Promise<NewsItemResponse>;
+    getNewsItem(args: GetNewsItemArgs): Promise<NewsItemResponse>;
 
     /**
      * Searches a game's recent news items by keyword and/or date range (since/until, unix
      * seconds), filtering client-side over the same news feed listNews reads.
      */
-    searchNews(args: SearchNewsArgs, opts?: ConnectionOption): Promise<SearchNewsResponse>;
+    searchNews(args: SearchNewsArgs): Promise<SearchNewsResponse>;
 
     /**
      * Lists every tag users can apply to games on the Steam store, in the site's own popularity
      * order, optionally localized by language.
      */
-    listGameTags(args?: ListGameTagsArgs, opts?: ConnectionOption): Promise<ListGameTagsResponse>;
+    listGameTags(args?: ListGameTagsArgs): Promise<ListGameTagsResponse>;
 
     /**
      * Reads a game's achievement list from its public Steam Community page by appid: name,
      * description, icon and the global percentage of players who earned it per achievement; an
      * honest empty list for a game with no achievements or no public achievement page.
      */
-    getAchievements(args: GetAchievementsArgs, opts?: ConnectionOption): Promise<GetAchievementsResponse>;
+    getAchievements(args: GetAchievementsArgs): Promise<GetAchievementsResponse>;
+
+    /**
+     * Adds a game to the signed-in caller's wishlist by appid, off the store's own addtowishlist
+     * door. NEEDS A SIGN-IN — the caller signs in, not us.
+     */
+    addToWishlist(args: AddToWishlistArgs, opts?: ConnectionOption): Promise<AddToWishlistResult>;
   }
 }
 
