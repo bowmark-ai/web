@@ -915,7 +915,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fomo.getCreatorFees` | fomo.family | Returns fees accrued to a token creator through fomo's relay, and claims them. `GET… | ⚪ |
 | `fomo.getCurrentUser` | fomo.family | Returns the signed-in trader's own profile — id, `userHandle`, display name, bio… | 🟢 |
 | `fomo.getDevHolders` | fomo.family | Returns whether the token's own deployer still holds it, and how much. | 🟢 |
-| `fomo.getFeed` | fomo.family | Pages the signed-in trader's social feed — the trades made by people they follow, each… | ⚪ |
+| `fomo.getFeed` | fomo.family | Pages the signed-in trader's social feed — the trades made by people they follow, each… | 🟢 |
 | `fomo.getFollowers` | fomo.family | Pages the traders following one user, newest first, with full profiles — the other… | 🟢 |
 | `fomo.getFollowing` | fomo.family | Pages the traders one user follows, newest first, with full profiles — the paginated… | 🟢 |
 | `fomo.getFollowingIds` | fomo.family | Returns just the ids of everyone the signed-in trader follows, in one call with no… | 🟢 |
