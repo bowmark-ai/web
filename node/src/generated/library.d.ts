@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 086afdb1a49643e7fd1ce5703e29e1c727a01e2064faf0d6a62d0640c662d268
-// 73 capabilities, 514 providers, 1790 typed functions, 20 refused.
+// Manifest version: 24de5713f79e577c12ca25ab3f2d76e64ed567fd7c085b2ce6a7d2d9f32b47c8
+// 73 capabilities, 514 providers, 1793 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -15065,6 +15065,13 @@ interface cnnSearchResult {
   lastModified: string | null;
 }
 
+interface cnnNewsletter {
+  id: string;
+  name: string;
+  frequency: string | null;
+  description: string | null;
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -15124,6 +15131,12 @@ interface cnnSearchResult {
      * rates, and commodity prices with current values and change indicators.
      */
     getMarketsData(): Promise<cnnMarketsData>;
+
+    /**
+     * The CNN newsletters available to subscribe to — Breaking News, CNN Five Things, The Evening,
+     * and more — with newsletter id, name, frequency and description.
+     */
+    listNewsletters(): Promise<cnnNewsletter[]>;
   }
 }
 
@@ -19553,6 +19566,14 @@ interface FomoCandle {
      * No paging: the route takes no cursor.
      */
     getRecommendedUsers(userId: string, opts?: ConnectionOption): Promise<FomoUser[]>;
+
+    /**
+     * Returns the highlighted trades and stats fomo pins to the top of one trader's profile — the
+     * site's own pick of what makes this trader worth following. The shape is returned in fomo's
+     * own untyped form — same reason as getTopHolders/getFriendHolders/getDevHolders: the
+     * component that renders this data was not found anywhere in the site's statically-linked JS.
+     */
+    getUserSpotlight(userId: string, opts?: ConnectionOption): Promise<unknown>;
   }
 }
 
@@ -41708,6 +41729,21 @@ interface SearchNewsResponse {
   items: SteamSearchNewsItem[];
 }
 
+interface GetAchievementsArgs {
+  appid: string | number;
+}
+
+interface SteamAchievement {
+  name: string;
+  description: string;
+  icon: string;
+  percent: number;
+}
+
+interface GetAchievementsResponse {
+  achievements: SteamAchievement[];
+}
+
   /**
    * Steam's PC game store (steampowered.com) — game search, store pages, reviews, news and the
    * community market. Most functions are still declared stubs.
@@ -41786,6 +41822,13 @@ interface SearchNewsResponse {
      * order, optionally localized by language.
      */
     listGameTags(args?: ListGameTagsArgs, opts?: ConnectionOption): Promise<ListGameTagsResponse>;
+
+    /**
+     * Reads a game's achievement list from its public Steam Community page by appid: name,
+     * description, icon and the global percentage of players who earned it per achievement; an
+     * honest empty list for a game with no achievements or no public achievement page.
+     */
+    getAchievements(args: GetAchievementsArgs, opts?: ConnectionOption): Promise<GetAchievementsResponse>;
   }
 }
 

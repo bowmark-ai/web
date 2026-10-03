@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 086afdb1a49643e7fd1ce5703e29e1c727a01e2064faf0d6a62d0640c662d268
-# 73 capabilities, 514 providers, 1772 typed functions, 20 refused.
+# Manifest version: 24de5713f79e577c12ca25ab3f2d76e64ed567fd7c085b2ce6a7d2d9f32b47c8
+# 73 capabilities, 514 providers, 1775 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -8367,6 +8367,12 @@ class Prv_cnn_cnnMarketIndex_Out(TypedDict):
     value: str
     change: str | None
     changePercent: str | None
+
+class Prv_cnn_cnnNewsletter_Out(TypedDict):
+    id: str
+    name: str
+    frequency: str | None
+    description: str | None
 
 class Prv_coast_CoastFleetCardPricing_Out(TypedDict):
     monthlyFeePerUserUsd: float
@@ -22844,6 +22850,18 @@ class Prv_steam_SteamTag_Out(TypedDict):
     tagId: float
     name: str
 
+class Prv_steam_GetAchievementsArgs_In(TypedDict):
+    appid: str | float
+
+class Prv_steam_GetAchievementsResponse_Out(TypedDict):
+    achievements: list[Prv_steam_SteamAchievement_Out]
+
+class Prv_steam_SteamAchievement_Out(TypedDict):
+    name: str
+    description: str
+    icon: str
+    percent: float
+
 class Prv_stickergiant_StickergiantListArgs_In(TypedDict):
     format: NotRequired[str]
 
@@ -33226,6 +33244,11 @@ class Prv_cnn(Protocol):
         currency rates, and commodity prices with current values and change indicators.
         """
 
+    async def listNewsletters(self, /) -> list[Prv_cnn_cnnNewsletter_Out]:
+        """The CNN newsletters available to subscribe to — Breaking News, CNN Five Things, The
+        Evening, and more — with newsletter id, name, frequency and description.
+        """
+
 class Prv_coast(Protocol):
     """Coast's own published fleet fuel-card pricing (coastpay.com/pricing) — the real, current
     per-user monthly fee, the fees it explicitly does not charge, and its per-gallon
@@ -34925,6 +34948,14 @@ class Prv_fomo(Protocol):
         """Returns fomo's own suggestions of traders to follow for one user — the site's discovery
         surface, and the one read here that is a ranking fomo computes rather than data it
         stores. No paging: the route takes no cursor.
+        """
+
+    async def getUserSpotlight(self, userId: str, opts: ConnectionOption | None = None, /) -> Any:
+        """Returns the highlighted trades and stats fomo pins to the top of one trader's profile —
+        the site's own pick of what makes this trader worth following. The shape is returned in
+        fomo's own untyped form — same reason as getTopHolders/getFriendHolders/getDevHolders:
+        the component that renders this data was not found anywhere in the site's
+        statically-linked JS.
         """
 
 class Prv_forbes(Protocol):
@@ -43266,6 +43297,12 @@ class Prv_steam(Protocol):
     async def listGameTags(self, args: Prv_steam_ListGameTagsArgs_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_steam_ListGameTagsResponse_Out:
         """Lists every tag users can apply to games on the Steam store, in the site's own
         popularity order, optionally localized by language.
+        """
+
+    async def getAchievements(self, args: Prv_steam_GetAchievementsArgs_In, opts: ConnectionOption | None = None, /) -> Prv_steam_GetAchievementsResponse_Out:
+        """Reads a game's achievement list from its public Steam Community page by appid: name,
+        description, icon and the global percentage of players who earned it per achievement; an
+        honest empty list for a game with no achievements or no public achievement page.
         """
 
 class Prv_stickergiant(Protocol):

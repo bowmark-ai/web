@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 086afdb1a49643e7fd1ce5703e29e1c727a01e2064faf0d6a62d0640c662d268
-// 1772 checked, 20 unchecked.
+// Manifest version: 24de5713f79e577c12ca25ab3f2d76e64ed567fd7c085b2ce6a7d2d9f32b47c8
+// 1775 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "086afdb1a49643e7fd1ce5703e29e1c727a01e2064faf0d6a62d0640c662d268",
+  "version": "24de5713f79e577c12ca25ab3f2d76e64ed567fd7c085b2ce6a7d2d9f32b47c8",
   "units": {
     "address_validation": {
       "defs": {
@@ -14938,7 +14938,8 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "listTrendingTopics": [],
-        "getMarketsData": []
+        "getMarketsData": [],
+        "listNewsletters": []
       }
     },
     "providers.coast": {
@@ -19494,6 +19495,31 @@ export const VALIDATORS: ValidatorTable = {
           }
         ],
         "getRecommendedUsers": [
+          {
+            "name": "userId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getUserSpotlight": [
           {
             "name": "userId",
             "schema": {
@@ -43557,6 +43583,26 @@ export const VALIDATORS: ValidatorTable = {
     },
     "providers.steam": {
       "defs": {
+        "GetAchievementsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "appid",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "string"
+                  },
+                  {
+                    "k": "number"
+                  }
+                ]
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetGameDetailsArgs": {
           "k": "object",
           "props": [
@@ -44172,6 +44218,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListGameTagsArgs"
             },
             "optional": true
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getAchievements": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetAchievementsArgs"
+            },
+            "optional": false
           },
           {
             "name": "opts",
