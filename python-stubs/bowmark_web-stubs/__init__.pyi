@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a18c20bcb52b61b12266698b3f9fa406b5d33bc461f420a4c1cc855157e37e1b
-# 74 capabilities, 515 providers, 1799 typed functions, 20 refused.
+# Manifest version: 9444923ce5d9dda33f9cea3d2f902facc3eb9883fe63af302c7455c80317a4ee
+# 74 capabilities, 515 providers, 1804 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -6171,6 +6171,16 @@ class Prv_bluesky_BlueskyFollowersResults_Out(TypedDict):
     subject: Prv_bluesky_BlueskyPostAuthor_Out
     cursor: NotRequired[str]
 
+class Prv_bluesky_getFollows_actor_u1_In(TypedDict):
+    actor: str
+    limit: NotRequired[float]
+    cursor: NotRequired[str]
+
+class Prv_bluesky_BlueskyFollowsResults_Out(TypedDict):
+    follows: list[Prv_bluesky_BlueskyPostAuthor_Out]
+    subject: Prv_bluesky_BlueskyPostAuthor_Out
+    cursor: NotRequired[str]
+
 class Prv_bmwusa_BmwusaBuiltVehicle_Out(TypedDict):
     modelCode: str
     modelName: str
@@ -8489,6 +8499,10 @@ class Prv_cnn_cnnNewsletter_Out(TypedDict):
 class Prv_cnn_cnnFollowedTopic_Out(TypedDict):
     topic_id: str
     name: str
+
+class Prv_cnn_cnnUnfollowResult_Out(TypedDict):
+    topic_id: str
+    unfollowed: bool
 
 class Prv_coast_CoastFleetCardPricing_Out(TypedDict):
     monthlyFeePerUserUsd: float
@@ -12027,6 +12041,17 @@ class Prv_github_GithubPullRequestUpdated_Out(TypedDict):
     draft: bool
     url: str
     updatedAt: str
+
+class Prv_github_GithubMergePullRequestOptions_In(TypedDict):
+    commitTitle: NotRequired[str]
+    commitMessage: NotRequired[str]
+    mergeMethod: NotRequired[Literal["merge"] | Literal["squash"] | Literal["rebase"]]
+    sha: NotRequired[str]
+
+class Prv_github_GithubPullRequestMerged_Out(TypedDict):
+    merged: Literal[True]
+    sha: str
+    message: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -27285,6 +27310,24 @@ class Prv_yahoo_sports_YahooFantasyMatchupTeam_Out(TypedDict):
     record: str | None
     score: float
 
+class Prv_yahoo_sports_GetFantasyTeamArgs_In(TypedDict):
+    leagueId: str
+    teamId: str
+
+class Prv_yahoo_sports_YahooFantasyTeamDetail_Out(TypedDict):
+    leagueId: str
+    teamId: str
+    teamName: str
+    week: float | None
+    roster: list[Prv_yahoo_sports_YahooFantasyRosterSlot_Out]
+
+class Prv_yahoo_sports_YahooFantasyRosterSlot_Out(TypedDict):
+    slot: str
+    playerId: str | None
+    name: str | None
+    nflPosition: str | None
+    nflTeam: str | None
+
 class Prv_yahoo_sports_SetFantasyLineupArgs_In(TypedDict):
     leagueId: str
     week: float
@@ -32123,6 +32166,14 @@ class Prv_bluesky(Protocol):
         find — check the spelling with `searchUsers` or `resolveHandle`.
         """
 
+    async def getFollows(self, actor: str | Prv_bluesky_getFollows_actor_u1_In, /) -> Prv_bluesky_BlueskyFollowsResults_Out:
+        """Who a person follows, page by page, as their profile's Follows tab shows them. Takes a
+        handle, a DID, or a bsky.app profile URL. Returns each followed account's handle, DID,
+        display name and avatar, the queried person's own profile summary, and a `cursor` for
+        the next page when more results exist. THROWS `blueskyInputError` on an actor the
+        AppView cannot find — check the spelling with `searchUsers` or `resolveHandle`.
+        """
+
 class Prv_bmwusa(Protocol):
     """BMW US car shopping: the Build Your Own configurator and its option pricing, live
     VIN-level new and Certified Pre-Owned dealer inventory near a ZIP, the model lineup with
@@ -33608,6 +33659,11 @@ class Prv_cnn(Protocol):
     async def followTopic(self, topicId: str, opts: ConnectionOption | None = None, /) -> Prv_cnn_cnnFollowedTopic_Out:
         """Add a topic to the signed-in viewer's followed topics, so it appears in their
         personalized My News feed. Returns the followed topic details.
+        """
+
+    async def unfollowTopic(self, topicId: str, opts: ConnectionOption | None = None, /) -> Prv_cnn_cnnUnfollowResult_Out:
+        """Remove a topic from the signed-in viewer's followed topics. Returns whether it was
+        removed.
         """
 
 class Prv_coast(Protocol):
@@ -36211,6 +36267,21 @@ class Prv_github(Protocol):
         request number (404), when signed out or the saved session is invalid (401), on a
         permission error (403), when `options` has no recognized field set, or on an unexpected
         response shape.
+        """
+
+    async def mergePullRequest(self, owner: str, repo: str, pullNumber: float, options: Prv_github_GithubMergePullRequestOptions_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubPullRequestMerged_Out:
+        """Merges a pull request into its base branch, off GitHub's own documented REST endpoint
+        (`PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge`). NEEDS THE CALLER SIGNED IN and
+        requires write access to the repository (merge permission, not just a passing status).
+        `options.mergeMethod` picks `"merge"` (a merge commit, GitHub's default), `"squash"`, or
+        `"rebase"`; `options.commitTitle`/`commitMessage` override the generated commit message;
+        `options.sha` names the expected head SHA, and GitHub refuses the merge (409) rather
+        than merge a branch that moved since the caller last looked. Returns the merge commit's
+        sha, `merged: true`, and GitHub's own confirmation message. THROWS on an unknown
+        owner/repo or pull request number (404), when signed out or the saved session is invalid
+        (401), on a permission error (403), when the pull request is not mergeable — already
+        merged, closed, or blocked by branch protection (405) — when the head branch moved since
+        `options.sha` was taken (409), or on an unexpected response shape.
         """
 
 class Prv_glama(Protocol):
@@ -44504,6 +44575,12 @@ class Prv_tiktok(Protocol):
         serves them.
         """
 
+    async def listForYouFeed(self, args: Mapping[str, Any], opts: ConnectionOption | None = None, /) -> list[Prv_tiktok_tiktokVideoSummary_Out]:
+        """The signed-in viewer's own For You feed, the same personalised ranking /foryou shows in
+        a browser — id and caption for each video. The caller signs in through the auth relay;
+        Bowmark never signs up on this site. Takes no arguments.
+        """
+
 class Prv_tilsonhomes(Protocol):
     """Reads Tilson Homes' Build-On-Your-Land floor plan catalog and each plan's Anewgo-powered
     customizer — bed/bath/size range and exterior finish options — the way the live site's
@@ -46281,6 +46358,13 @@ class Prv_yahoo_sports(Protocol):
         """Reads the CALLER's own fantasy football league — standings and the current week's
         matchups — the way the signed-in Fantasy hub renders them, once the caller has signed in
         through the auth relay. NEEDS A SIGN-IN. Does not yet cover rosters or transactions.
+        """
+
+    async def getFantasyTeam(self, args: Prv_yahoo_sports_GetFantasyTeamArgs_In, opts: ConnectionOption | None = None, /) -> Prv_yahoo_sports_YahooFantasyTeamDetail_Out:
+        """Reads the CALLER's own fantasy team — which player (or empty slot) fills each roster
+        spot this week, each player's real NFL team and position — once the caller has signed in
+        through the auth relay. NEEDS A SIGN-IN. Does not publish a player's full eligible
+        position set, only their one real NFL position and the slot they are in now.
         """
 
     async def setFantasyLineup(self, args: Prv_yahoo_sports_SetFantasyLineupArgs_In, opts: ConnectionOption | None = None, /) -> Prv_yahoo_sports_YahooFantasyLineupSetResult_Out:

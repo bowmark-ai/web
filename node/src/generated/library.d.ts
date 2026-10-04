@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a18c20bcb52b61b12266698b3f9fa406b5d33bc461f420a4c1cc855157e37e1b
-// 74 capabilities, 515 providers, 1817 typed functions, 20 refused.
+// Manifest version: 9444923ce5d9dda33f9cea3d2f902facc3eb9883fe63af302c7455c80317a4ee
+// 74 capabilities, 515 providers, 1822 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -10950,6 +10950,12 @@ interface BlueskyFollowersResults {
   cursor?: string;
 }
 
+interface BlueskyFollowsResults {
+  follows: BlueskyPostAuthor[];
+  subject: BlueskyPostAuthor;
+  cursor?: string;
+}
+
   /**
    * Bluesky — look people up, read their profiles and posts, open whole threads, search posts,
    * read custom feeds, lists, starter packs and what is trending, and (signed in as yourself)
@@ -11064,6 +11070,15 @@ interface BlueskyFollowersResults {
      * the spelling with `searchUsers` or `resolveHandle`.
      */
     getFollowers(actor: string | { actor: string; limit?: number; cursor?: string }): Promise<BlueskyFollowersResults>;
+
+    /**
+     * Who a person follows, page by page, as their profile's Follows tab shows them. Takes a
+     * handle, a DID, or a bsky.app profile URL. Returns each followed account's handle, DID,
+     * display name and avatar, the queried person's own profile summary, and a `cursor` for the
+     * next page when more results exist. THROWS `blueskyInputError` on an actor the AppView cannot
+     * find — check the spelling with `searchUsers` or `resolveHandle`.
+     */
+    getFollows(actor: string | { actor: string; limit?: number; cursor?: string }): Promise<BlueskyFollowsResults>;
   }
 }
 
@@ -15233,6 +15248,11 @@ interface cnnFollowedTopic {
   name: string;
 }
 
+interface cnnUnfollowResult {
+  topic_id: string;
+  unfollowed: boolean;
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -15304,6 +15324,9 @@ interface cnnFollowedTopic {
      * My News feed. Returns the followed topic details.
      */
     followTopic(topicId: string, opts?: ConnectionOption): Promise<cnnFollowedTopic>;
+
+    /** Remove a topic from the signed-in viewer's followed topics. Returns whether it was removed. */
+    unfollowTopic(topicId: string, opts?: ConnectionOption): Promise<cnnUnfollowResult>;
   }
 }
 
@@ -21755,6 +21778,17 @@ interface GithubPullRequestUpdated {
   url: string;
   updatedAt: string;
 }
+interface GithubMergePullRequestOptions {
+  commitTitle?: string;
+  commitMessage?: string;
+  mergeMethod?: "merge" | "squash" | "rebase";
+  sha?: string;
+}
+interface GithubPullRequestMerged {
+  merged: true;
+  sha: string;
+  message: string;
+}
 
   /**
    * GitHub's own REST API, keyless. Built: a public repo's commit log (sha, author, date,
@@ -22111,6 +22145,22 @@ interface GithubPullRequestUpdated {
      * no recognized field set, or on an unexpected response shape.
      */
     updatePullRequest(owner: string, repo: string, pullNumber: number, options: GithubUpdatePullRequestOptions, opts?: ConnectionOption): Promise<GithubPullRequestUpdated>;
+
+    /**
+     * Merges a pull request into its base branch, off GitHub's own documented REST endpoint (`PUT
+     * /repos/{owner}/{repo}/pulls/{pull_number}/merge`). NEEDS THE CALLER SIGNED IN and requires
+     * write access to the repository (merge permission, not just a passing status).
+     * `options.mergeMethod` picks `"merge"` (a merge commit, GitHub's default), `"squash"`, or
+     * `"rebase"`; `options.commitTitle`/`commitMessage` override the generated commit message;
+     * `options.sha` names the expected head SHA, and GitHub refuses the merge (409) rather than
+     * merge a branch that moved since the caller last looked. Returns the merge commit's sha,
+     * `merged: true`, and GitHub's own confirmation message. THROWS on an unknown owner/repo or
+     * pull request number (404), when signed out or the saved session is invalid (401), on a
+     * permission error (403), when the pull request is not mergeable — already merged, closed, or
+     * blocked by branch protection (405) — when the head branch moved since `options.sha` was
+     * taken (409), or on an unexpected response shape.
+     */
+    mergePullRequest(owner: string, repo: string, pullNumber: number, options?: GithubMergePullRequestOptions, opts?: ConnectionOption): Promise<GithubPullRequestMerged>;
   }
 }
 
@@ -44132,6 +44182,7 @@ interface GetSoundArgs {
 interface ListSoundVideosArgs {
   soundId: string;
 }
+type ListForYouFeedArgs = Record<string, never>;
 
   /**
    * Creator profiles, videos, transcripts and comments off TikTok's own logged-out pages — no
@@ -44237,6 +44288,13 @@ interface ListSoundVideosArgs {
      * unsigned request with an empty body. Returns videos in the order TikTok serves them.
      */
     listSoundVideos(args: ListSoundVideosArgs): Promise<tiktokVideoSummary[]>;
+
+    /**
+     * The signed-in viewer's own For You feed, the same personalised ranking /foryou shows in a
+     * browser — id and caption for each video. The caller signs in through the auth relay; Bowmark
+     * never signs up on this site. Takes no arguments.
+     */
+    listForYouFeed(args: ListForYouFeedArgs, opts?: ConnectionOption): Promise<tiktokVideoSummary[]>;
   }
 }
 
@@ -49154,6 +49212,13 @@ interface GetFantasyLeagueArgs {
   leagueId: string;
 }
 
+interface GetFantasyTeamArgs {
+  // The league's numeric id off its own URL (football.fantasysports.yahoo.com/f1/<leagueId>).
+  leagueId: string;
+  // The team's numeric id off its own URL (football.fantasysports.yahoo.com/f1/<leagueId>/<teamId>).
+  teamId: string;
+}
+
 interface SetFantasyLineupArgs {
   // The league's numeric id off its own URL (football.fantasysports.yahoo.com/f1/<leagueId>).
   leagueId: string;
@@ -49200,6 +49265,22 @@ interface YahooFantasyLineupSetResult {
   leagueId: string;
   week: number;
   coveredPlayerIds: string[];
+}
+
+interface YahooFantasyRosterSlot {
+  slot: string;
+  playerId: string | null;
+  name: string | null;
+  nflPosition: string | null;
+  nflTeam: string | null;
+}
+
+interface YahooFantasyTeamDetail {
+  leagueId: string;
+  teamId: string;
+  teamName: string;
+  week: number | null;
+  roster: YahooFantasyRosterSlot[];
 }
 
   /**
@@ -49312,6 +49393,14 @@ interface YahooFantasyLineupSetResult {
      * auth relay. NEEDS A SIGN-IN. Does not yet cover rosters or transactions.
      */
     getFantasyLeague(args: GetFantasyLeagueArgs, opts?: ConnectionOption): Promise<YahooFantasyLeagueDetail>;
+
+    /**
+     * Reads the CALLER's own fantasy team — which player (or empty slot) fills each roster spot
+     * this week, each player's real NFL team and position — once the caller has signed in through
+     * the auth relay. NEEDS A SIGN-IN. Does not publish a player's full eligible position set,
+     * only their one real NFL position and the slot they are in now.
+     */
+    getFantasyTeam(args: GetFantasyTeamArgs, opts?: ConnectionOption): Promise<YahooFantasyTeamDetail>;
 
     /**
      * Sets the CALLER's own fantasy lineup for the week by specifying which players should be in

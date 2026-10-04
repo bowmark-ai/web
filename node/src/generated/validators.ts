@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a18c20bcb52b61b12266698b3f9fa406b5d33bc461f420a4c1cc855157e37e1b
-// 1799 checked, 20 unchecked.
+// Manifest version: 9444923ce5d9dda33f9cea3d2f902facc3eb9883fe63af302c7455c80317a4ee
+// 1804 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a18c20bcb52b61b12266698b3f9fa406b5d33bc461f420a4c1cc855157e37e1b",
+  "version": "9444923ce5d9dda33f9cea3d2f902facc3eb9883fe63af302c7455c80317a4ee",
   "units": {
     "address_validation": {
       "defs": {
@@ -11530,6 +11530,46 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getFollows": [
+          {
+            "name": "actor",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "string"
+                },
+                {
+                  "k": "object",
+                  "props": [
+                    {
+                      "name": "actor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": false
+                    },
+                    {
+                      "name": "limit",
+                      "schema": {
+                        "k": "number"
+                      },
+                      "optional": true
+                    },
+                    {
+                      "name": "cursor",
+                      "schema": {
+                        "k": "string"
+                      },
+                      "optional": true
+                    }
+                  ]
+                }
+              ]
+            },
+            "optional": false
+          }
         ]
       }
     },
@@ -15202,6 +15242,31 @@ export const VALIDATORS: ValidatorTable = {
         "getMarketsData": [],
         "listNewsletters": [],
         "followTopic": [
+          {
+            "name": "topicId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "unfollowTopic": [
           {
             "name": "topicId",
             "schema": {
@@ -21324,6 +21389,53 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GithubMergePullRequestOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "commitTitle",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "commitMessage",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "mergeMethod",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "merge"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "squash"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rebase"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "sha",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        },
         "GithubSearchRepositoriesOptions": {
           "k": "object",
           "props": [
@@ -22317,6 +22429,53 @@ export const VALIDATORS: ValidatorTable = {
               "name": "GithubUpdatePullRequestOptions"
             },
             "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "mergePullRequest": [
+          {
+            "name": "owner",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "repo",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "pullNumber",
+            "schema": {
+              "k": "number"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "GithubMergePullRequestOptions"
+            },
+            "optional": true
           },
           {
             "name": "opts",
@@ -46489,6 +46648,12 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "ListForYouFeedArgs": {
+          "k": "record",
+          "value": {
+            "k": "any"
+          }
+        },
         "ListHashtagVideosArgs": {
           "k": "object",
           "props": [
@@ -46679,6 +46844,32 @@ export const VALIDATORS: ValidatorTable = {
               "name": "ListSoundVideosArgs"
             },
             "optional": false
+          }
+        ],
+        "listForYouFeed": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListForYouFeedArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
           }
         ]
       }
@@ -51359,6 +51550,25 @@ export const VALIDATORS: ValidatorTable = {
             }
           ]
         },
+        "GetFantasyTeamArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "leagueId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "teamId",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
         "GetGameArgs": {
           "k": "object",
           "props": [
@@ -51965,6 +52175,32 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "GetFantasyLeagueArgs"
+            },
+            "optional": false
+          },
+          {
+            "name": "opts",
+            "schema": {
+              "k": "object",
+              "props": [
+                {
+                  "name": "connection",
+                  "schema": {
+                    "k": "string"
+                  },
+                  "optional": false
+                }
+              ]
+            },
+            "optional": true
+          }
+        ],
+        "getFantasyTeam": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "GetFantasyTeamArgs"
             },
             "optional": false
           },
