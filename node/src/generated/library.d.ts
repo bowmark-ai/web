@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: fbc98fa80af6a75b9c3236869b2946e8a18ffe095485ad04d5b47949318207be
-// 74 capabilities, 516 providers, 1826 typed functions, 20 refused.
+// Manifest version: 74d81fd8221c78c5bb8b97bb9753037f0a45a865bb449f6d4a87abbeff37fd2e
+// 74 capabilities, 518 providers, 1820 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -3060,10 +3060,12 @@ type ReadStrategy = "auto" | "fetch" | "browser"
 
 type ReadOptions = {
   format?: ReadFormat        // default "markdown"
-  strategy?: ReadStrategy    // default "auto" — plain GET, browser only if needed.
-                             // "fetch" NEVER opens a browser: the fast-fail escape for
-                             // a slow or JS-heavy page. It still sets escalationReason,
-                             // so you learn the page needed one instead of waiting
+  strategy?: ReadStrategy    // default "auto" — a fast read, and a full page load only
+                             // when the page needs one. "fetch" is FAST MODE: it never
+                             // waits on a slow full load — the fast-fail escape for a
+                             // slow or script-heavy page. It still sets
+                             // escalationReason, so you learn the page needed more
+                             // instead of waiting. "browser" always does the full load
   maxChars?: number          // default 200000; over it, content is cut + truncated:true
                              // MEMORY: maxChars bounds the RETURNED size, not the
                              // memory spent loading the full page first. A 50MB
@@ -3075,13 +3077,13 @@ type ReadOptions = {
                              // 1024MB per-run ceiling, reduce maxChars when
                              // reading many pages: e.g., 10 pages × 60KB ≈ 700MB.
                              // For large single pages, use strategy: "fetch" to get
-                             // even oversized responses without the browser overhead.
-  timeoutMs?: number         // default 45000: the budget for the WHOLE read, both
-                             // legs together, not per leg. Clamped to 55000 — past
-                             // that your own client kills the call first and you get
-                             // its bare "The operation timed out." instead of ours.
-                             // Too small for a browser leg -> we skip it and say so
-                             // in warnings rather than half-open one
+                             // even oversized responses without the full-load overhead.
+  timeoutMs?: number         // default 45000: the budget for the WHOLE read, end to
+                             // end. Clamped to 55000 — past that your own client
+                             // kills the call first and you get its bare "The
+                             // operation timed out." instead of ours. Too small for a
+                             // full page load -> we skip it and say so in warnings
+                             // rather than half-start one
   egress?: string            // optional egress route: "default" | "us-datacenter" | "static-residential"
                              // default uses the rotating proxy vendor, "static-residential"
                              // a dedicated static exit. Set this when you need a specific
@@ -3099,15 +3101,16 @@ type ReadResult = {
   requestedUrl: string       // the url you passed
   status: number             // 0 = never completed; see error
   ok: boolean                // false for a failure OR a wall/shell/login page, under
-                             // every strategy — "browser" included
+                             // every strategy
   title: string | null       // <title>, else first <h1>, else null
   content: string
   format: ReadFormat
-  servedBy: "fetch" | "browser"   // which rung actually paid for this
-  escalated: boolean              // the GET was tried and rejected
-  escalationReason: string | null // WHY a browser was needed. Set even under
-                                  // strategy:"fetch", where one was warranted but
-                                  // not taken — so under-reading is visible
+  escalationReason: string | null // WHY content may be incomplete: the page needed
+                                  // a fuller load than this read gave it (always
+                                  // under strategy:"fetch" when so; under "auto"
+                                  // when the full load was skipped or found no
+                                  // more). null = the whole page, as far as we can
+                                  // tell — so under-reading is visible
   chars: number
   truncated: boolean
   error: string | null       // set INSTEAD of throwing; a dead url in pages() never
@@ -3116,7 +3119,7 @@ type ReadResult = {
                              // for. read.page cannot pause for a login the way a
                              // typed provider does — a human has to sign in first
   wall: { vendor: string; cleared: boolean } | null   // the bot wall this page is
-                             // behind, found by a rendered look or named by the GET's
+                             // behind, identified on the page or named by the site's
                              // own response (AWS WAF's 202). Reported even when we
                              // could NOT clear it, so a block is a named fact rather
                              // than an empty page. Uncleared on the content served
@@ -3124,7 +3127,7 @@ type ReadResult = {
                              // read — retrying will not help. A 4xx/5xx page is
                              // ok:false too: it is the site's error page
   headers?: Record<string, string> // only with options.headers: true — the response
-                             // headers of the leg that served content, names
+                             // headers of the document that served content, names
                              // lowercased; {} when none were captured
   json?: unknown             // only when the body IS JSON (json content-type, or a
                              // body that parses whole): the parsed value, unfenced.
@@ -3160,51 +3163,51 @@ type UrlsResult = {
   truncated: boolean        // hit maxUrls
   error: string | null      // only when nothing was found
   warnings: string[]        // every bound that cut the list short, and a
-                            // JS-rendered start page whose links a GET cannot see
+                            // JS-rendered start page whose links a fast read cannot see
 }
 
   /**
    * Read any web page as markdown, text or HTML — or extract the text from a PDF url — one page
-   * or many at once, taking a browser only when the page actually needs one.
+   * or many at once, fast when the page allows it and thorough when it needs it.
    */
   interface Unit {
     /**
-     * Loads one page and returns its content. Tries a plain GET first and escalates to a real
-     * browser only when the response proves it needs one (a bot wall, an interstitial, or markup
-     * carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN the result
-     * rather than throwing. **A PDF url (a datasheet, a price list, a filing) comes back as the
-     * document's extracted text** in `content`, with a warning naming the page count; a scanned
-     * PDF with no text layer is `ok: false`. A site that refuses automated access comes back `ok:
-     * false` with `wall` naming the bot-management vendor and a warning saying so — that is the
-     * site's answer, and retrying the same read will not change it; an HTTP 4xx/5xx page is `ok:
-     * false` too. TIME: `timeoutMs` is the budget for the WHOLE read, both legs together (default
-     * 45,000, max 55,000) — deliberately under the ~60s at which a chat client kills a tool call,
-     * so a slow page comes back as a real result naming the browser leg instead of your client's
-     * bare "The operation timed out.". **`strategy: "fetch"` is the fast-fail escape** for a page
-     * you do not want to wait on: it never opens a browser, returns in ~200ms, and still sets
-     * `escalationReason` so you learn the page needed one. Several urls? Pass them to
-     * `read.pages`, not a loop of `page()` calls — a loop's reads add up, and three slow ones
-     * outlast the client, while `pages` holds the whole batch to the same 55s. **Hitting a site's
-     * own JSON endpoint? Read `result.json`, never `content`** — `const { json } = await
-     * bowmark.read.page(apiUrl)` hands back the parsed body directly, unfenced, whenever the
-     * response is JSON (a `json` content-type, or a body that parses whole). Do not hand-strip a
-     * ``` fence from `content` to `JSON.parse` it yourself; `json` is absent on every non-JSON
-     * page and costs nothing otherwise. **A price you need bound to a specific item is the one
-     * thing the default `"markdown"` format cannot promise** — it flattens the DOM, so a price can
-     * end up textually next to a link for a DIFFERENT size/color/variant; `warnings` names it when
-     * the page carries the structured data to prove it, but the safe read is `{ format:
-     * "cleanHtml" }`, which keeps the price inside its own item's markup. **`content` is the
-     * page's TEXT, and the browser leg does not change that** — `servedBy: "browser"` means the
-     * page rendered, not that every widget on it became words. A booking calendar whose open and
-     * blocked days are drawn only by styling, a widget inside a cross-origin iframe or a canvas,
-     * and a rate or quote the page shows only after dates are picked or a form is filled come back
-     * as bare day numbers, empty characters or nothing at all — usually with `ok: true` and no
-     * warning. So a missing price or availability here is not proof the page has none: putting the
-     * dates in the url is worth one try, and past that use the site's own provider if
-     * `get_library` has one, or `bowmark.browser_agent.start` to operate the widget. RUN-ONLY:
-     * because the rung is decided per call, neither `session()` nor the bare top-level `bowmark`
-     * client (which opens a session internally, even for one call) can serve this — both are
-     * refused with code "rung_undeclared". Call it through `run()` instead.
+     * Loads one page and returns its content. Takes a fast read first and does a full page load
+     * only when the response proves the page needs one (a bot wall, an interstitial, or markup
+     * carrying no words). Reports a failure IN the result rather than throwing. **A PDF url (a
+     * datasheet, a price list, a filing) comes back as the document's extracted text** in
+     * `content`, with a warning naming the page count; a scanned PDF with no text layer is `ok:
+     * false`. A site that refuses automated access comes back `ok: false` with `wall` naming the
+     * bot-management vendor and a warning saying so — that is the site's answer, and retrying the
+     * same read will not change it; an HTTP 4xx/5xx page is `ok: false` too. TIME: `timeoutMs` is
+     * the budget for the WHOLE read, end to end (default 45,000, max 55,000) — deliberately under
+     * the ~60s at which a chat client kills a tool call, so a slow page comes back as a real
+     * result saying what ran out instead of your client's bare "The operation timed out.".
+     * **`strategy: "fetch"` is fast mode, the fast-fail escape** for a page you do not want to
+     * wait on: it never waits on a slow page, returns in ~200ms, and still sets `escalationReason`
+     * so you learn the page needed more than that. Several urls? Pass them to `read.pages`, not a
+     * loop of `page()` calls — a loop's reads add up, and three slow ones outlast the client,
+     * while `pages` holds the whole batch to the same 55s. **Hitting a site's own JSON endpoint?
+     * Read `result.json`, never `content`** — `const { json } = await bowmark.read.page(apiUrl)`
+     * hands back the parsed body directly, unfenced, whenever the response is JSON (a `json`
+     * content-type, or a body that parses whole). Do not hand-strip a ``` fence from `content` to
+     * `JSON.parse` it yourself; `json` is absent on every non-JSON page and costs nothing
+     * otherwise. **A price you need bound to a specific item is the one thing the default
+     * `"markdown"` format cannot promise** — it flattens the DOM, so a price can end up textually
+     * next to a link for a DIFFERENT size/color/variant; `warnings` names it when the page carries
+     * the structured data to prove it, but the safe read is `{ format: "cleanHtml" }`, which keeps
+     * the price inside its own item's markup. **`content` is the page's TEXT, even on a fully
+     * loaded page** — the page rendering does not mean every widget on it became words. A booking
+     * calendar whose open and blocked days are drawn only by styling, a widget inside a
+     * cross-origin iframe or a canvas, and a rate or quote the page shows only after dates are
+     * picked or a form is filled come back as bare day numbers, empty characters or nothing at all
+     * — usually with `ok: true` and no warning. So a missing price or availability here is not
+     * proof the page has none: putting the dates in the url is worth one try, and past that use
+     * the site's own provider if `get_library` has one, or `bowmark.browser_agent.start` to
+     * operate the widget. RUN-ONLY: because how each page is loaded is decided per call, neither
+     * `session()` nor the bare top-level `bowmark` client (which opens a session internally, even
+     * for one call) can serve this — both are refused with code "rung_undeclared". Call it through
+     * `run()` instead.
      */
     page(url: string, options?: ReadOptions): Promise<ReadResult>;
 
@@ -3213,26 +3216,27 @@ type UrlsResult = {
      * avoid triggering bot defenses on sites that block concurrent connections from one IP, while
      * requests to DIFFERENT origins run in parallel. Results arrive in the order the urls were
      * given. One dead url never costs you the others — it comes back with `ok: false` and `error`
-     * set. Serializing costs TIME (`strategy: "browser"` is the exception and runs them in
-     * parallel): a same-origin batch takes the SUM of its reads, so two slow reads on one site
-     * already outlast a chat client that gives up at ~60s. The whole batch is therefore bounded at
-     * 55s, the same ceiling as one read: a url whose turn arrives after that comes back as its own
-     * `ok: false` row naming the batch budget, so you keep every page that did finish instead of
-     * losing the run. Two browser reads in one script is the shape that hits this — split them, or
-     * pass `strategy: "fetch"`. RUN-ONLY: same reason as `page` — the rung is decided per call, so
-     * `session()` and the top-level `bowmark` client are both refused with code "rung_undeclared".
-     * Call it through `run()` instead.
+     * set. Serializing costs TIME (`strategy: "browser"`, the always-full-load option, is the
+     * exception and runs them in parallel): a same-origin batch takes the SUM of its reads, so two
+     * slow reads on one site already outlast a chat client that gives up at ~60s. The whole batch
+     * is therefore bounded at 55s, the same ceiling as one read: a url whose turn arrives after
+     * that comes back as its own `ok: false` row naming the batch budget, so you keep every page
+     * that did finish instead of losing the run. Two slow, fully loaded reads in one script is the
+     * shape that hits this — split them, or pass `strategy: "fetch"`. RUN-ONLY: same reason as
+     * `page` — how each page is loaded is decided per call, so `session()` and the top-level
+     * `bowmark` client are both refused with code "rung_undeclared". Call it through `run()`
+     * instead.
      */
     pages(urls: string[], options?: ReadOptions): Promise<ReadResult[]>;
 
     /**
      * Lists the pages a site has, so you can pick which to `read.page` instead of guessing paths.
-     * Two sources, both plain GETs with no browser: the site's own sitemaps (robots.txt `Sitemap:`
-     * lines, else /sitemap.xml and /sitemap_index.xml, indexes followed) and the links on the
-     * start page, followed breadth-first to `depth` hops (default 1 = the start page's own links).
-     * Returns urls only, never page content. Each row says whether it came from a sitemap, a link
-     * or both, how many hops from the start page, and the sitemap's `lastmod`. Bounded three ways
-     * — `maxUrls` (500), `maxPages` (20 fetched for links) and `timeoutMs` (45,000) — and every
+     * Two sources, both fast reads: the site's own sitemaps (robots.txt `Sitemap:` lines, else
+     * /sitemap.xml and /sitemap_index.xml, indexes followed) and the links on the start page,
+     * followed breadth-first to `depth` hops (default 1 = the start page's own links). Returns
+     * urls only, never page content. Each row says whether it came from a sitemap, a link or both,
+     * how many hops from the start page, and the sitemap's `lastmod`. Bounded three ways —
+     * `maxUrls` (500), `maxPages` (20 fetched for links) and `timeoutMs` (45,000) — and every
      * bound that cut the list short is named in `warnings`. A start page that renders its
      * navigation in JavaScript under-lists links, and `warnings` says so; the sitemap half is
      * unaffected. `pathPrefix: "/blog/"` scopes the list to one section. RUN-ONLY, same as `page`.
@@ -4386,7 +4390,9 @@ interface FormField { name: string | null; label: string | null; type: string; r
 interface InspectedForm { action: string | null; method: string; fields: FormField[]; frameUrl?: string | null }
 
 type FormOptions = {
-  strategy?: "auto" | "fetch" | "browser"  // default "auto" — plain GET, browser only if it found nothing
+  strategy?: "auto" | "fetch" | "browser"  // default "auto" — a fast read, and a full page load only if
+                                           // that found nothing. "fetch" = fast mode; "browser" = always
+                                           // the full load
   open?: string                            // the control that opens the form: a CSS selector or its visible text
   timeoutMs?: number                       // default 30000
 }
@@ -4396,19 +4402,18 @@ type FormInspectionResult = {
   title: string | null
   forms: InspectedForm[]
   fieldCount: number
-  servedBy: "fetch" | "browser"      // which rung paid for this
-  escalated: boolean                 // the GET was tried and found nothing
-  escalationReason: string | null    // set even under strategy:"fetch", so under-reading is visible
+  escalationReason: string | null    // why the answer may be incomplete — set under strategy:"fetch"
+                                     // when the page needed more, so under-reading is visible
   openedWith: string | null          // the control that was clicked to reveal the form
   multiStep: boolean                 // more steps follow; the count is the visible step only
   stepLabel: string | null           // the form's own "Step 2 of 4", when it prints one
-  wall: { vendor: string; cleared: boolean } | null  // a bot challenge the browser leg saw, if any — set only on servedBy:"browser"
+  wall: { vendor: string; cleared: boolean } | null  // a bot challenge seen on the page, if any — never set in fast mode
   warnings: string[]
 }
 
 type FormFillOptions = {
   open?: string        // the control that opens the form, if you already know it
-  strategy?: "browser" // strategy is fixed to browser; this field exists for symmetry with getFields so both can be called the same way
+  strategy?: "browser" // fillForm always does the full page load; accepted for symmetry with getFields so both can be called the same way
   timeoutMs?: number   // default 30000
   advance?: boolean     // click "Next"/"Continue" once values are written. default false
   submit?: boolean       // click the control that COMMITS the form. default false. wins over advance
@@ -4425,7 +4430,7 @@ type FormFillResult = {
   stepLabel: string | null
   autocompleteSelected: string[]  // "<field>: <suggestion>" for each address/lookup field a suggestion was picked for
   resultContent: string | null  // what the site answered back, read after submit/advance — null otherwise
-  wall: { vendor: string; cleared: boolean } | null  // a bot challenge this call's browser saw, if any
+  wall: { vendor: string; cleared: boolean } | null  // a bot challenge this call saw on the page, if any
   warnings: string[]
 }
 
@@ -4439,11 +4444,11 @@ type FormFillResult = {
   interface Unit {
     /**
      * Reads a page and returns its forms plus a total field count, each field with its label,
-     * name, type, choices and required-ness. Takes a plain GET first and opens a browser only when
-     * that finds no fields — then it clicks the control that reveals the form (a `Book Online`
-     * button, say) and reads the widget's own cross-origin iframe. It clicks exactly that one
-     * control: it never types, never picks an option and never submits, so a multi-step flow comes
-     * back as the visible step plus `multiStep: true`.
+     * name, type, choices and required-ness. Takes a fast read first and does a full page load
+     * only when that finds no fields — then it clicks the control that reveals the form (a `Book
+     * Online` button, say) and reads the widget's own cross-origin iframe. It clicks exactly that
+     * one control: it never types, never picks an option and never submits, so a multi-step flow
+     * comes back as the visible step plus `multiStep: true`.
      */
     getFields(url: string, options?: FormOptions): Promise<FormInspectionResult>;
 
@@ -4451,9 +4456,9 @@ type FormFillResult = {
      * Opens the page (and the booking/quote widget behind a button, exactly as `getFields` does),
      * then writes `values` into whatever fields match — keyed by a field's `name` or a word or two
      * of its label, matched fuzzily so the site's own wording doesn't have to be exact. Always
-     * opens a browser: filling is an interaction, not a read. Pass `advance: true` to click
-     * 'Next'/'Continue' once everything is written, or `submit: true` to click the control that
-     * actually commits the form (submit wins if both are set). One call is one step — call it
+     * does the full page load: filling is an interaction, not a read. Pass `advance: true` to
+     * click 'Next'/'Continue' once everything is written, or `submit: true` to click the control
+     * that actually commits the form (submit wins if both are set). One call is one step — call it
      * again with the next step's `values` to walk a wizard forward. `notFound` names any `values`
      * key nothing on the page matched, so a caller who guessed a label wrong sees that rather than
      * silence. When a click registers, `resultContent` carries what the site answered back — a
@@ -13209,7 +13214,7 @@ interface carsListing {
   dealer: { name: string | null; status: string | null } | null;
 }
 interface carsSearch {
-  appliedFilters: { filter: string; value: string | null }[];
+  appliedFilters: { filter: string; value: string | null; zipCode?: string; radiusMiles?: number }[];
   totalListings: number;
   totalPages: number;
   page: number;
@@ -13265,7 +13270,7 @@ interface carsVehicleValue {
      * the matching listing ids (each one is a getListing argument verbatim), the total match count
      * across all pages, and the filter set the service actually applied.
      */
-    search(args: { zipCode?: string; radiusMiles?: number; stockType?: 'new' | 'used' | 'cpo'; make?: string; model?: string; maxPrice?: string; minPrice?: string; maxMileage?: string; page?: number; pageSize?: number; sort?: string }): Promise<carsSearch>;
+    search(args: { zipCode?: string; radiusMiles?: number; stockType?: 'new' | 'used' | 'cpo'; make?: string; model?: string; maxPrice?: string; minPrice?: string; maxMileage?: string; page?: number; pageSize?: number; sort?: 'BEST_MATCH_DESC' | 'LIST_PRICE' | 'LIST_PRICE_DESC' | 'MILEAGE' | 'MILEAGE_DESC' | 'YEAR' | 'YEAR_DESC' | 'LISTED_AT' | 'LISTED_AT_DESC' | 'DISTANCE' }): Promise<carsSearch>;
 
     /**
      * Reads one cars.com listing in full by its id (the uuid in a /vehicledetail/<id>/ url): VIN,
@@ -15253,6 +15258,11 @@ interface cnnUnfollowResult {
   unfollowed: boolean;
 }
 
+interface cnnMyNewsResult {
+  items: cnnTrendingItem[];
+  followedTopics: string[];
+}
+
   /** Breaking news, articles, video segments and markets data from CNN. */
   interface Unit {
     /**
@@ -15327,6 +15337,13 @@ interface cnnUnfollowResult {
 
     /** Remove a topic from the signed-in viewer's followed topics. Returns whether it was removed. */
     unfollowTopic(topicId: string, opts?: ConnectionOption): Promise<cnnUnfollowResult>;
+
+    /**
+     * The signed-in viewer's personalized My News feed, built from their followed topics — up to
+     * `limit` items (default 10), newest/most relevant first. Also returns the followed topic ids
+     * the feed was built from. Empty if the viewer follows nothing.
+     */
+    listMyNews(limit?: number, opts?: ConnectionOption): Promise<cnnMyNewsResult>;
   }
 }
 
@@ -18480,6 +18497,56 @@ interface LineStatus {
      * Hauptbahnhof'); returns matching stops with the id listDepartures takes.
      */
     searchStop(query: string): Promise<StopSearchResult[]>;
+  }
+}
+
+declare namespace BowmarkProvider_eventim {
+  // ── Eventim — the unit's own declarations, verbatim ──
+interface EventimSearchArgs {
+  /** Artist, show or keyword, e.g. "Rammstein". */
+  query: string;
+  /** Only events in this city, e.g. "Berlin". */
+  city?: string;
+  /** Which storefront: "de" (eventim.de, default) or "uk" (eventim.co.uk). */
+  country?: "de" | "uk";
+  /** 1-based results page. */
+  page?: number;
+}
+interface EventimEventRow {
+  id: string;
+  name: string;
+  url: string;
+  startDate: string | null;
+  venue: string | null;
+  city: string | null;
+  postalCode: string | null;
+  artists: string[];
+  categories: string[];
+  priceFrom: number | null;
+  currency: string | null;
+  status: string | null; // "Available"
+  inStock: boolean;
+  imageUrl: string | null;
+}
+interface EventimSearchResult {
+  totalResults: number;
+  page: number;
+  totalPages: number;
+  events: EventimEventRow[];
+}
+
+  /**
+   * Eventim's own event-ticket search (concerts, theatre, comedy, sport) on eventim.de and
+   * eventim.co.uk — events by artist or keyword, optionally in one city, with date, venue,
+   * lowest price and availability.
+   */
+  interface Unit {
+    /**
+     * Searches Eventim for event tickets by artist or keyword, optionally in one city, on
+     * eventim.de (default) or eventim.co.uk. Each event carries date, venue, city, lowest price,
+     * availability and its ticket page URL.
+     */
+    search(args: EventimSearchArgs): Promise<EventimSearchResult>;
   }
 }
 
@@ -21678,10 +21745,26 @@ interface GithubSearchCodeResult {
   results: unknown[];
   raw: Record<string, unknown>;
 }
+interface GithubNotification {
+  id: string;
+  repository: string; // "owner/repo"
+  number: number | null; // null for a thread with none (a Dependabot alert, a release)
+  title: string;
+  type: string; // "PullRequest" | "Issue" | "Discussion" | "Commit" | "Release" | "SecurityAlert" | github.com's own thread_type
+  reason: string | null; // github.com's words: "author", "mention", "subscribed", "review requested", "security alert", …
+  unread: boolean;
+  updatedAt: string | null;
+  url: string;
+}
+interface GithubListNotificationsOptions {
+  query?: string; // github.com's own filter: "is:unread", "reason:mention", "repo:owner/name"
+  after?: string; // a previous page's nextCursor
+}
 interface GithubListNotificationsResult {
-  // github.com's own notifications response body, raw — the signed-in shape is
-  // unmeasured (no fleet-held GitHub session exists to capture one from).
-  raw: unknown;
+  login: string; // the signed-in account
+  notifications: GithubNotification[]; // 25 per page, newest first
+  totalCount: number | null; // github.com's own total for this filter
+  nextCursor: string | null; // null on the last page
 }
 interface GithubStarredRepository {
   name: string;
@@ -21691,103 +21774,9 @@ interface GithubStarredRepository {
   url: string;
 }
 interface GithubListStarredRepositoriesResult {
+  login: string; // the signed-in account whose stars these are
   repositories: GithubStarredRepository[];
   warnings: string[];
-}
-interface GithubStarRepositoryResult {
-  owner: string;
-  repo: string;
-  starred: true;
-}
-interface GithubUnstarRepositoryResult {
-  owner: string;
-  repo: string;
-  starred: false;
-}
-interface GithubWatchRepositoryResult {
-  owner: string;
-  repo: string;
-  watched: true;
-}
-interface GithubUnwatchRepositoryResult {
-  owner: string;
-  repo: string;
-  watched: false;
-}
-interface GithubIssueCreated {
-  number: number;
-  title: string;
-  body: string | null;
-  state: "open" | "closed";
-  url: string;
-}
-interface GithubUpdateIssueOptions {
-  title?: string;
-  body?: string;
-  state?: "open" | "closed";
-  assignees?: string[];
-  labels?: string[];
-  milestone?: number | null;
-}
-interface GithubIssueUpdated {
-  number: number;
-  title: string;
-  body: string | null;
-  state: "open" | "closed";
-  url: string;
-}
-interface GithubCommentCreated {
-  id: number;
-  body: string;
-  url: string;
-  createdAt: string;
-}
-interface GithubCommentUpdated {
-  id: number;
-  body: string;
-  url: string;
-  updatedAt: string;
-}
-interface GithubCommentDeleted {
-  deleted: true;
-}
-interface GithubCreatePullRequestOptions {
-  draft?: boolean;
-}
-interface GithubPullRequestCreated {
-  number: number;
-  title: string;
-  body: string | null;
-  state: "open" | "closed";
-  draft: boolean;
-  url: string;
-}
-interface GithubUpdatePullRequestOptions {
-  title?: string;
-  body?: string;
-  state?: "open" | "closed";
-  base?: string;
-  maintainerCanModify?: boolean;
-}
-interface GithubPullRequestUpdated {
-  number: number;
-  title: string;
-  body: string | null;
-  state: "open" | "closed";
-  draft: boolean;
-  url: string;
-  updatedAt: string;
-}
-interface GithubMergePullRequestOptions {
-  commitTitle?: string;
-  commitMessage?: string;
-  mergeMethod?: "merge" | "squash" | "rebase";
-  sha?: string;
-}
-interface GithubPullRequestMerged {
-  merged: true;
-  sha: string;
-  message: string;
 }
 
   /**
@@ -22002,165 +21991,26 @@ interface GithubPullRequestMerged {
     searchCode(query: string, opts?: ConnectionOption): Promise<GithubSearchCodeResult>;
 
     /**
-     * Lists the signed-in caller's GitHub notifications — issues, pull requests and discussions
-     * mentioning or assigned to them. NEEDS THE CALLER SIGNED IN: an HTML request to
-     * github.com/notifications logged out 302s to /login, and asked for JSON it answers 404 with
-     * GitHub's own `{"error":"Couldn't authenticate you"}`. Returns GitHub's own response body raw
-     * (`raw`) — the signed-in shape is unmeasured, since no fleet-held GitHub session exists to
-     * capture one from. THROWS when signed out or the saved session is stale.
+     * Lists the signed-in caller's GitHub notifications inbox, 25 per page, newest first — each
+     * row's repository, issue/PR number, title, type (PullRequest, Issue, Discussion,
+     * SecurityAlert, …), why they got it (author, mention, subscribed, review requested, …),
+     * unread flag, last activity time and link. Off github.com/notifications' own server-rendered
+     * page. NEEDS THE CALLER SIGNED IN: logged out, github.com redirects the route to /login.
+     * `query` is github.com's own notification filter ("is:unread", "reason:mention",
+     * "repo:owner/name"); pass a page's `nextCursor` back as `after` for the next 25. An empty
+     * `notifications` with no error is a real empty result for that filter. THROWS when signed out
+     * or the saved session is stale.
      */
-    listNotifications(opts?: ConnectionOption): Promise<GithubListNotificationsResult>;
+    listNotifications(options?: GithubListNotificationsOptions, opts?: ConnectionOption): Promise<GithubListNotificationsResult>;
 
     /**
      * Lists repositories the signed-in caller has starred — name, full name, description, star
-     * count, and URL — paged. NEEDS THE CALLER SIGNED IN: the REST API `/user/starred` endpoint
-     * answers 401 with no token. Returns a list of starred repositories with pagination support.
-     * THROWS when signed out or the saved session is invalid.
-     */
-    listStarredRepositories(options?: { per_page?: number; page?: number }, opts?: ConnectionOption): Promise<GithubListStarredRepositoriesResult>;
-
-    /**
-     * Adds a repository to the signed-in caller's starred list, off GitHub's own documented REST
-     * starring endpoint (`PUT /user/starred/{owner}/{repo}`). NEEDS THE CALLER SIGNED IN: the
-     * endpoint answers 401 with no token, the same refusal `listStarredRepositories` reads.
-     * Idempotent — starring an already-starred repo is a no-op on GitHub's side and this returns
-     * the same result either way. THROWS on an unknown owner/repo (404) or when signed out or the
+     * count, and URL — paged (per_page up to 100, page from 1). NEEDS THE CALLER SIGNED IN, to
+     * know WHO the caller is; the list itself comes off GitHub's public REST stars door for that
+     * account, so stars on PRIVATE repositories are not included. THROWS when signed out or the
      * saved session is invalid.
      */
-    starRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubStarRepositoryResult>;
-
-    /**
-     * Removes a repository from the signed-in caller's starred list, off GitHub's own documented
-     * REST starring endpoint (`DELETE /user/starred/{owner}/{repo}`). NEEDS THE CALLER SIGNED IN:
-     * the endpoint answers 401 with no token, the same refusal `starRepository` reads. Idempotent
-     * — unstarring an already-unstarred repo is a no-op on GitHub's side and this returns the same
-     * result either way. THROWS on an unknown owner/repo (404) or when signed out or the saved
-     * session is invalid.
-     */
-    unstarRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubUnstarRepositoryResult>;
-
-    /**
-     * Adds a repository to the signed-in caller's watched list for notifications, off GitHub's own
-     * documented REST subscription endpoint (`PUT /repos/{owner}/{repo}/subscription`). NEEDS THE
-     * CALLER SIGNED IN: the endpoint answers 401 with no token. Idempotent — watching an
-     * already-watched repo is a no-op on GitHub's side and this returns the same result either
-     * way. THROWS on an unknown owner/repo (404) or when signed out or the saved session is
-     * invalid.
-     */
-    watchRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubWatchRepositoryResult>;
-
-    /**
-     * Removes a repository from the signed-in caller's watched list, off GitHub's own documented
-     * REST subscription endpoint (`DELETE /repos/{owner}/{repo}/subscription`). NEEDS THE CALLER
-     * SIGNED IN: the endpoint answers 401 with no token, the same refusal `watchRepository` reads.
-     * Idempotent — unwatching an already-unwatched repo is a no-op on GitHub's side and this
-     * returns the same result either way. THROWS on an unknown owner/repo (404) or when signed out
-     * or the saved session is invalid.
-     */
-    unwatchRepository(owner: string, repo: string, opts?: ConnectionOption): Promise<GithubUnwatchRepositoryResult>;
-
-    /**
-     * Creates a new issue on a repository, off GitHub's own documented REST issues endpoint (`POST
-     * /repos/{owner}/{repo}/issues`). NEEDS THE CALLER SIGNED IN and requires write access to the
-     * repository. `title` is the issue title; `body` is the optional markdown description;
-     * `options.assignees` is an array of GitHub login names to assign; `options.labels` is an
-     * array of label names to apply; `options.milestone` is a milestone number. Returns the
-     * created issue's number, title, body, state, and URL. THROWS on an unknown owner/repo (404),
-     * when signed out or the saved session is invalid (401), or on a permission error (403).
-     */
-    createIssue(owner: string, repo: string, title: string, body?: string, options?: { assignees?: string[]; labels?: string[]; milestone?: number }, opts?: ConnectionOption): Promise<GithubIssueCreated>;
-
-    /**
-     * Updates an existing issue, off GitHub's own documented REST issues endpoint (`PATCH
-     * /repos/{owner}/{repo}/issues/{issue_number}`). NEEDS THE CALLER SIGNED IN and requires write
-     * access to the repository. `options` carries whichever of `title`, `body`, `state`
-     * (`"open"`/`"closed"`), `assignees`, `labels` or `milestone` (a milestone number, or `null`
-     * to clear it) should change — at least one is required. Returns the updated issue's number,
-     * title, body, state, and URL. THROWS on an unknown owner/repo/issue number (404), when signed
-     * out or the saved session is invalid (401), on a permission error (403), or when `options`
-     * carries none of the six fields.
-     */
-    updateIssue(owner: string, repo: string, issueNumber: number, options: GithubUpdateIssueOptions, opts?: ConnectionOption): Promise<GithubIssueUpdated>;
-
-    /**
-     * Adds a comment to an issue or pull request, off GitHub's own documented REST endpoint (`POST
-     * /repos/{owner}/{repo}/issues/{issue_number}/comments`) — GitHub treats a pull request's
-     * conversation as an issue thread for this door, so the same call comments on either. NEEDS
-     * THE CALLER SIGNED IN and requires write access to the repository. `body` is the comment text
-     * (markdown). Returns the created comment's id, body, URL, and creation timestamp. THROWS on
-     * an unknown owner/repo/issue number (404), when signed out or the saved session is invalid
-     * (401), or on a permission error (403).
-     */
-    createComment(owner: string, repo: string, issueNumber: number, body: string, opts?: ConnectionOption): Promise<GithubCommentCreated>;
-
-    /**
-     * Edits an existing comment on an issue or pull request, off GitHub's own documented REST
-     * endpoint (`PATCH /repos/{owner}/{repo}/issues/comments/{comment_id}`) — the same door edits
-     * a comment on an issue or a pull request's conversation, since GitHub treats both as issue
-     * threads here. NEEDS THE CALLER SIGNED IN and requires write access to the comment (its own
-     * or, with repo permissions, anyone's). `commentId` is the comment's own id, e.g. from
-     * `createComment`'s result. `body` replaces the comment text (markdown) entirely. Returns the
-     * updated comment's id, body, URL, and update timestamp. THROWS on an unknown comment id
-     * (404), when signed out or the saved session is invalid or lacks write access (401/403), or
-     * on an unexpected response shape.
-     */
-    updateComment(owner: string, repo: string, commentId: number, body: string, opts?: ConnectionOption): Promise<GithubCommentUpdated>;
-
-    /**
-     * Deletes a comment from an issue or pull request, off GitHub's own documented REST endpoint
-     * (`DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}`) — the same door deletes a
-     * comment on an issue or a pull request's conversation, since GitHub treats both as issue
-     * threads here. NEEDS THE CALLER SIGNED IN and requires write access to the comment (its own
-     * or, with repo permissions, anyone's). `commentId` is the comment's own id, e.g. from
-     * `createComment`'s result. Returns a confirmation that the comment was deleted. THROWS on an
-     * unknown comment id (404), when signed out or the saved session is invalid or lacks write
-     * access (401/403), or on an unexpected response code.
-     */
-    deleteComment(owner: string, repo: string, commentId: number, opts?: ConnectionOption): Promise<GithubCommentDeleted>;
-
-    /**
-     * Opens a new pull request, off GitHub's own documented REST endpoint (`POST
-     * /repos/{owner}/{repo}/pulls`). NEEDS THE CALLER SIGNED IN and requires write access to the
-     * repository (or an open fork for a cross-repo PR). `head` is the branch holding the changes
-     * (`"user:branch"` for a fork, or just `"branch"` within the same repo); `base` is the branch
-     * to merge into (e.g. `"main"`). `body` is the optional markdown description; `options.draft`
-     * opens it as a draft PR. Returns the created pull request's number, title, body, state, draft
-     * flag, and URL. THROWS on an unknown owner/repo or branch (404), when signed out or the saved
-     * session is invalid (401), on a permission error or an already-open identical PR (403/422),
-     * or on an unexpected response shape.
-     */
-    createPullRequest(owner: string, repo: string, title: string, head: string, base: string, body?: string, options?: GithubCreatePullRequestOptions, opts?: ConnectionOption): Promise<GithubPullRequestCreated>;
-
-    /**
-     * Updates a pull request's title, body, state (open/closed), or base branch, off GitHub's own
-     * documented REST endpoint (`PATCH /repos/{owner}/{repo}/pulls/{pull_number}`) — the same door
-     * GitHub's PATCH issue update uses for an issue, but pull-request-scoped. NEEDS THE CALLER
-     * SIGNED IN and requires write access to the repository. `options` must set at least one of
-     * `title`, `body`, `state`, `base`, or `maintainerCanModify`. There is no draft toggle on this
-     * door — GitHub's REST API has no field here to flip a pull request between draft and ready;
-     * the returned `draft` flag reports whatever the site currently holds, unaffected by this
-     * call. Returns the updated pull request's number, title, body, state, draft flag, URL, and
-     * update timestamp. THROWS on an unknown owner/repo or pull request number (404), when signed
-     * out or the saved session is invalid (401), on a permission error (403), when `options` has
-     * no recognized field set, or on an unexpected response shape.
-     */
-    updatePullRequest(owner: string, repo: string, pullNumber: number, options: GithubUpdatePullRequestOptions, opts?: ConnectionOption): Promise<GithubPullRequestUpdated>;
-
-    /**
-     * Merges a pull request into its base branch, off GitHub's own documented REST endpoint (`PUT
-     * /repos/{owner}/{repo}/pulls/{pull_number}/merge`). NEEDS THE CALLER SIGNED IN and requires
-     * write access to the repository (merge permission, not just a passing status).
-     * `options.mergeMethod` picks `"merge"` (a merge commit, GitHub's default), `"squash"`, or
-     * `"rebase"`; `options.commitTitle`/`commitMessage` override the generated commit message;
-     * `options.sha` names the expected head SHA, and GitHub refuses the merge (409) rather than
-     * merge a branch that moved since the caller last looked. Returns the merge commit's sha,
-     * `merged: true`, and GitHub's own confirmation message. THROWS on an unknown owner/repo or
-     * pull request number (404), when signed out or the saved session is invalid (401), on a
-     * permission error (403), when the pull request is not mergeable — already merged, closed, or
-     * blocked by branch protection (405) — when the head branch moved since `options.sha` was
-     * taken (409), or on an unexpected response shape.
-     */
-    mergePullRequest(owner: string, repo: string, pullNumber: number, options?: GithubMergePullRequestOptions, opts?: ConnectionOption): Promise<GithubPullRequestMerged>;
+    listStarredRepositories(options?: { per_page?: number; page?: number }, opts?: ConnectionOption): Promise<GithubListStarredRepositoriesResult>;
   }
 }
 
@@ -34771,6 +34621,16 @@ interface NytimesWriterProfile {
   twitter?: string;
   lastModified?: string;
 }
+interface NytimesWriterArticle {
+  id: string;
+  type: "article" | "video";
+  url?: string;
+  headline?: string;
+  summary?: string;
+  kicker?: string;
+  publishedAt?: string;
+  byline?: string;
+}
 interface NytimesTopic {
   slug: string;
   name: string;
@@ -34818,6 +34678,13 @@ interface NytimesEpisode {
   summary?: string;
   publishedAt?: string;
   byline?: string;
+}
+interface NytimesWordlePuzzle {
+  id: number;
+  solution: string;
+  printDate: string;
+  daysSinceLaunch: number;
+  editor?: string;
 }
 
   /** Reads news articles, sections, search results, and trending topics from The New York Times. */
@@ -34883,6 +34750,14 @@ interface NytimesEpisode {
     getWriter(writer: string): Promise<NytimesWriterProfile>;
 
     /**
+     * Gets the most recent articles and videos off a writer's own byline page — the page's own
+     * fixed first 10 hits, newest first, mixing articles and videos (type tells you which). Takes
+     * a writer slug like "maggie-haberman" (from searchWriters) or a path like
+     * "/by/maggie-haberman".
+     */
+    listWriterArticles(writer: string): Promise<NytimesWriterArticle[]>;
+
+    /**
      * Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently active
      * first. name is formatted from the slug, not read off the site.
      */
@@ -34928,6 +34803,12 @@ interface NytimesEpisode {
      * "/podcasts/the-daily".
      */
     listEpisodes(slug: string): Promise<NytimesEpisode[]>;
+
+    /**
+     * Gets a day's Wordle puzzle off the site's own JSON endpoint (solution, puzzle id, editor).
+     * Takes an optional "YYYY-MM-DD" date, defaulting to today in America/New_York.
+     */
+    getWordle(date?: string): Promise<NytimesWordlePuzzle>;
   }
 }
 
@@ -38824,14 +38705,15 @@ interface RedditProfileText {
     createSubreddit(input: { name: string; description?: string; type?: "public" | "restricted" | "private"; nsfw?: boolean }, opts?: ConnectionOption): Promise<RedditNewCommunity>;
 
     /**
-     * Posts to a community as the signed-in caller and returns the new post's id and permalink.
-     * `kind` defaults from what is given: `url` → a link post, `image` (base64 + mimeType, or a
-     * public image URL; PNG, JPEG, GIF or WebP) → an image post, `crosspostOf` (a post id or URL)
-     * → a crosspost, otherwise a text post with `text` as its body. `flairId` + `flairText` pick
-     * one of the community's post flairs; `nsfw`, `spoiler` mark it; `sendReplies: false` turns
-     * off reply notifications. A community that refuses the post (its rules, its karma bar, a
-     * private source for a crosspost) answers in reddit's own words. NEEDS THE CALLER SIGNED IN TO
-     * REDDIT; the run pauses with a sign-in link when they are not.
+     * Posts to a community, or to the caller's own profile (`subreddit: "u/<their username>"`,
+     * also `u_<name>` or a profile URL), as the signed-in caller and returns the new post's id and
+     * permalink. `kind` defaults from what is given: `url` → a link post, `image` (base64 +
+     * mimeType, or a public image URL; PNG, JPEG, GIF or WebP) → an image post, `crosspostOf` (a
+     * post id or URL) → a crosspost, otherwise a text post with `text` as its body. `flairId` +
+     * `flairText` pick one of the community's post flairs; `nsfw`, `spoiler` mark it;
+     * `sendReplies: false` turns off reply notifications. A community that refuses the post (its
+     * rules, its karma bar, a private source for a crosspost) answers in reddit's own words. NEEDS
+     * THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when they are not.
      */
     submitPost(input: { subreddit: string; title: string; kind?: "self" | "link" | "image" | "crosspost"; text?: string; url?: string; image?: { base64: string; mimeType: string } | { url: string }; crosspostOf?: string; flairId?: string; flairText?: string; nsfw?: boolean; spoiler?: boolean; sendReplies?: boolean }, opts?: ConnectionOption): Promise<RedditNewPost>;
 
@@ -41539,6 +41421,80 @@ interface StarlighthomesNeighborhoodDetail {
      * THROWS on an unknown path, naming `getMetro()` as the way to find current ones.
      */
     getNeighborhood(path: string): Promise<StarlighthomesNeighborhoodDetail>;
+  }
+}
+
+declare namespace BowmarkProvider_start_gg {
+  // ── start.gg — the unit's own declarations, verbatim ──
+interface StartGgTournament {
+  id: number;
+  name: string;
+  slug: string;
+  url: string;
+  startAt: string | null;
+  endAt: string | null;
+  venueName: string | null;
+  venueAddress: string | null;
+  city: string | null;
+  state: string | null;
+  countryCode: string | null;
+  lat: number | null;
+  lng: number | null;
+  distanceMi: number | null;
+  numAttendees: number | null;
+  isOnline: boolean | null;
+}
+interface StartGgVideogame {
+  id: number;
+  name: string;
+  displayName: string;
+  slug: string;
+}
+interface SearchTournamentsArgs {
+  /** A place ("Brooklyn, NY", a ZIP), "lat,lng", or { lat, lng }. Omit for anywhere. */
+  near?: string | { lat: number; lng: number };
+  /** Default 50. */
+  radiusMi?: number;
+  videogameIds?: number[];
+  /** A game NAME, resolved to its start.gg id for you ("Street Fighter 6"). */
+  videogame?: string;
+  /** Dates, e.g. "2026-11-01". `after` defaults to now. */
+  after?: string;
+  before?: string;
+  /** Tournament name contains. */
+  name?: string;
+  /** Default 25, max 100. */
+  limit?: number;
+}
+interface SearchTournamentsResult {
+  near: string | null;
+  point: { lat: number; lng: number } | null;
+  radiusMi: number | null;
+  videogames: StartGgVideogame[];
+  total: number;
+  tournaments: StartGgTournament[];
+}
+interface FindVideogamesArgs {
+  query: string;
+  limit?: number;
+}
+
+  /**
+   * start.gg esports tournaments: search upcoming tournaments near a place for a game (fighting
+   * games, Smash, …), with venue, date, distance and entrant count.
+   */
+  interface Unit {
+    /**
+     * Search start.gg tournaments by game + location: upcoming tournaments near a place within a
+     * radius, soonest first, with venue address, distance and attendee count.
+     */
+    searchTournaments(args: SearchTournamentsArgs): Promise<SearchTournamentsResult>;
+
+    /**
+     * Find a game's start.gg id by name (e.g. "Street Fighter 6" → 43868), for searchTournaments'
+     * videogameIds.
+     */
+    findVideogames(args: FindVideogamesArgs): Promise<StartGgVideogame[]>;
   }
 }
 
@@ -51648,6 +51604,7 @@ interface BowmarkProviders {
   estes_express: BowmarkProvider_estes_express.Unit;
   etsy: BowmarkProvider_etsy.Unit;
   evag: BowmarkProvider_evag.Unit;
+  eventim: BowmarkProvider_eventim.Unit;
   eventsource: BowmarkProvider_eventsource.Unit;
   evolutionofsmooth: BowmarkProvider_evolutionofsmooth.Unit;
   evolvemedspa: BowmarkProvider_evolvemedspa.Unit;
@@ -51895,6 +51852,7 @@ interface BowmarkProviders {
   speedrun: BowmarkProvider_speedrun.Unit;
   spirithalloween: BowmarkProvider_spirithalloween.Unit;
   starlighthomes: BowmarkProvider_starlighthomes.Unit;
+  start_gg: BowmarkProvider_start_gg.Unit;
   statefarm: BowmarkProvider_statefarm.Unit;
   steam: BowmarkProvider_steam.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;

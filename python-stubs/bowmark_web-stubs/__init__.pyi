@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: fbc98fa80af6a75b9c3236869b2946e8a18ffe095485ad04d5b47949318207be
-# 74 capabilities, 516 providers, 1808 typed functions, 20 refused.
+# Manifest version: 74d81fd8221c78c5bb8b97bb9753037f0a45a865bb449f6d4a87abbeff37fd2e
+# 74 capabilities, 518 providers, 1802 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -1780,8 +1780,6 @@ class Cap_read_ReadResult_Out(TypedDict):
     title: str | None
     content: str
     format: Literal["markdown"] | Literal["text"] | Literal["cleanHtml"] | Literal["html"]
-    servedBy: Literal["fetch"] | Literal["browser"]
-    escalated: bool
     escalationReason: str | None
     chars: float
     truncated: bool
@@ -2373,8 +2371,6 @@ class Cap_web_form_fields_FormInspectionResult_Out(TypedDict):
     title: str | None
     forms: list[Cap_web_form_fields_InspectedForm_Out]
     fieldCount: float
-    servedBy: Literal["fetch"] | Literal["browser"]
-    escalated: bool
     escalationReason: str | None
     openedWith: str | None
     multiStep: bool
@@ -7318,7 +7314,7 @@ class Prv_cars_search_args_In(TypedDict):
     maxMileage: NotRequired[str]
     page: NotRequired[float]
     pageSize: NotRequired[float]
-    sort: NotRequired[str]
+    sort: NotRequired[Literal["BEST_MATCH_DESC"] | Literal["LIST_PRICE"] | Literal["LIST_PRICE_DESC"] | Literal["MILEAGE"] | Literal["MILEAGE_DESC"] | Literal["YEAR"] | Literal["YEAR_DESC"] | Literal["LISTED_AT"] | Literal["LISTED_AT_DESC"] | Literal["DISTANCE"]]
 
 class Prv_cars_carsSearch_Out(TypedDict):
     appliedFilters: list[Prv_cars_carsSearch_Out_appliedFilters_item_Out]
@@ -7332,6 +7328,8 @@ class Prv_cars_carsSearch_Out(TypedDict):
 class Prv_cars_carsSearch_Out_appliedFilters_item_Out(TypedDict):
     filter: str
     value: str | None
+    zipCode: NotRequired[str]
+    radiusMiles: NotRequired[float]
 
 class Prv_cars_carsListing_Out(TypedDict):
     id: str
@@ -8503,6 +8501,10 @@ class Prv_cnn_cnnFollowedTopic_Out(TypedDict):
 class Prv_cnn_cnnUnfollowResult_Out(TypedDict):
     topic_id: str
     unfollowed: bool
+
+class Prv_cnn_cnnMyNewsResult_Out(TypedDict):
+    items: list[Prv_cnn_cnnTrendingItem_Out]
+    followedTopics: list[str]
 
 class Prv_coast_CoastFleetCardPricing_Out(TypedDict):
     monthlyFeePerUserUsd: float
@@ -10217,6 +10219,34 @@ class Prv_evag_StopSearchResult_Out(TypedDict):
     id: str
     name: str
     city: NotRequired[str]
+
+class Prv_eventim_EventimSearchArgs_In(TypedDict):
+    query: str
+    city: NotRequired[str]
+    country: NotRequired[Literal["de"] | Literal["uk"]]
+    page: NotRequired[float]
+
+class Prv_eventim_EventimSearchResult_Out(TypedDict):
+    totalResults: float
+    page: float
+    totalPages: float
+    events: list[Prv_eventim_EventimEventRow_Out]
+
+class Prv_eventim_EventimEventRow_Out(TypedDict):
+    id: str
+    name: str
+    url: str
+    startDate: str | None
+    venue: str | None
+    city: str | None
+    postalCode: str | None
+    artists: list[str]
+    categories: list[str]
+    priceFrom: float | None
+    currency: str | None
+    status: str | None
+    inStock: bool
+    imageUrl: str | None
 
 class Prv_eventsource_EventSourceShowroom_Out(TypedDict):
     accessCode: str
@@ -11935,14 +11965,33 @@ class Prv_github_GithubSearchCodeResult_Out(TypedDict):
     results: list[Any]
     raw: Mapping[str, Any]
 
+class Prv_github_GithubListNotificationsOptions_In(TypedDict):
+    query: NotRequired[str]
+    after: NotRequired[str]
+
 class Prv_github_GithubListNotificationsResult_Out(TypedDict):
-    raw: Any
+    login: str
+    notifications: list[Prv_github_GithubNotification_Out]
+    totalCount: float | None
+    nextCursor: str | None
+
+class Prv_github_GithubNotification_Out(TypedDict):
+    id: str
+    repository: str
+    number: float | None
+    title: str
+    type: str
+    reason: str | None
+    unread: bool
+    updatedAt: str | None
+    url: str
 
 class Prv_github_listStarredRepositories_options_In(TypedDict):
     per_page: NotRequired[float]
     page: NotRequired[float]
 
 class Prv_github_GithubListStarredRepositoriesResult_Out(TypedDict):
+    login: str
     repositories: list[Prv_github_GithubStarredRepository_Out]
     warnings: list[str]
 
@@ -11952,106 +12001,6 @@ class Prv_github_GithubStarredRepository_Out(TypedDict):
     description: str | None
     stars: float
     url: str
-
-class Prv_github_GithubStarRepositoryResult_Out(TypedDict):
-    owner: str
-    repo: str
-    starred: Literal[True]
-
-class Prv_github_GithubUnstarRepositoryResult_Out(TypedDict):
-    owner: str
-    repo: str
-    starred: Literal[False]
-
-class Prv_github_GithubWatchRepositoryResult_Out(TypedDict):
-    owner: str
-    repo: str
-    watched: Literal[True]
-
-class Prv_github_GithubUnwatchRepositoryResult_Out(TypedDict):
-    owner: str
-    repo: str
-    watched: Literal[False]
-
-class Prv_github_createIssue_options_In(TypedDict):
-    assignees: NotRequired[Sequence[str]]
-    labels: NotRequired[Sequence[str]]
-    milestone: NotRequired[float]
-
-class Prv_github_GithubIssueCreated_Out(TypedDict):
-    number: float
-    title: str
-    body: str | None
-    state: Literal["open"] | Literal["closed"]
-    url: str
-
-class Prv_github_GithubUpdateIssueOptions_In(TypedDict):
-    title: NotRequired[str]
-    body: NotRequired[str]
-    state: NotRequired[Literal["open"] | Literal["closed"]]
-    assignees: NotRequired[Sequence[str]]
-    labels: NotRequired[Sequence[str]]
-    milestone: NotRequired[float | None]
-
-class Prv_github_GithubIssueUpdated_Out(TypedDict):
-    number: float
-    title: str
-    body: str | None
-    state: Literal["open"] | Literal["closed"]
-    url: str
-
-class Prv_github_GithubCommentCreated_Out(TypedDict):
-    id: float
-    body: str
-    url: str
-    createdAt: str
-
-class Prv_github_GithubCommentUpdated_Out(TypedDict):
-    id: float
-    body: str
-    url: str
-    updatedAt: str
-
-class Prv_github_GithubCommentDeleted_Out(TypedDict):
-    deleted: Literal[True]
-
-class Prv_github_GithubCreatePullRequestOptions_In(TypedDict):
-    draft: NotRequired[bool]
-
-class Prv_github_GithubPullRequestCreated_Out(TypedDict):
-    number: float
-    title: str
-    body: str | None
-    state: Literal["open"] | Literal["closed"]
-    draft: bool
-    url: str
-
-class Prv_github_GithubUpdatePullRequestOptions_In(TypedDict):
-    title: NotRequired[str]
-    body: NotRequired[str]
-    state: NotRequired[Literal["open"] | Literal["closed"]]
-    base: NotRequired[str]
-    maintainerCanModify: NotRequired[bool]
-
-class Prv_github_GithubPullRequestUpdated_Out(TypedDict):
-    number: float
-    title: str
-    body: str | None
-    state: Literal["open"] | Literal["closed"]
-    draft: bool
-    url: str
-    updatedAt: str
-
-class Prv_github_GithubMergePullRequestOptions_In(TypedDict):
-    commitTitle: NotRequired[str]
-    commitMessage: NotRequired[str]
-    mergeMethod: NotRequired[Literal["merge"] | Literal["squash"] | Literal["rebase"]]
-    sha: NotRequired[str]
-
-class Prv_github_GithubPullRequestMerged_Out(TypedDict):
-    merged: Literal[True]
-    sha: str
-    message: str
 
 class Prv_glama_GlamaSearchResult_Out(TypedDict):
     servers: list[Prv_glama_GlamaListedServer_Out]
@@ -18563,6 +18512,16 @@ class Prv_nytimes_NytimesWriterProfile_Out(TypedDict):
     twitter: NotRequired[str]
     lastModified: NotRequired[str]
 
+class Prv_nytimes_NytimesWriterArticle_Out(TypedDict):
+    id: str
+    type: Literal["article"] | Literal["video"]
+    url: NotRequired[str]
+    headline: NotRequired[str]
+    summary: NotRequired[str]
+    kicker: NotRequired[str]
+    publishedAt: NotRequired[str]
+    byline: NotRequired[str]
+
 class Prv_nytimes_NytimesTopic_Out(TypedDict):
     slug: str
     name: str
@@ -18610,6 +18569,13 @@ class Prv_nytimes_NytimesEpisode_Out(TypedDict):
     summary: NotRequired[str]
     publishedAt: NotRequired[str]
     byline: NotRequired[str]
+
+class Prv_nytimes_NytimesWordlePuzzle_Out(TypedDict):
+    id: float
+    solution: str
+    printDate: str
+    daysSinceLaunch: float
+    editor: NotRequired[str]
 
 Prv_oanda_OandaConversion_Out = TypedDict(
     "Prv_oanda_OandaConversion_Out",
@@ -22699,6 +22665,60 @@ class Prv_starlighthomes_StarlighthomesAvailableHome_Out(TypedDict):
     baths: float
     sqft: float
     availability: str
+
+class Prv_start_gg_SearchTournamentsArgs_In(TypedDict):
+    near: NotRequired[str | Prv_start_gg_SearchTournamentsArgs_In_near_u1_In]
+    radiusMi: NotRequired[float]
+    videogameIds: NotRequired[Sequence[float]]
+    videogame: NotRequired[str]
+    after: NotRequired[str]
+    before: NotRequired[str]
+    name: NotRequired[str]
+    limit: NotRequired[float]
+
+class Prv_start_gg_SearchTournamentsArgs_In_near_u1_In(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_start_gg_SearchTournamentsResult_Out(TypedDict):
+    near: str | None
+    point: Prv_start_gg_SearchTournamentsResult_Out_point_u0_Out | None
+    radiusMi: float | None
+    videogames: list[Prv_start_gg_StartGgVideogame_Out]
+    total: float
+    tournaments: list[Prv_start_gg_StartGgTournament_Out]
+
+class Prv_start_gg_SearchTournamentsResult_Out_point_u0_Out(TypedDict):
+    lat: float
+    lng: float
+
+class Prv_start_gg_StartGgVideogame_Out(TypedDict):
+    id: float
+    name: str
+    displayName: str
+    slug: str
+
+class Prv_start_gg_StartGgTournament_Out(TypedDict):
+    id: float
+    name: str
+    slug: str
+    url: str
+    startAt: str | None
+    endAt: str | None
+    venueName: str | None
+    venueAddress: str | None
+    city: str | None
+    state: str | None
+    countryCode: str | None
+    lat: float | None
+    lng: float | None
+    distanceMi: float | None
+    numAttendees: float | None
+    isOnline: bool | None
+
+class Prv_start_gg_FindVideogamesArgs_In(TypedDict):
+    query: str
+    limit: NotRequired[float]
 
 class Prv_statefarm_StatefarmAgentQuery_In(TypedDict):
     city: str
@@ -29183,47 +29203,47 @@ class Cap_prospect_screening(Protocol):
 
 class Cap_read(Protocol):
     """Read any web page as markdown, text or HTML — or extract the text from a PDF url — one
-    page or many at once, taking a browser only when the page actually needs one.
+    page or many at once, fast when the page allows it and thorough when it needs it.
     """
 
     async def page(self, url: str, options: Cap_read_ReadOptions_In | None = None, /) -> Cap_read_ReadResult_Out:
-        """Loads one page and returns its content. Tries a plain GET first and escalates to a real
-        browser only when the response proves it needs one (a bot wall, an interstitial, or
-        markup carrying no words) — `servedBy` says which leg paid for it. Reports a failure IN
-        the result rather than throwing. **A PDF url (a datasheet, a price list, a filing) comes
-        back as the document's extracted text** in `content`, with a warning naming the page
-        count; a scanned PDF with no text layer is `ok: false`. A site that refuses automated
-        access comes back `ok: false` with `wall` naming the bot-management vendor and a warning
-        saying so — that is the site's answer, and retrying the same read will not change it; an
-        HTTP 4xx/5xx page is `ok: false` too. TIME: `timeoutMs` is the budget for the WHOLE
-        read, both legs together (default 45,000, max 55,000) — deliberately under the ~60s at
-        which a chat client kills a tool call, so a slow page comes back as a real result naming
-        the browser leg instead of your client's bare "The operation timed out.". **`strategy:
-        "fetch"` is the fast-fail escape** for a page you do not want to wait on: it never opens
-        a browser, returns in ~200ms, and still sets `escalationReason` so you learn the page
-        needed one. Several urls? Pass them to `read.pages`, not a loop of `page()` calls — a
-        loop's reads add up, and three slow ones outlast the client, while `pages` holds the
-        whole batch to the same 55s. **Hitting a site's own JSON endpoint? Read `result.json`,
-        never `content`** — `const { json } = await bowmark.read.page(apiUrl)` hands back the
-        parsed body directly, unfenced, whenever the response is JSON (a `json` content-type, or
-        a body that parses whole). Do not hand-strip a ``` fence from `content` to `JSON.parse`
-        it yourself; `json` is absent on every non-JSON page and costs nothing otherwise. **A
-        price you need bound to a specific item is the one thing the default `"markdown"` format
-        cannot promise** — it flattens the DOM, so a price can end up textually next to a link
-        for a DIFFERENT size/color/variant; `warnings` names it when the page carries the
-        structured data to prove it, but the safe read is `{ format: "cleanHtml" }`, which keeps
-        the price inside its own item's markup. **`content` is the page's TEXT, and the browser
-        leg does not change that** — `servedBy: "browser"` means the page rendered, not that
-        every widget on it became words. A booking calendar whose open and blocked days are
-        drawn only by styling, a widget inside a cross-origin iframe or a canvas, and a rate or
-        quote the page shows only after dates are picked or a form is filled come back as bare
-        day numbers, empty characters or nothing at all — usually with `ok: true` and no
-        warning. So a missing price or availability here is not proof the page has none: putting
-        the dates in the url is worth one try, and past that use the site's own provider if
-        `get_library` has one, or `bowmark.browser_agent.start` to operate the widget. RUN-ONLY:
-        because the rung is decided per call, neither `session()` nor the bare top-level
-        `bowmark` client (which opens a session internally, even for one call) can serve this —
-        both are refused with code "rung_undeclared". Call it through `run()` instead.
+        """Loads one page and returns its content. Takes a fast read first and does a full page
+        load only when the response proves the page needs one (a bot wall, an interstitial, or
+        markup carrying no words). Reports a failure IN the result rather than throwing. **A PDF
+        url (a datasheet, a price list, a filing) comes back as the document's extracted text**
+        in `content`, with a warning naming the page count; a scanned PDF with no text layer is
+        `ok: false`. A site that refuses automated access comes back `ok: false` with `wall`
+        naming the bot-management vendor and a warning saying so — that is the site's answer,
+        and retrying the same read will not change it; an HTTP 4xx/5xx page is `ok: false` too.
+        TIME: `timeoutMs` is the budget for the WHOLE read, end to end (default 45,000, max
+        55,000) — deliberately under the ~60s at which a chat client kills a tool call, so a
+        slow page comes back as a real result saying what ran out instead of your client's bare
+        "The operation timed out.". **`strategy: "fetch"` is fast mode, the fast-fail escape**
+        for a page you do not want to wait on: it never waits on a slow page, returns in ~200ms,
+        and still sets `escalationReason` so you learn the page needed more than that. Several
+        urls? Pass them to `read.pages`, not a loop of `page()` calls — a loop's reads add up,
+        and three slow ones outlast the client, while `pages` holds the whole batch to the same
+        55s. **Hitting a site's own JSON endpoint? Read `result.json`, never `content`** —
+        `const { json } = await bowmark.read.page(apiUrl)` hands back the parsed body directly,
+        unfenced, whenever the response is JSON (a `json` content-type, or a body that parses
+        whole). Do not hand-strip a ``` fence from `content` to `JSON.parse` it yourself; `json`
+        is absent on every non-JSON page and costs nothing otherwise. **A price you need bound
+        to a specific item is the one thing the default `"markdown"` format cannot promise** —
+        it flattens the DOM, so a price can end up textually next to a link for a DIFFERENT
+        size/color/variant; `warnings` names it when the page carries the structured data to
+        prove it, but the safe read is `{ format: "cleanHtml" }`, which keeps the price inside
+        its own item's markup. **`content` is the page's TEXT, even on a fully loaded page** —
+        the page rendering does not mean every widget on it became words. A booking calendar
+        whose open and blocked days are drawn only by styling, a widget inside a cross-origin
+        iframe or a canvas, and a rate or quote the page shows only after dates are picked or a
+        form is filled come back as bare day numbers, empty characters or nothing at all —
+        usually with `ok: true` and no warning. So a missing price or availability here is not
+        proof the page has none: putting the dates in the url is worth one try, and past that
+        use the site's own provider if `get_library` has one, or `bowmark.browser_agent.start`
+        to operate the widget. RUN-ONLY: because how each page is loaded is decided per call,
+        neither `session()` nor the bare top-level `bowmark` client (which opens a session
+        internally, even for one call) can serve this — both are refused with code
+        "rung_undeclared". Call it through `run()` instead.
         """
 
     async def pages(self, urls: Sequence[str], options: Cap_read_ReadOptions_In | None = None, /) -> list[Cap_read_ReadResult_Out]:
@@ -29231,30 +29251,30 @@ class Cap_read(Protocol):
         to avoid triggering bot defenses on sites that block concurrent connections from one IP,
         while requests to DIFFERENT origins run in parallel. Results arrive in the order the
         urls were given. One dead url never costs you the others — it comes back with `ok:
-        false` and `error` set. Serializing costs TIME (`strategy: "browser"` is the exception
-        and runs them in parallel): a same-origin batch takes the SUM of its reads, so two slow
-        reads on one site already outlast a chat client that gives up at ~60s. The whole batch
-        is therefore bounded at 55s, the same ceiling as one read: a url whose turn arrives
-        after that comes back as its own `ok: false` row naming the batch budget, so you keep
-        every page that did finish instead of losing the run. Two browser reads in one script is
-        the shape that hits this — split them, or pass `strategy: "fetch"`. RUN-ONLY: same
-        reason as `page` — the rung is decided per call, so `session()` and the top-level
-        `bowmark` client are both refused with code "rung_undeclared". Call it through `run()`
-        instead.
+        false` and `error` set. Serializing costs TIME (`strategy: "browser"`, the
+        always-full-load option, is the exception and runs them in parallel): a same-origin
+        batch takes the SUM of its reads, so two slow reads on one site already outlast a chat
+        client that gives up at ~60s. The whole batch is therefore bounded at 55s, the same
+        ceiling as one read: a url whose turn arrives after that comes back as its own `ok:
+        false` row naming the batch budget, so you keep every page that did finish instead of
+        losing the run. Two slow, fully loaded reads in one script is the shape that hits this —
+        split them, or pass `strategy: "fetch"`. RUN-ONLY: same reason as `page` — how each page
+        is loaded is decided per call, so `session()` and the top-level `bowmark` client are
+        both refused with code "rung_undeclared". Call it through `run()` instead.
         """
 
     async def urls(self, url: str, options: Cap_read_UrlsOptions_In | None = None, /) -> Cap_read_UrlsResult_Out:
         """Lists the pages a site has, so you can pick which to `read.page` instead of guessing
-        paths. Two sources, both plain GETs with no browser: the site's own sitemaps (robots.txt
-        `Sitemap:` lines, else /sitemap.xml and /sitemap_index.xml, indexes followed) and the
-        links on the start page, followed breadth-first to `depth` hops (default 1 = the start
-        page's own links). Returns urls only, never page content. Each row says whether it came
-        from a sitemap, a link or both, how many hops from the start page, and the sitemap's
-        `lastmod`. Bounded three ways — `maxUrls` (500), `maxPages` (20 fetched for links) and
-        `timeoutMs` (45,000) — and every bound that cut the list short is named in `warnings`. A
-        start page that renders its navigation in JavaScript under-lists links, and `warnings`
-        says so; the sitemap half is unaffected. `pathPrefix: "/blog/"` scopes the list to one
-        section. RUN-ONLY, same as `page`.
+        paths. Two sources, both fast reads: the site's own sitemaps (robots.txt `Sitemap:`
+        lines, else /sitemap.xml and /sitemap_index.xml, indexes followed) and the links on the
+        start page, followed breadth-first to `depth` hops (default 1 = the start page's own
+        links). Returns urls only, never page content. Each row says whether it came from a
+        sitemap, a link or both, how many hops from the start page, and the sitemap's `lastmod`.
+        Bounded three ways — `maxUrls` (500), `maxPages` (20 fetched for links) and `timeoutMs`
+        (45,000) — and every bound that cut the list short is named in `warnings`. A start page
+        that renders its navigation in JavaScript under-lists links, and `warnings` says so; the
+        sitemap half is unaffected. `pathPrefix: "/blog/"` scopes the list to one section.
+        RUN-ONLY, same as `page`.
         """
 
 class Cap_restaurant_booking(Protocol):
@@ -29731,10 +29751,10 @@ class Cap_web_form_fields(Protocol):
 
     async def getFields(self, url: str, options: Cap_web_form_fields_FormOptions_In | None = None, /) -> Cap_web_form_fields_FormInspectionResult_Out:
         """Reads a page and returns its forms plus a total field count, each field with its label,
-        name, type, choices and required-ness. Takes a plain GET first and opens a browser only
-        when that finds no fields — then it clicks the control that reveals the form (a `Book
-        Online` button, say) and reads the widget's own cross-origin iframe. It clicks exactly
-        that one control: it never types, never picks an option and never submits, so a
+        name, type, choices and required-ness. Takes a fast read first and does a full page load
+        only when that finds no fields — then it clicks the control that reveals the form (a
+        `Book Online` button, say) and reads the widget's own cross-origin iframe. It clicks
+        exactly that one control: it never types, never picks an option and never submits, so a
         multi-step flow comes back as the visible step plus `multiStep: true`.
         """
 
@@ -29742,10 +29762,10 @@ class Cap_web_form_fields(Protocol):
         """Opens the page (and the booking/quote widget behind a button, exactly as `getFields`
         does), then writes `values` into whatever fields match — keyed by a field's `name` or a
         word or two of its label, matched fuzzily so the site's own wording doesn't have to be
-        exact. Always opens a browser: filling is an interaction, not a read. Pass `advance:
-        true` to click 'Next'/'Continue' once everything is written, or `submit: true` to click
-        the control that actually commits the form (submit wins if both are set). One call is
-        one step — call it again with the next step's `values` to walk a wizard forward.
+        exact. Always does the full page load: filling is an interaction, not a read. Pass
+        `advance: true` to click 'Next'/'Continue' once everything is written, or `submit: true`
+        to click the control that actually commits the form (submit wins if both are set). One
+        call is one step — call it again with the next step's `values` to walk a wizard forward.
         `notFound` names any `values` key nothing on the page matched, so a caller who guessed a
         label wrong sees that rather than silence. When a click registers, `resultContent`
         carries what the site answered back — a matched branch, a calculated price, a stock
@@ -33720,6 +33740,12 @@ class Prv_cnn(Protocol):
         removed.
         """
 
+    async def listMyNews(self, limit: float | None = None, opts: ConnectionOption | None = None, /) -> Prv_cnn_cnnMyNewsResult_Out:
+        """The signed-in viewer's personalized My News feed, built from their followed topics — up
+        to `limit` items (default 10), newest/most relevant first. Also returns the followed
+        topic ids the feed was built from. Empty if the viewer follows nothing.
+        """
+
 class Prv_coast(Protocol):
     """Coast's own published fleet fuel-card pricing (coastpay.com/pricing) — the real, current
     per-user monthly fee, the fees it explicitly does not charge, and its per-gallon
@@ -34898,6 +34924,18 @@ class Prv_evag(Protocol):
     async def searchStop(self, query: str, /) -> list[Prv_evag_StopSearchResult_Out]:
         """Search for a transit stop or city by name or partial name (e.g. 'Essen', 'Essen
         Hauptbahnhof'); returns matching stops with the id listDepartures takes.
+        """
+
+class Prv_eventim(Protocol):
+    """Eventim's own event-ticket search (concerts, theatre, comedy, sport) on eventim.de and
+    eventim.co.uk — events by artist or keyword, optionally in one city, with date, venue,
+    lowest price and availability.
+    """
+
+    async def search(self, args: Prv_eventim_EventimSearchArgs_In, /) -> Prv_eventim_EventimSearchResult_Out:
+        """Searches Eventim for event tickets by artist or keyword, optionally in one city, on
+        eventim.de (default) or eventim.co.uk. Each event carries date, venue, city, lowest
+        price, availability and its ticket page URL.
         """
 
 class Prv_eventsource(Protocol):
@@ -36189,153 +36227,24 @@ class Prv_github(Protocol):
         is stale.
         """
 
-    async def listNotifications(self, opts: ConnectionOption | None = None, /) -> Prv_github_GithubListNotificationsResult_Out:
-        """Lists the signed-in caller's GitHub notifications — issues, pull requests and
-        discussions mentioning or assigned to them. NEEDS THE CALLER SIGNED IN: an HTML request
-        to github.com/notifications logged out 302s to /login, and asked for JSON it answers 404
-        with GitHub's own `{"error":"Couldn't authenticate you"}`. Returns GitHub's own response
-        body raw (`raw`) — the signed-in shape is unmeasured, since no fleet-held GitHub session
-        exists to capture one from. THROWS when signed out or the saved session is stale.
+    async def listNotifications(self, options: Prv_github_GithubListNotificationsOptions_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubListNotificationsResult_Out:
+        """Lists the signed-in caller's GitHub notifications inbox, 25 per page, newest first —
+        each row's repository, issue/PR number, title, type (PullRequest, Issue, Discussion,
+        SecurityAlert, …), why they got it (author, mention, subscribed, review requested, …),
+        unread flag, last activity time and link. Off github.com/notifications' own
+        server-rendered page. NEEDS THE CALLER SIGNED IN: logged out, github.com redirects the
+        route to /login. `query` is github.com's own notification filter ("is:unread",
+        "reason:mention", "repo:owner/name"); pass a page's `nextCursor` back as `after` for the
+        next 25. An empty `notifications` with no error is a real empty result for that filter.
+        THROWS when signed out or the saved session is stale.
         """
 
     async def listStarredRepositories(self, options: Prv_github_listStarredRepositories_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubListStarredRepositoriesResult_Out:
         """Lists repositories the signed-in caller has starred — name, full name, description, star
-        count, and URL — paged. NEEDS THE CALLER SIGNED IN: the REST API `/user/starred`
-        endpoint answers 401 with no token. Returns a list of starred repositories with
-        pagination support. THROWS when signed out or the saved session is invalid.
-        """
-
-    async def starRepository(self, owner: str, repo: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubStarRepositoryResult_Out:
-        """Adds a repository to the signed-in caller's starred list, off GitHub's own documented
-        REST starring endpoint (`PUT /user/starred/{owner}/{repo}`). NEEDS THE CALLER SIGNED IN:
-        the endpoint answers 401 with no token, the same refusal `listStarredRepositories`
-        reads. Idempotent — starring an already-starred repo is a no-op on GitHub's side and
-        this returns the same result either way. THROWS on an unknown owner/repo (404) or when
-        signed out or the saved session is invalid.
-        """
-
-    async def unstarRepository(self, owner: str, repo: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubUnstarRepositoryResult_Out:
-        """Removes a repository from the signed-in caller's starred list, off GitHub's own
-        documented REST starring endpoint (`DELETE /user/starred/{owner}/{repo}`). NEEDS THE
-        CALLER SIGNED IN: the endpoint answers 401 with no token, the same refusal
-        `starRepository` reads. Idempotent — unstarring an already-unstarred repo is a no-op on
-        GitHub's side and this returns the same result either way. THROWS on an unknown
-        owner/repo (404) or when signed out or the saved session is invalid.
-        """
-
-    async def watchRepository(self, owner: str, repo: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubWatchRepositoryResult_Out:
-        """Adds a repository to the signed-in caller's watched list for notifications, off GitHub's
-        own documented REST subscription endpoint (`PUT /repos/{owner}/{repo}/subscription`).
-        NEEDS THE CALLER SIGNED IN: the endpoint answers 401 with no token. Idempotent —
-        watching an already-watched repo is a no-op on GitHub's side and this returns the same
-        result either way. THROWS on an unknown owner/repo (404) or when signed out or the saved
-        session is invalid.
-        """
-
-    async def unwatchRepository(self, owner: str, repo: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubUnwatchRepositoryResult_Out:
-        """Removes a repository from the signed-in caller's watched list, off GitHub's own
-        documented REST subscription endpoint (`DELETE /repos/{owner}/{repo}/subscription`).
-        NEEDS THE CALLER SIGNED IN: the endpoint answers 401 with no token, the same refusal
-        `watchRepository` reads. Idempotent — unwatching an already-unwatched repo is a no-op on
-        GitHub's side and this returns the same result either way. THROWS on an unknown
-        owner/repo (404) or when signed out or the saved session is invalid.
-        """
-
-    async def createIssue(self, owner: str, repo: str, title: str, body: str | None = None, options: Prv_github_createIssue_options_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubIssueCreated_Out:
-        """Creates a new issue on a repository, off GitHub's own documented REST issues endpoint
-        (`POST /repos/{owner}/{repo}/issues`). NEEDS THE CALLER SIGNED IN and requires write
-        access to the repository. `title` is the issue title; `body` is the optional markdown
-        description; `options.assignees` is an array of GitHub login names to assign;
-        `options.labels` is an array of label names to apply; `options.milestone` is a milestone
-        number. Returns the created issue's number, title, body, state, and URL. THROWS on an
-        unknown owner/repo (404), when signed out or the saved session is invalid (401), or on a
-        permission error (403).
-        """
-
-    async def updateIssue(self, owner: str, repo: str, issueNumber: float, options: Prv_github_GithubUpdateIssueOptions_In, opts: ConnectionOption | None = None, /) -> Prv_github_GithubIssueUpdated_Out:
-        """Updates an existing issue, off GitHub's own documented REST issues endpoint (`PATCH
-        /repos/{owner}/{repo}/issues/{issue_number}`). NEEDS THE CALLER SIGNED IN and requires
-        write access to the repository. `options` carries whichever of `title`, `body`, `state`
-        (`"open"`/`"closed"`), `assignees`, `labels` or `milestone` (a milestone number, or
-        `null` to clear it) should change — at least one is required. Returns the updated
-        issue's number, title, body, state, and URL. THROWS on an unknown owner/repo/issue
-        number (404), when signed out or the saved session is invalid (401), on a permission
-        error (403), or when `options` carries none of the six fields.
-        """
-
-    async def createComment(self, owner: str, repo: str, issueNumber: float, body: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentCreated_Out:
-        """Adds a comment to an issue or pull request, off GitHub's own documented REST endpoint
-        (`POST /repos/{owner}/{repo}/issues/{issue_number}/comments`) — GitHub treats a pull
-        request's conversation as an issue thread for this door, so the same call comments on
-        either. NEEDS THE CALLER SIGNED IN and requires write access to the repository. `body`
-        is the comment text (markdown). Returns the created comment's id, body, URL, and
-        creation timestamp. THROWS on an unknown owner/repo/issue number (404), when signed out
-        or the saved session is invalid (401), or on a permission error (403).
-        """
-
-    async def updateComment(self, owner: str, repo: str, commentId: float, body: str, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentUpdated_Out:
-        """Edits an existing comment on an issue or pull request, off GitHub's own documented REST
-        endpoint (`PATCH /repos/{owner}/{repo}/issues/comments/{comment_id}`) — the same door
-        edits a comment on an issue or a pull request's conversation, since GitHub treats both
-        as issue threads here. NEEDS THE CALLER SIGNED IN and requires write access to the
-        comment (its own or, with repo permissions, anyone's). `commentId` is the comment's own
-        id, e.g. from `createComment`'s result. `body` replaces the comment text (markdown)
-        entirely. Returns the updated comment's id, body, URL, and update timestamp. THROWS on
-        an unknown comment id (404), when signed out or the saved session is invalid or lacks
-        write access (401/403), or on an unexpected response shape.
-        """
-
-    async def deleteComment(self, owner: str, repo: str, commentId: float, opts: ConnectionOption | None = None, /) -> Prv_github_GithubCommentDeleted_Out:
-        """Deletes a comment from an issue or pull request, off GitHub's own documented REST
-        endpoint (`DELETE /repos/{owner}/{repo}/issues/comments/{comment_id}`) — the same door
-        deletes a comment on an issue or a pull request's conversation, since GitHub treats both
-        as issue threads here. NEEDS THE CALLER SIGNED IN and requires write access to the
-        comment (its own or, with repo permissions, anyone's). `commentId` is the comment's own
-        id, e.g. from `createComment`'s result. Returns a confirmation that the comment was
-        deleted. THROWS on an unknown comment id (404), when signed out or the saved session is
-        invalid or lacks write access (401/403), or on an unexpected response code.
-        """
-
-    async def createPullRequest(self, owner: str, repo: str, title: str, head: str, base: str, body: str | None = None, options: Prv_github_GithubCreatePullRequestOptions_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubPullRequestCreated_Out:
-        """Opens a new pull request, off GitHub's own documented REST endpoint (`POST
-        /repos/{owner}/{repo}/pulls`). NEEDS THE CALLER SIGNED IN and requires write access to
-        the repository (or an open fork for a cross-repo PR). `head` is the branch holding the
-        changes (`"user:branch"` for a fork, or just `"branch"` within the same repo); `base` is
-        the branch to merge into (e.g. `"main"`). `body` is the optional markdown description;
-        `options.draft` opens it as a draft PR. Returns the created pull request's number,
-        title, body, state, draft flag, and URL. THROWS on an unknown owner/repo or branch
-        (404), when signed out or the saved session is invalid (401), on a permission error or
-        an already-open identical PR (403/422), or on an unexpected response shape.
-        """
-
-    async def updatePullRequest(self, owner: str, repo: str, pullNumber: float, options: Prv_github_GithubUpdatePullRequestOptions_In, opts: ConnectionOption | None = None, /) -> Prv_github_GithubPullRequestUpdated_Out:
-        """Updates a pull request's title, body, state (open/closed), or base branch, off GitHub's
-        own documented REST endpoint (`PATCH /repos/{owner}/{repo}/pulls/{pull_number}`) — the
-        same door GitHub's PATCH issue update uses for an issue, but pull-request-scoped. NEEDS
-        THE CALLER SIGNED IN and requires write access to the repository. `options` must set at
-        least one of `title`, `body`, `state`, `base`, or `maintainerCanModify`. There is no
-        draft toggle on this door — GitHub's REST API has no field here to flip a pull request
-        between draft and ready; the returned `draft` flag reports whatever the site currently
-        holds, unaffected by this call. Returns the updated pull request's number, title, body,
-        state, draft flag, URL, and update timestamp. THROWS on an unknown owner/repo or pull
-        request number (404), when signed out or the saved session is invalid (401), on a
-        permission error (403), when `options` has no recognized field set, or on an unexpected
-        response shape.
-        """
-
-    async def mergePullRequest(self, owner: str, repo: str, pullNumber: float, options: Prv_github_GithubMergePullRequestOptions_In | None = None, opts: ConnectionOption | None = None, /) -> Prv_github_GithubPullRequestMerged_Out:
-        """Merges a pull request into its base branch, off GitHub's own documented REST endpoint
-        (`PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge`). NEEDS THE CALLER SIGNED IN and
-        requires write access to the repository (merge permission, not just a passing status).
-        `options.mergeMethod` picks `"merge"` (a merge commit, GitHub's default), `"squash"`, or
-        `"rebase"`; `options.commitTitle`/`commitMessage` override the generated commit message;
-        `options.sha` names the expected head SHA, and GitHub refuses the merge (409) rather
-        than merge a branch that moved since the caller last looked. Returns the merge commit's
-        sha, `merged: true`, and GitHub's own confirmation message. THROWS on an unknown
-        owner/repo or pull request number (404), when signed out or the saved session is invalid
-        (401), on a permission error (403), when the pull request is not mergeable — already
-        merged, closed, or blocked by branch protection (405) — when the head branch moved since
-        `options.sha` was taken (409), or on an unexpected response shape.
+        count, and URL — paged (per_page up to 100, page from 1). NEEDS THE CALLER SIGNED IN, to
+        know WHO the caller is; the list itself comes off GitHub's public REST stars door for
+        that account, so stars on PRIVATE repositories are not included. THROWS when signed out
+        or the saved session is invalid.
         """
 
 class Prv_glama(Protocol):
@@ -41100,6 +41009,13 @@ class Prv_nytimes(Protocol):
         "maggie-haberman" (from searchWriters) or a path like "/by/maggie-haberman".
         """
 
+    async def listWriterArticles(self, writer: str, /) -> list[Prv_nytimes_NytimesWriterArticle_Out]:
+        """Gets the most recent articles and videos off a writer's own byline page — the page's own
+        fixed first 10 hits, newest first, mixing articles and videos (type tells you which).
+        Takes a writer slug like "maggie-haberman" (from searchWriters) or a path like
+        "/by/maggie-haberman".
+        """
+
     async def listTopics(self, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesTopic_Out]:
         """Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently
         active first. name is formatted from the slug, not read off the site.
@@ -41138,6 +41054,11 @@ class Prv_nytimes(Protocol):
         """Lists a podcast's own episodes off its column page — up to 10, the most the page itself
         renders logged out. Takes a podcast slug like "the-daily" (from listPodcasts) or a path
         like "/podcasts/the-daily".
+        """
+
+    async def getWordle(self, date: str | None = None, /) -> Prv_nytimes_NytimesWordlePuzzle_Out:
+        """Gets a day's Wordle puzzle off the site's own JSON endpoint (solution, puzzle id,
+        editor). Takes an optional "YYYY-MM-DD" date, defaulting to today in America/New_York.
         """
 
 class Prv_oanda(Protocol):
@@ -42690,15 +42611,16 @@ class Prv_reddit(Protocol):
         """
 
     async def submitPost(self, input: Prv_reddit_submitPost_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditNewPost_Out:
-        """Posts to a community as the signed-in caller and returns the new post's id and
-        permalink. `kind` defaults from what is given: `url` → a link post, `image` (base64 +
-        mimeType, or a public image URL; PNG, JPEG, GIF or WebP) → an image post, `crosspostOf`
-        (a post id or URL) → a crosspost, otherwise a text post with `text` as its body.
-        `flairId` + `flairText` pick one of the community's post flairs; `nsfw`, `spoiler` mark
-        it; `sendReplies: false` turns off reply notifications. A community that refuses the
-        post (its rules, its karma bar, a private source for a crosspost) answers in reddit's
-        own words. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in link when
-        they are not.
+        """Posts to a community, or to the caller's own profile (`subreddit: "u/<their username>"`,
+        also `u_<name>` or a profile URL), as the signed-in caller and returns the new post's id
+        and permalink. `kind` defaults from what is given: `url` → a link post, `image` (base64
+        + mimeType, or a public image URL; PNG, JPEG, GIF or WebP) → an image post,
+        `crosspostOf` (a post id or URL) → a crosspost, otherwise a text post with `text` as its
+        body. `flairId` + `flairText` pick one of the community's post flairs; `nsfw`, `spoiler`
+        mark it; `sendReplies: false` turns off reply notifications. A community that refuses
+        the post (its rules, its karma bar, a private source for a crosspost) answers in
+        reddit's own words. NEEDS THE CALLER SIGNED IN TO REDDIT; the run pauses with a sign-in
+        link when they are not.
         """
 
     async def postComment(self, input: Prv_reddit_postComment_input_In, opts: ConnectionOption | None = None, /) -> Prv_reddit_RedditComment_Out:
@@ -43693,6 +43615,21 @@ class Prv_starlighthomes(Protocol):
         beds/baths/sqft/availability — never a floor-plan brochure. `path` comes from
         `getMetro()`, e.g. "dallas/liberty-ranch". THROWS on an unknown path, naming
         `getMetro()` as the way to find current ones.
+        """
+
+class Prv_start_gg(Protocol):
+    """start.gg esports tournaments: search upcoming tournaments near a place for a game
+    (fighting games, Smash, …), with venue, date, distance and entrant count.
+    """
+
+    async def searchTournaments(self, args: Prv_start_gg_SearchTournamentsArgs_In, /) -> Prv_start_gg_SearchTournamentsResult_Out:
+        """Search start.gg tournaments by game + location: upcoming tournaments near a place within
+        a radius, soonest first, with venue address, distance and attendee count.
+        """
+
+    async def findVideogames(self, args: Prv_start_gg_FindVideogamesArgs_In, /) -> list[Prv_start_gg_StartGgVideogame_Out]:
+        """Find a game's start.gg id by name (e.g. "Street Fighter 6" → 43868), for
+        searchTournaments' videogameIds.
         """
 
 class Prv_statefarm(Protocol):
@@ -47164,6 +47101,7 @@ class BowmarkProviders(Protocol):
     estes_express: Prv_estes_express
     etsy: Prv_etsy
     evag: Prv_evag
+    eventim: Prv_eventim
     eventsource: Prv_eventsource
     evolutionofsmooth: Prv_evolutionofsmooth
     evolvemedspa: Prv_evolvemedspa
@@ -47411,6 +47349,7 @@ class BowmarkProviders(Protocol):
     speedrun: Prv_speedrun
     spirithalloween: Prv_spirithalloween
     starlighthomes: Prv_starlighthomes
+    start_gg: Prv_start_gg
     statefarm: Prv_statefarm
     steam: Prv_steam
     stickergiant: Prv_stickergiant

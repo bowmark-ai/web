@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2640 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2694 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -66,7 +66,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.getProfile` | alibaba.com | Get the current user's account profile with name, email, company and address. | ⚪ |
 | `alibaba.getRfq` | alibaba.com | Get details of a specific RFQ including supplier quotes received. | ⚪ |
 | `alibaba.getSearchHistory` | alibaba.com | Retrieve the user's search history. | ⚪ |
-| `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | 🟢 |
+| `alibaba.getSuggestions` | alibaba.com | Get search suggestions and autocomplete hints based on partial keyword. | 🟡 |
 | `alibaba.getSupplier` | alibaba.com | Get supplier profile page with company info, ratings, verification status and contact… | 🟢 |
 | `alibaba.listCategories` | alibaba.com | List the marketplace's top-level product categories. | 🟡 |
 | `alibaba.listInvoices` | alibaba.com | Get list of invoices for past orders. | ⚪ |
@@ -75,7 +75,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `alibaba.listRfqProfessions` | alibaba.com | Get list of available industry/profession categories for RFQ. | ⚪ |
 | `alibaba.listRfqs` | alibaba.com | Get list of RFQs (Requests for Quote) created by the user. | ⚪ |
 | `alibaba.listSavedItems` | alibaba.com | Get list of saved/favorited products. | ⚪ |
-| `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | 🟢 |
+| `alibaba.listSuppliers` | alibaba.com | Search for suppliers by company name or product type. | 🟡 |
 | `alibaba.placeOrder` | alibaba.com | Complete a purchase and create an order. | ⚪ |
 | `alibaba.removeFromCart` | alibaba.com | Remove a product from the shopping cart. | ⚪ |
 | `alibaba.saveProduct` | alibaba.com | Add a product to saved items/favorites. | ⚪ |
@@ -123,6 +123,25 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `anthropic_com.getDoc` | anthropic.com | Reads one page of anthropic.com's engineering blog (/engineering/...) or legal terms… | 🟢 |
 | `anthropic_com.listDocs` | anthropic.com | Lists every engineering-blog and legal-terms page anthropic.com publishes — url… | 🟢 |
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
+| `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | ⚪ |
+| `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | ⚪ |
+| `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter display name, text, time… | ⚪ |
+| `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | ⚪ |
+| `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | ⚪ |
+| `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | ⚪ |
+| `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | ⚪ |
+| `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | ⚪ |
+| `aol.getWeather` | aol.com | Reads the current conditions and the hourly and multi-day forecast for one place —… | ⚪ |
+| `aol.listFavorites` | aol.com | Reads the signed-in caller's AOL Favorites — their saved links and the folders holding… | ⚪ |
+| `aol.listGames` | aol.com | Lists AOL Games' free web games by category (board, card, casino, puzzle, other) with… | ⚪ |
+| `aol.listNewsletters` | aol.com | Lists the email newsletters aol.com offers — id, title and what each one sends. | ⚪ |
+| `aol.listSectionArticles` | aol.com | Lists the articles in one AOL section or sub-section, newest first, page by page —… | ⚪ |
+| `aol.listSections` | aol.com | Lists AOL's sections and sub-sections (News > Politics, Business, Sports > NFL… | ⚪ |
+| `aol.postComment` | aol.com | Posts a comment, or a reply to one, under an AOL article as the signed-in caller. | ⚪ |
+| `aol.removeFavorite` | aol.com | Deletes a saved link or folder from the signed-in caller's AOL Favorites. | ⚪ |
+| `aol.searchRecipes` | aol.com | Searches AOL Food's recipe collection by keyword — recipe id, title, slug and image… | ⚪ |
+| `aol.searchWeatherLocations` | aol.com | Finds weather locations by place name — city, state, country and the location id… | ⚪ |
+| `aol.subscribeNewsletter` | aol.com | Subscribes an email address to one aol.com newsletter, as the site's own sign-up box… | ⚪ |
 | `aosom.getProduct` | aosom.com | Reads one product's live price and the site's own buyability flag straight off its… | 🟢 |
 | `aosom.searchProducts` | aosom.com | Searches Aosom's live catalog (Outsunny/HOMCOM/PawHut/Soozier) for a free-text query… | 🟢 |
 | `app_store.getApp` | apps.apple.com | Read one app the way its store listing reads: name, developer, price, average rating… | 🟢 |
@@ -375,7 +394,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.repost` | bsky.app | Repost a post as the caller, or undo the repost. | ⚪ |
 | `bluesky.resolveHandle` | bsky.app | Turn a Bluesky handle (alice.bsky.social, or a custom domain handle) into its… | 🟢 |
 | `bluesky.saveFeed` | bsky.app | Save or pin a custom feed to the caller's feed list, or remove it. | ⚪ |
-| `bluesky.searchFeeds` | bsky.app | Find custom feeds by words (e.g. 'science', 'art'), the way Explore's feed search… | 🟢 |
+| `bluesky.searchFeeds` | bsky.app | Find custom feeds by words (e.g. 'science', 'art'), the way Explore's feed search… | 🟡 |
 | `bluesky.searchPosts` | bsky.app | Search all public posts by words, with the Search tab's Top/Latest sort and its… | 🟢 |
 | `bluesky.searchStarterPacks` | bsky.app | Find starter packs by words. | ⚪ |
 | `bluesky.searchUsers` | bsky.app | Search people by name, handle or bio words, the way the Search tab's People list does… | 🟢 |
@@ -852,6 +871,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `evag.listDepartures` | evag.de | Real-time transit departure information and schedules for Essen public transportation… | 🟢 |
 | `evag.listDisruptions` | evag.de | Network-wide Essen transit disruptions from Ruhrbahn/EVAG Verkehrsinfos — short-notice… | 🟢 |
 | `evag.searchStop` | evag.de | Search for Essen transit stops and stations by name or partial name; returns matching… | 🟢 |
+| `eventim.getEvent` | eventim.com | Would read one event's ticket page in full — every price category, seat map… | ⚪ |
+| `eventim.search` | eventim.com | Searches Eventim's event-ticket listings by artist or keyword, optionally narrowed to… | 🟢 |
 | `eventsource.getShowroom` | eventsource.com | Reads a public Virtual Design Center showroom by its access code — the pre-built room… | 🟢 |
 | `eventsource.getShowroomInquiryContact` | eventsource.com | Reads who a showroom's 'Send Inquiry' button actually emails — the sales inbox and the… | 🟢 |
 | `eventsource.getShowroomVenue` | eventsource.com | Reads the real venue/room a showroom's design is staged in — business name… | 🟢 |
@@ -1021,7 +1042,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `fred.listReleases` | fred.stlouisfed.org | Lists FRED's economic data releases — the named publications data comes from (e.g.… | 🟢 |
 | `fred.listSources` | fred.stlouisfed.org | Lists the agencies and organizations that originate FRED's data — the Bureau of Labor… | 🟢 |
 | `fred.searchSeries` | fred.stlouisfed.org | Finds the economic data series that match a search text — GDP, CPI, unemployment rate… | 🟢 |
-| `freightliner.getConfiguratorPrice` | freightliner.com | Drives the Cascadia configurator through a truck configuration and captures the final… | 🟢 |
+| `freightliner.getConfiguratorPrice` | freightliner.com | Drives the Cascadia configurator through a truck configuration and captures the final… | ⚪ |
 | `furniture.listCategories` | furniture.com | Lists furniture.com's real category taxonomy (Sofas & Couches, Mattresses, Platform… | 🟢 |
 | `furniture.listFilterOptions` | furniture.com | Lists furniture.com's live filter facets and their real, currently offered values —… | 🟢 |
 | `furniture.searchProducts` | furniture.com | Runs furniture.com's own product search for `query` (free text — matches room, type… | 🟢 |
@@ -1067,12 +1088,12 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `geico.listPartnerCompanies` | geico.com | Returns which insurance companies GEICO Insurance Agency actually places each line of… | 🟢 |
 | `geico.recommendAutoCoverage` | geico.com | Returns GEICO's own recommended auto coverage limits and deductibles for a driver's… | ⚪ |
 | `geico.recommendPropertyCoverage` | geico.com | Returns GEICO's own recommended home or renters coverage limits for a property — its… | ⚪ |
-| `github.createComment` | github.com | Adds a comment to an issue or pull request. | 🟢 |
-| `github.createIssue` | github.com | Creates a new issue on a repository. | 🟢 |
-| `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | 🟢 |
-| `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | 🟢 |
+| `github.createComment` | github.com | Adds a comment to an issue or pull request. | ⚪ |
+| `github.createIssue` | github.com | Creates a new issue on a repository. | ⚪ |
+| `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | ⚪ |
+| `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
 | `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
-| `github.deleteComment` | github.com | Deletes a comment on an issue or pull request. | 🟢 |
+| `github.deleteComment` | github.com | Deletes a comment on an issue or pull request. | ⚪ |
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
 | `github.getOrganization` | github.com | Returns an organization's public metadata — name, description, location, website… | 🟢 |
 | `github.getProfileReadme` | github.com | Reads a person's GitHub profile — name, company, website, bio, X handle — and the… | 🟢 |
@@ -1084,23 +1105,23 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listCommits` | github.com | Returns a repository's commit log — sha, author name and email, commit date, message… | 🟢 |
 | `github.listIssues` | github.com | Lists issues on a repository, optionally filtered by state (open/closed), assignee… | 🟡 |
 | `github.listMarketplaceActions` | github.com | Lists GitHub Actions available on the marketplace, optionally filtered by category or… | 🟢 |
-| `github.listNotifications` | github.com | Lists the signed-in caller's GitHub notifications — issues, pull requests and… | 🟢 |
+| `github.listNotifications` | github.com | Lists the signed-in caller's GitHub notifications inbox, 25 per page — repository… | 🟢 |
 | `github.listOrganizationRepositories` | github.com | Lists all repositories owned by an organization, with optional sorting and filtering. | ⚪ |
 | `github.listPullRequests` | github.com | Lists pull requests on a repository, optionally filtered by state (open/closed/all)… | 🟢 |
 | `github.listReleases` | github.com | Returns a public repository's release history — tag, name, draft/prerelease flags… | 🟢 |
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in caller has starred — name, full name, description… | 🟢 |
 | `github.listTopics` | github.com | Lists topics from GitHub's public topics page — topic name and its github.com/topics… | 🟢 |
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
-| `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | 🟢 |
+| `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
-| `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | 🟢 |
-| `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list, off GitHub's own… | 🟢 |
-| `github.unwatchRepository` | github.com | Removes a repository from the signed-in user's watched list. | 🟢 |
-| `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | 🟢 |
-| `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | 🟢 |
-| `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), or base branch. | 🟢 |
-| `github.watchRepository` | github.com | Adds a repository to the signed-in user's watched/subscribed list for notifications. | 🟢 |
+| `github.starRepository` | github.com | Adds a repository to the signed-in caller's starred list. | ⚪ |
+| `github.unstarRepository` | github.com | Removes a repository from the signed-in caller's starred list. | ⚪ |
+| `github.unwatchRepository` | github.com | Removes a repository from the signed-in caller's watched list. | ⚪ |
+| `github.updateComment` | github.com | Edits an existing comment on an issue or pull request. | ⚪ |
+| `github.updateIssue` | github.com | Updates an issue's title, body, state (open/closed), assignees, labels, or milestone. | ⚪ |
+| `github.updatePullRequest` | github.com | Updates a pull request's title, body, state (open/closed), or base branch. | ⚪ |
+| `github.watchRepository` | github.com | Adds a repository to the signed-in caller's watched list for notifications. | ⚪ |
 | `glama.search` | glama.ai | Searches Glama's MCP server directory (81,811+ servers as of 2026-09-04) and returns… | 🟢 |
 | `glassesusa.getProduct` | glassesusa.com | Reads one product's own page — real live price (plus the crossed-out 'was' price when… | 🟢 |
 | `glassesusa.search` | glassesusa.com | Runs GlassesUSA's own catalog search and returns matching frames with their live… | 🟡 |
@@ -1113,6 +1134,22 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goloadup.checkServiceAvailability` | goloadup.com | Checks whether and how LoadUp serves one ZIP code — in service, same-day allowed… | 🟢 |
 | `goloadup.getPricingCatalog` | goloadup.com | Returns LoadUp's full current catalog of pickupable items (couches, mattresses… | 🟢 |
 | `goloadup.getQuote` | goloadup.com | Prices an exact set of items at a real ZIP code against LoadUp's live pricing engine… | 🟢 |
+| `goodreads.addToShelf` | goodreads.com | Adds a book to one of the signed-in caller's shelves (want-to-read, currently-reading… | ⚪ |
+| `goodreads.followUser` | goodreads.com | Follows another member as the signed-in caller. | ⚪ |
+| `goodreads.getAuthor` | goodreads.com | Reads one author's bio, stats and bibliography off their page, taking a name or a… | ⚪ |
+| `goodreads.getBook` | goodreads.com | Reads one book's full record off its page — title, author(s), format, page count… | ⚪ |
+| `goodreads.getBookReviews` | goodreads.com | Reads a page of member reviews for one book — reviewer, star rating, the review text… | ⚪ |
+| `goodreads.getList` | goodreads.com | Reads one curated Listopia list — its books in rank order, with each book's title… | ⚪ |
+| `goodreads.getMemberProfile` | goodreads.com | Reads a member's PUBLIC profile summary — display name, shelf counts (read /… | ⚪ |
+| `goodreads.getMemberShelf` | goodreads.com | Lists the books on one of a member's shelves (read, currently-reading, want-to-read… | ⚪ |
+| `goodreads.getNewsFeed` | goodreads.com | Reads the signed-in caller's home feed — friends' activity (ratings, reviews, shelf… | ⚪ |
+| `goodreads.getOwnProfile` | goodreads.com | Reads the signed-in caller's own profile — their shelves with counts, friend list, and… | ⚪ |
+| `goodreads.listGenreBooks` | goodreads.com | Browses one genre shelf — the books Goodreads itself files under that genre tag… | ⚪ |
+| `goodreads.rateBook` | goodreads.com | Sets the signed-in caller's own star rating (1-5) on a book. | ⚪ |
+| `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | ⚪ |
+| `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | ⚪ |
+| `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | ⚪ |
+| `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | ⚪ |
 | `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟢 |
 | `goodway.searchProducts` | goodway.com | Reads Goodway's pressure-washer catalog grid and returns every listed model with its… | 🟢 |
 | `google_flights.getBookingOptions` | flights.google.com | Selects one result from the same search and reads its booking panel — who actually… | 🟢 |
@@ -1721,7 +1758,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getSpellingBee` | nytimes.com | Gets today's Spelling Bee puzzle. | ⚪ |
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
-| `nytimes.getWordle` | nytimes.com | Gets today's Wordle puzzle. | ⚪ |
+| `nytimes.getWordle` | nytimes.com | Gets a day's Wordle puzzle — the solution, puzzle id and editor. | 🟢 |
 | `nytimes.getWriter` | nytimes.com | Gets a writer's own profile off their /by/<slug> page — the site's real name and short… | 🟢 |
 | `nytimes.listArticles` | nytimes.com | Lists a section's own article grid, newest first, with metadata. | 🟢 |
 | `nytimes.listEpisodes` | nytimes.com | Lists a podcast's own episodes off its column page. | 🟢 |
@@ -1732,7 +1769,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.listSections` | nytimes.com | Lists all news sections (World, US, Business, etc.). | 🟢 |
 | `nytimes.listTopics` | nytimes.com | Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently… | 🟢 |
 | `nytimes.listTrending` | nytimes.com | Lists the site's own trending articles from /trending/ — up to 20, the most the page… | 🟢 |
-| `nytimes.listWriterArticles` | nytimes.com | Gets all articles by a specific writer. | ⚪ |
+| `nytimes.listWriterArticles` | nytimes.com | Gets the most recent articles and videos off a writer's own byline page — the page's… | 🟢 |
 | `nytimes.saveArticle` | nytimes.com | Saves an article to the reader's collection (requires auth). | ⚪ |
 | `nytimes.searchArticles` | nytimes.com | Searches articles by keyword with pagination. | 🟢 |
 | `nytimes.searchWriters` | nytimes.com | Searches NYT's own writers by name off its collections sitemap (the site publishes no… | 🟢 |
@@ -1925,6 +1962,20 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `puls_com.listApplianceCategories` | puls.com | Lists the appliance repair categories Puls' booking funnel offers — Refrigerator… | 🟢 |
 | `quince.getProduct` | quince.com | Reads one Quince product's variant-level sizes and colors, price, traditional-retail… | 🟢 |
 | `quince.searchProducts` | quince.com | Searches Quince's live apparel catalog (quince.com clothing store) for what a shopper… | 🟢 |
+| `quora.askQuestion` | quora.com | Posts a new question as the signed-in caller. | ⚪ |
+| `quora.followEntity` | quora.com | Follows a person, a topic, or a Space as the signed-in caller, taking that entity's… | ⚪ |
+| `quora.getAnswers` | quora.com | Pages through a question's answers beyond the first 7 that getQuestion returns, using… | ⚪ |
+| `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | ⚪ |
+| `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary. | ⚪ |
+| `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | ⚪ |
+| `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | ⚪ |
+| `quora.getSpace` | quora.com | Reads one Space — its description, member count, and its most recent questions —… | ⚪ |
+| `quora.getTopic` | quora.com | Reads a topic's own page — its name and description — taking a topic URL or name. | ⚪ |
+| `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | ⚪ |
+| `quora.postComment` | quora.com | Posts a comment on an answer as the signed-in caller. | ⚪ |
+| `quora.searchQuestions` | quora.com | Runs Quora's own search and returns matching questions with their urls — the finder a… | ⚪ |
+| `quora.upvoteAnswer` | quora.com | Upvotes an answer as the signed-in caller. | ⚪ |
+| `quora.writeAnswer` | quora.com | Posts a text answer to a question as the signed-in caller. | ⚪ |
 | `reddit.askRedditAnswers` | reddit.com | Asks Reddit Answers — Reddit's own AI answer engine — a question and returns its… | ⚪ |
 | `reddit.blockUser` | reddit.com | Blocks a redditor for the signed-in caller, hiding their posts, comments and messages. | 🟡 |
 | `reddit.browseSubreddits` | reddit.com | Lists communities without a query — Reddit's own most-popular and newest communities… | 🟢 |
@@ -2037,8 +2088,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `samsclub.getProduct` | samsclub.com | Reads one product's full page — member price (and non-member price where the site… | 🟢 |
 | `samsclub.search` | samsclub.com | Searches samsclub.com's catalog for a keyword and returns matching products — name… | 🟢 |
 | `samsclub.trackOrder` | samsclub.com | Looks up shipment/delivery status for an order by order number plus the email or zip… | ⚪ |
-| `samsung.checkWarrantyStatus` | samsung.com | A signed-in shopper's registered device's warranty status — active or expired, with… | 🟢 |
-| `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models in the same family —… | 🟢 |
+| `samsung.checkWarrantyStatus` | samsung.com | A signed-in shopper's registered device's warranty status — active or expired, with… | 🟡 |
+| `samsung.compareProducts` | samsung.com | Samsung's own side-by-side spec comparison for two or more models in the same family —… | 🟡 |
 | `samsung.findStore` | samsung.com | Samsung's own retail network — its 'Samsung Experience Store' flagship locations, not… | 🟢 |
 | `samsung.getOrderStatus` | samsung.com | Where one specific order stands — shipped, delivered, the carrier tracking link — the… | 🟡 |
 | `samsung.getProduct` | samsung.com | Read one exact model's page the way a shopper reads it: name, price, star rating and… | 🟢 |
@@ -2159,6 +2210,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `steam.viewMarketHistory` | steampowered.com | Shows the caller's Steam Community Market transaction history including listings… | ⚪ |
 | `stickergiant.listStickerProducts` | stickergiant.com | Lists every sticker SKU the /custom-stickers page publishes — name, slug-style @id… | 🟢 |
 | `stickergiant.priceCustomSticker` | stickergiant.com | Prices one exact custom-sticker build against Sticker Giant's own live pricing backend… | 🟢 |
+| `suitsupply.getProduct` | suitsupply.com | Reads one product page's stock check: every size variant with in-stock flag, max… | 🟢 |
+| `suitsupply.listCategory` | suitsupply.com | Lists one men's category grid (suits, jackets, coats, knitwear, shirts, trousers… | 🟢 |
+| `suitsupply.search` | suitsupply.com | Keyword search of Suitsupply's US men's clothing store — suits, sweaters/knitwear… | 🟢 |
 | `summerfridaysquiz.getSkincareQuizQuestions` | summerfridays.com | Lists the live Skincare Quiz's questions (skin type, sensitivity, skin concerns, eye… | 🟢 |
 | `summerfridaysquiz.getSkincareRoutine` | summerfridays.com | Runs Summer Fridays' own published Skincare Quiz decision tree (the routine-category… | 🟢 |
 | `sunhomesaunas.addSaunaToCart` | sunhomesaunas.com | Adds one real matched product to a real Shopify cart at Sun Home Saunas' own real live… | 🟢 |
@@ -2436,7 +2490,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `walmart.getList` | walmart.com | Reads one saved list's items and prices for a list id `listLists` returned. | ⚪ |
 | `walmart.getOrder` | walmart.com | Reads one of the signed-in shopper's orders in full — items, delivery or pickup… | ⚪ |
 | `walmart.getPickupDeliverySlots` | walmart.com | Reads the available pickup or delivery time windows for a store/zip — the scheduling… | ⚪ |
-| `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | 🟢 |
+| `walmart.getProduct` | walmart.com | Reads one product's full page — price, availability summary, images, brand, full… | 🟡 |
 | `walmart.getRegistry` | walmart.com | Reads one public registry — the items on it, how many are wanted and how many were… | ⚪ |
 | `walmart.getSeller` | walmart.com | Reads a Marketplace seller's page — name, rating, review count, return policy — for a… | ⚪ |
 | `walmart.getStore` | walmart.com | Reads one store's page — address, phone, opening hours, and which departments and… | ⚪ |
@@ -2482,7 +2536,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.getObservations` | weather.com | Current observations from weather stations — actual measured conditions from the field. | ⚪ |
 | `weather_channel.getPollenForecast` | weather.com | 7-day pollen forecast by type (trees, grass, ragweed) — pollen levels and trends for… | 🟢 |
 | `weather_channel.getPollenHealth` | weather.com | Cognitive/health indices related to pollen and air quality — allergy forecasts, cold &… | ⚪ |
-| `weather_channel.getRadarTiles` | weather.com | Radar imagery tiles for map overlays — precipitation radar mosaic for a region. | 🟢 |
+| `weather_channel.getRadarTiles` | weather.com | Radar imagery tiles for map overlays — precipitation radar mosaic for a region. | 🟡 |
 | `weather_channel.getTropicalCone` | weather.com | Forecast track cone for tropical systems — predicted path uncertainty band. | ⚪ |
 | `weather_channel.getWeeklyAd` | weather.com | Weekly promotional content and special notices — featured forecasts or seasonal alerts. | ⚪ |
 | `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | 🟢 |
@@ -2526,7 +2580,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `wikipedia.listLinks` | wikipedia.org | Every other Wikipedia article this one links to, by title and url. | 🟢 |
 | `wikipedia.listMostViewed` | wikipedia.org | What Wikipedia's readers looked at most — the day's or the edition's top articles with… | 🟢 |
 | `wikipedia.listNotifications` | wikipedia.org | The caller's Wikipedia notifications — replies to them, thanks they were sent… | ⚪ |
-| `wikipedia.listRecentChanges` | wikipedia.org | What is being edited on Wikipedia right now — a live feed of recent edits with page… | 🟢 |
+| `wikipedia.listRecentChanges` | wikipedia.org | What is being edited on Wikipedia right now — a live feed of recent edits with page… | 🟡 |
 | `wikipedia.listRelated` | wikipedia.org | Articles about things like this one — Wikipedia's own "more like this", for a caller… | 🟢 |
 | `wikipedia.listRevisions` | wikipedia.org | An article's edit history — each revision with its id, timestamp, editor, edit… | 🟢 |
 | `wikipedia.listUserContributions` | wikipedia.org | Every edit one named editor has made, newest first — page, timestamp, edit summary and… | 🟢 |
