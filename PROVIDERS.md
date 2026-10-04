@@ -276,7 +276,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bbc.getPodcast` | bbc.com | One BBC podcast or series: title, description, and its episodes newest first — title… | ⚪ |
 | `bbc.getPodcastEpisode` | bbc.com | One podcast episode: title, synopsis, duration, broadcast date, and the playable media… | ⚪ |
 | `bbc.getStandings` | bbc.com | A competition's league table: position, team, played, won, drawn, lost, goals/points… | 🟢 |
-| `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | ⚪ |
+| `bbc.getTeam` | bbc.com | One team's BBC Sport page: name, competition, its recent results and upcoming… | 🟢 |
 | `bbc.getVideo` | bbc.com | One BBC video page as data: title, summary, duration, published time, section, poster… | ⚪ |
 | `bbc.getWeatherWarnings` | bbc.com | The weather warnings BBC Weather shows for a location or region: level, type (rain… | ⚪ |
 | `bbc.listCompetitions` | bbc.com | The competitions BBC Sport covers for one sport (for football: Premier League… | 🟢 |
