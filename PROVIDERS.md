@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2631 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2632 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -638,7 +638,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.listVideos` | www.cnn.com | The videos CNN currently lists on its video hub — clips and segments with headline… | 🟢 |
 | `cnn.searchArticles` | www.cnn.com | Search CNN — takes what a person would say ("breaking news", "inflation", "2024… | 🟢 |
 | `cnn.subscribeToNewsletter` | www.cnn.com | Subscribe the signed-in viewer's account to a CNN newsletter by id. | ⚪ |
-| `cnn.unfollowTopic` | www.cnn.com | Remove a topic from the signed-in viewer's followed topics. | ⚪ |
+| `cnn.unfollowTopic` | www.cnn.com | Remove a topic from the signed-in viewer's followed topics. | 🟢 |
 | `coast.getFleetCardPricing` | coastpay.com | Reads Coast's own pricing page and returns its real, current per-active-user monthly… | 🟢 |
 | `coast.getFuelRebate` | coastpay.com | Reads Coast's own pricing page and returns its published per-gallon rebate range at… | 🟢 |
 | `code_claude_com.getDoc` | code.claude.com | Reads one page of code.claude.com's own documentation by URL or path and returns its… | 🟢 |
@@ -2250,7 +2250,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tiktok.listComments` | tiktok.com | What people said under a video — author, text, like count, reply count, whether pinned… | 🟢 |
 | `tiktok.listConversations` | tiktok.com | The signed-in caller's own DM inbox — threads, last message, unread state. | ⚪ |
 | `tiktok.listFollowingFeed` | tiktok.com | The signed-in viewer's Following feed — videos only from accounts they follow, in… | ⚪ |
-| `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | ⚪ |
+| `tiktok.listForYouFeed` | tiktok.com | The signed-in viewer's own For You feed, the same personalised ranking `/foryou` shows… | 🟢 |
 | `tiktok.listHashtagVideos` | tiktok.com | The videos under one hashtag, newest or top, paged — the companion read to getHashtag. | 🟡 |
 | `tiktok.listNotifications` | tiktok.com | The signed-in caller's own activity feed — new followers, likes, comments and mentions. | ⚪ |
 | `tiktok.listSoundVideos` | tiktok.com | The videos made with one sound, newest or top, paged — the companion read to getSound… | 🟢 |
@@ -2566,6 +2566,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `yahoo_mail.sendMessage` | mail.yahoo.com | Sends an email from the CALLER's own Yahoo Mail account. | ⚪ |
 | `yahoo_sports.findPlayers` | sports.yahoo.com | Finds players on one team's roster by name — the door for `getPlayer`, so a caller… | 🟢 |
 | `yahoo_sports.getFantasyLeague` | sports.yahoo.com | Reads the CALLER's own fantasy football league — standings and the current week's… | 🟢 |
+| `yahoo_sports.getFantasyTeam` | sports.yahoo.com | Reads the CALLER's own fantasy team — which player (or empty slot) fills each roster… | 🟢 |
 | `yahoo_sports.getGame` | sports.yahoo.com | Reads one game in full off its own game page — final or live score, status, venue… | 🟢 |
 | `yahoo_sports.getInjuries` | sports.yahoo.com | Reads a league's full injury report the way its own Injuries page does — every team's… | 🟢 |
 | `yahoo_sports.getNews` | sports.yahoo.com | Reads a league's News tab — all story headlines, links, sources and publication times… | 🟢 |
