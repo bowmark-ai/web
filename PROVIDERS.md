@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2709 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2720 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -881,6 +881,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `evag.listDepartures` | evag.de | Real-time transit departure information and schedules for Essen public transportation… | 🟢 |
 | `evag.listDisruptions` | evag.de | Network-wide Essen transit disruptions from Ruhrbahn/EVAG Verkehrsinfos — short-notice… | 🟢 |
 | `evag.searchStop` | evag.de | Search for Essen transit stops and stations by name or partial name; returns matching… | 🟢 |
+| `eventbrite.followOrganizer` | eventbrite.com | Follows an organizer from the signed-in caller's account, taking an organizer url or id. | ⚪ |
+| `eventbrite.getEvent` | eventbrite.com | Returns one event in full: title, description, start/end time, venue (name, address… | ⚪ |
+| `eventbrite.getOrderHistory` | eventbrite.com | Reads the signed-in caller's past and upcoming ticket orders from their account's… | ⚪ |
+| `eventbrite.getOrganizer` | eventbrite.com | Reads an organizer's public page — name, description, verification/badge status, total… | ⚪ |
+| `eventbrite.getOwnProfile` | eventbrite.com | Reads the signed-in caller's own account profile (name, email on file, location). | ⚪ |
+| `eventbrite.getSavedEvents` | eventbrite.com | Reads the signed-in caller's saved ('liked') events. | ⚪ |
+| `eventbrite.getVenue` | eventbrite.com | Reads a venue's address, coordinates and city/region — taking the venue id or name… | ⚪ |
+| `eventbrite.saveEvent` | eventbrite.com | Saves ('likes') an event to the signed-in caller's account, taking an event url or id. | ⚪ |
+| `eventbrite.searchEvents` | eventbrite.com | Searches live events by location (a city/region string or 'online') with optional date… | ⚪ |
+| `eventbrite.unsaveEvent` | eventbrite.com | Removes a previously saved event from the signed-in caller's account, taking an event… | ⚪ |
 | `eventim.getEvent` | eventim.com | Would read one event's ticket page in full — every price category, seat map… | ⚪ |
 | `eventim.search` | eventim.com | Searches Eventim's event-ticket listings by artist or keyword, optionally narrowed to… | 🟢 |
 | `eventsource.getShowroom` | eventsource.com | Reads a public Virtual Design Center showroom by its access code — the pre-built room… | 🟢 |
@@ -2557,6 +2567,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `weather_channel.listAlerts` | weather.com | Severe weather alerts (warnings, watches) for a location — headlines, types… | 🟢 |
 | `weather_channel.searchLocations` | weather.com | Autocomplete for location names (cities, ZIP codes) — returns matching locations with… | 🟢 |
 | `weather_channel.searchNews` | weather.com | Weather-related articles and videos from the site's content — search by keyword. | ⚪ |
+| `webshare.getPlans` | webshare.io | Reads Webshare's own published proxy pricing — rotating residential (per GB), static… | 🟢 |
 | `wellfound.getCompany` | wellfound.com | Reads one startup's `/company/<slug>` profile — the longer product description (HTML)… | ⚪ |
 | `wellfound.getJob` | wellfound.com | Reads one job posting in full the way its own detail page does — takes the `url` a… | 🟢 |
 | `wellfound.getJobCollection` | wellfound.com | Reads one curated collection's postings the way `/job-collections/<slug>` does — the… | ⚪ |
