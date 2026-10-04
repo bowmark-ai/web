@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2810 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2817 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -875,9 +875,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `epromos.listCategoryProducts` | epromos.com | Lists the products ePromos features on one of its category landing pages (e.g.… | 🟢 |
 | `epromos.quoteBulkPrice` | epromos.com | Computes the real per-unit and total price for one product at a caller-given quantity… | 🟢 |
 | `epromos.searchProducts` | epromos.com | Free-text search over ePromos' full catalog. | ⚪ |
-| `eq3.configureSofa` | eq3.com | Would price an ARBITRARY caller-chosen combination of options (not one of the site's… | ⚪ |
-| `eq3.getSofaConfiguration` | eq3.com | Reads one sofa's full configurator: the site's own computed price (regular + sale) for… | 🟡 |
-| `eq3.listSofas` | eq3.com | Lists every sofa in EQ3's living/seating/sofas line with real regular and sale prices… | 🟡 |
+| `eq3.configureSofa` | eq3.com | Would price an ARBITRARY caller-chosen combination of options by looking up the real… | ⚪ |
+| `eq3.getSofaConfiguration` | eq3.com | Reads one sofa's full configurator: the site's own price (regular + sale) for its… | 🟡 |
+| `eq3.listSofas` | eq3.com | Lists every sofa in EQ3's sofas collection with real regular and sale prices, straight… | 🟡 |
 | `equinox_hotels.listRooms` | equinox-hotels.com | Lists Equinox Hotel New York's live room inventory with booking-engine room codes… | 🟢 |
 | `equinox_hotels.searchRates` | equinox-hotels.com | Searches Equinox Hotel New York's live booking engine for dates and guests, returning… | 🟢 |
 | `erieinsurance.findAgent` | erieinsurance.com | Finds ERIE independent agents near a ZIP or city+state — agency name, the named agent… | 🟢 |
@@ -899,6 +899,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `erieinsurance.getRvQuote` | erieinsurance.com | Returns an RV/motorhome insurance premium quote for a vehicle and owner. | ⚪ |
 | `erieinsurance.getUmbrellaQuote` | erieinsurance.com | Returns a personal umbrella liability insurance premium quote given a requested… | ⚪ |
 | `erieinsurance.getWorkersCompensationQuote` | erieinsurance.com | Returns a workers' compensation insurance premium quote for a business's payroll… | ⚪ |
+| `espn.injuries` | espn.com | Reads a league's injury report the way ESPN's own /nfl/injuries page does — every… | 🟢 |
+| `espn.news` | espn.com | The latest headlines for a league or team from ESPN's news feed. | ⚪ |
+| `espn.scoreboard` | espn.com | Today's (or a given week's) games for a league with live scores and status, as ESPN's… | ⚪ |
+| `espn.standings` | espn.com | A league's current standings by division and conference. | ⚪ |
 | `estes_express.estimateFreightQuote` | estes-express.com | Gets a freight shipping rate quote for an LTL (less than truckload) shipment with… | 🟢 |
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword, the way etsy.com's own… | 🟢 |
@@ -2012,7 +2016,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `quora.getHomeFeed` | quora.com | Reads the signed-in caller's personalized home feed. | ⚪ |
 | `quora.getOwnProfile` | quora.com | Reads the signed-in caller's own profile and settings summary. | ⚪ |
 | `quora.getProfile` | quora.com | Reads a member's public profile — display name, bio, their Spaces and their recent… | ⚪ |
-| `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | ⚪ |
+| `quora.getQuestion` | quora.com | Reads one question off its page — the question text, answer count, related questions… | 🟢 |
 | `quora.getSpace` | quora.com | Reads one Space — its description, member count, and its most recent questions —… | ⚪ |
 | `quora.getTopic` | quora.com | Reads a topic's own page — its name and description — taking a topic URL or name. | ⚪ |
 | `quora.getTopicFeed` | quora.com | Reads the questions and posts Quora files under one topic, as a signed-in viewer sees… | ⚪ |
@@ -2172,6 +2176,9 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `semihandmade.getPartOptions` | semihandmade.com | Reads one part's real live size grid: every real size combination with its own real… | 🟢 |
 | `semihandmade.priceConfiguration` | semihandmade.com | Resolves one exact size selection to Semihandmade's own real price, availability and… | 🟢 |
 | `semihandmade.searchParts` | semihandmade.com | Searches Semihandmade's real catalog for one IKEA cabinet system (Sektion, Akurum… | 🟢 |
+| `seoulfood.getBoothQuote` | seoulfood.kotra.or.kr | A list-price exhibitor booth quote for N booths of one package (Space Only, Walk on… | 🟢 |
+| `seoulfood.getExhibitorPricing` | seoulfood.kotra.or.kr | Reads the organizer's published exhibitor booth rate card (trade show booth quote)… | 🟢 |
+| `seoulfood.listExhibitors` | seoulfood.kotra.or.kr | Lists the companies exhibiting at the current edition, from the site's Exhibitor List. | ⚪ |
 | `serper.searchGoogle` | serper.dev | Runs a Google search through Serper's API and returns Google's organic results —… | 🟢 |
 | `shop_app.addAddress` | shop.app | Adds a shipping address to the caller's Shop account, or sets one as preferred. | ⚪ |
 | `shop_app.addToCart` | shop.app | Adds a product variant to the caller's Shop cart, or changes its quantity (0 removes… | ⚪ |
