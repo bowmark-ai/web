@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 9444923ce5d9dda33f9cea3d2f902facc3eb9883fe63af302c7455c80317a4ee
-# 74 capabilities, 515 providers, 1804 typed functions, 20 refused.
+# Manifest version: fbc98fa80af6a75b9c3236869b2946e8a18ffe095485ad04d5b47949318207be
+# 74 capabilities, 516 providers, 1808 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -13998,6 +13998,33 @@ class Prv_ibuypower_IbuypowerRecommendation_Out(TypedDict):
     scorePerDollar: float | None
     inStock: bool
 
+class Prv_idealista_IdealistaSearchOptions_In(TypedDict):
+    operation: NotRequired[Literal["rent"] | Literal["sale"]]
+    location: NotRequired[str]
+    bedrooms: NotRequired[float]
+    maxPrice: NotRequired[float]
+    page: NotRequired[float]
+
+class Prv_idealista_IdealistaSearchResult_Out(TypedDict):
+    operation: Literal["rent"] | Literal["sale"]
+    url: str
+    page: float
+    total: float | None
+    bedrooms: float | None
+    offers: list[Prv_idealista_IdealistaListing_Out]
+
+class Prv_idealista_IdealistaListing_Out(TypedDict):
+    id: str
+    url: str
+    title: str
+    price: float | None
+    priceText: str
+    bedrooms: float | None
+    sizeM2: float | None
+    details: list[str]
+    description: str
+    image: str | None
+
 class Prv_identitygroup_IdentitygroupSearchResult_Out(TypedDict):
     handle: str
     title: str
@@ -16727,6 +16754,11 @@ class Prv_luma_DiscoverEventsArgs_In(TypedDict):
     date: NotRequired[str]
     limit: NotRequired[float]
 
+class Prv_luma_ListCalendarEventsArgs_In(TypedDict):
+    calendar: str
+    past: NotRequired[bool]
+    limit: NotRequired[float]
+
 class Prv_luma_LumaPlace_Out(TypedDict):
     slug: str
     name: str
@@ -18521,6 +18553,14 @@ class Prv_nytimes_NytimesWriter_Out(TypedDict):
     slug: str
     name: str
     url: str
+    lastModified: NotRequired[str]
+
+class Prv_nytimes_NytimesWriterProfile_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    bio: NotRequired[str]
+    twitter: NotRequired[str]
     lastModified: NotRequired[str]
 
 class Prv_nytimes_NytimesTopic_Out(TypedDict):
@@ -24534,6 +24574,19 @@ class Prv_tradingview_OptionContract_Out(TypedDict):
     rho: NotRequired[float]
     theoreticalPrice: NotRequired[float]
 
+class Prv_tradingview_EconomicEvent_Out(TypedDict):
+    id: str
+    title: str
+    country: str
+    indicator: str
+    period: str
+    date: float
+    actual: NotRequired[float]
+    forecast: NotRequired[float]
+    previous: NotRequired[float]
+    importance: float
+    currency: NotRequired[str]
+
 class Prv_travelinsured_TravelinsuredDestination_Out(TypedDict):
     destinationId: str
     name: str
@@ -27857,6 +27910,7 @@ class Prv_youtube_YoutubeDeletedPlaylist_Out(TypedDict):
 
 class Prv_youtube_subscribeToChannel_input_In(TypedDict):
     channel: str
+    subscribe: NotRequired[bool]
 
 class Prv_youtube_subscribeToChannel_return_Out(TypedDict):
     channel: str
@@ -37953,6 +38007,17 @@ class Prv_ibuypower(Protocol):
         resolving mid-call; it is empty on a healthy call.
         """
 
+class Prv_idealista(Protocol):
+    """Spain's largest property portal — search homes for rent or for sale by words ("2 bedroom
+    rental Gracia Barcelona") and get price, size, bedrooms and a link for each listing.
+    """
+
+    async def search(self, query: str, options: Prv_idealista_IdealistaSearchOptions_In | None = None, /) -> Prv_idealista_IdealistaSearchResult_Out:
+        """Searches idealista.com listings (Spain) for rent or sale from plain words — "2 bedroom
+        rental Gracia Barcelona" — and returns one results page of offers with price, size,
+        bedrooms and url.
+        """
+
 class Prv_identitygroup(Protocol):
     """Identity Group's live hotel-signage catalog — search by brand or sign type, read a
     product's real mount-option prices, and get a checkout handoff URL. Rung 9, no browser.
@@ -39756,7 +39821,9 @@ class Prv_lululemon(Protocol):
 
 class Prv_luma(Protocol):
     """Luma (lu.ma) events — read one event's date, time, venue, price and spots remaining, or
-    discover upcoming events in a city by day and topic (AI, tech, crypto, arts…).
+    discover upcoming events in a city by day and topic (AI, tech, crypto, arts…), or list
+    every upcoming event on one organizer's calendar or profile page (a recurring meetup or
+    demo-night series).
     """
 
     async def getEvent(self, args: Prv_luma_GetEventArgs_In, /) -> Prv_luma_LumaEvent_Out:
@@ -39767,6 +39834,12 @@ class Prv_luma(Protocol):
     async def discoverEvents(self, args: Prv_luma_DiscoverEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
         """Upcoming Luma events in a city (place slug like sf, nyc, london), optionally filtered to
         one topic category and one local day.
+        """
+
+    async def listCalendarEvents(self, args: Prv_luma_ListCalendarEventsArgs_In, /) -> list[Prv_luma_LumaEvent_Out]:
+        """Every upcoming event on one Luma calendar or organizer profile (luma.com/<calendar> or
+        luma.com/user/<name>) — the schedule of a recurring meetup, demo night or event series,
+        soonest first. `past: true` lists past editions instead.
         """
 
     async def listPlaces(self, /) -> list[Prv_luma_LumaPlace_Out]:
@@ -41019,6 +41092,12 @@ class Prv_nytimes(Protocol):
         """Searches NYT's own writers by name off its collections sitemap (the site publishes no
         writer search or directory). name is formatted from the slug, not read off the site —
         matched writers' pages were modified sometime in the last 24 months.
+        """
+
+    async def getWriter(self, writer: str, /) -> Prv_nytimes_NytimesWriterProfile_Out:
+        """Gets a writer's own profile off their /by/<slug> page — the site's real name and short
+        biography, not searchWriters' formatted-from-slug guess. Takes a writer slug like
+        "maggie-haberman" (from searchWriters) or a path like "/by/maggie-haberman".
         """
 
     async def listTopics(self, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesTopic_Out]:
@@ -44805,6 +44884,18 @@ class Prv_tradingview(Protocol):
         (`expirations: []`, `contracts: []`) rather than an error.
         """
 
+    async def getEconomicCalendar(self, countries: Sequence[str] | None = None, daysAhead: float | None = None, /) -> list[Prv_tradingview_EconomicEvent_Out]:
+        """Gets upcoming (and recently released) economic events — e.g.
+        `getEconomicCalendar(["US"], 7)` for "what US economic releases are due this week" — the
+        same feed TradingView's Markets › Economic calendar page renders. `countries` is an
+        array of two-letter country codes, defaulting to `["US"]`; `daysAhead` is the window
+        forward from now, defaulting to 7, bounded 1-30. Returns events ascending by release
+        date, each with the release `date` (Unix seconds), `title`, `indicator` name, reporting
+        `period`, `actual`/`forecast`/`previous` values where TradingView carries them, and an
+        `importance` score (-1/0/1 low/medium/high). An unrecognized country code answers zero
+        matching rows rather than an error.
+        """
+
 class Prv_travelinsured(Protocol):
     """Travel Insured International's own quote-and-buy flow — destination and ZIP/state
     lookups the way the trip-details step performs them. (Plan pricing itself is not yet
@@ -46764,11 +46855,12 @@ class Prv_youtube(Protocol):
         """
 
     async def subscribeToChannel(self, input: Prv_youtube_subscribeToChannel_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_subscribeToChannel_return_Out:
-        """Subscribe the signed-in account to a channel, or unsubscribe if already subscribed.
-        `channel` is a channel id (`UC…`), an `@handle`, or a channel URL. The function toggles
-        subscription state: if the account is already subscribed, calling it unsubscribes; if
-        unsubscribed, it subscribes. Returns the channel id and the new subscription state.
-        NEEDS A SIGN-IN and exists nowhere else logged out.
+        """Subscribe the signed-in account to a channel (`subscribe: true`, the default) or
+        unsubscribe from it (`subscribe: false`). It does NOT toggle: calling it twice leaves
+        you subscribed. `channel` is a channel id (`UC…`), an `@handle`, or a channel URL — a
+        handle or URL is resolved to its id first; a plain name is refused, so resolve one with
+        `findChannel`. Returns the channel id and the state YouTube accepted. NEEDS A SIGN-IN
+        and exists nowhere else logged out.
         """
 
     async def likeVideo(self, input: Prv_youtube_likeVideo_input_In, opts: ConnectionOption | None = None, /) -> Prv_youtube_likeVideo_return_Out:
@@ -47150,6 +47242,7 @@ class BowmarkProviders(Protocol):
     hubspot: Prv_hubspot
     hunter: Prv_hunter
     ibuypower: Prv_ibuypower
+    idealista: Prv_idealista
     identitygroup: Prv_identitygroup
     ihg: Prv_ihg
     indeed: Prv_indeed

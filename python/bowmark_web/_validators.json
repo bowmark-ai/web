@@ -1,5 +1,5 @@
 {
-  "version": "9444923ce5d9dda33f9cea3d2f902facc3eb9883fe63af302c7455c80317a4ee",
+  "version": "fbc98fa80af6a75b9c3236869b2946e8a18ffe095485ad04d5b47949318207be",
   "units": {
     "address_validation": {
       "defs": {
@@ -25843,6 +25843,79 @@
         ]
       }
     },
+    "providers.idealista": {
+      "defs": {
+        "IdealistaSearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operation",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "rent"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sale"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "bedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "IdealistaSearchOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.identitygroup": {
       "defs": {},
       "functions": {
@@ -30726,6 +30799,32 @@
               "optional": false
             }
           ]
+        },
+        "ListCalendarEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "calendar",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "past",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -30745,6 +30844,16 @@
             "schema": {
               "k": "ref",
               "name": "DiscoverEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCalendarEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCalendarEventsArgs"
             },
             "optional": false
           }
@@ -33646,6 +33755,15 @@
               "k": "number"
             },
             "optional": true
+          }
+        ],
+        "getWriter": [
+          {
+            "name": "writer",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ],
         "listTopics": [
@@ -47318,6 +47436,25 @@
             },
             "optional": false
           }
+        ],
+        "getEconomicCalendar": [
+          {
+            "name": "countries",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": true
+          },
+          {
+            "name": "daysAhead",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -53591,6 +53728,13 @@
                     "k": "string"
                   },
                   "optional": false
+                },
+                {
+                  "name": "subscribe",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
                 }
               ]
             },

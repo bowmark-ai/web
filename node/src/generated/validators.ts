@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 9444923ce5d9dda33f9cea3d2f902facc3eb9883fe63af302c7455c80317a4ee
-// 1804 checked, 20 unchecked.
+// Manifest version: fbc98fa80af6a75b9c3236869b2946e8a18ffe095485ad04d5b47949318207be
+// 1808 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "9444923ce5d9dda33f9cea3d2f902facc3eb9883fe63af302c7455c80317a4ee",
+  "version": "fbc98fa80af6a75b9c3236869b2946e8a18ffe095485ad04d5b47949318207be",
   "units": {
     "address_validation": {
       "defs": {
@@ -25855,6 +25855,79 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.idealista": {
+      "defs": {
+        "IdealistaSearchOptions": {
+          "k": "object",
+          "props": [
+            {
+              "name": "operation",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "rent"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "sale"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "location",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "bedrooms",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "maxPrice",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "IdealistaSearchOptions"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
     "providers.identitygroup": {
       "defs": {},
       "functions": {
@@ -30738,6 +30811,32 @@ export const VALIDATORS: ValidatorTable = {
               "optional": false
             }
           ]
+        },
+        "ListCalendarEventsArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "calendar",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "past",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
         }
       },
       "functions": {
@@ -30757,6 +30856,16 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "DiscoverEventsArgs"
+            },
+            "optional": false
+          }
+        ],
+        "listCalendarEvents": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ListCalendarEventsArgs"
             },
             "optional": false
           }
@@ -33658,6 +33767,15 @@ export const VALIDATORS: ValidatorTable = {
               "k": "number"
             },
             "optional": true
+          }
+        ],
+        "getWriter": [
+          {
+            "name": "writer",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ],
         "listTopics": [
@@ -47330,6 +47448,25 @@ export const VALIDATORS: ValidatorTable = {
             },
             "optional": false
           }
+        ],
+        "getEconomicCalendar": [
+          {
+            "name": "countries",
+            "schema": {
+              "k": "array",
+              "of": {
+                "k": "string"
+              }
+            },
+            "optional": true
+          },
+          {
+            "name": "daysAhead",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
         ]
       }
     },
@@ -53603,6 +53740,13 @@ export const VALIDATORS: ValidatorTable = {
                     "k": "string"
                   },
                   "optional": false
+                },
+                {
+                  "name": "subscribe",
+                  "schema": {
+                    "k": "boolean"
+                  },
+                  "optional": true
                 }
               ]
             },

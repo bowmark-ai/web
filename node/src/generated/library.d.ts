@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 9444923ce5d9dda33f9cea3d2f902facc3eb9883fe63af302c7455c80317a4ee
-// 74 capabilities, 515 providers, 1822 typed functions, 20 refused.
+// Manifest version: fbc98fa80af6a75b9c3236869b2946e8a18ffe095485ad04d5b47949318207be
+// 74 capabilities, 516 providers, 1826 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -26298,6 +26298,56 @@ interface IbuypowerRecommendArgs {
   }
 }
 
+declare namespace BowmarkProvider_idealista {
+  // ── idealista — the unit's own declarations, verbatim ──
+interface IdealistaListing {
+  id: string;
+  url: string;
+  title: string;
+  /** euros — per month for a rental */
+  price: number | null;
+  priceText: string;
+  bedrooms: number | null;
+  sizeM2: number | null;
+  details: string[];
+  description: string;
+  image: string | null;
+}
+interface IdealistaSearchOptions {
+  /** inferred from the query ("rental", "alquiler" → rent), else "sale" */
+  operation?: "rent" | "sale";
+  /** idealista's own location path, e.g. "barcelona/gracia" — more precise than words */
+  location?: string;
+  /** exact bedroom count; also read from the query ("2 bedroom") */
+  bedrooms?: number;
+  /** euros */
+  maxPrice?: number;
+  page?: number;
+}
+interface IdealistaSearchResult {
+  operation: "rent" | "sale";
+  url: string;
+  page: number;
+  /** the site's own match count, before the bedroom/price filter */
+  total: number | null;
+  bedrooms: number | null;
+  offers: IdealistaListing[];
+}
+
+  /**
+   * Spain's largest property portal — search homes for rent or for sale by words ("2 bedroom
+   * rental Gracia Barcelona") and get price, size, bedrooms and a link for each listing.
+   */
+  interface Unit {
+    /**
+     * Searches idealista.com listings (Spain) for rent or sale from plain words — "2 bedroom
+     * rental Gracia Barcelona" — and returns one results page of offers with price, size, bedrooms
+     * and url.
+     */
+    search(query: string, options?: IdealistaSearchOptions): Promise<IdealistaSearchResult>;
+  }
+}
+
 declare namespace BowmarkProvider_identitygroup {
   // ── Identity Group — the unit's own declarations, verbatim ──
 interface IdentitygroupSearchResult {
@@ -31104,6 +31154,11 @@ interface LumaCategory {
 interface GetEventArgs {
   url: string;
 }
+interface ListCalendarEventsArgs {
+  calendar: string;
+  past?: boolean;
+  limit?: number;
+}
 interface DiscoverEventsArgs {
   place: string;
   category?: string;
@@ -31113,7 +31168,9 @@ interface DiscoverEventsArgs {
 
   /**
    * Luma (lu.ma) events — read one event's date, time, venue, price and spots remaining, or
-   * discover upcoming events in a city by day and topic (AI, tech, crypto, arts…).
+   * discover upcoming events in a city by day and topic (AI, tech, crypto, arts…), or list every
+   * upcoming event on one organizer's calendar or profile page (a recurring meetup or demo-night
+   * series).
    */
   interface Unit {
     /**
@@ -31127,6 +31184,13 @@ interface DiscoverEventsArgs {
      * topic category and one local day.
      */
     discoverEvents(args: DiscoverEventsArgs): Promise<LumaEvent[]>;
+
+    /**
+     * Every upcoming event on one Luma calendar or organizer profile (luma.com/<calendar> or
+     * luma.com/user/<name>) — the schedule of a recurring meetup, demo night or event series,
+     * soonest first. `past: true` lists past editions instead.
+     */
+    listCalendarEvents(args: ListCalendarEventsArgs): Promise<LumaEvent[]>;
 
     /** Every city Luma's discover page covers, with the slug discoverEvents takes. */
     listPlaces(): Promise<LumaPlace[]>;
@@ -34699,6 +34763,14 @@ interface NytimesWriter {
   url: string;
   lastModified?: string;
 }
+interface NytimesWriterProfile {
+  slug: string;
+  name: string;
+  url: string;
+  bio?: string;
+  twitter?: string;
+  lastModified?: string;
+}
 interface NytimesTopic {
   slug: string;
   name: string;
@@ -34802,6 +34874,13 @@ interface NytimesEpisode {
      * writers' pages were modified sometime in the last 24 months.
      */
     searchWriters(query: string, limit?: number, offset?: number): Promise<NytimesWriter[]>;
+
+    /**
+     * Gets a writer's own profile off their /by/<slug> page — the site's real name and short
+     * biography, not searchWriters' formatted-from-slug guess. Takes a writer slug like
+     * "maggie-haberman" (from searchWriters) or a path like "/by/maggie-haberman".
+     */
+    getWriter(writer: string): Promise<NytimesWriterProfile>;
 
     /**
      * Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently active
@@ -44742,6 +44821,20 @@ interface OptionChain {
   contracts: OptionContract[];
 }
 
+interface EconomicEvent {
+  id: string;
+  title: string;
+  country: string;
+  indicator: string;
+  period: string;
+  date: number;
+  actual?: number;
+  forecast?: number;
+  previous?: number;
+  importance: number;
+  currency?: string;
+}
+
   /** Charting, symbol search and market data from TradingView. */
   interface Unit {
     /**
@@ -44886,6 +44979,18 @@ interface OptionChain {
      * rather than an error.
      */
     getOptionChain(exchange: string, symbol: string): Promise<OptionChain>;
+
+    /**
+     * Gets upcoming (and recently released) economic events — e.g. `getEconomicCalendar(["US"],
+     * 7)` for "what US economic releases are due this week" — the same feed TradingView's Markets
+     * › Economic calendar page renders. `countries` is an array of two-letter country codes,
+     * defaulting to `["US"]`; `daysAhead` is the window forward from now, defaulting to 7, bounded
+     * 1-30. Returns events ascending by release date, each with the release `date` (Unix seconds),
+     * `title`, `indicator` name, reporting `period`, `actual`/`forecast`/`previous` values where
+     * TradingView carries them, and an `importance` score (-1/0/1 low/medium/high). An
+     * unrecognized country code answers zero matching rows rather than an error.
+     */
+    getEconomicCalendar(countries?: string[], daysAhead?: number): Promise<EconomicEvent[]>;
   }
 }
 
@@ -50320,13 +50425,14 @@ interface YoutubeStreamFormat {
     listSubscriptions(opts?: ConnectionOption): Promise<YoutubeChannelRef[]>;
 
     /**
-     * Subscribe the signed-in account to a channel, or unsubscribe if already subscribed.
-     * `channel` is a channel id (`UC…`), an `@handle`, or a channel URL. The function toggles
-     * subscription state: if the account is already subscribed, calling it unsubscribes; if
-     * unsubscribed, it subscribes. Returns the channel id and the new subscription state. NEEDS A
-     * SIGN-IN and exists nowhere else logged out.
+     * Subscribe the signed-in account to a channel (`subscribe: true`, the default) or unsubscribe
+     * from it (`subscribe: false`). It does NOT toggle: calling it twice leaves you subscribed.
+     * `channel` is a channel id (`UC…`), an `@handle`, or a channel URL — a handle or URL is
+     * resolved to its id first; a plain name is refused, so resolve one with `findChannel`.
+     * Returns the channel id and the state YouTube accepted. NEEDS A SIGN-IN and exists nowhere
+     * else logged out.
      */
-    subscribeToChannel(input: { channel: string }, opts?: ConnectionOption): Promise<{ channel: string; subscribed: boolean }>;
+    subscribeToChannel(input: { channel: string; subscribe?: boolean }, opts?: ConnectionOption): Promise<{ channel: string; subscribed: boolean }>;
 
     /**
      * Sets the signed-in account's rating on a video: "like", "dislike", or "none" to clear
@@ -51620,6 +51726,7 @@ interface BowmarkProviders {
   hubspot: BowmarkProvider_hubspot.Unit;
   hunter: BowmarkProvider_hunter.Unit;
   ibuypower: BowmarkProvider_ibuypower.Unit;
+  idealista: BowmarkProvider_idealista.Unit;
   identitygroup: BowmarkProvider_identitygroup.Unit;
   ihg: BowmarkProvider_ihg.Unit;
   indeed: BowmarkProvider_indeed.Unit;

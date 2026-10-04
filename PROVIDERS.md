@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2638 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2640 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -630,7 +630,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `cnn.getVideo` | www.cnn.com | Get metadata for one CNN video — title, description, duration, publication date… | 🟡 |
 | `cnn.listCategories` | www.cnn.com | The section categories CNN publishes — Politics, World, US, Business, Markets, Tech… | 🟢 |
 | `cnn.listHeadlines` | www.cnn.com | The top headlines from CNN's home page — the lead stories across all sections, newest… | 🟢 |
-| `cnn.listMyNews` | www.cnn.com | The signed-in viewer's personalized My News feed, built from their followed topics… | ⚪ |
+| `cnn.listMyNews` | www.cnn.com | The signed-in viewer's personalized My News feed, built from their followed topics… | 🟢 |
 | `cnn.listNewsletters` | www.cnn.com | The CNN newsletters available to subscribe to — Breaking News, CNN Five Things, The… | 🟢 |
 | `cnn.listOpinion` | www.cnn.com | Opinion and commentary pieces from CNN's opinion section — columns, analysis and… | ⚪ |
 | `cnn.listSectionHeadlines` | www.cnn.com | The latest headlines in one CNN section by section NAME ("Politics", "World"… | 🟢 |
@@ -1070,7 +1070,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.createComment` | github.com | Adds a comment to an issue or pull request. | 🟢 |
 | `github.createIssue` | github.com | Creates a new issue on a repository. | 🟢 |
 | `github.createPullRequest` | github.com | Opens a new pull request from a head branch to a base branch, with an optional body… | 🟢 |
-| `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | ⚪ |
+| `github.createReview` | github.com | Submits a review on a pull request — approve, request changes, or comment. | 🟢 |
 | `github.createReviewComment` | github.com | Adds an inline comment to a specific line in a pull request's diff. | ⚪ |
 | `github.deleteComment` | github.com | Deletes a comment on an issue or pull request. | 🟢 |
 | `github.getIssue` | github.com | Returns the full details of one issue — title, body, creator, assignees, labels… | 🟢 |
@@ -2109,6 +2109,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `starlighthomes.getMetro` | starlighthomes.com | Reads one metro's own page: every named neighborhood in it, each with a real live… | 🟢 |
 | `starlighthomes.getNeighborhood` | starlighthomes.com | Reads one neighborhood's own page: its ACTUAL move-in-ready homes right now — real… | 🟢 |
 | `starlighthomes.listMetros` | starlighthomes.com | Lists every metro division Starlight Homes currently builds in (e.g. Dallas - Fort… | 🟢 |
+| `start_gg.findVideogames` | start.gg | Looks up start.gg's own game catalogue by name and returns each matching game's id… | 🟢 |
+| `start_gg.searchTournaments` | start.gg | Searches start.gg tournaments by game and location — the site's own tournament search… | 🟢 |
 | `statefarm.findAgent` | statefarm.com | Returns the State Farm agents near a ZIP or city — name, office address, phone… | 🟢 |
 | `statefarm.getAgent` | statefarm.com | Reads one State Farm agent's own page back to full detail — office hours, licensed… | ⚪ |
 | `statefarm.getAutoQuote` | statefarm.com | Returns an auto insurance premium quote for a vehicle and driver in a given ZIP — the… | ⚪ |
