@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2817 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2834 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -480,6 +480,23 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bungalow.getListing` | bungalow.com | Returns one listing's full detail — every room with its own rent and availability… | 🟢 |
 | `bungalow.listMarkets` | bungalow.com | Lists every market Bungalow currently operates in — city, region and country, plus the… | 🟢 |
 | `bungalow.searchListings` | bungalow.com | Searches Bungalow's live, priced room and whole-home rental inventory in one market —… | 🟢 |
+| `businessinsider_com.findTicker` | businessinsider.com | Resolve a company or asset name to its market symbol and markets.businessinsider.com… | ⚪ |
+| `businessinsider_com.getArticle` | businessinsider.com | Read the full text of one article given its URL. | ⚪ |
+| `businessinsider_com.getArticleComments` | businessinsider.com | Read the public comments/discussion thread under one article. | ⚪ |
+| `businessinsider_com.getAuthorArticles` | businessinsider.com | List articles written by a specific author/correspondent, given their byline slug. | ⚪ |
+| `businessinsider_com.getGuide` | businessinsider.com | Read one buying guide or product review given its URL. | ⚪ |
+| `businessinsider_com.getMarketQuote` | businessinsider.com | Read a live snapshot (bid/ask, volume, market cap, prev close, day range) for a stock… | ⚪ |
+| `businessinsider_com.getVideo` | businessinsider.com | Read one video's metadata and playback URL given its page URL. | ⚪ |
+| `businessinsider_com.listArticlesBySection` | businessinsider.com | List recent articles from a section (tech, markets, business, politics, economy… | ⚪ |
+| `businessinsider_com.listCryptoCurrencies` | businessinsider.com | List cryptocurrencies with their current prices from the Cryptocurrencies vertical. | ⚪ |
+| `businessinsider_com.listGuides` | businessinsider.com | List buying guides and product reviews from the Guides vertical. | ⚪ |
+| `businessinsider_com.listMarketIndices` | businessinsider.com | List major market indices (S&P 500, Dow Jones, Nasdaq, etc) with their current levels. | ⚪ |
+| `businessinsider_com.listOpinionPieces` | businessinsider.com | List opinion and analysis pieces from the Opinion section. | ⚪ |
+| `businessinsider_com.listSections` | businessinsider.com | List the site's news sections and verticals. | ⚪ |
+| `businessinsider_com.listTrendingArticles` | businessinsider.com | List the homepage's current most-read/trending articles. | ⚪ |
+| `businessinsider_com.listVideos` | businessinsider.com | List videos from the Video vertical. | ⚪ |
+| `businessinsider_com.postComment` | businessinsider.com | Post a comment on an article as the signed-in caller. | ⚪ |
+| `businessinsider_com.searchArticles` | businessinsider.com | Search articles by keyword. | ⚪ |
 | `bykoket.addToCart` | bykoket.com | Hands back the shopper's own KOKET product page — the exact Add to cart button for… | 🟢 |
 | `bykoket.getProduct` | bykoket.com | Reads one KOKET product's live page — price (list and current, since KOKET runs… | 🟢 |
 | `bykoket.searchProducts` | bykoket.com | Searches KOKET's live public catalog (furniture, lighting, textiles) and returns each… | 🟢 |
@@ -917,7 +934,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `eventbrite.getSavedEvents` | eventbrite.com | Reads the signed-in caller's saved ('liked') events. | ⚪ |
 | `eventbrite.getVenue` | eventbrite.com | Reads a venue's address, coordinates and city/region — taking the venue id or name… | ⚪ |
 | `eventbrite.saveEvent` | eventbrite.com | Saves ('likes') an event to the signed-in caller's account, taking an event url or id. | ⚪ |
-| `eventbrite.searchEvents` | eventbrite.com | Searches live events by location (a city/region string or 'online') with optional date… | ⚪ |
+| `eventbrite.searchEvents` | eventbrite.com | Searches live events by location (a city/region string or 'online') with an optional… | 🟢 |
 | `eventbrite.unsaveEvent` | eventbrite.com | Removes a previously saved event from the signed-in caller's account, taking an event… | ⚪ |
 | `eventim.getEvent` | eventim.com | Would read one event's ticket page in full — every price category, seat map… | ⚪ |
 | `eventim.search` | eventim.com | Searches Eventim's event-ticket listings by artist or keyword, optionally narrowed to… | 🟢 |

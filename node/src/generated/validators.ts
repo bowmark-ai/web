@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 176c36d558267656c6608f169bbb1d64734c5e519b439a0f9e89a6cf179694d9
-// 1807 checked, 20 unchecked.
+// Manifest version: e7e5c589fa6089814f55bfebca69e3418b8d5a4b4362cd749882fc569ca87fc7
+// 1809 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "176c36d558267656c6608f169bbb1d64734c5e519b439a0f9e89a6cf179694d9",
+  "version": "e7e5c589fa6089814f55bfebca69e3418b8d5a4b4362cd749882fc569ca87fc7",
   "units": {
     "address_validation": {
       "defs": {
@@ -9923,6 +9923,15 @@ export const VALIDATORS: ValidatorTable = {
             "optional": false
           }
         ],
+        "getTeam": [
+          {
+            "name": "teamSlugOrUrl",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          }
+        ],
         "listHeadlines": [
           {
             "name": "args",
@@ -17850,46 +17859,9 @@ export const VALIDATORS: ValidatorTable = {
         "listSofas": [],
         "getSofaConfiguration": [
           {
-            "name": "args",
+            "name": "handle",
             "schema": {
-              "k": "object",
-              "props": [
-                {
-                  "name": "instanceId",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "categorySlug",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "subcategorySlug",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "productLineSlug",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                },
-                {
-                  "name": "productSlug",
-                  "schema": {
-                    "k": "string"
-                  },
-                  "optional": false
-                }
-              ]
+              "k": "string"
             },
             "optional": false
           }
@@ -17982,6 +17954,63 @@ export const VALIDATORS: ValidatorTable = {
             "name": "limit",
             "schema": {
               "k": "number"
+            },
+            "optional": true
+          }
+        ]
+      }
+    },
+    "providers.espn": {
+      "defs": {
+        "InjuriesArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "league",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "nfl"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "wnba"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "mlb"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "nhl"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "team",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "injuries": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "InjuriesArgs"
             },
             "optional": true
           }

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 176c36d558267656c6608f169bbb1d64734c5e519b439a0f9e89a6cf179694d9
-// 74 capabilities, 520 providers, 1825 typed functions, 20 refused.
+// Manifest version: e7e5c589fa6089814f55bfebca69e3418b8d5a4b4362cd749882fc569ca87fc7
+// 74 capabilities, 521 providers, 1827 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -9461,6 +9461,30 @@ interface BbcGetCurrentWeatherResult {
   visibility: string | null; // e.g. "Good", "Poor"; the site's own text
 }
 
+interface BbcTeamFixture {
+  opponent: string;
+  date: string;
+  status: string;
+  score?: string;
+  matchId?: string;
+}
+
+interface BbcTeamStory {
+  headline: string;
+  url: string;
+  date: string;
+}
+
+interface BbcGetTeamResult {
+  name: string;
+  competition?: string;
+  record?: string;
+  position?: number;
+  recentResults: BbcTeamFixture[];
+  upcomingFixtures: BbcTeamFixture[];
+  stories: BbcTeamStory[];
+}
+
 interface bbcRow {
   id: string;
 }
@@ -9512,6 +9536,12 @@ interface bbcRow {
      * them — goal/event timeline, line-ups and match stats. Takes a match id from getFixtures.
      */
     getMatch(matchId: string): Promise<BbcGetMatchResult>;
+
+    /**
+     * One team's BBC Sport page: name, competition, its recent results and upcoming fixtures, and
+     * its latest stories. Takes a team slug, which getStandings and getFixtures rows carry.
+     */
+    getTeam(teamSlugOrUrl: string): Promise<BbcGetTeamResult>;
 
     /**
      * The stories a BBC section page shows right now, in the page's own order and grouping:
@@ -18192,7 +18222,7 @@ interface EpromosCategoryListing {
 declare namespace BowmarkProvider_eq3 {
   // ── EQ3 — the unit's own declarations, verbatim ──
 interface Eq3SofaListing {
-  instanceId: string;   // pass into getSofaConfiguration's instanceId
+  instanceId: string;   // the Shopify handle — pass into getSofaConfiguration
   name: string;
   regularPrice: number; // real listing price before the sitewide sale
   salePrice: number;    // real listing price after the sitewide sale, 0 when none running
@@ -18200,32 +18230,27 @@ interface Eq3SofaListing {
   coloursAvailable: boolean;
   optionsAvailable: boolean;
   thumbnailUrl: string | null;
-  categorySlug: string;
-  subcategorySlug: string;
-  productLineSlug: string;
-  productSlug: string;
   productUrl: string;
 }
 
 interface Eq3OptionItem {
   id: string;
   alias: string;
-  price: number | null; // null when this item is structural (its price lives on ITS OWN nested groups)
+  price: number | null; // delta vs the default build; null when no real variant combines this value with every other default
 }
 
 interface Eq3OptionGroup {
-  component: string; // e.g. "Seat Depth", "Core", "Arm Style"
+  component: string; // e.g. "Size", "Grade", "Finish"
   items: Eq3OptionItem[];
 }
 
 interface Eq3SofaConfiguration {
   instanceId: string;
   name: string;
-  regularPrice: number;   // the site's own computed price for this default build
+  regularPrice: number;   // the site's own price for the default build
   sellingPrice: number;
-  discountPercent: number | null; // e.g. 20 — null when no sale is running
-  massPounds: number | null;
-  availability: string;  // the site's own labels — read the values off a result, never guess one from prose
+  discountPercent: number | null; // e.g. 20 — null when the default build carries no markdown
+  availability: "available" | "unavailable";
   canonicalUrl: string;
   optionGroups: Eq3OptionGroup[]; // every alternative the configurator offers
 }
@@ -18238,18 +18263,18 @@ interface Eq3SofaConfiguration {
    */
   interface Unit {
     /**
-     * Lists every sofa in EQ3's living/seating/sofas line with real regular and sale prices,
-     * straight off the site's own category listing. Every row carries the exact ids
-     * getSofaConfiguration needs.
+     * Lists every sofa in EQ3's sofas collection with real regular and sale prices, straight off
+     * the site's own Shopify catalogue. Every row carries the exact handle getSofaConfiguration
+     * needs.
      */
     listSofas(): Promise<Eq3SofaListing[]>;
 
     /**
-     * Reads one sofa's full configurator: the site's own computed price (regular + sale) for its
-     * default build, plus every fabric/finish/size option the configurator offers with each item's
-     * own price contribution. THROWS when the instance does not exist.
+     * Reads one sofa's full configurator: the site's own price (regular + sale) for its default
+     * build, plus every size/grade/finish option the configurator offers with each item's own
+     * price contribution. THROWS when the handle does not exist.
      */
-    getSofaConfiguration(args: { instanceId: string; categorySlug: string; subcategorySlug: string; productLineSlug: string; productSlug: string }): Promise<Eq3SofaConfiguration>;
+    getSofaConfiguration(handle: string): Promise<Eq3SofaConfiguration>;
   }
 }
 
@@ -18366,6 +18391,52 @@ interface ErieAgent {
      * that is never an error.
      */
     findAgent(query: ErieAgentQuery, limit?: number): Promise<ErieAgentSearch>;
+  }
+}
+
+declare namespace BowmarkProvider_espn {
+  // ── ESPN — the unit's own declarations, verbatim ──
+interface InjuriesArgs {
+  /** Default "nfl". */
+  league?: "nfl" | "nba" | "wnba" | "mlb" | "nhl";
+  /** One team, by name or abbreviation: "Chiefs", "Kansas City Chiefs", "KC". */
+  team?: string;
+}
+
+interface EspnInjury {
+  team: string;
+  teamAbbreviation: string;
+  player: string;
+  position: string | null;
+  status: string; // "Questionable", "Out", "Injured Reserve"
+  injury: string | null;
+  returnDate: string | null;
+  note: string | null;
+  detail: string | null;
+  updated: string;
+  playerUrl: string | null;
+}
+
+interface EspnInjuryReport {
+  league: "nfl" | "nba" | "wnba" | "mlb" | "nhl";
+  season: string | null;
+  updated: string | null;
+  injuries: EspnInjury[];
+}
+
+  /**
+   * ESPN sports data. injuries reads a league's full injury report — the NFL injury report by
+   * default, also NBA, WNBA, MLB and NHL — with each injured player's team, position, status
+   * (Questionable, Out, Injured Reserve…), body part, expected return date and latest note,
+   * optionally for one team.
+   */
+  interface Unit {
+    /**
+     * The ESPN injury report for a league — NFL by default — every injured player with team,
+     * position, status, body part, expected return date and the latest news note. Pass `team` to
+     * narrow to one team. Call with no arguments for the full NFL injury report.
+     */
+    injuries(args?: InjuriesArgs): Promise<EspnInjuryReport>;
   }
 }
 
@@ -51785,6 +51856,7 @@ interface BowmarkProviders {
   eq3: BowmarkProvider_eq3.Unit;
   equinox_hotels: BowmarkProvider_equinox_hotels.Unit;
   erieinsurance: BowmarkProvider_erieinsurance.Unit;
+  espn: BowmarkProvider_espn.Unit;
   estes_express: BowmarkProvider_estes_express.Unit;
   etsy: BowmarkProvider_etsy.Unit;
   evag: BowmarkProvider_evag.Unit;

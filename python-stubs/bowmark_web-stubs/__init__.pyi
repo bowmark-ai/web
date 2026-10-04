@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 176c36d558267656c6608f169bbb1d64734c5e519b439a0f9e89a6cf179694d9
-# 74 capabilities, 520 providers, 1807 typed functions, 20 refused.
+# Manifest version: e7e5c589fa6089814f55bfebca69e3418b8d5a4b4362cd749882fc569ca87fc7
+# 74 capabilities, 521 providers, 1809 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -5198,6 +5198,27 @@ class Prv_bbc_BbcMatchPlayer_Out(TypedDict):
     position: str
     isSubstitute: bool
 
+class Prv_bbc_BbcGetTeamResult_Out(TypedDict):
+    name: str
+    competition: NotRequired[str]
+    record: NotRequired[str]
+    position: NotRequired[float]
+    recentResults: list[Prv_bbc_BbcTeamFixture_Out]
+    upcomingFixtures: list[Prv_bbc_BbcTeamFixture_Out]
+    stories: list[Prv_bbc_BbcTeamStory_Out]
+
+class Prv_bbc_BbcTeamFixture_Out(TypedDict):
+    opponent: str
+    date: str
+    status: str
+    score: NotRequired[str]
+    matchId: NotRequired[str]
+
+class Prv_bbc_BbcTeamStory_Out(TypedDict):
+    headline: str
+    url: str
+    date: str
+
 class Prv_bbc_listHeadlines_args_In(TypedDict):
     path: NotRequired[str]
 
@@ -10059,18 +10080,7 @@ class Prv_eq3_Eq3SofaListing_Out(TypedDict):
     coloursAvailable: bool
     optionsAvailable: bool
     thumbnailUrl: str | None
-    categorySlug: str
-    subcategorySlug: str
-    productLineSlug: str
-    productSlug: str
     productUrl: str
-
-class Prv_eq3_getSofaConfiguration_args_In(TypedDict):
-    instanceId: str
-    categorySlug: str
-    subcategorySlug: str
-    productLineSlug: str
-    productSlug: str
 
 class Prv_eq3_Eq3SofaConfiguration_Out(TypedDict):
     instanceId: str
@@ -10078,8 +10088,7 @@ class Prv_eq3_Eq3SofaConfiguration_Out(TypedDict):
     regularPrice: float
     sellingPrice: float
     discountPercent: float | None
-    massPounds: float | None
-    availability: str
+    availability: Literal["available"] | Literal["unavailable"]
     canonicalUrl: str
     optionGroups: list[Prv_eq3_Eq3OptionGroup_Out]
 
@@ -10153,6 +10162,29 @@ class Prv_erieinsurance_ErieAgent_Out(TypedDict):
     linesOfBusinessWritten: str | None
     hours: list[str]
     photoDataUri: str | None
+
+class Prv_espn_InjuriesArgs_In(TypedDict):
+    league: NotRequired[Literal["nfl"] | Literal["nba"] | Literal["wnba"] | Literal["mlb"] | Literal["nhl"]]
+    team: NotRequired[str]
+
+class Prv_espn_EspnInjuryReport_Out(TypedDict):
+    league: Literal["nfl"] | Literal["nba"] | Literal["wnba"] | Literal["mlb"] | Literal["nhl"]
+    season: str | None
+    updated: str | None
+    injuries: list[Prv_espn_EspnInjury_Out]
+
+class Prv_espn_EspnInjury_Out(TypedDict):
+    team: str
+    teamAbbreviation: str
+    player: str
+    position: str | None
+    status: str
+    injury: str | None
+    returnDate: str | None
+    note: str | None
+    detail: str | None
+    updated: str
+    playerUrl: str | None
 
 class Prv_estes_express_ShipmentRequest_In(TypedDict):
     origin: str
@@ -31696,6 +31728,12 @@ class Prv_bbc(Protocol):
         getFixtures.
         """
 
+    async def getTeam(self, teamSlugOrUrl: str, /) -> Prv_bbc_BbcGetTeamResult_Out:
+        """One team's BBC Sport page: name, competition, its recent results and upcoming fixtures,
+        and its latest stories. Takes a team slug, which getStandings and getFixtures rows
+        carry.
+        """
+
     async def listHeadlines(self, args: Prv_bbc_listHeadlines_args_In | None = None, /) -> Prv_bbc_BbcListHeadlinesResult_Out:
         """The stories a BBC section page shows right now, in the page's own order and grouping:
         headline, summary, url, article id, image, section label and last-updated time. Takes a
@@ -34943,15 +34981,15 @@ class Prv_eq3(Protocol):
     """
 
     async def listSofas(self, /) -> list[Prv_eq3_Eq3SofaListing_Out]:
-        """Lists every sofa in EQ3's living/seating/sofas line with real regular and sale prices,
-        straight off the site's own category listing. Every row carries the exact ids
+        """Lists every sofa in EQ3's sofas collection with real regular and sale prices, straight
+        off the site's own Shopify catalogue. Every row carries the exact handle
         getSofaConfiguration needs.
         """
 
-    async def getSofaConfiguration(self, args: Prv_eq3_getSofaConfiguration_args_In, /) -> Prv_eq3_Eq3SofaConfiguration_Out:
-        """Reads one sofa's full configurator: the site's own computed price (regular + sale) for
-        its default build, plus every fabric/finish/size option the configurator offers with
-        each item's own price contribution. THROWS when the instance does not exist.
+    async def getSofaConfiguration(self, handle: str, /) -> Prv_eq3_Eq3SofaConfiguration_Out:
+        """Reads one sofa's full configurator: the site's own price (regular + sale) for its
+        default build, plus every size/grade/finish option the configurator offers with each
+        item's own price contribution. THROWS when the handle does not exist.
         """
 
 class Prv_equinox_hotels(Protocol):
@@ -34994,6 +35032,19 @@ class Prv_erieinsurance(Protocol):
         (e.g. a real California one — ERIE writes personal lines in 12 mid-Atlantic/Midwest
         states plus DC) answers the genuinely honest empty list instead, and that is never an
         error.
+        """
+
+class Prv_espn(Protocol):
+    """ESPN sports data. injuries reads a league's full injury report — the NFL injury report
+    by default, also NBA, WNBA, MLB and NHL — with each injured player's team, position,
+    status (Questionable, Out, Injured Reserve…), body part, expected return date and latest
+    note, optionally for one team.
+    """
+
+    async def injuries(self, args: Prv_espn_InjuriesArgs_In | None = None, /) -> Prv_espn_EspnInjuryReport_Out:
+        """The ESPN injury report for a league — NFL by default — every injured player with team,
+        position, status, body part, expected return date and the latest news note. Pass `team`
+        to narrow to one team. Call with no arguments for the full NFL injury report.
         """
 
 class Prv_estes_express(Protocol):
@@ -47275,6 +47326,7 @@ class BowmarkProviders(Protocol):
     eq3: Prv_eq3
     equinox_hotels: Prv_equinox_hotels
     erieinsurance: Prv_erieinsurance
+    espn: Prv_espn
     estes_express: Prv_estes_express
     etsy: Prv_etsy
     evag: Prv_evag
