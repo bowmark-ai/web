@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2629 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2631 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -224,6 +224,8 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `azure.listServices` | azure.microsoft.com | Returns the Azure service catalogue derived live from `prices.azure.com`'s own rows —… | 🟢 |
 | `azure.listVmSizes` | azure.microsoft.com | Returns Azure's virtual-machine SKUs with the specifications a sizing decision is… | ⚪ |
 | `bahn.listDisruptions` | bahn.de | Lists current long-distance (ICE/IC/EC) train disruptions network-wide — cause… | 🟢 |
+| `banana_republic.getProduct` | bananarepublic.gap.com | Reads one Banana Republic product's variant-level sizes, colors and fits with each… | 🟢 |
+| `banana_republic.searchProducts` | bananarepublic.gap.com | Searches Banana Republic's live apparel catalog (bananarepublic.gap.com clothing… | 🟢 |
 | `bankmycell.getTradeInQuote` | bankmycell.com | Reads live trade-in offers for a device's bankmycell.com sell page from every merchant… | 🟢 |
 | `bankmycell.searchDevices` | bankmycell.com | Searches BankMyCell's own device index by free text (e.g. "iPhone 14") and returns… | 🟢 |
 | `barletta.getConfigurator` | barlettapontoonboats.com | Reads one model's whole builder: every option group (Railskin Color, Furniture… | 🟢 |
@@ -1508,7 +1510,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.getProductAttributes` | shop.lululemon.com | Reads what lululemon publishes ABOUT a garment rather than what it costs: the category… | 🟡 |
 | `lululemon.getProducts` | shop.lululemon.com | Reads the full configurator for MANY products in one call — the shape for ranking a… | 🟢 |
 | `lululemon.getReviews` | shop.lululemon.com | Reads the customer reviews on one product — rating, title, body, number of helpful… | 🟢 |
-| `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟢 |
+| `lululemon.getSimilarProducts` | shop.lululemon.com | Returns the products lululemon's own product pages recommend alongside one product —… | 🟡 |
 | `lululemon.getSizeGuide` | shop.lululemon.com | Returns lululemon's size chart for one garment — the body measurements each numeric… | 🟢 |
 | `lululemon.listCategory` | shop.lululemon.com | Browses one category the way the site's own navigation does — Women's Leggings, Men's… | ⚪ |
 | `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
