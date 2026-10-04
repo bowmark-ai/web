@@ -337,7 +337,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bluesky.getFeed` | bsky.app | Read a custom feed's posts (Discover, What's Hot, any creator's feed) by URL or at://… | 🟢 |
 | `bluesky.getFeedInfo` | bsky.app | One custom feed's details: name, creator, description, avatar, like count and whether… | ⚪ |
 | `bluesky.getFollowers` | bsky.app | Who follows a person, page by page. | 🟢 |
-| `bluesky.getFollows` | bsky.app | Who a person follows, page by page. | ⚪ |
+| `bluesky.getFollows` | bsky.app | Who a person follows, page by page. | 🟢 |
 | `bluesky.getKnownFollowers` | bsky.app | Which of the caller's own follows also follow a given person — the 'Followed by' line… | ⚪ |
 | `bluesky.getLabelers` | bsky.app | A moderation service's (labeler's) details and the labels it applies. | ⚪ |
 | `bluesky.getList` | bsky.app | A list's details and members, page by page. | ⚪ |
@@ -1091,7 +1091,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `github.listStarredRepositories` | github.com | Lists repositories the signed-in caller has starred — name, full name, description… | 🟢 |
 | `github.listTopics` | github.com | Lists topics from GitHub's public topics page — topic name and its github.com/topics… | 🟢 |
 | `github.listTrendingRepositories` | github.com | Lists repositories trending on GitHub by stars in a time window… | 🟢 |
-| `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | ⚪ |
+| `github.mergePullRequest` | github.com | Merges a pull request into its base branch. | 🟢 |
 | `github.searchCode` | github.com | Searches for code across public repositories, off github.com's own rendered… | 🟢 |
 | `github.searchRepositories` | github.com | Searches across all public repositories by name, language, topic, star count and other… | 🟢 |
 | `github.starRepository` | github.com | Adds a repository to the signed-in user's starred list. | 🟢 |

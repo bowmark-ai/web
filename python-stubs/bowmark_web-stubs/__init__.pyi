@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a291c8ba343a6e87bb942bd1be3979c7439b1ea0ccd97580d974ed09e88926c0
-# 74 capabilities, 514 providers, 1796 typed functions, 20 refused.
+# Manifest version: a18c20bcb52b61b12266698b3f9fa406b5d33bc461f420a4c1cc855157e37e1b
+# 74 capabilities, 515 providers, 1799 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -4842,6 +4842,75 @@ class Prv_bahn_DisruptionRow_Out(TypedDict):
     trainCategories: list[str]
     states: list[str]
     affectedRoutes: list[str]
+
+class Prv_banana_republic_BananaRepublicSearchArgs_In(TypedDict):
+    query: str
+    department: NotRequired[Literal["men"] | Literal["women"]]
+    inStockOnly: NotRequired[bool]
+    onSaleOnly: NotRequired[bool]
+    limit: NotRequired[float]
+
+class Prv_banana_republic_BananaRepublicSearchResult_Out(TypedDict):
+    query: str
+    department: Literal["Men"] | Literal["Women"] | None
+    total: float
+    hits: list[Prv_banana_republic_BananaRepublicSearchHit_Out]
+
+class Prv_banana_republic_BananaRepublicSearchHit_Out(TypedDict):
+    styleId: str
+    ccId: str
+    url: str
+    title: str
+    color: str | None
+    colorDescription: str | None
+    productType: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    inventoryStatus: str | None
+    reviewScore: float | None
+    reviewCount: float | None
+    image: str | None
+
+class Prv_banana_republic_BananaRepublicProduct_Out(TypedDict):
+    styleId: str
+    ccId: str
+    url: str
+    title: str
+    fits: list[str]
+    sizes: list[str]
+    colors: list[Prv_banana_republic_BananaRepublicColor_Out]
+    skus: list[Prv_banana_republic_BananaRepublicSku_Out]
+    inStock: bool
+
+class Prv_banana_republic_BananaRepublicColor_Out(TypedDict):
+    ccId: str
+    color: str | None
+    fit: str
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    sizesInStock: list[str]
+    sizesOutOfStock: list[str]
+
+class Prv_banana_republic_BananaRepublicSku_Out(TypedDict):
+    skuId: str
+    fit: str
+    ccId: str
+    color: str | None
+    size: str | None
+    size2: str | None
+    price: float | None
+    regularPrice: float | None
+    percentOff: float | None
+    onSale: bool
+    inStock: bool
+    lowStock: bool
+    status: str | None
 
 class Prv_bankmycell_BankmycellSearchResult_Out(TypedDict):
     brand: str
@@ -18327,7 +18396,7 @@ class Prv_nyt_games_NytSportsConnections_Out(TypedDict):
     id: str
     printDate: str
     categories: list[Prv_nyt_games_SportsConnectionsCategory_Out]
-    difficulty: str
+    difficulty: float | None
     editor: str | None
     hintUrl: str | None
 
@@ -18422,6 +18491,12 @@ class Prv_nytimes_NytimesPopularItem_Out(TypedDict):
     headline: NotRequired[str]
     summary: NotRequired[str]
     url: NotRequired[str]
+
+class Prv_nytimes_NytimesWriter_Out(TypedDict):
+    slug: str
+    name: str
+    url: str
+    lastModified: NotRequired[str]
 
 class Prv_nytimes_NytimesTopic_Out(TypedDict):
     slug: str
@@ -31212,6 +31287,25 @@ class Prv_bahn(Protocol):
         to disruptions affecting that category.
         """
 
+class Prv_banana_republic(Protocol):
+    """Banana Republic (bananarepublic.gap.com) apparel store. Searches the live catalog
+    (men's/women's, on-sale, in-stock, with sale and regular prices) and reads one product's
+    per-size, per-color price and live stock.
+    """
+
+    async def searchProducts(self, args: Prv_banana_republic_BananaRepublicSearchArgs_In | str, /) -> Prv_banana_republic_BananaRepublicSearchResult_Out:
+        """Searches Banana Republic's live apparel catalog the way a shopper would ("sweater",
+        "long sleeve shirt"), optionally narrowed to men/women, on-sale and in-stock only. One
+        row per product color with sale price, regular (compare-at) price, percent off, stock,
+        and the ccId getProduct takes. The way in.
+        """
+
+    async def getProduct(self, ccId: str, /) -> Prv_banana_republic_BananaRepublicProduct_Out:
+        """Reads one Banana Republic product's every fit × color × size SKU with its price, regular
+        price and live in-stock flag, plus per-color in-stock and sold-out size lists, so a
+        sold-out size is never shown. Takes the ccId or url searchProducts returns.
+        """
+
 class Prv_bankmycell(Protocol):
     """Live trade-in offers for a phone/device from every merchant BankMyCell compares, for a
     chosen capacity/condition/carrier — read off the same pricing endpoint the site's own
@@ -40850,6 +40944,12 @@ class Prv_nytimes(Protocol):
         each up to 20, the most the page itself renders.
         """
 
+    async def searchWriters(self, query: str, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesWriter_Out]:
+        """Searches NYT's own writers by name off its collections sitemap (the site publishes no
+        writer search or directory). name is formatted from the slug, not read off the site —
+        matched writers' pages were modified sometime in the last 24 months.
+        """
+
     async def listTopics(self, limit: float | None = None, offset: float | None = None, /) -> list[Prv_nytimes_NytimesTopic_Out]:
         """Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently
         active first. name is formatted from the slug, not read off the site.
@@ -44558,12 +44658,11 @@ class Prv_tradingview(Protocol):
         """
 
     async def getChartData(self, exchange: str, symbol: str, /) -> Prv_tradingview_ChartData_Out:
-        """Gets chart data (OHLCV candlestick) for one symbol on one exchange — e.g.
-        `getChartData("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact
-        `exchange` and `symbol` fields. Returns the latest candlestick with open, high, low,
-        close prices and volume, plus a Unix timestamp. Note: TradingView's public API returns
-        only current snapshot OHLCV; historical candlestick data requires the paid WebSocket
-        API. An unknown or delisted pair returns a caller-fixable error.
+        """Gets historical chart data (30 daily OHLCV candlesticks) for one symbol on one exchange
+        — e.g. `getChartData("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact
+        `exchange` and `symbol` fields. Returns an array of bars, each with a Unix-seconds
+        timestamp (`time`), open, high, low, close prices and volume, in ascending time order.
+        An unknown or delisted pair returns a caller-fixable error.
         """
 
     async def getEarnings(self, exchange: str, symbol: str, /) -> Prv_tradingview_Earnings_Out:
@@ -46750,6 +46849,7 @@ class BowmarkProviders(Protocol):
     azazie: Prv_azazie
     azure: Prv_azure
     bahn: Prv_bahn
+    banana_republic: Prv_banana_republic
     bankmycell: Prv_bankmycell
     barletta: Prv_barletta
     barnesfoundation: Prv_barnesfoundation

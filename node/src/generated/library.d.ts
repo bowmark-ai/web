@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a291c8ba343a6e87bb942bd1be3979c7439b1ea0ccd97580d974ed09e88926c0
-// 74 capabilities, 514 providers, 1814 typed functions, 20 refused.
+// Manifest version: a18c20bcb52b61b12266698b3f9fa406b5d33bc461f420a4c1cc855157e37e1b
+// 74 capabilities, 515 providers, 1817 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -8803,6 +8803,101 @@ interface DisruptionRow {
      * disruptions affecting that category.
      */
     listDisruptions(trainCategory?: string): Promise<DisruptionRow[]>;
+  }
+}
+
+declare namespace BowmarkProvider_banana_republic {
+  // ── Banana Republic — the unit's own declarations, verbatim ──
+interface BananaRepublicSearchArgs {
+  query: string;
+  department?: "men" | "women";
+  inStockOnly?: boolean;
+  onSaleOnly?: boolean;
+  limit?: number;
+}
+interface BananaRepublicSearchHit {
+  styleId: string;
+  ccId: string; // pass to getProduct
+  url: string;
+  title: string;
+  color: string | null;
+  colorDescription: string | null;
+  productType: string | null; // e.g. "mens sweaters"
+  price: number | null; // what it costs now
+  regularPrice: number | null; // compare-at
+  percentOff: number | null;
+  onSale: boolean;
+  inStock: boolean;
+  inventoryStatus: string | null;
+  reviewScore: number | null;
+  reviewCount: number | null;
+  image: string | null;
+}
+interface BananaRepublicSearchResult {
+  query: string;
+  department: "Men" | "Women" | null;
+  total: number; // colors the site matched, before inStockOnly/onSaleOnly/limit
+  hits: BananaRepublicSearchHit[];
+}
+interface BananaRepublicSku {
+  skuId: string;
+  fit: string; // "REGULAR", "TALL", "PETITE", …
+  ccId: string;
+  color: string | null;
+  size: string | null;
+  size2: string | null; // second size dimension (e.g. inseam), when the product has one
+  price: number | null;
+  regularPrice: number | null;
+  percentOff: number | null;
+  onSale: boolean;
+  inStock: boolean;
+  lowStock: boolean;
+  status: string | null; // "IN_STOCK" | "OUT_OF_STOCK" | …
+}
+interface BananaRepublicColor {
+  ccId: string;
+  color: string | null;
+  fit: string;
+  price: number | null;
+  regularPrice: number | null;
+  percentOff: number | null;
+  onSale: boolean;
+  inStock: boolean;
+  sizesInStock: string[];
+  sizesOutOfStock: string[];
+}
+interface BananaRepublicProduct {
+  styleId: string;
+  ccId: string;
+  url: string;
+  title: string;
+  fits: string[];
+  sizes: string[];
+  colors: BananaRepublicColor[];
+  skus: BananaRepublicSku[];
+  inStock: boolean;
+}
+
+  /**
+   * Banana Republic (bananarepublic.gap.com) apparel store. Searches the live catalog
+   * (men's/women's, on-sale, in-stock, with sale and regular prices) and reads one product's
+   * per-size, per-color price and live stock.
+   */
+  interface Unit {
+    /**
+     * Searches Banana Republic's live apparel catalog the way a shopper would ("sweater", "long
+     * sleeve shirt"), optionally narrowed to men/women, on-sale and in-stock only. One row per
+     * product color with sale price, regular (compare-at) price, percent off, stock, and the ccId
+     * getProduct takes. The way in.
+     */
+    searchProducts(args: BananaRepublicSearchArgs | string): Promise<BananaRepublicSearchResult>;
+
+    /**
+     * Reads one Banana Republic product's every fit × color × size SKU with its price, regular
+     * price and live in-stock flag, plus per-color in-stock and sold-out size lists, so a sold-out
+     * size is never shown. Takes the ccId or url searchProducts returns.
+     */
+    getProduct(ccId: string): Promise<BananaRepublicProduct>;
   }
 }
 
@@ -34359,7 +34454,7 @@ interface BonusPuzzlesWeek { dropDate: string; prevDrop: string; nextDrop: strin
 interface ListBonusPuzzlesArgs { dropDate?: string; }
 interface SportsConnectionsCard { content: string; position: number; }
 interface SportsConnectionsCategory { title: string; cards: SportsConnectionsCard[]; }
-interface NytSportsConnections { id: string; printDate: string; categories: SportsConnectionsCategory[]; difficulty: string; editor: string | null; hintUrl: string | null; }
+interface NytSportsConnections { id: string; printDate: string; categories: SportsConnectionsCategory[]; difficulty: number | null; editor: string | null; hintUrl: string | null; }
 interface GetSportsConnectionsArgs { date?: string; edition?: "sports-connections" | "soccer-connections"; }
 interface NytPlayerStatsData { stats?: Record<string, Record<string, unknown>>; }
 interface GetMyStatsArgs {}
@@ -34548,6 +34643,12 @@ interface NytimesPopularItem {
   summary?: string;
   url?: string;
 }
+interface NytimesWriter {
+  slug: string;
+  name: string;
+  url: string;
+  lastModified?: string;
+}
 interface NytimesTopic {
   slug: string;
   name: string;
@@ -34644,6 +34745,13 @@ interface NytimesEpisode {
      * up to 20, the most the page itself renders.
      */
     getTrending(list?: "trending" | "recipes" | "videos" | "mostViewed" | "mostFacebooked" | "mostEmailed", limit?: number, offset?: number): Promise<NytimesPopularItem[]>;
+
+    /**
+     * Searches NYT's own writers by name off its collections sitemap (the site publishes no writer
+     * search or directory). name is formatted from the slug, not read off the site — matched
+     * writers' pages were modified sometime in the last 24 months.
+     */
+    searchWriters(query: string, limit?: number, offset?: number): Promise<NytimesWriter[]>;
 
     /**
      * Lists NYT's own 'topic' (spotlight) pages off its collections sitemap, most recently active
@@ -44649,12 +44757,11 @@ interface OptionChain {
     getFinancials(exchange: string, symbol: string): Promise<Financials>;
 
     /**
-     * Gets chart data (OHLCV candlestick) for one symbol on one exchange — e.g.
-     * `getChartData("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact `exchange`
-     * and `symbol` fields. Returns the latest candlestick with open, high, low, close prices and
-     * volume, plus a Unix timestamp. Note: TradingView's public API returns only current snapshot
-     * OHLCV; historical candlestick data requires the paid WebSocket API. An unknown or delisted
-     * pair returns a caller-fixable error.
+     * Gets historical chart data (30 daily OHLCV candlesticks) for one symbol on one exchange —
+     * e.g. `getChartData("NASDAQ", "AAPL")`. Use `searchSymbols` first and pass its exact
+     * `exchange` and `symbol` fields. Returns an array of bars, each with a Unix-seconds timestamp
+     * (`time`), open, high, low, close prices and volume, in ascending time order. An unknown or
+     * delisted pair returns a caller-fixable error.
      */
     getChartData(exchange: string, symbol: string): Promise<ChartData>;
 
@@ -51207,6 +51314,7 @@ interface BowmarkProviders {
   azazie: BowmarkProvider_azazie.Unit;
   azure: BowmarkProvider_azure.Unit;
   bahn: BowmarkProvider_bahn.Unit;
+  banana_republic: BowmarkProvider_banana_republic.Unit;
   bankmycell: BowmarkProvider_bankmycell.Unit;
   barletta: BowmarkProvider_barletta.Unit;
   barnesfoundation: BowmarkProvider_barnesfoundation.Unit;

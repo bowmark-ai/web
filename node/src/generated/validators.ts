@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: a291c8ba343a6e87bb942bd1be3979c7439b1ea0ccd97580d974ed09e88926c0
-// 1796 checked, 20 unchecked.
+// Manifest version: a18c20bcb52b61b12266698b3f9fa406b5d33bc461f420a4c1cc855157e37e1b
+// 1799 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "a291c8ba343a6e87bb942bd1be3979c7439b1ea0ccd97580d974ed09e88926c0",
+  "version": "a18c20bcb52b61b12266698b3f9fa406b5d33bc461f420a4c1cc855157e37e1b",
   "units": {
     "address_validation": {
       "defs": {
@@ -9467,6 +9467,89 @@ export const VALIDATORS: ValidatorTable = {
               "k": "string"
             },
             "optional": true
+          }
+        ]
+      }
+    },
+    "providers.banana_republic": {
+      "defs": {
+        "BananaRepublicSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            },
+            {
+              "name": "department",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "men"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "women"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "inStockOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "onSaleOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "limit",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "searchProducts": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "union",
+              "of": [
+                {
+                  "k": "ref",
+                  "name": "BananaRepublicSearchArgs"
+                },
+                {
+                  "k": "string"
+                }
+              ]
+            },
+            "optional": false
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "ccId",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           }
         ]
       }
@@ -33379,6 +33462,29 @@ export const VALIDATORS: ValidatorTable = {
               ]
             },
             "optional": true
+          },
+          {
+            "name": "limit",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          },
+          {
+            "name": "offset",
+            "schema": {
+              "k": "number"
+            },
+            "optional": true
+          }
+        ],
+        "searchWriters": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
           },
           {
             "name": "limit",
