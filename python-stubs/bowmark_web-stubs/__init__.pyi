@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 76c85889e43345f32abbec64ceeb2426604651718da5a64c2a5412c330fc7b83
+# Manifest version: 176c36d558267656c6608f169bbb1d64734c5e519b439a0f9e89a6cf179694d9
 # 74 capabilities, 520 providers, 1807 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -12268,6 +12268,7 @@ class Prv_google_maps_GetPlaceResult_Out(TypedDict):
     openStatus: NotRequired[str]
     accessibility: NotRequired[list[str]]
     serviceOptions: NotRequired[list[str]]
+    orderOnlineUrl: NotRequired[str]
     warnings: NotRequired[list[str]]
     businessStatus: NotRequired[Literal["closed"]]
 
@@ -36553,24 +36554,33 @@ class Prv_google_maps(Protocol):
         this provider computed — hours' display strings carry no timezone, so a caller cannot
         derive open-right-now from them without it. accessibility is absent when the site
         publishes nothing for that place, never a guess — the field mask carries no other
-        amenity category (Wi-Fi, outdoor seating, takeout, …) at all. businessStatus reports a
-        CONFIRMED closure honestly (measured live against Mamnoon, Plum Bistro, Harbor City
-        Restaurant and Copine, all recently closed) but its absence never means the business is
-        open — Google does not flag every real-world closure, confirmed live against two
-        long-defunct Toys "R" Us locations that carry no marker at all. This retries a few times
-        to see past a reduced/rich flap in the site's own response and merges the richest draw;
-        `warnings` is non-empty when every attempt drew the reduced record, meaning
-        reviewCount/hours/openStatus could not be confirmed either way rather than being
-        genuinely absent. `serviceOptions` (boolean) opts into a SEPARATE browser read of the
-        About tab for its Delivery/Takeout/Dine-in row — an anonymous read of that tab now
-        serves Google's own "limited view" banner and no Service options section (measured
-        2026-09-30 against Pagliacci Pizza, Thai Tom and Dick's Drive-In), so this attaches the
-        caller's own Google session when one is granted (never required) and, either way, pushes
-        a `warnings` entry rather than staying silent when the panel came back limited instead
-        of genuinely empty. A THIRD reading of searchPlaces' door: takes the same resolving
-        query geocodeAddress does (typically a name plus address, since this does not take a
-        feature id — measured live, neither the raw id nor a cid string resolves through this
-        door), and throws when the query names a category or list rather than one business.
+        amenity category (Wi-Fi, outdoor seating, …) at all — service options come from separate
+        signals, see serviceOptions. businessStatus reports a CONFIRMED closure honestly
+        (measured live against Mamnoon, Plum Bistro, Harbor City Restaurant and Copine, all
+        recently closed) but its absence never means the business is open — Google does not flag
+        every real-world closure, confirmed live against two long-defunct Toys "R" Us locations
+        that carry no marker at all. This retries a few times to see past a reduced/rich flap in
+        the site's own response and merges the richest draw; `warnings` is non-empty when every
+        attempt drew the reduced record, meaning reviewCount/hours/openStatus could not be
+        confirmed either way rather than being genuinely absent. `serviceOptions` (the result
+        field) lists how the place serves food — "Dine-in", "Takeout", "Delivery",
+        "Drive-through" — read browserless from three signals in the same record: a per-service
+        hours block Google publishes ("Delivery 6 AM–9:30 PM"), the order types the place's
+        "Order online" action takes, and reviewers' own answers to "Did you dine in, take out,
+        or get delivery?"; measured 2026-10-03 on McDonald's, Chipotle, Canlis, Thai Tom and
+        Dick's Drive-In. It is POSITIVE evidence only: an option missing from it is unknown,
+        never "does not offer", and the field is absent when no signal exists (Pagliacci Pizza).
+        `orderOnlineUrl` is the site's own Google ordering link when the place takes orders
+        through Google. `serviceOptions: true` (the argument) additionally opts into a SEPARATE
+        ~15s browser read of the About tab — an anonymous read of that tab serves Google's own
+        "limited view" banner and no Service options section (measured 2026-09-30 against
+        Pagliacci Pizza, Thai Tom and Dick's Drive-In), so it only adds anything with the
+        caller's own Google session granted, and pushes a `warnings` entry rather than staying
+        silent when the panel came back limited. A THIRD reading of searchPlaces' door: takes
+        the same resolving query geocodeAddress does (typically a name plus address, since this
+        does not take a feature id — measured live, neither the raw id nor a cid string resolves
+        through this door), and throws when the query names a category or list rather than one
+        business.
         """
 
     async def listReviews(self, args: Prv_google_maps_ListReviewsArgs_In, /) -> Prv_google_maps_ListReviewsResult_Out:
@@ -39812,7 +39822,10 @@ class Prv_lululemon(Protocol):
         to one row per style. It is the store's ranking, not ours, and it does NOT reliably
         surface the same garment in another length: measured on the Align 25" pant, none of the
         six recommended rows was a sibling inseam even though the sitemap carries them, so
-        reaching another length is a `search`.
+        reaching another length is a `search`. An old-style `prod…` id is accepted: lululemon
+        renumbered its catalogue in October 2026 and the rail knows only the new ids, so the old
+        one is resolved through the store's own product service first, and `seedProductId` names
+        the id the rail was built from.
         """
 
     async def getReviews(self, query: Prv_lululemon_getReviews_query_In, /) -> Prv_lululemon_getReviews_return_Out:
