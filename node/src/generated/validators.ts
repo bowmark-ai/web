@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: 74d81fd8221c78c5bb8b97bb9753037f0a45a865bb449f6d4a87abbeff37fd2e
-// 1802 checked, 20 unchecked.
+// Manifest version: d155e5f110d8faa87e98ee1b2fb16ec07df0100fcc5cd7e4cc97eb14ef5d6a3e
+// 1804 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "74d81fd8221c78c5bb8b97bb9753037f0a45a865bb449f6d4a87abbeff37fd2e",
+  "version": "d155e5f110d8faa87e98ee1b2fb16ec07df0100fcc5cd7e4cc97eb14ef5d6a3e",
   "units": {
     "address_validation": {
       "defs": {
@@ -20687,55 +20687,6 @@ export const VALIDATORS: ValidatorTable = {
                   ]
                 }
               ]
-            },
-            "optional": false
-          }
-        ]
-      }
-    },
-    "providers.freightliner": {
-      "defs": {
-        "GetConfiguratorPriceArgs": {
-          "k": "object",
-          "props": [
-            {
-              "name": "model",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "cabType",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "engineType",
-              "schema": {
-                "k": "string"
-              },
-              "optional": true
-            },
-            {
-              "name": "timeoutMs",
-              "schema": {
-                "k": "number"
-              },
-              "optional": true
-            }
-          ]
-        }
-      },
-      "functions": {
-        "getConfiguratorPrice": [
-          {
-            "name": "args",
-            "schema": {
-              "k": "ref",
-              "name": "GetConfiguratorPriceArgs"
             },
             "optional": false
           }
@@ -44593,6 +44544,74 @@ export const VALIDATORS: ValidatorTable = {
             "schema": {
               "k": "ref",
               "name": "StickergiantBuild"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
+    "providers.suitsupply": {
+      "defs": {
+        "SuitsupplyListArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "cursor",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "inStockOnly",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "query",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "SuitsupplyListArgs"
+            },
+            "optional": true
+          }
+        ],
+        "listCategory": [
+          {
+            "name": "category",
+            "schema": {
+              "k": "string"
+            },
+            "optional": false
+          },
+          {
+            "name": "options",
+            "schema": {
+              "k": "ref",
+              "name": "SuitsupplyListArgs"
+            },
+            "optional": true
+          }
+        ],
+        "getProduct": [
+          {
+            "name": "handle",
+            "schema": {
+              "k": "string"
             },
             "optional": false
           }

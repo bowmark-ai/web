@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: 74d81fd8221c78c5bb8b97bb9753037f0a45a865bb449f6d4a87abbeff37fd2e
-# 74 capabilities, 518 providers, 1802 typed functions, 20 refused.
+# Manifest version: d155e5f110d8faa87e98ee1b2fb16ec07df0100fcc5cd7e4cc97eb14ef5d6a3e
+# 74 capabilities, 518 providers, 1804 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -11424,19 +11424,6 @@ class Prv_fred_fredCategoryRow_Out(TypedDict):
 class Prv_fred_searchSeries_args_u1_In(TypedDict):
     query: str
     limit: NotRequired[float]
-
-class Prv_freightliner_GetConfiguratorPriceArgs_In(TypedDict):
-    model: NotRequired[str]
-    cabType: NotRequired[str]
-    engineType: NotRequired[str]
-    timeoutMs: NotRequired[float]
-
-class Prv_freightliner_freightlinerRow_Out(TypedDict):
-    basePrice: float
-    totalPrice: float
-    modelName: str
-    cabType: str
-    engineType: str
 
 class Prv_furniture_searchProducts_args_In(TypedDict):
     query: str
@@ -23170,6 +23157,67 @@ class Prv_stickergiant_StickergiantQuantityPrice_Out(TypedDict):
     quantity: float
     price: float
     pricePerUnit: float
+
+class Prv_suitsupply_SuitsupplyListArgs_In(TypedDict):
+    cursor: NotRequired[str]
+    inStockOnly: NotRequired[bool]
+
+class Prv_suitsupply_SuitsupplyProductList_Out(TypedDict):
+    products: list[Prv_suitsupply_SuitsupplyProductCard_Out]
+    totalCount: float | None
+    nextCursor: str | None
+    warnings: list[str]
+
+class Prv_suitsupply_SuitsupplyProductCard_Out(TypedDict):
+    handle: str
+    title: str
+    availableForSale: bool
+    price: float | None
+    currency: str | None
+    category: str | None
+    color: str | None
+    material: str | None
+    materialDetails: str | None
+    fit: str | None
+    badge: str | None
+    customMadeAvailable: bool
+    url: str
+    imageUrl: str | None
+
+class Prv_suitsupply_SuitsupplyProduct_Out(TypedDict):
+    handle: str
+    title: str
+    availableForSale: bool
+    price: float | None
+    currency: str | None
+    category: str | None
+    color: str | None
+    material: str | None
+    materialDetails: str | None
+    fit: str | None
+    badge: str | None
+    customMadeAvailable: bool
+    url: str
+    imageUrl: str | None
+    itemCode: str | None
+    description: str | None
+    fabricDescription: str | None
+    composition: str | None
+    variants: list[Prv_suitsupply_SuitsupplyVariant_Out]
+    inStockSizes: list[str]
+    onSale: bool
+    warnings: list[str]
+
+class Prv_suitsupply_SuitsupplyVariant_Out(TypedDict):
+    sku: str
+    size: str
+    sizeUs: str | None
+    sizeEu: str | None
+    inStock: bool
+    maxPurchasableQuantity: float | None
+    price: float | None
+    compareAtPrice: float | None
+    onSale: bool
 
 class Prv_summerfridaysquiz_SkincareQuizQuestion_Out(TypedDict):
     name: str
@@ -35807,15 +35855,6 @@ class Prv_fred(Protocol):
         matching nothing returns an empty array rather than an error.
         """
 
-class Prv_freightliner(Protocol):
-    """Drives the Freightliner Cascadia configurator to capture quoted truck pricing."""
-
-    async def getConfiguratorPrice(self, args: Prv_freightliner_GetConfiguratorPriceArgs_In, /) -> Prv_freightliner_freightlinerRow_Out:
-        """Drives the Freightliner Cascadia 3D configurator through cab, engine, and option
-        selections while listening for pricing API calls. Returns the quoted price with selected
-        configuration details.
-        """
-
 class Prv_furniture(Protocol):
     """Searches furniture.com's live catalog (faceted room/type/size/brand/comfort/color/sale
     filters) with real prices and stock/lead-time status for a shopper's delivery ZIP, plus
@@ -43852,6 +43891,32 @@ class Prv_stickergiant(Protocol):
         out-of-range width/height — both are caller-fixable.
         """
 
+class Prv_suitsupply(Protocol):
+    """Suitsupply (suitsupply.com, US store) men's clothing catalog, keyless: search or list a
+    category (suits, knitwear/sweaters, shirts, jackets, coats, trousers, shoes) for priced,
+    in-stock product cards, then read one product's per-size stock and sale/compare-at
+    prices.
+    """
+
+    async def search(self, query: str, options: Prv_suitsupply_SuitsupplyListArgs_In | None = None, /) -> Prv_suitsupply_SuitsupplyProductList_Out:
+        """Keyword search of Suitsupply's US store (e.g. "sweater", "oxford shirt", "navy suit").
+        12 product cards a page with price, color, material and whether any size is in stock;
+        page on with `nextCursor`. `inStockOnly` drops sold-out cards. Cards carry no sizes —
+        call getProduct(card.handle) for per-size stock and sale prices.
+        """
+
+    async def listCategory(self, category: str, options: Prv_suitsupply_SuitsupplyListArgs_In | None = None, /) -> Prv_suitsupply_SuitsupplyProductList_Out:
+        """Lists one men's category grid: "suits", "jackets", "coats", "knitwear" (sweaters),
+        "shirts", "trousers", "shoes", or a sub-collection like "suits/lux-suits". Same cards
+        and paging as search. THROWS suitsupplyInputError on a category the site does not have.
+        """
+
+    async def getProduct(self, handle: str, /) -> Prv_suitsupply_SuitsupplyProduct_Out:
+        """One product by its card `handle` (or its url): every size with `inStock`,
+        `maxPurchasableQuantity`, `price` and `compareAtPrice` (set only when marked down), plus
+        `inStockSizes` and description. The stock check behind 'is my size available'.
+        """
+
 class Prv_summerfridaysquiz(Protocol):
     """Summer Fridays' Skincare Quiz, run for real — the quiz's own published routine-selection
     logic against a buyer's answers, filled with real, live, in-stock Summer Fridays
@@ -47129,7 +47194,6 @@ class BowmarkProviders(Protocol):
     fourseasonsyachts: Prv_fourseasonsyachts
     framebridge: Prv_framebridge
     fred: Prv_fred
-    freightliner: Prv_freightliner
     furniture: Prv_furniture
     g2: Prv_g2
     gasbuddy: Prv_gasbuddy
@@ -47353,6 +47417,7 @@ class BowmarkProviders(Protocol):
     statefarm: Prv_statefarm
     steam: Prv_steam
     stickergiant: Prv_stickergiant
+    suitsupply: Prv_suitsupply
     summerfridaysquiz: Prv_summerfridaysquiz
     sunhomesaunas: Prv_sunhomesaunas
     sunlighten: Prv_sunlighten

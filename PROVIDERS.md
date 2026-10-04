@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2694 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2709 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -123,6 +123,16 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `anthropic_com.getDoc` | anthropic.com | Reads one page of anthropic.com's engineering blog (/engineering/...) or legal terms… | 🟢 |
 | `anthropic_com.listDocs` | anthropic.com | Lists every engineering-blog and legal-terms page anthropic.com publishes — url… | 🟢 |
 | `antunes.findServiceAgencies` | antunes.com | Runs Antunes' own real-time authorized service-agency/distributor locator (the WP… | 🟢 |
+| `aol_mail.deleteMessage` | mail.aol.com | Deletes one of the CALLER's own messages (moves it to Trash, matching what the site's… | ⚪ |
+| `aol_mail.getAccountProfile` | mail.aol.com | Reads the CALLER's own AOL account profile from `myaccount.aol.com` — display name… | ⚪ |
+| `aol_mail.getMessage` | mail.aol.com | Reads one message in full from the CALLER's own AOL mailbox — sender, recipients… | ⚪ |
+| `aol_mail.listFolders` | mail.aol.com | Lists the CALLER's own AOL Mail folders — Inbox, Sent, Drafts, Spam, Trash and any… | ⚪ |
+| `aol_mail.listMessages` | mail.aol.com | Lists messages in the CALLER's own AOL mailbox, newest first, from a chosen folder… | ⚪ |
+| `aol_mail.markAsRead` | mail.aol.com | Marks one or more of the CALLER's own messages read or unread. | ⚪ |
+| `aol_mail.moveMessage` | mail.aol.com | Moves one of the CALLER's own messages to another folder (archive, trash, a custom… | ⚪ |
+| `aol_mail.searchMessages` | mail.aol.com | Searches the CALLER's own AOL mailbox the way AOL Mail's own search bar does — by… | ⚪ |
+| `aol_mail.sendMessage` | mail.aol.com | Sends an email from the CALLER's own AOL Mail account. | ⚪ |
+| `aol_mail.updateAccountProfile` | mail.aol.com | Updates the CALLER's own AOL account profile — display name or profile photo — the way… | ⚪ |
 | `aol.addFavorite` | aol.com | Saves a link to the signed-in caller's AOL Favorites, optionally into a folder. | ⚪ |
 | `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | ⚪ |
 | `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter display name, text, time… | ⚪ |
@@ -2018,6 +2028,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `reddit.unsavePostOrComment` | reddit.com | Removes a post or comment from the signed-in caller's Saved list. | 🟡 |
 | `reddit.updateProfile` | reddit.com | Changes the signed-in caller's public profile — display name and the 'about' bio. | 🟡 |
 | `reddit.vote` | reddit.com | Upvotes, downvotes or clears the caller's vote on a post or a comment, as the… | 🟡 |
+| `rei.addToCart` | rei.com | Adds a SKU to the visitor's cart. | ⚪ |
+| `rei.findStores` | rei.com | Finds REI stores near a location, with hours. | ⚪ |
+| `rei.getProductStock` | rei.com | Reads one product page's per-size, per-colour online and in-store stock. | ⚪ |
+| `rei.getSku` | rei.com | Reads one REI SKU: its size, colour, price, compare-at price and sale flag, plus every… | 🟢 |
+| `rei.search` | rei.com | Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece… | 🟢 |
 | `reliancepartners.assembleApplication` | reliancepartners.com | Validates a caller's trucking-insurance application against the live schema's own… | 🟡 |
 | `reliancepartners.getApplicationSchema` | reliancepartners.com | Reads reliancepartners.com/quote/'s live 3-step trucking-insurance application — every… | 🟡 |
 | `resy.checkAvailability` | resy.com | Reads real-time open reservation slots for one venue, one date and a party size —… | 🟡 |

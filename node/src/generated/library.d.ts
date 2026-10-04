@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: 74d81fd8221c78c5bb8b97bb9753037f0a45a865bb449f6d4a87abbeff37fd2e
-// 74 capabilities, 518 providers, 1820 typed functions, 20 refused.
+// Manifest version: d155e5f110d8faa87e98ee1b2fb16ec07df0100fcc5cd7e4cc97eb14ef5d6a3e
+// 74 capabilities, 518 providers, 1822 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -20895,36 +20895,6 @@ interface fredObservations {
      * returns an empty array rather than an error.
      */
     searchSeries(args: string | { query: string; limit?: number }): Promise<fredSeries[]>;
-  }
-}
-
-declare namespace BowmarkProvider_freightliner {
-  // ── Freightliner — the unit's own declarations, verbatim ──
-interface FreightlinerPrice {
-  basePrice: number;
-  totalPrice: number;
-  modelName: string;
-  cabType: string;
-  engineType: string;
-}
-
-interface freightlinerRow extends FreightlinerPrice {}
-
-interface GetConfiguratorPriceArgs {
-  model?: string;
-  cabType?: string;
-  engineType?: string;
-  timeoutMs?: number;
-}
-
-  /** Drives the Freightliner Cascadia configurator to capture quoted truck pricing. */
-  interface Unit {
-    /**
-     * Drives the Freightliner Cascadia 3D configurator through cab, engine, and option selections
-     * while listening for pricing API calls. Returns the quoted price with selected configuration
-     * details.
-     */
-    getConfiguratorPrice(args: GetConfiguratorPriceArgs): Promise<freightlinerRow>;
   }
 }
 
@@ -42333,6 +42303,86 @@ interface StickergiantPriceResult {
   }
 }
 
+declare namespace BowmarkProvider_suitsupply {
+  // ── Suitsupply — the unit's own declarations, verbatim ──
+interface SuitsupplyProductCard {
+  handle: string;
+  title: string;
+  availableForSale: boolean;
+  price: number | null;
+  currency: string | null;
+  category: string | null;
+  color: string | null;
+  material: string | null;
+  materialDetails: string | null;
+  fit: string | null;
+  badge: string | null;
+  customMadeAvailable: boolean;
+  url: string;
+  imageUrl: string | null;
+}
+interface SuitsupplyProductList {
+  products: SuitsupplyProductCard[];
+  totalCount: number | null;
+  nextCursor: string | null;
+  warnings: string[];
+}
+interface SuitsupplyListArgs {
+  cursor?: string;
+  inStockOnly?: boolean;
+}
+interface SuitsupplyVariant {
+  sku: string;
+  size: string;
+  sizeUs: string | null;
+  sizeEu: string | null;
+  inStock: boolean;
+  maxPurchasableQuantity: number | null;
+  price: number | null;
+  compareAtPrice: number | null;
+  onSale: boolean;
+}
+interface SuitsupplyProduct extends SuitsupplyProductCard {
+  itemCode: string | null;
+  description: string | null;
+  fabricDescription: string | null;
+  composition: string | null;
+  variants: SuitsupplyVariant[];
+  inStockSizes: string[];
+  onSale: boolean;
+  warnings: string[];
+}
+
+  /**
+   * Suitsupply (suitsupply.com, US store) men's clothing catalog, keyless: search or list a
+   * category (suits, knitwear/sweaters, shirts, jackets, coats, trousers, shoes) for priced,
+   * in-stock product cards, then read one product's per-size stock and sale/compare-at prices.
+   */
+  interface Unit {
+    /**
+     * Keyword search of Suitsupply's US store (e.g. "sweater", "oxford shirt", "navy suit"). 12
+     * product cards a page with price, color, material and whether any size is in stock; page on
+     * with `nextCursor`. `inStockOnly` drops sold-out cards. Cards carry no sizes — call
+     * getProduct(card.handle) for per-size stock and sale prices.
+     */
+    search(query: string, options?: SuitsupplyListArgs): Promise<SuitsupplyProductList>;
+
+    /**
+     * Lists one men's category grid: "suits", "jackets", "coats", "knitwear" (sweaters), "shirts",
+     * "trousers", "shoes", or a sub-collection like "suits/lux-suits". Same cards and paging as
+     * search. THROWS suitsupplyInputError on a category the site does not have.
+     */
+    listCategory(category: string, options?: SuitsupplyListArgs): Promise<SuitsupplyProductList>;
+
+    /**
+     * One product by its card `handle` (or its url): every size with `inStock`,
+     * `maxPurchasableQuantity`, `price` and `compareAtPrice` (set only when marked down), plus
+     * `inStockSizes` and description. The stock check behind 'is my size available'.
+     */
+    getProduct(handle: string): Promise<SuitsupplyProduct>;
+  }
+}
+
 declare namespace BowmarkProvider_summerfridaysquiz {
   // ── Summer Fridays — the unit's own declarations, verbatim ──
 interface SkincareQuizOption {
@@ -51632,7 +51682,6 @@ interface BowmarkProviders {
   fourseasonsyachts: BowmarkProvider_fourseasonsyachts.Unit;
   framebridge: BowmarkProvider_framebridge.Unit;
   fred: BowmarkProvider_fred.Unit;
-  freightliner: BowmarkProvider_freightliner.Unit;
   furniture: BowmarkProvider_furniture.Unit;
   g2: BowmarkProvider_g2.Unit;
   gasbuddy: BowmarkProvider_gasbuddy.Unit;
@@ -51856,6 +51905,7 @@ interface BowmarkProviders {
   statefarm: BowmarkProvider_statefarm.Unit;
   steam: BowmarkProvider_steam.Unit;
   stickergiant: BowmarkProvider_stickergiant.Unit;
+  suitsupply: BowmarkProvider_suitsupply.Unit;
   summerfridaysquiz: BowmarkProvider_summerfridaysquiz.Unit;
   sunhomesaunas: BowmarkProvider_sunhomesaunas.Unit;
   sunlighten: BowmarkProvider_sunlighten.Unit;
