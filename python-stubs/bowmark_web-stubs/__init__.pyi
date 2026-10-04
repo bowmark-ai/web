@@ -5,8 +5,8 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: d155e5f110d8faa87e98ee1b2fb16ec07df0100fcc5cd7e4cc97eb14ef5d6a3e
-# 74 capabilities, 518 providers, 1804 typed functions, 20 refused.
+# Manifest version: de5e984260ac3afadee8a949965d6ef50119913fc649392e23ea3b5e6b612e8a
+# 74 capabilities, 520 providers, 1807 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
 # for them. Each one is commented in place inside its Protocol. This list is the
@@ -21062,6 +21062,62 @@ class Prv_reddit_login_return_Out(TypedDict):
     expiresAt: str
     warnings: NotRequired[list[str]]
 
+class Prv_rei_ReiSearchArgs_In(TypedDict):
+    query: NotRequired[str]
+    category: NotRequired[str]
+    sizes: NotRequired[Sequence[str]]
+    gender: NotRequired[str]
+    onSale: NotRequired[bool]
+    sort: NotRequired[Literal["relevance"] | Literal["price_low"] | Literal["price_high"] | Literal["rating"] | Literal["newest"] | Literal["percent_off"]]
+    page: NotRequired[float]
+
+class Prv_rei_ReiSearch_Out(TypedDict):
+    products: list[Prv_rei_ReiProduct_Out]
+    total: float
+    page: float
+    totalPages: float
+    sizeOptions: list[str]
+    genderOptions: list[str]
+
+class Prv_rei_ReiProduct_Out(TypedDict):
+    id: str
+    name: str
+    brand: str
+    url: str
+    price: float | None
+    maxPrice: float | None
+    compareAtPrice: float | None
+    onSale: bool
+    percentOff: float | None
+    clearance: bool
+    available: bool
+    rating: float | None
+    reviewCount: float | None
+    imageUrl: str | None
+    colors: list[Prv_rei_ReiProduct_Out_colors_item_Out]
+
+class Prv_rei_ReiProduct_Out_colors_item_Out(TypedDict):
+    name: str
+    family: str
+    sampleSku: str
+
+class Prv_rei_ReiGetSkuArgs_In(TypedDict):
+    sku: str
+
+class Prv_rei_ReiSku_Out(TypedDict):
+    sku: str
+    productId: str
+    name: str
+    brand: str
+    color: str
+    size: str
+    price: float | None
+    compareAtPrice: float | None
+    onSale: bool
+    gender: str | None
+    url: str
+    siblingSkus: list[str]
+
 class Prv_reliancepartners_ReliancePartnersApplicationSchema_Out(TypedDict):
     entryUrl: str
     steps: list[Prv_reliancepartners_ReliancePartnersApplicationSchema_Out_steps_item_Out]
@@ -26306,6 +26362,18 @@ class Prv_weather_channel_TropicalSystem_Out(TypedDict):
     headingDirection: str | None
     headingCardinal: str | None
     headingSpeed: float | None
+
+class Prv_webshare_WebsharePlanTier_Out(TypedDict):
+    productType: Literal["residential"] | Literal["staticResidential"] | Literal["datacenter"]
+    tab: str
+    tier: str
+    billing: Literal["monthly"] | Literal["yearly"]
+    price: float
+    unitPrice: float
+    unit: str
+    listPrice: float | None
+    discount: str | None
+    mostPopular: bool
 
 class Prv_wellfound_wellfoundRow_Out(TypedDict):
     id: str
@@ -42737,6 +42805,24 @@ class Prv_reddit(Protocol):
         and can be changed later with `bm.connections.update(id, …)`.
         """
 
+class Prv_rei(Protocol):
+    """REI Co-op outdoor gear and apparel. Searches the catalog by keyword or category,
+    filtered to a size, gender and deals, with sale vs compare-at price and availability;
+    reads one SKU's price, size and colour.
+    """
+
+    async def search(self, args: Prv_rei_ReiSearchArgs_In, /) -> Prv_rei_ReiSearch_Out:
+        """Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece
+        jacket") or category, filtered to a size ("Medium"), gender ("Men's") and deals only,
+        and returns products with current vs compare-at price, percent off, availability, rating
+        and colourways. Use the size filter to see what is in stock in your size.
+        """
+
+    async def getSku(self, args: Prv_rei_ReiGetSkuArgs_In, /) -> Prv_rei_ReiSku_Out:
+        """Reads one REI SKU (from search's colors[].sampleSku): its size, colour, price,
+        compare-at price and sale flag, plus every sibling SKU of the same product.
+        """
+
 class Prv_reliancepartners(Protocol):
     """Reliance Partners' own 3-step commercial-trucking insurance application (FMCSA/EIN,
     per-line coverage limits, equipment) — reads the live field structure and enumerated
@@ -45868,6 +45954,19 @@ class Prv_weather_channel(Protocol):
         heading.
         """
 
+class Prv_webshare(Protocol):
+    """Webshare's own published proxy pricing (webshare.io) — rotating residential, static
+    residential and datacenter plan tiers, every pricing tab without clicking.
+    """
+
+    async def getPlans(self, productType: Literal["residential"] | Literal["staticResidential"] | Literal["datacenter"] | None = None, /) -> list[Prv_webshare_WebsharePlanTier_Out]:
+        """Reads Webshare's own published proxy pricing — rotating residential (per GB), static
+        residential / ISP (per proxy) and datacenter proxy-server (per proxy) plan tiers,
+        monthly and yearly, with price, unit price, discount and list price, straight off
+        webshare.io/pricing. Every tab is returned without clicking it. Omit productType to read
+        all three lines; pass "residential", "staticResidential" or "datacenter" to read one.
+        """
+
 class Prv_wellfound(Protocol):
     """Wellfound (formerly AngelList Talent) — startup job search with salary and equity bands,
     startup profiles and their open roles.
@@ -47377,6 +47476,7 @@ class BowmarkProviders(Protocol):
     puls_com: Prv_puls_com
     quince: Prv_quince
     reddit: Prv_reddit
+    rei: Prv_rei
     reliancepartners: Prv_reliancepartners
     resy: Prv_resy
     reuters: Prv_reuters
@@ -47477,6 +47577,7 @@ class BowmarkProviders(Protocol):
     waterfurnace: Prv_waterfurnace
     wearehirschfeld: Prv_wearehirschfeld
     weather_channel: Prv_weather_channel
+    webshare: Prv_webshare
     wellfound: Prv_wellfound
     wholefoodsmarket: Prv_wholefoodsmarket
     wikipedia: Prv_wikipedia

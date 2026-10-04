@@ -5,13 +5,13 @@
 // declares no readable argument shape — not an absent one, which is what the
 // guard fails closed on.
 //
-// Manifest version: d155e5f110d8faa87e98ee1b2fb16ec07df0100fcc5cd7e4cc97eb14ef5d6a3e
-// 1804 checked, 20 unchecked.
+// Manifest version: de5e984260ac3afadee8a949965d6ef50119913fc649392e23ea3b5e6b612e8a
+// 1807 checked, 20 unchecked.
 
 import type { ValidatorTable } from "../validate.js";
 
 export const VALIDATORS: ValidatorTable = {
-  "version": "d155e5f110d8faa87e98ee1b2fb16ec07df0100fcc5cd7e4cc97eb14ef5d6a3e",
+  "version": "de5e984260ac3afadee8a949965d6ef50119913fc649392e23ea3b5e6b612e8a",
   "units": {
     "address_validation": {
       "defs": {
@@ -40345,6 +40345,127 @@ export const VALIDATORS: ValidatorTable = {
         ]
       }
     },
+    "providers.rei": {
+      "defs": {
+        "ReiGetSkuArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "sku",
+              "schema": {
+                "k": "string"
+              },
+              "optional": false
+            }
+          ]
+        },
+        "ReiSearchArgs": {
+          "k": "object",
+          "props": [
+            {
+              "name": "query",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "category",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "sizes",
+              "schema": {
+                "k": "array",
+                "of": {
+                  "k": "string"
+                }
+              },
+              "optional": true
+            },
+            {
+              "name": "gender",
+              "schema": {
+                "k": "string"
+              },
+              "optional": true
+            },
+            {
+              "name": "onSale",
+              "schema": {
+                "k": "boolean"
+              },
+              "optional": true
+            },
+            {
+              "name": "sort",
+              "schema": {
+                "k": "union",
+                "of": [
+                  {
+                    "k": "literal",
+                    "v": "relevance"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "price_low"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "price_high"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "rating"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "newest"
+                  },
+                  {
+                    "k": "literal",
+                    "v": "percent_off"
+                  }
+                ]
+              },
+              "optional": true
+            },
+            {
+              "name": "page",
+              "schema": {
+                "k": "number"
+              },
+              "optional": true
+            }
+          ]
+        }
+      },
+      "functions": {
+        "search": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ReiSearchArgs"
+            },
+            "optional": false
+          }
+        ],
+        "getSku": [
+          {
+            "name": "args",
+            "schema": {
+              "k": "ref",
+              "name": "ReiGetSkuArgs"
+            },
+            "optional": false
+          }
+        ]
+      }
+    },
     "providers.reliancepartners": {
       "defs": {},
       "functions": {
@@ -49954,6 +50075,39 @@ export const VALIDATORS: ValidatorTable = {
         ],
         "getRadarTiles": [],
         "getCurrentTropicalPosition": []
+      }
+    },
+    "providers.webshare": {
+      "defs": {
+        "WebshareProductType": {
+          "k": "union",
+          "of": [
+            {
+              "k": "literal",
+              "v": "residential"
+            },
+            {
+              "k": "literal",
+              "v": "staticResidential"
+            },
+            {
+              "k": "literal",
+              "v": "datacenter"
+            }
+          ]
+        }
+      },
+      "functions": {
+        "getPlans": [
+          {
+            "name": "productType",
+            "schema": {
+              "k": "ref",
+              "name": "WebshareProductType"
+            },
+            "optional": true
+          }
+        ]
       }
     },
     "providers.wellfound": {

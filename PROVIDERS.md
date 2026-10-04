@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2720 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2747 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -2384,6 +2384,33 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `trawickinternational.getQuote` | trawickinternational.com | Submits Trawick's own homepage 'Get a Quote' travel-insurance form (destination… | 🟢 |
 | `trektravel.getDeparturePricing` | trektravel.com | Reads one trip's real scheduled departure dates straight off its own page: each date's… | 🟢 |
 | `trektravel.searchTours` | trektravel.com | Searches Trek Travel's real trip catalog (destination, activity, activity level, hotel… | 🟡 |
+| `tripadvisor.askQuestion` | tripadvisor.com | Posts a question to a listing's Q&A from the signed-in caller's account. | ⚪ |
+| `tripadvisor.createTrip` | tripadvisor.com | Creates a new Trip on the signed-in caller's account with a name and optional dates. | ⚪ |
+| `tripadvisor.getAttraction` | tripadvisor.com | Reads one attraction in full: name, description, address, opening hours, suggested… | ⚪ |
+| `tripadvisor.getDestination` | tripadvisor.com | Reads a city or region's overview page (/Tourism-g<geoId>-…): its name and parent… | ⚪ |
+| `tripadvisor.getForumThread` | tripadvisor.com | Reads one forum thread — the opening post and every reply, with author, date and text… | ⚪ |
+| `tripadvisor.getForumTopics` | tripadvisor.com | Lists a destination's travel-forum topics — title, author, reply count, last post date… | ⚪ |
+| `tripadvisor.getHotel` | tripadvisor.com | Reads one hotel in full: name, address, phone, star class, rating and its sub-ratings… | ⚪ |
+| `tripadvisor.getHotelPrices` | tripadvisor.com | Reads the booking partners' live prices for one hotel for given check-in/check-out… | ⚪ |
+| `tripadvisor.getMemberProfile` | tripadvisor.com | Reads a member's public profile — handle, display name, home town, join date… | ⚪ |
+| `tripadvisor.getNearby` | tripadvisor.com | Lists the hotels, restaurants or attractions near a given listing, nearest or… | ⚪ |
+| `tripadvisor.getOwnProfile` | tripadvisor.com | Reads the signed-in caller's own profile — handle, display name, home town… | ⚪ |
+| `tripadvisor.getPhotos` | tripadvisor.com | Lists a listing's or destination's photos — traveller and management photos with… | ⚪ |
+| `tripadvisor.getQuestions` | tripadvisor.com | Reads a listing's travellers' Q&A — each question's text, date, language and number of… | ⚪ |
+| `tripadvisor.getRestaurant` | tripadvisor.com | Reads one restaurant in full: name, address, phone, website, cuisines, price range… | ⚪ |
+| `tripadvisor.getRestaurantAvailability` | tripadvisor.com | Reads a restaurant's open reservation times for a date and party size, from the… | ⚪ |
+| `tripadvisor.getReview` | tripadvisor.com | Reads one review on its own page — the full text, rating, dates, author, photos and… | ⚪ |
+| `tripadvisor.getReviews` | tripadvisor.com | Reads the reviews of any listing — hotel, restaurant, attraction, tour or airline —… | ⚪ |
+| `tripadvisor.getTour` | tripadvisor.com | Reads one bookable tour or experience (/AttractionProductReview-g<geo>-d<id>-…)… | ⚪ |
+| `tripadvisor.getTrips` | tripadvisor.com | Lists the signed-in caller's Trips — the saved-places lists Tripadvisor keeps per… | ⚪ |
+| `tripadvisor.removeFromTrip` | tripadvisor.com | Removes a saved place from one of the signed-in caller's Trips. | ⚪ |
+| `tripadvisor.replyToForumTopic` | tripadvisor.com | Posts a reply to a travel-forum thread from the signed-in caller's account. | ⚪ |
+| `tripadvisor.saveToTrip` | tripadvisor.com | Saves a hotel, restaurant or attraction to one of the signed-in caller's Trips (the… | ⚪ |
+| `tripadvisor.search` | tripadvisor.com | Finds places by words — a city or region, a hotel, restaurant, attraction, tour or… | ⚪ |
+| `tripadvisor.searchAttractions` | tripadvisor.com | Lists the things to do in a city or region — attractions, tours and activities — in… | ⚪ |
+| `tripadvisor.searchHotels` | tripadvisor.com | Lists the hotels in a city or region, in Tripadvisor's own ranking, with each hotel's… | ⚪ |
+| `tripadvisor.searchRestaurants` | tripadvisor.com | Lists the restaurants in a city or region in Tripadvisor's ranking, with id, name… | ⚪ |
+| `tripadvisor.writeReview` | tripadvisor.com | Posts a review of a listing from the signed-in caller's account — rating, title, text… | ⚪ |
 | `trojanstorage.getFacilityUnits` | trojanstorage.com | Reads one Trojan Storage facility's currently-listed units (from `listFacilities`'s… | 🟢 |
 | `trojanstorage.listFacilities` | trojanstorage.com | Lists every Trojan Storage facility (56 today) with its address, phone, lat/lng and… | 🟢 |
 | `trophysignaturehomes.compareHomes` | trophysignaturehomes.com | Runs the site's own compare: reads both homes and computes real price-per-square-foot… | 🟢 |

@@ -5,8 +5,8 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: d155e5f110d8faa87e98ee1b2fb16ec07df0100fcc5cd7e4cc97eb14ef5d6a3e
-// 74 capabilities, 518 providers, 1822 typed functions, 20 refused.
+// Manifest version: de5e984260ac3afadee8a949965d6ef50119913fc649392e23ea3b5e6b612e8a
+// 74 capabilities, 520 providers, 1825 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
 // REFUSED — these functions are real and callable, and their declared arguments
@@ -38770,6 +38770,94 @@ interface RedditProfileText {
   }
 }
 
+declare namespace BowmarkProvider_rei {
+  // ── REI Co-op — the unit's own declarations, verbatim ──
+interface ReiSearchArgs {
+  /** Keyword, as typed into REI's search box: "sweater", "fleece jacket". */
+  query?: string;
+  /** Or a category slug from an rei.com/c/<slug> url: "mens-fleece-jackets". */
+  category?: string;
+  /** REI's own size labels: "Small", "Medium", "Large", "32". Only products
+   * offered in that size are returned. An unknown label is refused with the
+   * labels REI uses. */
+  sizes?: string[];
+  /** "Men's", "Women's", "Unisex", "Kids'". */
+  gender?: string;
+  /** Only REI's deals (sale, outlet and clearance). */
+  onSale?: boolean;
+  sort?: "relevance" | "price_low" | "price_high" | "rating" | "newest" | "percent_off";
+  /** 30 products per page. */
+  page?: number;
+}
+interface ReiProduct {
+  id: string;
+  name: string;
+  brand: string;
+  url: string;
+  price: number | null;
+  maxPrice: number | null;
+  compareAtPrice: number | null;
+  onSale: boolean;
+  percentOff: number | null;
+  clearance: boolean;
+  available: boolean;
+  rating: number | null;
+  reviewCount: number | null;
+  imageUrl: string | null;
+  /** One per colourway; sampleSku feeds getSku. */
+  colors: Array<{ name: string; family: string; sampleSku: string }>;
+}
+interface ReiSearch {
+  products: ReiProduct[];
+  total: number;
+  page: number;
+  totalPages: number;
+  /** The size labels this search's results come in. */
+  sizeOptions: string[];
+  genderOptions: string[];
+}
+interface ReiGetSkuArgs {
+  /** 10-digit REI SKU, e.g. "1541440001". */
+  sku: string;
+}
+interface ReiSku {
+  sku: string;
+  productId: string;
+  name: string;
+  brand: string;
+  color: string;
+  size: string;
+  price: number | null;
+  compareAtPrice: number | null;
+  onSale: boolean;
+  gender: string | null;
+  url: string;
+  /** Every SKU of the same product (all sizes and colours). */
+  siblingSkus: string[];
+}
+
+  /**
+   * REI Co-op outdoor gear and apparel. Searches the catalog by keyword or category, filtered to
+   * a size, gender and deals, with sale vs compare-at price and availability; reads one SKU's
+   * price, size and colour.
+   */
+  interface Unit {
+    /**
+     * Searches REI's catalog of outdoor gear and apparel by keyword ("sweater", "fleece jacket")
+     * or category, filtered to a size ("Medium"), gender ("Men's") and deals only, and returns
+     * products with current vs compare-at price, percent off, availability, rating and colourways.
+     * Use the size filter to see what is in stock in your size.
+     */
+    search(args: ReiSearchArgs): Promise<ReiSearch>;
+
+    /**
+     * Reads one REI SKU (from search's colors[].sampleSku): its size, colour, price, compare-at
+     * price and sale flag, plus every sibling SKU of the same product.
+     */
+    getSku(args: ReiGetSkuArgs): Promise<ReiSku>;
+  }
+}
+
 declare namespace BowmarkProvider_reliancepartners {
   // ── Reliance Partners — the unit's own declarations, verbatim ──
 interface ReliancePartnersApplicationSchema {
@@ -47764,6 +47852,38 @@ interface TropicalPositionResult {
   }
 }
 
+declare namespace BowmarkProvider_webshare {
+  // ── Webshare — the unit's own declarations, verbatim ──
+type WebshareProductType = "residential" | "staticResidential" | "datacenter";
+interface WebsharePlanTier {
+  productType: WebshareProductType;
+  tab: string;   // the site's own tab label, e.g. "Rotating Residential"
+  tier: string;  // the site's own label, e.g. "1 GB", "100 proxies"
+  billing: "monthly" | "yearly";
+  price: number;        // USD per month for the tier
+  unitPrice: number;    // USD per unit
+  unit: string;         // "/GB" or "/proxy"
+  listPrice: number | null;
+  discount: string | null;
+  mostPopular: boolean;
+}
+
+  /**
+   * Webshare's own published proxy pricing (webshare.io) — rotating residential, static
+   * residential and datacenter plan tiers, every pricing tab without clicking.
+   */
+  interface Unit {
+    /**
+     * Reads Webshare's own published proxy pricing — rotating residential (per GB), static
+     * residential / ISP (per proxy) and datacenter proxy-server (per proxy) plan tiers, monthly
+     * and yearly, with price, unit price, discount and list price, straight off
+     * webshare.io/pricing. Every tab is returned without clicking it. Omit productType to read all
+     * three lines; pass "residential", "staticResidential" or "datacenter" to read one.
+     */
+    getPlans(productType?: WebshareProductType): Promise<WebsharePlanTier[]>;
+  }
+}
+
 declare namespace BowmarkProvider_wellfound {
   // ── Wellfound — the unit's own declarations, verbatim ──
 interface wellfoundRow {
@@ -51865,6 +51985,7 @@ interface BowmarkProviders {
   puls_com: BowmarkProvider_puls_com.Unit;
   quince: BowmarkProvider_quince.Unit;
   reddit: BowmarkProvider_reddit.Unit;
+  rei: BowmarkProvider_rei.Unit;
   reliancepartners: BowmarkProvider_reliancepartners.Unit;
   resy: BowmarkProvider_resy.Unit;
   reuters: BowmarkProvider_reuters.Unit;
@@ -51965,6 +52086,7 @@ interface BowmarkProviders {
   waterfurnace: BowmarkProvider_waterfurnace.Unit;
   wearehirschfeld: BowmarkProvider_wearehirschfeld.Unit;
   weather_channel: BowmarkProvider_weather_channel.Unit;
+  webshare: BowmarkProvider_webshare.Unit;
   wellfound: BowmarkProvider_wellfound.Unit;
   wholefoodsmarket: BowmarkProvider_wholefoodsmarket.Unit;
   wikipedia: BowmarkProvider_wikipedia.Unit;
