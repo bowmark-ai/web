@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2632 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2638 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -1302,6 +1302,10 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `ibuypower.listSystems` | ibuypower.com | Lists every base configurator on the PC builder — AMD and Intel — with its slug, name… | 🟡 |
 | `ibuypower.recommendGamingPc` | ibuypower.com | Recommends buildable PCs at or under a budget, drawn from both product lines —… | 🟡 |
 | `ibuypower.searchGear` | ibuypower.com | Searches the Gear Store — peripherals, components and accessories sold loose rather… | ⚪ |
+| `idealista.contactAdvertiser` | idealista.com | Sends the listing's contact form to the advertiser. | ⚪ |
+| `idealista.getListing` | idealista.com | Reads one listing's full page — every photo, the full description, features, energy… | ⚪ |
+| `idealista.search` | idealista.com | Searches homes for rent or for sale in Spain from plain words or a location path… | 🟢 |
+| `idealista.searchRooms` | idealista.com | Searches rooms to share (alquiler-habitacion) rather than whole homes. | ⚪ |
 | `identitygroup.getSign` | identitygroup.com | Reads one sign product's full page: every mount-option variant, each with its own real… | 🟡 |
 | `identitygroup.priceMountOption` | identitygroup.com | Resolves a free-text mount option (e.g. "wall mount", "fence post") to its exact… | 🟡 |
 | `identitygroup.searchSigns` | identitygroup.com | Searches Identity Group's live signage catalog by brand or sign type and returns real… | 🟢 |
@@ -1516,6 +1520,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `lululemon.search` | shop.lululemon.com | Searches lululemon's catalogue by free text the way its own search bar does, returning… | 🟢 |
 | `luma.discoverEvents` | luma.com | Lists upcoming events on Luma's discover page for one city (sf, nyc, london…)… | 🟢 |
 | `luma.getEvent` | luma.com | Reads one Luma event page (luma.com/<slug> or lu.ma/<slug>) and returns its date, time… | 🟢 |
+| `luma.listCalendarEvents` | luma.com | Lists every upcoming event on one Luma calendar or organizer profile page… | 🟢 |
 | `luma.listCategories` | luma.com | Lists Luma's discover topic categories with the category slug discoverEvents takes. | 🟢 |
 | `luma.listPlaces` | luma.com | Lists every city Luma's discover page covers, with the place slug discoverEvents takes. | 🟢 |
 | `lyreco.getProduct` | lyreco.com | Reads one product's detail page and returns its live guest pricing — every variant… | 🟢 |
@@ -1717,7 +1722,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getTopicArticles` | nytimes.com | Gets a topic (spotlight) page's own name and article grid. | 🟢 |
 | `nytimes.getTrending` | nytimes.com | Gets one of the /trending/ page's own five OTHER popularity lists by name (default… | 🟢 |
 | `nytimes.getWordle` | nytimes.com | Gets today's Wordle puzzle. | ⚪ |
-| `nytimes.getWriter` | nytimes.com | Gets writer profile and byline. | ⚪ |
+| `nytimes.getWriter` | nytimes.com | Gets a writer's own profile off their /by/<slug> page — the site's real name and short… | 🟢 |
 | `nytimes.listArticles` | nytimes.com | Lists a section's own article grid, newest first, with metadata. | 🟢 |
 | `nytimes.listEpisodes` | nytimes.com | Lists a podcast's own episodes off its column page. | 🟢 |
 | `nytimes.listNewsletters` | nytimes.com | Lists NYT's own email newsletters off the signup page's catalog tray — up to 13, the… | 🟢 |
@@ -1773,7 +1778,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `paypal.searchHelp` | paypal.com | Searches PayPal's Help Center and returns the matching articles — title, canonical URL… | ⚪ |
 | `paypal.searchShoppingOffers` | paypal.com | Finds the cashback and discount offers PayPal is currently running at a given merchant… | ⚪ |
 | `peerspace.searchVenues` | peerspace.com | Reads Peerspace's own city listing page and returns each space's real hourly rate… | 🟢 |
-| `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟢 |
+| `perennialsandsutherland.getRugVariant` | perennialsandsutherland.com | Reads one rug product-page variant (design + colorway + size) — the real trade price… | 🟡 |
 | `perennialsandsutherland.getTearsheetUrl` | perennialsandsutherland.com | Returns the direct, unauthenticated PDF tearsheet download URL for one rug variant… | 🟢 |
 | `perennialsandsutherland.searchRugs` | perennialsandsutherland.com | Searches Perennials & Sutherland's live public rug catalog and returns each match's… | 🟢 |
 | `pilotprotocol.getApp` | pilotprotocol.network | Reads one app's detail page (/apps/<id>) — vendor, tagline, description, category… | 🟢 |
@@ -2275,6 +2280,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `tradingview.getCompanyInfo` | www.tradingview.com | Get fundamental information about a company: description, sector, market cap, employees. | 🟢 |
 | `tradingview.getDividends` | www.tradingview.com | Get dividend history and yield information for a symbol. | 🟢 |
 | `tradingview.getEarnings` | www.tradingview.com | Get earnings history and upcoming earnings dates for a symbol. | 🟢 |
+| `tradingview.getEconomicCalendar` | www.tradingview.com | Get upcoming and recently released economic events (releases, indicators) for a set of… | 🟢 |
 | `tradingview.getFinancials` | www.tradingview.com | Get financial statements and historical data: revenue, earnings, balance sheet. | 🟢 |
 | `tradingview.getMarketOverview` | www.tradingview.com | Get the current price and change for major market indices: NASDAQ Composite, S&P 500… | 🟢 |
 | `tradingview.getNews` | www.tradingview.com | Get recent news articles related to a symbol or market. | 🟢 |
