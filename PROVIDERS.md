@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2905 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2922 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -168,7 +168,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `app_store.listTopCharts` | apps.apple.com | What is charting on the App Store right now — top free or top paid, on iPhone, iPad or… | 🟢 |
 | `app_store.searchApps` | apps.apple.com | Search the App Store for what a person would actually type — "budget tracker"… | 🟢 |
 | `app_store.writeReview` | apps.apple.com | Rate an app and leave a written review on it, as the signed-in Apple Account. | ⚪ |
-| `apple.addToBag` | apple.com | Add a product to the shopping bag (cart) by part number. | 🟢 |
+| `apple.addToBag` | apple.com | Add a product to the shopping bag (cart) by part number. | 🟡 |
 | `apple.bookGeniusBarAppointment` | apple.com | Submit a Genius Bar / repair reservation's confirmation step — NEEDS THE CALLER SIGNED… | 🟢 |
 | `apple.checkCoverage` | apple.com | Look up what warranty or AppleCare a device still has from its serial number — no… | 🟢 |
 | `apple.compareModels` | apple.com | Put two or more models of the SAME family — Mac, iPhone, iPad or Apple Watch — side by… | 🟢 |
@@ -334,7 +334,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `bing.searchNews` | bing.com | Searches news coverage the way bing.com/news does and returns the matching stories… | 🟢 |
 | `bing.searchShopping` | bing.com | Searches Bing Shopping the way bing.com/shop does and returns each product's title… | 🟡 |
 | `bing.searchVideos` | bing.com | Searches Bing's video index the way bing.com/videos/search does and returns each hit's… | 🟢 |
-| `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🟡 |
+| `bing.searchWeb` | bing.com | Searches the web the way bing.com's own search box does and returns the ten results… | 🔴 |
 | `bing.searchWebBrowser` | bing.com | Searches the web by driving a browser to bing.com and waiting for results — same… | 🟢 |
 | `bing.translateText` | bing.com | Translates text the way bing.com/translator does and returns the translated string… | 🟡 |
 | `bionicpo.getInquiryServiceDetails` | bionicpo.com | Looks one inquiry service up by name or id among the inquiry-services page's service… | 🟡 |
@@ -695,6 +695,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `completehomewarranty_com.getPlan` | completehomewarranty.com | Reads one plan by name (e.g. "Essential Plan") — its monthly price and coverage summary. | 🟢 |
 | `completehomewarranty_com.listPlans` | completehomewarranty.com | Lists Complete Home Warranty's current published plans — name, monthly price and… | 🟢 |
 | `consultnet.searchJobs` | consultnet.com | Searches ConsultNet's live IT-staffing job board by keyword and optional ZIP/radius… | 🟢 |
+| `coops.getCurrents` | tidesandcurrents.noaa.gov | Get current predictions for a station. | ⚪ |
+| `coops.getStationMetadata` | tidesandcurrents.noaa.gov | Get detailed metadata for a station including location and timezone. | ⚪ |
+| `coops.getTidePredictions` | tidesandcurrents.noaa.gov | Get tide predictions for a station for specified dates. | ⚪ |
+| `coops.getWaterLevel` | tidesandcurrents.noaa.gov | Get water level observations for a station. | ⚪ |
+| `coops.listStations` | tidesandcurrents.noaa.gov | List available tide stations. | ⚪ |
 | `costco.search` | costco.com | Runs a search on Costco's product catalog and returns matching items (title, brand… | 🟢 |
 | `countycourt_vic_gov_au.dailyList` | countycourt.vic.gov.au | Returns the County Court's currently-published daily hearing list (Crime and Appeals… | 🟢 |
 | `couponfollow.getCodes` | couponfollow.com | Reads couponfollow.com/site/<domain> — every promo code and checkout deal couponfollow… | 🟢 |
@@ -958,7 +963,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `evag.listDisruptions` | evag.de | Network-wide Essen transit disruptions from Ruhrbahn/EVAG Verkehrsinfos — short-notice… | 🟢 |
 | `evag.searchStop` | evag.de | Search for Essen transit stops and stations by name or partial name; returns matching… | 🟢 |
 | `eventbrite.followOrganizer` | eventbrite.com | Follows an organizer from the signed-in caller's account, taking an organizer url or id. | ⚪ |
-| `eventbrite.getEvent` | eventbrite.com | Returns one event in full: title, description, start/end time, venue (name, address… | ⚪ |
+| `eventbrite.getEvent` | eventbrite.com | Returns one event in full: title, description, start/end time, venue (name, address… | 🟢 |
 | `eventbrite.getOrderHistory` | eventbrite.com | Reads the signed-in caller's past and upcoming ticket orders from their account's… | ⚪ |
 | `eventbrite.getOrganizer` | eventbrite.com | Reads an organizer's public page — name, description, verification/badge status, total… | ⚪ |
 | `eventbrite.getOwnProfile` | eventbrite.com | Reads the signed-in caller's own account profile (name, email on file, location). | ⚪ |
@@ -1812,6 +1817,11 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nfa_futures_org.lookupByNfaId` | nfa.futures.org | One firm or individual's current NFA membership status and registration types, by NFA… | 🟢 |
 | `nfa_futures_org.searchFirms` | nfa.futures.org | Firms NFA's own BASIC registry lists for a name query — NFA ID, membership status… | 🟡 |
 | `nfa_futures_org.searchIndividuals` | nfa.futures.org | Individuals NFA's own BASIC registry lists for a name query — NFA ID, membership… | 🟡 |
+| `nhc.getStormAdvisory` | nhc.noaa.gov | Get the latest advisory text for a storm. | ⚪ |
+| `nhc.getStormForecast` | nhc.noaa.gov | Get the forecast track and intensity for a storm. | ⚪ |
+| `nhc.getStormInfo` | nhc.noaa.gov | Get detailed information about a specific hurricane or tropical storm including… | ⚪ |
+| `nhc.listCurrentStorms` | nhc.noaa.gov | List all active tropical storms and hurricanes. | ⚪ |
+| `nhc.searchStorms` | nhc.noaa.gov | Get list of current and recent storms from the National Hurricane Center. | ⚪ |
 | `npmjs.getDownloads` | npmjs.com | Returns a package's real download count off npmjs.com's own public download-counts API… | 🟢 |
 | `nurturelife.getMealBundle` | nurturelife.com | Returns Nurture Life's currently-offered curated meal bundles with their real, current… | 🟢 |
 | `nurturelife.getMealPlans` | nurturelife.com | Returns Nurture Life's real, live plan tiers (7/10/14/21 meals) with each tier's… | 🟢 |
@@ -1821,6 +1831,13 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nvisioncenters.calculateLasikSavings` | nvisioncenters.com | Runs NVISION's own LASIK Savings Calculator — age plus glasses/contacts usage and cost… | 🟢 |
 | `nvisioncenters.checkLasikCandidacy` | nvisioncenters.com | Runs NVISION's own LASIK Candidate Quiz disqualification rule — age bracket in, the… | 🟢 |
 | `nvisioncenters.estimateLasikSavings` | nvisioncenters.com | Alias of calculateLasikSavings taking the snake_case argument spelling (glasses_cost… | 🟢 |
+| `nws.getAlerts` | api.weather.gov | Get active weather alerts for a location or area. | ⚪ |
+| `nws.getForecast` | api.weather.gov | Get the hourly or daily forecast for a location (given lat/lng or grid point). | ⚪ |
+| `nws.getGridpointForecast` | api.weather.gov | Get detailed grid point forecast with hourly or daily resolution and additional fields. | ⚪ |
+| `nws.getMetadata` | api.weather.gov | Get metadata for a grid point including timezone, forecast zone, county and marine zone. | ⚪ |
+| `nws.getRadarServer` | api.weather.gov | Get radar and observation data via the NWS Radar and Observation website… | ⚪ |
+| `nws.listStations` | api.weather.gov | List NWS weather stations and observation points for a region. | ⚪ |
+| `nws.searchLocation` | api.weather.gov | Search for a location by latitude and longitude and get its grid point, forecast zone… | ⚪ |
 | `nyt_cooking.addRecipeToFolder` | cooking.nytimes.com | Files a saved recipe into one of the signed-in reader's Recipe Box folders. | ⚪ |
 | `nyt_cooking.addToGroceryList` | cooking.nytimes.com | Adds a recipe's ingredients (or plain items) to the signed-in reader's grocery list. | ⚪ |
 | `nyt_cooking.clearGroceryList` | cooking.nytimes.com | Clears the signed-in reader's whole grocery list. | ⚪ |
@@ -1877,7 +1894,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `nytimes.getArticle` | nytimes.com | Gets full article text, metadata and comments count. | 🟢 |
 | `nytimes.getArticleComments` | nytimes.com | Reads an article's reader comments, newest or oldest first. | 🟡 |
 | `nytimes.getConnections` | nytimes.com | Gets today's Connections puzzle. | ⚪ |
-| `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟢 |
+| `nytimes.getLiveBlog` | nytimes.com | Gets live blog updates (breaking news, events). | 🟡 |
 | `nytimes.getNewsletter` | nytimes.com | Gets one newsletter's own catalog entry (title, caption, frequency, sample). | 🟢 |
 | `nytimes.getPodcast` | nytimes.com | Gets podcast details. | 🟢 |
 | `nytimes.getSection` | nytimes.com | Gets a section front's own id and slug plus its article grid. | 🟢 |

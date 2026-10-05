@@ -93,7 +93,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `school_shopping_basket.priceList` | Prices a multi-item shopping list at Target and Walmart, one basket total per retailer. | 2 | 🟡 |
 | `script_execution.guide` | Returns the loop for doing a task (get_library, then a script, then run), the… | 0 | 🟢 |
 | `search.news` | Searches news coverage and returns stories with the headline, the outlet's own article… | 2 | 🟢 |
-| `search.web` | Searches the web and returns ranked results — title, destination URL, snippet — from… | 2 | 🟡 |
+| `search.web` | Searches the web and returns ranked results — title, destination URL, snippet — from… | 2 | 🔴 |
 | `sheds.findDealers` | Looks up the real places that sell a maker's buildings in one US state or Canadian… | 1 | 🟢 |
 | `sheds.listStyles` | Lists every building style each maker actually offers — its customer-facing name, the… | 1 | 🟢 |
 | `sheds.quote` | Prices a building at a real size for a real zip, exactly the way the maker's own… | 1 | 🟢 |
