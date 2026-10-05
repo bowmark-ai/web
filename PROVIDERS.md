@@ -137,7 +137,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `aol.getArticle` | aol.com | Reads one AOL article in full — headline, author, source publisher, published and… | ⚪ |
 | `aol.getArticleComments` | aol.com | Reads the reader comments under one AOL article — commenter display name, text, time… | ⚪ |
 | `aol.getDailyHoroscope` | aol.com | Reads today's AOL horoscope for one zodiac sign. | ⚪ |
-| `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | ⚪ |
+| `aol.getFrontPage` | aol.com | Reads the aol.com front page as the visitor sees it — the lead stories and every… | 🟢 |
 | `aol.getLocalNews` | aol.com | Lists local news for a US city and state — headline, url, summary, image and the local… | ⚪ |
 | `aol.getMarketSummary` | aol.com | Reads the market strip AOL shows on its front page — the Dow, S&P 500, Nasdaq, DAX… | ⚪ |
 | `aol.getRecipe` | aol.com | Reads one AOL recipe — title, ingredients, steps, times, servings and image — given… | ⚪ |
@@ -1273,7 +1273,7 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `goodreads.listGenreBooks` | goodreads.com | Browses one genre shelf — the books Goodreads itself files under that genre tag… | ⚪ |
 | `goodreads.rateBook` | goodreads.com | Sets the signed-in caller's own star rating (1-5) on a book. | ⚪ |
 | `goodreads.removeFromShelf` | goodreads.com | Removes a book from one of the signed-in caller's shelves. | ⚪ |
-| `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | ⚪ |
+| `goodreads.searchBooks` | goodreads.com | Runs the site's book search and returns title, author, url and (when the card shows… | 🟢 |
 | `goodreads.searchQuotes` | goodreads.com | Runs the public quotes search and returns quote text with its attributed author or book. | ⚪ |
 | `goodreads.writeReview` | goodreads.com | Posts a text review (with an optional star rating) on a book as the signed-in caller. | ⚪ |
 | `goodway.getProduct` | goodway.com | Reads one pressure-washer product's detail page for its real, current price and… | 🟢 |

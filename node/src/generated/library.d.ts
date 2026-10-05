@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: f61e576150635f5f2f32c4546e5d13feb560ed1d4d0fa0ec422cbff5710975ee
+// Manifest version: 100e5ddd2144e555e103d09535336694dd7b301ab33456c91a825a4181958e23
 // 75 capabilities, 524 providers, 1832 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -38211,6 +38211,7 @@ interface QuinceVariant {
   size: string | null;
   price: number | null;
   traditionalRetailPrice: number | null;
+  /** Quince's own markdown string ("0%" when none); null when the page came back in its newer layout, which does not carry it. */
   savings: string | null;
   available: number | null;
   inStock: boolean;
