@@ -45,7 +45,7 @@ One function per row. A capability is the thing you call; it fans out to whichev
 | `email.findDomain` | Turns a company NAME into the domain it sends mail from — findDomain("Basecamp LLC")… | 1 | 🟢 |
 | `entertainment_merch.search` | Searches Hot Topic and BoxLunch in parallel for a franchise/character/show and returns… | 2 | 🟢 |
 | `essen_roadworks.list` | Roadworks in Essen. | 0 | 🟢 |
-| `event_space_quote.getQuotes` | Find event spaces and get venue pricing quotes by city, state, headcount and hours. | 1 | 🟢 |
+| `event_space_quote.getQuotes` | Submit an event space quote request form: get pricing for venues that fit a headcount… | 1 | 🟢 |
 | `flights.getBookingOptions` | Every seller on offer for ONE result — pass the whole row from `search()`, not its id. | 5 | 🟢 |
 | `flights.getFlightStatus` | A flight's live status, checked directly with the airline that flies it. | 5 | 🟢 |
 | `flights.search` | Searches for flights matching the query and returns `{ flights, warnings }`. `flights`… | 5 | 🟢 |
