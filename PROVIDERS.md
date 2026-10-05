@@ -1,7 +1,7 @@
 # Providers
 
 > Generated from the live library — do not edit by hand. Run `pnpm run gen:coverage`.
-> 2874 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
+> 2905 functions. 🟢 live · 🟡 degraded · 🔴 broken · ⚪ planned.
 > Health is the capability canary's most recent verdict.
 
 One function per row. A provider is one site, reached directly. A FAMILY (a storefront platform) is one row per function carrying its member count — never one row per member.
@@ -916,10 +916,41 @@ One function per row. A provider is one site, reached directly. A FAMILY (a stor
 | `erieinsurance.getRvQuote` | erieinsurance.com | Returns an RV/motorhome insurance premium quote for a vehicle and owner. | ⚪ |
 | `erieinsurance.getUmbrellaQuote` | erieinsurance.com | Returns a personal umbrella liability insurance premium quote given a requested… | ⚪ |
 | `erieinsurance.getWorkersCompensationQuote` | erieinsurance.com | Returns a workers' compensation insurance premium quote for a business's payroll… | ⚪ |
+| `espn.addDropFantasyPlayer` | espn.com | Adds a free agent to the CALLER's own ESPN fantasy team, dropping one of theirs if the… | ⚪ |
+| `espn.addFavorite` | espn.com | Adds a team, league or player to the CALLER's My ESPN favourites. | ⚪ |
+| `espn.createFantasyLeague` | espn.com | Creates a new ESPN fantasy league (football, baseball, basketball or hockey) owned by… | ⚪ |
+| `espn.draftPicks` | espn.com | A league's draft by round and pick — team, player, position and college — for the… | ⚪ |
+| `espn.fantasyPlayers` | espn.com | ESPN Fantasy's public player board for fantasy football, baseball, basketball or… | ⚪ |
+| `espn.getArticle` | espn.com | The full text of one ESPN story — headline, byline, published and updated times, body… | ⚪ |
+| `espn.getFantasyLeague` | espn.com | One ESPN fantasy league — settings, scoring, standings, this week's matchups and… | ⚪ |
+| `espn.getFantasyTeam` | espn.com | One team in an ESPN fantasy league — its roster with each player's slot, projected and… | ⚪ |
+| `espn.getGame` | espn.com | One game in full, as its Gamecast and box score pages show it — score by period, every… | ⚪ |
+| `espn.getPlayer` | espn.com | One player's page — team, position, jersey, age, height, weight, birthplace, college… | ⚪ |
+| `espn.getTeam` | espn.com | One team's page header — record, standing in its division, next game, coach, venue and… | ⚪ |
 | `espn.injuries` | espn.com | Reads a league's injury report the way ESPN's own /nfl/injuries page does — every… | 🟢 |
-| `espn.news` | espn.com | The latest headlines for a league or team from ESPN's news feed. | ⚪ |
-| `espn.scoreboard` | espn.com | Today's (or a given week's) games for a league with live scores and status, as ESPN's… | ⚪ |
-| `espn.standings` | espn.com | A league's current standings by division and conference. | ⚪ |
+| `espn.listFavorites` | espn.com | The CALLER's My ESPN favourites — the teams, leagues and players they follow, which… | ⚪ |
+| `espn.listLeagues` | espn.com | Every sport and league ESPN covers, with the slug every other function takes — nfl… | ⚪ |
+| `espn.listMyFantasyTeams` | espn.com | The CALLER's own ESPN fantasy teams across every game (football, baseball, basketball… | ⚪ |
+| `espn.listTeams` | espn.com | Every team in a league with its ESPN id, abbreviation, name, location, colours and… | ⚪ |
+| `espn.listVideos` | espn.com | ESPN's highlight and analysis video clips for a league, a team or a game — title… | ⚪ |
+| `espn.news` | espn.com | The latest ESPN headlines for a league, a team or a player — headline, description… | ⚪ |
+| `espn.odds` | espn.com | The betting lines ESPN shows for one game — spread, total and moneyline from each… | ⚪ |
+| `espn.playerGameLog` | espn.com | One player's game-by-game log for a season — opponent, result and the full stat line… | ⚪ |
+| `espn.playerStats` | espn.com | One player's full statistics — season by season and career totals in every category… | ⚪ |
+| `espn.proposeFantasyTrade` | espn.com | Proposes a trade from the CALLER's own ESPN fantasy team to another team in the same… | ⚪ |
+| `espn.rankings` | espn.com | College polls — the AP Top 25, the Coaches Poll and the playoff rankings for college… | ⚪ |
+| `espn.removeFavorite` | espn.com | Removes a team, league or player from the CALLER's My ESPN favourites. | ⚪ |
+| `espn.scoreboard` | espn.com | A league's games for today, a date, a date range or a football week — teams, live or… | ⚪ |
+| `espn.search` | espn.com | ESPN's own site search — players, teams, leagues and articles matching free text, each… | ⚪ |
+| `espn.setFantasyLineup` | espn.com | Moves players between the CALLER's starting lineup and bench in one of their own ESPN… | ⚪ |
+| `espn.standings` | espn.com | A league's current standings by conference and division — wins, losses, ties, win… | ⚪ |
+| `espn.statLeaders` | espn.com | A league's season leaderboard in one category — passing yards, points per game, home… | ⚪ |
+| `espn.submitPicks` | espn.com | Enters the CALLER's picks in one of ESPN's free prediction games — Pigskin Pick'em… | ⚪ |
+| `espn.teamDepthChart` | espn.com | One team's depth chart — the starter and backups at every position, in order. | ⚪ |
+| `espn.teamRoster` | espn.com | One team's current roster — every player with jersey number, position, age, height… | ⚪ |
+| `espn.teamSchedule` | espn.com | One team's full season schedule — every game with date, opponent, home or away, TV… | ⚪ |
+| `espn.teamStats` | espn.com | One team's season statistics, team totals and per-game, with its league rank in each… | ⚪ |
+| `espn.transactions` | espn.com | A league's recent transactions — signings, releases, trades, injured-list moves and… | ⚪ |
 | `estes_express.estimateFreightQuote` | estes-express.com | Gets a freight shipping rate quote for an LTL (less than truckload) shipment with… | 🟢 |
 | `ethos.getLifeQuote` | ethos.com | Returns a personalized life insurance rate quote the way Ethos's own funnel does… | ⚪ |
 | `etsy.search` | etsy.com | Searches Etsy's live catalog of active listings by keyword, the way etsy.com's own… | 🟢 |

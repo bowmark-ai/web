@@ -5,7 +5,7 @@
 # `bowmark-web` provides the runtime. The naming is mandated rather than chosen —
 # PEP 561: "The name of the stub package MUST follow the scheme `foopkg-stubs`".
 #
-# Manifest version: a4746818e52318deb3480419d5058a75294bfd45002226d10acb1c486ea170f6
+# Manifest version: f61e576150635f5f2f32c4546e5d13feb560ed1d4d0fa0ec422cbff5710975ee
 # 75 capabilities, 524 providers, 1814 typed functions, 20 refused.
 #
 # REFUSED — these functions are real and callable, and no honest signature exists
@@ -15749,6 +15749,8 @@ class Prv_landsend_LandsEndVariant_Out(TypedDict):
     inStock: bool
     price: float
     fullPrice: float
+    sku: str | None
+    url: str | None
 
 class Prv_landsend_LandsEndPromo_Out(TypedDict):
     promoCode: str
@@ -39387,7 +39389,10 @@ class Prv_landsend(Protocol):
         "linen pants") and returns products with current vs full-retail price, an onSale flag,
         per-size and per-colour stock, fabric, fit, images, and the price a promo code takes
         each item to. Filter by the site's size labels ("Medium", "34 x 30") and to sale items
-        only.
+        only. Each colour has a `url` that opens that colour; each variant (size x colour x size
+        range) has its `sku` and a `url` that opens the page with that colour AND size already
+        selected — null for waist x inseam sizes ("34 x 30"), which the site's page cannot
+        pre-pick from a link.
         """
 
     async def getActivePromo(self, /) -> Prv_landsend_LandsEndPromo_Out:

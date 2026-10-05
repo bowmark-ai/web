@@ -5,7 +5,7 @@
 // rather than imported. An `import` or `export` at the top level of this file would
 // turn it into a module and every declaration below would stop being global.
 //
-// Manifest version: a4746818e52318deb3480419d5058a75294bfd45002226d10acb1c486ea170f6
+// Manifest version: f61e576150635f5f2f32c4546e5d13feb560ed1d4d0fa0ec422cbff5710975ee
 // 75 capabilities, 524 providers, 1832 typed functions, 20 refused.
 // 49,872 family members, sharing 2 interface(s) — declared once and pointed at, never repeated per member.
 //
@@ -4999,6 +4999,8 @@ interface abercrombieProduct {
   breadcrumbs: string[];
 }
 
+/** No per-size url: abercrombie.com has no link that opens a product with a
+ * size selected (measured 2026-10-04). The colour's url is the closest link. */
 interface abercrombieSku {
   sku: string;
   /** The site's own label, e.g. "32 X Regular" or "M". */
@@ -29376,6 +29378,12 @@ interface LandsEndVariant {
   inStock: boolean;
   price: number;
   fullPrice: number;
+  /** The site's SKU number; null when the row covers more than one SKU. */
+  sku: string | null;
+  /** Product-page link that opens with this colour, size range AND size
+   * selected (`?skumv=<sku>`). Null for a waist x inseam size ("34 x 30"),
+   * which no URL can pre-pick, or with no single sku — use colors[].url then. */
+  url: string | null;
 }
 interface LandsEndProduct {
   id: string;
@@ -29423,7 +29431,10 @@ interface LandsEndPromo {
      * Searches the Lands' End catalog the way the site's own search does ("mens linen shirt",
      * "linen pants") and returns products with current vs full-retail price, an onSale flag,
      * per-size and per-colour stock, fabric, fit, images, and the price a promo code takes each
-     * item to. Filter by the site's size labels ("Medium", "34 x 30") and to sale items only.
+     * item to. Filter by the site's size labels ("Medium", "34 x 30") and to sale items only. Each
+     * colour has a `url` that opens that colour; each variant (size x colour x size range) has its
+     * `sku` and a `url` that opens the page with that colour AND size already selected — null for
+     * waist x inseam sizes ("34 x 30"), which the site's page cannot pre-pick from a link.
      */
     searchProducts(args: LandsEndSearchArgs): Promise<LandsEndSearch>;
 
